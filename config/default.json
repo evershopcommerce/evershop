@@ -1,0 +1,62 @@
+{
+    "shop": {
+        "currency": "USD",
+        "language": "en"
+    },
+    "catalog": {
+        "product": {
+            "image": {
+                "thumbnail": {
+                    "width": 100,
+                    "height": 100
+                },
+                "listing": {
+                    "width": 300,
+                    "height": 300
+                },
+                "single": {
+                    "width": 500,
+                    "height": 500
+                },
+                "placeHolder": "/default/image/placeholder.png"
+            }
+        },
+        "showOutOfStockProduct": false
+    },
+    "order": {
+        "shipmentStatus": [
+            {
+                "name": "Pending",
+                "code": "pending",
+                "badge": "danger"
+            },
+            {
+                "name": "Pending",
+                "code": "pending",
+                "badge": "danger"
+            },
+            {
+                "name": "Pending",
+                "code": "pending",
+                "badge": "danger"
+            }
+        ],
+        "paymentStatus": [
+            {
+                "name": "Pending",
+                "code": "pending",
+                "badge": "secondary"
+            },
+            {
+                "name": "Paid",
+                "code": "paid",
+                "badge": "success"
+            },
+            {
+                "name": "Refunded",
+                "code": "refunded",
+                "badge": "danger"
+            }
+        ]
+    }
+}
