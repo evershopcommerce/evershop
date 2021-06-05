@@ -1,7 +1,9 @@
 {
     "shop": {
         "currency": "USD",
-        "language": "en"
+        "language": "en",
+        "adminTheme": "default",
+        "frontTheme": "default"
     },
     "catalog": {
         "product": {

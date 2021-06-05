@@ -1,6 +1,9 @@
 node_modules
+dist
 .idea/*
-.nodejscart/*
+.nodejscart
 .vscode/*
+packages
 npm-debug.log
 package-lock.json
+prod.js

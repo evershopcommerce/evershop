@@ -1,17 +1,25 @@
 {
-  "name": "nodejscart",
-  "version": "1.0.0",
+  "name": "@nodejscart/core",
+  "version": "0.0.0-alpha.1",
   "description": "A shopping cart platform with Express, React and MySQL",
   "main": "index.js",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "njc": "./bin/njc"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --ignore public/ --exec babel-node index.js",
+    "dev": "nodemon --ignore public/ --exec babel-node index.js",
+    "start": "node prod.js",
     "eslint": "eslint index.js"
   },
   "author": "The Nguyen (https://nodejscart.com)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
   "dependencies": {
     "@hapi/topo": "^5.0.0",
+    "@nodejscart/mysql-query-builder": "^1.2.3",
     "@shopify/draggable": "^1.0.0-beta.8",
     "body-parser": "^1.19.0",
     "config": "^3.3.6",
@@ -27,12 +35,13 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-toastify": "^6.2.0",
-    "recharts": "^1.8.5",
+    "recharts": "^2.0.9",
     "session-file-store": "^1.5.0",
     "sharp": "^0.27.2",
     "simplebar-react": "^3.0.0-beta.10",
     "styled-jsx": "^3.4.4",
-    "uniqid": "^5.3.0"
+    "uniqid": "^5.3.0",
+    "yargs": "^17.0.0-candidate.13"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.10",

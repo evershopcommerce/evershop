@@ -1,0 +1,40 @@
+var { select } = require('@nodejscart/mysql-query-builder')
+var {pool} = require('../../../../../lib/mysql/connection');
+const { getComponentSource } = require('../../../../../lib/helpers');
+
+
+module.exports = (request, response) => {
+
+    response.addComponent(
+        "bestcustomers",
+        "right.side",
+        getComponentSource("sale/components/admin/dashboard/bestcustomers.js"),
+        {
+            "listUrl": ""
+        },
+        20
+    );
+
+    let promise = new Promise(async (resolve, reject) => {
+        let query = select();
+        query.from("customer").innerJoin("`order`").on("customer.`customer_id`", "=", "`order`.`customer_id`");
+        query.select("customer.`customer_id`", "customer_id")
+            .select("customer.`full_name`", "full_name")
+            .select("COUNT(`order`.`order_id`)", "orders")
+            .select("SUM(`order`.`grand_total`)", "total")
+        query.groupBy("customer.`customer_id`")
+            .orderBy("orders", "DESC")
+            .limit(0, 20);
+
+        try {
+            let results = await query.execute(pool);
+            resolve(results)
+        } catch (error) {
+            reject(error);
+        }
+    })
+
+    return promise.then((results) => {
+        response.context.bestCustomers = results.map(c => { return { ...c } });
+    })
+}
