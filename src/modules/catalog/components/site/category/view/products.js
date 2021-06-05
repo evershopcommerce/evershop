@@ -19,7 +19,7 @@ export default function Products({ withPagination = true, withSorting = true }) 
             />}
             {withSorting === true && <Sorting />}
         </div>
-        <ProductList products={get(context, "data.category.products")} countPerRow={4} />
+        <ProductList products={get(context, "data.category.products")} countPerRow={3} />
         {withPagination === true && <Pagination
             currentPage={1}
             currentUrl={get(React.useContext(appContext), "data.currentUrl")}
