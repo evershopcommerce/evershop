@@ -64,7 +64,6 @@ export function Form(props) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-
         PubSub.publishSync(FORM_SUBMIT, { props });
         let errors = validate();
         PubSub.publishSync(FORM_VALIDATED, { formId: props.id, errors });
@@ -103,9 +102,12 @@ export function Form(props) {
                     error => {
                         console.log(error);
                         if (props.onError)
-                            props.onError();
+                            props.onError(error);
                     }
                 ).finally(() => {
+
+                    if (props.onComplete)
+                        props.onComplete();
                 });
         }
     }
@@ -116,7 +118,7 @@ export function Form(props) {
         >
             <form ref={formRef} id={id} action={action} method={method} onSubmit={(e) => onSubmit(e)}>
                 {children}
-                {submitBtn === true && <div className={"form-submit-button"}><a className="btn btn-primary" href="#" onClick={() => { formRef.current.dispatchEvent(new Event('submit')) }}>Submit</a></div>}
+                {submitBtn === true && <div className={"form-submit-button"}><a className="btn btn-primary" href="#" onClick={(e) => { e.preventDefault(); formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })) }}>Submit</a></div>}
             </form>
         </formContext.Provider>
     );

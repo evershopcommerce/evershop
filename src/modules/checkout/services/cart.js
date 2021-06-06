@@ -1,8 +1,8 @@
 import isEqualWith from "lodash/isEqualWith";
-import { CONSTANTS } from "./helpers";
+import { CONSTANTS } from "../../../lib/helpers";
 const Topo = require("@hapi/topo");
 const config = require("config");
-const { pool } = require("./mysql/connection");
+const { pool } = require("../../../lib/mysql/connection");
 const { select, del } = require('@nodejscart/mysql-query-builder');
 const fs = require("fs");
 const path = require("path");
@@ -77,9 +77,7 @@ class DataObject {
         if (field === undefined)
             throw new Error(`Field ${key} not existed`);
         this._dataSource[key] = value;
-
         await this.build();
-
         if (!isEqualWith(this.getData(key), value))
             throw new Error(`Field resolver returned different value - ${key}`);
 
@@ -283,6 +281,7 @@ class Item extends DataObject {
         this._dataSource = data;
 
         this._prepareFields(Item.fields);
+        this._error = undefined;
 
         return this;
     }
@@ -300,9 +299,9 @@ export class Cart extends DataObject {
                         .load(pool);
                     if (!cart) {
                         this._error = "Cart does not exist";
+                        this._dataSource = {};
                         return null;
                     } else {
-                        this._dataSource = { ...this._dataSource, ...cart };
                         return cart.cart_id
                     }
                 }
@@ -385,6 +384,18 @@ export class Cart extends DataObject {
                 return this.getData("sub_total");
             },
             dependencies: ["sub_total"]
+        },
+        {
+            key: "shipping_address_id",
+            resolver: async function () {
+                return this._dataSource['shipping_address_id'];
+            }
+        },
+        {
+            key: "billing_address_id",
+            resolver: async function () {
+                return this._dataSource['billing_address_id'];
+            }
         },
         {
             key: "items",
@@ -473,5 +484,17 @@ export class Cart extends DataObject {
 
             return item;
         }
+    }
+
+    hasError() {
+        let items = this.getItems();
+        let flag = false;
+        for (let i = 0; i < items.length; i++)
+            if (items[i]._error) {
+                flag = true;
+                break;
+            }
+
+        return flag;
     }
 }

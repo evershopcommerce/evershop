@@ -1,4 +1,4 @@
-import { Cart } from "../../../../../lib/cart";
+import { Cart } from "../../../services/cart";
 import { pool } from "../../../../../lib/mysql/connection";
 import { select } from '@nodejscart/mysql-query-builder';
 
@@ -12,7 +12,7 @@ module.exports = async (request, response, stack) => {
             .and("status", "=", 1)
             .load(pool);
         if (c) {
-            cart = new Cart(request, { cart_id: request.session.cartId });
+            cart = new Cart(request, { ...c });
         } else {
             // Remove cartId from session
             request.session.cartId = undefined;

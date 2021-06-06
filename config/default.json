@@ -25,6 +25,12 @@
         },
         "showOutOfStockProduct": false
     },
+    "checkout": {
+        "allowCountries": [
+            "US",
+            "VN"
+        ]
+    },
     "order": {
         "shipmentStatus": [
             {
