@@ -1,11 +1,12 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 export default function OrderSummary() {
-    let order = get(React.useContext(appContext), "data.order", {});
-    const language = get(React.useContext(appContext), "data.shop.language", "en");
+    let order = get(useAppState(), "order", {});
+    const language = get(useAppState(), "shop.language", "en");
+
     const _taxAmount = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.tax_amount);
     const _discountAmount = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.discount_amount);
     const _subTotal = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.sub_total);
@@ -28,25 +29,25 @@ export default function OrderSummary() {
                         {
                             'component': { default: "tr" },
                             'props': { children: [<td key="key"><span>Subtotal</span></td>, <td key="value"><span>{_subTotal}</span></td>] },
-                            'sort_order': 5,
+                            'sortOrder': 5,
                             'id': 'summary_subtotal'
                         },
                         {
                             'component': { default: "tr" },
                             'props': { children: [<td key="key"><span>Tax</span></td>, <td key="value"><span>{_taxAmount}</span></td>] },
-                            'sort_order': 10,
+                            'sortOrder': 10,
                             'id': 'summary_tax'
                         },
                         {
                             'component': { default: "tr" },
                             'props': { children: [<td key="key"><span>Discount ({order.coupon})</span></td>, <td key="value"><span>{_discountAmount}</span></td>] },
-                            'sort_order': 20,
+                            'sortOrder': 20,
                             'id': 'summary_discount'
                         },
                         {
                             'component': { default: "tr" },
                             'props': { children: [<td key="key"><span>Grand total</span></td>, <td key="value"><span>{_grandTotal}</span></td>] },
-                            'sort_order': 30,
+                            'sortOrder': 30,
                             'id': 'summary_grand_total'
                         }
                     ]}

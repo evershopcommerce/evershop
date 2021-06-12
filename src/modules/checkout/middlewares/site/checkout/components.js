@@ -14,7 +14,7 @@ module.exports = (request, response) => {
 
     // Shipping address form
     response.addComponent(
-        "shippingAddressForm",
+        "checkoutShippingAddressForm",
         "checkoutShippingAddressBlock",
         getComponentSource("checkout/components/site/checkout/address/new_shipping_address_form.js"),
         {
@@ -24,13 +24,25 @@ module.exports = (request, response) => {
         10
     );
 
-    // Items block
+    // Billing address form
     response.addComponent(
-        "cartItems",
-        "shoppingCartLeft",
-        getComponentSource("checkout/components/site/cart/items.js"),
-        {},
-        10
+        "checkoutBillingAddressForm",
+        "checkoutBillingAddressBlock",
+        getComponentSource("checkout/components/site/checkout/address/new_billing_address_form.js"),
+        {
+            "action": buildSiteUrl('checkoutSetBillingAddress'),
+            "countries": config.get('checkout.allowCountries', ['US'])
+        },
+        30
+    );
+    response.addComponent(
+        "checkoutUseShippingAddressCheckbox",
+        "checkoutBillingAddressBlock",
+        getComponentSource("checkout/components/site/checkout/address/use_shipping_address.js"),
+        {
+            "action": buildSiteUrl('checkoutSetBillingAddress')
+        },
+        20
     );
 
     // Summary block

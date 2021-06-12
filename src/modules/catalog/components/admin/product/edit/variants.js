@@ -6,7 +6,7 @@ import Switch from '../../../../../../lib/components/form/fields/switch';
 import { get } from "../../../../../../lib/util/get";
 import { FORM_VALIDATED } from '../../../../../../lib/util/events';
 import PubSub from "pubsub-js";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import uniqid from "uniqid";
 import ProductMediaManager from "./media";
 
@@ -143,7 +143,7 @@ function Variant({ attributes, variant, removeVariant, updateVariant }) {
 }
 
 function Search({ addVariant, variants }) {
-  const searchUrl = get(React.useContext(appContext), "searchVariantUrl");
+  const searchUrl = get(useAppState(), "searchVariantUrl");
   const [potentialVariants, setPotentialVariants] = React.useState([]);
   const [typeTimeout, setTypeTimeout] = React.useState(null);
   const searchInput = React.useRef();
@@ -319,7 +319,7 @@ function Variants({ variantAttributes, variantProducts }) {
 }
 
 function CreateVariantGroup() {
-  const variantableAttributes = get(React.useContext(appContext), "variantableAttributes", []);
+  const variantableAttributes = get(useAppState(), "variantableAttributes", []);
 
   const [attributes, setAttributes] = React.useState([]);
   const [creating, setCreating] = React.useState(false);
@@ -362,10 +362,10 @@ function CreateVariantGroup() {
 }
 
 function Edit() {
-  const context = React.useContext(appContext);
+  const context = useAppState();
   return <Variants
-    variantProducts={get(context, "data.product.variants", [])}
-    variantAttributes={get(context, "data.product.variantAttributes", [])}
+    variantProducts={get(context, "product.variants", [])}
+    variantAttributes={get(context, "product.variantAttributes", [])}
   />
 }
 
@@ -386,7 +386,7 @@ function New() {
 }
 
 export default function VariantGroup({ searchVariantUrl }) {
-  const variantGroupId = get(React.useContext(appContext), "data.product.variant_group_id");
+  const variantGroupId = get(useAppState(), "product.variant_group_id");
   return <div className="sml-block mt-4 variants-block">
     <div className="sml-block-title"><span>Variant</span></div>
     {!variantGroupId && <New />}

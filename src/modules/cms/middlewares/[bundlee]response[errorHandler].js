@@ -1,5 +1,5 @@
 const inspect = require("util").inspect;
-import { appContext } from "../../../lib/context/app";
+import { AppProvider } from "../../../lib/context/app";
 import { renderToString } from "react-dom/server";
 import React from "react";
 import Html from "../../../lib/components/html";
@@ -29,7 +29,7 @@ module.exports = async function (request, response, stack, next) {
             } else {
                 response.context.widgets = response.getComponents();
                 //resetServerContext();
-                let source = renderToString(<appContext.Provider value={{ data: response.context }}><Html /></appContext.Provider>);
+                let source = renderToString(<AppProvider value={response.context}><Html /></AppProvider>);
                 delete response.context.widgets;
                 source = source.replace("</head>", "<script>var appContext = " + inspect(response.context, { depth: 10, maxArrayLength: null }) + "</script></head>");
                 response.send(`<!DOCTYPE html><html id="root">${source}</html>`);

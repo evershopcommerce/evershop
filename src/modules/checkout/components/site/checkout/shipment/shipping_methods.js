@@ -1,7 +1,7 @@
 import React from 'react';
 const { get } = require('../../../../../../lib/util/get');
 import Area from '../../../../../../lib/components/area';
-import { appContext } from '../../../../../../lib/context/app';
+import { useAppState } from '../../../../../../lib/context/app';
 
 function Title() {
     return <div><strong>Shipping methods</strong></div>
@@ -10,8 +10,8 @@ function Title() {
 function NoMethod({ areaProps }) {
     if (areaProps.noMethod === false)
         return null;
-    const context = React.useContext(appContext);
-    const shippingAddress = get(context, "data.cart.shippingAddress");
+    const context = useAppState();
+    const shippingAddress = get(context, "cart.shippingAddress");
     if (shippingAddress)
         return <div className="no-shipping-method">
             <span>Sorry. There is no shipping method available.</span>

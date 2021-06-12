@@ -1,13 +1,13 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import Text from "../../../../../../lib/components/form/fields/text";
 import Switch from "../../../../../../lib/components/form/fields/switch";
 import { get } from "../../../../../../lib/util/get";
 import Ckeditor from "../../../../../../lib/components/form/fields/ckeditor";
 
 export default function General(props) {
-    const context = React.useContext(appContext);
+    const context = useAppState();
     const fields = [
         {
             component: { default: Text },
@@ -36,8 +36,8 @@ export default function General(props) {
             id: "description"
         }
     ].filter((f) => {
-        if (get(context, `data.category.${f.props.name}`) !== undefined)
-            f.props.value = get(context, `data.category.${f.props.name}`);
+        if (get(context, `category.${f.props.name}`) !== undefined)
+            f.props.value = get(context, `category.${f.props.name}`);
         return f;
     });
 

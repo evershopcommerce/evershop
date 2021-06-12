@@ -1,14 +1,14 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import Pagination from "../../../../../../lib/components/grid/pagination";
 import { get } from "../../../../../../lib/util/get";
 
 export default function CMSPageGrid() {
-    const pages = get(React.useContext(appContext), "data.grid.pages", []);
-    const total = get(React.useContext(appContext), "data.grid.total", 0);
-    const limit = get(React.useContext(appContext), "data.grid.limit", 20);
-    const page = get(React.useContext(appContext), "data.grid.page", 1);
+    const pages = get(useAppState(), "grid.pages", []);
+    const total = get(useAppState(), "grid.total", 0);
+    const limit = get(useAppState(), "grid.limit", 20);
+    const page = get(useAppState(), "grid.page", 1);
 
     return <div className="grid sml-block"><div className={"page-grid mt-4"}>
         <table className="table table-bordered sticky">

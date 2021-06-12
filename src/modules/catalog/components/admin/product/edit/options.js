@@ -2,13 +2,13 @@ import React from "react";
 import Text from "../../../../../../lib/components/form/fields/text";
 import Switch from "../../../../../../lib/components/form/fields/switch";
 import Select from "../../../../../../lib/components/form/fields/select";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 export default function CustomOption(props) {
-    const context = React.useContext(appContext);
+    const context = useAppState();
 
-    const [options, setOptions] = React.useState(get(context, "data.productOptions", []));
+    const [options, setOptions] = React.useState(get(context, "productOptions", []));
 
     const addOption = (e) => {
         e.preventDefault();

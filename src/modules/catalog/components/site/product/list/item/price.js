@@ -1,10 +1,10 @@
 import React from "react";
-import { appContext } from "../../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../../lib/context/app";
 import { get } from "../../../../../../../lib/util/get";
 
 const Price = ({ price, salePrice }) => {
-    const currency = get(React.useContext(appContext), "currency", "USD");
-    const language = get(React.useContext(appContext), "language", "en");
+    const currency = get(useAppState(), "currency", "USD");
+    const language = get(useAppState(), "language", "en");
     const _price = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(price);
     const _salePrice = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(salePrice);
     return <div className="product-price-listing">

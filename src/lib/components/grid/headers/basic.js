@@ -1,10 +1,10 @@
 import React from "react";
-import { appContext } from "../../../context/app";
+import { useAppState } from "../../../context/app";
 import { get } from "../../../util/get";
 
 export default function BasicColumnHeader({ title, id }) {
     const filterInput = React.useRef(null);
-    const context = React.useContext(appContext);
+    const context = useAppState();
 
     const onKeyPress = (e) => {
         let url = new URL(document.location);
@@ -18,7 +18,7 @@ export default function BasicColumnHeader({ title, id }) {
     };
 
     React.useEffect(() => {
-        filterInput.current.value = get(context, `data.grid.currentFilter.${id}`, "");
+        filterInput.current.value = get(context, `grid.currentFilter.${id}`, "");
     }, []);
 
     return <th className={"column"}>

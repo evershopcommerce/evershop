@@ -1,24 +1,24 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import Text from "../../../../../../lib/components/form/fields/text";
 import Switch from "../../../../../../lib/components/form/fields/switch";
 import { get } from "../../../../../../lib/util/get";
 import Ckeditor from "../../../../../../lib/components/form/fields/ckeditor";
 
 export default function General(props) {
-    const context = React.useContext(appContext);
+    const context = useAppState();
     const fields = [
         {
             component: { default: Text },
             props: { id: "name", name: "name", label: "Name", validationRules: ["notEmpty"] },
-            sort_order: 10,
+            sortOrder: 10,
             id: "name"
         },
         {
             component: { default: Switch },
             props: { id: "status", name: "status", label: "Status", options: [{ value: 0, text: "Disabled" }, { value: 1, text: "Enabled" }] },
-            sort_order: 20,
+            sortOrder: 20,
             id: "status"
         },
         {
@@ -32,12 +32,12 @@ export default function General(props) {
                 uploadApi: props.uploadApi,
                 folderCreateApi: props.folderCreateApi
             },
-            sort_order: 30,
+            sortOrder: 30,
             id: "content"
         }
     ].filter((f) => {
-        if (get(context, `data.page.${f.props.name}`) !== undefined)
-            f.props.value = get(context, `data.page.${f.props.name}`);
+        if (get(context, `page.${f.props.name}`) !== undefined)
+            f.props.value = get(context, `page.${f.props.name}`);
         return f;
     });
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 function Price({ activeFilters, updateFilter, minPrice = 0, maxPrice = 0 }) {
@@ -126,9 +126,9 @@ function Attributes({ activeFilters, attributes, updateFilter }) {
 }
 
 export default function Filter({ title }) {
-    const data = get(React.useContext(appContext), "data.productsFilter", []);
-    const activeFilters = get(React.useContext(appContext), "data.activeProductsFilters", []);
-    const currentUrl = get(React.useContext(appContext), "data.currentUrl", "");
+    const data = get(useAppState(), "productsFilter", []);
+    const activeFilters = get(useAppState(), "activeProductsFilters", []);
+    const currentUrl = get(useAppState(), "currentUrl", "");
 
     const updateFilter = (filters) => {
         let url = new URL(currentUrl, window.location.origin);

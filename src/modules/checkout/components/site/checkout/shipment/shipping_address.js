@@ -1,6 +1,6 @@
 import React from 'react';
 import Area from "../../../../../../lib/components/area";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 import AddressSummary from "../../../../../customer/components/site/address/address_summary";
 
@@ -20,8 +20,8 @@ function ShippingAddress({ needSelectAddress, setNeedSelectAddress, shippingAddr
 }
 
 function ShippingAddressBlock() {
-    const context = React.useContext(appContext);
-    const shippingAddress = get(context, "data.cart.shippingAddress", undefined);
+    const context = useAppState();
+    const shippingAddress = get(context, "cart.shippingAddress", undefined);
 
     const [needSelectAddress, setNeedSelectAddress] = React.useState(shippingAddress === undefined);
 

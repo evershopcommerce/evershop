@@ -1,6 +1,6 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 function Status({ status }) {
@@ -26,19 +26,19 @@ function Info({ orderId, method, methodName, paymentStatus, grandTotal }) {
                             {
                                 'component': { default: "th" },
                                 'props': { children: <span>Status</span> },
-                                'sort_order': 10,
+                                'sortOrder': 10,
                                 'id': 'paymentStatusHeader'
                             },
                             {
                                 'component': { default: "th" },
                                 'props': { children: <span>Method</span> },
-                                'sort_order': 20,
+                                'sortOrder': 20,
                                 'id': 'paymentMethodHeader'
                             },
                             {
                                 'component': { default: "th" },
                                 'props': { children: <span>Actions</span> },
-                                'sort_order': 30,
+                                'sortOrder': 30,
                                 'id': 'paymentActionHeader'
                             }
                         ]}
@@ -59,13 +59,13 @@ function Info({ orderId, method, methodName, paymentStatus, grandTotal }) {
                             {
                                 'component': { default: Status },
                                 'props': { status: paymentStatus },
-                                'sort_order': 10,
+                                'sortOrder': 10,
                                 'id': 'orderPaymentStatus'
                             },
                             {
                                 'component': { default: "td" },
                                 'props': { children: <span>{methodName}</span> },
-                                'sort_order': 20,
+                                'sortOrder': 20,
                                 'id': 'orderPaymentMethod'
                             }
                         ]}
@@ -114,7 +114,7 @@ function Transaction({ transactions, currency }) {
 }
 
 export default function Payment(props) {
-    let order = get(React.useContext(appContext), "data.order", {});
+    let order = get(useAppState(), "order", {});
 
     const grandTotal = new Intl.NumberFormat('en', { style: 'currency', currency: order.currency }).format(props.grandTotal);
     return <div className="sml-block mt-4">
@@ -131,13 +131,13 @@ export default function Payment(props) {
                     {
                         'component': { default: Info },
                         'props': { ...order },
-                        'sort_order': 10,
+                        'sortOrder': 10,
                         'id': 'order_payment_fo'
                     },
                     {
                         'component': { default: Transaction },
                         'props': { transactions: order.paymentTransactions, currency: order.currency },
-                        'sort_order': 20,
+                        'sortOrder': 20,
                         'id': 'order_payment_transaction'
                     }
                 ]}

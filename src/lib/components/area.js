@@ -1,5 +1,5 @@
 import React from "react";
-import { appContext } from "../context/app";
+import { useAppState } from "../context/app";
 
 function Area(props) {
     const getWidgets = (widgets = {}) => {
@@ -10,8 +10,8 @@ function Area(props) {
             return obj1.sortOrder - obj2.sortOrder;
         });
     };
-    const W = React.useContext(appContext);
-    const widgets = getWidgets(W.data.widgets);
+    const context = useAppState();
+    const widgets = getWidgets(context.widgets);
     //const templateDebugMode = ReactRedux.useSelector(state => _.get(state, 'appState.template_debug_mode', 0));
 
     let Wrapper$Component = props.noOuter !== true ? (props.wrapper !== undefined ? props.wrapper : "div") : React.Fragment;

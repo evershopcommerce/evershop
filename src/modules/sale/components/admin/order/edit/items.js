@@ -1,6 +1,6 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 function ItemOptions({ options = [] }) {
@@ -34,10 +34,10 @@ function ProductColumn({ name, sku, options = [] }) {
 }
 
 export default function Items() {
-    let items = get(React.useContext(appContext), "data.order.items", []);
+    let items = get(useAppState(), "order.items", []);
+    const currency = get(useAppState(), "order.currency");
+    const language = get(useAppState(), "shop.language", "en");
 
-    const currency = get(React.useContext(appContext), "data.order.currency");
-    const language = get(React.useContext(appContext), "data.shop.language", "en");
     return <div className="overflow-auto mt-4">
         <div className="sml-block">
             <div className="sml-block-title">Products</div>
@@ -51,25 +51,25 @@ export default function Items() {
                                 {
                                     component: { default: "th" },
                                     props: { children: <span>Product</span>, 'key': 'product' },
-                                    sort_order: 10,
+                                    sortOrder: 10,
                                     id: "product"
                                 },
                                 {
                                     component: { default: "th" },
                                     props: { children: <span>Price</span>, 'key': 'price' },
-                                    sort_order: 20,
+                                    sortOrder: 20,
                                     id: "price"
                                 },
                                 {
                                     component: { default: "th" },
                                     props: { children: <span>Qty</span>, 'key': 'qty' },
-                                    sort_order: 30,
+                                    sortOrder: 30,
                                     id: "qty"
                                 },
                                 {
                                     component: { default: "th" },
                                     props: { children: <span>Total</span>, 'key': 'total' },
-                                    sort_order: 40,
+                                    sortOrder: 40,
                                     id: "total"
                                 }
                             ]}
@@ -91,25 +91,25 @@ export default function Items() {
                                     {
                                         component: { default: ProductColumn },
                                         props: { name: i.product_name, sku: i.product_sku, options: i.options },
-                                        sort_order: 10,
+                                        sortOrder: 10,
                                         id: "product"
                                     },
                                     {
                                         component: { default: "td" },
                                         props: { children: [<div key={1}>{_price}</div>, <div key={2}>{_finalPrice}</div>], 'key': 'price' },
-                                        sort_order: 20,
+                                        sortOrder: 20,
                                         id: "price"
                                     },
                                     {
                                         component: { default: "td" },
                                         props: { children: <span>{i.qty}</span>, 'key': 'qty' },
-                                        sort_order: 30,
+                                        sortOrder: 30,
                                         id: "qty"
                                     },
                                     {
                                         component: { default: "td" },
                                         props: { children: <span>{_total}</span>, 'key': 'total' },
-                                        sort_order: 40,
+                                        sortOrder: 40,
                                         id: "total"
                                     }
                                 ]}

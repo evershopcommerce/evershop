@@ -5,14 +5,14 @@ import Date from "../../../../../../lib/components/form/fields/date";
 import Datetime from "../../../../../../lib/components/form/fields/datetime";
 import Textarea from "../../../../../../lib/components/form/fields/textarea";
 import Multiselect from "../../../../../../lib/components/form/fields/multiselect";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 export default function Attributes() {
-    const context = React.useContext(appContext);
-    const attributeGroups = get(context, "data.attributeData");
-    const selectedGroup = get(context, "data.product.group_id");
-    const productAtributes = get(context, "data.product.attributes", []);
+    const context = useAppState();
+    const attributeGroups = get(context, "attributeData");
+    const selectedGroup = get(context, "product.group_id");
+    const productAtributes = get(context, "product.attributes", []);
 
     const getGroup = (groupId) => {
         let group = attributeGroups.find(g => parseInt(g.attribute_group_id) === parseInt(groupId));

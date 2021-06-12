@@ -1,10 +1,10 @@
 import React from "react";
-import { appContext } from "../../../context/app";
+import { useAppState } from "../../../context/app";
 import { get } from "../../../util/get";
 
 export default function StatusColumnHeader({ title, id }) {
     const [current, setCurrent] = React.useState("");
-    const context = React.useContext(appContext);
+    const context = useAppState();
 
     const onChange = (e) => {
         let url = new URL(document.location);
@@ -16,7 +16,7 @@ export default function StatusColumnHeader({ title, id }) {
     };
 
     React.useEffect(() => {
-        setCurrent(get(context, `data.grid.currentFilter.${id}`, "all"));
+        setCurrent(get(context, `grid.currentFilter.${id}`, "all"));
     }, []);
 
     return <th className={"column"}>

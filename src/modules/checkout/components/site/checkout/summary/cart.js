@@ -1,6 +1,6 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 function Subtotal({ sub_total, currency, language }) {
@@ -52,10 +52,10 @@ function GrandTotal({ grand_total, currency, language }) {
 }
 
 function CartSummary() {
-    const context = React.useContext(appContext);
-    const cart = get(context, "data.cart", {});
-    const currency = get(context, "data.currency", "USD");
-    const language = get(context, "data.language", "en");
+    const context = useAppState();
+    const cart = get(context, "cart", {});
+    const currency = get(context, "currency", "USD");
+    const language = get(context, "language", "en");
 
     return <div className="checkout-summary-cart">
         <table className="checkout-cart-summary-table">

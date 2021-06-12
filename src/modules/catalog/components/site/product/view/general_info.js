@@ -1,15 +1,15 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
 import { get } from "../../../../../../lib/util/get";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 
 function Name({ name }) {
     return <h1 className="product-single-name">{name}</h1>
 }
 
 function Price({ price, salePrice }) {
-    const currency = get(React.useContext(appContext), "data.currency", "USD");
-    const language = get(React.useContext(appContext), "data.language", "en");
+    const currency = get(useAppState(), "currency", "USD");
+    const language = get(useAppState(), "language", "en");
     const _price = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(price);
     const _salePrice = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(salePrice);
 
@@ -28,7 +28,7 @@ function Sku({ sku }) {
 }
 
 export default function GeneralInfo() {
-    const product = get(React.useContext(appContext), "data.product");
+    const product = get(useAppState(), "product");
 
     return <Area id="product_view_general_info" coreWidgets={[
         {

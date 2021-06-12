@@ -1,12 +1,12 @@
 import React from 'react';
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 function Items() {
-    const context = React.useContext(appContext);
-    const currency = get(context, "data.currency", "USD");
-    const language = get(context, "data.language", "en");
-    const items = get(context, "data.cart.items", []);
+    const context = useAppState();
+    const currency = get(context, "currency", "USD");
+    const language = get(context, "language", "en");
+    const items = get(context, "cart.items", []);
 
     return <div id="summary-items">
         <table className="table">

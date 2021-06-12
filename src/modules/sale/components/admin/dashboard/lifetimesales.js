@@ -1,9 +1,9 @@
 import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
-import { appContext } from "../../../../../lib/context/app";
+import { useAppState } from "../../../../../lib/context/app";
 
 export default function LifetimeSale() {
-    const context = React.useContext(appContext);
+    const context = useAppState();
     const currency = context.currency || "USD";
     const { orders, total, completed_percentage, cancelled_percentage } = context.lifetimeSales || {};
     const _total = new Intl.NumberFormat("en", { style: "currency", currency: currency }).format(total);

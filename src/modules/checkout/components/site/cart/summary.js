@@ -1,11 +1,11 @@
 import React from "react";
 import Area from "../../../../../lib/components/area";
-import { appContext } from "../../../../../lib/context/app";
+import { useAppState } from "../../../../../lib/context/app";
 import { get } from "../../../../../lib/util/get";
 
 function Subtotal({ subTotal }) {
-    const currency = get(React.useContext(appContext), "data.currency", "USD");
-    const language = get(React.useContext(appContext), "data.language", "en");
+    const currency = get(useAppState(), "currency", "USD");
+    const language = get(useAppState(), "language", "en");
     const _subTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(subTotal);
     return <tr>
         <td>Subtotal</td>
@@ -14,8 +14,8 @@ function Subtotal({ subTotal }) {
 }
 
 function Discount({ discountAmount }) {
-    const currency = get(React.useContext(appContext), "data.currency", "USD");
-    const language = get(React.useContext(appContext), "data.language", "en");
+    const currency = get(useAppState(), "currency", "USD");
+    const language = get(useAppState(), "language", "en");
     const _discountAmount = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(discountAmount);
 
     return <tr>
@@ -25,8 +25,8 @@ function Discount({ discountAmount }) {
 }
 
 function Tax({ taxAmount }) {
-    const currency = get(React.useContext(appContext), "data.currency", "USD");
-    const language = get(React.useContext(appContext), "data.language", "en");
+    const currency = get(useAppState(), "currency", "USD");
+    const language = get(useAppState(), "language", "en");
     const _taxAmount = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(taxAmount);
 
     return <tr>
@@ -36,8 +36,8 @@ function Tax({ taxAmount }) {
 }
 
 function GrandTotal({ grandTotal }) {
-    const currency = get(React.useContext(appContext), "data.currency", "USD");
-    const language = get(React.useContext(appContext), "data.language", "en");
+    const currency = get(useAppState(), "currency", "USD");
+    const language = get(useAppState(), "language", "en");
     const _grandTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(grandTotal);
 
     return <tr>
@@ -47,7 +47,7 @@ function GrandTotal({ grandTotal }) {
 }
 
 function Summary({ checkoutUrl }) {
-    const cart = get(React.useContext(appContext), "data.cart", {});
+    const cart = get(useAppState(), "cart", {});
     if (cart.items === undefined || cart.items.length === 0)
         return null;
     return <div className="summary">
@@ -61,25 +61,25 @@ function Summary({ checkoutUrl }) {
                         {
                             component: { default: Subtotal },
                             props: { subTotal: cart.sub_total },
-                            sort_order: 10,
+                            sortOrder: 10,
                             id: "shopping-cart-subtotal"
                         },
                         {
                             component: { default: Discount },
                             props: { discountAmount: cart.discount_amount },
-                            sort_order: 20,
+                            sortOrder: 20,
                             id: "shopping-cart-discount"
                         },
                         {
                             component: { default: Tax },
                             props: { taxAmount: cart.tax_amount },
-                            sort_order: 30,
+                            sortOrder: 30,
                             id: "shopping-cart-tax"
                         },
                         {
                             component: { default: GrandTotal },
                             props: { grandTotal: cart.grand_total },
-                            sort_order: 40,
+                            sortOrder: 40,
                             id: "shopping-cart-grand-total"
                         }
                     ]}

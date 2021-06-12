@@ -1,5 +1,5 @@
 import React from "react";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 function Current({ image, alt }) {
@@ -9,7 +9,7 @@ function Current({ image, alt }) {
 }
 
 export default function Images() {
-    const product = get(React.useContext(appContext), "data.product");
+    const product = get(useAppState(), "product");
     const [current, setCurrent] = React.useState(product.gallery[0]);
 
     return <div className="product-single-media">

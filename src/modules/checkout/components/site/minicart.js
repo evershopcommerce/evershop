@@ -1,16 +1,17 @@
 import React from "react";
-import { appContext } from "../../../../lib/context/app";
+import { useAppState } from "../../../../lib/context/app";
 import { get } from "../../../../lib/util/get";
 
 export default function Minicart({ cartUrl, checkoutUrl }) {
-    const currency = get(React.useContext(appContext), "data.currency", "USD");
-    const language = get(React.useContext(appContext), "data.language", "en");
-    const items = get(React.useContext(appContext), "data.cart.items", []);
-    const subTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(get(React.useContext(appContext), "data.cart.sub_total", 0));
-    const grandTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(get(React.useContext(appContext), "data.cart.grand_total", 0));
-    const discountAmount = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(get(React.useContext(appContext), "data.cart.discount_amount", 0));
-    const taxAmount = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(get(React.useContext(appContext), "data.cart.tax_amount", 0));
-    const coupon = get(React.useContext(appContext), "data.cart.coupon", null);
+    const context = useAppState();
+    const currency = get(context, "currency", "USD");
+    const language = get(context, "language", "en");
+    const items = get(context, "cart.items", []);
+    const subTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(get(context, "cart.sub_total", 0));
+    const grandTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(get(context, "cart.grand_total", 0));
+    const discountAmount = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(get(context, "cart.discount_amount", 0));
+    const taxAmount = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(get(context, "cart.tax_amount", 0));
+    const coupon = get(context, "cart.coupon", null);
     const [show, setShow] = React.useState(false);
 
     const onOpen = (e) => {

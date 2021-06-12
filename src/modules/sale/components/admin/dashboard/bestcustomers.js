@@ -1,8 +1,8 @@
 import React from "react";
-import { appContext } from "../../../../../lib/context/app";
+import { useAppState } from "../../../../../lib/context/app";
 
 export default function BestCustomers({ listUrl }) {
-    const context = React.useContext(appContext);
+    const context = useAppState();
     const currency = context.currency || "USD";
     const customers = context.bestCustomers || [];
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 function Status({ status }) {
@@ -52,9 +52,9 @@ function Actions({ status, startShipUrl, completeShipUrl }) {
 }
 
 export default function Shipment({ startShipUrl, completeShipUrl }) {
-    let order = get(React.useContext(appContext), "data.order", {});
-    const currency = get(React.useContext(appContext), "data.order.currency");
-    const language = get(React.useContext(appContext), "data.shop.language", "en");
+    let order = get(useAppState(), "order", {});
+    const currency = get(useAppState(), "order.currency");
+    const language = get(useAppState(), "shop.language", "en");
     const grandTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(order.grand_total);
 
     return <div className="sml-block mt-4">
@@ -76,31 +76,31 @@ export default function Shipment({ startShipUrl, completeShipUrl }) {
                             {
                                 'component': { default: "th" },
                                 'props': { children: <span>Status</span> },
-                                'sort_order': 10,
+                                'sortOrder': 10,
                                 'id': 'shipment_status_header'
                             },
                             {
                                 'component': { default: "th" },
                                 'props': { children: <span>Method</span> },
-                                'sort_order': 20,
+                                'sortOrder': 20,
                                 'id': 'shipment_method_header'
                             },
                             {
                                 'component': { default: "th" },
                                 'props': { children: <span>Total weight</span> },
-                                'sort_order': 30,
+                                'sortOrder': 30,
                                 'id': 'shipment_weight_header'
                             },
                             {
                                 'component': { default: "th" },
                                 'props': { children: <span>Customer notes</span> },
-                                'sort_order': 40,
+                                'sortOrder': 40,
                                 'id': 'shipment_notes_header'
                             },
                             {
                                 'component': { default: "th" },
                                 'props': { children: <span>Actions</span> },
-                                'sort_order': 50,
+                                'sortOrder': 50,
                                 'id': 'shipment_action_header'
                             }
                         ]}
@@ -123,31 +123,31 @@ export default function Shipment({ startShipUrl, completeShipUrl }) {
                             {
                                 'component': { default: Status },
                                 'props': { status: order.shipmentStatus },
-                                'sort_order': 10,
+                                'sortOrder': 10,
                                 'id': 'order_shipment_status'
                             },
                             {
                                 'component': { default: "td" },
                                 'props': { children: <span>{order.shipping_method_name}</span> },
-                                'sort_order': 20,
+                                'sortOrder': 20,
                                 'id': 'order_shipment_method'
                             },
                             {
                                 'component': { default: Weight },
                                 'props': { weight: order.total_weight },
-                                'sort_order': 30,
+                                'sortOrder': 30,
                                 'id': 'order_shipment_weight'
                             },
                             {
                                 'component': { default: Note },
                                 'props': { note: order.shipping_note },
-                                'sort_order': 40,
+                                'sortOrder': 40,
                                 'id': 'order_shipment_note'
                             },
                             {
                                 'component': { default: Actions },
                                 'props': { status: order.shipment_status, startShipUrl, completeShipUrl },
-                                'sort_order': 50,
+                                'sortOrder': 50,
                                 'id': 'order_shipment_action'
                             }
                         ]}

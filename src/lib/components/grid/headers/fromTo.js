@@ -1,11 +1,11 @@
 import React from "react";
-import { appContext } from "../../../context/app";
+import { useAppState } from "../../../context/app";
 import { get } from "../../../util/get";
 
 export default function FromToColumnHeader({ title, id }) {
     const filterFrom = React.useRef(null);
     const filterTo = React.useRef(null);
-    const context = React.useContext(appContext);
+    const context = useAppState();
 
     const onKeyPress = (e) => {
         let url = new URL(document.location);
@@ -19,8 +19,8 @@ export default function FromToColumnHeader({ title, id }) {
     };
 
     React.useEffect(() => {
-        filterFrom.current.value = get(context, `data.grid.currentFilter.${id}.from`, "");
-        filterTo.current.value = get(context, `data.grid.currentFilter.${id}.to`, "");
+        filterFrom.current.value = get(context, `grid.currentFilter.${id}.from`, "");
+        filterTo.current.value = get(context, `grid.currentFilter.${id}.to`, "");
     }, []);
 
     return <th>

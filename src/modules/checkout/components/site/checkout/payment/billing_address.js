@@ -1,6 +1,6 @@
 import React from 'react';
 import Area from "../../../../../../lib/components/area";
-import { appContext } from '../../../../../../lib/context/app';
+import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import AddressSummary from "../../../../../customer/components/site/address/address_summary";
 
@@ -9,8 +9,8 @@ function Title() {
 }
 
 function BillingAddress({ needSelectAddress, setNeedSelectAddress }) {
-    const context = React.useContext(appContext);
-    const billingAddress = get(context, "data.cart.billingAddress");
+    const context = useAppState();
+    const billingAddress = get(context, "cart.billingAddress");
 
     const onClick = (e) => {
         e.preventDefault();

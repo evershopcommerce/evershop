@@ -1,9 +1,9 @@
 import React from "react";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 export default function Activities() {
-    let activities = get(React.useContext(appContext), "data.order.activities", []);
+    let activities = get(useAppState(), "order.activities", []);
 
     return <div className="sml-block mt-4">
         <div className="sml-block-title">Activities</div>

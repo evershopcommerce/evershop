@@ -1,13 +1,13 @@
 import React from "react";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 export default function Sorting() {
     // TODO: make this list configurable
-    const sortingOptions = get(React.useContext(appContext), "data.sortingOptions", [{ code: "price", "name": "Price" }, { code: "name", "name": "Name" }]);
-    const sortOrder = get(React.useContext(appContext), "data.sortOrder", "asc");
-    const sortBy = get(React.useContext(appContext), "data.sortBy", "");
-    const currentUrl = get(React.useContext(appContext), "data.currentUrl");
+    const sortingOptions = get(useAppState(), "sortingOptions", [{ code: "price", "name": "Price" }, { code: "name", "name": "Name" }]);
+    const sortOrder = get(useAppState(), "sortOrder", "asc");
+    const sortBy = get(useAppState(), "sortBy", "");
+    const currentUrl = get(useAppState(), "currentUrl");
 
     const onChangeSort = (e) => {
         e.preventDefault();

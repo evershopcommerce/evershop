@@ -1,4 +1,4 @@
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 import React from "react";
 import { FORM_VALIDATED } from "../../../../../../lib/util/events";
@@ -30,11 +30,11 @@ function isAvailable(attributeCode, optionId, variants, currentFilters = {}) {
 }
 
 export default function Variants() {
-    const attributes = get(React.useContext(appContext), "data.product.variantAttributes", []);
-    const variants = get(React.useContext(appContext), "data.product.variants", []);
+    const attributes = get(useAppState(), "product.variantAttributes", []);
+    const variants = get(useAppState(), "product.variants", []);
     const [error, setError] = React.useState(null);
-    const variantFilters = get(React.useContext(appContext), "data.product.variantSelection", {});
-    const currentProductUrl = get(React.useContext(appContext), "data.currentUrl");
+    const variantFilters = get(useAppState(), "product.variantSelection", {});
+    const currentProductUrl = get(useAppState(), "currentUrl");
 
     const validate = (formId, errors) => {
         if (formId !== "productForm")

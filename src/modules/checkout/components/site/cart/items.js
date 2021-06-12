@@ -1,12 +1,12 @@
 import React from "react";
 import { get } from "../../../../../lib/util/get";
-import { appContext } from "../../../../../lib/context/app";
+import { useAppState } from "../../../../../lib/context/app";
 
 function ItemOptions({ options = [] }) {
     if (options.length === 0)
         return null;
-    const currency = get(React.useContext(appContext), "data.currency", "USD");
-    const language = get(React.useContext(appContext), "data.language", "en");
+    const currency = get(useAppState(), "currency", "USD");
+    const language = get(useAppState(), "language", "en");
 
     return <div className="cart-item-options">
         <ul className="list-basic">
@@ -40,10 +40,10 @@ function ItemVariantOptions({ options = [] }) {
 }
 
 function Items() {
-    const items = get(React.useContext(appContext), "data.cart.items", []);
-    const currency = get(React.useContext(appContext), "data.currency", "USD");
-    const language = get(React.useContext(appContext), "data.language", "en");
-    const homeUrl = get(React.useContext(appContext), "data.homeUrl");
+    const items = get(useAppState(), "cart.items", []);
+    const currency = get(useAppState(), "currency", "USD");
+    const language = get(useAppState(), "language", "en");
+    const homeUrl = get(useAppState(), "homeUrl");
 
     if (items.length === 0)
         return null;

@@ -1,10 +1,10 @@
 import React from "react";
 import { get } from "../../../../../../lib/util/get";
 import uniqid from "uniqid";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 
 function Upload({ addImage }) {
-    const context = React.useContext(appContext);
+    const context = useAppState();
     const onChange = (e) => {
         e.persist();
         let formData = new FormData();
@@ -14,7 +14,7 @@ function Upload({ addImage }) {
         formData.append("targetPath", "catalog/" + (Math.floor(Math.random() * (9999 - 1000)) + 1000) + "/" + (Math.floor(Math.random() * (9999 - 1000)) + 1000));
 
         fetch(
-            get(context, "data.productImageUploadUrl") + "/" + "catalog/" + (Math.floor(Math.random() * (9999 - 1000)) + 1000) + "/" + (Math.floor(Math.random() * (9999 - 1000)) + 1000),
+            get(context, "productImageUploadUrl") + "/" + "catalog/" + (Math.floor(Math.random() * (9999 - 1000)) + 1000) + "/" + (Math.floor(Math.random() * (9999 - 1000)) + 1000),
             {
                 method: "POST",
                 body: formData,

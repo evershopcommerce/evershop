@@ -1,8 +1,8 @@
 import React from "react";
-import { appContext } from "../../../../../lib/context/app";
+import { useAppState } from "../../../../../lib/context/app";
 
 export default function DashboardProduct() {
-    const Context = React.useContext(appContext);
+    const Context = useAppState();
     const products = Context.dashboardProducts || [];
     return <div>
         <h2>Products</h2>

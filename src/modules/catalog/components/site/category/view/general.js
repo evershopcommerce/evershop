@@ -1,6 +1,6 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 const Name = ({ name }) => {
@@ -12,7 +12,7 @@ const Description = ({ description }) => {
 };
 
 export default function CategoryInfo() {
-    const category = get(React.useContext(appContext), "data.category");
+    const category = get(useAppState(), "category");
 
     return <div className="container">
         <Area

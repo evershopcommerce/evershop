@@ -1,17 +1,17 @@
 import React from 'react';
 import { toast } from "react-toastify";
-import { appContext } from "../../../../../../lib/context/app";
+import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 import AddressForm from "../../../../../customer/components/site/address/address-form";
 
 export default function ShippingAddressForm(props) {
-    const context = React.useContext(appContext);
-    const cart = get(context, "data.cart", {});
+    const context = useAppState();
+    const cart = get(context, "cart", {});
 
     const onSuccess = (response) => {
         if (get(response, 'success') === true) {
             props.areaProps.setNeedSelectAddress(false);
-            context.setData({ data: { ...context.data, cart: { ...context.data.cart, shippingAddress: response.data.address } } });
+            context.setData({ ...context, cart: { cart, shippingAddress: response.data.address } });
         } else {
             toast.error(get(response, "message", "Failed!"));
         }

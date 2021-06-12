@@ -1,6 +1,6 @@
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { appContext } from "../context/app";
+import { useAppState } from "../context/app";
 import { get } from "../util/get";
 
 export default function Notification() {
@@ -22,7 +22,7 @@ export default function Notification() {
                 toast(message);
         }
     };
-    const context = React.useContext(appContext);
+    const context = useAppState();
     React.useEffect(() => {
         get(context, "notifications", []).forEach(n => notify(n.type, n.message));
     }, []);
