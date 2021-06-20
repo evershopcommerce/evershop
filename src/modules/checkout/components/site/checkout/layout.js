@@ -1,9 +1,8 @@
 import React from 'react';
-import { Shipment } from "./shipment/shipment";
-import { Payment } from "./payment/payment";
 import { Summary } from "./summary/summary";
 import Area from "../../../../../lib/components/area";
 import { CheckoutProvider } from '../../../../../lib/context/checkout';
+import Steps from './steps';
 
 export default function CheckoutPage() {
     return <CheckoutProvider>
@@ -12,16 +11,10 @@ export default function CheckoutPage() {
             className="row"
             coreWidgets={[
                 {
-                    'component': { default: Shipment },
+                    'component': { default: Steps },
                     'props': {},
                     'sortOrder': 10,
-                    'id': 'shipmentBlock'
-                },
-                {
-                    'component': { default: Payment },
-                    'props': {},
-                    'sortOrder': 20,
-                    'id': 'paymentBlock'
+                    'id': 'checkoutSteps'
                 },
                 {
                     'component': { default: Summary },

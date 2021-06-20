@@ -1,7 +1,7 @@
 import React from 'react';
-import Text from "../../../../../lib/components/form//fields/text";
+import Text from "../../../../../lib/components/form/fields/text";
 import { ProvinceOptions } from "../../../../../lib/components/locale/province_option";
-import Select from "../../../../../lib/components/form//fields/select";
+import Select from "../../../../../lib/components/form/fields/select";
 import { CountryOptions } from "../../../../../lib/components/locale/country_option";
 import Area from "../../../../../lib/components/area";
 import { Form } from '../../../../../lib/components/form/form';

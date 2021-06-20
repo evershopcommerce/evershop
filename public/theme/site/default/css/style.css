@@ -7,7 +7,7 @@
 .text-danger{color:#f0506e}
 .text-success{color:#32d296}
 .border-block {border: 1px solid var(--borderColor); box-sizing: border-box; padding: 10px; margin-bottom: 20px}
-
+.flex{display: flex;}
 /**************************************** LOADING BAR *********************************************/
 .loading-bar{
     background: #1e87f0;
@@ -43,6 +43,11 @@ img{max-width: 100%}
 .col-expand{flex: 1; padding-left: 10px; padding-right: 10px}
 .jumbotron{background-color: transparent !important;}
 /* FORM */
+.form-control {
+  padding: 0.8rem 0.75rem;
+  border: 1px solid #ccc;
+  height: calc(1.5em + 1.7rem + 2px);
+}
 .group-wrapper{
     display: inline;
 }
@@ -53,6 +58,9 @@ img{max-width: 100%}
 ul.list-basic{list-style: none; padding-left: 0; }
 ul.list-basic li{padding: 10px 0}
 /* CHECKOUT PAGE*/
+.checkout-steps{padding-right: 50px;}
+.checkout-step{margin-left: 50px;}
+.checkout-step .step-title{margin-left: -55px;}
 .checkout-cart-summary-table{width: 100%}
 .checkout-cart-summary-table td{padding: 5px}
 .checkout-cart-summary-table td{text-align: right}

@@ -2,7 +2,7 @@ import React from 'react';
 import Area from "../../../../../../lib/components/area";
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
-import AddressSummary from "../../../../../customer/components/site/address/address_summary";
+import AddressSummary from "../../../../../customer/components/site/address/addressSummary";
 
 function Title() {
     return <div><strong>Billing address</strong></div>

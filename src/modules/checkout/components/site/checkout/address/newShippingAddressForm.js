@@ -2,7 +2,7 @@ import React from 'react';
 import { toast } from "react-toastify";
 import { useAppState, useAppDispatch } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
-import AddressForm from "../../../../../customer/components/site/address/address-form";
+import AddressForm from "../../../../../customer/components/site/address/addressForm";
 
 export default function ShippingAddressForm(props) {
     const context = useAppState();
@@ -25,8 +25,7 @@ export default function ShippingAddressForm(props) {
     if (props.areaProps.needSelectAddress === false)
         return null;
 
-    return <div className="uk-width-1-1">
-        <div><strong>New address</strong></div>
+    return <div>
         <AddressForm
             id="shippingNewAddressForm"
             action={get(props, 'action')}

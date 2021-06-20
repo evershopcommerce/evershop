@@ -4,22 +4,28 @@ const CheckoutContext = React.createContext();
 
 export const CheckoutProvider = ({ children }) => {
     const value = {
-        getShippingAddress: async () => {
+        steps: [
+            "customer",
+            "shipping",
+            "billing"
+        ],
+        currentStep: undefined,
+        getShippingAddress: () => {
 
         },
-        setShippingAddress: async () => {
+        setShippingAddress: () => {
 
         },
-        getBillingAddress: async () => {
+        getBillingAddress: () => {
 
         },
-        setBillingAddress: async () => {
+        setBillingAddress: () => {
 
         },
-        getShippingMethods: async () => {
+        getShippingMethods: () => {
 
         },
-        getPaymentMethods: async () => {
+        getPaymentMethods: () => {
 
         }
     };

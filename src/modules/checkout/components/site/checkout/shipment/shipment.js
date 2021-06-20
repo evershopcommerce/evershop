@@ -1,16 +1,21 @@
 import React from 'react';
-import ShippingMethods from "./shipping_methods";
-import { ShippingAddressBlock } from "./shipping_address";
+import ShippingMethods from "./shippingMethods";
+import { ShippingAddressBlock } from "./shippingAddress";
 import Area from "../../../../../../lib/components/area";
 
 function Title() {
-    return <h4 className="mb-4">Shipment</h4>
+    return <div className="flex step-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-circle">
+            <circle cx="12" cy="12" r="10"></circle>
+        </svg>
+        <h2 className="mb-4 pl-4">Shipment</h2>
+    </div>
 }
 
 function Shipment() {
     return <Area
         id={"checkoutShipment"}
-        className="col-12 col-md-4"
+        className="checkout-step"
         coreWidgets={[
             {
                 'component': { default: Title },

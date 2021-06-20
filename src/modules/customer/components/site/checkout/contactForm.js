@@ -1,4 +1,4 @@
-import {Form} from "../../../../../../../js/production/form/form.js";
+import { Form } from "../../../../../../../js/production/form/form.js";
 import Text from "../../../../../../../js/production/form/fields/text.js";
 import Password from "../../../../../../../js/production/form/fields/password.js";
 
@@ -13,7 +13,7 @@ function LoggedInCustomer() {
     </div>
 }
 
-function Guest({loginUrl, setContactUrl}) {
+function Guest({ loginUrl, setContactUrl }) {
     const [wantLogin, setWantLogin] = React.useState(false);
     const [wantEdit, setWantEdit] = React.useState(false);
     const [formButton, setFormButton] = React.useState('Submit');
@@ -34,12 +34,12 @@ function Guest({loginUrl, setContactUrl}) {
 
     return <div className="">
         <div>
-            <strong>Contact information</strong> <a href="#" onClick={(e)=> onClickWantLogin(e)}>Login?</a>
+            <strong>Contact information</strong> <a href="#" onClick={(e) => onClickWantLogin(e)}>Login?</a>
         </div>
         {(email && fullName) && <div>
             <div><span>Full name:</span> <span>{fullName}</span></div>
             <div><span>Email:</span> <span>{email}</span></div>
-            <a href="#" onClick={(e)=>onClickWantEdit(e)}>Edit</a>
+            <a href="#" onClick={(e) => onClickWantEdit(e)}>Edit</a>
         </div>}
         {(!email || !fullName || wantEdit === true || wantLogin === true) && <div>
             <Form
@@ -73,10 +73,10 @@ function Guest({loginUrl, setContactUrl}) {
         </div>}
     </div>
 }
-export default function ContactInformationForm({loginUrl, setContactUrl}) {
+export default function ContactInformationForm({ loginUrl, setContactUrl }) {
     const email = ReactRedux.useSelector(state => _.get(state, 'appState.customer.email', null));
     return <div className="col-12 checkout-contact">
-        {email === null && <Guest loginUrl={loginUrl} setContactUrl={setContactUrl}/>}
-        {email !== null && <LoggedInCustomer/>}
+        {email === null && <Guest loginUrl={loginUrl} setContactUrl={setContactUrl} />}
+        {email !== null && <LoggedInCustomer />}
     </div>
 }
