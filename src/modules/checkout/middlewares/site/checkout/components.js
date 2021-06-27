@@ -3,13 +3,14 @@ const { getComponentSource } = require("../../../../../lib/helpers");
 const { buildSiteUrl } = require("../../../../../lib/routie");
 
 module.exports = (request, response) => {
-    // 2 columns layout block
+
     response.addComponent(
-        "checkoutPageLayout",
+        "checkoutPage",
         "contentMiddle",
-        getComponentSource("checkout/components/site/checkout/layout.js"),
-        {},
-        10
+        getComponentSource("checkout/components/site/checkout/checkout.js"),
+        {
+        },
+        0
     );
 
     // Shipping address form

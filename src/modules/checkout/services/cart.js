@@ -320,6 +320,18 @@ export class Cart extends DataObject {
             }
         },
         {
+            key: "customer_email",
+            resolver: async function () {
+                return this._dataSource['customer_email'] ?? this.getData('customer_email') ?? null;
+            }
+        },
+        {
+            key: "customer_full_name",
+            resolver: async function () {
+                return this._dataSource['customer_full_name'] ?? this.getData('customer_full_name') ?? null;
+            }
+        },
+        {
             key: "status",
             resolver: async function () {
                 return this._dataSource['status'] ?? this.getData('status') ?? 1;
@@ -389,13 +401,15 @@ export class Cart extends DataObject {
             key: "shipping_address_id",
             resolver: async function () {
                 return this._dataSource['shipping_address_id'];
-            }
+            },
+            dependencies: ["cart_id"]
         },
         {
             key: "billing_address_id",
             resolver: async function () {
                 return this._dataSource['billing_address_id'];
-            }
+            },
+            dependencies: ["cart_id"]
         },
         {
             key: "items",

@@ -7,7 +7,11 @@
 .text-danger{color:#f0506e}
 .text-success{color:#32d296}
 .border-block {border: 1px solid var(--borderColor); box-sizing: border-box; padding: 10px; margin-bottom: 20px}
-.flex{display: flex;}
+.flex{display: flex;align-items: flex-start}
+.grid{display:grid}
+
+.justify-content-space-between{justify-content: space-between;}
+.justify-content-space-center{justify-content: center;}
 /**************************************** LOADING BAR *********************************************/
 .loading-bar{
     background: #1e87f0;

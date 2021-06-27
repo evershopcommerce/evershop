@@ -2,7 +2,15 @@ import React from 'react';
 import { Summary } from "./summary/summary";
 import Area from "../../../../../lib/components/area";
 import { CheckoutProvider } from '../../../../../lib/context/checkout';
-import Steps from './steps';
+
+const Steps = () => {
+    return <Area
+        id={"checkoutSteps"}
+        className="col-12 col-md-8 checkout-steps"
+        coreWidgets={[
+        ]}
+    />
+}
 
 export default function CheckoutPage() {
     return <CheckoutProvider>

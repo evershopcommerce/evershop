@@ -106,8 +106,8 @@ function loadCoreModule() {
             getModuleMiddlewares(path.resolve(__dirname, "modules", element));
             if (existsSync(resolve(__dirname, "modules", element, "routes.js")))
                 require(resolve(__dirname, "modules", element, "routes.js"))(router); // routes.js must return a function
-            if (existsSync(resolve(__dirname, "modules", element, "events.js")))
-                require(resolve(__dirname, "modules", element, "events.js"))(eventer); // events.js must return a function
+            if (existsSync(resolve(__dirname, "modules", element, "bootstrap.js")))
+                require(resolve(__dirname, "modules", element, "bootstrap.js"))(eventer); // bootstrap.js must return a function
         } catch (e) {
             throw e;
         }

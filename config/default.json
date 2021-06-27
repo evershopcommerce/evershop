@@ -69,8 +69,9 @@
     },
     "customer": {
         "address": {
-            "fullName": {
+            "full_name": {
                 "type": "text",
+                "title": "Full name",
                 "validarionRules": [
                     "notEmpty"
                 ]

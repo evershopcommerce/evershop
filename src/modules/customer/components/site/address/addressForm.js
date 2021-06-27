@@ -52,7 +52,49 @@ function Country({ country, setCountry, countries = [] }) {
     </div>
 }
 
-export default function AddressForm(props) {
+const NameAndTelephone = ({ formId, address }) => {
+    return <div className="row">
+        <div className="col">
+            <Text
+                name="full_name"
+                value={get(address, 'full_name', '')}
+                formId={formId}
+                label="Full name"
+                validationRules={['notEmpty']}
+            />
+        </div>
+        <div className="col">
+            <Text
+                name="telephone"
+                value={get(address, 'telephone', '')}
+                formId={formId}
+                label="Telephone"
+                validationRules={['notEmpty']}
+            />
+        </div>
+    </div>
+}
+
+const ProvinceAndPostcode = ({ formId, address, selectedCountry, selectedProvince }) => {
+    return <div className="row">
+        <div className="col">
+            <Province
+                selectedCountry={selectedCountry}
+                selectedProvince={selectedProvince}
+            />
+        </div>
+        <div className="col">
+            <Text
+                name="postcode"
+                value={get(address, 'postcode', '')}
+                formId={formId}
+                label="Postcode"
+                validationRules={['notEmpty']}
+            />
+        </div>
+    </div>
+}
+export default function CustomerAddressForm(props) {
     const [selectedCountry, setSelectedCountry] = React.useState(get(props, 'address.country'));
     const id = props.id !== undefined ? props.id : "customer_address_form";
 
@@ -64,31 +106,16 @@ export default function AddressForm(props) {
         onError={props.onError}
         action={props.action}>
         <Area
-            id="customerAddressFormInner"
+            id="customerAddressForm"
             coreWidgets={[
                 {
-                    'component': { default: Text },
+                    'component': { default: NameAndTelephone },
                     'props': {
-                        name: "full_name",
-                        value: get(props, 'address.full_name', ''),
                         formId: id,
-                        label: "Full name",
-                        validationRules: ['notEmpty']
+                        address: get(props, 'address', {})
                     },
                     'sortOrder': 10,
                     'id': 'fullName'
-                },
-                {
-                    'component': { default: Text },
-                    'props': {
-                        name: "telephone",
-                        value: get(props, 'address.telephone', ''),
-                        formId: id,
-                        label: "Telephone",
-                        validationRules: ['notEmpty']
-                    },
-                    'sortOrder': 30,
-                    'id': 'telephone'
                 },
                 {
                     'component': { default: Text },
@@ -99,7 +126,7 @@ export default function AddressForm(props) {
                         label: "Address 1",
                         validationRules: ['notEmpty']
                     },
-                    'sortOrder': 40,
+                    'sortOrder': 20,
                     'id': 'address1'
                 },
                 {
@@ -111,20 +138,8 @@ export default function AddressForm(props) {
                         label: "Address 2",
                         validationRules: []
                     },
-                    'sortOrder': 50,
+                    'sortOrder': 30,
                     'id': 'address2'
-                },
-                {
-                    'component': { default: Text },
-                    'props': {
-                        name: "postcode",
-                        value: get(props, 'address.postcode', ''),
-                        formId: id,
-                        label: "Postcode",
-                        validationRules: []
-                    },
-                    'sortOrder': 60,
-                    'id': 'postcode'
                 },
                 {
                     'component': { default: Text },
@@ -135,7 +150,7 @@ export default function AddressForm(props) {
                         label: "City",
                         validationRules: []
                     },
-                    'sortOrder': 70,
+                    'sortOrder': 40,
                     'id': 'city'
                 },
                 {
@@ -145,16 +160,17 @@ export default function AddressForm(props) {
                         countries: get(props, 'countries'),
                         setCountry: setSelectedCountry
                     },
-                    'sortOrder': 80,
+                    'sortOrder': 50,
                     'id': 'country'
                 },
                 {
-                    'component': { default: Province },
+                    'component': { default: ProvinceAndPostcode },
                     'props': {
                         selectedCountry: selectedCountry,
+                        address: get(props, 'address', {}),
                         selectedProvince: get(props, 'address.province', '')
                     },
-                    'sortOrder': 90,
+                    'sortOrder': 60,
                     'id': 'province'
                 }
             ]}

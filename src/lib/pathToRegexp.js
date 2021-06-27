@@ -1,5 +1,5 @@
 function parse(e, t) {
-    for (var r, n = [], o = 0, a = 0, i = "", p = (t && t.delimiter) || "/"; null != (r = PATH_REGEXP.exec(e)); ) {
+    for (var r, n = [], o = 0, a = 0, i = "", p = (t && t.delimiter) || "/"; null != (r = PATH_REGEXP.exec(e));) {
         var s = r[0],
             c = r[1],
             u = r.index;
