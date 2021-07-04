@@ -1,5 +1,5 @@
 import { pool } from "../../../lib/mysql/connection";
-import { commit, getConnection, insert, rollback, select, startTransaction } from "@nodejscart/mysql-query-builder";
+import { commit, getConnection, insert, rollback, select, startTransaction, update } from "@nodejscart/mysql-query-builder";
 
 /* Default validation rules */
 var validationServices = [
@@ -14,16 +14,40 @@ var validationServices = [
                 return true;
             }
         }
+    },
+    {
+        id: "shippingAddress",
+        func: (cart, validationErrors) => {
+            if (!cart.getData("shipping_address_id")) {
+                validationErrors.push("Please provide a shipping address");
+                return false;
+            } else {
+                return true;
+            }
+        }
+    },
+    {
+        id: "shippingMethod",
+        func: (cart, validationErrors) => {
+            if (!cart.getData("shipping_method")) {
+                validationErrors.push("Please provide a shipping method");
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 ];
+
 var validationErrors = [];
 
 export async function createOrder(cart, eventDispatcher) {
     // Start creating order
-    let connection = getConnection(pool);
-    startTransaction(connection);
+    let connection = await getConnection(pool);
 
     try {
+        startTransaction(connection);
+
         for (const rule of validationServices) {
             if (await rule.func(cart, validationErrors) === false) {
                 throw new Error(validationErrors);
@@ -35,24 +59,34 @@ export async function createOrder(cart, eventDispatcher) {
             .given(await select()
                 .from("cart_address")
                 .where("cart_address_id", "=", cart.getData("shipping_address_id"))
-                .load()
-            );
-
+                .load(connection)
+            )
+            .execute(connection);
         // Save the billing address
         let billAddr = await insert("order_address")
             .given(await select()
                 .from("cart_address")
                 .where("cart_address_id", "=", cart.getData("billing_address_id"))
-                .load()
-            );
+                .load(connection)
+            )
+            .execute(connection);
         // Save order to DB
         // TODO: Maybe we should allow plugin to prepare order data before created?
-        let order = await insert("order").given({ ...cart.getData(), shipping_address_id: shipAddr.insertId, billing_address_id: billAddr.insertId });
+        let order = await insert("order")
+            .given({
+                ...cart.export(),
+                order_number: Math.random() * (899) + 100,// FIXME: Must be structured
+                shipping_address_id: shipAddr.insertId,
+                billing_address_id: billAddr.insertId,
+                payment_status: 'pending',
+                shipment_status: 'pending'
+            })
+            .execute(connection);
 
         // Save order items
         let items = cart.getItems();
         await Promise.all(items.map(async (item) => {
-            await insert("order_item").given(item.getData().concat("order_id", order.insertId));
+            await insert("order_item").given({ ...item.export(), order_item_order_id: order.insertId }).execute(connection);
         }));
 
         // Save order activities
@@ -60,9 +94,16 @@ export async function createOrder(cart, eventDispatcher) {
             'order_activity_order_id': order.insertId,
             'comment': 'Order created',
             'customer_notified': 0 //TODO: check config of SendGrid
-        });
+        }).execute(connection);
+
+        // Disable the cart
+        await update("cart")
+            .given({ status: 0 })
+            .where("cart_id", "=", cart.getData("cart_id"))
+            .execute(connection);
 
         commit(connection);
+        return order.insertId;
     } catch (e) {
         rollback(connection);
         throw e;
@@ -79,4 +120,3 @@ export function addCreateOrderValidationRule(id, func) {
 export function removeCreateOrderValidationRule(id) {
     validationServices = validationServices.filter(r => r.id !== id);
 }
-

@@ -1,7 +1,10 @@
+import { assign } from '../../../../../lib/util/assign'
+import { addressValidator } from '../../../services/addressValidator';
 const { getComponentSource } = require("../../../../../lib/helpers");
+const { buildSiteUrl } = require('../../../../../lib/routie');
 
 module.exports = async (request, response, stack) => {
-    // Shipping info block
+    // Shipment step
     response.addComponent(
         "checkoutShipmentStep",
         "checkoutSteps",
@@ -12,6 +15,9 @@ module.exports = async (request, response, stack) => {
     );
 
     let cart = await stack["initCart"];
-    response.context.checkoutSteps = response.context.checkoutSteps || [];
-    response.context.checkoutSteps.push({ id: "shipment", title: "Shipping", isCompleted: false, sortOrder: 10 });
+    let step = { id: "shipment", title: "Shipping", isCompleted: false, sortOrder: 10 };
+    if (addressValidator(cart.getData("shippingAddress")) && cart.getData("shipping_method")) {
+        step.isCompleted = true;
+    }
+    assign(response.context, { checkout: { steps: [step], setShipmentInfoAPI: buildSiteUrl("checkoutSetShipmentInfo") } })
 };

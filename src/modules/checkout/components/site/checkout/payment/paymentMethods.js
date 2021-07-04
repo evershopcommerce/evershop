@@ -1,20 +1,43 @@
+import axios from 'axios';
 import React from 'react';
 import Area from "../../../../../../lib/components/area"
+import Radio from '../../../../../../lib/components/form/fields/radio';
 
-function Title() {
-    return <div><strong>Payment methods</strong></div>
+function Methods({ methods, selectedMethod, setSelectedMethod }) {
+    return <div>
+        <strong>Payment methods</strong>
+        <Radio
+            formId={"checkout_billing_address_form"}
+            validationRules={["notEmpty"]}
+            options={methods.map(m => { return { value: m.code, text: m.name } })}
+            value={selectedMethod}
+            name="payment_method"
+        />
+    </div>
 }
 
-export default function PaymentMethods() {
+export default function PaymentMethods({ getMethodsAPI }) {
+    const [methods, setMethods] = React.useState([]);
+    const [selectedMethod, setSelectedMethod] = React.useState(undefined);
+
+    React.useEffect(() => {
+        axios.post(getMethodsAPI).then((response) => setMethods(response.data.data.methods));
+    }, []);
+
     return <Area
-        id="checkoutPaymentMethodBlock"
+        id="checkoutPaymentMethods"
         className="checkout-payment-methods"
+        selectedMethod={setSelectedMethod}
         coreWidgets={[
             {
-                component: { default: Title },
-                props: {},
+                component: { default: Methods },
+                props: {
+                    methods: methods,
+                    selectedMethod: selectedMethod,
+                    setSelectedMethod: setSelectedMethod
+                },
                 sortOrder: 0,
-                id: "paymentMethodBlockTitle"
+                id: "paymentMethodsList"
             }
         ]}
     />

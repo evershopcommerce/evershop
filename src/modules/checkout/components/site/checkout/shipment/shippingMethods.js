@@ -1,47 +1,47 @@
 import React from 'react';
-const { get } = require('../../../../../../lib/util/get');
-import Area from '../../../../../../lib/components/area';
-import { useAppState } from '../../../../../../lib/context/app';
+import { useFormContext } from '../../../../../../lib/components/form/form';
+import { Radio } from '../../../../../../lib/components/form/fields/radio';
+import axios from 'axios';
 
-function Title() {
-    return <div><strong>Shipping methods</strong></div>
-}
+export default function ShippingMethods({ areaProps, getMethodsAPI }) {
+    const formContext = useFormContext();
+    const [typeTimeout, setTypeTimeout] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
+    const [addressProvided, setAddressProvided] = React.useState(false);
+    const [methods, setMethods] = React.useState([]);
 
-function NoMethod({ areaProps }) {
-    if (areaProps.noMethod === false)
-        return null;
-    const context = useAppState();
-    const shippingAddress = get(context, "cart.shippingAddress");
-    if (shippingAddress)
-        return <div className="no-shipping-method">
-            <span>Sorry. There is no shipping method available.</span>
-        </div>;
-    else
-        return <div className="no-shipping-method">
-            <span>Please provide shipping address first.</span>
-        </div>;
-}
+    React.useEffect(() => {
+        if (typeTimeout) clearTimeout(typeTimeout);
+        setTypeTimeout(setTimeout(() => {
+            let fields = formContext.fields;
+            let check = fields.length ? true : false;
+            fields.forEach((e) => {
+                if (['country', 'province', 'postcode'].includes(e.name) && !e.value)
+                    check = false;
+            });
 
-export default function ShippingMethods() {
-    const [noMethod, setNoMethod] = React.useState(true);
-    return <Area
-        id="checkoutShippingMethodBlock"
-        className="checkout-shipping-methods"
-        noMethod={noMethod}
-        setNoMethod={setNoMethod}
-        coreWidgets={[
-            {
-                component: { default: Title },
-                props: {},
-                sortOrder: 0,
-                id: "shippingMethodBlockTitle"
-            },
-            {
-                component: { default: NoMethod },
-                props: {},
-                sortOrder: 100,
-                id: "shippingNoMethod"
+            if (check === true) {
+                setAddressProvided(true);
+                axios.post(getMethodsAPI)
+                    .then((response) => {
+                        setMethods(response.data.data.methods.map((m) => { return { value: m.code, text: m.name } }));
+                        setLoading(false);
+                    });
+            } else {
+                setAddressProvided(false);
             }
-        ]}
-    />
+        }, 1500));
+    }, [formContext]);
+
+    return <div>
+        {loading === true && <div>Loading</div>}
+        <h3>Shipping methods</h3>
+        {(addressProvided === true && methods.length == 0) && <div>Sorry, there is no available method for your address</div>}
+        {(addressProvided === false) && <div>Please provide the address to see available methods</div>}
+        <Radio
+            name="shipping_method"
+            validationRules={["notEmpty"]}
+            options={methods}
+        />
+    </div>
 }

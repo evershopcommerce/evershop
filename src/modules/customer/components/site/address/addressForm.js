@@ -94,24 +94,23 @@ const ProvinceAndPostcode = ({ formId, address, selectedCountry, selectedProvinc
         </div>
     </div>
 }
-export default function CustomerAddressForm(props) {
+
+export function CustomerAddressForm(props) {
     const [selectedCountry, setSelectedCountry] = React.useState(get(props, 'address.country'));
-    const id = props.id !== undefined ? props.id : "customer_address_form";
+    const formId = props.formId || "customer_address_form";
+    const areaId = props.areaId || "customerAddressForm";
 
     return <Form
-        id={id}
-        method={"POST"}
-        onStart={props.onStart}
-        onSuccess={props.onSuccess}
-        onError={props.onError}
-        action={props.action}>
+        {...props}
+        id={formId}
+    >
         <Area
-            id="customerAddressForm"
+            id={areaId}
             coreWidgets={[
                 {
                     'component': { default: NameAndTelephone },
                     'props': {
-                        formId: id,
+                        formId: formId,
                         address: get(props, 'address', {})
                     },
                     'sortOrder': 10,
@@ -122,7 +121,7 @@ export default function CustomerAddressForm(props) {
                     'props': {
                         name: "address_1",
                         value: get(props, 'address.address_1', ''),
-                        formId: id,
+                        formId: formId,
                         label: "Address 1",
                         validationRules: ['notEmpty']
                     },
@@ -134,7 +133,7 @@ export default function CustomerAddressForm(props) {
                     'props': {
                         name: "address_2",
                         value: get(props, 'address.address_2', ''),
-                        formId: id,
+                        formId: formId,
                         label: "Address 2",
                         validationRules: []
                     },
@@ -146,7 +145,7 @@ export default function CustomerAddressForm(props) {
                     'props': {
                         name: "city",
                         value: get(props, 'address.city', ''),
-                        formId: id,
+                        formId: formId,
                         label: "City",
                         validationRules: []
                     },
@@ -166,6 +165,7 @@ export default function CustomerAddressForm(props) {
                 {
                     'component': { default: ProvinceAndPostcode },
                     'props': {
+                        formId: formId,
                         selectedCountry: selectedCountry,
                         address: get(props, 'address', {}),
                         selectedProvince: get(props, 'address.province', '')
@@ -175,5 +175,5 @@ export default function CustomerAddressForm(props) {
                 }
             ]}
         />
-    </Form>
+    </Form >
 }

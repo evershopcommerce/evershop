@@ -2,11 +2,12 @@ import React from "react";
 import { Error } from "./error";
 import { formContext } from "../form";
 
+export { Radio }
 export default function Radio(props) {
     const [value, setValue] = React.useState(props.value ? props.value : '');
-
     const context = React.useContext(formContext);
-    const field = context.fields.find((f) => f.name === name);
+    const field = context.fields.find((f) => f.name === props.name);
+
     React.useEffect(() => {
         context.addField(props.name, props.value, props.validationRules);
 
@@ -25,8 +26,8 @@ export default function Radio(props) {
         {props.label && <div><label>{props.label}</label></div>}
         {
             props.options.map((o, i) => {
-                return <div>
-                    <label key={i} htmlFor={props.name + i}><input
+                return <div key={o.value}>
+                    <label htmlFor={props.name + i}><input
                         type="radio"
                         className="uk-radio"
                         name={props.name}

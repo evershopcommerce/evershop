@@ -3,7 +3,6 @@ const { getComponentSource } = require("../../../../../lib/helpers");
 const { buildSiteUrl } = require("../../../../../lib/routie");
 
 module.exports = (request, response) => {
-
     response.addComponent(
         "checkoutPage",
         "contentMiddle",
@@ -13,37 +12,26 @@ module.exports = (request, response) => {
         0
     );
 
-    // Shipping address form
+    // Shipping methods
     response.addComponent(
+        "checkoutShippingMethods",
         "checkoutShippingAddressForm",
-        "checkoutShippingAddressBlock",
-        getComponentSource("checkout/components/site/checkout/address/newShippingAddressForm.js"),
+        getComponentSource("checkout/components/site/checkout/shipment/shippingMethods.js"),
         {
-            "action": buildSiteUrl('checkoutSetShippingAddress'),
-            "countries": config.get('checkout.allowCountries', ['US'])
+            getMethodsAPI: buildSiteUrl("checkoutGetShippingMethods")
         },
-        10
+        100
     );
 
-    // Billing address form
+    // Payment methods
     response.addComponent(
+        "checkoutPaymentMethods",
         "checkoutBillingAddressForm",
-        "checkoutBillingAddressBlock",
-        getComponentSource("checkout/components/site/checkout/address/newBillingAddressForm.js"),
+        getComponentSource("checkout/components/site/checkout/payment/paymentMethods.js"),
         {
-            "action": buildSiteUrl('checkoutSetBillingAddress'),
-            "countries": config.get('checkout.allowCountries', ['US'])
+            getMethodsAPI: buildSiteUrl("checkoutGetPaymentMethods")
         },
-        30
-    );
-    response.addComponent(
-        "checkoutUseShippingAddressCheckbox",
-        "checkoutBillingAddressBlock",
-        getComponentSource("checkout/components/site/checkout/address/useShippingAddress.js"),
-        {
-            "action": buildSiteUrl('checkoutSetBillingAddress')
-        },
-        20
+        100
     );
 
     // Summary block

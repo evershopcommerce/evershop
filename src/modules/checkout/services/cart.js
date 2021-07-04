@@ -297,7 +297,7 @@ export class Cart extends DataObject {
                         .from("cart")
                         .where("cart_id", "=", this._dataSource['cart_id'])
                         .load(pool);
-                    if (!cart) {
+                    if (!cart || cart.status == 0) {
                         this._error = "Cart does not exist";
                         this._dataSource = {};
                         return null;
@@ -405,11 +405,60 @@ export class Cart extends DataObject {
             dependencies: ["cart_id"]
         },
         {
+            key: "shippingAddress",
+            resolver: async function () {
+                if (!this.getData("shipping_address_id")) {
+                    return undefined;
+                } else {
+                    return { ...await select().from("cart_address").where("cart_address_id", "=", this.getData("shipping_address_id")).load(pool) };
+                }
+            },
+            dependencies: ["shipping_address_id"]
+        },
+        {
+            key: "shipping_method",
+            resolver: async function () {
+                return this._dataSource['shipping_method'];// TODO: This field should be handled by each of shipping method
+            },
+            dependencies: ["shipping_address_id"]
+        },
+        {
+            key: "shipping_method_name",
+            resolver: async function () {
+                return this._dataSource['shipping_method_name'];// TODO: This field should be handled by each of shipping method
+            },
+            dependencies: ["shipping_method"]
+        },
+        {
             key: "billing_address_id",
             resolver: async function () {
                 return this._dataSource['billing_address_id'];
             },
             dependencies: ["cart_id"]
+        },
+        {
+            key: "billingAddress",
+            resolver: async function () {
+                if (!this.getData("billing_address_id")) {
+                    return undefined;
+                } else {
+                    return { ...await select().from("cart_address").where("cart_address_id", "=", this.getData("billing_address_id")).load(pool) };
+                }
+            },
+            dependencies: ["billing_address_id"]
+        },
+        {
+            key: "payment_method",
+            resolver: async function () {
+                return this._dataSource['payment_method'];// TODO: This field should be handled by each of payment method
+            }
+        },
+        {
+            key: "payment_method_name",
+            resolver: async function () {
+                return this._dataSource['payment_method_name'];// TODO: This field should be handled by each of payment method
+            },
+            dependencies: ["payment_method"]
         },
         {
             key: "items",

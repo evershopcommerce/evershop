@@ -1,7 +1,7 @@
 import React from "react";
 import Area from "../../../../../lib/components/area";
 
-export default function AddressSummary({ address }) {
+export function AddressSummary({ address }) {
     return <Area
         id={"addressSummary"}
         className={"address-summary"}

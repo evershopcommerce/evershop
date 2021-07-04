@@ -6,9 +6,10 @@ import PubSub from "pubsub-js";
 import { FORM_SUBMIT, FORM_VALIDATED } from "../../util/events";
 
 export const formContext = React.createContext();
+export const useFormContext = () => React.useContext(formContext)
 
 export function Form(props) {
-    const { id, action, method, children, submitBtn = true } = props;
+    const { id, action, method, children, submitBtn = true, btnText } = props;
     const [fields, setFields] = React.useState([]);
     const formRef = React.useRef();
 
@@ -71,7 +72,7 @@ export function Form(props) {
             let formData = new FormData(document.getElementById(id));
             if (props.onStart)
                 props.onStart();
-            fetch(
+            fetch( // TODO: Replace by Axios
                 action,
                 {
                     method: method,
@@ -118,7 +119,7 @@ export function Form(props) {
         >
             <form ref={formRef} id={id} action={action} method={method} onSubmit={(e) => onSubmit(e)}>
                 {children}
-                {submitBtn === true && <div className={"form-submit-button"}><a className="btn btn-primary" href="#" onClick={(e) => { e.preventDefault(); formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })) }}>Submit</a></div>}
+                {submitBtn === true && <div className={"form-submit-button"}><a className="btn btn-primary" href="#" onClick={(e) => { e.preventDefault(); formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })) }}>{(btnText || "Submit")}</a></div>}
             </form>
         </formContext.Provider>
     );
