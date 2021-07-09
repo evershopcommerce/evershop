@@ -12,10 +12,7 @@
   ],
   "plugins": [
     [
-      "styled-jsx/babel",
-      {
-        "optimizeForSpeed": true
-      }
+      "styled-jsx/babel"
     ],
     [
       "@babel/plugin-proposal-class-properties",

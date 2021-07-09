@@ -7,25 +7,25 @@
     "dist"
   ],
   "bin": {
-    "njc": "./bin/njc"
+    "nodejscart": "./bin/nodejscart"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --ignore public/ --exec babel-node index.js",
-    "start": "node prod.js",
+    "dev": "nodemon --ignore public/ --exec babel-node ./bin/nodejscart cmmand --mode development",
+    "build": "nodejscart build",
+    "start": "nodejscart start",
     "eslint": "eslint index.js"
   },
   "author": "The Nguyen (https://nodejscart.com)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
   "dependencies": {
     "@hapi/topo": "^5.0.0",
-    "@nodejscart/mysql-query-builder": "^1.2.4",
+    "@nodejscart/mysql-query-builder": "^1.2.5",
     "@shopify/draggable": "^1.0.0-beta.8",
-    "@shopify/polaris": "^6.5.0",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "config": "^3.3.6",
     "dayjs": "^1.10.4",
+    "debug": "^4.3.2",
     "es6-crawler-detect": "^3.1.3",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
@@ -55,7 +55,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.13.10",
     "@babel/preset-react": "^7.12.13",
-    "@babel/register": "^7.13.8",
+    "@babel/register": "^7.14.5",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/webpack-plugin": "^5.14.2",
     "babel-core": "^7.0.0-bridge.0",
@@ -64,6 +64,8 @@
     "eslint": "^7.22.0",
     "eslint-plugin-react": "^7.22.0",
     "html-webpack-plugin": "^4.5.2",
+    "postcss": "^8.3.5",
+    "postcss-cli": "^8.3.1",
     "speed-measure-webpack-plugin": "^1.4.2",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
