@@ -193,7 +193,7 @@ if (command === "build") {
         // name: 'main',
         target: "web",
         plugins: [
-            new FileListPlugin()
+            //new FileListPlugin()
         ],
 
         entry: entry,
