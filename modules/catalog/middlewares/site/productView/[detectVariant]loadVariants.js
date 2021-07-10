@@ -8,16 +8,7 @@ const { CONSTANTS, getComponentSource } = require("../../../../../lib/helpers");
 const config = require('config');
 
 module.exports = async (request, response, stack, next) => {
-    // Images block
-    response.addComponent(
-        "productVariants",
-        "productPageMiddleRight",
-        getComponentSource("catalog/components/site/product/view/variants.js"),
-        {},
-        20
-    );
-
-    // Wait for product to be fully loaded
+    /** Wait for product to be fully loaded */
     await stack["detectVariant"];
     let product = get(response, "context.product");
     try {

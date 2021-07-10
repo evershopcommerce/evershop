@@ -1,6 +1,5 @@
 import React from "react";
 import Area from "../../../../lib/components/area";
-import { A } from './aaaaaaaaaaaaaaaaaaaaaaaa'
 
 export default function SiteLayout() {
   return <div className="container-wrapper">

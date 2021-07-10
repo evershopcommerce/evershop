@@ -10,7 +10,7 @@ const express = require("express");
 const router = require("../lib/routie");
 const { getModuleMiddlewares, get } = require('../lib/middee');
 const http = require('http');
-const { addComponents, getComponentsByRoute, getAll } = require('../lib/componee');
+const { addComponents, getComponentsByRoute } = require('../lib/componee');
 const debug = require('debug')('express:server');
 const webpack = require("webpack");
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
@@ -22,7 +22,6 @@ require('@babel/register')({
     ignore: ['node_modules']
 });
 
-console.log(argv);
 
 /* Loading modules and initilize routes, components and services */
 const modules = readdirSync(path.resolve(__dirname, "../modules/"), { withFileTypes: true })
@@ -79,28 +78,26 @@ let app = express();
 let routes = router.getRoutes();
 let siteRoutes = router.getSiteRoutes();
 let adminRoutes = router.getAdminRoutes();
-
 routes.forEach(r => {
     app.all(r.path, (request, response, next) => {
-        app._route = r;
+        request._route = r;
         next();
     });
 })
 
 let middlewares = get();
-
 middlewares.forEach(m => {
     if (m.routeId === null)
         app.use(m.middleware);
     else if (m.routeId === "admin") {
         adminRoutes.forEach(route => {
-            if (((route.id !== "adminStaticAsset" && route.id !== "adminBundle") || m.id === "isAdmin")) {
+            if ((route.id !== "adminStaticAsset" && route.id !== "adminBundle") || m.id === "isAdmin") {
                 app.all(route.path, m.middleware);
             }
         })
     } else if (m.routeId === "site") {
         siteRoutes.forEach(route => {
-            if (((route.id !== "staticAsset" && route.id !== "siteBundle") || m.id === "isAdmin")) {
+            if (route.id !== "staticAsset" && route.id !== "siteBundle") {
                 app.all(route.path, m.middleware);
             }
         })
@@ -138,7 +135,6 @@ if (command === "build") {
     // Collect all "GET" only route
     let getRoutes = routes.filter(r => (r.method.length === 1 && r.method[0].toUpperCase() === "GET"));
     let entry = {};
-    //console.log(getRoutes);
     getRoutes.forEach(route => {
         let components = getComponentsByRoute(route.id);
         //console.log(components);
@@ -177,13 +173,14 @@ if (command === "build") {
                     use: {
                         loader: "babel-loader",
                         options: {
+                            sourceType: "unambiguous",
                             cacheDirectory: true,
                             presets: [
                                 "@babel/preset-env",
                                 "@babel/preset-react"
                             ],
                             plugins: [
-                                "@babel/plugin-transform-runtime"
+                                "@babel/plugin-transform-runtime",
                             ]
                         }
                     }
@@ -227,13 +224,17 @@ if (command === "build") {
         } else {
             //console.log(stats);
         }
+        process.exit(0)
     });
 
-    process.exit(0)
-} else if (argv.mode === "development") {
+
+} else if (command === "dev") {
     process.env.NODE_ENV = 'development';
-} else {
+} else if (command === "start") {
     process.env.NODE_ENV = 'production';
+} else {
+    console.log("Invalid command");
+    process.exit(0);
 }
 
 /**
