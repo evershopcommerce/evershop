@@ -11,7 +11,7 @@ function Summary() {
     return <Area
         id={"checkoutSummary"}
         className="col-12 col-md-4"
-        coreWidgets={[
+        coreComponents={[
             {
                 'component': { default: Title },
                 'props': {},

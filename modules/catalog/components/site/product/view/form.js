@@ -25,7 +25,7 @@ export default function ProductForm({ action }) {
         <input type="hidden" name="product_id" value={product.product_id} />
         <Area
             id="productSinglePageForm"
-            coreWidgets={[
+            coreComponents={[
                 {
                     'component': { default: AddToCart },
                     'props': {},

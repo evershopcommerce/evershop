@@ -10,7 +10,7 @@ export default function CartLayout() {
         <Area
             id="shoppingCartTop"
             className="cart-page-top"
-            coreWidgets={[
+            coreComponents={[
                 {
                     "component": { default: Title },
                     "props": {},

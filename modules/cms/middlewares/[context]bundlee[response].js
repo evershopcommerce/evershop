@@ -10,11 +10,17 @@ import { FileListPlugin } from '../../../lib/webpack/FileListPlugin'
 
 module.exports = function (request, response) {
     /** This middleware only required for development */
-    if (process.env.NODE_ENV !== 'development')
+    if (process.env.NODE_ENV === 'production') {
         return;
+    }
+    if (request.isAdmin == true) {
+        response.context.bundle = buildAdminUrl("admin.bundle", [request._route.id]);
+    } else {
+        response.context.bundle = buildSiteUrl("siteBundle", [request._route.id]);
+    }
+
     /** Get list of components for current route */
     let route = request._route;
-    let components = getComponentsByRoute(route.id);
     /** Only create bundle file for GET and "text/html" route */
     //FIXME: This should be enhanced
     if ((route.method.length > 1 || route.method[0] != "GET") || (response.get("Content-Type") && !response.get("Content-Type").includes("text/html")))
@@ -22,6 +28,14 @@ module.exports = function (request, response) {
 
     let _p = route.isAdmin == true ? "./admin/" + route.id : "./site/" + route.id;
     rmdirSync(path.resolve(CONSTANTS.CACHEPATH, _p), { recursive: true });
+
+    let components = JSON.parse(JSON.stringify(getComponentsByRoute(route.id)));
+    for (let area in components) {
+        for (let id in components[area]) {
+            components[area][id]["component"] = `---require("${components[area][id]["source"]}")---`;
+            delete components[area][id]["source"];
+        }
+    }
     let content = `var components = module.exports = exports = ${inspect(components, { depth: 5 }).replace(/'---/g, "").replace(/---'/g, "")}`;
     content += "\r\n";
     content += "if (typeof window !== 'undefined')";
@@ -48,7 +62,7 @@ module.exports = function (request, response) {
 
     const smp = new SpeedMeasurePlugin();
     const compiler = webpack(smp.wrap({
-        mode: "production", // "production" | "development" | "none"
+        mode: "development", // "production" | "development" | "none"
         module: {
             rules: [
                 {

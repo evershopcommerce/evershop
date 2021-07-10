@@ -7,7 +7,7 @@ export default function CheckoutSteps() {
     return <Area
         id={"checkoutSteps"}
         className="col-12 col-md-8 checkout-steps"
-        coreWidgets={[
+        coreComponents={[
             {
                 'component': { default: ShipmentStep },
                 'props': {},

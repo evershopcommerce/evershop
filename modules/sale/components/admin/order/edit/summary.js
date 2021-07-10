@@ -25,7 +25,7 @@ export default function OrderSummary() {
                     discountAmount={order.discount_amount}
                     taxAmount={order.tax_amount}
                     noOuter={true}
-                    coreWidgets={[
+                    coreComponents={[
                         {
                             'component': { default: "tr" },
                             'props': { children: [<td key="key"><span>Subtotal</span></td>, <td key="value"><span>{_subTotal}</span></td>] },

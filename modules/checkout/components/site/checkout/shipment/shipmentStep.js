@@ -27,7 +27,7 @@ const Content = ({ step }) => {
         return <Area
             id={"checkoutShipmentStep"}
             className="checkout-step"
-            coreWidgets={[
+            coreComponents={[
                 {
                     'component': { default: CustomerAddressForm },
                     'props': {

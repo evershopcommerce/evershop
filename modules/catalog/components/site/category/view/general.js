@@ -18,7 +18,7 @@ export default function CategoryInfo() {
         <Area
             id={"category-general-info"}
             className="category-general-info"
-            coreWidgets={[
+            coreComponents={[
                 {
                     component: { default: Name },
                     props: { name: category.name },

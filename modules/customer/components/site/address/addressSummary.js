@@ -5,7 +5,7 @@ export function AddressSummary({ address }) {
     return <Area
         id={"addressSummary"}
         className={"address-summary"}
-        coreWidgets={[
+        coreComponents={[
             {
                 component: { default: ({ full_name }) => <div className="full-name">{full_name}</div> },
                 props: {

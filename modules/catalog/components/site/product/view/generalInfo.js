@@ -30,7 +30,7 @@ function Sku({ sku }) {
 export default function GeneralInfo() {
     const product = get(useAppState(), "product");
 
-    return <Area id="product_view_general_info" coreWidgets={[
+    return <Area id="product_view_general_info" coreComponents={[
         {
             'component': { default: Name },
             'props': {

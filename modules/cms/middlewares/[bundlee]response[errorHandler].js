@@ -4,8 +4,8 @@ const { renderToString } = require("react-dom/server");
 const { CONSTANTS } = require("../../../lib/helpers");
 const path = require('path');
 import React from 'react';
+import { getComponentsByRoute } from '../../../lib/componee';
 import Html from '../../../lib/components/html';
-
 
 module.exports = async function (request, response, stack, next) {
     let promises = [];
@@ -17,7 +17,7 @@ module.exports = async function (request, response, stack, next) {
     try {
         // Wait for all async middleware to be completed
         await Promise.all(promises);
-
+        let route = request._route;
         // Check if this is a redirection or not.
         if (response.$redirectUrl) {
             response.redirect(response.statusCode || 302, response.$redirectUrl)
@@ -30,19 +30,17 @@ module.exports = async function (request, response, stack, next) {
             if (response.$body && response.$body !== "") {
                 response.send(response.$body);
             } else {
-                let widgets = require(path.resolve(CONSTANTS.ROOTPATH, '.nodejscart', request.isAdmin === true ? 'admin' : 'site', request._route.id, 'components.js'));
-                for (let area in widgets) {
-                    for (let id in widgets[area]) {
-                        if (!widgets[area][id]["component"]) {
-                            widgets[area][id]["component"] = require(`${widgets[area][id]["source"]}`);
-                            delete widgets[area][id]["source"];
-                        }
+                let components = JSON.parse(JSON.stringify(getComponentsByRoute(route.id)));
+                for (let area in components) {
+                    for (let id in components[area]) {
+                        components[area][id]["component"] = require(`${components[area][id]["source"]}`);
+                        delete components[area][id]["source"];
                     }
                 }
-                response.context.widgets = widgets;
+                response.context.components = components;
                 //resetServerContext();
                 let source = renderToString(<AppProvider value={response.context}><Html /></AppProvider>);
-                delete response.context.widgets;
+                delete response.context.components;
                 source = source.replace("</head>", "<script>var appContext = " + inspect(response.context, { depth: 10, maxArrayLength: null }) + "</script></head>");
                 response.send(`<!DOCTYPE html><html id="root">${source}</html>`);
             }

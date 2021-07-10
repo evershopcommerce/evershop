@@ -10,7 +10,7 @@ export default function OrderInfo(props) {
         <Area
             id="orderEditGeneralInfo"
             className="sml-block"
-            coreWidgets={[
+            coreComponents={[
                 {
                     component: { default: () => <div className="sml-block-title">General info</div> },
                     props: {

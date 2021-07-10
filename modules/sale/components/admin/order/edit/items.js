@@ -47,7 +47,7 @@ export default function Items() {
                         <Area
                             id="orderItemTableHeader"
                             noOuter={true}
-                            coreWidgets={[
+                            coreComponents={[
                                 {
                                     component: { default: "th" },
                                     props: { children: <span>Product</span>, 'key': 'product' },
@@ -87,7 +87,7 @@ export default function Items() {
                                 id={"order_item_row_" + i.item_id}
                                 noOuter={true}
                                 item={i}
-                                coreWidgets={[
+                                coreComponents={[
                                     {
                                         component: { default: ProductColumn },
                                         props: { name: i.product_name, sku: i.product_sku, options: i.options },

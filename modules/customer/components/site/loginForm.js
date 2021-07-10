@@ -1,4 +1,4 @@
-import {Form} from "../../../../../../js/production/form/form.js";
+import { Form } from "../../../../../../js/production/form/form.js";
 import Area from "../../../../../../js/production/area.js";
 import A from "../../../../../../js/production/a.js";
 import Text from "../../../../../../js/production/form/fields/text.js";
@@ -14,7 +14,7 @@ export default function LoginForm(props) {
             <Area
                 id={"customer-login-form-inner"}
                 className={"col-4"}
-                coreWidgets={[
+                coreComponents={[
                     {
                         'component': Heading,
                         'props': {

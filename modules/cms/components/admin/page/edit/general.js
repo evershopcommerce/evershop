@@ -44,7 +44,7 @@ export default function General(props) {
 
     return <div className="page-edit-general sml-block">
         <div className="sml-block-title">General</div>
-        <Area id="page-edit-general" coreWidgets={fields} />
+        <Area id="page-edit-general" coreComponents={fields} />
         <Card />
     </div>;
 }

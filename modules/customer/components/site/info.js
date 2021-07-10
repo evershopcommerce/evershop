@@ -1,14 +1,14 @@
-import {Form} from "../../../../../../js/production/form/form.js";
+import { Form } from "../../../../../../js/production/form/form.js";
 import Area from "../../../../../../js/production/area.js";
 import Text from "../../../../../../js/production/form/fields/text.js";
 import Password from "../../../../../../js/production/form/fields/password.js";
-import {ADD_ALERT} from "../../../../../../js/dev/event-types.js";
+import { ADD_ALERT } from "../../../../../../js/dev/event-types.js";
 
 function EditForm(props) {
     return <Form id={"customer-info-form"} {...props}>
         <Area
             id={"customer_info_form_inner"}
-            coreWidgets={[
+            coreComponents={[
                 {
                     'component': Text,
                     'props': {
@@ -56,11 +56,11 @@ function Info(props) {
     const customerInfo = ReactRedux.useSelector(state => _.get(state, 'appState.customer'));
 
     const onComplete = (response) => {
-        if(_.get(response, 'customerUpdate.status') === true) {
-            dispatch({'type' : ADD_ALERT, 'payload': {alerts: [{id: "customer_update_success", message: 'Account updated successfully', type: "success"}]}});
+        if (_.get(response, 'customerUpdate.status') === true) {
+            dispatch({ 'type': ADD_ALERT, 'payload': { alerts: [{ id: "customer_update_success", message: 'Account updated successfully', type: "success" }] } });
             setEditing(false);
         } else {
-            dispatch({'type' : ADD_ALERT, 'payload': {alerts: [{id: "customer_update_error", message: 'Something wrong, please try again', type: "error"}]}});
+            dispatch({ 'type': ADD_ALERT, 'payload': { alerts: [{ id: "customer_update_error", message: 'Something wrong, please try again', type: "error" }] } });
         }
     };
 
@@ -68,10 +68,10 @@ function Info(props) {
         <h2>Customer information</h2>
         <div><span>Full name</span>: {_.get(customerInfo, 'full_name')}</div>
         <div><span>Email</span>: {_.get(customerInfo, 'email')}</div>
-        { !editing && <div><a href="#" onClick={(e) => { e.preventDefault(); setEditing(true);}}>Edit</a></div>}
-        { editing && <div>
-            <EditForm {...props} customer={customerInfo} onComplete={onComplete}/>
-            <a href={"#"} onClick={(e) => { e.preventDefault(); setEditing(false);}}>Cancel</a>
+        {!editing && <div><a href="#" onClick={(e) => { e.preventDefault(); setEditing(true); }}>Edit</a></div>}
+        {editing && <div>
+            <EditForm {...props} customer={customerInfo} onComplete={onComplete} />
+            <a href={"#"} onClick={(e) => { e.preventDefault(); setEditing(false); }}>Cancel</a>
         </div>}
     </div>
 }

@@ -58,7 +58,7 @@ const Content = ({ step }) => {
         >
             <Area
                 id={"checkoutBillingAddressForm"}
-                coreWidgets={[
+                coreComponents={[
                     {
                         'component': { default: BillingAddress },
                         'props': {

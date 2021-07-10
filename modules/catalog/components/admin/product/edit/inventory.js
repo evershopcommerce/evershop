@@ -40,6 +40,6 @@ export default function Inventory({ data }) {
 
     return <div className="product-edit-inventory sml-block mt-4">
         <div className="sml-block-title">Inventory</div>
-        <Area id="product-edit-inventory" coreWidgets={fields} />
+        <Area id="product-edit-inventory" coreComponents={fields} />
     </div>;
 }

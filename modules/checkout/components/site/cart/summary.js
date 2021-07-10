@@ -57,7 +57,7 @@ function Summary({ checkoutUrl }) {
                     id="shopping-cart-summary"
                     noOuter={true}
                     cart={cart}
-                    coreWidgets={[
+                    coreComponents={[
                         {
                             component: { default: Subtotal },
                             props: { subTotal: cart.sub_total },

@@ -9,7 +9,6 @@ module.exports = async (request, response, stack) => {
     // Do nothing if this product does not belong to a variant group
     if (!get(response, "context.product.variant_group_id"))
         return;
-    console.log(response.context.product);
     let query = select()
         .select("product_id", "variant_product_id")
         .select("sku")

@@ -31,7 +31,7 @@ function PaymentStatus(props) {
     if (props.noOuter === false)
         return <Area
             id="payment_status"
-            coreWidgets={[
+            coreComponents={[
                 {
                     component: Pending,
                     props: {
@@ -63,7 +63,7 @@ function PaymentStatus(props) {
         return <Area
             id="payment_status"
             noOuter={true}
-            coreWidgets={[
+            coreComponents={[
                 {
                     component: Pending,
                     props: {

@@ -43,6 +43,6 @@ export default function General(props) {
 
     return <div className="category-edit-general sml-block">
         <div className="sml-block-title">General</div>
-        <Area id="category-edit-general" coreWidgets={fields} />
+        <Area id="category-edit-general" coreComponents={fields} />
     </div>;
 }

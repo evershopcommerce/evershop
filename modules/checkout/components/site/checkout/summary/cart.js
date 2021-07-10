@@ -63,7 +63,7 @@ function CartSummary() {
                 <Area
                     id={"checkoutSummaryCart"}
                     noOuter={true}
-                    coreWidgets={[
+                    coreComponents={[
                         {
                             'component': { default: Subtotal },
                             'props': { ...cart, currency, language },

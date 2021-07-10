@@ -106,7 +106,7 @@ export function CustomerAddressForm(props) {
     >
         <Area
             id={areaId}
-            coreWidgets={[
+            coreComponents={[
                 {
                     'component': { default: NameAndTelephone },
                     'props': {

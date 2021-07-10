@@ -157,7 +157,7 @@ export default function Filter({ title }) {
         cleanFilter={cleanFilter}
         activeFilters={activeFilters}
         className={"product-filter-tool"}
-        coreWidgets={[
+        coreComponents={[
             {
                 component: { default: () => <div className="filter-title">{title}</div> },
                 props: { activeFilters },

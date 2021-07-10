@@ -16,7 +16,7 @@ export default function ProductList({ products = [], countPerRow = 4 }) {
                     className="listing-tem col"
                     product={p}
                     key={index}
-                    coreWidgets={[
+                    coreComponents={[
                         {
                             component: { default: Thumbnail },
                             props: { imageUrl: get(p, 'image.url'), alt: p.name },

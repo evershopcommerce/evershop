@@ -83,7 +83,25 @@ routes.forEach(r => {
         request._route = r;
         next();
     });
+
+    /** 405 Not Allowed handle */
+    app.all(r.path, (request, response, next) => {
+        if (request._route && !request._route.method.includes(request.method)) {
+            response.status(405).send("Method Not Allowed");
+        } else {
+            next();
+        }
+    });
 })
+/** 404 Not Found handle */
+// TODO: This has to be enhanced, to support some cases like user visit the valid product route, but the product is either removed or disabled
+app.all('*', (request, response, next) => {
+    if (!request._route) {
+        response.status(404).send("Not Found");
+    } else {
+        next();
+    }
+});
 
 let middlewares = get();
 middlewares.forEach(m => {

@@ -44,6 +44,6 @@ export default function General(props) {
 
     return <div className="page-edit-seo sml-block">
         <div className="sml-block-title">SEO</div>
-        <Area id="page-edit-seo" coreWidgets={fields} />
+        <Area id="page-edit-seo" coreComponents={fields} />
     </div>;
 }

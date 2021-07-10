@@ -72,7 +72,7 @@ export default function Shipment({ startShipUrl, completeShipUrl }) {
                         weight={order.total_weight}
                         status={order.shipment_status}
                         noOuter={true}
-                        coreWidgets={[
+                        coreComponents={[
                             {
                                 'component': { default: "th" },
                                 'props': { children: <span>Status</span> },
@@ -119,7 +119,7 @@ export default function Shipment({ startShipUrl, completeShipUrl }) {
                         weight={order.total_weight}
                         status={order.shipment_status}
                         noOuter={true}
-                        coreWidgets={[
+                        coreComponents={[
                             {
                                 'component': { default: Status },
                                 'props': { status: order.shipmentStatus },

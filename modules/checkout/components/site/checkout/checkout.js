@@ -7,7 +7,7 @@ const Steps = () => {
     return <Area
         id={"checkoutSteps"}
         className="col-12 col-md-8 checkout-steps"
-        coreWidgets={[
+        coreComponents={[
         ]}
     />
 }
@@ -17,7 +17,7 @@ export default function CheckoutPage() {
         <Area
             id={"checkoutPage"}
             className="row"
-            coreWidgets={[
+            coreComponents={[
                 {
                     'component': { default: Steps },
                     'props': {},

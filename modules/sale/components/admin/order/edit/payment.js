@@ -22,7 +22,7 @@ function Info({ orderId, method, methodName, paymentStatus, grandTotal }) {
                         grandTotal={grandTotal}
                         status={paymentStatus}
                         noOuter={true}
-                        coreWidgets={[
+                        coreComponents={[
                             {
                                 'component': { default: "th" },
                                 'props': { children: <span>Status</span> },
@@ -55,7 +55,7 @@ function Info({ orderId, method, methodName, paymentStatus, grandTotal }) {
                         grandTotal={grandTotal}
                         status={paymentStatus}
                         noOuter={true}
-                        coreWidgets={[
+                        coreComponents={[
                             {
                                 'component': { default: Status },
                                 'props': { status: paymentStatus },
@@ -127,7 +127,7 @@ export default function Payment(props) {
                 methodName={order.methodName}
                 grandTotal={grandTotal}
                 status={order.paymentStatus}
-                coreWidgets={[
+                coreComponents={[
                     {
                         'component': { default: Info },
                         'props': { ...order },

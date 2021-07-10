@@ -28,7 +28,7 @@ export default function PaymentMethods({ getMethodsAPI }) {
         id="checkoutPaymentMethods"
         className="checkout-payment-methods"
         selectedMethod={setSelectedMethod}
-        coreWidgets={[
+        coreComponents={[
             {
                 component: { default: Methods },
                 props: {
