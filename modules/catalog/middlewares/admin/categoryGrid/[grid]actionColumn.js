@@ -1,12 +1,7 @@
-const { getComponentSource } = require("../../../../../lib/helpers");
 const { get } = require("../../../../../lib/util/get");
 const { buildAdminUrl } = require("../../../../../lib/routie");
 
 module.exports = async (request, response, stack) => {
-    // Add name column to the grid
-    response.addComponent("actionHeader", "categoryGridHeader", getComponentSource("grid/headers/action.js"), { "gridOriginalUrl": buildAdminUrl("categoryGrid") }, 35);
-    response.addComponent("actionRow", "categoryGridRow", getComponentSource("grid/rows/action.js"), { "id": "action" }, 35);
-
     await stack["grid"];
 
     let categories = get(response.context, "grid.categories", []);

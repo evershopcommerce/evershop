@@ -1,8 +1,6 @@
 const { select } = require('@nodejscart/mysql-query-builder')
 const { pool } = require('../../../../../lib/mysql/connection');
-const { buildAdminUrl } = require('../../../../../lib/routie');
 const { assign } = require("../../../../../lib/util/assign");
-const config = require("config");
 
 module.exports = async (request, response, stack, next) => {
     let query = select();

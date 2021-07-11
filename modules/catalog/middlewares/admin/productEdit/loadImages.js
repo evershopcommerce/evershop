@@ -16,7 +16,6 @@ module.exports = async (request, response) => {
     .from("product")
     .where("product_id", "=", request.params.id)
     .load(pool);
-
   if (mainImage["image"])
     images.unshift({ url: buildAdminUrl("adminStaticAsset", [mainImage["image"]]), path: mainImage["image"], id: uniqid() });
 

@@ -1,11 +1,7 @@
-const { getComponentSource } = require("../../../../../lib/helpers");
 const { pool } = require('../../../../../lib/mysql/connection');
 const { assign } = require("../../../../../lib/util/assign");
 
 module.exports = async (request, response, stack) => {
-    // Add name column to the grid
-    response.addComponent("orderGrid", "content", getComponentSource("sale/components/admin/order/grid/grid.js"), { "limit": 20 }, 1);
-
     // execute query
     let query = stack["queryInit"];
 

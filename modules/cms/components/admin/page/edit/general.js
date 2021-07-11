@@ -5,7 +5,6 @@ import Text from "../../../../../../lib/components/form/fields/text";
 import Switch from "../../../../../../lib/components/form/fields/switch";
 import { get } from "../../../../../../lib/util/get";
 import Ckeditor from "../../../../../../lib/components/form/fields/ckeditor";
-import { Card } from "../../card";
 
 export default function General(props) {
     const context = useAppState();
@@ -45,6 +44,5 @@ export default function General(props) {
     return <div className="page-edit-general sml-block">
         <div className="sml-block-title">General</div>
         <Area id="page-edit-general" coreComponents={fields} />
-        <Card />
     </div>;
 }

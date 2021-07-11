@@ -1,11 +1,6 @@
-const { getComponentSource } = require("../../../../../lib/helpers");
 const { assign } = require("../../../../../lib/util/assign");
 
 module.exports = (request, response, stack) => {
-    // Add name column to the grid
-    response.addComponent("priceColumn", "productGridHeader", getComponentSource("grid/headers/fromTo.js"), { "title": "Price", "id": "price" }, 10);
-    response.addComponent("priceRow", "productGridRow", getComponentSource("grid/rows/basic.js"), { "id": "price" }, 10);
-
     // Handle filter
     if (request.query["price"] !== undefined) {
         let query = stack["queryInit"];

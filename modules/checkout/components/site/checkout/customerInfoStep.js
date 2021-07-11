@@ -22,7 +22,6 @@ function Edit({ loginUrl, setContactUrl }) {
     const email = get(appContext, 'cart.email', undefined);
 
     const onSuccess = (response) => {
-        console.log("asasas")
         appDispatch(produce(appContext, draff => {
             draff.checkout.steps = appContext.checkout.steps.map(step => {
                 if (step.id === "contact") {

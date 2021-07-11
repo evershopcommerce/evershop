@@ -1,16 +1,7 @@
 var { select } = require('@nodejscart/mysql-query-builder')
 var { pool } = require('../../../../../lib/mysql/connection');
-const { getComponentSource } = require('../../../../../lib/helpers');
 
 module.exports = async function lifetimeSales(request, response) {
-    response.addComponent(
-        "lifetimesales",
-        "right.side",
-        getComponentSource("sale/components/admin/dashboard/lifetimesales.js"),
-        {},
-        10
-    );
-
     let query = select();
     query.from("order")
         .select("grand_total", "total")

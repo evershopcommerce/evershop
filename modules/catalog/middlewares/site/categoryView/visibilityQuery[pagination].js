@@ -23,7 +23,6 @@ module.exports = async (request, response, stack, next) => {
                 .having("sumv", "=", 0);
 
             let invisibleIds = (await copy.execute(pool)).map(v => v.product_id);
-            console.log(invisibleIds);
             if (invisibleIds.length > 0) {
                 let n = node("AND");
                 n.addLeaf("AND", "product.`product_id`", "IN", invisibleIds)

@@ -26,7 +26,6 @@ module.exports = async (request, response, stack, next) => {
             message: request.params.id ? "Product was updated successfully" : "Product was created successfully"
         })
     } catch (error) {
-        console.log(error);
         await rollback(connection);
         response.json({
             success: false,

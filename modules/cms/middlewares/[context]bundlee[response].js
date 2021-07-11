@@ -14,7 +14,7 @@ module.exports = function (request, response) {
         return;
     }
     if (request.isAdmin == true) {
-        response.context.bundle = buildAdminUrl("admin.bundle", [request._route.id]);
+        response.context.bundle = buildAdminUrl("adminBundle", [request._route.id]);
     } else {
         response.context.bundle = buildSiteUrl("siteBundle", [request._route.id]);
     }
@@ -117,8 +117,8 @@ module.exports = function (request, response) {
     // );
     compiler.run((err, stats) => {
         if (err || stats.hasErrors()) {
-            console.log(err);
-            console.log(stats);
+            //console.log(err);
+            //console.log(stats);
         } else {
             //console.log(stats);
         }

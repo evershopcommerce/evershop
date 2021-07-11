@@ -10,9 +10,7 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerAdminRoute("cmsPageEdit", ["GET"], "/page/edit/:id(\\d+)")
 
-    registerAdminRoute("cmsPageSaveNew", ["POST"], "/page/create");
-
-    registerAdminRoute("cmsPageSaveEdit", ["POST"], "/page/update/:id(\\d+)");
+    registerAdminRoute("cmsPageSavePost", ["POST"], "/page/save");
 
     registerAdminRoute("cmsPageGrid", ["GET"], "/pages/")
 

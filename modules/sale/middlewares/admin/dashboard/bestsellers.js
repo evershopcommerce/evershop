@@ -1,12 +1,7 @@
 const { select } = require('@nodejscart/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
-const { getComponentSource } = require('../../../../../lib/helpers');
 
 module.exports = async function bestsellers(request, response) {
-    response.addComponent("bestsellers", "left.side", getComponentSource("sale/components/admin/dashboard/bestsellers.js"), {
-        "listUrl": ""
-    }, 20)
-
     try {
         let query = select();
         query.from("product").leftJoin("product_description").on("product.`product_id`", "=", "product_description.`product_description_product_id`");

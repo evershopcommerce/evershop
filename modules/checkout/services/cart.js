@@ -534,7 +534,6 @@ exports.Cart = class Cart extends DataObject {
             let flag = false;
             for (let i = 0; i < items.length; i++) {
                 if (items[i].getData("product_sku") === item.getData("product_sku") && isEqualWith(items[i].getData("product_custom_options"), item.getData("product_custom_options"))) {
-                    console.log("jejejejejeje")
                     await items[i].setData("qty", item.getData("qty") + items[i].getData("qty"));
                     if (item._error)
                         throw new Error(item._error);

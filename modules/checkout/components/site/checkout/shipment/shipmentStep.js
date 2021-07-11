@@ -38,7 +38,6 @@ const Content = ({ step }) => {
                         countries: ["US", "VN"], // TODO: update countries
                         btnText: "Continue to payment",
                         onSuccess: (response) => {
-                            console.log(response);
                             if (response.success === true) {
                                 dispatch(produce(context, draff => {
                                     draff.cart.shippingAddress = response.data.address;
