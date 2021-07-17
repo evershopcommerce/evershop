@@ -16,10 +16,6 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerAdminRoute("cmsWidgetGrid", ["GET"], "/widgets/");
 
-    registerAdminRoute("adminBundle", ["GET"], "/bundle/*");
-
-    registerSiteRoute("siteBundle", ["GET"], "/bundle/*");
-
     registerAdminRoute("imageUpload", ["POST"], "/image/upload/*");
 
     registerAdminRoute("fileBrowser", ["POST", "GET"], "/file_browser/*");

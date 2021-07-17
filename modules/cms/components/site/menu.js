@@ -1,6 +1,7 @@
 import React from "react"
 import { useAppState } from "../../../../lib/context/app"
 import { get } from "../../../../lib/util/get"
+import { Test } from "./test";
 
 export default function Menu() {
     let items = get(useAppState(), "menuItems", []);
@@ -13,5 +14,6 @@ export default function Menu() {
                 </li>
             })}
         </ul>
+        <Test />
     </div>
 }

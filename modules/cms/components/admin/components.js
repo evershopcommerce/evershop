@@ -67,9 +67,9 @@ exports = module.exports = {
             sortOrder: 5
         },
         {
-            id: "bundle",
+            id: "bundleJS",
             areaId: "after.body",
-            source: getComponentSource("cms/components/bundle.js", true),
+            source: getComponentSource("cms/components/bundleJs.js", true),
             props: {},
             sortOrder: 10
         },
@@ -95,14 +95,11 @@ exports = module.exports = {
             sortOrder: 2
         },
         {
-            id: "style",
-            areaId: 'head',
-            source: getComponentSource("link.js", true),
-            props: {
-                "href": buildAdminUrl("adminStaticAsset", [getAdminCssFile('style.css').replace("/", "")]),
-                "rel": "stylesheet"
-            },
-            sortOrder: 3
+            id: "bundleCss",
+            areaId: "after.body",
+            source: getComponentSource("cms/components/bundleCss.js", true),
+            props: {},
+            sortOrder: 10
         }
     ],
     "cmsPageEdit": [

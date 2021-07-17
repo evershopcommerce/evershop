@@ -109,13 +109,13 @@ middlewares.forEach(m => {
         app.use(m.middleware);
     else if (m.routeId === "admin") {
         adminRoutes.forEach(route => {
-            if ((route.id !== "adminStaticAsset" && route.id !== "adminBundle") || m.id === "isAdmin") {
+            if ((route.id !== "adminStaticAsset") || m.id === "isAdmin") {
                 app.all(route.path, m.middleware);
             }
         })
     } else if (m.routeId === "site") {
         siteRoutes.forEach(route => {
-            if (route.id !== "staticAsset" && route.id !== "siteBundle") {
+            if (route.id !== "staticAsset") {
                 app.all(route.path, m.middleware);
             }
         })

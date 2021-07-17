@@ -1,0 +1,26 @@
+@custom-selector :--heading h1, h2, h3, h4, h5, h6;
+@custom-media --viewport-medium (width <= 50rem);
+
+.abc {
+  text-align: center;
+}
+:--heading {
+  font-size: 16px;
+  @media (--viewport-medium) {
+    margin-block: 0;
+  }
+}
+
+.a,
+.b {
+  color: red;
+
+  & .c,
+  & .d {
+    color: white;
+  }
+}
+.e,
+.f {
+  color: green;
+}
