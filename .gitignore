@@ -7,4 +7,4 @@ packages
 npm-debug.log
 package-lock.json
 prod.js
-public/build/
+media

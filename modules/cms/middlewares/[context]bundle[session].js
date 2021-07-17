@@ -37,12 +37,12 @@ module.exports = async function (request, response) {
     content += "if (typeof window !== 'undefined')";
     content += "\r\n";
     content += " window.appContext.components = components;";
-    await mkdir(path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/", _p), { recursive: true });
-    await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/", _p, "components.js"), content);
-    let name = route.isAdmin === true ? `admin/${route.id}/bundle` : `site/${route.id}/bundle`;
+    await mkdir(path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p), { recursive: true });
+    await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, "components.js"), content);
+    let name = route.isAdmin === true ? `admin/${route.id}` : `site/${route.id}`;
     let entry = {};
     entry[name] = [
-        path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/", _p, "components.js"),
+        path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p, "components.js"),
         path.resolve(CONSTANTS.LIBPATH, "components", "hydrate.js"),
     ]
     const compiler = webpack({
@@ -79,14 +79,14 @@ module.exports = async function (request, response) {
 
         entry: entry,
         output: {
-            path: path.resolve(CONSTANTS.ROOTPATH, "./public/build"),
-            filename: "[name].[fullhash].js",
+            path: path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p),
+            filename: "[fullhash].js",
         }
     });
 
     let postCssImportPromises = [];
     compiler.hooks.afterCompile.tap(
-        'SourceMapDevToolModuleOptionsPlugin',
+        'PostCssBundling',
         (compilation) => {
             let list = compilation._modules;
             list.forEach(element => {
@@ -125,17 +125,17 @@ module.exports = async function (request, response) {
         results.forEach(result => {
             css += result.css + "\r\n";
         });
-        await writeFile(path.resolve(CONSTANTS.ROOTPATH, "public/build", _p, `${hash}.css`), css);
+        await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, `${hash}.css`), css);
     };
 
 
     await webpackPromise;
     await postCssProcess();
     if (request.isAdmin === true) {
-        response.context.bundleJs = buildAdminUrl("adminStaticAsset", [`/build/${_p}/bundle.${hash}.js`]);
-        response.context.bundleCss = buildAdminUrl("adminStaticAsset", [`/build/${_p}/${hash}.css`]);
+        response.context.bundleJs = buildAdminUrl("adminStaticAsset", [`${_p}/${hash}.js`]);
+        response.context.bundleCss = buildAdminUrl("adminStaticAsset", [`${_p}/${hash}.css`]);
     } else {
-        response.context.bundleJs = buildSiteUrl("staticAsset", [`/build/${_p}/bundle.${hash}.js`]);
-        response.context.bundleCss = buildSiteUrl("staticAsset", [`/build/${_p}/${hash}.css`]);
+        response.context.bundleJs = buildSiteUrl("staticAsset", [`${_p}/${hash}.js`]);
+        response.context.bundleCss = buildSiteUrl("staticAsset", [`${_p}/${hash}.css`]);
     }
 };

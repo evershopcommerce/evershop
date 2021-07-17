@@ -172,11 +172,11 @@ if (command === "build") {
         content += "if (typeof window !== 'undefined')";
         content += "\r\n";
         content += " window.appContext.components = components;";
-        mkdirSync(path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/", _p), { recursive: true });
-        writeFileSync(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/", _p, "components.js"), content);
+        mkdirSync(path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p), { recursive: true });
+        writeFileSync(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, "components.js"), content);
         let name = route.isAdmin === true ? `admin/${route.id}/bundle` : `site/${route.id}/bundle`;
         entry[name] = [
-            path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/", _p, "components.js"),
+            path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p, "components.js"),
             path.resolve(CONSTANTS.LIBPATH, "components", "hydrate.js")
         ]
     });
@@ -214,7 +214,7 @@ if (command === "build") {
         entry: entry,
         output: {
             path: path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/"),
-            filename: "[name].js",
+            filename: "[name]/[fullhash].js",
         }
     }));
 
