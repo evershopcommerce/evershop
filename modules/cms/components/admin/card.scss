@@ -1,0 +1,36 @@
+@import "../../../../lib/components/form/color.scss";
+.card {
+    background-color: white;
+    border-radius: 6px;
+}
+.card-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+.card-header {
+    padding: 1.25rem;
+}
+.card-section {
+    border-color: $dividerColor;
+    padding: 1.25rem;
+    &:first-childp {
+        padding-top: 0;
+    }
+}
+.card .card-section:last-child {
+    border-bottom: none;
+}
+.card .card-section:first-child {
+    padding-top: 0;
+}
+.card-header + .card-section {
+    padding-top: 0;
+}
+.card-session-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.card-session-title + .card-session-content {
+    padding-top: 0.85rem;
+}

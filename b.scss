@@ -1,0 +1,8 @@
+@import "./c.scss";
+$color: white;
+b {
+    color: #000;
+    &:hover {
+        color: $color;
+    }
+}

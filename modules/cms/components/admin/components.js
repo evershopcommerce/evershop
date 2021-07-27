@@ -85,18 +85,8 @@ exports = module.exports = {
             sortOrder: 1
         },
         {
-            id: "bootstrap",
-            areaId: 'head',
-            source: getComponentSource("link.js", true),
-            props: {
-                "href": buildAdminUrl("adminStaticAsset", [getAdminCssFile('bootstrap.css').replace("/", "")]),
-                "rel": "stylesheet"
-            },
-            sortOrder: 2
-        },
-        {
             id: "bundleCss",
-            areaId: "after.body",
+            areaId: "head",
             source: getComponentSource("cms/components/bundleCss.js", true),
             props: {},
             sortOrder: 10

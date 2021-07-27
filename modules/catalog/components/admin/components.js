@@ -286,24 +286,24 @@ exports = module.exports = {
             },
             sortOrder: 10
         },
-        {
-            id: "ckeditor",
-            areaId: 'head',
-            source: getComponentSource("script.js", true),
-            props: {
-                src: buildAdminUrl("adminStaticAsset", [getAdminJsFile('ckeditor4/ckeditor.js').replace("/", "")]),
-            },
-            sortOrder: 1
-        },
-        {
-            id: "dragable",
-            areaId: 'head',
-            source: getComponentSource("script.js", true),
-            props: {
-                src: 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.12/lib/swappable.js',
-            },
-            sortOrder: 1
-        },
+        // {
+        //     id: "ckeditor",
+        //     areaId: 'head',
+        //     source: getComponentSource("script.js", true),
+        //     props: {
+        //         src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
+        //     },
+        //     sortOrder: 1
+        // },
+        // {
+        //     id: "dragable",
+        //     areaId: 'head',
+        //     source: getComponentSource("script.js", true),
+        //     props: {
+        //         src: 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.12/lib/swappable.js',
+        //     },
+        //     sortOrder: 1
+        // },
         {
             id: "productEditGeneral",
             areaId: "left.side",
@@ -316,48 +316,48 @@ exports = module.exports = {
             },
             sortOrder: 10
         },
-        {
-            id: "productEditSEO",
-            areaId: "left.side",
-            source: getComponentSource("catalog/components/admin/product/edit/seo.js"),
-            props: {},
-            sortOrder: 20
-        },
-        {
-            id: "productEditAttribute",
-            areaId: "right.side",
-            source: getComponentSource("catalog/components/admin/product/edit/attributes.js"),
-            props: {},
-            sortOrder: 10
-        },
-        {
-            id: "productEditInventory",
-            areaId: "right.side",
-            source: getComponentSource("catalog/components/admin/product/edit/inventory.js"),
-            props: {},
-            sortOrder: 20
-        },
-        {
-            id: "productEditOptions",
-            areaId: "left.side",
-            source: getComponentSource("catalog/components/admin/product/edit/options.js"),
-            props: {},
-            sortOrder: 20
-        },
-        {
-            id: "productEditImages",
-            areaId: "left.side",
-            source: getComponentSource("catalog/components/admin/product/edit/images.js"),
-            props: {},
-            sortOrder: 30
-        },
-        {
-            id: "productEditVariants",
-            areaId: "left.side",
-            source: getComponentSource("catalog/components/admin/product/edit/variants.js"),
-            props: {},
-            sortOrder: 40
-        }
+        // {
+        //     id: "productEditSEO",
+        //     areaId: "left.side",
+        //     source: getComponentSource("catalog/components/admin/product/edit/seo.js"),
+        //     props: {},
+        //     sortOrder: 20
+        // },
+        // {
+        //     id: "productEditAttribute",
+        //     areaId: "right.side",
+        //     source: getComponentSource("catalog/components/admin/product/edit/attributes.js"),
+        //     props: {},
+        //     sortOrder: 10
+        // },
+        // {
+        //     id: "productEditInventory",
+        //     areaId: "right.side",
+        //     source: getComponentSource("catalog/components/admin/product/edit/inventory.js"),
+        //     props: {},
+        //     sortOrder: 20
+        // },
+        // {
+        //     id: "productEditOptions",
+        //     areaId: "left.side",
+        //     source: getComponentSource("catalog/components/admin/product/edit/options.js"),
+        //     props: {},
+        //     sortOrder: 20
+        // },
+        // {
+        //     id: "productEditImages",
+        //     areaId: "left.side",
+        //     source: getComponentSource("catalog/components/admin/product/edit/images.js"),
+        //     props: {},
+        //     sortOrder: 30
+        // },
+        // {
+        //     id: "productEditVariants",
+        //     areaId: "left.side",
+        //     source: getComponentSource("catalog/components/admin/product/edit/variants.js"),
+        //     props: {},
+        //     sortOrder: 40
+        // }
     ],
     "productGrid": [
         {

@@ -1,0 +1,167 @@
+@import "./color.scss";
+$fieldBorderColor: #c9cccf;
+$fieldBorderSharow: #aeb4b9;
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+select,
+textarea {
+    background: none;
+    padding: 0.35rem 0.85rem;
+    display: block;
+    flex: 1 1;
+    &:focus {
+        outline: none;
+        & + .field-border:after {
+            box-shadow: 0 0 0 2px #458fff;
+        }
+    }
+    display: block;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    border: 1px solid transparent;
+    margin: 1px;
+    border-radius: 4px;
+}
+select {
+    -webkit-appearance: none;
+    appearance: none;
+    & ~ .field-suffix {
+        margin-left: -1.85rem;
+    }
+}
+input[type="radio"] {
+    width: 0;
+    height: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    & + .radio-checked,
+    + .radio-unchecked {
+        border: 2px solid $fieldBorderColor;
+        border-radius: 100%;
+        width: 1.15rem;
+        height: 1.15rem;
+        display: inline-flex;
+        box-sizing: border-box;
+        justify-content: center;
+        transition: border-color 1s;
+    }
+    &:checked {
+        & + .radio-checked {
+            border-color: $interactive;
+            span {
+                align-self: center;
+                background-color: $interactive;
+                display: inline-block;
+                border-radius: 100%;
+                width: 0.65rem;
+                height: 0.65rem;
+            }
+        }
+    }
+}
+input[type="checkbox"] {
+    width: 0;
+    height: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    & + .checkbox-checked,
+    + .checkbox-unchecked {
+        border: 2px solid $fieldBorderColor;
+        border-radius: 4px;
+        width: 1.1rem;
+        height: 1.1rem;
+        display: inline-flex;
+        box-sizing: border-box;
+        justify-content: center;
+        -webkit-transition: background-color 1000ms ease-in;
+        -ms-transition: background-color 1000ms ease-in;
+        transition: background-color 1000ms ease-in;
+    }
+    &:checked {
+        & + .checkbox-checked {
+            border: 0;
+            background-color: $interactive;
+            svg {
+                fill: white;
+                color: white;
+            }
+        }
+    }
+}
+.radio-field {
+    > div {
+        padding: 0.15rem 0;
+    }
+}
+.field-wrapper {
+    background-color: white;
+    position: relative;
+    label {
+        cursor: pointer;
+    }
+    &.radio-field {
+        background-color: transparent;
+    }
+    .field-border {
+        border: 1px solid $fieldBorderColor;
+        border-top-color: $fieldBorderSharow;
+        border-radius: 4px;
+        position: absolute;
+        z-index: 9;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        &:after {
+            transition: box-shadow 0.1s;
+            position: absolute;
+            z-index: 9;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            content: "";
+            border-radius: 4px;
+        }
+    }
+}
+.field-instruction {
+    color: $textSubdued;
+}
+.form-field-container {
+    margin-top: 1rem;
+    &:first-child {
+        margin-top: 0;
+    }
+    label {
+        margin-bottom: 0.2rem;
+        display: inline-flex;
+        align-items: flex-end;
+    }
+}
+
+.field-error {
+    svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        fill: $critical;
+        color: $critical;
+    }
+}
+.form-field-container.has-error {
+    .field-border {
+        border-color: $critical;
+        background-color: $criticalSubdued;
+    }
+}
+.field-prefix,
+.field-suffix {
+    position: relative;
+    z-index: 10;
+    padding: 0.45rem;
+    align-self: center;
+    display: inline-flex;
+}
