@@ -1,6 +1,6 @@
 const inspect = require("util").inspect;
 const { writeFile, mkdir, rmdir } = require("fs/promises");
-const { existsSync, readFileSync, writeFileSync } = require('fs');
+const { existsSync, readFileSync, writeFileSync, statSync, renameSync } = require('fs');
 const webpack = require("webpack");
 const path = require("path");
 const { CONSTANTS } = require("../../../lib/helpers");
@@ -86,6 +86,7 @@ module.exports = async function (request, response) {
     });
 
     let cssFiles = "";
+    let mTime = new Date('1988-10-08T03:24:00');;
     compiler.hooks.afterCompile.tap(
         'PostCssBundling',
         (compilation) => {
@@ -96,6 +97,9 @@ module.exports = async function (request, response) {
                     _path = _path.split(path.sep).join(path.posix.sep)
                     if (existsSync(_path)) {
                         cssFiles = cssFiles += `@import '${_path}';`;
+                        const stats = statSync(_path);
+                        if (stats.mtime > mTime)
+                            mTime = stats.mtime;
                         // let cssss = readFileSync(path, "utf8");
                         // let css = sass.renderSync({ file: path });
                         // postCssImportPromises.push(
@@ -138,20 +142,25 @@ module.exports = async function (request, response) {
 
 
     await webpackPromise;
-
     /** Start bundling css */
-    let cssOutput = new CleanCss({
-        level: {
-            2: {
-                removeDuplicateRules: true // turns on removing duplicate rules
+    /** Check if Css file was modified from the last build */
+    if (request.session.cssLastMofified === undefined || mTime > new Date(request.session.cssLastMofified)) {
+        console.log(mTime);
+        let cssOutput = new CleanCss({
+            level: {
+                2: {
+                    removeDuplicateRules: true // turns on removing duplicate rules
+                }
             }
-        }
-    }).minify(sass.renderSync({
-        data: cssFiles,
-    }).css);
+        }).minify(sass.renderSync({
+            data: cssFiles,
+        }).css);
 
-    await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, `${hash}.css`), cssOutput.styles);
+        await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, `${hash}.css`), cssOutput.styles);
+        request.session.cssLastMofified = mTime;
+    } else {
 
+    }
     if (request.isAdmin === true) {
         response.context.bundleJs = buildAdminUrl("adminStaticAsset", [`${_p}/${hash}.js`]);
         response.context.bundleCss = buildAdminUrl("adminStaticAsset", [`${_p}/${hash}.css`]);
