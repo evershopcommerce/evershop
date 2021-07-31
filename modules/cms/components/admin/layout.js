@@ -2,7 +2,7 @@ import React from "react";
 import Area from "../../../../lib/components/area";
 
 export default function AdminLayout() {
-  return <div className="container">
+  return <div className="container text-base">
     <div className="header">
       <Area id="header" noOuter={true} />
     </div>

@@ -10,7 +10,7 @@
     "nodejscart": "./bin/nodejscart"
   },
   "scripts": {
-    "dev": "nodemon --ignore public/ --exec babel-node ./bin/nodejscart dev",
+    "dev": "nodemon --ignore 'modules/cms/components/admin/tailwind.css' --exec \"npx tailwindcss  -o ./modules/cms/components/admin/tailwind.scss && babel-node ./bin/nodejscart dev\"",
     "build": "nodejscart build",
     "start": "nodejscart start",
     "eslint": "eslint index.js"

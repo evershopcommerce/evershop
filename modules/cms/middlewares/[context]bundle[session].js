@@ -144,23 +144,36 @@ module.exports = async function (request, response) {
     await webpackPromise;
     /** Start bundling css */
     /** Check if Css file was modified from the last build */
-    if (request.session.cssLastMofified === undefined || mTime > new Date(request.session.cssLastMofified)) {
-        console.log(mTime);
-        let cssOutput = new CleanCss({
-            level: {
-                2: {
-                    removeDuplicateRules: true // turns on removing duplicate rules
-                }
+    // if (request.session.cssLastMofified === undefined || mTime > new Date(request.session.cssLastMofified)) {
+    //     console.log(mTime);
+    //     let cssOutput = new CleanCss({
+    //         level: {
+    //             2: {
+    //                 removeDuplicateRules: true // turns on removing duplicate rules
+    //             }
+    //         }
+    //     }).minify(sass.renderSync({
+    //         data: cssFiles,
+    //     }).css);
+
+    //     await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, `${hash}.css`), cssOutput.styles);
+    //     request.session.cssLastMofified = mTime;
+    // } else {
+
+    // }
+
+    let cssOutput = new CleanCss({
+        level: {
+            2: {
+                removeDuplicateRules: true // turns on removing duplicate rules
             }
-        }).minify(sass.renderSync({
-            data: cssFiles,
-        }).css);
+        }
+    }).minify(sass.renderSync({
+        data: cssFiles,
+    }).css);
 
-        await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, `${hash}.css`), cssOutput.styles);
-        request.session.cssLastMofified = mTime;
-    } else {
+    await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, `${hash}.css`), cssOutput.styles);
 
-    }
     if (request.isAdmin === true) {
         response.context.bundleJs = buildAdminUrl("adminStaticAsset", [`${_p}/${hash}.js`]);
         response.context.bundleCss = buildAdminUrl("adminStaticAsset", [`${_p}/${hash}.css`]);
