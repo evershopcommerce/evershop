@@ -1,4 +1,4 @@
-/*! tailwindcss v2.2.4 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v2.2.7 | MIT License | https://tailwindcss.com */
 
 /*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
@@ -215,7 +215,10 @@ select {
 Correct the inability to style clickable types in iOS and Safari.
 */
 
-button {
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
   -webkit-appearance: button;
 }
 
@@ -256,6 +259,13 @@ Correct the cursor style of increment and decrement buttons in Safari.
 1. Correct the odd appearance in Chrome and Safari.
 2. Correct the outline style in Safari.
 */
+
+[type='search'] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */
+}
 
 /**
 Remove the inner padding in Chrome and Safari on macOS.
@@ -431,7 +441,8 @@ textarea::placeholder {
   color: #a1a1aa;
 }
 
-button {
+button,
+[role="button"] {
   cursor: pointer;
 }
 
@@ -535,12 +546,182 @@ video {
   height: auto;
 }
 
+/**
+ * Ensure the default browser behavior of the `hidden` attribute.
+ */
+
+[hidden] {
+  display: none;
+}
+
 *, ::before, ::after {
   border-color: currentColor;
 }
 
+.container {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+.visible {
+  visibility: visible;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.static {
+  position: static;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.sticky {
+  position: sticky;
+}
+
+.col-span-1 {
+  grid-column: span 1 / span 1;
+}
+
+.col-span-2 {
+  grid-column: span 2 / span 2;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mt-3 {
+  margin-top: 3rem;
+}
+
+.mr-3 {
+  margin-right: 3rem;
+}
+
+.mr-125 {
+  margin-right: 1.25rem;
+}
+
+.mb-0 {
+  margin-bottom: 0px;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 2rem;
+}
+
+.mb-15 {
+  margin-bottom: 1.5rem;
+}
+
+.ml-1 {
+  margin-left: 1rem;
+}
+
+.ml-125 {
+  margin-left: 1.25rem;
+}
+
+.ml-025 {
+  margin-left: .25rem;
+}
+
+.ml-05 {
+  margin-left: .5rem;
+}
+
+.box-border {
+  box-sizing: border-box;
+}
+
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline;
+}
+
+.flex {
+  display: flex;
+}
+
 .table {
   display: table;
+}
+
+.grid {
+  display: grid;
+}
+
+.contents {
+  display: contents;
+}
+
+.hidden {
+  display: none;
+}
+
+.w-1 {
+  width: 1rem;
+}
+
+.w-15 {
+  width: 1.5rem;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.table-auto {
+  table-layout: auto;
+}
+
+.border-collapse {
+  border-collapse: collapse;
 }
 
 @-webkit-keyframes spin {
@@ -609,8 +790,183 @@ video {
   }
 }
 
+.resize {
+  resize: both;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-baseline {
+  align-items: baseline;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-items-start {
+  justify-items: start;
+}
+
+.gap-x-1 {
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+}
+
+.gap-x-3 {
+  -moz-column-gap: 3rem;
+       column-gap: 3rem;
+}
+
+.gap-x-15 {
+  -moz-column-gap: 1.5rem;
+       column-gap: 1.5rem;
+}
+
+.gap-x-25 {
+  -moz-column-gap: 2.5rem;
+       column-gap: 2.5rem;
+}
+
+.self-center {
+  align-self: center;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.border {
+  border-width: 1px;
+}
+
+.border-b {
+  border-bottom-width: 1px;
+}
+
+.last\:border-b-0:last-child {
+  border-bottom-width: 0px;
+}
+
+.border-solid {
+  border-style: solid;
+}
+
+.border-border {
+  border-color: #8c9196;
+}
+
+.border-divider {
+  border-color: #e1e3e5;
+}
+
+.bg-background {
+  background-color: #f6f6f7fc;
+}
+
+.fill-current {
+  fill: currentColor;
+}
+
+.pr-2 {
+  padding-right: 2rem;
+}
+
+.pb-15 {
+  padding-bottom: 1.5rem;
+}
+
+.pl-1 {
+  padding-left: 1rem;
+}
+
+.pl-2 {
+  padding-left: 2rem;
+}
+
+.pl-3 {
+  padding-left: 3rem;
+}
+
+.pl-025 {
+  padding-left: .25rem;
+}
+
+.last\:pb-0:last-child {
+  padding-bottom: 0px;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+.text-base {
+  font-size: .875rem;
+}
+
+.text-primary {
+  color: #008060;
+}
+
+.text-interactive {
+  color: #2c6ecb;
+}
+
+.text-critical {
+  color: #d72c0d;
+}
+
+.text-success {
+  color: #008060;
+}
+
+.text-icon {
+  color: #5c5f62;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
 *, ::before, ::after {
   --tw-shadow: 0 0 #0000;
+}
+
+.shadow {
+  --tw-shadow: 0 0 0 1px rgba(63,63,68,.05),0 1px 3px 0 rgba(63,63,68,.15);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 *, ::before, ::after {
@@ -633,6 +989,14 @@ video {
   --tw-sepia: var(--tw-empty,/*!*/ /*!*/);
   --tw-drop-shadow: var(--tw-empty,/*!*/ /*!*/);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.transition {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 @media (min-width: 640px) {

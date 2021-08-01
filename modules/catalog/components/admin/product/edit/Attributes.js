@@ -1,12 +1,8 @@
 import React from "react";
-import Text from "../../../../../../lib/components/form/fields/text";
-import Select from "../../../../../../lib/components/form/fields/select";
-import Date from "../../../../../../lib/components/form/fields/date";
-import Datetime from "../../../../../../lib/components/form/fields/datetime";
-import Textarea from "../../../../../../lib/components/form/fields/textarea";
-import Multiselect from "../../../../../../lib/components/form/fields/multiselect";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
+import { Field } from "../../../../../../lib/components/form/Field";
+import { Card } from "../../../../../cms/components/admin/card";
 
 export default function Attributes() {
     const context = useAppState();
@@ -37,18 +33,20 @@ export default function Attributes() {
         return getGroup(selectedGroup === undefined ? attributeGroups[0]["attribute_group_id"] : selectedGroup);
     });
 
-    return (
-        <div className="product-edit-attribute sml-block">
-            <div className="sml-block-title">Attribute</div>
+    return <Card
+        title="Attributes"
+    >
+        <Card.Session>
             <div>
-                <Select
+                <Field
                     name="group_id"
                     label={"Attribute groups"}
                     value={group["attribute_group_id"]}
-                    handler={(e) => setGroup(getGroup(e.target.value))}
+                    onChange={(e) => setGroup(getGroup(e.target.value))}
                     options={(() => {
                         return attributeGroups.map((g, i) => { return { value: parseInt(g.attribute_group_id), text: g.group_name } })
                     })()}
+                    type='select'
                 />
             </div>
             <table className="table table-bordered">
@@ -57,42 +55,46 @@ export default function Attributes() {
                         let field = null;
                         switch (attribute.type) {
                             case 'text':
-                                field = <Text
+                                field = <Field
                                     name={'attributes[' + attribute.attribute_code + ']'}
                                     value={attribute.value_text}
                                     validationRules={parseInt(attribute.is_required) === 1 ? ['notEmpty'] : []}
+                                    type='text'
                                 />;
                                 break;
                             case 'date':
-                                field = <Date
+                                field = <Field
                                     name={'attributes[' + attribute.attribute_code + ']'}
                                     value={attribute.value_text}
                                     validationRules={parseInt(attribute.is_required) === 1 ? ['notEmpty'] : []}
+                                    type='date'
                                 />;
                                 break;
                             case 'datetime':
-                                field = <Datetime
+                                field = <Field
                                     name={'attributes[' + attribute.attribute_code + ']'}
                                     value={attribute.value_text}
                                     validationRules={parseInt(attribute.is_required) === 1 ? ['notEmpty'] : []}
+                                    type='datetime'
                                 />;
                                 break;
                             case 'textarea':
-                                field = <Textarea
+                                field = <Field
                                     name={'attributes[' + attribute.attribute_code + ']'}
                                     value={attribute.value_text}
                                     validationRules={parseInt(attribute.is_required) === 1 ? ['notEmpty'] : []}
+                                    type='textarea'
                                 />;
                                 break;
                             case 'select':
-                                field = <Select
+                                field = <Field
                                     name={'attributes[' + attribute.attribute_code + ']'}
                                     value={attribute.selected_option}
                                     options={(() => {
                                         return attribute.options.map((o, i) => { return { value: o.attribute_option_id, text: o.option_text } })
                                     })()}
                                     validationRules={parseInt(attribute.is_required) === 1 ? ['notEmpty'] : []}
-                                    handler={(e) => {
+                                    onChange={(e) => {
                                         e.persist();
                                         setGroup(prev => {
                                             return {
@@ -107,23 +109,26 @@ export default function Attributes() {
                                             }
                                         });
                                     }}
+                                    type='select'
                                 />;
                                 break;
                             case 'multiselect':
-                                field = <Multiselect
+                                field = <Field
                                     name={'attributes[' + attribute.attribute_code + ']'}
                                     value={attribute.selected_option}
                                     options={(() => {
                                         return attribute.options.map((o, i) => { return { value: o.attribute_option_id, text: o.option_text } })
                                     })()}
                                     validationRules={parseInt(attribute.is_required) === 1 ? ['notEmpty'] : []}
+                                    type='multiselect'
                                 />;
                                 break;
                             default:
-                                field = <Text
+                                field = <Field
                                     name={'attributes[' + attribute.attribute_code + ']'}
                                     value={attribute.value_text}
                                     validationRules={parseInt(attribute.is_required) === 1 ? ['notEmpty'] : []}
+                                    type='text'
                                 />;
                         }
                         return <tr key={attribute.attribute_code}>
@@ -137,6 +142,6 @@ export default function Attributes() {
                     })}
                 </tbody>
             </table>
-        </div>
-    );
+        </Card.Session>
+    </Card>;
 }

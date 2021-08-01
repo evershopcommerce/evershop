@@ -18,6 +18,7 @@ module.exports = async (request, response, stack, next) => {
         response.redirect(302, buildAdminUrl("productGrid"));
     } else {
         assign(response.context, { product: JSON.parse(JSON.stringify(product)) });
+        assign(response.context, { page: { heading: product.name } });
         next();
     }
 }

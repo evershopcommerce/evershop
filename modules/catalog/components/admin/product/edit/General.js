@@ -3,7 +3,7 @@ import Area from "../../../../../../lib/components/area";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 //import Ckeditor from "../../../../../../lib/components/form/fields/ckeditor";
-import Field from "../../../../../../lib/components/form/field";
+import { Field } from "../../../../../../lib/components/form/Field";
 import { Card } from "../../../../../cms/components/admin/card";
 
 export default function General(props) {

@@ -1,15 +1,17 @@
 import React from "react";
 import { get } from "../../../../../../lib/util/get";
 import { useAppState } from "../../../../../../lib/context/app";
-import ProductMediaManager from "./media";
+import ProductMediaManager from "./ProductMediaManager";
+import { Card } from "../../../../../cms/components/admin/card";
 
-export default function ProductImageManager() {
+export default function Media() {
     const context = useAppState();
 
-    return <div className="product-edit-image sml-block mt-4">
-        <div className="sml-block-title">Images</div>
-        <div className={"product-image-manager"}>
+    return <Card
+        title="Media"
+    >
+        <Card.Session>
             <ProductMediaManager id={"productMainImages"} productImages={get(context, "product.images", [])} />
-        </div>
-    </div>;
+        </Card.Session>
+    </Card>;
 }

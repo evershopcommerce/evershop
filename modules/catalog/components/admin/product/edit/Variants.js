@@ -1,14 +1,12 @@
 import React from "react";
-import Text from '../../../../../../lib/components/form/fields/text';
-import MultiSelect from '../../../../../../lib/components/form/fields/multiselect';
-import Select from '../../../../../../lib/components/form/fields/select';
-import Switch from '../../../../../../lib/components/form/fields/switch';
 import { get } from "../../../../../../lib/util/get";
 import { FORM_VALIDATED } from '../../../../../../lib/util/events';
 import PubSub from "pubsub-js";
 import { useAppState } from "../../../../../../lib/context/app";
 import uniqid from "uniqid";
-import ProductMediaManager from "./media";
+import ProductMediaManager from "./ProductMediaManager";
+import { Field } from "../../../../../../lib/components/form/Field";
+import { Card } from "../../../../../cms/components/admin/card";
 
 function isDuplicated(attrs1, attrs2) {
   let flag = true;
@@ -42,26 +40,27 @@ function Variant({ attributes, variant, removeVariant, updateVariant }) {
       }
     );
   };
-  return <div className="variant-item">
+
+  return <div className="variant-item pb-15 border-b border-solid border-divider mb-15 last:border-b-0 last:pb-0">
     <input type="hidden" value={variant.variant_product_id} name={`variant_group[variants][${variant.id}][productId]`} />
-    <div className="row">
-      <div className="col-6">
+    <div className="grid grid-cols-2">
+      <div className="col-span-1">
         <ProductMediaManager id={variant.id} productImages={variant.images || []} />
       </div>
-      <div className="col-6">
-        <div className="row">
+      <div className="col-span-1">
+        <div className="grid grid-cols-2 gap-x-1">
           {attributes.map((a, i) => {
-            return <div key={a.attribute_id} className="mt-3 col">
+            return <div key={a.attribute_id} className="mt-1 col">
               <div><label>{a.attribute_name}</label></div>
               <input type="hidden" value={a.attribute_id} name={`variant_group[variants][${variant.id}][attributes][${i}][attribute]`} />
-              <Select
+              <Field
                 name={`variant_group[variants][${variant.id}][attributes][${i}][value]`}
                 validationRules={['notEmpty']}
                 value={get(get(variant, "attributes", []).find((e) => parseInt(e.attribute_id) === parseInt(a.attribute_id)), "option_id", "")}
                 options={(() => {
                   return a.options.map((o, i) => { return { value: parseInt(o.attribute_option_id), text: o.option_text } })
                 })()}
-                handler={(e) => {
+                onChange={(e) => {
                   updateVariant(
                     variant.id,
                     {
@@ -76,64 +75,67 @@ function Variant({ attributes, variant, removeVariant, updateVariant }) {
                     }
                   );
                 }}
+                type='select'
               />
             </div>
           })}
         </div>
-        <div className="row">
-          <div className="col">
+        <div className="grid grid-cols-3 gap-x-1">
+          <div>
             <div>SKU</div>
-            <Text
+            <Field
               name={`variant_group[variants][${variant.id}][sku]`}
               formId="product-edit-form"
               validationRules={['notEmpty']}
               value={variant.sku}
+              type='text'
             />
           </div>
-          <div className="col">
+          <div>
             <div>Price</div>
-            <Text
+            <Field
               name={`variant_group[variants][${variant.id}][price]`}
               formId="product-edit-form"
               validationRules={['notEmpty']}
               value={variant.price}
+              type='text'
             />
           </div>
-          <div className="col">
+          <div>
             <div>Qty</div>
-            <Text
+            <Field
               name={`variant_group[variants][${variant.id}][qty]`}
               formId="product-edit-form"
               validationRules={['notEmpty']}
               value={variant.qty}
-              handler={(e) => {
-
-              }}
+              type='text'
             />
           </div>
         </div>
 
-        <div className="row">
-          <div className="col">
+        <div className="grid grid-cols-3 gap-x-1">
+          <div>
             <div>Status</div>
-            <Switch
+            <Field
               name={`variant_group[variants][${variant.id}][status]`}
               formId="product-edit-form"
               value={variant.status}
+              type='toggle'
             />
           </div>
-          <div className="col">
+          <div>
             <div>Visibility</div>
-            <Switch
+            <Field
               name={`variant_group[variants][${variant.id}][visibility]`}
               formId="product-edit-form"
               value={variant.visibility}
+              type='toggle'
             />
           </div>
 
-          <div className="col">
+          <div>
             <div>Actions</div>
-            <div><a href="#" className="text-danger" onClick={(e) => { e.preventDefault(); onUnlink(e) }}>Unlink</a></div>
+            <div><a href="#" className="text-critical" onClick={(e) => { e.preventDefault(); onUnlink(e) }}>Unlink</a></div>
             <div>{variant.editUrl && <a href={variant.editUrl} target="_blank">Edit</a>}</div>
           </div>
         </div>
@@ -187,13 +189,13 @@ function Search({ addVariant, variants }) {
   };
 
   return <div className="sml-flex-space-between mt-4">
-    <div><a href="#" onClick={(e) => addVariant(e)}><i className="fas fa-plus"></i><span className="pl-1">Add a new variant</span></a></div>
+    <div><a href="#" onClick={(e) => addVariant(e)}><span className="text-interactive">Add a new variant</span></a></div>
     <div>
       <div className="autocomplete-search">
         <input ref={searchInput} type="text" className="form-control search-input" placeholder="Search for variant" onChange={(e) => search(e)} />
         <a className="search-clear" href={"#"} onClick={(e) => { e.preventDefault(); setPotentialVariants([]); searchInput.current.value = null; }}><i className="fas fa-times"></i></a>
         {potentialVariants.length > 0 && <div className="search-result">
-          <table className="table table-bordered">
+          <table className="table-auto">
             {potentialVariants.map((v) => {
               return <tr>
                 <td>{v.image.url && <img src={v.image.url} />}</td>
@@ -213,7 +215,9 @@ function Search({ addVariant, variants }) {
                     visibility: 0,
                     editUrl: v.editUrl
                   })
-                }}><i className="fas fa-plus"></i></a></td>
+                }}><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg></a></td>
               </tr>
             })}
           </table>
@@ -336,7 +340,7 @@ function CreateVariantGroup() {
     />}
     {creating === false && <div>
       {variantableAttributes.length > 0 && <div>
-        <MultiSelect
+        <Field
           name={'variant_group_attributes[]'}
           label={'Variant attributes'}
           formId="product-edit-form"
@@ -345,13 +349,14 @@ function CreateVariantGroup() {
             return variantableAttributes.map((a, i) => { return { value: a.attribute_id, text: a.attribute_name } })
           })()}
           validationRules={['notEmpty']}
-          handler={(e) => {
+          onChange={(e) => {
             let val = [...e.target.options].filter(o => o.selected).map(o => parseInt(o.value));
             setAttributes(val);
           }}
+          type='multiselect'
         />
-        <div className="sml-flex">
-          <button className="btn btn-primary" onClick={(e) => onCreate(e)}>Create</button>
+        <div className="">
+          <button className="" onClick={(e) => onCreate(e)}>Create</button>
         </div>
       </div>}
       {variantableAttributes.length === 0 && <div className="alert alert-danger" role="alert">
@@ -373,26 +378,30 @@ function New() {
   const [action, setAction] = React.useState(undefined);
   return <div>
     {action === undefined && <div>
-      <div className="text-center">
+      <div className="justify-center text-center">
         <div className="mb-4">This product has some variants like color or size?</div>
-        <a className="btn btn-primary" href="#" onClick={(e) => { e.preventDefault(); setAction("create"); }}>Create a variant group</a>
+        <a className="" href="#" onClick={(e) => { e.preventDefault(); setAction("create"); }}>Create a variant group</a>
       </div>
     </div>}
     {action === "create" && <div>
       <CreateVariantGroup />
-      <button className="btn-danger btn">Cancel</button>
+      <button className="">Cancel</button>
     </div>}
   </div>
 }
 
-export default function VariantGroup({ searchVariantUrl }) {
+export default function VariantGroup() {
   const variantGroupId = get(useAppState(), "product.variant_group_id");
-  return <div className="sml-block mt-4 variants-block">
-    <div className="sml-block-title"><span>Variant</span></div>
-    {!variantGroupId && <New />}
-    {variantGroupId && <div>
-      <input type="hidden" value={variantGroupId} name="variant_group[variant_group_id]" />
-      <Edit />
-    </div>}
-  </div>
+  return <Card
+    title="Variant"
+  >
+    <Card.Session>
+      {!variantGroupId && <New />}
+      {variantGroupId && <div>
+        <input type="hidden" value={variantGroupId} name="variant_group[variant_group_id]" />
+        <Edit />
+      </div>}
+    </Card.Session>
+  </Card>;
 }
+

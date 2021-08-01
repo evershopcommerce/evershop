@@ -2,7 +2,7 @@ import React from "react";
 import Area from "../../../../lib/components/area";
 
 export default function AdminLayout() {
-  return <div className="container text-base">
+  return <>
     <div className="header">
       <Area id="header" noOuter={true} />
     </div>
@@ -15,5 +15,6 @@ export default function AdminLayout() {
       </div>
     </div>
     <div className="footer"><div className="copyright"><span>Copyright © 2020 nodejscart Commerce</span></div><div className="version"><span>Version 1.0 dev</span></div></div>
-  </div>
+
+  </>
 }

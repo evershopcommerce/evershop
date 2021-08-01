@@ -8,7 +8,7 @@ input[type="tel"],
 select,
 textarea {
     background: none;
-    padding: 0.35rem 0.85rem;
+    padding: 0.5rem 1.2rem;
     display: block;
     flex: 1 1;
     &:focus {
@@ -41,8 +41,8 @@ input[type="radio"] {
     + .radio-unchecked {
         border: 2px solid $fieldBorderColor;
         border-radius: 100%;
-        width: 1.15rem;
-        height: 1.15rem;
+        width: 1.9rem;
+        height: 1.9rem;
         display: inline-flex;
         box-sizing: border-box;
         justify-content: center;
@@ -56,8 +56,8 @@ input[type="radio"] {
                 background-color: $interactive;
                 display: inline-block;
                 border-radius: 100%;
-                width: 0.65rem;
-                height: 0.65rem;
+                width: 1.1rem;
+                height: 1.1rem;
             }
         }
     }
@@ -137,9 +137,9 @@ input[type="checkbox"] {
         margin-top: 0;
     }
     label {
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.3rem;
         display: inline-flex;
-        align-items: flex-end;
+        align-items: center;
     }
 }
 

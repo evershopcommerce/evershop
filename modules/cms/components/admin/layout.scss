@@ -1,7 +1,32 @@
+:root {
+    --primary: #008060;
+    --secondary: #111213;
+    --surface: #111213;
+    --onSurface: #111213;
+    --interactive: #2c6ecb;
+    --critical: #d72c0d;
+    --warning: #ffc453;
+    --highlight: #5bcdda;
+    --success: #008060;
+    --decorative: #ffc96b;
+    --border: #8c9196;
+    --background: #f6f6f7fc;
+    --icon: #5c5f62;
+    --textSubdued: #6d7175;
+    --divider: #e1e3e5;
+    --text: #202223;
+}
 @import "./tailwind.scss";
 
+html {
+    font-size: 62.5%;
+}
+body {
+    font-size: 1.4rem;
+    color: #202223;
+}
 .header {
-    height: 3.5rem;
+    height: 5.6rem;
     width: 100%;
     padding: 0 1rem;
     box-sizing: border-box;
@@ -14,9 +39,9 @@
     z-index: 100;
 }
 .content-wrapper {
-    margin-top: 3.5rem;
+    margin-top: 5.6rem;
     .main-content {
         overflow: hidden;
-        padding: 2rem;
+        padding: 3rem;
     }
 }
