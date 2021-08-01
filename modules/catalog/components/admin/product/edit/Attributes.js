@@ -33,14 +33,13 @@ export default function Attributes() {
         return getGroup(selectedGroup === undefined ? attributeGroups[0]["attribute_group_id"] : selectedGroup);
     });
 
-    return <Card
-        title="Attributes"
-    >
-        <Card.Session>
+    return <Card>
+        <Card.Session
+            title='Attribute group'
+        >
             <div>
                 <Field
                     name="group_id"
-                    label={"Attribute groups"}
                     value={group["attribute_group_id"]}
                     onChange={(e) => setGroup(getGroup(e.target.value))}
                     options={(() => {
@@ -49,7 +48,9 @@ export default function Attributes() {
                     type='select'
                 />
             </div>
-            <table className="table table-bordered">
+        </Card.Session>
+        <Card.Session title='Attributes'>
+            <table className="table table-auto">
                 <tbody>
                     {group.attributes.map((attribute, index) => {
                         let field = null;

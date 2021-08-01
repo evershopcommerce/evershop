@@ -43,12 +43,12 @@ function Variant({ attributes, variant, removeVariant, updateVariant }) {
 
   return <div className="variant-item pb-15 border-b border-solid border-divider mb-15 last:border-b-0 last:pb-0">
     <input type="hidden" value={variant.variant_product_id} name={`variant_group[variants][${variant.id}][productId]`} />
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-2 gap-x-1">
       <div className="col-span-1">
         <ProductMediaManager id={variant.id} productImages={variant.images || []} />
       </div>
       <div className="col-span-1">
-        <div className="grid grid-cols-2 gap-x-1">
+        <div className="grid grid-cols-2 gap-x-1 border-b border-divider pb-15 mb-15">
           {attributes.map((a, i) => {
             return <div key={a.attribute_id} className="mt-1 col">
               <div><label>{a.attribute_name}</label></div>
@@ -80,7 +80,7 @@ function Variant({ attributes, variant, removeVariant, updateVariant }) {
             </div>
           })}
         </div>
-        <div className="grid grid-cols-3 gap-x-1">
+        <div className="grid grid-cols-3 gap-x-1 border-b border-divider pb-15 mb-15">
           <div>
             <div>SKU</div>
             <Field
@@ -188,7 +188,7 @@ function Search({ addVariant, variants }) {
     }, 1500));
   };
 
-  return <div className="sml-flex-space-between mt-4">
+  return <div>
     <div><a href="#" onClick={(e) => addVariant(e)}><span className="text-interactive">Add a new variant</span></a></div>
     <div>
       <div className="autocomplete-search">
