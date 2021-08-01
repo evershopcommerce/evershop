@@ -309,9 +309,9 @@ exports = module.exports = {
             sortOrder: 10
         },
         {
-            id: "productEditSEO",
+            id: "productEditImages",
             areaId: "leftSide",
-            source: getComponentSource("catalog/components/admin/product/edit/Seo.js"),
+            source: getComponentSource("catalog/components/admin/product/edit/Media.js"),
             props: {},
             sortOrder: 20
         },
@@ -334,13 +334,6 @@ exports = module.exports = {
             areaId: "leftSide",
             source: getComponentSource("catalog/components/admin/product/edit/CustomOptions.js"),
             props: {},
-            sortOrder: 20
-        },
-        {
-            id: "productEditImages",
-            areaId: "leftSide",
-            source: getComponentSource("catalog/components/admin/product/edit/Media.js"),
-            props: {},
             sortOrder: 30
         },
         {
@@ -349,6 +342,13 @@ exports = module.exports = {
             source: getComponentSource("catalog/components/admin/product/edit/Variants.js"),
             props: {},
             sortOrder: 40
+        },
+        {
+            id: "productEditSEO",
+            areaId: "leftSide",
+            source: getComponentSource("catalog/components/admin/product/edit/Seo.js"),
+            props: {},
+            sortOrder: 50
         }
     ],
     "productGrid": [

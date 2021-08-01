@@ -1,4 +1,4 @@
-/*! tailwindcss v2.2.7 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v2.2.4 | MIT License | https://tailwindcss.com */
 
 /*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
@@ -546,14 +546,6 @@ video {
   height: auto;
 }
 
-/**
- * Ensure the default browser behavior of the `hidden` attribute.
- */
-
-[hidden] {
-  display: none;
-}
-
 *, ::before, ::after {
   border-color: currentColor;
 }
@@ -794,6 +786,10 @@ video {
   resize: both;
 }
 
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -822,9 +818,22 @@ video {
   justify-items: start;
 }
 
+.gap-2 {
+  gap: 2rem;
+}
+
+.gap-15 {
+  gap: 1.5rem;
+}
+
 .gap-x-1 {
   -moz-column-gap: 1rem;
        column-gap: 1rem;
+}
+
+.gap-x-2 {
+  -moz-column-gap: 2rem;
+       column-gap: 2rem;
 }
 
 .gap-x-3 {
