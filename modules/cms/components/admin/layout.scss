@@ -26,7 +26,7 @@ body {
     color: #202223;
 }
 table {
-    max-width: 100%;
+    width: 100%;
 }
 .header {
     height: 5.6rem;
@@ -45,5 +45,9 @@ table {
     margin-top: 5.6rem;
     .main-content {
         overflow: hidden;
+        margin-left: 24rem;
+        .main-content-inner {
+            padding: 0 1.5rem;
+        }
     }
 }

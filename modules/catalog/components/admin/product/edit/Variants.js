@@ -188,9 +188,11 @@ function Search({ addVariant, variants }) {
     }, 1500));
   };
 
-  return <div>
-    <div><a href="#" onClick={(e) => addVariant(e)}><span className="text-interactive">Add a new variant</span></a></div>
-    <div>
+  return <div className='flex justify-between'>
+    <div className='self-center'>
+      <a href="#" onClick={(e) => addVariant(e)}><span className="text-interactive">Add a new variant</span></a>
+    </div>
+    <div className='self-center'>
       <div className="autocomplete-search">
         <input ref={searchInput} type="text" className="form-control search-input" placeholder="Search for variant" onChange={(e) => search(e)} />
         <a className="search-clear" href={"#"} onClick={(e) => { e.preventDefault(); setPotentialVariants([]); searchInput.current.value = null; }}><i className="fas fa-times"></i></a>
@@ -307,18 +309,22 @@ function Variants({ variantAttributes, variantProducts }) {
     {variantAttributes.map((a) => {
       return <input key={a.attribute_id} type="hidden" value={a.attribute_id} name="variant_group[variant_group_attributes][]" />
     })}
-    <div className="variant-list">
-      {variants.map((v) => {
-        return <Variant
-          key={v.id}
-          variant={v}
-          attributes={variantAttributes}
-          removeVariant={removeVariant}
-          updateVariant={updateVariant}
-        />
-      })}
-    </div>
-    <Search addVariant={addVariant} variants={variants} />
+    <Card.Session>
+      <div className="variant-list">
+        {variants.map((v) => {
+          return <Variant
+            key={v.id}
+            variant={v}
+            attributes={variantAttributes}
+            removeVariant={removeVariant}
+            updateVariant={updateVariant}
+          />
+        })}
+      </div>
+    </Card.Session>
+    <Card.Session>
+      <Search addVariant={addVariant} variants={variants} />
+    </Card.Session>
   </div>
 }
 
@@ -395,13 +401,11 @@ export default function VariantGroup() {
   return <Card
     title="Variant"
   >
-    <Card.Session>
-      {!variantGroupId && <New />}
-      {variantGroupId && <div>
-        <input type="hidden" value={variantGroupId} name="variant_group[variant_group_id]" />
-        <Edit />
-      </div>}
-    </Card.Session>
+    {!variantGroupId && <New />}
+    {variantGroupId && <div>
+      <input type="hidden" value={variantGroupId} name="variant_group[variant_group_id]" />
+      <Edit />
+    </div>}
   </Card>;
 }
 

@@ -1,6 +1,9 @@
 .admin-navigation {
-    width: 200px;
+    width: 24rem;
     float: left;
     height: 100vh;
     border-right: 1px solid var(--divider);
+    position: fixed;
+    left: 0;
+    top: 5.6rem;
 }

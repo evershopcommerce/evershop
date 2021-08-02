@@ -309,6 +309,18 @@ exports = module.exports = {
             sortOrder: 10
         },
         {
+            id: "productEditStatus",
+            areaId: "rightSide",
+            source: getComponentSource("catalog/components/admin/product/edit/Status.js"),
+            props: {
+                browserApi: buildAdminUrl("fileBrowser", [""]),
+                deleteApi: buildAdminUrl("fileDelete", [""]),
+                uploadApi: buildAdminUrl("imageUpload", [""]),
+                folderCreateApi: buildAdminUrl("folderCreate", [""])
+            },
+            sortOrder: 10
+        },
+        {
             id: "productEditImages",
             areaId: "leftSide",
             source: getComponentSource("catalog/components/admin/product/edit/Media.js"),
@@ -320,7 +332,7 @@ exports = module.exports = {
             areaId: "rightSide",
             source: getComponentSource("catalog/components/admin/product/edit/Attributes.js"),
             props: {},
-            sortOrder: 10
+            sortOrder: 30
         },
         {
             id: "productEditInventory",

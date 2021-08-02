@@ -36,6 +36,7 @@ export default function Attributes() {
     return <Card>
         <Card.Session
             title='Attribute group'
+            subdued={true}
         >
             <div>
                 <Field

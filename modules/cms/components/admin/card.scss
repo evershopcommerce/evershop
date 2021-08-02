@@ -2,6 +2,9 @@
 .card {
     background-color: white;
     border-radius: 6px;
+    &.subdued {
+        background-color: #fafbfb;
+    }
 }
 .card-title {
     font-size: 1.6rem;
@@ -13,15 +16,9 @@
 .card-section {
     border-color: $dividerColor;
     padding: 2rem;
-    &:first-childp {
-        padding-top: 0;
-    }
 }
 .card .card-section:last-child {
     border-bottom: none;
-}
-.card .card-section:first-child {
-    padding-top: 0;
 }
 .card-header + .card-section {
     padding-top: 0;

@@ -1,8 +1,8 @@
 import React from 'react';
 
-function Card({ title, actions = [], children }) {
+function Card({ title, actions = [], subdued = false, children }) {
     return (
-        <div className="card shadow">
+        <div className={subdued ? "card shadow subdued" : "card shadow"}>
             {(title || actions.length > 0) && <div className="flex justify-between card-header">
                 {title && <h2 className='card-title'>{title}</h2>}
                 {actions.length > 0 && <div className='flex space-x-md'>

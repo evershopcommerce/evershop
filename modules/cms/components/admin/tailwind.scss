@@ -1,4 +1,4 @@
-/*! tailwindcss v2.2.7 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v2.2.4 | MIT License | https://tailwindcss.com */
 
 /*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
@@ -546,14 +546,6 @@ video {
   height: auto;
 }
 
-/**
- * Ensure the default browser behavior of the `hidden` attribute.
- */
-
-[hidden] {
-  display: none;
-}
-
 *, ::before, ::after {
   border-color: currentColor;
 }
@@ -624,12 +616,20 @@ video {
   grid-column: span 2 / span 2;
 }
 
+.col-span-3 {
+  grid-column: span 3 / span 3;
+}
+
 .mt-1 {
   margin-top: 1rem;
 }
 
 .mt-3 {
   margin-top: 3rem;
+}
+
+.mt-15 {
+  margin-top: 1.5rem;
 }
 
 .mr-3 {
@@ -794,6 +794,15 @@ video {
   resize: both;
 }
 
+.grid-flow-row {
+  grid-auto-flow: row;
+}
+
+.auto-rows-max {
+  grid-auto-rows: -webkit-max-content;
+  grid-auto-rows: max-content;
+}
+
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
@@ -804,6 +813,10 @@ video {
 
 .grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .items-center {
@@ -822,8 +835,20 @@ video {
   justify-content: space-between;
 }
 
+.justify-around {
+  justify-content: space-around;
+}
+
 .justify-items-start {
   justify-items: start;
+}
+
+.justify-items-end {
+  justify-items: end;
+}
+
+.gap-1 {
+  gap: 1rem;
 }
 
 .gap-2 {
@@ -881,6 +906,10 @@ video {
   border-width: 1px;
 }
 
+.border-t {
+  border-top-width: 1px;
+}
+
 .border-b {
   border-bottom-width: 1px;
 }
@@ -907,6 +936,10 @@ video {
 
 .fill-current {
   fill: currentColor;
+}
+
+.pt-15 {
+  padding-top: 1.5rem;
 }
 
 .pr-2 {
