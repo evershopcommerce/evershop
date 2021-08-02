@@ -19,8 +19,8 @@ module.exports = (request, response) => {
                             "name": f.filename,
                             "type": f.minetype,
                             "size": f.size,
-                            "path": f.path.replace(resolve(CONSTANTS.PUBLICPATH), "").split("\\").join("/"),
-                            "url": buildAdminUrl("adminStaticAsset", [f.path.replace(resolve(CONSTANTS.PUBLICPATH), "").split("\\").join("/")])
+                            "path": f.path.replace(resolve(CONSTANTS.MEDIAPATH), "").split("\\").join("/"),
+                            "url": buildAdminUrl("adminStaticAsset", [f.path.replace(resolve(CONSTANTS.MEDIAPATH), "").split("\\").join("/")])
                         }
                     }
                 )
