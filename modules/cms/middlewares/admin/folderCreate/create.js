@@ -6,11 +6,9 @@ module.exports = (request, response) => {
     let path = request.params[0] || "";
     if (existsSync(join(CONSTANTS.MEDIAPATH, path))) {
         response.json({
-            success: true,
-            data: {
-                path: path,
-                name: basename(join(CONSTANTS.MEDIAPATH, path))
-            }
+            success: false,
+            message: "Folder already existed",
+            data: {}
         });
     } else {
         mkdirSync(join(CONSTANTS.MEDIAPATH, path), { recursive: true });

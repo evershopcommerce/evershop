@@ -790,6 +790,10 @@ video {
   }
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .resize {
   resize: both;
 }
@@ -819,12 +823,24 @@ video {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.grid-cols-9 {
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.content-end {
+  align-content: flex-end;
+}
+
 .items-center {
   align-items: center;
 }
 
 .items-baseline {
   align-items: baseline;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }
 
 .justify-center {
@@ -942,6 +958,10 @@ video {
   padding-top: 1.5rem;
 }
 
+.pr-1 {
+  padding-right: 1rem;
+}
+
 .pr-2 {
   padding-right: 2rem;
 }
@@ -964,6 +984,10 @@ video {
 
 .pl-025 {
   padding-left: .25rem;
+}
+
+.pl-05 {
+  padding-left: .5rem;
 }
 
 .last\:pb-0:last-child {
@@ -1007,6 +1031,10 @@ video {
 }
 
 .underline {
+  text-decoration: underline;
+}
+
+.hover\:underline:hover {
   text-decoration: underline;
 }
 

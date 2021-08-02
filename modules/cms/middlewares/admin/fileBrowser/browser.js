@@ -1,6 +1,7 @@
 const { CONSTANTS } = require('../../../../../lib/helpers');
 const { join } = require('path');
 const { existsSync, readdirSync } = require('fs');
+const { buildSiteUrl } = require('../../../../../lib/routie');
 
 module.exports = (request, response) => {
     let path = request.params[0] || "";
@@ -20,7 +21,7 @@ module.exports = (request, response) => {
                     .filter(dirent => dirent.isFile())
                     .map(f => {
                         return {
-                            url: `/media/${path}/${f.name}`,
+                            url: buildSiteUrl('adminStaticAsset', [`${path}/${f.name}`]),
                             name: f.name
                         };
                     })
