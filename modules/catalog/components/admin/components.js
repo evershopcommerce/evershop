@@ -13,18 +13,18 @@ exports = module.exports = {
         {
             id: "new.product",
             areaId: 'quick.links',
-            source: getComponentSource("cms/components/admin/navigationItem.js", true),
+            source: getComponentSource("cms/components/admin/NavigationItem.js", true),
             props: {
                 "icon": "cubes",
                 "url": buildAdminUrl("productNew"),
                 "title": "New Product"
             },
-            sortOrder: 5
+            sortOrder: 10
         },
         {
             id: "products",
             areaId: 'catalog.group',
-            source: getComponentSource("cms/components/admin/navigationItem.js", true),
+            source: getComponentSource("cms/components/admin/NavigationItem.js", true),
             props: {
                 "icon": "boxes",
                 "url": buildAdminUrl("productGrid"),
@@ -35,7 +35,7 @@ exports = module.exports = {
         {
             id: "categories",
             areaId: 'catalog.group',
-            source: getComponentSource("cms/components/admin/navigationItem.js", true),
+            source: getComponentSource("cms/components/admin/NavigationItem.js", true),
             props: {
                 "icon": "tags",
                 "url": buildAdminUrl("categoryGrid"),

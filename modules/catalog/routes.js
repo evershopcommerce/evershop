@@ -1,7 +1,7 @@
 module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
-    registerAdminRoute("productNew", ["GET"], "/product/new");
+    registerAdminRoute("productNew", ["GET"], "/products/new");
 
-    registerAdminRoute("productEdit", ["GET"], "/product/edit/:id(\\d+)");
+    registerAdminRoute("productEdit", ["GET"], "/products/edit/:id(\\d+)");
 
     registerAdminRoute("variantSearch", ["GET", "POST"], "/variant/search");
 
@@ -11,7 +11,7 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerAdminRoute("categoryGrid", ["GET"], "/categories");
 
-    registerAdminRoute("categoryEdit", ["GET"], "/category/edit/:id(\\d+)");
+    registerAdminRoute("categoryEdit", ["GET"], "/categories/edit/:id(\\d+)");
 
     registerAdminRoute("categorySavePost", ["POST"], "/category/save");
 

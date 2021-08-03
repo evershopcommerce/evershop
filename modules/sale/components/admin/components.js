@@ -13,7 +13,7 @@ exports = module.exports = {
         {
             id: "orders",
             areaId: 'sale.group',
-            source: getComponentSource("cms/components/admin/navigationItem.js", true),
+            source: getComponentSource("cms/components/admin/NavigationItem.js", true),
             props: {
                 "icon": "shopping-bag",
                 "url": buildAdminUrl("orderGrid"),

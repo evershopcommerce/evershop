@@ -47,7 +47,7 @@ exports = module.exports = {
         {
             id: "dashboard",
             areaId: "quick.links",
-            source: getComponentSource("cms/components/admin/navigationItem.js", true),
+            source: getComponentSource("cms/components/admin/NavigationItem.js", true),
             props: {
                 "icon": "home",
                 "url": buildAdminUrl("dashboard"),
@@ -58,7 +58,7 @@ exports = module.exports = {
         {
             id: "pages",
             areaId: "cms.links",
-            source: getComponentSource("cms/components/admin/navigationItem.js", true),
+            source: getComponentSource("cms/components/admin/NavigationItem.js", true),
             props: {
                 "icon": "file-alt",
                 "url": buildAdminUrl("cmsPageGrid"),
