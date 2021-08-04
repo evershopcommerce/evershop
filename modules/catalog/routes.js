@@ -5,6 +5,8 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerAdminRoute("variantSearch", ["GET", "POST"], "/variant/search");
 
+    registerAdminRoute("unlinkVariant", ["POST"], "/variant/unlink");
+
     registerAdminRoute("productSavePost", ["POST"], "/product/save");
 
     registerAdminRoute("productGrid", ["GET"], "/products");

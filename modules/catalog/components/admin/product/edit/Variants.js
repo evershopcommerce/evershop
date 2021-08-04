@@ -7,6 +7,7 @@ import uniqid from "uniqid";
 import ProductMediaManager from "./ProductMediaManager";
 import { Field } from "../../../../../../lib/components/form/Field";
 import { Card } from "../../../../../cms/components/admin/card";
+import axios from "axios";
 
 function isDuplicated(attrs1, attrs2) {
   let flag = true;
@@ -20,25 +21,20 @@ function isDuplicated(attrs1, attrs2) {
 }
 
 function Variant({ attributes, variant, removeVariant, updateVariant }) {
-  const graphqlApi = "";
+  const unlinkApi = get(useAppState(), 'unlinkVariant');
 
   const onUnlink = (e) => {
     e.preventDefault();
     let formData = new FormData();
-    formData.append('query', `mutation UnlinkVariant { unlinkVariant (productId: ${variant.id}) {status}}`);
-
-    Fetch(
-      graphqlApi,
-      false,
-      "POST",
-      formData,
-      null,
-      (response) => {
-        if (get(response, 'payload.data.unlinkVariant.status') === true) {
-          removeVariant(variant);
-        }
+    formData.append('id', variant.variant_product_id);
+    axios.post(unlinkApi, formData).then((response) => {
+      if (response.data.success === true) {
+        removeVariant(variant);
+      } else {
+        //TODO: Toast an error message
       }
-    );
+    });
+
   };
 
   return <div className="variant-item pb-15 border-b border-solid border-divider mb-15 last:border-b-0 last:pb-0">
@@ -294,7 +290,7 @@ function Variants({ variantAttributes, variantProducts }) {
   };
 
   const removeVariant = (variant) => {
-    setVariants(variants.filter((v) => parseInt(v.id) !== parseInt(variant.id)));
+    setVariants(variants.filter((v) => v.id !== variant.id));
   };
 
   const updateVariant = (id, value) => {

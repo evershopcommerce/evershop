@@ -52,7 +52,7 @@
     background-color: #edeeef;
     border-radius: 4px;
 }
-.nav-item.active::before {
+.nav-item.active:first-child::before {
     content: "";
     width: 3.5px;
     display: block;
