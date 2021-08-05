@@ -1,4 +1,4 @@
-const { select, update } = require('@nodejscart/mysql-query-builder')
+const { update } = require('@nodejscart/mysql-query-builder')
 const { getConnection } = require('../../../../../lib/mysql/connection');
 
 module.exports = async (request, response, stack, next) => {
