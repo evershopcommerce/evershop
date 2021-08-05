@@ -371,16 +371,26 @@ exports = module.exports = {
             props: {
                 limit: 20
             },
+            sortOrder: 20
+        },
+        {
+            id: "pageHeading",
+            areaId: "content",
+            source: getComponentSource("cms/components/admin/PageHeading.js"),
+            props: {
+            },
             sortOrder: 10
         },
         {
-            id: 'title',
-            areaId: 'content',
-            source: getComponentSource("cms/components/admin/title.js"),
+            id: "newProductButton",
+            areaId: "pageHeadingRight",
+            source: getComponentSource("form/Button.js"),
             props: {
-                title: "Products"
+                title: 'Add product',
+                variant: 'primary',
+                url: buildAdminUrl('productNew')
             },
-            sortOrder: 1
+            sortOrder: 10
         },
         {
             id: 'title',

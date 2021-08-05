@@ -3,6 +3,7 @@ import Area from "../../../../../../lib/components/area";
 import { useAppState } from "../../../../../../lib/context/app";
 import Pagination from "../../../../../../lib/components/grid/pagination";
 import { get } from "../../../../../../lib/util/get";
+import { Card } from "../../../../../cms/components/admin/card";
 
 export default function ProductGrid() {
     const products = get(useAppState(), "grid.products", []);
@@ -10,8 +11,8 @@ export default function ProductGrid() {
     const limit = get(useAppState(), "grid.limit", 20);
     const page = get(useAppState(), "grid.page", 1);
 
-    return <div className="grid sml-block"><div className={"product-grid mt-4"}>
-        <table className="table table-bordered sticky">
+    return <Card>
+        <table className="listing sticky">
             <thead>
                 <tr>
                     <Area
@@ -38,5 +39,5 @@ export default function ProductGrid() {
             <div>There is no product to display</div>
         }
         <Pagination total={total} limit={limit} page={page} />
-    </div></div>;
+    </Card>;
 }

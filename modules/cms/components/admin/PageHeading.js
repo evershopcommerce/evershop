@@ -20,29 +20,38 @@ function PageHeading({ backUrl }) {
         return null;
 
     return (
-        <div className='page-heading flex justify-items-start'>
-            <Area
-                id='pageHeading'
-                noOuter={true}
-                coreComponents={[
-                    {
-                        component: { default: BreadcrumbIcon },
-                        props: {
-                            backUrl: backUrl
+        <div className='page-heading flex justify-between'>
+            <div className='flex justify-start space-x-1'>
+                <Area
+                    id='pageHeadingLeft'
+                    noOuter={true}
+                    coreComponents={[
+                        {
+                            component: { default: BreadcrumbIcon },
+                            props: {
+                                backUrl: backUrl
+                            },
+                            sortOrder: 0,
+                            id: "breadcrumb"
                         },
-                        sortOrder: 0,
-                        id: "breadcrumb"
-                    },
-                    {
-                        component: { default: Heading },
-                        props: {
-                            heading: heading
-                        },
-                        sortOrder: 0,
-                        id: "heading"
-                    }
-                ]}
-            />
+                        {
+                            component: { default: Heading },
+                            props: {
+                                heading: heading
+                            },
+                            sortOrder: 0,
+                            id: "heading"
+                        }
+                    ]}
+                />
+            </div>
+            <div className='flex justify-end space-x-1'>
+                <Area
+                    id='pageHeadingRight'
+                    noOuter={true}
+                    coreComponents={[]}
+                />
+            </div>
         </div>
     );
 }

@@ -27,6 +27,27 @@ body {
 }
 table {
     width: 100%;
+    border-collapse: collapse;
+    td,
+    th {
+        border: 1px solid var(--divider);
+        padding: 0.5rem;
+        text-align: left;
+    }
+    th {
+        vertical-align: top;
+    }
+    &.listing {
+        td,
+        th {
+            border-left: 0;
+            border-right: 0;
+            padding: 0.8rem 1.6rem;
+        }
+        th {
+            border-top: 0;
+        }
+    }
 }
 .header {
     height: 5.6rem;
@@ -48,7 +69,7 @@ table {
         overflow: hidden;
         margin-left: 24rem;
         .main-content-inner {
-            padding: 0 1.5rem;
+            padding: 0 3rem;
         }
     }
 }
