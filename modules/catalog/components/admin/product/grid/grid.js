@@ -55,7 +55,7 @@ const Actions = ({ ids = [], selectedIds = [], setSelectedRows }) => {
             name: 'Delete',
             onAction: (ids) => {
                 openAlert({
-                    heading: `Enable ${selectedIds.length} products`,
+                    heading: `Delete ${selectedIds.length} products`,
                     content: <div>Can't be undone</div>,
                     primaryAction: {
                         'title': 'Cancel',
