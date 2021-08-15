@@ -135,16 +135,15 @@ exports = module.exports = {
             props: {
                 limit: 20
             },
-            sortOrder: 10
+            sortOrder: 20
         },
         {
-            id: 'title',
-            areaId: 'content',
-            source: getComponentSource("cms/components/admin/title.js"),
+            id: "pageHeading",
+            areaId: "content",
+            source: getComponentSource("cms/components/admin/PageHeading.js"),
             props: {
-                title: "Categories"
             },
-            sortOrder: 1
+            sortOrder: 10
         },
         {
             id: 'title',
