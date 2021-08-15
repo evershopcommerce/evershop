@@ -9,7 +9,7 @@ import { useAlertContext } from "../../../../../../lib/components/modal/Alert";
 import axios from "axios";
 import formData from "../../../../../../lib/util/formData";
 
-const Actions = ({ ids = [], selectedIds = [], setSelectedRows }) => {
+const Actions = ({ selectedIds = [], setSelectedRows }) => {
     const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
     const [isLoading, setIsLoading] = useState(false);
     const context = useAppState();

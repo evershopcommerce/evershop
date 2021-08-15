@@ -192,43 +192,6 @@ exports = module.exports = {
                 id: "name"
             },
             sortOrder: 5
-        },
-        {
-            id: 'idColumn',
-            areaId: 'categoryGridHeader',
-            source: getComponentSource("grid/headers/fromTo.js"),
-            props: {
-                title: "ID",
-                id: "category_id"
-            },
-            sortOrder: 1
-        },
-        {
-            id: 'idRow',
-            areaId: 'categoryGridRow',
-            source: getComponentSource("grid/rows/basic.js"),
-            props: {
-                id: "category_id"
-            },
-            sortOrder: 1
-        },
-        {
-            id: 'actionHeader',
-            areaId: 'categoryGridHeader',
-            source: getComponentSource("grid/headers/action.js"),
-            props: {
-                gridOriginalUrl: buildAdminUrl("categoryGrid")
-            },
-            sortOrder: 35
-        },
-        {
-            id: 'actionRow',
-            areaId: 'categoryGridRow',
-            source: getComponentSource("grid/rows/action.js"),
-            props: {
-                id: "action"
-            },
-            sortOrder: 35
         }
     ],
     /** PRODUCT */

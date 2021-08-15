@@ -1,5 +1,6 @@
 const { get } = require("../../../../../lib/util/get");
 const { buildAdminUrl } = require("../../../../../lib/routie");
+const { assign } = require("../../../../../lib/util/assign");
 
 module.exports = async (request, response, stack) => {
     await stack["grid"];
@@ -9,4 +10,6 @@ module.exports = async (request, response, stack) => {
         this[index]["editUrl"] = buildAdminUrl("categoryEdit", { id: parseInt(this[index]["category_id"]) });
         this[index]["deleteUrl"] = buildAdminUrl("categoryEdit", { id: parseInt(this[index]["category_id"]) });
     }, categories);
+
+    assign(response.context, { deleteCategoriesUrl: buildAdminUrl("categoryBulkDelete") });
 }
