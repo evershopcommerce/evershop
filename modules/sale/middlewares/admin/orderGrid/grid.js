@@ -34,6 +34,7 @@ module.exports = async (request, response, stack) => {
     query.limit(0, 1);
     let ps = await query.execute(pool);
     assign(response.context, { grid: { total: ps[0]["total"] } });
+    assign(response.context, { page: { heading: 'Orders' } });
 
     return orders;
 }

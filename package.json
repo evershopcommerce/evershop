@@ -19,7 +19,7 @@
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
   "dependencies": {
     "@hapi/topo": "^5.0.0",
-    "@nodejscart/mysql-query-builder": "^1.2.5",
+    "@nodejscart/mysql-query-builder": "^1.2.6",
     "@shopify/draggable": "^1.0.0-beta.8",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",

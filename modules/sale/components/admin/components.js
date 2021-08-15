@@ -92,16 +92,15 @@ exports = module.exports = {
             props: {
                 limit: 20
             },
-            sortOrder: 10
+            sortOrder: 20
         },
         {
-            id: 'title',
-            areaId: 'content',
-            source: getComponentSource("cms/components/admin/title.js"),
+            id: "pageHeading",
+            areaId: "content",
+            source: getComponentSource("cms/components/admin/PageHeading.js"),
             props: {
-                title: "Orders"
             },
-            sortOrder: 1
+            sortOrder: 10
         },
         {
             id: 'title',
@@ -151,28 +150,28 @@ exports = module.exports = {
             sortOrder: 5
         },
         {
-            id: 'idColumn',
+            id: 'orderNumberColumn',
             areaId: 'orderGridHeader',
-            source: getComponentSource("grid/headers/fromTo.js"),
+            source: getComponentSource("grid/headers/basic.js"),
             props: {
                 title: "ID",
-                id: "order_id"
+                id: "order_number"
             },
             sortOrder: 1
         },
         {
-            id: 'idRow',
+            id: 'orderNumberRow',
             areaId: 'orderGridRow',
             source: getComponentSource("grid/rows/basic.js"),
             props: {
-                id: "order_id"
+                id: "order_number"
             },
             sortOrder: 1
         },
         {
             id: 'emailColumn',
             areaId: 'orderGridHeader',
-            source: getComponentSource("grid/headers/fromTo.js"),
+            source: getComponentSource("grid/headers/basic.js"),
             props: {
                 title: "Customer email",
                 id: "customer_email"
@@ -206,24 +205,6 @@ exports = module.exports = {
                 id: "grand_total"
             },
             sortOrder: 10
-        },
-        {
-            id: 'actionHeader',
-            areaId: 'orderGridHeader',
-            source: getComponentSource("grid/headers/action.js"),
-            props: {
-                gridOriginalUrl: buildAdminUrl("orderGrid")
-            },
-            sortOrder: 35
-        },
-        {
-            id: 'actionRow',
-            areaId: 'orderGridRow',
-            source: getComponentSource("grid/rows/action.js"),
-            props: {
-                id: "action"
-            },
-            sortOrder: 35
         }
     ],
     "dashboard": [
