@@ -1,0 +1,16 @@
+.next a,
+.prev a {
+    width: 3.5rem;
+    height: 3.5rem;
+    color: var(--border);
+    display: flex;
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    justify-content: center;
+    svg {
+        width: 55%;
+    }
+}
+.pagination input {
+    text-align: center;
+}

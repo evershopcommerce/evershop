@@ -1,0 +1,26 @@
+.toggle {
+    width: 3rem;
+    height: 1.65rem;
+    border: 1px solid var(--border);
+    border-radius: 20rem;
+    display: flex;
+    background: #f8f8f8;
+    &.enabled {
+        justify-content: flex-end;
+        background-color: var(--primary);
+        border-color: var(--primary);
+        span {
+            margin-right: 2px;
+        }
+    }
+    span {
+        width: 40%;
+        height: 80%;
+        display: block;
+        border: 1px solid var(--border);
+        border-radius: 100%;
+        align-self: center;
+        background: #fff;
+        margin-left: 2px;
+    }
+}

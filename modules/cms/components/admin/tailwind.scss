@@ -632,6 +632,14 @@ video {
   margin-top: 1.5rem;
 }
 
+.mt-25 {
+  margin-top: 2.5rem;
+}
+
+.mt-025 {
+  margin-top: .25rem;
+}
+
 .mr-3 {
   margin-right: 3rem;
 }
@@ -680,12 +688,20 @@ video {
   display: block;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
 .inline {
   display: inline;
 }
 
 .flex {
   display: flex;
+}
+
+.inline-flex {
+  display: inline-flex;
 }
 
 .table {
@@ -710,6 +726,10 @@ video {
 
 .w-15 {
   width: 1.5rem;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .flex-grow {
@@ -924,6 +944,10 @@ video {
   white-space: nowrap;
 }
 
+.rounded-100 {
+  border-radius: 100%;
+}
+
 .rounded {
   border-radius: 0.25rem;
 }
@@ -938,6 +962,10 @@ video {
 
 .border-b {
   border-bottom-width: 1px;
+}
+
+.border-l {
+  border-left-width: 1px;
 }
 
 .last\:border-b-0:last-child {
@@ -956,6 +984,14 @@ video {
   border-color: #e1e3e5;
 }
 
+.bg-primary {
+  background-color: #008060;
+}
+
+.bg-surface {
+  background-color: #111213;
+}
+
 .bg-background {
   background-color: #f6f6f7fc;
 }
@@ -964,8 +1000,29 @@ video {
   fill: currentColor;
 }
 
+.p-1 {
+  padding: 1rem;
+}
+
+.p-05 {
+  padding: .5rem;
+}
+
+.p-075 {
+  padding: .75rem;
+}
+
+.px-2 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
 .pt-15 {
   padding-top: 1.5rem;
+}
+
+.pt-075 {
+  padding-top: .75rem;
 }
 
 .pr-1 {
@@ -976,8 +1033,16 @@ video {
   padding-right: 2rem;
 }
 
+.pr-15 {
+  padding-right: 1.5rem;
+}
+
 .pb-15 {
   padding-bottom: 1.5rem;
+}
+
+.pb-075 {
+  padding-bottom: .75rem;
 }
 
 .pl-1 {
@@ -990,6 +1055,10 @@ video {
 
 .pl-3 {
   padding-left: 3rem;
+}
+
+.pl-15 {
+  padding-left: 1.5rem;
 }
 
 .pl-025 {
@@ -1016,12 +1085,24 @@ video {
   vertical-align: middle;
 }
 
+.align-bottom {
+  vertical-align: bottom;
+}
+
 .text-base {
   font-size: .875rem;
 }
 
+.font-semibold {
+  font-weight: 600;
+}
+
 .text-primary {
   color: #008060;
+}
+
+.text-onSurface {
+  color: #111213;
 }
 
 .text-interactive {
@@ -1034,6 +1115,10 @@ video {
 
 .text-success {
   color: #008060;
+}
+
+.text-border {
+  color: #8c9196;
 }
 
 .text-icon {

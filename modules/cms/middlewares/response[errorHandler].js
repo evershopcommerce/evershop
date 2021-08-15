@@ -6,6 +6,7 @@ const path = require('path');
 import React from 'react';
 import { getComponentsByRoute } from '../../../lib/componee';
 import Html from '../../../lib/components/html';
+import { Alert } from '../../../lib/components/modal/Alert';
 
 module.exports = async function (request, response, stack, next) {
     let promises = [];
@@ -39,7 +40,7 @@ module.exports = async function (request, response, stack, next) {
                 }
                 response.context.components = components;
                 //resetServerContext();
-                let source = renderToString(<AppProvider value={response.context}><Html /></AppProvider>);
+                let source = renderToString(<AppProvider value={response.context}><Alert><Html /></Alert></AppProvider>);
                 delete response.context.components;
                 source = source.replace("</head>", "<script>var appContext = " + inspect(response.context, { depth: 10, maxArrayLength: null }) + "</script></head>");
                 response.send(`<!DOCTYPE html><html id="root">${source}</html>`);

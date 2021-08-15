@@ -99,7 +99,8 @@ module.exports = {
       '3': '3rem',
     },
     borderRadius: {
-      DEFAULT: '0.25rem'
+      DEFAULT: '0.25rem',
+      '100': '100%'
     },
     borderWidth: {
       '0': '0px',

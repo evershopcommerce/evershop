@@ -15,6 +15,8 @@
     --textSubdued: #6d7175;
     --divider: #e1e3e5;
     --text: #202223;
+    --formFieldBorder: #c9cccf;
+    --formFieldBorderShadow: #aeb4b9;
 }
 @import "./tailwind.scss";
 
@@ -42,10 +44,12 @@ table {
         th {
             border-left: 0;
             border-right: 0;
-            padding: 0.8rem 1.6rem;
+            padding: 1rem;
         }
         th {
-            border-top: 0;
+            border: 0;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
         }
     }
 }

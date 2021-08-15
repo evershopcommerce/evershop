@@ -9,6 +9,14 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerAdminRoute("productSavePost", ["POST"], "/product/save");
 
+    registerAdminRoute("productDelete", ["POST", "GET"], "/product/delete/:id(\\d+)");
+
+    registerAdminRoute("productBulkDelete", ["POST"], "/product/bulkDelete");
+
+    registerAdminRoute("productBulkEnable", ["POST"], "/product/bulkEnable");
+
+    registerAdminRoute("productBulkDisable", ["POST"], "/product/bulkDisable");
+
     registerAdminRoute("productGrid", ["GET"], "/products");
 
     registerAdminRoute("categoryGrid", ["GET"], "/categories");

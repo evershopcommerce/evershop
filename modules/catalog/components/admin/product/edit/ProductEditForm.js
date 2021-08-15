@@ -1,6 +1,6 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import Button from "../../../../../../lib/components/form/Button";
+import { Button } from "../../../../../../lib/components/form/Button";
 import { Form } from "../../../../../../lib/components/form/Form";
 
 export default function ProductCreateForm(props) {
