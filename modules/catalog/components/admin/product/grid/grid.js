@@ -173,7 +173,7 @@ export default function ProductGrid() {
             </tbody>
         </table>
         {products.length === 0 &&
-            <div>There is no product to display</div>
+            <div className='flex w-full justify-center'>There is no product to display</div>
         }
         <Pagination total={total} limit={limit} page={page} />
     </Card>;
