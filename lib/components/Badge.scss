@@ -1,0 +1,111 @@
+.badge {
+    border-radius: 30px;
+    padding: 0.16rem 0.85rem;
+    font-size: 1.3rem;
+    display: inline-flex;
+    .title {
+        color: var(--text);
+        padding-left: 0.5rem;
+    }
+    .progress {
+        width: 1rem;
+        height: 1rem;
+        display: block;
+        align-self: center;
+        background-color: currentColor;
+        border-color: currentColor;
+        &.default {
+            width: 0 !important;
+            height: 0 !important;
+        }
+        &.partiallycomplete {
+            span {
+                background-color: currentColor;
+                display: block;
+                width: 100%;
+                height: 50%;
+            }
+        }
+        &.incomplete {
+            background-color: transparent !important;
+            border-width: 2px;
+        }
+    }
+    &.default {
+        color: #e4e5e7;
+        background-color: #e4e5e7;
+        .progress {
+            background-color: #5c5f62;
+            border-color: #5c5f62;
+            span {
+                border-color: inherit;
+            }
+        }
+    }
+    &.success {
+        color: #aee9d1;
+        background-color: #aee9d1;
+        .progress {
+            background-color: #007f5f;
+            border-color: #007f5f;
+            span {
+                border-color: inherit;
+            }
+        }
+    }
+    &.info {
+        color: #a4e8f2;
+        background-color: #a4e8f2;
+        .progress {
+            background-color: #00a0ac;
+            border-color: #00a0ac;
+            span {
+                border-color: inherit;
+            }
+        }
+    }
+    &.attention {
+        color: #ffea8a;
+        background-color: #ffea8a;
+        .progress {
+            background-color: #202223;
+            border-color: #202223;
+            span {
+                border-color: inherit;
+            }
+        }
+    }
+    &.critical {
+        color: #fed3d1;
+        background-color: #fed3d1;
+        .progress {
+            background-color: #d72c0d;
+            border-color: #d72c0d;
+            span {
+                border-color: inherit;
+            }
+        }
+    }
+    &.warning {
+        color: #ffd79d;
+        background-color: #ffd79d;
+        .progress {
+            background-color: #b98900;
+            border-color: #b98900;
+            span {
+                border-color: inherit;
+            }
+        }
+    }
+    &.new {
+        color: #e4e5e7;
+        background-color: #e4e5e7;
+        .progress {
+            background-color: #5c5f62;
+            border-color: #5c5f62;
+            span {
+                border-color: inherit;
+            }
+        }
+    }
+}

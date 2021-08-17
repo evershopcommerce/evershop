@@ -114,7 +114,7 @@ exports = module.exports = {
         {
             id: 'shipmentStatusColumn',
             areaId: 'orderGridHeader',
-            source: getComponentSource("grid/headers/status.js"),
+            source: getComponentSource("sale/components/admin/order/grid/ShipmentStatusColumnHeader.js"),
             props: {
                 title: "Shipment status",
                 id: "shipment_status"
@@ -129,6 +129,25 @@ exports = module.exports = {
                 id: "shipment_status"
             },
             sortOrder: 25
+        },
+        {
+            id: 'paymentStatusColumn',
+            areaId: 'orderGridHeader',
+            source: getComponentSource("sale/components/admin/order/grid/PaymentStatusColumnHeader.js"),
+            props: {
+                title: "Payment status",
+                id: "payment_status"
+            },
+            sortOrder: 30
+        },
+        {
+            id: 'paymentStatusRow',
+            areaId: 'orderGridRow',
+            source: getComponentSource("sale/components/admin/order/grid/PaymentStatus.js"),
+            props: {
+                id: "payment_status"
+            },
+            sortOrder: 30
         },
         {
             id: 'nameColumn',
@@ -162,9 +181,10 @@ exports = module.exports = {
         {
             id: 'orderNumberRow',
             areaId: 'orderGridRow',
-            source: getComponentSource("grid/rows/basic.js"),
+            source: getComponentSource("sale/components/admin/order/grid/OrderNumberRow.js"),
             props: {
-                id: "order_number"
+                id: "order_number",
+                editUrl: "editUrl"
             },
             sortOrder: 1
         },
@@ -200,7 +220,7 @@ exports = module.exports = {
         {
             id: 'totalRow',
             areaId: 'orderGridRow',
-            source: getComponentSource("grid/rows/basic.js"),
+            source: getComponentSource("grid/rows/PriceRow.js"),
             props: {
                 id: "grand_total"
             },
