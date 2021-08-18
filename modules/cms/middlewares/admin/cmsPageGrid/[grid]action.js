@@ -10,5 +10,5 @@ module.exports = async (request, response, stack) => {
         this[index]["editUrl"] = buildAdminUrl("cmsPageEdit", { id: parseInt(this[index]["cms_page_id"]) });
     }, pages);
 
-    //assign(response.context, { deleteCmsPagesUrl: buildAdminUrl("cmsPageBulkDelete") });
+    assign(response.context, { deleteCmsPagesUrl: buildAdminUrl("cmsPageBulkDelete") });
 }

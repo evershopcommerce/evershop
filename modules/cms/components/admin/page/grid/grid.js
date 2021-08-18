@@ -7,6 +7,7 @@ import { useAlertContext } from "../../../../../../lib/components/modal/Alert";
 import formData from "../../../../../../lib/util/formData";
 import { Checkbox } from "../../../../../../lib/components/form/fields/Checkbox";
 import { Card } from "../../card";
+import axios from "axios";
 
 const Actions = ({ selectedIds = [], setSelectedRows }) => {
     const { openAlert, closeAlert, dispatchAlert } = useAlertContext();

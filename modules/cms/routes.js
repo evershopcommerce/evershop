@@ -10,6 +10,8 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerAdminRoute("cmsPageEdit", ["GET"], "/page/edit/:id(\\d+)")
 
+    registerAdminRoute("cmsPageBulkDelete", ["POST"], "/page/bulkDelete");
+
     registerAdminRoute("cmsPageSavePost", ["POST"], "/page/save");
 
     registerAdminRoute("cmsPageGrid", ["GET"], "/pages/")
