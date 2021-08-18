@@ -27,12 +27,12 @@ export default function PaymentStatusColumnHeader({ title, id }) {
                 <Select
                     onChange={(e) => onChange(e)}
                     value={current}
-                    options={get(context, 'paymentStatus', []).map((status) => {
+                    options={[{ value: "all", text: "All" }].concat(get(context, 'paymentStatus', []).map((status) => {
                         return {
                             value: status.code,
                             text: status.name
                         }
-                    })}
+                    }))}
                 />
             </div>
         </div>

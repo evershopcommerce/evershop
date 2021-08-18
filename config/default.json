@@ -1,7 +1,8 @@
 {
     "shop": {
         "currency": "USD",
-        "language": "en",
+        "language": "fr",
+        "timezone": "America/New_York",
         "adminTheme": "default",
         "frontTheme": "default"
     },

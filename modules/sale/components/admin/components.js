@@ -112,6 +112,64 @@ exports = module.exports = {
             sortOrder: 1
         },
         {
+            id: 'orderNumberColumn',
+            areaId: 'orderGridHeader',
+            source: getComponentSource("grid/headers/basic.js"),
+            props: {
+                title: "ID",
+                id: "order_number"
+            },
+            sortOrder: 1
+        },
+        {
+            id: 'orderNumberRow',
+            areaId: 'orderGridRow',
+            source: getComponentSource("sale/components/admin/order/grid/OrderNumberRow.js"),
+            props: {
+                id: "order_number",
+                editUrl: "editUrl"
+            },
+            sortOrder: 1
+        },
+        {
+            id: 'dateColumn',
+            areaId: 'orderGridHeader',
+            source: getComponentSource("sale/components/admin/order/grid/OrderDateColumnHeader.js"),
+            props: {
+                title: "Date",
+                id: "created_at"
+            },
+            sortOrder: 5
+        },
+        {
+            id: 'dateRow',
+            areaId: 'orderGridRow',
+            source: getComponentSource("grid/rows/Date.js"),
+            props: {
+                id: "created_at"
+            },
+            sortOrder: 5
+        },
+        {
+            id: 'nameColumn',
+            areaId: 'orderGridHeader',
+            source: getComponentSource("grid/headers/basic.js"),
+            props: {
+                title: "Customer",
+                id: "customer_name"
+            },
+            sortOrder: 10
+        },
+        {
+            id: 'nameRow',
+            areaId: 'orderGridRow',
+            source: getComponentSource("grid/rows/basic.js"),
+            props: {
+                id: "customer_name"
+            },
+            sortOrder: 10
+        },
+        {
             id: 'shipmentStatusColumn',
             areaId: 'orderGridHeader',
             source: getComponentSource("sale/components/admin/order/grid/ShipmentStatusColumnHeader.js"),
@@ -150,72 +208,14 @@ exports = module.exports = {
             sortOrder: 30
         },
         {
-            id: 'nameColumn',
-            areaId: 'orderGridHeader',
-            source: getComponentSource("grid/headers/basic.js"),
-            props: {
-                title: "Customer name",
-                id: "customer_name"
-            },
-            sortOrder: 5
-        },
-        {
-            id: 'nameRow',
-            areaId: 'orderGridRow',
-            source: getComponentSource("grid/rows/basic.js"),
-            props: {
-                id: "customer_name"
-            },
-            sortOrder: 5
-        },
-        {
-            id: 'orderNumberColumn',
-            areaId: 'orderGridHeader',
-            source: getComponentSource("grid/headers/basic.js"),
-            props: {
-                title: "ID",
-                id: "order_number"
-            },
-            sortOrder: 1
-        },
-        {
-            id: 'orderNumberRow',
-            areaId: 'orderGridRow',
-            source: getComponentSource("sale/components/admin/order/grid/OrderNumberRow.js"),
-            props: {
-                id: "order_number",
-                editUrl: "editUrl"
-            },
-            sortOrder: 1
-        },
-        {
-            id: 'emailColumn',
-            areaId: 'orderGridHeader',
-            source: getComponentSource("grid/headers/basic.js"),
-            props: {
-                title: "Customer email",
-                id: "customer_email"
-            },
-            sortOrder: 5
-        },
-        {
-            id: 'emailRow',
-            areaId: 'orderGridRow',
-            source: getComponentSource("grid/rows/basic.js"),
-            props: {
-                id: "customer_email"
-            },
-            sortOrder: 5
-        },
-        {
             id: 'totalColumn',
             areaId: 'orderGridHeader',
             source: getComponentSource("grid/headers/fromTo.js"),
             props: {
-                title: "Grand total",
+                title: "Total",
                 id: "grand_total"
             },
-            sortOrder: 10
+            sortOrder: 50
         },
         {
             id: 'totalRow',
@@ -224,7 +224,7 @@ exports = module.exports = {
             props: {
                 id: "grand_total"
             },
-            sortOrder: 10
+            sortOrder: 50
         }
     ],
     "dashboard": [
