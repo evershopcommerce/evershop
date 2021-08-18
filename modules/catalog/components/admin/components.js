@@ -186,9 +186,10 @@ exports = module.exports = {
         {
             id: 'nameRow',
             areaId: 'categoryGridRow',
-            source: getComponentSource("grid/rows/basic.js"),
+            source: getComponentSource("catalog/components/admin/category/grid/NameRow.js"),
             props: {
-                id: "name"
+                id: "name",
+                editUrl: "editUrl"
             },
             sortOrder: 5
         }
