@@ -2,6 +2,8 @@ const { pool } = require('../../../../../lib/mysql/connection');
 const { assign } = require("../../../../../lib/util/assign");
 
 module.exports = async (request, response, stack) => {
+
+    assign(response.context, { page: { heading: 'CMS pages' } });
     /** Execute query */
     let query = stack["queryInit"];
 

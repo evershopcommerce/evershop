@@ -183,16 +183,15 @@ exports = module.exports = {
             props: {
                 limit: 20
             },
-            sortOrder: 10
+            sortOrder: 20
         },
         {
-            id: 'title',
-            areaId: 'content',
-            source: getComponentSource("cms/components/admin/title.js"),
+            id: "pageHeading",
+            areaId: "content",
+            source: getComponentSource("cms/components/admin/PageHeading.js"),
             props: {
-                title: "Pages"
             },
-            sortOrder: 1
+            sortOrder: 10
         },
         {
             id: 'title',
@@ -240,43 +239,6 @@ exports = module.exports = {
                 id: "name"
             },
             sortOrder: 5
-        },
-        {
-            id: 'idColumn',
-            areaId: 'pageGridHeader',
-            source: getComponentSource("grid/headers/fromTo.js"),
-            props: {
-                title: "ID",
-                id: "id"
-            },
-            sortOrder: 1
-        },
-        {
-            id: 'idRow',
-            areaId: 'pageGridRow',
-            source: getComponentSource("grid/rows/basic.js"),
-            props: {
-                id: "id"
-            },
-            sortOrder: 1
-        },
-        {
-            id: 'actionHeader',
-            areaId: 'pageGridHeader',
-            source: getComponentSource("grid/headers/action.js"),
-            props: {
-                gridOriginalUrl: buildAdminUrl("cmsPageGrid")
-            },
-            sortOrder: 35
-        },
-        {
-            id: 'actionRow',
-            areaId: 'pageGridRow',
-            source: getComponentSource("grid/rows/action.js"),
-            props: {
-                id: "action"
-            },
-            sortOrder: 35
         }
     ],
     "dashboard": [
