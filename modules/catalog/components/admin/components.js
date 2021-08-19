@@ -116,6 +116,13 @@ exports = module.exports = {
             source: getComponentSource("catalog/components/admin/category/edit/seo.js"),
             props: {},
             sortOrder: 20
+        },
+        {
+            id: "categoryEditBanner",
+            areaId: "rightSide",
+            source: getComponentSource("catalog/components/admin/category/edit/Image.js"),
+            props: {},
+            sortOrder: 10
         }
     ],
     "categoryGrid": [

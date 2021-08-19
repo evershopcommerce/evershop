@@ -3,5 +3,5 @@ const { assign } = require("../../../../../lib/util/assign");
 
 module.exports = (request, response) => {
     // Add uploadUrl to app context
-    assign(response.context, { categoryImageUploadUrl: buildAdminUrl("imageUpload", [""]) })
+    assign(response.context, { imageUploadUrl: buildAdminUrl("imageUpload", [""]) })
 };

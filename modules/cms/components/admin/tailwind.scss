@@ -851,6 +851,10 @@ video {
   grid-template-columns: repeat(9, minmax(0, 1fr));
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .content-end {
   align-content: flex-end;
 }
