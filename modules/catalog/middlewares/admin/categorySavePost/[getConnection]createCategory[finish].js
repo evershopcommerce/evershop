@@ -1,9 +1,8 @@
 const { insert } = require('@nodejscart/mysql-query-builder');
 
 module.exports = async (request, response, stack) => {
-    if (request.params.id)
+    if (request.body.category_id)
         return;
-
     let connection = await stack["getConnection"];
     let result = await insert("category").given(request.body).execute(connection);
     await insert("category_description")

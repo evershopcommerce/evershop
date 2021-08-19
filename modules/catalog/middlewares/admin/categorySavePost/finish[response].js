@@ -1,4 +1,4 @@
-const { commit, rollback } = require('../../../../../lib/mysql/connection');
+const { commit, rollback } = require("@nodejscart/mysql-query-builder");
 const { buildAdminUrl } = require('../../../../../lib/routie');
 
 module.exports = async (request, response, stack, next) => {
@@ -8,9 +8,9 @@ module.exports = async (request, response, stack, next) => {
         if (Promise.resolve(stack[id]) === stack[id])
             promises.push(stack[id]);
     }
+    let connection = await stack["getConnection"];
     try {
         await Promise.all(promises);
-        let connection = await stack["getConnection"];
         await commit(connection);
 
         // Store success message to session
@@ -19,14 +19,13 @@ module.exports = async (request, response, stack, next) => {
             type: "success",
             message: request.params.id ? "Category was updated successfully" : "Category was created successfully"
         });
-        request.session.save();
         response.json({
             data: { redirectUrl: buildAdminUrl("categoryGrid") },
             success: true,
             message: request.params.id ? "Category was updated successfully" : "Category was created successfully"
         })
     } catch (error) {
-        let connection = await stack["getConnection"];
+        console.log(error);
         await rollback(connection);
         response.json({
             success: false,

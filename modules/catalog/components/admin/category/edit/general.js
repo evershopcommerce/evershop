@@ -24,6 +24,16 @@ export default function General(props) {
         {
             component: { default: Field },
             props: {
+                id: "category_id",
+                name: "category_id",
+                type: "hidden"
+            },
+            sortOrder: 10,
+            id: "category_id"
+        },
+        {
+            component: { default: Field },
+            props: {
                 id: "status",
                 type: "radio",
                 name: "status",
