@@ -53,15 +53,6 @@ exports = module.exports = {
                 title: "Edit category"
             },
             sortOrder: 10
-        },
-        {
-            id: "title",
-            areaId: "content",
-            source: getComponentSource("cms/components/admin/title.js"),
-            props: {
-                title: "Edit category"
-            },
-            sortOrder: 10
         }
     ],
     categoryNew: [
@@ -73,18 +64,18 @@ exports = module.exports = {
                 title: "Create a new category"
             },
             sortOrder: 10
-        },
-        {
-            id: "title",
-            areaId: "content",
-            source: getComponentSource("cms/components/admin/title.js"),
-            props: {
-                title: "Create a new category"
-            },
-            sortOrder: 10
         }
     ],
     'categoryNew+categoryEdit': [
+        {
+            id: "pageHeading",
+            areaId: "content",
+            source: getComponentSource("cms/components/admin/PageHeading.js"),
+            props: {
+                backUrl: buildAdminUrl('categoryGrid')
+            },
+            sortOrder: 10
+        },
         {
             id: "categoryForm",
             areaId: "content",
@@ -100,16 +91,16 @@ exports = module.exports = {
         },
         {
             id: "ckeditor",
-            areaId: "head",
+            areaId: 'head',
             source: getComponentSource("script.js", true),
             props: {
-                src: buildAdminUrl("adminStaticAsset", [getAdminJsFile('ckeditor4/ckeditor.js').replace("/", "")]),
+                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
             },
             sortOrder: 1
         },
         {
             id: "categoryEditGeneral",
-            areaId: "left.side",
+            areaId: "leftSide",
             source: getComponentSource("catalog/components/admin/category/edit/general.js"),
             props: {
                 browserApi: buildAdminUrl("fileBrowser", [""]),
@@ -121,7 +112,7 @@ exports = module.exports = {
         },
         {
             id: "categoryEditSEO",
-            areaId: "right.side",
+            areaId: "rightSide",
             source: getComponentSource("catalog/components/admin/category/edit/seo.js"),
             props: {},
             sortOrder: 20

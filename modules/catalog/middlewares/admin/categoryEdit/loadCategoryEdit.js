@@ -18,6 +18,7 @@ module.exports = async (request, response, stack, next) => {
         response.redirect(302, buildAdminUrl("categoryGrid"));
     } else {
         assign(response.context, { category: JSON.parse(JSON.stringify(category)) });
+        assign(response.context, { page: { heading: category.name } });
         next();
     }
 }
