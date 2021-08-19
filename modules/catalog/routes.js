@@ -23,6 +23,8 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerAdminRoute("categoryBulkDelete", ["POST"], "/category/bulkDelete");
 
+    registerAdminRoute("categoryNew", ["GET"], "/categories/new");
+
     registerAdminRoute("categoryEdit", ["GET"], "/categories/edit/:id(\\d+)");
 
     registerAdminRoute("categorySavePost", ["POST"], "/category/save");

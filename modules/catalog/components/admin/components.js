@@ -137,6 +137,17 @@ exports = module.exports = {
             sortOrder: 10
         },
         {
+            id: "newCategoryButton",
+            areaId: "pageHeadingRight",
+            source: getComponentSource("form/Button.js"),
+            props: {
+                title: 'Add category',
+                variant: 'primary',
+                url: buildAdminUrl('categoryNew')
+            },
+            sortOrder: 10
+        },
+        {
             id: 'title',
             areaId: 'head',
             source: getComponentSource("title.js", true),
