@@ -49,7 +49,7 @@ export default function Image() {
             });
     };
 
-    return <Card title="Category banner" actions={image ? [{ name: 'Change', onAction: () => ref.current.click() }, { name: 'Remove', onAction: () => setImage(undefined) }] : []}>
+    return <Card title="Category banner" actions={image ? [{ name: 'Change', onAction: () => ref.current.click() }, { name: 'Remove', variant: "critical", onAction: () => setImage(undefined) }] : []}>
         <Card.Session>
             {!image && <label htmlFor={"categoryImageUpload"} className="flex flex-col justify-center image-uploader">
                 {loading === true && <div className="loading flex justify-center">

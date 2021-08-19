@@ -5,13 +5,19 @@ function Card({ title, actions = [], subdued = false, children }) {
         <div className={subdued ? "card shadow subdued" : "card shadow"}>
             {(title || actions.length > 0) && <div className="flex justify-between card-header">
                 {title && <h2 className='card-title'>{title}</h2>}
-                {actions.length > 0 && <div className='flex space-x-md'>
+                {actions.length > 0 && <div className='flex space-x-075'>
                     {actions.map((action, index) => {
+                        let className = {
+                            primary: "text-primary",
+                            critical: "text-critical",
+                            interactive: "text-interactive",
+                            secondary: "text-secondary"
+                        };
                         return <div key={index} className="card-action"><a href="#" onClick={(e) => {
                             e.preventDefault();
                             if (action.onAction)
                                 action.onAction.call();
-                        }} className='text-interactive'>{action.name}</a>
+                        }} className={className[action.variant ? action.variant : 'interactive']}>{action.name}</a>
                         </div>
                     })}
                 </div>}
