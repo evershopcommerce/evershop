@@ -14,7 +14,7 @@ const SKUPriceWeight = ({ sku, price, weight }) => {
                 id="sku"
                 name="sku"
                 value={sku}
-                placeHolder="SKU"
+                placeholder="SKU"
                 label="SKU"
                 type="text"
             />
@@ -24,7 +24,7 @@ const SKUPriceWeight = ({ sku, price, weight }) => {
                 id="price"
                 name="price"
                 value={price}
-                placeHolder="Price"
+                placeholder="Price"
                 label="Price"
                 type="text"
             />
@@ -34,7 +34,7 @@ const SKUPriceWeight = ({ sku, price, weight }) => {
                 id="weight"
                 name="weight"
                 value={weight}
-                placeHolder="Weight"
+                placeholder="Weight"
                 label="Weight"
                 type="text"
             />
@@ -43,32 +43,6 @@ const SKUPriceWeight = ({ sku, price, weight }) => {
 }
 export default function General(props) {
     const context = useAppState();
-    const fields = [
-        {
-            component: { default: Field },
-            props: { id: "name", name: "name", label: "Name", validationRules: ["notEmpty"], type: "text" },
-            sortOrder: 10,
-            id: "name"
-        }
-        // {
-        //     component: { default: Ckeditor },
-        //     props: {
-        //         id: "description",
-        //         name: "description",
-        //         label: "Description",
-        //         browserApi: props.browserApi,
-        //         deleteApi: props.deleteApi,
-        //         uploadApi: props.uploadApi,
-        //         folderCreateApi: props.folderCreateApi
-        //     },
-        //     sortOrder: 70,
-        //     id: "description"
-        // }
-    ].filter((f) => {
-        if (get(context, `product.${f.props.name}`) !== undefined)
-            f.props.value = get(context, `product.${f.props.name}`);
-        return f;
-    });
 
     return <Card
         title="General"
@@ -83,7 +57,8 @@ export default function General(props) {
                         label: "Name",
                         value: get(context, `product.name`),
                         validationRules: ["notEmpty"],
-                        type: "text"
+                        type: "text",
+                        placeholder: "Name"
                     },
                     sortOrder: 10,
                     id: "name"

@@ -36,7 +36,7 @@ export default function Inventory({ data }) {
                 id="qty"
                 name="qty"
                 value={get(context, `product.qty`, '')}
-                placeHolder="Quantity"
+                placeholder="Quantity"
                 label="Quantity"
                 type="text"
             />

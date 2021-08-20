@@ -26,7 +26,7 @@ export default function ProductCreateForm(props) {
             <Button
                 title={"Save"}
                 onAction={
-                    (e) => { e.preventDefault(); document.getElementById(props.id).dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })) }
+                    () => { document.getElementById(props.id).dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })) }
                 }
             />
         </div>
