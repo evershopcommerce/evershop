@@ -50,7 +50,6 @@ module.exports = async function (request, response, stack, next) {
             }
         }
     } catch (error) {
-        console.log(error.message)
         next(error);
     }
 }

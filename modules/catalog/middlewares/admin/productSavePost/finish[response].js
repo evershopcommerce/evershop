@@ -3,7 +3,6 @@ const { buildAdminUrl } = require('../../../../../lib/routie');
 
 module.exports = async (request, response, stack, next) => {
     let promises = [];
-    console.log('finish middleware')
     for (let id in stack) {
         // Check if middleware is async
         if (stack[id] instanceof Promise)
@@ -27,8 +26,8 @@ module.exports = async (request, response, stack, next) => {
             message: request.body.product_id ? "Product was updated successfully" : "Product was created successfully"
         })
     } catch (error) {
-        // let connection = await stack["getConnection"];
-        // await rollback(connection);
+        let connection = await stack["getConnection"];
+        await rollback(connection);
         response.json({
             success: false,
             message: error.message
