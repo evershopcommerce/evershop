@@ -64,6 +64,17 @@ export default function General(props) {
                     id: "name"
                 },
                 {
+                    component: { default: Field },
+                    props: {
+                        id: "product_id",
+                        name: "product_id",
+                        value: get(context, `product.product_id`),
+                        type: "hidden"
+                    },
+                    sortOrder: 10,
+                    id: "product_id"
+                },
+                {
                     component: { default: SKUPriceWeight },
                     props: {
                         sku: get(context, `product.sku`),

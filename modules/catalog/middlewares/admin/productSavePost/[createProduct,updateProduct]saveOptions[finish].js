@@ -7,7 +7,7 @@ module.exports = async (request, response, stack) => {
     if (request.body.product_id) {
         productId = request.body.product_id;
     } else {
-        productId = results["insertId"];
+        productId = results[0]["insertId"];
     }
     let connection = await stack["getConnection"];
     if (!request.body.options) {
