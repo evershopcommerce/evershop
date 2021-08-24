@@ -5,8 +5,9 @@ module.exports = async (request, response, stack, next) => {
     let promises = [];
     for (let id in stack) {
         // Check if middleware is async
-        if (stack[id] instanceof Promise)
+        if (stack[id] instanceof Promise) {
             promises.push(stack[id]);
+        }
     }
     try {
         await Promise.all(promises);

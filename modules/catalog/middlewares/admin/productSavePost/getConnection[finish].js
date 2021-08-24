@@ -3,7 +3,7 @@ const { startTransaction } = require("@nodejscart/mysql-query-builder");
 
 module.exports = async (request, response) => {
     let connection = await getConnection();
-    startTransaction(connection);
+    await startTransaction(connection);
 
     return connection;
 }
