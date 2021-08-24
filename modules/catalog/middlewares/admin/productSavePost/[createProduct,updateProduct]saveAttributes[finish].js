@@ -5,8 +5,8 @@ module.exports = async (request, response, stack) => {
     let promises = [stack["createProduct"], stack["updateProduct"]];
     let results = await Promise.all(promises);
     let productId;
-    if (request.params.id) {
-        productId = request.params.id;
+    if (request.body.product_id) {
+        productId = request.body.product_id;
     } else {
         productId = results["insertId"];
     }

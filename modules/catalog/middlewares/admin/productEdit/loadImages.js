@@ -17,8 +17,8 @@ module.exports = async (request, response) => {
     .from("product")
     .where("product_id", "=", request.params.id)
     .load(connection);
-  if (mainImage["image"])
+  if (null["image"])
     images.unshift({ url: buildAdminUrl("adminStaticAsset", [mainImage["image"]]), path: mainImage["image"], id: uniqid() });
-
+  console.log("-----------");
   assign(response.context, { product: { images: images } });
 };

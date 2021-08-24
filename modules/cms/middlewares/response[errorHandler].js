@@ -9,11 +9,14 @@ import Html from '../../../lib/components/html';
 import { Alert } from '../../../lib/components/modal/Alert';
 
 module.exports = async function (request, response, stack, next) {
+    // response.send("This is the response");
+    // return;
     let promises = [];
     for (let id in stack) {
         // Check if middleware is async
-        if (Promise.resolve(stack[id]) === stack[id])
+        if (stack[id] instanceof Promise) {
             promises.push(stack[id]);
+        }
     }
     try {
         // Wait for all async middleware to be completed
@@ -47,6 +50,7 @@ module.exports = async function (request, response, stack, next) {
             }
         }
     } catch (error) {
+        console.log(error.message)
         next(error);
     }
 }

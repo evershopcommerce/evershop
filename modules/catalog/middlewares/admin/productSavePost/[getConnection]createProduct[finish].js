@@ -1,7 +1,7 @@
 var { insert } = require('@nodejscart/mysql-query-builder');
 
 module.exports = async (request, response, stack) => {
-    if (request.params.id)
+    if (request.body.product_id)
         return;
 
     let connection = await stack["getConnection"];
