@@ -27,9 +27,27 @@ function Card({ title, actions = [], subdued = false, children }) {
     );
 }
 
-Card.Session = ({ title, children }) => {
+Card.Session = ({ actions = [], title, children }) => {
     return <div className='card-section border-b box-border border-border'>
-        {title && <h3 className='card-session-title'>{title}</h3>}
+        {(title || actions.length > 0) && <div className="flex justify-between card-section-header mb-1">
+            {title && <h3 className='card-session-title'>{title}</h3>}
+            {actions.length > 0 && <div className='flex space-x-075'>
+                {actions.map((action, index) => {
+                    let className = {
+                        primary: "text-primary",
+                        critical: "text-critical",
+                        interactive: "text-interactive",
+                        secondary: "text-secondary"
+                    };
+                    return <div key={index} className="card-action"><a href="#" onClick={(e) => {
+                        e.preventDefault();
+                        if (action.onAction)
+                            action.onAction.call();
+                    }} className={className[action.variant ? action.variant : 'interactive']}>{action.name}</a>
+                    </div>
+                })}
+            </div>}
+        </div>}
         <div className='card-session-content pt-lg'>{children}</div>
     </div>
 }
