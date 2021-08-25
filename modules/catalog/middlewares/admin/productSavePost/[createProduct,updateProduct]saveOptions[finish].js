@@ -26,12 +26,12 @@ module.exports = async (request, response, stack) => {
         let option;
         if (options.find(o => parseInt(o.product_custom_option_id) === parseInt(id)))
             option = await update("product_custom_option")
-                .given(request.body.options[id])
+                .given({ ...request.body.options[id], is_required: request.body.options[id]['is_required'] || 0 })
                 .where("product_custom_option_id", "=", id)
                 .execute(connection);
         else
             option = await insert("product_custom_option")
-                .given(request.body.options[id])
+                .given({ ...request.body.options[id], is_required: request.body.options[id]['is_required'] || 0 })
                 .prime("product_custom_option_product_id", productId)
                 .execute(connection);
         await saveOptionValues(parseInt(option.insertId || id), request.body.options[id]["values"] || [], connection);
