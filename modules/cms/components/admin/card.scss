@@ -15,6 +15,9 @@
 .card-section {
     border-color: var(--divider);
     padding: 2rem;
+    .card-section {
+        padding: 0;
+    }
 }
 .card .card-section:last-child {
     border-bottom: none;
@@ -29,4 +32,7 @@
 }
 .card-session-title + .card-session-content {
     padding-top: 0.85rem;
+}
+.card-action a:hover {
+    text-decoration: underline;
 }
