@@ -1,16 +1,12 @@
 const inspect = require("util").inspect;
 const { AppProvider } = require("../../../lib/context/app");
 const { renderToString } = require("react-dom/server");
-const { CONSTANTS } = require("../../../lib/helpers");
-const path = require('path');
 import React from 'react';
 import { getComponentsByRoute } from '../../../lib/componee';
 import Html from '../../../lib/components/html';
 import { Alert } from '../../../lib/components/modal/Alert';
 
 module.exports = async function (request, response, stack, next) {
-    // response.send("This is the response");
-    // return;
     let promises = [];
     for (let id in stack) {
         // Check if middleware is async
@@ -21,6 +17,7 @@ module.exports = async function (request, response, stack, next) {
     try {
         // Wait for all async middleware to be completed
         await Promise.all(promises);
+
         let route = request._route;
         // Check if this is a redirection or not.
         if (response.$redirectUrl) {

@@ -22,7 +22,6 @@ require('@babel/register')({
     ignore: ['node_modules']
 });
 
-
 /* Loading modules and initilize routes, components and services */
 const modules = readdirSync(path.resolve(__dirname, "../modules/"), { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
