@@ -20,14 +20,11 @@ export default function CustomOption(props) {
         }));
     };
 
-    const removeOption = (key, e) => {
-        e.preventDefault();
-        const newOptions = options.filter((_, index) => index !== key);
-        setOptions(newOptions);
+    const removeOption = (id) => {
+        setOptions(options.filter((option) => option.option_id !== id));
     };
 
-    const addCustomOptionValue = (option_id, e) => {
-        e.preventDefault();
+    const addCustomOptionValue = (option_id) => {
         setOptions(options.map((o, i) => {
             if (parseInt(o.option_id) === parseInt(option_id)) {
                 let values = o.values === undefined ? [] : o.values;
@@ -58,104 +55,92 @@ export default function CustomOption(props) {
     return <Card
         title="Custom option"
     >
-        <Card.Session>
-            <ul>
-                {options.map((option, index) => {
-                    let values = option["values"] === undefined ? [] : option["values"];
-                    let { option_id, option_name, sort_order, option_type, is_required } = option;
-                    return <Card.Session key={index} title={option_name}>
-                        <div className='grid grid-cols-2 gap-1'>
+        {options.map((option, index) => {
+            let values = option["values"] === undefined ? [] : option["values"];
+            let { option_id, option_name, sort_order, option_type, is_required } = option;
+            return <Card.Session key={index} title={option_name || 'New option'} actions={[{ variant: 'critical', name: 'Remove option', onAction: () => { removeOption(option_id) } }]}>
+                <div className='grid grid-cols-3 gap-1 mb-1'>
+                    <div>
+                        <Field
+                            name={"options[" + option_id + "][option_name]"}
+                            value={option_name}
+                            validationRules={["notEmpty"]}
+                            label="Option name"
+                            type='text' />
+                    </div>
+                    <div>
+                        <Field
+                            name={"options[" + option_id + "][option_type]"}
+                            value={option_type}
+                            label="Type"
+                            options={[
+                                { value: "select", text: "Single choice" },
+                                { value: "multiselect", text: "Multiple choice" }
+                            ]}
+                            type='select'
+                        />
+                    </div>
+                    <div>
+                        <Field
+                            name={"options[" + option_id + "][sort_order]"}
+                            value={sort_order}
+                            label="Sort order"
+                            type='text' />
+                    </div>
+                </div>
+                <div className="mb-1">
+                    <Field
+                        name={"options[" + option_id + "][is_required]"}
+                        isChecked={parseInt(is_required) === 1}
+                        label="This option is mandatory"
+                        value="1"
+                        type='checkbox'
+                    />
+                </div>
+                <Card.Session title={'Option values'} actions={[{ variant: 'interactive', name: 'Add value', onAction: () => { addCustomOptionValue(option_id) } }]}>
+                    <div className="grid grid-cols-4 gap-1 mt-05">
+                        <div>Value</div>
+                        <div>Extra Price</div>
+                        <div>Sort Order</div>
+                        <div></div>
+                    </div>
+                    {values.map((val, i) => {
+                        let { value_id, option_id, extra_price, sort_order, value } = val;
+                        return <div key={val.value_id} className='grid-cols-4 grid gap-1 mb-05'>
                             <div>
                                 <Field
-                                    name={"options[" + option_id + "][option_name]"}
-                                    value={option_name}
+                                    name={"options[" + option_id + "][values][" + value_id + "][value]"}
+                                    value={value}
                                     validationRules={["notEmpty"]}
-                                    label="Option name"
-                                    type='text' />
-                            </div>
-                            <div>
-                                <Field
-                                    name={"options[" + option_id + "][option_type]"}
-                                    value={option_type}
-                                    label="Type"
-                                    options={[
-                                        { value: "select", text: "Single choice" },
-                                        { value: "multiselect", text: "Multiple choice" }
-                                    ]}
-                                    type='select'
+                                    type='text'
                                 />
                             </div>
                             <div>
                                 <Field
-                                    name={"options[" + option_id + "][sort_order]"}
+                                    name={"options[" + option_id + "][values][" + value_id + "][extra_price]"}
+                                    value={extra_price}
+                                    type='text'
+                                />
+                            </div>
+                            <div>
+                                <Field
+                                    name={"options[" + option_id + "][values][" + value_id + "][sort_order]"}
                                     value={sort_order}
-                                    label="Sort order"
-                                    type='text' />
-                            </div>
-                            <div>
-                                <Field
-                                    name={"options[" + option_id + "][is_required]"}
-                                    isChecked={parseInt(is_required) === 1}
-                                    label="This option is mandatory"
-                                    type='checkbox'
+                                    type='text'
                                 />
                             </div>
-                        </div>
-                        <table className="table-auto border-collapse">
-                            <thead>
-                                <tr>
-                                    <td>Value</td>
-                                    <td>Extra Price</td>
-                                    <td>Sort Order</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {values.map((val, i) => {
-                                    let { value_id, option_id, extra_price, sort_order, value } = val;
-                                    return <tr key={val.value_id}>
-                                        <td>
-                                            <Field
-                                                name={"options[" + option_id + "][values][" + value_id + "][value]"}
-                                                value={value}
-                                                validationRules={["notEmpty"]}
-                                                type='text'
-                                            />
-                                        </td>
-                                        <td>
-                                            <Field
-                                                name={"options[" + option_id + "][values][" + value_id + "][extra_price]"}
-                                                value={extra_price}
-                                                type='text'
-                                            />
-                                        </td>
-                                        <td>
-                                            <Field
-                                                name={"options[" + option_id + "][values][" + value_id + "][sort_order]"}
-                                                value={sort_order}
-                                                type='text'
-                                            />
-                                        </td>
-                                        <td>
-                                            <a href="#" onClick={(e) => { e.preventDefault(); removeCustomOptionValue(option_id, value_id, e); }} className="text-critical hover:underline">
-                                                Remove
-                                            </a>
-                                        </td>
-                                    </tr>;
-                                })}
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colSpan="3"><a href="#" className='text-interactive hover:underline' onClick={(e) => { e.preventDefault(); addCustomOptionValue(option_id, e); }}>
-                                        Add value
-                                    </a></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </Card.Session>;
-                })}
-            </ul>
-            <div><a href="#" onClick={(e) => { e.preventDefault(); addOption(e); }}><span className="text-interactive">Add option</span></a></div>
+                            <div>
+                                <a href="#" onClick={(e) => { e.preventDefault(); removeCustomOptionValue(option_id, value_id, e); }} className="text-critical hover:underline">
+                                    Remove
+                                </a>
+                            </div>
+                        </div>;
+                    })}
+                </Card.Session>
+            </Card.Session>;
+        })}
+        <Card.Session>
+            <div><a href="#" onClick={(e) => { e.preventDefault(); addOption(e); }}><span className="text-interactive hover:underline">Add option</span></a></div>
         </Card.Session>
     </Card>;
 }
