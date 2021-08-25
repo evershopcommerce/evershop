@@ -1,5 +1,4 @@
 import React from "react";
-import Area from "../../../../../../lib/components/area";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 import { Field } from "../../../../../../lib/components/form/Field";
@@ -35,7 +34,7 @@ export default function Inventory({ data }) {
             <Field
                 id="qty"
                 name="qty"
-                value={get(context, `product.qty`, '')}
+                value={get(context, `product.qty`)}
                 placeholder="Quantity"
                 label="Quantity"
                 type="text"
