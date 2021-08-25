@@ -63,50 +63,44 @@ export default function CustomOption(props) {
                 {options.map((option, index) => {
                     let values = option["values"] === undefined ? [] : option["values"];
                     let { option_id, option_name, sort_order, option_type, is_required } = option;
-                    return <li key={index}>
-                        <table className="table-auto border-collapse">
-                            <thead>
-                                <tr>
-                                    <td>Option name</td>
-                                    <td>Type</td>
-                                    <td>Is required?</td>
-                                    <td>Sort order</td>
-                                    <td className="align-middle"><a href="#" onClick={(e) => { e.preventDefault(); removeOption(index, e); }} className="text-critical">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </a></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <Field name={"options[" + option_id + "][option_name]"} value={option_name} validationRules={["notEmpty"]} type='text' />
-                                    </td>
-                                    <td>
-                                        <Field
-                                            name={"options[" + option_id + "][option_type]"}
-                                            value={option_type}
-                                            options={[
-                                                { value: "select", text: "Single choice" },
-                                                { value: "multiselect", text: "Multiple choice" }
-                                            ]}
-                                            type='select'
-                                        />
-                                    </td>
-                                    <td>
-                                        <Field
-                                            name={"options[" + option_id + "][is_required]"}
-                                            value={is_required}
-                                            type='toggle'
-                                        />
-                                    </td>
-                                    <td>
-                                        <Field name={"options[" + option_id + "][sort_order]"} value={sort_order} type='text' />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    return <Card.Session key={index} title={option_name}>
+                        <div className='grid grid-cols-2 gap-1'>
+                            <div>
+                                <Field
+                                    name={"options[" + option_id + "][option_name]"}
+                                    value={option_name}
+                                    validationRules={["notEmpty"]}
+                                    label="Option name"
+                                    type='text' />
+                            </div>
+                            <div>
+                                <Field
+                                    name={"options[" + option_id + "][option_type]"}
+                                    value={option_type}
+                                    label="Type"
+                                    options={[
+                                        { value: "select", text: "Single choice" },
+                                        { value: "multiselect", text: "Multiple choice" }
+                                    ]}
+                                    type='select'
+                                />
+                            </div>
+                            <div>
+                                <Field
+                                    name={"options[" + option_id + "][sort_order]"}
+                                    value={sort_order}
+                                    label="Sort order"
+                                    type='text' />
+                            </div>
+                            <div>
+                                <Field
+                                    name={"options[" + option_id + "][is_required]"}
+                                    isChecked={parseInt(is_required) === 1}
+                                    label="This option is mandatory"
+                                    type='checkbox'
+                                />
+                            </div>
+                        </div>
                         <table className="table-auto border-collapse">
                             <thead>
                                 <tr>
@@ -142,8 +136,8 @@ export default function CustomOption(props) {
                                                 type='text'
                                             />
                                         </td>
-                                        <td colSpan="3">
-                                            <a href="#" onClick={(e) => { e.preventDefault(); removeCustomOptionValue(option_id, value_id, e); }} className="text-critical w-15 block">
+                                        <td>
+                                            <a href="#" onClick={(e) => { e.preventDefault(); removeCustomOptionValue(option_id, value_id, e); }} className="text-critical hover:underline">
                                                 Remove
                                             </a>
                                         </td>
@@ -152,13 +146,13 @@ export default function CustomOption(props) {
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colSpan="3"><a href="#" onClick={(e) => { e.preventDefault(); addCustomOptionValue(option_id, e); }}>
+                                    <td colSpan="3"><a href="#" className='text-interactive hover:underline' onClick={(e) => { e.preventDefault(); addCustomOptionValue(option_id, e); }}>
                                         Add value
                                     </a></td>
                                 </tr>
                             </tfoot>
                         </table>
-                    </li>;
+                    </Card.Session>;
                 })}
             </ul>
             <div><a href="#" onClick={(e) => { e.preventDefault(); addOption(e); }}><span className="text-interactive">Add option</span></a></div>
