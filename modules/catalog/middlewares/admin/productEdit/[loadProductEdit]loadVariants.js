@@ -78,7 +78,7 @@ module.exports = async (request, response, stack) => {
             variantAttributes: await Promise.all(attributes.map(async a => {
                 let options = await select()
                     .from("attribute_option")
-                    .where("`attribute_id`", "=", a.attribute_id).execute(pool);
+                    .where("`attribute_id`", "=", a.attribute_id).execute(connection);
                 return { ...a, options: options.map(o => { return { ...o } }) }
             }))
         }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { get } from "../../../../../../lib/util/get";
 import { FORM_VALIDATED } from '../../../../../../lib/util/events';
 import PubSub from "pubsub-js";
@@ -8,6 +8,8 @@ import ProductMediaManager from "./ProductMediaManager";
 import { Field } from "../../../../../../lib/components/form/Field";
 import { Card } from "../../../../../cms/components/admin/card";
 import axios from "axios";
+import { useAlertContext } from "../../../../../../lib/components/modal/Alert";
+import { Input } from "../../../../../../lib/components/form/fields/Input";
 
 function isDuplicated(attrs1, attrs2) {
   let flag = true;
@@ -140,19 +142,25 @@ function Variant({ attributes, variant, removeVariant, updateVariant }) {
   </div>
 }
 
-function Search({ addVariant, variants }) {
-  const searchUrl = get(useAppState(), "searchVariantUrl");
+function SearchModal({ keyword, variants, addVariant }) {
+  const context = useAppState();
   const [potentialVariants, setPotentialVariants] = React.useState([]);
   const [typeTimeout, setTypeTimeout] = React.useState(null);
-  const searchInput = React.useRef();
+  const searchUrl = get(useAppState(), "searchVariantUrl");
+  const [loading, setLoading] = React.useState(false);
 
-  const search = (e) => {
-    e.persist();
+  useEffect(() => {
+    setPotentialVariants([]);
+    search(keyword)
+  }, [])
+
+  const search = (keyword) => {
     if (typeTimeout) clearTimeout(typeTimeout);
     setTypeTimeout(setTimeout(() => {
+      setLoading(true);
       let url = new URL(searchUrl, window.location.origin);
-      if (e.target.value)
-        url.searchParams.set('keyword', e.target.value);
+      if (keyword)
+        url.searchParams.set('keyword', keyword);
 
       fetch(
         url,
@@ -180,27 +188,44 @@ function Search({ addVariant, variants }) {
             //toast.error(get(error, "message", "Failed!"));
           }
         )
-        .finally(() => e.target.value = null);
+        .finally(() => {
+          //e.target.value = null
+          setLoading(false)
+        });
     }, 1500));
   };
 
-  return <div className='flex justify-between'>
-    <div className='self-center'>
-      <a href="#" onClick={(e) => addVariant(e)}><span className="text-interactive">Add a new variant</span></a>
-    </div>
-    <div className='self-center'>
-      <div className="autocomplete-search">
-        <input ref={searchInput} type="text" className="form-control search-input" placeholder="Search for variant" onChange={(e) => search(e)} />
-        <a className="search-clear" href={"#"} onClick={(e) => { e.preventDefault(); setPotentialVariants([]); searchInput.current.value = null; }}><i className="fas fa-times"></i></a>
-        {potentialVariants.length > 0 && <div className="search-result">
-          <table className="table-auto">
+  return <div>
+    <Input
+      type={'text'}
+      onChange={(e) => {
+        e.persist();
+        search(e.target.value)
+      }}
+      value={keyword}
+    />
+    <div className="variant-search-result">
+      {loading && <div className='variant-search-loading'>
+        <svg style={{ background: 'rgb(255, 255, 255, 0)', display: 'block', shapeRendering: 'auto' }} width="2rem" height="2rem" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+          <circle cx="50" cy="50" fill="none" stroke="var(--primary)" strokeWidth="10" r="43" strokeDasharray="202.63272615654165 69.54424205218055">
+            <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+          </circle>
+        </svg>
+      </div>}
+      {potentialVariants.length > 0 && <div className="search-result">
+        <table className="listing">
+          <tbody>
             {potentialVariants.map((v) => {
-              return <tr>
+              return <tr className={v.selected === true ? "selected" : ""}>
                 <td>{v.image.url && <img src={v.image.url} />}</td>
-                <td><span>{v.name}</span></td>
-                <td><span>{v.sku}</span></td>
-                <td><span>{v.price}</span></td>
-                <td><a href="#" onClick={(e) => {
+                <td><a className="text-interactive" href="#" onClick={(e) => {
+                  e.preventDefault();
+                  setPotentialVariants(potentialVariants.map(a => {
+                    if (parseInt(a.variant_product_id) === parseInt(v.variant_product_id))
+                      return { ...a, selected: true }
+                    else
+                      return a;
+                  }))
                   addVariant(e, {
                     id: uniqid(),
                     variant_product_id: v.variant_product_id,
@@ -213,20 +238,92 @@ function Search({ addVariant, variants }) {
                     visibility: 0,
                     editUrl: v.editUrl
                   })
-                }}><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg></a></td>
+                }}><span>{v.name}</span></a></td>
+                <td><span>{new Intl.NumberFormat(context.language, { style: 'currency', currency: context.currency }).format(v.price)}</span></td>
               </tr>
             })}
-          </table>
-        </div>}
+          </tbody>
+        </table>
+      </div>}
+      {potentialVariants.length <= 0 && <div className='flex justify-center p-1'>There is no product to show</div>}
+    </div>
+  </div>
+}
+
+function Search({ addVariant, variants }) {
+  const searchInput = React.useRef();
+  const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
+
+  const openModal = (e) => {
+    e.persist();
+    openAlert({
+      heading: `Search for variant`,
+      content: <SearchModal
+        keyword={e.target.value}
+        variants={variants}
+        addVariant={addVariant}
+      />,
+      primaryAction: {
+        'title': 'Done',
+        'onAction': closeAlert,
+        'variant': 'primary'
+      }
+    }
+    )
+  }
+
+
+  return <div className='flex justify-between mt-1'>
+    <div className='self-center'>
+      <a href="#" onClick={(e) => addVariant(e)}><span className="text-interactive hover:underline">Add a new variant</span></a>
+    </div>
+    <div className='self-center'>
+      <div className="autocomplete-search">
+        <Input
+          ref={searchInput}
+          type="text"
+          placeholder="Search for variant"
+          onChange={(e) => openModal(e)}
+        />
       </div>
     </div>
   </div>
 }
 
+function variantReducer(variants, action) {
+  switch (action.type) {
+    case 'add':
+      if (action.payload.variant)
+        return variants.concat(action.payload.variant);
+      else
+        return variants.concat({
+          id: uniqid(),
+          attributes: [],
+          image: {},
+          sku: "",
+          price: 0,
+          qty: "",
+          status: 1,
+          visibility: 0,
+          isNew: true
+        });
+    case 'remove':
+      return variants.filter(v => v.id !== action.payload.id);
+    case 'update':
+      return variants.map(v => {
+        if (v.id === action.payload.id) {
+          return action.payload.variant;
+        } else {
+          return v;
+        }
+      })
+    default:
+      throw new Error();
+  }
+}
+
 function Variants({ variantAttributes, variantProducts }) {
-  const [variants, setVariants] = React.useState(variantProducts);
+  const [variants, dispatch] = React.useReducer(variantReducer, variantProducts);
 
   const validate = (formId, errors) => {
     setVariants(variants.map((v) => {
@@ -273,32 +370,31 @@ function Variants({ variantAttributes, variantProducts }) {
 
   const addVariant = (e, variant = null) => {
     e.preventDefault();
-    if (variant === null)
-      setVariants(variants.concat({
-        id: uniqid(),
-        attributes: [],
-        image: {},
-        sku: "",
-        price: 0,
-        qty: "",
-        status: 1,
-        visibility: 0,
-        isNew: true
-      }));
-    else
-      setVariants(variants.concat(variant));
+    dispatch({
+      type: 'add',
+      payload: {
+        variant: variant
+      }
+    })
   };
 
   const removeVariant = (variant) => {
-    setVariants(variants.filter((v) => v.id !== variant.id));
+    dispatch({
+      type: 'remove',
+      payload: {
+        id: variant.id
+      }
+    })
   };
 
   const updateVariant = (id, value) => {
-    setVariants(variants.map((v) => {
-      if (v.id === id)
-        return value;
-      return v;
-    }))
+    dispatch({
+      type: 'update',
+      payload: {
+        id: id,
+        variant: value
+      }
+    })
   };
 
   return <div>
@@ -342,23 +438,23 @@ function CreateVariantGroup() {
     />}
     {creating === false && <div>
       {variantableAttributes.length > 0 && <div>
-        <Field
-          name={'variant_group_attributes[]'}
-          label={'Variant attributes'}
-          formId="product-edit-form"
-          value={undefined}
-          options={(() => {
-            return variantableAttributes.map((a, i) => { return { value: a.attribute_id, text: a.attribute_name } })
-          })()}
-          validationRules={['notEmpty']}
-          onChange={(e) => {
-            let val = [...e.target.options].filter(o => o.selected).map(o => parseInt(o.value));
-            setAttributes(val);
-          }}
-          type='multiselect'
-        />
-        <div className="">
-          <button className="" onClick={(e) => onCreate(e)}>Create</button>
+        <div><span>Select the list of attribute</span></div>
+        {variantableAttributes.map((a) => {
+          return <Field
+            key={a.attribute_id}
+            type='checkbox'
+            label={a.attribute_name}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setAttributes(attributes.concat(a.attribute_id))
+              } else {
+                setAttributes(attributes.filter(a => a !== a.attribute_id))
+              }
+            }}
+          />
+        })}
+        <div className="mt-1">
+          <a className="text-interactive hover:underline" href="#" onClick={(e) => onCreate(e)}>Create</a>
         </div>
       </div>}
       {variantableAttributes.length === 0 && <div className="alert alert-danger" role="alert">
@@ -378,18 +474,24 @@ function Edit() {
 
 function New() {
   const [action, setAction] = React.useState(undefined);
-  return <div>
-    {action === undefined && <div>
-      <div className="justify-center text-center">
-        <div className="mb-4">This product has some variants like color or size?</div>
-        <a className="" href="#" onClick={(e) => { e.preventDefault(); setAction("create"); }}>Create a variant group</a>
-      </div>
-    </div>}
-    {action === "create" && <div>
-      <CreateVariantGroup />
-      <button className="">Cancel</button>
-    </div>}
-  </div>
+  return <>
+    <Card.Session>
+      {action === undefined && <div>
+        <div className="justify-center text-center">
+          <div className="mb-4">
+            <span className="pr-1">This product has some variants like color or size?</span>
+            <a className="text-interactive hover:underline" href="#" onClick={(e) => { e.preventDefault(); setAction("create"); }}>Create a variant group</a>
+          </div>
+        </div>
+      </div>}
+      {action === "create" && <div>
+        <CreateVariantGroup />
+      </div>}
+    </Card.Session>
+    {action === 'create' && <Card.Session>
+      <a className="text-critical hover:underline" href="#" onClick={e => { e.preventDefault(); setAction(undefined) }}>Cancel</a>
+    </Card.Session>}
+  </>
 }
 
 export default function VariantGroup() {
