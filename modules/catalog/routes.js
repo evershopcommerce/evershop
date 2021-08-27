@@ -29,6 +29,16 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerAdminRoute("categorySavePost", ["POST"], "/category/save");
 
+    registerAdminRoute("attributeGrid", ["GET"], "/attributes");
+
+    registerAdminRoute("attributeBulkDelete", ["POST"], "/attribute/bulkDelete");
+
+    registerAdminRoute("attributeNew", ["GET"], "/attributes/new");
+
+    registerAdminRoute("attributeEdit", ["GET"], "/attributes/edit/:id(\\d+)");
+
+    registerAdminRoute("attributeSavePost", ["POST"], "/attribute/save");
+
     // Site routes
     registerSiteRoute("categoryView", ["GET"], "/category/:url_key");
 

@@ -42,6 +42,17 @@ exports = module.exports = {
                 "title": "Categories"
             },
             sortOrder: 10
+        },
+        {
+            id: "attributes",
+            areaId: 'catalog.group',
+            source: getComponentSource("cms/components/admin/NavigationItem.js", true),
+            props: {
+                "icon": "tags",
+                "url": buildAdminUrl("attributeGrid"),
+                "title": "Attributes"
+            },
+            sortOrder: 15
         }
     ],
     categoryEdit: [
@@ -487,6 +498,218 @@ exports = module.exports = {
                 id: "sku"
             },
             sortOrder: 15
+        }
+    ],
+    categoryEdit: [
+        {
+            id: "metaTitle",
+            areaId: "head",
+            source: getComponentSource("title.js"),
+            props: {
+                title: "Edit category"
+            },
+            sortOrder: 10
+        }
+    ],
+    categoryNew: [
+        {
+            id: "metaTitle",
+            areaId: "head",
+            source: getComponentSource("title.js"),
+            props: {
+                title: "Create a new category"
+            },
+            sortOrder: 10
+        }
+    ],
+    'categoryNew+categoryEdit': [
+        {
+            id: "pageHeading",
+            areaId: "content",
+            source: getComponentSource("cms/components/admin/PageHeading.js"),
+            props: {
+                backUrl: buildAdminUrl('categoryGrid')
+            },
+            sortOrder: 10
+        },
+        {
+            id: "categoryForm",
+            areaId: "content",
+            source: getComponentSource("catalog/components/admin/category/edit/categoryEditForm.js"),
+            props: {
+                id: "category-edit-form",
+                method: "POST",
+                action: buildAdminUrl("categorySavePost"),
+                gridUrl: buildAdminUrl("categoryGrid"),
+                uploadApi: buildAdminUrl("imageUpload", [""])
+            },
+            sortOrder: 10
+        },
+        {
+            id: "ckeditor",
+            areaId: 'head',
+            source: getComponentSource("script.js", true),
+            props: {
+                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
+            },
+            sortOrder: 1
+        },
+        {
+            id: "categoryEditGeneral",
+            areaId: "leftSide",
+            source: getComponentSource("catalog/components/admin/category/edit/general.js"),
+            props: {
+                browserApi: buildAdminUrl("fileBrowser", [""]),
+                deleteApi: buildAdminUrl("fileDelete", [""]),
+                uploadApi: buildAdminUrl("imageUpload", [""]),
+                folderCreateApi: buildAdminUrl("folderCreate", [""])
+            },
+            sortOrder: 10
+        },
+        {
+            id: "categoryEditSEO",
+            areaId: "rightSide",
+            source: getComponentSource("catalog/components/admin/category/edit/seo.js"),
+            props: {},
+            sortOrder: 20
+        },
+        {
+            id: "categoryEditBanner",
+            areaId: "rightSide",
+            source: getComponentSource("catalog/components/admin/category/edit/Image.js"),
+            props: {},
+            sortOrder: 10
+        }
+    ],
+    /* Attributes */
+    "attributeGrid": [
+        {
+            id: "attributeGrid",
+            areaId: 'content',
+            source: getComponentSource("catalog/components/admin/attribute/grid/grid.js"),
+            props: {
+                limit: 20
+            },
+            sortOrder: 20
+        },
+        {
+            id: "pageHeading",
+            areaId: "content",
+            source: getComponentSource("cms/components/admin/PageHeading.js"),
+            props: {
+            },
+            sortOrder: 10
+        },
+        {
+            id: "newAttributeButton",
+            areaId: "pageHeadingRight",
+            source: getComponentSource("form/Button.js"),
+            props: {
+                title: 'Add attribute',
+                variant: 'primary',
+                url: buildAdminUrl('attributeNew')
+            },
+            sortOrder: 10
+        },
+        {
+            id: 'title',
+            areaId: 'head',
+            source: getComponentSource("title.js", true),
+            props: {
+                title: "Attributes"
+            },
+            sortOrder: 1
+        },
+        {
+            id: 'nameColumn',
+            areaId: 'attributeGridHeader',
+            source: getComponentSource("grid/headers/basic.js"),
+            props: {
+                title: "Attribute name",
+                id: "attribute_name"
+            },
+            sortOrder: 5
+        },
+        {
+            id: 'nameRow',
+            areaId: 'attributeGridRow',
+            source: getComponentSource("catalog/components/admin/attribute/grid/NameRow.js"),
+            props: {
+                id: "attribute_name",
+                editUrl: "editUrl"
+            },
+            sortOrder: 5
+        },
+        {
+            id: 'typeColumn',
+            areaId: 'attributeGridHeader',
+            source: getComponentSource("grid/headers/Dropdown.js"),
+            props: {
+                title: "Type",
+                id: "type",
+                options: [
+                    { value: 'text', text: 'Text' },
+                    { value: 'select', text: 'Select' },
+                    { value: 'multiselect', text: 'Multi select' },
+                    { value: 'textarea', text: 'Textarea' },
+                ]
+            },
+            sortOrder: 10
+        },
+        {
+            id: 'typeRow',
+            areaId: 'attributeGridRow',
+            source: getComponentSource("catalog/components/admin/attribute/grid/TypeRow.js"),
+            props: {
+                id: "type"
+            },
+            sortOrder: 10
+        },
+        {
+            id: 'isRequiredColumn',
+            areaId: 'attributeGridHeader',
+            source: getComponentSource("grid/headers/Dropdown.js"),
+            props: {
+                title: "Is Required?",
+                id: "is_required",
+                options: [
+                    { value: '1', text: 'Yes' },
+                    { value: '0', text: 'No' }
+                ]
+            },
+            sortOrder: 15
+        },
+        {
+            id: 'isRequiredRow',
+            areaId: 'attributeGridRow',
+            source: getComponentSource("grid/rows/YesNo.js"),
+            props: {
+                id: "is_required"
+            },
+            sortOrder: 15
+        },
+        {
+            id: 'isFilterableColumn',
+            areaId: 'attributeGridHeader',
+            source: getComponentSource("grid/headers/Dropdown.js"),
+            props: {
+                title: "Is Filterable?",
+                id: "is_filterable",
+                options: [
+                    { value: '1', text: 'Yes' },
+                    { value: '0', text: 'No' }
+                ]
+            },
+            sortOrder: 20
+        },
+        {
+            id: 'isFilterableRow',
+            areaId: 'attributeGridRow',
+            source: getComponentSource("grid/rows/YesNo.js"),
+            props: {
+                id: "is_filterable"
+            },
+            sortOrder: 20
         }
     ]
 }
