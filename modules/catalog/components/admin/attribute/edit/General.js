@@ -49,13 +49,27 @@ export default function General() {
             component: { default: Field },
             props: {
                 id: "attribute_name",
+                formId: 'attribute-edit-form',
                 name: "attribute_name",
                 label: "Name",
                 validationRules: ["notEmpty"],
                 type: "text"
             },
             sortOrder: 10,
-            id: "name"
+            id: "attribute_name"
+        },
+        {
+            component: { default: Field },
+            props: {
+                id: "attribute_code",
+                formId: 'attribute-edit-form',
+                name: "attribute_code",
+                label: "Attribute code",
+                validationRules: ["notEmpty"],
+                type: "text"
+            },
+            sortOrder: 15,
+            id: "attribute_code"
         },
         {
             component: { default: Field },
