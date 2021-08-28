@@ -3,7 +3,7 @@ import Area from "../../../../../../lib/components/area";
 import Button from "../../../../../../lib/components/form/Button";
 import { Form } from "../../../../../../lib/components/form/Form";
 
-export default function CategoryEditForm(props) {
+export default function AttributeEditForm(props) {
     return <Form {...props} submitBtn={false}>
         <div className="grid grid-cols-3 gap-x-2 grid-flow-row ">
             <div className="col-span-2 grid grid-cols-1 gap-2 auto-rows-max">

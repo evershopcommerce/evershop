@@ -2,18 +2,54 @@ import React from "react";
 import Area from "../../../../../../lib/components/area";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
-import Ckeditor from "../../../../../../lib/components/form/fields/Ckeditor";
 import { Field } from "../../../../../../lib/components/form/Field";
 import { Card } from "../../../../../cms/components/admin/card";
 
-export default function General(props) {
+function Options({ _options = [] }) {
+    const [options, setOptions] = React.useState(_options);
+
+    const addOption = (e) => {
+        e.preventDefault();
+        setOptions(options.concat({
+            attribute_option_id: Date.now(),
+            option_text: ""
+        }));
+    };
+
+    const removeOption = (key, e) => {
+        e.preventDefault();
+        const newOptions = options.filter((_, index) => index !== key);
+        setOptions(newOptions);
+    };
+
+    return <div className="attribute-edit-options">
+        {options.map((option, index) => {
+            let { attribute_option_id, option_text } = option;
+            return <div key={attribute_option_id} className="flex mb-05 space-x-2">
+                <div>
+                    <Field
+                        type="text"
+                        name={'options[' + attribute_option_id + '][option_text]'}
+                        formId={"attribute-edit-form"} value={option_text}
+                        validationRules={['notEmpty']}
+                    />
+                </div>
+                <div className="self-center"><a href="#" onClick={(e) => removeOption(index, e)} className="text-critical hover:underline">Remove option</a></div>
+            </div>
+        })}
+        <div className='mt-1'><a href="#" onClick={(e) => addOption(e)} className="text-interactive hover:underline">Add option</a></div>
+    </div>;
+}
+
+export default function General() {
     const context = useAppState();
+    const [type, setType] = React.useState(get(context, 'attribute.type', undefined));
     const fields = [
         {
             component: { default: Field },
             props: {
-                id: "name",
-                name: "name",
+                id: "attribute_name",
+                name: "attribute_name",
                 label: "Name",
                 validationRules: ["notEmpty"],
                 type: "text"
@@ -24,42 +60,36 @@ export default function General(props) {
         {
             component: { default: Field },
             props: {
-                id: "category_id",
-                name: "category_id",
+                id: "attribute_id",
+                name: "attribute_id",
                 type: "hidden"
             },
             sortOrder: 10,
-            id: "category_id"
+            id: "attribute_id"
         },
         {
             component: { default: Field },
             props: {
-                id: "status",
+                id: "type",
                 type: "radio",
-                name: "status",
-                label: "Status",
-                options: [{ value: 0, text: "Disabled" }, { value: 1, text: "Enabled" }]
+                name: "type",
+                label: "Type",
+                options: [
+                    { value: 'text', text: "Text" },
+                    { value: 'select', text: "Select" },
+                    { value: 'multiselect', text: "Multiselect" },
+                    { value: 'textarea', text: "Textarea" },
+                ],
+                onChange: (value) => {
+                    setType(value);
+                }
             },
-            sortOrder: 30,
-            id: "status"
-        },
-        {
-            component: { default: Ckeditor },
-            props: {
-                id: "description",
-                name: "description",
-                label: "Description",
-                browserApi: props.browserApi,
-                deleteApi: props.deleteApi,
-                uploadApi: props.uploadApi,
-                folderCreateApi: props.folderCreateApi
-            },
-            sortOrder: 70,
-            id: "description"
+            sortOrder: 20,
+            id: "type"
         }
     ].filter((f) => {
-        if (get(context, `category.${f.props.name}`) !== undefined)
-            f.props.value = get(context, `category.${f.props.name}`);
+        if (get(context, `attribute.${f.props.name}`) !== undefined)
+            f.props.value = get(context, `attribute.${f.props.name}`);
         return f;
     });
 
@@ -67,7 +97,10 @@ export default function General(props) {
         title="General"
     >
         <Card.Session>
-            <Area id="category-edit-general" coreComponents={fields} />
+            <Area id="attribute-edit-general" coreComponents={fields} />
         </Card.Session>
+        {['select', 'multiselect'].includes(type) && <Card.Session title="Attribute options">
+            <Options _options={get(context, "attribute.options", [])} />
+        </Card.Session>}
     </Card>;
 }

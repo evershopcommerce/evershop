@@ -711,5 +711,66 @@ exports = module.exports = {
             },
             sortOrder: 20
         }
+    ],
+    attributeEdit: [
+        {
+            id: "metaTitle",
+            areaId: "head",
+            source: getComponentSource("title.js"),
+            props: {
+                title: "Edit attribute"
+            },
+            sortOrder: 10
+        }
+    ],
+    attributeNew: [
+        {
+            id: "metaTitle",
+            areaId: "head",
+            source: getComponentSource("title.js"),
+            props: {
+                title: "Create a new attribute"
+            },
+            sortOrder: 10
+        }
+    ],
+    'attributeNew+attributeEdit': [
+        {
+            id: "pageHeading",
+            areaId: "content",
+            source: getComponentSource("cms/components/admin/PageHeading.js"),
+            props: {
+                backUrl: buildAdminUrl('attributeGrid')
+            },
+            sortOrder: 10
+        },
+        {
+            id: "attributeForm",
+            areaId: "content",
+            source: getComponentSource("catalog/components/admin/attribute/edit/AttributeEditForm.js"),
+            props: {
+                id: "attribute-edit-form",
+                method: "POST",
+                action: buildAdminUrl("attributeSavePost"),
+                gridUrl: buildAdminUrl("attributeGrid")
+            },
+            sortOrder: 10
+        },
+        {
+            id: "attributeEditGeneral",
+            areaId: "leftSide",
+            source: getComponentSource("catalog/components/admin/attribute/edit/general.js"),
+            props: {
+            },
+            sortOrder: 10
+        },
+        {
+            id: "attributeEditAvaibility",
+            areaId: "rightSide",
+            source: getComponentSource("catalog/components/admin/attribute/edit/avaibility.js"),
+            props: {
+            },
+            sortOrder: 10
+        }
     ]
 }
