@@ -139,9 +139,12 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_REMOVE_ATTRIBUTE_FROM_GROUP` AFTER DELETE ON `attribute_group_link` FOR EACH ROW BEGIN
-                        DELETE FROM `product_attribute_value_index` WHERE product_attribute_value_index.attribute_id = OLD.attribute_id AND product_attribute_value_index.product_id IN (SELECT product.product_id FROM product WHERE product.group_id = OLD.group_id);
-                        DELETE FROM `variant_group` WHERE `variant_group`.`attribute_group_id` = OLD.group_id AND (`variant_group`.`attribute_one` = OLD.attribute_id OR `variant_group`.`attribute_two` = OLD.attribute_id OR `variant_group`.`attribute_three` = OLD.attribute_id OR `variant_group`.`attribute_four` = OLD.attribute_id OR `variant_group`.`attribute_five` = OLD.attribute_id);
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_REMOVE_ATTRIBUTE_FROM_GROUP` AFTER DELETE ON `attribute_group_link` FOR EACH ROW BEGIN
+
+                        DELETE FROM `product_attribute_value_index` WHERE product_attribute_value_index.attribute_id = OLD.attribute_id AND product_attribute_value_index.product_id IN (SELECT product.product_id FROM product WHERE product.group_id = OLD.group_id);
+
+                        DELETE FROM `variant_group` WHERE `variant_group`.`attribute_group_id` = OLD.group_id AND (`variant_group`.`attribute_one` = OLD.attribute_id OR `variant_group`.`attribute_two` = OLD.attribute_id OR `variant_group`.`attribute_three` = OLD.attribute_id OR `variant_group`.`attribute_four` = OLD.attribute_id OR `variant_group`.`attribute_five` = OLD.attribute_id);
+
                     END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -185,8 +188,9 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_ATTRIBUTE_OPTION_UPDATE` AFTER UPDATE ON `attribute_option` FOR EACH ROW UPDATE `product_attribute_value_index` SET `product_attribute_value_index`.`attribute_value_text` = NEW.option_text
-
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_ATTRIBUTE_OPTION_UPDATE` AFTER UPDATE ON `attribute_option` FOR EACH ROW UPDATE `product_attribute_value_index` SET `product_attribute_value_index`.`option_text` = NEW.option_text
+
+
                         WHERE `product_attribute_value_index`.option_id = NEW.attribute_option_id AND `product_attribute_value_index`.attribute_id = NEW.attribute_id */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -202,8 +206,10 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_AFTER_DELETE_ATTRIBUTE_OPTION` AFTER DELETE ON `attribute_option` FOR EACH ROW BEGIN
-                         DELETE FROM `product_attribute_value_index` WHERE `product_attribute_value_index`.option_id = OLD.attribute_option_id AND `product_attribute_value_index`.`attribute_id` = OLD.attribute_id;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_AFTER_DELETE_ATTRIBUTE_OPTION` AFTER DELETE ON `attribute_option` FOR EACH ROW BEGIN
+
+                         DELETE FROM `product_attribute_value_index` WHERE `product_attribute_value_index`.option_id = OLD.attribute_option_id AND `product_attribute_value_index`.`attribute_id` = OLD.attribute_id;
+
                     END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -572,9 +578,11 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_AFTER_DELETE_INSERT_CUSTOMER` AFTER INSERT ON `customer` FOR EACH ROW BEGIN
-
+
+
                          UPDATE `newsletter_subscriber` SET `newsletter_subscriber`.customer_id = NEW.customer_id WHERE `newsletter_subscriber`.email = NEW.email;
-
+
+
                     END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -794,19 +802,26 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_UPDATE_COUPON_USED_TIME_AFTER_CREATE_ORDER` AFTER INSERT ON `order` FOR EACH ROW                     
-
+
+
                         BEGIN
-
+
+
                             UPDATE `coupon` SET `coupon`.used_time = `coupon`.used_time + 1 WHERE `coupon`.coupon = NEW.coupon;
-
+
+
                             IF (NEW.customer_id <> NULL) THEN
-
+
+
                                 INSERT INTO `customer_coupon_use` (`customer_id`, `coupon`, `used_time`) VALUES (NEW.customer_id, NEW.coupon, 1)
-
+
+
                                     ON DUPLICATE KEY UPDATE `customer_coupon_use`.used_time = `customer_coupon_use`.used_time + 1;
-
+
+
                             END IF;
-
+
+
                         END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1004,8 +1019,10 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_AFTER_INSERT_PRODUCT` AFTER INSERT ON `product` FOR EACH ROW BEGIN
-                         UPDATE `variant_group` SET visibility = (SELECT MAX(visibility) FROM `product` WHERE `product`.`variant_group_id` = new.variant_group_id AND `product`.`status` = 1 GROUP BY `product`.`variant_group_id`) WHERE `variant_group`.`variant_group_id` = new.variant_group_id;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_AFTER_INSERT_PRODUCT` AFTER INSERT ON `product` FOR EACH ROW BEGIN
+
+                         UPDATE `variant_group` SET visibility = (SELECT MAX(visibility) FROM `product` WHERE `product`.`variant_group_id` = new.variant_group_id AND `product`.`status` = 1 GROUP BY `product`.`variant_group_id`) WHERE `variant_group`.`variant_group_id` = new.variant_group_id;
+
                     END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1021,12 +1038,18 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_PRODUCT_AFTER_UPDATE` AFTER UPDATE ON `product` FOR EACH ROW BEGIN
-                        DELETE FROM `product_attribute_value_index`
-                        WHERE `product_attribute_value_index`.`product_id` = New.product_id 
-                        AND `product_attribute_value_index`.`attribute_id` NOT IN (SELECT `attribute_group_link`.`attribute_id` FROM `attribute_group_link` WHERE `attribute_group_link`.`group_id` = NEW.group_id);
-                        UPDATE `variant_group` SET visibility = (SELECT MAX(visibility) FROM `product` WHERE `product`.`variant_group_id` = NEW.variant_group_id AND `product`.`status` = 1 GROUP BY `product`.`variant_group_id`) WHERE `variant_group`.`variant_group_id` = NEW.variant_group_id;
-                        UPDATE `variant_group` SET visibility = (SELECT MAX(visibility) FROM `product` WHERE `product`.`variant_group_id` = OLD.variant_group_id AND `product`.`status` = 1 GROUP BY `product`.`variant_group_id`) WHERE `variant_group`.`variant_group_id` = OLD.variant_group_id;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_PRODUCT_AFTER_UPDATE` AFTER UPDATE ON `product` FOR EACH ROW BEGIN
+
+                        DELETE FROM `product_attribute_value_index`
+
+                        WHERE `product_attribute_value_index`.`product_id` = New.product_id 
+
+                        AND `product_attribute_value_index`.`attribute_id` NOT IN (SELECT `attribute_group_link`.`attribute_id` FROM `attribute_group_link` WHERE `attribute_group_link`.`group_id` = NEW.group_id);
+
+                        UPDATE `variant_group` SET visibility = (SELECT MAX(visibility) FROM `product` WHERE `product`.`variant_group_id` = NEW.variant_group_id AND `product`.`status` = 1 GROUP BY `product`.`variant_group_id`) WHERE `variant_group`.`variant_group_id` = NEW.variant_group_id;
+
+                        UPDATE `variant_group` SET visibility = (SELECT MAX(visibility) FROM `product` WHERE `product`.`variant_group_id` = OLD.variant_group_id AND `product`.`status` = 1 GROUP BY `product`.`variant_group_id`) WHERE `variant_group`.`variant_group_id` = OLD.variant_group_id;
+
                     END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1342,9 +1365,11 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `TRIGGER_AFTER_DELETE_TAX_CLASS` AFTER DELETE ON `tax_class` FOR EACH ROW BEGIN
-
+
+
                          UPDATE `product` SET `product`.tax_class = 0 WHERE `product`.tax_class = OLD.tax_class_id;
-
+
+
                     END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
