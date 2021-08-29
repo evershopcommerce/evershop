@@ -39,6 +39,8 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerAdminRoute("attributeSavePost", ["POST"], "/attribute/save");
 
+    registerAdminRoute("attributeGroupSavePost", ["POST"], "/attributeGroup/save");
+
     // Site routes
     registerSiteRoute("categoryView", ["GET"], "/category/:url_key");
 

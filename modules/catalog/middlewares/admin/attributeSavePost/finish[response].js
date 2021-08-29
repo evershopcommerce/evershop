@@ -26,7 +26,6 @@ module.exports = async (request, response, stack, next) => {
             message: request.params.id ? "Attribute was updated successfully" : "Attribute was created successfully"
         })
     } catch (error) {
-        console.log(error);
         let connection = await stack["getConnection"];
         await rollback(connection);
         response.json({

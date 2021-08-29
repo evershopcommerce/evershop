@@ -641,6 +641,25 @@ exports = module.exports = {
             sortOrder: 5
         },
         {
+            id: 'groupColumn',
+            areaId: 'attributeGridHeader',
+            source: getComponentSource("catalog/components/admin/attribute/grid/GroupHeaderColumn.js"),
+            props: {
+                title: "Assigned group",
+                id: "group"
+            },
+            sortOrder: 8
+        },
+        {
+            id: 'groupRow',
+            areaId: 'attributeGridRow',
+            source: getComponentSource("catalog/components/admin/attribute/grid/GroupRow.js"),
+            props: {
+                id: "groups"
+            },
+            sortOrder: 8
+        },
+        {
             id: 'typeColumn',
             areaId: 'attributeGridHeader',
             source: getComponentSource("grid/headers/Dropdown.js"),
