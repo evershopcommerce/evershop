@@ -8,7 +8,7 @@ export default function ShipmentStatusRow({ id, areaProps }) {
     const shipmentStatus = get(context, "shipmentStatus", []);
     let status = shipmentStatus.find((s) => s.code === areaProps.row[id]);
     if (status)
-        return <td><Badge title={status.name} variant={status.badge} /></td>
+        return <td><Badge title={status.name} variant={status.badge} progress={status.progress} /></td>
     else
         return <td>{areaProps.row[id]}</td>
 }

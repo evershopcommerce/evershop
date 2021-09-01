@@ -1,0 +1,90 @@
+.circle {
+    border-radius: 100%;
+    display: inline-flex;
+    border: 4px solid;
+    span {
+        border: 2px solid;
+        border-radius: 100%;
+        display: block;
+        width: 1.8rem;
+        height: 1.8rem;
+        display: flex;
+        justify-content: center;
+        span {
+            display: block;
+            width: 40%;
+            height: 40%;
+            align-self: center;
+        }
+    }
+    &.default {
+        color: #e4e5e7;
+        border-color: #e4e5e7;
+        span {
+            border-color: #5c5f62;
+            span {
+                background-color: #5c5f62;
+            }
+        }
+    }
+    &.success {
+        color: #aee9d1;
+        border-color: #aee9d1;
+        span {
+            border-color: #007f5f;
+            span {
+                background-color: #007f5f;
+            }
+        }
+    }
+    &.info {
+        color: #a4e8f2;
+        border-color: #a4e8f2;
+        span {
+            border-color: #00a0ac;
+            span {
+                background-color: #00a0ac;
+            }
+        }
+    }
+    &.attention {
+        color: #ffea8a;
+        border-color: #ffea8a;
+        span {
+            border-color: #202223;
+            span {
+                background-color: #202223;
+            }
+        }
+    }
+    &.critical {
+        color: #fed3d1;
+        border-color: #fed3d1;
+        span {
+            border-color: #d72c0d;
+            span {
+                background-color: #d72c0d;
+            }
+        }
+    }
+    &.warning {
+        color: #ffd79d;
+        border-color: #ffd79d;
+        span {
+            border-color: #b98900;
+            span {
+                background-color: #b98900;
+            }
+        }
+    }
+    &.new {
+        color: #e4e5e7;
+        border-color: #e4e5e7;
+        span {
+            border-color: #5c5f62;
+            span {
+                background-color: #5c5f62;
+            }
+        }
+    }
+}

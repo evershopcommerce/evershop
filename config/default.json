@@ -30,19 +30,29 @@
         "allowCountries": [
             "US",
             "VN"
+        ],
+        "shippingRate": [
+            {
+                "condition": {},
+                "destimation": [
+                    "*"
+                ],
+                "rate": 10
+            }
         ]
     },
     "order": {
         "shipmentStatus": [
             {
-                "name": "Unfulfilled",
-                "code": "unfulfilled",
-                "badge": "subtuded"
+                "name": "Unfullfilled",
+                "code": "unfullfilled",
+                "badge": "warning"
             },
             {
-                "name": "Fulfilled",
-                "code": "fulfilled",
-                "badge": "primary"
+                "name": "Fullfilled",
+                "code": "fullfilled",
+                "badge": "success",
+                "progress": "complete"
             }
         ],
         "paymentStatus": [

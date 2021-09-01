@@ -35,6 +35,7 @@ module.exports = async (request, response, stack, next) => {
                 code: order.payment_status,
                 badge: ""
             }
+        assign(response.context, { page: { heading: `#${order.order_number}` } });
         assign(response.context, { order: JSON.parse(JSON.stringify(order)) });
         next();
     }

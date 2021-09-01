@@ -2,6 +2,7 @@ import React from "react";
 import Area from "../../../../../../lib/components/area";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
+import { Card } from "../../../../../cms/components/admin/card";
 
 function Status({ status }) {
     return <td>
@@ -57,103 +58,104 @@ export default function Shipment({ startShipUrl, completeShipUrl }) {
     const language = get(useAppState(), "shop.language", "en");
     const grandTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(order.grand_total);
 
-    return <div className="sml-block mt-4">
-        <div className="sml-block-title">Shipment</div>
-        <table className='table table-bordered'>
-            <thead>
-                <tr>
-                    <Area
-                        id={"orderShipmentBlockInfoHeader"}
-                        orderId={order.order_id}
-                        method={order.shipping_method}
-                        shippingNote={order.shipping_note}
-                        methodName={order.shipping_method_name}
-                        grandTotal={grandTotal}
-                        weight={order.total_weight}
-                        status={order.shipment_status}
-                        noOuter={true}
-                        coreComponents={[
-                            {
-                                'component': { default: "th" },
-                                'props': { children: <span>Status</span> },
-                                'sortOrder': 10,
-                                'id': 'shipment_status_header'
-                            },
-                            {
-                                'component': { default: "th" },
-                                'props': { children: <span>Method</span> },
-                                'sortOrder': 20,
-                                'id': 'shipment_method_header'
-                            },
-                            {
-                                'component': { default: "th" },
-                                'props': { children: <span>Total weight</span> },
-                                'sortOrder': 30,
-                                'id': 'shipment_weight_header'
-                            },
-                            {
-                                'component': { default: "th" },
-                                'props': { children: <span>Customer notes</span> },
-                                'sortOrder': 40,
-                                'id': 'shipment_notes_header'
-                            },
-                            {
-                                'component': { default: "th" },
-                                'props': { children: <span>Actions</span> },
-                                'sortOrder': 50,
-                                'id': 'shipment_action_header'
-                            }
-                        ]}
-                    />
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <Area
-                        id={"orderShipmentInfoRow"}
-                        orderId={order.order_id}
-                        method={order.shipping_method}
-                        shippingNote={order.shipping_note}
-                        methodName={order.shipping_method_name}
-                        grandTotal={grandTotal}
-                        weight={order.total_weight}
-                        status={order.shipment_status}
-                        noOuter={true}
-                        coreComponents={[
-                            {
-                                'component': { default: Status },
-                                'props': { status: order.shipmentStatus },
-                                'sortOrder': 10,
-                                'id': 'order_shipment_status'
-                            },
-                            {
-                                'component': { default: "td" },
-                                'props': { children: <span>{order.shipping_method_name}</span> },
-                                'sortOrder': 20,
-                                'id': 'order_shipment_method'
-                            },
-                            {
-                                'component': { default: Weight },
-                                'props': { weight: order.total_weight },
-                                'sortOrder': 30,
-                                'id': 'order_shipment_weight'
-                            },
-                            {
-                                'component': { default: Note },
-                                'props': { note: order.shipping_note },
-                                'sortOrder': 40,
-                                'id': 'order_shipment_note'
-                            },
-                            {
-                                'component': { default: Actions },
-                                'props': { status: order.shipment_status, startShipUrl, completeShipUrl },
-                                'sortOrder': 50,
-                                'id': 'order_shipment_action'
-                            }
-                        ]}
-                    />
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    return <Card title="Shipment">
+        <Card.Session>
+            <table className='table table-bordered'>
+                <thead>
+                    <tr>
+                        <Area
+                            id={"orderShipmentBlockInfoHeader"}
+                            orderId={order.order_id}
+                            method={order.shipping_method}
+                            shippingNote={order.shipping_note}
+                            methodName={order.shipping_method_name}
+                            grandTotal={grandTotal}
+                            weight={order.total_weight}
+                            status={order.shipment_status}
+                            noOuter={true}
+                            coreComponents={[
+                                {
+                                    'component': { default: "th" },
+                                    'props': { children: <span>Status</span> },
+                                    'sortOrder': 10,
+                                    'id': 'shipment_status_header'
+                                },
+                                {
+                                    'component': { default: "th" },
+                                    'props': { children: <span>Method</span> },
+                                    'sortOrder': 20,
+                                    'id': 'shipment_method_header'
+                                },
+                                {
+                                    'component': { default: "th" },
+                                    'props': { children: <span>Total weight</span> },
+                                    'sortOrder': 30,
+                                    'id': 'shipment_weight_header'
+                                },
+                                {
+                                    'component': { default: "th" },
+                                    'props': { children: <span>Customer notes</span> },
+                                    'sortOrder': 40,
+                                    'id': 'shipment_notes_header'
+                                },
+                                {
+                                    'component': { default: "th" },
+                                    'props': { children: <span>Actions</span> },
+                                    'sortOrder': 50,
+                                    'id': 'shipment_action_header'
+                                }
+                            ]}
+                        />
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <Area
+                            id={"orderShipmentInfoRow"}
+                            orderId={order.order_id}
+                            method={order.shipping_method}
+                            shippingNote={order.shipping_note}
+                            methodName={order.shipping_method_name}
+                            grandTotal={grandTotal}
+                            weight={order.total_weight}
+                            status={order.shipment_status}
+                            noOuter={true}
+                            coreComponents={[
+                                {
+                                    'component': { default: Status },
+                                    'props': { status: order.shipmentStatus },
+                                    'sortOrder': 10,
+                                    'id': 'order_shipment_status'
+                                },
+                                {
+                                    'component': { default: "td" },
+                                    'props': { children: <span>{order.shipping_method_name}</span> },
+                                    'sortOrder': 20,
+                                    'id': 'order_shipment_method'
+                                },
+                                {
+                                    'component': { default: Weight },
+                                    'props': { weight: order.total_weight },
+                                    'sortOrder': 30,
+                                    'id': 'order_shipment_weight'
+                                },
+                                {
+                                    'component': { default: Note },
+                                    'props': { note: order.shipping_note },
+                                    'sortOrder': 40,
+                                    'id': 'order_shipment_note'
+                                },
+                                {
+                                    'component': { default: Actions },
+                                    'props': { status: order.shipment_status, startShipUrl, completeShipUrl },
+                                    'sortOrder': 50,
+                                    'id': 'order_shipment_action'
+                                }
+                            ]}
+                        />
+                    </tr>
+                </tbody>
+            </table>
+        </Card.Session>
+    </Card>
 }

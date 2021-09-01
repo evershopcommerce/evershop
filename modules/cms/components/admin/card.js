@@ -28,7 +28,7 @@ function Card({ title, actions = [], subdued = false, children }) {
 }
 
 Card.Session = ({ actions = [], title, children }) => {
-    return <div className='card-section border-b box-border border-border'>
+    return <div className='card-section border-b box-border'>
         {(title || actions.length > 0) && <div className="flex justify-between card-section-header mb-1">
             {title && <h3 className='card-session-title'>{title}</h3>}
             {actions.length > 0 && <div className='flex space-x-075'>

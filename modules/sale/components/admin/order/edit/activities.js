@@ -1,20 +1,68 @@
 import React from "react";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
+import { DateTime } from "luxon";
 
 export default function Activities() {
-    let activities = get(useAppState(), "order.activities", []);
+    const context = useAppState();
+    let activities = get(context, "order.activities", []);
+    let dailyActivities = [];
+    activities.forEach(element => {
+        let current = dailyActivities[dailyActivities.length - 1];
+        let date = DateTime.fromSQL(element.created_at, { zone: "UTC" }).setLocale(get(context, "shop.language", 'en')).setZone(get(context, "shop.timezone", 'UTC')).toFormat("LLL dd yyyy");
+        if (!current) {
+            dailyActivities.push({
+                date: DateTime.fromSQL(element.created_at, { zone: "UTC" }).setLocale(get(context, "shop.language", 'en')).setZone(get(context, "shop.timezone", 'UTC')).toFormat("LLL dd"),
+                activities: [
+                    {
+                        comment: element.comment,
+                        customer_notified: element.customer_notified,
+                        time: DateTime.fromSQL(element.created_at, { zone: "UTC" }).setLocale(get(context, "shop.language", 'en')).setZone(get(context, "shop.timezone", 'UTC')).toFormat("t")
+                    }
+                ]
+            })
+        } else {
+            if (date === current.date) {
+                current.activities.push(
+                    {
+                        comment: element.comment,
+                        customer_notified: element.customer_notified,
+                        time: DateTime.fromSQL(element.created_at, { zone: "UTC" }).setLocale(get(context, "shop.language", 'en')).setZone(get(context, "shop.timezone", 'UTC')).toFormat("t")
+                    }
+                )
+            } else {
+                dailyActivities.push({
+                    date: DateTime.fromSQL(element.created_at, { zone: "UTC" }).setLocale(get(context, "shop.language", 'en')).setZone(get(context, "shop.timezone", 'UTC')).toFormat("LLL dd"),
+                    activities: [
+                        {
+                            comment: element.comment,
+                            customer_notified: element.customer_notified,
+                            time: DateTime.fromSQL(element.created_at, { zone: "UTC" }).setLocale(get(context, "shop.language", 'en')).setZone(get(context, "shop.timezone", 'UTC')).toFormat("t")
+                        }
+                    ]
+                })
+            }
+        }
+    });
 
-    return <div className="sml-block mt-4">
-        <div className="sml-block-title">Activities</div>
-        <ul className="list-group list-group-flush">
-            {activities.map((a, i) => {
-                let date = new Date(a.created_at);
-                return <li key={i} className="list-group-item">
-                    <span><i>{a.comment}</i> - <i>{date.toDateString()}</i> - <span>
-                        {a.customer_notified === 1 && <span>Customer notified</span>}
-                        {a.customer_notified === 0 && <span>Customer not notified</span>}
-                    </span></span>
+    return <div className='order-activities'>
+        <h3 className="title">Activities</h3>
+        <ul>
+            {dailyActivities.map((group, i) => {
+                return <li key={i} className='group'>
+                    <span>{group.date}</span>
+                    <ul>
+                        {group.activities.map((a, k) => {
+                            return <li key={k} className="flex items-center">
+                                <span className='dot'></span>
+                                <div className='comment'>
+                                    <span>{a.comment}</span>
+                                    {parseInt(a.customer_notified) === 1 && <span className='customer-notified'>Customer was notified</span>}
+                                </div>
+                                <span className='time'>{a.time}</span>
+                            </li>
+                        })}
+                    </ul>
                 </li>
             })}
         </ul>

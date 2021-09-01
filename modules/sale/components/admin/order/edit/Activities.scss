@@ -1,0 +1,59 @@
+.order-activities {
+    margin-top: 2rem;
+    h3.title {
+        font-size: 1.6rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--divider);
+        font-weight: 600;
+    }
+    span.dot {
+        display: block;
+        width: 1.3rem;
+        height: 1.3rem;
+        background-color: var(--border);
+        border-radius: 100%;
+        z-index: 51;
+        border: 2px solid white;
+    }
+    div.comment {
+        flex: 1 1 auto;
+        padding: 0 1.5rem;
+    }
+    .customer-notified {
+        display: block;
+        color: var(--border);
+        font-style: italic;
+    }
+    span.time {
+        color: var(--border);
+    }
+    li.group {
+        margin-top: 5rem;
+        :first-child {
+            margin-top: 0;
+        }
+        > span {
+            text-transform: uppercase;
+            padding-left: 2.8rem;
+            color: var(--border);
+        }
+        ul {
+            margin-top: 2rem;
+        }
+    }
+    > ul {
+        position: relative;
+        padding: 2rem 0;
+        margin-top: 2rem;
+    }
+    > ul::after {
+        content: "";
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: 3px;
+        top: 0;
+        left: calc(0.65rem - 1.5px);
+        background-color: var(--divider);
+    }
+}

@@ -1,147 +1,127 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
+import Circle from "../../../../../../lib/components/Circle";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
+import { Card } from "../../../../../cms/components/admin/card";
 
-function Status({ status }) {
-    return <td>
-        <span className={`badge badge-${status.badge}`}><i className="fas fa-tag"></i> {status.name}</span>
-    </td>
-}
-
-function Info({ orderId, method, methodName, paymentStatus, grandTotal }) {
-    return <div className='payment-info'>
-        <table className='table table-bordered'>
-            <thead>
-                <tr>
-                    <Area
-                        id={"orderPaymentBlockInfoHeader"}
-                        orderId={orderId}
-                        method={method}
-                        methodName={methodName}
-                        grandTotal={grandTotal}
-                        status={paymentStatus}
-                        noOuter={true}
-                        coreComponents={[
-                            {
-                                'component': { default: "th" },
-                                'props': { children: <span>Status</span> },
-                                'sortOrder': 10,
-                                'id': 'paymentStatusHeader'
-                            },
-                            {
-                                'component': { default: "th" },
-                                'props': { children: <span>Method</span> },
-                                'sortOrder': 20,
-                                'id': 'paymentMethodHeader'
-                            },
-                            {
-                                'component': { default: "th" },
-                                'props': { children: <span>Actions</span> },
-                                'sortOrder': 30,
-                                'id': 'paymentActionHeader'
-                            }
-                        ]}
-                    />
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <Area
-                        id={"orderPaymentBlockInfo"}
-                        orderId={orderId}
-                        method={method}
-                        methodName={methodName}
-                        grandTotal={grandTotal}
-                        status={paymentStatus}
-                        noOuter={true}
-                        coreComponents={[
-                            {
-                                'component': { default: Status },
-                                'props': { status: paymentStatus },
-                                'sortOrder': 10,
-                                'id': 'orderPaymentStatus'
-                            },
-                            {
-                                'component': { default: "td" },
-                                'props': { children: <span>{methodName}</span> },
-                                'sortOrder': 20,
-                                'id': 'orderPaymentMethod'
-                            }
-                        ]}
-                    />
-                </tr>
-            </tbody>
-        </table>
+function Subtotal({ count, total }) {
+    return <div className='summary-row'>
+        <span>Subtotal</span>
+        <div>
+            <div>{count} items</div>
+            <div>{total}</div>
+        </div>
     </div>
 }
 
-function Transaction({ transactions, currency }) {
-    return <div className='payment-transactions'>
-        <div><i className="fas fa-credit-card"></i> Payment transactions</div>
-        <table className="table table-bordered">
-            <thead>
-                <tr>
-                    <th><span>Date</span></th>
-                    <th><span>Type</span></th>
-                    <th><span>Code</span></th>
-                    <th><span>Amount</span></th>
-                    <th><span>Action</span></th>
-                </tr>
-            </thead>
-            <tbody>
-                {transactions.map((t, i) => {
-                    let date = new Date(t.created_at);
-                    const amount = new Intl.NumberFormat('en', { style: 'currency', currency: currency }).format(t.amount);
-                    return <tr key={i}>
-                        <td><span>{date.toDateString()}</span></td>
-                        <td>
-                            {t.transaction_type === 'online' && <span uk-tooltip={t.transaction_type} uk-icon="credit-card"></span>}
-                            {t.transaction_type === 'offline' && <span uk-tooltip={t.transaction_type} uk-icon="file-text"></span>}
-                        </td>
-                        <td>
-                            {t.parent_transaction_id && <span>{t.parent_transaction_id}</span>}
-                            {!t.parent_transaction_id && <span>---</span>}
-                        </td>
-                        <td><span>{amount}</span></td>
-                        <td><span>{t.payment_action}</span></td>
-                    </tr>
-                })}
-                {transactions.length === 0 && <tr><td colSpan="100"><div>There is no transaction to display</div></td></tr>}
-            </tbody>
-        </table>
+function Discount({ discount, code }) {
+    return <div className='summary-row'>
+        <span>Discount</span>
+        <div>
+            <div>{code}</div>
+            <div>{discount}</div>
+        </div>
     </div>
 }
 
-export default function Payment(props) {
-    let order = get(useAppState(), "order", {});
+function Shipping({ method, cost }) {
+    return <div className='summary-row'>
+        <span>Shipping</span>
+        <div>
+            <div>{method}</div>
+            <div>{cost}</div>
+        </div>
+    </div>
+}
 
-    const grandTotal = new Intl.NumberFormat('en', { style: 'currency', currency: order.currency }).format(props.grandTotal);
-    return <div className="sml-block mt-4">
-        <div className="sml-block-title">Payment</div>
-        <div className="overflow-auto">
+function Tax({ taxClass, amount }) {
+    return <div className='summary-row'>
+        <span>Tax</span>
+        <div>
+            <div>{taxClass}</div>
+            <div>{amount}</div>
+        </div>
+    </div>
+}
+
+function Total({ total }) {
+    return <div className='summary-row'>
+        <span>Total</span>
+        <div>
+            <div>{total}</div>
+        </div>
+    </div>
+}
+
+export default function OrderSummary() {
+    let context = useAppState();
+    let order = get(context, "order", {});
+    const language = get(context, "shop.language", "en");
+
+    const _shippingCost = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.shipping_fee_excl_tax);
+    const _taxAmount = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.tax_amount);
+    const _discountAmount = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.discount_amount);
+    const _subTotal = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.sub_total);
+    const _grandTotal = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.grand_total);
+
+    const statuses = get(context, 'paymentStatus', []);
+    const status = statuses.find(s => s.code === order.payment_status);
+    return <Card title={<div className="flex space-x-1"><Circle variant={status.badge} /><span className="block self-center">{status.name}</span></div>}>
+        <Card.Session>
             <Area
-                id={"orderPaymentBlock"}
-                orderId={order.orderId}
-                method={order.method}
-                methodName={order.methodName}
-                grandTotal={grandTotal}
-                status={order.paymentStatus}
+                id={"orderSummaryBlock"}
+                orderId={order.order_id}
+                currency={order.currency}
+                grandTotal={order.grand_total}
+                coupon={order.coupon}
+                discountAmount={order.discount_amount}
+                taxAmount={order.tax_amount}
+                className="summary-wrapper"
                 coreComponents={[
                     {
-                        'component': { default: Info },
-                        'props': { ...order },
-                        'sortOrder': 10,
-                        'id': 'order_payment_fo'
+                        'component': { default: Subtotal },
+                        'props': { count: order.items.length, total: _subTotal },
+                        'sortOrder': 5,
+                        'id': 'summary_subtotal'
                     },
                     {
-                        'component': { default: Transaction },
-                        'props': { transactions: order.paymentTransactions, currency: order.currency },
-                        'sortOrder': 20,
-                        'id': 'order_payment_transaction'
+                        'component': { default: Shipping },
+                        'props': { method: order.shipping_method, cost: _shippingCost },
+                        'sortOrder ': 10,
+                        'id': 'summary_shipping'
+                    },
+                    {
+                        'component': { default: Discount },
+                        'ps': { code: order.coupon, discount: _discountAmount },
+                        'sortOrder ': 10,
+                        'id': 'summary_discount'
+                    },
+                    {
+                        'component': { default: Tax },
+                        'props': { taxClass: "", amount: _taxAmount },
+                        'sortOrder ': 20,
+                        'id': 'summary_tax'
+                    },
+
+                    {
+                        'component': { default: Total },
+                        'props': { total: _grandTotal },
+                        'sortOrder': 30,
+                        'id': 'summary_grand_total'
                     }
                 ]}
             />
-        </div>
-    </div>
+        </Card.Session>
+        <Card.Session>
+            <div className='flex justify-between'>
+                <div className='self-center'>
+                    <span>Paid by customer</span>
+                </div>
+                <div className='self-center'>
+                    <span>{_grandTotal}</span>
+                </div>
+            </div>
+        </Card.Session>
+    </Card>
 }

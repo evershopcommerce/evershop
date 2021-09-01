@@ -33,13 +33,27 @@ exports = module.exports = {
             sortOrder: 1
         },
         {
-            id: "title",
-            areaId: 'content',
-            source: getComponentSource("cms/components/admin/title.js", true),
+            id: "pageHeading",
+            areaId: "content",
+            source: getComponentSource("cms/components/admin/PageHeading.js"),
             props: {
-                title: "Edit order"
+                backUrl: buildAdminUrl('orderGrid')
             },
-            sortOrder: 1
+            sortOrder: 10
+        },
+        {
+            id: "paymentStatus",
+            areaId: "pageHeadingLeft",
+            source: getComponentSource("sale/components/admin/order/edit/PaymentStatus.js"),
+            props: {},
+            sortOrder: 10
+        },
+        {
+            id: "shipmentStatus",
+            areaId: "pageHeadingLeft",
+            source: getComponentSource("sale/components/admin/order/edit/ShipmentStatus.js"),
+            props: {},
+            sortOrder: 20
         },
         {
             id: "orderEditLayout",
@@ -49,39 +63,39 @@ exports = module.exports = {
             sortOrder: 10
         },
         {
-            id: "general",
-            areaId: 'leftSide',
-            source: getComponentSource("sale/components/admin/order/edit/general.js"),
+            id: "customerNotes",
+            areaId: 'rightSide',
+            source: getComponentSource("sale/components/admin/order/edit/customerNotes.js"),
             props: {},
             sortOrder: 10
         },
         {
-            id: "shipment",
-            areaId: 'leftSide',
-            source: getComponentSource("sale/components/admin/order/edit/shipment.js"),
+            id: "customer",
+            areaId: 'rightSide',
+            source: getComponentSource("sale/components/admin/order/edit/customer.js"),
             props: {},
-            sortOrder: 20
-        },
-        {
-            id: "payment",
-            areaId: 'leftSide',
-            source: getComponentSource("sale/components/admin/order/edit/payment.js"),
-            props: {},
-            sortOrder: 30
+            sortOrder: 15
         },
         {
             id: "items",
             areaId: 'leftSide',
             source: getComponentSource("sale/components/admin/order/edit/items.js"),
             props: {},
-            sortOrder: 40
+            sortOrder: 10
         },
         {
-            id: "summary",
+            id: "payment",
             areaId: 'leftSide',
-            source: getComponentSource("sale/components/admin/order/edit/summary.js"),
+            source: getComponentSource("sale/components/admin/order/edit/payment.js"),
             props: {},
-            sortOrder: 50
+            sortOrder: 20
+        },
+        {
+            id: "activities",
+            areaId: 'leftSide',
+            source: getComponentSource("sale/components/admin/order/edit/Activities.js"),
+            props: {},
+            sortOrder: 30
         }
     ],
     "orderGrid": [
@@ -182,7 +196,7 @@ exports = module.exports = {
         {
             id: 'shipmentStatusRow',
             areaId: 'orderGridRow',
-            source: getComponentSource("sale/components/admin/order/grid/shipmentStatus.js"),
+            source: getComponentSource("sale/components/admin/order/grid/ShipmentStatus.js"),
             props: {
                 id: "shipment_status"
             },
