@@ -46,7 +46,8 @@
             {
                 "name": "Unfullfilled",
                 "code": "unfullfilled",
-                "badge": "warning"
+                "badge": "warning",
+                "progress": "incomplete"
             },
             {
                 "name": "Fullfilled",

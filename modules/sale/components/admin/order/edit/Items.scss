@@ -28,6 +28,10 @@ table.order-items {
         padding: 2rem 1rem;
         &:first-child {
             padding-left: 0px;
+            width: 5rem;
+        }
+        &:nth-child(2) {
+            width: 60%;
         }
         &:last-child {
             padding-right: 0;

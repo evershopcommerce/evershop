@@ -20,8 +20,8 @@ function PageHeading({ backUrl }) {
         return null;
 
     return (
-        <div className='page-heading flex justify-between'>
-            <div className='flex justify-start space-x-1'>
+        <div className='page-heading flex justify-between items-center'>
+            <div className='flex justify-start space-x-1 items-center'>
                 <Area
                     id='pageHeadingLeft'
                     noOuter={true}
@@ -45,7 +45,7 @@ function PageHeading({ backUrl }) {
                     ]}
                 />
             </div>
-            <div className='flex justify-end space-x-1'>
+            <div className='flex justify-end space-x-1 items-center'>
                 <Area
                     id='pageHeadingRight'
                     noOuter={true}
