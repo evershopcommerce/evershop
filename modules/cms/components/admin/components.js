@@ -101,15 +101,6 @@ exports = module.exports = {
                 title: "Edit page"
             },
             sortOrder: 1
-        },
-        {
-            id: "title",
-            areaId: 'content',
-            source: getComponentSource("cms/components/admin/title.js", true),
-            props: {
-                title: "Edit page"
-            },
-            sortOrder: 1
         }
     ],
     "cmsPageNew": [
@@ -121,18 +112,18 @@ exports = module.exports = {
                 title: "Create a new page"
             },
             sortOrder: 1
-        },
-        {
-            id: "title",
-            areaId: 'content',
-            source: getComponentSource("cms/components/admin/title.js", true),
-            props: {
-                title: "Create a new page"
-            },
-            sortOrder: 1
         }
     ],
     "cmsPageNew+cmsPageEdit": [
+        {
+            id: "pageHeading",
+            areaId: "content",
+            source: getComponentSource("cms/components/admin/PageHeading.js"),
+            props: {
+                backUrl: buildAdminUrl('cmsPageGrid')
+            },
+            sortOrder: 10
+        },
         {
             id: "createForm",
             areaId: 'content',
@@ -148,7 +139,7 @@ exports = module.exports = {
         },
         {
             id: "pageEditGeneral",
-            areaId: 'left.side',
+            areaId: 'leftSide',
             source: getComponentSource("cms/components/admin/page/edit/general.js"),
             props: {
                 browserApi: buildAdminUrl("fileBrowser", [""]),
@@ -160,17 +151,17 @@ exports = module.exports = {
         },
         {
             id: 'pageEditSEO',
-            areaId: 'right.side',
+            areaId: 'rightSide',
             source: getComponentSource("cms/components/admin/page/edit/seo.js"),
             props: {},
             sortOrder: 20
         },
         {
-            id: 'ckeditor',
+            id: "ckeditor",
             areaId: 'head',
             source: getComponentSource("script.js", true),
             props: {
-                "src": buildAdminUrl("adminStaticAsset", [getAdminJsFile('ckeditor4/ckeditor.js').replace("/", "")]),
+                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
             },
             sortOrder: 1
         }
@@ -190,6 +181,17 @@ exports = module.exports = {
             areaId: "content",
             source: getComponentSource("cms/components/admin/PageHeading.js"),
             props: {
+            },
+            sortOrder: 10
+        },
+        {
+            id: "newCMSPageButton",
+            areaId: "pageHeadingRight",
+            source: getComponentSource("form/Button.js"),
+            props: {
+                title: 'Add a page',
+                variant: 'primary',
+                url: buildAdminUrl('cmsPageNew')
             },
             sortOrder: 10
         },
@@ -234,9 +236,10 @@ exports = module.exports = {
         {
             id: 'nameRow',
             areaId: 'pageGridRow',
-            source: getComponentSource("grid/rows/basic.js"),
+            source: getComponentSource("cms/components/admin/page/grid/NameRow.js"),
             props: {
-                id: "name"
+                id: "name",
+                editUrl: 'editUrl'
             },
             sortOrder: 5
         }

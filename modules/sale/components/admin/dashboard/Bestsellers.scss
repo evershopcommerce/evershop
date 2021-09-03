@@ -15,5 +15,10 @@
                 border-top: 0;
             }
         }
+        &:last-child {
+            td {
+                border-bottom: 0;
+            }
+        }
     }
 }

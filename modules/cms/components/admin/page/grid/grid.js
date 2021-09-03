@@ -90,7 +90,7 @@ export default function CMSPageGrid() {
                 <Actions ids={pages.map((p) => p.cms_page_id)} selectedIds={selectedRows} setSelectedRows={setSelectedRows} />
                 {pages.map((p, i) => {
                     return <tr key={i}>
-                        <td><Checkbox isChecked={selectedRows.includes(p.cms_page_id)} onChange={(e) => {
+                        <td style={{ width: '2rem' }}><Checkbox isChecked={selectedRows.includes(p.cms_page_id)} onChange={(e) => {
                             if (e.target.checked)
                                 setSelectedRows(selectedRows.concat([p.cms_page_id]))
                             else

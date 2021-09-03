@@ -1,28 +1,36 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { Form } from "../../../../../../lib/components/form/form";
+import Button from "../../../../../../lib/components/form/Button";
+import { Field } from "../../../../../../lib/components/form/Field";
+import { Form } from "../../../../../../lib/components/form/Form";
 
 export default function CMSPageEditForm(props) {
     return <Form {...props} submitBtn={false}>
-        <div className="form-head sticky">
-            <div className="child-align-middle">
-                <a href={props.gridUrl} className="">
-                    <i className="fas fa-arrow-left"></i>
-                    <span className="pl-1">Page list</span>
-                </a>
+        <div className="grid grid-cols-3 gap-x-2 grid-flow-row ">
+            <div className="col-span-2 grid grid-cols-1 gap-2 auto-rows-max">
+                <Area id="leftSide" noOuter={true} />
             </div>
-            <div className="buttons">
-                <a className="btn btn-danger" href={props.gridUrl}>Cancel</a>
-                <button type="submit" className="btn btn-primary">Submit</button>
+
+            <div className="col-span-1 grid grid-cols-1 gap-2 auto-rows-max">
+                <Area id="rightSide" noOuter={true} />
             </div>
         </div>
-        <div className="row">
-            <div className="col-6">
-                <Area id="left.side" noOuter={true} />
-            </div>
-            <div className="col-6">
-                <Area id="right.side" noOuter={true} />
-            </div>
+        <div className={"form-submit-button flex border-t border-divider mt-15 pt-15 justify-between"}>
+            <Button
+                title={"Cancel"}
+                variant='critical'
+                outline={true}
+                onAction={
+                    () => {
+                        window.location = props.gridUrl;
+                    }
+                } />
+            <Button
+                title={"Save"}
+                onAction={
+                    () => { document.getElementById(props.id).dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })) }
+                }
+            />
         </div>
     </Form>;
 }

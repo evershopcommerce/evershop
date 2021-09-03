@@ -1,38 +1,57 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
 import { useAppState } from "../../../../../../lib/context/app";
-import Text from "../../../../../../lib/components/form/fields/text";
-import TextArea from "../../../../../../lib/components/form/fields/textarea";
+import { Field } from "../../../../../../lib/components/form/Field";
 import { get } from "../../../../../../lib/util/get";
+import { Card } from "../../card";
 
 export default function General(props) {
     const context = useAppState();
     const fields = [
         {
-            component: { default: Text },
-            props: { id: "url_key", name: "url_key", label: "Url key", validationRules: ["notEmpty"] },
+            component: { default: Field },
+            props: {
+                type: 'text',
+                id: "url_key",
+                name: "url_key",
+                label: "Url key",
+                validationRules: ["notEmpty"]
+            },
             sortOrder: 0,
             id: "url_key"
         },
         {
-            component: { default: Text },
-            props: { id: "meta_title", name: "meta_title", label: "Meta title" },
+            component: { default: Field },
+            props: {
+                type: 'text',
+                id: "meta_title",
+                name: "meta_title",
+                label: "Meta title",
+                placeholder: "Meta title"
+            },
             sortOrder: 10,
             id: "meta_title"
         },
         {
-            component: { default: Text },
+            component: { default: Field },
             props: {
+                type: 'text',
                 id: "meta_keywords",
                 name: "meta_keywords",
-                label: "Meta keywords"
+                label: "Meta keywords",
+                placeholder: "Meta keywords"
             },
             sortOrder: 20,
             id: "meta_keywords"
         },
         {
-            component: { default: TextArea },
-            props: { id: "meta_description", name: "meta_description", label: "Meta description", options: [{ value: 0, text: "Disabled" }, { value: 1, text: "Enabled" }] },
+            component: { default: Field },
+            props: {
+                type: "textarea",
+                id: "meta_description",
+                name: "meta_description",
+                label: "Meta description"
+            },
             sortOrder: 30,
             id: "meta_description"
         }
@@ -42,8 +61,9 @@ export default function General(props) {
         return f;
     });
 
-    return <div className="page-edit-seo sml-block">
-        <div className="sml-block-title">SEO</div>
-        <Area id="page-edit-seo" coreComponents={fields} />
-    </div>;
+    return <Card title="Search engine optimization">
+        <Card.Session>
+            <Area id="page-edit-seo" coreComponents={fields} />
+        </Card.Session>
+    </Card>;
 }

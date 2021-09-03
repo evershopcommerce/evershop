@@ -8,7 +8,9 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerAdminRoute("dashboard", ["GET"], "/");
 
-    registerAdminRoute("cmsPageEdit", ["GET"], "/page/edit/:id(\\d+)")
+    registerAdminRoute("cmsPageNew", ["GET"], "/pages/new");
+
+    registerAdminRoute("cmsPageEdit", ["GET"], "/pages/edit/:id(\\d+)")
 
     registerAdminRoute("cmsPageBulkDelete", ["POST"], "/page/bulkDelete");
 

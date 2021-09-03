@@ -1,23 +1,46 @@
 import React from "react";
-import Area from "../../../../../../lib/components/area";
+import Area from "../../../../../../lib/components/area"
 import { useAppState } from "../../../../../../lib/context/app";
-import Text from "../../../../../../lib/components/form/fields/text";
-import Switch from "../../../../../../lib/components/form/fields/switch";
 import { get } from "../../../../../../lib/util/get";
-import Ckeditor from "../../../../../../lib/components/form/fields/ckeditor";
+import { Field } from "../../../../../../lib/components/form/Field";
+import { Card } from "../../../../../cms/components/admin/card";
+import Ckeditor from "../../../../../../lib/components/form/fields/Ckeditor";
 
 export default function General(props) {
     const context = useAppState();
     const fields = [
         {
-            component: { default: Text },
-            props: { id: "name", name: "name", label: "Name", validationRules: ["notEmpty"] },
+            component: { default: Field },
+            props: {
+                type: "text",
+                id: "name",
+                name: "name",
+                label: "Name",
+                placeholder: "Name",
+                validationRules: ["notEmpty"]
+            },
             sortOrder: 10,
             id: "name"
         },
         {
-            component: { default: Switch },
-            props: { id: "status", name: "status", label: "Status", options: [{ value: 0, text: "Disabled" }, { value: 1, text: "Enabled" }] },
+            component: { default: Field },
+            props: {
+                id: "cms_page_id",
+                name: "cms_page_id",
+                type: "hidden"
+            },
+            sortOrder: 10,
+            id: "cms_page_id"
+        },
+        {
+            component: { default: Field },
+            props: {
+                type: "radio",
+                id: "status",
+                name: "status",
+                label: "Status",
+                options: [{ value: 0, text: "Disabled" }, { value: 1, text: "Enabled" }]
+            },
             sortOrder: 20,
             id: "status"
         },
@@ -41,8 +64,9 @@ export default function General(props) {
         return f;
     });
 
-    return <div className="page-edit-general sml-block">
-        <div className="sml-block-title">General</div>
-        <Area id="page-edit-general" coreComponents={fields} />
-    </div>;
+    return <Card title="General">
+        <Card.Session>
+            <Area id="page-edit-general" coreComponents={fields} />
+        </Card.Session>
+    </Card>;
 }
