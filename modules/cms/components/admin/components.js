@@ -250,22 +250,21 @@ exports = module.exports = {
             sortOrder: 5
         },
         {
-            id: "title",
+            id: "pageHeading",
+            areaId: "content",
+            source: getComponentSource("cms/components/admin/PageHeading.js"),
+            props: {
+            },
+            sortOrder: 10
+        },
+        {
+            id: 'title',
             areaId: 'head',
-            source: getComponentSource("title.js"),
+            source: getComponentSource("title.js", true),
             props: {
                 title: "Dashboard"
             },
             sortOrder: 1
-        },
-        {
-            id: "title",
-            areaId: 'content',
-            source: getComponentSource("cms/components/admin/title.js"),
-            props: {
-                title: "Dashboard"
-            },
-            sortOrder: 5
         }
     ]
 }

@@ -1,6 +1,8 @@
 import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import { useAppState } from "../../../../../lib/context/app";
+import { Card } from "../../../../cms/components/admin/card";
+import Dot from "../../../../../lib/components/Dot";
 
 export default function LifetimeSale() {
     const context = useAppState();
@@ -14,51 +16,43 @@ export default function LifetimeSale() {
     ];
     const COLORS = ["#058C8C", "#dc3545", "#E1E1E1"];
 
-    return <div className="sml-block lifetime-sale">
-        <table className="table">
-            <tbody>
-                <tr>
-                    <td>
-                        <div className="title"><span className="text-primary">Number of orders</span></div>
-                    </td>
-                    <td>
-                        <div className="value text-primary"><span>{orders} orders</span></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div className="title"><span className="text-primary">Lifetime sales</span></div>
-                    </td>
-                    <td>
-                        <div className="value text-primary"><span>{_total}</span></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span className="title text-primary">{completed_percentage}% completed</span>
-                        <span className="title text-danger">{cancelled_percentage}% cancelled</span>
-                    </td>
-                    <td>
-                        <div className="value">
-                            <PieChart width={80} height={80}>
-                                <Pie
-                                    data={data}
-                                    cx={30}
-                                    cy={30}
-                                    labelLine={false}
-                                    outerRadius={35}
-                                    fill="#8884d8"
-                                    dataKey="value"
-                                >
-                                    {
-                                        data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-                                    }
-                                </Pie>
-                            </PieChart>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>;
+    return <Card title="Lifetime Sale">
+        <Card.Session>
+            <div className='grid grid-cols-1 gap-1'>
+                <div className='flex space-x-1 items-center'>
+                    <Dot variant="primary" />
+                    <div className='self-center'>{orders} orders</div>
+                </div>
+                <div className='flex space-x-1 items-center'>
+                    <Dot variant="primary" />
+                    <div className='self-center'>{_total} lifetime sale</div>
+                </div>
+                <div className='flex space-x-1 items-center'>
+                    <Dot variant="primary" />
+                    <div className='self-center'>{completed_percentage}% of orders completed</div>
+                </div>
+                <div className='flex space-x-1 items-center'>
+                    <Dot variant="primary" />
+                    <div className='self-center'>{cancelled_percentage}% of orders cancelled</div>
+                </div>
+            </div>
+        </Card.Session>
+        <Card.Session>
+            <PieChart width={200} height={200}>
+                <Pie
+                    data={data}
+                    cx={200}
+                    cy={200}
+                    labelLine={false}
+                    outerRadius={35}
+                    fill="#8884d8"
+                    dataKey="value"
+                >
+                    {
+                        data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
+                    }
+                </Pie>
+            </PieChart>
+        </Card.Session>
+    </Card>;
 }

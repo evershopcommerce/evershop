@@ -244,33 +244,24 @@ exports = module.exports = {
     "dashboard": [
         {
             id: "statistic",
-            areaId: 'left.side',
+            areaId: 'leftSide',
             source: getComponentSource("sale/components/admin/dashboard/statistic.js", true),
             props: { api: buildAdminUrl("salestatistic", { "period": "daily" }) },
             sortOrder: 10
         },
         {
             id: "lifetimesales",
-            areaId: 'right.side',
+            areaId: 'rightSide',
             source: getComponentSource("sale/components/admin/dashboard/lifetimesales.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "bestsellers",
-            areaId: 'left.side',
+            areaId: 'leftSide',
             source: getComponentSource("sale/components/admin/dashboard/bestsellers.js"),
             props: {
                 listUrl: buildAdminUrl('productGrid')
-            },
-            sortOrder: 20
-        },
-        {
-            id: "bestcustomers",
-            areaId: 'right.side',
-            source: getComponentSource("sale/components/admin/dashboard/bestcustomers.js"),
-            props: {
-                listUrl: ''// TODO: add customer grid url
             },
             sortOrder: 20
         }
