@@ -90,7 +90,7 @@ export default function CategoryGrid() {
                 <Actions ids={categories.map((c) => c.category_id)} selectedIds={selectedRows} setSelectedRows={setSelectedRows} />
                 {categories.map((a, i) => {
                     return <tr key={i}>
-                        <td><Checkbox isChecked={selectedRows.includes(a.category_id)} onChange={(e) => {
+                        <td style={{ width: '2rem' }}><Checkbox isChecked={selectedRows.includes(a.category_id)} onChange={(e) => {
                             if (e.target.checked)
                                 setSelectedRows(selectedRows.concat([a.category_id]))
                             else
