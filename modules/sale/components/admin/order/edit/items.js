@@ -157,6 +157,84 @@ const TrackingButton = () => {
     />
 }
 
+const AddTrackingButton = () => {
+    const context = useAppState();
+    const shipment = get(context, 'order.shipment');
+    const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
+    if (!shipment || shipment.tracking_number || shipment.carrier_name)
+        return null;
+
+    else
+        return <Button
+            title="Add tracking number"
+            variant='primary'
+            onAction={() => {
+                openAlert({
+                    heading: `Add tracking information`,
+                    content: <div>
+                        <Form
+                            id="add-tracking-items" method="POST"
+                            action={context.updateShipmentUrl}
+                            submitBtn={false}
+                            onSuccess={() => {
+                                window.location.href = context.currentUrl;
+                            }}
+                            onValidationError={() => {
+                                dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: false } } });
+                            }}
+                        >
+                            <div className='grid grid-cols-2 gap-1'>
+                                <div>
+                                    <Field
+                                        formId="add-tracking-items"
+                                        type='text'
+                                        name='tracking_number'
+                                        label='Tracking number'
+                                        placeHolder='Tracking number'
+                                        value={''}
+                                        validationRules={['notEmpty']}
+                                    />
+                                </div>
+                                <div>
+                                    <Field
+                                        formId="add-tracking-items"
+                                        type='select'
+                                        name='carrier_name'
+                                        label="Carrier"
+                                        value={''}
+                                        options={[
+                                            { value: 'Fedex', text: 'Fedex' },
+                                            { value: 'USPS', text: 'USPS' },
+                                            { value: 'UPS', text: 'UPS' },
+                                        ]}// TODO: List of carrier should be configurable
+                                        validationRules={['notEmpty']}
+                                    />
+                                </div>
+                            </div>
+                        </Form>
+                    </div>,
+                    primaryAction: {
+                        'title': 'Cancel',
+                        'onAction': closeAlert,
+                        'variant': ''
+
+                    },
+                    secondaryAction: {
+                        'title': 'Update tracking',
+                        'onAction': () => {
+                            dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
+                            document.getElementById('add-tracking-items').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                        },
+                        'variant': 'primary',
+                        isLoading: false
+                    }
+                }
+                )
+            }}
+        />
+}
+
+
 export default function Items() {
     const context = useAppState();
     let order = get(context, "order", {});
@@ -217,6 +295,7 @@ export default function Items() {
             <div className="flex justify-end">
                 <FullfillButton />
                 <TrackingButton />
+                <AddTrackingButton />
             </div>
         </Card.Session>
     </Card>

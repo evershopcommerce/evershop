@@ -3,4 +3,5 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
     registerAdminRoute("orderEdit", ["GET"], "/order/edit/:id(\\d+)");
     registerAdminRoute("salestatistic", ["POST"], "/salestatistic/:period");
     registerAdminRoute("createShipment", ["POST"], "/fullfill/:orderId(\\d+)");
+    registerAdminRoute("updateShipment", ["POST"], "/shipment/update/:orderId(\\d+)");
 }
