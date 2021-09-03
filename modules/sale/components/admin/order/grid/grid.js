@@ -5,7 +5,6 @@ import Pagination from "../../../../../../lib/components/grid/pagination";
 import { get } from "../../../../../../lib/util/get";
 import { Checkbox } from "../../../../../../lib/components/form/fields/Checkbox";
 import { Card } from "../../../../../cms/components/admin/card";
-import formData from "../../../../../../lib/util/formData";
 import axios from "axios";
 import { useAlertContext } from "../../../../../../lib/components/modal/Alert";
 
@@ -13,100 +12,31 @@ const Actions = ({ selectedIds = [], setSelectedRows }) => {
     const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
     const [isLoading, setIsLoading] = useState(false);
     const context = useAppState();
+    let orders = get(context, 'grid.orders', []);
     const actions = [
         {
-            name: 'Disable',
+            name: 'Mark as fullfilled',
             onAction: (ids) => {
                 openAlert({
-                    heading: `Disable ${selectedIds.length} products`,
-                    content: "Are you sure?",
+                    heading: `Fullfill ${selectedIds.length} orders`,
+                    content: <Checkbox name="notify_customer" label="Send notification to the customer" />,
                     primaryAction: {
                         'title': 'Cancel',
                         'onAction': closeAlert,
-                        'variant': 'primary'
+                        'variant': 'default'
                     },
                     secondaryAction: {
-                        'title': 'Disable',
+                        'title': 'Mark as fullfilled',
                         'onAction': async () => {
                             setIsLoading(true);
                             dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } })
-                            let disableUrl = context.disableProductUrl;
-                            let response = await axios.post(disableUrl, formData().append('ids', selectedIds).build());
-                            //setIsLoading(false);
-                            if (response.data.success === true) {
-                                window.location.href = context.currentUrl;
-                                //TODO: Should display a message and delay for 1 - 2 second
-                            } else {
-
-                            }
+                            let selectedOrders = orders.filter(o => selectedIds.includes(parseInt(o.order_id)));
+                            await Promise.all(selectedOrders.map(async (order) => {
+                                await axios.post(order.createShipmentUrl);
+                            }));
+                            window.location.href = context.currentUrl;
                         },
-                        'variant': 'critical',
-                        isLoading: false
-                    }
-                }
-                )
-            }
-        },
-        {
-            name: 'Enable',
-            onAction: (ids) => {
-                openAlert({
-                    heading: `Enable ${selectedIds.length} products`,
-                    content: "Are you sure?",
-                    primaryAction: {
-                        'title': 'Cancel',
-                        'onAction': closeAlert,
-                        'variant': 'primary'
-                    },
-                    secondaryAction: {
-                        'title': 'Enable',
-                        'onAction': async () => {
-                            setIsLoading(true);
-                            dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } })
-                            let enableUrl = context.enableProductsUrl;
-                            let response = await axios.post(enableUrl, formData().append('ids', selectedIds).build());
-                            //setIsLoading(false);
-                            if (response.data.success === true) {
-                                window.location.href = context.currentUrl;
-                                //TODO: Should display a message and delay for 1 - 2 second
-                            } else {
-
-                            }
-                        },
-                        'variant': 'critical',
-                        isLoading: false
-                    }
-                }
-                )
-            }
-        },
-        {
-            name: 'Delete',
-            onAction: (ids) => {
-                openAlert({
-                    heading: `Delete ${selectedIds.length} products`,
-                    content: <div>Can't be undone</div>,
-                    primaryAction: {
-                        'title': 'Cancel',
-                        'onAction': closeAlert,
-                        'variant': 'primary'
-                    },
-                    secondaryAction: {
-                        'title': 'Delete',
-                        'onAction': async () => {
-                            setIsLoading(true);
-                            dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } })
-                            let deleteUrl = context.deleteProductsUrl;
-                            let response = await axios.post(deleteUrl, formData().append('ids', selectedIds).build());
-                            //setIsLoading(false);
-                            if (response.data.success === true) {
-                                window.location.href = context.currentUrl;
-                                //TODO: Should display a message and delay for 1 - 2 second
-                            } else {
-
-                            }
-                        },
-                        'variant': 'critical',
+                        'variant': 'primary',
                         isLoading: isLoading
                     }
                 }
