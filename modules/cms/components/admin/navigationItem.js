@@ -6,7 +6,7 @@ export default function MenuItem({ icon, url, title }) {
         let currentUrl = window.location.href;
         let baseUrl = window.location.origin;
         let check = currentUrl.split(baseUrl + url);
-        if (check.length === 2) {
+        if (check.length === 2 && url.indexOf('products/new') === -1) {// TODO: Fix me
             if (url.split('/').length === 2) {
                 if (check[1] === '' || !/^\/[a-zA-Z1-9]/.test(check[1])) {
                     setIsActive(true);

@@ -6,9 +6,12 @@ exports = module.exports = {
         {
             id: "catalog.group",
             areaId: 'admin.menu',
-            "source": getComponentSource("cms/components/admin/navigationItemGroup.js", true),
-            props: { id: 'catalog.group', name: 'Catalog' },
-            "sortOrder": 10
+            source: getComponentSource("cms/components/admin/navigationItemGroup.js", true),
+            props: {
+                id: 'catalog.group',
+                name: 'Catalog'
+            },
+            sortOrder: 10
         },
         {
             id: "new.product",
@@ -48,7 +51,7 @@ exports = module.exports = {
             areaId: 'catalog.group',
             source: getComponentSource("cms/components/admin/NavigationItem.js", true),
             props: {
-                "icon": "tags",
+                "icon": "list",
                 "url": buildAdminUrl("attributeGrid"),
                 "title": "Attributes"
             },

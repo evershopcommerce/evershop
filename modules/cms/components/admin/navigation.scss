@@ -52,7 +52,7 @@
     background-color: #edeeef;
     border-radius: 4px;
 }
-.nav-item.active:first-child::before {
+.nav-item.active::before {
     content: "";
     width: 3.5px;
     display: block;
@@ -63,11 +63,14 @@
     border-radius: 0 4px 4px 0;
     background-color: var(--primary);
 }
-.nav-item.active:first-child {
+.nav-item.active {
     position: relative;
     a {
         color: var(--primary);
         background-color: #edeeef;
         border-radius: 4px;
     }
+}
+.admin-nav > ul > li {
+    margin-top: 1rem;
 }
