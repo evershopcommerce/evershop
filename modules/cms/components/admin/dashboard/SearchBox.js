@@ -69,6 +69,11 @@ export default function SearchBox({ searchAPI, resourceLinks }) {
 
     const search = () => {
         setLoading(true);
+        if (!InputRef.current.value) {
+            setResults([]);
+            setLoading(false);
+            return;
+        }
         if (typeTimeout) clearTimeout(typeTimeout);
         setTypeTimeout(setTimeout(() => {
             let url = new URL(searchAPI, window.location.origin);
