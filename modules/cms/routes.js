@@ -27,4 +27,6 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
     registerAdminRoute("fileDelete", ["POST", "GET"], "/file_delete/*");
 
     registerAdminRoute("folderCreate", ["POST", "GET"], "/folder_create/*");
+
+    registerAdminRoute("search", ["POST", "GET"], "/search");
 }

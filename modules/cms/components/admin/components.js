@@ -11,6 +11,34 @@ exports = module.exports = {
             sortOrder: 1
         },
         {
+            id: "logo",
+            areaId: 'header',
+            source: getComponentSource("cms/components/admin/dashboard/Logo.js"),
+            props: {
+                dashboardUrl: buildAdminUrl('dashboard')
+            },
+            sortOrder: 10
+        },
+        {
+            id: "searchBox",
+            areaId: 'header',
+            source: getComponentSource("cms/components/admin/dashboard/SearchBox.js"),
+            props: {
+                searchAPI: buildAdminUrl('search'),
+                resourceLinks: [
+                    {
+                        url: buildAdminUrl('productGrid'),
+                        name: "Products"
+                    },
+                    {
+                        url: buildAdminUrl('orderGrid'),
+                        name: "Orders"
+                    }
+                ]
+            },
+            sortOrder: 20
+        },
+        {
             id: "notification",
             areaId: "body",
             source: getComponentSource("notification.js", true),
@@ -245,13 +273,6 @@ exports = module.exports = {
         }
     ],
     "dashboard": [
-        {
-            id: "logo",
-            areaId: 'header',
-            source: getComponentSource("cms/components/admin/dashboard/Logo.js"),
-            props: {},
-            sortOrder: 10
-        },
         {
             id: "layout",
             areaId: 'content',
