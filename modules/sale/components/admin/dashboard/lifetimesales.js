@@ -1,5 +1,5 @@
 import React from "react";
-import { PieChart, Pie, Cell } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useAppState } from "../../../../../lib/context/app";
 import { Card } from "../../../../cms/components/admin/card";
 import Dot from "../../../../../lib/components/Dot";
@@ -14,45 +14,47 @@ export default function LifetimeSale() {
         { name: "Cancelled", value: cancelled_percentage },
         { name: "Others", value: 100 - completed_percentage - cancelled_percentage }
     ];
-    const COLORS = ["#058C8C", "#dc3545", "#E1E1E1"];
+    const COLORS = ["#aee9d1", "#fed3d1", "#a4e8f2"];
 
     return <Card title="Lifetime Sale">
         <Card.Session>
             <div className='grid grid-cols-1 gap-1'>
                 <div className='flex space-x-1 items-center'>
-                    <Dot variant="primary" />
+                    <Dot variant="info" />
                     <div className='self-center'>{orders} orders</div>
                 </div>
                 <div className='flex space-x-1 items-center'>
-                    <Dot variant="primary" />
+                    <Dot variant="info" />
                     <div className='self-center'>{_total} lifetime sale</div>
                 </div>
                 <div className='flex space-x-1 items-center'>
-                    <Dot variant="primary" />
+                    <Dot variant="success" />
                     <div className='self-center'>{completed_percentage}% of orders completed</div>
                 </div>
                 <div className='flex space-x-1 items-center'>
-                    <Dot variant="primary" />
+                    <Dot variant="critical" />
                     <div className='self-center'>{cancelled_percentage}% of orders cancelled</div>
                 </div>
             </div>
         </Card.Session>
         <Card.Session>
-            <PieChart width={200} height={200}>
-                <Pie
-                    data={data}
-                    cx={200}
-                    cy={200}
-                    labelLine={false}
-                    outerRadius={35}
-                    fill="#8884d8"
-                    dataKey="value"
-                >
-                    {
-                        data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-                    }
-                </Pie>
-            </PieChart>
+            <div style={{ height: '200px' }}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                        <Pie
+                            data={data}
+                            labelLine={false}
+                            fill="#8884d8"
+                            dataKey="value"
+                            label
+                        >
+                            {
+                                data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
+                            }
+                        </Pie>
+                    </PieChart>
+                </ResponsiveContainer>
+            </div>
         </Card.Session>
     </Card>;
 }

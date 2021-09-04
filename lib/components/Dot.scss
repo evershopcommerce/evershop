@@ -1,0 +1,32 @@
+.dot {
+    border-radius: 100%;
+    display: inline-block;
+    &.default {
+        color: #e4e5e7;
+        background-color: #e4e5e7;
+    }
+    &.success {
+        color: #aee9d1;
+        background-color: #aee9d1;
+    }
+    &.info {
+        color: #a4e8f2;
+        background-color: #a4e8f2;
+    }
+    &.attention {
+        color: #ffea8a;
+        background-color: #ffea8a;
+    }
+    &.critical {
+        color: #fed3d1;
+        background-color: #fed3d1;
+    }
+    &.warning {
+        color: #ffd79d;
+        background-color: #ffd79d;
+    }
+    &.new {
+        color: #e4e5e7;
+        background-color: #e4e5e7;
+    }
+}

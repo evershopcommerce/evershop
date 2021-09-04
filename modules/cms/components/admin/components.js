@@ -250,7 +250,7 @@ exports = module.exports = {
             areaId: 'content',
             source: getComponentSource("cms/components/admin/dashboard/layout.js"),
             props: {},
-            sortOrder: 5
+            sortOrder: 10
         },
         {
             id: "pageHeading",
@@ -258,7 +258,7 @@ exports = module.exports = {
             source: getComponentSource("cms/components/admin/PageHeading.js"),
             props: {
             },
-            sortOrder: 10
+            sortOrder: 5
         },
         {
             id: 'title',
