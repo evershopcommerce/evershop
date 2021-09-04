@@ -246,6 +246,13 @@ exports = module.exports = {
     ],
     "dashboard": [
         {
+            id: "logo",
+            areaId: 'header',
+            source: getComponentSource("cms/components/admin/dashboard/Logo.js"),
+            props: {},
+            sortOrder: 10
+        },
+        {
             id: "layout",
             areaId: 'content',
             source: getComponentSource("cms/components/admin/dashboard/layout.js"),
