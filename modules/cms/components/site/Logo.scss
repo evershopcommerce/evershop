@@ -1,0 +1,19 @@
+.logo {
+    display: flex;
+    a {
+        align-self: center;
+        color: var(--primary);
+        display: flex;
+        border-radius: 100%;
+        border: 2px solid var(--primary);
+        svg {
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+    span {
+        align-self: center;
+        padding-left: 0.5rem;
+        font-weight: 600;
+    }
+}

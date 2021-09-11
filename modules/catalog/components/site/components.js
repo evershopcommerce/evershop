@@ -74,5 +74,21 @@ exports = module.exports = {
             props: {},
             sortOrder: 20
         }
+    ],
+    "homepage": [
+        {
+            id: "featuredCat",
+            areaId: "content",
+            source: getComponentSource("catalog/components/site/homepage/FeaturedCategories.js"),
+            props: {},
+            sortOrder: 20
+        },
+        {
+            id: "featuredProducts",
+            areaId: "content",
+            source: getComponentSource("catalog/components/site/homepage/featuredProducts.js"),
+            props: {},
+            sortOrder: 30
+        }
     ]
 }

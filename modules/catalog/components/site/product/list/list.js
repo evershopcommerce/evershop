@@ -1,19 +1,21 @@
 import React from "react";
 import Area from "../../../../../../lib/components/area";
-import { Name } from "./item/name";
-import { Thumbnail } from "./item/thumbnail";
-import { Price } from "./item/price";
+import { Name } from "./item/Name";
+import { Thumbnail } from "./item/Thumbnail";
+import { Price } from "./item/Price";
 import { get } from "../../../../../../lib/util/get";
 
-export default function ProductList({ products = [], countPerRow = 4 }) {
+export default function ProductList({ products = [] }) {
     if (products.length === 0)
-        return <div className="product-list"><div>There is no product to display</div></div>;
-    return <div className={"product-list row row-cols-1 row-cols-md-3 " + "row-cols-lg-" + countPerRow}>
+        return <div className="product-list">
+            <div className='text-center'>There is no product to display</div>
+        </div>;
+    return <div className='grid grid-cols-2 md:grid-cols-4 gap-2'>
         {
             products.map((p, index) => {
                 return <Area
-                    id={"product_item"}
-                    className="listing-tem col"
+                    id={"productListingItem"}
+                    className="listing-tem"
                     product={p}
                     key={index}
                     coreComponents={[

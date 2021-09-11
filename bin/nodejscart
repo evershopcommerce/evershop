@@ -77,6 +77,8 @@ let app = express();
 let routes = router.getRoutes();
 let siteRoutes = router.getSiteRoutes();
 let adminRoutes = router.getAdminRoutes();
+let command = argv._[0];
+
 routes.forEach(r => {
     app.all(r.path, (request, response, next) => {
         request._route = r;
@@ -91,6 +93,10 @@ routes.forEach(r => {
             next();
         }
     });
+
+    if (command === 'dev') {
+        r.__BUILDREQURIED__ = true;
+    }
 })
 /** 404 Not Found handle */
 // TODO: This has to be enhanced, to support some cases like user visit the valid product route, but the product is either removed or disabled
@@ -144,7 +150,7 @@ middlewares.forEach(m => {
     }
 });
 
-let command = argv._[0];
+
 if (command === "build") {
     process.env.NODE_ENV = 'production';
     // START BUILD Webpack

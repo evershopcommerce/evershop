@@ -1,0 +1,35 @@
+.main-banner-home {
+    background-image: url("/assets/homepage/banner/desktop.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    height: 490px;
+    position: relative;
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: block;
+        background-color: #685f58;
+        opacity: 0.35;
+        z-index: 1;
+    }
+    .container {
+        z-index: 10;
+    }
+    .button {
+        margin-top: 27px;
+    }
+    h2 {
+        letter-spacing: 0;
+        padding: 0 20px;
+        @media screen and (min-width: 768px) {
+            font-size: 4rem;
+            padding: 0 55px;
+            line-height: 4rem;
+        }
+    }
+}

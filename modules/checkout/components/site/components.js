@@ -5,7 +5,7 @@ exports = module.exports = {
     "*": [
         {
             id: "miniCart",
-            areaId: "header",
+            areaId: "iconWrapper",
             source: getComponentSource("checkout/components/site/minicart.js"),
             props: {
                 cartUrl: buildSiteUrl("cart"),

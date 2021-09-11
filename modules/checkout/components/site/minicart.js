@@ -2,7 +2,7 @@ import React from "react";
 import { useAppState } from "../../../../lib/context/app";
 import { get } from "../../../../lib/util/get";
 
-export default function Minicart({ cartUrl, checkoutUrl }) {
+export default function MiniCart({ cartUrl, checkoutUrl }) {
     const context = useAppState();
     const currency = get(context, "currency", "USD");
     const language = get(context, "language", "en");
@@ -25,8 +25,13 @@ export default function Minicart({ cartUrl, checkoutUrl }) {
     };
 
     if (items.length === 0)
-        return <div className="mini-cart-wrapper">
-            <a href="#" onClick={(e) => onOpen(e)}><span>Cart</span><span>({items.length})</span></a>
+        return <div className="mini-cart-wrapper self-center">
+            <a className='mini-cart-icon' href="#" onClick={(e) => onOpen(e)}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                {items.length > 0 && <span>{items.length}</span>}
+            </a>
             <div className="mini-cart-content" style={{ display: show === false ? "none" : "block" }}>
                 <div className="d-flex justify-content-end">
                     <a href="#" onClick={(e) => onClose(e)}>X</a>
@@ -38,7 +43,7 @@ export default function Minicart({ cartUrl, checkoutUrl }) {
             </div>
         </div>;
 
-    return <div className="mini-cart-wrapper">
+    return <div className="mini-cart-wrapper self-center">
         <a href="#" onClick={(e) => onOpen(e)} className="">
             <span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>

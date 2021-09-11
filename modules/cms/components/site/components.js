@@ -18,11 +18,35 @@ exports = module.exports = {
             sortOrder: 1
         },
         {
+            id: "logo",
+            areaId: "header",
+            source: getComponentSource("cms/components/site/Logo.js", true),
+            props: {},
+            sortOrder: 0
+        },
+        {
             id: "menu",
             areaId: "header",
             source: getComponentSource("cms/components/site/menu.js", true),
             props: {},
             sortOrder: 10
+        },
+        {
+            id: "iconWrapper",
+            areaId: "header",
+            source: getComponentSource("Area.js", true),
+            props: {
+                id: 'iconWrapper',
+                className: 'icon-wrapper flex justify-between space-x-1'
+            },
+            sortOrder: 20
+        },
+        {
+            id: "mobileMenu",
+            areaId: "iconWrapper",
+            source: getComponentSource("cms/components/site/MobileMenu.js", true),
+            props: {},
+            sortOrder: 20
         },
         {
             id: "metaTitle",
@@ -46,17 +70,7 @@ exports = module.exports = {
             source: getComponentSource("meta.js", true),
             props: {
                 "name": "viewport",
-                "content": "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, user-scalable=1"
-            },
-            sortOrder: 2
-        },
-        {
-            id: "bootstrap",
-            areaId: "head",
-            source: getComponentSource("link.js", true),
-            props: {
-                "href": buildSiteUrl("staticAsset", [getSiteCssFile('bootstrap.css').replace("/", "")]),
-                "rel": "stylesheet"
+                "content": "width=device-width, initial-scale=1"
             },
             sortOrder: 2
         },
@@ -71,6 +85,15 @@ exports = module.exports = {
             id: "bundleJS",
             areaId: "after.body",
             source: getComponentSource("cms/components/bundleJs.js", true),
+            props: {},
+            sortOrder: 10
+        }
+    ],
+    "homepage": [
+        {
+            id: "mainBanner",
+            areaId: "content",
+            source: getComponentSource("cms/components/site/homepage/MainBanner.js"),
             props: {},
             sortOrder: 10
         }

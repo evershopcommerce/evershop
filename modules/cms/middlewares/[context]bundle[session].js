@@ -1,20 +1,19 @@
 const inspect = require("util").inspect;
 const { writeFile, mkdir, rmdir } = require("fs/promises");
-const { existsSync, readFileSync, writeFileSync, statSync, renameSync } = require('fs');
+const { existsSync, statSync } = require('fs');
 const webpack = require("webpack");
 const path = require("path");
 const { CONSTANTS } = require("../../../lib/helpers");
 const { buildAdminUrl, buildSiteUrl } = require("../../../lib/routie");
 const { getComponentsByRoute } = require('../../../lib/componee');
-const postcss = require("postcss");
-const postcssPresetEnv = require('postcss-preset-env');
-const atImport = require("postcss-import");
 var sass = require('node-sass');
 var CleanCss = require('clean-css');
+
 module.exports = async function (request, response) {
     let route = request._route;
+
     /** This middleware only required for development */
-    if (process.env.NODE_ENV === 'production' || ['adminStaticAsset', 'siteStaticAsset'].includes(route.id)) {
+    if (process.env.NODE_ENV === 'production' || ['adminStaticAsset', 'staticAsset'].includes(route.id)) {
         return;
     }
 
@@ -24,6 +23,42 @@ module.exports = async function (request, response) {
         return false;
 
     let _p = route.isAdmin == true ? "./admin/" + route.id : "./site/" + route.id;
+    if (route.__BUILDREQURIED__ == false) {
+        if (request.isAdmin === true) {
+            response.context.bundleJs = buildAdminUrl("adminStaticAsset", [`${_p}/${route.__BUNDLEHASH__}.js`]);
+            response.context.bundleCss = buildAdminUrl("adminStaticAsset", [`${_p}/${route.__BUNDLEHASH__}.css`]);
+        } else {
+            response.context.bundleJs = buildSiteUrl("staticAsset", [`${_p}/${route.__BUNDLEHASH__}.js`]);
+            response.context.bundleCss = buildSiteUrl("staticAsset", [`${_p}/${route.__BUNDLEHASH__}.css`]);
+        }
+        return;
+    }
+    if (route.__BUILDING__ === true) {
+        await new Promise((resolve, reject) => {
+            var timer = 0;
+            var check = setInterval(function () {
+                // We only wait for 1 min maximum for the bundle
+                if (timer > 60000) {
+                    clearInterval(check);
+                    resolve(0);
+                }
+                if (route.__BUNDLEHASH__) {
+                    clearInterval(check);
+                    if (request.isAdmin === true) {
+                        response.context.bundleJs = buildAdminUrl("adminStaticAsset", [`${_p}/${route.__BUNDLEHASH__}.js`]);
+                        response.context.bundleCss = buildAdminUrl("adminStaticAsset", [`${_p}/${route.__BUNDLEHASH__}.css`]);
+                    } else {
+                        response.context.bundleJs = buildSiteUrl("staticAsset", [`${_p}/${route.__BUNDLEHASH__}.js`]);
+                        response.context.bundleCss = buildSiteUrl("staticAsset", [`${_p}/${route.__BUNDLEHASH__}.css`]);
+                    }
+                    resolve(1);
+                }
+                timer += 200;
+            }, 200);
+        });
+        return;
+    }
+    route.__BUILDING__ = true;
     await rmdir(path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p), { recursive: true });
 
     let components = JSON.parse(JSON.stringify(getComponentsByRoute(route.id)));
@@ -100,15 +135,6 @@ module.exports = async function (request, response) {
                         const stats = statSync(_path);
                         if (stats.mtime > mTime)
                             mTime = stats.mtime;
-                        // let cssss = readFileSync(path, "utf8");
-                        // let css = sass.renderSync({ file: path });
-                        // postCssImportPromises.push(
-                        //     postcss()
-                        //         .use(postcssPresetEnv({ stage: 0 }))
-                        //         .process(css.css, {
-                        //             from: path
-                        //         })
-                        // );
                     }
                 }
             });
@@ -131,36 +157,7 @@ module.exports = async function (request, response) {
         });
     });
 
-    // let postCssProcess = async () => {
-    //     let results = await Promise.all(postCssImportPromises);
-    //     let css = "";
-    //     results.forEach(result => {
-    //         css += result.css + "\r\n";
-    //     });
-    //     await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, `${hash}.css`), css);
-    // };
-
-
     await webpackPromise;
-    /** Start bundling css */
-    /** Check if Css file was modified from the last build */
-    // if (request.session.cssLastMofified === undefined || mTime > new Date(request.session.cssLastMofified)) {
-    //     console.log(mTime);
-    //     let cssOutput = new CleanCss({
-    //         level: {
-    //             2: {
-    //                 removeDuplicateRules: true // turns on removing duplicate rules
-    //             }
-    //         }
-    //     }).minify(sass.renderSync({
-    //         data: cssFiles,
-    //     }).css);
-
-    //     await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, `${hash}.css`), cssOutput.styles);
-    //     request.session.cssLastMofified = mTime;
-    // } else {
-
-    // }
 
     let cssOutput = new CleanCss({
         level: {
@@ -181,4 +178,8 @@ module.exports = async function (request, response) {
         response.context.bundleJs = buildSiteUrl("staticAsset", [`${_p}/${hash}.js`]);
         response.context.bundleCss = buildSiteUrl("staticAsset", [`${_p}/${hash}.css`]);
     }
+
+    route.__BUILDREQURIED__ = false;
+    route.__BUNDLEHASH__ = hash;
+    route.__BUILDING__ = false;
 };
