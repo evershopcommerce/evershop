@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
 function Current({ image, alt }) {
-    return <div className="product-image product-single-page-image">
-        <img src={image.single} alt={alt} />
+    const [height, setHeight] = useState();
+
+    useEffect(() => {
+        setHeight(document.getElementById('product-current-image').offsetWidth)
+    }, []);
+
+    return <div id='product-current-image' style={{ minHeight: height, background: '#f6f6f6' }} className="product-image product-single-page-image flex justify-center">
+        <img src={image.single} alt={alt} className='self-center' />
     </div>
 }
 
@@ -14,9 +20,9 @@ export default function Images() {
 
     return <div className="product-single-media">
         <Current image={current} alt={product.name} />
-        <ul className="more-view-thumbnail product-gallery">
+        <ul className="more-view-thumbnail product-gallery mt-1 grid grid-cols-4 gap-1">
             {product.gallery.map((i, j) => {
-                return <li key={j}><a href={"#"} onClick={(e) => { e.preventDefault(); setCurrent({ ...product.gallery[j] }); }}><img src={i.thumb} alt={product.name} /></a></li>
+                return <li key={j}><a href={"#"} onClick={(e) => { e.preventDefault(); setCurrent({ ...product.gallery[j] }); }} className='flex justify-center'><img className='self-center' src={i.thumb} alt={product.name} /></a></li>
             })}
         </ul>
     </div>
