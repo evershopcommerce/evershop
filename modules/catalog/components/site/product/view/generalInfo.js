@@ -24,7 +24,7 @@ function Price({ price, salePrice }) {
 }
 
 function Sku({ sku }) {
-    return <div className="product-single-sku mb-1 mt-3"><span>SKU</span><span>: </span>{sku}</div>
+    return <div className="product-single-sku text-textSubdued"><span>SKU</span><span>: </span>{sku}</div>
 }
 
 export default function GeneralInfo() {
@@ -55,12 +55,6 @@ export default function GeneralInfo() {
             },
             'sort_order': 20,
             'id': 'product_single_sku'
-        },
-        {
-            'component': { default: () => <div className="stock-availability"><span></span>{product.stock_availability === 1 ? (<span className="text-success">In stock</span>) : (<span className="text-danger">Out of stock</span>)}</div> },
-            'props': {},
-            'sort_order': 30,
-            'id': 'product_stock_availability'
         }
     ]} />
 }

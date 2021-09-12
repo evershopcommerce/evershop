@@ -20,9 +20,9 @@
 }
 @import "./tailwind.scss";
 
-$font-size-sm: 0.875rem;
-$font-size-md: 1rem;
-$font-size-lg: 1.25rem;
+$font-size-sm: 0.8rem;
+$font-size-md: 0.9rem;
+$font-size-lg: 1.15rem;
 
 $line-height-sm: 1.25;
 $line-height-md: 1.5;
@@ -156,9 +156,13 @@ h5,
 h6 {
     font-weight: 600;
 }
+.wrapper .content {
+    min-height: calc(100vh - 50px);
+}
 .header {
     padding: 1rem;
     border-bottom: 1px solid #ebebeb;
+    margin-bottom: 3rem;
 }
 
 .container {
@@ -168,6 +172,9 @@ h6 {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 22px;
+    @media screen and(min-width: 1200px) {
+        padding: 0 55px;
+    }
 }
 
 .footer {

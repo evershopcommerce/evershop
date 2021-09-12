@@ -1323,6 +1323,10 @@ video {
 }
 
 @media (min-width: 768px) {
+  .md\:mt-3 {
+    margin-top: 3rem;
+  }
+
   .md\:grid {
     display: grid;
   }

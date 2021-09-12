@@ -62,10 +62,10 @@ exports = module.exports = {
         },
         {
             id: "productDescription",
-            areaId: "productPageBottom",
+            areaId: "productPageMiddleRight",
             source: getComponentSource("catalog/components/site/product/view/description.js"),
             props: {},
-            sortOrder: 10
+            sortOrder: 60
         },
         {
             id: "productVariants",
