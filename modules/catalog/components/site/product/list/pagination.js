@@ -59,16 +59,16 @@ export default function Pagination({ total, limit, currentPage, currentUrl }) {
         window.location.href = url;
     };
 
-    return <div className="products-pagination">
-        <ul className="pagination">
-            {currentPage > 1 && <li className="page-item prev"><a className={"page-link"} href={"#"} onClick={(e) => onPrev(e)}><span>Previous</span></a></li>}
-            <li className="page-item first"><a className={"page-link"} href="#" onClick={(e) => onFirst(e)}>1</a></li>
-            <li className="page-item current">
+    return <div className="products-pagination mt-2">
+        <ul className="pagination flex justify-center space-x-1">
+            {currentPage > 1 && <li className="page-item prev self-center"><a className={"page-link"} href={"#"} onClick={(e) => onPrev(e)}><span>Previous</span></a></li>}
+            <li className="page-item first self-center"><a className={"page-link"} href="#" onClick={(e) => onFirst(e)}>1</a></li>
+            <li className="page-item current self-center">
                 {isOnEdit === false && <a className="page-link pagination-input-fake uk-input uk-form-small" href="#" onClick={(e) => { e.preventDefault(); setIsOnEdit(true) }}>{currentPage}</a>}
                 {isOnEdit === true && <input className="page-link uk-input uk-form-small" value={inputVal} onChange={(e) => setInPutVal(e.target.value)} type="text" onKeyPress={(e) => onKeyPress(e)} />}
             </li>
-            <li className="page-item last"><a className={"page-link"} href="#" onClick={(e) => onLast(e)}>{Math.ceil(total / limit)}</a></li>
-            {(currentPage * limit) < total && <li className="page-item next"><a className={"page-link"} href={"#"} onClick={(e) => onNext(e)}><span>Next</span></a></li>}
+            <li className="page-item last self-center"><a className={"page-link"} href="#" onClick={(e) => onLast(e)}>{Math.ceil(total / limit)}</a></li>
+            {(currentPage * limit) < total && <li className="page-item next self-center"><a className={"page-link"} href={"#"} onClick={(e) => onNext(e)}><span>Next</span></a></li>}
         </ul>
     </div>
 }

@@ -672,6 +672,10 @@ video {
   margin-right: 1.25rem;
 }
 
+.mr-05 {
+  margin-right: .5rem;
+}
+
 .mr-075 {
   margin-right: .75rem;
 }
@@ -694,6 +698,14 @@ video {
 
 .mb-15 {
   margin-bottom: 1.5rem;
+}
+
+.mb-25 {
+  margin-bottom: 2.5rem;
+}
+
+.mb-025 {
+  margin-bottom: .25rem;
 }
 
 .mb-05 {
@@ -897,6 +909,10 @@ video {
 
 .flex-col {
   flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .content-end {
@@ -1204,6 +1220,14 @@ video {
   text-transform: capitalize;
 }
 
+.italic {
+  font-style: italic;
+}
+
+.tracking-widest {
+  letter-spacing: 0.1em;
+}
+
 .text-white {
   color: #ffffff;
 }
@@ -1299,6 +1323,10 @@ video {
 }
 
 @media (min-width: 768px) {
+  .md\:grid {
+    display: grid;
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

@@ -6,31 +6,31 @@ exports = module.exports = {
         {
             // General block
             id: "categoryGeneral",
-            areaId: "contentTop",
+            areaId: "content",
             source: getComponentSource("catalog/components/site/category/view/general.js"),
             props: {},
             sortOrder: 10
         },
         {
-            id: "products",
-            areaId: "contentMiddle",
-            source: getComponentSource("catalog/components/site/category/view/products.js"),
-            props: {},
-            sortOrder: 10
-        },
-        {
             id: "productsFilter",
-            areaId: "leftColumn",
+            areaId: "content",
             source: getComponentSource("catalog/components/site/product/list/filter.js"),
             props: {},
-            sortOrder: 10
+            sortOrder: 20
+        },
+        {
+            id: "products",
+            areaId: "content",
+            source: getComponentSource("catalog/components/site/category/view/products.js"),
+            props: {},
+            sortOrder: 30
         }
     ],
     productView: [
         {
             // General block
             id: "productLayout",
-            areaId: "contentMiddle",
+            areaId: "content",
             source: getComponentSource("catalog/components/site/product/view/layout.js"),
             props: {},
             sortOrder: 10

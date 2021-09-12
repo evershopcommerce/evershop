@@ -3,8 +3,9 @@ import { useAppState } from "../../../../../../../lib/context/app";
 import { get } from "../../../../../../../lib/util/get";
 
 const Price = ({ price, salePrice }) => {
-    const currency = get(useAppState(), "currency", "USD");
-    const language = get(useAppState(), "language", "en");
+    const context = useAppState();
+    const currency = get(context, "currency", "USD");
+    const language = get(context, "language", "en");
     const _price = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(price);
     const _salePrice = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(salePrice);
     return <div className="product-price-listing">

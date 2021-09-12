@@ -8,7 +8,7 @@ export default function featuredProducts() {
     let products = get(context, 'featuredProducts', []);
     return <div className='pt-3'>
         <div className='page-width'>
-            <h3 className='mt-3 mb-3 text-center uppercase h5'>Featured collection</h3>
+            <h3 className='mt-3 mb-3 text-center uppercase h5 tracking-widest'>Featured collection</h3>
             <ProductList products={products} />
         </div>
     </div>

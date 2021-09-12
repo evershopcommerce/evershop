@@ -10,6 +10,7 @@ var sass = require('node-sass');
 var CleanCss = require('clean-css');
 
 module.exports = async function (request, response) {
+    //return;
     let route = request._route;
 
     /** This middleware only required for development */

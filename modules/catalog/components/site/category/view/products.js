@@ -7,19 +7,11 @@ import { get } from "../../../../../../lib/util/get";
 
 export default function Products({ withPagination = true, withSorting = true }) {
     const context = useAppState();
+    const products = get(context, "category.products", []);
 
-    return <div className="">
-        <div className="tool-bar-top d-flex justify-content-sm-between">
-            {withPagination === true && <Pagination
-                currentPage={1}
-                currentUrl={get(context, "currentUrl")}
-                currentPage={get(context, "pagination.currentPage")}
-                limit={get(context, "pagination.limit")}
-                total={get(context, "pagination.total")}
-            />}
-            {withSorting === true && <Sorting />}
-        </div>
-        <ProductList products={get(context, "category.products")} countPerRow={3} />
+    return <div className="page-width">
+        <span className="product-count italic block mb-1">{products.length} products</span>
+        <ProductList products={products} countPerRow={3} />
         {withPagination === true && <Pagination
             currentPage={1}
             currentUrl={get(context, "currentUrl")}

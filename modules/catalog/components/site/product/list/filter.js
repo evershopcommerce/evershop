@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Area from "../../../../../../lib/components/area";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
+import Sorting from "./sorting";
 
 function Price({ activeFilters, updateFilter, minPrice = 0, maxPrice = 0 }) {
+    const context = useAppState();
+    const currency = get(context, "currency", "USD");
+    const language = get(context, "language", "en");
+
     const firstRender = React.useRef(true);
     const [from, setFrom] = React.useState(() => {
         let index = activeFilters.findIndex(f => f.key === "price");
@@ -21,8 +26,7 @@ function Price({ activeFilters, updateFilter, minPrice = 0, maxPrice = 0 }) {
             return activeFilters[index]["value"].split("-")[1] ? activeFilters[index]["value"].split("-")[1] : maxPrice;
         }
     });
-    const currency = "usd";
-    const language = "en";
+
     React.useLayoutEffect(() => {
         const timeoutID = setTimeout(() => {
             if (firstRender.current) {
@@ -70,8 +74,8 @@ function Price({ activeFilters, updateFilter, minPrice = 0, maxPrice = 0 }) {
     const f = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(minPrice);
     const t = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(maxPrice);
 
-    return <div>
-        <div><strong>Price</strong></div>
+    return <div className='price-filter'>
+        <div className='filter-item-title'>Price</div>
         <div className="rangeslider">
             <input
                 className="min"
@@ -89,8 +93,8 @@ function Price({ activeFilters, updateFilter, minPrice = 0, maxPrice = 0 }) {
                 value={to}
                 onChange={(e) => onChange(e, "max")}
             />
-            <span className="range_min light left">{from}</span>
-            <span className="range_max light right">{to}</span>
+            <span className="range_min light left">{f}</span>
+            <span className="range_max light right">{t}</span>
         </div>
     </div>
 }
@@ -104,31 +108,35 @@ function Attributes({ activeFilters, attributes, updateFilter }) {
         }
     };
 
-    return <div className={"filter-attributes"}>
+    return <>
         {attributes.map((a, i) => {
             return <div key={i}>
-                <div><strong>{a.attribute_name}</strong></div>
-                <ul className="list-basic">
+                <div className='filter-item-title'>{a.attribute_name}</div>
+                <ul className="flex flex-wrap filter-option-list">
                     {a.options.map((o, j) => {
                         let isChecked = activeFilters.find((f) => f["key"] === a.attribute_code && parseInt(f.value) === parseInt(o.option_id));
-                        return <li key={j}><label>
-                            <input
-                                className=""
-                                type={"checkbox"}
-                                checked={isChecked}
-                                onChange={(e) => onChange(e, a.attribute_code, o.option_id)} /><span className="option-name">{o.option_text}</span></label>
+                        return <li key={j} className='mt-05 mr-05'>
+                            <a
+                                href="#"
+                                className={isChecked ? 'checked text-center filter-option' : 'text-center filter-option'}
+                                onClick={(e) => onChange(e, a.attribute_code, o.option_id)}
+                            >
+                                {o.option_text}
+                            </a>
                         </li>
                     })}
                 </ul>
             </div>
         })}
-    </div>
+    </>
 }
 
 export default function Filter({ title }) {
     const data = get(useAppState(), "productsFilter", []);
     const activeFilters = get(useAppState(), "activeProductsFilters", []);
     const currentUrl = get(useAppState(), "currentUrl", "");
+
+    const [filtering, setFiltering] = useState(false);
 
     const updateFilter = (filters) => {
         let url = new URL(currentUrl, window.location.origin);
@@ -151,31 +159,51 @@ export default function Filter({ title }) {
         window.location.href = url
     };
 
-    return <Area
-        id={"category-info"}
-        updateFilter={updateFilter}
-        cleanFilter={cleanFilter}
-        activeFilters={activeFilters}
-        className={"product-filter-tool"}
-        coreComponents={[
-            {
-                component: { default: () => <div className="filter-title">{title}</div> },
-                props: { activeFilters },
-                sortOrder: 0,
-                id: "filter-tool-title"
-            },
-            {
-                component: { default: Price },
-                props: { activeFilters, updateFilter, minPrice: get(data, 'price.min', ""), maxPrice: get(data, 'price.max', "") },
-                sortOrder: 10,
-                id: "filter-price"
-            },
-            {
-                component: { default: Attributes },
-                props: { activeFilters, updateFilter, attributes: get(data, 'attributes', []) },
-                sortOrder: 20,
-                id: "filter-attributes"
-            }
-        ]}
-    />
+    return <div className="product-filter-tool">
+        <div className='page-width flex justify-between'>
+            <div className='self-center'>
+                <div className="filter-heading">
+                    {filtering === false && <a href="#" className='flex justify-start space-x-05' onClick={(e) => { e.preventDefault(); setFiltering(true) }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                        <span className='font-light'>FILTER BY</span>
+                    </a>}
+                    {filtering === true && <div className='close-filter mb-1'>
+                        <a onClick={(e) => { e.preventDefault(); setFiltering(false) }} href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>}
+                </div>
+                {filtering === true && <div className="filter-table md:grid md:grid-cols-4 gap-2">
+                    <Area
+                        id={"productFilter"}
+                        updateFilter={updateFilter}
+                        cleanFilter={cleanFilter}
+                        activeFilters={activeFilters}
+                        noOuter={true}
+                        coreComponents={[
+                            {
+                                component: { default: Price },
+                                props: { activeFilters, updateFilter, minPrice: get(data, 'price.min', ""), maxPrice: get(data, 'price.max', "") },
+                                sortOrder: 10,
+                                id: "filterPrice"
+                            },
+                            {
+                                component: { default: Attributes },
+                                props: { activeFilters, updateFilter, attributes: get(data, 'attributes', []) },
+                                sortOrder: 20,
+                                id: "filterAttributes"
+                            }
+                        ]}
+                    />
+                </div>}
+            </div>
+            {filtering === false && <div>
+                <Sorting />
+            </div>}
+        </div>
+    </div>
 }

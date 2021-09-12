@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
+import { Select } from "../../../../../../lib/components/form/fields/Select";
 
 export default function Sorting() {
     // TODO: make this list configurable
@@ -32,19 +33,18 @@ export default function Sorting() {
         return (null);
 
     return <div className="product-sorting">
-        <div className="product-sorting-inner d-flex justify-content-end">
-            <div><span className="label">Sort By</span></div>
-            <select
+        <div className="product-sorting-inner flex justify-end space-x-05">
+            <Select
                 className="form-control"
                 onChange={(e) => onChangeSort(e)}
                 value={sortBy}
-            >
-                <option value="" disabled={true}>Please select</option>
-                {sortingOptions.map((s, i) => {
-                    return <option value={s.code} key={i}>{s.name}</option>
-                })}
-            </select>
-            <div className="sort-direction">
+                options={[{
+                    value: "",
+                    text: "Please select"
+                }]
+                    .concat(sortingOptions.map((o) => { return { value: o.code, text: o.name } }))}
+            />
+            <div className="sort-direction self-center">
                 <a onClick={(e) => onChangeDirection(e)} href={"#"}>
                     {sortOrder === "desc" ? (<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
