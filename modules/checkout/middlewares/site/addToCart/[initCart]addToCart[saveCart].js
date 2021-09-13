@@ -5,7 +5,7 @@ module.exports = async (request, response, stack, next) => {
         let qty = parseInt(`0${request.body.qty}`);
 
         if (qty < 1)
-            throw "Invalid quantity";
+            throw new Error("Invalid quantity");
         let item = await cart.addItem({ product_id: productId, qty: qty });
         // Extract cart info
         let cartInfo = cart.export();
