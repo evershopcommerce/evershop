@@ -1,0 +1,12 @@
+.variant-option-list {
+    li {
+        border: 1px solid var(--divider);
+        padding: 0.2rem 0.85rem;
+        background-color: #fff;
+        font-size: 12px;
+        &.selected {
+            background-color: #866850;
+            color: #fff;
+        }
+    }
+}

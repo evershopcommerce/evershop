@@ -30,11 +30,12 @@ function isAvailable(attributeCode, optionId, variants, currentFilters = {}) {
 }
 
 export default function Variants() {
-    const attributes = get(useAppState(), "product.variantAttributes", []);
-    const variants = get(useAppState(), "product.variants", []);
+    const context = useAppState();
+    const attributes = get(context, "product.variantAttributes", []);
+    const variants = get(context, "product.variants", []);
     const [error, setError] = React.useState(null);
-    const variantFilters = get(useAppState(), "product.variantSelection", {});
-    const currentProductUrl = get(useAppState(), "currentUrl");
+    const variantFilters = get(context, "product.variantSelection", {});
+    const currentProductUrl = get(context, "currentUrl");
 
     const validate = (formId, errors) => {
         if (formId !== "productForm")
@@ -73,26 +74,26 @@ export default function Variants() {
         return url;
     };
 
-    return <div className="variant variant-container">
+    return <div className="variant variant-container grid grid-cols-1 gap-1 mt-2">
         {attributes.map((a, i) => {
             let options = a.options.filter((v, i, s) => s.findIndex(o => o.option_id === v.option_id) === i);
             return <div key={a.attribute_code}>
                 <input name={`variant_options[${i}][attribute_id]`} type={"hidden"} value={a.attribute_id} />
                 <input name={`variant_options[${i}][option_id]`} type={"hidden"} value={variantFilters[a.attribute_code] ? variantFilters[a.attribute_code] : ""} />
-                <div>{a.attribute_name}</div>
-                <ul className="variant-option-list">
+                <div className='mb-05 text-textSubdued uppercase'><span>{a.attribute_name}</span></div>
+                <ul className="variant-option-list flex justify-start">
                     {options.map((o) => {
-                        let className = "";
+                        let className = "mr-05";
                         if (isSelected(a.attribute_code, o.option_id, variantFilters))
-                            className = "selected";
+                            className = "selected mr-05";
                         if (isAvailable(a.attribute_code, o.option_id, variants, variantFilters))
                             return <li key={o.option_id} className={className}><a href={getUrl(a.attribute_code, o.option_id)}>{o.option_text}</a></li>;
                         else
-                            return <li key={o.option_id} className="un-available"><span>{o.option_text}</span></li>;
+                            return <li key={o.option_id} className="un-available mr-05"><span>{o.option_text}</span></li>;
                     })}
                 </ul>
             </div>
         })}
-        {error && <div className="variant-validate error text-danger">{error}</div>}
+        {error && <div className="variant-validate error text-critical">{error}</div>}
     </div>
 }
