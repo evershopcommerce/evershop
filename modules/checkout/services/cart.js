@@ -6,6 +6,7 @@ const { pool } = require("../../../lib/mysql/connection");
 const { select, del } = require('@nodejscart/mysql-query-builder');
 const fs = require("fs");
 const path = require("path");
+const { buildSiteUrl } = require("../../../lib/routie");
 
 class DataObject {
     constructor() {
@@ -273,6 +274,21 @@ class Item extends DataObject {
                 return null; // Will be added later
             },
             dependencies: ["product_id"]
+        },
+        {
+            key: "productUrl",
+            resolver: async function () {
+                return buildSiteUrl('productView', { url_key: this._dataSource.product.url_key })
+            },
+            dependencies: ["product_id"]
+        },
+        {
+            key: "removeUrl",
+            resolver: async function () {
+                if (this.getData('cart_item_id'))
+                    return buildSiteUrl('cartItemRemove', { id: this.getData('cart_item_id') })
+            },
+            dependencies: ["cart_item_id"]
         }
     ];
 

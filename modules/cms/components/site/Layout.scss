@@ -192,3 +192,29 @@ h6 {
         font-size: 13px;
     }
 }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    td,
+    th {
+        border: 1px solid var(--divider);
+        padding: 0.5rem;
+        text-align: left;
+    }
+    th {
+        vertical-align: top;
+    }
+    &.listing {
+        td,
+        th {
+            border-left: 0;
+            border-right: 0;
+            padding: 1rem;
+        }
+        th {
+            border: 0;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+    }
+}

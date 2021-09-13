@@ -17,7 +17,7 @@ exports = module.exports = {
     "cart": [
         {
             id: "shoppingCartLayout",
-            areaId: "contentMiddle",
+            areaId: "content",
             source: getComponentSource("checkout/components/site/cart/layout.js"),
             props: {},
             sortOrder: 10

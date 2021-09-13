@@ -18,6 +18,7 @@ module.exports = async (request, response, stack, next) => {
             message: "Product was added to cart successfully"
         };
     } catch (error) {
+        console.log(error);
         response.$body = {
             data: {},
             success: false,

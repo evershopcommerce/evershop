@@ -907,6 +907,10 @@ video {
   grid-template-columns: repeat(9, minmax(0, 1fr));
 }
 
+.flex-row {
+  flex-direction: row;
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -961,6 +965,10 @@ video {
 
 .gap-2 {
   gap: 2rem;
+}
+
+.gap-3 {
+  gap: 3rem;
 }
 
 .gap-15 {
@@ -1188,6 +1196,10 @@ video {
   text-align: center;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .align-middle {
   vertical-align: middle;
 }
@@ -1202,6 +1214,10 @@ video {
 
 .font-light {
   font-weight: 300;
+}
+
+.font-normal {
+  font-weight: 400;
 }
 
 .font-semibold {
@@ -1327,8 +1343,16 @@ video {
     margin-top: 3rem;
   }
 
+  .md\:table-cell {
+    display: table-cell;
+  }
+
   .md\:grid {
     display: grid;
+  }
+
+  .md\:hidden {
+    display: none;
   }
 
   .md\:grid-cols-2 {
