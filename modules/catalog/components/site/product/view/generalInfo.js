@@ -24,7 +24,7 @@ function Price({ price, salePrice }) {
 }
 
 function Sku({ sku }) {
-    return <div className="product-single-sku text-textSubdued"><span>SKU</span><span>: </span>{sku}</div>
+    return <div className="product-single-sku text-textSubdued"><span>Sku</span><span>: </span>{sku}</div>
 }
 
 export default function GeneralInfo() {

@@ -12,9 +12,9 @@ function AddToCart({ stockAvaibility }) {
         </div>
         <div className='mt-1'>
             {stockAvaibility === 1 && <button className='button'>ADD TO CART</button>}
-            {stockAvaibility === 0 && <a className='button' href="#">SOLD OUT</a>}
+            {stockAvaibility === 0 && <a className='button' href="#" onClick={(e) => e.preventDefault()}>SOLD OUT</a>}
         </div>
-    </div>
+    </div >
 }
 
 export default function ProductForm({ action }) {
@@ -36,7 +36,7 @@ export default function ProductForm({ action }) {
                     'props': {
                         stockAvaibility: product.stock_availability
                     },
-                    'sort_order': 50,
+                    'sortOrder': 50,
                     'id': 'productSingleBuyButton'
                 }
             ]}
