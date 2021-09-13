@@ -1,4 +1,5 @@
 var { insert, del, select, update } = require('@nodejscart/mysql-query-builder');
+const { merge } = require('../../../../../lib/util/merge');
 
 module.exports = async (request, response, stack) => {
     let promises = [stack["createProduct"], stack["updateProduct"]];
@@ -57,12 +58,12 @@ async function saveOptionValues(optionId, values, connection) {
     for (const id in values) {
         if (_values.find(v => parseInt(v.product_custom_option_value_id) === parseInt(id)))
             await update("product_custom_option_value")
-                .given(values[id])
+                .given(merge(values[id], { sort_order: 0 }))
                 .where("product_custom_option_value_id", "=", id)
                 .execute(connection);
         else
             await insert("product_custom_option_value")
-                .given(values[id])
+                .given(merge(values[id], { sort_order: 0 }))
                 .prime("option_id", optionId)
                 .execute(connection);
     }
