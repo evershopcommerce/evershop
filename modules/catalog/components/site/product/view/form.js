@@ -8,7 +8,7 @@ import React from "react";
 function AddToCart({ stockAvaibility }) {
     return <div className="add-to-cart mt-2">
         <div style={{ width: '5rem' }}>
-            <Field type='text' validationRules={['notEmpty']} className="qty" name={"qty"} placeholder={"Qty"} formId={"productForm"} />
+            <Field type='text' value='1' validationRules={['notEmpty']} className="qty" name={"qty"} placeholder={"Qty"} formId={"productForm"} />
         </div>
         <div className='mt-1'>
             {stockAvaibility === 1 && <button className='button'>ADD TO CART</button>}
