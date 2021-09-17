@@ -143,12 +143,16 @@ input[type="checkbox"] {
 .field-error {
     margin-top: 0.25rem;
     svg {
-        width: 2rem;
-        height: 2rem;
+        width: 22px;
+        height: 22px;
         fill: var(--critical);
         color: var(--critical);
         align-self: center;
-        margin-right: 0.6rem;
+        margin-right: 0.4rem;
+    }
+    span {
+        align-self: center;
+        line-height: 1;
     }
 }
 .form-field-container.has-error {
