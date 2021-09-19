@@ -75,7 +75,7 @@ exports = module.exports = {
         },
         {
             id: "checkoutPage",
-            areaId: "contentMiddle",
+            areaId: "content",
             source: getComponentSource("checkout/components/site/checkout/checkout.js"),
             props: {},
             sortOrder: 0

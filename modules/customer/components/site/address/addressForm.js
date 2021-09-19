@@ -1,24 +1,27 @@
 import React from 'react';
-import Text from "../../../../../lib/components/form/fields/text";
-import { ProvinceOptions } from "../../../../../lib/components/locale/province_option";
-import Select from "../../../../../lib/components/form/fields/select";
-import { CountryOptions } from "../../../../../lib/components/locale/country_option";
+import { Field } from "../../../../../lib/components/form/Field";
+import { ProvinceOptions } from "../../../../../lib/components/locale/ProvinceOption";
+import { Select } from "../../../../../lib/components/form/fields/select";
+import { CountryOptions } from "../../../../../lib/components/locale/CountryOption";
 import Area from "../../../../../lib/components/area";
-import { Form } from '../../../../../lib/components/form/form';
+import { Form } from '../../../../../lib/components/form/Form';
 import { get } from '../../../../../lib/util/get';
 
-function Province({ selectedCountry, selectedProvince }) {
+function Province({ selectedCountry, selectedProvince, formId }) {
     return <ProvinceOptions country={selectedCountry}>
-        <Select
+        <Field
+            type="select"
             value={selectedProvince}
             name="province"
             label={"Province"}
+            placeholder="Province"
             validationRules={["notEmpty"]}
+            formId={formId}
         />
     </ProvinceOptions>
 }
 
-function Country({ country, setCountry, countries = [] }) {
+function Country({ country, setCountry, countries = [], formId }) {
 
     const [selectedCountry, setSelectedCountry] = React.useState(() => {
         if (countries.length === 1)
@@ -34,18 +37,20 @@ function Country({ country, setCountry, countries = [] }) {
         }
     }, []);
 
-    const handler = (e) => {
+    const onChange = (e) => {
         setCountry(e.target.value);
     };
 
-    return <div style={{ display: countries.length > 1 ? 'block' : 'none' }}>
+    return <div style={{ display: countries.length > 1 ? 'block' : 'none', marginTop: '1rem' }}>
         <CountryOptions countries={countries}>
-            <Select
+            <Field
+                type="select"
                 value={selectedCountry}
                 label="Country"
                 name="country"
-                className="uk-form-small"
-                handler={handler}
+                placeholder="Country"
+                onChange={onChange}
+                formId={formId}
                 validationRules={["notEmpty"]}
             />
         </CountryOptions>
@@ -53,22 +58,26 @@ function Country({ country, setCountry, countries = [] }) {
 }
 
 const NameAndTelephone = ({ formId, address }) => {
-    return <div className="row">
-        <div className="col">
-            <Text
+    return <div className="grid grid-cols-2 gap-1">
+        <div>
+            <Field
+                type='text'
                 name="full_name"
                 value={get(address, 'full_name', '')}
                 formId={formId}
                 label="Full name"
+                placeholder="Full Name"
                 validationRules={['notEmpty']}
             />
         </div>
-        <div className="col">
-            <Text
+        <div>
+            <Field
+                type='text'
                 name="telephone"
                 value={get(address, 'telephone', '')}
                 formId={formId}
                 label="Telephone"
+                placeholder="Telephone"
                 validationRules={['notEmpty']}
             />
         </div>
@@ -76,19 +85,22 @@ const NameAndTelephone = ({ formId, address }) => {
 }
 
 const ProvinceAndPostcode = ({ formId, address, selectedCountry, selectedProvince }) => {
-    return <div className="row">
-        <div className="col">
+    return <div className="grid grid-cols-2 gap-1 mt-1">
+        <div>
             <Province
                 selectedCountry={selectedCountry}
                 selectedProvince={selectedProvince}
+                formId={formId}
             />
         </div>
-        <div className="col">
-            <Text
+        <div>
+            <Field
+                type='text'
                 name="postcode"
                 value={get(address, 'postcode', '')}
                 formId={formId}
                 label="Postcode"
+                placeholder="Postcode"
                 validationRules={['notEmpty']}
             />
         </div>
@@ -100,80 +112,68 @@ export function CustomerAddressForm(props) {
     const formId = props.formId || "customer_address_form";
     const areaId = props.areaId || "customerAddressForm";
 
-    return <Form
-        {...props}
-        id={formId}
-    >
-        <Area
-            id={areaId}
-            coreComponents={[
-                {
-                    'component': { default: NameAndTelephone },
-                    'props': {
-                        formId: formId,
-                        address: get(props, 'address', {})
-                    },
-                    'sortOrder': 10,
-                    'id': 'fullName'
+    return <Area
+        id={areaId}
+        coreComponents={[
+            {
+                'component': { default: NameAndTelephone },
+                'props': {
+                    formId: formId,
+                    address: get(props, 'address', {})
                 },
-                {
-                    'component': { default: Text },
-                    'props': {
-                        name: "address_1",
-                        value: get(props, 'address.address_1', ''),
-                        formId: formId,
-                        label: "Address 1",
-                        validationRules: ['notEmpty']
-                    },
-                    'sortOrder': 20,
-                    'id': 'address1'
+                'sortOrder': 10,
+                'id': 'fullName'
+            },
+            {
+                'component': { default: Field },
+                'props': {
+                    type: 'text',
+                    name: "address_1",
+                    value: get(props, 'address.address_1', ''),
+                    formId: formId,
+                    label: "Address",
+                    placeholder: "Address",
+                    validationRules: ['notEmpty']
                 },
-                {
-                    'component': { default: Text },
-                    'props': {
-                        name: "address_2",
-                        value: get(props, 'address.address_2', ''),
-                        formId: formId,
-                        label: "Address 2",
-                        validationRules: []
-                    },
-                    'sortOrder': 30,
-                    'id': 'address2'
+                'sortOrder': 20,
+                'id': 'address1'
+            },
+            {
+                'component': { default: Field },
+                'props': {
+                    type: 'text',
+                    name: "city",
+                    value: get(props, 'address.city', ''),
+                    formId: formId,
+                    label: "City",
+                    placeholder: "City",
+                    validationRules: []
                 },
-                {
-                    'component': { default: Text },
-                    'props': {
-                        name: "city",
-                        value: get(props, 'address.city', ''),
-                        formId: formId,
-                        label: "City",
-                        validationRules: []
-                    },
-                    'sortOrder': 40,
-                    'id': 'city'
+                'sortOrder': 40,
+                'id': 'city'
+            },
+            {
+                'component': { default: Country },
+                'props': {
+                    country: get(props, 'address.country', ''),
+                    countries: get(props, 'countries'),
+                    setCountry: setSelectedCountry,
+                    formId: formId
                 },
-                {
-                    'component': { default: Country },
-                    'props': {
-                        country: get(props, 'address.country', ''),
-                        countries: get(props, 'countries'),
-                        setCountry: setSelectedCountry
-                    },
-                    'sortOrder': 50,
-                    'id': 'country'
+                'sortOrder': 50,
+                'id': 'country'
+            },
+            {
+                'component': { default: ProvinceAndPostcode },
+                'props': {
+                    formId: formId,
+                    selectedCountry: selectedCountry,
+                    address: get(props, 'address', {}),
+                    selectedProvince: get(props, 'address.province', '')
                 },
-                {
-                    'component': { default: ProvinceAndPostcode },
-                    'props': {
-                        formId: formId,
-                        selectedCountry: selectedCountry,
-                        address: get(props, 'address', {}),
-                        selectedProvince: get(props, 'address.province', '')
-                    },
-                    'sortOrder': 60,
-                    'id': 'province'
-                }
-            ]}
-        />
-    </Form >
+                'sortOrder': 60,
+                'id': 'province'
+            }
+        ]}
+    />
 }

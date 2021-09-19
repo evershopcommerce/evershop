@@ -67,20 +67,22 @@ exports.createOrder = async function createOrder(cart, eventDispatcher) {
         let billAddr = await insert("order_address")
             .given(await select()
                 .from("cart_address")
-                .where("cart_address_id", "=", cart.getData("billing_address_id"))
+                .where("cart_address_id", "=", cart.getData("billing_address_id") || cart.getData("shipping_address_id"))
                 .load(connection)
             )
             .execute(connection);
         // Save order to DB
         // TODO: Maybe we should allow plugin to prepare order data before created?
+        let previous = await select('order_id').from('order').orderBy('order_id', 'DESC').limit(0, 1).execute(pool);
+
         let order = await insert("order")
             .given({
                 ...cart.export(),
-                order_number: Math.random() * (899) + 100,// FIXME: Must be structured
+                order_number: 10000 + parseInt(previous[0]['order_id']) + 1,// FIXME: Must be structured
                 shipping_address_id: shipAddr.insertId,
                 billing_address_id: billAddr.insertId,
                 payment_status: 'pending',
-                shipment_status: 'pending'
+                shipment_status: 'unfullfilled' // TODO: Payment and shipment status should be provided by the method
             })
             .execute(connection);
 

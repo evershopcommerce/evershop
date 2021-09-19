@@ -23,23 +23,7 @@ export function AddressSummary({ address }) {
                 id: "address1"
             },
             {
-                component: { default: ({ address_2 }) => <div className="address-two">{address_2}</div> },
-                props: {
-                    address_2: address.address_2
-                },
-                sortOrder: 30,
-                id: "address2"
-            },
-            {
-                component: { default: ({ city }) => <div className="city">{city}</div> },
-                props: {
-                    city: address.city
-                },
-                sortOrder: 30,
-                id: "city"
-            },
-            {
-                component: { default: ({ city, province, postcode }) => <div className="city-province-postcode">{city}, {province}, {postcode}</div> },
+                component: { default: ({ city, province, postcode, country }) => <div className="city-province-postcode">{city}, {province}, {postcode}, {country}</div> },
                 props: {
                     city: address.city,
                     province: address.province,
@@ -47,14 +31,6 @@ export function AddressSummary({ address }) {
                 },
                 sortOrder: 40,
                 id: "cityProvincePostcode"
-            },
-            {
-                component: { default: ({ country }) => <div className="country">{country}</div> },
-                props: {
-                    country: address.country
-                },
-                sortOrder: 50,
-                id: "country"
             },
             {
                 component: { default: ({ telephone }) => <div className="telephone">{telephone}</div> },

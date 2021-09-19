@@ -13,6 +13,7 @@ module.exports = async (request, response, stack, next) => {
             message: ""
         });
     } catch (e) {
+        console.log(e);
         response.json({
             data: {},
             success: false,

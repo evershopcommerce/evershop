@@ -17,9 +17,11 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerSiteRoute("checkoutSetShipmentInfo", ["POST"], "/checkout/setShipmentInfo");
 
+    registerSiteRoute("checkoutSetBillingAddressInfo", ["POST"], "/checkout/setBillingAddressInfo");
+
     registerSiteRoute("checkoutSetPaymentInfo", ["POST"], "/checkout/setPaymentInfo");
 
-    registerSiteRoute("checkoutPlaceOrderAPI", ["POST"], "/checkout/placeOrder");
+    registerSiteRoute("checkoutPlaceOrder", ["POST"], "/checkout/placeOrder");
 
     registerSiteRoute("checkoutSuccess", ["GET"], "/checkout/success");
 }
