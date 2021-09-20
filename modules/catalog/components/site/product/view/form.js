@@ -5,6 +5,35 @@ import { get } from "../../../../../../lib/util/get";
 import { useAppState, useAppDispatch } from "../../../../../../lib/context/app";
 import React, { useState } from "react";
 import Button from "../../../../../../lib/components/form/Button";
+import { toast } from "react-toastify";
+
+const ToastMessage = ({ thumbnail, name, qty, count, cartUrl }) => {
+    return <div className="toast-mini-cart">
+        <div className='top-head grid grid-cols-2'>
+            <div>
+                JUST ADDED TO YOUR CART
+            </div>
+            <div className="self-center close flex justify-end">
+                <svg style={{ width: '2.2rem', height: '2.2rem' }} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+        </div>
+        <div className="item-line flex justify-between">
+            <div className='popup-thumbnail flex justify-center'>
+                <img src={thumbnail} />
+            </div>
+            <div className="item-info flex justify-between">
+                <div className="name">
+                    <san className="font-bold">{name}</san>
+                </div>
+                <div>Qty: {qty}</div>
+            </div>
+        </div>
+        <a className="add-cart-popup-button" href={cartUrl}>VIEW CART ({count})</a>
+        <a className="add-cart-popup-continue text-center underline block" href="#" onClick={() => { }}>Continue shopping</a>
+    </div>
+}
 
 function AddToCart({ stockAvaibility, loading = false }) {
     return <div className="add-to-cart mt-2">
@@ -32,8 +61,16 @@ export default function ProductForm({ action }) {
     const [loading, setLoading] = useState(false);
 
     const onSuccess = (response) => {
-        if (response.success === true)
+        if (response.success === true) {
             dispatch({ ...context, cart: response.data.cart });
+            toast(<ToastMessage
+                thumbnail={product.gallery[0] ? product.gallery[0]['thumb'] : null}
+                name={product.name}
+                qty={1}
+                count={response.data.cart.items.length}
+                cartUrl="/cart"
+            />);
+        }
     }
 
     return <Form
@@ -46,6 +83,13 @@ export default function ProductForm({ action }) {
         onComplete={() => setLoading(false)}
     >
         <input type="hidden" name="product_id" value={product.product_id} />
+        <ToastMessage
+            thumbnail={product.gallery[0] ? product.gallery[0]['thumb'] : null}
+            name={product.name}
+            qty={1}
+            count={3}
+            cartUrl="/cart"
+        />
         <Area
             id="productSinglePageForm"
             coreComponents={[

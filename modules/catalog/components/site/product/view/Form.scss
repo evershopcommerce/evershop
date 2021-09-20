@@ -17,3 +17,47 @@
         }
     }
 }
+.toast-mini-cart {
+    padding: 2rem;
+    border: 1px solid var(--divider);
+    box-shadow: 1px 1px 10px 2px #ebebeb80;
+    .top-head {
+        grid-template-columns: 4fr 1fr;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--divider);
+        margin-bottom: 1rem;
+    }
+    .popup-thumbnail {
+        width: 6rem;
+        height: 6rem;
+        text-align: center;
+        display: flex;
+        background-color: #fafafa;
+        margin-right: 1.5rem;
+        img {
+            align-self: center;
+            display: block;
+        }
+    }
+    .item-info {
+        flex-basis: 100%;
+        .name {
+            font-size: 1.6rem;
+        }
+    }
+    .add-cart-popup-button {
+        display: block;
+        background-color: #fff;
+        color: #3a3a3a;
+        border: 1px solid #3a3a3a;
+        border-radius: 2px;
+        padding: 10px 18px;
+        font-size: 13px;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: none;
+        text-align: center;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+    }
+}
