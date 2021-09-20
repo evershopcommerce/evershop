@@ -29,11 +29,11 @@ $line-height-md: 1.5;
 $line-height-lg: 2;
 
 $font-size-base: $font-size-sm;
-$h1-font-size: $font-size-base * 2.2;
-$h2-font-size: $font-size-base * 2;
-$h3-font-size: $font-size-base * 1.75;
-$h4-font-size: $font-size-base * 1.5;
-$h5-font-size: $font-size-base * 1.25;
+$h1-font-size: $font-size-base * 2.1;
+$h2-font-size: $font-size-base * 1.9;
+$h3-font-size: $font-size-base * 1.65;
+$h4-font-size: $font-size-base * 1.45;
+$h5-font-size: $font-size-base * 1.15;
 $h6-font-size: $font-size-base;
 
 html {
@@ -90,11 +90,11 @@ body {
 
 @media (min-width: 768px) and (max-width: 1535px) {
     $font-size-base: $font-size-md;
-    $h1-font-size: $font-size-base * 2.5;
-    $h2-font-size: $font-size-base * 2;
-    $h3-font-size: $font-size-base * 1.75;
-    $h4-font-size: $font-size-base * 1.5;
-    $h5-font-size: $font-size-base * 1.25;
+    $h1-font-size: $font-size-base * 2.1;
+    $h2-font-size: $font-size-base * 1.9;
+    $h3-font-size: $font-size-base * 1.65;
+    $h4-font-size: $font-size-base * 1.45;
+    $h5-font-size: $font-size-base * 1.15;
     $h6-font-size: $font-size-base;
 
     body {
@@ -129,11 +129,11 @@ body {
 
 @media (min-width: 1536px) {
     $font-size-base: $font-size-lg;
-    $h1-font-size: $font-size-base * 2.5;
-    $h2-font-size: $font-size-base * 2;
-    $h3-font-size: $font-size-base * 1.75;
-    $h4-font-size: $font-size-base * 1.5;
-    $h5-font-size: $font-size-base * 1.25;
+    $h1-font-size: $font-size-base * 2.1;
+    $h2-font-size: $font-size-base * 1.9;
+    $h3-font-size: $font-size-base * 1.65;
+    $h4-font-size: $font-size-base * 1.45;
+    $h5-font-size: $font-size-base * 1.15;
     $h6-font-size: $font-size-base;
 
     body {
@@ -177,7 +177,7 @@ h6 {
     min-height: calc(100vh - 50px);
 }
 .header {
-    padding: 1rem;
+    padding: 2rem;
     border-bottom: 1px solid #ebebeb;
     margin-bottom: 3rem;
 }

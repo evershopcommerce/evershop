@@ -1,6 +1,6 @@
 .logo {
     display: flex;
-    a {
+    a.logo-icon {
         align-self: center;
         color: var(--primary);
         display: flex;
@@ -10,10 +10,10 @@
             width: 2rem;
             height: 2rem;
         }
+        margin-right: 0.5rem;
     }
-    span {
-        align-self: center;
-        padding-left: 0.5rem;
-        font-weight: 600;
+    .store-name {
+        font-size: 1.8rem;
+        font-weight: bold;
     }
 }
