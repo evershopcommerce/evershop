@@ -1,15 +1,19 @@
-.add-to-cart {
-    .button {
-        display: block;
-        background-color: #fff;
-        color: #3a3a3a;
-        border: 1px solid #3a3a3a;
-        border-radius: 2px;
-        padding: 10px 18px;
-        font-size: 13px;
-        width: 100%;
-    }
-    .field-error {
-        display: none;
+#productForm {
+    .add-to-cart {
+        .button {
+            display: block;
+            background-color: #fff;
+            color: #3a3a3a;
+            border: 1px solid #3a3a3a;
+            border-radius: 2px;
+            padding: 10px 18px;
+            font-size: 13px;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: none;
+        }
+        .field-error {
+            display: none;
+        }
     }
 }
