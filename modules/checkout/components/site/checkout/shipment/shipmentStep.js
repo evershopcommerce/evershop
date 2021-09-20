@@ -67,7 +67,7 @@ export default function ShipmentStep() {
     });
 
     return <div className="checkout-payment checkout-step">
-        <div className='grid-cols-3 grid gap-1' style={{ gridTemplateColumns: '2fr 2fr 1fr' }}>
+        <div className='grid-cols-3 grid gap-1 items-start' style={{ gridTemplateColumns: '2fr 2fr 1fr' }}>
             <Title step={step} />
             {(step.isCompleted === true && step.isEditing !== true) && <div>
                 <div>
@@ -77,7 +77,7 @@ export default function ShipmentStep() {
                     {method.name}
                 </div>
             </div>}
-            {(step.isCompleted === true && step.isEditing !== true) && <a href="#" onClick={(e) => { e.preventDefault(); editStep('shipment'); }} className='hover:underline text-interactive self-center'>Edit</a>}
+            {(step.isCompleted === true && step.isEditing !== true) && <div className="text-right self-center"><a href="#" onClick={(e) => { e.preventDefault(); editStep('shipment'); }} className='hover:underline text-interactive'>Edit</a></div>}
         </div>
         {display && <Content step={step} />}
     </div >

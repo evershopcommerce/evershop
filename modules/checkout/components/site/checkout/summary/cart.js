@@ -1,104 +1,84 @@
 import React from "react";
-import Area from "../../../../../../lib/components/area";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
-function Subtotal({ sub_total, currency, language }) {
-    const _subTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(sub_total);
-
-    return <tr>
-        <td>Subtotal</td>
-        <td><span>{_subTotal}</span></td>
-    </tr>
-}
-
-function Discount({ discount_amount, currency, language }) {
-    if (discount_amount === 0)
-        return null;
-
-    const _discountAmount = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(discount_amount);
-
-    return <tr>
-        <td>Discount</td>
-        <td><span>{_discountAmount}</span></td>
-    </tr>
-}
-
-function ShippingFee({ shipping_fee, currency, language }) {
-    const _shippingFee = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(shipping_fee);
-
-    return <tr>
-        <td>Shipping</td>
-        <td><span>{shipping_fee === 0 && "Free"}{shipping_fee !== 0 && shipping_fee}</span></td>
-    </tr>
-}
-
-function Tax({ tax_amount, currency, language }) {
-    const _taxAmount = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(tax_amount);
-
-    return <tr>
-        <td>Tax</td>
-        <td><span>{_taxAmount}</span></td>
-    </tr>
-}
-
-function GrandTotal({ grand_total, currency, language }) {
-    const _grandTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(grand_total);
-
-    return <tr>
-        <td>Grand total</td>
-        <td><span>{_grandTotal}</span></td>
-    </tr>
-}
-
-function CartSummary() {
-    const context = useAppState();
-    const cart = get(context, "cart", {});
-    const currency = get(context, "currency", "USD");
-    const language = get(context, "language", "en");
-
-    return <div className="checkout-summary-cart">
-        <table className="checkout-cart-summary-table">
-            <tbody>
-                <Area
-                    id={"checkoutSummaryCart"}
-                    noOuter={true}
-                    coreComponents={[
-                        {
-                            'component': { default: Subtotal },
-                            'props': { ...cart, currency, language },
-                            'sortOrder': 10,
-                            'id': 'checkoutOrderSummaryCartSubtotal'
-                        },
-                        {
-                            'component': { default: Discount },
-                            'props': { ...cart, currency, language },
-                            'sortOrder': 20,
-                            'id': 'checkoutOrderSummaryCartDiscount'
-                        },
-                        {
-                            'component': { default: ShippingFee },
-                            'props': { ...cart, currency, language },
-                            'sort_order': 30,
-                            'id': 'checkoutOrderSummaryCartShipping'
-                        },
-                        {
-                            'component': { default: Tax },
-                            'props': { ...cart, currency, language },
-                            'sortOrder': 40,
-                            'id': 'checkoutOrderSummaryCartTax'
-                        },
-                        {
-                            'component': { default: GrandTotal },
-                            'props': { ...cart, currency, language },
-                            'sortOrder': 50,
-                            'id': 'checkoutOrderSummaryCartGrandTotal'
-                        }
-                    ]}
-                />
-            </tbody>
-        </table>
+function Subtotal({ count, total }) {
+    return <div className='summary-row'>
+        <span>Subtotal</span>
+        <div>
+            <div>{count} items</div>
+            <div>{total}</div>
+        </div>
     </div>
 }
+
+function Discount({ discount, code }) {
+    if (!discount)
+        return null;
+
+    return <div className='summary-row'>
+        <span>Discount</span>
+        <div>
+            <div>{code}</div>
+            <div>{discount}</div>
+        </div>
+    </div>
+}
+
+function Shipping({ method, cost }) {
+    if (!method)
+        return null;
+
+    return <div className='summary-row'>
+        <span>Shipping</span>
+        <div>
+            <div>{method}</div>
+            <div>{cost}</div>
+        </div>
+    </div>
+}
+
+function Tax({ taxClass, amount }) {
+    return <div className='summary-row'>
+        <span>Tax</span>
+        <div>
+            <div>{taxClass || "No Tax"}</div>
+            <div>{amount}</div>
+        </div>
+    </div>
+}
+
+function Total({ total }) {
+    return <div className='summary-row grand-total'>
+        <span className="self-center font-bold">Total</span>
+        <div>
+            <div></div>
+            <div className='grand-total-value'>{total}</div>
+        </div>
+    </div>
+}
+
+const CartSummary = () => {
+    const context = useAppState();
+    const cart = context.cart;
+    const items = cart.items;
+    const language = get(context, "shop.language", "en");
+    const currency = get(context, "shop.currency", "usd");
+
+    const _shippingCost = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(cart.shipping_fee_excl_tax);
+    const _taxAmount = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(cart.tax_amount);
+    const _discountAmount = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(cart.discount_amount);
+    const _subTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(cart.sub_total);
+    const _grandTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(cart.grand_total);
+
+    return <div className="checkout-summary-block">
+        <Subtotal count={items.length} total={_subTotal} />
+        <Shipping method={cart.shipping_method} cost={_shippingCost} />
+        <Tax taxClass={""} amount={_taxAmount} />
+        <Discount code={""} amount={_discountAmount} />
+        <Total total={_grandTotal} />
+    </div>
+}
+
 
 export { CartSummary }

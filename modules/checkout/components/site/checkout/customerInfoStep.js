@@ -82,7 +82,7 @@ export default function ContactInformationStep({ loginUrl, setContactInfoUrl }) 
         <div className='grid-cols-3 grid gap-1' style={{ gridTemplateColumns: '2fr 2fr 1fr' }}>
             <Title step={step} />
             {(step.isCompleted === true && step.isEditing !== true) && <Completed />}
-            {(step.isCompleted === true && step.isEditing !== true) && <a href="#" onClick={(e) => { e.preventDefault(); editStep('contact'); }} className='hover:underline text-interactive self-center'>Edit</a>}
+            {(step.isCompleted === true && step.isEditing !== true) && <div className="self-center text-right"><a href="#" onClick={(e) => { e.preventDefault(); editStep('contact'); }} className='hover:underline text-interactive'>Edit</a></div>}
         </div>
         {display && <Content step={step} loginUrl={loginUrl} setContactInfoUrl={setContactInfoUrl} />}
     </div>

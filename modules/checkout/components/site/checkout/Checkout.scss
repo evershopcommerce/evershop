@@ -1,0 +1,33 @@
+.checkout-steps {
+    form {
+        .form-submit-button {
+            padding-top: 0px;
+            border-top: 0;
+            button.button {
+                padding: 1.2rem 1.6rem;
+                font-weight: 400;
+            }
+        }
+        label {
+            color: var(--textSubdued);
+        }
+    }
+    .place-order-button {
+        button {
+            padding: 1.2rem 1.6rem;
+            font-weight: 400;
+        }
+    }
+}
+.wrapper {
+    .header {
+        margin-bottom: 0;
+    }
+    .footer {
+        margin-top: 0;
+    }
+}
+.checkout-steps {
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+}

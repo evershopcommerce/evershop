@@ -448,6 +448,20 @@ exports.Cart = class Cart extends DataObject {
             dependencies: ["shipping_method"]
         },
         {
+            key: "shipping_fee_excl_tax",
+            resolver: async function () {
+                return 0;// TODO: This field should be handled by each of shipping method
+            },
+            dependencies: ["shipping_method"]
+        },
+        {
+            key: "shipping_fee_incl_tax",
+            resolver: async function () {
+                return 0;// TODO: This field should be handled by each of shipping method
+            },
+            dependencies: ["shipping_method"]
+        },
+        {
             key: "billing_address_id",
             resolver: async function () {
                 return this._dataSource['billing_address_id'];

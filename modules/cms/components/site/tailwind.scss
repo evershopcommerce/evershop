@@ -919,8 +919,16 @@ video {
   flex-wrap: wrap;
 }
 
+.place-items-start {
+  place-items: start;
+}
+
 .content-end {
   align-content: flex-end;
+}
+
+.items-start {
+  align-items: flex-start;
 }
 
 .items-center {

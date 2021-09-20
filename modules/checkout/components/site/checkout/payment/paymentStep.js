@@ -99,7 +99,7 @@ const Content = ({ step }) => {
             }}
             submitBtn={false}
         >
-            <div className="font-bold mb-1">Payment Method</div>
+            <div className="font-bold mb-1 mt-1">Payment Method</div>
             <Field
                 type="text"
                 value=""
@@ -111,8 +111,9 @@ const Content = ({ step }) => {
                 coreComponents={[]}
             />
         </Form>
-
-        <Button variant="primary" title="Place Order" onAction={billing} />
+        <div className='mt-1 place-order-button'>
+            <Button variant="primary" title="Place Order" onAction={billing} />
+        </div>
     </div>
 }
 
