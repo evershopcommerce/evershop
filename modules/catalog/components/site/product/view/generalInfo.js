@@ -13,14 +13,14 @@ function Price({ price, salePrice }) {
     const _price = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(price);
     const _salePrice = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(salePrice);
 
-    return <h3 className="product-single-price">
+    return <h4 className="product-single-price">
         {parseFloat(salePrice) === parseFloat(price) && <div>
             <span className="sale-price">{_price}</span>
         </div>}
         {parseFloat(salePrice) < parseFloat(price) && <div>
             <span className="sale-price">{_salePrice}</span> <span className="regular-price">{_price}</span>
         </div>}
-    </h3>
+    </h4>
 }
 
 function Sku({ sku }) {

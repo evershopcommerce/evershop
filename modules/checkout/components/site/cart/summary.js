@@ -8,7 +8,7 @@ function Subtotal({ subTotal }) {
     const currency = get(useAppState(), "currency", "USD");
     const language = get(useAppState(), "language", "en");
     const _subTotal = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(subTotal);
-    return <div className='flex justify-end gap-3' style={{ fontSize: '1.15rem' }}>
+    return <div className='flex justify-end gap-3' style={{ fontSize: '2rem' }}>
         <div>Subtotal</div>
         <div className='text-right'>{_subTotal}</div>
     </div>

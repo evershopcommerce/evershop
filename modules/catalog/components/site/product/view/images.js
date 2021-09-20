@@ -20,9 +20,9 @@ export default function Images() {
 
     return <div className="product-single-media">
         <Current image={current} alt={product.name} />
-        <ul className="more-view-thumbnail product-gallery mt-1 grid grid-cols-4 gap-1">
+        <ul className="more-view-thumbnail product-gallery mt-2 grid grid-cols-4 gap-1">
             {product.gallery.map((i, j) => {
-                return <li key={j}><a href={"#"} onClick={(e) => { e.preventDefault(); setCurrent({ ...product.gallery[j] }); }} className='flex justify-center'><img className='self-center' src={i.thumb} alt={product.name} /></a></li>
+                return <li key={j}><a href={"#"} onClick={(e) => { e.preventDefault(); setCurrent({ ...product.gallery[j] }); }} className='flex justify-center block'><img className='self-center' src={i.thumb} alt={product.name} /></a></li>
             })}
         </ul>
     </div>

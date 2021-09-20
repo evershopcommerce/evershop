@@ -8,7 +8,7 @@ export default function ProductPageLayout() {
             className="product-page-top"
         />
         <div className="product-page-middle page-width">
-            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                 <Area
                     id="productPageMiddleLeft"
                 />
