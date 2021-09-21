@@ -181,6 +181,10 @@ h6 {
     padding: 2.5rem;
     border-bottom: 1px solid #ebebeb;
     margin-bottom: 3rem;
+    @media only screen and (min-width: 1200px) {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
 }
 
 .container {

@@ -10,7 +10,7 @@ export default function ProductList({ products = [] }) {
         return <div className="product-list">
             <div className='text-center'>There is no product to display</div>
         </div>;
-    return <div className='grid grid-cols-2 md:grid-cols-4 gap-2'>
+    return <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
         {
             products.map((p, index) => {
                 return <Area
