@@ -1,10 +1,18 @@
 import Area from "../../../../../lib/components/area";
 import React from "react";
+import { get } from "../../../../../lib/util/get";
+import { useAppState } from "../../../../../lib/context/app";
 
-const Title = () => <div className="mb-3 text-center">
-    <h1 className="shopping-cart-title mb-05">Shopping cart</h1>
-    <a href="/" className='underline'>Continue shopping</a>
-</div>
+const Title = () => {
+    const items = get(useAppState(), "cart.items", []);
+    if (items.length <= 0)
+        return null
+
+    return <div className="mb-3 text-center shopping-cart-heading">
+        <h1 className="shopping-cart-title mb-05">Shopping cart</h1>
+        <a href="/" className='underline'>Continue shopping</a>
+    </div>
+}
 
 export default function CartLayout() {
     return <div>
