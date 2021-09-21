@@ -1026,6 +1026,12 @@ video {
   margin-left: calc(2.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
+.space-x-275 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(2.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(2.75rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .space-x-025 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(.25rem * var(--tw-space-x-reverse));
@@ -1357,6 +1363,10 @@ video {
 @media (min-width: 768px) {
   .md\:mt-3 {
     margin-top: 3rem;
+  }
+
+  .md\:block {
+    display: block;
   }
 
   .md\:table-cell {
