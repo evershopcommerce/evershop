@@ -27,6 +27,13 @@
         border-bottom: 1px solid var(--divider);
         margin-bottom: 1rem;
     }
+    .close {
+        color: var(--textSubdued);
+        svg {
+            width: 3rem;
+            height: 3rem;
+        }
+    }
     .popup-thumbnail {
         width: 6rem;
         height: 6rem;

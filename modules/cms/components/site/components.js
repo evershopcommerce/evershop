@@ -6,7 +6,7 @@ exports = module.exports = {
         {
             id: "notification",
             areaId: "body",
-            source: getComponentSource("notification.js", true),
+            source: getComponentSource("cms/components/site/notification.js", true),
             props: {},
             sortOrder: 1
         },
