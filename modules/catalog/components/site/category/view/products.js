@@ -10,7 +10,7 @@ export default function Products({ withPagination = true, withSorting = true }) 
     const products = get(context, "category.products", []);
 
     return <div className="page-width">
-        <span className="product-count italic block mb-1">{products.length} products</span>
+        <span className="product-count italic block mb-2">{products.length} products</span>
         <ProductList products={products} countPerRow={3} />
         {withPagination === true && <Pagination
             currentPage={1}

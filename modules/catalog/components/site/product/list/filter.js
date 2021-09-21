@@ -100,8 +100,10 @@ function Price({ activeFilters, updateFilter, minPrice = 0, maxPrice = 0 }) {
 }
 
 function Attributes({ activeFilters, attributes, updateFilter }) {
-    const onChange = (e, attributeCode, optionId) => {
-        if (e.target.checked === false) {
+
+    const onChange = (e, attributeCode, optionId, isChecked) => {
+        e.preventDefault();
+        if (isChecked === true) {
             updateFilter(activeFilters.filter(f => f.key !== attributeCode || (f.key === attributeCode && parseInt(f.value) !== parseInt(optionId))));
         } else {
             updateFilter(activeFilters.concat({ key: attributeCode, value: optionId }));
@@ -119,7 +121,7 @@ function Attributes({ activeFilters, attributes, updateFilter }) {
                             <a
                                 href="#"
                                 className={isChecked ? 'checked text-center filter-option' : 'text-center filter-option'}
-                                onClick={(e) => onChange(e, a.attribute_code, o.option_id)}
+                                onClick={(e) => onChange(e, a.attribute_code, o.option_id, isChecked ? true : false)}
                             >
                                 {o.option_text}
                             </a>
