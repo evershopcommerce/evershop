@@ -17,9 +17,9 @@ module.exports = async (request, response, stack, next) => {
             let thumb = product.image.replace(/.([^.]*)$/, '-thumb.$1');
             let single = product.image.replace(/.([^.]*)$/, '-single.$1');
             gallery.push({
-                thumb: fs.existsSync(path.join(CONSTANTS.PUBLICPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`,
-                single: fs.existsSync(path.join(CONSTANTS.PUBLICPATH, single)) ? `/assets${single}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`,
-                original: fs.existsSync(path.join(CONSTANTS.PUBLICPATH, product.image)) ? `/assets${product.image}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`
+                thumb: fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`,
+                single: fs.existsSync(path.join(CONSTANTS.MEDIAPATH, single)) ? `/assets${single}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`,
+                original: fs.existsSync(path.join(CONSTANTS.MEDIAPATH, product.image)) ? `/assets${product.image}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`
             });
         } else {
             gallery.push({
@@ -38,9 +38,9 @@ module.exports = async (request, response, stack, next) => {
             let thumb = images[i]["image"].replace(/.([^.]*)$/, '-thumb.$1');
             let single = images[i]["image"].replace(/.([^.]*)$/, '-single.$1');
             gallery.push({
-                thumb: fs.existsSync(path.join(CONSTANTS.PUBLICPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`,
-                single: fs.existsSync(path.join(CONSTANTS.PUBLICPATH, single)) ? `/assets${single}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`,
-                original: fs.existsSync(path.join(CONSTANTS.PUBLICPATH, images[i]["image"])) ? `/assets${images[i]["image"]}` : `/public/theme/site${config.get("catalog.product.image.placeHolder")}`
+                thumb: fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`,
+                single: fs.existsSync(path.join(CONSTANTS.MEDIAPATH, single)) ? `/assets${single}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`,
+                original: fs.existsSync(path.join(CONSTANTS.MEDIAPATH, images[i]["image"])) ? `/assets${images[i]["image"]}` : `/public/theme/site${config.get("catalog.product.image.placeHolder")}`
             });
         }
         assign(response.context.product, { gallery: gallery })
