@@ -25,11 +25,25 @@
     }
     h2 {
         letter-spacing: 0;
-        padding: 0 20px;
+        padding: 0 60px;
+        font-size: 3.2rem;
+        line-height: 4.2rem;
         @media screen and (min-width: 768px) {
-            font-size: 4rem;
+            font-size: 6.5rem;
             padding: 0 55px;
-            line-height: 4rem;
+            line-height: 7.5rem;
         }
+    }
+}
+
+#app {
+    .header {
+        margin-bottom: 0;
+    }
+    .button {
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        font-weight: bold;
+        letter-spacing: 0.1rem;
     }
 }
