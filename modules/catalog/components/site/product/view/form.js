@@ -37,11 +37,12 @@ const ToastMessage = ({ thumbnail, name, qty, count, cartUrl, toastId }) => {
     </div>
 }
 
-function AddToCart({ stockAvaibility, loading = false }) {
+function AddToCart({ stockAvaibility, loading = false, error }) {
     return <div className="add-to-cart mt-2">
         <div style={{ width: '8rem' }}>
             <Field type='text' value='1' validationRules={['notEmpty']} className="qty" name={"qty"} placeholder={"Qty"} formId={"productForm"} />
         </div>
+        {error && <div className='text-critical mt-1'>{error}</div>}
         <div className='mt-1'>
             {stockAvaibility === 1 && <Button
                 title="ADD TO CART"
@@ -62,6 +63,7 @@ export default function ProductForm({ action }) {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
     const [toastId, setToastId] = useState();
+    const [error, setError] = useState();
 
     const onSuccess = (response) => {
         if (response.success === true) {
@@ -74,6 +76,8 @@ export default function ProductForm({ action }) {
                 cartUrl="/cart"
                 toastId={toastId}
             />, { closeButton: false }));
+        } else {
+            setError(response.message);
         }
     }
 
@@ -85,8 +89,10 @@ export default function ProductForm({ action }) {
         onSuccess={onSuccess}
         onStart={() => setLoading(true)}
         onComplete={() => setLoading(false)}
+        onError={(e) => setError(e.message)}
     >
         <input type="hidden" name="product_id" value={product.product_id} />
+
         <Area
             id="productSinglePageForm"
             coreComponents={[
@@ -94,7 +100,8 @@ export default function ProductForm({ action }) {
                     'component': { default: AddToCart },
                     'props': {
                         stockAvaibility: product.stock_availability,
-                        loading: loading
+                        loading: loading,
+                        error: error
                     },
                     'sortOrder': 50,
                     'id': 'productSingleBuyButton'
