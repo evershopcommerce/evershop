@@ -6,7 +6,7 @@ import Area from "../../../../../../lib/components/area";
 function Summary() {
     return <Area
         id={"checkoutSummary"}
-        className="checkout-summary"
+        className="checkout-summary hidden md:block"
         coreComponents={[
             {
                 'component': { default: Items },
