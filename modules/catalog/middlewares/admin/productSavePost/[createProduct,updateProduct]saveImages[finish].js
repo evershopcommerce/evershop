@@ -6,16 +6,15 @@ const path = require('path');
 const { CONSTANTS } = require('../../../../../lib/helpers');
 
 module.exports = async (request, response, stack) => {
+  let gallery = get(request, "body.productMainImages", []);
+
+  console.log(gallery);
+  let productId = request.body.product_id;
   // Wait for product saving to be completed
   let promises = [stack["createProduct"], stack["updateProduct"]];
   let results = await Promise.all(promises);
 
-  let productId;
-  if (request.body.product_id) {
-    productId = request.body.product_id;
-  } else {
-    productId = results["insertId"];
-  }
+  productId = productId || results["insertId"];
   let connection = await stack["getConnection"];
   try {
 
@@ -24,12 +23,11 @@ module.exports = async (request, response, stack) => {
       .where("product_image_product_id", "=", productId)
       .execute(connection);
 
-    let gallery = get(request, "body.productMainImages", []);
 
     if (gallery.length > 0) {
       let mainImage = gallery.shift();
-      let _path = path.join(CONSTANTS.PUBLICPATH, mainImage);
-      let ext = path.extname(path.resolve(CONSTANTS.PUBLICPATH, mainImage));
+      let _path = path.join(CONSTANTS.MEDIAPATH, mainImage);
+      let ext = path.extname(path.resolve(CONSTANTS.MEDIAPATH, mainImage));
       // Generate thumbnail
       await sharp(_path)
         .resize(
@@ -74,8 +72,8 @@ module.exports = async (request, response, stack) => {
 
     await Promise.all(gallery.map(f => (async () => {
 
-      let _path = path.join(CONSTANTS.PUBLICPATH, f);
-      let ext = path.extname(path.resolve(CONSTANTS.PUBLICPATH, f));
+      let _path = path.join(CONSTANTS.MEDIAPATH, f);
+      let ext = path.extname(path.resolve(CONSTANTS.MEDIAPATH, f));
 
       // Generate thumbnail
       await sharp(_path)
@@ -120,5 +118,6 @@ module.exports = async (request, response, stack) => {
     })()));
   } catch (e) {
     // TODO: Log an error here
+    throw e
   }
 };
