@@ -10,16 +10,17 @@ const CustomerInfo = () => {
     let context = useAppState();
     let order = get(context, 'order', {});
     return <div className='checkout-success-customer-info'>
-        <h1 className='thank-you flex justify-start space-x-2'>
+        <h3 className='thank-you flex justify-start space-x-1'>
             <div className='check flex justify-center self-center text-interactive'>
                 <svg style={{ width: '3rem', height: '3rem' }} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <span className='self-center'>
-                Thank you {order.customer_full_name}!
-            </span>
-        </h1>
+            <div className='self-center'>
+                <span style={{ fontSize: '1.6rem', fontWeight: '300' }}>Order #{order.order_number}</span>
+                <div>Thank you {order.customer_full_name}!</div>
+            </div>
+        </h3>
 
         <div className='customer-info mt-3 mb-2'>
             <div className='heading font-bold mb-2'>Customer information</div>
