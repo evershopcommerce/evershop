@@ -47,7 +47,7 @@ exports.createOrder = async function createOrder(cart, eventDispatcher) {
     let connection = await getConnection(pool);
 
     try {
-        startTransaction(connection);
+        await startTransaction(connection);
 
         for (const rule of validationServices) {
             if (await rule.func(cart, validationErrors) === false) {
@@ -105,10 +105,10 @@ exports.createOrder = async function createOrder(cart, eventDispatcher) {
             .where("cart_id", "=", cart.getData("cart_id"))
             .execute(connection);
 
-        commit(connection);
+        await commit(connection);
         return order.insertId;
     } catch (e) {
-        rollback(connection);
+        await rollback(connection);
         throw e;
     }
 }
