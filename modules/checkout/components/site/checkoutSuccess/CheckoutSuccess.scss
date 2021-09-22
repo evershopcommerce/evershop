@@ -1,0 +1,45 @@
+.checkout-success-customer-info {
+    form {
+        .form-submit-button {
+            padding-top: 0px;
+            border-top: 0;
+            button.button {
+                padding: 2rem;
+                font-weight: 400;
+            }
+        }
+        label {
+            color: var(--textSubdued);
+        }
+    }
+    a.button {
+        padding: 2rem;
+        font-weight: 400;
+        letter-spacing: 0.05rem;
+    }
+}
+.wrapper {
+    .header {
+        margin-bottom: 0;
+    }
+    .footer {
+        margin-top: 0;
+    }
+}
+.checkout-success-customer-info {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.customer-info {
+    border: 1px solid var(--divider);
+    border-radius: 5px;
+    padding: 2rem;
+}
+.thank-you {
+    .check {
+        border: 2px solid var(--interactive);
+        border-radius: 100%;
+        padding: 0.5rem;
+    }
+}

@@ -111,10 +111,9 @@ exports = module.exports = {
     "checkoutSuccess": [
         {
             id: "checkoutSuccess",
-            areaId: "contentMiddle",
-            source: getComponentSource("checkout/components/site/checkoutSuccess/message.js"),
+            areaId: "content",
+            source: getComponentSource("checkout/components/site/checkoutSuccess/checkoutSuccess.js"),
             props: {
-                homepage: buildSiteUrl("homepage")
             },
             sortOrder: 10
         }

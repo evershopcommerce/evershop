@@ -12,6 +12,7 @@ module.exports = async (request, response, stack) => {
             setBillingAddressAPI: buildSiteUrl("checkoutSetBillingAddressInfo"),
             getPaymentMethodsAPI: buildSiteUrl("checkoutGetPaymentMethods"),
             placeOrderAPI: buildSiteUrl("checkoutPlaceOrder"),
+            checkoutSuccessUrl: buildSiteUrl("checkoutSuccess"),
             checkoutSuccessPage: buildSiteUrl("checkoutSuccess")
         }
     })
