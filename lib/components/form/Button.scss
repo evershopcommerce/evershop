@@ -35,7 +35,7 @@
         border-color: var(--interactive);
         color: var(--interactive);
         &:hover {
-            background-color: rgba(var(--interactive), 0.05);
+            background-color: #e6eef9;
         }
     }
     &.outline.critical {

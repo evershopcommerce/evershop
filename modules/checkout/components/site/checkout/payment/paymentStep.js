@@ -100,18 +100,13 @@ const Content = ({ step }) => {
             submitBtn={false}
         >
             <div className="font-bold mb-1 mt-1">Payment Method</div>
-            <Field
-                type="text"
-                value=""
-                name="payment_method"
-                validationRules={['notEmpty']}
-            />
+            <input type="hidden" name="payment_method" value="stripe" />
             <Area
                 id="checkoutPaymentMethods"
                 coreComponents={[]}
             />
         </Form>
-        <div className='mt-1 place-order-button'>
+        <div className='mt-2 place-order-button'>
             <Button variant="primary" title="Place Order" onAction={billing} />
         </div>
     </div>
