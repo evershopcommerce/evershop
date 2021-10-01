@@ -5,7 +5,7 @@ exports = module.exports = {
         {
             id: "stripePaymentForm",
             areaId: 'checkoutPaymentMethods',
-            source: getComponentSource("stripe/components/site/checkout/PaymentForm.js"),
+            source: getComponentSource("stripe/components/site/checkout/PaymentFormContext.js"),
             props: {},
             sortOrder: 10
         }

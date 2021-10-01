@@ -10,6 +10,7 @@ import axios from 'axios';
 import produce from 'immer';
 import { Field } from '../../../../../../lib/components/form/Field';
 import Button from '../../../../../../lib/components/form/Button';
+import { Radio } from '../../../../../../lib/components/form/fields/Radio';
 
 const BillingAddress = ({ useShippingAddress, setUseShippingAddress }) => {
     return <div>
@@ -100,15 +101,15 @@ const Content = ({ step }) => {
             submitBtn={false}
         >
             <div className="font-bold mb-1 mt-1">Payment Method</div>
-            <input type="hidden" name="payment_method" value="stripe" />
-            <Area
-                id="checkoutPaymentMethods"
-                coreComponents={[]}
-            />
+            <input type="hidden" value="stripe" name="payment_method" />
         </Form>
-        <div className='mt-2 place-order-button'>
+        <Area
+            id="checkoutPaymentMethods"
+            coreComponents={[]}
+        />
+        {/* <div className='mt-2 place-order-button'>
             <Button variant="primary" title="Place Order" onAction={billing} />
-        </div>
+        </div> */}
     </div>
 }
 
