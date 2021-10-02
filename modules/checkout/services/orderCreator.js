@@ -100,10 +100,10 @@ exports.createOrder = async function createOrder(cart, eventDispatcher) {
         }).execute(connection);
 
         // Disable the cart
-        await update("cart")
-            .given({ status: 0 })
-            .where("cart_id", "=", cart.getData("cart_id"))
-            .execute(connection);
+        // await update("cart")
+        //     .given({ status: 0 })
+        //     .where("cart_id", "=", cart.getData("cart_id"))
+        //     .execute(connection);
 
         await commit(connection);
         return order.insertId;

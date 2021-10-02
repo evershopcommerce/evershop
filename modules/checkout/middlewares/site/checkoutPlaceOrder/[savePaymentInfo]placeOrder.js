@@ -1,4 +1,5 @@
 const { createOrder } = require("../../../services/orderCreator");
+const { buildSiteUrl } = require("../../../../../lib/routie");
 
 module.exports = async (request, response, stack, next) => {
     try {
@@ -6,9 +7,13 @@ module.exports = async (request, response, stack, next) => {
         await stack["savePaymentInfo"];
         // 
         let orderId = await createOrder(cart);
+
         request.session.orderId = orderId;
+        console.log(request.session.orderId);
         response.json({
-            data: {},
+            data: {
+                orderId: orderId
+            },
             success: true,
             message: ""
         });
