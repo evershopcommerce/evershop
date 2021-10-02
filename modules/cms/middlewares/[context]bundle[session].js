@@ -10,8 +10,13 @@ var sass = require('node-sass');
 var CleanCss = require('clean-css');
 
 module.exports = async function (request, response) {
-    //return;
     let route = request._route;
+
+    /** Only create bundle file for GET and "text/html" route */
+    //FIXME: This should be enhanced
+    if ((route.method.length > 1 || route.method[0] != "GET") || (response.get("Content-Type") && !response.get("Content-Type").includes("text/html"))) {
+        return;
+    }
 
     if (['adminStaticAsset', 'staticAsset'].includes(route.id)) {
         return;
@@ -19,14 +24,22 @@ module.exports = async function (request, response) {
     /** This middleware only required for development */
     if (process.env.NODE_ENV === 'production') {
         let _path = route.isAdmin == true ? "./admin/" + route.id : "./site/" + route.id;
-        if (request.isAdmin === true) {
-            response.context.bundleJs = buildAdminUrl("adminStaticAsset", [`${_p}/${route.__BUNDLEHASH__}.js`]);
-            response.context.bundleCss = buildAdminUrl("adminStaticAsset", [`${_p}/${route.__BUNDLEHASH__}.css`]);
+        let hash;
+        if (route.isAdmin === true) {
+            const bundles = readdirSync(path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build/admin", route.id), { withFileTypes: true })
+                .filter(dirent => dirent.isFile())
+                .map(dirent => dirent.name);
+            bundles.forEach(b => {
+                if (b.endsWith(".css")) {
+                    hash = b.substring(0, b.indexOf(".css"));
+                }
+            })
+            response.context.bundleJs = buildAdminUrl("adminStaticAsset", [`${_path}/${hash}.js`]);
+            response.context.bundleCss = buildAdminUrl("adminStaticAsset", [`${_path}/${hash}.css`]);
         } else {
             const bundles = readdirSync(path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build/site", route.id), { withFileTypes: true })
                 .filter(dirent => dirent.isFile())
                 .map(dirent => dirent.name);
-            let hash;
             bundles.forEach(b => {
                 if (b.endsWith(".css")) {
                     hash = b.substring(0, b.indexOf(".css"));
@@ -37,11 +50,6 @@ module.exports = async function (request, response) {
         }
         return;
     }
-
-    /** Only create bundle file for GET and "text/html" route */
-    //FIXME: This should be enhanced
-    if ((route.method.length > 1 || route.method[0] != "GET") || (response.get("Content-Type") && !response.get("Content-Type").includes("text/html")))
-        return false;
 
     let _p = route.isAdmin == true ? "./admin/" + route.id : "./site/" + route.id;
     if (route.__BUILDREQURIED__ == false) {
