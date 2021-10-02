@@ -3,7 +3,8 @@
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers');
 const argv = yargs(hideBin(process.argv)).argv;
-const { readdirSync, existsSync, rmdirSync, writeFileSync, mkdirSync } = require('fs');
+const { readdirSync, existsSync, statSync, rmdirSync, writeFileSync, mkdirSync } = require('fs');
+const { writeFile, mkdir, rmdir } = require("fs/promises");
 const path = require("path");
 const resolve = path.resolve;
 const express = require("express");
@@ -17,6 +18,9 @@ const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const { FileListPlugin } = require('../lib/webpack/FileListPlugin');
 const { CONSTANTS } = require('../lib/helpers');
 const { inspect } = require('util');
+const sass = require('node-sass');
+const CleanCss = require('clean-css');
+
 require('@babel/register')({
     presets: ['@babel/preset-react'],
     ignore: ['node_modules']
@@ -157,100 +161,136 @@ if (command === "build") {
 
     // Collect all "GET" only route
     let getRoutes = routes.filter(r => (r.method.length === 1 && r.method[0].toUpperCase() === "GET"));
-    let entry = {};
-    getRoutes.forEach(route => {
-        let components = getComponentsByRoute(route.id);
-        //console.log(components);
+    let promises = [];
+    for (const route of getRoutes) {
+        const buildFunc = async function () {
+            let components = getComponentsByRoute(route.id);
+            //console.log(components);
 
-        if (!components)
-            return;
-        for (let area in components) {
-            for (let id in components[area]) {
-                components[area][id]["component"] = `---require("${components[area][id]["source"]}")---`;
-                delete components[area][id]["source"];
+            if (!components)
+                return;
+            for (let area in components) {
+                for (let id in components[area]) {
+                    components[area][id]["component"] = `---require("${components[area][id]["source"]}")---`;
+                    delete components[area][id]["source"];
+                }
             }
-        }
-        let _p = route.isAdmin == true ? "./admin/" + route.id : "./site/" + route.id;
-        rmdirSync(path.resolve(CONSTANTS.CACHEPATH, _p), { recursive: true });
-        let content = `var components = module.exports = exports = ${inspect(components, { depth: 5 }).replace(/'---/g, "").replace(/---'/g, "")}`;
-        content += "\r\n";
-        content += "if (typeof window !== 'undefined')";
-        content += "\r\n";
-        content += " window.appContext.components = components;";
-        mkdirSync(path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p), { recursive: true });
-        writeFileSync(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, "components.js"), content);
-        let name = route.isAdmin === true ? `admin/${route.id}/bundle` : `site/${route.id}/bundle`;
-        entry[name] = [
-            path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p, "components.js"),
-            path.resolve(CONSTANTS.LIBPATH, "components", "hydrate.js")
-        ]
-    });
-    const smp = new SpeedMeasurePlugin();
-    const compiler = webpack(smp.wrap({
-        mode: "production", // "production" | "development" | "none"
-        module: {
-            rules: [
-                {
-                    test: /\.jsx?$/,
-                    exclude: /(node_modules|bower_components)/,
-                    use: {
-                        loader: "babel-loader",
-                        options: {
-                            sourceType: "unambiguous",
-                            cacheDirectory: true,
-                            presets: [
-                                "@babel/preset-env",
-                                "@babel/preset-react"
-                            ],
-                            plugins: [
-                                "@babel/plugin-transform-runtime",
-                            ]
+            let _p = route.isAdmin == true ? "./admin/" + route.id : "./site/" + route.id;
+            await rmdir(path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p), { recursive: true });
+            let content = `var components = module.exports = exports = ${inspect(components, { depth: 5 }).replace(/'---/g, "").replace(/---'/g, "")}`;
+            content += "\r\n";
+            content += "if (typeof window !== 'undefined')";
+            content += "\r\n";
+            content += " window.appContext.components = components;";
+            await mkdir(path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p), { recursive: true });
+            await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, "components.js"), content);
+            let name = route.isAdmin === true ? `admin/${route.id}` : `site/${route.id}`;
+            let entry = {};
+            entry[name] = [
+                path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p, "components.js"),
+                path.resolve(CONSTANTS.LIBPATH, "components", "hydrate.js"),
+            ]
+            const compiler = webpack({
+                mode: "development", // "production" | "development" | "none"
+                module: {
+                    rules: [
+                        {
+                            test: /\.jsx?$/,
+                            exclude: /(node_modules|bower_components)/,
+                            use: {
+                                loader: "babel-loader",
+                                options: {
+                                    sourceType: "unambiguous",
+                                    cacheDirectory: true,
+                                    presets: [
+                                        "@babel/preset-env",
+                                        "@babel/preset-react"
+                                    ],
+                                    plugins: [
+                                        "@babel/plugin-transform-runtime",
+                                    ]
+                                }
+                            }
                         }
+                    ]
+                },
+                // name: 'main',
+                target: "web",
+                plugins: [
+                    // new MiniCssExtractPlugin({
+                    //     filename: '[name].css',
+                    // })
+                ],
+
+                entry: entry,
+                output: {
+                    path: path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p),
+                    filename: "[fullhash].js",
+                }
+            });
+
+            let cssFiles = "";
+            let mTime = new Date('1988-10-08T03:24:00');;
+            compiler.hooks.afterCompile.tap(
+                'PostCssBundling',
+                (compilation) => {
+                    let list = compilation._modules;
+                    list.forEach(element => {
+                        if (element.resource) {
+                            let _path = element.resource.replace('.js', '.scss');
+                            _path = _path.split(path.sep).join(path.posix.sep)
+                            if (existsSync(_path)) {
+                                cssFiles = cssFiles += `@import '${_path}';`;
+                                const stats = statSync(_path);
+                                if (stats.mtime > mTime)
+                                    mTime = stats.mtime;
+                            }
+                        }
+                    });
+                }
+            );
+            var hash;
+            let webpackPromise = new Promise((resolve, reject) => {
+                compiler.run((err, stats) => {
+                    if (err) {
+                        reject(err);
+                    } else if (stats.hasErrors()) {
+                        reject(new Error(stats.toString({
+                            errorDetails: true,
+                            warnings: true
+                        })));
+                    } else {
+                        hash = stats.hash;
+                        resolve(stats)
+                    }
+                });
+            });
+
+            await webpackPromise;
+
+            let cssOutput = new CleanCss({
+                level: {
+                    2: {
+                        removeDuplicateRules: true // turns on removing duplicate rules
                     }
                 }
-            ]
-        },
-        // name: 'main',
-        target: "web",
-        plugins: [
-            //new FileListPlugin()
-        ],
+            }).minify(sass.renderSync({
+                data: cssFiles,
+            }).css);
 
-        entry: entry,
-        output: {
-            path: path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/"),
-            filename: "[name]/[fullhash].js",
+            await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, `${hash}.css`), cssOutput.styles);
         }
-    }));
-
-
-    // compiler.hooks.beforeRun.tap('MyPlugin', (compilation) => {
-    //     // return true to emit the output, otherwise false
-    //     console.log('aaaa')
-    //     console.log(compilation.getStats());
-
-    //     // var end = new Date() - start;
-    //     // console.log("Call to doSomething took " + (end) + " milliseconds.")
-
-    //     // return false;
-    // });
-    // compiler.hooks.buildModule.tap(
-    //     'SourceMapDevToolModuleOptionsPlugin',
-    //     (module) => {
-    //         console.log(module);
-    //     }
-    // );
-    compiler.run((err, stats) => {
-        if (err || stats.hasErrors()) {
-            //console.log(err);
-            //console.log(stats);
-        } else {
-            //console.log(stats);
-        }
-        process.exit(0)
-    });
-
-
+        promises.push(buildFunc());
+    }
+    Promise.all(promises)
+        .then(() => {
+            console.log("Build completed");
+            process.exit(0);
+        })
+        .catch((e) => {
+            console.log(e);
+            process.exit(0);
+        });
 } else if (command === "dev") {
     process.env.NODE_ENV = 'development';
 } else if (command === "start") {

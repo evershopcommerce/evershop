@@ -1,6 +1,6 @@
 const inspect = require("util").inspect;
 const { writeFile, mkdir, rmdir } = require("fs/promises");
-const { existsSync, statSync } = require('fs');
+const { existsSync, statSync, readdirSync } = require('fs');
 const webpack = require("webpack");
 const path = require("path");
 const { CONSTANTS } = require("../../../lib/helpers");
@@ -13,8 +13,28 @@ module.exports = async function (request, response) {
     //return;
     let route = request._route;
 
+    if (['adminStaticAsset', 'staticAsset'].includes(route.id)) {
+        return;
+    }
     /** This middleware only required for development */
-    if (process.env.NODE_ENV === 'production' || ['adminStaticAsset', 'staticAsset'].includes(route.id)) {
+    if (process.env.NODE_ENV === 'production') {
+        let _path = route.isAdmin == true ? "./admin/" + route.id : "./site/" + route.id;
+        if (request.isAdmin === true) {
+            response.context.bundleJs = buildAdminUrl("adminStaticAsset", [`${_p}/${route.__BUNDLEHASH__}.js`]);
+            response.context.bundleCss = buildAdminUrl("adminStaticAsset", [`${_p}/${route.__BUNDLEHASH__}.css`]);
+        } else {
+            const bundles = readdirSync(path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build/site", route.id), { withFileTypes: true })
+                .filter(dirent => dirent.isFile())
+                .map(dirent => dirent.name);
+            let hash;
+            bundles.forEach(b => {
+                if (b.endsWith(".css")) {
+                    hash = b.substring(0, b.indexOf(".css"));
+                }
+            })
+            response.context.bundleJs = buildSiteUrl("staticAsset", [`${_path}/${hash}.js`]);
+            response.context.bundleCss = buildSiteUrl("staticAsset", [`${_path}/${hash}.css`]);
+        }
         return;
     }
 
@@ -83,7 +103,7 @@ module.exports = async function (request, response) {
         path.resolve(CONSTANTS.LIBPATH, "components", "hydrate.js"),
     ]
     const compiler = webpack({
-        mode: "development", // "production" | "development" | "none"
+        mode: "production", // "production" | "development" | "none"
         module: {
             rules: [
                 {
