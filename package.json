@@ -2,9 +2,14 @@
   "name": "@nodejscart/core",
   "version": "0.0.0-alpha.1",
   "description": "A shopping cart platform with Express, React and MySQL",
-  "main": "index.js",
   "files": [
-    "dist"
+    "bin",
+    "lib",
+    "modules",
+    "theme",
+    ".babelrc",
+    "babel.config.js",
+    "Dockerfile"
   ],
   "bin": {
     "nodejscart": "./bin/nodejscart"
@@ -12,8 +17,7 @@
   "scripts": {
     "dev": "nodemon -e js,scss --ignore 'modules/cms/components/site/tailwind.scss' --exec \"npx tailwindcss  -o ./modules/cms/components/site/tailwind.scss && babel-node ./bin/nodejscart dev\"",
     "build": "nodejscart build",
-    "start": "nodejscart start",
-    "eslint": "eslint index.js"
+    "start": "nodejscart start"
   },
   "author": "The Nguyen (https://nodejscart.com)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
