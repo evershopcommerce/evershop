@@ -21,7 +21,9 @@ exports = module.exports = {
             id: "logo",
             areaId: "header",
             source: getComponentSource("cms/components/site/Logo.js", true),
-            props: {},
+            props: {
+                homeUrl: buildSiteUrl("homepage")
+            },
             sortOrder: 0
         },
         {
