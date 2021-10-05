@@ -57,6 +57,9 @@ html {
 body {
     color: #3a3a3a;
 }
+p {
+    margin-bottom: 1rem;
+}
 @media screen and (max-width: 767px) {
     $font-size-base: $font-size-sm;
     body {
