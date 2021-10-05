@@ -14,7 +14,7 @@ module.exports = async (request, response, stack) => {
         if (products[i]["image"]) {
             let list = products[i]["image"].replace(/.([^.]*)$/, '-list.$1');
             products[i]["image"] = {
-                url: fs.existsSync(path.join(CONSTANTS.MEDIAPATH, list)) ? `/assets/${list}` : null
+                url: fs.existsSync(path.join(CONSTANTS.MEDIAPATH, list)) ? `/assets${list}` : null
             }
         }
 
