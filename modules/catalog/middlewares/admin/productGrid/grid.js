@@ -1,5 +1,8 @@
 const { pool } = require('../../../../../lib/mysql/connection');
 const { assign } = require("../../../../../lib/util/assign");
+const fs = require("fs");
+const path = require("path");
+const { CONSTANTS } = require('../../../../../lib/helpers');
 
 module.exports = async (request, response, stack) => {
     // execute query
@@ -28,6 +31,16 @@ module.exports = async (request, response, stack) => {
 
     query.orderBy(orderBy, direction);
     let products = await query.execute(pool);
+
+    // Process the thumbnail
+    products = products.map(product => {
+        if (product["image"]) {
+            let thumb = product["image"].replace(/.([^.]*)$/, '-thumb.$1');
+            product["image"] = fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb)) ? `/assets${thumb}` : null
+        }
+
+        return product
+    })
     assign(response.context, { grid: { products: JSON.parse(JSON.stringify(products)) } });
 
     query.select("COUNT(`product_id`)", "total");
