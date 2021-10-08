@@ -1,5 +1,5 @@
 # NodejsCart
-An E-Commerce flatform using Nodejs.
+An E-Commerce platform using Nodejs.
 
 # Tech stack
 - NodeJS.
