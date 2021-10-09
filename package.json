@@ -1,6 +1,6 @@
 {
   "name": "@nodejscart/core",
-  "version": "0.0.0-alpha.1",
+  "version": "1.0.0-alpha.1",
   "description": "A shopping cart platform with Express, React and MySQL",
   "files": [
     "bin",
@@ -8,8 +8,7 @@
     "modules",
     "theme",
     ".babelrc",
-    "babel.config.js",
-    "Dockerfile"
+    "babel.config.js"
   ],
   "bin": {
     "nodejscart": "./bin/nodejscart"
