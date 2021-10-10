@@ -35,7 +35,7 @@ export function Field(props) {
 
     const onChange = (value) => {
         let _val;
-        if (value.constructor.name === 'SyntheticBaseEvent') {
+        if (typeof value === 'object' && value !== null && value.target) {
             _val = value.target.value;
         } else {
             _val = value;
