@@ -78,7 +78,7 @@ exports.createOrder = async function createOrder(cart, eventDispatcher) {
         let order = await insert("order")
             .given({
                 ...cart.export(),
-                order_number: 10000 + parseInt(previous[0]['order_id']) + 1,// FIXME: Must be structured
+                order_number: 10000 + parseInt(previous[0] ? previous[0]['order_id'] : 1) + 1,// FIXME: Must be structured
                 shipping_address_id: shipAddr.insertId,
                 billing_address_id: billAddr.insertId,
                 payment_status: 'pending',

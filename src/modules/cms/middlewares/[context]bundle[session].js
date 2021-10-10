@@ -111,7 +111,7 @@ module.exports = async function (request, response) {
         path.resolve(CONSTANTS.LIBPATH, "components", "hydrate.js"),
     ]
     const compiler = webpack({
-        mode: "production", // "production" | "development" | "none"
+        mode: "development", // "production" | "development" | "none"
         module: {
             rules: [
                 {
