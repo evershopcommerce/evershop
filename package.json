@@ -1,12 +1,11 @@
 {
   "name": "@nodejscart/core",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "A shopping cart platform with Express, React and MySQL",
   "files": [
     "bin",
-    "lib",
-    "modules",
-    "theme",
+    "src",
+    "dist",
     ".babelrc",
     "babel.config.js"
   ],
@@ -15,6 +14,7 @@
   },
   "scripts": {
     "dev": "nodemon -e js,scss --ignore 'modules/cms/components/site/tailwind.scss' --exec \"npx tailwindcss  -o ./modules/cms/components/site/tailwind.scss && babel-node ./bin/nodejscart dev\"",
+    "dev2": "nodejscart dev",
     "build": "nodejscart build",
     "start": "nodejscart start"
   },
@@ -49,7 +49,7 @@
     "yargs": "^17.0.0-candidate.13"
   },
   "devDependencies": {
-    "@babel/cli": "^7.13.10",
+    "@babel/cli": "^7.15.7",
     "@babel/core": "^7.14.8",
     "@babel/node": "^7.14.7",
     "@babel/plugin-proposal-class-properties": "^7.13.0",

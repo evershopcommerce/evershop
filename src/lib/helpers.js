@@ -73,11 +73,11 @@ helpers.getComponentSource = function getComponentSource(_path, isAdmin = false)
 }
 
 const rootPath = (() => {
-    let _path = path.resolve(__dirname, "..");
+    let _path = path.resolve(__dirname, "..", '..');
     if (existsSync(path.resolve(_path, "package-lock.json"))) {
         return _path;
     } else {
-        return path.resolve(__dirname, "..", "..", "..", "..");
+        return path.resolve(__dirname, "..", "..", "..", "..", "..");
     }
 })();
 
