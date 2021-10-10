@@ -1,5 +1,5 @@
 # NodejsCart
-An E-Commerce platform using Nodejs.
+An E-Commerce platform using Nodejs, ExpressJs and ReactJs.
 
 # Tech stack
 - NodeJS.
@@ -7,13 +7,13 @@ An E-Commerce platform using Nodejs.
 - ExpressJS
 - MySQL
 
-## It's not finished yet. Here are next steps
+## Next steps
 
-- [ ] Unit test
-- [ ] Customer management
-- [ ] Discount
-- [ ] Tax
+- [ ] Customer module
+- [ ] Discount module
+- [ ] Tax module
 - [ ] Docker
+- [ ] Unit test
 
 ## Installation guide
 - #To be documented
@@ -23,4 +23,4 @@ An E-Commerce platform using Nodejs.
 - MySQL 5.7+
 
 ## LICENCE
-- #To be decided
+- [GPL-3.0 License](https://github.com/nodeonline/nodejscart/blob/main/LICENSE)

@@ -1,6 +1,6 @@
 {
   "name": "@nodejscart/core",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "description": "A shopping cart platform with Express, React and MySQL",
   "files": [
     "bin",
@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dev": "nodemon -e js,scss --ignore 'src/modules/cms/components/site/tailwind.scss' --exec \"npx tailwindcss  -o ./src/modules/cms/components/site/tailwind.scss && babel-node ./bin/nodejscart dev\"",
-    "dev2": "nodejscart dev",
+    "prepare": "npx babel src -d dist --copy-files --ignore src/theme/*",
     "build": "nodejscart build",
     "start": "nodejscart start"
   },
