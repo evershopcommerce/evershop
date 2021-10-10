@@ -91,7 +91,7 @@ for (const route of getRoutes) {
                 rules: [
                     {
                         test: /\.jsx?$/,
-                        exclude: /(node_modules|bower_components)/,
+                        exclude: /(bower_components)/,
                         use: {
                             loader: "babel-loader",
                             options: {

@@ -139,7 +139,7 @@ class Item extends DataObject {
             resolver: async function () {
                 if (this._dataSource.product.image) {
                     let thumb = this._dataSource.product.image.replace(/.([^.]*)$/, '-thumb.$1');
-                    return fs.existsSync(path.join(CONSTANTS.PUBLICPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`;
+                    return fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`;
                 } else {
                     return `/assets/theme/site${config.get("catalog.product.image.placeHolder")}`
                 }
