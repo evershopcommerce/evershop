@@ -81,10 +81,19 @@ const rootPath = (() => {
     }
 })();
 
+const modulesPath = (() => {
+    let _path = path.resolve(__dirname, "..", '..');
+    if (existsSync(path.resolve(_path, "package-lock.json"))) {
+        return path.resolve(_path, "src/modules");
+    } else {
+        return path.resolve(_path, "node_modules", "@nodejscart", "core", "src", "modules");
+    }
+})();
+
 helpers.CONSTANTS = Object.freeze({
     ROOTPATH: rootPath,
     LIBPATH: path.resolve(__dirname),
-    MOLDULESPATH: path.resolve(__dirname, "../modules"),
+    MOLDULESPATH: modulesPath,
     PUBLICPATH: path.resolve(rootPath, "public"),
     MEDIAPATH: path.resolve(rootPath, "media"),
     NODEMODULEPATH: path.resolve(rootPath, "node_modules"),
