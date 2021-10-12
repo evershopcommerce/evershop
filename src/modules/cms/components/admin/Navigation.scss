@@ -1,0 +1,76 @@
+.admin-navigation {
+    width: 24rem;
+    float: left;
+    height: 100vh;
+    border-right: 1px solid var(--divider);
+    position: fixed;
+    left: 0;
+    top: 5.6rem;
+    padding-right: 1rem;
+}
+.admin-navigation .top-bar {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+}
+.admin-navigation .top-bar .logo {
+    width: 70px;
+}
+.admin-navigation .top-bar .logo img {
+    max-width: 100%;
+}
+.admin-navigation .menu-toggle {
+    color: #fff;
+}
+.admin-nav li span,
+.admin-navigation li a {
+    line-height: 35px;
+    font-weight: 600;
+}
+.admin-nav .root-label {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 11px;
+}
+.admin-nav .fas {
+    padding-right: 10px;
+    font-size: 15px;
+}
+.nav-item {
+    margin-top: 2px;
+}
+.nav-item > a,
+.nav-item .root-label {
+    display: block;
+    padding-left: 1rem;
+    margin-left: 1rem;
+}
+.nav-item > a:hover {
+    background-color: #edeeef;
+    border-radius: 4px;
+}
+.nav-item.active::before {
+    content: "";
+    width: 3.5px;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    border-radius: 0 4px 4px 0;
+    background-color: var(--primary);
+}
+.nav-item.active {
+    position: relative;
+    a {
+        color: var(--primary);
+        background-color: #edeeef;
+        border-radius: 4px;
+    }
+}
+.admin-nav > ul > li {
+    margin-top: 1rem;
+}

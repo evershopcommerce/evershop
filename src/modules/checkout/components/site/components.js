@@ -6,7 +6,7 @@ exports = module.exports = {
         {
             id: "miniCart",
             areaId: "iconWrapper",
-            source: getComponentSource("checkout/components/site/minicart.js"),
+            source: getComponentSource("checkout/components/site/Minicart.js"),
             props: {
                 cartUrl: buildSiteUrl("cart"),
                 checkoutUrl: buildSiteUrl("checkout")
@@ -18,14 +18,14 @@ exports = module.exports = {
         {
             id: "shoppingCartLayout",
             areaId: "content",
-            source: getComponentSource("checkout/components/site/cart/layout.js"),
+            source: getComponentSource("checkout/components/site/cart/Layout.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "emptyCart",
             areaId: "shoppingCartTop",
-            source: getComponentSource("checkout/components/site/cart/empty.js"),
+            source: getComponentSource("checkout/components/site/cart/Empty.js"),
             props: {
                 homeUrl: buildSiteUrl("homepage")
             },
@@ -34,14 +34,14 @@ exports = module.exports = {
         {
             id: "cartItems",
             areaId: "shoppingCartLeft",
-            source: getComponentSource("checkout/components/site/cart/items.js"),
+            source: getComponentSource("checkout/components/site/cart/Items.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "cartSummary",
             areaId: "shoppingCartRight",
-            source: getComponentSource("checkout/components/site/cart/summary.js"),
+            source: getComponentSource("checkout/components/site/cart/Summary.js"),
             props: {
                 checkoutUrl: buildSiteUrl("checkout")
             },
@@ -52,7 +52,7 @@ exports = module.exports = {
         {
             id: "customerInfoStep",
             areaId: "checkoutSteps",
-            source: getComponentSource("checkout/components/site/checkout/customerInfoStep.js"),
+            source: getComponentSource("checkout/components/site/checkout/CustomerInfoStep.js"),
             props: {
                 setContactInfoUrl: buildSiteUrl("checkoutSetContactInfo"),
                 loginUrl: buildSiteUrl("customerLoginPost")
@@ -62,28 +62,28 @@ exports = module.exports = {
         {
             id: "checkoutPaymentStep",
             areaId: "checkoutSteps",
-            source: getComponentSource("checkout/components/site/checkout/payment/paymentStep.js"),
+            source: getComponentSource("checkout/components/site/checkout/payment/PaymentStep.js"),
             props: {},
             sortOrder: 15
         },
         {
             id: "checkoutShipmentStep",
             areaId: "checkoutSteps",
-            source: getComponentSource("checkout/components/site/checkout/shipment/shipmentStep.js"),
+            source: getComponentSource("checkout/components/site/checkout/shipment/ShipmentStep.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "checkoutPage",
             areaId: "content",
-            source: getComponentSource("checkout/components/site/checkout/checkout.js"),
+            source: getComponentSource("checkout/components/site/checkout/Checkout.js"),
             props: {},
             sortOrder: 0
         },
         {
             id: "checkoutShippingMethods",
             areaId: "checkoutShippingAddressForm",
-            source: getComponentSource("checkout/components/site/checkout/shipment/shippingMethods.js"),
+            source: getComponentSource("checkout/components/site/checkout/shipment/ShippingMethods.js"),
             props: {
                 getMethodsAPI: buildSiteUrl("checkoutGetShippingMethods")
             },
@@ -92,7 +92,7 @@ exports = module.exports = {
         {
             id: "checkoutPaymentMethods",
             areaId: "checkoutBillingAddressForm",
-            source: getComponentSource("checkout/components/site/checkout/payment/paymentMethods.js"),
+            source: getComponentSource("checkout/components/site/checkout/payment/PaymentMethods.js"),
             props: {
                 getMethodsAPI: buildSiteUrl("checkoutGetPaymentMethods")
             },
@@ -101,7 +101,7 @@ exports = module.exports = {
         {
             id: "cartSummary",
             areaId: "shoppingCartRight",
-            source: getComponentSource("checkout/components/site/cart/summary.js"),
+            source: getComponentSource("checkout/components/site/cart/Summary.js"),
             props: {
                 checkoutUrl: buildSiteUrl("checkout")
             },
@@ -112,7 +112,7 @@ exports = module.exports = {
         {
             id: "checkoutSuccess",
             areaId: "content",
-            source: getComponentSource("checkout/components/site/checkoutSuccess/checkoutSuccess.js"),
+            source: getComponentSource("checkout/components/site/checkoutSuccess/CheckoutSuccess.js"),
             props: {
             },
             sortOrder: 10

@@ -7,21 +7,21 @@ exports = module.exports = {
             // General block
             id: "categoryGeneral",
             areaId: "content",
-            source: getComponentSource("catalog/components/site/category/view/general.js"),
+            source: getComponentSource("catalog/components/site/category/view/General.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "productsFilter",
             areaId: "content",
-            source: getComponentSource("catalog/components/site/product/list/filter.js"),
+            source: getComponentSource("catalog/components/site/product/list/Filter.js"),
             props: {},
             sortOrder: 20
         },
         {
             id: "products",
             areaId: "content",
-            source: getComponentSource("catalog/components/site/category/view/products.js"),
+            source: getComponentSource("catalog/components/site/category/view/Products.js"),
             props: {},
             sortOrder: 30
         }
@@ -31,14 +31,14 @@ exports = module.exports = {
             // General block
             id: "productLayout",
             areaId: "content",
-            source: getComponentSource("catalog/components/site/product/view/layout.js"),
+            source: getComponentSource("catalog/components/site/product/view/Layout.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "productForm",
             areaId: "productPageMiddleRight",
-            source: getComponentSource("catalog/components/site/product/view/form.js"),
+            source: getComponentSource("catalog/components/site/product/view/Form.js"),
             props: {
                 action: buildSiteUrl("addToCart")
             },
@@ -47,7 +47,7 @@ exports = module.exports = {
         {
             id: "productGeneralInfo",
             areaId: "productPageMiddleRight",
-            source: getComponentSource("catalog/components/site/product/view/generalInfo.js"),
+            source: getComponentSource("catalog/components/site/product/view/GeneralInfo.js"),
             props: {
                 action: buildSiteUrl("addToCart")
             },
@@ -56,21 +56,21 @@ exports = module.exports = {
         {
             id: "productImages",
             areaId: "productPageMiddleLeft",
-            source: getComponentSource("catalog/components/site/product/view/images.js"),
+            source: getComponentSource("catalog/components/site/product/view/Images.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "productDescription",
             areaId: "productPageMiddleRight",
-            source: getComponentSource("catalog/components/site/product/view/description.js"),
+            source: getComponentSource("catalog/components/site/product/view/Description.js"),
             props: {},
             sortOrder: 60
         },
         {
             id: "productVariants",
             areaId: "productPageMiddleRight",
-            source: getComponentSource("catalog/components/site/product/view/variants.js"),
+            source: getComponentSource("catalog/components/site/product/view/Variants.js"),
             props: {},
             sortOrder: 20
         }
@@ -86,7 +86,7 @@ exports = module.exports = {
         {
             id: "featuredProducts",
             areaId: "content",
-            source: getComponentSource("catalog/components/site/homepage/featuredProducts.js"),
+            source: getComponentSource("catalog/components/site/homepage/FeaturedProducts.js"),
             props: {},
             sortOrder: 30
         }

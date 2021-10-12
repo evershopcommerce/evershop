@@ -1,0 +1,38 @@
+.card {
+    background-color: white;
+    border-radius: 6px;
+    &.subdued {
+        background-color: #fafbfb;
+    }
+}
+.card-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+.card-header {
+    padding: 2rem;
+}
+.card-section {
+    border-color: var(--divider);
+    padding: 2rem;
+    .card-section {
+        padding: 0;
+    }
+}
+.card .card-section:last-child {
+    border-bottom: none;
+}
+.card-header + .card-section {
+    padding-top: 0;
+}
+.card-session-title {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.card-session-title + .card-session-content {
+    padding-top: 0.85rem;
+}
+.card-action a:hover {
+    text-decoration: underline;
+}

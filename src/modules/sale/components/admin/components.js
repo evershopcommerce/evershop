@@ -6,7 +6,7 @@ exports = module.exports = {
         {
             id: "sale.group",
             areaId: 'admin.menu',
-            "source": getComponentSource("cms/components/admin/navigationItemGroup.js", true),
+            "source": getComponentSource("cms/components/admin/NavigationItemGroup.js", true),
             props: { id: 'sale.group', name: 'Sale' },
             "sortOrder": 20
         },
@@ -26,7 +26,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: 'content',
-            source: getComponentSource("title.js"),
+            source: getComponentSource("Title.js"),
             props: {
                 title: "Edit order"
             },
@@ -58,35 +58,35 @@ exports = module.exports = {
         {
             id: "orderEditLayout",
             areaId: 'content',
-            source: getComponentSource("sale/components/admin/order/edit/layout.js"),
+            source: getComponentSource("sale/components/admin/order/edit/Layout.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "customerNotes",
             areaId: 'rightSide',
-            source: getComponentSource("sale/components/admin/order/edit/customerNotes.js"),
+            source: getComponentSource("sale/components/admin/order/edit/CustomerNotes.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "customer",
             areaId: 'rightSide',
-            source: getComponentSource("sale/components/admin/order/edit/customer.js"),
+            source: getComponentSource("sale/components/admin/order/edit/Customer.js"),
             props: {},
             sortOrder: 15
         },
         {
             id: "items",
             areaId: 'leftSide',
-            source: getComponentSource("sale/components/admin/order/edit/items.js"),
+            source: getComponentSource("sale/components/admin/order/edit/Items.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "payment",
             areaId: 'leftSide',
-            source: getComponentSource("sale/components/admin/order/edit/payment.js"),
+            source: getComponentSource("sale/components/admin/order/edit/Payment.js"),
             props: {},
             sortOrder: 20
         },
@@ -102,7 +102,7 @@ exports = module.exports = {
         {
             id: "orderGrid",
             areaId: 'content',
-            source: getComponentSource("sale/components/admin/order/grid/grid.js"),
+            source: getComponentSource("sale/components/admin/order/grid/Grid.js"),
             props: {
                 limit: 20
             },
@@ -119,7 +119,7 @@ exports = module.exports = {
         {
             id: 'title',
             areaId: 'head',
-            source: getComponentSource("title.js", true),
+            source: getComponentSource("Title.js", true),
             props: {
                 title: "Orders"
             },
@@ -128,7 +128,7 @@ exports = module.exports = {
         {
             id: 'orderNumberColumn',
             areaId: 'orderGridHeader',
-            source: getComponentSource("grid/headers/basic.js"),
+            source: getComponentSource("grid/headers/Basic.js"),
             props: {
                 title: "ID",
                 id: "order_number"
@@ -167,7 +167,7 @@ exports = module.exports = {
         {
             id: 'nameColumn',
             areaId: 'orderGridHeader',
-            source: getComponentSource("grid/headers/basic.js"),
+            source: getComponentSource("grid/headers/Basic.js"),
             props: {
                 title: "Customer",
                 id: "customer_name"
@@ -177,7 +177,7 @@ exports = module.exports = {
         {
             id: 'nameRow',
             areaId: 'orderGridRow',
-            source: getComponentSource("grid/rows/basic.js"),
+            source: getComponentSource("grid/rows/Basic.js"),
             props: {
                 id: "customer_name"
             },
@@ -224,7 +224,7 @@ exports = module.exports = {
         {
             id: 'totalColumn',
             areaId: 'orderGridHeader',
-            source: getComponentSource("grid/headers/fromTo.js"),
+            source: getComponentSource("grid/headers/FromTo.js"),
             props: {
                 title: "Total",
                 id: "grand_total"
@@ -245,21 +245,21 @@ exports = module.exports = {
         {
             id: "statistic",
             areaId: 'leftSide',
-            source: getComponentSource("sale/components/admin/dashboard/statistic.js", true),
+            source: getComponentSource("sale/components/admin/dashboard/Statistic.js", true),
             props: { api: buildAdminUrl("salestatistic", { "period": "daily" }) },
             sortOrder: 10
         },
         {
             id: "lifetimesales",
             areaId: 'rightSide',
-            source: getComponentSource("sale/components/admin/dashboard/lifetimesales.js"),
+            source: getComponentSource("sale/components/admin/dashboard/Lifetimesales.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "bestsellers",
             areaId: 'leftSide',
-            source: getComponentSource("sale/components/admin/dashboard/bestsellers.js"),
+            source: getComponentSource("sale/components/admin/dashboard/Bestsellers.js"),
             props: {
                 listUrl: buildAdminUrl('productGrid')
             },

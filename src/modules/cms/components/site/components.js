@@ -6,14 +6,14 @@ exports = module.exports = {
         {
             id: "notification",
             areaId: "body",
-            source: getComponentSource("cms/components/site/notification.js", true),
+            source: getComponentSource("cms/components/site/Notification.js", true),
             props: {},
             sortOrder: 1
         },
         {
             id: "layout",
             areaId: "body",
-            source: getComponentSource("cms/components/site/layout.js", true),
+            source: getComponentSource("cms/components/site/Layout.js", true),
             props: {},
             sortOrder: 1
         },
@@ -29,7 +29,7 @@ exports = module.exports = {
         {
             id: "menu",
             areaId: "header",
-            source: getComponentSource("cms/components/site/menu.js", true),
+            source: getComponentSource("cms/components/site/Menu.js", true),
             props: {},
             sortOrder: 10
         },
@@ -53,14 +53,14 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: "head",
-            source: getComponentSource("cms/components/site/metaTitle.js", true),
+            source: getComponentSource("cms/components/site/MetaTitle.js", true),
             props: {},
             sortOrder: 1
         },
         {
             id: "metaDescription",
             areaId: "head",
-            source: getComponentSource("cms/components/site/metaDescription.js", true),
+            source: getComponentSource("cms/components/site/MetaDescription.js", true),
             props: {},
             sortOrder: 1
         }
@@ -69,7 +69,7 @@ exports = module.exports = {
         {
             id: "viewport",
             areaId: "head",
-            source: getComponentSource("meta.js", true),
+            source: getComponentSource("Meta.js", true),
             props: {
                 "name": "viewport",
                 "content": "width=device-width, initial-scale=1"
@@ -79,14 +79,14 @@ exports = module.exports = {
         {
             id: "bundleCSS",
             areaId: "head",
-            source: getComponentSource("cms/components/bundleCss.js", true),
+            source: getComponentSource("cms/components/BundleCss.js", true),
             props: {},
             sortOrder: 10
         },
         {
             id: "bundleJS",
             areaId: "after.body",
-            source: getComponentSource("cms/components/bundleJs.js", true),
+            source: getComponentSource("cms/components/BundleJs.js", true),
             props: {},
             sortOrder: 10
         }

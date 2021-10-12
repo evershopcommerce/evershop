@@ -6,7 +6,7 @@ exports = module.exports = {
         {
             id: "catalog.group",
             areaId: 'admin.menu',
-            source: getComponentSource("cms/components/admin/navigationItemGroup.js", true),
+            source: getComponentSource("cms/components/admin/NavigationItemGroup.js", true),
             props: {
                 id: 'catalog.group',
                 name: 'Catalog'
@@ -62,7 +62,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: "head",
-            source: getComponentSource("title.js"),
+            source: getComponentSource("Title.js"),
             props: {
                 title: "Edit category"
             },
@@ -73,7 +73,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: "head",
-            source: getComponentSource("title.js"),
+            source: getComponentSource("Title.js"),
             props: {
                 title: "Create a new category"
             },
@@ -93,7 +93,7 @@ exports = module.exports = {
         {
             id: "categoryForm",
             areaId: "content",
-            source: getComponentSource("catalog/components/admin/category/edit/categoryEditForm.js"),
+            source: getComponentSource("catalog/components/admin/category/edit/CategoryEditForm.js"),
             props: {
                 id: "category-edit-form",
                 method: "POST",
@@ -106,16 +106,16 @@ exports = module.exports = {
         {
             id: "ckeditor",
             areaId: 'head',
-            source: getComponentSource("script.js", true),
+            source: getComponentSource("Script.js", true),
             props: {
-                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
+                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/Ckeditor.js']),
             },
             sortOrder: 1
         },
         {
             id: "categoryEditGeneral",
             areaId: "leftSide",
-            source: getComponentSource("catalog/components/admin/category/edit/general.js"),
+            source: getComponentSource("catalog/components/admin/category/edit/General.js"),
             props: {
                 browserApi: buildAdminUrl("fileBrowser", [""]),
                 deleteApi: buildAdminUrl("fileDelete", [""]),
@@ -127,7 +127,7 @@ exports = module.exports = {
         {
             id: "categoryEditSEO",
             areaId: "rightSide",
-            source: getComponentSource("catalog/components/admin/category/edit/seo.js"),
+            source: getComponentSource("catalog/components/admin/category/edit/Seo.js"),
             props: {},
             sortOrder: 20
         },
@@ -143,7 +143,7 @@ exports = module.exports = {
         {
             id: "categoryGrid",
             areaId: 'content',
-            source: getComponentSource("catalog/components/admin/category/grid/grid.js"),
+            source: getComponentSource("catalog/components/admin/category/grid/Grid.js"),
             props: {
                 limit: 20
             },
@@ -171,7 +171,7 @@ exports = module.exports = {
         {
             id: 'title',
             areaId: 'head',
-            source: getComponentSource("title.js", true),
+            source: getComponentSource("Title.js", true),
             props: {
                 title: "Categories"
             },
@@ -180,7 +180,7 @@ exports = module.exports = {
         {
             id: 'statusColumn',
             areaId: 'categoryGridHeader',
-            source: getComponentSource("grid/headers/status.js"),
+            source: getComponentSource("grid/headers/Status.js"),
             props: {
                 title: "Status",
                 id: "status"
@@ -190,7 +190,7 @@ exports = module.exports = {
         {
             id: 'statusRow',
             areaId: 'categoryGridRow',
-            source: getComponentSource("grid/rows/status.js"),
+            source: getComponentSource("grid/rows/Status.js"),
             props: {
                 id: "status"
             },
@@ -199,7 +199,7 @@ exports = module.exports = {
         {
             id: 'nameColumn',
             areaId: 'categoryGridHeader',
-            source: getComponentSource("grid/headers/basic.js"),
+            source: getComponentSource("grid/headers/Basic.js"),
             props: {
                 title: "Category name",
                 id: "name"
@@ -222,7 +222,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: "head",
-            source: getComponentSource("title.js"),
+            source: getComponentSource("Title.js"),
             props: {
                 title: "Edit product"
             },
@@ -233,7 +233,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: "head",
-            source: getComponentSource("title.js"),
+            source: getComponentSource("Title.js"),
             props: {
                 title: "Create a new product"
             },
@@ -266,16 +266,16 @@ exports = module.exports = {
         {
             id: "ckeditor",
             areaId: 'head',
-            source: getComponentSource("script.js", true),
+            source: getComponentSource("Script.js", true),
             props: {
-                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
+                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/Ckeditor.js']),
             },
             sortOrder: 1
         },
         {
             id: "dragable",
             areaId: 'head',
-            source: getComponentSource("script.js", true),
+            source: getComponentSource("Script.js", true),
             props: {
                 src: 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.12/lib/swappable.js',
                 async: true
@@ -353,7 +353,7 @@ exports = module.exports = {
         {
             id: "productGrid",
             areaId: 'content',
-            source: getComponentSource("catalog/components/admin/product/grid/grid.js"),
+            source: getComponentSource("catalog/components/admin/product/grid/Grid.js"),
             props: {
                 limit: 20
             },
@@ -381,7 +381,7 @@ exports = module.exports = {
         {
             id: 'title',
             areaId: 'head',
-            source: getComponentSource("title.js", true),
+            source: getComponentSource("Title.js", true),
             props: {
                 title: "Products"
             },
@@ -390,7 +390,7 @@ exports = module.exports = {
         {
             id: 'statusColumn',
             areaId: 'productGridHeader',
-            source: getComponentSource("grid/headers/status.js"),
+            source: getComponentSource("grid/headers/Status.js"),
             props: {
                 title: "Status",
                 id: "status"
@@ -400,7 +400,7 @@ exports = module.exports = {
         {
             id: 'statusRow',
             areaId: 'productGridRow',
-            source: getComponentSource("grid/rows/status.js"),
+            source: getComponentSource("grid/rows/Status.js"),
             props: {
                 id: "status"
             },
@@ -409,7 +409,7 @@ exports = module.exports = {
         {
             id: 'nameColumn',
             areaId: 'productGridHeader',
-            source: getComponentSource("grid/headers/basic.js"),
+            source: getComponentSource("grid/headers/Basic.js"),
             props: {
                 title: "Product name",
                 id: "name"
@@ -448,7 +448,7 @@ exports = module.exports = {
         {
             id: 'priceColumn',
             areaId: 'productGridHeader',
-            source: getComponentSource("grid/headers/fromTo.js"),
+            source: getComponentSource("grid/headers/FromTo.js"),
             props: {
                 title: "Price",
                 id: "price"
@@ -467,7 +467,7 @@ exports = module.exports = {
         {
             id: 'qtyColumn',
             areaId: 'productGridHeader',
-            source: getComponentSource("grid/headers/fromTo.js"),
+            source: getComponentSource("grid/headers/FromTo.js"),
             props: {
                 title: "Qty",
                 id: "qty"
@@ -477,7 +477,7 @@ exports = module.exports = {
         {
             id: 'qtyRow',
             areaId: 'productGridRow',
-            source: getComponentSource("grid/rows/basic.js"),
+            source: getComponentSource("grid/rows/Basic.js"),
             props: {
                 id: "qty"
             },
@@ -486,7 +486,7 @@ exports = module.exports = {
         {
             id: 'skuColumn',
             areaId: 'productGridHeader',
-            source: getComponentSource("grid/headers/basic.js"),
+            source: getComponentSource("grid/headers/Basic.js"),
             props: {
                 title: "SKU",
                 id: "sku"
@@ -496,7 +496,7 @@ exports = module.exports = {
         {
             id: 'skuRow',
             areaId: 'productGridRow',
-            source: getComponentSource("grid/rows/basic.js"),
+            source: getComponentSource("grid/rows/Basic.js"),
             props: {
                 id: "sku"
             },
@@ -507,7 +507,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: "head",
-            source: getComponentSource("title.js"),
+            source: getComponentSource("Title.js"),
             props: {
                 title: "Edit category"
             },
@@ -518,7 +518,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: "head",
-            source: getComponentSource("title.js"),
+            source: getComponentSource("Title.js"),
             props: {
                 title: "Create a new category"
             },
@@ -538,7 +538,7 @@ exports = module.exports = {
         {
             id: "categoryForm",
             areaId: "content",
-            source: getComponentSource("catalog/components/admin/category/edit/categoryEditForm.js"),
+            source: getComponentSource("catalog/components/admin/category/edit/CategoryEditForm.js"),
             props: {
                 id: "category-edit-form",
                 method: "POST",
@@ -551,16 +551,16 @@ exports = module.exports = {
         {
             id: "ckeditor",
             areaId: 'head',
-            source: getComponentSource("script.js", true),
+            source: getComponentSource("Script.js", true),
             props: {
-                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
+                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/Ckeditor.js']),
             },
             sortOrder: 1
         },
         {
             id: "categoryEditGeneral",
             areaId: "leftSide",
-            source: getComponentSource("catalog/components/admin/category/edit/general.js"),
+            source: getComponentSource("catalog/components/admin/category/edit/General.js"),
             props: {
                 browserApi: buildAdminUrl("fileBrowser", [""]),
                 deleteApi: buildAdminUrl("fileDelete", [""]),
@@ -572,7 +572,7 @@ exports = module.exports = {
         {
             id: "categoryEditSEO",
             areaId: "rightSide",
-            source: getComponentSource("catalog/components/admin/category/edit/seo.js"),
+            source: getComponentSource("catalog/components/admin/category/edit/Seo.js"),
             props: {},
             sortOrder: 20
         },
@@ -589,7 +589,7 @@ exports = module.exports = {
         {
             id: "attributeGrid",
             areaId: 'content',
-            source: getComponentSource("catalog/components/admin/attribute/grid/grid.js"),
+            source: getComponentSource("catalog/components/admin/attribute/grid/Grid.js"),
             props: {
                 limit: 20
             },
@@ -617,7 +617,7 @@ exports = module.exports = {
         {
             id: 'title',
             areaId: 'head',
-            source: getComponentSource("title.js", true),
+            source: getComponentSource("Title.js", true),
             props: {
                 title: "Attributes"
             },
@@ -626,7 +626,7 @@ exports = module.exports = {
         {
             id: 'nameColumn',
             areaId: 'attributeGridHeader',
-            source: getComponentSource("grid/headers/basic.js"),
+            source: getComponentSource("grid/headers/Basic.js"),
             props: {
                 title: "Attribute name",
                 id: "attribute_name"
@@ -738,7 +738,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: "head",
-            source: getComponentSource("title.js"),
+            source: getComponentSource("Title.js"),
             props: {
                 title: "Edit attribute"
             },
@@ -749,7 +749,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: "head",
-            source: getComponentSource("title.js"),
+            source: getComponentSource("Title.js"),
             props: {
                 title: "Create a new attribute"
             },
@@ -781,7 +781,7 @@ exports = module.exports = {
         {
             id: "attributeEditGeneral",
             areaId: "leftSide",
-            source: getComponentSource("catalog/components/admin/attribute/edit/general.js"),
+            source: getComponentSource("catalog/components/admin/attribute/edit/General.js"),
             props: {
             },
             sortOrder: 10
@@ -789,7 +789,7 @@ exports = module.exports = {
         {
             id: "attributeEditAvaibility",
             areaId: "rightSide",
-            source: getComponentSource("catalog/components/admin/attribute/edit/avaibility.js"),
+            source: getComponentSource("catalog/components/admin/attribute/edit/Avaibility.js"),
             props: {
             },
             sortOrder: 10

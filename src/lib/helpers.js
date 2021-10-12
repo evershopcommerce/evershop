@@ -84,7 +84,7 @@ const rootPath = (() => {
 helpers.CONSTANTS = Object.freeze({
     ROOTPATH: rootPath,
     LIBPATH: path.resolve(__dirname),
-    MOLDULESPATH: path.resolve(__dirname, "modules"),
+    MOLDULESPATH: path.resolve(__dirname, "..", "modules"),
     PUBLICPATH: path.resolve(rootPath, "public"),
     MEDIAPATH: path.resolve(rootPath, "media"),
     NODEMODULEPATH: path.resolve(rootPath, "node_modules"),

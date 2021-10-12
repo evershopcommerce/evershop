@@ -6,7 +6,7 @@ exports = module.exports = {
         {
             id: "layout",
             areaId: "body",
-            source: getComponentSource("cms/components/admin/layout.js", true),
+            source: getComponentSource("cms/components/admin/Layout.js", true),
             props: {},
             sortOrder: 1
         },
@@ -41,21 +41,21 @@ exports = module.exports = {
         {
             id: "notification",
             areaId: "body",
-            source: getComponentSource("notification.js", true),
+            source: getComponentSource("Notification.js", true),
             props: {},
             sortOrder: 1
         },
         {
             id: "navigation",
             areaId: "admin.navigation",
-            source: getComponentSource("cms/components/admin/navigation.js", true),
+            source: getComponentSource("cms/components/admin/Navigation.js", true),
             props: {},
             sortOrder: 0
         },
         {
             id: "quick.link.group",
             areaId: "admin.menu",
-            source: getComponentSource("cms/components/admin/navigationItemGroup.js", true),
+            source: getComponentSource("cms/components/admin/NavigationItemGroup.js", true),
             props: {
                 id: 'quick.links',
                 name: 'Quick Links'
@@ -65,7 +65,7 @@ exports = module.exports = {
         {
             id: "cms.group",
             areaId: "admin.menu",
-            source: getComponentSource("cms/components/admin/navigationItemGroup.js", true),
+            source: getComponentSource("cms/components/admin/NavigationItemGroup.js", true),
             props: {
                 id: 'cms.links',
                 name: 'CMS'
@@ -97,7 +97,7 @@ exports = module.exports = {
         {
             id: "bundleJS",
             areaId: "after.body",
-            source: getComponentSource("cms/components/bundleJs.js", true),
+            source: getComponentSource("cms/components/BundleJs.js", true),
             props: {},
             sortOrder: 10
         },
@@ -105,7 +105,7 @@ exports = module.exports = {
         {
             id: "fontawesome",
             areaId: 'head',
-            source: getComponentSource("link.js", true),
+            source: getComponentSource("Link.js", true),
             props: {
                 "href": buildAdminUrl("adminStaticAsset", [getAdminCssFile('fontawesome/css/all.min.css').replace("/", "")]),
                 "rel": "stylesheet"
@@ -115,7 +115,7 @@ exports = module.exports = {
         {
             id: "bundleCss",
             areaId: "head",
-            source: getComponentSource("cms/components/bundleCss.js", true),
+            source: getComponentSource("cms/components/BundleCss.js", true),
             props: {},
             sortOrder: 10
         }
@@ -124,7 +124,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: 'content',
-            source: getComponentSource("title.js"),
+            source: getComponentSource("Title.js"),
             props: {
                 title: "Edit page"
             },
@@ -135,7 +135,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: 'content',
-            source: getComponentSource("title.js"),
+            source: getComponentSource("Title.js"),
             props: {
                 title: "Create a new page"
             },
@@ -226,7 +226,7 @@ exports = module.exports = {
         {
             id: 'title',
             areaId: 'head',
-            source: getComponentSource("title.js", true),
+            source: getComponentSource("Title.js", true),
             props: {
                 title: "Pages"
             },
@@ -235,7 +235,7 @@ exports = module.exports = {
         {
             id: 'statusColumn',
             areaId: 'pageGridHeader',
-            source: getComponentSource("grid/headers/status.js"),
+            source: getComponentSource("grid/headers/Status.js"),
             props: {
                 title: "Status",
                 id: "status"
@@ -245,7 +245,7 @@ exports = module.exports = {
         {
             id: 'statusRow',
             areaId: 'pageGridRow',
-            source: getComponentSource("grid/rows/status.js"),
+            source: getComponentSource("grid/rows/Status.js"),
             props: {
                 id: "status"
             },
@@ -254,7 +254,7 @@ exports = module.exports = {
         {
             id: 'nameColumn',
             areaId: 'pageGridHeader',
-            source: getComponentSource("grid/headers/basic.js"),
+            source: getComponentSource("grid/headers/Basic.js"),
             props: {
                 title: "Page name",
                 id: "name"
@@ -276,7 +276,7 @@ exports = module.exports = {
         {
             id: "layout",
             areaId: 'content',
-            source: getComponentSource("cms/components/admin/dashboard/layout.js"),
+            source: getComponentSource("cms/components/admin/dashboard/Layout.js"),
             props: {},
             sortOrder: 10
         },
@@ -291,7 +291,7 @@ exports = module.exports = {
         {
             id: 'title',
             areaId: 'head',
-            source: getComponentSource("title.js", true),
+            source: getComponentSource("Title.js", true),
             props: {
                 title: "Dashboard"
             },
