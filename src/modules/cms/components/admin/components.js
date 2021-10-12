@@ -1,4 +1,4 @@
-const { getComponentSource, getAdminCssFile, getAdminJsFile } = require("../../../../lib/helpers");
+const { getComponentSource, getAdminCssFile } = require("../../../../lib/helpers");
 const { buildAdminUrl } = require("../../../../lib/routie");
 
 exports = module.exports = {
@@ -155,7 +155,7 @@ exports = module.exports = {
         {
             id: "createForm",
             areaId: 'content',
-            source: getComponentSource("cms/components/admin/page/edit/pageEditForm.js"),
+            source: getComponentSource("cms/components/admin/page/edit/PageEditForm.js"),
             props: {
                 id: "page-edit-form",
                 method: "POST",
@@ -168,7 +168,7 @@ exports = module.exports = {
         {
             id: "pageEditGeneral",
             areaId: 'leftSide',
-            source: getComponentSource("cms/components/admin/page/edit/general.js"),
+            source: getComponentSource("cms/components/admin/page/edit/General.js"),
             props: {
                 browserApi: buildAdminUrl("fileBrowser", [""]),
                 deleteApi: buildAdminUrl("fileDelete", [""]),
@@ -180,16 +180,16 @@ exports = module.exports = {
         {
             id: 'pageEditSEO',
             areaId: 'rightSide',
-            source: getComponentSource("cms/components/admin/page/edit/seo.js"),
+            source: getComponentSource("cms/components/admin/page/edit/Seo.js"),
             props: {},
             sortOrder: 20
         },
         {
             id: "ckeditor",
             areaId: 'head',
-            source: getComponentSource("script.js", true),
+            source: getComponentSource("Script.js", true),
             props: {
-                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
+                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/Ckeditor.js']),
             },
             sortOrder: 1
         }
@@ -198,7 +198,7 @@ exports = module.exports = {
         {
             id: "pageGrid",
             areaId: 'content',
-            source: getComponentSource("cms/components/admin/page/grid/grid.js"),
+            source: getComponentSource("cms/components/admin/page/grid/Grid.js"),
             props: {
                 limit: 20
             },
