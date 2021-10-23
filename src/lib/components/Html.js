@@ -1,5 +1,5 @@
 import React from "react";
-import Area from "./area";
+import Area from "./Area";
 
 const Html = () => {
     return <React.Fragment>

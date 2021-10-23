@@ -1,5 +1,5 @@
 import React from "react";
-import Area from "../../../../../../lib/components/area";
+import Area from "../../../../../../lib/components/Area";
 import { Name } from "./item/Name";
 import { Thumbnail } from "./item/Thumbnail";
 import { Price } from "./item/Price";

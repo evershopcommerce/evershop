@@ -108,7 +108,7 @@ module.exports = async function (request, response) {
     let entry = {};
     entry[name] = [
         path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p, "components.js"),
-        path.resolve(CONSTANTS.LIBPATH, "components", "hydrate.js"),
+        path.resolve(CONSTANTS.LIBPATH, "components", "Hydrate.js"),
     ]
     const compiler = webpack({
         mode: "development", // "production" | "development" | "none"

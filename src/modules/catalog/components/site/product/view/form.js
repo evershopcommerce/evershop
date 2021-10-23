@@ -1,4 +1,4 @@
-import Area from "../../../../../../lib/components/area"
+import Area from "../../../../../../lib/components/Area"
 import { Form } from "../../../../../../lib/components/form/Form";
 import { Field } from "../../../../../../lib/components/form/Field";
 import { get } from "../../../../../../lib/util/get";

@@ -1,4 +1,4 @@
-import Area from "../../../../../lib/components/area";
+import Area from "../../../../../lib/components/Area";
 import React from "react";
 
 export default function DashboardLayout() {

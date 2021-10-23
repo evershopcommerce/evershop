@@ -1,6 +1,6 @@
 import { XAxis, YAxis, Tooltip, AreaChart, Area } from 'recharts';
 import React, { useState, useEffect } from "react";
-import { Card } from '../../../../cms/components/admin/card';
+import { Card } from '../../../../cms/components/admin/Card';
 
 export default function SaleStatistic({ api }) {
     const [data, setData] = useState([]);

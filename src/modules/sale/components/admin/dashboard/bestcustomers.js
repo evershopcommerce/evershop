@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppState } from "../../../../../lib/context/app";
-import { Card } from "../../../../cms/components/admin/card";
+import { Card } from "../../../../cms/components/admin/Card";
 
 export default function BestCustomers({ listUrl }) {
     const context = useAppState();

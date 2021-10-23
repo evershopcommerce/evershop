@@ -1,7 +1,7 @@
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useAppState } from "../../../../../lib/context/app";
-import { Card } from "../../../../cms/components/admin/card";
+import { Card } from "../../../../cms/components/admin/Card";
 import Dot from "../../../../../lib/components/Dot";
 
 export default function LifetimeSale() {

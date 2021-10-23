@@ -1,6 +1,6 @@
 import React from 'react';
 import { Summary } from "./summary/Summary";
-import Area from "../../../../../lib/components/area";
+import Area from "../../../../../lib/components/Area";
 import { CheckoutSteps } from '../../../../../lib/context/checkout';
 import { CheckoutProvider } from '../../../../../lib/context/order';
 

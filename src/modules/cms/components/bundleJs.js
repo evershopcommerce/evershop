@@ -1,5 +1,5 @@
 import React from "react";
-import Script from "../../../lib/components/script";
+import Script from "../../../lib/components/Script";
 import { useAppState } from "../../../lib/context/app";
 import { get } from "../../../lib/util/get";
 

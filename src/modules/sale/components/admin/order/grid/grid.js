@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Area from "../../../../../../lib/components/area";
+import Area from "../../../../../../lib/components/Area";
 import { useAppState } from "../../../../../../lib/context/app";
-import Pagination from "../../../../../../lib/components/grid/pagination";
+import Pagination from "../../../../../../lib/components/grid/Pagination";
 import { get } from "../../../../../../lib/util/get";
 import { Checkbox } from "../../../../../../lib/components/form/fields/Checkbox";
-import { Card } from "../../../../../cms/components/admin/card";
+import { Card } from "../../../../../cms/components/admin/Card";
 import axios from "axios";
 import { useAlertContext } from "../../../../../../lib/components/modal/Alert";
 

@@ -2,7 +2,7 @@ import React from "react";
 import { get } from "../../../../../../lib/util/get";
 import { useAppState } from "../../../../../../lib/context/app";
 import ProductMediaManager from "./ProductMediaManager";
-import { Card } from "../../../../../cms/components/admin/card";
+import { Card } from "../../../../../cms/components/admin/Card";
 
 export default function Media() {
     const context = useAppState();

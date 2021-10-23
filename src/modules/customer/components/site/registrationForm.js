@@ -1,5 +1,5 @@
 import { Form } from "../../../../../../js/production/form/form.js";
-import Area from "../../../../../../js/production/area.js";
+import Area from "../../../../../../js/production/Area.js";
 import Text from "../../../../../../js/production/form/fields/text.js";
 import Password from "../../../../../../js/production/form/fields/password.js";
 import { ADD_ALERT } from "../../../../../../js/production/event-types.js";

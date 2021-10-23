@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Area from "../../../../../../lib/components/area";
+import Area from "../../../../../../lib/components/Area";
 import { Title } from '../StepTitle';
 import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../../lib/context/checkout';
 import { get } from '../../../../../../lib/util/get';

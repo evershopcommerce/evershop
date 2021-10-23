@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShipmentStep } from "./shipment/ShipmentStep";
 import { PaymentStep } from "./payment/PaymentStep";
-import Area from "../../../../../lib/components/area";
+import Area from "../../../../../lib/components/Area";
 
 export default function CheckoutSteps() {
     return <Area

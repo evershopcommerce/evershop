@@ -6,7 +6,7 @@ import { useAppState } from "../../../../../../lib/context/app";
 import uniqid from "uniqid";
 import ProductMediaManager from "./ProductMediaManager";
 import { Field } from "../../../../../../lib/components/form/Field";
-import { Card } from "../../../../../cms/components/admin/card";
+import { Card } from "../../../../../cms/components/admin/Card";
 import axios from "axios";
 import { useAlertContext } from "../../../../../../lib/components/modal/Alert";
 import { Input } from "../../../../../../lib/components/form/fields/Input";

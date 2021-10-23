@@ -1,5 +1,5 @@
 import React from "react";
-import Area from "../../../../../../lib/components/area";
+import Area from "../../../../../../lib/components/Area";
 import Button from "../../../../../../lib/components/form/Button";
 import { Field } from "../../../../../../lib/components/form/Field";
 import { Form } from "../../../../../../lib/components/form/Form";

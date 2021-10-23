@@ -1,9 +1,9 @@
 import React from "react";
-import Area from "../../../../../../lib/components/area";
+import Area from "../../../../../../lib/components/Area";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 import { Field } from "../../../../../../lib/components/form/Field";
-import { Card } from "../../../../../cms/components/admin/card";
+import { Card } from "../../../../../cms/components/admin/Card";
 
 export default function General(props) {
     const context = useAppState();

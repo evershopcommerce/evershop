@@ -1,5 +1,5 @@
 import React from "react";
-import Area from "../../../../../lib/components/area";
+import Area from "../../../../../lib/components/Area";
 
 export function AddressSummary({ address }) {
     return <Area

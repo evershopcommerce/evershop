@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "../../../lib/components/link";
+import Link from "../../../lib/components/Link";
 import { useAppState } from "../../../lib/context/app";
 import { get } from "../../../lib/util/get";
 

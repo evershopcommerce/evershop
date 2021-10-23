@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Area from "../../../../../../lib/components/area";
+import Area from "../../../../../../lib/components/Area";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 import Sorting from "./Sorting";

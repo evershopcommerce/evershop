@@ -1,5 +1,5 @@
 import React from "react";
-import Area from "../../../../../lib/components/area";
+import Area from "../../../../../lib/components/Area";
 import Button from "../../../../../lib/components/form/Button";
 import { useAppState } from "../../../../../lib/context/app";
 const { get } = require("../../../../../lib/util/get");

@@ -1,6 +1,6 @@
 import { Form } from "../../../../../../js/production/form/form.js";
-import Area from "../../../../../../js/production/area.js";
-import A from "../../../../../../js/production/a.js";
+import Area from "../../../../../../js/production/Area.js";
+import A from "../../../../../../js/production/A.js";
 import Text from "../../../../../../js/production/form/fields/text.js";
 import Password from "../../../../../../js/production/form/fields/password.js";
 

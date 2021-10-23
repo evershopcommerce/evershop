@@ -1,5 +1,5 @@
 import React from "react";
-import Area from "../../../../../../lib/components/area";
+import Area from "../../../../../../lib/components/Area";
 
 export default function OrderEdit() {
     return <div className="grid grid-cols-3 gap-x-2 grid-flow-row ">

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import Area from "../../../../../../lib/components/area"
+import Area from "../../../../../../lib/components/Area"
 import { Field } from '../../../../../../lib/components/form/Field';
 
 function Methods({ methods, selectedMethod, setSelectedMethod }) {

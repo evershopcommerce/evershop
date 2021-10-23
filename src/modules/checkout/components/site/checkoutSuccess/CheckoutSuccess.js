@@ -1,6 +1,6 @@
 import React from 'react';
 import { Summary } from "./summary/Summary";
-import Area from "../../../../../lib/components/area";
+import Area from "../../../../../lib/components/Area";
 import { get } from '../../../../../lib/util/get';
 import { useAppState } from '../../../../../lib/context/app';
 import { AddressSummary } from "../../../../customer/components/site/address/AddressSummary";
