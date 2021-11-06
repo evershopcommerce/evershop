@@ -83,7 +83,7 @@ for (const route of getRoutes) {
         let entry = {};
         entry[name] = [
             path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p, "components.js"),
-            path.resolve(CONSTANTS.LIBPATH, "components", "hydrate.js"),
+            path.resolve(CONSTANTS.LIBPATH, "components", "Hydrate.js"),
         ]
         const compiler = webpack({
             mode: "production", // "production" | "development" | "none"
