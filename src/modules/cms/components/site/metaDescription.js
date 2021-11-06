@@ -1,5 +1,5 @@
 import React from "react";
-import Meta from "../../../../lib/components/meta";
+import Meta from "../../../../lib/components/Meta";
 import { useAppState } from "../../../../lib/context/app";
 import { get } from "../../../../lib/util/get";
 

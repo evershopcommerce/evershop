@@ -1,5 +1,5 @@
 import React from "react";
-import Title from "../../../../lib/components/title";
+import Title from "../../../../lib/components/Title";
 import { useAppState } from "../../../../lib/context/app";
 import { get } from "../../../../lib/util/get";
 

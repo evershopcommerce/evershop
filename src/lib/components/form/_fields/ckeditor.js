@@ -1,4 +1,4 @@
-import Textarea from "./textarea";
+import Textarea from "./Textarea";
 import React from "react";
 import { formContext } from "../form";
 import { get } from "../../../util/get";

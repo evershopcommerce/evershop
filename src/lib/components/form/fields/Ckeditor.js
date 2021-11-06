@@ -1,4 +1,4 @@
-import { TextArea } from "./TextArea";
+import { TextArea } from "./Textarea";
 import React from "react";
 import Button from "../Button";
 import { Input } from "./Input";

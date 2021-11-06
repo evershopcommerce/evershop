@@ -1,6 +1,6 @@
 {
   "name": "@nodejscart/core",
-  "version": "1.0.0-alpha.12",
+  "version": "1.0.0-alpha.15",
   "description": "A shopping cart platform with Express, React and MySQL",
   "files": [
     "bin",
