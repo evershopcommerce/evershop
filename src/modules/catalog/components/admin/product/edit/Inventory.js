@@ -38,6 +38,7 @@ export default function Inventory({ data }) {
                 placeholder="Quantity"
                 label="Quantity"
                 type="text"
+                validationRules={["notEmpty"]}
             />
         </Card.Session>
     </Card>;

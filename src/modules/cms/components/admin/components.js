@@ -189,7 +189,7 @@ exports = module.exports = {
             areaId: 'head',
             source: getComponentSource("Script.js", true),
             props: {
-                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/Ckeditor.js']),
+                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
             },
             sortOrder: 1
         }

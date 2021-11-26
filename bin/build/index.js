@@ -121,6 +121,11 @@ for (const route of getRoutes) {
             output: {
                 path: path.resolve(CONSTANTS.ROOTPATH, "./.nodejscart/build", _p),
                 filename: "[fullhash].js",
+            },
+            resolve: {
+                alias: {
+                    react: path.resolve(CONSTANTS.NODEMODULEPATH, 'react'),
+                }
             }
         });
 
