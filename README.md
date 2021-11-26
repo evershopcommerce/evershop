@@ -7,7 +7,11 @@ An E-Commerce platform using Nodejs, ExpressJs and ReactJs.
 - ExpressJS
 - MySQL
 
-## Next steps
+# Demo
+### [Store](https://demo.nodejscart.com/)
+### [Admin panel](https://demo.nodejscart.com/admin/)
+
+# Next steps
 
 - [ ] Customer module
 - [ ] Discount module
@@ -15,12 +19,8 @@ An E-Commerce platform using Nodejs, ExpressJs and ReactJs.
 - [ ] Docker
 - [ ] Unit test
 
-## Installation guide
+# Installation guide
 - #To be documented
-
-**Prerequisites**
-- NodeJS 12+
-- MySQL 5.7+
 
 ## LICENCE
 - [GPL-3.0 License](https://github.com/nodeonline/nodejscart/blob/main/LICENSE)
