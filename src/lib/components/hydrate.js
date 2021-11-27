@@ -1,4 +1,4 @@
-import Html from "./html";
+import Html from "./Html";
 import React from "react";
 import ReactDOM from "react-dom";
 import { AppProvider } from "../context/app";

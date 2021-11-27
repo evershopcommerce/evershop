@@ -1,10 +1,8 @@
 import React from 'react';
 import { Field } from "../../../../../lib/components/form/Field";
 import { ProvinceOptions } from "../../../../../lib/components/locale/ProvinceOption";
-import { Select } from "../../../../../lib/components/form/fields/select";
 import { CountryOptions } from "../../../../../lib/components/locale/CountryOption";
 import Area from "../../../../../lib/components/Area";
-import { Form } from '../../../../../lib/components/form/Form';
 import { get } from '../../../../../lib/util/get';
 
 function Province({ selectedCountry, selectedProvince, formId }) {

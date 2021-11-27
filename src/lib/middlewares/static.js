@@ -23,7 +23,7 @@ module.exports = exports = (request, response, next) => {
     } else if (existsSync(path.join(CONSTANTS.ROOTPATH, 'dist/theme', _path))) {
         staticMiddleware("dist/theme")(request, response, next);
     } else if (existsSync(path.join(CONSTANTS.MEDIAPATH, _path))) {
-        staticMiddleware('media')(request, response, next);
+        staticMiddleware(CONSTANTS.MEDIAPATH)(request, response, next);
     } else if (existsSync(path.join(CONSTANTS.ROOTPATH, ".nodejscart/build", _path))) {
         staticMiddleware(path.join(CONSTANTS.ROOTPATH, ".nodejscart/build"))(request, response, next);
     } else if (existsSync(path.join(CONSTANTS.ROOTPATH, "node_modules", "@nodejscart/core/dist/theme", _path))) {
