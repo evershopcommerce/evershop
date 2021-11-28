@@ -1,11 +1,9 @@
 const { select } = require('@nodejscart/mysql-query-builder')
 const { pool } = require('../../../../../lib/mysql/connection');
 const { assign } = require('../../../../../lib/util/assign');
-const { get } = require("../../../../../lib/util/get");
 const path = require('path');
 const fs = require('fs');
 const { CONSTANTS } = require("../../../../../lib/helpers");
-const config = require('config');
 const { buildSiteUrl } = require("../../../../../lib/routie");
 
 module.exports = async (request, response) => {
