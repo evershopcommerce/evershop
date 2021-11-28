@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppState } from '../../../../../lib/context/app';
 import { get } from '../../../../../lib/util/get';
-import ProductList from '../product/list/list';
+import ProductList from '../product/list/List';
 
 export default function featuredProducts() {
     const context = useAppState();

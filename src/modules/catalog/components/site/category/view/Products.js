@@ -1,7 +1,6 @@
 import React from "react";
-import ProductList from '../../product/list/list';
+import ProductList from '../../product/list/List';
 import Pagination from "../../product/list/Pagination";
-import Sorting from "../../product/list/sorting";
 import { useAppState } from "../../../../../../lib/context/app";
 import { get } from "../../../../../../lib/util/get";
 
