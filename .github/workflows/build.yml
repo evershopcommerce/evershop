@@ -1,4 +1,4 @@
-name: Github build and test
+name: Github build
 
 on: [pull_request]
 
