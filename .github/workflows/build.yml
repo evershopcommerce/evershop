@@ -1,0 +1,32 @@
+name: Github build and test
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ '12', '14', '15']
+    name: Node ${{ matrix.node }} sample
+
+    # env:
+    #   php-ini-values: post_max_size=256M
+    #   wp-bp-directory: src/wp-content/plugins/buddypress
+    #   DB_DATABASE: db_test
+    #   DB_USER: root
+    #   DB_PASSWORD: 'root'
+    #   DB_HOST: localhost
+
+    steps:
+      # - run: |
+      #     sudo /etc/init.d/mysql start
+      #     mysql -e 'CREATE DATABASE db_test;' -uroot -proot
+      #     mysql -e 'SHOW DATABASES;' -uroot -proot
+      - uses: actions/checkout@v2
+      - name: Setup node js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm install
+      - run: npm run test
