@@ -16,7 +16,8 @@
     "dev": "nodemon -e js,scss --ignore 'src/modules/cms/components/site/tailwind.scss' --exec \"npx tailwindcss  -o ./src/modules/cms/components/site/tailwind.scss && babel-node ./bin/nodejscart dev\"",
     "prepare": "npx babel src -d dist --copy-files --ignore src/theme/*",
     "build": "nodejscart build",
-    "start": "nodejscart start"
+    "start": "nodejscart start",
+    "test": "jest"
   },
   "author": "The Nguyen (https://nodejscart.com)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
