@@ -4,7 +4,6 @@ const { buildSiteUrl } = require("../../../../../lib/routie");
 const path = require('path');
 const fs = require('fs');
 const { CONSTANTS } = require("../../../../../lib/helpers");
-const config = require('config');
 
 module.exports = async (request, response, stack) => {
     let query = await stack["productsQueryInit"];
