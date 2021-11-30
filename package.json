@@ -47,7 +47,10 @@
     "session-file-store": "^1.5.0",
     "sharp": "^0.27.2",
     "uniqid": "^5.3.0",
-    "yargs": "^17.0.0-candidate.13"
+    "yargs": "^17.0.0-candidate.13",
+    "@stripe/react-stripe-js": "^1.5.0",
+    "@stripe/stripe-js": "^1.18.0",
+    "stripe": "^8.176.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
