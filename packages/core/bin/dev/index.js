@@ -8,11 +8,6 @@ const http = require('http');
 const { addComponents } = require('../../src/lib/componee');
 const debug = require('debug')('express:server');
 
-require('@babel/register')({
-    presets: ['@babel/preset-react'],
-    ignore: ['node_modules']
-});
-
 /* Loading modules and initilize routes, components and services */
 const modules = readdirSync(path.resolve(__dirname, "../../src/modules/"), { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())

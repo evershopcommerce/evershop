@@ -1,0 +1,61 @@
+{
+  "name": "@nodejscart/core",
+  "version": "1.0.0-alpha.18",
+  "description": "A shopping cart platform with Express, React and MySQL",
+  "files": [
+    "bin",
+    "src",
+    "dist",
+    "test"
+  ],
+  "bin": {
+    "nodejscart": "./bin/nodejscart"
+  },
+  "scripts": {
+    "prepublishOnly": "npx babel src -d dist --copy-files --ignore src/theme/*",
+    "dev": "nodejscart dev",
+    "build": "nodejscart build",
+    "start": "nodejscart start",
+    "test": "jest"
+  },
+  "author": "The Nguyen (https://nodejscart.com)",
+  "license": "GNU GENERAL PUBLIC LICENSE 3.0",
+  "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "@babel/register": "^7.16.0",
+    "@hapi/topo": "^5.0.0",
+    "@nodejscart/mysql-query-builder": "^1.2.8",
+    "@shopify/draggable": "^1.0.0-beta.8",
+    "@stripe/react-stripe-js": "^1.5.0",
+    "@stripe/stripe-js": "^1.18.0",
+    "axios": "^0.21.1",
+    "babel-loader": "^8.2.3",
+    "body-parser": "^1.19.0",
+    "clean-css": "^5.1.3",
+    "config": "^3.3.6",
+    "dayjs": "^1.10.6",
+    "debug": "^4.3.2",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "flatpickr": "^4.6.9",
+    "immer": "^9.0.3",
+    "luxon": "^2.0.2",
+    "multer": "^1.4.2",
+    "mysql": "^2.18.1",
+    "node-sass": "^6.0.1",
+    "promise.allsettled": "^1.0.4",
+    "pubsub-js": "^1.9.3",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-toastify": "^6.2.0",
+    "recharts": "^2.0.9",
+    "session-file-store": "^1.5.0",
+    "sharp": "^0.27.2",
+    "stripe": "^8.176.0",
+    "uniqid": "^5.3.0",
+    "webpack": "^5.64.4",
+    "yargs": "^16.2.0"
+  }
+}
