@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         node: [ '12', '14', '15']
-    name: Node ${{ matrix.node }} sample
+    name: Node ${{ matrix.node }}
 
     # env:
     #   php-ini-values: post_max_size=256M
@@ -30,6 +30,4 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm install -g npm@latest
       - run: npm install
-      - name: Install core package dependencies
-        run: cd packages/core && npm install
       - run: npm run test
