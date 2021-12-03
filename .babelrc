@@ -10,16 +10,5 @@
       }
     ],
     "@babel/preset-react"
-  ],
-  "plugins": [
-    // [
-    //   "styled-jsx/babel"
-    // ],
-    // [
-    //   "@babel/plugin-proposal-class-properties",
-    //   {
-    //     // "loose": true
-    //   }
-    // ]
   ]
 }
