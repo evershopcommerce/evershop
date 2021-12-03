@@ -1,5 +1,5 @@
-# NodejsCart
-An E-Commerce platform using Nodejs, ExpressJs and ReactJs.
+# <div align="center">[NodeJS Cart](https://github.com/nodeonline/nodejscart/)</div>
+An E-commerce platform using ExpressJS, ReactJS and MySQL.
 
 [![Build](https://github.com/nodeonline/nodejscart/actions/workflows/build.yml/badge.svg)](https://github.com/nodeonline/nodejscart/actions/workflows/build.yml)
 [![npm version](https://badge.fury.io/js/%40nodejscart%2Fcore.svg)](https://badge.fury.io/js/%40nodejscart%2Fcore)
