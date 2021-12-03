@@ -30,4 +30,6 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm install -g npm@latest
       - run: npm install
+      - name: Install core package dependencies
+        run: cd packages/core && npm install
       - run: npm run test
