@@ -28,7 +28,7 @@ An E-commerce platform using ExpressJS, ReactJS and MySQL.
 - [ ] Unit test
 
 ## Installation guide
-- #To be documented
+- [Installation guide](https://nodejscart.com/docs/getting-started)
 
 ## LICENCE
 - [GPL-3.0 License](https://github.com/nodeonline/nodejscart/blob/main/LICENSE)
