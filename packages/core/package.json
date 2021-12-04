@@ -1,6 +1,6 @@
 {
   "name": "@nodejscart/core",
-  "version": "1.0.0-alpha.20",
+  "version": "1.0.0-alpha.21",
   "description": "A shopping cart platform with ExpressJS, React and MySQL",
   "files": [
     "bin",
@@ -12,11 +12,12 @@
     "nodejscart": "./bin/nodejscart"
   },
   "scripts": {
-    "prepublishOnly": "npx babel src -d dist --copy-files --ignore src/theme/*",
+    "prepublishOnly": "npx babel src -d dist --copy-files --ignore src/theme/* && node prepublish.js",
     "dev": "nodejscart dev",
     "build": "nodejscart build",
     "start": "nodejscart start",
-    "test": "jest"
+    "test": "jest",
+    "postpublish": "node postpublish.js"
   },
   "author": "The Nguyen (https://nodejscart.com)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
