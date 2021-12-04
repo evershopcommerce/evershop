@@ -3,7 +3,7 @@ const { AppProvider } = require("../../../lib/context/app");
 const { renderToString } = require("react-dom/server");
 import React from 'react';
 import { getComponentsByRoute } from '../../../lib/componee';
-import Html from '../../../lib/components/html';
+import Html from '../../../lib/components/Html';
 import { Alert } from '../../../lib/components/modal/Alert';
 
 module.exports = async function (request, response, stack, next) {
