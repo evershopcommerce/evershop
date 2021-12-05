@@ -1,10 +1,11 @@
 node_modules
+!node_modules/@nodejscart/core/*
 dist
 .idea/*
 .nodejscart
 .vscode/*
-packages
 npm-debug.log
 package-lock.json
 prod.js
 media
+.DS_Store
