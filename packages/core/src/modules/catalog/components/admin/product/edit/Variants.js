@@ -325,18 +325,18 @@ function variantReducer(variants, action) {
 function Variants({ variantAttributes, variantProducts }) {
   const [variants, dispatch] = React.useReducer(variantReducer, variantProducts);
 
-  const validate = (formId, errors) => {
-    setVariants(variants.map((v) => {
-      v.duplicate = false;
-      variants.forEach((variant) => {
-        if (v.id !== variant.id && isDuplicated(v.attributes, variant.attributes)) {
-          v.duplicate = true;
-          errors['variants'] = "Duplicated variant";
-        }
-      });
+  const validate = (formId, errors) => {// TODO: Fix validation variants when editing product
+    // setVariants(variants.map((v) => {
+    //   v.duplicate = false;
+    //   variants.forEach((variant) => {
+    //     if (v.id !== variant.id && isDuplicated(v.attributes, variant.attributes)) {
+    //       v.duplicate = true;
+    //       errors['variants'] = "Duplicated variant";
+    //     }
+    //   });
 
-      return v;
-    }))
+    //   return v;
+    // }))
   };
 
   React.useEffect(() => {
