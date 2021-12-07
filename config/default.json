@@ -89,5 +89,14 @@
                 ]
             }
         }
+    },
+    "system": {
+        "database": {
+            "host": "localhost",
+            "port": 3306,
+            "database": "nodejscart",
+            "user": "admin",
+            "password": "123456"
+        }
     }
 }

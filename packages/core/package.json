@@ -1,7 +1,7 @@
 {
   "name": "@nodejscart/core",
-  "version": "1.0.0-alpha.21",
-  "description": "A shopping cart platform with ExpressJS, React and MySQL",
+  "version": "1.0.0-alpha.22",
+  "description": "A ecommerce platform with ReactJS and MySQL",
   "files": [
     "bin",
     "src",
@@ -21,6 +21,19 @@
   },
   "author": "The Nguyen (https://nodejscart.com)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nodeonline/nodejscart.git"
+  },
+  "keywords": [
+    "ecommerce",
+    "shopping cart",
+    "cart"
+  ],
+  "bugs": {
+    "url": "https://github.com/nodeonline/nodejscart/issues"
+  },
+  "homepage": "https://github.com/nodeonline/nodejscart",
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.16.4",
     "@babel/preset-env": "^7.16.4",

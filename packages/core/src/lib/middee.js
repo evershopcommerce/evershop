@@ -17,7 +17,6 @@ var middee = {
                 let route = request._route;
                 middee.stack[route.id] = [];
                 logger.log('info', `REQUEST ${request.originalUrl}`);
-                logger.log('error', `REQUEST ${request.originalUrl}`);
                 next();
             }
         }
