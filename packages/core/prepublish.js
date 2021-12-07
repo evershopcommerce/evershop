@@ -9,3 +9,7 @@ var result = source.replace(/\.\.\/src/g, '../dist');
 fs.writeFile('./bin/dev/index.js', result, 'utf8', function (err) {
     if (err) return console.log(err);
 });
+
+fs.copyFile('../../README.md', './README.md', (err) => {
+    if (err) throw err;
+});
