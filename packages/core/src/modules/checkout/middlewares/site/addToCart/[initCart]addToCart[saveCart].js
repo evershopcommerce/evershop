@@ -1,3 +1,5 @@
+const logger = require("../../../../../lib/log/logger");
+
 module.exports = async (request, response, stack, next) => {
     try {
         let cart = await stack["initCart"];
@@ -18,7 +20,7 @@ module.exports = async (request, response, stack, next) => {
             message: "Product was added to cart successfully"
         };
     } catch (error) {
-        console.log(error);
+        logger.log("error", `Exception in middleware ${id}`, { message: error.message, stack: error.stack })
         response.$body = {
             data: {},
             success: false,

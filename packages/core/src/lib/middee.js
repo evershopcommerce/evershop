@@ -1,6 +1,7 @@
 const { resolve } = require('path');
 const { existsSync, readdirSync } = require('fs');
 const Topo = require('@hapi/topo');
+const logger = require('./log/logger');
 
 module.exports = exports = {};
 
@@ -15,9 +16,8 @@ var middee = {
             middleware: function (request, response, next) {
                 let route = request._route;
                 middee.stack[route.id] = [];
-                response.on('end', function () {
-                    console.log('Request is ended')
-                });
+                logger.log('info', `REQUEST ${request.originalUrl}`);
+                logger.log('error', `REQUEST ${request.originalUrl}`);
                 next();
             }
         }
@@ -52,22 +52,20 @@ function addMiddleware(id, middleware, routeId = null, before = null, after = nu
                 before: before,
                 after: after,
                 middleware: function (request, response, next) {
-                    //console.log(id)
+                    logger.log('info', `Executing middleware ${id}`);
                     // Workaround for default middlewares
                     if (middleware.length == 4) {
                         middee.stack[request._route.id][id] = middleware(request, response, middee.stack[request._route.id], next);
                         if (middee.stack[request._route.id][id] instanceof Promise)
                             middee.stack[request._route.id][id].catch(e => {
-                                console.log("I catched a rejection. I am not gonna tell anybody", id)
-                                console.log(e)
+                                logger.log("error", `Exception in middleware ${id}`, { message: e.message, stack: e.stack })
                             })
                     }
                     else {
                         middee.stack[request._route.id][id] = middleware(request, response, middee.stack[request._route.id]);
                         if (middee.stack[request._route.id][id] instanceof Promise)
                             middee.stack[request._route.id][id].catch(e => {
-                                console.log("I catched a rejection. I am not gonna tell anybody", id)
-                                console.log(e)
+                                logger.log("error", `Exception in middleware ${id}`, { message: e.message, stack: e.stack })
                             })
                         if (middee.stack[request._route.id][id] instanceof Error) {
                             next(middee.stack[request._route.id][id]);

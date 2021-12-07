@@ -8,7 +8,6 @@ export default function StripePaymentForm() {
     const formContext = useFormContext();
 
     const testSuccess = () => {
-        console.log('aaa')
         formContext.updateField("card_number", "4242 4242 4242 4242");
         formContext.updateField("card_holder", "David");
         formContext.updateField("card_expiration", "12/2030");
