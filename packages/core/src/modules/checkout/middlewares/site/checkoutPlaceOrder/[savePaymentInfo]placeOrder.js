@@ -9,7 +9,6 @@ module.exports = async (request, response, stack, next) => {
         let orderId = await createOrder(cart);
 
         request.session.orderId = orderId;
-        console.log(request.session.orderId);
         response.json({
             data: {
                 orderId: orderId
@@ -18,7 +17,7 @@ module.exports = async (request, response, stack, next) => {
             message: ""
         });
     } catch (e) {
-        console.log(e);
+        logger.log("error", `Exception in middleware ${id}`, { message: e.message, stack: e.stack })
         response.json({
             data: {},
             success: false,

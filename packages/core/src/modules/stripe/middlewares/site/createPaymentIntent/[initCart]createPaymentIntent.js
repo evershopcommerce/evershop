@@ -3,7 +3,6 @@ const stripe = require("stripe")("sk_test_51Jdo9iEvEMCuLU1xZvrPhTSU4TsvSqRWyGorC
 module.exports = async (request, response, stack, next) => {
     let cart = await stack['initCart'];
     // Create a PaymentIntent with the order amount and currency
-    console.log("creating payment intent", request.session.orderId)
     const paymentIntent = await stripe.paymentIntents.create({
         amount: 10000,
         currency: 'usd',

@@ -9,3 +9,4 @@ package-lock.json
 prod.js
 media
 .DS_Store
+.log
