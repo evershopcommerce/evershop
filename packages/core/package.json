@@ -1,6 +1,6 @@
 {
   "name": "@nodejscart/core",
-  "version": "1.0.0-alpha.22",
+  "version": "1.0.0-alpha.23",
   "description": "A ecommerce platform with ReactJS and MySQL",
   "files": [
     "bin",
@@ -40,7 +40,7 @@
     "@babel/preset-react": "^7.16.0",
     "@babel/register": "^7.16.0",
     "@hapi/topo": "^5.0.0",
-    "@nodejscart/mysql-query-builder": "^1.2.8",
+    "@nodejscart/mysql-query-builder": "^1.3.0",
     "@shopify/draggable": "^1.0.0-beta.8",
     "@stripe/react-stripe-js": "^1.5.0",
     "@stripe/stripe-js": "^1.18.0",
