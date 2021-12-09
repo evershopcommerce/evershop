@@ -8,7 +8,6 @@ const { CONSTANTS } = require('../../../../../lib/helpers');
 module.exports = async (request, response, stack) => {
   let gallery = get(request, "body.productMainImages", []);
 
-  console.log(gallery);
   let productId = request.body.product_id;
   // Wait for product saving to be completed
   let promises = [stack["createProduct"], stack["updateProduct"]];

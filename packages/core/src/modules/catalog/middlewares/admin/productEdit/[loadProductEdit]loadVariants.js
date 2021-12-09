@@ -1,6 +1,6 @@
 const { assign } = require('../../../../../lib/util/assign');
 const { select } = require('@nodejscart/mysql-query-builder')
-const { getConnection } = require('../../../../../lib/mysql/connection');
+const { pool } = require('../../../../../lib/mysql/connection');
 const { get } = require("../../../../../lib/util/get");
 const uniqid = require("uniqid");
 const { buildAdminUrl } = require("../../../../../lib/routie");
@@ -9,7 +9,6 @@ module.exports = async (request, response, stack) => {
     // Do nothing if this product does not belong to a variant group
     if (!get(response, "context.product.variant_group_id"))
         return;
-    let connection = await getConnection();
     let query = select()
         .select("product_id", "variant_product_id")
         .select("sku")
@@ -27,7 +26,7 @@ module.exports = async (request, response, stack) => {
     query.where("variant_group_id", "=", get(response, "context.product.variant_group_id"))
         .andWhere("product_id", "<>", get(response, "context.product.product_id"));
 
-    let results = await query.execute(connection);
+    let results = await query.execute(pool);
 
     let variants = [];
     results.forEach((variant, key) => {
@@ -43,7 +42,7 @@ module.exports = async (request, response, stack) => {
         variants[i]["attributes"] = JSON.parse(JSON.stringify(await select()
             .from("product_attribute_value_index")
             .where("product_id", "=", variants[i]["variant_product_id"])
-            .execute(connection)));
+            .execute(pool)));
     }
 
     assign(response.context, {
@@ -69,16 +68,16 @@ module.exports = async (request, response, stack) => {
                     .select("attribute_four")
                     .select("attribute_five")
                     .where("variant_group_id", "=", get(response, "context.product.variant_group_id"))
-                    .load(connection)
+                    .load(pool)
             )
-        ).execute(connection);
+        ).execute(pool);
 
     assign(response.context, {
         product: {
             variantAttributes: await Promise.all(attributes.map(async a => {
                 let options = await select()
                     .from("attribute_option")
-                    .where("`attribute_id`", "=", a.attribute_id).execute(connection);
+                    .where("`attribute_id`", "=", a.attribute_id).execute(pool);
                 return { ...a, options: options.map(o => { return { ...o } }) }
             }))
         }

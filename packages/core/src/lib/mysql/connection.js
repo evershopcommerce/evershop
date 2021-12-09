@@ -10,7 +10,8 @@ const pool = mysql.createPool({
     user: config.get("system.database.user"),
     password: config.get("system.database.password"),
     database: config.get("system.database.database"),
-    dateStrings: true
+    dateStrings: true,
+    connectionLimit: 30,
 });
 
 async function getConnection() {

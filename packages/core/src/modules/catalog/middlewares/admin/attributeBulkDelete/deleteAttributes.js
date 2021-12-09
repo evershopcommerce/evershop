@@ -1,13 +1,12 @@
 const { del } = require('@nodejscart/mysql-query-builder')
-const { getConnection } = require('../../../../../lib/mysql/connection');
+const { pool } = require('../../../../../lib/mysql/connection');
 
 module.exports = async (request, response, stack, next) => {
-    let connection = await getConnection();
     try {
         let attributeIds = request.body.ids;
         await del('attribute')
             .where('attribute_id', 'IN', attributeIds.split(','))
-            .execute(connection)
+            .execute(pool)
         response.json({
             data: {},
             success: true

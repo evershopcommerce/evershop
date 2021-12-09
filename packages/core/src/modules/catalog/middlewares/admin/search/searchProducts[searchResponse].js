@@ -1,5 +1,5 @@
 const { select } = require('@nodejscart/mysql-query-builder');
-const { getConnection, pool } = require('../../../../../lib/mysql/connection');
+const { pool } = require('../../../../../lib/mysql/connection');
 const { buildAdminUrl } = require('../../../../../lib/routie');
 const { assign } = require('../../../../../lib/util/assign');
 
@@ -16,7 +16,7 @@ module.exports = async (request, response) => {
         .or('d.name', 'LIKE', `%${keyword}%`)
         .or('d.description', 'LIKE', `%${keyword}%`);
     query.limit(0, 20);
-    let products = (await query.execute(await getConnection())).map(p => {
+    let products = (await query.execute(pool)).map(p => {
         return {
             name: p.name,
             url: buildAdminUrl('productEdit', { id: p.product_id }),
