@@ -6,7 +6,7 @@ import { Card } from "../../../../../cms/components/admin/Card";
 
 function Status({ status }) {
     return <td>
-        <span className={`badge badge-${status.badge}`}><i className="fas fa-tag"></i> {status.name}</span>
+        <span className={`badge badge-${status.badge}`}> {status.name}</span>
     </td>
 }
 

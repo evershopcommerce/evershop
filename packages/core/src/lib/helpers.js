@@ -1,7 +1,8 @@
 const path = require("path");
 const { existsSync, readFileSync } = require('fs');
-let helpers = module.exports = exports = {};
 const config = require('config');
+
+let helpers = module.exports = exports = {};
 
 helpers.getConfig = (function () {
     let config = {};
@@ -45,33 +46,6 @@ helpers.getSiteJsFile = function getSiteJsFile(path) {
         return `/js/${_path}`;
 }
 
-/**
- * This function will load a component from sub path.
- * This is sub-path started from module level.
- * For example:
- * Catalog module: "catalog/components/products.js"
- * To overwrite this, create a sub-folder with same structure in theme folder
- * @param {String} subPath
- */
-helpers.getComponentSource = function getComponentSource(_path, isAdmin = false) {
-    let p;
-    const theme = isAdmin === true ? config.get("shop.adminTheme") : config.get("shop.frontTheme");
-    if (existsSync(path.resolve(helpers.CONSTANTS.PUBLICPATH, "theme", "admin", theme, _path)))
-        p = path.resolve(helpers.CONSTANTS.PUBLICPATH, "theme", "admin", theme, _path);
-    else if (existsSync(path.resolve(helpers.CONSTANTS.PUBLICPATH, "theme", "admin", "default", _path)))
-        p = path.resolve(helpers.CONSTANTS.PUBLICPATH, "theme", "admin", "default", _path);
-    else if (existsSync(path.resolve(helpers.CONSTANTS.MOLDULESPATH, _path)))
-        p = path.resolve(helpers.CONSTANTS.MOLDULESPATH, _path);
-    else if (existsSync(path.resolve(__dirname, "components", _path)))
-        p = path.resolve(__dirname, "components", _path);
-    else
-        p = null;
-    if (p === null)
-        throw new Error(`${_path} does not exist`);
-
-    return p;
-}
-
 const rootPath = (() => {
     let _path = path.resolve(__dirname, "..", "..", "..", "..");
     if (existsSync(path.resolve(_path, "package-lock.json"))) {
@@ -88,7 +62,7 @@ helpers.CONSTANTS = Object.freeze({
     PUBLICPATH: path.resolve(rootPath, "public"),
     MEDIAPATH: path.resolve(rootPath, "media"),
     NODEMODULEPATH: path.resolve(rootPath, "node_modules"),
-    ADDMINTHEMEPATH: path.resolve(rootPath, "public", "theme", "admin"),
-    SITETHEMEPATH: path.resolve(rootPath, "public", "theme", "front"),
+    ADMINTHEMEPATH: path.resolve(rootPath, "themes", "admin"),
+    SITETHEMEPATH: path.resolve(rootPath, "themes", "site"),
     CACHEPATH: path.resolve(rootPath, ".nodejscart"),
 })
