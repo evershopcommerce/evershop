@@ -38,3 +38,16 @@
     right: 5px;
     font-size: 20px;
 }
+
+.ckeditor .form-field-container {
+    margin-top: 0.3rem;
+    label {
+        display: none;
+    }
+    .field-wrapper {
+        display: block;
+    }
+}
+.ckeditor .image-icon {
+    margin-top: 0.5rem;
+}

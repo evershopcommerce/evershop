@@ -9,6 +9,6 @@ module.exports = (request, response, stack, next) => {
         saveUninitialized: true,
         secret: 'somesecret',
         store: new FileStore({ path: CONSTANTS.ROOTPATH + "/.nodejscart/sessions" }),
-        cookie: { secure: false, httpOnly: false }
+        cookie: { secure: false, httpOnly: false, sameSite: true }
     })(request, response, next);
 }

@@ -1,4 +1,4 @@
-const { getComponentSource, getAdminCssFile } = require("../../../../lib/helpers");
+const { useComponent, useAdminComponent } = require("../../../../lib/componee")
 const { buildAdminUrl } = require("../../../../lib/routie");
 
 exports = module.exports = {
@@ -6,14 +6,14 @@ exports = module.exports = {
         {
             id: "layout",
             areaId: "body",
-            source: getComponentSource("cms/components/admin/Layout.js", true),
+            source: useAdminComponent("cms/components/admin/Layout.js"),
             props: {},
             sortOrder: 1
         },
         {
             id: "logo",
             areaId: 'header',
-            source: getComponentSource("cms/components/admin/dashboard/Logo.js"),
+            source: useAdminComponent("cms/components/admin/dashboard/Logo.js"),
             props: {
                 dashboardUrl: buildAdminUrl('dashboard')
             },
@@ -22,7 +22,7 @@ exports = module.exports = {
         {
             id: "searchBox",
             areaId: 'header',
-            source: getComponentSource("cms/components/admin/dashboard/SearchBox.js"),
+            source: useAdminComponent("cms/components/admin/dashboard/SearchBox.js"),
             props: {
                 searchAPI: buildAdminUrl('search'),
                 resourceLinks: [
@@ -41,21 +41,21 @@ exports = module.exports = {
         {
             id: "notification",
             areaId: "body",
-            source: getComponentSource("Notification.js", true),
+            source: useComponent("Notification.js"),
             props: {},
             sortOrder: 1
         },
         {
             id: "navigation",
             areaId: "admin.navigation",
-            source: getComponentSource("cms/components/admin/Navigation.js", true),
+            source: useAdminComponent("cms/components/admin/Navigation.js"),
             props: {},
             sortOrder: 0
         },
         {
             id: "quick.link.group",
             areaId: "admin.menu",
-            source: getComponentSource("cms/components/admin/NavigationItemGroup.js", true),
+            source: useAdminComponent("cms/components/admin/NavigationItemGroup.js"),
             props: {
                 id: 'quick.links',
                 name: 'Quick Links'
@@ -65,7 +65,7 @@ exports = module.exports = {
         {
             id: "cms.group",
             areaId: "admin.menu",
-            source: getComponentSource("cms/components/admin/NavigationItemGroup.js", true),
+            source: useAdminComponent("cms/components/admin/NavigationItemGroup.js"),
             props: {
                 id: 'cms.links',
                 name: 'CMS'
@@ -75,9 +75,9 @@ exports = module.exports = {
         {
             id: "dashboard",
             areaId: "quick.links",
-            source: getComponentSource("cms/components/admin/NavigationItem.js", true),
+            source: useAdminComponent("cms/components/admin/NavigationItem.js"),
             props: {
-                "icon": "home",
+                "icon": "HomeIcon",
                 "url": buildAdminUrl("dashboard"),
                 "title": "Dashboard"
             },
@@ -86,9 +86,9 @@ exports = module.exports = {
         {
             id: "pages",
             areaId: "cms.links",
-            source: getComponentSource("cms/components/admin/NavigationItem.js", true),
+            source: useAdminComponent("cms/components/admin/NavigationItem.js"),
             props: {
-                "icon": "file-alt",
+                "icon": "DocumentIcon",
                 "url": buildAdminUrl("cmsPageGrid"),
                 "title": "Pages"
             },
@@ -97,25 +97,15 @@ exports = module.exports = {
         {
             id: "bundleJS",
             areaId: "after.body",
-            source: getComponentSource("cms/components/BundleJs.js", true),
+            source: useComponent("BundleJs.js"),
             props: {},
             sortOrder: 10
         },
         /** Styling */
         {
-            id: "fontawesome",
-            areaId: 'head',
-            source: getComponentSource("Link.js", true),
-            props: {
-                "href": buildAdminUrl("adminStaticAsset", [getAdminCssFile('fontawesome/css/all.min.css').replace("/", "")]),
-                "rel": "stylesheet"
-            },
-            sortOrder: 1
-        },
-        {
             id: "bundleCss",
             areaId: "head",
-            source: getComponentSource("cms/components/BundleCss.js", true),
+            source: useComponent("BundleCss.js"),
             props: {},
             sortOrder: 10
         }
@@ -124,7 +114,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: 'content',
-            source: getComponentSource("Title.js"),
+            source: useComponent("Title.js"),
             props: {
                 title: "Edit page"
             },
@@ -135,7 +125,7 @@ exports = module.exports = {
         {
             id: "metaTitle",
             areaId: 'content',
-            source: getComponentSource("Title.js"),
+            source: useComponent("Title.js"),
             props: {
                 title: "Create a new page"
             },
@@ -146,7 +136,7 @@ exports = module.exports = {
         {
             id: "pageHeading",
             areaId: "content",
-            source: getComponentSource("cms/components/admin/PageHeading.js"),
+            source: useAdminComponent("cms/components/admin/PageHeading.js"),
             props: {
                 backUrl: buildAdminUrl('cmsPageGrid')
             },
@@ -155,7 +145,7 @@ exports = module.exports = {
         {
             id: "createForm",
             areaId: 'content',
-            source: getComponentSource("cms/components/admin/page/edit/PageEditForm.js"),
+            source: useAdminComponent("cms/components/admin/page/edit/PageEditForm.js"),
             props: {
                 id: "page-edit-form",
                 method: "POST",
@@ -168,7 +158,7 @@ exports = module.exports = {
         {
             id: "pageEditGeneral",
             areaId: 'leftSide',
-            source: getComponentSource("cms/components/admin/page/edit/General.js"),
+            source: useAdminComponent("cms/components/admin/page/edit/General.js"),
             props: {
                 browserApi: buildAdminUrl("fileBrowser", [""]),
                 deleteApi: buildAdminUrl("fileDelete", [""]),
@@ -180,16 +170,16 @@ exports = module.exports = {
         {
             id: 'pageEditSEO',
             areaId: 'rightSide',
-            source: getComponentSource("cms/components/admin/page/edit/Seo.js"),
+            source: useAdminComponent("cms/components/admin/page/edit/Seo.js"),
             props: {},
             sortOrder: 20
         },
         {
             id: "ckeditor",
             areaId: 'head',
-            source: getComponentSource("Script.js", true),
+            source: useComponent("Script.js"),
             props: {
-                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
+                src: "https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js",
             },
             sortOrder: 1
         }
@@ -198,7 +188,7 @@ exports = module.exports = {
         {
             id: "pageGrid",
             areaId: 'content',
-            source: getComponentSource("cms/components/admin/page/grid/Grid.js"),
+            source: useAdminComponent("cms/components/admin/page/grid/Grid.js"),
             props: {
                 limit: 20
             },
@@ -207,7 +197,7 @@ exports = module.exports = {
         {
             id: "pageHeading",
             areaId: "content",
-            source: getComponentSource("cms/components/admin/PageHeading.js"),
+            source: useAdminComponent("cms/components/admin/PageHeading.js"),
             props: {
             },
             sortOrder: 10
@@ -215,7 +205,7 @@ exports = module.exports = {
         {
             id: "newCMSPageButton",
             areaId: "pageHeadingRight",
-            source: getComponentSource("form/Button.js"),
+            source: useComponent("form/Button.js"),
             props: {
                 title: 'Add a page',
                 variant: 'primary',
@@ -226,7 +216,7 @@ exports = module.exports = {
         {
             id: 'title',
             areaId: 'head',
-            source: getComponentSource("Title.js", true),
+            source: useComponent("Title.js"),
             props: {
                 title: "Pages"
             },
@@ -235,7 +225,7 @@ exports = module.exports = {
         {
             id: 'statusColumn',
             areaId: 'pageGridHeader',
-            source: getComponentSource("grid/headers/Status.js"),
+            source: useComponent("grid/headers/Status.js"),
             props: {
                 title: "Status",
                 id: "status"
@@ -245,7 +235,7 @@ exports = module.exports = {
         {
             id: 'statusRow',
             areaId: 'pageGridRow',
-            source: getComponentSource("grid/rows/Status.js"),
+            source: useComponent("grid/rows/Status.js"),
             props: {
                 id: "status"
             },
@@ -254,7 +244,7 @@ exports = module.exports = {
         {
             id: 'nameColumn',
             areaId: 'pageGridHeader',
-            source: getComponentSource("grid/headers/Basic.js"),
+            source: useComponent("grid/headers/Basic.js"),
             props: {
                 title: "Page name",
                 id: "name"
@@ -264,7 +254,7 @@ exports = module.exports = {
         {
             id: 'nameRow',
             areaId: 'pageGridRow',
-            source: getComponentSource("cms/components/admin/page/grid/NameRow.js"),
+            source: useAdminComponent("cms/components/admin/page/grid/NameRow.js"),
             props: {
                 id: "name",
                 editUrl: 'editUrl'
@@ -276,14 +266,14 @@ exports = module.exports = {
         {
             id: "layout",
             areaId: 'content',
-            source: getComponentSource("cms/components/admin/dashboard/Layout.js"),
+            source: useAdminComponent("cms/components/admin/dashboard/Layout.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "pageHeading",
             areaId: "content",
-            source: getComponentSource("cms/components/admin/PageHeading.js"),
+            source: useAdminComponent("cms/components/admin/PageHeading.js"),
             props: {
             },
             sortOrder: 5
@@ -291,7 +281,7 @@ exports = module.exports = {
         {
             id: 'title',
             areaId: 'head',
-            source: getComponentSource("Title.js", true),
+            source: useComponent("Title.js"),
             props: {
                 title: "Dashboard"
             },

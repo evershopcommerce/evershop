@@ -1,5 +1,9 @@
 const { assign } = require('./util/assign');
 const { getSiteRoutes, getAdminRoutes } = require('./routie');
+const { CONSTANTS } = require("./helpers");
+const path = require('path');
+const { getConfig } = require('./util/getConfig');
+const { existsSync } = require('fs');
 
 module.exports = exports = {};
 
@@ -7,6 +11,40 @@ var components = {
     site: {},
     admin: {}
 };
+
+exports.useAdminComponent = function useAdminComponent(_path) {
+    const theme = getConfig("shop.adminTheme");
+    if (theme && existsSync(path.join(CONSTANTS.ADMINTHEMEPATH, theme, 'components', _path.replace("/components/admin", "")))) {
+        return path.resolve(CONSTANTS.ADMINTHEMEPATH, theme, 'components', _path.replace("/components/admin", ""));
+    } else {
+        if (existsSync(path.resolve(CONSTANTS.MOLDULESPATH, _path))) {
+            return path.resolve(CONSTANTS.MOLDULESPATH, _path);
+        } else {
+            throw new Error(`Component ${_path} does not exist`);
+        }
+    }
+}
+
+exports.useSiteComponent = function useSiteComponent(_path) {
+    const theme = getConfig("shop.siteTheme");
+    if (theme && existsSync(path.join(CONSTANTS.SITETHEMEPATH, theme, 'components', _path.replace("/components/site", "")))) {
+        return path.resolve(CONSTANTS.SITETHEMEPATH, theme, 'components', _path.replace("/components/site", ""));
+    } else {
+        if (existsSync(path.resolve(CONSTANTS.MOLDULESPATH, _path))) {
+            return path.resolve(CONSTANTS.MOLDULESPATH, _path);
+        } else {
+            throw new Error(`Component ${_path} does not exist`);
+        }
+    }
+}
+
+exports.useComponent = function useComponent(_path) {
+    if (existsSync(path.resolve(__dirname, "components", _path))) {
+        return path.resolve(__dirname, "components", _path);
+    } else {
+        throw new Error(`Component ${_path} does not exist`);
+    }
+}
 
 function addComponent(scope, route, id, areaId, source, props, sortOrder) {
     // TODO: validate the arguments, for now let's assume they are valid

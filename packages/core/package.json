@@ -12,7 +12,7 @@
     "nodejscart": "./bin/nodejscart"
   },
   "scripts": {
-    "prepublishOnly": "npx babel src -d dist --copy-files --ignore src/theme/* && node prepublish.js",
+    "prepublishOnly": "npx babel src -d dist --copy-files && node prepublish.js",
     "dev": "nodejscart dev",
     "build": "nodejscart build",
     "start": "nodejscart start",
@@ -40,6 +40,7 @@
     "@babel/preset-react": "^7.16.0",
     "@babel/register": "^7.16.0",
     "@hapi/topo": "^5.0.0",
+    "@heroicons/react": "^1.0.5",
     "@nodejscart/mysql-query-builder": "^1.3.1",
     "@shopify/draggable": "^1.0.0-beta.8",
     "@stripe/react-stripe-js": "^1.5.0",

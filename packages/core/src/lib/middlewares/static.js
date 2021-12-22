@@ -26,10 +26,6 @@ module.exports = exports = (request, response, next) => {
         staticMiddleware(CONSTANTS.MEDIAPATH)(request, response, next);
     } else if (existsSync(path.join(CONSTANTS.ROOTPATH, ".nodejscart/build", _path))) {
         staticMiddleware(path.join(CONSTANTS.ROOTPATH, ".nodejscart/build"))(request, response, next);
-    } else if (existsSync(path.join(CONSTANTS.ROOTPATH, "node_modules", "@nodejscart/core/dist/theme", _path))) {
-        staticMiddleware(path.join(CONSTANTS.ROOTPATH, "node_modules", "@nodejscart/core/dist/theme"))(request, response, next);
-    } else if (existsSync(path.join(CONSTANTS.ROOTPATH, "node_modules", "@nodejscart/core/src/theme", _path))) {
-        staticMiddleware(path.join(CONSTANTS.ROOTPATH, "node_modules", "@nodejscart/core/src/theme"))(request, response, next);
     } else {
         response.status(404).send("Not Found")
     }

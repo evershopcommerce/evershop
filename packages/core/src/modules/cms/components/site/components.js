@@ -1,4 +1,4 @@
-const { getComponentSource, getSiteCssFile } = require("../../../../lib/helpers");
+const { useSiteComponent, useComponent } = require("../../../../lib/componee");
 const { buildSiteUrl } = require("../../../../lib/routie");
 
 exports = module.exports = {
@@ -6,21 +6,21 @@ exports = module.exports = {
         {
             id: "notification",
             areaId: "body",
-            source: getComponentSource("cms/components/site/Notification.js", true),
+            source: useSiteComponent("cms/components/site/Notification.js"),
             props: {},
             sortOrder: 1
         },
         {
             id: "layout",
             areaId: "body",
-            source: getComponentSource("cms/components/site/Layout.js", true),
+            source: useSiteComponent("cms/components/site/Layout.js"),
             props: {},
             sortOrder: 1
         },
         {
             id: "logo",
             areaId: "header",
-            source: getComponentSource("cms/components/site/Logo.js", true),
+            source: useSiteComponent("cms/components/site/Logo.js"),
             props: {
                 homeUrl: buildSiteUrl("homepage")
             },
@@ -29,14 +29,14 @@ exports = module.exports = {
         {
             id: "menu",
             areaId: "header",
-            source: getComponentSource("cms/components/site/Menu.js", true),
+            source: useSiteComponent("cms/components/site/Menu.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "iconWrapper",
             areaId: "header",
-            source: getComponentSource("Area.js", true),
+            source: useComponent("Area.js"),
             props: {
                 id: 'iconWrapper',
                 className: 'icon-wrapper flex justify-between space-x-1'
@@ -46,21 +46,21 @@ exports = module.exports = {
         {
             id: "mobileMenu",
             areaId: "iconWrapper",
-            source: getComponentSource("cms/components/site/MobileMenu.js", true),
+            source: useSiteComponent("cms/components/site/MobileMenu.js"),
             props: {},
             sortOrder: 20
         },
         {
             id: "metaTitle",
             areaId: "head",
-            source: getComponentSource("cms/components/site/MetaTitle.js", true),
+            source: useSiteComponent("cms/components/site/MetaTitle.js"),
             props: {},
             sortOrder: 1
         },
         {
             id: "metaDescription",
             areaId: "head",
-            source: getComponentSource("cms/components/site/MetaDescription.js", true),
+            source: useSiteComponent("cms/components/site/MetaDescription.js"),
             props: {},
             sortOrder: 1
         }
@@ -69,7 +69,7 @@ exports = module.exports = {
         {
             id: "viewport",
             areaId: "head",
-            source: getComponentSource("Meta.js", true),
+            source: useComponent("Meta.js"),
             props: {
                 "name": "viewport",
                 "content": "width=device-width, initial-scale=1"
@@ -79,14 +79,14 @@ exports = module.exports = {
         {
             id: "bundleCSS",
             areaId: "head",
-            source: getComponentSource("cms/components/BundleCss.js", true),
+            source: useComponent("BundleCss.js"),
             props: {},
             sortOrder: 10
         },
         {
             id: "bundleJS",
             areaId: "after.body",
-            source: getComponentSource("cms/components/BundleJs.js", true),
+            source: useComponent("BundleJs.js"),
             props: {},
             sortOrder: 10
         }
@@ -95,7 +95,7 @@ exports = module.exports = {
         {
             id: "mainBanner",
             areaId: "content",
-            source: getComponentSource("cms/components/site/homepage/MainBanner.js"),
+            source: useSiteComponent("cms/components/site/homepage/MainBanner.js"),
             props: {},
             sortOrder: 10
         }

@@ -2,22 +2,22 @@ const { readdirSync, existsSync } = require('fs');
 const path = require("path");
 const resolve = path.resolve;
 const express = require("express");
-const router = require("../../src/lib/routie");
-const { getModuleMiddlewares, get } = require('../../src/lib/middee');
+const router = require("../../dist/lib/routie");
+const { getModuleMiddlewares, get } = require('../../dist/lib/middee');
 const http = require('http');
-const { addComponents } = require('../../src/lib/componee');
+const { addComponents } = require('../../dist/lib/componee');
 const debug = require('debug')('express:server');
 
 /* Loading modules and initilize routes, components and services */
-const modules = readdirSync(path.resolve(__dirname, "../../src/modules/"), { withFileTypes: true })
+const modules = readdirSync(path.resolve(__dirname, "../../dist/modules/"), { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
 modules.forEach(element => {
     try {
-        getModuleMiddlewares(path.resolve(__dirname, "../../src/modules", element));
-        if (existsSync(resolve(__dirname, "../../src/modules", element, "routes.js")))
-            require(resolve(__dirname, "../../src/modules", element, "routes.js"))(router); // routes.js must return a function
+        getModuleMiddlewares(path.resolve(__dirname, "../../dist/modules", element));
+        if (existsSync(resolve(__dirname, "../../dist/modules", element, "routes.js")))
+            require(resolve(__dirname, "../../dist/modules", element, "routes.js"))(router); // routes.js must return a function
     } catch (e) {
         throw e;
         process.exit(0);
@@ -26,19 +26,20 @@ modules.forEach(element => {
 
 modules.forEach(element => {
     try {
-        if (existsSync(resolve(__dirname, "../../src/modules", element, "components/site/components.js"))) {
-            let components = require(resolve(__dirname, "../../src/modules", element, "components/site/components.js"));
+        if (existsSync(resolve(__dirname, "../../dist/modules", element, "components/site/components.js"))) {
+            let components = require(resolve(__dirname, "../../dist/modules", element, "components/site/components.js"));
             if (typeof components === 'object' && components !== null) {
                 addComponents("site", components);
             }
         }
-        if (existsSync(resolve(__dirname, "../../src/modules", element, "components/admin/components.js"))) {
-            let components = require(resolve(__dirname, "../../src/modules", element, "components/admin/components.js"));
+        if (existsSync(resolve(__dirname, "../../dist/modules", element, "components/admin/components.js"))) {
+            let components = require(resolve(__dirname, "../../dist/modules", element, "components/admin/components.js"));
             if (typeof components === 'object' && components !== null) {
                 addComponents("admin", components);
             }
         }
     } catch (e) {
+        console.log(e);
         throw e;
         process.exit(0);
     }
