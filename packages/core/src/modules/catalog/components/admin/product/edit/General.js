@@ -5,7 +5,6 @@ import { get } from "../../../../../../lib/util/get";
 import Ckeditor from "../../../../../../lib/components/form/fields/Ckeditor";
 import { Field } from "../../../../../../lib/components/form/Field";
 import { Card } from "../../../../../cms/components/admin/Card";
-import { buildAdminUrl } from "../../../../../../lib/routie";
 
 const SKUPriceWeight = ({ sku, price, weight }) => {
     return <div className='grid grid-cols-3 gap-1 mt-15'>

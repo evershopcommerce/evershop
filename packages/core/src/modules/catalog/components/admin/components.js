@@ -108,7 +108,7 @@ exports = module.exports = {
             areaId: 'head',
             source: useComponent("Script.js"),
             props: {
-                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
+                src: "https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js",
             },
             sortOrder: 1
         },
@@ -268,7 +268,7 @@ exports = module.exports = {
             areaId: 'head',
             source: useComponent("Script.js"),
             props: {
-                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
+                src: "https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js",
             },
             sortOrder: 1
         },
@@ -553,7 +553,7 @@ exports = module.exports = {
             areaId: 'head',
             source: useComponent("Script.js"),
             props: {
-                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
+                src: "https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js",
             },
             sortOrder: 1
         },

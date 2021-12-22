@@ -12,7 +12,7 @@
     "nodejscart": "./bin/nodejscart"
   },
   "scripts": {
-    "prepublishOnly": "npx babel src -d dist --copy-files --ignore src/theme/* && node prepublish.js",
+    "prepublishOnly": "npx babel src -d dist --copy-files && node prepublish.js",
     "dev": "nodejscart dev",
     "build": "nodejscart build",
     "start": "nodejscart start",

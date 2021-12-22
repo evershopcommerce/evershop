@@ -1,4 +1,3 @@
-const { getAdminCssFile } = require("../../../../lib/helpers");
 const { useComponent, useAdminComponent } = require("../../../../lib/componee")
 const { buildAdminUrl } = require("../../../../lib/routie");
 
@@ -180,7 +179,7 @@ exports = module.exports = {
             areaId: 'head',
             source: useComponent("Script.js"),
             props: {
-                src: buildAdminUrl("adminStaticAsset", ['admin/default/js/ckeditor4/ckeditor.js']),
+                src: "https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js",
             },
             sortOrder: 1
         }
