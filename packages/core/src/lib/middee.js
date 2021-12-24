@@ -154,7 +154,7 @@ function scanForMiddleware(_path) {
                 }
             }
             if (m.id !== 'context' && m.id !== 'errorHandler') {
-                m.before = !m.before ? (["response"]) : m.before;
+                m.before = !m.before ? (["notification"]) : m.before;
                 m.after = !m.after ? (["session"]) : m.after;
             }
 
