@@ -1,12 +1,17 @@
 .variant-option-list {
     li {
         border: 1px solid var(--divider);
-        padding: 0.5rem 1rem;
-        border-radius: 3px;
+        border-radius: 2px;
         background-color: #fff;
         font-size: 12px;
+        a {
+            padding: 1rem 1.5rem;
+            display: block;
+            text-align: center;
+        }
         &.selected {
-            background-color: var(--interactive);
+            background-color: var(--success);
+            border-color: var(--success);
             color: #fff;
         }
         &.un-available {
