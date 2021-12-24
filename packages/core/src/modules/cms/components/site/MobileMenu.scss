@@ -9,7 +9,24 @@
     .nav {
         position: absolute;
         top: 100%;
-        left: 0;
-        display: none;
+        right: -2.5rem;
+        padding: 2.5rem;
+        width: 100vw;
+        background-color: #fff;
+        z-index: 1000;
+        .nav-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+            &:first {
+                padding-top: 0;
+            }
+            &.last {
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+            a {
+                font-size: 1.6rem;
+            }
+        }
     }
 }
