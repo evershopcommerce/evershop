@@ -1,5 +1,5 @@
 const { readdirSync, existsSync, statSync } = require('fs');
-const { writeFile, mkdir, rmdir } = require("fs/promises");
+const { writeFile, mkdir, rmdir } = require("fs").promises;
 const path = require("path");
 const resolve = path.resolve;
 const router = require("../../src/lib/routie");

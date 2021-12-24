@@ -1,0 +1,21 @@
+.products-pagination {
+    margin-top: 5rem;
+    .page-item {
+        width: 2.2rem;
+        height: 2.2rem;
+        border: 1px solid var(--primary);
+        border-radius: 100%;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        &.current {
+            border-color: var(--success);
+            color: var(--success);
+        }
+        svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--primary);
+        }
+    }
+}

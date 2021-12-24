@@ -52,7 +52,7 @@ module.exports = async function (request, response) {
     }
 
     let _p = route.isAdmin == true ? "./admin/" + route.id : "./site/" + route.id;
-    if (route.__BUILDREQURIED__ == false) {
+    if (route.__BUILDREQUIRED__ == false) {
         if (request.isAdmin === true) {
             response.context.bundleJs = buildAdminUrl("adminStaticAsset", [`${_p}/${route.__BUNDLEHASH__}.js`]);
             response.context.bundleCss = buildAdminUrl("adminStaticAsset", [`${_p}/${route.__BUNDLEHASH__}.css`]);
@@ -213,7 +213,7 @@ module.exports = async function (request, response) {
         response.context.bundleCss = buildSiteUrl("staticAsset", [`${_p}/${hash}.css`]);
     }
 
-    route.__BUILDREQURIED__ = false;
+    route.__BUILDREQUIRED__ = false;
     route.__BUNDLEHASH__ = hash;
     route.__BUILDING__ = false;
 };
