@@ -26,7 +26,7 @@ export default function FeaturedCategories() {
                         Constructed from luxury nylons, leathers, and custom hardware, featuring sport details such as hidden breathing vents, waterproof + antimicrobial linings, and more.
                     </p>
                 </div>
-                <Button url="/category/women" title="Shop kids" variant='primary' />
+                <Button url="/category/women" title="Shop women" variant='primary' />
             </div>
             <div>
                 <div>
@@ -38,7 +38,7 @@ export default function FeaturedCategories() {
                         Constructed from luxury nylons, leathers, and custom hardware, featuring sport details such as hidden breathing vents, waterproof + antimicrobial linings, and more.
                     </p>
                 </div>
-                <Button url="/category/men" title="Shop kids" variant='primary' />
+                <Button url="/category/men" title="Shop men" variant='primary' />
             </div>
         </div>
     </div>
