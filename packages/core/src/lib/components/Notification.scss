@@ -64,8 +64,7 @@
     box-sizing: border-box;
     margin-bottom: 1rem;
     padding: 8px;
-    border-radius: 1px;
-    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1), 0 2px 15px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: justify;
@@ -91,13 +90,13 @@
     background: #3498db;
 }
 .Toastify__toast--success {
-    background: #07bc0c;
+    background: var(--success);
 }
 .Toastify__toast--warning {
     background: #f1c40f;
 }
 .Toastify__toast--error {
-    background: #e74c3c;
+    background: var(--critical);
 }
 .Toastify__toast-body {
     margin: auto 0;
@@ -120,7 +119,7 @@
     opacity: 0.7;
     transition: 0.3s ease;
     -ms-flex-item-align: start;
-    align-self: flex-start;
+    align-self: center;
 }
 .Toastify__close-button--default {
     color: #000;
