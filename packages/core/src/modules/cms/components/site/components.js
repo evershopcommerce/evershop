@@ -99,5 +99,14 @@ exports = module.exports = {
             props: {},
             sortOrder: 10
         }
+    ],
+    cmsPageView: [
+        {
+            id: "cmsPageView",
+            areaId: "content",
+            source: useSiteComponent("cms/components/site/page/View.js"),
+            props: {},
+            sortOrder: 10
+        }
     ]
 }

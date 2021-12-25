@@ -2,9 +2,11 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerSiteRoute("staticAsset", ["GET"], "/assets/*");
 
-    registerAdminRoute("adminStaticAsset", ["GET"], "/assets/*");
-
     registerSiteRoute("homepage", ["GET"], "/");
+
+    registerSiteRoute("cmsPageView", ["GET"], "/:url_key");
+
+    registerAdminRoute("adminStaticAsset", ["GET"], "/assets/*");
 
     registerAdminRoute("dashboard", ["GET"], "/");
 
