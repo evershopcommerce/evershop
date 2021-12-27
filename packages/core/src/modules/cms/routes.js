@@ -4,7 +4,7 @@ module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
     registerSiteRoute("homepage", ["GET"], "/");
 
-    registerSiteRoute("cmsPageView", ["GET"], "/:url_key");
+    registerSiteRoute("cmsPageView", ["GET"], "/page/:url_key");
 
     registerAdminRoute("adminStaticAsset", ["GET"], "/assets/*");
 
