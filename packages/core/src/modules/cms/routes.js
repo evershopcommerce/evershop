@@ -1,5 +1,7 @@
 module.exports = function ({ registerSiteRoute, registerAdminRoute }) {
 
+    registerSiteRoute("notFound", ["GET"], "/notfound");
+
     registerSiteRoute("staticAsset", ["GET"], "/assets/*");
 
     registerSiteRoute("homepage", ["GET"], "/");

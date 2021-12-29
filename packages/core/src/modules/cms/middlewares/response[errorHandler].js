@@ -19,6 +19,7 @@ module.exports = async function (request, response, stack, next) {
         await Promise.all(promises);
 
         let route = request._route;
+        let routeId = response.statusCode === 404 ? "notFound" : route.id;
         // Check if this is a redirection or not.
         if (response.$redirectUrl) {
             response.redirect(response.statusCode || 302, response.$redirectUrl)
@@ -31,7 +32,7 @@ module.exports = async function (request, response, stack, next) {
             if (response.$body && response.$body !== "") {
                 response.send(response.$body);
             } else {
-                let components = JSON.parse(JSON.stringify(getComponentsByRoute(route.id)));
+                let components = JSON.parse(JSON.stringify(getComponentsByRoute(routeId)));
                 for (let area in components) {
                     for (let id in components[area]) {
                         components[area][id]["component"] = require(`${components[area][id]["source"]}`);

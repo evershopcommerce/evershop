@@ -108,5 +108,16 @@ exports = module.exports = {
             props: {},
             sortOrder: 10
         }
+    ],
+    notFound: [
+        {
+            id: "notFoundPage",
+            areaId: "content",
+            source: useSiteComponent("cms/components/site/page/NotFound.js"),
+            props: {
+                continueShoppingUrl: buildSiteUrl("homepage")
+            },
+            sortOrder: 10
+        }
     ]
 }

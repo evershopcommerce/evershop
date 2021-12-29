@@ -1,4 +1,3 @@
-const util = require("util");
 const { pool } = require('../../../../../lib/mysql/connection');
 const { getConnection, commit, rollback, startTransaction, del, insert, update } = require('@nodejscart/mysql-query-builder');
 const { assign } = require("../../../../../lib/util/assign");

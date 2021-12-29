@@ -39,7 +39,10 @@ function addMiddleware(id, middleware, routeId = null, before = null, after = nu
                 before: before,
                 after: after,
                 middleware: function (error, request, response, next) {
-                    middleware(error, request, response, middee.stack[request._route.id], next);
+                    if (request._route)
+                        middleware(error, request, response, middee.stack[request._route.id], next);
+                    else
+                        middleware(error, request, response, [], next);
                 }
             }
         );
@@ -52,6 +55,10 @@ function addMiddleware(id, middleware, routeId = null, before = null, after = nu
                 after: after,
                 middleware: function (request, response, next) {
                     logger.log('info', `Executing middleware ${id}`);
+                    // If there response status is 404. We skip routed middlewares
+                    if (response.statusCode === 404 && routeId !== null && routeId !== "site") {
+                        return next();
+                    }
                     // Workaround for default middlewares
                     if (middleware.length == 4) {
                         middee.stack[request._route.id][id] = middleware(request, response, middee.stack[request._route.id], next);
