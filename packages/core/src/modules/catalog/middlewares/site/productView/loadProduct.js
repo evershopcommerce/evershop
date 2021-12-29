@@ -12,7 +12,8 @@ module.exports = async (request, response, stack, next) => {
         query.where("product_description.`url_key`", "=", request.params.url_key);
         let product = await query.load(pool);
         if (product === null) {
-            response.status(404).send("Not found");
+            response.status(404);
+            next();
         } else {
             assign(response.context, { product: JSON.parse(JSON.stringify(product)), metaTitle: product.meta_title || product.name, metaDescription: product.meta_description || product.short_description });
             next();

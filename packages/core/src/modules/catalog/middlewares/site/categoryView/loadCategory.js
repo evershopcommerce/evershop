@@ -12,7 +12,8 @@ module.exports = async (request, response, stack, next) => {
         query.where("category_description.`url_key`", "=", request.params.url_key);
         let category = await query.load(pool);
         if (category === null) {
-            response.status(404).send("Not found");
+            response.status(404);
+            next();
         } else {
             assign(response.context, { category: JSON.parse(JSON.stringify(category)), metaTitle: category.meta_title || category.name, metaDescription: category.meta_description || category.short_description });
             next();

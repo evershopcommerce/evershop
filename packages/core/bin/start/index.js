@@ -77,13 +77,16 @@ routes.forEach(r => {
 // TODO: This has to be enhanced, to support some cases like user visit the valid product route, but the product is either removed or disabled
 app.all('*', (request, response, next) => {
     if (!request._route) {
-        response.status(404).send("Not Found");
+        response.status(404);
+        request._route = siteRoutes.find((r) => r.id === "notFound");
+        next();
     } else {
         next();
     }
 });
 
 let middlewares = get();
+
 middlewares.forEach(m => {
     if (m.routeId === null)
         app.use(m.middleware);
@@ -94,11 +97,14 @@ middlewares.forEach(m => {
             }
         })
     } else if (m.routeId === "site") {
-        siteRoutes.forEach(route => {
-            if (route.id !== "staticAsset") {
-                app.all(route.path, m.middleware);
+        app.all("*", (request, response, next) => {
+            let route = request._route;
+            if (route.isAdmin === true || route.id === "staticAsset") {
+                return next();
+            } else {
+                m.middleware(request, response, next);
             }
-        })
+        });
     } else {
         let route = routes.find(r => r.id === m.routeId);
         if (route !== undefined) {

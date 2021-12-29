@@ -12,7 +12,8 @@ module.exports = async (request, response, stack, next) => {
         query.where("cms_page_description.`url_key`", "=", request.params.url_key);
         let cmsPage = await query.load(pool);
         if (cmsPage === null) {
-            response.status(404).send("Not found");
+            response.status(404);
+            next();
         } else {
             assign(response.context, { cmsPage: JSON.parse(JSON.stringify(cmsPage)), metaTitle: cmsPage.meta_title || cmsPage.name, metaDescription: cmsPage.meta_description || cmsPage.short_description });
             next();
