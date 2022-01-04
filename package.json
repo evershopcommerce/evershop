@@ -16,7 +16,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "nodemon --exec babel-node ./packages/core/bin/nodejscart dev",
+    "dev": "nodemon --delay 500ms --exec babel-node ./packages/core/bin/nodejscart dev",
     "build": "nodejscart build",
     "start": "nodejscart start",
     "test": "jest --workspace=@nodejscart/core"

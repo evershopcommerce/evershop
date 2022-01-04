@@ -1,45 +1,54 @@
 const { readdirSync, existsSync } = require('fs');
 const path = require("path");
-const resolve = path.resolve;
 const express = require("express");
-const router = require("../../dist/lib/routie");
-const { getModuleMiddlewares, get } = require('../../dist/lib/middee');
 const http = require('http');
-const { addComponents } = require('../../dist/lib/componee');
 const debug = require('debug')('express:server');
+let src = process.env.NODE_ENV === "development" ? path.resolve(__dirname, "../../src") : path.resolve(__dirname, "../../dist");
+const { getModuleMiddlewares, get } = require(path.join(src, "lib/middee"));
+const { addComponents } = require(path.join(src, "lib/componee"));
+const router = require(path.join(src, "lib/routie"));
+const colors = require('colors');
+const ora = require('ora');
+const boxen = require('boxen');
+
+const spinner = ora({
+    text: colors.green("NodeJsCart is starting"),
+    spinner: "dots12"
+}).start();
+spinner.start();
 
 /* Loading modules and initilize routes, components and services */
-const modules = readdirSync(path.resolve(__dirname, "../../dist/modules/"), { withFileTypes: true })
+const modules = readdirSync(path.join(src, "modules"), { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
 modules.forEach(element => {
     try {
-        getModuleMiddlewares(path.resolve(__dirname, "../../dist/modules", element));
-        if (existsSync(resolve(__dirname, "../../dist/modules", element, "routes.js")))
-            require(resolve(__dirname, "../../dist/modules", element, "routes.js"))(router); // routes.js must return a function
+        getModuleMiddlewares(path.join(src, "modules", element));
+        if (existsSync(path.join(src, "modules", element, "routes.js")))
+            require(path.join(src, "modules", element, "routes.js"))(router); // routes.js must return a function
     } catch (e) {
-        throw e;
+        spinner.fail(colors.red(e) + "\n");
         process.exit(0);
     }
 });
 
 modules.forEach(element => {
     try {
-        if (existsSync(resolve(__dirname, "../../dist/modules", element, "components/site/components.js"))) {
-            let components = require(resolve(__dirname, "../../dist/modules", element, "components/site/components.js"));
+        if (existsSync(path.join(src, "modules", element, "components/site/components.js"))) {
+            let components = require(path.join(src, "modules", element, "components/site/components.js"));
             if (typeof components === 'object' && components !== null) {
                 addComponents("site", components);
             }
         }
-        if (existsSync(resolve(__dirname, "../../dist/modules", element, "components/admin/components.js"))) {
-            let components = require(resolve(__dirname, "../../dist/modules", element, "components/admin/components.js"));
+        if (existsSync(path.join(src, "modules", element, "components/admin/components.js"))) {
+            let components = require(path.join(src, "modules", element, "components/admin/components.js"));
             if (typeof components === 'object' && components !== null) {
                 addComponents("admin", components);
             }
         }
     } catch (e) {
-        throw e;
+        spinner.fail(colors.red(e) + "\n");
         process.exit(0);
     }
 });
@@ -72,6 +81,8 @@ routes.forEach(r => {
             next();
         }
     });
+
+    r.__BUILDREQUIRED__ = true;
 })
 /** 404 Not Found handle */
 // TODO: This has to be enhanced, to support some cases like user visit the valid product route, but the product is either removed or disabled
@@ -86,7 +97,6 @@ app.all('*', (request, response, next) => {
 });
 
 let middlewares = get();
-
 middlewares.forEach(m => {
     if (m.routeId === null)
         app.use(m.middleware);
@@ -144,9 +154,11 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+
 /**
  * Listen on provided port, on all network interfaces.
  */
+
 
 server.listen(port);
 server.on('error', onError);
@@ -188,11 +200,11 @@ function onError(error) {
     // handle specific listen errors with friendly messages
     switch (error.code) {
         case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
+            spinner.fail(colors.red(bind + ' requires elevated privileges') + "\n");
             process.exit(1);
             break;
         case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
+            spinner.fail(colors.red(bind + ' is already in use') + "\n");
             process.exit(1);
             break;
         default:
@@ -205,6 +217,7 @@ function onError(error) {
  */
 
 function onListening() {
+    spinner.succeed(colors.green("Done!!!\n") + boxen(colors.green('Your website is running at "http://localhost:3000"'), { title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green' }))
     var addr = server.address();
     var bind = typeof addr === 'string'
         ? 'pipe ' + addr
