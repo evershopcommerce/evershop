@@ -9,11 +9,10 @@ if (command === "build") {
     require('./build');
 } else if (command === "dev") {
     process.env.NODE_ENV = 'development';
-    require('./dev');
+    require('./serve');
 } else if (command === "start") {
     process.env.NODE_ENV = 'production';
-    require('./start');
+    require('./serve');
 } else {
-    console.log("Invalid command");
-    process.exit(0);
+    throw new Error("Invalid command")
 }
