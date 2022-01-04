@@ -9,11 +9,20 @@ const { CONSTANTS } = require('../../src/lib/helpers');
 const { inspect } = require('util');
 const sass = require('node-sass');
 const CleanCss = require('clean-css');
+const colors = require('colors');
+const ora = require('ora');
+const boxen = require('boxen');
 
 require('@babel/register')({
     presets: ['@babel/preset-react'],
     ignore: ['node_modules']
 });
+
+const spinner = ora({
+    text: colors.green("Start building ☕☕☕☕☕"),
+    spinner: "dots12"
+}).start();
+spinner.start();
 
 /* Loading modules and initilize routes, components and services */
 const modules = readdirSync(path.resolve(__dirname, "../../src/modules/"), { withFileTypes: true })
@@ -25,7 +34,7 @@ modules.forEach(element => {
         if (existsSync(resolve(__dirname, "../../src/modules", element, "routes.js")))
             require(resolve(__dirname, "../../src/modules", element, "routes.js"))(router); // routes.js must return a function
     } catch (e) {
-        throw e;
+        spinner.fail(colors.red(e) + "\n");
         process.exit(0);
     }
 });
@@ -45,7 +54,7 @@ modules.forEach(element => {
             }
         }
     } catch (e) {
-        throw e;
+        spinner.fail(colors.red(e) + "\n");
         process.exit(0);
     }
 });
@@ -57,10 +66,13 @@ let routes = router.getRoutes();
 // Collect all "GET" only route
 let getRoutes = routes.filter(r => (r.method.length === 1 && r.method[0].toUpperCase() === "GET"));
 let promises = [];
+let total = getRoutes.length - 1;
+let completed = 0;
+
+spinner.text = "Start building ☕☕☕☕☕\n" + Array(total).fill("▒").join("");
 for (const route of getRoutes) {
     const buildFunc = async function () {
         let components = getComponentsByRoute(route.id);
-        //console.log(components);
 
         if (!components)
             return;
@@ -179,15 +191,17 @@ for (const route of getRoutes) {
         }).css);
 
         await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, `${hash}.css`), cssOutput.styles);
+        completed++;
+        spinner.text = "Start building ☕☕☕☕☕\n" + Array(completed).fill(colors.green("█")).concat(total - completed > 0 ? Array(total - completed).fill("▒") : []).join("");
     }
     promises.push(buildFunc());
 }
 Promise.all(promises)
     .then(() => {
-        console.log("Bundleing completed");
+        spinner.succeed(colors.green("Building completed!!!\n") + boxen(colors.green('Please run "npm run start" to start your website'), { title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green' }))
         process.exit(0);
     })
     .catch((e) => {
-        console.log(e);
+        spinner.fail(colors.red(e) + "\n");
         process.exit(0);
     });
