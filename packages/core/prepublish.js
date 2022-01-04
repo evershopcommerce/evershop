@@ -1,7 +1,5 @@
 var fs = require('fs')
 
-//fs.renameSync("./bin/dev/index.js", "./bin/dev/index_bk.js");
-
 const source = fs.readFileSync('./bin/serve/index.js', { encoding: 'utf8', flag: 'r' });
 
 var result = source.replace(/\.\.\/src/g, '../dist');
