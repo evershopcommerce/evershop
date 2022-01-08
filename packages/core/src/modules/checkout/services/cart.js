@@ -125,7 +125,8 @@ class Item extends DataObject {
             key: "product_sku",
             resolver: async function () {
                 return this._dataSource.product.sku ?? null;
-            }
+            },
+            dependencies: ["product_id"]
         },
         {
             key: "product_name",
@@ -278,7 +279,7 @@ class Item extends DataObject {
         {
             key: "productUrl",
             resolver: async function () {
-                return buildSiteUrl('productView', { url_key: this._dataSource.product.url_key })
+                return this.getData('product_id') ? buildSiteUrl('productView', { url_key: this._dataSource.product.url_key }) : null
             },
             dependencies: ["product_id"]
         },
@@ -517,6 +518,12 @@ exports.Cart = class Cart extends DataObject {
                     await Promise.all(list.map(async (i) => {
                         let item = new Item(i);
                         await item.build();
+                        if (!item.getData("product_id")) {
+                            await del("cart_item")
+                                .where("cart_item_id", "=", i['cart_item_id'])
+                                .execute(pool);
+                            return;
+                        }
                         let flag = true;
                         items.forEach(_item => {
                             if (_item.getData('product_sku') == item.getData('product_sku') && isEqualWith(_item.getData('product_custom_options'), item.getData('product_custom_options'))) {

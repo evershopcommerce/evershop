@@ -8,7 +8,7 @@ module.exports = async (request, response, stack, next) => {
 
         if (qty < 1)
             throw new Error("Invalid quantity");
-        let item = await cart.addItem({ product_id: productId, qty: qty });
+        await cart.addItem({ product_id: productId, qty: qty });
         // Extract cart info
         let cartInfo = cart.export();
         let items = cart.getItems();
@@ -20,7 +20,6 @@ module.exports = async (request, response, stack, next) => {
             message: "Product was added to cart successfully"
         };
     } catch (error) {
-        logger.log("error", `Exception in middleware ${id}`, { message: error.message, stack: error.stack })
         response.$body = {
             data: {},
             success: false,

@@ -44,7 +44,7 @@ function AddToCart({ stockAvaibility, loading = false, error }) {
         </div>
         {error && <div className='text-critical mt-1'>{error}</div>}
         <div className='mt-1'>
-            {stockAvaibility === 1 && <Button
+            {stockAvaibility === true && <Button
                 title="ADD TO CART"
                 outline={true}
                 isLoading={loading}
@@ -52,7 +52,7 @@ function AddToCart({ stockAvaibility, loading = false, error }) {
                     () => { document.getElementById('productForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })) }
                 }
             />}
-            {stockAvaibility === 0 && <Button title="SOLD OUT" onAction={() => { }} />}
+            {stockAvaibility === false && <Button title="SOLD OUT" onAction={() => { }} />}
         </div>
     </div >
 }
@@ -99,7 +99,7 @@ export default function ProductForm({ action }) {
                 {
                     'component': { default: AddToCart },
                     'props': {
-                        stockAvaibility: product.stock_availability,
+                        stockAvaibility: (product.stock_availability === 1 && product.qty > 0) || product.manage_stock === 0,
                         loading: loading,
                         error: error
                     },

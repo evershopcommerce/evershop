@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "dev": "nodemon --delay 500ms --exec babel-node ./packages/core/bin/nodejscart dev",
+    "install": "nodejscart install",
     "build": "nodejscart build",
     "start": "nodejscart start",
     "test": "jest --workspace=@nodejscart/core"

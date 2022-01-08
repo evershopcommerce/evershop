@@ -17,7 +17,6 @@ module.exports = async (request, response, stack, next) => {
             message: ""
         });
     } catch (e) {
-        logger.log("error", `Exception in middleware ${id}`, { message: e.message, stack: e.stack })
         response.json({
             data: {},
             success: false,
