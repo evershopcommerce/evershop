@@ -13,6 +13,8 @@ if (command === "build") {
 } else if (command === "start") {
     process.env.NODE_ENV = 'production';
     require('./serve');
+} else if (command === "install") {
+    require('./install');
 } else {
     throw new Error("Invalid command")
 }

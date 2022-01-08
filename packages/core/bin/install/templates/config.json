@@ -1,10 +1,12 @@
 {
     "shop": {
-        "title": "",
-        "description": "",
-        "currency": "usd",
-        "language": "en",
-        "timezone": ""
+        "title": "NodeJS Cart Demo",
+        "description": "An E-commerce platform using ReactJS and MySQL",
+        "currency": "USD",
+        "language": "fr",
+        "timezone": "America/New_York",
+        "adminTheme": "default",
+        "siteTheme": "justatheme"
     },
     "catalog": {
         "product": {
@@ -91,9 +93,9 @@
     "system": {
         "database": {
             "host": "localhost",
-            "port": "3306",
-            "database": "install",
-            "user": "root",
+            "port": 3306,
+            "database": "nodejscart",
+            "user": "admin",
             "password": "123456"
         }
     }
