@@ -195,29 +195,4 @@ module.exports = exports = async () => {
   CONSTRAINT \`FK_ORDER_SHIPMENT\` FOREIGN KEY (\`shipment_order_id\`) REFERENCES \`order\` (\`order_id\`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Shipment';
 `);
-
-  /* CREATE SOME TRIGGERS */
-
-  await execute(pool, `CREATE TRIGGER \`TRIGGER_UPDATE_COUPON_USED_TIME_AFTER_CREATE_ORDER\` AFTER INSERT ON \`order\` FOR EACH ROW                     
-
-
-                        BEGIN
-
-
-                            UPDATE \`coupon\` SET \`coupon\`.used_time = \`coupon\`.used_time + 1 WHERE \`coupon\`.coupon = NEW.coupon;
-
-
-                            IF (NEW.customer_id <> NULL) THEN
-
-
-                                INSERT INTO \`customer_coupon_use\` (\`customer_id\`, \`coupon\`, \`used_time\`) VALUES (NEW.customer_id, NEW.coupon, 1)
-
-
-                                    ON DUPLICATE KEY UPDATE \`customer_coupon_use\`.used_time = \`customer_coupon_use\`.used_time + 1;
-
-
-                            END IF;
-
-
-                        END`)
 }
