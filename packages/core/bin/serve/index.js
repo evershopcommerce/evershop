@@ -1,4 +1,4 @@
-const { readdirSync, existsSync } = require('fs');
+const { readdirSync, existsSync, readFileSync } = require('fs');
 const path = require("path");
 const express = require("express");
 const http = require('http');
@@ -22,27 +22,47 @@ const modules = readdirSync(path.join(src, "modules"), { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
+// Load routes and middleware functions
+
 modules.forEach(element => {
     try {
+        // Load middleware functions
         getModuleMiddlewares(path.join(src, "modules", element));
-        if (existsSync(path.join(src, "modules", element, "routes.js")))
-            require(path.join(src, "modules", element, "routes.js"))(router); // routes.js must return a function
+
+        // Check for routes
+        if (existsSync(path.join(src, "modules", element, "controllers", "admin"))) {
+            registerRoute(path.join(src, "modules", element, "controllers", "admin"), true, false);
+        }
+
+        if (existsSync(path.join(src, "modules", element, "controllers", "site"))) {
+            registerRoute(path.join(src, "modules", element, "controllers", "site"), false, false);
+        }
+
+        if (existsSync(path.join(src, "modules", element, "api", "admin"))) {
+            registerRoute(path.join(src, "modules", element, "api", "admin"), true, true);
+        }
+
+        if (existsSync(path.join(src, "modules", element, "api", "site"))) {
+            registerRoute(path.join(src, "modules", element, "api", "site"), false, true);
+        }
     } catch (e) {
         spinner.fail(colors.red(e) + "\n");
         process.exit(0);
     }
 });
 
+// Load components for view
+
 modules.forEach(element => {
     try {
-        if (existsSync(path.join(src, "modules", element, "components/site/components.js"))) {
-            let components = require(path.join(src, "modules", element, "components/site/components.js"));
+        if (existsSync(path.join(src, "modules", element, "views/site/components.js"))) {
+            let components = require(path.join(src, "modules", element, "views/site/components.js"));
             if (typeof components === 'object' && components !== null) {
                 addComponents("site", components);
             }
         }
-        if (existsSync(path.join(src, "modules", element, "components/admin/components.js"))) {
-            let components = require(path.join(src, "modules", element, "components/admin/components.js"));
+        if (existsSync(path.join(src, "modules", element, "views/admin/components.js"))) {
+            let components = require(path.join(src, "modules", element, "views/admin/components.js"));
             if (typeof components === 'object' && components !== null) {
                 addComponents("admin", components);
             }
@@ -223,4 +243,29 @@ function onListening() {
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
+}
+
+/**
+ * Scan for routes base on module path.
+ */
+
+function registerRoute(_path, isAdmin, isApi) {
+    const routes = readdirSync(_path, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name);
+    routes.forEach(r => {
+        if (/^[A-Za-z.]+$/.test(r) === true) {
+            if (existsSync(path.join(_path, r, "route"))) {
+                const lines = readFileSync(path.join(_path, r, "route"), 'utf-8').split(/\r?\n/);
+                let p = lines[1];
+                if (isApi === true) {
+                    p = "/v1" + p;
+                }
+                if (isAdmin === true)
+                    router.registerAdminRoute(r, lines[0].split(',').map(e => e.trim()), p);
+                else
+                    router.registerSiteRoute(r, lines[0].split(',').map(e => e.trim()), p);
+            }
+        }
+    });
 }

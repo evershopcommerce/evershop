@@ -14,8 +14,8 @@ var components = {
 
 exports.useAdminComponent = function useAdminComponent(_path) {
     const theme = getConfig("shop.adminTheme");
-    if (theme && existsSync(path.join(CONSTANTS.ADMINTHEMEPATH, theme, 'components', _path.replace("/components/admin", "")))) {
-        return path.resolve(CONSTANTS.ADMINTHEMEPATH, theme, 'components', _path.replace("/components/admin", ""));
+    if (theme && existsSync(path.join(CONSTANTS.ADMINTHEMEPATH, theme, 'views', _path.replace("/views/admin", "")))) {
+        return path.resolve(CONSTANTS.ADMINTHEMEPATH, theme, 'views', _path.replace("/views/admin", ""));
     } else {
         if (existsSync(path.resolve(CONSTANTS.MOLDULESPATH, _path))) {
             return path.resolve(CONSTANTS.MOLDULESPATH, _path);
@@ -27,8 +27,8 @@ exports.useAdminComponent = function useAdminComponent(_path) {
 
 exports.useSiteComponent = function useSiteComponent(_path) {
     const theme = getConfig("shop.siteTheme");
-    if (theme && existsSync(path.join(CONSTANTS.SITETHEMEPATH, theme, 'components', _path.replace("/components/site", "")))) {
-        return path.resolve(CONSTANTS.SITETHEMEPATH, theme, 'components', _path.replace("/components/site", ""));
+    if (theme && existsSync(path.join(CONSTANTS.SITETHEMEPATH, theme, 'views', _path.replace("/views/site", "")))) {
+        return path.resolve(CONSTANTS.SITETHEMEPATH, theme, 'views', _path.replace("/views/site", ""));
     } else {
         if (existsSync(path.resolve(CONSTANTS.MOLDULESPATH, _path))) {
             return path.resolve(CONSTANTS.MOLDULESPATH, _path);

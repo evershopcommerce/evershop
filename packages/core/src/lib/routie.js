@@ -21,6 +21,7 @@ module.exports = exports = {
      * @param {*} params
      */
     buildSiteUrl: function buildSiteUrl(routeId, params = {}) {
+        //console.log(routes);
         let route = routes.find(r => r.id === routeId);
         if (route === undefined)
             throw new Error(`Route ${routeId} is not existed`);
@@ -63,9 +64,6 @@ module.exports = exports = {
 }
 
 function validateRoute(id, method, path) {
-    if (/^[A-Za-z.]+$/.test(id) === false) // Route ID must contain letters only. Silently ignore invalid route
-        throw new TypeError(`Route ID ${String(id)} is not valid`);
-
     if (routes.find(r => r.id === id) !== undefined)
         throw new Error(`Route with ID ${String(id)} is already existed`);
 

@@ -170,19 +170,19 @@ function scanForMiddleware(_path) {
 }
 
 exports.getModuleMiddlewares = function getModuleMiddlewares(_path) {
-    if (!existsSync(resolve(_path, "middlewares")))
+    if (!existsSync(resolve(_path, "controllers")))
         return false;
     // Scan for the application level middleware
-    scanForMiddleware(resolve(_path, "middlewares")).forEach(m => addMiddleware(m.id, m.middleware, null, m.before || null, m.after || null));
+    scanForMiddleware(resolve(_path, "controllers")).forEach(m => addMiddleware(m.id, m.middleware, null, m.before || null, m.after || null));
 
     // Scan for the admin level middleware
-    if (existsSync(resolve(_path, "middlewares", "admin"))) {
-        let routes = readdirSync(resolve(_path, "middlewares", "admin"), { withFileTypes: true })
+    if (existsSync(resolve(_path, "controllers", "admin"))) {
+        let routes = readdirSync(resolve(_path, "controllers", "admin"), { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
             .map(dirent => dirent.name);
 
         routes.forEach(r => {
-            let middlewares = scanForMiddleware(resolve(_path, "middlewares", "admin", r));
+            let middlewares = scanForMiddleware(resolve(_path, "controllers", "admin", r));
             if (r == "all") {
                 middlewares.forEach(m => addMiddleware(m.id, m.middleware, "admin", m.before || null, m.after || null))
             } else {
@@ -202,13 +202,13 @@ exports.getModuleMiddlewares = function getModuleMiddlewares(_path) {
     }
 
     // Scan for the site level middleware
-    if (existsSync(resolve(_path, "middlewares", "site"))) {
-        let routes = readdirSync(resolve(_path, "middlewares", "site"), { withFileTypes: true })
+    if (existsSync(resolve(_path, "controllers", "site"))) {
+        let routes = readdirSync(resolve(_path, "controllers", "site"), { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
             .map(dirent => dirent.name);
 
         routes.forEach(r => {
-            let middlewares = scanForMiddleware(resolve(_path, "middlewares", "site", r));
+            let middlewares = scanForMiddleware(resolve(_path, "controllers", "site", r));
             if (r == "all") {
                 middlewares.forEach(m => addMiddleware(m.id, m.middleware, "site", m.before || null, m.after || null))
             } else {
