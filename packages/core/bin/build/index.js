@@ -1,4 +1,4 @@
-const { readdirSync, existsSync, statSync } = require('fs');
+const { readdirSync, existsSync, statSync, readFileSync } = require('fs');
 const { writeFile, mkdir, rmdir } = require("fs").promises;
 const path = require("path");
 const resolve = path.resolve;
@@ -9,7 +9,7 @@ const { CONSTANTS } = require('../../src/lib/helpers');
 const { inspect } = require('util');
 const sass = require('node-sass');
 const CleanCss = require('clean-css');
-const colors = require('colors');
+const { red, green } = require('kleur');
 const ora = require('ora');
 const boxen = require('boxen');
 
@@ -19,7 +19,7 @@ require('@babel/register')({
 });
 
 const spinner = ora({
-    text: colors.green("Start building ☕☕☕☕☕"),
+    text: green("Start building ☕☕☕☕☕"),
     spinner: "dots12"
 }).start();
 spinner.start();
@@ -29,32 +29,49 @@ const modules = readdirSync(path.resolve(__dirname, "../../src/modules/"), { wit
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
-modules.forEach(element => {
+// Load routes
+
+modules.forEach(module => {
     try {
-        if (existsSync(resolve(__dirname, "../../src/modules", element, "routes.js")))
-            require(resolve(__dirname, "../../src/modules", element, "routes.js"))(router); // routes.js must return a function
+        let src = path.resolve(__dirname, "../../dist");
+        // Check for routes
+        if (existsSync(path.join(src, "modules", module, "controllers", "admin"))) {
+            registerRoute(path.join(src, "modules", module, "controllers", "admin"), true, false);
+        }
+
+        if (existsSync(path.join(src, "modules", module, "controllers", "site"))) {
+            registerRoute(path.join(src, "modules", module, "controllers", "site"), false, false);
+        }
+
+        if (existsSync(path.join(src, "modules", module, "apiControllers", "admin"))) {
+            registerRoute(path.join(src, "modules", module, "apiControllers", "admin"), true, true);
+        }
+
+        if (existsSync(path.join(src, "modules", module, "apiControllers", "site"))) {
+            registerRoute(path.join(src, "modules", module, "apiControllers", "site"), false, true);
+        }
     } catch (e) {
-        spinner.fail(colors.red(e) + "\n");
+        spinner.fail(red(e) + "\n");
         process.exit(0);
     }
 });
 
 modules.forEach(element => {
     try {
-        if (existsSync(resolve(__dirname, "../../src/modules", element, "components/site/components.js"))) {
-            let components = require(resolve(__dirname, "../../src/modules", element, "components/site/components.js"));
+        if (existsSync(resolve(__dirname, "../../src/modules", element, "views/site/components.js"))) {
+            let components = require(resolve(__dirname, "../../src/modules", element, "views/site/components.js"));
             if (typeof components === 'object' && components !== null) {
                 addComponents("site", components);
             }
         }
-        if (existsSync(resolve(__dirname, "../../src/modules", element, "components/admin/components.js"))) {
-            let components = require(resolve(__dirname, "../../src/modules", element, "components/admin/components.js"));
+        if (existsSync(resolve(__dirname, "../../src/modules", element, "views/admin/components.js"))) {
+            let components = require(resolve(__dirname, "../../src/modules", element, "views/admin/components.js"));
             if (typeof components === 'object' && components !== null) {
                 addComponents("admin", components);
             }
         }
     } catch (e) {
-        spinner.fail(colors.red(e) + "\n");
+        spinner.fail(red(e) + "\n");
         process.exit(0);
     }
 });
@@ -192,16 +209,42 @@ for (const route of getRoutes) {
 
         await writeFile(path.resolve(CONSTANTS.ROOTPATH, ".nodejscart/build", _p, `${hash}.css`), cssOutput.styles);
         completed++;
-        spinner.text = "Start building ☕☕☕☕☕\n" + Array(completed).fill(colors.green("█")).concat(total - completed > 0 ? Array(total - completed).fill("▒") : []).join("");
+        spinner.text = "Start building ☕☕☕☕☕\n" + Array(completed).fill(green("█")).concat(total - completed > 0 ? Array(total - completed).fill("▒") : []).join("");
     }
     promises.push(buildFunc());
 }
 Promise.all(promises)
     .then(() => {
-        spinner.succeed(colors.green("Building completed!!!\n") + boxen(colors.green('Please run "npm run start" to start your website'), { title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green' }))
+        spinner.succeed(green("Building completed!!!\n") + boxen(green('Please run "npm run start" to start your website'), { title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green' }))
         process.exit(0);
     })
     .catch((e) => {
-        spinner.fail(colors.red(e) + "\n");
+        spinner.fail(red(e) + "\n");
         process.exit(0);
     });
+
+/**
+ * Scan for routes base on module path.
+ */
+
+function registerRoute(_path, isAdmin, isApi) {
+    const routes = readdirSync(_path, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name);
+    routes.forEach(r => {
+        if (/^[A-Za-z.]+$/.test(r) === true) {
+            if (existsSync(path.join(_path, r, "route"))) {
+                let lines = readFileSync(path.join(_path, r, "route"), 'utf-8');
+                lines = lines.split(/\r?\n/).map(p => p.replace("\\\\", "\\"));
+                let p = lines[1];
+                if (isApi === true) {
+                    p = "/v1" + p;
+                }
+                if (isAdmin === true)
+                    router.registerAdminRoute(r, lines[0].split(',').map(e => e.trim()).filter(e => e !== ''), p);
+                else
+                    router.registerSiteRoute(r, lines[0].split(',').map(e => e.trim()).filter(e => e !== ''), p);
+            }
+        }
+    });
+}
