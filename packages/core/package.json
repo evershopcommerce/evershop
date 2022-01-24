@@ -1,6 +1,6 @@
 {
   "name": "@nodejscart/core",
-  "version": "1.1.0-alpha.1",
+  "version": "1.1.0-alpha.2",
   "description": "The NodeJs ecommerce platform. Built with ReactJS and MySQL. Open-source and free. Fast and customizable.",
   "files": [
     "bin",
