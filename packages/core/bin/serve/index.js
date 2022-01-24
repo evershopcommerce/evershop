@@ -3,7 +3,7 @@ const path = require("path");
 const express = require("express");
 const http = require('http');
 const debug = require('debug')('express:server');
-let src = process.env.NODE_ENV === "development" ? path.resolve(__dirname, "../../src") : path.resolve(__dirname, "../../src");
+let src = process.env.NODE_ENV === "development" ? path.resolve(__dirname, "../../src") : path.resolve(__dirname, "../../dist");
 const { getModuleMiddlewares, get } = require(path.join(src, "lib/middee"));
 const { addComponents } = require(path.join(src, "lib/componee"));
 const router = require(path.join(src, "lib/routie"));
@@ -26,6 +26,7 @@ const modules = readdirSync(path.join(src, "modules"), { withFileTypes: true })
 
 modules.forEach(module => {
     try {
+
         // Load middleware functions
         getModuleMiddlewares(path.join(src, "modules", module));
 
