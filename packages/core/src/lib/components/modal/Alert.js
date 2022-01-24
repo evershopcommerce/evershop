@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
 import ReactDOM from 'react-dom';
-import { Card } from "../../../modules/cms/components/admin/Card";
+import { Card } from "../../../modules/cms/views/admin/Card";
 import Button from "../form/Button";
 import produce from 'immer';
 import { assign } from "../../util/assign";

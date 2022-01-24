@@ -125,6 +125,62 @@ function sortMiddlewares(middlewares = []) {
     });
 }
 
+exports.getModuleMiddlewares = function getModuleMiddlewares(_path) {
+    if (existsSync(resolve(_path, "controllers"))) {
+        // Scan for the application level middleware
+        scanForMiddleware(resolve(_path, "controllers")).forEach(m => addMiddleware(m.id, m.middleware, null, m.before || null, m.after || null));
+
+        // Scan for the admin level middleware
+        if (existsSync(resolve(_path, "controllers", "admin"))) {
+            loadMiddlewareFunctions(resolve(_path, "controllers", "admin"), "admin");
+        }
+
+        // Scan for the site level middleware
+        if (existsSync(resolve(_path, "controllers", "site"))) {
+            loadMiddlewareFunctions(resolve(_path, "controllers", "site"), "site");
+        }
+    }
+    if (existsSync(resolve(_path, "apiControllers"))) {
+        // Scan for the application level middleware
+        scanForMiddleware(resolve(_path, "apiControllers")).forEach(m => addMiddleware(m.id, m.middleware, null, m.before || null, m.after || null));
+
+        // Scan for the admin level middleware
+        if (existsSync(resolve(_path, "apiControllers", "admin"))) {
+            loadMiddlewareFunctions(resolve(_path, "apiControllers", "admin"), "admin");
+        }
+
+        // Scan for the site level middleware
+        if (existsSync(resolve(_path, "apiControllers", "site"))) {
+            loadMiddlewareFunctions(resolve(_path, "apiControllers", "site"), "site");
+        }
+    }
+}
+
+function loadMiddlewareFunctions(_path, scope) {
+    let routes = readdirSync(_path, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name);
+
+    routes.forEach(r => {
+        let middlewares = scanForMiddleware(resolve(_path, r));
+        if (r == "all") {
+            middlewares.forEach(m => addMiddleware(m.id, m.middleware, scope, m.before || null, m.after || null))
+        } else {
+            let split = r.split(/[+]+/);
+            if (split.length == 1) {
+                middlewares.forEach(m => addMiddleware(m.id, m.middleware, r, m.before || null, m.after || null))
+            } else {
+                split.forEach(s => {
+                    let r = (s.trim());
+                    if (r != "") {
+                        middlewares.forEach(m => addMiddleware(m.id, m.middleware, r, m.before || null, m.after || null))
+                    }
+                })
+            }
+        }
+    })
+}
+
 function scanForMiddleware(_path) {
     return readdirSync(resolve(_path), { withFileTypes: true })
         .filter(dirent => dirent.isFile() && /.js$/.test(dirent.name))
@@ -167,65 +223,6 @@ function scanForMiddleware(_path) {
 
             return m;
         });
-}
-
-exports.getModuleMiddlewares = function getModuleMiddlewares(_path) {
-    if (!existsSync(resolve(_path, "middlewares")))
-        return false;
-    // Scan for the application level middleware
-    scanForMiddleware(resolve(_path, "middlewares")).forEach(m => addMiddleware(m.id, m.middleware, null, m.before || null, m.after || null));
-
-    // Scan for the admin level middleware
-    if (existsSync(resolve(_path, "middlewares", "admin"))) {
-        let routes = readdirSync(resolve(_path, "middlewares", "admin"), { withFileTypes: true })
-            .filter(dirent => dirent.isDirectory())
-            .map(dirent => dirent.name);
-
-        routes.forEach(r => {
-            let middlewares = scanForMiddleware(resolve(_path, "middlewares", "admin", r));
-            if (r == "all") {
-                middlewares.forEach(m => addMiddleware(m.id, m.middleware, "admin", m.before || null, m.after || null))
-            } else {
-                let split = r.split(/[+]+/);
-                if (split.length == 1) {
-                    middlewares.forEach(m => addMiddleware(m.id, m.middleware, r, m.before || null, m.after || null))
-                } else {
-                    split.forEach(s => {
-                        let r = (s.trim());
-                        if (r != "") {
-                            middlewares.forEach(m => addMiddleware(m.id, m.middleware, r, m.before || null, m.after || null))
-                        }
-                    })
-                }
-            }
-        })
-    }
-
-    // Scan for the site level middleware
-    if (existsSync(resolve(_path, "middlewares", "site"))) {
-        let routes = readdirSync(resolve(_path, "middlewares", "site"), { withFileTypes: true })
-            .filter(dirent => dirent.isDirectory())
-            .map(dirent => dirent.name);
-
-        routes.forEach(r => {
-            let middlewares = scanForMiddleware(resolve(_path, "middlewares", "site", r));
-            if (r == "all") {
-                middlewares.forEach(m => addMiddleware(m.id, m.middleware, "site", m.before || null, m.after || null))
-            } else {
-                let split = r.split(/[+]+/);
-                if (split.length == 1) {
-                    middlewares.forEach(m => addMiddleware(m.id, m.middleware, r, m.before || null, m.after || null))
-                } else {
-                    split.forEach(s => {
-                        let r = (s.trim());
-                        if (r != "") {
-                            middlewares.forEach(m => addMiddleware(m.id, m.middleware, r, m.before || null, m.after || null))
-                        }
-                    })
-                }
-            }
-        })
-    }
 }
 
 exports.get = function get() {

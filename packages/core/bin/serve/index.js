@@ -1,4 +1,4 @@
-const { readdirSync, existsSync } = require('fs');
+const { readdirSync, existsSync, readFileSync } = require('fs');
 const path = require("path");
 const express = require("express");
 const http = require('http');
@@ -7,12 +7,12 @@ let src = process.env.NODE_ENV === "development" ? path.resolve(__dirname, "../.
 const { getModuleMiddlewares, get } = require(path.join(src, "lib/middee"));
 const { addComponents } = require(path.join(src, "lib/componee"));
 const router = require(path.join(src, "lib/routie"));
-const colors = require('colors');
+const { red, green } = require('kleur');
 const ora = require('ora');
 const boxen = require('boxen');
 
 const spinner = ora({
-    text: colors.green("NodeJsCart is starting"),
+    text: green("NodeJsCart is starting"),
     spinner: "dots12"
 }).start();
 spinner.start();
@@ -22,33 +22,53 @@ const modules = readdirSync(path.join(src, "modules"), { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
-modules.forEach(element => {
+// Load routes and middleware functions
+
+modules.forEach(module => {
     try {
-        getModuleMiddlewares(path.join(src, "modules", element));
-        if (existsSync(path.join(src, "modules", element, "routes.js")))
-            require(path.join(src, "modules", element, "routes.js"))(router); // routes.js must return a function
+        // Load middleware functions
+        getModuleMiddlewares(path.join(src, "modules", module));
+
+        // Check for routes
+        if (existsSync(path.join(src, "modules", module, "controllers", "admin"))) {
+            registerRoute(path.join(src, "modules", module, "controllers", "admin"), true, false);
+        }
+
+        if (existsSync(path.join(src, "modules", module, "controllers", "site"))) {
+            registerRoute(path.join(src, "modules", module, "controllers", "site"), false, false);
+        }
+
+        if (existsSync(path.join(src, "modules", module, "apiControllers", "admin"))) {
+            registerRoute(path.join(src, "modules", module, "apiControllers", "admin"), true, true);
+        }
+
+        if (existsSync(path.join(src, "modules", module, "apiControllers", "site"))) {
+            registerRoute(path.join(src, "modules", module, "apiControllers", "site"), false, true);
+        }
     } catch (e) {
-        spinner.fail(colors.red(e) + "\n");
+        spinner.fail(red(e) + "\n");
         process.exit(0);
     }
 });
 
+// Load components for view
+
 modules.forEach(element => {
     try {
-        if (existsSync(path.join(src, "modules", element, "components/site/components.js"))) {
-            let components = require(path.join(src, "modules", element, "components/site/components.js"));
+        if (existsSync(path.join(src, "modules", element, "views/site/components.js"))) {
+            let components = require(path.join(src, "modules", element, "views/site/components.js"));
             if (typeof components === 'object' && components !== null) {
                 addComponents("site", components);
             }
         }
-        if (existsSync(path.join(src, "modules", element, "components/admin/components.js"))) {
-            let components = require(path.join(src, "modules", element, "components/admin/components.js"));
+        if (existsSync(path.join(src, "modules", element, "views/admin/components.js"))) {
+            let components = require(path.join(src, "modules", element, "views/admin/components.js"));
             if (typeof components === 'object' && components !== null) {
                 addComponents("admin", components);
             }
         }
     } catch (e) {
-        spinner.fail(colors.red(e) + "\n");
+        spinner.fail(red(e) + "\n");
         process.exit(0);
     }
 });
@@ -57,11 +77,6 @@ modules.forEach(element => {
 
 /* Create an express application */
 let app = express();
-
-// Setup event listener
-//let listeners = eventer.getListeners();
-
-//listeners.forEach(l => app.once(l.event, l.callback));
 
 let routes = router.getRoutes();
 let siteRoutes = router.getSiteRoutes();
@@ -97,6 +112,7 @@ app.all('*', (request, response, next) => {
 });
 
 let middlewares = get();
+
 middlewares.forEach(m => {
     if (m.routeId === null)
         app.use(m.middleware);
@@ -200,11 +216,11 @@ function onError(error) {
     // handle specific listen errors with friendly messages
     switch (error.code) {
         case 'EACCES':
-            spinner.fail(colors.red(bind + ' requires elevated privileges') + "\n");
+            spinner.fail(red(bind + ' requires elevated privileges') + "\n");
             process.exit(1);
             break;
         case 'EADDRINUSE':
-            spinner.fail(colors.red(bind + ' is already in use') + "\n");
+            spinner.fail(red(bind + ' is already in use') + "\n");
             process.exit(1);
             break;
         default:
@@ -217,10 +233,36 @@ function onError(error) {
  */
 
 function onListening() {
-    spinner.succeed(colors.green("Done!!!\n") + boxen(colors.green('Your website is running at "http://localhost:3000"'), { title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green' }))
+    spinner.succeed(green("Done!!!\n") + boxen(green('Your website is running at "http://localhost:3000"'), { title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green' }))
     var addr = server.address();
     var bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
+}
+
+/**
+ * Scan for routes base on module path.
+ */
+
+function registerRoute(_path, isAdmin, isApi) {
+    const routes = readdirSync(_path, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name);
+    routes.forEach(r => {
+        if (/^[A-Za-z.]+$/.test(r) === true) {
+            if (existsSync(path.join(_path, r, "route"))) {
+                let lines = readFileSync(path.join(_path, r, "route"), 'utf-8');
+                lines = lines.split(/\r?\n/).map(p => p.replace("\\\\", "\\"));
+                let p = lines[1];
+                if (isApi === true) {
+                    p = "/v1" + p;
+                }
+                if (isAdmin === true)
+                    router.registerAdminRoute(r, lines[0].split(',').map(e => e.trim()).filter(e => e !== ''), p);
+                else
+                    router.registerSiteRoute(r, lines[0].split(',').map(e => e.trim()).filter(e => e !== ''), p);
+            }
+        }
+    });
 }
