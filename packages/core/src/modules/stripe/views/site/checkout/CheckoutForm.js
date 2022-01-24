@@ -29,7 +29,7 @@ export default function CheckoutForm() {
         // Create PaymentIntent as soon as the order is placed
         if (checkout.orderPlaced === true) {
             window
-                .fetch("/stripe/create-payment-intent", {
+                .fetch("/v1/stripe/create-payment-intent", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

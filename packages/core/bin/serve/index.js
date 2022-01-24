@@ -24,26 +24,26 @@ const modules = readdirSync(path.join(src, "modules"), { withFileTypes: true })
 
 // Load routes and middleware functions
 
-modules.forEach(element => {
+modules.forEach(module => {
     try {
         // Load middleware functions
-        getModuleMiddlewares(path.join(src, "modules", element));
+        getModuleMiddlewares(path.join(src, "modules", module));
 
         // Check for routes
-        if (existsSync(path.join(src, "modules", element, "controllers", "admin"))) {
-            registerRoute(path.join(src, "modules", element, "controllers", "admin"), true, false);
+        if (existsSync(path.join(src, "modules", module, "controllers", "admin"))) {
+            registerRoute(path.join(src, "modules", module, "controllers", "admin"), true, false);
         }
 
-        if (existsSync(path.join(src, "modules", element, "controllers", "site"))) {
-            registerRoute(path.join(src, "modules", element, "controllers", "site"), false, false);
+        if (existsSync(path.join(src, "modules", module, "controllers", "site"))) {
+            registerRoute(path.join(src, "modules", module, "controllers", "site"), false, false);
         }
 
-        if (existsSync(path.join(src, "modules", element, "api", "admin"))) {
-            registerRoute(path.join(src, "modules", element, "api", "admin"), true, true);
+        if (existsSync(path.join(src, "modules", module, "api", "admin"))) {
+            registerRoute(path.join(src, "modules", module, "api", "admin"), true, true);
         }
 
-        if (existsSync(path.join(src, "modules", element, "api", "site"))) {
-            registerRoute(path.join(src, "modules", element, "api", "site"), false, true);
+        if (existsSync(path.join(src, "modules", module, "api", "site"))) {
+            registerRoute(path.join(src, "modules", module, "api", "site"), false, true);
         }
     } catch (e) {
         spinner.fail(colors.red(e) + "\n");
@@ -77,11 +77,6 @@ modules.forEach(element => {
 
 /* Create an express application */
 let app = express();
-
-// Setup event listener
-//let listeners = eventer.getListeners();
-
-//listeners.forEach(l => app.once(l.event, l.callback));
 
 let routes = router.getRoutes();
 let siteRoutes = router.getSiteRoutes();
@@ -117,6 +112,7 @@ app.all('*', (request, response, next) => {
 });
 
 let middlewares = get();
+
 middlewares.forEach(m => {
     if (m.routeId === null)
         app.use(m.middleware);
@@ -256,15 +252,16 @@ function registerRoute(_path, isAdmin, isApi) {
     routes.forEach(r => {
         if (/^[A-Za-z.]+$/.test(r) === true) {
             if (existsSync(path.join(_path, r, "route"))) {
-                const lines = readFileSync(path.join(_path, r, "route"), 'utf-8').split(/\r?\n/);
+                let lines = readFileSync(path.join(_path, r, "route"), 'utf-8');
+                lines = lines.split(/\r?\n/).map(p => p.replace("\\\\", "\\"));
                 let p = lines[1];
                 if (isApi === true) {
                     p = "/v1" + p;
                 }
                 if (isAdmin === true)
-                    router.registerAdminRoute(r, lines[0].split(',').map(e => e.trim()), p);
+                    router.registerAdminRoute(r, lines[0].split(',').map(e => e.trim()).filter(e => e !== ''), p);
                 else
-                    router.registerSiteRoute(r, lines[0].split(',').map(e => e.trim()), p);
+                    router.registerSiteRoute(r, lines[0].split(',').map(e => e.trim()).filter(e => e !== ''), p);
             }
         }
     });
