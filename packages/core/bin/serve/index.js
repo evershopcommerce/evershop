@@ -38,12 +38,12 @@ modules.forEach(module => {
             registerRoute(path.join(src, "modules", module, "controllers", "site"), false, false);
         }
 
-        if (existsSync(path.join(src, "modules", module, "api", "admin"))) {
-            registerRoute(path.join(src, "modules", module, "api", "admin"), true, true);
+        if (existsSync(path.join(src, "modules", module, "apiControllers", "admin"))) {
+            registerRoute(path.join(src, "modules", module, "apiControllers", "admin"), true, true);
         }
 
-        if (existsSync(path.join(src, "modules", module, "api", "site"))) {
-            registerRoute(path.join(src, "modules", module, "api", "site"), false, true);
+        if (existsSync(path.join(src, "modules", module, "apiControllers", "site"))) {
+            registerRoute(path.join(src, "modules", module, "apiControllers", "site"), false, true);
         }
     } catch (e) {
         spinner.fail(red(e) + "\n");

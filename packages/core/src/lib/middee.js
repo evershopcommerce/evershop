@@ -140,18 +140,18 @@ exports.getModuleMiddlewares = function getModuleMiddlewares(_path) {
             loadMiddlewareFunctions(resolve(_path, "controllers", "site"), "site");
         }
     }
-    if (existsSync(resolve(_path, "api"))) {
+    if (existsSync(resolve(_path, "apiControllers"))) {
         // Scan for the application level middleware
-        scanForMiddleware(resolve(_path, "api")).forEach(m => addMiddleware(m.id, m.middleware, null, m.before || null, m.after || null));
+        scanForMiddleware(resolve(_path, "apiControllers")).forEach(m => addMiddleware(m.id, m.middleware, null, m.before || null, m.after || null));
 
         // Scan for the admin level middleware
-        if (existsSync(resolve(_path, "api", "admin"))) {
-            loadMiddlewareFunctions(resolve(_path, "api", "admin"), "admin");
+        if (existsSync(resolve(_path, "apiControllers", "admin"))) {
+            loadMiddlewareFunctions(resolve(_path, "apiControllers", "admin"), "admin");
         }
 
         // Scan for the site level middleware
-        if (existsSync(resolve(_path, "api", "site"))) {
-            loadMiddlewareFunctions(resolve(_path, "api", "site"), "site");
+        if (existsSync(resolve(_path, "apiControllers", "site"))) {
+            loadMiddlewareFunctions(resolve(_path, "apiControllers", "site"), "site");
         }
     }
 }
