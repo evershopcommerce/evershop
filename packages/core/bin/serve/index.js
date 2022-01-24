@@ -7,12 +7,12 @@ let src = process.env.NODE_ENV === "development" ? path.resolve(__dirname, "../.
 const { getModuleMiddlewares, get } = require(path.join(src, "lib/middee"));
 const { addComponents } = require(path.join(src, "lib/componee"));
 const router = require(path.join(src, "lib/routie"));
-const colors = require('colors');
+const { red, green } = require('kleur');
 const ora = require('ora');
 const boxen = require('boxen');
 
 const spinner = ora({
-    text: colors.green("NodeJsCart is starting"),
+    text: green("NodeJsCart is starting"),
     spinner: "dots12"
 }).start();
 spinner.start();
@@ -46,7 +46,7 @@ modules.forEach(module => {
             registerRoute(path.join(src, "modules", module, "api", "site"), false, true);
         }
     } catch (e) {
-        spinner.fail(colors.red(e) + "\n");
+        spinner.fail(red(e) + "\n");
         process.exit(0);
     }
 });
@@ -68,7 +68,7 @@ modules.forEach(element => {
             }
         }
     } catch (e) {
-        spinner.fail(colors.red(e) + "\n");
+        spinner.fail(red(e) + "\n");
         process.exit(0);
     }
 });
@@ -216,11 +216,11 @@ function onError(error) {
     // handle specific listen errors with friendly messages
     switch (error.code) {
         case 'EACCES':
-            spinner.fail(colors.red(bind + ' requires elevated privileges') + "\n");
+            spinner.fail(red(bind + ' requires elevated privileges') + "\n");
             process.exit(1);
             break;
         case 'EADDRINUSE':
-            spinner.fail(colors.red(bind + ' is already in use') + "\n");
+            spinner.fail(red(bind + ' is already in use') + "\n");
             process.exit(1);
             break;
         default:
@@ -233,7 +233,7 @@ function onError(error) {
  */
 
 function onListening() {
-    spinner.succeed(colors.green("Done!!!\n") + boxen(colors.green('Your website is running at "http://localhost:3000"'), { title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green' }))
+    spinner.succeed(green("Done!!!\n") + boxen(green('Your website is running at "http://localhost:3000"'), { title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green' }))
     var addr = server.address();
     var bind = typeof addr === 'string'
         ? 'pipe ' + addr

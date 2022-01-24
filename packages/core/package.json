@@ -51,7 +51,6 @@
     "body-parser": "^1.19.0",
     "boxen": "^5.1.2",
     "clean-css": "^5.1.3",
-    "colors": "^1.4.0",
     "config": "^3.3.6",
     "dayjs": "^1.10.6",
     "debug": "^4.3.2",
