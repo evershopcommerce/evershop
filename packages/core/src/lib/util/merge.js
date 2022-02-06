@@ -1,17 +1,25 @@
+/* eslint-disable no-param-reassign */
+/**
+ * This function take 2 objects and merge them into a new object
+ *
+ * @param   {object}  objectOne  The first object
+ * @param   {object}  objectTwo  The second object
+ *
+ * @return  {object}             The new object
+ */
 function merge(objectOne, objectTwo) {
-    if (typeof objectOne !== "object" || objectOne === null)
-        throw new Error("`object` must be an object");
-    if (typeof objectTwo !== "object" || objectTwo === null)
-        throw new Error("`object` must be an object");
+  if (typeof objectOne !== 'object' || objectOne === null) { throw new Error('`object` must be an object'); }
+  if (typeof objectTwo !== 'object' || objectTwo === null) { throw new Error('`object` must be an object'); }
 
-    let result = Object.create({});
+  const result = Object.create({});
 
-    for (let key in objectOne) {
-        result[key] = objectOne[key] ? objectOne[key] : objectTwo[key];
-        delete objectTwo[key];
-    }
+  Object.keys(objectOne).forEach((key) => {
+    result[key] = objectOne[key] ? objectOne[key] : objectTwo[key];
+    delete objectTwo[key];
+  });
 
-    return { ...result, ...objectTwo };
+  return { ...result, ...objectTwo };
 }
 
-module.exports = exports = { merge }
+// eslint-disable-next-line no-multi-assign
+module.exports = exports = { merge };

@@ -1,42 +1,47 @@
-var { select } = require('@nodejscart/mysql-query-builder');
-var { pool } = require('../../../../../lib/mysql/connection');
-var dayjs = require('dayjs');
+const { select } = require('@nodejscart/mysql-query-builder');
+const dayjs = require('dayjs');
+const { pool } = require('../../../../../lib/mysql/connection');
 
+// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
-    response.$body = [];
-    let period = request.params.period;
-    let i = 5;
-    let result = [];
-    let today = dayjs().format('YYYY-MM-DD').toString();
-    while (i >= 0) {
-        result[i] = {};
+  response.$body = [];
+  const { period } = request.params;
+  let i = 5;
+  const result = [];
+  const today = dayjs().format('YYYY-MM-DD').toString();
+  while (i >= 0) {
+    result[i] = {};
 
-        if (period == "daily") {
-            result[i]['from'] = dayjs(today).subtract(5 - i, 'day').format('YYYY-MM-DD').toString() + " 00:00:00";
-            result[i]['to'] = dayjs(today).subtract(5 - i, 'day').format('YYYY-MM-DD').toString() + ' 23:59:59';
-        }
-        if (period == "weekly") {
-            result[i]['from'] = dayjs(today).subtract(5 - i, 'week').startOf('week').format('YYYY-MM-DD').toString() + " 00:00:00";
-            result[i]['to'] = dayjs(today).subtract(5 - i, 'week').endOf('week').format('YYYY-MM-DD').toString() + ' 23:59:59';
-        }
-        if (period == "monthly") {
-            result[i]['from'] = dayjs(today).subtract(5 - i, 'month').startOf('month').format('YYYY-MM-DD').toString() + " 00:00:00";
-            result[i]['to'] = dayjs(today).subtract(5 - i, 'month').endOf('month').format('YYYY-MM-DD').toString() + ' 23:59:59';
-        }
-        i--;
+    if (period === 'daily') {
+      result[i].from = `${dayjs(today).subtract(5 - i, 'day').format('YYYY-MM-DD').toString()} 00:00:00`;
+      result[i].to = `${dayjs(today).subtract(5 - i, 'day').format('YYYY-MM-DD').toString()} 23:59:59`;
     }
-    let results = await Promise.all(result.map(async (element) => {
-        let query = select();
-        query.from("order")
-            .select("SUM (grand_total)", "total")
-            .select("COUNT (order_id)", "count")
-            .where("created_at", ">=", element.from)
-            .and("created_at", "<=", element.to);
-        query.limit(0, 1);
-        let _result = await query.execute(pool);
-        return {
-            total: _result[0]["total"] || 0, count: _result[0]["count"], time: dayjs(element.to).format('MMM DD').toString()
-        }
-    }));
-    response.json(results);
-}
+    if (period === 'weekly') {
+      result[i].from = `${dayjs(today).subtract(5 - i, 'week').startOf('week').format('YYYY-MM-DD')
+        .toString()} 00:00:00`;
+      result[i].to = `${dayjs(today).subtract(5 - i, 'week').endOf('week').format('YYYY-MM-DD')
+        .toString()} 23:59:59`;
+    }
+    if (period === 'monthly') {
+      result[i].from = `${dayjs(today).subtract(5 - i, 'month').startOf('month').format('YYYY-MM-DD')
+        .toString()} 00:00:00`;
+      result[i].to = `${dayjs(today).subtract(5 - i, 'month').endOf('month').format('YYYY-MM-DD')
+        .toString()} 23:59:59`;
+    }
+    i -= 1;
+  }
+  const results = await Promise.all(result.map(async (element) => {
+    const query = select();
+    query.from('order')
+      .select('SUM (grand_total)', 'total')
+      .select('COUNT (order_id)', 'count')
+      .where('created_at', '>=', element.from)
+      .and('created_at', '<=', element.to);
+    query.limit(0, 1);
+    const queryResult = await query.execute(pool);
+    return {
+      total: queryResult[0].total || 0, count: queryResult[0].count, time: dayjs(element.to).format('MMM DD').toString()
+    };
+  }));
+  response.json(results);
+};

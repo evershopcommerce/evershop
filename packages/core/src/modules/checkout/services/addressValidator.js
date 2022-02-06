@@ -1,5 +1,4 @@
-const addressValidator = (address) => {
-    return true; // TODO: Validation rules
-}
+const addressValidator = () => true;// TODO: Validation rules
 
-module.exports = exports = { addressValidator }
+// eslint-disable-next-line no-multi-assign
+module.exports = exports = { addressValidator };

@@ -1,8 +1,8 @@
-const { assign } = require("../../../../../lib/util/assign");
-const { buildAdminUrl } = require('../../../../../lib/routie');
+const { assign } = require('../../../../../lib/util/assign');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
-module.exports = (request, response, stack) => {
-    /* Get the list of status */
-    assign(response.context, { createShipmentUrl: buildAdminUrl('createShipment', { orderId: request.params.id }) });
-    assign(response.context, { updateShipmentUrl: buildAdminUrl('updateShipment', { orderId: request.params.id }) });
-}
+module.exports = (request, response) => {
+  /* Get the list of status */
+  assign(response.context, { createShipmentUrl: buildUrl('createShipment', { orderId: request.params.id }) });
+  assign(response.context, { updateShipmentUrl: buildUrl('updateShipment', { orderId: request.params.id }) });
+};

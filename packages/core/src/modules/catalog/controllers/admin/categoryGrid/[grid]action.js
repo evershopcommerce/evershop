@@ -1,15 +1,15 @@
-const { get } = require("../../../../../lib/util/get");
-const { buildAdminUrl } = require("../../../../../lib/routie");
-const { assign } = require("../../../../../lib/util/assign");
+const { get } = require('../../../../../lib/util/get');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { assign } = require('../../../../../lib/util/assign');
 
 module.exports = async (request, response, stack) => {
-    await stack["grid"];
+  await stack.grid;
 
-    let categories = get(response.context, "grid.categories", []);
-    categories.forEach(function (el, index) {
-        this[index]["editUrl"] = buildAdminUrl("categoryEdit", { id: parseInt(this[index]["category_id"]) });
-        this[index]["deleteUrl"] = buildAdminUrl("categoryEdit", { id: parseInt(this[index]["category_id"]) });
-    }, categories);
+  const categories = get(response.context, 'grid.categories', []);
+  categories.forEach(function (el, index) {
+    this[index].editUrl = buildUrl('categoryEdit', { id: parseInt(this[index].category_id, 10) });
+    this[index].deleteUrl = buildUrl('categoryEdit', { id: parseInt(this[index].category_id, 10) });
+  }, categories);
 
-    assign(response.context, { deleteCategoriesUrl: buildAdminUrl("categoryBulkDelete") });
-}
+  assign(response.context, { deleteCategoriesUrl: buildUrl('categoryBulkDelete') });
+};

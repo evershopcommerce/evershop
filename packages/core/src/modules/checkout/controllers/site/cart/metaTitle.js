@@ -1,5 +1,5 @@
-const { assign } = require("../../../../../lib/util/assign");
+const { assign } = require('../../../../../lib/util/assign');
 
 module.exports = (request, response) => {
-    assign(response.context, { metaTitle: 'Shopping cart' });
+  assign(response.context, { metaTitle: 'Shopping cart' });
 };

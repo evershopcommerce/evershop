@@ -1,6 +1,7 @@
-const { execute, insert } = require("@nodejscart/mysql-query-builder");
-const { pool } = require("../../../lib/mysql/connection");
+const { execute, insert } = require('@nodejscart/mysql-query-builder');
+const { pool } = require('../../../lib/mysql/connection');
 
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = async () => {
   await execute(pool, `CREATE TABLE \`attribute\` (
   \`attribute_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -15,20 +16,19 @@ module.exports = exports = async () => {
   UNIQUE KEY \`UNIQUE_ATTRIBUTE_CODE\` (\`attribute_code\`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute'`);
 
-  let color = await insert('attribute').given({
-    attribute_code: "color",
-    attribute_name: "Color",
-    type: "select",
+  const color = await insert('attribute').given({
+    attribute_code: 'color',
+    attribute_name: 'Color',
+    type: 'select',
     is_required: 0,
     display_on_frontend: 1,
     is_filterable: 1
   }).execute(pool);
 
-
-  let size = await insert('attribute').given({
-    attribute_code: "size",
-    attribute_name: "Size",
-    type: "select",
+  const size = await insert('attribute').given({
+    attribute_code: 'size',
+    attribute_name: 'Size',
+    type: 'select',
     is_required: 0,
     display_on_frontend: 1,
     is_filterable: 1
@@ -47,41 +47,39 @@ module.exports = exports = async () => {
 
   await insert('attribute_option').given({
     attribute_id: color.insertId,
-    attribute_code: "color",
-    option_text: "White"
+    attribute_code: 'color',
+    option_text: 'White'
   }).execute(pool);
 
   await insert('attribute_option').given({
     attribute_id: color.insertId,
-    attribute_code: "color",
-    option_text: "Black"
+    attribute_code: 'color',
+    option_text: 'Black'
   }).execute(pool);
 
   await insert('attribute_option').given({
     attribute_id: color.insertId,
-    attribute_code: "color",
-    option_text: "Yellow"
-  }).execute(pool);
-
-
-  await insert('attribute_option').given({
-    attribute_id: size.insertId,
-    attribute_code: "size",
-    option_text: "XXL"
+    attribute_code: 'color',
+    option_text: 'Yellow'
   }).execute(pool);
 
   await insert('attribute_option').given({
     attribute_id: size.insertId,
-    attribute_code: "size",
-    option_text: "XL"
+    attribute_code: 'size',
+    option_text: 'XXL'
   }).execute(pool);
 
   await insert('attribute_option').given({
     attribute_id: size.insertId,
-    attribute_code: "size",
-    option_text: "SM"
+    attribute_code: 'size',
+    option_text: 'XL'
   }).execute(pool);
 
+  await insert('attribute_option').given({
+    attribute_id: size.insertId,
+    attribute_code: 'size',
+    option_text: 'SM'
+  }).execute(pool);
 
   await execute(pool, `CREATE TABLE \`attribute_group\` (
   \`attribute_group_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -91,7 +89,7 @@ module.exports = exports = async () => {
   PRIMARY KEY (\`attribute_group_id\`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute group'`);
 
-  let defaultGroup = await insert('attribute_group').given({ group_name: "Default" }).execute(pool);
+  const defaultGroup = await insert('attribute_group').given({ group_name: 'Default' }).execute(pool);
 
   await execute(pool, `CREATE TABLE \`attribute_group_link\` (
   \`attribute_group_link_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -106,7 +104,6 @@ module.exports = exports = async () => {
 
   await insert('attribute_group_link').given({ group_id: defaultGroup.insertId, attribute_id: color.insertId }).execute(pool);
   await insert('attribute_group_link').given({ group_id: defaultGroup.insertId, attribute_id: size.insertId }).execute(pool);
-
 
   await execute(pool, `CREATE TABLE \`variant_group\` (
   \`variant_group_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -248,7 +245,6 @@ module.exports = exports = async () => {
   CONSTRAINT \`FK_PRICE_PRODUCT\` FOREIGN KEY (\`product_price_product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product advanced price'`);
 
-
   await execute(pool, `CREATE TABLE \`category\` (
   \`category_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`status\` smallint(6) NOT NULL,
@@ -324,5 +320,5 @@ module.exports = exports = async () => {
 
                         UPDATE \`variant_group\` SET visibility = (SELECT MAX(visibility) FROM \`product\` WHERE \`product\`.\`variant_group_id\` = OLD.variant_group_id AND \`product\`.\`status\` = 1 GROUP BY \`product\`.\`variant_group_id\`) WHERE \`variant_group\`.\`variant_group_id\` = OLD.variant_group_id;
 
-                    END`)
-}
+                    END`);
+};
