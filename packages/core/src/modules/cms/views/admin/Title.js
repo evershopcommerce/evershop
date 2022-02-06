@@ -1,5 +1,5 @@
-import React from "react";
+import React from 'react';
 
 export default function Title({ title }) {
-    return <h3 className={"page-title"}>{title}</h3>
+  return <h3 className="page-title">{title}</h3>;
 }

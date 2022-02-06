@@ -1,31 +1,33 @@
-import React from "react";
-import Area from "../../../../../../lib/components/Area";
-import { useAppState } from "../../../../../../lib/context/app";
-import { get } from "../../../../../../lib/util/get";
+import React from 'react';
+import Area from '../../../../../../lib/components/Area';
+import { useAppState } from '../../../../../../lib/context/app';
+import { get } from '../../../../../../lib/util/get';
 
-const Name = ({ name }) => {
-    return <h1 className="category-name text-center mt-25 mb-15">{name}</h1>
-};
+function Name({ name }) {
+  return <h1 className="category-name text-center mt-25 mb-15">{name}</h1>;
+}
 
-const Description = ({ description }) => {
-    return <div className="category-description" dangerouslySetInnerHTML={{ __html: description }}></div>
-};
+function Description({ description }) {
+  return <div className="category-description" dangerouslySetInnerHTML={{ __html: description }} />;
+}
 
 export default function CategoryInfo() {
-    const category = get(useAppState(), "category");
+  const category = get(useAppState(), 'category');
 
-    return <div className="page-width">
-        <Area
-            id={"category-general-info"}
-            className="category-general-info"
-            coreComponents={[
-                {
-                    component: { default: Name },
-                    props: { name: category.name },
-                    sortOrder: 10,
-                    id: "category-name"
-                }
-            ]}
-        />
+  return (
+    <div className="page-width">
+      <Area
+        id="category-general-info"
+        className="category-general-info"
+        coreComponents={[
+          {
+            component: { default: Name },
+            props: { name: category.name },
+            sortOrder: 10,
+            id: 'category-name'
+          }
+        ]}
+      />
     </div>
+  );
 }
