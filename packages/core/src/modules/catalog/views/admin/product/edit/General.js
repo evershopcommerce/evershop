@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { useAppState } from '../../../../../../lib/context/app';
@@ -42,7 +43,16 @@ function SKUPriceWeight({ sku, price, weight }) {
     </div>
   );
 }
-export default function General(props) {
+
+SKUPriceWeight.propTypes = {
+  price: PropTypes.number.isRequired,
+  sku: PropTypes.string.isRequired,
+  weight: PropTypes.number.isRequired
+};
+
+export default function General({
+  browserApi, deleteApi, uploadApi, folderCreateApi
+}) {
   const context = useAppState();
 
   return (
@@ -95,10 +105,10 @@ export default function General(props) {
                 name: 'description',
                 label: 'Description',
                 value: get(context, 'product.description'),
-                browserApi: props.browserApi,
-                deleteApi: props.deleteApi,
-                uploadApi: props.uploadApi,
-                folderCreateApi: props.folderCreateApi
+                browserApi,
+                deleteApi,
+                uploadApi,
+                folderCreateApi
               },
               sortOrder: 30,
               id: 'description'
@@ -109,3 +119,10 @@ export default function General(props) {
     </Card>
   );
 }
+
+General.propTypes = {
+  browserApi: PropTypes.string.isRequired,
+  deleteApi: PropTypes.string.isRequired,
+  folderCreateApi: PropTypes.string.isRequired,
+  uploadApi: PropTypes.string.isRequired
+};

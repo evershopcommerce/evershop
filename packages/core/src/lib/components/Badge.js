@@ -1,12 +1,21 @@
-import React from "react"
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function Badge({ title, variant = 'default', progress = 'default' }) {
-    let _variant = ['default', 'success', 'info', 'attention', 'critical', 'warning', 'new'].includes(variant) ? `${variant}` : 'default';
-    let _progress = ['incomplete', 'complete', 'partiallycomplete'].includes(progress) ? `${progress}` : 'default';
-    return <span className={_variant + ' badge'}>
-        <span className={_progress + ' progress rounded-100'}>
-            {progress === 'partiallycomplete' && <span></span>}
-        </span>
-        <span className="self-center title">{title}</span>
+  const badgeVariant = ['default', 'success', 'info', 'attention', 'critical', 'warning', 'new'].includes(variant) ? `${variant}` : 'default';
+  const badgeProgress = ['incomplete', 'complete', 'partiallycomplete'].includes(progress) ? `${progress}` : 'default';
+  return (
+    <span className={`${badgeVariant} badge`}>
+      <span className={`${badgeProgress} progress rounded-100`}>
+        {progress === 'partiallycomplete' && <span />}
+      </span>
+      <span className="self-center title">{title}</span>
     </span>
+  );
 }
+
+Badge.propTypes = {
+  progress: PropTypes.oneOf(['incomplete', 'complete', 'partiallycomplete']).isRequired,
+  title: PropTypes.string.isRequired,
+  variant: PropTypes.oneOf(['default', 'success', 'info', 'attention', 'critical', 'warning', 'new']).isRequired
+};

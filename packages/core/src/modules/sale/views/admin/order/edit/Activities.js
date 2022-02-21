@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { DateTime } from 'luxon';
 import { useAppState } from '../../../../../../lib/context/app';
@@ -56,7 +57,7 @@ export default function Activities() {
                   <span className="dot" />
                   <div className="comment">
                     <span>{a.comment}</span>
-                    {parseInt(a.customer_notified) === 1 && <span className="customer-notified">Customer was notified</span>}
+                    {parseInt(a.customer_notified, 10) === 1 && <span className="customer-notified">Customer was notified</span>}
                   </div>
                   <span className="time">{a.time}</span>
                 </li>

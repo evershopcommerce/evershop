@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import Circle from '../../../../../../lib/components/Circle';
@@ -21,6 +22,11 @@ function Subtotal({ count, total }) {
   );
 }
 
+Subtotal.propTypes = {
+  count: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired
+};
+
 function Discount({ discount, code }) {
   return (
     <div className="summary-row">
@@ -32,6 +38,11 @@ function Discount({ discount, code }) {
     </div>
   );
 }
+
+Discount.propTypes = {
+  code: PropTypes.string.isRequired,
+  discount: PropTypes.number.isRequired
+};
 
 function Shipping({ method, cost }) {
   return (
@@ -45,6 +56,11 @@ function Shipping({ method, cost }) {
   );
 }
 
+Shipping.propTypes = {
+  cost: PropTypes.number.isRequired,
+  method: PropTypes.string.isRequired
+};
+
 function Tax({ taxClass, amount }) {
   return (
     <div className="summary-row">
@@ -57,6 +73,11 @@ function Tax({ taxClass, amount }) {
   );
 }
 
+Tax.propTypes = {
+  amount: PropTypes.number.isRequired,
+  taxClass: PropTypes.string.isRequired
+};
+
 function Total({ total }) {
   return (
     <div className="summary-row">
@@ -68,16 +89,20 @@ function Total({ total }) {
   );
 }
 
+Total.propTypes = {
+  total: PropTypes.number.isRequired
+};
+
 export default function OrderSummary() {
   const context = useAppState();
   const order = get(context, 'order', {});
   const language = get(context, 'shop.language', 'en');
 
-  const _shippingCost = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.shipping_fee_excl_tax);
-  const _taxAmount = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.tax_amount);
-  const _discountAmount = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.discount_amount);
-  const _subTotal = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.sub_total);
-  const _grandTotal = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.grand_total);
+  const formatedshippingCost = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.shipping_fee_excl_tax);
+  const formatedtaxAmount = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.tax_amount);
+  const formateddiscountAmount = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.discount_amount);
+  const formatedsubTotal = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.sub_total);
+  const formatedgrandTotal = new Intl.NumberFormat(language, { style: 'currency', currency: order.currency }).format(order.grand_total);
 
   const statuses = get(context, 'paymentStatus', []);
   const status = statuses.find((s) => s.code === order.payment_status);
@@ -102,32 +127,32 @@ export default function OrderSummary() {
           coreComponents={[
             {
               component: { default: Subtotal },
-              props: { count: order.items.length, total: _subTotal },
+              props: { count: order.items.length, total: formatedsubTotal },
               sortOrder: 5,
               id: 'summary_subtotal'
             },
             {
               component: { default: Shipping },
-              props: { method: order.shipping_method, cost: _shippingCost },
+              props: { method: order.shipping_method, cost: formatedshippingCost },
               'sortOrder ': 10,
               id: 'summary_shipping'
             },
             {
               component: { default: Discount },
-              ps: { code: order.coupon, discount: _discountAmount },
+              ps: { code: order.coupon, discount: formateddiscountAmount },
               'sortOrder ': 10,
               id: 'summary_discount'
             },
             {
               component: { default: Tax },
-              props: { taxClass: '', amount: _taxAmount },
+              props: { taxClass: '', amount: formatedtaxAmount },
               'sortOrder ': 20,
               id: 'summary_tax'
             },
 
             {
               component: { default: Total },
-              props: { total: _grandTotal },
+              props: { total: formatedgrandTotal },
               sortOrder: 30,
               id: 'summary_grand_total'
             }
@@ -140,7 +165,7 @@ export default function OrderSummary() {
             <span>Paid by customer</span>
           </div>
           <div className="self-center">
-            <span>{_grandTotal}</span>
+            <span>{formatedgrandTotal}</span>
           </div>
         </div>
       </Card.Session>

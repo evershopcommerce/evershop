@@ -6,6 +6,7 @@ module.exports = async (request, response, stack) => {
   await stack.grid;
 
   const categories = get(response.context, 'grid.categories', []);
+  // eslint-disable-next-line func-names
   categories.forEach(function (el, index) {
     this[index].editUrl = buildUrl('categoryEdit', { id: parseInt(this[index].category_id, 10) });
     this[index].deleteUrl = buildUrl('categoryEdit', { id: parseInt(this[index].category_id, 10) });

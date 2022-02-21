@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
 import Area from '../../../../../../lib/components/Area';
@@ -8,7 +9,7 @@ import { Checkbox } from '../../../../../../lib/components/form/fields/Checkbox'
 import { Card } from '../../../../../cms/views/admin/Card';
 import { useAlertContext } from '../../../../../../lib/components/modal/Alert';
 
-function Actions({ selectedIds = [], setSelectedRows }) {
+function Actions({ selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
   const context = useAppState();
@@ -16,7 +17,7 @@ function Actions({ selectedIds = [], setSelectedRows }) {
   const actions = [
     {
       name: 'Mark as fullfilled',
-      onAction: (ids) => {
+      onAction: () => {
         openAlert({
           heading: `Fullfill ${selectedIds.length} orders`,
           content: <Checkbox name="notify_customer" label="Send notification to the customer" />,
@@ -30,7 +31,9 @@ function Actions({ selectedIds = [], setSelectedRows }) {
             onAction: async () => {
               setIsLoading(true);
               dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const selectedOrders = orders.filter((o) => selectedIds.includes(parseInt(o.order_id)));
+              const selectedOrders = orders.filter(
+                (o) => selectedIds.includes(parseInt(o.order_id, 10))
+              );
               await Promise.all(selectedOrders.map(async (order) => {
                 await axios.post(order.createShipmentUrl);
               }));
@@ -63,6 +66,10 @@ function Actions({ selectedIds = [], setSelectedRows }) {
   );
 }
 
+Actions.propTypes = {
+  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+};
+
 export default function ProductGrid() {
   const orders = get(useAppState(), 'grid.orders', []);
   const total = get(useAppState(), 'grid.total', 0);
@@ -90,15 +97,19 @@ export default function ProductGrid() {
           </tr>
         </thead>
         <tbody>
-          <Actions ids={orders.map(() => orders.order_id)} selectedIds={selectedRows} setSelectedRows={setSelectedRows} />
-          {orders.map((o, i) => (
-            <tr key={i}>
+          <Actions
+            ids={orders.map(() => orders.order_id)}
+            selectedIds={selectedRows}
+            setSelectedRows={setSelectedRows}
+          />
+          {orders.map((o) => (
+            <tr key={o.order_id}>
               <td>
                 <Checkbox
                   isChecked={selectedRows.includes(o.order_id)}
                   onChange={(e) => {
                     if (e.target.checked) setSelectedRows(selectedRows.concat([o.order_id]));
-                    else setSelectedRows(selectedRows.filter((e) => e !== o.order_id));
+                    else setSelectedRows(selectedRows.filter((row) => row !== o.order_id));
                   }}
                 />
               </td>

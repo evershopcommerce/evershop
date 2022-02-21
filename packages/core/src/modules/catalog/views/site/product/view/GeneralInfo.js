@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { get } from '../../../../../../lib/util/get';
@@ -7,29 +8,38 @@ function Name({ name }) {
   return <h1 className="product-single-name">{name}</h1>;
 }
 
+Name.propTypes = {
+  name: PropTypes.string.isRequired
+};
+
 function Price({ price, salePrice }) {
   const currency = get(useAppState(), 'currency', 'USD');
   const language = get(useAppState(), 'language', 'en');
-  const _price = new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
-  const _salePrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(salePrice);
+  const formatedPrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
+  const formatedSalePrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(salePrice);
 
   return (
     <h4 className="product-single-price">
       {parseFloat(salePrice) === parseFloat(price) && (
         <div>
-          <span className="sale-price">{_price}</span>
+          <span className="sale-price">{formatedPrice}</span>
         </div>
       )}
       {parseFloat(salePrice) < parseFloat(price) && (
         <div>
-          <span className="sale-price">{_salePrice}</span>
+          <span className="sale-price">{formatedSalePrice}</span>
           {' '}
-          <span className="regular-price">{_price}</span>
+          <span className="regular-price">{formatedPrice}</span>
         </div>
       )}
     </h4>
   );
 }
+
+Price.propTypes = {
+  price: PropTypes.number.isRequired,
+  salePrice: PropTypes.number.isRequired
+};
 
 function Sku({ sku }) {
   return (
@@ -40,6 +50,10 @@ function Sku({ sku }) {
     </div>
   );
 }
+
+Sku.propTypes = {
+  sku: PropTypes.string.isRequired
+};
 
 export default function GeneralInfo() {
   const product = get(useAppState(), 'product');

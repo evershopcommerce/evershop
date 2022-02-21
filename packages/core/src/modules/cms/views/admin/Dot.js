@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 function Dot({ color = 'primary' }) {
@@ -8,5 +9,9 @@ function Dot({ color = 'primary' }) {
     <div style={style} />
   );
 }
+
+Dot.propTypes = {
+  color: PropTypes.string.isRequired
+};
 
 export default Dot;

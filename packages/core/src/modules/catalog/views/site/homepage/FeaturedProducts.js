@@ -1,17 +1,25 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '../../../../../lib/context/app';
-import { get } from '../../../../../lib/util/get';
 import ProductList from '../product/list/List';
 
-export default function featuredProducts() {
-  const context = useAppState();
-  const products = get(context, 'featuredProducts', []);
+export default function FeaturedProducts({ products }) {
   return (
     <div className="pt-3">
       <div className="page-width">
         <h3 className="mt-3 mb-3 text-center uppercase h5 tracking-widest">Featured collection</h3>
-        <ProductList products={products} />
+        {products.map((product) => <div key={product.product_id}>{product.name}</div>)}
       </div>
     </div>
   );
 }
+
+FeaturedProducts.propTypes = {
+  products: PropTypes.arrayOf(PropTypes.shape({
+    product_id: PropTypes.number,
+    name: PropTypes.string
+  }))
+};
+
+FeaturedProducts.defaultProps = {
+  products: []
+};

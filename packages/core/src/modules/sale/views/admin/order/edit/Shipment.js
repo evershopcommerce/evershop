@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { useAppState } from '../../../../../../lib/context/app';
@@ -15,6 +16,13 @@ function Status({ status }) {
   );
 }
 
+Status.propTypes = {
+  status: PropTypes.shape({
+    badge: PropTypes.string,
+    name: PropTypes.string
+  }).isRequired
+};
+
 function Note({ note }) {
   return (
     <td>
@@ -23,9 +31,21 @@ function Note({ note }) {
   );
 }
 
+Note.propTypes = {
+  note: PropTypes.string
+};
+
+Note.defaultProps = {
+  note: ''
+};
+
 function Weight({ weight }) {
   return <td>{weight}</td>;
 }
+
+Weight.propTypes = {
+  weight: PropTypes.number.isRequired
+};
 
 function Actions({ status, startShipUrl, completeShipUrl }) {
   const startShipment = (e) => {
@@ -36,7 +56,8 @@ function Actions({ status, startShipUrl, completeShipUrl }) {
       'GET',
       {},
       null,
-      (response) => {
+      () => {
+        // eslint-disable-next-line no-restricted-globals
         location.reload();
       }
     );
@@ -50,7 +71,8 @@ function Actions({ status, startShipUrl, completeShipUrl }) {
       'GET',
       {},
       null,
-      (response) => {
+      () => {
+        // eslint-disable-next-line no-restricted-globals
         location.reload();
       }
     );
@@ -62,6 +84,12 @@ function Actions({ status, startShipUrl, completeShipUrl }) {
     </td>
   );
 }
+
+Actions.propTypes = {
+  completeShipUrl: PropTypes.string.isRequired,
+  startShipUrl: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired
+};
 
 export default function Shipment({ startShipUrl, completeShipUrl }) {
   const order = get(useAppState(), 'order', {});
@@ -172,3 +200,8 @@ export default function Shipment({ startShipUrl, completeShipUrl }) {
     </Card>
   );
 }
+
+Shipment.propTypes = {
+  completeShipUrl: PropTypes.string.isRequired,
+  startShipUrl: PropTypes.string.isRequired
+};

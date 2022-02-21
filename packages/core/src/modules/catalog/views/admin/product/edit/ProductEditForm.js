@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
 import Area from '../../../../../../lib/components/Area';
@@ -5,10 +6,13 @@ import Button from '../../../../../../lib/components/form/Button';
 import { Form } from '../../../../../../lib/components/form/Form';
 import { get } from '../../../../../../lib/util/get';
 
-export default function ProductCreateForm(props) {
+export default function ProductCreateForm({
+  method, action, gridUrl, id
+}) {
   return (
     <Form
-      {...props}
+      method={method}
+      action={action}
       submitBtn={false}
       onSuccess={(response) => {
         if (get(response, 'success') === false) {
@@ -18,6 +22,7 @@ export default function ProductCreateForm(props) {
       onError={() => {
         toast.error('Something wrong. Please reload the page!');
       }}
+      id={id}
     >
       <div className="grid grid-cols-3 gap-x-2 grid-flow-row ">
         <div className="col-span-2 grid grid-cols-1 gap-2 auto-rows-max">
@@ -34,17 +39,24 @@ export default function ProductCreateForm(props) {
           outline
           onAction={
             () => {
-              window.location = props.gridUrl;
+              window.location = gridUrl;
             }
           }
         />
         <Button
           title="Save"
           onAction={
-            () => { document.getElementById(props.id).dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
+            () => { document.getElementById(id).dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
           }
         />
       </div>
     </Form>
   );
 }
+
+ProductCreateForm.propTypes = {
+  action: PropTypes.string.isRequired,
+  gridUrl: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  method: PropTypes.string.isRequired
+};

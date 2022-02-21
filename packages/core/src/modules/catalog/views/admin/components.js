@@ -258,7 +258,7 @@ exports = module.exports = {
     {
       id: 'productEditVariants',
       areaId: 'leftSide',
-      source: useAdminComponent('catalog/views/admin/product/edit/Variants.js'),
+      source: useAdminComponent('catalog/views/admin/product/edit/variants/Index.js'),
       props: {},
       sortOrder: 40
     },

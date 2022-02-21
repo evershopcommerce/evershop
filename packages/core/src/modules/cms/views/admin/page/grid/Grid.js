@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
 import Area from '../../../../../../lib/components/Area';
@@ -9,17 +10,17 @@ import formData from '../../../../../../lib/util/formData';
 import { Checkbox } from '../../../../../../lib/components/form/fields/Checkbox';
 import { Card } from '../../Card';
 
-function Actions({ selectedIds = [], setSelectedRows }) {
+function Actions({ selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
   const context = useAppState();
   const actions = [
     {
       name: 'Delete',
-      onAction: (ids) => {
+      onAction: () => {
         openAlert({
           heading: `Delete ${selectedIds.length} pages`,
-          content: <div>Can't be undone</div>,
+          content: <div>Can&apos;t be undone</div>,
           primaryAction: {
             title: 'Cancel',
             onAction: closeAlert,
@@ -36,8 +37,6 @@ function Actions({ selectedIds = [], setSelectedRows }) {
               if (response.data.success === true) {
                 window.location.href = context.currentUrl;
                 // TODO: Should display a message and delay for 1 - 2 second
-              } else {
-
               }
             },
             variant: 'critical',
@@ -67,6 +66,10 @@ function Actions({ selectedIds = [], setSelectedRows }) {
   );
 }
 
+Actions.propTypes = {
+  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+};
+
 export default function CMSPageGrid() {
   const pages = get(useAppState(), 'grid.pages', []);
   const total = get(useAppState(), 'grid.total', 0);
@@ -94,15 +97,20 @@ export default function CMSPageGrid() {
           </tr>
         </thead>
         <tbody>
-          <Actions ids={pages.map((p) => p.cms_page_id)} selectedIds={selectedRows} setSelectedRows={setSelectedRows} />
+          <Actions
+            ids={pages.map((p) => p.cms_page_id)}
+            selectedIds={selectedRows}
+            setSelectedRows={setSelectedRows}
+          />
           {pages.map((p, i) => (
+            // eslint-disable-next-line react/no-array-index-key
             <tr key={i}>
               <td style={{ width: '2rem' }}>
                 <Checkbox
                   isChecked={selectedRows.includes(p.cms_page_id)}
                   onChange={(e) => {
                     if (e.target.checked) setSelectedRows(selectedRows.concat([p.cms_page_id]));
-                    else setSelectedRows(selectedRows.filter((e) => e !== p.cms_page_id));
+                    else setSelectedRows(selectedRows.filter((row) => row !== p.cms_page_id));
                   }}
                 />
               </td>

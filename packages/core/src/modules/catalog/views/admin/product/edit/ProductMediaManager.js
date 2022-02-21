@@ -1,5 +1,11 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable no-undef */
+import PropTypes from 'prop-types';
 import React from 'react';
 import uniqid from 'uniqid';
+import { toast } from 'react-toastify';
 import { get } from '../../../../../../lib/util/get';
 import { useAppState } from '../../../../../../lib/context/app';
 
@@ -8,12 +14,12 @@ function Upload({ addImage }) {
   const onChange = (e) => {
     e.persist();
     const formData = new FormData();
-    for (let i = 0; i < e.target.files.length; i++) { formData.append('images', e.target.files[i]); }
+    for (let i = 0; i < e.target.files.length; i += 1) { formData.append('images', e.target.files[i]); }
 
     formData.append('targetPath', `catalog/${Math.floor(Math.random() * (9999 - 1000)) + 1000}/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`);
 
     fetch(
-      `${get(context, 'productImageUploadUrl')}/` + `catalog/${Math.floor(Math.random() * (9999 - 1000)) + 1000}/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`,
+      `${get(context, 'productImageUploadUrl')}/catalog/${Math.floor(Math.random() * (9999 - 1000)) + 1000}/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`,
       {
         method: 'POST',
         body: formData,
@@ -34,15 +40,17 @@ function Upload({ addImage }) {
             path: i.path
           })));
         } else {
-          // toast.error(get(response, "message", "Failed!"));
+          toast.error(get(response, 'message', 'Failed!'));
         }
       })
       .catch(
         (error) => {
-          // toast.error(get(error, "message", "Failed!"));
+          toast.error(error.message);
         }
       )
-      .finally(() => e.target.value = null);
+      .finally(() => {
+        e.target.value = null;
+      });
   };
 
   const id = uniqid();
@@ -62,10 +70,14 @@ function Upload({ addImage }) {
   );
 }
 
+Upload.propTypes = {
+  addImage: PropTypes.func.isRequired
+};
+
 function Image({ image, removeImage }) {
   return (
     <div className="image grid-item" id={image.id}>
-      <div className="img"><img src={image.url} /></div>
+      <div className="img"><img src={image.url} alt="" /></div>
       <span className="remove cursor-pointer text-critical fill-current" onClick={() => removeImage(image.id)}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-trash-2">
           <polyline points="3 6 5 6 21 6" />
@@ -74,12 +86,17 @@ function Image({ image, removeImage }) {
           <line x1="14" y1="11" x2="14" y2="17" />
         </svg>
       </span>
-      {/* <span className="zoom btn btn-link">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-maximize-2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
-        </span> */}
     </div>
   );
 }
+
+Image.propTypes = {
+  image: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    url: PropTypes.string.isRequired
+  }).isRequired,
+  removeImage: PropTypes.func.isRequired
+};
 
 function Images({
   id, images, addImage, removeImage
@@ -92,12 +109,23 @@ function Images({
   );
 }
 
+Images.propTypes = {
+  addImage: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  images: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number
+  })).isRequired,
+  removeImage: PropTypes.func.isRequired
+};
+
 export default function ProductMediaManager({ productImages, id }) {
   const [images, setImages] = React.useState(productImages);
   const [draggable, setDragable] = React.useState(null);
+
   React.useEffect(() => {
     if (draggable) { draggable.destroy(); }
 
+    // eslint-disable-next-line new-cap
     const swappable = new Swappable.default(document.querySelectorAll(`div#${id}`), {
       draggable: 'div.image',
       handle: 'div.image img'
@@ -109,13 +137,15 @@ export default function ProductMediaManager({ productImages, id }) {
       destination = event.data.dragEvent.data.over.id;
     });
 
-    swappable.on('swappable:stop', (event) => {
+    swappable.on('swappable:stop', () => {
       if (!source || !destination) { return; }
-      setImages((images) => {
-        const newImages = Array.from(images);
-        const sr = images.find((image) => image.id === source);
-        newImages[images.findIndex((image) => image.id === source)] = images.find((image) => image.id === destination);
-        newImages[images.findIndex((image) => image.id === destination)] = sr;
+      setImages((originImages) => {
+        const newImages = Array.from(originImages);
+        const sr = originImages.find((image) => image.id === source);
+        newImages[originImages.findIndex(
+          (image) => image.id === source
+        )] = originImages.find((image) => image.id === destination);
+        newImages[originImages.findIndex((image) => image.id === destination)] = sr;
         return newImages;
       });
     });
@@ -127,15 +157,23 @@ export default function ProductMediaManager({ productImages, id }) {
     setImages(images.concat(imageArray));
   };
 
-  const removeImage = (id) => {
+  const removeImage = (imageId) => {
     if (draggable) { draggable.destroy(); }
-    setImages(images.filter((i) => i.id !== id));
+    setImages(images.filter((i) => i.id !== imageId));
   };
 
   return (
     <div className="product-image-manager">
       <Images id={id} images={images} addImage={addImage} removeImage={removeImage} />
-      {images.map((image, index) => <input key={index} type="hidden" name={`${id}[]`} value={image.path} />)}
+      {images.map((image) => <input key={id} type="hidden" name={`${id}[]`} value={image.path} />)}
     </div>
   );
 }
+
+ProductMediaManager.propTypes = {
+  id: PropTypes.string.isRequired,
+  productImages: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    src: PropTypes.string
+  })).isRequired
+};

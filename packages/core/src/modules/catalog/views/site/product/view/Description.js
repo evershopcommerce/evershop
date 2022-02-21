@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import { get } from '../../../../../../lib/util/get';
 import { useAppState } from '../../../../../../lib/context/app';

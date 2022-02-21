@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
 export default function OrderSummary({
   number, tax, discount, grandTotal
 }) {
@@ -28,3 +31,10 @@ export default function OrderSummary({
     </div>
   );
 }
+
+OrderSummary.propTypes = {
+  discount: PropTypes.number.isRequired,
+  grandTotal: PropTypes.number.isRequired,
+  number: PropTypes.number.isRequired,
+  tax: PropTypes.number.isRequired
+};

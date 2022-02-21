@@ -12,7 +12,10 @@ export default function FeaturedCategories() {
           <h3 className="h6 mt-1 mb-1">Men shoes collection</h3>
           <div className="mb-1">
             <p>
-              Constructed from luxury nylons, leathers, and custom hardware, featuring sport details such as hidden breathing vents, waterproof + antimicrobial linings, and more.
+              Constructed from luxury nylons,
+              leathers, and custom hardware,
+              featuring sport details such as hidden breathing vents,
+              waterproof + antimicrobial linings, and more.
             </p>
           </div>
           <Button url="/category/kids" title="Shop kids" variant="primary" />
@@ -24,7 +27,10 @@ export default function FeaturedCategories() {
           <h3 className="h6 mt-1 mb-1">Women shoes collection</h3>
           <div className="mb-1">
             <p>
-              Constructed from luxury nylons, leathers, and custom hardware, featuring sport details such as hidden breathing vents, waterproof + antimicrobial linings, and more.
+              Constructed from luxury nylons,
+              leathers, and custom hardware,
+              featuring sport details such as hidden breathing vents,
+              waterproof + antimicrobial linings, and more.
             </p>
           </div>
           <Button url="/category/women" title="Shop women" variant="primary" />
@@ -36,7 +42,10 @@ export default function FeaturedCategories() {
           <h3 className="h6 mt-1 mb-1">Men shoes collection</h3>
           <div className="mb-1">
             <p>
-              Constructed from luxury nylons, leathers, and custom hardware, featuring sport details such as hidden breathing vents, waterproof + antimicrobial linings, and more.
+              Constructed from luxury nylons,
+              leathers, and custom hardware,
+              featuring sport details such as hidden breathing vents,
+              waterproof + antimicrobial linings, and more.
             </p>
           </div>
           <Button url="/category/men" title="Shop men" variant="primary" />

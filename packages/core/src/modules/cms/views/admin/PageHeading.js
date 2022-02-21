@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../lib/components/Area';
 import { useAppState } from '../../../../lib/context/app';
@@ -12,9 +13,21 @@ function BreadcrumbIcon({ backUrl }) {
   );
 }
 
+BreadcrumbIcon.propTypes = {
+  backUrl: PropTypes.string
+};
+
+BreadcrumbIcon.defaultProps = {
+  backUrl: undefined
+};
+
 function Heading({ heading }) {
   return <div className="self-center"><h1 className="page-heading-title">{heading}</h1></div>;
 }
+
+Heading.propTypes = {
+  heading: PropTypes.string.isRequired
+};
 
 function PageHeading({ backUrl }) {
   const context = useAppState();
@@ -57,5 +70,13 @@ function PageHeading({ backUrl }) {
     </div>
   );
 }
+
+PageHeading.propTypes = {
+  backUrl: PropTypes.string
+};
+
+PageHeading.defaultProps = {
+  backUrl: undefined
+};
 
 export default PageHeading;

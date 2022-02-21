@@ -1,12 +1,22 @@
-import React from "react";
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function YesNoRow({ id, areaProps }) {
-    return <td>
-        <div className="nodejscart-switch">
-            <div>
-                {parseInt(areaProps.row[id]) === 0 && <span>No</span>}
-                {parseInt(areaProps.row[id]) == 1 && <span>Yes</span>}
-            </div>
+  return (
+    <td>
+      <div className="nodejscart-switch">
+        <div>
+          {parseInt(areaProps.row[id], 10) === 0 && <span>No</span>}
+          {parseInt(areaProps.row[id], 10) === 1 && <span>Yes</span>}
         </div>
+      </div>
     </td>
+  );
 }
+
+YesNoRow.propTypes = {
+  areaProps: PropTypes.shape({
+    row: PropTypes.objectOf(PropTypes.string)
+  }).isRequired,
+  id: PropTypes.string.isRequired
+};

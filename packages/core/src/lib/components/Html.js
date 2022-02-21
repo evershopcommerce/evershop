@@ -1,18 +1,20 @@
-import React from "react";
-import Area from "./Area";
+import React from 'react';
+import Area from './Area';
 
-const Html = () => {
-    return <React.Fragment>
-        <head>
-            <Area noOuter={true} id="head" />
-        </head>
-        <body>
-            <div id="app" className='bg-background'>
-                <Area id="body" className="wrapper" />
-            </div>
-            <Area id="after.body" noOuter={true} />
-        </body>
-    </React.Fragment>
+function Html() {
+  return (
+    <>
+      <head>
+        <Area noOuter id="head" />
+      </head>
+      <body>
+        <div id="app" className="bg-background">
+          <Area id="body" className="wrapper" />
+        </div>
+        <Area id="after.body" noOuter />
+      </body>
+    </>
+  );
 }
 
-export default Html
+export default Html;

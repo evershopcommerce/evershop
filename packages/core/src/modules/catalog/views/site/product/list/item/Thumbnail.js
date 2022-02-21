@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 function Thumbnail({ imageUrl, alt }) {
@@ -12,4 +13,15 @@ function Thumbnail({ imageUrl, alt }) {
     </div>
   );
 }
+
+Thumbnail.propTypes = {
+  alt: PropTypes.string,
+  imageUrl: PropTypes.string
+};
+
+Thumbnail.defaultProps = {
+  alt: '',
+  imageUrl: ''
+};
+
 export { Thumbnail };

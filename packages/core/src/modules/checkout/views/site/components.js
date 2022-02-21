@@ -35,7 +35,7 @@ exports = module.exports = {
     {
       id: 'cartItems',
       areaId: 'shoppingCartLeft',
-      source: useSiteComponent('checkout/views/site/cart/Items.js'),
+      source: useSiteComponent('checkout/views/site/cart/items/Items.js'),
       props: {},
       sortOrder: 10
     },

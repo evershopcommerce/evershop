@@ -1,7 +1,7 @@
 import React from 'react';
-import { Items } from './Items';
-import { OrderSummary } from './Order';
+import { Items } from './items/Items';
 import Area from '../../../../../../lib/components/Area';
+import { OrderSummary } from './order/OrderSummary';
 
 function Summary() {
   return (

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Select } from '../../../../../../lib/components/form/fields/Select';
 import { useAppState } from '../../../../../../lib/context/app';
@@ -34,3 +35,8 @@ export default function DropdownColumnHeader({ title, id }) {
     </th>
   );
 }
+
+DropdownColumnHeader.propTypes = {
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired
+};

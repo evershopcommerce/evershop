@@ -1,5 +1,5 @@
-import React from "react"
+import React from 'react';
 
 export default function Off() {
-    return <span className='toggle disabled'><span></span></span>
+  return <span className="toggle disabled"><span /></span>;
 }

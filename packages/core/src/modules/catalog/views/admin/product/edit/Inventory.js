@@ -4,7 +4,7 @@ import { get } from '../../../../../../lib/util/get';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Card } from '../../../../../cms/views/admin/Card';
 
-export default function Inventory({ data }) {
+export default function Inventory() {
   const context = useAppState();
   return (
     <Card

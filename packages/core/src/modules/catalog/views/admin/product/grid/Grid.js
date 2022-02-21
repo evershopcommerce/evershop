@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
 import Area from '../../../../../../lib/components/Area';
@@ -9,14 +10,14 @@ import { Checkbox } from '../../../../../../lib/components/form/fields/Checkbox'
 import { useAlertContext } from '../../../../../../lib/components/modal/Alert';
 import formData from '../../../../../../lib/util/formData';
 
-function Actions({ selectedIds = [], setSelectedRows }) {
+function Actions({ selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
   const context = useAppState();
   const actions = [
     {
       name: 'Disable',
-      onAction: (ids) => {
+      onAction: () => {
         openAlert({
           heading: `Disable ${selectedIds.length} products`,
           content: 'Are you sure?',
@@ -36,8 +37,6 @@ function Actions({ selectedIds = [], setSelectedRows }) {
               if (response.data.success === true) {
                 window.location.href = context.currentUrl;
                 // TODO: Should display a message and delay for 1 - 2 second
-              } else {
-
               }
             },
             variant: 'critical',
@@ -48,7 +47,7 @@ function Actions({ selectedIds = [], setSelectedRows }) {
     },
     {
       name: 'Enable',
-      onAction: (ids) => {
+      onAction: () => {
         openAlert({
           heading: `Enable ${selectedIds.length} products`,
           content: 'Are you sure?',
@@ -68,8 +67,6 @@ function Actions({ selectedIds = [], setSelectedRows }) {
               if (response.data.success === true) {
                 window.location.href = context.currentUrl;
                 // TODO: Should display a message and delay for 1 - 2 second
-              } else {
-
               }
             },
             variant: 'critical',
@@ -80,10 +77,10 @@ function Actions({ selectedIds = [], setSelectedRows }) {
     },
     {
       name: 'Delete',
-      onAction: (ids) => {
+      onAction: () => {
         openAlert({
           heading: `Delete ${selectedIds.length} products`,
-          content: <div>Can't be undone</div>,
+          content: <div>Can&apos;t be undone</div>,
           primaryAction: {
             title: 'Cancel',
             onAction: closeAlert,
@@ -100,8 +97,6 @@ function Actions({ selectedIds = [], setSelectedRows }) {
               if (response.data.success === true) {
                 window.location.href = context.currentUrl;
                 // TODO: Should display a message and delay for 1 - 2 second
-              } else {
-
               }
             },
             variant: 'critical',
@@ -131,6 +126,10 @@ function Actions({ selectedIds = [], setSelectedRows }) {
   );
 }
 
+Actions.propTypes = {
+  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+};
+
 export default function ProductGrid() {
   const products = get(useAppState(), 'grid.products', []);
   const total = get(useAppState(), 'grid.total', 0);
@@ -157,15 +156,22 @@ export default function ProductGrid() {
           </tr>
         </thead>
         <tbody>
-          <Actions ids={products.map(() => products.product_id)} selectedIds={selectedRows} setSelectedRows={setSelectedRows} />
-          {products.map((p, i) => (
-            <tr key={i}>
+          <Actions
+            ids={products.map(() => products.product_id)}
+            selectedIds={selectedRows}
+            setSelectedRows={setSelectedRows}
+          />
+          {products.map((p) => (
+            <tr key={p.product_id}>
               <td>
                 <Checkbox
                   isChecked={selectedRows.includes(p.product_id)}
                   onChange={(e) => {
-                    if (e.target.checked) setSelectedRows(selectedRows.concat([p.product_id]));
-                    else setSelectedRows(selectedRows.filter((e) => e !== p.product_id));
+                    if (e.target.checked) {
+                      setSelectedRows(selectedRows.concat([p.product_id]));
+                    } else {
+                      setSelectedRows(selectedRows.filter((row) => row !== p.product_id));
+                    }
                   }}
                 />
               </td>

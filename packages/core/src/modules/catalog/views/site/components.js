@@ -23,7 +23,9 @@ exports = module.exports = {
       id: 'products',
       areaId: 'content',
       source: useSiteComponent('catalog/views/site/category/view/Products.js'),
-      props: {},
+      props: {
+        withPagination: true
+      },
       sortOrder: 30
     }
   ],

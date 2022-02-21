@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
@@ -35,3 +36,8 @@ export default function PaymentStatusColumnHeader({ title, id }) {
     </th>
   );
 }
+
+PaymentStatusColumnHeader.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
+};

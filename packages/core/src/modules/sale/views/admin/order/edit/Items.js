@@ -1,3 +1,6 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-closing-tag-location */
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import Circle from '../../../../../../lib/components/Circle';
@@ -11,7 +14,7 @@ import { Field } from '../../../../../../lib/components/form/Field';
 
 function ItemOptions({ options = [] }) {
   if (options.length === 0) { return null; }
-  const currency = ReactRedux.useSelector((state) => _.get(state, 'appState.orderData.currency', 'USD'));
+  const currency = '';
 
   return (
     <div className="cart-item-options">
@@ -27,17 +30,16 @@ function ItemOptions({ options = [] }) {
               </strong>
             </span>
             {o.values.map((v, k) => {
-              const _extraPrice = new Intl.NumberFormat('en', { style: 'currency', currency }).format(v.extra_price);
+              const formatedExtraPrice = new Intl.NumberFormat('en', { style: 'currency', currency }).format(v.extra_price);
               return (
                 <span key={k}>
                   <i className="value-text">{v.value_text}</i>
                   <span className="extra-price">
                     (
-                    {_extraPrice}
+                    {formatedExtraPrice}
                     )
                   </span>
                   {' '}
-
                 </span>
               );
             })}
@@ -48,12 +50,22 @@ function ItemOptions({ options = [] }) {
   );
 }
 
+ItemOptions.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.shape({
+    option_name: PropTypes.string,
+    values: PropTypes.arrayOf(PropTypes.shape({
+      value_text: PropTypes.string,
+      extra_price: PropTypes.number
+    }))
+  })).isRequired
+};
+
 function Thumbnail({ imageUrl, qty }) {
   return (
     <td>
       <div className="product-thumbnail">
         <div className="thumbnail">
-          {imageUrl && <img src={imageUrl} />}
+          {imageUrl && <img src={imageUrl} alt="" />}
           {!imageUrl && <svg style={{ width: '2rem' }} fill="currentcolor" viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path fillRule="evenodd" d="M6 11h8V9H6v2zm0 4h8v-2H6v2zm0-8h4V5H6v2zm6-5H5.5A1.5 1.5 0 0 0 4 3.5v13A1.5 1.5 0 0 0 5.5 18h9a1.5 1.5 0 0 0 1.5-1.5V6l-4-4z" /></svg>}
         </div>
         <span className="qty">{qty}</span>
@@ -61,6 +73,11 @@ function Thumbnail({ imageUrl, qty }) {
     </td>
   );
 }
+
+Thumbnail.propTypes = {
+  imageUrl: PropTypes.string.isRequired,
+  qty: PropTypes.number.isRequired
+};
 
 function Price({ price, qty }) {
   return (
@@ -78,7 +95,12 @@ function Price({ price, qty }) {
   );
 }
 
-function Name({ name, options }) {
+Price.propTypes = {
+  price: PropTypes.number.isRequired,
+  qty: PropTypes.number.isRequired
+};
+
+function Name({ name, options = [] }) {
   return (
     <td>
       <div className="product-column">
@@ -88,6 +110,17 @@ function Name({ name, options }) {
     </td>
   );
 }
+
+Name.propTypes = {
+  name: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    option_name: PropTypes.string,
+    values: PropTypes.arrayOf(PropTypes.shape({
+      value_text: PropTypes.string,
+      extra_price: PropTypes.number
+    }))
+  })).isRequired
+};
 
 function FullfillButton() {
   const order = get(useAppState(), 'order', {});
@@ -292,9 +325,8 @@ export default function Items() {
         <table className="listing order-items">
           <tbody>
             {items.map((i, k) => {
-              const _price = new Intl.NumberFormat(language, { style: 'currency', currency }).format(i.product_price);
-              const _finalPrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(i.final_price);
-              const _total = new Intl.NumberFormat(language, { style: 'currency', currency }).format(i.total);
+              const formatedFinalPrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(i.final_price);
+              const formatedTotal = new Intl.NumberFormat(language, { style: 'currency', currency }).format(i.total);
               return (
                 <tr key={k}>
                   <Area
@@ -317,13 +349,13 @@ export default function Items() {
                       },
                       {
                         component: { default: Price },
-                        props: { price: _finalPrice, qty: i.qty },
+                        props: { price: formatedFinalPrice, qty: i.qty },
                         sortOrder: 30,
                         id: 'price'
                       },
                       {
                         component: { default: 'td' },
-                        props: { children: <span>{_total}</span>, key: 'total' },
+                        props: { children: <span>{formatedTotal}</span>, key: 'total' },
                         sortOrder: 40,
                         id: 'total'
                       }

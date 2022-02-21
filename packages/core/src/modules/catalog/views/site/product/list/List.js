@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { Name } from './item/Name';
@@ -16,12 +17,12 @@ export default function ProductList({ products = [] }) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
       {
-        products.map((p, index) => (
+        products.map((p) => (
           <Area
             id="productListingItem"
             className="listing-tem"
             product={p}
-            key={index}
+            key={p.product_id}
             coreComponents={[
               {
                 component: { default: Thumbnail },
@@ -48,3 +49,15 @@ export default function ProductList({ products = [] }) {
     </div>
   );
 }
+
+ProductList.propTypes = {
+  products: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    product_id: PropTypes.number,
+    url: PropTypes.string,
+    price: PropTypes.number,
+    image: PropTypes.shape({
+      url: PropTypes.string
+    })
+  })).isRequired
+};

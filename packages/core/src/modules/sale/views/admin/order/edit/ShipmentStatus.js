@@ -5,7 +5,7 @@ import Badge from '../../../../../../lib/components/Badge';
 
 export default function ShipmentStatus() {
   const context = useAppState();
-  const status = get(context, 'shipmentStatus', []).find(status => status.code === get(context, 'order.shipment_status'));
+  const status = get(context, 'shipmentStatus', []).find((s) => s.code === get(context, 'order.shipment_status'));
 
   if (status) {
     return <Badge variant={status.badge} title={status.name} progress={status.progress} />;

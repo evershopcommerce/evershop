@@ -4,7 +4,7 @@ import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
 
-export default function CustomerNotes(props) {
+export default function CustomerNotes() {
   const order = get(useAppState(), 'order', {});
   return (
     <Card title="Customer notes">
@@ -14,6 +14,7 @@ export default function CustomerNotes(props) {
           coreComponents={[
             {
               component: {
+                // eslint-disable-next-line react/no-unstable-nested-components
                 default: () => <div>{order.shipping_note || <span className="text-border">No notes from customer</span>}</div>
               },
               props: {

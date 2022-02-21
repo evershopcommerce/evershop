@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { useAppState } from '../../../../../../lib/context/app';
@@ -6,7 +7,9 @@ import Ckeditor from '../../../../../../lib/components/form/fields/Ckeditor';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Card } from '../../../../../cms/views/admin/Card';
 
-export default function General(props) {
+export default function General({
+  browserApi, deleteApi, uploadApi, folderCreateApi
+}) {
   const context = useAppState();
   const fields = [
     {
@@ -49,15 +52,16 @@ export default function General(props) {
         id: 'description',
         name: 'description',
         label: 'Description',
-        browserApi: props.browserApi,
-        deleteApi: props.deleteApi,
-        uploadApi: props.uploadApi,
-        folderCreateApi: props.folderCreateApi
+        browserApi,
+        deleteApi,
+        uploadApi,
+        folderCreateApi
       },
       sortOrder: 70,
       id: 'description'
     }
   ].filter((f) => {
+    // eslint-disable-next-line no-param-reassign
     if (get(context, `category.${f.props.name}`) !== undefined) { f.props.value = get(context, `category.${f.props.name}`); }
     return f;
   });
@@ -72,3 +76,10 @@ export default function General(props) {
     </Card>
   );
 }
+
+General.propTypes = {
+  browserApi: PropTypes.string.isRequired,
+  deleteApi: PropTypes.string.isRequired,
+  folderCreateApi: PropTypes.string.isRequired,
+  uploadApi: PropTypes.string.isRequired
+};

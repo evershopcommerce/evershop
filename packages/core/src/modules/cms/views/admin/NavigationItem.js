@@ -1,13 +1,19 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 function Icon({ name }) {
   try {
+    // eslint-disable-next-line global-require
     const ICON = require(`@heroicons/react/solid/${name}.js`);
     return <ICON />;
   } catch (e) {
     return (null);
   }
 }
+
+Icon.propTypes = {
+  name: PropTypes.string.isRequired
+};
 
 export default function MenuItem({ icon, url, title }) {
   const [isActive, setIsActive] = React.useState(false);
@@ -37,3 +43,9 @@ export default function MenuItem({ icon, url, title }) {
     </li>
   );
 }
+
+MenuItem.propTypes = {
+  icon: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired
+};

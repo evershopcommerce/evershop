@@ -19,7 +19,7 @@ module.exports = async (request, response, stack) => {
 
   query.where(
     'product.`product_id`',
-    'IN',
+    'NOT IN',
     (await select('product_id')
       .from('product_category')
       .where('category_id', '=', get(response.context, 'category.category_id')).execute(pool)

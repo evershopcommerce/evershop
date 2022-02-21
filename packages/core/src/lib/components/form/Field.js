@@ -1,92 +1,108 @@
-import React from "react";
-import { Checkbox } from "./fields/Checkbox";
-import { Date } from "./fields/Date";
-import { DateTime } from "./fields/DateTime";
-import { Input } from "./fields/Input";
-import { MultiSelect } from "./fields/MultiSelect";
-import { Radio } from "./fields/Radio";
-import { Select } from "./fields/Select";
-import { TextArea } from "./fields/Textarea";
-import { Toggle } from "./fields/Toggle";
-import { useFormContext } from "./Form";
+/* eslint-disable react/jsx-props-no-spreading */
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Checkbox } from './fields/Checkbox';
+import { Date } from './fields/Date';
+import { DateTime } from './fields/DateTime';
+import { Hidden } from './fields/Hidden';
+import { Input } from './fields/Input';
+import { MultiSelect } from './fields/MultiSelect';
+import { Radio } from './fields/Radio';
+import { Select } from './fields/Select';
+import { TextArea } from './fields/Textarea';
+import { Toggle } from './fields/Toggle';
+import { useFormContext } from './Form';
 
 export function Field(props) {
-    const context = useFormContext();
-    const [value, setValue] = React.useState("");
-    const field = context.fields.find((f) => f.name === props.name);
+  const {
+    name,
+    value,
+    validationRules,
+    onChange,
+    type
+  } = props;
+  const context = useFormContext();
+  const [fieldValue, setFieldValue] = React.useState('');
+  const field = context.fields.find((f) => f.name === name);
 
-    React.useEffect(() => {
-        context.addField(props.name, props.value, props.validationRules || []);
+  React.useEffect(() => {
+    context.addField(name, value, validationRules || []);
 
-        return () => {
-            context.removeField(props.name);
-        };
-    }, []);
-
-    React.useEffect(() => {
-        setValue(props.value);
-        context.updateField(props.name, props.value, props.validationRules);
-    }, [props.value]);
-
-    React.useEffect(() => {
-        if (field)
-            setValue(field.value);
-    }, [field]);
-
-    const onChange = (value) => {
-        let _val;
-        if (typeof value === 'object' && value !== null && value.target) {
-            _val = value.target.value;
-        } else {
-            _val = value;
-        }
-        setValue(_val);
-        context.updateField(props.name, _val, props.validationRules);
-        if (props.onChange) props.onChange.call(window, value, props);
+    return () => {
+      context.removeField(name);
     };
+  }, []);
 
-    let Field = (() => {
-        switch (props.type) {
-            case 'text':
-                return Input
-                break;
-            case 'select':
-                return Select
-                break;
-            case 'multiselect':
-                return MultiSelect
-                break;
-            case 'checkbox':
-                return Checkbox
-                break;
-            case 'radio':
-                return Radio
-                break;
-            case 'toggle':
-                return Toggle
-                break;
-            case 'date':
-                return Date
-                break;
-            case 'datetime':
-                return DateTime
-                break;
-            case 'textarea':
-                return TextArea
-                break;
-            case 'hidden':
-                return (props) => <input
-                    type="text"
-                    id={props.name}
-                    name={props.name}
-                    value={props.value}
-                    readOnly={true}
-                    style={{ display: 'none' }}
-                />
-                break;
-        }
-    })();
-    return <>
-        <Field {...props} onChange={onChange} value={value} error={field ? field.error : undefined} />
-    </>
+  React.useEffect(() => {
+    setFieldValue(value);
+    context.updateField(name, value, validationRules);
+  }, [value]);
+
+  React.useEffect(() => {
+    if (field) setFieldValue(field.value);
+  }, [field]);
+
+  const onChangeFunc = (newValue) => {
+    let fieldVal;
+    if (typeof newValue === 'object' && newValue !== null && newValue.target) {
+      fieldVal = newValue.target.value;
+    } else {
+      fieldVal = newValue;
+    }
+    setFieldValue(fieldVal);
+    context.updateField(name, fieldVal, validationRules);
+
+    if (onChange) {
+      onChange.call(window, newValue, props);
+    }
+  };
+
+  const F = (() => {
+    switch (type) {
+      case 'text':
+        return Input;
+      case 'select':
+        return Select;
+      case 'multiselect':
+        return MultiSelect;
+      case 'checkbox':
+        return Checkbox;
+      case 'radio':
+        return Radio;
+      case 'toggle':
+        return Toggle;
+      case 'date':
+        return Date;
+      case 'datetime':
+        return DateTime;
+      case 'textarea':
+        return TextArea;
+      case 'hidden':
+        return Hidden;
+      default:
+        return Text;
+    }
+  })();
+  return (
+    <F
+      {...props}
+      onChange={onChangeFunc}
+      value={fieldValue}
+      error={field ? field.error : undefined}
+    />
+  );
 }
+
+Field.propTypes = {
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  validationRules: PropTypes.arrayOf(PropTypes.string),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};
+
+Field.defaultProps = {
+  onChange: undefined,
+  validationRules: [],
+  value: ''
+};

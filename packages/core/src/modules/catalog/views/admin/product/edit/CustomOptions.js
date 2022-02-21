@@ -1,10 +1,12 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable camelcase */
 import React from 'react';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Card } from '../../../../../cms/views/admin/Card';
 
-export default function CustomOption(props) {
+export default function CustomOption() {
   const context = useAppState();
 
   const [options, setOptions] = React.useState(get(context, 'productOptions', []));
@@ -24,29 +26,31 @@ export default function CustomOption(props) {
     setOptions(options.filter((option) => option.option_id !== id));
   };
 
-  const addCustomOptionValue = (option_id) => {
-    setOptions(options.map((o, i) => {
-      if (parseInt(o.option_id) === parseInt(option_id)) {
+  const addCustomOptionValue = (optionId) => {
+    setOptions(options.map((o) => {
+      if (parseInt(o.option_id, 10) === parseInt(optionId, 10)) {
         const values = o.values === undefined ? [] : o.values;
         values.push({
           value_id: Date.now(),
-          option_id,
+          optionId,
           extra_price: '',
           sort_order: '',
           value: ''
         });
+        // eslint-disable-next-line no-param-reassign
         o.values = values;
       }
       return o;
     }));
   };
 
-  const removeCustomOptionValue = (option_id, value_id, e) => {
+  const removeCustomOptionValue = (optionId, valueId, e) => {
     e.preventDefault();
-    setOptions(options.map((o, i) => {
-      if (parseInt(o.option_id) === parseInt(option_id)) {
+    setOptions(options.map((o) => {
+      if (parseInt(o.option_id, 10) === parseInt(optionId, 10)) {
         const values = o.values === undefined ? [] : o.values;
-        o.values = values.filter((v, i) => parseInt(v.value_id) !== parseInt(value_id));
+        // eslint-disable-next-line no-param-reassign
+        o.values = values.filter((v) => parseInt(v.value_id, 10) !== parseInt(valueId, 10));
       }
       return o;
     }));
@@ -56,13 +60,14 @@ export default function CustomOption(props) {
     <Card
       title="Custom option"
     >
-      {options.map((option, index) => {
+      {options.map((option) => {
         const values = option.values === undefined ? [] : option.values;
         const {
+          // eslint-disable-next-line camelcase
           option_id, option_name, sort_order, option_type, is_required
         } = option;
         return (
-          <Card.Session key={index} title={option_name || 'New option'} actions={[{ variant: 'critical', name: 'Remove option', onAction: () => { removeOption(option_id); } }]}>
+          <Card.Session key={option_id} title={option_name || 'New option'} actions={[{ variant: 'critical', name: 'Remove option', onAction: () => { removeOption(option_id); } }]}>
             <div className="grid grid-cols-3 gap-1 mb-1">
               <div>
                 <Field
@@ -97,7 +102,7 @@ export default function CustomOption(props) {
             <div className="mb-1">
               <Field
                 name={`options[${option_id}][is_required]`}
-                isChecked={parseInt(is_required) === 1}
+                isChecked={parseInt(is_required, 10) === 1}
                 label="This option is mandatory"
                 value="1"
                 type="checkbox"
@@ -110,8 +115,9 @@ export default function CustomOption(props) {
                 <div>Sort Order</div>
                 <div />
               </div>
-              {values.map((val, i) => {
+              {values.map((val) => {
                 const {
+                  // eslint-disable-next-line no-shadow
                   value_id, option_id, extra_price, sort_order, value
                 } = val;
                 return (

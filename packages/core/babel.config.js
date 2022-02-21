@@ -1,3 +1,3 @@
 module.exports = {
-    parserOpts: { allowReturnOutsideFunction: true }
+  parserOpts: { allowReturnOutsideFunction: true }
 };

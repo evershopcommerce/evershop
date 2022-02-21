@@ -5,7 +5,7 @@ import { Field } from '../../../../../../lib/components/form/Field';
 import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
 
-export default function General(props) {
+export default function General() {
   const context = useAppState();
   const fields = [
     {
@@ -48,6 +48,7 @@ export default function General(props) {
       id: 'meta_description'
     }
   ].filter((f) => {
+    // eslint-disable-next-line no-param-reassign
     if (get(context, `product.${f.props.name}`) !== undefined) { f.props.value = get(context, `product.${f.props.name}`); }
     return f;
   });

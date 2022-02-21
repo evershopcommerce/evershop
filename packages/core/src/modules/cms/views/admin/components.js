@@ -24,7 +24,7 @@ exports = module.exports = {
     {
       id: 'searchBox',
       areaId: 'header',
-      source: useAdminComponent('cms/views/admin/dashboard/SearchBox.js'),
+      source: useAdminComponent('cms/views/admin/dashboard/search/SearchBox.js'),
       props: {
         searchAPI: buildUrl('search'),
         resourceLinks: [

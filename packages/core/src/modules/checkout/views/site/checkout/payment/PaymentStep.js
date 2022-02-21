@@ -28,10 +28,10 @@ function BillingAddress({ useShippingAddress, setUseShippingAddress }) {
   );
 }
 
-function Content({ step }) {
+function Content() {
   const appContext = useAppState();
   const { cart } = appContext;
-  const { checkout: { setPaymentInfoAPI, setBillingAddressAPI, checkoutSuccessPage } } = appContext;
+  const { checkout: { setPaymentInfoAPI, setBillingAddressAPI } } = appContext;
   const { completeStep } = useCheckoutStepsDispatch();
   const [useShippingAddress, setUseShippingAddress] = useState(!cart.billing_address_id);
   const [billingCompleted, setBillingCompleted] = useState(false);
@@ -45,14 +45,14 @@ function Content({ step }) {
     }
   };
 
-  const billing = () => {
-    if (!billingCompleted) {
-      document.getElementById('checkout_billing_address_form').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-    }
-    if (!paymentMethodCompleted) {
-      document.getElementById('checkoutPaymentMethods').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-    }
-  };
+  // const billing = () => {
+  //   if (!billingCompleted) {
+  //     document.getElementById('checkout_billing_address_form').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  //   }
+  //   if (!paymentMethodCompleted) {
+  //     document.getElementById('checkoutPaymentMethods').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  //   }
+  // };
 
   useEffect(() => {
     if (billingCompleted && paymentMethodCompleted) completeStep('payment');
@@ -113,11 +113,11 @@ function Content({ step }) {
   );
 }
 
-export default function PaymentStep({ }) {
+export default function PaymentStep() {
   const steps = useCheckoutSteps();
   const step = steps.find((e) => e.id === 'payment') || {};
   const [display, setDisplay] = React.useState(false);
-  const { canStepDisplay, editStep } = useCheckoutStepsDispatch();
+  const { canStepDisplay } = useCheckoutStepsDispatch();
 
   React.useEffect(() => {
     setDisplay(canStepDisplay(step, steps));

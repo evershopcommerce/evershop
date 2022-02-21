@@ -1,3 +1,6 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
 import Area from '../../../../../../lib/components/Area';
@@ -9,17 +12,17 @@ import { useAlertContext } from '../../../../../../lib/components/modal/Alert';
 import { Checkbox } from '../../../../../../lib/components/form/fields/Checkbox';
 import formData from '../../../../../../lib/util/formData';
 
-function Actions({ selectedIds = [], setSelectedRows }) {
+function Actions({ selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
   const context = useAppState();
   const actions = [
     {
       name: 'Delete',
-      onAction: (ids) => {
+      onAction: () => {
         openAlert({
           heading: `Delete ${selectedIds.length} categories`,
-          content: <div>Can't be undone</div>,
+          content: <div>Can&apos;t be undone</div>,
           primaryAction: {
             title: 'Cancel',
             onAction: closeAlert,
@@ -36,8 +39,6 @@ function Actions({ selectedIds = [], setSelectedRows }) {
               if (response.data.success === true) {
                 window.location.href = context.currentUrl;
                 // TODO: Should display a message and delay for 1 - 2 second
-              } else {
-
               }
             },
             variant: 'critical',
@@ -59,13 +60,17 @@ function Actions({ selectedIds = [], setSelectedRows }) {
               {' '}
               selected
             </a>
-            {actions.map((action) => <a href="#" onClick={(e) => { e.preventDefault(); action.onAction(); }} className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"><span>{action.name}</span></a>)}
+            {actions.map((action, index) => <a key={index} href="#" onClick={(e) => { e.preventDefault(); action.onAction(); }} className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"><span>{action.name}</span></a>)}
           </div>
         </td>
       )}
     </tr>
   );
 }
+
+Actions.propTypes = {
+  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+};
 
 export default function CategoryGrid() {
   const categories = get(useAppState(), 'grid.categories', []);
@@ -81,8 +86,11 @@ export default function CategoryGrid() {
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(products.map((p) => p.product_id));
-                else setSelectedRows([]);
+                if (e.target.checked) {
+                  setSelectedRows(categories.map((p) => p.product_id));
+                } else {
+                  setSelectedRows([]);
+                }
               }}
               />
             </th>
@@ -94,22 +102,26 @@ export default function CategoryGrid() {
           </tr>
         </thead>
         <tbody>
-          <Actions ids={categories.map((c) => c.category_id)} selectedIds={selectedRows} setSelectedRows={setSelectedRows} />
-          {categories.map((a, i) => (
-            <tr key={i}>
+          <Actions
+            ids={categories.map((c) => c.category_id)}
+            selectedIds={selectedRows}
+            setSelectedRows={setSelectedRows}
+          />
+          {categories.map((c) => (
+            <tr key={c.category_id}>
               <td style={{ width: '2rem' }}>
                 <Checkbox
-                  isChecked={selectedRows.includes(a.category_id)}
+                  isChecked={selectedRows.includes(c.category_id)}
                   onChange={(e) => {
-                    if (e.target.checked) setSelectedRows(selectedRows.concat([a.category_id]));
-                    else setSelectedRows(selectedRows.filter((e) => e !== a.category_id));
+                    if (e.target.checked) setSelectedRows(selectedRows.concat([c.category_id]));
+                    else setSelectedRows(selectedRows.filter((r) => r !== c.category_id));
                   }}
                 />
               </td>
               <Area
                 className=""
                 id="categoryGridRow"
-                row={a}
+                row={c}
                 noOuter
               />
             </tr>

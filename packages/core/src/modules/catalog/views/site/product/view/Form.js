@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import Area from '../../../../../../lib/components/Area';
@@ -26,7 +28,7 @@ function ToastMessage({
       </div>
       <div className="item-line flex justify-between">
         <div className="popup-thumbnail flex justify-center">
-          <img src={thumbnail} />
+          <img src={thumbnail} alt={name} />
         </div>
         <div className="item-info flex justify-between">
           <div className="name">
@@ -47,6 +49,15 @@ function ToastMessage({
     </div>
   );
 }
+
+ToastMessage.propTypes = {
+  cartUrl: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  qty: PropTypes.number.isRequired,
+  thumbnail: PropTypes.string.isRequired,
+  toastId: PropTypes.string.isRequired
+};
 
 function AddToCart({ stockAvaibility, loading = false, error }) {
   return (
@@ -71,6 +82,16 @@ function AddToCart({ stockAvaibility, loading = false, error }) {
     </div>
   );
 }
+
+AddToCart.propTypes = {
+  error: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
+  stockAvaibility: PropTypes.bool.isRequired
+};
+
+AddToCart.defaultProps = {
+  error: undefined
+};
 
 export default function ProductForm({ action }) {
   const context = useAppState();
@@ -115,7 +136,10 @@ export default function ProductForm({ action }) {
           {
             component: { default: AddToCart },
             props: {
-              stockAvaibility: (product.stock_availability === 1 && product.qty > 0) || product.manage_stock === 0,
+              stockAvaibility: (
+                product.stock_availability === 1
+                && product.qty > 0
+              ) || product.manage_stock === 0,
               loading,
               error
             },
@@ -127,3 +151,7 @@ export default function ProductForm({ action }) {
     </Form>
   );
 }
+
+ProductForm.propTypes = {
+  action: PropTypes.string.isRequired
+};

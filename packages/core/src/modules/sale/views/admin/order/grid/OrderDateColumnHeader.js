@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { DateTime } from 'luxon';
 import { Date } from '../../../../../../lib/components/form/fields/Date';
@@ -56,3 +57,8 @@ export default function FromToColumnHeader({ title, id }) {
     </th>
   );
 }
+
+FromToColumnHeader.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
+};

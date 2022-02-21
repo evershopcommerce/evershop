@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import Button from '../../../../../lib/components/form/Button';
@@ -8,54 +9,44 @@ const { get } = require('../../../../../lib/util/get');
 function Subtotal({ subTotal }) {
   const currency = get(useAppState(), 'currency', 'USD');
   const language = get(useAppState(), 'language', 'en');
-  const _subTotal = new Intl.NumberFormat(language, { style: 'currency', currency }).format(subTotal);
+  const formatedSubTotal = new Intl.NumberFormat(language, { style: 'currency', currency }).format(subTotal);
   return (
     <div className="flex justify-end gap-3" style={{ fontSize: '2rem' }}>
       <div>Subtotal</div>
-      <div className="text-right">{_subTotal}</div>
+      <div className="text-right">{formatedSubTotal}</div>
     </div>
   );
 }
 
+Subtotal.propTypes = {
+  subTotal: PropTypes.number
+};
+
+Subtotal.defaultProps = {
+  subTotal: 0
+};
+
 function Discount({ discountAmount }) {
   const currency = get(useAppState(), 'currency', 'USD');
   const language = get(useAppState(), 'language', 'en');
-  const _discountAmount = new Intl.NumberFormat(language, { style: 'currency', currency }).format(discountAmount);
+  const formatedDiscountAmount = new Intl.NumberFormat(language, { style: 'currency', currency }).format(discountAmount);
 
   if (!discountAmount) { return null; }
   return (
     <div className="flex justify-end gap-3">
       <div>Discount</div>
-      <div className="text-right">{_discountAmount}</div>
+      <div className="text-right">{formatedDiscountAmount}</div>
     </div>
   );
 }
 
-function Tax({ taxAmount }) {
-  const currency = get(useAppState(), 'currency', 'USD');
-  const language = get(useAppState(), 'language', 'en');
-  const _taxAmount = new Intl.NumberFormat(language, { style: 'currency', currency }).format(taxAmount);
+Discount.propTypes = {
+  discountAmount: PropTypes.number
+};
 
-  return (
-    <div>
-      <div>Tax</div>
-      <div>{_taxAmount}</div>
-    </div>
-  );
-}
-
-function GrandTotal({ grandTotal }) {
-  const currency = get(useAppState(), 'currency', 'USD');
-  const language = get(useAppState(), 'language', 'en');
-  const _grandTotal = new Intl.NumberFormat(language, { style: 'currency', currency }).format(grandTotal);
-
-  return (
-    <div>
-      <div>Grand total</div>
-      <div>{_grandTotal}</div>
-    </div>
-  );
-}
+Discount.defaultProps = {
+  discountAmount: 0
+};
 
 function Summary({ checkoutUrl }) {
   const cart = get(useAppState(), 'cart', {});
@@ -81,6 +72,7 @@ function Summary({ checkoutUrl }) {
               id: 'shoppingCartDiscount'
             },
             {
+              // eslint-disable-next-line react/no-unstable-nested-components
               component: { default: () => <div className="flex justify-end italic text-textSubdued">Taxes and shipping calculated at checkout</div> },
               props: {},
               sortOrder: 30,
@@ -95,5 +87,9 @@ function Summary({ checkoutUrl }) {
     </div>
   );
 }
+
+Summary.propTypes = {
+  checkoutUrl: PropTypes.string.isRequired
+};
 
 export default Summary;

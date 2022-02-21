@@ -1,3 +1,6 @@
+/* eslint-disable camelcase */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { useAppState } from '../../../../../../lib/context/app';
@@ -5,8 +8,8 @@ import { get } from '../../../../../../lib/util/get';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Card } from '../../../../../cms/views/admin/Card';
 
-function Options({ _options = [] }) {
-  const [options, setOptions] = React.useState(_options);
+function Options({ originOptions = [] }) {
+  const [options, setOptions] = React.useState(originOptions);
 
   const addOption = (e) => {
     e.preventDefault();
@@ -45,6 +48,13 @@ function Options({ _options = [] }) {
     </div>
   );
 }
+
+Options.propTypes = {
+  originOptions: PropTypes.arrayOf(PropTypes.shape({
+    attribute_option_id: PropTypes.number,
+    option_text: PropTypes.string
+  })).isRequired
+};
 
 export default function General() {
   const context = useAppState();
@@ -106,8 +116,11 @@ export default function General() {
       sortOrder: 20,
       id: 'type'
     }
-  ].filter((f) => {
-    if (get(context, `attribute.${f.props.name}`) !== undefined) { f.props.value = get(context, `attribute.${f.props.name}`); }
+  ].map((f) => {
+    if (get(context, `attribute.${f.props.name}`) !== undefined) {
+      // eslint-disable-next-line no-param-reassign
+      f.props.value = get(context, `attribute.${f.props.name}`);
+    }
     return f;
   });
 
@@ -120,7 +133,7 @@ export default function General() {
       </Card.Session>
       {['select', 'multiselect'].includes(type) && (
         <Card.Session title="Attribute options">
-          <Options _options={get(context, 'attribute.options', [])} />
+          <Options originOptions={get(context, 'attribute.options', [])} />
         </Card.Session>
       )}
     </Card>

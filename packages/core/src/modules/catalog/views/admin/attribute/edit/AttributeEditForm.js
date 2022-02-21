@@ -1,12 +1,17 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import Button from '../../../../../../lib/components/form/Button';
 import { Form } from '../../../../../../lib/components/form/Form';
 
-export default function AttributeEditForm(props) {
+export default function AttributeEditForm({
+  method,
+  action,
+  gridUrl,
+  id
+}) {
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    <Form {...props} submitBtn={false}>
+    <Form method={method} action={action} submitBtn={false} id={id}>
       <div className="grid grid-cols-3 gap-x-2 grid-flow-row ">
         <div className="col-span-2 grid grid-cols-1 gap-2 auto-rows-max">
           <Area id="leftSide" noOuter />
@@ -22,17 +27,24 @@ export default function AttributeEditForm(props) {
           outline
           onAction={
             () => {
-              window.location = props.gridUrl;
+              window.location = gridUrl;
             }
           }
         />
         <Button
           title="Save"
           onAction={
-            () => { document.getElementById(props.id).dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
+            () => { document.getElementById(id).dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
           }
         />
       </div>
     </Form>
   );
 }
+
+AttributeEditForm.propTypes = {
+  method: PropTypes.string.isRequired,
+  action: PropTypes.string.isRequired,
+  gridUrl: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
+};

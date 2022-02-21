@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../lib/components/Area';
 
@@ -11,3 +12,8 @@ export default function MenuItemGroup({ id, name }) {
     </li>
   );
 }
+
+MenuItemGroup.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired
+};

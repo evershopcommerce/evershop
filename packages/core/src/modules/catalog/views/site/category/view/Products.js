@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ProductList from '../../product/list/List';
 import Pagination from '../../product/list/Pagination';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 
-export default function Products({ withPagination = true, withSorting = true }) {
+export default function Products({ withPagination = true }) {
   const context = useAppState();
   const products = get(context, 'category.products', []);
 
@@ -18,7 +19,6 @@ export default function Products({ withPagination = true, withSorting = true }) 
       <ProductList products={products} countPerRow={3} />
       {withPagination === true && (
         <Pagination
-          currentPage={1}
           currentUrl={get(context, 'currentUrl')}
           currentPage={get(context, 'pagination.currentPage')}
           limit={get(context, 'pagination.limit')}
@@ -28,3 +28,7 @@ export default function Products({ withPagination = true, withSorting = true }) 
     </div>
   );
 }
+
+Products.propTypes = {
+  withPagination: PropTypes.bool.isRequired
+};

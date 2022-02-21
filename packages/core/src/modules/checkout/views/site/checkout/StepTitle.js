@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 function Title({ step }) {
@@ -18,5 +19,12 @@ function Title({ step }) {
     </div>
   );
 }
+
+Title.propTypes = {
+  step: PropTypes.shape({
+    isCompleted: PropTypes.bool,
+    title: PropTypes.string
+  }).isRequired
+};
 
 export { Title };

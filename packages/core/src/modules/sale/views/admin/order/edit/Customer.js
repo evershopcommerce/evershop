@@ -3,7 +3,7 @@ import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
 
-export default function OrderInfo(props) {
+export default function OrderInfo() {
   const order = get(useAppState(), 'order', {});
   return (
     <Card title="Customer">

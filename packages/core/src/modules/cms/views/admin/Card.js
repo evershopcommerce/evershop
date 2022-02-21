@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 function Card({
@@ -18,6 +19,7 @@ function Card({
                   secondary: 'text-secondary'
                 };
                 return (
+                  // eslint-disable-next-line react/no-array-index-key
                   <div key={index} className="card-action">
                     <a
                       href="#"
@@ -41,7 +43,24 @@ function Card({
   );
 }
 
-Card.Session = function ({ actions = [], title, children }) {
+Card.propTypes = {
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    onAction: PropTypes.func,
+    variant: PropTypes.string,
+    name: PropTypes.string
+  })),
+  children: PropTypes.node.isRequired,
+  subdued: PropTypes.bool,
+  title: PropTypes.string
+};
+
+Card.defaultProps = {
+  actions: [],
+  subdued: false,
+  title: ''
+};
+
+const Session = function Session({ actions = [], title, children }) {
   return (
     <div className="card-section border-b box-border">
       {(title || actions.length > 0) && (
@@ -57,13 +76,17 @@ Card.Session = function ({ actions = [], title, children }) {
                   secondary: 'text-secondary'
                 };
                 return (
+                  // eslint-disable-next-line react/no-array-index-key
                   <div key={index} className="card-action">
                     <a
-                      href="#" onClick={(e) => {
+                      href="#"
+                      onClick={(e) => {
                         e.preventDefault();
                         if (action.onAction) action.onAction.call();
-                      }} className={className[action.variant ? action.variant : 'interactive']}
-                    >{action.name}
+                      }}
+                      className={className[action.variant ? action.variant : 'interactive']}
+                    >
+                      {action.name}
                     </a>
                   </div>
                 );
@@ -76,5 +99,23 @@ Card.Session = function ({ actions = [], title, children }) {
     </div>
   );
 };
+
+Session.propTypes = {
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    onAction: PropTypes.func,
+    variant: PropTypes.string,
+    name: PropTypes.string
+  })),
+  children: PropTypes.node,
+  title: PropTypes.string
+};
+
+Session.defaultProps = {
+  actions: [],
+  title: '',
+  children: null
+};
+
+Card.Session = Session;
 
 export { Card };

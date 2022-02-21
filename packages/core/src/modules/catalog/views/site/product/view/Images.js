@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/no-array-index-key */
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
@@ -15,6 +18,13 @@ function Current({ image, alt }) {
     </div>
   );
 }
+
+Current.propTypes = {
+  alt: PropTypes.string.isRequired,
+  image: PropTypes.shape({
+    single: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export default function Images() {
   const product = get(useAppState(), 'product');

@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+import PropTypes from 'prop-types';
 import React from 'react';
 import produce from 'immer';
 import { Title } from '../StepTitle';
@@ -30,11 +32,11 @@ function Content({ step }) {
                 draff.cart.shippingAddress = response.data.address;
                 draff.cart.shipping_method = response.data.method.code;
                 draff.cart.shipping_method_name = response.data.method.name;
-                draff.checkout.steps = context.checkout.steps.map((step) => {
-                  if (step.id === 'shipment') {
-                    return { ...step, isCompleted: true };
+                draff.checkout.steps = context.checkout.steps.map((s) => {
+                  if (s.id === 'shipment') {
+                    return { ...s, isCompleted: true };
                   } else {
-                    return { ...step };
+                    return { ...s };
                   }
                 });
               }));
@@ -52,6 +54,14 @@ function Content({ step }) {
     );
   }
 }
+
+Content.propTypes = {
+  step: PropTypes.shape({
+    id: PropTypes.string,
+    isCompleted: PropTypes.bool,
+    isEditing: PropTypes.bool
+  }).isRequired
+};
 
 export default function ShipmentStep() {
   const context = useAppState();

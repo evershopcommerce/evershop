@@ -4,7 +4,7 @@ import Button from '../../../../../lib/components/form/Button';
 
 const { get } = require('../../../../../lib/util/get');
 
-export default function Empty({ homeUrl }) {
+export default function Empty() {
   const items = get(useAppState(), 'cart.items', []);
   if (items.length > 0) { return null; }
   return (
@@ -19,7 +19,7 @@ export default function Empty({ homeUrl }) {
               <span className="flex space-x-1">
                 <span className="self-center">CONTINUE SHOPPING</span>
                 {' '}
-                <svg className="self-center" style={{ width: '2.5rem', height: '2.5rem' }} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="self-center" style={{ width: '2.5rem', height: '2.5rem' }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </span>

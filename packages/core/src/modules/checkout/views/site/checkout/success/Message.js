@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
 export default function SuccessMessage({ message, homeUrl }) {
   return (
     <div className="order-success-message">
@@ -10,3 +13,8 @@ export default function SuccessMessage({ message, homeUrl }) {
     </div>
   );
 }
+
+SuccessMessage.propTypes = {
+  homeUrl: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired
+};

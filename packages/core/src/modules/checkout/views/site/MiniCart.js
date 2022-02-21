@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useAppState } from '../../../../lib/context/app';
 import { get } from '../../../../lib/util/get';
 
-export default function MiniCart({ cartUrl, checkoutUrl }) {
+export default function MiniCart({ cartUrl }) {
   const context = useAppState();
   const items = get(context, 'cart.items', []);
 
@@ -17,3 +18,7 @@ export default function MiniCart({ cartUrl, checkoutUrl }) {
     </div>
   );
 }
+
+MiniCart.propTypes = {
+  cartUrl: PropTypes.string.isRequired
+};

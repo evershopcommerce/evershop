@@ -1,11 +1,14 @@
+/* eslint-disable react/jsx-closing-tag-location */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Form } from '../../../../../../lib/components/form/Form';
 import { useAlertContext } from '../../../../../../lib/components/modal/Alert';
 import { useAppState } from '../../../../../../lib/context/app';
 
-export default function GroupRow({ id, areaProps }) {
-  const groups = areaProps.row[id];
+export default function GroupRow({ id, areaProps: { row } }) {
+  const groups = row[id];
   const context = useAppState();
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
 
@@ -75,3 +78,15 @@ export default function GroupRow({ id, areaProps }) {
     </td>
   );
 }
+
+GroupRow.propTypes = {
+  areaProps: PropTypes.shape({
+    row: PropTypes.shape({
+      id: PropTypes.arrayOf(PropTypes.shape({
+        attribute_group_id: PropTypes.number,
+        group_name: PropTypes.string
+      }))
+    })
+  }).isRequired,
+  id: PropTypes.string.isRequired
+};

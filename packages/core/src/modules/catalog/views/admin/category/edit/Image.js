@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 import { get } from '../../../../../../lib/util/get';
 import { useAppState } from '../../../../../../lib/context/app';
 import { Card } from '../../../../../cms/views/admin/Card';
@@ -13,10 +14,10 @@ export default function Image() {
   const onChange = (e) => {
     e.persist();
     const formData = new FormData();
-    for (let i = 0; i < e.target.files.length; i++) { formData.append('images', e.target.files[i]); }
+    for (let i = 0; i < e.target.files.length; i += 1) { formData.append('images', e.target.files[i]); }
     setLoading(true);
     fetch(
-      `${get(context, 'imageUploadUrl')}/` + `catalog/${Math.floor(Math.random() * (9999 - 1000)) + 1000}/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`,
+      `${get(context, 'imageUploadUrl')}/catalog/${Math.floor(Math.random() * (9999 - 1000)) + 1000}/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`,
       {
         method: 'POST',
         body: formData,
@@ -25,18 +26,22 @@ export default function Image() {
         }
       }
     ).then((response) => {
-      if (!response.headers.get('content-type') || !response.headers.get('content-type').includes('application/json')) { throw new TypeError('Something wrong. Please try again'); }
+      if (!response.headers.get('content-type') || !response.headers.get('content-type').includes('application/json')) {
+        throw new TypeError('Something wrong. Please try again');
+      }
 
       return response.json();
     })
       .then((response) => {
-        if (get(response, 'success') === true) { setImage(response.data.files[0]); } else {
-          // toast.error(get(response, "message", "Failed!"));
+        if (get(response, 'success') === true) {
+          setImage(response.data.files[0]);
+        } else {
+          toast.error(get(response, 'message', 'Failed!'));
         }
       })
       .catch(
         (error) => {
-          // toast.error(get(error, "message", "Failed!"));
+          toast.error(error.message);
         }
       )
       .finally(() => {
@@ -74,7 +79,7 @@ export default function Image() {
         )}
         {image && (
           <div className="category-image">
-            <img src={image.url} />
+            <img src={image.url} alt={' '} />
           </div>
         )}
         {image && <input type="hidden" value={image.path} name="image" />}
