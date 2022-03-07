@@ -1,14 +1,15 @@
 import React from 'react';
 import Area from '../../../../lib/components/Area';
+import { getComponents } from '../../../../lib/components/getComponents';
 
 export default function Layout() {
   return (
     <>
       <div className="header flex justify-between">
-        <Area id="header" noOuter />
+        <Area id="header" noOuter components={getComponents()} />
       </div>
       <main className="content">
-        <Area id="content" className="" noOuter />
+        <Area id="content" className="" noOuter components={getComponents()} />
       </main>
       <div className="footer">
         <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-2 justify-between">

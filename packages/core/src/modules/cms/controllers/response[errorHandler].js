@@ -6,9 +6,8 @@ import { getComponentsByRoute } from '../../../lib/componee/getComponentByRoute'
 import Html from '../../../lib/components/Html';
 import { Alert } from '../../../lib/components/modal/Alert';
 
-const { inspect } = require('util');
 const { renderToString } = require('react-dom/server');
-const { AppProvider } = require('../../../lib/context/app');
+const fs = require('fs');
 
 module.exports = async (request, response, stack, next) => {
   const promises = [];
@@ -47,11 +46,14 @@ module.exports = async (request, response, stack, next) => {
           }
         }
         response.context.components = components;
+        const pageData = JSON.stringify(request.app.get('pageData')).replace('"{', '{').replace('}"', '}').replace(/"/g, '\\"');
         // resetServerContext();
         // eslint-disable-next-line max-len
-        let source = renderToString(<AppProvider value={response.context}><Alert><Html /></Alert></AppProvider>);
+        const bundleContent = fs.readFileSync(response.context.bundleFilePath, 'utf8').replace('{\\"DONOT\\":\\"REMOVE\\"}', pageData);
+        const source = renderToString(
+          <Alert><Html bundle={bundleContent} /></Alert>
+        );
         delete response.context.components;
-        source = source.replace('</head>', `<script>var appContext = ${inspect(response.context, { depth: 10, maxArrayLength: null })}</script></head>`);
         response.send(`<!DOCTYPE html><html id="root">${source}</html>`);
       }
     }

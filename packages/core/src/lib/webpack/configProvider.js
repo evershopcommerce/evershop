@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-assign */
 const path = require('path');
 
 module.exports = exports = function CreateConfig(routeId, params) {

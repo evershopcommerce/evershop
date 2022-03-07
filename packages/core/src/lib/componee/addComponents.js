@@ -1,8 +1,21 @@
+const { existsSync } = require('fs');
+const { resolve } = require('path');
+const { CONSTANTS } = require('../helpers');
 const { getAdminRoutes, getSiteRoutes } = require('../router/routes');
 const { addComponent } = require('./addComponent');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
+
+function getComponentPath(path, module) {
+  if (existsSync(resolve(CONSTANTS.MOLDULESPATH, path))) {
+    return resolve(CONSTANTS.MOLDULESPATH, path);
+  } else if (existsSync(resolve(__dirname, '../components', path))) {
+    return resolve(__dirname, '../components', path);
+  } else {
+    throw new Error(`Component ${path} does not exist`);
+  }
+}
 
 exports.addComponents = function addComponents(scope, componentObjects) {
   const routes = scope === 'admin' ? getAdminRoutes() : getSiteRoutes();
@@ -14,7 +27,15 @@ exports.addComponents = function addComponents(scope, componentObjects) {
       routes.forEach((route) => {
         if (route.method.length === 1 && route.method[0] === 'GET') {
           componentObjects[key].forEach((c) => {
-            addComponent(scope, route.id, c.id, c.areaId, c.source, c.props, c.sortOrder);
+            addComponent(
+              scope,
+              route.id,
+              c.id,
+              c.areaId,
+              getComponentPath(c.source.path, c.source.module),
+              c.props,
+              c.sortOrder
+            );
           });
         }
       });
@@ -23,7 +44,15 @@ exports.addComponents = function addComponents(scope, componentObjects) {
       routes.forEach((route) => {
         if (route.method.length === 1 && route.method[0] === 'GET' && !excepts.includes(route.id)) {
           componentObjects[key].forEach((c) => {
-            addComponent(scope, route.id, c.id, c.areaId, c.source, c.props, c.sortOrder);
+            addComponent(
+              scope,
+              route.id,
+              c.id,
+              c.areaId,
+              getComponentPath(c.source.path, c.source.module),
+              c.props,
+              c.sortOrder
+            );
           });
         }
       });
@@ -33,7 +62,15 @@ exports.addComponents = function addComponents(scope, componentObjects) {
       routes.forEach((route) => {
         if (route.method.length === 1 && route.method[0] === 'GET' && list.includes(route.id)) {
           componentObjects[key].forEach((c) => {
-            addComponent(scope, route.id, c.id, c.areaId, c.source, c.props, c.sortOrder);
+            addComponent(
+              scope,
+              route.id,
+              c.id,
+              c.areaId,
+              getComponentPath(c.source.path, c.source.module),
+              c.props,
+              c.sortOrder
+            );
           });
         }
       });

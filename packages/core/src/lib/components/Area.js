@@ -2,23 +2,20 @@
 /* eslint-disable react/destructuring-assignment */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '../context/app';
 
 function Area(props) {
   const {
-    id, coreComponents, wrapperProps, noOuter, wrapper, className
+    id, coreComponents, wrapperProps, noOuter, wrapper, className, components
   } = props;
 
-  const getComponents = (contextComponents = {}) => {
+  const areaComponents = (() => {
     const areaCoreComponents = coreComponents || [];
-    const components = contextComponents[id] === undefined
+    const cs = components[id] === undefined
       ? areaCoreComponents
-      : areaCoreComponents.concat(Object.values(contextComponents[id]));
+      : areaCoreComponents.concat(Object.values(components[id]));
 
-    return components.sort((obj1, obj2) => obj1.sortOrder - obj2.sortOrder);
-  };
-  const context = useAppState();
-  const components = getComponents(context.components);
+    return cs.sort((obj1, obj2) => obj1.sortOrder - obj2.sortOrder);
+  })();
 
   // eslint-disable-next-line no-nested-ternary
   const WrapperComponent = noOuter !== true ? (wrapper !== undefined ? wrapper : 'div') : React.Fragment;
@@ -31,13 +28,10 @@ function Area(props) {
   } else {
     areaWrapperProps = { className: className || '' };
   }
-
-  if (components.length === 0) return null;
-
+  if (areaComponents.length === 0) return null;
   return (
     <WrapperComponent {...areaWrapperProps}>
-      {components.map((w) => {
-        console.log(w.id);
+      {areaComponents.map((w) => {
         const C = w.component.default;
         if (typeof C === 'string') return <C key={w.id} {...w.props} />;
         return <C key={w.id} {...w.props} areaProps={props} />;
@@ -59,7 +53,12 @@ Area.propTypes = {
   noOuter: PropTypes.bool,
   wrapper: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   // eslint-disable-next-line react/forbid-prop-types
-  wrapperProps: PropTypes.object
+  wrapperProps: PropTypes.object,
+  components: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.string,
+    components: PropTypes.node,
+    sortOrder: PropTypes.number
+  }))
 };
 
 Area.defaultProps = {
@@ -67,7 +66,8 @@ Area.defaultProps = {
   coreComponents: [],
   noOuter: false,
   wrapper: 'div',
-  wrapperProps: {}
+  wrapperProps: {},
+  components: {}
 };
 
 export default Area;

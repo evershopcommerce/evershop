@@ -3,13 +3,13 @@
 /* eslint-disable global-require */
 const { readdirSync, existsSync } = require('fs');
 const path = require('path');
-const express = require('express');
 const http = require('http');
 const debug = require('debug')('express:server');
 
 const { red, green } = require('kleur');
 const ora = require('ora');
 const boxen = require('boxen');
+const { app } = require('./app');
 const { addComponents } = require('../../src/lib/componee/addComponents');
 const { getModuleMiddlewares, getAllSortedMiddlewares } = require('../../src/lib/middleware');
 const { scanForRoutes } = require('../../src/lib/router/scanForRoutes');
@@ -59,14 +59,14 @@ modules.forEach((module) => {
 
 modules.forEach((element) => {
   try {
-    if (existsSync(path.resolve(__dirname, '../../src', 'modules', element, 'views/site/components.js'))) {
-      const components = require(path.resolve(__dirname, '../../src', 'modules', element, 'views/site/components.js'));
+    if (existsSync(path.resolve(__dirname, '../../src', 'modules', element, 'views/site/components.json'))) {
+      const components = require(path.resolve(__dirname, '../../src', 'modules', element, 'views/site/components.json'));
       if (typeof components === 'object' && components !== null) {
         addComponents('site', components);
       }
     }
-    if (existsSync(path.resolve(__dirname, '../../src', 'modules', element, 'views/admin/components.js'))) {
-      const components = require(path.resolve(__dirname, '../../src', 'modules', element, 'views/admin/components.js'));
+    if (existsSync(path.resolve(__dirname, '../../src', 'modules', element, 'views/admin/components.json'))) {
+      const components = require(path.resolve(__dirname, '../../src', 'modules', element, 'views/admin/components.json'));
       if (typeof components === 'object' && components !== null) {
         addComponents('admin', components);
       }
@@ -79,9 +79,6 @@ modules.forEach((element) => {
 
 // TODO: load plugins (extensions), themes
 
-/* Create an express application */
-const app = express();
-
 const routes = getRoutes();
 const siteRoutes = getSiteRoutes();
 const adminRoutes = getAdminRoutes();
@@ -90,6 +87,7 @@ routes.forEach((r) => {
   app.all(r.path, (request, response, next) => {
     // eslint-disable-next-line no-underscore-dangle
     request.currentRoute = r;
+    request.app.set('routeId', r.id);
     next();
   });
 
