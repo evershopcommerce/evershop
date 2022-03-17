@@ -9,6 +9,7 @@ import { Card } from '../../../../../cms/views/admin/Card';
 import { Checkbox } from '../../../../../../lib/components/form/fields/Checkbox';
 import { useAlertContext } from '../../../../../../lib/components/modal/Alert';
 import formData from '../../../../../../lib/util/formData';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 
 function Actions({ selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
@@ -152,6 +153,7 @@ export default function ProductGrid() {
             <Area
               id="productGridHeader"
               noOuter
+              components={getComponents()}
             />
           </tr>
         </thead>
@@ -181,6 +183,7 @@ export default function ProductGrid() {
                 noOuter
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
+                components={getComponents()}
               />
             </tr>
           ))}

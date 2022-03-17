@@ -51,7 +51,7 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
         logger.log('info', `Executing middleware ${id}`);
 
         // If there response status is 404. We skip routed middlewares
-        if (response.statusCode === 404 && routeId !== null && routeId !== 'site') {
+        if (response.statusCode === 404 && routeId !== null && routeId !== 'site' && routeId !== 'admin') {
           return next();
         }
 
@@ -70,7 +70,12 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
           if (delegate instanceof Promise) {
             delegate.catch((e) => {
               logger.log('error', `Exception in middleware ${id}`, { message: e.message, stack: e.stack });
-              return next(e);
+              // We call the error handler middleware if it was not called by another middleware
+              if (response.headersSent === false) {
+                return next(e);
+              } else {
+                return null;
+              }
             });
           }
 
@@ -87,7 +92,12 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
           if (delegate instanceof Promise) {
             delegate.catch((e) => {
               logger.log('error', `Exception in middleware ${id}`, { message: e.message, stack: e.stack });
-              return next(e);
+              // We call the error handler middleware if it was not called by another middleware
+              if (response.headersSent === false) {
+                return next(e);
+              } else {
+                return null;
+              }
             });
           }
           // If the middleware returns an error. Call the errorHandler middleware.

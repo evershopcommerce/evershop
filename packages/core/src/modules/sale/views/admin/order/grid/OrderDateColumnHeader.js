@@ -42,6 +42,7 @@ export default function FromToColumnHeader({ title, id }) {
               onChange={(e) => onChange(e)}
               placeholder="From"
               className="form-control"
+              name="dateFilterFrom"
             />
           </div>
           <div style={{ width: '10rem' }}>
@@ -50,6 +51,7 @@ export default function FromToColumnHeader({ title, id }) {
               onChange={(e) => onChange(e)}
               placeholder="To"
               className="form-control"
+              name="dateFilterTo"
             />
           </div>
         </div>

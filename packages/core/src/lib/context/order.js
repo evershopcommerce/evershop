@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAppState } from './app';
@@ -39,5 +40,12 @@ export function CheckoutProvider({ children }) {
     </Checkout.Provider>
   );
 }
+
+CheckoutProvider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired
+};
 
 export const useCheckout = () => React.useContext(Checkout);

@@ -39,7 +39,7 @@ Button.propTypes = {
   isLoading: PropTypes.bool,
   onAction: PropTypes.func,
   outline: PropTypes.bool,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   url: PropTypes.string,
   variant: PropTypes.string
 };

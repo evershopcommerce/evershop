@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import Button from '../../../../../lib/components/form/Button';
+import { getComponents } from '../../../../../lib/components/getComponents';
 
 function Name() {
   return <h1 className="page-name text-center mt-25 mb-15">404 Page Not Found</h1>;
@@ -28,6 +29,7 @@ export default function NotFound({ continueShoppingUrl }) {
       <div className="pt-15">
         <Area
           id="notfound-page"
+          components={getComponents()}
           coreComponents={[
             {
               component: { default: Name },

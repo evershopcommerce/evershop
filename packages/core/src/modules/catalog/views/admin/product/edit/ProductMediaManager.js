@@ -92,7 +92,7 @@ function Image({ image, removeImage }) {
 
 Image.propTypes = {
   image: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired
   }).isRequired,
   removeImage: PropTypes.func.isRequired
@@ -113,7 +113,7 @@ Images.propTypes = {
   addImage: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   images: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number
+    id: PropTypes.string
   })).isRequired,
   removeImage: PropTypes.func.isRequired
 };

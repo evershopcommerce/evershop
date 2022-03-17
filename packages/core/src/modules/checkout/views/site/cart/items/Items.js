@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import { toast } from 'react-toastify';
 import { useAppState } from '../../../../../../lib/context/app';
 import { ItemOptions } from './ItemOptions';
 import { ItemVariantOptions } from './ItemVariantOptions';
@@ -19,7 +20,7 @@ function Items() {
       window.location.href = currentUrl;
     } else {
       // TODO: display message
-      alert(response.data.message);
+      toast(response.data.message);
     }
   };
 

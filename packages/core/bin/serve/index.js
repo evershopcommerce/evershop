@@ -59,14 +59,14 @@ modules.forEach((module) => {
 
 modules.forEach((element) => {
   try {
-    if (existsSync(path.resolve(__dirname, '../../src', 'modules', element, 'views/site/components.json'))) {
-      const components = require(path.resolve(__dirname, '../../src', 'modules', element, 'views/site/components.json'));
+    if (existsSync(path.resolve(__dirname, '../../src', 'modules', element, 'views/site/components.js'))) {
+      const components = require(path.resolve(__dirname, '../../src', 'modules', element, 'views/site/components.js'));
       if (typeof components === 'object' && components !== null) {
         addComponents('site', components);
       }
     }
-    if (existsSync(path.resolve(__dirname, '../../src', 'modules', element, 'views/admin/components.json'))) {
-      const components = require(path.resolve(__dirname, '../../src', 'modules', element, 'views/admin/components.json'));
+    if (existsSync(path.resolve(__dirname, '../../src', 'modules', element, 'views/admin/components.js'))) {
+      const components = require(path.resolve(__dirname, '../../src', 'modules', element, 'views/admin/components.js'));
       if (typeof components === 'object' && components !== null) {
         addComponents('admin', components);
       }
@@ -87,7 +87,7 @@ routes.forEach((r) => {
   app.all(r.path, (request, response, next) => {
     // eslint-disable-next-line no-underscore-dangle
     request.currentRoute = r;
-    request.app.set('routeId', r.id);
+    request.app.set('route', r);
     next();
   });
 

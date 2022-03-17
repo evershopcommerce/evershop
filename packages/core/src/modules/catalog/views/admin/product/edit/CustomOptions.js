@@ -32,7 +32,7 @@ export default function CustomOption() {
         const values = o.values === undefined ? [] : o.values;
         values.push({
           value_id: Date.now(),
-          optionId,
+          option_id: optionId,
           extra_price: '',
           sort_order: '',
           value: ''

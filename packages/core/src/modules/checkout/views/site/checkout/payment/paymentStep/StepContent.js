@@ -1,34 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Area from '../../../../../../lib/components/Area';
-import { Title } from '../StepTitle';
-import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../../lib/context/checkout';
-import { useAppState } from '../../../../../../lib/context/app';
-import { CustomerAddressForm } from '../../../../../customer/views/site/address/AddressForm';
-import { Form } from '../../../../../../lib/components/form/Form';
-import { Field } from '../../../../../../lib/components/form/Field';
+import Area from '../../../../../../../lib/components/Area';
+import { useCheckoutStepsDispatch } from '../../../../../../../lib/context/checkout';
+import { useAppState } from '../../../../../../../lib/context/app';
+import { CustomerAddressForm } from '../../../../../../customer/views/site/address/AddressForm';
+import { Form } from '../../../../../../../lib/components/form/Form';
+import { getComponents } from '../../../../../../../lib/components/getComponents';
+import { BillingAddress } from './BillingAddress';
 
-function BillingAddress({ useShippingAddress, setUseShippingAddress }) {
-  return (
-    <div>
-      <Field
-        type="checkbox"
-        formId="checkout_billing_address_form"
-        name="use_shipping_address"
-        onChange={(e) => {
-          if (e.target.checked) {
-            setUseShippingAddress(true);
-          } else {
-            setUseShippingAddress(false);
-          }
-        }}
-        label="My billing address is same as shipping address"
-        isChecked={useShippingAddress === true}
-      />
-    </div>
-  );
-}
-
-function Content() {
+export function StepContent() {
   const appContext = useAppState();
   const { cart } = appContext;
   const { checkout: { setPaymentInfoAPI, setBillingAddressAPI } } = appContext;
@@ -47,10 +26,12 @@ function Content() {
 
   // const billing = () => {
   //   if (!billingCompleted) {
-  //     document.getElementById('checkout_billing_address_form').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  //     document.getElementById('checkout_billing_address_form')
+  // .dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
   //   }
   //   if (!paymentMethodCompleted) {
-  //     document.getElementById('checkoutPaymentMethods').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  //     document.getElementById('checkoutPaymentMethods')
+  // .dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
   //   }
   // };
 
@@ -104,29 +85,12 @@ function Content() {
       </Form>
       <Area
         id="checkoutPaymentMethods"
+        components={getComponents()}
         coreComponents={[]}
       />
       {/* <div className='mt-2 place-order-button'>
             <Button variant="primary" title="Place Order" onAction={billing} />
         </div> */}
-    </div>
-  );
-}
-
-export default function PaymentStep() {
-  const steps = useCheckoutSteps();
-  const step = steps.find((e) => e.id === 'payment') || {};
-  const [display, setDisplay] = React.useState(false);
-  const { canStepDisplay } = useCheckoutStepsDispatch();
-
-  React.useEffect(() => {
-    setDisplay(canStepDisplay(step, steps));
-  });
-
-  return (
-    <div className="checkout-payment checkout-step">
-      <Title step={step} />
-      {display && <Content step={step} />}
     </div>
   );
 }

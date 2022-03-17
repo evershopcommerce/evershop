@@ -1,5 +1,6 @@
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
@@ -11,6 +12,7 @@ export default function CustomerNotes() {
       <Card.Session>
         <Area
           id="orderEditCustomerNotes"
+          components={getComponents()}
           coreComponents={[
             {
               component: {

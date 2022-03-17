@@ -51,7 +51,7 @@ Card.propTypes = {
   })),
   children: PropTypes.node.isRequired,
   subdued: PropTypes.bool,
-  title: PropTypes.string
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 };
 
 Card.defaultProps = {

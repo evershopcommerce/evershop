@@ -11,8 +11,11 @@ const { red, green } = require('kleur');
 const ora = require('ora');
 const boxen = require('boxen');
 const { CONSTANTS } = require('../../src/lib/helpers');
-const { addComponents, getComponentsByRoute } = require('../../src/lib/componee');
-const router = require('../../src/lib/routie');
+const { addComponents } = require('../../src/lib/componee/addComponents');
+const { getComponentsByRoute } = require('../../src/lib/componee/getComponentByRoute');
+const { getRoutes } = require('../../src/lib/router/routes');
+const { registerAdminRoute } = require('../../src/lib/router/registerAdminRoute');
+const { registerSiteRoute } = require('../../src/lib/router/registerSiteRoute');
 
 require('@babel/register')({
   presets: ['@babel/preset-react'],
@@ -31,6 +34,29 @@ const modules = readdirSync(path.resolve(__dirname, '../../src/modules/'), { wit
   .map((dirent) => dirent.name);
 
 // Load routes
+
+/**
+ * Scan for routes base on module path.
+ */
+
+function registerRoute(routePath, isAdmin, isApi) {
+  const scanedRoutes = readdirSync(routePath, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => dirent.name);
+  scanedRoutes.forEach((r) => {
+    if (/^[A-Za-z.]+$/.test(r) === true) {
+      if (existsSync(path.join(routePath, r, 'route'))) {
+        let lines = readFileSync(path.join(routePath, r, 'route'), 'utf-8');
+        lines = lines.split(/\r?\n/).map((p) => p.replace('\\\\', '\\'));
+        let p = lines[1];
+        if (isApi === true) {
+          p = `/v1${p}`;
+        }
+        if (isAdmin === true) { registerAdminRoute(r, lines[0].split(',').map((e) => e.trim()).filter((e) => e !== ''), p); } else { registerSiteRoute(r, lines[0].split(',').map((e) => e.trim()).filter((e) => e !== ''), p); }
+      }
+    }
+  });
+}
 
 modules.forEach((module) => {
   try {
@@ -79,19 +105,19 @@ modules.forEach((element) => {
   }
 });
 
-const routes = router.getRoutes();
+const routes = getRoutes();
 
 // START BUILD Webpack
 
 // Collect all "GET" only route
-const getRoutes = routes.filter((r) => (r.method.length === 1 && r.method[0].toUpperCase() === 'GET'));
+const getRoutesList = routes.filter((r) => (r.method.length === 1 && r.method[0].toUpperCase() === 'GET'));
 const promises = [];
-const total = getRoutes.length - 1;
+const total = getRoutesList.length - 1;
 let completed = 0;
 
 spinner.text = `Start building ☕☕☕☕☕\n${Array(total).fill('▒').join('')}`;
 
-getRoutes.forEach((route) => {
+getRoutesList.forEach((route) => {
   const buildFunc = async function () {
     const components = getComponentsByRoute(route.id);
 
@@ -229,26 +255,3 @@ Promise.all(promises)
     spinner.fail(`${red(e)}\n`);
     process.exit(0);
   });
-
-/**
- * Scan for routes base on module path.
- */
-
-function registerRoute(routePath, isAdmin, isApi) {
-  const scanedRoutes = readdirSync(routePath, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name);
-  scanedRoutes.forEach((r) => {
-    if (/^[A-Za-z.]+$/.test(r) === true) {
-      if (existsSync(path.join(routePath, r, 'route'))) {
-        let lines = readFileSync(path.join(routePath, r, 'route'), 'utf-8');
-        lines = lines.split(/\r?\n/).map((p) => p.replace('\\\\', '\\'));
-        let p = lines[1];
-        if (isApi === true) {
-          p = `/v1${p}`;
-        }
-        if (isAdmin === true) { router.registerAdminRoute(r, lines[0].split(',').map((e) => e.trim()).filter((e) => e !== ''), p); } else { router.registerSiteRoute(r, lines[0].split(',').map((e) => e.trim()).filter((e) => e !== ''), p); }
-      }
-    }
-  });
-}

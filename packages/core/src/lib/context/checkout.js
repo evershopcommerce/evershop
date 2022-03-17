@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { get } from '../util/get';
 
@@ -8,8 +9,10 @@ export function CheckoutSteps({ children }) {
   const [steps, setSteps] = useState(typeof window !== 'undefined' ? get(window, 'appContext.checkout.steps', []) : []);// TODO: Consider using ajax to load steps
 
   const canStepDisplay = (step) => {
-    const _steps = [...steps].sort((a, b) => parseInt(a.sortOrder) - parseInt(b.sortOrder));
-    const index = _steps.findIndex((s) => s.id === step.id);
+    const checkoutSteps = [...steps].sort(
+      (a, b) => parseInt(a.sortOrder, 10) - parseInt(b.sortOrder, 10)
+    );
+    const index = checkoutSteps.findIndex((s) => s.id === step.id);
     if (step.isEditing === true) {
       return true;
     }
@@ -19,7 +22,7 @@ export function CheckoutSteps({ children }) {
       return false;
     } else {
       let flag = true;
-      _steps.every((s, i) => {
+      checkoutSteps.every((s, i) => {
         if (i >= index) {
           return false;
         } else {
@@ -54,6 +57,13 @@ export function CheckoutSteps({ children }) {
     </Steps.Provider>
   );
 }
+
+CheckoutSteps.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired
+};
 
 export const useCheckoutSteps = () => React.useContext(Steps);
 export const useCheckoutStepsDispatch = () => React.useContext(CheckoutStepsDispatch);

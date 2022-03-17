@@ -63,14 +63,14 @@ exports = module.exports = {
     {
       id: 'checkoutPaymentStep',
       areaId: 'checkoutSteps',
-      source: useSiteComponent('checkout/views/site/checkout/payment/PaymentStep.js'),
+      source: useSiteComponent('checkout/views/site/checkout/payment/paymentStep/Index.js'),
       props: {},
       sortOrder: 15
     },
     {
       id: 'checkoutShipmentStep',
       areaId: 'checkoutSteps',
-      source: useSiteComponent('checkout/views/site/checkout/shipment/ShipmentStep.js'),
+      source: useSiteComponent('checkout/views/site/checkout/shipment/shipmentStep/Index.js'),
       props: {},
       sortOrder: 10
     },
@@ -93,7 +93,7 @@ exports = module.exports = {
     {
       id: 'checkoutPaymentMethods',
       areaId: 'checkoutBillingAddressForm',
-      source: useSiteComponent('checkout/views/site/checkout/payment/PaymentMethods.js'),
+      source: useSiteComponent('checkout/views/site/checkout/payment/paymentMethods/Index.js'),
       props: {
         getMethodsAPI: buildUrl('checkoutGetPaymentMethods')
       },

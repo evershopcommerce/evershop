@@ -2,11 +2,10 @@ const { select } = require('@nodejscart/mysql-query-builder');
 const path = require('path');
 const fs = require('fs');
 const { pool } = require('../../../../../lib/mysql/connection');
+const { assign } = require('../../../../../lib/util/assign');
 const { CONSTANTS } = require('../../../../../lib/helpers');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { setPageData } = require('../../../../../lib/util/setPageData');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response) => {
   const query = select('product_id')
     .select('sku')
@@ -39,5 +38,5 @@ module.exports = async (request, response) => {
       products[i].url = buildUrl('productView', { url_key: products[i].product_id });
     }
   }
-  setPageData('featuredProducts', JSON.parse(JSON.stringify(products)));
+  assign(response.context, { featuredProducts: JSON.parse(JSON.stringify(products)) });
 };

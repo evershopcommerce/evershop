@@ -37,6 +37,6 @@ export default function DropdownColumnHeader({ title, id }) {
 }
 
 DropdownColumnHeader.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired
 };

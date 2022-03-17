@@ -24,9 +24,9 @@ exports.scanForRoutes = (modulePath, isAdmin, isApi) => {
           p = `/v1${p}`;
         }
         if (isAdmin === true) {
-          registerAdminRoute(r, lines[0].split(',').map((e) => e.trim()).filter((e) => e !== ''), p);
+          registerAdminRoute(r, lines[0].split(',').map((e) => e.trim()).filter((e) => e !== ''), p, isApi);
         } else {
-          registerSiteRoute(r, lines[0].split(',').map((e) => e.trim()).filter((e) => e !== ''), p);
+          registerSiteRoute(r, lines[0].split(',').map((e) => e.trim()).filter((e) => e !== ''), p, isApi);
         }
       }
     }

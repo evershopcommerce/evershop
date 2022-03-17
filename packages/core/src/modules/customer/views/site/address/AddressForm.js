@@ -7,6 +7,7 @@ import { ProvinceOptions } from '../../../../../lib/components/locale/ProvinceOp
 import { CountryOptions } from '../../../../../lib/components/locale/CountryOption';
 import Area from '../../../../../lib/components/Area';
 import { get } from '../../../../../lib/util/get';
+import { getComponents } from '../../../../../lib/components/getComponents';
 
 function Province({ selectedCountry, selectedProvince, formId }) {
   return (
@@ -68,9 +69,7 @@ function Country({
 }
 
 Country.propTypes = {
-  countries: PropTypes.arrayOf(PropTypes.shape({
-
-  })).isRequired,
+  countries: PropTypes.arrayOf(PropTypes.string).isRequired,
   country: PropTypes.string.isRequired,
   formId: PropTypes.string.isRequired,
   setCountry: PropTypes.func.isRequired
@@ -140,6 +139,7 @@ export function CustomerAddressForm(props) {
   return (
     <Area
       id={areaId}
+      components={getComponents()}
       coreComponents={[
         {
           component: { default: NameAndTelephone },

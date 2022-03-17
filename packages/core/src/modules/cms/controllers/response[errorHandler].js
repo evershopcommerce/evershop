@@ -2,12 +2,12 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable import/no-import-module-exports */
 import React from 'react';
-import { getComponentsByRoute } from '../../../lib/componee/getComponentByRoute';
+import { inspect } from 'util';
 import Html from '../../../lib/components/Html';
 import { Alert } from '../../../lib/components/modal/Alert';
+import { AppProvider } from '../../../lib/context/app';
 
 const { renderToString } = require('react-dom/server');
-const fs = require('fs');
 
 module.exports = async (request, response, stack, next) => {
   const promises = [];
@@ -22,8 +22,6 @@ module.exports = async (request, response, stack, next) => {
     // Wait for all async middleware to be completed
     await Promise.all(promises);
 
-    const route = request.currentRoute;
-    const routeId = response.statusCode === 404 ? 'notFound' : route.id;
     // Check if this is a redirection or not.
     if (response.$redirectUrl) {
       response.redirect(response.statusCode || 302, response.$redirectUrl);
@@ -36,24 +34,16 @@ module.exports = async (request, response, stack, next) => {
       if (response.$body && response.$body !== '') {
         response.send(response.$body);
       } else {
-        const components = JSON.parse(JSON.stringify(getComponentsByRoute(routeId)));
-        // eslint-disable-next-line no-restricted-syntax
-        for (const area in components) {
-          // eslint-disable-next-line no-restricted-syntax
-          for (const id in components[area]) {
-            components[area][id].component = require(`${components[area][id].source}`);
-            delete components[area][id].source;
-          }
-        }
-        response.context.components = components;
-        const pageData = JSON.stringify(request.app.get('pageData')).replace('"{', '{').replace('}"', '}').replace(/"/g, '\\"');
-        // resetServerContext();
-        // eslint-disable-next-line max-len
-        const bundleContent = fs.readFileSync(response.context.bundleFilePath, 'utf8').replace('{\\"DONOT\\":\\"REMOVE\\"}', pageData);
         const source = renderToString(
-          <Alert><Html bundle={bundleContent} /></Alert>
+          <AppProvider value={response.context}>
+            <Alert>
+              <Html
+                bundle={response.context.bundleJs}
+                appContext={`var appContext = ${inspect(response.context, { depth: 10, maxArrayLength: null })}`}
+              />
+            </Alert>
+          </AppProvider>
         );
-        delete response.context.components;
         response.send(`<!DOCTYPE html><html id="root">${source}</html>`);
       }
     }

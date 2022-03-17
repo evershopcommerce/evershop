@@ -1,7 +1,7 @@
 const { select } = require('@nodejscart/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 
-module.exports = async (request, response, stack) => {
+module.exports = async (request, response) => {
   const query = select();
   query.from('product_custom_option').where('product_custom_option_product_id', '=', request.params.id);
   const results = await query.execute(pool);
@@ -13,7 +13,9 @@ module.exports = async (request, response, stack) => {
       .where('option_id', '=', r.product_custom_option_id);
     const values = await valueQuery.execute(pool);
     return {
-      ...r, option_id: r.product_custom_option_id, values: values.map((v) => ({ ...v, value_id: v.product_custom_option_value_id }))
+      ...r,
+      option_id: r.product_custom_option_id,
+      values: values.map((v) => ({ ...v, value_id: v.product_custom_option_value_id }))
     };
   }));
 };

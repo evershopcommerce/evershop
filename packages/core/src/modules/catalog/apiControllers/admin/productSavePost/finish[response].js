@@ -1,19 +1,19 @@
 const { commit, rollback } = require('@nodejscart/mysql-query-builder');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
+// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
   const promises = [];
-  for (const id in stack) {
+  Object.keys(stack).forEach((id) => {
     // Check if middleware is async
     if (stack[id] instanceof Promise) {
       promises.push(stack[id]);
     }
-  }
-  try {
-    await Promise.all(promises);
-    const connection = await stack.getConnection;
+  });
+  const connection = await stack.getConnection;
+  const results = await Promise.allSettled(promises);
+  if (results.findIndex((r) => r.status === 'rejected') === -1) {
     await commit(connection);
-
     // Store success message to session
     request.session.notifications = request.session.notifications || [];
     request.session.notifications.push({
@@ -26,12 +26,7 @@ module.exports = async (request, response, stack, next) => {
       success: true,
       message: request.body.product_id ? 'Product was updated successfully' : 'Product was created successfully'
     });
-  } catch (error) {
-    const connection = await stack.getConnection;
+  } else {
     await rollback(connection);
-    response.json({
-      success: false,
-      message: error.message
-    });
   }
 };

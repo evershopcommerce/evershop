@@ -7,6 +7,7 @@ import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Card } from '../../../../../cms/views/admin/Card';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 
 function Options({ originOptions = [] }) {
   const [options, setOptions] = React.useState(originOptions);
@@ -129,7 +130,7 @@ export default function General() {
       title="General"
     >
       <Card.Session>
-        <Area id="attribute-edit-general" coreComponents={fields} />
+        <Area id="attribute-edit-general" coreComponents={fields} components={getComponents()} />
       </Card.Session>
       {['select', 'multiselect'].includes(type) && (
         <Card.Session title="Attribute options">

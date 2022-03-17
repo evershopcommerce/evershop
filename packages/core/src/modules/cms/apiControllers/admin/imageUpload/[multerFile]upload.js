@@ -2,7 +2,8 @@ const { resolve } = require('path');
 const { CONSTANTS } = require('../../../../../lib/helpers');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
-module.exports = (request, response) => {
+// eslint-disable-next-line no-unused-vars
+module.exports = (request, response, stack, next) => {
   if (!request.files || request.files.length === 0) {
     response.json({
       success: false,
@@ -25,6 +26,4 @@ module.exports = (request, response) => {
       }
     });
   }
-
-  return 'STOP';
 };

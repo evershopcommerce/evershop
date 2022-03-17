@@ -2,5 +2,5 @@
 export default function getComponentsLoader() {
   const options = this.getOptions();
 
-  return `module.exports = exports={};exports.getComponents = function getComponents() {let components = require("${options.componentsPath}");console.log(components); return components;}`;
+  return `module.exports = exports={};exports.getComponents = function getComponents() {let components = require("${options.componentsPath}");return components;}`;
 }

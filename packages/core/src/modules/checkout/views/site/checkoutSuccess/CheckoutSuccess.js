@@ -5,6 +5,7 @@ import { get } from '../../../../../lib/util/get';
 import { useAppState } from '../../../../../lib/context/app';
 import { AddressSummary } from '../../../../customer/views/site/address/AddressSummary';
 import Button from '../../../../../lib/components/form/Button';
+import { getComponents } from '../../../../../lib/components/getComponents';
 
 function CustomerInfo() {
   const context = useAppState();
@@ -65,6 +66,7 @@ export default function CheckoutPage() {
     <Area
       id="checkoutSuccessPage"
       className="page-width grid grid-cols-1 md:grid-cols-2 gap-3"
+      components={getComponents()}
       coreComponents={[
         {
           component: { default: CustomerInfo },

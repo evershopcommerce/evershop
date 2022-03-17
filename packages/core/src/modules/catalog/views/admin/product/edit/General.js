@@ -6,6 +6,7 @@ import { get } from '../../../../../../lib/util/get';
 import Ckeditor from '../../../../../../lib/components/form/fields/Ckeditor';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Card } from '../../../../../cms/views/admin/Card';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 
 function SKUPriceWeight({ sku, price, weight }) {
   return (
@@ -45,9 +46,15 @@ function SKUPriceWeight({ sku, price, weight }) {
 }
 
 SKUPriceWeight.propTypes = {
-  price: PropTypes.number.isRequired,
-  sku: PropTypes.string.isRequired,
-  weight: PropTypes.number.isRequired
+  price: PropTypes.number,
+  sku: PropTypes.string,
+  weight: PropTypes.number
+};
+
+SKUPriceWeight.defaultProps = {
+  price: undefined,
+  sku: undefined,
+  weight: undefined
 };
 
 export default function General({
@@ -114,6 +121,7 @@ export default function General({
               id: 'description'
             }
           ]}
+          components={getComponents()}
         />
       </Card.Session>
     </Card>

@@ -3,12 +3,14 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
+import { getComponents } from '../../../../../lib/components/getComponents';
 
 export function AddressSummary({ address }) {
   return (
     <Area
       id="addressSummary"
       className="address-summary"
+      components={getComponents()}
       coreComponents={[
         {
           component: { default: ({ full_name }) => <div className="full-name">{full_name}</div> },

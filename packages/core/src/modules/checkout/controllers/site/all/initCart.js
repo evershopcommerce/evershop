@@ -1,5 +1,5 @@
 const { select } = require('@nodejscart/mysql-query-builder');
-const { Cart } = require('../../../services/cart');
+const { Cart } = require('../../../services/cart/cart');
 const { pool } = require('../../../../../lib/mysql/connection');
 
 // eslint-disable-next-line no-unused-vars

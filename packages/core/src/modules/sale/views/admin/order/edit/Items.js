@@ -11,6 +11,7 @@ import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
 import { Form } from '../../../../../../lib/components/form/Form';
 import { Field } from '../../../../../../lib/components/form/Field';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 
 function ItemOptions({ options = [] }) {
   if (options.length === 0) { return null; }
@@ -75,8 +76,12 @@ function Thumbnail({ imageUrl, qty }) {
 }
 
 Thumbnail.propTypes = {
-  imageUrl: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string,
   qty: PropTypes.number.isRequired
+};
+
+Thumbnail.defaultProps = {
+  imageUrl: undefined
 };
 
 function Price({ price, qty }) {
@@ -119,7 +124,11 @@ Name.propTypes = {
       value_text: PropTypes.string,
       extra_price: PropTypes.number
     }))
-  })).isRequired
+  }))
+};
+
+Name.defaultProps = {
+  options: undefined
 };
 
 function FullfillButton() {
@@ -334,6 +343,7 @@ export default function Items() {
                     id={`order_item_row_${i.item_id}`}
                     noOuter
                     item={i}
+                    components={getComponents()}
                     coreComponents={[
                       {
                         component: { default: Thumbnail },
@@ -349,7 +359,7 @@ export default function Items() {
                       },
                       {
                         component: { default: Price },
-                        props: { price: formatedFinalPrice, qty: i.qty },
+                        props: { price: parseFloat(formatedFinalPrice), qty: i.qty },
                         sortOrder: 30,
                         id: 'price'
                       },

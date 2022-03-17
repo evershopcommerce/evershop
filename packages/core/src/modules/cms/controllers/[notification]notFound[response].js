@@ -7,7 +7,9 @@ module.exports = async (request, response, stack, next) => {
     next();
   } else {
     const siteRoutes = getSiteRoutes();
-    await bundlee(request, response, siteRoutes.find((r) => r.id === 'notFound'));
+    const route = siteRoutes.find((r) => r.id === 'notFound');
+    request.app.set('route', route);
+    await bundlee(request, response, route);
     assign(response.context, { metaTitle: 'Not found', metaDescription: 'Not found' });
     next();
   }

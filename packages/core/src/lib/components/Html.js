@@ -2,25 +2,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Area from './Area';
-import { Body } from './Body';
 import { getComponents } from './getComponents';
+import { Alert } from './modal/Alert';
 
-function Html({ bundle }) {
+function Html({ bundle, appContext }) {
   return (
     <>
       <head>
         <Area noOuter id="head" components={getComponents()} />
+        <script dangerouslySetInnerHTML={{ __html: appContext }} />
       </head>
       <body id="body">
-        <Body />
+        <Alert>
+          <div id="app" className="bg-background">
+            <Area id="body" className="wrapper" components={getComponents()} />
+          </div>
+        </Alert>
       </body>
-      <script dangerouslySetInnerHTML={{ __html: bundle }} />
+      <script src={bundle} />
     </>
   );
 }
 
 Html.propTypes = {
-  bundle: PropTypes.string.isRequired
+  bundle: PropTypes.string.isRequired,
+  appContext: PropTypes.string.isRequired
 };
 
 export default Html;

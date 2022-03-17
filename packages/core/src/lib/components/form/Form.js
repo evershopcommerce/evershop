@@ -154,7 +154,9 @@ export function Form(props) {
 Form.propTypes = {
   action: PropTypes.string.isRequired,
   btnText: PropTypes.string,
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.oneOfType(
+    [PropTypes.arrayOf(PropTypes.element), PropTypes.element]
+  ).isRequired,
   id: PropTypes.string.isRequired,
   method: PropTypes.string.isRequired,
   onComplete: PropTypes.func,

@@ -3530,7 +3530,13 @@ function ProvinceOptions(props) {
 
   const childrenWithProps = React.Children.map(
     children,
-    (child) => React.cloneElement(child, { options: options.filter((o) => o.country_code === country), ...props })
+    (child) => React.cloneElement(
+      child,
+      {
+        options: options.filter(
+          (o) => o.country_code === country), ...props
+      }
+    )
   );
 
   return <div>{childrenWithProps}</div>;

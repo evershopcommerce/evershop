@@ -2,8 +2,6 @@ const mysql = require('mysql');
 const util = require('util');
 const config = require('config');
 
-module.exports = exports = {};
-
 const pool = mysql.createPool({
   host: config.get('system.database.host'),
   port: config.get('system.database.port'),
@@ -15,7 +13,9 @@ const pool = mysql.createPool({
 });
 
 async function getConnection() {
+  // eslint-disable-next-line no-return-await
   return await util.promisify(pool.getConnection).bind(pool)();
 }
 
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = { pool, getConnection };

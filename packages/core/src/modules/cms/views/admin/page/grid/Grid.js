@@ -9,6 +9,7 @@ import { useAlertContext } from '../../../../../../lib/components/modal/Alert';
 import formData from '../../../../../../lib/util/formData';
 import { Checkbox } from '../../../../../../lib/components/form/fields/Checkbox';
 import { Card } from '../../Card';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 
 function Actions({ selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
@@ -93,6 +94,7 @@ export default function CMSPageGrid() {
               className=""
               id="pageGridHeader"
               noOuter
+              components={getComponents()}
             />
           </tr>
         </thead>
@@ -119,6 +121,7 @@ export default function CMSPageGrid() {
                 id="pageGridRow"
                 row={p}
                 noOuter
+                components={getComponents()}
               />
             </tr>
           ))}

@@ -9,7 +9,6 @@ const CleanCss = require('clean-css');
 const { CONSTANTS } = require('./helpers');
 const { buildUrl } = require('./router/buildUrl');
 const { getComponentsByRoute } = require('./componee/getComponentByRoute');
-const { setPageData } = require('./util/setPageData');
 
 module.exports = async (request, response, route) => {
   /** Only create bundle file for GET and "text/html" route */
@@ -46,7 +45,6 @@ module.exports = async (request, response, route) => {
           hash = b.substring(0, b.indexOf('.css'));
         }
       });
-      response.context.bundleFilePath = path.resolve(CONSTANTS.ROOTPATH, '.nodejscart/build', scopePath, `${hash}.js`);
       response.context.bundleJs = buildUrl('staticAsset', [`${scopePath}/${hash}.js`]);
       response.context.bundleCss = buildUrl('staticAsset', [`${scopePath}/${hash}.css`]);
     }
@@ -58,7 +56,6 @@ module.exports = async (request, response, route) => {
       response.context.bundleJs = buildUrl('adminStaticAsset', [`${scopePath}/${route.__BUNDLEHASH__}.js`]);
       response.context.bundleCss = buildUrl('adminStaticAsset', [`${scopePath}/${route.__BUNDLEHASH__}.css`]);
     } else {
-      response.context.bundleFilePath = path.resolve(CONSTANTS.ROOTPATH, '.nodejscart/build', scopePath, `${route.__BUNDLEHASH__}.js`);
       response.context.bundleJs = buildUrl('staticAsset', [`${scopePath}/${route.__BUNDLEHASH__}.js`]);
       response.context.bundleCss = buildUrl('staticAsset', [`${scopePath}/${route.__BUNDLEHASH__}.css`]);
     }
@@ -80,7 +77,6 @@ module.exports = async (request, response, route) => {
             response.context.bundleJs = buildUrl('adminStaticAsset', [`${scopePath}/${route.__BUNDLEHASH__}.js`]);
             response.context.bundleCss = buildUrl('adminStaticAsset', [`${scopePath}/${route.__BUNDLEHASH__}.css`]);
           } else {
-            response.context.bundleFilePath = path.resolve(CONSTANTS.ROOTPATH, '.nodejscart/build', scopePath, `${route.__BUNDLEHASH__}.js`);
             response.context.bundleJs = buildUrl('staticAsset', [`${scopePath}/${route.__BUNDLEHASH__}.js`]);
             response.context.bundleCss = buildUrl('staticAsset', [`${scopePath}/${route.__BUNDLEHASH__}.css`]);
           }
@@ -113,7 +109,7 @@ module.exports = async (request, response, route) => {
     path.resolve(CONSTANTS.LIBPATH, 'webpack/pageData.json')
   ];
   const compiler = webpack({
-    mode: 'production', // "production" | "development" | "none"
+    mode: 'development', // "production" | "development" | "none"
     module: {
       rules: [
         {
@@ -226,12 +222,9 @@ module.exports = async (request, response, route) => {
   if (request.isAdmin === true) {
     response.context.bundleJs = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.js`]);
     response.context.bundleCss = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.css`]);
-    setPageData('bundleCss', buildUrl('adminStaticAsset', [`${scopePath}/${hash}.css`]));
   } else {
-    response.context.bundleFilePath = path.resolve(CONSTANTS.ROOTPATH, '.nodejscart/build', scopePath, `${hash}.js`);
     response.context.bundleJs = buildUrl('staticAsset', [`${scopePath}/${hash}.js`]);
     response.context.bundleCss = buildUrl('staticAsset', [`${scopePath}/${hash}.css`]);
-    setPageData('bundleCss', buildUrl('staticAsset', [`${scopePath}/${hash}.css`]));
   }
 
   // eslint-disable-next-line no-param-reassign

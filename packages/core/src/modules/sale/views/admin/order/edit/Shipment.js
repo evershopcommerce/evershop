@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
@@ -113,6 +114,7 @@ export default function Shipment({ startShipUrl, completeShipUrl }) {
                 weight={order.total_weight}
                 status={order.shipment_status}
                 noOuter
+                components={getComponents()}
                 coreComponents={[
                   {
                     component: { default: 'th' },
@@ -160,6 +162,7 @@ export default function Shipment({ startShipUrl, completeShipUrl }) {
                 weight={order.total_weight}
                 status={order.shipment_status}
                 noOuter
+                components={getComponents()}
                 coreComponents={[
                   {
                     component: { default: Status },

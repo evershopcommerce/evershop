@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import Circle from '../../../../../../lib/components/Circle';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
@@ -24,7 +25,7 @@ function Subtotal({ count, total }) {
 
 Subtotal.propTypes = {
   count: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired
+  total: PropTypes.string.isRequired
 };
 
 function Discount({ discount, code }) {
@@ -40,8 +41,13 @@ function Discount({ discount, code }) {
 }
 
 Discount.propTypes = {
-  code: PropTypes.string.isRequired,
-  discount: PropTypes.number.isRequired
+  code: PropTypes.string,
+  discount: PropTypes.number
+};
+
+Discount.defaultProps = {
+  code: undefined,
+  discount: 0
 };
 
 function Shipping({ method, cost }) {
@@ -57,7 +63,7 @@ function Shipping({ method, cost }) {
 }
 
 Shipping.propTypes = {
-  cost: PropTypes.number.isRequired,
+  cost: PropTypes.string.isRequired,
   method: PropTypes.string.isRequired
 };
 
@@ -74,7 +80,7 @@ function Tax({ taxClass, amount }) {
 }
 
 Tax.propTypes = {
-  amount: PropTypes.number.isRequired,
+  amount: PropTypes.string.isRequired,
   taxClass: PropTypes.string.isRequired
 };
 
@@ -90,7 +96,7 @@ function Total({ total }) {
 }
 
 Total.propTypes = {
-  total: PropTypes.number.isRequired
+  total: PropTypes.string.isRequired
 };
 
 export default function OrderSummary() {
@@ -124,6 +130,7 @@ export default function OrderSummary() {
           discountAmount={order.discount_amount}
           taxAmount={order.tax_amount}
           className="summary-wrapper"
+          components={getComponents()}
           coreComponents={[
             {
               component: { default: Subtotal },

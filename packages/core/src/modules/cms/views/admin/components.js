@@ -96,13 +96,6 @@ exports = module.exports = {
       },
       sortOrder: 5
     },
-    {
-      id: 'bundleJS',
-      areaId: 'after.body',
-      source: useComponent('BundleJs.js'),
-      props: {},
-      sortOrder: 10
-    },
     /** Styling */
     {
       id: 'bundleCss',
@@ -266,7 +259,7 @@ exports = module.exports = {
   ],
   dashboard: [
     {
-      id: 'layout',
+      id: 'contentLayout',
       areaId: 'content',
       source: useAdminComponent('cms/views/admin/dashboard/Layout.js'),
       props: {},

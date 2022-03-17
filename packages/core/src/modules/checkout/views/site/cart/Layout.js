@@ -2,6 +2,7 @@ import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { get } from '../../../../../lib/util/get';
 import { useAppState } from '../../../../../lib/context/app';
+import { getComponents } from '../../../../../lib/components/getComponents';
 
 function Title() {
   const items = get(useAppState(), 'cart.items', []);
@@ -22,6 +23,7 @@ export default function CartLayout() {
         <Area
           id="shoppingCartTop"
           className="cart-page-top"
+          components={getComponents()}
           coreComponents={[
             {
               component: { default: Title },
@@ -36,16 +38,19 @@ export default function CartLayout() {
             <Area
               id="shoppingCartLeft"
               className="col-12 col-md-8"
+              components={getComponents()}
             />
             <Area
               id="shoppingCartRight"
               className="col-12 col-md-4"
+              components={getComponents()}
             />
           </div>
         </div>
         <Area
           id="shoppingCartBottom"
           className="cart-page-bottom"
+          components={getComponents()}
         />
       </div>
     </div>

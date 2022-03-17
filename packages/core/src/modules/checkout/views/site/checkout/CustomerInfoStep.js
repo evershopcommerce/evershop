@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import produce from 'immer';
 import { Form } from '../../../../../lib/components/form/Form';
@@ -19,7 +20,7 @@ function Completed() {
   );
 }
 
-function Edit({ loginUrl, setContactUrl }) {
+function Edit({ setContactUrl }) {
   const appDispatch = useAppDispatch();
   const { completeStep } = useCheckoutStepsDispatch();
   const appContext = useAppState();
@@ -27,6 +28,7 @@ function Edit({ loginUrl, setContactUrl }) {
 
   const onSuccess = (response) => {
     appDispatch(produce(appContext, (draff) => {
+      // eslint-disable-next-line no-param-reassign
       draff.checkout.steps = appContext.checkout.steps.map((step) => {
         if (step.id === 'contact') {
           return { ...step, isCompleted: true };
@@ -34,6 +36,7 @@ function Edit({ loginUrl, setContactUrl }) {
           return { ...step };
         }
       });
+      // eslint-disable-next-line no-param-reassign
       draff.cart.customer_email = response.data.email;
     }));
     completeStep('contact');
@@ -57,20 +60,32 @@ function Edit({ loginUrl, setContactUrl }) {
           label="Email"
           value={email}
         />
-        {/* <div>
-                <span>You have an account already?</span> <a href={loginUrl} className='hover:underline'>Login</a>
-            </div> */}
       </Form>
     </div>
   );
 }
 
-function Content({ step, loginUrl, setContactInfoUrl }) {
-  if (step.isCompleted === false || step.isEditing === true) return <Edit loginUrl={loginUrl} setContactUrl={setContactInfoUrl} />;
-  else return null;
+Edit.propTypes = {
+  setContactUrl: PropTypes.string.isRequired
+};
+
+function Content({ step, setContactInfoUrl }) {
+  if (step.isCompleted === false || step.isEditing === true) {
+    return <Edit setContactUrl={setContactInfoUrl} />;
+  } else {
+    return null;
+  }
 }
 
-export default function ContactInformationStep({ loginUrl, setContactInfoUrl }) {
+Content.propTypes = {
+  setContactInfoUrl: PropTypes.string.isRequired,
+  step: PropTypes.shape({
+    isCompleted: PropTypes.bool,
+    isEditing: PropTypes.bool
+  }).isRequired
+};
+
+export default function ContactInformationStep({ setContactInfoUrl }) {
   const steps = useCheckoutSteps();
   const step = steps.find((e) => e.id === 'contact') || {};
   const [display, setDisplay] = React.useState(false);
@@ -87,7 +102,11 @@ export default function ContactInformationStep({ loginUrl, setContactInfoUrl }) 
         {(step.isCompleted === true && step.isEditing !== true) && <Completed />}
         {(step.isCompleted === true && step.isEditing !== true) && <div className="self-center text-right"><a href="#" onClick={(e) => { e.preventDefault(); editStep('contact'); }} className="hover:underline text-interactive">Edit</a></div>}
       </div>
-      {display && <Content step={step} loginUrl={loginUrl} setContactInfoUrl={setContactInfoUrl} />}
+      {display && <Content step={step} setContactInfoUrl={setContactInfoUrl} />}
     </div>
   );
 }
+
+ContactInformationStep.propTypes = {
+  setContactInfoUrl: PropTypes.string.isRequired
+};

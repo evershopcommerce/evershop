@@ -1,9 +1,11 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { getPageData } from '../../../../../lib/components/getPageData';
+import { useAppState } from '../../../../../lib/context/app';
+import { get } from '../../../../../lib/util/get';
 import ProductList from '../product/list/List';
 
-export default function FeaturedProducts({ products }) {
+export default function FeaturedProducts() {
+  const context = useAppState();
+  const products = get(context, 'featuredProducts', []);
   return (
     <div className="pt-3">
       <div className="page-width">
@@ -13,14 +15,3 @@ export default function FeaturedProducts({ products }) {
     </div>
   );
 }
-
-FeaturedProducts.propTypes = {
-  products: PropTypes.arrayOf(PropTypes.shape({
-    product_id: PropTypes.number,
-    name: PropTypes.string
-  }))
-};
-
-FeaturedProducts.defaultProps = {
-  products: getPageData('featuredProducts')
-};

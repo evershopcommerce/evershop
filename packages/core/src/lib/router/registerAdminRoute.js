@@ -12,9 +12,10 @@ module.exports = exports = {};
  * @param   {string}  path    The path of route
  *
  */
-exports.registerAdminRoute = (id, method, path) => {
+exports.registerAdminRoute = (id, method, path, isApi = false) => {
   const route = validateRoute(id, method, path);
   route.isAdmin = true;
+  route.isApi = isApi;
   route.path = route.path === '/' ? '/admin' : `/admin${path}`;
   routes.push(route);
 };

@@ -7,11 +7,11 @@ module.exports = async (request, response, stack) => {
 
   let limit = 20;// Default limit
   // Limit
-  if (/^[0-9]+$/.test(request.query.limit)) limit = parseInt(request.query.limit);
+  if (/^[0-9]+$/.test(request.query.limit)) limit = parseInt(request.query.limit, 10);
 
   let page = 1;
   // pagination
-  if (/^[0-9]+$/.test(request.query.page)) page = parseInt(request.query.page);
+  if (/^[0-9]+$/.test(request.query.page)) page = parseInt(request.query.page, 10);
   assign(response.context, { grid: { page, limit } });
   query.limit((page - 1) * limit, limit);
 

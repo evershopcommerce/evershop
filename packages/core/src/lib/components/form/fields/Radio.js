@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import PropTypes from 'prop-types';
 import React from 'react';
 import Error from './Error';
@@ -36,11 +37,11 @@ function Radio({
                   name={name}
                   id={name + i}
                   value={o.value}
-                  checked={_value === o.value}
+                  checked={_value == o.value}
                   onChange={onChangeFunc}
                 />
-                {_value === o.value && <CheckedIcon />}
-                {_value !== o.value && <UnCheckedIcon />}
+                {_value == o.value && <CheckedIcon />}
+                {_value != o.value && <UnCheckedIcon />}
                 <span className="pl-1">{o.text}</span>
               </label>
             </div>

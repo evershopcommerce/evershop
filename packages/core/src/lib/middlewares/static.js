@@ -1,14 +1,16 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const staticMiddleware = require('serve-static');
-const path = require('path');
+const { normalize, join } = require('path');
 const { existsSync } = require('fs');
 const { CONSTANTS } = require('../helpers');
 
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = (request, response, next) => {
-  let _path;
+  let path;
   if (request.isAdmin === true) {
-    _path = path.normalize(request.path.replace('/admin/assets/', ''));
+    path = normalize(request.path.replace('/admin/assets/', ''));
   } else {
-    _path = path.normalize(request.path.replace('/assets/', ''));
+    path = normalize(request.path.replace('/assets/', ''));
   }
   if (request.isAdmin === true) {
     request.originalUrl = request.originalUrl.replace('/admin/assets', '');
@@ -18,14 +20,14 @@ module.exports = exports = (request, response, next) => {
     request.url = request.url.replace('/assets', '');
   }
 
-  if (existsSync(path.join(CONSTANTS.ROOTPATH, 'src/theme', _path))) {
+  if (existsSync(join(CONSTANTS.ROOTPATH, 'src/theme', path))) {
     staticMiddleware('src/theme')(request, response, next);
-  } else if (existsSync(path.join(CONSTANTS.ROOTPATH, 'dist/theme', _path))) {
+  } else if (existsSync(join(CONSTANTS.ROOTPATH, 'dist/theme', path))) {
     staticMiddleware('dist/theme')(request, response, next);
-  } else if (existsSync(path.join(CONSTANTS.MEDIAPATH, _path))) {
+  } else if (existsSync(join(CONSTANTS.MEDIAPATH, path))) {
     staticMiddleware(CONSTANTS.MEDIAPATH)(request, response, next);
-  } else if (existsSync(path.join(CONSTANTS.ROOTPATH, '.nodejscart/build', _path))) {
-    staticMiddleware(path.join(CONSTANTS.ROOTPATH, '.nodejscart/build'))(request, response, next);
+  } else if (existsSync(join(CONSTANTS.ROOTPATH, '.nodejscart/build', path))) {
+    staticMiddleware(join(CONSTANTS.ROOTPATH, '.nodejscart/build'))(request, response, next);
   } else {
     response.status(404).send('Not Found');
   }

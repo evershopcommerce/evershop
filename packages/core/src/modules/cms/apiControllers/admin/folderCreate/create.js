@@ -2,7 +2,8 @@ const { join, basename } = require('path');
 const { existsSync, mkdirSync } = require('fs');
 const { CONSTANTS } = require('../../../../../lib/helpers');
 
-module.exports = (request, response) => {
+// eslint-disable-next-line no-unused-vars
+module.exports = (request, response, stack, next) => {
   const path = request.params[0] || '';
   if (existsSync(join(CONSTANTS.MEDIAPATH, path))) {
     response.json({
@@ -20,6 +21,4 @@ module.exports = (request, response) => {
       }
     });
   }
-
-  return 'STOP';
 };

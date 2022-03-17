@@ -11,6 +11,7 @@ import { Card } from '../../../../../cms/views/admin/Card';
 import { useAlertContext } from '../../../../../../lib/components/modal/Alert';
 import { Checkbox } from '../../../../../../lib/components/form/fields/Checkbox';
 import formData from '../../../../../../lib/util/formData';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 
 function Actions({ selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
@@ -98,6 +99,7 @@ export default function CategoryGrid() {
               className=""
               id="categoryGridHeader"
               noOuter
+              components={getComponents()}
             />
           </tr>
         </thead>
@@ -123,6 +125,7 @@ export default function CategoryGrid() {
                 id="categoryGridRow"
                 row={c}
                 noOuter
+                components={getComponents()}
               />
             </tr>
           ))}

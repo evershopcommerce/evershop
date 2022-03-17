@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import flatpickr from './Flatpickr';
 import Error from './Error';
@@ -9,14 +10,14 @@ function DateTime({
   const inputRef = React.createRef();
 
   React.useEffect(() => {
-    setValue(parseInt(value) === 1 ? 1 : 0);
+    setValue(parseInt(value, 10) === 1 ? 1 : 0);
   }, [value]);
 
   React.useEffect(() => {
     flatpickr(inputRef.current, { enableTime: true });
   }, []);
 
-  const _onChange = (e) => {
+  const onChangeFunc = (e) => {
     setValue(e.target.value);
     if (onChange) onChange.call(window, e.target.value);
   };
@@ -33,17 +34,40 @@ function DateTime({
           name={name}
           placeholder={placeholder}
           value={_value}
-          onChange={_onChange}
+          onChange={onChangeFunc}
           ref={inputRef}
         />
         <div className="field-border" />
         {suffix && <div className="field-suffix">{suffix}</div>}
       </div>
       {instruction
-                && <div className="field-instruction mt-sm">{instruction}</div>}
+        && <div className="field-instruction mt-sm">{instruction}</div>}
       <Error error={error} />
     </div>
   );
 }
+
+DateTime.propTypes = {
+  error: PropTypes.string,
+  instruction: PropTypes.string,
+  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  prefix: PropTypes.string,
+  suffix: PropTypes.string,
+  value: PropTypes.string
+};
+
+DateTime.defaultProps = {
+  error: undefined,
+  instruction: undefined,
+  label: undefined,
+  onChange: undefined,
+  placeholder: undefined,
+  prefix: undefined,
+  suffix: undefined,
+  value: undefined
+};
 
 export { DateTime };

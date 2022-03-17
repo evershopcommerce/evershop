@@ -6,7 +6,7 @@ module.exports = async (request, response, stack) => {
   await stack.grid;
 
   const pages = get(response.context, 'grid.pages', []);
-  pages.forEach((el, index) => {
+  pages.forEach(function (el, index) {
     this[index].editUrl = buildUrl('cmsPageEdit', { id: parseInt(this[index].cms_page_id, 10) });
   }, pages);
 

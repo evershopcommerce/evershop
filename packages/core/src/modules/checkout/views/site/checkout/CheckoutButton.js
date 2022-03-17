@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function CheckoutButton({ action, cartId }) {
   const onClick = (e) => {
     e.preventDefault();
+    // eslint-disable-next-line no-undef
     Fetch(action, false, 'POST', { cartId });
   };
 
@@ -17,3 +19,8 @@ export default function CheckoutButton({ action, cartId }) {
     </tr>
   );
 }
+
+CheckoutButton.propTypes = {
+  action: PropTypes.string.isRequired,
+  cartId: PropTypes.string.isRequired
+};

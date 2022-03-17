@@ -5,5 +5,6 @@ const source = fs.readFileSync('./bin/serve/index.js', { encoding: 'utf8', flag:
 const result = source.replace(/\.\.\/dist/g, '../src');
 
 fs.writeFile('./bin/serve/index.js', result, 'utf8', (err) => {
-  if (err) return console.log(err);
+  // eslint-disable-next-line no-console
+  if (err) { console.log(err); }
 });

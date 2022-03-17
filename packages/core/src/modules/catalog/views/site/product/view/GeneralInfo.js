@@ -3,6 +3,7 @@ import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { get } from '../../../../../../lib/util/get';
 import { useAppState } from '../../../../../../lib/context/app';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 
 function Name({ name }) {
   return <h1 className="product-single-name">{name}</h1>;
@@ -61,6 +62,7 @@ export default function GeneralInfo() {
   return (
     <Area
       id="product_view_general_info"
+      components={getComponents()}
       coreComponents={[
         {
           component: { default: Name },

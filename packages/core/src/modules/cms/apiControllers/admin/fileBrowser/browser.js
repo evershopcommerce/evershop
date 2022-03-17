@@ -3,7 +3,8 @@ const { existsSync, readdirSync } = require('fs');
 const { CONSTANTS } = require('../../../../../lib/helpers');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
-module.exports = (request, response) => {
+// eslint-disable-next-line no-unused-vars
+module.exports = (request, response, stack, next) => {
   const path = request.params[0] || '';
   if (!existsSync(join(CONSTANTS.MEDIAPATH, path))) {
     response.json({
@@ -26,6 +27,4 @@ module.exports = (request, response) => {
       }
     });
   }
-
-  return 'STOP';
 };

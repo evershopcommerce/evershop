@@ -1,15 +1,18 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import flatpickr from './Flatpickr';
 import Error from './Error';
 
 const Date = React.forwardRef((props, ref) => {
-  const { name, value, label, onChange, error, suffix, prefix, placeholder, instruction } = props;
+  const {
+    name, value, label, onChange, error, suffix, prefix, placeholder, instruction
+  } = props;
 
   const inputRef = ref || React.createRef();
 
   React.useEffect(() => {
     const instance = flatpickr(inputRef.current, { enableTime: false });
-    instance.config.onChange.push((selectedDates, dateStr, instance) => {
+    instance.config.onChange.push((selectedDates, dateStr) => {
       if (onChange) onChange.call(window, dateStr);
     });
   }, []);
@@ -38,5 +41,28 @@ const Date = React.forwardRef((props, ref) => {
     </div>
   );
 });
+
+Date.propTypes = {
+  error: PropTypes.string,
+  instruction: PropTypes.string,
+  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  prefix: PropTypes.node,
+  suffix: PropTypes.node,
+  value: PropTypes.string
+};
+
+Date.defaultProps = {
+  error: undefined,
+  instruction: undefined,
+  label: undefined,
+  onChange: undefined,
+  placeholder: undefined,
+  prefix: undefined,
+  suffix: undefined,
+  value: undefined
+};
 
 export { Date };

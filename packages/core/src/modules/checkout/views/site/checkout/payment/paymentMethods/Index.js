@@ -1,22 +1,9 @@
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import React from 'react';
-import Area from '../../../../../../lib/components/Area';
-
-function Methods({ methods, selectedMethod, setSelectedMethod }) {
-  return (
-    <div>
-      {/* <strong>Payment methods</strong>
-        <Field
-            type='radio'
-            formId={"checkout_billing_address_form"}
-            validationRules={["notEmpty"]}
-            options={methods.map(m => { return { value: m.code, text: m.name } })}
-            value={selectedMethod}
-            name="payment_method"
-        /> */}
-    </div>
-  );
-}
+import Area from '../../../../../../../lib/components/Area';
+import { getComponents } from '../../../../../../../lib/components/getComponents';
+import { Methods } from './Methods';
 
 export default function PaymentMethods({ getMethodsAPI }) {
   const [methods, setMethods] = React.useState([]);
@@ -31,6 +18,7 @@ export default function PaymentMethods({ getMethodsAPI }) {
       id="checkoutPaymentMethods"
       className="checkout-payment-methods"
       selectedMethod={setSelectedMethod}
+      components={getComponents()}
       coreComponents={[
         {
           component: { default: Methods },
@@ -46,3 +34,7 @@ export default function PaymentMethods({ getMethodsAPI }) {
     />
   );
 }
+
+PaymentMethods.propTypes = {
+  getMethodsAPI: PropTypes.string.isRequired
+};

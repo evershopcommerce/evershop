@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Area from '../../../../../../lib/components/Area';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import Sorting from './Sorting';
@@ -218,6 +219,7 @@ export default function Filter() {
                 cleanFilter={cleanFilter}
                 activeFilters={activeFilters}
                 noOuter
+                components={getComponents()}
                 coreComponents={[
                   {
                     component: { default: Price },

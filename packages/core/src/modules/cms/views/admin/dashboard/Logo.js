@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function Logo({ dashboardUrl }) {
@@ -12,3 +13,7 @@ export default function Logo({ dashboardUrl }) {
     </div>
   );
 }
+
+Logo.propTypes = {
+  dashboardUrl: PropTypes.string.isRequired
+};

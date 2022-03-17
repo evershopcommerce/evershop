@@ -6,6 +6,7 @@ import { get } from '../../../../../../lib/util/get';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Card } from '../../Card';
 import Ckeditor from '../../../../../../lib/components/form/fields/Ckeditor';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 
 export default function General({
   browserApi, deleteApi, uploadApi, folderCreateApi
@@ -70,7 +71,7 @@ export default function General({
   return (
     <Card title="General">
       <Card.Session>
-        <Area id="page-edit-general" coreComponents={fields} />
+        <Area id="page-edit-general" coreComponents={fields} components={getComponents()} />
       </Card.Session>
     </Card>
   );

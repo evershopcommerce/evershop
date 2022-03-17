@@ -12,26 +12,22 @@ module.exports = async (request, response, stack, next) => {
   });
 
   const connection = await stack.getConnection;
-  try {
-    await Promise.all(promises);
+  const results = await Promise.allSettled(promises);
+  if (results.findIndex((r) => r.status === 'rejected') === -1) {
     await commit(connection);
-
     // Store success message to session
     request.session.notifications = request.session.notifications || [];
     request.session.notifications.push({
       type: 'success',
-      message: request.params.id ? 'Category was updated successfully' : 'Category was created successfully'
+      message: request.body.category_id ? 'Category was updated successfully' : 'Category was created successfully'
     });
+    request.session.save();
     response.json({
       data: { redirectUrl: buildUrl('categoryGrid') },
       success: true,
-      message: request.params.id ? 'Category was updated successfully' : 'Category was created successfully'
+      message: request.body.category_id ? 'Category was updated successfully' : 'Category was created successfully'
     });
-  } catch (error) {
+  } else {
     await rollback(connection);
-    response.json({
-      success: false,
-      message: error.message
-    });
   }
 };

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import Button from '../../../../../lib/components/form/Button';
+import { getComponents } from '../../../../../lib/components/getComponents';
 import { useAppState } from '../../../../../lib/context/app';
 
 const { get } = require('../../../../../lib/util/get');
@@ -58,6 +59,7 @@ function Summary({ checkoutUrl }) {
           id="shopping-cart-summary"
           noOuter
           cart={cart}
+          components={getComponents()}
           coreComponents={[
             {
               component: { default: Subtotal },
