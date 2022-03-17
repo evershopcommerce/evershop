@@ -1,7 +1,7 @@
-var { select } = require('@nodejscart/mysql-query-builder');
+const { select } = require('@nodejscart/mysql-query-builder');
 
 module.exports = function (request, response) {
-    let query = select("*").from("attribute");
+  const query = select('*').from('attribute');
 
-    return query;
-}
+  return query;
+};

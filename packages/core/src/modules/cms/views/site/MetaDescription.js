@@ -1,10 +1,10 @@
-import React from "react";
-import Meta from "../../../../lib/components/Meta";
-import { useAppState } from "../../../../lib/context/app";
-import { get } from "../../../../lib/util/get";
+import React from 'react';
+import Meta from '../../../../lib/components/Meta';
+import { useAppState } from '../../../../lib/context/app';
+import { get } from '../../../../lib/util/get';
 
 export default function MetaDescription() {
-    const description = get(useAppState(), "metaDescription", "");
+  const description = get(useAppState(), 'metaDescription', '');
 
-    return <Meta name="description" content={description} />
+  return <Meta name="description" content={description} />;
 }

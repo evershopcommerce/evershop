@@ -1,122 +1,120 @@
 const { insert, del, update } = require('@nodejscart/mysql-query-builder');
-const { get } = require("../../../../../lib/util/get");
 const sharp = require('sharp');
 const config = require('config');
 const path = require('path');
+const { get } = require('../../../../../lib/util/get');
 const { CONSTANTS } = require('../../../../../lib/helpers');
 
 module.exports = async (request, response, stack) => {
-  let gallery = get(request, "body.productMainImages", []);
+  const gallery = get(request, 'body.productMainImages', []);
 
   let productId = request.body.product_id;
   // Wait for product saving to be completed
-  let promises = [stack["createProduct"], stack["updateProduct"]];
-  let results = await Promise.all(promises);
+  const promises = [stack.createProduct, stack.updateProduct];
+  const results = await Promise.all(promises);
 
-  productId = productId || results["insertId"];
-  let connection = await stack["getConnection"];
+  productId = productId || results.insertId;
+  const connection = await stack.getConnection;
+  // eslint-disable-next-line no-useless-catch
   try {
-
     // Delete all old images
-    await del("product_image")
-      .where("product_image_product_id", "=", productId)
+    await del('product_image')
+      .where('product_image_product_id', '=', productId)
       .execute(connection);
 
-
     if (gallery.length > 0) {
-      let mainImage = gallery.shift();
-      let _path = path.join(CONSTANTS.MEDIAPATH, mainImage);
-      let ext = path.extname(path.resolve(CONSTANTS.MEDIAPATH, mainImage));
+      const mainImage = gallery.shift();
+      const mediaPath = path.join(CONSTANTS.MEDIAPATH, mainImage);
+      const ext = path.extname(path.resolve(CONSTANTS.MEDIAPATH, mainImage));
       // Generate thumbnail
-      await sharp(_path)
+      await sharp(mediaPath)
         .resize(
-          config.get("catalog.product.image.thumbnail.width"),
-          config.get("catalog.product.image.thumbnail.height"),
-          { fit: "inside" }
+          config.get('catalog.product.image.thumbnail.width'),
+          config.get('catalog.product.image.thumbnail.height'),
+          { fit: 'inside' }
         )
-        .toFile(_path.replace(
+        .toFile(mediaPath.replace(
           ext,
-          "-thumb" + ext
+          `-thumb${ext}`
         ));
 
       // Generate listing
-      await sharp(_path)
+      await sharp(mediaPath)
         .resize(
-          config.get("catalog.product.image.listing.width"),
-          config.get("catalog.product.image.listing.height"),
-          { fit: "inside" }
+          config.get('catalog.product.image.listing.width'),
+          config.get('catalog.product.image.listing.height'),
+          { fit: 'inside' }
         )
-        .toFile(_path.replace(
+        .toFile(mediaPath.replace(
           ext,
-          "-list" + ext
+          `-list${ext}`
         ));
 
       // Generate single
-      await sharp(_path)
+      await sharp(mediaPath)
         .resize(
-          config.get("catalog.product.image.single.width"),
-          config.get("catalog.product.image.single.height"),
-          { fit: "inside" }
+          config.get('catalog.product.image.single.width'),
+          config.get('catalog.product.image.single.height'),
+          { fit: 'inside' }
         )
-        .toFile(_path.replace(
+        .toFile(mediaPath.replace(
           ext,
-          "-single" + ext
+          `-single${ext}`
         ));
 
-      await update("product")
+      await update('product')
         .given({ image: mainImage })
-        .where("product_id", "=", productId)
+        .where('product_id', '=', productId)
         .execute(connection);
     }
 
-    await Promise.all(gallery.map(f => (async () => {
-
-      let _path = path.join(CONSTANTS.MEDIAPATH, f);
-      let ext = path.extname(path.resolve(CONSTANTS.MEDIAPATH, f));
+    await Promise.all(gallery.map((f) => (async () => {
+      const mediaPath = path.join(CONSTANTS.MEDIAPATH, f);
+      const ext = path.extname(path.resolve(CONSTANTS.MEDIAPATH, f));
 
       // Generate thumbnail
-      await sharp(_path)
+      await sharp(mediaPath)
         .resize(
-          config.get("catalog.product.image.thumbnail.width"),
-          config.get("catalog.product.image.thumbnail.height"),
-          { fit: "inside" }
+          config.get('catalog.product.image.thumbnail.width'),
+          config.get('catalog.product.image.thumbnail.height'),
+          { fit: 'inside' }
         )
-        .toFile(_path.replace(
+        .toFile(mediaPath.replace(
           ext,
-          "-thumb" + ext
+          `-thumb${ext}`
         ));
 
       // Generate listing
-      await sharp(_path)
+      await sharp(mediaPath)
         .resize(
-          config.get("catalog.product.image.listing.width"),
-          config.get("catalog.product.image.listing.height"),
-          { fit: "inside" }
+          config.get('catalog.product.image.listing.width'),
+          config.get('catalog.product.image.listing.height'),
+          { fit: 'inside' }
         )
-        .toFile(_path.replace(
+        .toFile(mediaPath.replace(
           ext,
-          "-list" + ext
+          `-list${ext}`
         ));
 
       // Generate single
-      await sharp(_path)
+      await sharp(mediaPath)
         .resize(
-          config.get("catalog.product.image.single.width"),
-          config.get("catalog.product.image.single.height"),
-          { fit: "inside" }
+          config.get('catalog.product.image.single.width'),
+          config.get('catalog.product.image.single.height'),
+          { fit: 'inside' }
         )
-        .toFile(_path.replace(
+        .toFile(mediaPath.replace(
           ext,
-          "-single" + ext
+          `-single${ext}`
         ));
 
-      await insert("product_image")
+      await insert('product_image')
         .given({ image: f })
-        .prime("product_image_product_id", productId)
+        .prime('product_image_product_id', productId)
         .execute(connection);
     })()));
   } catch (e) {
     // TODO: Log an error here
-    throw e
+    throw e;
   }
 };

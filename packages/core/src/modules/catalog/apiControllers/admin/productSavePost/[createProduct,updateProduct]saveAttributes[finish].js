@@ -1,75 +1,79 @@
-var { insert, select, update, insertOnUpdate, del } = require('@nodejscart/mysql-query-builder');
-const { get } = require("../../../../../lib/util/get");
+/* eslint-disable no-loop-func */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
+const {
+  insert, select, update, insertOnUpdate, del
+} = require('@nodejscart/mysql-query-builder');
+const { get } = require('../../../../../lib/util/get');
 
 module.exports = async (request, response, stack) => {
-    let promises = [stack["createProduct"], stack["updateProduct"]];
-    let results = await Promise.all(promises);
-    let productId;
-    if (request.body.product_id) {
-        productId = request.body.product_id;
+  const promises = [stack.createProduct, stack.updateProduct];
+  const results = await Promise.all(promises);
+  let productId;
+  if (request.body.product_id) {
+    productId = request.body.product_id;
+  } else {
+    productId = results[0].insertId;
+  }
+  const connection = await stack.getConnection;
+  const attributes = get(request, 'body.attributes', {});
+
+  for (const code in attributes) {
+    const attr = await select().from('attribute').where('attribute_code', '=', code).load(connection);
+    if (!attr) { return; }
+
+    if (attr.type === 'textarea' || attr.type === 'text') {
+      const flag = await select('attribute_id')
+        .from('product_attribute_value_index')
+        .where('product_id', '=', productId)
+        .and('attribute_id', '=', attr.attribute_id)
+        .load(connection);
+
+      if (flag) {
+        await update('product_attribute_value_index')
+          .given({ option_text: attributes[code].trim() })
+          .where('product_id', '=', productId)
+          .and('attribute_id', '=', attr.attribute_id)
+          .execute(connection);
+      } else {
+        await insert('product_attribute_value_index')
+          .prime('product_id', productId)
+          .prime('attribute_id', attr.attribute_id)
+          .prime('option_text', attributes[code].trim())
+          .execute(connection);
+      }
+    } else if (attr.type === 'multiselect') {
+      await Promise.all(attributes[code].map(() => (async () => {
+        const option = await select().from('attribute_option').where('attribute_option_id', '=', parseInt(attributes[code], 10)).load(connection);
+        if (option === null) { return; }
+        await insertOnUpdate('product_attribute_value_index')
+          .prime('option_id', option.attribute_option_id)
+          .prime('product_id', productId)
+          .prime('attribute_id', attr.attribute_id)
+          .prime('option_text', option.option_text)
+          .execute(connection);
+      })()));
+    } else if (attr.type === 'select') {
+      const option = await select().from('attribute_option').where('attribute_option_id', '=', parseInt(attributes[code], 10)).load(connection);
+      // eslint-disable-next-line no-continue
+      if (option === false) { continue; }
+      // Delete old option if any
+      await del('product_attribute_value_index')
+        .where('attribute_id', '=', attr.attribute_id)
+        .and('product_id', '=', productId)
+        .execute(connection);
+      // Insert new option
+      await insertOnUpdate('product_attribute_value_index')
+        .prime('option_id', option.attribute_option_id)
+        .prime('product_id', productId)
+        .prime('attribute_id', attr.attribute_id)
+        .prime('option_text', option.option_text)
+        .execute(connection);
     } else {
-        productId = results[0]["insertId"];
+      await insertOnUpdate('product_attribute_value_index')
+        .prime('option_text', attributes[code])
+        .execute(connection);
     }
-    let connection = await stack["getConnection"];
-    let attributes = get(request, "body.attributes", {});
-
-    for (let code in attributes) {
-        let attr = await select().from("attribute").where("attribute_code", "=", code).load(connection);
-        if (!attr)
-            return;
-
-        if (attr['type'] === 'textarea' || attr['type'] === 'text') {
-            let flag = await select("attribute_id")
-                .from("product_attribute_value_index")
-                .where("product_id", "=", productId)
-                .and("attribute_id", "=", attr['attribute_id'])
-                .load(connection);
-
-            if (flag)
-                await update('product_attribute_value_index')
-                    .given({ "option_text": attributes[code].trim() })
-                    .where("product_id", "=", productId)
-                    .and("attribute_id", "=", attr['attribute_id'])
-                    .execute(connection);
-            else {
-                await insert('product_attribute_value_index')
-                    .prime("product_id", productId)
-                    .prime("attribute_id", attr['attribute_id'])
-                    .prime("option_text", attributes[code].trim())
-                    .execute(connection);
-            }
-        } else if (attr['type'] === 'multiselect') {
-            await Promise.all(attributes[code].map(() => (async () => {
-                let option = await select().from('attribute_option').where("attribute_option_id", "=", parseInt(val)).load(connection);
-                if (option === null)
-                    return;
-                await insertOnUpdate('product_attribute_value_index')
-                    .prime("option_id", option["attribute_option_id"])
-                    .prime("product_id", productId)
-                    .prime("attribute_id", attr['attribute_id'])
-                    .prime("option_text", option["option_text"])
-                    .execute(connection);
-            })()))
-        } else if (attr['type'] === 'select') {
-            let option = await select().from('attribute_option').where("attribute_option_id", "=", parseInt(attributes[code])).load(connection);
-            if (option === false)
-                continue;
-            // Delete old option if any
-            await del('product_attribute_value_index')
-                .where('attribute_id', "=", attr['attribute_id'])
-                .and('product_id', "=", productId)
-                .execute(connection);
-            // Insert new option
-            await insertOnUpdate('product_attribute_value_index')
-                .prime("option_id", option["attribute_option_id"])
-                .prime("product_id", productId)
-                .prime("attribute_id", attr['attribute_id'])
-                .prime("option_text", option["option_text"])
-                .execute(connection);
-        } else {
-            await insertOnUpdate('product_attribute_value_index')
-                .prime("option_text", attributes[code])
-                .execute(connection);
-        }
-    }
+  }
 };

@@ -1,36 +1,32 @@
-const { commit, rollback } = require("@nodejscart/mysql-query-builder");
-const { buildAdminUrl } = require('../../../../../lib/routie');
+const { commit, rollback } = require('@nodejscart/mysql-query-builder');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
+// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
-    let promises = [];
-    for (let id in stack) {
-        // Check if middleware is async
-        if (stack[id] instanceof Promise) {
-            promises.push(stack[id]);
-        }
+  const promises = [];
+  Object.keys(stack).forEach((id) => {
+    // Check if middleware is async
+    if (stack[id] instanceof Promise) {
+      promises.push(stack[id]);
     }
-    try {
-        await Promise.all(promises);
-        let connection = await stack["getConnection"];
-        await commit(connection);
-
-        // Store success message to session
-        request.session.notifications = request.session.notifications || [];
-        request.session.notifications.push({
-            type: "success",
-            message: request.params.id ? "Attribute was updated successfully" : "Attribute was created successfully"
-        });
-        response.json({
-            data: { redirectUrl: buildAdminUrl("attributeGrid") },
-            success: true,
-            message: request.params.id ? "Attribute was updated successfully" : "Attribute was created successfully"
-        })
-    } catch (error) {
-        let connection = await stack["getConnection"];
-        await rollback(connection);
-        response.json({
-            success: false,
-            message: error.message
-        })
-    }
-}
+  });
+  const connection = await stack.getConnection;
+  const results = await Promise.allSettled(promises);
+  if (results.findIndex((r) => r.status === 'rejected') === -1) {
+    await commit(connection);
+    // Store success message to session
+    request.session.notifications = request.session.notifications || [];
+    request.session.notifications.push({
+      type: 'success',
+      message: request.body.attribute_id ? 'Attribute was updated successfully' : 'Attribute was created successfully'
+    });
+    request.session.save();
+    response.json({
+      data: { redirectUrl: buildUrl('attributeGrid') },
+      success: true,
+      message: request.body.attribute_id ? 'Attribute was updated successfully' : 'Attribute was created successfully'
+    });
+  } else {
+    await rollback(connection);
+  }
+};

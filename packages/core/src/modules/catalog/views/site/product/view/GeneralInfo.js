@@ -1,60 +1,95 @@
-import React from "react";
-import Area from "../../../../../../lib/components/Area";
-import { get } from "../../../../../../lib/util/get";
-import { useAppState } from "../../../../../../lib/context/app";
+import PropTypes from 'prop-types';
+import React from 'react';
+import Area from '../../../../../../lib/components/Area';
+import { get } from '../../../../../../lib/util/get';
+import { useAppState } from '../../../../../../lib/context/app';
+import { getComponents } from '../../../../../../lib/components/getComponents';
 
 function Name({ name }) {
-    return <h1 className="product-single-name">{name}</h1>
+  return <h1 className="product-single-name">{name}</h1>;
 }
+
+Name.propTypes = {
+  name: PropTypes.string.isRequired
+};
 
 function Price({ price, salePrice }) {
-    const currency = get(useAppState(), "currency", "USD");
-    const language = get(useAppState(), "language", "en");
-    const _price = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(price);
-    const _salePrice = new Intl.NumberFormat(language, { style: 'currency', currency: currency }).format(salePrice);
+  const currency = get(useAppState(), 'currency', 'USD');
+  const language = get(useAppState(), 'language', 'en');
+  const formatedPrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
+  const formatedSalePrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(salePrice);
 
-    return <h4 className="product-single-price">
-        {parseFloat(salePrice) === parseFloat(price) && <div>
-            <span className="sale-price">{_price}</span>
-        </div>}
-        {parseFloat(salePrice) < parseFloat(price) && <div>
-            <span className="sale-price">{_salePrice}</span> <span className="regular-price">{_price}</span>
-        </div>}
+  return (
+    <h4 className="product-single-price">
+      {parseFloat(salePrice) === parseFloat(price) && (
+        <div>
+          <span className="sale-price">{formatedPrice}</span>
+        </div>
+      )}
+      {parseFloat(salePrice) < parseFloat(price) && (
+        <div>
+          <span className="sale-price">{formatedSalePrice}</span>
+          {' '}
+          <span className="regular-price">{formatedPrice}</span>
+        </div>
+      )}
     </h4>
+  );
 }
+
+Price.propTypes = {
+  price: PropTypes.number.isRequired,
+  salePrice: PropTypes.number.isRequired
+};
 
 function Sku({ sku }) {
-    return <div className="product-single-sku text-textSubdued"><span>Sku</span><span>: </span>{sku}</div>
+  return (
+    <div className="product-single-sku text-textSubdued">
+      <span>Sku</span>
+      <span>: </span>
+      {sku}
+    </div>
+  );
 }
 
-export default function GeneralInfo() {
-    const product = get(useAppState(), "product");
+Sku.propTypes = {
+  sku: PropTypes.string.isRequired
+};
 
-    return <Area id="product_view_general_info" coreComponents={[
+export default function GeneralInfo() {
+  const product = get(useAppState(), 'product');
+
+  return (
+    <Area
+      id="product_view_general_info"
+      components={getComponents()}
+      coreComponents={[
         {
-            'component': { default: Name },
-            'props': {
-                name: product.name
-            },
-            'sort_order': 10,
-            'id': 'product_single_name'
+          component: { default: Name },
+          props: {
+            name: product.name
+          },
+          sort_order: 10,
+          id: 'product_single_name'
         },
         {
-            'component': { default: Price },
-            'props': {
-                price: product.price,
-                salePrice: product.price
-            },
-            'sort_order': 10,
-            'id': 'product_single_price'
+          component: { default: Price },
+          props: {
+            price: product.price,
+            salePrice: product.price
+          },
+          sort_order: 10,
+          id: 'product_single_price'
         },
         {
-            'component': { default: Sku },
-            'props': {
-                sku: product.sku
-            },
-            'sort_order': 20,
-            'id': 'product_single_sku'
+          component: { default: Sku },
+          props: {
+            sku: product.sku
+          },
+          sort_order: 20,
+          id: 'product_single_sku'
         }
-    ]} />
+      ]}
+    />
+  );
 }

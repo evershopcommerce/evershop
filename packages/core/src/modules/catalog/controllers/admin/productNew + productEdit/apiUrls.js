@@ -1,9 +1,9 @@
-const { buildAdminUrl } = require("../../../../../lib/routie");
-const { assign } = require("../../../../../lib/util/assign");
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { assign } = require('../../../../../lib/util/assign');
 
 module.exports = (request, response) => {
-    // Add uploadUrl to app context
-    assign(response.context, { productImageUploadUrl: buildAdminUrl("imageUpload", [""]) })
-    assign(response.context, { searchVariantUrl: buildAdminUrl("variantSearch", []) })
-    assign(response.context, { unlinkVariant: buildAdminUrl("unlinkVariant", []) })
+  // Add uploadUrl to app context
+  assign(response.context, { productImageUploadUrl: buildUrl('imageUpload', ['']) });
+  assign(response.context, { searchVariantUrl: buildUrl('variantSearch', []) });
+  assign(response.context, { unlinkVariant: buildUrl('unlinkVariant', []) });
 };

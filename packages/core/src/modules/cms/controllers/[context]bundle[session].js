@@ -1,7 +1,7 @@
-const bundlee = require("../../../lib/bundlee");
+const bundlee = require('../../../lib/bundlee');
 
-module.exports = async function (request, response) {
-    let route = request._route;
+module.exports = async (request, response) => {
+  const route = request.currentRoute;
 
-    await bundlee(request, response, route);
+  await bundlee(request, response, route);
 };

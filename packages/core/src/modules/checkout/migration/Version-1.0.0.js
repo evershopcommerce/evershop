@@ -1,6 +1,7 @@
-const { execute } = require("@nodejscart/mysql-query-builder");
-const { pool } = require("../../../lib/mysql/connection");
+const { execute } = require('@nodejscart/mysql-query-builder');
+const { pool } = require('../../../lib/mysql/connection');
 
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = async () => {
   await execute(pool, `CREATE TABLE \`cart\` (
   \`cart_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -195,4 +196,4 @@ module.exports = exports = async () => {
   CONSTRAINT \`FK_ORDER_SHIPMENT\` FOREIGN KEY (\`shipment_order_id\`) REFERENCES \`order\` (\`order_id\`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Shipment';
 `);
-}
+};

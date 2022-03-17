@@ -1,18 +1,32 @@
-import React from "react";
-import Area from "./Area";
+/* eslint-disable react/no-danger */
+import PropTypes from 'prop-types';
+import React from 'react';
+import Area from './Area';
+import { getComponents } from './getComponents';
+import { Alert } from './modal/Alert';
 
-const Html = () => {
-    return <React.Fragment>
-        <head>
-            <Area noOuter={true} id="head" />
-        </head>
-        <body>
-            <div id="app" className='bg-background'>
-                <Area id="body" className="wrapper" />
-            </div>
-            <Area id="after.body" noOuter={true} />
-        </body>
-    </React.Fragment>
+function Html({ bundle, appContext }) {
+  return (
+    <>
+      <head>
+        <Area noOuter id="head" components={getComponents()} />
+        <script dangerouslySetInnerHTML={{ __html: appContext }} />
+      </head>
+      <body id="body">
+        <Alert>
+          <div id="app" className="bg-background">
+            <Area id="body" className="wrapper" components={getComponents()} />
+          </div>
+        </Alert>
+      </body>
+      <script src={bundle} />
+    </>
+  );
 }
 
-export default Html
+Html.propTypes = {
+  bundle: PropTypes.string.isRequired,
+  appContext: PropTypes.string.isRequired
+};
+
+export default Html;

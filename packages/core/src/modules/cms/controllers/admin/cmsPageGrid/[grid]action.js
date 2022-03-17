@@ -1,14 +1,14 @@
-const { get } = require("../../../../../lib/util/get");
-const { buildAdminUrl } = require("../../../../../lib/routie");
-const { assign } = require("../../../../../lib/util/assign");
+const { get } = require('../../../../../lib/util/get');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { assign } = require('../../../../../lib/util/assign');
 
 module.exports = async (request, response, stack) => {
-    await stack["grid"];
+  await stack.grid;
 
-    let pages = get(response.context, "grid.pages", []);
-    pages.forEach(function (el, index) {
-        this[index]["editUrl"] = buildAdminUrl("cmsPageEdit", { id: parseInt(this[index]["cms_page_id"]) });
-    }, pages);
+  const pages = get(response.context, 'grid.pages', []);
+  pages.forEach(function (el, index) {
+    this[index].editUrl = buildUrl('cmsPageEdit', { id: parseInt(this[index].cms_page_id, 10) });
+  }, pages);
 
-    assign(response.context, { deleteCmsPagesUrl: buildAdminUrl("cmsPageBulkDelete") });
-}
+  assign(response.context, { deleteCmsPagesUrl: buildUrl('cmsPageBulkDelete') });
+};

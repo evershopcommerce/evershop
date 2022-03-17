@@ -1,26 +1,26 @@
-const { createOrder } = require("../../../services/orderCreator");
-const { buildSiteUrl } = require("../../../../../lib/routie");
+const { createOrder } = require('../../../services/orderCreator');
 
+// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
-    try {
-        let cart = await stack["initCart"];
-        await stack["savePaymentInfo"];
-        // 
-        let orderId = await createOrder(cart);
+  try {
+    const cart = await stack.initCart;
+    await stack.savePaymentInfo;
+    //
+    const orderId = await createOrder(cart);
 
-        request.session.orderId = orderId;
-        response.json({
-            data: {
-                orderId: orderId
-            },
-            success: true,
-            message: ""
-        });
-    } catch (e) {
-        response.json({
-            data: {},
-            success: false,
-            message: e.message
-        });
-    }
+    request.session.orderId = orderId;
+    response.json({
+      data: {
+        orderId
+      },
+      success: true,
+      message: ''
+    });
+  } catch (e) {
+    response.json({
+      data: {},
+      success: false,
+      message: e.message
+    });
+  }
 };

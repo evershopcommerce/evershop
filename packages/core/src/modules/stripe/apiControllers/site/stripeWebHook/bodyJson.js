@@ -1,6 +1,5 @@
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 module.exports = (request, response, stack, next) => {
-    console.log('webhook')
-    bodyParser.raw({ type: '*/*' })(request, response, next);
-}
+  bodyParser.raw({ type: '*/*' })(request, response, next);
+};

@@ -1,7 +1,8 @@
-var { select } = require('@nodejscart/mysql-query-builder');
+const { select } = require('@nodejscart/mysql-query-builder');
 
-module.exports = function (request, response) {
-    let query = select("*").from("order");
+// eslint-disable-next-line no-unused-vars
+module.exports = (request, response) => {
+  const query = select('*').from('order');
 
-    return query;
-}
+  return query;
+};
