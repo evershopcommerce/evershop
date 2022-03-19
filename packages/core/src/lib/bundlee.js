@@ -2,13 +2,13 @@
 const { inspect } = require('util');
 const { writeFile, mkdir, rmdir } = require('fs/promises');
 const { existsSync, statSync, readdirSync } = require('fs');
-const webpack = require('webpack');
 const path = require('path');
 const sass = require('node-sass');
 const CleanCss = require('clean-css');
 const { CONSTANTS } = require('./helpers');
 const { buildUrl } = require('./router/buildUrl');
 const { getComponentsByRoute } = require('./componee/getComponentByRoute');
+const { createWebpack } = require('./webpack/webpack');
 
 module.exports = async (request, response, route) => {
   /** Only create bundle file for GET and "text/html" route */
@@ -101,79 +101,14 @@ module.exports = async (request, response, route) => {
   const content = `var components = module.exports = exports = ${inspect(components, { depth: 5 }).replace(/'---/g, '').replace(/---'/g, '')}`;
   await mkdir(path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', scopePath), { recursive: true });
   await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.nodejscart/build', scopePath, 'components.js'), content);
-  const name = route.isAdmin === true ? `admin/${route.id}` : `site/${route.id}`;
-  const entry = {};
-  entry[name] = [
-    path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', scopePath, 'components.js'),
-    path.resolve(CONSTANTS.LIBPATH, 'components', 'Hydrate.js'),
-    path.resolve(CONSTANTS.LIBPATH, 'webpack/pageData.json')
-  ];
-  const compiler = webpack({
-    mode: 'development', // "production" | "development" | "none"
-    module: {
-      rules: [
-        {
-          test: /\.jsx?$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              sourceType: 'unambiguous',
-              cacheDirectory: true,
-              presets: [
-                '@babel/preset-env',
-                '@babel/preset-react'
-              ],
-              plugins: [
-                '@babel/plugin-transform-runtime'
-              ]
-            }
-          }
-        },
-        {
-          test: /getComponents\.js/,
-          use: [
-            {
-              loader: path.resolve(CONSTANTS.LIBPATH, 'loader.js'),
-              options: {
-                componentsPath: path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', scopePath, 'components.js')
-              }
-            }
-          ]
-        },
-        {
-          test: /getPageData\.js/,
-          use: [
-            {
-              loader: path.resolve(CONSTANTS.LIBPATH, 'dataLoader.js')
-            }
-          ]
-        }
-      ]
-    },
-    // name: 'main',
-    target: 'web',
-    plugins: [
-      // new MiniCssExtractPlugin({
-      //     filename: '[name].css',
-      // })
-    ],
 
-    entry,
-    output: {
-      path: path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', scopePath),
-      filename: '[fullhash].js'
-    },
-    resolve: {
-      alias: {
-        react: path.resolve(CONSTANTS.NODEMODULEPATH, 'react')
-      }
-    }
-  });
+  // Create a complier object
+  const complier = createWebpack(scopePath);
 
+  // Start bundling css
   let cssFiles = '';
   let mTime = new Date('1988-10-08T03:24:00');
-  compiler.hooks.afterCompile.tap(
+  complier.hooks.afterCompile.tap(
     'PostCssBundling',
     (compilation) => {
       const list = compilation._modules;
@@ -192,7 +127,7 @@ module.exports = async (request, response, route) => {
   );
   let hash;
   const webpackPromise = new Promise((resolve, reject) => {
-    compiler.run((err, stats) => {
+    complier.run((err, stats) => {
       if (err) {
         reject(err);
       } else if (stats.hasErrors()) {
