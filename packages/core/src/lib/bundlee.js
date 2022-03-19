@@ -12,8 +12,7 @@ const { createWebpack } = require('./webpack/webpack');
 
 module.exports = async (request, response, route) => {
   /** Only create bundle file for GET and "text/html" route */
-  // FIXME: This should be enhanced
-  if ((route.method.length > 1 || route.method[0] !== 'GET') || (response.get('Content-Type') && !response.get('Content-Type').includes('text/html'))) {
+  if (route.isApi === true) {
     return;
   }
 
