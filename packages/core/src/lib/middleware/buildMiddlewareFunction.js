@@ -22,7 +22,7 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
   before = null,
   after = null
 ) {
-  if (!/^[a-zA-Z1-9.]/g.test(id)) {
+  if (!/^[a-zA-Z0-9_]+$/.test(id)) {
     throw new TypeError(`Middleware ID ${id} is invalid`);
   }
 
