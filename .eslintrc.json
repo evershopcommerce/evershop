@@ -19,7 +19,7 @@
   ],
   "ignorePatterns": [
     "**/dist/**/*.js",
-    "**/test/**/*.js"
+    "**/tests/**/*.js"
   ],
   "rules": {
     "comma-dangle": [
