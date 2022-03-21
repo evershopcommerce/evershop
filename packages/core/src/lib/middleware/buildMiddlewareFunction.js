@@ -71,7 +71,7 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
             delegate.catch((e) => {
               logger.log('error', `Exception in middleware ${id}`, { message: e.message, stack: e.stack });
               // We call the error handler middleware if it was not called by another middleware
-              if (response.headersSent === false) {
+              if (response.locals.errorHandlerTriggered !== true) {
                 return next(e);
               } else {
                 return null;
@@ -93,7 +93,7 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
             delegate.catch((e) => {
               logger.log('error', `Exception in middleware ${id}`, { message: e.message, stack: e.stack });
               // We call the error handler middleware if it was not called by another middleware
-              if (response.headersSent === false) {
+              if (response.locals.errorHandlerTriggered !== true) {
                 return next(e);
               } else {
                 return null;

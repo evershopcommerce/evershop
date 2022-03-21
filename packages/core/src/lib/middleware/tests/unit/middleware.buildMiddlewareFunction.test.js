@@ -1,4 +1,8 @@
-const { buildMiddlewareFunction } = require("../../src/lib/middleware/buildMiddlewareFunction");
+const { buildMiddlewareFunction } = require("../../buildMiddlewareFunction");
+
+require('@babel/register')({
+  presets: ['@babel/preset-env']
+});
 
 expect.extend({
   nullOrAny(received, expected) {
@@ -62,9 +66,6 @@ expect.extend({
 });
 
 describe('buildMiddlewareFunction', () => {
-
-  beforeEach(() => {
-  });
 
   it('It should thrown an exception if id is not valid', () => {
     expect(() => buildMiddlewareFunction('a b', (request, response) => { })).toThrow(Error);

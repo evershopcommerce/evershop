@@ -1,4 +1,4 @@
-const { assign } = require('../../src/lib/util/assign');
+const { assign } = require('../../assign');
 
 describe('assign', () => {
   it('It should assign an object to the main object', () => {
