@@ -9,11 +9,7 @@ const config = require('config');
  * @return  {any}                   The configuration value
  */
 function getConfig(path, defaultValue) {
-  try {
-    return config.get(path);
-  } catch (e) {
-    return defaultValue;
-  }
+  return config.has(path) ? config.get(path) : defaultValue;
 }
 
 // eslint-disable-next-line no-multi-assign

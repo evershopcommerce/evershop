@@ -1,6 +1,6 @@
 const { pool } = require('../../../../../lib/mysql/connection');
 const { assign } = require('../../../../../lib/util/assign');
-const { productsFilters } = require('../../../../../lib/util/productsFilter');
+const { productsFilters } = require('../../../services/productsFilter');
 
 module.exports = async (request, response, stack) => {
   // Clone the query object, do not mutate the main one
