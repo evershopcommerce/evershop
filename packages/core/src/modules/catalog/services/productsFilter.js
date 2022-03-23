@@ -1,5 +1,5 @@
 const { select } = require('@nodejscart/mysql-query-builder');
-const { pool } = require('../mysql/connection');
+const { pool } = require('../../../lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
