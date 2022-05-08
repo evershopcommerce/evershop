@@ -10,3 +10,4 @@ prod.js
 media
 .DS_Store
 .log
+coverage

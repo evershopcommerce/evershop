@@ -16,14 +16,20 @@ exports.sortMiddlewares = function sortMiddlewares(middlewares = []) {
     const dependencies = (m.before || []).concat(m.after || []);
     let flag = true;
     dependencies.forEach((d) => {
-      if (flag === false || middlewares.findIndex((e) => e.id === d) === -1) {
+      if (
+        flag === false
+        || middlewares.findIndex(
+          (e) => (
+            e.id === d && (e.routeId === null || e.routeId === m.scope || e.routeId === m.routeId)
+          )
+        ) === -1
+      ) {
         flag = false;
       }
     });
 
     return flag;
   });
-
   const sorter = new Topo.Sorter();
   middlewareFunctions.forEach((m) => {
     sorter.add(m.id, { before: m.before, after: m.after, group: m.id });

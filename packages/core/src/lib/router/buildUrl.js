@@ -16,6 +16,5 @@ exports.buildUrl = (routeId, params = {}) => {
   if (route === undefined) { throw new Error(`Route ${routeId} is not existed`); }
 
   const toPath = compile(route.path);
-  // TODO: Admin path should be configurable
   return toPath(params);
 };

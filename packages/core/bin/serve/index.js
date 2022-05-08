@@ -11,12 +11,15 @@ const ora = require('ora');
 const boxen = require('boxen');
 const { app } = require('./app');
 const { addComponents } = require('../../src/lib/componee/addComponents');
-const { getModuleMiddlewares, getAllSortedMiddlewares } = require('../../src/lib/middleware');
+const { getModuleMiddlewares, getAllSortedMiddlewares, getFrontMiddlewares } = require('../../src/lib/middleware');
 const { scanForRoutes } = require('../../src/lib/router/scanForRoutes');
 const { getRoutes, getSiteRoutes, getAdminRoutes } = require('../../src/lib/router/routes');
+const { registerAdminRoute } = require('../../src/lib/router/registerAdminRoute');
+const { registerSiteRoute } = require('../../src/lib/router/registerSiteRoute');
+const { stack } = require('../../src/lib/middleware/stack');
 
 const spinner = ora({
-  text: green('NodeJsCart is starting'),
+  text: green('EverShop is starting'),
   spinner: 'dots12'
 }).start();
 spinner.start();
@@ -35,19 +38,51 @@ modules.forEach((module) => {
 
     // Check for routes
     if (existsSync(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'admin'))) {
-      scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'admin'), true, false);
+      const adminControllerRoutes = scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'admin'), true, false);
+      adminControllerRoutes.forEach((route) => {
+        registerAdminRoute(
+          route.id,
+          route.method,
+          route.path,
+          route.isApi
+        );
+      });
     }
 
     if (existsSync(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'site'))) {
-      scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'site'), false, false);
+      const siteControllerRoutes = scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'site'), false, false);
+      siteControllerRoutes.forEach((route) => {
+        registerSiteRoute(
+          route.id,
+          route.method,
+          route.path,
+          route.isApi
+        );
+      });
     }
 
     if (existsSync(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'admin'))) {
-      scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'admin'), true, true);
+      const adminApiRoutes = scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'admin'), true, true);
+      adminApiRoutes.forEach((route) => {
+        registerAdminRoute(
+          route.id,
+          route.method,
+          route.path,
+          route.isApi
+        );
+      });
     }
 
     if (existsSync(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'site'))) {
-      scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'site'), false, true);
+      const siteApiRoutes = scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'site'), false, true);
+      siteApiRoutes.forEach((route) => {
+        registerSiteRoute(
+          route.id,
+          route.method,
+          route.path,
+          route.isApi
+        );
+      });
     }
   } catch (e) {
     spinner.fail(`${red(e.stack)}\n`);
@@ -119,9 +154,10 @@ app.all('*', (request, response, next) => {
 });
 
 const middlewares = getAllSortedMiddlewares();
-
 middlewares.forEach((m) => {
-  if (m.routeId === null) { app.use(m.middleware); } else if (m.routeId === 'admin') {
+  if (m.routeId === null) {
+    app.use(m.middleware);
+  } else if (m.routeId === 'admin') {
     adminRoutes.forEach((route) => {
       if ((route.id !== 'adminStaticAsset') || m.id === 'isAdmin') {
         app.all(route.path, m.middleware);
@@ -230,7 +266,7 @@ function onError(error) {
 
 function onListening() {
   spinner.succeed(green('Done!!!\n') + boxen(green('Your website is running at "http://localhost:3000"'), {
-    title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
+    title: 'EverShop', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
   }));
   const addr = server.address();
   const bind = typeof addr === 'string'
