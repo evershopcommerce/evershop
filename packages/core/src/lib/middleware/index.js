@@ -14,10 +14,27 @@ exports.getAdminMiddlewares = function getAdminMiddlewares(routeId) {
 };
 
 exports.getFrontMiddlewares = function getFrontMiddlewares(routeId) {
-  return sortMiddlewares(stack.middlewares.filter((m) => m.routeId === 'front' || m.routeId === routeId || m.routeId === null));
+  return sortMiddlewares(stack.middlewares.filter((m) => m.routeId === 'site' || m.routeId === routeId || m.routeId === null));
 };
 
-function loadMiddlewareFunctions(_path, scope) {
+function checkAndBuild(middleware, routeId, scope) {
+  if (noDublicateId(stack.middlewares, middleware, scope)) {
+    stack.middlewares.push(
+      buildMiddlewareFunction(
+        middleware.id,
+        middleware.middleware,
+        routeId,
+        middleware.before || null,
+        middleware.after || null,
+        scope
+      )
+    );
+  } else {
+    throw new Error(`Middleware id "${middleware.id}" is duplicated`);
+  }
+}
+
+function loadScopedMiddlewareFunctions(_path, scope) {
   const routes = readdirSync(_path, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name);
@@ -26,59 +43,20 @@ function loadMiddlewareFunctions(_path, scope) {
     const middlewares = scanForMiddlewareFunctions(resolve(_path, route));
     if (route === 'all') {
       middlewares.forEach((m) => {
-        if (
-          !noDublicateId(stack.middlewares, m)
-        ) {
-          throw new Error(`Middleware id ${m.id} is already existed`);
-        }
-        stack.middlewares.push(
-          buildMiddlewareFunction(
-            m.id,
-            m.middleware,
-            scope,
-            m.before || null,
-            m.after || null
-          )
-        );
+        checkAndBuild(m, scope, scope);
       });
     } else {
       const split = route.split(/[+]+/);
       if (split.length === 1) {
         middlewares.forEach((m) => {
-          if (
-            !noDublicateId(stack.middlewares, m)
-          ) {
-            throw new Error(`Middleware id ${m.id} is already existed`);
-          }
-          stack.middlewares.push(
-            buildMiddlewareFunction(
-              m.id,
-              m.middleware,
-              route,
-              m.before || null,
-              m.after || null
-            )
-          );
+          checkAndBuild(m, route, scope);
         });
       } else {
         split.forEach((s) => {
           const r = (s.trim());
           if (r !== '') {
             middlewares.forEach((m) => {
-              if (
-                !noDublicateId(stack.middlewares, m)
-              ) {
-                throw new Error(`Middleware id ${m.id} is already existed`);
-              }
-              stack.middlewares.push(
-                buildMiddlewareFunction(
-                  m.id,
-                  m.middleware,
-                  r,
-                  m.before || null,
-                  m.after || null
-                )
-              );
+              checkAndBuild(m, r, scope);
             });
           }
         });
@@ -97,59 +75,33 @@ exports.getModuleMiddlewares = function getModuleMiddlewares(_path) {
   if (existsSync(resolve(_path, 'controllers'))) {
     // Scan for the application level middleware
     scanForMiddlewareFunctions(resolve(_path, 'controllers')).forEach((m) => {
-      if (
-        !noDublicateId(stack.middlewares, m)
-      ) {
-        throw new Error(`Middleware id ${m.id} is already existed`);
-      }
-      stack.middlewares.push(
-        buildMiddlewareFunction(
-          m.id,
-          m.middleware,
-          null,
-          m.before || null,
-          m.after || null
-        )
-      );
+      checkAndBuild(m, null, 'app');
     });
 
     // Scan for the admin level middleware
     if (existsSync(resolve(_path, 'controllers', 'admin'))) {
-      loadMiddlewareFunctions(resolve(_path, 'controllers', 'admin'), 'admin');
+      loadScopedMiddlewareFunctions(resolve(_path, 'controllers', 'admin'), 'admin');
     }
 
     // Scan for the site level middleware
     if (existsSync(resolve(_path, 'controllers', 'site'))) {
-      loadMiddlewareFunctions(resolve(_path, 'controllers', 'site'), 'site');
+      loadScopedMiddlewareFunctions(resolve(_path, 'controllers', 'site'), 'site');
     }
   }
   if (existsSync(resolve(_path, 'apiControllers'))) {
     // Scan for the application level middleware
     scanForMiddlewareFunctions(resolve(_path, 'apiControllers')).forEach((m) => {
-      if (
-        !noDublicateId(stack.middlewares, m)
-      ) {
-        throw new Error(`Middleware id ${m.id} is already existed`);
-      }
-      stack.middlewares.push(
-        buildMiddlewareFunction(
-          m.id,
-          m.middleware,
-          null,
-          m.before || null,
-          m.after || null
-        )
-      );
+      checkAndBuild(m, null, 'app');
     });
 
     // Scan for the admin level middleware
     if (existsSync(resolve(_path, 'apiControllers', 'admin'))) {
-      loadMiddlewareFunctions(resolve(_path, 'apiControllers', 'admin'), 'admin');
+      loadScopedMiddlewareFunctions(resolve(_path, 'apiControllers', 'admin'), 'admin');
     }
 
     // Scan for the site level middleware
     if (existsSync(resolve(_path, 'apiControllers', 'site'))) {
-      loadMiddlewareFunctions(resolve(_path, 'apiControllers', 'site'), 'site');
+      loadScopedMiddlewareFunctions(resolve(_path, 'apiControllers', 'site'), 'site');
     }
   }
 };

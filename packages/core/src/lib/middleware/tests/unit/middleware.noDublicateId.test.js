@@ -14,7 +14,7 @@ describe('Test noDublicateId function', () => {
     ).toEqual(false);
   });
 
-  it('It should return false if admin middlewareID is existed', () => {
+  it('It should return false if admin level middlewareID is existed', () => {
     expect(
       noDublicateId([{
         id: 'routeOne',
@@ -27,7 +27,36 @@ describe('Test noDublicateId function', () => {
     ).toEqual(false);
   });
 
-  it('It should return false if site middlewareID is existed', () => {
+  it('It should return false if admin level middlewareID is existed', () => {
+    expect(
+      noDublicateId([{
+        id: 'routeOne',
+        routeId: 'admin',
+        scope: 'admin'
+      }],
+        {
+          id: 'routeOne',
+          routeId: 'admin'
+        },
+        'admin'
+      )
+    ).toEqual(false);
+  });
+
+  it('It should return false if site level middlewareID is existed', () => {
+    expect(
+      noDublicateId([{
+        id: 'routeOne',
+        routeId: 'site',
+      }],
+        {
+          id: 'routeOne',
+          routeId: 'site'
+        })
+    ).toEqual(false);
+  });
+
+  it('It should return false if application level middlewareID is existed', () => {
     expect(
       noDublicateId([{
         id: 'routeOne',

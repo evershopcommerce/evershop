@@ -1,7 +1,7 @@
 const config = {
   verbose: true,
   setupFilesAfterEnv: [require.resolve('regenerator-runtime/runtime')],
-  testMatch: ['/**/tests/unit/**/*.[jt]s?(x)'],
+  testMatch: ['/**/tests/unit/**/*.test.[jt]s?(x)'],
   coveragePathIgnorePatterns: [
     '<rootDir>/.nodejscart/',
     '<rootDir>/node_modules/',

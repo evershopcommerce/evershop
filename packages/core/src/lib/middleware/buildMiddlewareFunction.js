@@ -20,7 +20,8 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
   middleware,
   routeId = null,
   before = null,
-  after = null
+  after = null,
+  scope = 'app'
 ) {
   if (!/^[a-zA-Z0-9_]+$/.test(id)) {
     throw new TypeError(`Middleware ID ${id} is invalid`);
@@ -39,7 +40,8 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
         } else {
           middleware(error, request, response, [], next);
         }
-      }
+      },
+      scope
     };
   } else {
     return {
@@ -107,7 +109,8 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
             return next();
           }
         }
-      }
+      },
+      scope
     };
   }
 };

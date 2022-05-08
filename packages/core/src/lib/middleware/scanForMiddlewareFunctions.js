@@ -4,6 +4,7 @@ const { resolve } = require('path');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
+
 /**
  * This function take a path and scan for the middleware functions
  *
