@@ -26,8 +26,8 @@ function error(message) {
   var shop;
 
   // eslint-disable-next-line no-console
-  console.log(boxen(green('Welcome to NodeJsCart - The React ecommerce platform'), {
-    title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
+  console.log(boxen(green('Welcome to EverShop - The open-source e-commerce platform'), {
+    title: 'EverShop', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
   }));
   const dbQuestions = [
     {
@@ -171,7 +171,7 @@ function error(message) {
 
   /* Start installation */
   const messages = [];
-  messages.push(`\n\n${green('NodeJsCart is being installed ☕ ☕ ☕')}`);
+  messages.push(`\n\n${green('EverShop is being installed ☕ ☕ ☕')}`);
   messages.push('Creating configuration file');
   const spinner = ora({
     text: green(messages.join('\n')),
@@ -302,7 +302,7 @@ function error(message) {
 
   // eslint-disable-next-line no-console
   console.log(boxen(green('Installation completed!. Run `npm run dev` to start development or `npm run build` for production'), {
-    title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
+    title: 'EverShop', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
   }));
   process.exit(0);
 })());

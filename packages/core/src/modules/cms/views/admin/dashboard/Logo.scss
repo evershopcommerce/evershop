@@ -1,21 +1,13 @@
 .logo {
-    display: flex;
-    a {
-        align-self: center;
-        color: var(--primary);
-        display: block;
-        width: 3rem;
-        height: 3rem;
-        padding: 3px;
-        border-radius: 100%;
-        border: 2px solid var(--primary);
-        svg {
-            width: 100%;
-        }
+  display: flex;
+  a {
+    align-self: center;
+    color: var(--primary);
+    display: block;
+    padding: 3px;
+    svg {
+      width: 10rem;
+      height: 3rem;
     }
-    span {
-        align-self: center;
-        padding-left: 1rem;
-        font-weight: 600;
-    }
+  }
 }

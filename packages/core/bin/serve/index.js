@@ -18,7 +18,7 @@ const { registerAdminRoute } = require('../../src/lib/router/registerAdminRoute'
 const { registerSiteRoute } = require('../../src/lib/router/registerSiteRoute');
 
 const spinner = ora({
-  text: green('NodeJsCart is starting'),
+  text: green('EverShop is starting'),
   spinner: 'dots12'
 }).start();
 spinner.start();
@@ -266,7 +266,7 @@ function onError(error) {
 
 function onListening() {
   spinner.succeed(green('Done!!!\n') + boxen(green('Your website is running at "http://localhost:3000"'), {
-    title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
+    title: 'EverShop', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
   }));
   const addr = server.address();
   const bind = typeof addr === 'string'

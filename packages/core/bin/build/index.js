@@ -247,7 +247,7 @@ getRoutesList.forEach((route) => {
 Promise.all(promises)
   .then(() => {
     spinner.succeed(green('Building completed!!!\n') + boxen(green('Please run "npm run start" to start your website'), {
-      title: 'NodeJsCart', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
+      title: 'EverShop', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
     }));
     process.exit(0);
   })
