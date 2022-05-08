@@ -14,6 +14,8 @@ const { addComponents } = require('../../src/lib/componee/addComponents');
 const { getModuleMiddlewares, getAllSortedMiddlewares } = require('../../src/lib/middleware');
 const { scanForRoutes } = require('../../src/lib/router/scanForRoutes');
 const { getRoutes, getSiteRoutes, getAdminRoutes } = require('../../src/lib/router/routes');
+const { registerAdminRoute } = require('../../src/lib/router/registerAdminRoute');
+const { registerSiteRoute } = require('../../src/lib/router/registerSiteRoute');
 
 const spinner = ora({
   text: green('NodeJsCart is starting'),
@@ -35,19 +37,51 @@ modules.forEach((module) => {
 
     // Check for routes
     if (existsSync(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'admin'))) {
-      scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'admin'), true, false);
+      const adminControllerRoutes = scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'admin'), true, false);
+      adminControllerRoutes.forEach((route) => {
+        registerAdminRoute(
+          route.id,
+          route.method,
+          route.path,
+          route.isApi
+        );
+      });
     }
 
     if (existsSync(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'site'))) {
-      scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'site'), false, false);
+      const siteControllerRoutes = scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'controllers', 'site'), false, false);
+      siteControllerRoutes.forEach((route) => {
+        registerSiteRoute(
+          route.id,
+          route.method,
+          route.path,
+          route.isApi
+        );
+      });
     }
 
     if (existsSync(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'admin'))) {
-      scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'admin'), true, true);
+      const adminApiRoutes = scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'admin'), true, true);
+      adminApiRoutes.forEach((route) => {
+        registerAdminRoute(
+          route.id,
+          route.method,
+          route.path,
+          route.isApi
+        );
+      });
     }
 
     if (existsSync(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'site'))) {
-      scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'site'), false, true);
+      const siteApiRoutes = scanForRoutes(path.resolve(__dirname, '../../src', 'modules', module, 'apiControllers', 'site'), false, true);
+      siteApiRoutes.forEach((route) => {
+        registerSiteRoute(
+          route.id,
+          route.method,
+          route.path,
+          route.isApi
+        );
+      });
     }
   } catch (e) {
     spinner.fail(`${red(e.stack)}\n`);
@@ -121,7 +155,9 @@ app.all('*', (request, response, next) => {
 const middlewares = getAllSortedMiddlewares();
 
 middlewares.forEach((m) => {
-  if (m.routeId === null) { app.use(m.middleware); } else if (m.routeId === 'admin') {
+  if (m.routeId === null) {
+    app.use(m.middleware);
+  } else if (m.routeId === 'admin') {
     adminRoutes.forEach((route) => {
       if ((route.id !== 'adminStaticAsset') || m.id === 'isAdmin') {
         app.all(route.path, m.middleware);

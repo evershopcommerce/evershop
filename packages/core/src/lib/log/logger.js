@@ -20,4 +20,5 @@ logger.exceptions.handle(
   new winston.transports.File({ filename: path.resolve(CONSTANTS.ROOTPATH, '.log/exceptions.log') })
 );
 
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = logger;

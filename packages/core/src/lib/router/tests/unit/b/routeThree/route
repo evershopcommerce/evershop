@@ -1,0 +1,2 @@
+GET, PUT
+/b/:url_key
