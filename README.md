@@ -1,4 +1,6 @@
-<p align="center" style="padding-top: 35px">
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p align="center">
   <a href="https://evershop.io" target="_blank">
     <img alt="evershop-logo" height="65" alt="EverShop Logo" src="https://evershop.io/wp-content/uploads/2022/05/evershop-logo.svg"/>
   </a>
@@ -45,7 +47,7 @@ Explore our demo store.
   <a href="https://demo.evershop.io/admin" target="_blank">
     <img alt="evershop-backend-demo" height="35" alt="EverShop Admin Demo" src="https://evershop.io/wp-content/uploads/2022/05/evershop-admin-demo.png"/>
   </a>
-  <a style="margin-left:10px" href="https://demo.evershop.io/" target="_blank">
+  <a href="https://demo.evershop.io/" target="_blank">
     <img alt="evershop-store-demo" height="35" alt="EverShop Store Demo" src="https://evershop.io/wp-content/uploads/2022/05/evershop-store-front-demo.png"/>
   </a>
 </p>
