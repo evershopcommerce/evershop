@@ -1,6 +1,6 @@
-<p align="center">
+<p align="center" style="padding-top: 35px">
   <a href="https://evershop.io" target="_blank">
-    <img alt="evershop-logo" height="50" alt="EverShop Logo" src="https://evershop.io/wp-content/uploads/2022/05/evershop-logo.svg"/>
+    <img alt="evershop-logo" height="65" alt="EverShop Logo" src="https://evershop.io/wp-content/uploads/2022/05/evershop-logo.svg"/>
   </a>
 </p>
 <p align="center">
