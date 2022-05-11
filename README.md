@@ -6,7 +6,7 @@
   </a>
 </p>
 <p align="center">
-  <h1 align="center">An Ecommerce framework with NodeJS</h1>
+  <h1 align="center">An NodeJS Framework Of Ecommerce</h1>
 </p>
 <p align="center">
     <a href="https://evershop.io/docs/">Documentation</a>
