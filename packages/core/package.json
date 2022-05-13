@@ -13,11 +13,13 @@
   },
   "scripts": {
     "prepublishOnly": "npx babel src -d dist --copy-files && node prepublish.js",
+    "prepack": "npx babel src -d dist --copy-files && node prepublish.js",
     "dev": "nodejscart dev",
     "build": "nodejscart build",
     "start": "nodejscart start",
     "test": "jest",
-    "postpublish": "node postpublish.js"
+    "postpublish": "node postpublish.js",
+    "postpack": "node postpublish.js"
   },
   "author": "The Nguyen (https://nodejscart.com)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
