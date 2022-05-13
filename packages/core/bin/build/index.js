@@ -196,7 +196,7 @@ getRoutesList.forEach((route) => {
         // eslint-disable-next-line no-underscore-dangle
         const list = compilation._modules;
         list.forEach((element) => {
-          if (element.resource) {
+          if (element.resource && element.resource.endsWith('.js')) {
             let filePath = element.resource.replace('.js', '.scss');
             filePath = filePath.split(path.sep).join(path.posix.sep);
             if (existsSync(filePath)) {
