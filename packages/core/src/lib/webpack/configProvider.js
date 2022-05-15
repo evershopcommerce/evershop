@@ -7,7 +7,7 @@ module.exports = exports = {};
 exports.createConfig = function createConfig(scopePath) {
   const entry = {};
   entry[scopePath] = [
-    path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', scopePath, 'components.js'),
+    path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath, 'components.js'),
     path.resolve(CONSTANTS.LIBPATH, 'components', 'Hydrate.js')
   ];
   const Config = {
@@ -38,7 +38,7 @@ exports.createConfig = function createConfig(scopePath) {
             {
               loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/getComponentLoader.js'),
               options: {
-                componentsPath: path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', scopePath, 'components.js')
+                componentsPath: path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath, 'components.js')
               }
             }
           ]
@@ -49,7 +49,7 @@ exports.createConfig = function createConfig(scopePath) {
     target: 'web',
     entry,
     output: {
-      path: path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', scopePath),
+      path: path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath),
       filename: '[fullhash].js'
     },
     resolve: {

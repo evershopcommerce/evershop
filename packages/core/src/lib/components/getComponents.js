@@ -8,8 +8,8 @@ export function getComponents() {
   if (!route) {
     return {};
   } else if (route.isAdmin === true) {
-    return require(resolve(CONSTANTS.ROOTPATH, '.nodejscart/build/admin', route.id, 'components.js'));
+    return require(resolve(CONSTANTS.ROOTPATH, '.evershop/build/admin', route.id, 'components.js'));
   } else {
-    return require(resolve(CONSTANTS.ROOTPATH, '.nodejscart/build/site', route.id, 'components.js'));
+    return require(resolve(CONSTANTS.ROOTPATH, '.evershop/build/site', route.id, 'components.js'));
   }
 }

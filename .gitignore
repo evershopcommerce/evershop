@@ -3,7 +3,7 @@ node_modules
 dist
 .idea/*
 .nodejscart
-.vscode/*
+.vscode
 npm-debug.log
 package-lock.json
 prod.js

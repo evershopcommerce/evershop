@@ -301,7 +301,7 @@ function error(message) {
   spinner.succeed(messages.join('\n'));
 
   // eslint-disable-next-line no-console
-  console.log(boxen(green('Installation completed!. Run `npm run dev` to start development or `npm run build` for production'), {
+  console.log(boxen(green('Installation completed!. Run `npm run build` and `npm run start` to launch your store'), {
     title: 'EverShop', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
   }));
   process.exit(0);

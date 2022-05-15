@@ -9,7 +9,7 @@ module.exports = (request, response, stack, next) => {
       resave: false,
       saveUninitialized: true,
       secret: 'somesecret',
-      store: new FileStore({ path: `${CONSTANTS.ROOTPATH}/.nodejscart/sessions` }),
+      store: new FileStore({ path: `${CONSTANTS.ROOTPATH}/.evershop/sessions` }),
       cookie: { secure: false, httpOnly: false }
     })(request, response, next);
   } else {
@@ -18,7 +18,7 @@ module.exports = (request, response, stack, next) => {
       resave: false,
       saveUninitialized: true,
       secret: 'somesecret',
-      store: new FileStore({ path: `${CONSTANTS.ROOTPATH}/.nodejscart/sessions` }),
+      store: new FileStore({ path: `${CONSTANTS.ROOTPATH}/.evershop/sessions` }),
       cookie: { secure: false, httpOnly: false }
     })(request, response, next);
   }
