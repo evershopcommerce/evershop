@@ -1,7 +1,7 @@
 {
-  "name": "@nodejscart/core",
-  "version": "1.1.0-alpha.2",
-  "description": "The NodeJs ecommerce platform. Built with ReactJS and MySQL. Open-source and free. Fast and customizable.",
+  "name": "@evershop/core",
+  "version": "1.0.0-alpha.0",
+  "description": "The NodeJs ecommerce framework. Built with ReactJS and MySQL. Open-source and free. Fast and customizable.",
   "files": [
     "bin",
     "src",
@@ -9,21 +9,23 @@
     "test"
   ],
   "bin": {
-    "nodejscart": "./bin/nodejscart"
+    "evershop": "./bin/evershop"
   },
   "scripts": {
     "prepublishOnly": "npx babel src -d dist --copy-files && node prepublish.js",
-    "dev": "nodejscart dev",
-    "build": "nodejscart build",
-    "start": "nodejscart start",
+    "prepack": "npx babel src -d dist --copy-files && node prepublish.js",
+    "dev": "evershop dev",
+    "build": "evershop build",
+    "start": "evershop start",
     "test": "jest",
-    "postpublish": "node postpublish.js"
+    "postpublish": "node postpublish.js",
+    "postpack": "node postpublish.js"
   },
-  "author": "The Nguyen (https://nodejscart.com)",
+  "author": "The Nguyen (https://evershop.io)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nodeonline/nodejscart.git"
+    "url": "git+https://github.com/evershopcommerce/evershop.git"
   },
   "keywords": [
     "ecommerce",
@@ -31,9 +33,9 @@
     "cart"
   ],
   "bugs": {
-    "url": "https://github.com/nodeonline/nodejscart/issues"
+    "url": "https://github.com/evershopcommerce/evershop/issues"
   },
-  "homepage": "https://github.com/nodeonline/nodejscart",
+  "homepage": "https://github.com/evershopcommerce/evershop",
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.16.4",
     "@babel/preset-env": "^7.16.4",

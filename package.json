@@ -1,5 +1,5 @@
 {
-  "name": "@nodejscart/core",
+  "name": "@evershop/core",
   "version": "1.0.0-alpha.18",
   "description": "A shopping cart platform with Express, React and MySQL",
   "files": [
@@ -10,19 +10,19 @@
     "babel.config.js"
   ],
   "bin": {
-    "nodejscart": "./bin/nodejscart"
+    "evershop": "./bin/evershop"
   },
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "dev": "nodemon --delay 500ms --exec babel-node ./packages/core/bin/nodejscart dev",
-    "install": "nodejscart install",
-    "build": "nodejscart build",
-    "start": "nodejscart start",
-    "test": "jest --workspace=@nodejscart/core"
+    "dev": "nodemon --delay 500ms --exec babel-node ./packages/core/bin/evershop dev",
+    "install": "evershop install",
+    "build": "evershop build",
+    "start": "evershop start",
+    "test": "jest --workspace=@evershop/core"
   },
-  "author": "The Nguyen (https://nodejscart.com)",
+  "author": "The Nguyen (https://evershop.io)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
   "devDependencies": {
     "@babel/cli": "^7.15.7",

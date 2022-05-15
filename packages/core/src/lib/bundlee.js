@@ -25,7 +25,7 @@ module.exports = async (request, response, route) => {
   if (process.env.NODE_ENV === 'production') {
     let hash;
     if (route.isAdmin === true) {
-      const bundles = readdirSync(path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build/admin', route.id), { withFileTypes: true })
+      const bundles = readdirSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build/admin', route.id), { withFileTypes: true })
         .filter((dirent) => dirent.isFile())
         .map((dirent) => dirent.name);
       bundles.forEach((b) => {
@@ -36,7 +36,7 @@ module.exports = async (request, response, route) => {
       response.context.bundleJs = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.js`]);
       response.context.bundleCss = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.css`]);
     } else {
-      const bundles = readdirSync(path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build/site', route.id), { withFileTypes: true })
+      const bundles = readdirSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build/site', route.id), { withFileTypes: true })
         .filter((dirent) => dirent.isFile())
         .map((dirent) => dirent.name);
       bundles.forEach((b) => {
@@ -88,7 +88,7 @@ module.exports = async (request, response, route) => {
   }
   // eslint-disable-next-line no-param-reassign
   route.__BUILDING__ = true;
-  await rmdir(path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', scopePath), { recursive: true });
+  await rmdir(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath), { recursive: true });
 
   const components = JSON.parse(JSON.stringify(getComponentsByRoute(route.id)));
   Object.keys(components).forEach((area) => {
@@ -98,8 +98,8 @@ module.exports = async (request, response, route) => {
     });
   });
   const content = `var components = module.exports = exports = ${inspect(components, { depth: 5 }).replace(/'---/g, '').replace(/---'/g, '')}`;
-  await mkdir(path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', scopePath), { recursive: true });
-  await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.nodejscart/build', scopePath, 'components.js'), content);
+  await mkdir(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath), { recursive: true });
+  await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.evershop/build', scopePath, 'components.js'), content);
 
   // Create a complier object
   const complier = createWebpack(scopePath);
@@ -151,7 +151,7 @@ module.exports = async (request, response, route) => {
     data: cssFiles
   }).css);
 
-  await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.nodejscart/build', scopePath, `${hash}.css`), cssOutput.styles);
+  await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.evershop/build', scopePath, `${hash}.css`), cssOutput.styles);
 
   if (request.isAdmin === true) {
     response.context.bundleJs = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.js`]);

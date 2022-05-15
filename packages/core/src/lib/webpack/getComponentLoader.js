@@ -1,6 +1,7 @@
+/* eslint-disable no-multi-assign */
 /* eslint-disable global-require */
-export default function getComponentsLoader() {
+module.exports = exports = function getComponentsLoader() {
   const options = this.getOptions();
 
   return `module.exports = exports={};exports.getComponents = function getComponents() {let components = require("${options.componentsPath}");return components;}`;
-}
+};

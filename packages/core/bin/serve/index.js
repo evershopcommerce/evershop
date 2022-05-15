@@ -11,12 +11,11 @@ const ora = require('ora');
 const boxen = require('boxen');
 const { app } = require('./app');
 const { addComponents } = require('../../src/lib/componee/addComponents');
-const { getModuleMiddlewares, getAllSortedMiddlewares, getFrontMiddlewares } = require('../../src/lib/middleware');
+const { getModuleMiddlewares, getAllSortedMiddlewares } = require('../../src/lib/middleware');
 const { scanForRoutes } = require('../../src/lib/router/scanForRoutes');
 const { getRoutes, getSiteRoutes, getAdminRoutes } = require('../../src/lib/router/routes');
 const { registerAdminRoute } = require('../../src/lib/router/registerAdminRoute');
 const { registerSiteRoute } = require('../../src/lib/router/registerSiteRoute');
-const { stack } = require('../../src/lib/middleware/stack');
 
 const spinner = ora({
   text: green('EverShop is starting'),

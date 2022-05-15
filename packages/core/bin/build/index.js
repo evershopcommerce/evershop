@@ -10,12 +10,12 @@ const CleanCss = require('clean-css');
 const { red, green } = require('kleur');
 const ora = require('ora');
 const boxen = require('boxen');
-const { CONSTANTS } = require('../../src/lib/helpers');
-const { addComponents } = require('../../src/lib/componee/addComponents');
-const { getComponentsByRoute } = require('../../src/lib/componee/getComponentByRoute');
-const { getRoutes } = require('../../src/lib/router/routes');
-const { registerAdminRoute } = require('../../src/lib/router/registerAdminRoute');
-const { registerSiteRoute } = require('../../src/lib/router/registerSiteRoute');
+const { CONSTANTS } = require('../../dist/lib/helpers');
+const { addComponents } = require('../../dist/lib/componee/addComponents');
+const { getComponentsByRoute } = require('../../dist/lib/componee/getComponentByRoute');
+const { getRoutes } = require('../../dist/lib/router/routes');
+const { registerAdminRoute } = require('../../dist/lib/router/registerAdminRoute');
+const { registerSiteRoute } = require('../../dist/lib/router/registerSiteRoute');
 
 require('@babel/register')({
   presets: ['@babel/preset-react'],
@@ -85,16 +85,16 @@ modules.forEach((module) => {
 
 modules.forEach((element) => {
   try {
-    if (existsSync(path.resolve(__dirname, '../../src/modules', element, 'views/site/components.js'))) {
+    if (existsSync(path.resolve(__dirname, '../../dist/modules', element, 'views/site/components.js'))) {
       // eslint-disable-next-line global-require
-      const components = require(path.resolve(__dirname, '../../src/modules', element, 'views/site/components.js'));
+      const components = require(path.resolve(__dirname, '../../dist/modules', element, 'views/site/components.js'));
       if (typeof components === 'object' && components !== null) {
         addComponents('site', components);
       }
     }
-    if (existsSync(path.resolve(__dirname, '../../src/modules', element, 'views/admin/components.js'))) {
+    if (existsSync(path.resolve(__dirname, '../../dist/modules', element, 'views/admin/components.js'))) {
       // eslint-disable-next-line global-require
-      const components = require(path.resolve(__dirname, '../../src/modules', element, 'views/admin/components.js'));
+      const components = require(path.resolve(__dirname, '../../dist/modules', element, 'views/admin/components.js'));
       if (typeof components === 'object' && components !== null) {
         addComponents('admin', components);
       }
@@ -130,18 +130,18 @@ getRoutesList.forEach((route) => {
     });
 
     const buildPath = route.isAdmin === true ? `./admin/${route.id}` : `./site/${route.id}`;
-    await rmdir(path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', buildPath), { recursive: true });
+    await rmdir(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', buildPath), { recursive: true });
     let content = `var components = module.exports = exports = ${inspect(components, { depth: 5 }).replace(/'---/g, '').replace(/---'/g, '')}`;
     content += '\r\n';
     content += "if (typeof window !== 'undefined')";
     content += '\r\n';
     content += ' window.appContext.components = components;';
-    await mkdir(path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', buildPath), { recursive: true });
-    await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.nodejscart/build', buildPath, 'components.js'), content);
+    await mkdir(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', buildPath), { recursive: true });
+    await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.evershop/build', buildPath, 'components.js'), content);
     const name = route.isAdmin === true ? `admin/${route.id}` : `site/${route.id}`;
     const entry = {};
     entry[name] = [
-      path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', buildPath, 'components.js'),
+      path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', buildPath, 'components.js'),
       path.resolve(CONSTANTS.LIBPATH, 'components', 'Hydrate.js')
     ];
     const compiler = webpack({
@@ -165,6 +165,17 @@ getRoutesList.forEach((route) => {
                 ]
               }
             }
+          },
+          {
+            test: /getComponents\.js/,
+            use: [
+              {
+                loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/getComponentLoader.js'),
+                options: {
+                  componentsPath: path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', buildPath, 'components.js')
+                }
+              }
+            ]
           }
         ]
       },
@@ -178,7 +189,7 @@ getRoutesList.forEach((route) => {
 
       entry,
       output: {
-        path: path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/build', buildPath),
+        path: path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', buildPath),
         filename: '[fullhash].js'
       },
       resolve: {
@@ -196,7 +207,7 @@ getRoutesList.forEach((route) => {
         // eslint-disable-next-line no-underscore-dangle
         const list = compilation._modules;
         list.forEach((element) => {
-          if (element.resource) {
+          if (element.resource && element.resource.endsWith('.js')) {
             let filePath = element.resource.replace('.js', '.scss');
             filePath = filePath.split(path.sep).join(path.posix.sep);
             if (existsSync(filePath)) {
@@ -237,7 +248,7 @@ getRoutesList.forEach((route) => {
       data: cssFiles
     }).css);
 
-    await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.nodejscart/build', buildPath, `${hash}.css`), cssOutput.styles);
+    await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.evershop/build', buildPath, `${hash}.css`), cssOutput.styles);
     completed += 1;
     spinner.text = `Start building ☕☕☕☕☕\n${Array(completed).fill(green('█')).concat(total - completed > 0 ? Array(total - completed).fill('▒') : []).join('')}`;
   };

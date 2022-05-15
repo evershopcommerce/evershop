@@ -25,9 +25,9 @@ module.exports = (request, response) => {
         response.$body = 'timedout';
         resolve(1);
       }
-      if (fs.existsSync(path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/', buildPath, 'bundle.js'))) {
+      if (fs.existsSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/', buildPath, 'bundle.js'))) {
         clearInterval(check);
-        fs.readFile(path.resolve(CONSTANTS.ROOTPATH, './.nodejscart/', buildPath, 'bundle.js'), 'utf8', (err, data) => {
+        fs.readFile(path.resolve(CONSTANTS.ROOTPATH, './.evershop/', buildPath, 'bundle.js'), 'utf8', (err, data) => {
           if (err) throw err;
           response.$body = data;
           resolve(1);

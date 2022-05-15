@@ -1,3 +1,6 @@
+/* eslint-disable no-multi-assign */
 const express = require('express');
 
-export const app = express();
+module.exports = exports = {};
+
+exports.app = express();

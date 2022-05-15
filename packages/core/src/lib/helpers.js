@@ -53,5 +53,5 @@ helpers.CONSTANTS = Object.freeze({
   NODEMODULEPATH: path.resolve(rootPath, 'node_modules'),
   ADMINTHEMEPATH: path.resolve(rootPath, 'themes', 'admin'),
   SITETHEMEPATH: path.resolve(rootPath, 'themes', 'site'),
-  CACHEPATH: path.resolve(rootPath, '.nodejscart')
+  CACHEPATH: path.resolve(rootPath, '.evershop')
 });
