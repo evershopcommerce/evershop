@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+/* eslint-disable global-require */
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
+
+const { argv } = yargs(hideBin(process.argv));
+const command = argv._[0];
+
+try {
+  if (command === 'build') {
+    process.env.NODE_ENV = 'production';
+    require('./build');
+  } else if (command === 'dev') {
+    process.env.NODE_ENV = 'development';
+    require('./serve');
+  } else if (command === 'start') {
+    process.env.NODE_ENV = 'production';
+    require('./serve');
+  } else if (command === 'install') {
+    require('./install');
+  } else {
+    throw new Error('Invalid command');
+  }
+} catch (e) {
+  console.log(e);
+}
