@@ -2,7 +2,7 @@ node_modules
 !node_modules/@nodejscart/core/*
 dist
 .idea/*
-.nodejscart
+.evershop
 .vscode
 npm-debug.log
 package-lock.json

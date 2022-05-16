@@ -1,6 +1,6 @@
 const {
   startTransaction, update, insert, commit, rollback
-} = require('@nodejscart/mysql-query-builder');
+} = require('@evershop/mysql-query-builder');
 const { getConnection } = require('../../../../../lib/mysql/connection');
 
 // eslint-disable-next-line no-unused-vars

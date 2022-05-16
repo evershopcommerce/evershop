@@ -1,4 +1,4 @@
-const { select } = require('@nodejscart/mysql-query-builder');
+const { select } = require('@evershop/mysql-query-builder');
 const uniqid = require('uniqid');
 const { assign } = require('../../../../../lib/util/assign');
 const { pool } = require('../../../../../lib/mysql/connection');

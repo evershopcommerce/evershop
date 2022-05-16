@@ -1,4 +1,4 @@
-const { commit, rollback } = require('@nodejscart/mysql-query-builder');
+const { commit, rollback } = require('@evershop/mysql-query-builder');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
 // eslint-disable-next-line no-unused-vars

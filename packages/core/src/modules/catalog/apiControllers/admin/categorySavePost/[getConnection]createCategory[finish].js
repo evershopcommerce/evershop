@@ -1,4 +1,4 @@
-const { insert } = require('@nodejscart/mysql-query-builder');
+const { insert } = require('@evershop/mysql-query-builder');
 const { merge } = require('../../../../../lib/util/merge');
 
 module.exports = async (request, response, stack) => {

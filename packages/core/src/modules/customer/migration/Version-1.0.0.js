@@ -1,4 +1,4 @@
-const { execute } = require('@nodejscart/mysql-query-builder');
+const { execute } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign

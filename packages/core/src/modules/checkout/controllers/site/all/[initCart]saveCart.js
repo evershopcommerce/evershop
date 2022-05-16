@@ -1,6 +1,6 @@
 const {
   getConnection, commit, rollback, startTransaction, del, insert, update
-} = require('@nodejscart/mysql-query-builder');
+} = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 const { assign } = require('../../../../../lib/util/assign');
 

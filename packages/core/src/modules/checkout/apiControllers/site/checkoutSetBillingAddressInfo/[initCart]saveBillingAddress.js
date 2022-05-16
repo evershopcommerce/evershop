@@ -1,4 +1,4 @@
-const { insert, update } = require('@nodejscart/mysql-query-builder');
+const { insert, update } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 const { addressValidator } = require('../../../services/addressValidator');
 

@@ -1,4 +1,4 @@
-const { insert, del, update } = require('@nodejscart/mysql-query-builder');
+const { insert, del, update } = require('@evershop/mysql-query-builder');
 const sharp = require('sharp');
 const config = require('config');
 const path = require('path');

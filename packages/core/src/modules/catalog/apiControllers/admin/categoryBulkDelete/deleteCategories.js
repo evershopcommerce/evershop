@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const { del } = require('@nodejscart/mysql-query-builder');
+const { del } = require('@evershop/mysql-query-builder');
 const { getConnection } = require('../../../../../lib/mysql/connection');
 
 module.exports = async (request, response, stack, next) => {
