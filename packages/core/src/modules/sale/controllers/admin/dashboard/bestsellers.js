@@ -1,4 +1,4 @@
-const { select } = require('@nodejscart/mysql-query-builder');
+const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 

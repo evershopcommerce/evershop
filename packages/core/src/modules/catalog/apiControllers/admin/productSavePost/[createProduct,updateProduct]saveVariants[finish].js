@@ -1,7 +1,7 @@
 /* eslint-disable no-lone-blocks */
 const {
   insert, select, update, insertOnUpdate, del
-} = require('@nodejscart/mysql-query-builder');
+} = require('@evershop/mysql-query-builder');
 const { get } = require('../../../../../lib/util/get');
 
 module.exports = async (request, response, stack) => {

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const isEqualWith = require('lodash/isEqualWith');
 const config = require('config');
-const { select, del } = require('@nodejscart/mysql-query-builder');
+const { select, del } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 const { DataObject } = require('./dataObject');
 const { Item } = require('./item');

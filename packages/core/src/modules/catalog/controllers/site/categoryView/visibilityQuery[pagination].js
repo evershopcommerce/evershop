@@ -1,4 +1,4 @@
-const { select, node } = require('@nodejscart/mysql-query-builder');
+const { select, node } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 
 module.exports = async (request, response, stack, next) => {

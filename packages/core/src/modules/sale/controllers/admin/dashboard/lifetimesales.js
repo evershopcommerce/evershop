@@ -1,4 +1,4 @@
-const { select } = require('@nodejscart/mysql-query-builder');
+const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 
 module.exports = async function lifetimeSales(request, response) {

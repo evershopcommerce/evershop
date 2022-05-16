@@ -1,4 +1,4 @@
-const { insert } = require('@nodejscart/mysql-query-builder');
+const { insert } = require('@evershop/mysql-query-builder');
 
 module.exports = async (request, response, stack) => {
   if (request.body.product_id) { return null; }

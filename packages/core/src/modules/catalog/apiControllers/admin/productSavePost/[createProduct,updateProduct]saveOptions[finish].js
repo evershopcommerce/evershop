@@ -2,7 +2,7 @@
 /* eslint-disable no-await-in-loop */
 const {
   insert, del, select, update
-} = require('@nodejscart/mysql-query-builder');
+} = require('@evershop/mysql-query-builder');
 const { merge } = require('../../../../../lib/util/merge');
 
 async function saveOptionValues(optionId, values, connection) {

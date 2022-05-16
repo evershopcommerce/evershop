@@ -1,6 +1,6 @@
 const {
   commit, getConnection, insert, rollback, select, startTransaction, update
-} = require('@nodejscart/mysql-query-builder');
+} = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../lib/mysql/connection');
 
 /* Default validation rules */

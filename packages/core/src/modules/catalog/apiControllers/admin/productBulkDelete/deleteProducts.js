@@ -1,4 +1,4 @@
-const { del } = require('@nodejscart/mysql-query-builder');
+const { del } = require('@evershop/mysql-query-builder');
 const { getConnection } = require('../../../../../lib/mysql/connection');
 
 // eslint-disable-next-line no-unused-vars

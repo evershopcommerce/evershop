@@ -1,5 +1,5 @@
 const config = require('config');
-const { select } = require('@nodejscart/mysql-query-builder');
+const { select } = require('@evershop/mysql-query-builder');
 const fs = require('fs');
 const path = require('path');
 const { pool } = require('../../../../lib/mysql/connection');

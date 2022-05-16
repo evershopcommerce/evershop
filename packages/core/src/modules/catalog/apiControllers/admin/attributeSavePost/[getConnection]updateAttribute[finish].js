@@ -1,4 +1,4 @@
-const { update } = require('@nodejscart/mysql-query-builder');
+const { update } = require('@evershop/mysql-query-builder');
 
 module.exports = async (request, response, stack) => {
   if (!request.body.attribute_id) { return null; }
