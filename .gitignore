@@ -11,3 +11,4 @@ media
 .DS_Store
 .log
 coverage
+cypress

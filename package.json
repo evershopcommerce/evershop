@@ -20,7 +20,8 @@
     "install": "evershop install",
     "build": "evershop build",
     "start": "evershop start",
-    "test": "jest --workspace=@evershop/core"
+    "test": "jest --workspace=@evershop/core",
+    "cypress": "cypress run"
   },
   "author": "The Nguyen (https://evershop.io)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
@@ -28,6 +29,7 @@
     "@babel/cli": "^7.15.7",
     "@babel/core": "^7.14.8",
     "@babel/node": "^7.14.7",
+    "cypress": "^9.6.1",
     "eslint": "^8.7.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.25.4",
