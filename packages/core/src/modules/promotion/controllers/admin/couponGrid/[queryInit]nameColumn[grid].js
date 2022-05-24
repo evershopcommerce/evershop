@@ -1,0 +1,10 @@
+const { assign } = require('../../../../../lib/util/assign');
+
+module.exports = (request, response, stack) => {
+  // Handle filter
+  if (request.query.name !== undefined) {
+    const query = stack.queryInit;
+    query.andWhere('product_description.`name`', 'LIKE', `%${request.query.name}%`);
+    assign(response.context, { grid: { currentFilter: { name: request.query.name } } });
+  }
+};
