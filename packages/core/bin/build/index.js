@@ -1,5 +1,5 @@
 const {
-  readdirSync, existsSync, statSync, readFileSync
+  readdirSync, existsSync, statSync, readFileSync, rmdirSync
 } = require('fs');
 const { writeFile, mkdir, rmdir } = require('fs').promises;
 const path = require('path');
@@ -117,6 +117,10 @@ let completed = 0;
 
 spinner.text = `Start building ☕☕☕☕☕\n${Array(total).fill('▒').join('')}`;
 
+if (existsSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build'))) {
+  rmdirSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build'), { recursive: true });
+}
+
 getRoutesList.forEach((route) => {
   const buildFunc = async function () {
     const components = getComponentsByRoute(route.id);
@@ -130,7 +134,6 @@ getRoutesList.forEach((route) => {
     });
 
     const buildPath = route.isAdmin === true ? `./admin/${route.id}` : `./site/${route.id}`;
-    await rmdir(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', buildPath), { recursive: true });
     let content = `var components = module.exports = exports = ${inspect(components, { depth: 5 }).replace(/'---/g, '').replace(/---'/g, '')}`;
     content += '\r\n';
     content += "if (typeof window !== 'undefined')";
@@ -141,7 +144,7 @@ getRoutesList.forEach((route) => {
     const name = route.isAdmin === true ? `admin/${route.id}` : `site/${route.id}`;
     const entry = {};
     entry[name] = [
-      path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', buildPath, 'components.js'),
+      path.resolve(CONSTANTS.ROOTPATH, '.evershop', 'build', buildPath, 'components.js'),
       path.resolve(CONSTANTS.LIBPATH, 'components', 'Hydrate.js')
     ];
     const compiler = webpack({
