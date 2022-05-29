@@ -2,6 +2,5 @@
 /* eslint-disable global-require */
 module.exports = exports = function getComponentsLoader() {
   const options = this.getOptions();
-
-  return `module.exports = exports={};exports.getComponents = function getComponents() {let components = require("${options.componentsPath}");return components;}`;
+  return `module.exports = exports={};exports.getComponents = function getComponents() {let components = require("${options.componentsPath.replace(/\\/g, "\\\\")}");return components;}`;
 };

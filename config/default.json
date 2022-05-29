@@ -92,9 +92,9 @@
     "database": {
       "host": "localhost",
       "port": "3306",
-      "database": "install",
+      "database": "evershop",
       "user": "root",
-      "password": "123456"
+      "password": ""
     }
   }
 }
