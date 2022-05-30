@@ -88,7 +88,9 @@ module.exports = async (request, response, route) => {
   }
   // eslint-disable-next-line no-param-reassign
   route.__BUILDING__ = true;
-  await rmdir(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath), { recursive: true });
+
+  if (existsSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath)))
+    await rmdir(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath), { recursive: true });
 
   const components = JSON.parse(JSON.stringify(getComponentsByRoute(route.id)));
   Object.keys(components).forEach((area) => {
