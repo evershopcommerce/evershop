@@ -205,7 +205,7 @@ function error(message) {
   await writeFile(path.resolve(CONSTANTS.ROOTPATH, 'config', 'default.json'), JSON.stringify(configuration, null, 4));
 
   // Reload configuration
-  delete require.cache.config;
+  delete require.cache[require.resolve('config')];
   require('config');
 
   messages.pop();
