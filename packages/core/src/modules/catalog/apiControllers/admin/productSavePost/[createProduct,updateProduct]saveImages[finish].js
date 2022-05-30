@@ -8,12 +8,11 @@ const { CONSTANTS } = require('../../../../../lib/helpers');
 module.exports = async (request, response, stack) => {
   const gallery = get(request, 'body.productMainImages', []);
 
-  let productId = request.body.product_id;
   // Wait for product saving to be completed
   const promises = [stack.createProduct, stack.updateProduct];
   const results = await Promise.all(promises);
 
-  productId = productId || results.insertId;
+  let productId = results[0] ? results[0].insertId : results[1];
   const connection = await stack.getConnection;
   // eslint-disable-next-line no-useless-catch
   try {
