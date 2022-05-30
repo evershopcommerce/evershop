@@ -12,3 +12,4 @@ media
 .log
 coverage
 cypress
+config

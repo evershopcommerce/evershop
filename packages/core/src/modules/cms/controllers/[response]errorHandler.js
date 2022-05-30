@@ -13,12 +13,17 @@ module.exports = async (err, request, response, stack, next) => {
   // Wait for all executing async middleware to be settled before sending response
   await Promise.allSettled(promises);
 
-  if (request.currentRoute.isApi === true) {
-    response.status(500).json({
-      success: false,
-      message: err.message
-    });
+  // Check if the header is already sent or not.
+  if (response.headersSent) {
+    return;// TODO: handle this case, write a log message?
   } else {
-    response.status(500).send(err.message);
+    if (request.currentRoute.isApi === true) {
+      response.status(500).json({
+        success: false,
+        message: err.message
+      });
+    } else {
+      response.status(500).send(err.message);
+    }
   }
 };

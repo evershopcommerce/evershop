@@ -200,7 +200,13 @@ function error(message) {
     language: shop.shopLanguage,
     timezone: shop.shopTimeZone
   };
+
+  // Create a configuration file
   await writeFile(path.resolve(CONSTANTS.ROOTPATH, 'config', 'default.json'), JSON.stringify(configuration, null, 4));
+
+  // Reload configuration
+  delete require.cache[require.resolve('config')];
+  require('config');
 
   messages.pop();
   messages.push(green('✔ Create configuration file'));
