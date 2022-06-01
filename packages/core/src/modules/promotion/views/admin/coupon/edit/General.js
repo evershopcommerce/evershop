@@ -1,136 +1,108 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
+import { Field } from '../../../../../../lib/components/form/Field';
+import { Toggle } from '../../../../../../lib/components/form/fields/Toggle';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
-import Ckeditor from '../../../../../../lib/components/form/fields/Ckeditor';
-import { Field } from '../../../../../../lib/components/form/Field';
-import { Card } from '../../../../../cms/views/admin/Card';
-import { getComponents } from '../../../../../../lib/components/getComponents';
 
-function SKUPriceWeight({ sku, price, weight }) {
+function Setting({ discountAmout, startDate = '', endDate = '' }) {
   return (
-    <div className="grid grid-cols-3 gap-1 mt-15">
+    <div className="grid grid-cols-3 gap-2 form-field-container">
       <div>
         <Field
-          id="sku"
-          name="sku"
-          value={sku}
-          placeholder="SKU"
-          label="SKU"
-          type="text"
+          type='text'
+          name='discount_amount'
+          value={discountAmout}
+          validationRules={['notEmpty']}
+          label='Discount amount'
         />
       </div>
       <div>
         <Field
-          id="price"
-          name="price"
-          value={price}
-          placeholder="Price"
-          label="Price"
-          type="text"
+          type='datetime'
+          name="start_date"
+          formId="coupon-edit-form"
+          label="Start time"
+          value={startDate}
         />
       </div>
       <div>
         <Field
-          id="weight"
-          name="weight"
-          value={weight}
-          placeholder="Weight"
-          label="Weight"
-          type="text"
+          type='datetime'
+          name="end_date"
+          formId="coupon-edit-form"
+          label="End time"
+          value={endDate}
         />
       </div>
     </div>
   );
 }
 
-SKUPriceWeight.propTypes = {
-  price: PropTypes.number,
-  sku: PropTypes.string,
-  weight: PropTypes.number
-};
-
-SKUPriceWeight.defaultProps = {
-  price: undefined,
-  sku: undefined,
-  weight: undefined
-};
-
-export default function General({
-  browserApi, deleteApi, uploadApi, folderCreateApi
-}) {
+export default function General() {
   const context = useAppState();
-
   return (
-    <Card
-      title="General"
-    >
-      <Card.Session>
-        <Area
-          id="product-edit-general"
-          coreComponents={[
-            {
-              component: { default: Field },
-              props: {
-                id: 'name',
-                name: 'name',
-                label: 'Name',
-                value: get(context, 'product.name'),
-                validationRules: ['notEmpty'],
-                type: 'text',
-                placeholder: 'Name'
-              },
-              sortOrder: 10,
-              id: 'name'
-            },
-            {
-              component: { default: Field },
-              props: {
-                id: 'product_id',
-                name: 'product_id',
-                value: get(context, 'product.product_id'),
-                type: 'hidden'
-              },
-              sortOrder: 10,
-              id: 'product_id'
-            },
-            {
-              component: { default: SKUPriceWeight },
-              props: {
-                sku: get(context, 'product.sku'),
-                price: get(context, 'product.price'),
-                weight: get(context, 'product.weight')
-              },
-              sortOrder: 20,
-              id: 'SKUPriceWeight'
-            },
-            {
-              component: { default: Ckeditor },
-              props: {
-                id: 'description',
-                name: 'description',
-                label: 'Description',
-                value: get(context, 'product.description'),
-                browserApi,
-                deleteApi,
-                uploadApi,
-                folderCreateApi
-              },
-              sortOrder: 30,
-              id: 'description'
-            }
-          ]}
-          components={getComponents()}
-        />
-      </Card.Session>
-    </Card>
+    <Area
+      id="couponFormGeneral"
+      coreComponents={[
+        {
+          component: { default: Field },
+          props: {
+            name: 'coupon',
+            value: get(context, 'coupon.coupon'),
+            validationRules: ['notEmpty'],
+            type: 'text',
+            label: 'Coupon code'
+          },
+          sortOrder: 10,
+          id: 'couponCoupon'
+        },
+        {
+          component: { default: Field },
+          props: {
+            name: 'description',
+            value: get(context, 'coupon.description'),
+            type: 'textarea',
+            label: 'Description',
+            validationRules: ['notEmpty']
+          },
+          sortOrder: 20,
+          id: 'couponDescription'
+        },
+        {
+          component: { default: Toggle },
+          props: {
+            name: 'status',
+            value: get(context, 'coupon.status', 1).toString(),
+            validationRules: ['notEmpty'],
+            label: 'Status'
+          },
+          sortOrder: 30,
+          id: 'couponStatus'
+        },
+        {
+          component: { default: Setting },
+          props: {
+            startDate: get(context, 'coupon.start_date', ''),
+            startDate: get(context, 'coupon.start_date', ''),
+            discountAmount: get(context, 'coupon.discount_amount')
+          },
+          sortOrder: 40,
+          id: 'startEnd'
+        },
+        {
+          component: { default: Field },
+          props: {
+            name: 'free_shipping',
+            value: get(context, 'coupon.free_shipping'),
+            type: 'checkbox',
+            label: 'Free shipping?',
+            isChecked: get(context, 'coupon.free_shipping') === 1
+          },
+          sortOrder: 50,
+          id: 'couponFreeShipping'
+        }
+      ]}
+    />
   );
 }
-
-General.propTypes = {
-  browserApi: PropTypes.string.isRequired,
-  deleteApi: PropTypes.string.isRequired,
-  folderCreateApi: PropTypes.string.isRequired,
-  uploadApi: PropTypes.string.isRequired
-};

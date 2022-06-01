@@ -82,43 +82,6 @@ exports = module.exports = {
         gridUrl: buildUrl('couponGrid')
       },
       sortOrder: 10
-    },
-    {
-      id: 'couponEditGeneral',
-      areaId: 'leftSide',
-      source: useAdminComponent('promotion/views/admin/coupon/edit/General.js'),
-      props: {
-      },
-      sortOrder: 10
-    },
-    {
-      id: 'couponEditStatus',
-      areaId: 'rightSide',
-      source: useAdminComponent('promotion/views/admin/coupon/edit/Status.js'),
-      props: {
-      },
-      sortOrder: 10
-    },
-    {
-      id: 'couponEditInventory',
-      areaId: 'rightSide',
-      source: useAdminComponent('promotion/views/admin/coupon/edit/Inventory.js'),
-      props: {},
-      sortOrder: 20
-    },
-    {
-      id: 'couponEditOptions',
-      areaId: 'leftSide',
-      source: useAdminComponent('promotion/views/admin/coupon/edit/CustomOptions.js'),
-      props: {},
-      sortOrder: 30
-    },
-    {
-      id: 'couponEditSEO',
-      areaId: 'leftSide',
-      source: useAdminComponent('promotion/views/admin/coupon/edit/Seo.js'),
-      props: {},
-      sortOrder: 50
     }
   ],
   couponGrid: [

@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import PropTypes from 'prop-types';
 import React from 'react';
+import PubSub from 'pubsub-js';
 import { Checkbox } from './fields/Checkbox';
 import { Date } from './fields/Date';
 import { DateTime } from './fields/DateTime';
@@ -12,6 +13,7 @@ import { Select } from './fields/Select';
 import { TextArea } from './fields/Textarea';
 import { Toggle } from './fields/Toggle';
 import { useFormContext } from './Form';
+import { FORM_FIELD_UPDATED } from '../../util/events';
 
 export function Field(props) {
   const {
@@ -41,6 +43,10 @@ export function Field(props) {
   React.useEffect(() => {
     if (field) setFieldValue(field.value);
   }, [field]);
+
+  React.useEffect(() => {
+    PubSub.publishSync(FORM_FIELD_UPDATED, { name: name, value: fieldValue });
+  }, [fieldValue]);
 
   const onChangeFunc = (newValue) => {
     let fieldVal;
@@ -80,7 +86,7 @@ export function Field(props) {
       case 'hidden':
         return Hidden;
       default:
-        return Text;
+        return Input;
     }
   })();
   return (

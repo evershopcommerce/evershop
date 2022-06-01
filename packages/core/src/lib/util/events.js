@@ -1,2 +1,3 @@
 export const FORM_VALIDATED = 'FORM_VALIDATED';
 export const FORM_SUBMIT = 'FORM_SUBMIT';
+export const FORM_FIELD_UPDATED = 'FORM_FIELD_UPDATED';
