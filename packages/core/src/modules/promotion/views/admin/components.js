@@ -79,7 +79,8 @@ exports = module.exports = {
         id: 'coupon-edit-form',
         method: 'POST',
         action: buildUrl('couponSavePost'),
-        gridUrl: buildUrl('couponGrid')
+        gridUrl: buildUrl('couponGrid'),
+        isJSON: true
       },
       sortOrder: 10
     }

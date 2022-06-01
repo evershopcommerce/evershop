@@ -15,6 +15,7 @@ export function Form(props) {
     id,
     action,
     method,
+    isJSON = false,
     onStart,
     onComplete,
     onError,
@@ -89,9 +90,10 @@ export function Form(props) {
           action,
           {
             method,
-            body: formData,
+            body: isJSON === true ? JSON.stringify(Object.fromEntries(formData)) : formData,
             headers: {
-              'X-Requested-With': 'XMLHttpRequest'
+              'X-Requested-With': 'XMLHttpRequest',
+              "Content-Type": isJSON === true ? "application/json" : 'multipart/form-data',
             }
           }
         );

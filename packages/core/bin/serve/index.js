@@ -16,6 +16,7 @@ const { scanForRoutes } = require('../../src/lib/router/scanForRoutes');
 const { getRoutes, getSiteRoutes, getAdminRoutes } = require('../../src/lib/router/routes');
 const { registerAdminRoute } = require('../../src/lib/router/registerAdminRoute');
 const { registerSiteRoute } = require('../../src/lib/router/registerSiteRoute');
+const bodyParser = require('body-parser');
 
 const spinner = ora({
   text: green('EverShop is starting'),
@@ -117,6 +118,7 @@ const routes = getRoutes();
 const siteRoutes = getSiteRoutes();
 const adminRoutes = getAdminRoutes();
 
+// Adding default middlewares
 routes.forEach((r) => {
   app.all(r.path, (request, response, next) => {
     // eslint-disable-next-line no-underscore-dangle
@@ -134,6 +136,12 @@ routes.forEach((r) => {
       next();
     }
   });
+
+  // Body parser for API routes
+  if (r.isApi) {
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
+  }
 
   // eslint-disable-next-line no-underscore-dangle
   // eslint-disable-next-line no-param-reassign
