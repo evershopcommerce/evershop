@@ -13,7 +13,7 @@ exports = module.exports = {
         id: 'promotion.group',
         name: 'Coupons'
       },
-      sortOrder: 30
+      sortOrder: 20
     },
     {
       id: 'new.coupon',
