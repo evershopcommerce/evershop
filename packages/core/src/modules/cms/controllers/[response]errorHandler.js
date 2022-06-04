@@ -2,6 +2,7 @@
 module.exports = async (err, request, response, stack, next) => {
   // Set this flag to make sure this middleware only be executed 1 time
   response.locals.errorHandlerTriggered = true;
+  console.log(err);
   const promises = [];
   Object.keys(stack).forEach((id) => {
     // Check if middleware is async

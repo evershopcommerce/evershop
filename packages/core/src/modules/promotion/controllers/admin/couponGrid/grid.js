@@ -1,8 +1,5 @@
-const fs = require('fs');
-const path = require('path');
 const { pool } = require('../../../../../lib/mysql/connection');
 const { assign } = require('../../../../../lib/util/assign');
-const { CONSTANTS } = require('../../../../../lib/helpers');
 
 module.exports = async (request, response, stack) => {
   // execute query
@@ -19,32 +16,22 @@ module.exports = async (request, response, stack) => {
   query.limit((page - 1) * limit, limit);
 
   // Order by
-  let orderBy = 'product.`product_id`';
+  let orderBy = 'coupon.`coupon_id`';
   if (request.query.sort_by) orderBy = request.query.sort_by;
 
   let direction = 'DESC';
   if (request.query.sort_order === 'ASC') direction = 'DESC';
 
   query.orderBy(orderBy, direction);
-  let products = await query.execute(pool);
+  let coupons = await query.execute(pool);
 
-  // Process the thumbnail
-  products = products.map((product) => {
-    if (product.image) {
-      const thumb = product.image.replace(/.([^.]*)$/, '-thumb.$1');
-      // eslint-disable-next-line no-param-reassign
-      product.image = fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb)) ? `/assets${thumb}` : null;
-    }
+  assign(response.context, { grid: { coupons: JSON.parse(JSON.stringify(coupons)) } });
 
-    return product;
-  });
-  assign(response.context, { grid: { products: JSON.parse(JSON.stringify(products)) } });
-
-  query.select('COUNT(`product_id`)', 'total');
+  query.select('COUNT(`coupon_id`)', 'total');
   query.limit(0, 1);
   const ps = await query.execute(pool);
   assign(response.context, { grid: { total: ps[0].total } });
-  assign(response.context, { page: { heading: 'Products' } });
+  assign(response.context, { page: { heading: 'coupons' } });
 
-  return products;
+  return coupons;
 };

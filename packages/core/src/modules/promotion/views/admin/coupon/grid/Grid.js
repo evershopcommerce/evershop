@@ -20,7 +20,7 @@ function Actions({ selectedIds = [] }) {
       name: 'Disable',
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} products`,
+          heading: `Disable ${selectedIds.length} coupons`,
           content: 'Are you sure?',
           primaryAction: {
             title: 'Cancel',
@@ -32,7 +32,7 @@ function Actions({ selectedIds = [] }) {
             onAction: async () => {
               setIsLoading(true);
               dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const disableUrl = context.disableProductUrl;
+              const disableUrl = context.disableCouponUrl;
               const response = await axios.post(disableUrl, formData().append('ids', selectedIds).build());
               // setIsLoading(false);
               if (response.data.success === true) {
@@ -50,7 +50,7 @@ function Actions({ selectedIds = [] }) {
       name: 'Enable',
       onAction: () => {
         openAlert({
-          heading: `Enable ${selectedIds.length} products`,
+          heading: `Enable ${selectedIds.length} coupons`,
           content: 'Are you sure?',
           primaryAction: {
             title: 'Cancel',
@@ -62,7 +62,7 @@ function Actions({ selectedIds = [] }) {
             onAction: async () => {
               setIsLoading(true);
               dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const enableUrl = context.enableProductsUrl;
+              const enableUrl = context.enableCouponsUrl;
               const response = await axios.post(enableUrl, formData().append('ids', selectedIds).build());
               // setIsLoading(false);
               if (response.data.success === true) {
@@ -80,7 +80,7 @@ function Actions({ selectedIds = [] }) {
       name: 'Delete',
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} products`,
+          heading: `Delete ${selectedIds.length} coupons`,
           content: <div>Can&apos;t be undone</div>,
           primaryAction: {
             title: 'Cancel',
@@ -92,7 +92,7 @@ function Actions({ selectedIds = [] }) {
             onAction: async () => {
               setIsLoading(true);
               dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const deleteUrl = context.deleteProductsUrl;
+              const deleteUrl = context.deleteCouponsUrl;
               const response = await axios.post(deleteUrl, formData().append('ids', selectedIds).build());
               // setIsLoading(false);
               if (response.data.success === true) {
@@ -132,7 +132,7 @@ Actions.propTypes = {
 };
 
 export default function ProductGrid() {
-  const products = get(useAppState(), 'grid.products', []);
+  const coupons = get(useAppState(), 'grid.coupons', []);
   const total = get(useAppState(), 'grid.total', 0);
   const limit = get(useAppState(), 'grid.limit', 20);
   const page = get(useAppState(), 'grid.page', 1);
@@ -145,13 +145,13 @@ export default function ProductGrid() {
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(products.map((p) => p.product_id));
+                if (e.target.checked) setSelectedRows(coupons.map((p) => p.coupon_id));
                 else setSelectedRows([]);
               }}
               />
             </th>
             <Area
-              id="productGridHeader"
+              id="couponGridHeader"
               noOuter
               components={getComponents()}
             />
@@ -159,27 +159,27 @@ export default function ProductGrid() {
         </thead>
         <tbody>
           <Actions
-            ids={products.map(() => products.product_id)}
+            ids={coupons.map(() => coupons.coupon_id)}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
           />
-          {products.map((p) => (
-            <tr key={p.product_id}>
+          {coupons.map((c) => (
+            <tr key={c.coupon_id}>
               <td>
                 <Checkbox
-                  isChecked={selectedRows.includes(p.product_id)}
+                  isChecked={selectedRows.includes(c.coupon_id)}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([p.product_id]));
+                      setSelectedRows(selectedRows.concat([c.coupon_id]));
                     } else {
-                      setSelectedRows(selectedRows.filter((row) => row !== p.product_id));
+                      setSelectedRows(selectedRows.filter((row) => row !== c.coupon_id));
                     }
                   }}
                 />
               </td>
               <Area
-                id="productGridRow"
-                row={p}
+                id="couponGridRow"
+                row={c}
                 noOuter
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
@@ -189,8 +189,8 @@ export default function ProductGrid() {
           ))}
         </tbody>
       </table>
-      {products.length === 0
-        && <div className="flex w-full justify-center">There is no product to display</div>}
+      {coupons.length === 0
+        && <div className="flex w-full justify-center">There is no coupon to display</div>}
       <Pagination total={total} limit={limit} page={page} />
     </Card>
   );

@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { Field } from "../../../../../../lib/components/form/Field";
-import { Input } from "../../../../../../lib/components/form/fields/Input";
 
 export function RequiredProducts({ requiredProducts }) {
   const [products, setProducts] = React.useState(requiredProducts);
@@ -53,10 +52,10 @@ export function RequiredProducts({ requiredProducts }) {
           {products.map((p, i) => (
             <tr key={i}>
               <td>
-                <div className="form-field-container">
+                <div className="form-field-container dropdown">
                   <div className="field-wrapper">
                     <select
-                      name={`condition[required_product][${i}][key]`}
+                      name={`condition[required_products][${i}][key]`}
                       className="form-field"
                       value={p.key}
                       onChange={(e) => updateProduct(e, 'key', i)}
@@ -98,10 +97,10 @@ export function RequiredProducts({ requiredProducts }) {
                 </div>
               </td>
               <td>
-                <div className="form-field-container">
+                <div className="form-field-container dropdown">
                   <div className="field-wrapper">
                     <select
-                      name={`condition[required_product][${i}][operator]`}
+                      name={`condition[required_products][${i}][operator]`}
                       className="form-field"
                       value={p.operator}
                       onChange={(e) => updateProduct(e, 'operator', i)}
@@ -169,7 +168,7 @@ export function RequiredProducts({ requiredProducts }) {
               <td>
                 <Field
                   type="text"
-                  name={`condition[required_product][${i}][value]`}
+                  name={`condition[required_products][${i}][value]`}
                   formId="coupon-edit-form"
                   value={p.value}
                   validationRules={['notEmpty']}
@@ -178,7 +177,7 @@ export function RequiredProducts({ requiredProducts }) {
               <td>
                 <Field
                   type="text"
-                  name={`condition[required_product][${i}][qty]`}
+                  name={`condition[required_products][${i}][qty]`}
                   formId="coupon-edit-form"
                   value={p.qty}
                   validationRules={['notEmpty']}
@@ -195,15 +194,15 @@ export function RequiredProducts({ requiredProducts }) {
           ))}
         </tbody>
       </table>
-      <div className="mt-1 flex justify-start content-center">
-        <div>
+      <div className="mt-1 flex justify-start">
+        <div className="items-center flex">
           <svg xmlns="http://www.w3.org/2000/svg" width={'1.5rem'} height={'1.5rem'} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
         </div>
         <div className="pl-1">
           <a href="#" onClick={(e) => addProduct(e)} className="">
-            <span>Add condition</span>
+            <span>Add product</span>
           </a>
         </div>
       </div>

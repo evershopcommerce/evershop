@@ -1,5 +1,4 @@
 const { commit, rollback } = require('@evershop/mysql-query-builder');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
@@ -14,19 +13,17 @@ module.exports = async (request, response, stack, next) => {
   const results = await Promise.allSettled(promises);
   if (results.findIndex((r) => r.status === 'rejected') === -1) {
     await commit(connection);
-    // Store success message to session
-    request.session.notifications = request.session.notifications || [];
-    request.session.notifications.push({
-      type: 'success',
-      message: request.body.product_id ? 'Product was updated successfully' : 'Product was created successfully'
-    });
-    request.session.save();
     response.json({
-      data: { redirectUrl: buildUrl('productGrid') },
+      data: {},
       success: true,
-      message: request.body.product_id ? 'Product was updated successfully' : 'Product was created successfully'
+      message: 'Coupon(s) was created successfully'
     });
   } else {
     await rollback(connection);
+    response.json({
+      data: {},
+      success: false,
+      message: 'Somthing wrong. Please try again'
+    });
   }
 };

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { Field } from '../../../../../../lib/components/form/Field';
@@ -5,14 +6,14 @@ import { Toggle } from '../../../../../../lib/components/form/fields/Toggle';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 
-function Setting({ discountAmout, startDate = '', endDate = '' }) {
+function Setting({ discountAmount, startDate = '', endDate = '' }) {
   return (
     <div className="grid grid-cols-3 gap-2 form-field-container">
       <div>
         <Field
           type='text'
           name='discount_amount'
-          value={discountAmout}
+          value={discountAmount}
           validationRules={['notEmpty']}
           label='Discount amount'
         />
@@ -37,6 +38,12 @@ function Setting({ discountAmout, startDate = '', endDate = '' }) {
       </div>
     </div>
   );
+}
+
+Setting.propTypes = {
+  discountAmount: PropTypes.number,
+  endDate: PropTypes.string,
+  startDate: PropTypes.string
 }
 
 export default function General() {
@@ -94,10 +101,10 @@ export default function General() {
           component: { default: Field },
           props: {
             name: 'free_shipping',
-            value: get(context, 'coupon.free_shipping'),
+            value: 1,
             type: 'checkbox',
             label: 'Free shipping?',
-            isChecked: get(context, 'coupon.free_shipping') === 1
+            isChecked: get(context, 'coupon.free_shipping') == 1
           },
           sortOrder: 50,
           id: 'couponFreeShipping'

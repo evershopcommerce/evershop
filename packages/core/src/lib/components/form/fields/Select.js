@@ -7,7 +7,7 @@ const Select = React.forwardRef((props, ref) => {
     name, placeholder, value, label, onChange, error, instruction, options
   } = props;
   return (
-    <div className={`form-field-container ${error ? 'has-error' : null}`}>
+    <div className={`form-field-container dropdown ${error ? 'has-error' : null}`}>
       {label && <label htmlFor={name}>{label}</label>}
       <div className="field-wrapper flex flex-grow items-baseline">
         <select
@@ -15,7 +15,7 @@ const Select = React.forwardRef((props, ref) => {
           id={name}
           name={name}
           placeholder={placeholder}
-          value={value}
+          defaultValue={value}
           onChange={(e) => { if (onChange) onChange.call(window, e); }}
           ref={ref}
         >

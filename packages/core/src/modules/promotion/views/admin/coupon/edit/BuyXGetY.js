@@ -15,12 +15,12 @@ export function BuyXGetY({ requireProducts, discountType }) {
 
   React.useEffect(() => {
     const token = PubSub.subscribe(FORM_FIELD_UPDATED, (message, data) => {
-      if (
-        data.name === 'discount_type'
-        && data.value === 'buy_x_get_y') {
-        setActive(true);
-      } else {
-        setActive(false);
+      if (data.name === 'discount_type') {
+        if (data.value === 'buy_x_get_y') {
+          setActive(true);
+        } else {
+          setActive(false);
+        }
       }
     });
 
@@ -50,7 +50,7 @@ export function BuyXGetY({ requireProducts, discountType }) {
 
   return (
     <>
-      {active && (
+      {active === true && (
         <div>
           <table className="table table-bordered">
             <thead>
@@ -116,15 +116,15 @@ export function BuyXGetY({ requireProducts, discountType }) {
               ))}
             </tbody>
           </table>
-          <div className="mt-1 flex justify-start content-center">
-            <div>
+          <div className="mt-1 flex justify-start">
+            <div className="items-center flex">
               <svg xmlns="http://www.w3.org/2000/svg" width={'1.5rem'} height={'1.5rem'} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
             </div>
             <div className="pl-1">
               <a href="#" onClick={(e) => addProduct(e)} >
-                <span>Add condition</span>
+                <span>Add product</span>
               </a>
             </div>
           </div>

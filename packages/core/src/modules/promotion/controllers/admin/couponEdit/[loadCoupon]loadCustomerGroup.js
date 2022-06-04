@@ -3,9 +3,9 @@ const { pool } = require('../../../../../lib/mysql/connection');
 const { assign } = require('../../../../../lib/util/assign');
 
 module.exports = async (request, response) => {
-  const attributes = await select()
-    .from('product_attribute_value_index')
-    .where('product_id', '=', request.params.id).execute(pool);
+  const groups = await select()
+    .from('customer_group')
+    .execute(pool);
 
-  assign(response.context, { product: { attributes: JSON.parse(JSON.stringify(attributes)) } });
+  assign(response.context, { customerGroups: groups.map(group => { return { value: group.customer_group_id, text: group.group_name } }) });
 };

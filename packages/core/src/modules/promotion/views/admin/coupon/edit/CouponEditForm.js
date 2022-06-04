@@ -12,16 +12,8 @@ import { CustomerCondition } from './CustomerCondition';
 import { useAppState } from '../../../../../../lib/context/app';
 import { DiscountType } from './DiscountType';
 
-export default function CouponForm({ id, method, action, gridUrl }) {
+export default function CouponForm({ id, isJSON, action, gridUrl }) {
   const coupon = get(useAppState(), 'coupon', {});
-  let condition = {};
-  if (coupon.condition) {
-    try {
-      condition = JSON.parse(coupon.condition);
-    } catch (e) {
-      condition = {};
-    }
-  }
   let user_condition = {};
   if (coupon.user_condition) {
     try {
@@ -33,12 +25,15 @@ export default function CouponForm({ id, method, action, gridUrl }) {
 
   return (
     <Form
-      method={method}
-      action={action}
+      method={coupon.coupon_id ? 'PUT' : 'POST'}
+      isJSON={isJSON}
+      action={coupon.coupon_id ? `${action}/${coupon.coupon_id}` : action}
       submitBtn={false}
       onSuccess={(response) => {
-        if (get(response, 'success') === false) {
-          toast.error(get(response, 'message', 'Something wrong. Please reload the page!'));
+        if (get(response, 'success') === true) {
+          toast.success(get(response, 'message', 'Coupon was created successfully'));
+        } else {
+          toast.error(get(response, 'message', 'Something wrong. Please try again'));
         }
       }}
       onError={() => {
@@ -72,7 +67,7 @@ export default function CouponForm({ id, method, action, gridUrl }) {
                   coreComponents={[
                     {
                       component: { default: OrderCondition },
-                      props: condition,
+                      props: {},
                       sortOrder: 10,
                       id: 'couponOrderCondition'
                     }
@@ -93,7 +88,7 @@ export default function CouponForm({ id, method, action, gridUrl }) {
                   coreComponents={[
                     {
                       component: { default: CustomerCondition },
-                      props: user_condition,
+                      props: {},
                       sortOrder: 25,
                       id: 'couponCustomerCondition'
                     }

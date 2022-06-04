@@ -77,8 +77,7 @@ exports = module.exports = {
       source: useAdminComponent('promotion/views/admin/coupon/edit/CouponEditForm.js'),
       props: {
         id: 'coupon-edit-form',
-        method: 'POST',
-        action: buildUrl('couponSavePost'),
+        action: buildUrl('couponCreate'),
         gridUrl: buildUrl('couponGrid'),
         isJSON: true
       },
@@ -124,6 +123,45 @@ exports = module.exports = {
       sortOrder: 1
     },
     {
+      id: 'couponColumn',
+      areaId: 'couponGridHeader',
+      source: useComponent('grid/headers/Basic.js'),
+      props: {
+        title: 'Coupon code',
+        id: 'coupon'
+      },
+      sortOrder: 5
+    },
+    {
+      id: 'couponRow',
+      areaId: 'couponGridRow',
+      source: useAdminComponent('promotion/views/admin/coupon/grid/NameRow.js'),
+      props: {
+        id: 'coupon',
+        editUrl: 'editUrl'
+      },
+      sortOrder: 5
+    },
+    {
+      id: 'discountAmountColumn',
+      areaId: 'couponGridHeader',
+      source: useComponent('grid/headers/FromTo.js'),
+      props: {
+        title: 'Discount amount',
+        id: 'discount_amount'
+      },
+      sortOrder: 10
+    },
+    {
+      id: 'discountAmountRow',
+      areaId: 'couponGridRow',
+      source: useAdminComponent('promotion/views/admin/coupon/grid/PriceRow.js'),
+      props: {
+        id: 'discount_amount'
+      },
+      sortOrder: 10
+    },
+    {
       id: 'statusColumn',
       areaId: 'couponGridHeader',
       source: useComponent('grid/headers/Status.js'),
@@ -131,7 +169,7 @@ exports = module.exports = {
         title: 'Status',
         id: 'status'
       },
-      sortOrder: 25
+      sortOrder: 15
     },
     {
       id: 'statusRow',
@@ -140,46 +178,26 @@ exports = module.exports = {
       props: {
         id: 'status'
       },
-      sortOrder: 25
+      sortOrder: 15
     },
     {
-      id: 'nameColumn',
-      areaId: 'couponGridHeader',
-      source: useComponent('grid/headers/Basic.js'),
-      props: {
-        title: 'Coupon code',
-        id: 'name'
-      },
-      sortOrder: 5
-    },
-    {
-      id: 'nameRow',
-      areaId: 'couponGridRow',
-      source: useAdminComponent('promotion/views/admin/coupon/grid/NameRow.js'),
-      props: {
-        id: 'name',
-        editUrl: 'editUrl'
-      },
-      sortOrder: 5
-    },
-    {
-      id: 'priceColumn',
+      id: 'usedTimesColumn',
       areaId: 'couponGridHeader',
       source: useComponent('grid/headers/FromTo.js'),
       props: {
-        title: 'Price',
-        id: 'price'
+        title: 'Used times',
+        id: 'used_time'
       },
-      sortOrder: 10
+      sortOrder: 20
     },
     {
-      id: 'priceRow',
+      id: 'usedTimesRow',
       areaId: 'couponGridRow',
-      source: useAdminComponent('promotion/views/admin/coupon/grid/PriceRow.js'),
+      source: useComponent('grid/rows/Basic.js'),
       props: {
-        id: 'price'
+        id: 'used_time'
       },
-      sortOrder: 10
+      sortOrder: 20
     }
   ]
 };

@@ -15,7 +15,7 @@ function UnCheckedIcon() {
 }
 
 function Checkbox({
-  name, value, label, onChange, error, instruction, isChecked = false
+  name, label, onChange, error, instruction, isChecked = false
 }) {
   const [_isChecked, setChecked] = React.useState(isChecked);
 
@@ -36,7 +36,7 @@ function Checkbox({
             type="checkbox"
             name={name}
             id={name}
-            value={value}
+            value={_isChecked ? 1 : 0}
             checked={_isChecked}
             onChange={onChangeFunc}
           />

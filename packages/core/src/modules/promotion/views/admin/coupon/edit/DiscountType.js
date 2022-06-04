@@ -9,23 +9,8 @@ import { TargetProducts } from './TargetProduct';
 export function DiscountType() {
   const coupon = get(useAppState(), 'coupon', {});
 
-  let target_products = {};
-  if (coupon.target_products) {
-    try {
-      target_products = JSON.parse(coupon.target_products);
-    } catch (e) {
-      target_products = {};
-    }
-  }
-
-  let buyx_gety = [];
-  if (coupon.buyx_gety) {
-    try {
-      buyx_gety = JSON.parse(coupon.buyx_gety);
-    } catch (e) {
-      buyx_gety = [];
-    }
-  }
+  let target_products = get(coupon, 'target_products', {});
+  let buyx_gety = get(coupon, 'buyx_gety', []);
 
   return (
     <div>
