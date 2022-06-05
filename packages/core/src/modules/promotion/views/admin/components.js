@@ -143,23 +143,42 @@ exports = module.exports = {
       sortOrder: 5
     },
     {
-      id: 'discountAmountColumn',
+      id: 'startTimeColumn',
       areaId: 'couponGridHeader',
       source: useComponent('grid/headers/FromTo.js'),
       props: {
-        title: 'Discount amount',
-        id: 'discount_amount'
+        title: 'Start date',
+        id: 'start_date'
       },
       sortOrder: 10
     },
     {
-      id: 'discountAmountRow',
+      id: 'startTimeRow',
       areaId: 'couponGridRow',
-      source: useAdminComponent('promotion/views/admin/coupon/grid/PriceRow.js'),
+      source: useComponent('grid/rows/Date.js'),
       props: {
-        id: 'discount_amount'
+        id: 'start_date'
       },
       sortOrder: 10
+    },
+    {
+      id: 'endTimeColumn',
+      areaId: 'couponGridHeader',
+      source: useComponent('grid/headers/FromTo.js'),
+      props: {
+        title: 'End date',
+        id: 'end_date'
+      },
+      sortOrder: 15
+    },
+    {
+      id: 'endTimeRow',
+      areaId: 'couponGridRow',
+      source: useComponent('grid/rows/Date.js'),
+      props: {
+        id: 'end_date'
+      },
+      sortOrder: 15
     },
     {
       id: 'statusColumn',
@@ -169,7 +188,7 @@ exports = module.exports = {
         title: 'Status',
         id: 'status'
       },
-      sortOrder: 15
+      sortOrder: 20
     },
     {
       id: 'statusRow',
@@ -178,7 +197,7 @@ exports = module.exports = {
       props: {
         id: 'status'
       },
-      sortOrder: 15
+      sortOrder: 20
     },
     {
       id: 'usedTimesColumn',
@@ -188,7 +207,7 @@ exports = module.exports = {
         title: 'Used times',
         id: 'used_time'
       },
-      sortOrder: 20
+      sortOrder: 25
     },
     {
       id: 'usedTimesRow',
@@ -197,7 +216,7 @@ exports = module.exports = {
       props: {
         id: 'used_time'
       },
-      sortOrder: 20
+      sortOrder: 25
     }
   ]
 };

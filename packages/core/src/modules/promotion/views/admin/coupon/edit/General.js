@@ -20,19 +20,19 @@ function Setting({ discountAmount, startDate = '', endDate = '' }) {
       </div>
       <div>
         <Field
-          type='datetime'
+          type='date'
           name="start_date"
           formId="coupon-edit-form"
-          label="Start time"
+          label="Start date"
           value={startDate}
         />
       </div>
       <div>
         <Field
-          type='datetime'
+          type='date'
           name="end_date"
           formId="coupon-edit-form"
-          label="End time"
+          label="End date"
           value={endDate}
         />
       </div>
