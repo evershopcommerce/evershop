@@ -18,7 +18,7 @@ export function CustomerCondition() {
         {
           component: { default: Select },
           props: {
-            name: 'user_condition[group]',
+            name: 'user_condition[groups][]',
             label: 'Customer group',
             value: condition.group ? condition.group : 999,
             options: customerGroups
@@ -30,7 +30,7 @@ export function CustomerCondition() {
           component: { default: Field },
           props: {
             type: 'input',
-            name: 'user_condition[email]',
+            name: 'user_condition[emails]',
             label: 'Customer email (empty for all)',
             value: condition.email ? condition.email : '',
             instruction: 'Use comma when you have multi email'

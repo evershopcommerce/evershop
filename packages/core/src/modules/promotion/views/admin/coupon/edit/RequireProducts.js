@@ -110,51 +110,51 @@ export function RequiredProducts({ requiredProducts }) {
                         noOuter
                         coreComponents={[
                           {
-                            component: { default: () => <option value="=">Equal</option> },
-                            props: {},
+                            component: { default: ({ compareKey }) => ['price', 'sku'].includes(compareKey) ? <option value="=">Equal</option> : (null) },
+                            props: { compareKey: p.key },
                             sortOrder: 10,
                             id: 'couponRequiredProductOperatorEqual'
                           },
                           {
-                            component: { default: () => <option value="<>">Not equal</option> },
-                            props: {},
-                            sortOrder: 10,
+                            component: { default: ({ compareKey }) => ['price', 'sku'].includes(compareKey) ? <option value="!=">Not equal</option> : (null) },
+                            props: { compareKey: p.key },
+                            sortOrder: 15,
                             id: 'couponRequiredProductOperatorNotEqual'
                           },
                           {
-                            component: { default: () => <option value=">">Greater</option> },
-                            props: {},
+                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value=">">Greater</option> : (null) },
+                            props: { compareKey: p.key },
                             sortOrder: 20,
                             id: 'couponRequiredProductOperatorGreater'
                           },
                           {
-                            component: { default: () => <option value=">=">Greater or equal</option> },
-                            props: {},
-                            sortOrder: 30,
+                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value=">=">Greater or equal</option> : (null) },
+                            props: { compareKey: p.key },
+                            sortOrder: 25,
                             id: 'couponRequiredProductOperatorGreaterOrEqual'
                           },
                           {
-                            component: { default: () => <option value="<">Smaller</option> },
-                            props: {},
-                            sortOrder: 40,
+                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="<">Smaller</option> : (null) },
+                            props: { compareKey: p.key },
+                            sortOrder: 30,
                             id: 'couponRequiredProductOperatorSmaller'
                           },
                           {
-                            component: { default: () => <option value="<=">Equal or smaller</option> },
-                            props: {},
-                            sortOrder: 40,
+                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="<=">Equal or smaller</option> : (null) },
+                            props: { compareKey: p.key },
+                            sortOrder: 35,
                             id: 'couponRequiredProductOperatorEqualOrSmaller'
                           },
                           {
-                            component: { default: () => <option value="IN">In</option> },
-                            props: {},
+                            component: { default: ({ compareKey }) => ['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="IN">In</option> : (null) },
+                            props: { compareKey: p.key },
                             sortOrder: 40,
                             id: 'couponRequiredProductOperatorIn'
                           },
                           {
-                            component: { default: () => <option value="NOT IN">Not in</option> },
-                            props: {},
-                            sortOrder: 40,
+                            component: { default: ({ compareKey }) => ['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="NOT IN">Not in</option> : (null) },
+                            props: { compareKey: p.key },
+                            sortOrder: 45,
                             id: 'couponRequiredProductOperatorNotIn'
                           }
                         ]}

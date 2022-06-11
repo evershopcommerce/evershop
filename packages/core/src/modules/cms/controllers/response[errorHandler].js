@@ -17,7 +17,6 @@ module.exports = async (request, response, stack, next) => {
       promises.push(stack[id]);
     }
   });
-
   try {
     // Wait for all async middleware to be completed
     await Promise.all(promises);
@@ -48,6 +47,11 @@ module.exports = async (request, response, stack, next) => {
       }
     }
   } catch (error) {
-    next(error);
+    // console.log()
+    // if (response.locals.errorHandlerTriggered !== true) {
+    //   return next(e);
+    // } else {
+    //   // Do nothing here since the next(error) is already called when the error is thrown on each middleware
+    // }
   }
 };

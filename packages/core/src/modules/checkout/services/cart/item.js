@@ -13,7 +13,7 @@ export class Item extends DataObject {
     {
       key: 'cart_item_id',
       async resolver() {
-        return this._dataSource.cart_item_id ?? null;
+        return this.dataSource.cart_item_id ?? null;
       }
     },
     {
@@ -23,36 +23,43 @@ export class Item extends DataObject {
           .from('product');
         query.leftJoin('product_description', 'des')
           .on('product.`product_id`', '=', 'des.`product_description_product_id`');
-        const product = await query.where('product_id', '=', this._dataSource.product_id)
+        const product = await query.where('product_id', '=', this.dataSource.product_id)
           .load(pool);
         if (!product || product.status === 0) {
-          this._error = 'Requested product does not exist';
-          this._dataSource = { ...this._dataSource, product: {} };
+          this.error = 'Requested product does not exist';
+          this.dataSource = { ...this.dataSource, product: {} };
           return null;
         }
-        this._dataSource = { ...this._dataSource, product };
-        return this._dataSource.product_id;
+        this.dataSource = { ...this.dataSource, product };
+        return this.dataSource.product_id;
       }
     },
     {
       key: 'product_sku',
       async resolver() {
-        return this._dataSource.product.sku ?? null;
+        return this.dataSource.product.sku ?? null;
+      },
+      dependencies: ['product_id']
+    },
+    {
+      key: 'group_id',
+      async resolver() {
+        return this.dataSource.product.group_id ?? null;
       },
       dependencies: ['product_id']
     },
     {
       key: 'product_name',
       async resolver() {
-        return this._dataSource.product.name ?? null;
+        return this.dataSource.product.name ?? null;
       },
       dependencies: ['product_id']
     },
     {
       key: 'thumbnail',
       async resolver() {
-        if (this._dataSource.product.image) {
-          const thumb = this._dataSource.product.image.replace(/.([^.]*)$/, '-thumb.$1');
+        if (this.dataSource.product.image) {
+          const thumb = this.dataSource.product.image.replace(/.([^.]*)$/, '-thumb.$1');
           return fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/site${config.get('catalog.product.image.placeHolder')}`;
         } else {
           return `/assets/theme/site${config.get('catalog.product.image.placeHolder')}`;
@@ -63,14 +70,14 @@ export class Item extends DataObject {
     {
       key: 'product_weight',
       async resolver() {
-        return parseFloat(this._dataSource.product.weight) ?? null;
+        return parseFloat(this.dataSource.product.weight) ?? null;
       },
       dependencies: ['product_id']
     },
     {
       key: 'product_price',
       async resolver() {
-        return parseFloat(this._dataSource.product.price) ?? null;
+        return parseFloat(this.dataSource.product.price) ?? null;
       },
       dependencies: ['product_id']
     },
@@ -85,17 +92,18 @@ export class Item extends DataObject {
       key: 'qty',
       async resolver() {
         if (
-          this._dataSource.product.product_id
-          && this._dataSource.product.manage_stock === 1
-          && this._dataSource.product.qty < 1
-        ) this._error = 'This item is out of stock';
-        else if (
-          this._dataSource.product.product_id
-          && this._dataSource.product.manage_stock === 1
-          && this._dataSource.product.qty < this._dataSource.qty
-        ) this._error = 'We do not have enough stock';
+          this.dataSource.product.product_id
+          && this.dataSource.product.manage_stock === 1
+          && this.dataSource.product.qty < 1
+        ) {
+          this.error = 'This item is out of stock';
+        } else if (
+          this.dataSource.product.product_id
+          && this.dataSource.product.manage_stock === 1
+          && this.dataSource.product.qty < this.dataSource.qty
+        ) this.error = 'We do not have enough stock';
 
-        return parseInt(this._dataSource.qty, 10) ?? null;
+        return parseInt(this.dataSource.qty, 10) ?? null;
       },
       dependencies: ['product_id']
     },
@@ -109,7 +117,7 @@ export class Item extends DataObject {
     {
       key: 'final_price_incl_tax',
       async resolver() {
-        return parseFloat(this._dataSource.product.price) ?? null;
+        return parseFloat(this.dataSource.product.price) ?? null;
       },
       dependencies: ['final_price']
     },
@@ -143,21 +151,21 @@ export class Item extends DataObject {
     {
       key: 'variant_group_id',
       async resolver() {
-        return this._dataSource.product.variant_group_id ?? null;
+        return this.dataSource.product.variant_group_id ?? null;
       },
       dependencies: ['product_id']
     },
     {
       key: 'variant_options',
       async resolver() {
-        if (this._dataSource.product.variant_group_id) {
+        if (this.dataSource.product.variant_group_id) {
           const group = await select('attribute_one')
             .select('attribute_two')
             .select('attribute_three')
             .select('attribute_four')
             .select('attribute_five')
             .from('variant_group')
-            .where('variant_group_id', '=', this._dataSource.product.variant_group_id)
+            .where('variant_group_id', '=', this.dataSource.product.variant_group_id)
             .load(pool);
           if (!group) return null;
           else {
@@ -168,7 +176,7 @@ export class Item extends DataObject {
               .select('o.`option_text`')
               .from('attribute', 'a');
             query.innerJoin('product_attribute_value_index', 'o').on('a.`attribute_id`', '=', 'o.`attribute_id`');
-            query.where('o.`product_id`', '=', this._dataSource.product.product_id)
+            query.where('o.`product_id`', '=', this.dataSource.product.product_id)
               .and('a.`attribute_id`', 'IN', Object.values(group).filter((v) => v != null));
 
             return JSON.stringify(await query.execute(pool));
@@ -189,7 +197,7 @@ export class Item extends DataObject {
     {
       key: 'productUrl',
       async resolver() {
-        return this.getData('product_id') ? buildUrl('productView', { url_key: this._dataSource.product.url_key }) : null;
+        return this.getData('product_id') ? buildUrl('productView', { url_key: this.dataSource.product.url_key }) : null;
       },
       dependencies: ['product_id']
     },
@@ -208,9 +216,9 @@ export class Item extends DataObject {
 
   constructor(data = {}) {
     super();
-    this._dataSource = data;
+    this.dataSource = data;
 
-    this._prepareFields(Item.fields);
-    this._error = undefined;
+    this.prepareFields();
+    this.error = undefined;
   }
 }
