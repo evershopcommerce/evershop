@@ -116,43 +116,42 @@ exports.Cart = class Cart extends DataObject {
     },
     {
       key: 'grand_total',
-      async resolver(cart) {
-        return cart.getData('sub_total');
+      async resolver() {
+        return this.getData('sub_total');
       },
       dependencies: ['sub_total']
     },
     {
       key: 'shipping_address_id',
-      async resolver(cart) {
-        console.log(cart);
-        return cart.dataSource.shipping_address_id;
+      async resolver() {
+        return this.dataSource.shipping_address_id;
       },
       dependencies: ['cart_id']
     },
     {
       key: 'shippingAddress',
-      async resolver(cart) {
-        if (!cart.getData('shipping_address_id')) {
+      async resolver() {
+        if (!this.getData('shipping_address_id')) {
           return undefined;
         } else {
-          return { ...await select().from('cart_address').where('cart_address_id', '=', cart.getData('shipping_address_id')).load(pool) };
+          return { ...await select().from('cart_address').where('cart_address_id', '=', this.getData('shipping_address_id')).load(pool) };
         }
       },
       dependencies: ['shipping_address_id']
     },
     {
       key: 'shipping_method',
-      async resolver(cart) {
+      async resolver() {
         // TODO: This field should be handled by each of shipping method
-        return cart.dataSource.shipping_method;
+        return this.dataSource.shipping_method;
       },
       dependencies: ['shipping_address_id']
     },
     {
       key: 'shipping_method_name',
-      async resolver(cart) {
+      async resolver() {
         // TODO: This field should be handled by each of shipping method
-        return cart.dataSource.shipping_method_name;
+        return this.dataSource.shipping_method_name;
       },
       dependencies: ['shipping_method']
     },
@@ -172,8 +171,8 @@ exports.Cart = class Cart extends DataObject {
     },
     {
       key: 'billing_address_id',
-      async resolver(cart) {
-        return cart.dataSource.billing_address_id;
+      async resolver() {
+        return this.dataSource.billing_address_id;
       },
       dependencies: ['cart_id']
     },

@@ -6,11 +6,11 @@ module.exports = (request, response, stack, next) => {
   const promotionFields = [
     {
       key: 'coupon',
-      async resolver(cart) {
-        const coupon = cart.dataSouce['coupon'] ?? cart.dataSouce['coupon'] ?? null;
+      async resolver() {
+        const coupon = this.dataSouce['coupon'] ?? this.dataSouce['coupon'] ?? null;
         if (coupon) {
           const validator = new Validator();
-          const check = await validator.validate(cart.dataSouce['coupon'], this);
+          const check = await validator.validate(this.dataSouce['coupon'], this);
           if (check === true) {
             return coupon;
           } else {
@@ -24,8 +24,8 @@ module.exports = (request, response, stack, next) => {
     },
     {
       key: 'discount_amount',
-      async resolver(cart) {
-        const coupon = cart.dataSouce['coupon'] ?? cart.dataSouce['coupon'] ?? null;
+      async resolver() {
+        const coupon = this.dataSouce['coupon'] ?? this.dataSouce['coupon'] ?? null;
         if (!coupon) {
           return 0;
         }
@@ -49,9 +49,9 @@ module.exports = (request, response, stack, next) => {
   Cart.fields.forEach((field) => {
     if (field.key === 'grand_total') {
       const prevResolver = field.resolver;
-      field.resolver = async function (cart) {
-        let prev = await prevResolver(cart);
-        return prev - cart.getData('discount_amount');
+      field.resolver = async function resolver() {
+        let prev = await prevResolver.call(this);
+        return prev - this.getData('discount_amount');
       }
       field.dependencies = field.dependencies.concat(['discount_amount']);
     }

@@ -46,6 +46,7 @@ export class DataObject {
   // If error is thrown, all changes will be rollback
   async build() {
     let _this = this;
+    console.log(this.constructor.name);
     const values = [];
     // Keep current values for rollback
     this.constructor.fields.forEach((f, index) => {
