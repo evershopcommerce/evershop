@@ -7,7 +7,6 @@ import { get } from '../../util/get';
 import { FORM_SUBMIT, FORM_VALIDATED } from '../../util/events';
 import Button from './Button';
 import { serializeForm } from '../../util/formToJson';
-import { assign } from '../../util/assign';
 
 export const FormContext = React.createContext();
 export const FormDispatch = React.createContext();
@@ -92,7 +91,7 @@ export function Form(props) {
           {
             method,
             body: isJSON === true ? JSON.stringify(serializeForm(formData.entries())) : formData,
-            headers: assign({
+            headers: Object.assign({
               'X-Requested-With': 'XMLHttpRequest'
             },
               isJSON === true ? { 'Content-Type': 'application/json' } : {}
