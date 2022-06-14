@@ -91,7 +91,7 @@ export default function General() {
           component: { default: Setting },
           props: {
             startDate: get(context, 'coupon.start_date', ''),
-            startDate: get(context, 'coupon.start_date', ''),
+            endDate: get(context, 'coupon.end_date', ''),
             discountAmount: get(context, 'coupon.discount_amount')
           },
           sortOrder: 40,
