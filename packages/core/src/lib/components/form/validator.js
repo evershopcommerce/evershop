@@ -2,6 +2,8 @@ const validator = {};
 const rules = {
   email: {
     handler(value) {
+      if (value === null || value === undefined || value === '')
+        return true;
       // eslint-disable-next-line no-useless-escape
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(String(value).toLowerCase());
@@ -10,6 +12,8 @@ const rules = {
   },
   number: {
     handler(value) {
+      if (value === null || value === undefined || value === '')
+        return true;
       return /^[0-9]+$/.test(value);
     },
     errorMessage: 'Invalid number'
