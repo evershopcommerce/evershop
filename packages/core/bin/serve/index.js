@@ -123,7 +123,6 @@ routes.forEach((r) => {
   const currentRouteMiddleware = (request, response, next) => {
     // eslint-disable-next-line no-underscore-dangle
     request.currentRoute = r;
-    request.app.set('route', r);
     next();
   };
   r.method.forEach((method) => {

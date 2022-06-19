@@ -1,10 +1,8 @@
 /* eslint-disable global-require */
 const { resolve } = require('path');
 const { CONSTANTS } = require('../helpers');
-const { app } = require('../../../bin/serve/app');
 
-export function getComponents() {
-  const route = app.get('route');
+export function getComponents(route) {
   if (!route) {
     return {};
   } else if (route.isAdmin === true) {
