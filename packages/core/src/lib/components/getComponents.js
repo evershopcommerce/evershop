@@ -1,8 +1,12 @@
+import { useAppState } from '../context/app';
+import { get } from '../util/get';
+
 /* eslint-disable global-require */
 const { resolve } = require('path');
 const { CONSTANTS } = require('../helpers');
 
-export function getComponents(route) {
+export function getComponents() {
+  const route = get(useAppState(), 'route');
   if (!route) {
     return {};
   } else if (route.isAdmin === true) {

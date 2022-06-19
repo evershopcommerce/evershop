@@ -5,17 +5,17 @@ import Area from './Area';
 import { getComponents } from './getComponents';
 import { Alert } from './modal/Alert';
 
-function Html({ bundle, appContext, route }) {
+function Html({ bundle, appContext }) {
   return (
     <>
       <head>
-        <Area noOuter id="head" components={getComponents(route)} />
+        <Area noOuter id="head" components={getComponents()} />
         <script dangerouslySetInnerHTML={{ __html: appContext }} />
       </head>
       <body id="body">
         <Alert>
           <div id="app" className="bg-background">
-            <Area id="body" className="wrapper" components={getComponents(route)} />
+            <Area id="body" className="wrapper" components={getComponents()} />
           </div>
         </Alert>
       </body>
@@ -26,11 +26,7 @@ function Html({ bundle, appContext, route }) {
 
 Html.propTypes = {
   bundle: PropTypes.string.isRequired,
-  appContext: PropTypes.string.isRequired,
-  route: PropTypes.shape({
-    isAdmin: PropTypes.bool,
-    id: PropTypes.string
-  }).isRequired
+  appContext: PropTypes.string.isRequired
 };
 
 export default Html;
