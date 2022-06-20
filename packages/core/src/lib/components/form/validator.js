@@ -14,7 +14,7 @@ const rules = {
     handler(value) {
       if (value === null || value === undefined || value === '')
         return true;
-      return /^[0-9]+$/.test(value);
+      return /^-?[0-9]+$/.test(value);
     },
     errorMessage: 'Invalid number'
   },
