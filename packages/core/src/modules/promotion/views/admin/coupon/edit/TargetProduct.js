@@ -12,7 +12,7 @@ function Products({ targetProducts, maxQty = '' }) {
     e.persist();
     e.preventDefault();
     setProducts(products.concat({
-      key: '',
+      key: 'category',
       operator: '',
       value: '',
       qty: ''
@@ -42,7 +42,7 @@ function Products({ targetProducts, maxQty = '' }) {
       <div className="mb-1 mt-1">
         <div className="flex justify-start items-center mb-3">
           <div>Maximum</div>
-          <div style={{ width: "60px", padding: "0 1rem" }}>
+          <div style={{ width: "70px", padding: "0 1rem" }}>
             <Input
               name="target_products[maxQty]"
               value={maxQty}
@@ -77,7 +77,7 @@ function Products({ targetProducts, maxQty = '' }) {
                         noOuter
                         coreComponents={[
                           {
-                            component: { default: () => <option value="category">CategoryId</option> },
+                            component: { default: () => <option value="category">Category</option> },
                             props: {},
                             sortOrder: 10,
                             id: 'targetProductKeyCategory'
@@ -122,13 +122,13 @@ function Products({ targetProducts, maxQty = '' }) {
                         noOuter
                         coreComponents={[
                           {
-                            component: { default: ({ compareKey }) => ['price', 'sku'].includes(compareKey) ? <option value="=">Equal</option> : (null) },
+                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="=">Equal</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 10,
                             id: 'couponTargetProductOperatorEqual'
                           },
                           {
-                            component: { default: ({ compareKey }) => ['price', 'sku'].includes(compareKey) ? <option value="!=">Not equal</option> : (null) },
+                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="!=">Not equal</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 15,
                             id: 'couponTargetProductOperatorNotEqual'

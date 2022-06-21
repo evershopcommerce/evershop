@@ -33,6 +33,7 @@ module.exports = async (request, response, stack, next) => {
       if (response.$body && response.$body !== '') {
         response.send(response.$body);
       } else {
+        response.context.route = request.currentRoute;
         const source = renderToString(
           <AppProvider value={response.context}>
             <Alert>
@@ -47,11 +48,10 @@ module.exports = async (request, response, stack, next) => {
       }
     }
   } catch (error) {
-    // console.log()
-    // if (response.locals.errorHandlerTriggered !== true) {
-    //   return next(e);
-    // } else {
-    //   // Do nothing here since the next(error) is already called when the error is thrown on each middleware
-    // }
+    if (response.locals.errorHandlerTriggered !== true) {
+      return next(error);
+    } else {
+      // Do nothing here since the next(error) is already called when the error is thrown on each middleware
+    }
   }
 };

@@ -12,7 +12,6 @@ module.exports = async (request, response, stack, next) => {
     const cartInfo = cart.export();
     const items = cart.getItems();
     cartInfo.items = items.map((item) => item.export());
-
     response.$body = {
       data: { cart: cartInfo },
       success: true,

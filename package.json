@@ -16,10 +16,10 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "nodemon --delay 500ms --exec babel-node ./packages/core/bin/evershop dev",
+    "dev": "node packages/core/postpublish.js && nodemon --delay 500ms --exec babel-node ./packages/core/bin/evershop dev",
     "install": "evershop install",
-    "build": "evershop build",
-    "start": "evershop start",
+    "build": "npx babel packages/core/src -d packages/core/dist --copy-files && evershop build",
+    "start": "node packages/core/prepublish.js && evershop start",
     "test": "jest --workspace=@evershop/core",
     "cypress": "cypress run"
   },

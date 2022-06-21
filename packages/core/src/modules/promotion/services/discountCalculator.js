@@ -1,20 +1,18 @@
 const { select } = require("@evershop/mysql-query-builder");
 const { pool } = require("../../../lib/mysql/connection");
 const { getConfig } = require("../../../lib/util/getConfig");
+const { toPrice } = require("../../checkout/services/toPrice");
 
 exports.DiscountCalculator = class DiscountCalculator {
-  #cart;
-
-  #discountCalculators = [];
-
-  #discounts = {};
+  static discountCalculators = [];
 
   constructor(cart) {
-    this.#cart = cart;
-    this.defaultDiscountCalculator();
+    this.cart = cart;
+    this.#registerDefaultDiscountCalculator();
+    this.discounts = {};
   }
 
-  #getCartTotalBeforeDiscount(cart) {
+  getCartTotalBeforeDiscount(cart) {
     let total = 0;
     const items = cart.getItems();
     items.forEach((item) => {
@@ -24,8 +22,9 @@ exports.DiscountCalculator = class DiscountCalculator {
     return total;
   }
 
-  #defaultDiscountCalculator() {
-    this.addDiscountCalculator('percentage_discount_to_entire_order', function (coupon, cart) {
+  #registerDefaultDiscountCalculator() {
+    const _this = this;
+    this.constructor.addDiscountCalculator('percentage_discount_to_entire_order', function (coupon, cart) {
       if (coupon['discount_type'] !== "percentage_discount_to_entire_order") {
         return false;
       }
@@ -34,89 +33,56 @@ exports.DiscountCalculator = class DiscountCalculator {
         return false;
       }
 
-      const cartDiscountAmount = (discountPercent * this.getCartTotalBeforeDiscount(cart)) / 100;
-      switch (getConfig('pricing.rounding', 'round')) {
-        case 'up':
-          cartDiscountAmount = Math.ceil(cartDiscountAmount);
-          break;
-        case 'down':
-          cartDiscountAmount = Math.floor(cartDiscountAmount);
-          break;
-        case 'round':
-          cartDiscountAmount = Math.round(cartDiscountAmount);
-          break;
-        default:
-          cartDiscountAmount = Math.round(cartDiscountAmount);
-          break;
-      }
-      let i = 0;
+      let cartDiscountAmount = toPrice((discountPercent * _this.getCartTotalBeforeDiscount(cart)) / 100);
       let distributedAmount = 0;
       const items = cart.getItems();
       items.forEach((item, index) => {
         let sharedDiscount = 0;
-        if (i === index) {
+        if (index === items.length - 1) {
           sharedDiscount = cartDiscountAmount - distributedAmount;
         } else {
           const rowTotal = item.getData('final_price') * item.getData('qty');
-          sharedDiscount = round(rowTotal * cartDiscountAmount / this.getCartTotalBeforeDiscount(cart), 0);
+          sharedDiscount = toPrice(rowTotal * cartDiscountAmount / _this.getCartTotalBeforeDiscount(cart), 0);
         }
-        if (!isset(this.#discounts[item.getId()]) || this.#discounts[item.getId()] != sharedDiscount) {
-          this.#discounts[item.getId()] = sharedDiscount;
+        if (_this.discounts[item.getId()] || _this.discounts[item.getId()] != sharedDiscount) {
+          _this.discounts[item.getId()] = sharedDiscount;
         }
-        i++;
+        distributedAmount += sharedDiscount;
       });
 
-      distributedAmount += sharedDiscount;
       return true;
     });
 
-    this.addDiscountCalculator('fixed_discount_to_entire_order', (coupon, cart) => {
+    this.constructor.addDiscountCalculator('fixed_discount_to_entire_order', (coupon, cart) => {
       if (coupon['discount_type'] !== "fixed_discount_to_entire_order")
         return false;
 
-      const cartDiscountAmount = parseFloat(coupon['discount_amount']) || 0;
-
+      let cartDiscountAmount = toPrice(parseFloat(coupon['discount_amount']) || 0);
       if (cartDiscountAmount < 0) {
         return false;
       }
-      const cartTotal = this.getCartTotalBeforeDiscount(cart);
+      let cartTotal = _this.getCartTotalBeforeDiscount(cart);
       cartDiscountAmount = cartTotal > cartDiscountAmount ? cartDiscountAmount : cartTotal;
-      switch (getConfig('pricing.rounding', 'round')) {
-        case 'up':
-          cartDiscountAmount = Math.ceil(cartDiscountAmount);
-          break;
-        case 'down':
-          cartDiscountAmount = Math.floor(cartDiscountAmount);
-          break;
-        case 'round':
-          cartDiscountAmount = Math.round(cartDiscountAmount);
-          break;
-        default:
-          cartDiscountAmount = Math.round(cartDiscountAmount);
-          break;
-      }
-      let i = 0;
       let distributedAmount = 0;
       const items = cart.getItems();
       items.forEach((item, index) => {
         let sharedDiscount = 0;
-        if (i === index) {
+        if (index === items.length - 1) {
           sharedDiscount = cartDiscountAmount - distributedAmount;
         } else {
           const rowTotal = item.getData('final_price') * item.getData('qty');
-          sharedDiscount = round(rowTotal * cartDiscountAmount / this.getCartTotalBeforeDiscount(cart), 0);
+          sharedDiscount = toPrice(rowTotal * cartDiscountAmount / _this.getCartTotalBeforeDiscount(cart), 0);
         }
-        if (!isset(this.#discounts[item.getId()]) || this.#discounts[item.getId()] != sharedDiscount) {
-          this.#discounts[item.getId()] = sharedDiscount;
+        if (_this.discounts[item.getId()] || _this.discounts[item.getId()] != sharedDiscount) {
+          _this.discounts[item.getId()] = sharedDiscount;
         }
-        i++;
+        distributedAmount += sharedDiscount;
       });
 
-      distributedAmount += sharedDiscount;
       return true;
     });
 
-    this.addDiscountCalculator('discount_to_specific_products', async (coupon, cart) => {
+    this.constructor.addDiscountCalculator('discount_to_specific_products', async (coupon, cart) => {
       if (!["fixed_discount_to_specific_products", "percentage_discount_to_specific_products"].includes(coupon['discount_type'])) {
         return false;
       }
@@ -132,10 +98,10 @@ exports.DiscountCalculator = class DiscountCalculator {
         return false;
       }
       const targetProducts = targetConfig['products'] || []
-      const discountAmount = parseFloat(coupon['discount_amount']);
+      let discountAmount = toPrice(parseFloat(coupon['discount_amount']) || 0);
       let discounts = {};
       const items = cart.getItems();
-      const productIds = items.map((item) => { return item.getId() });
+      const productIds = items.map((item) => { return item.getData('product_id') });
 
       // Load the category of each item
       const categories = await select()
@@ -150,48 +116,53 @@ exports.DiscountCalculator = class DiscountCalculator {
             return;
           }
           const key = targetProduct['key'];
-          const operation = targetProduct['operation'];
+          const operator = targetProduct['operator'];
           const value = targetProduct['value'];
           // Check attribute group
           if (key === 'attribute_group') {
-            // If key is attribute group, we only support IN and NOT IN operation
-            if (!['IN', 'NOT IN'].includes(operation)) {
+            // If key is attribute group, we only support IN and NOT IN operator
+            if (!['IN', 'NOT IN'].includes(operator)) {
               flag = false;
               return false;
             }
-            const attributeGroupIds = value.split(',').map((id) => { return id.trim() });
-            flag = operation === 'IN' ? attributeGroupIds.includes(item.getData('group_id')) : !attributeGroupIds.includes(item.getData('group_id'))
+            const attributeGroupIds = value.split(',').map((id) => { return parseInt(id.trim()) });
+            flag = operator === 'IN' ? attributeGroupIds.includes(item.getData('group_id')) : !attributeGroupIds.includes(item.getData('group_id'))
           }
 
           // Check category
           if (key === 'category') {
-            // If key is category, we only support IN and NOT IN operation
-            if (!['IN', 'NOT IN'].includes(operation)) {
+            // If key is category, we only support IN and NOT IN operator
+            if (!['IN', 'NOT IN'].includes(operator)) {
               flag = false;
               return false;
             }
-            const values = value.split(',').map((id) => { return id.trim() });
-            flag = operation === 'IN' ?
-              categories.find(
-                (e) => (values.includes(e.category_id) && parseInt(e.product_id) === item.getData('product_id'))
-              )
-              : !categories.find(
-                (e) => (values.includes(e.category_id) && parseInt(e.product_id) === item.getData('product_id'))
-              )
+            if (categories.length === 0) {
+              flag = false;
+              return false;
+            }
+
+            const values = value.split(',').map((id) => { return parseInt(id.trim()) });
+            let e = categories.find(
+              (e) => (values.includes(e.category_id) && parseInt(e.product_id) === parseInt(item.getData('product_id')))
+            );
+            flag = operator === 'IN' ? e !== undefined : e === undefined;
           }
           // Check price
           if (key === 'price') {
-            // If key is price, we do not support IN and NOT IN operation
-            if (['=', '!=', '>', '>=', '<', '<='].includes(operation)) {
+            // If key is price, we do not support IN and NOT IN operator
+            if (['=', '!=', '>', '>=', '<', '<='].includes(operator)) {
               const price = parseFloat(value);
+              if (operator === '=') {
+                operator = '===';
+              }
               if (!price) {
                 flag = false;
                 return false;
               } else {
-                flag = eval(`${item.getData('price')} ${operation} ${price}`);
+                flag = eval(`${item.getData('final_price')} ${operator} ${price}`);
               }
             } else {
-              // For 'price' type of condition, we do not others operations
+              // For 'price' type of condition, we do not others operators
               flag = false;
               return false;
             }
@@ -199,11 +170,11 @@ exports.DiscountCalculator = class DiscountCalculator {
 
           // Check sku
           if (key === 'sku') {
-            if (['IN', 'NOT IN'].includes(operation)) {
+            if (['IN', 'NOT IN'].includes(operator)) {
               const skus = value.split(',').map((v) => v.trim());
-              flag = operation === 'IN' ? skus.includes(item.getData('product_sku')) : !skus.includes(item.getData('product_sku'))
+              flag = operator === 'IN' ? skus.includes(item.getData('product_sku')) : !skus.includes(item.getData('product_sku'))
             } else {
-              // For 'sku' type of condition, we only support 'IN' and 'NOT IN' operations
+              // For 'sku' type of condition, we only support 'IN', 'NOT IN' operators
               flag = false;
               return false;
             }
@@ -218,39 +189,26 @@ exports.DiscountCalculator = class DiscountCalculator {
           if (discountAmount > item.getData("final_price")) {
             discountAmount = item.getData("final_price");
           }
-          discounts[item.getId()] = (maxQty > item.getData("qty")) ? discountAmount * item.getData("qty") : discountAmount * maxQty;
+          discounts[item.getId()] = (maxQty > item.getData("qty")) ? toPrice(discountAmount * item.getData("qty")) : toPrice(discountAmount * maxQty);
         } else {
           const discountPercent = Math.min(discountAmount, 100);
-          discountAmount = Math.min(item.getData('qty'), maxQty) * (item.getData('final_price') * discountPercent / 100);
-          switch (getConfig('pricing.rounding', 'round')) {
-            case 'up':
-              discountAmount = Math.ceil(discountAmount);
-              break;
-            case 'down':
-              discountAmount = Math.floor(discountAmount);
-              break;
-            case 'round':
-              discountAmount = Math.round(discountAmount);
-              break;
-            default:
-              discountAmount = Math.round(discountAmount);
-              break;
-          }
+          discounts[item.getId()] = toPrice(
+            Math.min(item.getData('qty'), maxQty) * (item.getData('final_price') * discountPercent / 100)
+          );;
         }
       });
 
-      this.#discounts = discounts;
-
+      _this.discounts = discounts;
       return true;
     });
 
-    this.addDiscountCalculator('buy_x_get_y', (coupon, cart) => {
+    this.constructor.addDiscountCalculator('buy_x_get_y', (coupon, cart) => {
       if (coupon['discount_type'] !== "buy_x_get_y")
         return true;
 
       let configs;
       try {
-        targetProducts = JSON.parse(coupon['buyx_gety']);
+        configs = JSON.parse(coupon['buyx_gety']);
       } catch (e) {
         return false;
       }
@@ -259,24 +217,24 @@ exports.DiscountCalculator = class DiscountCalculator {
         const sku = row['sku'] ?? null;
         const buyQty = parseInt(row['buy_qty']) || null;
         const getQty = parseInt(row['get_qty']) || null;
-        const maxY = row['max_y'].trim() ? Math.min(parseInt(row['max_y']), 0) : 10000000;
+        const maxY = row['max_y'].trim() ? Math.max(parseInt(row['max_y']), 0) : 10000000;
         const discount = row['discount'] ? (parseFloat(row['discount']) || 0) : 100;
-
         if (!sku || !buyQty || !getQty || discount <= 0 || discount > 100)
           return;
 
         for (let i = 0; i < items.length; i++) {
           const item = items[i];
-          if (item.getData("product_sku") === trim(sku) && item.getData("qty") >= buyQty + getQty) {
-            discountPerUnit = discount * item.getData("final_price") / 100;
-            discountAbleUnits = floor(item.getData("qty") / buyQty) * getQty;
+          if (item.getData("product_sku") === sku.trim() && item.getData("qty") >= buyQty + getQty) {
+            const discountPerUnit = toPrice(discount * item.getData("final_price") / 100);
+            const discountAbleUnits = Math.floor(item.getData("qty") / buyQty) * getQty;
+            let discountAmount;
             if (discountAbleUnits < maxY)
-              discountAmount = discountAbleUnits * discountPerUnit;
+              discountAmount = toPrice(discountAbleUnits * discountPerUnit);
             else
-              discountAmount = discountPerUnit * maxY;
+              discountAmount = toPrice(discountPerUnit * maxY);
 
-            if (!isset(this.#discounts[item.getId()]) || this.#discounts[item.getId()] !== discountAmount) {
-              this.#discounts[item.getId()] = discountAmount;
+            if (_this.discounts[item.getId()] || _this.discounts[item.getId()] !== discountAmount) {
+              _this.discounts[item.getId()] = discountAmount;
             }
           }
         }
@@ -285,29 +243,31 @@ exports.DiscountCalculator = class DiscountCalculator {
   }
 
   static addDiscountCalculator(id, calculateFunction) {
-    this.#discountCalculators[id] = calculateFunction;
+    this.discountCalculators[id] = calculateFunction;
   }
 
   static removeDiscountCalculator(id) {
-    unset(this.#discountCalculators[id]);
+    unset(this.constructor.discountCalculators[id]);
   }
 
-  async calculate(coupon = null) {
-    let cart = this.#cart;
-    if (!coupon) {
-      this.#discounts = {};
+  async calculate(couponCode = null) {
+    let cart = this.cart;
+    if (!couponCode) {
+      this.discounts = {};
       return {};
     }
 
+    const coupon = await select().from('coupon').where('coupon', '=', couponCode).load(pool);
+
     // Calling calculator functions
-    for (const calculatorId in this.#discountCalculators) {
-      await this.#discountCalculators[calculatorId](coupon, cart);
+    for (const calculatorId in this.constructor.discountCalculators) {
+      await this.constructor.discountCalculators[calculatorId](coupon, cart);
     }
 
-    return this.#discounts;
+    return this.discounts;
   }
 
   getDiscounts() {
-    return this.#discounts;
+    return this.discounts;
   }
 }

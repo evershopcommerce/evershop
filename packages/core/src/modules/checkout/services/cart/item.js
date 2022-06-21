@@ -1,3 +1,5 @@
+import { toPrice } from '../toPrice';
+
 const config = require('config');
 const { select } = require('@evershop/mysql-query-builder');
 const fs = require('fs');
@@ -7,13 +9,14 @@ const { CONSTANTS } = require('../../../../lib/helpers');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 /* eslint-disable no-underscore-dangle */
 const { DataObject } = require('./dataObject');
+const uniqid = require('uniqid');
 
 export class Item extends DataObject {
   static fields = [
     {
       key: 'cart_item_id',
       async resolver() {
-        return this.dataSource.cart_item_id ?? null;
+        return this.dataSource.cart_item_id ?? uniqid();
       }
     },
     {
@@ -44,7 +47,7 @@ export class Item extends DataObject {
     {
       key: 'group_id',
       async resolver() {
-        return this.dataSource.product.group_id ?? null;
+        return parseInt(this.dataSource.product.group_id) ?? null;
       },
       dependencies: ['product_id']
     },
@@ -77,14 +80,14 @@ export class Item extends DataObject {
     {
       key: 'product_price',
       async resolver() {
-        return parseFloat(this.dataSource.product.price) ?? null;
+        return toPrice(this.dataSource.product.price);
       },
       dependencies: ['product_id']
     },
     {
       key: 'product_price_incl_tax',
       async resolver() {
-        return parseFloat(this.getData('product_price')) ?? null;
+        return toPrice(this.getData('product_price')); // TODO: Tax will be added in tax module
       },
       dependencies: ['product_price']
     },
@@ -110,21 +113,21 @@ export class Item extends DataObject {
     {
       key: 'final_price',
       async resolver() {
-        return parseFloat(this.getData('product_price')) ?? null;
+        return toPrice(this.getData('product_price')); // TODO This price should include the custom option price
       },
       dependencies: ['product_price']
     },
     {
       key: 'final_price_incl_tax',
       async resolver() {
-        return parseFloat(this.dataSource.product.price) ?? null;
+        return toPrice(this.getData('final_price'));
       },
-      dependencies: ['final_price']
+      dependencies: ['final_price', 'tax_amount']
     },
     {
       key: 'total',
       async resolver() {
-        return this.getData('final_price') * this.getData('qty') + this.getData('tax_amount') ?? null;
+        return toPrice(this.getData('final_price') * this.getData('qty') + this.getData('tax_amount'));
       },
       dependencies: ['final_price', 'qty', 'tax_amount']
     },
@@ -140,13 +143,6 @@ export class Item extends DataObject {
         return 0; // Will be added later
       },
       dependencies: []
-    },
-    {
-      key: 'discount_amount',
-      async resolver() {
-        return 0; // Will be added later
-      },
-      dependencies: ['final_price']
     },
     {
       key: 'variant_group_id',
@@ -190,7 +186,7 @@ export class Item extends DataObject {
     {
       key: 'product_custom_options',
       async resolver() {
-        return null; // Will be added later
+        return null; // TODO: Add custom options
       },
       dependencies: ['product_id']
     },
@@ -220,5 +216,9 @@ export class Item extends DataObject {
 
     this.prepareFields();
     this.error = undefined;
+  }
+
+  getId() {
+    return this.getData('cart_item_id');
   }
 }

@@ -1,14 +1,19 @@
-const {
-  getConnection, commit, rollback, startTransaction, del, insert, update
-} = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../../lib/mysql/connection');
-const { assign } = require('../../../../../lib/util/assign');
+const { startTransaction, del, commit, update, insert, rollback } = require("@evershop/mysql-query-builder");
+const { pool, getConnection } = require("../../../lib/mysql/connection");
+const { assign } = require("../../../lib/util/assign");
+const { Cart } = require("./cart/cart");
 
-module.exports = async (request, response, stack, next) => {
+module.exports = exports;
+
+/**
+ * @param {Cart} cart
+ * @returns {Promise<void>}
+ * @throws {Error}
+ **/
+exports.saveCart = async (cart) => {
   const connection = await getConnection(pool);
   await startTransaction(connection);
   try {
-    const cart = await stack.initCart;
     const items = cart.getItems();
     if (items.length === 0) {
       // Delete cart if existed
@@ -16,10 +21,8 @@ module.exports = async (request, response, stack, next) => {
         await del('cart')
           .where('cart_id', '=', cart.getData('cart_id'))
           .execute(connection);
-        request.session.cartId = undefined;
       }
       await commit(connection);
-      return next();
     } else {
       if (cart.getData('cart_id')) {
         await update('cart')
@@ -30,8 +33,6 @@ module.exports = async (request, response, stack, next) => {
         const c = await insert('cart')
           .given(cart.export())
           .execute(connection);
-        // Store cartId to session
-        request.session.cartId = c.insertId;
       }
 
       await Promise.all(items.map(async (item) => {
@@ -42,21 +43,15 @@ module.exports = async (request, response, stack, next) => {
             .execute(connection);
         } else {
           await insert('cart_item')
-            .given({ ...item.export(), cart_id: cart.getData('cart_id') ?? request.session.cartId })
+            .given({ ...item.export(), cart_id: cart.getData('cart_id') ?? c.insertId })
             .execute(connection);
         }
       }));
 
       await commit(connection);
-      // Assign cart information to context
-      const cartInfo = cart.export();
-      cartInfo.items = items.map((item) => item.export());
-      assign(response.context, { cart: cartInfo });
-
-      return next();
     }
   } catch (error) {
     await rollback(connection);
-    return next(error);
+    throw error;
   }
 };

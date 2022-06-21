@@ -10,7 +10,7 @@ export function RequiredProducts({ requiredProducts }) {
     e.persist();
     e.preventDefault();
     setProducts(products.concat({
-      key: '',
+      key: 'category',
       operator: '',
       value: '',
       qty: ''
@@ -110,13 +110,13 @@ export function RequiredProducts({ requiredProducts }) {
                         noOuter
                         coreComponents={[
                           {
-                            component: { default: ({ compareKey }) => ['price', 'sku'].includes(compareKey) ? <option value="=">Equal</option> : (null) },
+                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="=">Equal</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 10,
                             id: 'couponRequiredProductOperatorEqual'
                           },
                           {
-                            component: { default: ({ compareKey }) => ['price', 'sku'].includes(compareKey) ? <option value="!=">Not equal</option> : (null) },
+                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="!=">Not equal</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 15,
                             id: 'couponRequiredProductOperatorNotEqual'

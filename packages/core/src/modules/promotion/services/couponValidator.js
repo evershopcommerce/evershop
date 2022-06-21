@@ -1,5 +1,6 @@
 const { select } = require("@evershop/mysql-query-builder");
 const { pool } = require("../../../lib/mysql/connection");
+const dayjs = require('dayjs');
 
 exports.Validator = class Validator {
   static validateFunctions = {};
@@ -15,7 +16,7 @@ exports.Validator = class Validator {
    * @return this
    */
   static addValidator(id, validateFunc) {
-    this.constructor.validateFunctions[id] = validateFunc;
+    this.validateFunctions[id] = validateFunc;
   }
 
   /**
@@ -23,7 +24,7 @@ exports.Validator = class Validator {
    * @return this
    */
   static removeValidator(id) {
-    delete this.constructor.validateFunctions[id];
+    delete this.validateFunctions[id];
   }
 
   /**
@@ -44,16 +45,18 @@ exports.Validator = class Validator {
    * This method registers list of default coupon validators.
    */
   #defaultValidator() {
+    let _this = this;
     this.constructor.addValidator('general', function (coupon) {
-      if (coupon['status'] == '0') {
+      if (coupon['status'] != '1') {
         return false;
       }
       const discountAmount = parseFloat(coupon['discount_amount']);
       if ((!discountAmount || discountAmount) <= 0 && coupon['discount_type'] !== "buy_x_get_y") {
         return false;
       }
-      if ((coupon['start_date'] && coupon['start_date'] > date("Y-m-d H:i:s"))
-        || (coupon['end_date'] && coupon['end_date'] < date("Y-m-d H:i:s"))
+      const today = dayjs().format('YYYY-MM-DD').toString();
+      if ((coupon['start_date'] && coupon['start_date'] > today)
+        || (coupon['end_date'] && coupon['end_date'] < today)
       ) {
         return false;
       }
@@ -100,7 +103,7 @@ exports.Validator = class Validator {
     this.constructor.addValidator('subTotal', function (coupon, cart) {
       const conditions = JSON.parse(coupon['condition']);
       const minimumSubTotal = parseFloat(conditions['order_total']) !== NaN ? parseFloat(conditions['order_total']) : null;
-      if (minimumSubTotal && parseFloat(this.getCartTotalBeforeDiscount(cart)) < minimumSubTotal) {
+      if (minimumSubTotal && parseFloat(_this.getCartTotalBeforeDiscount(cart)) < minimumSubTotal) {
         return false;
       }
 
@@ -116,158 +119,227 @@ exports.Validator = class Validator {
       return true;
     });
     this.constructor.addValidator('requiredProductByCategory', async (coupon, cart) => {
+      let flag = true;
       const items = cart.getItems();
-      const conditions = JSON.parse(coupon['condition']);
+      let conditions;
+      try {
+        conditions = JSON.parse(coupon['condition']);
+      } catch (e) {
+        return false;
+      }
       const requiredProducts = conditions['required_products'] || [];
+      if (requiredProducts.length === 0) {
+        return true;
+      }
+      let categories = undefined;
       for (let index = 0; index < requiredProducts.length; index++) {
         const condition = requiredProducts[index];
-        const operation = condition['operation'];
+        const operator = condition['operator'];
         const value = condition['value'];
         const minQty = parseInt(condition['qty']) || 1;
-        // Validate min quantity first
-        let ps = items.filter((item) => {
-          return item.getData('qty') >= minQty;
-        });
-        // Return false if there is no item with minimum quantity
-        if (ps.length === 0) {
-          return false;
-        }
+        let qty = 0;
         // Continue to next item if key is not category
         if (condition['key'] !== 'category') {
           continue;
         } else {
-          if (['IN', 'NOT IN'].includes(operation)) {
-            value = value.split(',').map((v) => v.trim());
-            const query = select().from('product_category')
-              .where('product_id', 'IN', ps.map((p) => p.getData('product_id')))
-              .andWhere('category_id', 'IN', value);
-            query.groupBy('product_id');
-            const check = await query.execute(pool);
-            if (operation === 'IN') {
-              return check.length >= minQty;
+          if (['IN', 'NOT IN'].includes(operator)) {
+            const productIds = items.map((item) => { return item.getData('product_id') });
+            // Load the categories of all item
+            if (!categories) {
+              categories = await select()
+                .from('product_category')
+                .where('product_id', 'IN', productIds)
+                .execute(pool);
+            }
+            value = value.split(',').map((v) => parseInt(v.trim()));
+            if (operator === 'IN') {
+              items.forEach((item) => {
+                const productId = item.getData('product_id');
+                const categoryIds = categories.filter((category) => {
+                  return parseInt(category.product_id) === productId && value.includes(parseInt(category.category_id));
+                });
+                if (categoryIds.length > 0) {
+                  qty += item.getData('qty');
+                }
+              });
             } else {
-              return (ps.length - check.length) >= minQty;
+              items.forEach((item) => {
+                const productId = item.getData('product_id');
+                const categoryIds = categories.filter((category) => {
+                  return parseInt(category.product_id) === productId && value.includes(parseInt(category.category_id));
+                });
+                if (categoryIds.length === 0) {
+                  qty += item.getData('qty');
+                }
+              });
             }
           } else {
-            // For 'category' type of condition, we only support 'IN' and 'NOT IN' operations
+            // For 'category' type of condition, we only support 'IN' and 'NOT IN' operators
+            flag = false;
             return false;
           }
         }
+        if (qty < minQty) {
+          flag = false;
+        }
       }
+
+      return flag;
     });
     this.constructor.addValidator('requiredProductByAttributeGroup', async (coupon, cart) => {
+      let flag = true;
       const items = cart.getItems();
-      const conditions = JSON.parse(coupon['condition']);
+      let conditions;
+      try {
+        conditions = JSON.parse(coupon['condition']);
+      } catch (e) {
+        return false;
+      }
       const requiredProducts = conditions['required_products'] || [];
+      if (requiredProducts.length === 0) {
+        return true;
+      }
       for (let index = 0; index < requiredProducts.length; index++) {
         const condition = requiredProducts[index];
-        const operation = condition['operation'];
+        const operator = condition['operator'];
         const value = condition['value'];
         const minQty = parseInt(condition['qty']) || 1;
-        // Validate min quantity first
-        let ps = items.filter((item) => {
-          return item.getData('qty') >= minQty;
-        });
-        // Return false if there is no item with minimum quantity
-        if (ps.length === 0) {
-          return false;
-        }
+        let qty = 0;
         // Continue to next item if key is not attribute_group
         if (condition['key'] !== 'attribute_group') {
           continue;
         } else {
-          if (['IN', 'NOT IN'].includes(operation)) {
-            value = value.split(',').map((v) => v.trim());
-            const query = select().from('product')
-              .where('product_id', 'IN', ps.map((p) => p.getData('product_id')))
-              .andWhere('group_id', 'IN', value);
-            const check = await query.execute(pool);
-            if (operation === 'IN') {
-              return check.length >= minQty;
+          if (['IN', 'NOT IN'].includes(operator)) {
+            value = value.split(',').map((v) => parseInt(v.trim()));
+            if (operator === 'IN') {
+              items.forEach((item) => {
+                if (value.includes(item.getData('group_id'))) {
+                  qty += item.getData('qty');
+                }
+              });
             } else {
-              return (ps.length - check.length) >= minQty;
+              items.forEach((item) => {
+                if (!value.includes(item.getData('group_id'))) {
+                  qty += item.getData('qty');
+                }
+              });
             }
           } else {
-            // For 'attribute group' type of condition, we only support 'IN' and 'NOT IN' operations
+            // For 'attribute group' type of condition, we only support 'IN' and 'NOT IN' operators
+            flag = false;
             return false;
           }
         }
+        if (qty < minQty) {
+          flag = false;
+        }
       }
+
+      return flag;
     });
+
     this.constructor.addValidator('requiredProductByPrice', async (coupon, cart) => {
+      let flag = true;
       const items = cart.getItems();
-      const conditions = JSON.parse(coupon['condition']);
+      let conditions;
+      try {
+        conditions = JSON.parse(coupon['condition']);
+      } catch (e) {
+        return false;
+      }
       const requiredProducts = conditions['required_products'] || [];
+      if (requiredProducts.length === 0) {
+        return true;
+      }
       for (let index = 0; index < requiredProducts.length; index++) {
         const condition = requiredProducts[index];
-        const operation = condition['operation'];
-        const value = condition['value'];
+        const operator = condition['operator'];
+        const value = parseFloat(condition['value']);
         const minQty = parseInt(condition['qty']) || 1;
-        // Validate min quantity first
-        let ps = items.filter((item) => {
-          return item.getData('qty') >= minQty;
-        });
-        // Return false if there is no item with minimum quantity
-        if (ps.length === 0) {
-          return false;
+        let qty = 0;
+        if (value === NaN || value === null || value < 0 || value === NaN) {
+          flag = false;
+          break;
         }
         // Continue to next item if key is not price
         if (condition['key'] !== 'price') {
           continue;
         } else {
-          if (['=', '!=', '>', '>=', '<', '<='].includes(operation)) {
-            const query = select().from('product')
-              .where('product_id', 'IN', ps.map((p) => p.getData('product_id')))
-              .andWhere('group_id', operation, parseFloat(value));
-            const check = await query.execute(pool);
-            return check.length >= minQty;
+          if (['=', '!=', '>', '>=', '<', '<='].includes(operator)) {
+            if (operator === '=') {
+              operator = '===';
+            }
+            items.forEach((item) => {
+              if (eval(`${item.getData('final_price')} ${operator} ${value}`)) {
+                qty += item.getData('qty');
+              }
+            });
           } else {
-            // For 'price' type of condition, we do not others operations
+            // For 'price' type of condition, we do not others operators
+            flag = false;
             return false;
           }
         }
+        if (qty < minQty) {
+          flag = false;
+        }
       }
+      return flag;
     });
+
     this.constructor.addValidator('requiredProductBySku', async (coupon, cart) => {
+      let flag = true;
       const items = cart.getItems();
-      const conditions = JSON.parse(coupon['condition']);
+      let conditions;
+      try {
+        conditions = JSON.parse(coupon['condition']);
+      } catch (e) {
+        return false;
+      }
       const requiredProducts = conditions['required_products'] || [];
+      if (requiredProducts.length === 0) {
+        return true;
+      }
       for (let index = 0; index < requiredProducts.length; index++) {
         const condition = requiredProducts[index];
-        const operation = condition['operation'];
+        const operator = condition['operator'];
         const value = condition['value'];
         const minQty = parseInt(condition['qty']) || 1;
-        // Validate min quantity first
-        let ps = items.filter((item) => {
-          return item.getData('qty') >= minQty;
-        });
-        // Return false if there is no item with minimum quantity
-        if (ps.length === 0) {
-          return false;
-        }
-        // Continue to next item if key is not sku
+        let qty = 0;
+        // Continue to next item if key is not attribute_group
         if (condition['key'] !== 'sku') {
           continue;
         } else {
-          if (['IN', 'NOT IN'].includes(operation)) {
+          if (['IN', 'NOT IN'].includes(operator)) {
             value = value.split(',').map((v) => v.trim());
-            const query = select().from('product')
-              .where('product_id', 'IN', ps.map((p) => p.getData('product_id')))
-              .andWhere('sku', 'IN', value);
-            const check = await query.execute(pool);
-            if (operation === 'IN') {
-              return check.length >= minQty;
+            if (operator === 'IN') {
+              items.forEach((item) => {
+                if (value.includes(item.getData('product_sku'))) {
+                  qty += item.getData('qty');
+                }
+              });
             } else {
-              return (ps.length - check.length) >= minQty;
+              items.forEach((item) => {
+                if (!value.includes(item.getData('product_sku'))) {
+                  qty += item.getData('qty');
+                }
+              });
             }
           } else {
-            // For 'sku' type of condition, we only support 'IN' and 'NOT IN' operations
+            // For 'attribute group' type of condition, we only support 'IN' and 'NOT IN' operators
+            flag = false;
             return false;
           }
         }
+        if (qty < minQty) {
+          flag = false;
+        }
       }
+
+      return flag;
     });
     this.constructor.addValidator('customerGroup', async (coupon, cart) => {
+      return true;// TODO: Update later customer group
       const conditions = JSON.parse(coupon['user_condition']);
       const allowGroups = conditions['groups'] || [];
       // No group means all groups
@@ -329,7 +401,7 @@ exports.Validator = class Validator {
    */
   async validate(couponCode, cart) {
     let flag = true;
-    const coupon = await select().from('coupon').where('code', '=', couponCode).load(pool);
+    const coupon = await select().from('coupon').where('coupon', '=', couponCode).load(pool);
     if (!coupon) {
       return false;
     }

@@ -17,6 +17,7 @@ const { getRoutes, getSiteRoutes, getAdminRoutes } = require('../../src/lib/rout
 const { registerAdminRoute } = require('../../src/lib/router/registerAdminRoute');
 const { registerSiteRoute } = require('../../src/lib/router/registerSiteRoute');
 const bodyParser = require('body-parser');
+const { loadBootstrapScripts } = require('./bootstrap');
 
 const spinner = ora({
   text: green('EverShop is starting'),
@@ -239,6 +240,9 @@ middlewares.forEach((m) => {
     }
   }
 });
+
+/** Load bootstrap script from modules */
+loadBootstrapScripts();
 
 /**
  * Normalize a port into a number, string, or false.

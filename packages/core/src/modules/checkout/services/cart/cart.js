@@ -5,6 +5,7 @@ const { select, del } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 const { DataObject } = require('./dataObject');
 const { Item } = require('./item');
+const { toPrice } = require('../toPrice');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
@@ -95,13 +96,6 @@ exports.Cart = class Cart extends DataObject {
       dependencies: []
     },
     {
-      key: 'discount_amount',
-      async resolver() {
-        return 0; // Will be added later
-      },
-      dependencies: []
-    },
-    {
       key: 'sub_total',
       async resolver() {
         let total = 0;
@@ -110,7 +104,7 @@ exports.Cart = class Cart extends DataObject {
           total += i.getData('final_price') * i.getData('qty');
         });
 
-        return total;
+        return toPrice(total);
       },
       dependencies: ['items']
     },
@@ -207,16 +201,17 @@ exports.Cart = class Cart extends DataObject {
       async resolver() {
         const items = [];
         if (this.dataSource.items) {
-          this.dataSource.items.forEach((item) => {
+          await Promise.all(this.dataSource.items.map(async (item) => {
             // If this is just new added item, add it to the list
-            if (item.getData('cart_item_id') === null && item.error === undefined) {
+            if (!/^\d+$/.test(item.getData('cart_item_id')) && item.error === undefined) {
               items.push(item);
-            } else if (item.getData('cart_item_id') !== null) {
+            } else if (/^\d+$/.test(item.getData('cart_item_id'))) {
               // If the item is not build
-              if (item.dataSource.product === undefined) item.build();
+              if (item.dataSource.product === undefined)
+                await item.build();
               items.push(item);
             }
-          });
+          }));
         } else {
           const query = select();
           const list = await query.from('cart_item')
@@ -261,6 +256,10 @@ exports.Cart = class Cart extends DataObject {
     this.prepareFields();
   }
 
+  // getCart() {
+  //   return this.constructor.#cart ? this.constructor.#cart : new Cart();
+  // }
+
   getItems() {
     return this.getData('items') ?? [];
   }
@@ -272,6 +271,7 @@ exports.Cart = class Cart extends DataObject {
       throw new Error(item.error);
     } else {
       let items = this.getItems();
+      //console.log(items);
       let flag = false;
       for (let i = 0; i < items.length; i += 1) {
         if (items[i].getData('product_sku') === item.getData('product_sku') && isEqualWith(items[i].getData('product_custom_options'), item.getData('product_custom_options'))) {
@@ -290,6 +290,11 @@ exports.Cart = class Cart extends DataObject {
       await this.setData('items', items);
       return item;
     }
+  }
+
+  getItem(id) {
+    const items = this.getItems();
+    return items.find((item) => item.getData('cart_item_id') == id);
   }
 
   hasError() {

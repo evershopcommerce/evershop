@@ -7,6 +7,10 @@ export class DataObject {
   static fields;
 
   constructor() {
+    // This is the data opject: {key, value}
+    this.data = {}; // TODO: Private field?
+
+    // This object hold the data pool, which is used to build the data object
     this.dataSource = [];
     this.isBuilding = false;
     this.error = undefined;
@@ -46,12 +50,9 @@ export class DataObject {
   // If error is thrown, all changes will be rollback
   async build() {
     let _this = this;
-    console.log(this.constructor.name);
-    const values = [];
+
     // Keep current values for rollback
-    this.constructor.fields.forEach((f, index) => {
-      values.push(f.value);
-    });
+    const values = { ...this.data };
 
     try {
       this.isBuilding = true;
@@ -59,17 +60,15 @@ export class DataObject {
 
       for (let i = 0; i < this.constructor.fields.length; i += 1) {
         const field = this.constructor.fields[i];
-        field.value = await field.resolver.call(_this);
+        this.data[field.key] = await field.resolver.call(_this);
       }
       this.isBuilding = false;
     } catch (e) {
+      console.log(e)
       this.error = e;
       this.isBuilding = false;
       // Rollback the changes
-      this.constructor.fields.forEach((f, index) => {
-        f.value = values[index];
-      });
-      throw e;
+      this.data = { ...values };
     }
   }
 
@@ -79,20 +78,19 @@ export class DataObject {
       throw new Error(`Field ${key} not existed`);
     }
 
-    return field.value ?? undefined;
+    return this.data[field.key];
   }
 
   async setData(key, value) {
     if (this.isBuilding === true) {
       throw new Error('Can not set value when object is building');
     }
-
     const field = this.constructor.fields.find((f) => f.key === key);
     if (field === undefined) {
       throw new Error(`Field ${key} not existed`);
     }
 
-    if (isEqualWith(field.value, value)) {
+    if (isEqualWith(this.data[key], value)) {
       return value;
     }
 
@@ -120,7 +118,7 @@ export class DataObject {
   export() {
     const data = {};
     this.constructor.fields.forEach((f) => {
-      data[f.key] = f.value;
+      data[f.key] = this.data[f.key];
     });
 
     return data;
