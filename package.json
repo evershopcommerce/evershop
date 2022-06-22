@@ -16,10 +16,10 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "nodemon --delay 500ms --exec babel-node ./packages/core/bin/evershop dev",
+    "dev": "node packages/core/postpublish.js && nodemon --delay 500ms --exec babel-node ./packages/core/bin/evershop dev",
     "install": "evershop install",
-    "build": "evershop build",
-    "start": "evershop start",
+    "build": "npx babel packages/core/src -d packages/core/dist --copy-files && evershop build",
+    "start": "node packages/core/prepublish.js && evershop start",
     "test": "jest --workspace=@evershop/core",
     "cypress": "cypress run"
   },
@@ -30,13 +30,14 @@
     "@babel/core": "^7.14.8",
     "@babel/node": "^7.14.7",
     "cypress": "^9.6.1",
-    "eslint": "^8.7.0",
+    "eslint": "^8.17.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "jest": "^27.4.3"
+    "jest": "^27.4.3",
+    "tailwindcss": "^3.1.3"
   },
   "dependencies": {
     "regenerator-runtime": "^0.13.9",

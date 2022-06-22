@@ -2,8 +2,9 @@ module.exports = {
   purge: {
     enabled: true,
     content: [
-      './src/lib/**/*.js',
-      './src/modules/**/*'
+      './packages/core/src/lib/components/*.js',
+      './packages/core/src/modules/*/views/site/**/*.js',
+      './packages/core/src/modules/*/views/site/*.js'
     ]
   },
   darkMode: false, // or 'media' or 'class',
@@ -87,6 +88,7 @@ module.exports = {
       '25': '2.5rem',
       '275': '2.75rem',
       '3': '3rem',
+      '4': '4rem',
     },
     margin: {
       '0': '0px',
@@ -101,6 +103,7 @@ module.exports = {
       '25': '2.5rem',
       '275': '2.75rem',
       '3': '3rem',
+      '4': '4rem',
     },
     borderRadius: {
       DEFAULT: '0.25rem',

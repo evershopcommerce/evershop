@@ -1,16 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { DateTime } from 'luxon';
 import { useAppState } from '../../../context/app';
 import { get } from '../../../util/get';
 
-export default function Date() {
+export default function DateRow({ id, areaProps }) {
   const context = useAppState();
-  const date = DateTime.fromSQL('2021-08-18 10:00:00', { zone: 'UTC' }).setLocale(get(context, 'shop.language', 'en')).setZone(get(context, 'shop.timezone', 'UTC')).toFormat('LLL dd yyyy');
+  const date = DateTime.fromSQL(areaProps.row[id], { zone: 'UTC' });
+
   return (
     <td>
       <div>
-        <span>{date.toString()}</span>
+        <span>
+          {
+            date.isValid ? date.setLocale(get(context, 'shop.language', 'en'))
+              .setZone(get(context, 'shop.timezone', 'UTC'))
+              .toFormat('LLL dd yyyy') : '--'
+          }
+        </span>
       </div>
     </td>
   );
 }
+
+DateRow.propTypes = {
+  areaProps: PropTypes.shape({
+    row: PropTypes.shape({
+      id: PropTypes.string
+    })
+  }).isRequired,
+  id: PropTypes.string.isRequired
+};

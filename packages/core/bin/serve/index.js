@@ -16,6 +16,8 @@ const { scanForRoutes } = require('../../src/lib/router/scanForRoutes');
 const { getRoutes, getSiteRoutes, getAdminRoutes } = require('../../src/lib/router/routes');
 const { registerAdminRoute } = require('../../src/lib/router/registerAdminRoute');
 const { registerSiteRoute } = require('../../src/lib/router/registerSiteRoute');
+const bodyParser = require('body-parser');
+const { loadBootstrapScripts } = require('./bootstrap');
 
 const spinner = ora({
   text: green('EverShop is starting'),
@@ -117,23 +119,48 @@ const routes = getRoutes();
 const siteRoutes = getSiteRoutes();
 const adminRoutes = getAdminRoutes();
 
+// Adding default middlewares
 routes.forEach((r) => {
-  app.all(r.path, (request, response, next) => {
+  const currentRouteMiddleware = (request, response, next) => {
     // eslint-disable-next-line no-underscore-dangle
     request.currentRoute = r;
-    request.app.set('route', r);
     next();
+  };
+  r.method.forEach((method) => {
+    switch (method.toUpperCase()) {
+      case 'GET':
+        app.get(r.path, currentRouteMiddleware);
+        break;
+      case 'POST':
+        app.post(r.path, currentRouteMiddleware);
+        break;
+      case 'PUT':
+        app.put(r.path, currentRouteMiddleware);
+        break;
+      case 'DELETE':
+        app.delete(r.path, currentRouteMiddleware);
+        break;
+      default:
+        app.get(r.path, currentRouteMiddleware);
+        break;
+    }
   });
 
   /** 405 Not Allowed handle */
   app.all(r.path, (request, response, next) => {
     // eslint-disable-next-line no-underscore-dangle
     if (request.currentRoute && !request.currentRoute.method.includes(request.method)) {
-      response.status(405).send('Method Not Allowed');
+      response.status(405).send('Method Not ssAllowed');
     } else {
       next();
     }
   });
+
+  // Body parser for API routes
+  if (r.isApi) {
+    app.all(r.path, bodyParser.json({ inflate: false }));
+    app.all(r.path, bodyParser.urlencoded({ extended: true }));
+  }
 
   // eslint-disable-next-line no-underscore-dangle
   // eslint-disable-next-line no-param-reassign
@@ -159,7 +186,25 @@ middlewares.forEach((m) => {
   } else if (m.routeId === 'admin') {
     adminRoutes.forEach((route) => {
       if ((route.id !== 'adminStaticAsset') || m.id === 'isAdmin') {
-        app.all(route.path, m.middleware);
+        route.method.forEach((method) => {
+          switch (method.toUpperCase()) {
+            case 'GET':
+              app.get(route.path, m.middleware);
+              break;
+            case 'POST':
+              app.post(route.path, m.middleware);
+              break;
+            case 'PUT':
+              app.put(route.path, m.middleware);
+              break;
+            case 'DELETE':
+              app.delete(route.path, m.middleware);
+              break;
+            default:
+              app.get(route.path, m.middleware);
+              break;
+          }
+        });
       }
     });
   } else if (m.routeId === 'site') {
@@ -195,6 +240,9 @@ middlewares.forEach((m) => {
     }
   }
 });
+
+/** Load bootstrap script from modules */
+loadBootstrapScripts();
 
 /**
  * Normalize a port into a number, string, or false.

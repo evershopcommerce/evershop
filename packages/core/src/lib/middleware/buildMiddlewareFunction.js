@@ -17,7 +17,7 @@ module.exports = exports = {};
  */
 exports.buildMiddlewareFunction = function buildMiddlewareFunction(
   id,
-  middleware,
+  middlewareFunc,
   routeId = null,
   before = null,
   after = null,
@@ -28,17 +28,17 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
   }
 
   // Check if the middleware is an error handler
-  if (middleware.length === 5) {
+  if (middlewareFunc.length === 5) {
     return {
       id: String(id),
       routeId,
       before,
       after,
-      middleware(error, request, response, next) {
+      middleware: (error, request, response, next) => {
         if (request.currentRoute) {
-          middleware(error, request, response, stack.delegates[request.currentRoute.id], next);
+          middlewareFunc(error, request, response, stack.delegates[request.currentRoute.id], next);
         } else {
-          middleware(error, request, response, [], next);
+          middlewareFunc(error, request, response, [], next);
         }
       },
       scope
@@ -49,7 +49,7 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
       routeId,
       before,
       after,
-      middleware(request, response, next) {
+      middleware: (request, response, next) => {
         logger.log('info', `Executing middleware ${id}`);
 
         // If there response status is 404. We skip routed middlewares
@@ -58,17 +58,17 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
         }
 
         // If middleware contains requests for 4 arguments (request, response, stack, next).
-        if (middleware.length === 4) {
-          const delegate = middleware(
+        if (middlewareFunc.length === 4) {
+          const delegate = middlewareFunc(
             request,
             response,
             stack.delegates[request.currentRoute.id],
             next
           );
 
+          // TODO: There is an issue when the middlewaare is synchonous function. Any error occurred will trigger the default error handler
           // Insert delegate to the list of delegations
           stack.delegates[request.currentRoute.id][id] = delegate;
-
           if (delegate instanceof Promise) {
             delegate.catch((e) => {
               logger.log('error', `Exception in middleware ${id}`, { message: e.message, stack: e.stack });
@@ -83,7 +83,7 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
 
           return delegate;
         } else {
-          const delegate = middleware(
+          const delegate = middlewareFunc(
             request,
             response,
             stack.delegates[request.currentRoute.id]
@@ -104,7 +104,9 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
           }
           // If the middleware returns an error. Call the errorHandler middleware.
           if (delegate instanceof Error) {
-            return next(delegate);
+            if (response.locals.errorHandlerTriggered !== true) {
+              return next(delegate);
+            }
           } else {
             return next();
           }

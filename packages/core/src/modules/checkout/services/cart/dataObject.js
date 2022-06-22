@@ -3,22 +3,29 @@ const isEqualWith = require('lodash/isEqualWith');
 const Topo = require('@hapi/topo');
 
 export class DataObject {
+  // This is an array of objects: {key, resolver, dependencies}
+  static fields;
+
   constructor() {
-    this._dataSource = [];
-    this._resolvers = [];
-    this._building = false;
-    this._error = undefined;
+    // This is the data opject: {key, value}
+    this.data = {}; // TODO: Private field?
+
+    // This object hold the data pool, which is used to build the data object
+    this.dataSource = [];
+    this.isBuilding = false;
+    this.error = undefined;
   }
 
-  _prepareFields(fields) {
+  // Sort the fields by dependencies
+  prepareFields() {
     // eslint-disable-next-line no-shadow
-    const _fields = fields.filter((f, index, fields) => {
+    const fields = this.constructor.fields.filter((f, index, fields) => {
       if (!f.dependencies) return true;
       const { dependencies } = f;
       let flag = true;
       // Field will be removed if it's dependency missing
       dependencies.forEach((d) => {
-        if (flag === false || fields.findIndex((m) => m.key === d) === -1) {
+        if (flag === false || this.constructor.fields.findIndex((m) => m.key === d) === -1) {
           flag = false;
         }
       });
@@ -27,57 +34,91 @@ export class DataObject {
     });
 
     const sorter = new Topo.Sorter();
-    _fields.forEach((f) => {
+    fields.forEach((f) => {
       sorter.add(f.key, { before: [], after: f.dependencies, group: f.key });
     });
 
-    this._fields = sorter.nodes.map((n) => {
-      const index = _fields.findIndex((f) => f.key === n);
-      const f = _fields[index];
-      if (this._resolvers.findIndex((r) => r.key === f.key) === -1) {
-        this._resolvers.push({
-          key: f.key,
-          resolver: f.resolver
-        });
-      }
-
-      _fields.splice(index, 1);
+    this.constructor.fields = sorter.nodes.map((key) => {
+      const index = fields.findIndex((f) => f.key === key);
+      const f = fields[index];
 
       return { ...f };
     });
   }
 
+  // Build the field value. This function will be called when the field value is changed
+  // If error is thrown, all changes will be rollback
   async build() {
-    this._building = true;
-    for (let i = 0; i < this._resolvers.length; i += 1) {
-      const field = this._fields.find((f) => f.key === this._resolvers[i].key);
-      // eslint-disable-next-line no-await-in-loop
-      field.value = await this._resolvers[i].resolver.call(this);
+    let _this = this;
+
+    // Keep current values for rollback
+    const values = { ...this.data };
+
+    try {
+      this.isBuilding = true;
+      this.error = undefined;
+
+      for (let i = 0; i < this.constructor.fields.length; i += 1) {
+        const field = this.constructor.fields[i];
+        this.data[field.key] = await field.resolver.call(_this);
+      }
+      this.isBuilding = false;
+    } catch (e) {
+      console.log(e)
+      this.error = e;
+      this.isBuilding = false;
+      // Rollback the changes
+      this.data = { ...values };
     }
-    this._building = false;
   }
 
   getData(key) {
-    const field = this._fields.find((f) => f.key === key);
-    if (field === undefined) { throw new Error(`Field ${key} not existed`); }
+    const field = this.constructor.fields.find((f) => f.key === key);
+    if (field === undefined) {
+      throw new Error(`Field ${key} not existed`);
+    }
 
-    return field.value ?? null;
+    return this.data[field.key];
   }
 
   async setData(key, value) {
-    if (this._building === true) { throw new Error('Can not set value when object is building'); }
+    if (this.isBuilding === true) {
+      throw new Error('Can not set value when object is building');
+    }
+    const field = this.constructor.fields.find((f) => f.key === key);
+    if (field === undefined) {
+      throw new Error(`Field ${key} not existed`);
+    }
 
-    const field = this._fields.find((f) => f.key === key);
-    if (field === undefined) { throw new Error(`Field ${key} not existed`); }
-    this._dataSource[key] = value;
+    if (isEqualWith(this.data[key], value)) {
+      return value;
+    }
+
+    // Temporary add value to the data source
+    this.dataSource[key] = value;
+
+    // Run the full build
     await this.build();
-    if (!isEqualWith(this.getData(key), value)) { throw new Error(`Field resolver returned different value - ${key}`); } else return value;
+
+    if (!isEqualWith(this.getData(key), value)) {
+      throw new Error(`Field resolver returned different value - ${key}`);
+    } else {
+      return value;
+    }
+  }
+
+  hasError() {
+    return this.error !== undefined;
+  }
+
+  getError() {
+    return this.error;
   }
 
   export() {
     const data = {};
-    this._fields.forEach((f) => {
-      data[f.key] = f.value;
+    this.constructor.fields.forEach((f) => {
+      data[f.key] = this.data[f.key];
     });
 
     return data;
