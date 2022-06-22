@@ -169,3 +169,23 @@ input[type="checkbox"] {
     align-self: center;
     display: inline-flex;
 }
+
+.dropdown .field-prefix,
+.dropdown .field-suffix {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    align-self: center;
+    align-items: center;
+    display: inline-flex;
+}
+
+.dropdown .field-prefix {
+    left: 0;
+    padding-left: 0 0 0 1rem;
+}
+
+.dropdown .field-suffix {
+    right: 0;
+    padding-right:0 1rem 0 0;
+}

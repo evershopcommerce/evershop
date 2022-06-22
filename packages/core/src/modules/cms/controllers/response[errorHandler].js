@@ -17,15 +17,14 @@ module.exports = async (request, response, stack, next) => {
       promises.push(stack[id]);
     }
   });
-
   try {
     // Wait for all async middleware to be completed
     await Promise.all(promises);
-
+    const route = request.currentRoute
     // Check if this is a redirection or not.
     if (response.$redirectUrl) {
       response.redirect(response.statusCode || 302, response.$redirectUrl);
-    } else if (response.get('Content-Type') === 'application/json; charset=utf-8') { // Check if the response is Json or not.
+    } else if (route.isApi === true) { // Check if the request is an API.
       response.json(response.$body || {});
     } else {
       // eslint-disable-next-line max-len
@@ -34,6 +33,7 @@ module.exports = async (request, response, stack, next) => {
       if (response.$body && response.$body !== '') {
         response.send(response.$body);
       } else {
+        response.context.route = route;
         const source = renderToString(
           <AppProvider value={response.context}>
             <Alert>
@@ -48,6 +48,10 @@ module.exports = async (request, response, stack, next) => {
       }
     }
   } catch (error) {
-    next(error);
+    if (response.locals.errorHandlerTriggered !== true) {
+      return next(error);
+    } else {
+      // Do nothing here since the next(error) is already called when the error is thrown on each middleware
+    }
   }
 };

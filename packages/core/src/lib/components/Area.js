@@ -2,12 +2,14 @@
 /* eslint-disable react/destructuring-assignment */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { getComponents } from './getComponents';
 
 function Area(props) {
   const {
-    id, coreComponents, wrapperProps, noOuter, wrapper, className, components
+    id, coreComponents, wrapperProps, noOuter, wrapper, className
   } = props;
 
+  const components = getComponents();
   const areaComponents = (() => {
     const areaCoreComponents = coreComponents || [];
     const cs = components[id] === undefined
@@ -53,12 +55,7 @@ Area.propTypes = {
   noOuter: PropTypes.bool,
   wrapper: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   // eslint-disable-next-line react/forbid-prop-types
-  wrapperProps: PropTypes.object,
-  components: PropTypes.objectOf(PropTypes.shape({
-    id: PropTypes.string,
-    components: PropTypes.node,
-    sortOrder: PropTypes.number
-  }))
+  wrapperProps: PropTypes.object
 };
 
 Area.defaultProps = {
@@ -66,8 +63,7 @@ Area.defaultProps = {
   coreComponents: [],
   noOuter: false,
   wrapper: 'div',
-  wrapperProps: {},
-  components: {}
+  wrapperProps: {}
 };
 
 export default Area;

@@ -3,24 +3,19 @@ import React from 'react';
 import flatpickr from './Flatpickr';
 import Error from './Error';
 
-function DateTime({
-  name, placeholder, value, label, onChange, error, instruction, prefix, suffix
-}) {
-  const [_value, setValue] = React.useState(value || '');
-  const inputRef = React.createRef();
+const DateTime = React.forwardRef((props, ref) => {
+  const {
+    name, value, label, onChange, error, suffix, prefix, placeholder, instruction
+  } = props;
+
+  const inputRef = ref || React.createRef();
 
   React.useEffect(() => {
-    setValue(parseInt(value, 10) === 1 ? 1 : 0);
-  }, [value]);
-
-  React.useEffect(() => {
-    flatpickr(inputRef.current, { enableTime: true });
+    const instance = flatpickr(inputRef.current, { enableTime: true });
+    instance.config.onChange.push((selectedDates, dateStr) => {
+      if (onChange) onChange.call(window, dateStr);
+    });
   }, []);
-
-  const onChangeFunc = (e) => {
-    setValue(e.target.value);
-    if (onChange) onChange.call(window, e.target.value);
-  };
 
   return (
     <div className={`form-field-container ${error ? 'has-error' : null}`}>
@@ -33,8 +28,8 @@ function DateTime({
           id={name}
           name={name}
           placeholder={placeholder}
-          value={_value}
-          onChange={onChangeFunc}
+          value={value}
+          onChange={onChange}
           ref={inputRef}
         />
         <div className="field-border" />
@@ -45,7 +40,7 @@ function DateTime({
       <Error error={error} />
     </div>
   );
-}
+});
 
 DateTime.propTypes = {
   error: PropTypes.string,
@@ -54,8 +49,8 @@ DateTime.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
-  prefix: PropTypes.string,
-  suffix: PropTypes.string,
+  prefix: PropTypes.node,
+  suffix: PropTypes.node,
   value: PropTypes.string
 };
 

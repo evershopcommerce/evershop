@@ -35,7 +35,7 @@ module.exports = async (request, response, stack, next) => {
       }
 
       await Promise.all(items.map(async (item) => {
-        if (item.getData('cart_item_id')) {
+        if (/^\d+$/.test(item.getData('cart_item_id'))) {
           await update('cart_item')
             .given(item.export())
             .where('cart_item_id', '=', item.getData('cart_item_id'))

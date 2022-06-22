@@ -12,8 +12,8 @@ function Subtotal({ subTotal }) {
   const language = get(useAppState(), 'language', 'en');
   const formatedSubTotal = new Intl.NumberFormat(language, { style: 'currency', currency }).format(subTotal);
   return (
-    <div className="flex justify-end gap-3" style={{ fontSize: '2rem' }}>
-      <div>Subtotal</div>
+    <div className="flex justify-between gap-3">
+      <div>Sub total</div>
       <div className="text-right">{formatedSubTotal}</div>
     </div>
   );
@@ -27,36 +27,39 @@ Subtotal.defaultProps = {
   subTotal: 0
 };
 
-function Discount({ discountAmount }) {
+function Discount({ discountAmount, coupon }) {
   const currency = get(useAppState(), 'currency', 'USD');
   const language = get(useAppState(), 'language', 'en');
   const formatedDiscountAmount = new Intl.NumberFormat(language, { style: 'currency', currency }).format(discountAmount);
 
   if (!discountAmount) { return null; }
   return (
-    <div className="flex justify-end gap-3">
-      <div>Discount</div>
+    <div className="flex justify-between gap-3">
+      <div>{`Discount(${coupon})`}</div>
       <div className="text-right">{formatedDiscountAmount}</div>
     </div>
   );
 }
 
 Discount.propTypes = {
-  discountAmount: PropTypes.number
+  discountAmount: PropTypes.number,
+  coupon: PropTypes.string
 };
 
 Discount.defaultProps = {
-  discountAmount: 0
+  discountAmount: 0,
+  coupon: ''
 };
 
 function Summary({ checkoutUrl }) {
   const cart = get(useAppState(), 'cart', {});
   if (cart.items === undefined || cart.items.length === 0) { return null; }
   return (
-    <div className="summary mt-3">
-      <div className="flex justify-end flex-col">
+    <div className="summary">
+      <div className="grid grid-cols-1 gap-2">
+        <h4>Order summary</h4>
         <Area
-          id="shopping-cart-summary"
+          id="shoppingCartSummary"
           noOuter
           cart={cart}
           components={getComponents()}
@@ -69,13 +72,13 @@ function Summary({ checkoutUrl }) {
             },
             {
               component: { default: Discount },
-              props: { discountAmount: cart.discount_amount },
+              props: { discountAmount: cart.discount_amount, coupon: cart.coupon },
               sortOrder: 20,
               id: 'shoppingCartDiscount'
             },
             {
               // eslint-disable-next-line react/no-unstable-nested-components
-              component: { default: () => <div className="flex justify-end italic text-textSubdued">Taxes and shipping calculated at checkout</div> },
+              component: { default: () => <div className="flex justify-between italic text-textSubdued">Taxes and shipping calculated at checkout</div> },
               props: {},
               sortOrder: 30,
               id: 'summaryNote'
@@ -83,7 +86,7 @@ function Summary({ checkoutUrl }) {
           ]}
         />
       </div>
-      <div className="shopping-cart-checkout-btn flex justify-end mt-3">
+      <div className="shopping-cart-checkout-btn flex justify-between mt-2">
         <Button url={checkoutUrl} title="CHECKOUT" variant="primary" />
       </div>
     </div>
