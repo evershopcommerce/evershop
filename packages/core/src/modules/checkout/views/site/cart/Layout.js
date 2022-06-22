@@ -34,15 +34,15 @@ export default function CartLayout() {
           ]}
         />
         <div className="cart-page-middle">
-          <div className="row">
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-4">
             <Area
               id="shoppingCartLeft"
-              className="col-12 col-md-8"
+              className="col-span-1 md:col-span-3"
               components={getComponents()}
             />
             <Area
               id="shoppingCartRight"
-              className="col-12 col-md-4"
+              className="col-span-1 md:col-span-1"
               components={getComponents()}
             />
           </div>

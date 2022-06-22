@@ -46,7 +46,7 @@ const validationErrors = [];
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 // eslint-disable-next-line no-unused-vars
-exports.createOrder = async function createOrder(cart, eventDispatcher) {
+exports.createOrder = async function createOrder(cart) {
   // Start creating order
   const connection = await getConnection(pool);
 

@@ -10,7 +10,7 @@ import { Total } from './cart/Total';
 function CartSummary() {
   const context = useAppState();
   const { cart } = context;
-  const { items } = cart;
+  const items = get(context, 'cart.items', []);
   const language = get(context, 'shop.language', 'en');
   const currency = get(context, 'shop.currency', 'usd');
 
@@ -25,7 +25,7 @@ function CartSummary() {
       <Subtotal count={items.length} total={formatedSubTotal} />
       <Shipping method={cart.shipping_method} cost={formatedShippingCost} />
       <Tax taxClass="" amount={formatedTaxAmount} />
-      <Discount code="" amount={formatedDiscountAmount} />
+      <Discount code={cart.coupon} discount={formatedDiscountAmount} />
       <Total total={formatedGrandTotal} />
     </div>
   );

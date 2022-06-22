@@ -20,11 +20,11 @@ module.exports = async (request, response, stack, next) => {
   try {
     // Wait for all async middleware to be completed
     await Promise.all(promises);
-
+    const route = request.currentRoute
     // Check if this is a redirection or not.
     if (response.$redirectUrl) {
       response.redirect(response.statusCode || 302, response.$redirectUrl);
-    } else if (response.get('Content-Type') === 'application/json; charset=utf-8') { // Check if the response is Json or not.
+    } else if (route.isApi === true) { // Check if the request is an API.
       response.json(response.$body || {});
     } else {
       // eslint-disable-next-line max-len
@@ -33,7 +33,7 @@ module.exports = async (request, response, stack, next) => {
       if (response.$body && response.$body !== '') {
         response.send(response.$body);
       } else {
-        response.context.route = request.currentRoute;
+        response.context.route = route;
         const source = renderToString(
           <AppProvider value={response.context}>
             <Alert>
