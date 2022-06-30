@@ -41,7 +41,7 @@
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
     "@babel/register": "^7.16.0",
-    "@evershop/mysql-query-builder": "^1.3.6",
+    "@evershop/mysql-query-builder": "^1.3.7",
     "@hapi/topo": "^5.0.0",
     "@heroicons/react": "^1.0.5",
     "@shopify/draggable": "^1.0.0-beta.8",
