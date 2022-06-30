@@ -1,12 +1,13 @@
-const { bootstrap, close } = require('../app/app');
+const { app, bootstrap, close } = require('../app/app');
 const axios = require('axios').default;
+const http = require('http');
 
 jest.setTimeout(80000);
 describe('buildMiddlewareFunction', () => {
+  const server = http.createServer(app);
   let port;
   beforeAll(async () => {
-    port = await bootstrap();
-    console.log('delegate', port)
+    port = await bootstrap(server);
   });
 
   it('Middleware function return desired value', async () => {
@@ -57,7 +58,7 @@ describe('buildMiddlewareFunction', () => {
   //   expect(delegates.find((delegate) => delegate.id === '')).toEqual(0);
   // });
 
-  afterAll(async () => {
-    await close();
+  afterAll((done) => {
+    close(server, done);
   });
 });

@@ -1,8 +1,6 @@
-const { insert } = require('@evershop/mysql-query-builder');
-const { getConnection } = require('../../../../../../../../mysql/connection');
+const axios = require('axios');
 
 module.exports = async (request, response, stack) => {
-  const result = await insert('coupon_json').given({ a: 1, b: 2 }).execute(await getConnection());
-
-  return result;
+  await axios.get('https://deelay.me/500/https://picsum.photos/200/300');
+  undefined.b = 1;
 };

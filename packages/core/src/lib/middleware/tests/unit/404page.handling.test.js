@@ -1,13 +1,14 @@
-const { bootstrap, close } = require('../app/app');
+const { app, bootstrap, close } = require('../app/app');
 const axios = require('axios').default;
+const http = require('http');
 
 jest.setTimeout(80000);
-
 describe('buildMiddlewareFunction', () => {
+  const server = http.createServer(app);
+
   let port;
   beforeAll(async () => {
-    port = await bootstrap();
-    console.log('404', port)
+    port = await bootstrap(server);
   });
 
   it('It should return 404 page when route is not exist', async () => {
@@ -48,7 +49,7 @@ describe('buildMiddlewareFunction', () => {
     expect(response).toHaveBeenCalledTimes(2);
   });
 
-  afterAll(async () => {
-    await close();
+  afterAll((done) => {
+    close(server, done);
   });
 });

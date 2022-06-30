@@ -1,12 +1,14 @@
-const { bootstrap, close } = require('../app/app');
+const { app, bootstrap, close } = require('../app/app');
 const axios = require('axios').default;
+const http = require('http');
 
-jest.setTimeout(10000000);
+jest.setTimeout(800000);
 describe('buildMiddlewareFunction', () => {
+  const server = http.createServer(app);
+
   let port;
   beforeAll(async () => {
-    port = await bootstrap();
-    console.log('error', port);
+    port = await bootstrap(server);
   });
 
   it('It should return 500 error when a error occurred', async () => {
@@ -26,7 +28,7 @@ describe('buildMiddlewareFunction', () => {
     expect(errorHandler).toHaveBeenCalledTimes(1);
   });
 
-  afterAll(async () => {
-    await close();
+  afterAll((done) => {
+    close(server, done);
   });
 });

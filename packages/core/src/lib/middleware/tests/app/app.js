@@ -12,6 +12,7 @@ const { prepare } = require('../../../../../bin/serve/prepare');
 const { getModuleMiddlewares, getAllSortedMiddlewares } = require('../..');
 const { getRoutes } = require('../../../router/routes');
 const { once } = require('events');
+const { promisify } = require('util');
 
 /* Loading modules and initilize routes, components and services */
 const modules = [
@@ -68,22 +69,19 @@ prepare(app, middlewares, routes);
 /** Load bootstrap script from modules */
 loadBootstrapScripts(modules);
 
-const server = http.createServer(app);
 module.exports = {
-  bootstrap: async () => {
+  app,
+  bootstrap: async (server) => {
     server.listen();
     await once(server, 'listening');
     return server.address().port;
   },
-  close: async () => {
-    // // Await close the http server
-    // await new Promise((resolve) => {
-    //   server.close(resolve);
-    // })
+  close: (server, done) => {
+    server.close(done);
   }
 }
 
 
-server.listen(0, () => {
-  console.log(server.address().port);
-});
+// server.listen(0, () => {
+//   console.log(server.address().port);
+// });
