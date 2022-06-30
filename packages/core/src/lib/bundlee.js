@@ -21,6 +21,7 @@ module.exports = async (request, response, route) => {
   }
 
   const scopePath = route.isAdmin === true ? `./admin/${route.id}` : `./site/${route.id}`;
+  response.context.componentsPath = `${scopePath}/components.js`;
   /** This middleware only required for development */
   if (process.env.NODE_ENV === 'production') {
     let hash;
@@ -92,7 +93,7 @@ module.exports = async (request, response, route) => {
   if (existsSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath)))
     await rmdir(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath), { recursive: true });
 
-  const components = JSON.parse(JSON.stringify(getComponentsByRoute(route.id)));
+  const components = JSON.parse(JSON.stringify(getComponentsByRoute(route.id))) || {};
   Object.keys(components).forEach((area) => {
     Object.keys(components[area]).forEach((id) => {
       components[area][id].component = `---require("${components[area][id].source}")---`;
@@ -155,12 +156,14 @@ module.exports = async (request, response, route) => {
 
   await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.evershop/build', scopePath, `${hash}.css`), cssOutput.styles);
 
-  if (request.isAdmin === true) {
-    response.context.bundleJs = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.js`]);
-    response.context.bundleCss = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.css`]);
-  } else {
-    response.context.bundleJs = buildUrl('staticAsset', [`${scopePath}/${hash}.js`]);
-    response.context.bundleCss = buildUrl('staticAsset', [`${scopePath}/${hash}.css`]);
+  if (!response.context.bundleJs) {
+    if (request.isAdmin === true) {
+      response.context.bundleJs = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.js`]);
+      response.context.bundleCss = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.css`]);
+    } else {
+      response.context.bundleJs = buildUrl('staticAsset', [`${scopePath}/${hash}.js`]);
+      response.context.bundleCss = buildUrl('staticAsset', [`${scopePath}/${hash}.css`]);
+    }
   }
 
   // eslint-disable-next-line no-param-reassign

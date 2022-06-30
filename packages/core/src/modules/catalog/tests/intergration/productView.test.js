@@ -20,15 +20,4 @@ describe('Product page is rendered correctly', () => {
         expect(response.body).to.contains('Not found');
       });
   });
-
-  it('It should return a product page when the product is salable', () => {
-    cy.request({
-      url: "/product/miwypkf",
-      failOnStatusCode: false
-    })
-      .should(response => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.contains('New product');
-      });
-  })
 })

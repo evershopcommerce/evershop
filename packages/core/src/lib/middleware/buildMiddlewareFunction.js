@@ -1,5 +1,8 @@
-const logger = require('../log/logger');
+const { asyncMiddlewareWrapper } = require('./async');
+const eNext = require('./eNext');
+const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
 const { stack } = require('./stack');
+const { syncMiddlewareWrapper } = require('./sync');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
@@ -50,65 +53,21 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
       before,
       after,
       middleware: (request, response, next) => {
-        logger.log('info', `Executing middleware ${id}`);
-
         // If there response status is 404. We skip routed middlewares
         if (response.statusCode === 404 && routeId !== null && routeId !== 'site' && routeId !== 'admin') {
-          return next();
-        }
-
-        // If middleware contains requests for 4 arguments (request, response, stack, next).
-        if (middlewareFunc.length === 4) {
-          const delegate = middlewareFunc(
-            request,
-            response,
-            stack.delegates[request.currentRoute.id],
-            next
-          );
-
-          // TODO: There is an issue when the middlewaare is synchonous function. Any error occurred will trigger the default error handler
-          // Insert delegate to the list of delegations
-          stack.delegates[request.currentRoute.id][id] = delegate;
-          if (delegate instanceof Promise) {
-            delegate.catch((e) => {
-              logger.log('error', `Exception in middleware ${id}`, { message: e.message, stack: e.stack });
-              // We call the error handler middleware if it was not called by another middleware
-              if (response.locals.errorHandlerTriggered !== true) {
-                return next(e);
-              } else {
-                return null;
-              }
-            });
-          }
-
-          return delegate;
+          next();
         } else {
-          const delegate = middlewareFunc(
-            request,
-            response,
-            stack.delegates[request.currentRoute.id]
-          );
-
-          // Insert delegate to the list of delegations
-          stack.delegates[request.currentRoute.id][id] = delegate;
-          if (delegate instanceof Promise) {
-            delegate.catch((e) => {
-              logger.log('error', `Exception in middleware ${id}`, { message: e.message, stack: e.stack });
-              // We call the error handler middleware if it was not called by another middleware
-              if (response.locals.errorHandlerTriggered !== true) {
-                return next(e);
-              } else {
-                return null;
-              }
-            });
-          }
-          // If the middleware returns an error. Call the errorHandler middleware.
-          if (delegate instanceof Error) {
-            if (response.locals.errorHandlerTriggered !== true) {
-              return next(delegate);
-            }
+          let delegate;
+          if (middlewareFunc.constructor.name === 'AsyncFunction') {
+            asyncMiddlewareWrapper(id, middlewareFunc, request, response, stack.delegates[request.currentRoute.id], eNext(request, response, next));
           } else {
-            return next();
+            syncMiddlewareWrapper(id, middlewareFunc, request, response, stack.delegates[request.currentRoute.id], eNext(request, response, next));
+          }
+
+          //stack.delegates[request.currentRoute.id][id] = delegate;
+          // If middleware function does not have next function as a parameter
+          if (middlewareFunc.length < 4 && !isErrorHandlerTriggered(response)) {
+            next();
           }
         }
       },
