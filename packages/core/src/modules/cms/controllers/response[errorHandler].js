@@ -2,6 +2,7 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable import/no-import-module-exports */
 import { renderHtml } from '../../../lib/components/render';
+import isErrorHandlerTriggered from '../../../lib/middleware/isErrorHandlerTriggered';
 
 module.exports = async (request, response, stack, next) => {
   const promises = [];
@@ -11,7 +12,7 @@ module.exports = async (request, response, stack, next) => {
       promises.push(stack[id]);
     }
   });
-  console.log('body', promises)
+
   try {
     // Wait for all async middleware to be completed
     await Promise.all(promises);
@@ -20,7 +21,6 @@ module.exports = async (request, response, stack, next) => {
     if (response.locals.errorHandlerTriggered === true) {
       return;
     } else {
-      console.log('response')
       const route = request.currentRoute
       // Check if this is a redirection or not.
       if (response.$redirectUrl) {
@@ -41,8 +41,8 @@ module.exports = async (request, response, stack, next) => {
       }
     }
   } catch (error) {
-    if (response.locals.errorHandlerTriggered !== true) {
-      return next(error);
+    if (!isErrorHandlerTriggered(response)) {
+      next(error);
     } else {
       // Do nothing here since the next(error) is already called when the error is thrown on each middleware
     }

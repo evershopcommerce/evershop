@@ -20,7 +20,7 @@ module.exports = async (request, response, stack, next) => {
         request.session.cartId = undefined;
       }
       await commit(connection);
-      return next();
+      next();
     } else {
       if (cart.getData('cart_id')) {
         await update('cart')
@@ -53,11 +53,10 @@ module.exports = async (request, response, stack, next) => {
       const cartInfo = cart.export();
       cartInfo.items = items.map((item) => item.export());
       assign(response.context, { cart: cartInfo });
-
-      return next();
+      next();
     }
   } catch (error) {
     await rollback(connection);
-    return next(error);
+    next(error);
   }
 };

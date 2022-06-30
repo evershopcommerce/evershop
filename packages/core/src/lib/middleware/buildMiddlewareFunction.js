@@ -1,4 +1,6 @@
 const { asyncMiddlewareWrapper } = require('./async');
+const eNext = require('./eNext');
+const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
 const { stack } = require('./stack');
 const { syncMiddlewareWrapper } = require('./sync');
 
@@ -57,15 +59,14 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
         } else {
           let delegate;
           if (middlewareFunc.constructor.name === 'AsyncFunction') {
-            asyncMiddlewareWrapper(id, middlewareFunc, request, response, stack.delegates[request.currentRoute.id], next);
+            asyncMiddlewareWrapper(id, middlewareFunc, request, response, stack.delegates[request.currentRoute.id], eNext(request, response, next));
           } else {
-            syncMiddlewareWrapper(id, middlewareFunc, request, response, stack.delegates[request.currentRoute.id], next);
+            syncMiddlewareWrapper(id, middlewareFunc, request, response, stack.delegates[request.currentRoute.id], eNext(request, response, next));
           }
 
           //stack.delegates[request.currentRoute.id][id] = delegate;
           // If middleware function does not have next function as a parameter
-          if (middlewareFunc.length < 4) {
-            console.log('calling next', id);
+          if (middlewareFunc.length < 4 && !isErrorHandlerTriggered(response)) {
             next();
           }
         }
@@ -74,14 +75,3 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
     };
   }
 };
-
-function noop() { }
-
-function eNext(response, next) {
-  // Check if the errorHandler is triggered or not
-  if (response.locals.errorHandlerTriggered !== true) {
-    next;
-  } else {
-    return noop;
-  }
-}

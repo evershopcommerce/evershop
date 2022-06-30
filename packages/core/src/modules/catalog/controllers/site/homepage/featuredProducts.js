@@ -39,5 +39,4 @@ module.exports = async (request, response) => {
     }
   }
   assign(response.context, { featuredProducts: JSON.parse(JSON.stringify(products)) });
-  undefined.a = 1;
 };

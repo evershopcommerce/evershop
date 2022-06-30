@@ -18,9 +18,6 @@ exports.asyncMiddlewareWrapper = async function asyncMiddlewareWrapper(id, middl
     // Log the error
     logger.log('error', `Exception in middleware ${id}`, { message: e.message, stack: e.stack });
     // Call error handler middleware if it is not called yet
-    if (response.locals.errorHandlerTriggered !== true) {
-      console.log('calling error handler');
-      next(e);
-    }
+    next(e);
   }
 }
