@@ -10,5 +10,17 @@
       }
     ],
     "@babel/preset-react"
+  ],
+  "plugins": [
+    [
+      "fast-async",
+      {
+        "spec": true,
+        "compiler": {
+          "promises": true,
+          "generators": false
+        }
+      }
+    ]
   ]
 }

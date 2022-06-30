@@ -64,7 +64,6 @@ export class DataObject {
       }
       this.isBuilding = false;
     } catch (e) {
-      console.log(e)
       this.error = e;
       this.isBuilding = false;
       // Rollback the changes

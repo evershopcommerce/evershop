@@ -6,6 +6,7 @@ const { assign } = require('../../../../../lib/util/assign');
 
 module.exports = async (request, response, stack, next) => {
   const connection = await getConnection(pool);
+
   await startTransaction(connection);
   try {
     const cart = await stack.initCart;

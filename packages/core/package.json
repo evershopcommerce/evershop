@@ -1,6 +1,6 @@
 {
   "name": "@evershop/core",
-  "version": "1.0.0-alpha.2",
+  "version": "1.1.0-alpha1",
   "description": "The NodeJs ecommerce framework. Built with ReactJS and MySQL. Open-source and free. Fast and customizable.",
   "files": [
     "bin",
@@ -41,7 +41,7 @@
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
     "@babel/register": "^7.16.0",
-    "@evershop/mysql-query-builder": "^1.3.4",
+    "@evershop/mysql-query-builder": "^1.3.6",
     "@hapi/topo": "^5.0.0",
     "@heroicons/react": "^1.0.5",
     "@shopify/draggable": "^1.0.0-beta.8",
@@ -57,7 +57,7 @@
     "dayjs": "^1.10.6",
     "debug": "^4.3.2",
     "enquirer": "^2.3.6",
-    "express": "^4.17.1",
+    "express": "^4.18.1",
     "express-session": "^1.17.1",
     "flatpickr": "^4.6.9",
     "immer": "^9.0.3",
