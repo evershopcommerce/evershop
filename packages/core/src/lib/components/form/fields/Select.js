@@ -15,7 +15,7 @@ const Select = React.forwardRef((props, ref) => {
           id={name}
           name={name}
           placeholder={placeholder}
-          defaultValue={value}
+          defaultValue={{ label: (options.find((o) => o.value === value) || {}).text, value: value }}
           onChange={(e) => { if (onChange) onChange.call(window, e); }}
           ref={ref}
         >
