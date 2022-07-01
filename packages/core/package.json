@@ -1,6 +1,6 @@
 {
   "name": "@evershop/core",
-  "version": "1.2.0-alpha",
+  "version": "1.2.1-alpha",
   "description": "The NodeJs ecommerce framework. Built with ReactJS and MySQL. Open-source and free. Fast and customizable.",
   "files": [
     "bin",
