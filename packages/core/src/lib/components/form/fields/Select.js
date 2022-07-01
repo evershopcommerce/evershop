@@ -6,6 +6,12 @@ const Select = React.forwardRef((props, ref) => {
   const {
     name, placeholder, value, label, onChange, error, instruction, options
   } = props;
+  const [_value, setValue] = React.useState(value || '');
+
+  React.useEffect(() => {
+    setValue(value);
+  }, [value]);
+
   return (
     <div className={`form-field-container dropdown ${error ? 'has-error' : null}`}>
       {label && <label htmlFor={name}>{label}</label>}
@@ -15,8 +21,15 @@ const Select = React.forwardRef((props, ref) => {
           id={name}
           name={name}
           placeholder={placeholder}
-          defaultValue={{ label: (options.find((o) => o.value === value) || {}).text, value: value }}
-          onChange={(e) => { if (onChange) onChange.call(window, e); }}
+          value={_value}
+          onChange={(e) => {
+            if (onChange) {
+              onChange.call(window, e)
+            } else {
+              setValue(e.target.value);
+            }
+          }
+          }
           ref={ref}
         >
           <option value="" disabled>Please select</option>

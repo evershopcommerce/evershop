@@ -9,7 +9,7 @@ export function CustomerCondition() {
   const context = useAppState();
   const condition = get(context, 'coupon.user_condition', {});
   const customerGroups = get(context, 'customerGroups', []);
-  const [customerGroupId, setCustomerGroupId] = React.useState(get(condition, 'group', ''));
+  const [customerGroupId, setCustomerGroupId] = React.useState(get(condition, 'groups', ''));// TODO: This should be multiselect
 
   return (
     <Area
