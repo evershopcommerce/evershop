@@ -32,6 +32,7 @@ export default function CouponForm({ id, isJSON, action, gridUrl }) {
       onSuccess={(response) => {
         if (get(response, 'success') === true) {
           toast.success(get(response, 'message', 'Coupon was created successfully'));
+          setTimeout(() => { window.location = gridUrl }, 300);
         } else {
           toast.error(get(response, 'message', 'Something wrong. Please try again'));
         }

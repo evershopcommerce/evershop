@@ -6,6 +6,12 @@ module.exports = async (request, response, stack, next) => {
     });
     return;
   } else {
+    if (!request.body.start_date) {
+      request.body.start_date = null;
+    }
+    if (!request.body.end_date) {
+      request.body.end_date = null;
+    }
     return next();
   }
 };

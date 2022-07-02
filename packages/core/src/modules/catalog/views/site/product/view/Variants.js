@@ -14,7 +14,9 @@ function isSelected(attributeCode, optionId, currentFilters = {}) {
 
 function isAvailable(attributeCode, optionId, variants, currentFilters = {}) {
   let availableVars = [];
-  if (Object.keys(currentFilters).length === 0) { availableVars = variants; } else {
+  if (Object.keys(currentFilters).length === 0) {
+    availableVars = variants;
+  } else {
     variants.forEach((v) => {
       const vAttrs = v.attributes;
       let flag = true;
@@ -87,7 +89,7 @@ export default function Variants() {
     <div className="variant variant-container grid grid-cols-1 gap-1 mt-2">
       {attributes.map((a, i) => {
         const options = a.options.filter(
-          (v, j, s) => s.findIndex((o) => o.option_id === v.option_id) === i
+          (v, j, s) => s.findIndex((o) => o.option_id === v.option_id) === j
         );
         return (
           <div key={a.attribute_code}>
