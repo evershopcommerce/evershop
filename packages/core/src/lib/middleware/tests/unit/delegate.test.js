@@ -20,21 +20,9 @@ describe('buildMiddlewareFunction', () => {
 
     const test = require('../app/modules/delegate/controllers/site/delegateTest/collection').test;
     const delegates = test.mock.results[0].value;
-    // console.log(delegates);
-    Object.keys(delegates).forEach((id) => {
-      // Check if middleware is async
-      if (id === 'returnOne') {
-        expect(delegates[id]).toEqual(1);
-      }
-
-      if (id === 'returnTwo') {
-        expect(delegates[id]).toEqual(undefined);
-      }
-
-      if (id === 'returnThree') {
-        expect(delegates[id]).toEqual(3);
-      }
-    });
+    expect(delegates['returnOne']).toEqual(1);
+    expect(delegates['returnTwo']).toEqual(undefined);
+    expect(delegates['returnThree']).toEqual(3);
   });
 
 

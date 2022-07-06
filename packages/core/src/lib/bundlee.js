@@ -156,7 +156,7 @@ module.exports = async (request, response, route) => {
 
   await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.evershop/build', scopePath, `${hash}.css`), cssOutput.styles);
 
-  if (!response.context.bundleJs) {
+  if (!response.context.bundleJs || route.id === "notFound") {
     if (request.isAdmin === true) {
       response.context.bundleJs = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.js`]);
       response.context.bundleCss = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.css`]);

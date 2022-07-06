@@ -1,4 +1,5 @@
 const logger = require("../log/logger");
+const { setDelegate } = require("./delegate");
 
 module.exports = exports = {};
 
@@ -12,7 +13,7 @@ exports.syncMiddlewareWrapper = function syncMiddlewareWrapper(id, middlewareFun
     } else {
       delegate = middlewareFunc(request, response, delegates);
     }
-    delegates[id] = delegate;
+    setDelegate(id, delegate, request);
   } catch (e) {
     // Log the error
     logger.log('error', `Exception in middleware ${id}`, { message: e.message, stack: e.stack });

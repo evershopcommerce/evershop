@@ -2,24 +2,25 @@ const { resolve } = require('path');
 const { existsSync, readdirSync } = require('fs');
 const { scanForMiddlewareFunctions } = require('./scanForMiddlewareFunctions');
 const { sortMiddlewares } = require('./sort');
-const { stack } = require('./stack');
 const { buildMiddlewareFunction } = require('./buildMiddlewareFunction');
 const { noDublicateId } = require('./noDuplicateId');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
+let middlewareList = [];
+
 exports.getAdminMiddlewares = function getAdminMiddlewares(routeId) {
-  return sortMiddlewares(stack.middlewares.filter((m) => m.routeId === 'admin' || m.routeId === routeId || m.routeId === null));
+  return sortMiddlewares(middlewareList.filter((m) => m.routeId === 'admin' || m.routeId === routeId || m.routeId === null));
 };
 
 exports.getFrontMiddlewares = function getFrontMiddlewares(routeId) {
-  return sortMiddlewares(stack.middlewares.filter((m) => m.routeId === 'site' || m.routeId === routeId || m.routeId === null));
+  return sortMiddlewares(middlewareList.filter((m) => m.routeId === 'site' || m.routeId === routeId || m.routeId === null));
 };
 
 function checkAndBuild(middleware, routeId, scope) {
-  if (noDublicateId(stack.middlewares, middleware, scope)) {
-    stack.middlewares.push(
+  if (noDublicateId(middlewareList, middleware, scope)) {
+    middlewareList.push(
       buildMiddlewareFunction(
         middleware.id,
         middleware.middleware,
@@ -112,5 +113,5 @@ exports.getModuleMiddlewares = function getModuleMiddlewares(_path) {
  * @return  {array}  List of sorted middleware functions
  */
 exports.getAllSortedMiddlewares = function getAllSortedMiddlewares() {
-  return sortMiddlewares(stack.middlewares);
+  return sortMiddlewares(middlewareList);
 };
