@@ -1,7 +1,7 @@
 const { asyncMiddlewareWrapper } = require('./async');
 const eNext = require('./eNext');
 const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
-const { stack } = require('./stack');
+const { getDelegates } = require('./delegate');
 const { syncMiddlewareWrapper } = require('./sync');
 
 // eslint-disable-next-line no-multi-assign
@@ -39,7 +39,7 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
       after,
       middleware: (error, request, response, next) => {
         if (request.currentRoute) {
-          middlewareFunc(error, request, response, stack.delegates[request.currentRoute.id], next);
+          middlewareFunc(error, request, response, getDelegates(request), next);
         } else {
           middlewareFunc(error, request, response, [], next);
         }
@@ -59,12 +59,11 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
         } else {
           let delegate;
           if (middlewareFunc.constructor.name === 'AsyncFunction') {
-            asyncMiddlewareWrapper(id, middlewareFunc, request, response, stack.delegates[request.currentRoute.id], eNext(request, response, next));
+            asyncMiddlewareWrapper(id, middlewareFunc, request, response, getDelegates(request), eNext(request, response, next));
           } else {
-            syncMiddlewareWrapper(id, middlewareFunc, request, response, stack.delegates[request.currentRoute.id], eNext(request, response, next));
+            syncMiddlewareWrapper(id, middlewareFunc, request, response, getDelegates(request), eNext(request, response, next));
           }
 
-          //stack.delegates[request.currentRoute.id][id] = delegate;
           // If middleware function does not have next function as a parameter
           if (middlewareFunc.length < 4 && !isErrorHandlerTriggered(response)) {
             next();

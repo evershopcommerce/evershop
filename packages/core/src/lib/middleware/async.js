@@ -1,4 +1,5 @@
 const logger = require("../log/logger");
+const { setDelegate } = require("./delegate");
 
 module.exports = exports = {};
 
@@ -12,7 +13,7 @@ exports.asyncMiddlewareWrapper = async function asyncMiddlewareWrapper(id, middl
     } else {
       delegate = middlewareFunc(request, response, delegates);
     }
-    delegates[id] = delegate;
+    setDelegate(id, delegate, request);
     await delegate;
   } catch (e) {
     // Log the error
