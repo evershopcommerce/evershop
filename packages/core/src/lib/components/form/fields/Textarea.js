@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Error from './Error';
+import './../Field.scss';
 
 function TextArea({
   name, value, label, onChange, error, instruction

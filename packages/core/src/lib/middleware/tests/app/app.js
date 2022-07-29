@@ -3,16 +3,19 @@
 /* eslint-disable global-require */
 const path = require('path');
 const http = require('http');
-const { addDefaultMiddlewareFuncs } = require('../../../../../bin/serve/addDefaultMiddlewareFuncs');
-const { app } = require('../../../../../bin/serve/app');
-const { loadBootstrapScripts } = require('../../../../../bin/serve/bootstrap');
-const { loadModuleComponents } = require('../../../../../bin/serve/loadModuleComponents');
-const { loadModuleRoutes } = require('../../../../../bin/serve/loadModuleRoutes');
-const { prepare } = require('../../../../../bin/serve/prepare');
+const { addDefaultMiddlewareFuncs } = require('../../../../../bin/lib/addDefaultMiddlewareFuncs');
+const express = require('express');
+const { loadBootstrapScripts } = require('../../../../../bin/lib/bootstrap');
+const { loadModuleComponents } = require('../../../../../bin/lib/loadModuleComponents');
+const { loadModuleRoutes } = require('../../../../../bin/lib/loadModuleRoutes');
+const { prepare } = require('../../../../../bin/lib/prepare');
 const { getModuleMiddlewares, getAllSortedMiddlewares } = require('../..');
 const { getRoutes } = require('../../../router/routes');
 const { once } = require('events');
-const { promisify } = require('util');
+
+
+/** Create express app */
+const app = express();
 
 /* Loading modules and initilize routes, components and services */
 const modules = [

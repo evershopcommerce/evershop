@@ -1,10 +1,12 @@
 /* eslint-disable global-require */
 /* eslint-disable guard-for-in */
 /* eslint-disable import/no-import-module-exports */
-import { renderHtml } from '../../../lib/components/render';
-import isErrorHandlerTriggered from '../../../lib/middleware/isErrorHandlerTriggered';
+const isErrorHandlerTriggered = require('../../../lib/middleware/isErrorHandlerTriggered');
+const { render } = require('../../../lib/response/render');
+const isDevelopmentMode = require('../../../lib/util/isDevelopmentMode');
 
 module.exports = async (request, response, stack, next) => {
+  /** Get all promise delegate */
   const promises = [];
   Object.keys(stack).forEach((id) => {
     // Check if middleware is async
@@ -14,10 +16,10 @@ module.exports = async (request, response, stack, next) => {
   });
 
   try {
-    // Wait for all async middleware to be completed
+    /** Wait for all async middleware to be completed */
     await Promise.all(promises);
 
-    // If a rejected middleware called next(error) without throwing an error
+    /** If a rejected middleware called next(error) without throwing an error */
     if (response.locals.errorHandlerTriggered === true) {
       return;
     } else {
@@ -35,8 +37,14 @@ module.exports = async (request, response, stack, next) => {
           response.send(response.$body);
         } else {
           response.context.route = route;
-          const source = renderHtml(response.context.bundleJs, response.context);
-          response.send(source);
+          if (isDevelopmentMode() && request.query && request.query.fashRefresh === 'true') {
+            response.json({
+              success: true,
+              eContext: response.context
+            });
+          } else {
+            render(response, route);
+          }
         }
       }
     }

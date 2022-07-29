@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import './Badge.scss';
 
 export default function Badge({ title, variant = 'default', progress = 'default' }) {
   const badgeVariant = ['default', 'success', 'info', 'attention', 'critical', 'warning', 'new'].includes(variant) ? `${variant}` : 'default';

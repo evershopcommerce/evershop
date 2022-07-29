@@ -5,6 +5,7 @@ module.exports = exports = {};
 
 exports.asyncMiddlewareWrapper = async function asyncMiddlewareWrapper(id, middlewareFunc, request, response, delegates, next) {
   logger.log('info', `Executing middleware ${id}`);
+
   try {
     // If the middleware function has the next function as a parameter
     let delegate = undefined;

@@ -18,12 +18,14 @@ exports.scanForMiddlewareFunctions = function scanForMiddlewareFunctions(path) {
     .map((dirent) => {
       const { name } = dirent;
       let m;
+      const middlewareFunc = resolve(path, dirent.name);
+
       if (/^(\[)[a-zA-Z1-9.,]+(\])[a-zA-Z1-9]+.js$/.test(name)) {
         // eslint-disable-next-line no-useless-escape
         const split = name.split(/[\[\]]+/);
         m = {
           id: split[2].substr(0, split[2].indexOf('.')).trim(),
-          middleware: require(resolve(path, dirent.name)),
+          middleware: middlewareFunc,
           after: split[1].split(',').filter((a) => a.trim() !== '')
         };
       } else if (/^[a-zA-Z1-9]+(\[)[a-zA-Z1-9,]+(\]).js$/.test(name)) {
@@ -31,7 +33,7 @@ exports.scanForMiddlewareFunctions = function scanForMiddlewareFunctions(path) {
         const split = name.split(/[\[\]]+/);
         m = {
           id: split[0].trim(),
-          middleware: require(resolve(path, dirent.name)),
+          middleware: middlewareFunc,
           before: split[1].split(',').filter((a) => a.trim() !== '')
         };
       } else if (/^(\[)[a-zA-Z1-9,]+(\])[a-zA-Z1-9]+(\[)[a-zA-Z1-9,]+(\]).js$/.test(name)) {
@@ -39,7 +41,7 @@ exports.scanForMiddlewareFunctions = function scanForMiddlewareFunctions(path) {
         const split = name.split(/[\[\]]+/);
         m = {
           id: split[2].trim(),
-          middleware: require(resolve(path, dirent.name)),
+          middleware: middlewareFunc,
           after: split[1].split(',').filter((a) => a.trim() !== ''),
           before: split[3].split(',').filter((a) => a.trim() !== '')
         };
@@ -47,7 +49,7 @@ exports.scanForMiddlewareFunctions = function scanForMiddlewareFunctions(path) {
         const split = name.split('.');
         m = {
           id: split[0].trim(),
-          middleware: require(resolve(path, dirent.name))
+          middleware: middlewareFunc
         };
       }
       if (m.id !== 'context' && m.id !== 'errorHandler') {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppState } from '../../../../lib/context/app';
 import { get } from '../../../../lib/util/get';
+import './Menu.scss';
 
 export default function Menu() {
   const items = get(useAppState(), 'menuItems', []);

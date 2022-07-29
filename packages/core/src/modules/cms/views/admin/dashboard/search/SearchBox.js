@@ -5,6 +5,7 @@ import { Input } from '../../../../../../lib/components/form/fields/Input';
 import { get } from '../../../../../../lib/util/get';
 import { NoResult } from './NoResult';
 import { Results } from './Results';
+import './SearchBox.scss';
 
 const useClickOutside = (ref, callback) => {
   const handleClick = (e) => {

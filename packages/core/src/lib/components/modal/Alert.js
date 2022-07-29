@@ -8,6 +8,7 @@ import produce from 'immer';
 import { Card } from '../../../modules/cms/views/admin/Card';
 import Button from '../form/Button';
 import { assign } from '../../util/assign';
+import './Alert.scss';
 
 const AlertContext = React.createContext();
 export const useAlertContext = () => React.useContext(AlertContext);
@@ -69,6 +70,7 @@ function Alert({ children }) {
               </svg>
             </button>
             <Card title={alert.heading}>
+
               <Card.Session>
                 {alert.content}
               </Card.Session>

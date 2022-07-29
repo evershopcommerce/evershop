@@ -25,9 +25,6 @@ exports.createConfig = function createConfig(scopePath) {
               presets: [
                 '@babel/preset-env',
                 '@babel/preset-react'
-              ],
-              plugins: [
-                '@babel/plugin-transform-runtime'
               ]
             }
           }
@@ -46,11 +43,13 @@ exports.createConfig = function createConfig(scopePath) {
       ]
     },
     // name: 'main',
-    target: 'web',
+    target: 'node',
     entry,
     output: {
       path: path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath),
-      filename: '[fullhash].js'
+      filename: '[fullhash].js',
+      libraryTarget: 'commonjs2',
+      globalObject: 'this'
     },
     resolve: {
       alias: {

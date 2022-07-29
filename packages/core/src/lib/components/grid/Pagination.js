@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Input } from '../form/fields/Input';
+import './Pagination.scss';
 
 export default function Pagination({ total, limit, page }) {
   const pageInput = React.useRef(null);

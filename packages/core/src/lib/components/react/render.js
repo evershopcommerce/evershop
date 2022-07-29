@@ -1,10 +1,9 @@
 import React from 'react';
 import { inspect } from 'util';
-import Html from './Html';
-import { Alert } from './modal/Alert';
-import { AppProvider } from '../context/app';
-
-const { renderToString } = require('react-dom/server');
+import Html from './Server';
+import { Alert } from '../modal/Alert';
+import { AppProvider } from '../../context/app';
+import { renderToString } from 'react-dom/server';
 
 export function renderHtml(bundleJs, contextData) {
   const source = renderToString(

@@ -3,14 +3,12 @@ import { Summary } from './summary/Summary';
 import Area from '../../../../../lib/components/Area';
 import { CheckoutSteps } from '../../../../../lib/context/checkout';
 import { CheckoutProvider } from '../../../../../lib/context/order';
-import { getComponents } from '../../../../../lib/components/getComponents';
 
 function Steps() {
   return (
     <Area
       id="checkoutSteps"
       className="checkout-steps"
-      components={getComponents()}
       coreComponents={[
       ]}
     />
@@ -24,7 +22,6 @@ export default function CheckoutPage() {
         <Area
           id="checkoutPage"
           className="page-width grid grid-cols-1 md:grid-cols-2 gap-3"
-          components={getComponents()}
           coreComponents={[
             {
               component: { default: Steps },

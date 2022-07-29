@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import './NavigationItem.scss';
 
 function Icon({ name }) {
   try {

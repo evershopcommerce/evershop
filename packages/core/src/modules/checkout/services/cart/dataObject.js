@@ -2,7 +2,7 @@
 const isEqualWith = require('lodash/isEqualWith');
 const Topo = require('@hapi/topo');
 
-export class DataObject {
+module.exports.DataObject = class DataObject {
   // This is an array of objects: {key, resolver, dependencies}
   static fields;
 

@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Error from './Error';
+import './../Field.scss';
 
 function Enabled({ onClick }) {
   return <a href="#" className="toggle enabled" onClick={(e) => { e.preventDefault(); onClick(); }}><span /></a>;

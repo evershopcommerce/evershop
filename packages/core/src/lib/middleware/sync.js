@@ -5,6 +5,7 @@ module.exports = exports = {};
 
 exports.syncMiddlewareWrapper = function syncMiddlewareWrapper(id, middlewareFunc, request, response, delegates, next) {
   logger.log('info', `Executing middleware ${id}`); // TODO: Should use debug instead of logging
+
   try {
     let delegate = undefined;
     // If the middleware function has the next function as a parameter

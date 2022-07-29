@@ -2,7 +2,6 @@ import React from 'react';
 import { Form } from '../../../../../../lib/components/form/Form';
 import Area from '../../../../../../lib/components/Area';
 import { get } from '../../../../../../lib/util/get';
-import { getComponents } from '../../../../../../lib/components/getComponents';
 import { Card } from '../../../../../cms/views/admin/Card';
 import { toast } from 'react-toastify';
 import Button from '../../../../../../lib/components/form/Button';
@@ -73,7 +72,6 @@ export default function CouponForm({ id, isJSON, action, gridUrl }) {
                       id: 'couponOrderCondition'
                     }
                   ]}
-                  components={getComponents()}
                 />
               </Card.Session>
             </Card>
@@ -95,7 +93,6 @@ export default function CouponForm({ id, isJSON, action, gridUrl }) {
                     }
                   ]}
                   noOuter
-                  components={getComponents()}
                 />
               </Card.Session>
             </Card>

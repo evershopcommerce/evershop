@@ -1,25 +1,33 @@
 /* eslint-disable react/no-danger */
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from './Area';
-import { getComponents } from './getComponents';
-import { Alert } from './modal/Alert';
+import Area from '../Area';
+import { Alert } from '../modal/Alert';
 
 function Html({ bundle, appContext }) {
   return (
     <>
       <head>
-        <Area noOuter id="head" components={getComponents()} />
+        <Area noOuter id="head" />
         <script dangerouslySetInnerHTML={{ __html: appContext }} />
       </head>
       <body id="body">
         <Alert>
           <div id="app" className="bg-background">
-            <Area id="body" className="wrapper" components={getComponents()} />
+            <Area id="body" className="wrapper" />
           </div>
         </Alert>
       </body>
-      <script src={bundle} />
+      {bundle.map((script, key) => {
+        return (
+          <script
+            key={key}
+            src={'/assets/' + script}
+            type="text/javascript"
+            charSet="utf-8"
+          />
+        );
+      })}
     </>
   );
 }

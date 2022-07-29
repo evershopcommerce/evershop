@@ -3,6 +3,7 @@ const eNext = require('./eNext');
 const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
 const { getDelegates } = require('./delegate');
 const { syncMiddlewareWrapper } = require('./sync');
+const isNextRequired = require('./isNextRequired');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
@@ -30,18 +31,20 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
     throw new TypeError(`Middleware ID ${id} is invalid`);
   }
 
-  // Check if the middleware is an error handler
-  if (middlewareFunc.length === 5) {
+  // Check if the middleware is an error handler. 
+  // TODO: fix me
+  if (id === 'errorHandler') {
     return {
       id: String(id),
       routeId,
       before,
       after,
       middleware: (error, request, response, next) => {
+        const func = require(middlewareFunc);
         if (request.currentRoute) {
-          middlewareFunc(error, request, response, getDelegates(request), next);
+          func(error, request, response, getDelegates(request), next);
         } else {
-          middlewareFunc(error, request, response, [], next);
+          func(error, request, response, [], next);
         }
       },
       scope
@@ -53,19 +56,19 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(
       before,
       after,
       middleware: (request, response, next) => {
+        const func = require(middlewareFunc);
         // If there response status is 404. We skip routed middlewares
         if (response.statusCode === 404 && routeId !== null && routeId !== 'site' && routeId !== 'admin') {
           next();
         } else {
-          let delegate;
-          if (middlewareFunc.constructor.name === 'AsyncFunction') {
-            asyncMiddlewareWrapper(id, middlewareFunc, request, response, getDelegates(request), eNext(request, response, next));
+          if (func.constructor.name === 'AsyncFunction') {
+            asyncMiddlewareWrapper(id, func, request, response, getDelegates(request), eNext(request, response, next));
           } else {
-            syncMiddlewareWrapper(id, middlewareFunc, request, response, getDelegates(request), eNext(request, response, next));
+            syncMiddlewareWrapper(id, func, request, response, getDelegates(request), eNext(request, response, next));
           }
 
           // If middleware function does not have next function as a parameter
-          if (middlewareFunc.length < 4 && !isErrorHandlerTriggered(response)) {
+          if (func.length < 4 && !isErrorHandlerTriggered(response)) {
             next();
           }
         }

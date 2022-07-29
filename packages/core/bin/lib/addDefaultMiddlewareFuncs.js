@@ -1,4 +1,11 @@
 const bodyParser = require('body-parser');
+const { resolve } = require('path');
+const webpack = require("webpack");
+const middleware = require("webpack-dev-middleware");
+const { createConfigClient } = require('../../src/lib/webpack/createConfigClient');
+const chokidar = require('chokidar');
+const { CONSTANTS } = require('../../src/lib/helpers');
+const isDevelopmentMode = require('../../src/lib/util/isDevelopmentMode');
 
 module.exports = exports = {};
 
@@ -51,9 +58,55 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
     r.__BUILDREQUIRED__ = true;
   });
 
+  if (isDevelopmentMode()) {
+    const compilers = [];
+    routes.forEach((route) => {
+      if (!route.isApi && !['staticAsset', 'adminStaticAsset'].includes(route.id)) {
+        compilers.push(createConfigClient(route));
+      } else {
+        return
+      }
+    });
+    const webpackCompiler = webpack(compilers);
+    const middlewareFunc = middleware(webpackCompiler, {
+      serverSideRender: true, publicPath: '/', stats: 'none'
+    });
+
+    app.use(
+      (request, response, next) => {
+        middlewareFunc(request, response, next);
+      }
+    );
+
+    const hotMiddleware = require("webpack-hot-middleware")(webpackCompiler);
+    app.use(
+      hotMiddleware
+    );
+
+    /** Watch for changes in the server code */
+    app.locals = app.locals || {};
+    app.locals.FSWatcher = chokidar.watch('.', {
+      ignored: /node_modules[\\/]/,
+      ignoreInitial: true,
+      persistent: true
+    }).on('all', (event, path) => {
+      if (path.includes('controllers')) {
+        console.log('Reloading middleware');
+        console.log(resolve(CONSTANTS.ROOTPATH, path))
+        delete require.cache[require.resolve(resolve(CONSTANTS.ROOTPATH, path))];
+        hotMiddleware.publish({
+          name: 'test',
+          action: 'serverReloaded'
+        });
+      }
+      // server.removeListener('request', currentApp);
+      // server.on('request', newApp);
+      // currentApp = newApp;
+    });
+  }
 
   /** 404 Not Found handle */
-  app.all('*', (request, response, next) => {
+  app.use((request, response, next) => {
     if (!request.currentRoute) {
       response.status(404);
       request.currentRoute = routes.find((r) => r.id === 'notFound');

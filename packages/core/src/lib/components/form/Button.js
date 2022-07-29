@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import './Button.scss';
 
 function Button({
   title, outline = false, variant = 'primary', onAction, url = undefined, isLoading = false

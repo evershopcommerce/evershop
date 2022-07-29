@@ -6,7 +6,6 @@ import { get } from '../../../../../../lib/util/get';
 import Ckeditor from '../../../../../../lib/components/form/fields/Ckeditor';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Card } from '../../../../../cms/views/admin/Card';
-import { getComponents } from '../../../../../../lib/components/getComponents';
 
 function SKUPriceWeight({ sku, price, weight }) {
   return (
@@ -121,7 +120,6 @@ export default function General({
               id: 'description'
             }
           ]}
-          components={getComponents()}
         />
       </Card.Session>
     </Card>

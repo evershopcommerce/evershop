@@ -1,9 +1,9 @@
-import { useAppState } from '../context/app';
-import { get } from '../util/get';
+import { useAppState } from '../../context/app';
+import { get } from '../../util/get';
 
 /* eslint-disable global-require */
 const { resolve } = require('path');
-const { CONSTANTS } = require('../helpers');
+const { CONSTANTS } = require('../../helpers');
 
 export function getComponents() {
   const componentsPath = get(useAppState(), 'componentsPath');

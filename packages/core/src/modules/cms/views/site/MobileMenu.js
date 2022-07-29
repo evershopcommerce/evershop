@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppState } from '../../../../lib/context/app';
 import { get } from '../../../../lib/util/get';
+import './MobileMenu.scss';
 
 export default function MobileMenu() {
   const items = get(useAppState(), 'menuItems', []);
