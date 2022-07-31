@@ -6,9 +6,9 @@ const AppContextDispatch = React.createContext();
 
 export function AppProvider({ value, children }) {
 
-  React.useEffect(() => {
-    window.eContext = undefined;
-  }, []);
+  // React.useEffect(() => {
+  //   window.eContext = undefined;
+  // }, []);
   const [data, setData] = React.useState(value);
   return (
     <AppContextDispatch.Provider value={setData}>

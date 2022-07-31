@@ -184,25 +184,15 @@ exports = module.exports = {
       },
       sortOrder: 10
     },
-    {
-      id: 'ckeditor',
-      areaId: 'head',
-      source: useComponent('Script.js'),
-      props: {
-        src: 'https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js'
-      },
-      sortOrder: 1
-    },
-    {
-      id: 'dragable',
-      areaId: 'head',
-      source: useComponent('Script.js'),
-      props: {
-        src: 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.12/lib/swappable.js',
-        async: true
-      },
-      sortOrder: 1
-    },
+    // {
+    //   id: 'ckeditor',
+    //   areaId: 'head',
+    //   source: useComponent('Script.js'),
+    //   props: {
+    //     src: 'https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js'
+    //   },
+    //   sortOrder: 1 
+    // },
     {
       id: 'productEditGeneral',
       areaId: 'leftSide',

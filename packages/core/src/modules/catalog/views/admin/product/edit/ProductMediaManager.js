@@ -8,6 +8,8 @@ import uniqid from 'uniqid';
 import { toast } from 'react-toastify';
 import { get } from '../../../../../../lib/util/get';
 import { useAppState } from '../../../../../../lib/context/app';
+import { Swappable } from '@shopify/draggable';
+import './ProductMediaManager.scss';
 
 function Upload({ addImage }) {
   const context = useAppState();
@@ -126,7 +128,7 @@ export default function ProductMediaManager({ productImages, id }) {
     if (draggable) { draggable.destroy(); }
 
     // eslint-disable-next-line new-cap
-    const swappable = new Swappable.default(document.querySelectorAll(`div#${id}`), {
+    const swappable = new Swappable(document.querySelectorAll(`div#${id}`), {
       draggable: 'div.image',
       handle: 'div.image img'
     });

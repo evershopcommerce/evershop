@@ -32,14 +32,9 @@ function renderDevelopment(response, route) {
     return;
   }
 
-  const jsonWebpackStats = devMiddleware.stats.toJson();
-  let stat = undefined;
-  if (jsonWebpackStats.children && jsonWebpackStats.children.length > 0) {
-    stat = jsonWebpackStats.children.find(c => c.name === route.id);
-  } else {
-    stat = jsonWebpackStats;
-  }
-  const { assetsByChunkName, outputPath } = stat;
+  const jsonWebpackStats = devMiddleware.stats.stats;
+  let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
+  const { assetsByChunkName, outputPath } = stat.toJson();
   response.send(`
             <!doctype html><html>
                 <head>
