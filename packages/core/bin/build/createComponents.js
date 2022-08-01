@@ -21,7 +21,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Area from "@evershop/core/src/lib/components/Area";
 import { App } from "@evershop/core/src/lib/components/react/Client";
-const hot = require('webpack-hot-middleware/client?name=${route.id}');
+const hot = require('webpack-hot-middleware/client?path=/eHot/${route.id}');
 import axios from 'axios';
 import { store } from '@evershop/core/src/lib/components/redux/store';
 import { hotUpdate } from '@evershop/core/src/lib/components/redux/pageDataSlice';

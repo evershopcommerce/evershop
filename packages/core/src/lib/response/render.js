@@ -32,9 +32,9 @@ function renderDevelopment(response, route) {
     return;
   }
 
-  const jsonWebpackStats = devMiddleware.stats.stats;
-  let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
-  const { assetsByChunkName, outputPath } = stat.toJson();
+  const stats = devMiddleware.stats;
+  //let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
+  const { assetsByChunkName, outputPath } = stats.toJson();
   response.send(`
             <!doctype html><html>
                 <head>

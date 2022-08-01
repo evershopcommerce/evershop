@@ -36,7 +36,13 @@ module.exports = async (request, response, stack, next) => {
         if (response.$body && response.$body !== '') {
           response.send(response.$body);
         } else {
-          response.context.route = route;
+          response.context.route = {
+            id: route.id,
+            path: route.path,
+            method: route.method,
+            isApi: route.isApi,
+            isAdmin: route.isAdmin,
+          };
           if (isDevelopmentMode() && request.query && request.query.fashRefresh === 'true') {
             response.json({
               success: true,

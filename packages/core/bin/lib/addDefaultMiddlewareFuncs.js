@@ -59,29 +59,62 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
   });
 
   if (isDevelopmentMode()) {
-    const compilers = [];
+    const compilers = {};
     routes.forEach((route) => {
       if (!route.isApi && !['staticAsset', 'adminStaticAsset'].includes(route.id)) {
-        compilers.push(createConfigClient(route));
+        compilers[route.id] = webpack(createConfigClient(route));
       } else {
         return
       }
     });
-    const webpackCompiler = webpack(compilers);
-    const middlewareFunc = middleware(webpackCompiler, {
-      serverSideRender: true, publicPath: '/', stats: 'none'
-    });
 
+    function findRoute(request) {
+      if (request.currentRoute) {
+        return request.currentRoute
+      } else {
+        const path = request.originalUrl.split('?')[0];
+        if (path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.json')) {
+          const id = path.split('/').pop().split('.')[0];
+          return routes.find((r) => r.id === id);
+        } else {
+          return routes.find((r) => r.id === 'notFound');
+        }
+      }
+    }
     app.use(
       (request, response, next) => {
-        middlewareFunc(request, response, next);
+        const route = findRoute(request);
+        if (route.isApi || ['staticAsset', 'adminStaticAsset'].includes(route.id)) {
+          next();
+        } else {
+          const webpackCompiler = compilers[route.id];
+          let middlewareFunc;
+          if (!route.webpackMiddleware) {
+            middlewareFunc = route.webpackMiddleware = middleware(webpackCompiler, {
+              serverSideRender: true, publicPath: '/', stats: 'none'
+            });
+          } else {
+            middlewareFunc = route.webpackMiddleware;
+          }
+
+          middlewareFunc(request, response, next);
+        }
       }
     );
 
-    const hotMiddleware = require("webpack-hot-middleware")(webpackCompiler);
-    app.use(
-      hotMiddleware
-    );
+    routes.forEach((route) => {
+      if (!route.isApi && !['staticAsset', 'adminStaticAsset'].includes(route.id)) {
+        const webpackCompiler = compilers[route.id];
+        const hotMiddleware = require("webpack-hot-middleware")(webpackCompiler, { path: `/eHot/${route.id}` });
+        app.use(
+          hotMiddleware
+        );
+      } else {
+        return
+      }
+    });
+
+
 
     /** Watch for changes in the server code */
     app.locals = app.locals || {};

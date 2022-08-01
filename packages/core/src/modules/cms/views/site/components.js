@@ -101,6 +101,15 @@ exports = module.exports = {
       sortOrder: 10
     }
   ],
+  categoryView: [
+    {
+      id: 'mainBanner',
+      areaId: 'content',
+      source: useSiteComponent('cms/views/site/homepage/MainBanner.js'),
+      props: {},
+      sortOrder: 10
+    }
+  ],
   cmsPageView: [
     {
       id: 'cmsPageView',
