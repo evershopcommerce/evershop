@@ -16,7 +16,7 @@ function normalizeAssets(assets) {
   return Array.isArray(assets) ? assets : [assets];
 }
 
-function renderDevelopment(response, route) {
+function renderDevelopment(request, response) {
   const devMiddleware = get(response, 'locals.webpack.devMiddleware');
   if (!devMiddleware) { // In testing mode, we do not have devMiddleware
     response.send(`
@@ -35,6 +35,7 @@ function renderDevelopment(response, route) {
   const stats = devMiddleware.stats;
   //let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
   const { assetsByChunkName, outputPath } = stats.toJson();
+  const route = request.locals.webpackMatchedRoute;
   response.send(`
             <!doctype html><html>
                 <head>
@@ -51,7 +52,7 @@ function renderDevelopment(response, route) {
             `)
 }
 
-function renderProduction(response, route) {
+function renderProduction(request, response) {
   const { renderHtml } = require(path.resolve(getRouteBuildPath(route), 'server', 'index.js'));
   const bundleJs = require(CONSTANTS.BUILDPATH, 'index.json')
     .filter(
@@ -61,10 +62,10 @@ function renderProduction(response, route) {
   response.send(source);
 }
 
-module.exports.render = function render(response, route) {
+module.exports.render = function render(request, response) {
   if (isProductionMode()) {
-    renderProduction(response, route);
+    renderProduction(request, response);
   } else {
-    renderDevelopment(response, route);
+    renderDevelopment(request, response);
   }
 }

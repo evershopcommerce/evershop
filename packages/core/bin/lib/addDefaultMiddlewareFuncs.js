@@ -76,6 +76,9 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
         if (path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.json')) {
           const id = path.split('/').pop().split('.')[0];
           return routes.find((r) => r.id === id);
+        } else if (path.includes('/eHot/')) {
+          const id = path.split('/').pop();
+          return routes.find((r) => r.id === id);
         } else {
           return routes.find((r) => r.id === 'notFound');
         }
@@ -84,6 +87,8 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
     app.use(
       (request, response, next) => {
         const route = findRoute(request);
+        request.locals = request.locals || {};
+        request.locals.webpackMatchedRoute = route;
         if (route.isApi || ['staticAsset', 'adminStaticAsset'].includes(route.id)) {
           next();
         } else {
@@ -114,28 +119,26 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
       }
     });
 
-
-
     /** Watch for changes in the server code */
-    app.locals = app.locals || {};
-    app.locals.FSWatcher = chokidar.watch('.', {
-      ignored: /node_modules[\\/]/,
-      ignoreInitial: true,
-      persistent: true
-    }).on('all', (event, path) => {
-      if (path.includes('controllers')) {
-        console.log('Reloading middleware');
-        console.log(resolve(CONSTANTS.ROOTPATH, path))
-        delete require.cache[require.resolve(resolve(CONSTANTS.ROOTPATH, path))];
-        hotMiddleware.publish({
-          name: 'test',
-          action: 'serverReloaded'
-        });
-      }
-      // server.removeListener('request', currentApp);
-      // server.on('request', newApp);
-      // currentApp = newApp;
-    });
+    // app.locals = app.locals || {};
+    // app.locals.FSWatcher = chokidar.watch('.', {
+    //   ignored: /node_modules[\\/]/,
+    //   ignoreInitial: true,
+    //   persistent: true
+    // }).on('all', (event, path) => {
+    //   if (path.includes('controllers')) {
+    //     console.log('Reloading middleware');
+    //     console.log(resolve(CONSTANTS.ROOTPATH, path))
+    //     delete require.cache[require.resolve(resolve(CONSTANTS.ROOTPATH, path))];
+    //     hotMiddleware.publish({
+    //       name: 'test',
+    //       action: 'serverReloaded'
+    //     });
+    //   }
+    //   // server.removeListener('request', currentApp);
+    //   // server.on('request', newApp);
+    //   // currentApp = newApp;
+    // });
   }
 
   /** 404 Not Found handle */

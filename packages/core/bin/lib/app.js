@@ -13,8 +13,8 @@ const { loadBootstrapScripts } = require('./bootstrap');
 const { loadModules } = require('./loadModules');
 const { addDefaultMiddlewareFuncs } = require('./addDefaultMiddlewareFuncs');
 const { loadModuleRoutes } = require('./loadModuleRoutes');
-const { loadModuleComponents } = require('./loadModuleComponents');
 const { prepare } = require('./prepare');
+const { Componee } = require('../../src/lib/componee/Componee');
 
 /** Create express app */
 const app = express();
@@ -30,6 +30,7 @@ modules.forEach((module) => {
     // Load routes
     loadModuleRoutes(module.path);
   } catch (e) {
+    console.log(e);
     process.exit(0);
   }
 });
@@ -37,8 +38,9 @@ modules.forEach((module) => {
 modules.forEach((module) => {
   try {
     // Load components
-    loadModuleComponents(module.path);
+    Componee.loadModuleComponents(module.path);
   } catch (e) {
+    console.log(e);
     process.exit(0);
   }
 });

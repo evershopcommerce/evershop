@@ -49,7 +49,7 @@ module.exports = async (request, response, stack, next) => {
               eContext: response.context
             });
           } else {
-            render(response, route);
+            render(request, response);
           }
         }
       }

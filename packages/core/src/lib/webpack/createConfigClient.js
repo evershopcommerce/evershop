@@ -8,11 +8,11 @@ module.exports.createConfigClient = function createConfigClient(route) {
   const entry = {};
   entry[route.id] = [
     path.resolve(getRouteBuildPath(route), 'client', 'components.js'),
-    'webpack-hot-middleware/client?path=' + `/eHot/${route.id}`,
+    'webpack-hot-middleware/client?path=' + `/eHot/${route.id}&reload=true`,
   ];
 
   const config = createBaseConfig(false);
-  //config.name = route.id;
+  config.name = route.id;
 
   const plugins = config.plugins;
   plugins.push(new webpack.HotModuleReplacementPlugin());
@@ -20,6 +20,12 @@ module.exports.createConfigClient = function createConfigClient(route) {
     overlay: false,
   }))
   config.entry = entry;
+
+  config.watchOptions = {
+    aggregateTimeout: 300,
+    poll: 1000,
+    ignored: /node_modules/
+  };
 
   return config;
 }

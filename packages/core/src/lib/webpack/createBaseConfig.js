@@ -78,9 +78,11 @@ module.exports.createBaseConfig = function createBaseConfig(
   const output = isServer ? {
     path: CONSTANTS.BUILDPATH,
     publicPath: CONSTANTS.BUILDPATH,
-    filename: isServer === true ? '[name]/server/index.js' : '[name]/client/index.js'
+    filename: isServer === true ? '[name]/server/index.js' : '[name]/client/index.js',
+    pathinfo: false
   } : {
     publicPath: '/',
+    pathinfo: false
   };
 
   if (isServer) {
@@ -107,6 +109,7 @@ module.exports.createBaseConfig = function createBaseConfig(
     //     },
     //   },
     // },
-    plugins: plugins
+    plugins: plugins,
+    cache: { type: 'memory' }
   }
 }
