@@ -9,7 +9,7 @@ module.exports = exports = {};
  *
  * @return  {boolean}
  */
-exports.noDublicateId = function noDublicateId(registeredMiddlewares, newMiddleware, scope) {
+exports.noDublicateId = function noDublicateId(registeredMiddlewares, newMiddleware) {
   if (
     registeredMiddlewares.findIndex(
       (middleware) => middleware.id === newMiddleware.id
@@ -17,7 +17,7 @@ exports.noDublicateId = function noDublicateId(registeredMiddlewares, newMiddlew
           middleware.routeId === null
           || newMiddleware.routeId === null
           || middleware.routeId === newMiddleware.routeId
-          || (middleware.scope === scope && (
+          || (middleware.scope === newMiddleware.scope && (
             [middleware.routeId, newMiddleware.routeId].includes('admin')
             || [middleware.routeId, newMiddleware.routeId].includes('site')
           )

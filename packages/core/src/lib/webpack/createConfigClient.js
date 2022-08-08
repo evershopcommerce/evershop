@@ -8,7 +8,7 @@ module.exports.createConfigClient = function createConfigClient(route) {
   const entry = {};
   entry[route.id] = [
     path.resolve(getRouteBuildPath(route), 'client', 'components.js'),
-    'webpack-hot-middleware/client?path=' + `/eHot/${route.id}&reload=true`,
+    'webpack-hot-middleware/client?path=' + `/eHot/${route.id}&reload=true&overlay=true`,
   ];
 
   const config = createBaseConfig(false);

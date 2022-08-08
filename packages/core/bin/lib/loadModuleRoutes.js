@@ -15,7 +15,8 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
         route.id,
         route.method,
         route.path,
-        route.isApi
+        route.isApi,
+        route.folder
       );
     });
   }
@@ -27,7 +28,8 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
         route.id,
         route.method,
         route.path,
-        route.isApi
+        route.isApi,
+        route.folder
       );
     });
   }
@@ -39,7 +41,8 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
         route.id,
         route.method,
         route.path,
-        route.isApi
+        route.isApi,
+        route.folder
       );
     });
   }
@@ -51,7 +54,8 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
         route.id,
         route.method,
         route.path,
-        route.isApi
+        route.isApi,
+        route.folder
       );
     });
   }

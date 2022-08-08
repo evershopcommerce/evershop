@@ -1,4 +1,4 @@
-const { getAdminRoutes } = require("../../src/lib/router/routes");
+const { getAdminRoutes } = require("../../src/lib/router/Router");
 
 module.exports = exports = {};
 

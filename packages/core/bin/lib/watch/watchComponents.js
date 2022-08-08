@@ -3,7 +3,7 @@ const { resolve } = require('path');
 const { CONSTANTS } = require('../../../src/lib/helpers');
 const { Componee } = require('../../../src/lib/componee/Componee');
 const { createComponents } = require('../../build/createComponents');
-const { getRoutes } = require('../../../src/lib/router/routes');
+const { getRoutes } = require('../../../src/lib/router/Router');
 
 function watchComponents() {
   chokidar.watch('**/**/views/*/components.js', {

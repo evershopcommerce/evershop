@@ -1,6 +1,6 @@
 const { existsSync } = require('fs');
 const path = require('path');
-const { getAdminRoutes, getSiteRoutes } = require('../router/routes');
+const { getAdminRoutes, getSiteRoutes } = require('../router/Router');
 const { assign } = require('../util/assign');
 const isDevelopmentMode = require('../util/isDevelopmentMode');
 

@@ -68,19 +68,11 @@ expect.extend({
 describe('buildMiddlewareFunction', () => {
 
   it('It should thrown an exception if id is not valid', () => {
-    expect(() => buildMiddlewareFunction('a b', (request, response) => { })).toThrow(Error);
+    expect(() => buildMiddlewareFunction('a b', '/catalog/controllers/product.js')).toThrow(Error);
   });
 
-  it('It should return an object if id is valid', () => {
-    const middleware = buildMiddlewareFunction('abc', (request, response) => { });
-    expect(middleware).toEqual(
-      expect.objectContaining({
-        id: expect.any(String),
-        routeId: expect.nullOrAny(String),
-        before: expect.nullOrAny(String),
-        after: expect.nullOrAny(String),
-        middleware: expect.any(Function)
-      })
-    );
+  it('It should return a function if id is valid', () => {
+    const middleware = buildMiddlewareFunction('abc', '/catalog/controllers/product.js');
+    expect(typeof middleware).toBe('function');
   });
 });

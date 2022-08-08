@@ -35,10 +35,18 @@ import { Provider } from 'react-redux';
           let url = new URL(document.location);
           url.searchParams.append('fashRefresh', 'true');
 
-          const response = await axios.get(url);
-          store.dispatch(hotUpdate({
-            eContext: response.data.eContext,
-          }));
+          const response = await axios.get(url, {
+            validateStatus: function (status) {
+              return status >= 200 && status <= 500;
+            }
+          });
+          if (response.status < 300) {
+            store.dispatch(hotUpdate({
+              eContext: response.data.eContext,
+            }));
+          } else {
+            location.reload();
+          }
         }
       }
       );

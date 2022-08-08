@@ -110,7 +110,10 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
     routes.forEach((route) => {
       if (!route.isApi && !['staticAsset', 'adminStaticAsset'].includes(route.id)) {
         const webpackCompiler = compilers[route.id];
-        const hotMiddleware = require("webpack-hot-middleware")(webpackCompiler, { path: `/eHot/${route.id}` });
+        const hotMiddleware = route.hotMiddleware ? route.hotMiddleware : require("webpack-hot-middleware")(webpackCompiler, { path: `/eHot/${route.id}` });
+        if (!route.hotMiddleware) {
+          route.hotMiddleware = hotMiddleware;
+        }
         app.use(
           hotMiddleware
         );

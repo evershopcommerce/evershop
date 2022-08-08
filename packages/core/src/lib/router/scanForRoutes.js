@@ -47,7 +47,8 @@ exports.scanForRoutes = (path, isAdmin, isApi) => {
             method: methods,
             path: p,
             isAdmin,
-            isApi
+            isApi,
+            folder: join(path, r),
           };
         } else {
           return false;

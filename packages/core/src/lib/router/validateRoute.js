@@ -1,4 +1,4 @@
-const { routes } = require('./routes');
+const { getRoutes } = require('./Router');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
@@ -14,8 +14,10 @@ module.exports = exports = {};
  * @return  {object}          The Route object
  */
 exports.validateRoute = (id, method, path) => {
-  if (routes.find((r) => r.id === id) !== undefined) { throw new Error(`Route with ID ${String(id)} is already existed`); }
-
+  const routes = getRoutes();
+  if (routes.find((r) => r.id === id) !== undefined) {
+    throw new Error(`Route with ID ${String(id)} is already existed`);
+  }
   return {
     id: String(id),
     method,

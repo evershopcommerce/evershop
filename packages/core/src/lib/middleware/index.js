@@ -2,13 +2,13 @@ const { resolve } = require('path');
 const { existsSync, readdirSync } = require('fs');
 const { scanForMiddlewareFunctions } = require('./scanForMiddlewareFunctions');
 const { sortMiddlewares } = require('./sort');
-const { buildMiddlewareFunction } = require('./buildMiddlewareFunction');
-const { noDublicateId } = require('./noDuplicateId');
+const { Handler } = require('./Handler');
+const { addMiddleware } = require('./addMiddleware');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
-let middlewareList = [];
+let middlewareList = Handler.middlewares;
 
 exports.getAdminMiddlewares = function getAdminMiddlewares(routeId) {
   return sortMiddlewares(middlewareList.filter((m) => m.routeId === 'admin' || m.routeId === routeId || m.routeId === null));
@@ -18,91 +18,71 @@ exports.getFrontMiddlewares = function getFrontMiddlewares(routeId) {
   return sortMiddlewares(middlewareList.filter((m) => m.routeId === 'site' || m.routeId === routeId || m.routeId === null));
 };
 
-function checkAndBuild(middleware, routeId, scope) {
-  if (noDublicateId(middlewareList, middleware, scope)) {
-    middlewareList.push(
-      buildMiddlewareFunction(
-        middleware.id,
-        middleware.middleware,
-        routeId,
-        middleware.before || null,
-        middleware.after || null,
-        scope
-      )
-    );
-  } else {
-    throw new Error(`Middleware id "${middleware.id}" is duplicated`);
-  }
-}
-
-function loadScopedMiddlewareFunctions(_path, scope) {
-  const routes = readdirSync(_path, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name);
-
-  routes.forEach((route) => {
-    const middlewares = scanForMiddlewareFunctions(resolve(_path, route));
-    if (route === 'all') {
-      middlewares.forEach((m) => {
-        checkAndBuild(m, scope, scope);
-      });
-    } else {
-      const split = route.split(/[+]+/);
-      if (split.length === 1) {
-        middlewares.forEach((m) => {
-          checkAndBuild(m, route, scope);
-        });
-      } else {
-        split.forEach((s) => {
-          const r = (s.trim());
-          if (r !== '') {
-            middlewares.forEach((m) => {
-              checkAndBuild(m, r, scope);
-            });
-          }
-        });
-      }
-    }
-  });
-}
-
 /**
  * This function scan and load all middleware function of a module base on module path
  *
- * @param   {string}  _path  The path of the module
+ * @param   {string}  path  The path of the module
  *
  */
-exports.getModuleMiddlewares = function getModuleMiddlewares(_path) {
-  if (existsSync(resolve(_path, 'controllers'))) {
+exports.getModuleMiddlewares = function getModuleMiddlewares(path) {
+  if (existsSync(resolve(path, 'controllers'))) {
     // Scan for the application level middleware
-    scanForMiddlewareFunctions(resolve(_path, 'controllers')).forEach((m) => {
-      checkAndBuild(m, null, 'app');
+    scanForMiddlewareFunctions(resolve(path, 'controllers')).forEach((m) => {
+      addMiddleware(m);
     });
 
     // Scan for the admin level middleware
-    if (existsSync(resolve(_path, 'controllers', 'admin'))) {
-      loadScopedMiddlewareFunctions(resolve(_path, 'controllers', 'admin'), 'admin');
+    if (existsSync(resolve(path, 'controllers', 'admin'))) {
+      const routes = readdirSync(resolve(path, 'controllers', 'admin'), { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory())
+        .map((dirent) => dirent.name);
+      routes.forEach((route) => {
+        scanForMiddlewareFunctions(resolve(path, 'controllers', 'admin', route)).forEach((m) => {
+          addMiddleware(m);
+        });
+      });
     }
 
     // Scan for the site level middleware
-    if (existsSync(resolve(_path, 'controllers', 'site'))) {
-      loadScopedMiddlewareFunctions(resolve(_path, 'controllers', 'site'), 'site');
+    if (existsSync(resolve(path, 'controllers', 'site'))) {
+      const routes = readdirSync(resolve(path, 'controllers', 'site'), { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory())
+        .map((dirent) => dirent.name);
+      routes.forEach((route) => {
+        scanForMiddlewareFunctions(resolve(path, 'controllers', 'site', route)).forEach((m) => {
+          addMiddleware(m);
+        });
+      });
     }
   }
-  if (existsSync(resolve(_path, 'apiControllers'))) {
+  if (existsSync(resolve(path, 'apiControllers'))) {
     // Scan for the application level middleware
-    scanForMiddlewareFunctions(resolve(_path, 'apiControllers')).forEach((m) => {
-      checkAndBuild(m, null, 'app');
+    scanForMiddlewareFunctions(resolve(path, 'apiControllers')).forEach((m) => {
+      addMiddleware(m);
     });
 
     // Scan for the admin level middleware
-    if (existsSync(resolve(_path, 'apiControllers', 'admin'))) {
-      loadScopedMiddlewareFunctions(resolve(_path, 'apiControllers', 'admin'), 'admin');
+    if (existsSync(resolve(path, 'apiControllers', 'admin'))) {
+      const routes = readdirSync(resolve(path, 'apiControllers', 'admin'), { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory())
+        .map((dirent) => dirent.name);
+      routes.forEach((route) => {
+        scanForMiddlewareFunctions(resolve(path, 'apiControllers', 'admin', route)).forEach((m) => {
+          addMiddleware(m);
+        });
+      });
     }
 
     // Scan for the site level middleware
-    if (existsSync(resolve(_path, 'apiControllers', 'site'))) {
-      loadScopedMiddlewareFunctions(resolve(_path, 'apiControllers', 'site'), 'site');
+    if (existsSync(resolve(path, 'apiControllers', 'site'))) {
+      const routes = readdirSync(resolve(path, 'apiControllers', 'site'), { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory())
+        .map((dirent) => dirent.name);
+      routes.forEach((route) => {
+        scanForMiddlewareFunctions(resolve(path, 'apiControllers', 'site', route)).forEach((m) => {
+          addMiddleware(m);
+        });
+      });
     }
   }
 };
