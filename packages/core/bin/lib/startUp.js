@@ -1,14 +1,10 @@
 const http = require('http');
 const { createApp } = require('./app');
-const { red, green } = require('kleur');
-const boxen = require('boxen');
-const debug = require('debug')('express:server');
 const normalizePort = require('./normalizePort');
 const onListening = require('./onListening');
 const onError = require('./onError');
 const { Handler } = require('../../src/lib/middleware/Handler');
 const { Componee } = require('../../src/lib/componee/Componee');
-const { empty, getRoutes } = require('../../src/lib/router/Router');
 
 var app = createApp();
 /** Create a http server */

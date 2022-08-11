@@ -1,8 +1,6 @@
-const path = require('path');
-const { CONSTANTS } = require("../helpers")
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const isProductionMode = require('../util/isProductionMode');
+const { CONSTANTS } = require("../helpers");
+const isProductionMode = require("../util/isProductionMode");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports.createBaseConfig = function createBaseConfig(
   isServer
@@ -31,56 +29,13 @@ module.exports.createBaseConfig = function createBaseConfig(
     }
   ];
 
-  if (isServer) {
-    loaders.push({
-      test: /\.scss$/i,
-      use: [
-        {
-          loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/styleLoader.js'),
-        }
-      ],
-    })
-  } else {
-    loaders.push({
-      test: /\.scss$/i,
-      use: [
-        {
-          loader: "style-loader",
-          options: {},
-        },
-        {
-          loader: "css-loader",
-          options: {
-            url: false,
-          }
-        },
-        "sass-loader"
-      ],
-    })
-  }
-
-  const plugins = [
-    new webpack.ProgressPlugin()
-  ];
-
-  if (isServer === false) {
-    plugins.push(new HtmlWebpackPlugin({
-      filename: 'index.json',
-      templateContent: ({ htmlWebpackPlugin }) => {
-        const files = htmlWebpackPlugin.files.js;
-
-        return JSON.stringify(files);
-      },
-      inject: false
-    }));
-  };
-
   const output = isServer ? {
     path: CONSTANTS.BUILDPATH,
     publicPath: CONSTANTS.BUILDPATH,
     filename: isServer === true ? '[name]/server/index.js' : '[name]/client/index.js',
     pathinfo: false
   } : {
+    path: CONSTANTS.BUILDPATH,
     publicPath: '/',
     pathinfo: false
   };
@@ -90,26 +45,50 @@ module.exports.createBaseConfig = function createBaseConfig(
     output.globalObject = 'this';
   };
 
-  return {
-    mode: isProductionMode() ? "production" : "development",
+  const config = {
+    mode: isProductionMode() ? 'production' : 'development',
     module: {
       rules: loaders
     },
     target: isServer === true ? 'node12.18' : 'web',
     output: output,
-    // optimization: {
-    //   splitChunks: {
-    //     chunks: 'all',
-    //     cacheGroups: {
-    //       commons: {
-    //         test: /[\\/]node_modules[\\/]/,
-    //         name: isServer ? 'vendors' : 'vendors',
-    //         chunks: 'all',
-    //       }
-    //     },
-    //   },
-    // },
-    plugins: plugins,
+    plugins: [],
     cache: { type: 'memory' }
   }
+
+  if (isProductionMode()) {
+    config.optimization = {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            parse: {
+              // We want uglify-js to parse ecma 8 code. However, we don't want it
+              // to apply any minification steps that turns valid ecma 5 code
+              // into invalid ecma 5 code. This is why the 'compress' and 'output'
+              // sections only apply transformations that are ecma 5 safe
+              // https://github.com/facebook/create-react-app/pull/4234
+              ecma: 2020,
+            },
+            compress: {
+              ecma: 5,
+              warnings: false,
+            },
+            mangle: {
+              safari10: true,
+            },
+            output: {
+              ecma: 5,
+              comments: false,
+              // Turned on because emoji and regex is not minified properly using
+              // default. See https://github.com/facebook/create-react-app/issues/2488
+              ascii_only: true,
+            }
+          }
+        })
+      ]
+    }
+  }
+
+  return config;
 }

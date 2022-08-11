@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
-const { createBaseConfig } = require('./createBaseConfig');
-const { getRouteBuildPath } = require('./getRouteBuildPath');
+const { createBaseConfig } = require('../createBaseConfig');
+const { getRouteBuildPath } = require('../getRouteBuildPath');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports.createConfigClient = function createConfigClient(route) {
@@ -14,13 +14,31 @@ module.exports.createConfigClient = function createConfigClient(route) {
   const config = createBaseConfig(false);
   config.name = route.id;
 
+  const loaders = config.module.rules;
+  loaders.push({
+    test: /\.scss$/i,
+    use: [
+      {
+        loader: "style-loader",
+        options: {},
+      },
+      {
+        loader: "css-loader",
+        options: {
+          url: false,
+        }
+      },
+      "sass-loader"
+    ],
+  });
+
   const plugins = config.plugins;
   plugins.push(new webpack.HotModuleReplacementPlugin());
   plugins.push(new ReactRefreshWebpackPlugin({
     overlay: false,
-  }))
-  config.entry = entry;
+  }));
 
+  config.entry = entry;
   config.watchOptions = {
     aggregateTimeout: 300,
     poll: 1000,

@@ -15,7 +15,6 @@ function watchMR() {
   });
   watcher.add(resolve(CONSTANTS.ROOTPATH, 'extensions/*/controllers'))
   if (existsSync(resolve(CONSTANTS.ROOTPATH, 'packages'))) {
-    console.log('waching packages');
     watcher.add(resolve(CONSTANTS.ROOTPATH, 'packages/core/src/modules/*/controllers/**'))
     watcher.add(resolve(CONSTANTS.ROOTPATH, 'packages/core/src/modules/*/apiControllers/**'))
   }
@@ -65,7 +64,6 @@ function watchMR() {
       return
     }
     console.log('Route removed', path);
-    console.log(resolve(CONSTANTS.ROOTPATH, path))
     broadcash();
   });
 

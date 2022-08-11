@@ -19,7 +19,7 @@
     "dev": "node ./packages/core/bin/evershop dev",
     "install": "evershop install",
     "build": "evershop build",
-    "start": "node packages/core/prepublish.js && evershop start",
+    "start": "evershop start",
     "test": "jest --workspace=@evershop/core",
     "cypress": "cypress run"
   },

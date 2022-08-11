@@ -1,10 +1,8 @@
 const bodyParser = require('body-parser');
-const { resolve } = require('path');
 const webpack = require("webpack");
+const { green } = require('kleur');
 const middleware = require("webpack-dev-middleware");
-const { createConfigClient } = require('../../src/lib/webpack/createConfigClient');
-const chokidar = require('chokidar');
-const { CONSTANTS } = require('../../src/lib/helpers');
+const { createConfigClient } = require('../../src/lib/webpack/dev/createConfigClient');
 const isDevelopmentMode = require('../../src/lib/util/isDevelopmentMode');
 
 module.exports = exports = {};
@@ -98,6 +96,9 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
             middlewareFunc = route.webpackMiddleware = middleware(webpackCompiler, {
               serverSideRender: true, publicPath: '/', stats: 'none'
             });
+            middlewareFunc.context.logger.info = (message) => {
+              return
+            }
           } else {
             middlewareFunc = route.webpackMiddleware;
           }

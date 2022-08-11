@@ -2,7 +2,7 @@ const chokidar = require('chokidar');
 const { resolve } = require('path');
 const { CONSTANTS } = require('../../../src/lib/helpers');
 const { Componee } = require('../../../src/lib/componee/Componee');
-const { createComponents } = require('../../build/createComponents');
+const { createComponents } = require('../../lib/createComponents');
 const { getRoutes } = require('../../../src/lib/router/Router');
 
 function watchComponents() {

@@ -17,14 +17,14 @@ process.on('unhandledRejection', (reason, p) => {
 
 try {
   if (command === 'build') {
-    process.env.NODE_ENV = 'development';
+    process.env.NODE_ENV = 'production';
     require('./build/index');
   } else if (command === 'dev') {
     process.env.NODE_ENV = 'development';
     require('./dev');
   } else if (command === 'start') {
     process.env.NODE_ENV = 'production';
-    require('./serve');
+    require('./start');
   } else if (command === 'install') {
     require('./install');
   } else {

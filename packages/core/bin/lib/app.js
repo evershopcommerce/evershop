@@ -3,17 +3,12 @@
 /* eslint-disable global-require */
 const path = require('path');
 const express = require('express');
-const http = require('http');
-const debug = require('debug')('express:server');
-const { red, green } = require('kleur');
-const boxen = require('boxen');
-const { getModuleMiddlewares, getAllSortedMiddlewares } = require('../../src/lib/middleware');
+const { getModuleMiddlewares } = require('../../src/lib/middleware');
 const { getRoutes } = require('../../src/lib/router/Router');
 const { loadBootstrapScripts } = require('./bootstrap');
 const { loadModules } = require('./loadModules');
 const { addDefaultMiddlewareFuncs } = require('./addDefaultMiddlewareFuncs');
 const { loadModuleRoutes } = require('./loadModuleRoutes');
-const { prepare } = require('./prepare');
 const { Componee } = require('../../src/lib/componee/Componee');
 const { Handler } = require('../../src/lib/middleware/Handler');
 
@@ -53,11 +48,6 @@ module.exports.createApp = () => {
   // Adding default middlewares
   addDefaultMiddlewareFuncs(app, routes);
 
-  /** Hack for 'no route' case*/
-  // routes.push({
-  //   id: 'noRoute',
-  //   path: '/*'
-  // });
   routes.forEach((route) => {
     app.use(route.path, Handler.middleware());
   })

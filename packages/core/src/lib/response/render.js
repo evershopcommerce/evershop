@@ -1,6 +1,7 @@
 const path = require('path');
 const { inspect } = require('util');
 const { CONSTANTS } = require('../helpers');
+const { getRoutes } = require('../router/Router');
 const { get } = require('../util/get');
 const isProductionMode = require('../util/isProductionMode');
 const { getRouteBuildPath } = require('../webpack/getRouteBuildPath');
@@ -53,12 +54,11 @@ function renderDevelopment(request, response) {
 }
 
 function renderProduction(request, response) {
+  const routes = getRoutes()
+  const route = response.statusCode === 404 ? routes.find((route) => route.id === 'notFound') : request.currentRoute;
   const { renderHtml } = require(path.resolve(getRouteBuildPath(route), 'server', 'index.js'));
-  const bundleJs = require(CONSTANTS.BUILDPATH, 'index.json')
-    .filter(
-      (item) => item.includes('vendors') || item.includes(route.id)
-    );
-  const source = renderHtml(bundleJs, response.context);
+  const assets = require(path.resolve(getRouteBuildPath(route), 'client', 'index.json'));
+  const source = renderHtml(assets.js, assets.css, response.context);
   response.send(source);
 }
 

@@ -65,6 +65,7 @@
     "is-object": "^1.0.2",
     "kleur": "3.0.3",
     "luxon": "^2.0.2",
+    "mini-css-extract-plugin": "^2.6.1",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
     "node-sass": "^7.0.1",
@@ -88,10 +89,12 @@
     "sharp": "^0.27.2",
     "stripe": "^8.176.0",
     "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.3",
     "uniqid": "^5.3.0",
     "webpack": "^5.72.1",
     "webpack-dev-middleware": "^5.3.3",
     "webpack-hot-middleware": "^2.25.1",
+    "webpackbar": "^5.0.2",
     "winston": "^3.3.3",
     "yargs": "^16.2.0"
   }
