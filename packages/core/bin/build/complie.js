@@ -9,7 +9,7 @@ module.exports.compile = async function compile(routes) {
 
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
-      if (err || stats.hasErrors() || stats.hasWarnings()) {
+      if (err || stats.hasErrors()) {
         console.log(err);
         console.log(stats.toString({
           errorDetails: true,
