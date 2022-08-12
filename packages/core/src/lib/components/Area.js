@@ -2,14 +2,16 @@
 /* eslint-disable react/destructuring-assignment */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getComponents } from './getComponents';
 
 function Area(props) {
   const {
-    id, coreComponents, wrapperProps, noOuter, wrapper, className
+    id, coreComponents, wrapperProps, noOuter, wrapper, className, components
   } = props;
 
-  const components = getComponents();
+  // const [components, setComponents] = React.useState(window.components);
+  // React.useEffect(() => {
+  //   setComponents(window.components);
+  // })
   const areaComponents = (() => {
     const areaCoreComponents = coreComponents || [];
     const cs = components[id] === undefined
@@ -30,7 +32,7 @@ function Area(props) {
   } else {
     areaWrapperProps = { className: className || '' };
   }
-  if (areaComponents.length === 0) return null;
+  //if (areaComponents.length === 0) return null;
   return (
     <WrapperComponent {...areaWrapperProps}>
       {areaComponents.map((w) => {

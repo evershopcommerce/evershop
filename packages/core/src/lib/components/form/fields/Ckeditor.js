@@ -6,6 +6,7 @@ import React from 'react';
 import { TextArea } from './Textarea';
 import Button from '../Button';
 import { Input } from './Input';
+import './../Field.scss';
 
 function File({ file, select }) {
   const className = file.isSelected === true ? 'selected' : '';

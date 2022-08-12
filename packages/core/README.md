@@ -25,31 +25,22 @@ EverShop is an open‑source ecommerce framework with NodeJS. It provides compre
 
 EverShop use Node.js for backend, and a client built with React. It also use MySQL for database storage.
 
-## Features
-
-An e-commerce platform feature list:
-
-- Catalog management
-- Order management
-- Customer management
-- Tax management
-- Promotion/coupon management
-- Admin user management
-- CMS
-- Product listing and filtering
-- Shopping cart
-- Checkout
-- Payment methods
-- Shipping methods
-
 ## Ecommerce framework demo
 
 Explore our demo store.
 
-<p align="left">
+<p align="center">
+<img alt="EverShop Admin Demo" width="950" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-backend-demo.png"/>
+</p>
+<p align="center">
   <a href="https://demo.evershop.io/admin" target="_blank">
     <img alt="evershop-backend-demo" height="35" alt="EverShop Admin Demo" src="https://evershop.io/wp-content/uploads/2022/05/evershop-admin-demo.png"/>
   </a>
+</p>
+<p align="center">
+<img alt="EverShop Store Demo" width="950" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-product-detail.png"/>
+</p>
+<p align="center">
   <a href="https://demo.evershop.io/" target="_blank">
     <img alt="evershop-store-demo" height="35" alt="EverShop Store Demo" src="https://evershop.io/wp-content/uploads/2022/05/evershop-store-front-demo.png"/>
   </a>

@@ -15,12 +15,8 @@ exports = module.exports = {
     {
       id: 'orders',
       areaId: 'sale.group',
-      source: useAdminComponent('cms/views/admin/NavigationItem.js'),
-      props: {
-        icon: 'CubeIcon',
-        url: buildUrl('orderGrid'),
-        title: 'Orders'
-      },
+      source: useAdminComponent('sale/views/admin/navigation/OrdersMenuItem.js'),
+      props: {},
       sortOrder: 5
     }
   ],

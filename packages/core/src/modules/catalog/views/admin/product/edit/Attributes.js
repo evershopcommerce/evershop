@@ -19,16 +19,16 @@ export default function Attributes() {
     return {
       ...group,
       attributes: attributes.map((a) => {
-        a.selected_option = '';
-        a.value_text = '';
+        let selected_option = '';
+        let value_text = '';
         productAtributes.forEach((v) => {
           if (parseInt(v.attribute_id, 10) === parseInt(a.attribute_id, 10)) {
-            a.selected_option = v.option_id;
-            a.value_text = v.option_text;
+            selected_option = v.option_id;
+            value_text = v.option_text;
           }
         });
 
-        return a;
+        return { ...a, selected_option, value_text };
       })
     };
   };

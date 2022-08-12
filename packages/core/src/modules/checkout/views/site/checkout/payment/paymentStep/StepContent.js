@@ -4,7 +4,6 @@ import { useCheckoutStepsDispatch } from '../../../../../../../lib/context/check
 import { useAppState } from '../../../../../../../lib/context/app';
 import { CustomerAddressForm } from '../../../../../../customer/views/site/address/AddressForm';
 import { Form } from '../../../../../../../lib/components/form/Form';
-import { getComponents } from '../../../../../../../lib/components/getComponents';
 import { BillingAddress } from './BillingAddress';
 
 export function StepContent() {
@@ -85,7 +84,6 @@ export function StepContent() {
       </Form>
       <Area
         id="checkoutPaymentMethods"
-        components={getComponents()}
         coreComponents={[]}
       />
       {/* <div className='mt-2 place-order-button'>

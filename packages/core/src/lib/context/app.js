@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
-
-const React = require('react');
+import React from 'react';
 
 const AppStateContext = React.createContext();
 const AppContextDispatch = React.createContext();
 
 export function AppProvider({ value, children }) {
+
+  // React.useEffect(() => {
+  //   window.eContext = undefined;
+  // }, []);
   const [data, setData] = React.useState(value);
   return (
     <AppContextDispatch.Provider value={setData}>

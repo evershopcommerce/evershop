@@ -3,16 +3,20 @@
 /* eslint-disable global-require */
 const path = require('path');
 const http = require('http');
-const { addDefaultMiddlewareFuncs } = require('../../../../../bin/serve/addDefaultMiddlewareFuncs');
-const { app } = require('../../../../../bin/serve/app');
-const { loadBootstrapScripts } = require('../../../../../bin/serve/bootstrap');
-const { loadModuleComponents } = require('../../../../../bin/serve/loadModuleComponents');
-const { loadModuleRoutes } = require('../../../../../bin/serve/loadModuleRoutes');
-const { prepare } = require('../../../../../bin/serve/prepare');
+const { addDefaultMiddlewareFuncs } = require('../../../../../bin/lib/addDefaultMiddlewareFuncs');
+const express = require('express');
+const { loadBootstrapScripts } = require('../../../../../bin/lib/bootstrap');
+const { loadModuleRoutes } = require('../../../../../bin/lib/loadModuleRoutes');
+const { prepare } = require('../../../../../bin/lib/prepare');
 const { getModuleMiddlewares, getAllSortedMiddlewares } = require('../..');
-const { getRoutes } = require('../../../router/routes');
+const { getRoutes } = require('../../../router/Router');
 const { once } = require('events');
-const { promisify } = require('util');
+const { Componee } = require('../../../componee/Componee');
+const { Handler } = require('../../Handler');
+
+
+/** Create express app */
+const app = express();
 
 /* Loading modules and initilize routes, components and services */
 const modules = [
@@ -31,6 +35,10 @@ const modules = [
   {
     name: 'delegate',
     path: path.resolve(__dirname, './modules/delegate')
+  },
+  {
+    name: 'middleware',
+    path: path.resolve(__dirname, './modules/handler')
   }
 ];
 
@@ -50,7 +58,7 @@ modules.forEach((module) => {
 modules.forEach((module) => {
   try {
     // Load components
-    loadModuleComponents(module.path);
+    Componee.loadModuleComponents(module.path);
   } catch (e) {
     console.log(e);
     process.exit(0);
@@ -63,9 +71,14 @@ const routes = getRoutes();
 // Adding default middlewares
 addDefaultMiddlewareFuncs(app, routes);
 
-const middlewares = getAllSortedMiddlewares();
-
-prepare(app, middlewares, routes);
+/** Hack for 'no route' case*/
+routes.push({
+  id: 'noRoute',
+  path: '/*'
+});
+routes.forEach((route) => {
+  app.use(route.path, Handler.middleware());
+})
 /** Load bootstrap script from modules */
 loadBootstrapScripts(modules);
 

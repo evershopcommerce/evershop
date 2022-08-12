@@ -1,4 +1,4 @@
-const { routes } = require('./routes');
+const { getRoutes } = require('./Router');
 const { compile } = require('../pathToRegexp');
 
 // eslint-disable-next-line no-multi-assign
@@ -12,6 +12,7 @@ module.exports = exports = {};
  * @return  {string} The Url
  */
 exports.buildUrl = (routeId, params = {}) => {
+  const routes = getRoutes();
   const route = routes.find((r) => r.id === routeId);
   if (route === undefined) { throw new Error(`Route ${routeId} is not existed`); }
 

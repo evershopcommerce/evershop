@@ -1,5 +1,3 @@
-import { toPrice } from '../toPrice';
-
 const config = require('config');
 const { select } = require('@evershop/mysql-query-builder');
 const fs = require('fs');
@@ -9,9 +7,10 @@ const { CONSTANTS } = require('../../../../lib/helpers');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 /* eslint-disable no-underscore-dangle */
 const { DataObject } = require('./dataObject');
+const { toPrice } = require('../toPrice');
 const uniqid = require('uniqid');
 
-export class Item extends DataObject {
+module.exports.Item = class Item extends DataObject {
   static fields = [
     {
       key: 'cart_item_id',

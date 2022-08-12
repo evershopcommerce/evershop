@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import React from 'react';
 import Area from '../../../../../../../lib/components/Area';
-import { getComponents } from '../../../../../../../lib/components/getComponents';
 import { Methods } from './Methods';
 
 export default function PaymentMethods({ getMethodsAPI }) {
@@ -18,7 +17,6 @@ export default function PaymentMethods({ getMethodsAPI }) {
       id="checkoutPaymentMethods"
       className="checkout-payment-methods"
       selectedMethod={setSelectedMethod}
-      components={getComponents()}
       coreComponents={[
         {
           component: { default: Methods },

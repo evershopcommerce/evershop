@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import './Card.scss';
 
 function Card({
   title, actions = [], subdued = false, children

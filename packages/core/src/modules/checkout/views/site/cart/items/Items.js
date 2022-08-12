@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useAppState } from '../../../../../../lib/context/app';
 import { ItemOptions } from './ItemOptions';
 import { ItemVariantOptions } from './ItemVariantOptions';
+import './Items.scss';
 
 const { get } = require('../../../../../../lib/util/get');
 

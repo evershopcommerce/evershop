@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import Circle from '../../../../../../lib/components/Circle';
-import { getComponents } from '../../../../../../lib/components/getComponents';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
@@ -130,7 +129,6 @@ export default function OrderSummary() {
           discountAmount={order.discount_amount}
           taxAmount={order.tax_amount}
           className="summary-wrapper"
-          components={getComponents()}
           coreComponents={[
             {
               component: { default: Subtotal },

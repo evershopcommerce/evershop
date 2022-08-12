@@ -18,45 +18,29 @@ exports = module.exports = {
     {
       id: 'new.product',
       areaId: 'quick.links',
-      source: useAdminComponent('cms/views/admin/NavigationItem.js'),
-      props: {
-        icon: 'ArchiveIcon',
-        url: buildUrl('productNew'),
-        title: 'New Product'
-      },
+      source: useAdminComponent('catalog/views/admin/navigation/NewProductMenuItem.js'),
+      props: {},
       sortOrder: 10
     },
     {
       id: 'products',
       areaId: 'catalog.group',
-      source: useAdminComponent('cms/views/admin/NavigationItem.js'),
-      props: {
-        icon: 'ArchiveIcon',
-        url: buildUrl('productGrid'),
-        title: 'Products'
-      },
+      source: useAdminComponent('catalog/views/admin/navigation/ProductsMenuItem.js'),
+      props: {},
       sortOrder: 5
     },
     {
       id: 'categories',
       areaId: 'catalog.group',
-      source: useAdminComponent('cms/views/admin/NavigationItem.js'),
-      props: {
-        icon: 'TagIcon',
-        url: buildUrl('categoryGrid'),
-        title: 'Categories'
-      },
+      source: useAdminComponent('catalog/views/admin/navigation/CategoriesMenuItem.js'),
+      props: {},
       sortOrder: 10
     },
     {
       id: 'attributes',
       areaId: 'catalog.group',
-      source: useAdminComponent('cms/views/admin/NavigationItem.js'),
-      props: {
-        icon: 'HashtagIcon',
-        url: buildUrl('attributeGrid'),
-        title: 'Attributes'
-      },
+      source: useAdminComponent('catalog/views/admin/navigation/AttributesMenuItem.js'),
+      props: {},
       sortOrder: 15
     }
   ],
@@ -184,25 +168,15 @@ exports = module.exports = {
       },
       sortOrder: 10
     },
-    {
-      id: 'ckeditor',
-      areaId: 'head',
-      source: useComponent('Script.js'),
-      props: {
-        src: 'https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js'
-      },
-      sortOrder: 1
-    },
-    {
-      id: 'dragable',
-      areaId: 'head',
-      source: useComponent('Script.js'),
-      props: {
-        src: 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.12/lib/swappable.js',
-        async: true
-      },
-      sortOrder: 1
-    },
+    // {
+    //   id: 'ckeditor',
+    //   areaId: 'head',
+    //   source: useComponent('Script.js'),
+    //   props: {
+    //     src: 'https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js'
+    //   },
+    //   sortOrder: 1 
+    // },
     {
       id: 'productEditGeneral',
       areaId: 'leftSide',

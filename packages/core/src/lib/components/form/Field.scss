@@ -1,26 +1,31 @@
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="tel"],
-select,
-textarea {
-    background: none;
-    padding: 0.5rem 1.2rem;
-    display: block;
-    flex: 1 1;
-    &:focus {
-        outline: none;
-        & + .field-border:after {
-            box-shadow: 0 0 0 2px #458fff;
+html {
+    input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        select,
+        textarea {
+            background: none;
+            padding: 0.5rem 1.2rem;
+            display: block;
+            flex: 1 1;
+    
+            &:focus {
+                outline: none;
+    
+                &+.field-border:after {
+                    box-shadow: 0 0 0 2px #458fff;
+                }
+            }
+    
+            display: block;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+            border: 1px solid transparent;
+            margin: 1px;
+            border-radius: 4px;
         }
-    }
-    display: block;
-    width: 100%;
-    position: relative;
-    z-index: 10;
-    border: 1px solid transparent;
-    margin: 1px;
-    border-radius: 4px;
 }
 select {
     -webkit-appearance: none;

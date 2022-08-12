@@ -4,6 +4,7 @@ import PubSub from 'pubsub-js';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { FORM_VALIDATED } from '../../../../../../lib/util/events';
+import './Variants.scss';
 
 function isSelected(attributeCode, optionId, currentFilters = {}) {
   return (

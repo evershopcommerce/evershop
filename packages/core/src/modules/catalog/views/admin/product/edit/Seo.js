@@ -4,7 +4,6 @@ import { useAppState } from '../../../../../../lib/context/app';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
-import { getComponents } from '../../../../../../lib/components/getComponents';
 
 export default function General() {
   const context = useAppState();
@@ -59,7 +58,7 @@ export default function General() {
       title="Search engine optimize"
     >
       <Card.Session>
-        <Area id="productEditSeo" coreComponents={fields} components={getComponents()} />
+        <Area id="productEditSeo" coreComponents={fields} />
       </Card.Session>
     </Card>
   );

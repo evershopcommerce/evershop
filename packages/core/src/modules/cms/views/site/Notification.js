@@ -2,6 +2,7 @@ import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { get } from '../../../../lib/util/get';
 import { useAppState } from '../../../../lib/context/app';
+import './Notification.scss';
 
 export default function Notification() {
   const notify = (type, message) => {

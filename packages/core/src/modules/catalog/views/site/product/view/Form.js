@@ -8,7 +8,7 @@ import { Field } from '../../../../../../lib/components/form/Field';
 import { get } from '../../../../../../lib/util/get';
 import { useAppState, useAppDispatch } from '../../../../../../lib/context/app';
 import Button from '../../../../../../lib/components/form/Button';
-import { getComponents } from '../../../../../../lib/components/getComponents';
+import './Form.scss';
 
 function ToastMessage({
   thumbnail, name, qty, count, cartUrl, toastId
@@ -133,7 +133,6 @@ export default function ProductForm({ action }) {
 
       <Area
         id="productSinglePageForm"
-        components={getComponents()}
         coreComponents={[
           {
             component: { default: AddToCart },

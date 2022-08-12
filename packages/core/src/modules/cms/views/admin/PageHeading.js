@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../lib/components/Area';
-import { getComponents } from '../../../../lib/components/getComponents';
 import { useAppState } from '../../../../lib/context/app';
 import { get } from '../../../../lib/util/get';
+import './PageHeading.scss';
 
 function BreadcrumbIcon({ backUrl }) {
   if (!backUrl) return null;
@@ -41,7 +41,6 @@ function PageHeading({ backUrl }) {
         <Area
           id="pageHeadingLeft"
           noOuter
-          components={getComponents()}
           coreComponents={[
             {
               component: { default: BreadcrumbIcon },
@@ -66,7 +65,6 @@ function PageHeading({ backUrl }) {
         <Area
           id="pageHeadingRight"
           noOuter
-          components={getComponents()}
           coreComponents={[]}
         />
       </div>

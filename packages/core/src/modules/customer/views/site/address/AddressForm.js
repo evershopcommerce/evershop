@@ -7,7 +7,6 @@ import { ProvinceOptions } from '../../../../../lib/components/locale/ProvinceOp
 import { CountryOptions } from '../../../../../lib/components/locale/CountryOption';
 import Area from '../../../../../lib/components/Area';
 import { get } from '../../../../../lib/util/get';
-import { getComponents } from '../../../../../lib/components/getComponents';
 
 function Province({ selectedCountry, selectedProvince, formId }) {
   return (
@@ -139,7 +138,6 @@ export function CustomerAddressForm(props) {
   return (
     <Area
       id={areaId}
-      components={getComponents()}
       coreComponents={[
         {
           component: { default: NameAndTelephone },

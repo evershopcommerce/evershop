@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = async (err, request, response, stack, next) => {
+  console.log(request.path, err);
   // Set this flag to make sure this middleware only be executed 1 time
   response.locals.errorHandlerTriggered = true;
 

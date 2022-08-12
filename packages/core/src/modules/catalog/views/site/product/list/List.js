@@ -5,7 +5,6 @@ import { Name } from './item/Name';
 import { Thumbnail } from './item/Thumbnail';
 import { Price } from './item/Price';
 import { get } from '../../../../../../lib/util/get';
-import { getComponents } from '../../../../../../lib/components/getComponents';
 
 export default function ProductList({ products = [] }) {
   if (products.length === 0) {
@@ -24,7 +23,6 @@ export default function ProductList({ products = [] }) {
             className="listing-tem"
             product={p}
             key={p.product_id}
-            components={getComponents()}
             coreComponents={[
               {
                 component: { default: Thumbnail },

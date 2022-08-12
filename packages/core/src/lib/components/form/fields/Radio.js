@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Error from './Error';
+import './../Field.scss';
 
 function CheckedIcon() {
   return <span className="radio-checked"><span /></span>;

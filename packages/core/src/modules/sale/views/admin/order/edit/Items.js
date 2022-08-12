@@ -11,7 +11,6 @@ import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
 import { Form } from '../../../../../../lib/components/form/Form';
 import { Field } from '../../../../../../lib/components/form/Field';
-import { getComponents } from '../../../../../../lib/components/getComponents';
 
 function ItemOptions({ options = [] }) {
   if (options.length === 0) { return null; }
@@ -343,7 +342,6 @@ export default function Items() {
                     id={`order_item_row_${i.item_id}`}
                     noOuter
                     item={i}
-                    components={getComponents()}
                     coreComponents={[
                       {
                         component: { default: Thumbnail },

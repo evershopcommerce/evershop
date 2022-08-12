@@ -1,4 +1,4 @@
-const { routes } = require('./routes');
+const { addRoute } = require('./Router');
 const { validateRoute } = require('./validateRoute');
 
 // eslint-disable-next-line no-multi-assign
@@ -12,9 +12,15 @@ module.exports = exports = {};
  * @param   {string}  path    The path of route
  *
  */
-exports.registerSiteRoute = (id, method, path, isApi = false) => {
-  const route = validateRoute(id, method, path);
+exports.registerSiteRoute = (id, method, path, isApi = false, folder = '') => {
+  //const route = validateRoute(id, method, path);
+  const route = {
+    id: String(id),
+    method,
+    path,
+  }
   route.isAdmin = false;
   route.isApi = isApi;
-  routes.push(route);
+  route.folder = folder;
+  addRoute(route);
 };

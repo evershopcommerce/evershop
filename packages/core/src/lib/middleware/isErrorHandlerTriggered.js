@@ -1,3 +1,7 @@
 module.exports = (response) => {
-  return response.locals.errorHandlerTriggered === true;
+  if (!response.locals) {
+    return false;
+  } else {
+    return response.locals.errorHandlerTriggered === true;
+  }
 }

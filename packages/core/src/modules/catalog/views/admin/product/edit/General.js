@@ -3,10 +3,9 @@ import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
-import Ckeditor from '../../../../../../lib/components/form/fields/Ckeditor';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Card } from '../../../../../cms/views/admin/Card';
-import { getComponents } from '../../../../../../lib/components/getComponents';
+import { TextArea } from '../../../../../../lib/components/form/fields/Textarea';
 
 function SKUPriceWeight({ sku, price, weight }) {
   return (
@@ -106,7 +105,7 @@ export default function General({
               id: 'SKUPriceWeight'
             },
             {
-              component: { default: Ckeditor },
+              component: { default: TextArea },
               props: {
                 id: 'description',
                 name: 'description',
@@ -121,7 +120,6 @@ export default function General({
               id: 'description'
             }
           ]}
-          components={getComponents()}
         />
       </Card.Session>
     </Card>

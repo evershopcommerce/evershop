@@ -35,15 +35,7 @@ helpers.getSiteJsFile = function getSiteJsFile(filePath) {
   }
 };
 
-const rootPath = (() => {
-  const test = path.resolve(__dirname, '..', '..', '..', '..');
-  if (existsSync(path.resolve(test, 'package-lock.json'))) {
-    return test;
-  } else {
-    return path.resolve(__dirname, '..', '..', '..', '..', '..');
-  }
-})();
-
+const rootPath = process.cwd();
 helpers.CONSTANTS = Object.freeze({
   ROOTPATH: rootPath,
   LIBPATH: path.resolve(__dirname),
@@ -53,5 +45,6 @@ helpers.CONSTANTS = Object.freeze({
   NODEMODULEPATH: path.resolve(rootPath, 'node_modules'),
   ADMINTHEMEPATH: path.resolve(rootPath, 'themes', 'admin'),
   SITETHEMEPATH: path.resolve(rootPath, 'themes', 'site'),
-  CACHEPATH: path.resolve(rootPath, '.evershop')
+  CACHEPATH: path.resolve(rootPath, '.evershop'),
+  BUILDPATH: path.resolve(rootPath, '.evershop', 'build')
 });

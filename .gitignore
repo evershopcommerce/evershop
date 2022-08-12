@@ -1,12 +1,11 @@
 node_modules
-!node_modules/@nodejscart/core/*
 dist
+extensions
 .idea/*
 .evershop
 .vscode
 npm-debug.log
 package-lock.json
-prod.js
 media
 .DS_Store
 .log
