@@ -2,7 +2,7 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 <p align="center">
   <a href="https://evershop.io" target="_blank">
-    <img alt="evershop-logo" height="65" alt="EverShop Logo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-logo.png"/>
+    <img alt="evershop-logo" height="65" alt="EverShop Logo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-logo.svg"/>
   </a>
 </p>
 <p align="center">
@@ -30,7 +30,7 @@ EverShop use Node.js for backend, and a client built with React. It also use MyS
 Explore our demo store.
 
 <p align="center">
-<img alt="EverShop Admin Demo" width="950" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-backend-demo.svg"/>
+<img alt="EverShop Admin Demo" width="950" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-backend-demo.png"/>
 </p>
 <p align="center">
   <a href="https://demo.evershop.io/admin" target="_blank">
