@@ -1,13 +1,13 @@
+const { existsSync, rmdirSync, mkdirSync, rm } = require('fs');
 const path = require('path');
-const { webpack } = require('webpack');
 const { Componee } = require('../../src/lib/componee/Componee');
+const { CONSTANTS } = require('../../src/lib/helpers');
 const { getRoutes } = require('../../src/lib/router/Router');
 const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
-const { createConfigClient } = require('../../src/lib/webpack/prod/createConfigClient');
-const { createConfigServer } = require('../../src/lib/webpack/prod/createConfigServer');
 const { createComponents } = require('../lib/createComponents');
 const { loadModuleRoutes } = require('../lib/loadModuleRoutes');
 const { loadModules } = require('../lib/loadModules');
+const { compile } = require('./complie');
 
 /* Loading modules and initilize routes, components and services */
 const modules = loadModules(path.resolve(__dirname, '../../src', 'modules'));
@@ -34,25 +34,13 @@ modules.forEach((module) => {
   }
 });
 
-async function compile(routes) {
-  const config = [createConfigClient(routes), createConfigServer(routes)];
-
-  const compiler = webpack(config);
-
-  return new Promise((resolve, reject) => {
-    compiler.run((err, stats) => {
-      if (err || stats.hasErrors() || stats.hasWarnings()) {
-        console.log(err);
-        console.log(stats.toString({
-          errorDetails: true,
-          warnings: true
-        }));
-        reject(err);
-      }
-      resolve(stats);
-    });
-  }
-  );
+/** Clean up the build directory */
+if (existsSync(path.resolve(CONSTANTS.BUILDPATH))) {
+  // Delete directory recursively
+  rmSync(path.resolve(CONSTANTS.BUILDPATH), { recursive: true });
+  mkdirSync(path.resolve(CONSTANTS.BUILDPATH));
+} else {
+  mkdirSync(path.resolve(CONSTANTS.BUILDPATH));
 }
 
 (async () => {

@@ -77,23 +77,15 @@ exports = module.exports = {
     {
       id: 'dashboard',
       areaId: 'quick.links',
-      source: useAdminComponent('cms/views/admin/NavigationItem.js'),
-      props: {
-        icon: 'HomeIcon',
-        url: buildUrl('dashboard'),
-        title: 'Dashboard'
-      },
+      source: useAdminComponent('cms/views/admin/navigation/DashboardMenuItem.js'),
+      props: {},
       sortOrder: 5
     },
     {
       id: 'pages',
       areaId: 'cms.links',
-      source: useAdminComponent('cms/views/admin/NavigationItem.js'),
-      props: {
-        icon: 'DocumentIcon',
-        url: buildUrl('cmsPageGrid'),
-        title: 'Pages'
-      },
+      source: useAdminComponent('cms/views/admin/navigation/PagesMenuItem.js'),
+      props: {},
       sortOrder: 5
     },
     /** Styling */

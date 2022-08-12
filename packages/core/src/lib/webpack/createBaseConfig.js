@@ -87,7 +87,7 @@ module.exports.createBaseConfig = function createBaseConfig(
           }
         })
       ]
-    }
+    };
   }
 
   return config;
