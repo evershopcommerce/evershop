@@ -19,28 +19,36 @@ exports = module.exports = {
       id: 'new.product',
       areaId: 'quick.links',
       source: useAdminComponent('catalog/views/admin/navigation/NewProductMenuItem.js'),
-      props: {},
+      props: {
+        url: buildUrl('productNew')
+      },
       sortOrder: 10
     },
     {
       id: 'products',
       areaId: 'catalog.group',
       source: useAdminComponent('catalog/views/admin/navigation/ProductsMenuItem.js'),
-      props: {},
+      props: {
+        url: buildUrl('productGrid')
+      },
       sortOrder: 5
     },
     {
       id: 'categories',
       areaId: 'catalog.group',
       source: useAdminComponent('catalog/views/admin/navigation/CategoriesMenuItem.js'),
-      props: {},
+      props: {
+        url: buildUrl('categoryGrid')
+      },
       sortOrder: 10
     },
     {
       id: 'attributes',
       areaId: 'catalog.group',
       source: useAdminComponent('catalog/views/admin/navigation/AttributesMenuItem.js'),
-      props: {},
+      props: {
+        url: buildUrl('attributeGrid')
+      },
       sortOrder: 15
     }
   ],
