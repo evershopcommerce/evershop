@@ -9,7 +9,7 @@
   <h1 align="center">An NodeJS Framework Of Ecommerce</h1>
 </p>
 <p align="center">
-    <a href="https://evershop.io/docs/">Documentation</a>
+    <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a>
 </p>
 <p align="center">
   <img src="https://github.com/nodeonline/nodejscart/actions/workflows/build.yml/badge.svg" alt="Github Action">
