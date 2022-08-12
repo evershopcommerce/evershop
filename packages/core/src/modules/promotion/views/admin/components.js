@@ -19,14 +19,18 @@ exports = module.exports = {
       id: 'new.coupon',
       areaId: 'quick.links',
       source: useAdminComponent('promotion/views/admin/navigation/CouponNewMenuItem.js'),
-      props: {},
+      props: {
+        url: buildUrl('couponNew')
+      },
       sortOrder: 10
     },
     {
       id: 'coupons',
       areaId: 'promotion.group',
       source: useAdminComponent('promotion/views/admin/navigation/CouponsMenuItem.js'),
-      props: {},
+      props: {
+        url: buildUrl('couponGrid')
+      },
       sortOrder: 5
     }
   ],

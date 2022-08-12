@@ -78,14 +78,18 @@ exports = module.exports = {
       id: 'dashboard',
       areaId: 'quick.links',
       source: useAdminComponent('cms/views/admin/navigation/DashboardMenuItem.js'),
-      props: {},
+      props: {
+        url: buildUrl('dashboard')
+      },
       sortOrder: 5
     },
     {
       id: 'pages',
       areaId: 'cms.links',
       source: useAdminComponent('cms/views/admin/navigation/PagesMenuItem.js'),
-      props: {},
+      props: {
+        url: buildUrl('cmsPageGrid')
+      },
       sortOrder: 5
     },
     /** Styling */

@@ -1,4 +1,4 @@
-const { existsSync, rmdirSync, mkdirSync, rm } = require('fs');
+const { existsSync, rmSync, mkdirSync } = require('fs');
 const path = require('path');
 const { Componee } = require('../../src/lib/componee/Componee');
 const { CONSTANTS } = require('../../src/lib/helpers');

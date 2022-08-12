@@ -1,8 +1,12 @@
+import PropTypes from "prop-types"
 import React from 'react';
-import { buildUrl } from '@evershop/core/src/lib/router/buildUrl';
 import MenuItem from '../../../../cms/views/admin/NavigationItem';
 import Icon from '@heroicons/react/solid/esm/GiftIcon';
 
-export default function CouponsMenuItem() {
-  return <MenuItem Icon={Icon} title="Coupons" url={buildUrl('couponGrid')} />;
+export default function CouponsMenuItem({ url }) {
+  return <MenuItem Icon={Icon} title="Coupons" url={url} />;
+}
+
+CouponsMenuItem.propTypes = {
+  url: PropTypes.string.isRequired
 }
