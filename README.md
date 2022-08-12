@@ -30,7 +30,7 @@ EverShop use Node.js for backend, and a client built with React. It also use MyS
 Explore our demo store.
 
 <p align="center">
-<img alt="EverShop Admin Demo" width="950" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-backend-demo.png"/>
+<img alt="EverShop Admin Demo" width="950" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-backend-demo.svg"/>
 </p>
 <p align="center">
   <a href="https://demo.evershop.io/admin" target="_blank">
