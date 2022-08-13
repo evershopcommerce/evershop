@@ -1,5 +1,6 @@
 import React from 'react';
 import Area from '../../../../../../lib/components/Area';
+import './Layout.scss';
 
 export default function OrderEdit() {
   return (

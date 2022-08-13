@@ -3,6 +3,7 @@ import React from 'react';
 import { DateTime } from 'luxon';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
+import './Activities.scss';
 
 export default function Activities() {
   const context = useAppState();
