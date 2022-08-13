@@ -2,6 +2,7 @@ import PropTypes from "prop-types"
 import React from 'react';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
+import './Items.scss';
 
 function ItemOptions({ options = [] }) {
   if (options.length === 0) { return null; }

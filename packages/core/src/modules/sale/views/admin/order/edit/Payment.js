@@ -5,6 +5,7 @@ import Circle from '../../../../../../lib/components/Circle';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
+import './Payment.scss';
 
 function Subtotal({ count, total }) {
   return (

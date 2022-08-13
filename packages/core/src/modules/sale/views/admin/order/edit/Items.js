@@ -11,6 +11,7 @@ import { get } from '../../../../../../lib/util/get';
 import { Card } from '../../../../../cms/views/admin/Card';
 import { Form } from '../../../../../../lib/components/form/Form';
 import { Field } from '../../../../../../lib/components/form/Field';
+import './Items.scss';
 
 function ItemOptions({ options = [] }) {
   if (options.length === 0) { return null; }

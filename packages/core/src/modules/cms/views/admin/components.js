@@ -91,14 +91,6 @@ exports = module.exports = {
         url: buildUrl('cmsPageGrid')
       },
       sortOrder: 5
-    },
-    /** Styling */
-    {
-      id: 'bundleCss',
-      areaId: 'head',
-      source: useComponent('BundleCss.js'),
-      props: {},
-      sortOrder: 10
     }
   ],
   cmsPageEdit: [

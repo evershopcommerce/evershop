@@ -5,7 +5,7 @@ import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Card } from '../../Card';
-import Ckeditor from '../../../../../../lib/components/form/fields/Ckeditor';
+import { TextArea } from '../../../../../../lib/components/form/fields/Textarea';
 
 export default function General({
   browserApi, deleteApi, uploadApi, folderCreateApi
@@ -48,7 +48,7 @@ export default function General({
       id: 'status'
     },
     {
-      component: { default: Ckeditor },
+      component: { default: TextArea },
       props: {
         id: 'content',
         name: 'content',
