@@ -3,9 +3,9 @@ import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
-import Ckeditor from '../../../../../../lib/components/form/fields/Ckeditor';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Card } from '../../../../../cms/views/admin/Card';
+import { TextArea } from '../../../../../../lib/components/form/fields/Textarea';
 
 export default function General({
   browserApi, deleteApi, uploadApi, folderCreateApi
@@ -47,7 +47,7 @@ export default function General({
       id: 'status'
     },
     {
-      component: { default: Ckeditor },
+      component: { default: TextArea },
       props: {
         id: 'description',
         name: 'description',

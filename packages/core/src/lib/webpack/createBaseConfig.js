@@ -19,6 +19,9 @@ module.exports.createBaseConfig = function createBaseConfig(
             [
               "@babel/preset-env",
               {
+                "targets": {
+                  "esmodules": true
+                },
                 "exclude": ["@babel/plugin-transform-regenerator", "@babel/plugin-transform-async-to-generator"]
               }
             ],
@@ -36,9 +39,23 @@ module.exports.createBaseConfig = function createBaseConfig(
     pathinfo: false
   } : {
     path: CONSTANTS.BUILDPATH,
-    publicPath: '/',
+    publicPath: isProductionMode() ? '/assets/' : '/',
     pathinfo: false
   };
+
+  if (!isProductionMode()) {
+    Object.assign(output, {
+      chunkFilename: (pathData) => {
+        return `${pathData.chunk.renderedHash}/client/${pathData.chunk.runtime}.js`;
+      }
+    });
+  } else {
+    Object.assign(output, {
+      chunkFilename: (pathData) => {
+        return `chunks/${pathData.chunk.renderedHash}.js`;
+      }
+    });
+  }
 
   if (isServer) {
     output.libraryTarget = 'commonjs2';
@@ -54,10 +71,11 @@ module.exports.createBaseConfig = function createBaseConfig(
     output: output,
     plugins: [],
     cache: { type: 'memory' }
-  }
+  };
 
+  config.optimization = {};
   if (isProductionMode()) {
-    config.optimization = {
+    config.optimization = Object.assign(config.optimization, {
       minimize: true,
       minimizer: [
         new TerserPlugin({
@@ -87,7 +105,7 @@ module.exports.createBaseConfig = function createBaseConfig(
           }
         })
       ]
-    };
+    });
   }
 
   return config;

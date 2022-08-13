@@ -8,18 +8,17 @@ const { CONSTANTS } = require('../helpers');
 module.exports = exports = (request, response, next) => {
   let path;
   if (request.isAdmin === true) {
-    path = normalize(request.path.replace('/admin/assets/', ''));
+    path = normalize(request.originalUrl.replace('/admin/assets/', ''));
   } else {
-    path = normalize(request.path.replace('/assets/', ''));
+    path = normalize(request.originalUrl.replace('/assets/', ''));
   }
   if (request.isAdmin === true) {
     request.originalUrl = request.originalUrl.replace('/admin/assets', '');
-    request.url = request.url.replace('/admin/assets', '');
+    request.url = request.originalUrl.replace('/admin/assets', '');
   } else {
     request.originalUrl = request.originalUrl.replace('/assets', '');
-    request.url = request.url.replace('/assets', '');
+    request.url = request.originalUrl.replace('/assets', '');
   }
-
   if (existsSync(join(CONSTANTS.ROOTPATH, 'src/theme', path))) {
     staticMiddleware('src/theme')(request, response, next);
   } else if (existsSync(join(CONSTANTS.ROOTPATH, 'dist/theme', path))) {

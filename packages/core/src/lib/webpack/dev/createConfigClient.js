@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const { createBaseConfig } = require('../createBaseConfig');
 const { getRouteBuildPath } = require('../getRouteBuildPath');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const WebpackBar = require('webpackbar');
 
 module.exports.createConfigClient = function createConfigClient(route) {
   const entry = {};
@@ -33,6 +34,7 @@ module.exports.createConfigClient = function createConfigClient(route) {
   });
 
   const plugins = config.plugins;
+  plugins.push(new webpack.ProgressPlugin())
   plugins.push(new webpack.HotModuleReplacementPlugin());
   plugins.push(new ReactRefreshWebpackPlugin({
     overlay: false,
