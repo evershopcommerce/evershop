@@ -4,6 +4,7 @@ import { get } from '../../../../../../lib/util/get';
 import { useAppState } from '../../../../../../lib/context/app';
 import { Card } from '../../../../../cms/views/admin/Card';
 import Button from '../../../../../../lib/components/form/Button';
+import './Image.scss';
 
 export default function Image() {
   const context = useAppState();
