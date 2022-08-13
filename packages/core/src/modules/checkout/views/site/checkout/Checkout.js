@@ -3,6 +3,7 @@ import { Summary } from './summary/Summary';
 import Area from '../../../../../lib/components/Area';
 import { CheckoutSteps } from '../../../../../lib/context/checkout';
 import { CheckoutProvider } from '../../../../../lib/context/order';
+import './Checkout.scss';
 
 function Steps() {
   return (

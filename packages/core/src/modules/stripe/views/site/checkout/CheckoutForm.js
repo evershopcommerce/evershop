@@ -8,6 +8,7 @@ import { useCheckout } from '../../../../../lib/context/order';
 import Button from '../../../../../lib/components/form/Button';
 import { get } from '../../../../../lib/util/get';
 import { useAppState } from '../../../../../lib/context/app';
+import './CheckoutForm.scss';
 
 export default function CheckoutForm() {
   const [, setSucceeded] = useState(false);
