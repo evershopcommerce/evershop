@@ -85,13 +85,6 @@ exports = module.exports = {
       source: useSiteComponent('cms/views/site/homepage/MainBanner.js'),
       props: {},
       sortOrder: 10
-    },
-    {
-      id: 'mainBansssner',
-      areaId: 'content',
-      source: useSiteComponent('cms/views/site/homepage/MainBanner.js'),
-      props: {},
-      sortOrder: 10
     }
   ],
   cmsPageView: [
