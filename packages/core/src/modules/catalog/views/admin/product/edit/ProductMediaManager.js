@@ -8,7 +8,6 @@ import uniqid from 'uniqid';
 import { toast } from 'react-toastify';
 import { get } from '../../../../../../lib/util/get';
 import { useAppState } from '../../../../../../lib/context/app';
-import { Swappable } from '@shopify/draggable';
 import './ProductMediaManager.scss';
 
 function Upload({ addImage }) {
@@ -120,38 +119,47 @@ Images.propTypes = {
   removeImage: PropTypes.func.isRequired
 };
 
+async function loadSwappable() {
+  const { Swappable } = await import('@shopify/draggable');
+  return Swappable;
+}
+
 export default function ProductMediaManager({ productImages, id }) {
   const [images, setImages] = React.useState(productImages);
   const [draggable, setDragable] = React.useState(null);
 
   React.useEffect(() => {
-    if (draggable) { draggable.destroy(); }
+    async function initSwappable() {
+      if (draggable) { draggable.destroy(); }
 
-    // eslint-disable-next-line new-cap
-    const swappable = new Swappable(document.querySelectorAll(`div#${id}`), {
-      draggable: 'div.image',
-      handle: 'div.image img'
-    });
-    let source = null;
-    let destination = null;
-    swappable.on('swappable:swapped', (event) => {
-      source = event.data.dragEvent.data.source.id;
-      destination = event.data.dragEvent.data.over.id;
-    });
-
-    swappable.on('swappable:stop', () => {
-      if (!source || !destination) { return; }
-      setImages((originImages) => {
-        const newImages = Array.from(originImages);
-        const sr = originImages.find((image) => image.id === source);
-        newImages[originImages.findIndex(
-          (image) => image.id === source
-        )] = originImages.find((image) => image.id === destination);
-        newImages[originImages.findIndex((image) => image.id === destination)] = sr;
-        return newImages;
+      const Swappable = await loadSwappable();
+      // eslint-disable-next-line new-cap
+      const swappable = new Swappable(document.querySelectorAll(`div#${id}`), {
+        draggable: 'div.image',
+        handle: 'div.image img'
       });
-    });
-    setDragable(swappable);
+      let source = null;
+      let destination = null;
+      swappable.on('swappable:swapped', (event) => {
+        source = event.data.dragEvent.data.source.id;
+        destination = event.data.dragEvent.data.over.id;
+      });
+
+      swappable.on('swappable:stop', () => {
+        if (!source || !destination) { return; }
+        setImages((originImages) => {
+          const newImages = Array.from(originImages);
+          const sr = originImages.find((image) => image.id === source);
+          newImages[originImages.findIndex(
+            (image) => image.id === source
+          )] = originImages.find((image) => image.id === destination);
+          newImages[originImages.findIndex((image) => image.id === destination)] = sr;
+          return newImages;
+        });
+      });
+      setDragable(swappable);
+    }
+    initSwappable();
   }, [images]);
 
   const addImage = (imageArray) => {

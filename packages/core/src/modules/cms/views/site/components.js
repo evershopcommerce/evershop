@@ -76,32 +76,11 @@ exports = module.exports = {
         content: 'width=device-width, initial-scale=1'
       },
       sortOrder: 2
-    },
-    {
-      id: 'bundleCSS',
-      areaId: 'head',
-      source: useComponent('BundleCss.js'),
-      props: {},
-      sortOrder: 10
-    },
-    {
-      id: 'bundleJS',
-      areaId: 'after.body',
-      source: useComponent('BundleJs.js'),
-      props: {},
-      sortOrder: 10
     }
   ],
   homepage: [
     {
       id: 'mainBanner',
-      areaId: 'content',
-      source: useSiteComponent('cms/views/site/homepage/MainBanner.js'),
-      props: {},
-      sortOrder: 10
-    },
-    {
-      id: 'mainBansssner',
       areaId: 'content',
       source: useSiteComponent('cms/views/site/homepage/MainBanner.js'),
       props: {},

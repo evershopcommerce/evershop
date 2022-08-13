@@ -1,9 +1,9 @@
 const bodyParser = require('body-parser');
 const webpack = require("webpack");
-const { green } = require('kleur');
 const middleware = require("webpack-dev-middleware");
 const { createConfigClient } = require('../../src/lib/webpack/dev/createConfigClient');
 const isDevelopmentMode = require('../../src/lib/util/isDevelopmentMode');
+const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
 
 module.exports = exports = {};
 
@@ -59,7 +59,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
   if (isDevelopmentMode()) {
     const compilers = {};
     routes.forEach((route) => {
-      if (!route.isApi && !['staticAsset', 'adminStaticAsset'].includes(route.id)) {
+      if (isBuildRequired(route)) {
         compilers[route.id] = webpack(createConfigClient(route));
       } else {
         return
@@ -87,7 +87,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
         const route = findRoute(request);
         request.locals = request.locals || {};
         request.locals.webpackMatchedRoute = route;
-        if (route.isApi || ['staticAsset', 'adminStaticAsset'].includes(route.id)) {
+        if (!isBuildRequired(route)) {
           next();
         } else {
           const webpackCompiler = compilers[route.id];
@@ -109,7 +109,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
     );
 
     routes.forEach((route) => {
-      if (!route.isApi && !['staticAsset', 'adminStaticAsset'].includes(route.id)) {
+      if (isBuildRequired(route)) {
         const webpackCompiler = compilers[route.id];
         const hotMiddleware = route.hotMiddleware ? route.hotMiddleware : require("webpack-hot-middleware")(webpackCompiler, { path: `/eHot/${route.id}` });
         if (!route.hotMiddleware) {
@@ -122,27 +122,6 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
         return
       }
     });
-
-    /** Watch for changes in the server code */
-    // app.locals = app.locals || {};
-    // app.locals.FSWatcher = chokidar.watch('.', {
-    //   ignored: /node_modules[\\/]/,
-    //   ignoreInitial: true,
-    //   persistent: true
-    // }).on('all', (event, path) => {
-    //   if (path.includes('controllers')) {
-    //     console.log('Reloading middleware');
-    //     console.log(resolve(CONSTANTS.ROOTPATH, path))
-    //     delete require.cache[require.resolve(resolve(CONSTANTS.ROOTPATH, path))];
-    //     hotMiddleware.publish({
-    //       name: 'test',
-    //       action: 'serverReloaded'
-    //     });
-    //   }
-    //   // server.removeListener('request', currentApp);
-    //   // server.on('request', newApp);
-    //   // currentApp = newApp;
-    // });
   }
 
   /** 404 Not Found handle */

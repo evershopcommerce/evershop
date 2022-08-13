@@ -49,7 +49,7 @@ module.exports.createApp = () => {
   addDefaultMiddlewareFuncs(app, routes);
 
   routes.forEach((route) => {
-    app.use(route.path, Handler.middleware());
+    app.all(route.path, Handler.middleware());
   })
 
   /** Load bootstrap script from modules */
