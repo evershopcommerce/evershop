@@ -1,4 +1,4 @@
-const { useSiteComponent } = require('../../../../lib/componee/useSiteComponent');
+const { useComponent } = require('../../../../lib/componee/useComponent');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 
 // eslint-disable-next-line no-multi-assign
@@ -7,7 +7,7 @@ exports = module.exports = {
     {
       id: 'miniCart',
       areaId: 'iconWrapper',
-      source: useSiteComponent('checkout/views/site/MiniCart.js'),
+      source: useComponent('MiniCart.js'),
       props: {
         cartUrl: buildUrl('cart'),
         checkoutUrl: buildUrl('checkout')
@@ -19,14 +19,14 @@ exports = module.exports = {
     {
       id: 'shoppingCartLayout',
       areaId: 'content',
-      source: useSiteComponent('checkout/views/site/cart/Layout.js'),
+      source: useComponent('cart/Layout.js'),
       props: {},
       sortOrder: 10
     },
     {
       id: 'emptyCart',
       areaId: 'shoppingCartTop',
-      source: useSiteComponent('checkout/views/site/cart/Empty.js'),
+      source: useComponent('cart/Empty.js'),
       props: {
         homeUrl: buildUrl('homepage')
       },
@@ -35,14 +35,14 @@ exports = module.exports = {
     {
       id: 'cartItems',
       areaId: 'shoppingCartLeft',
-      source: useSiteComponent('checkout/views/site/cart/items/Items.js'),
+      source: useComponent('cart/items/Items.js'),
       props: {},
       sortOrder: 10
     },
     {
       id: 'cartSummary',
       areaId: 'shoppingCartRight',
-      source: useSiteComponent('checkout/views/site/cart/Summary.js'),
+      source: useComponent('cart/Summary.js'),
       props: {
         checkoutUrl: buildUrl('checkout')
       },
@@ -53,7 +53,7 @@ exports = module.exports = {
     {
       id: 'customerInfoStep',
       areaId: 'checkoutSteps',
-      source: useSiteComponent('checkout/views/site/checkout/CustomerInfoStep.js'),
+      source: useComponent('checkout/CustomerInfoStep.js'),
       props: {
         setContactInfoUrl: buildUrl('checkoutSetContactInfo')
         // loginUrl: buildUrl("customerLoginPost")
@@ -63,28 +63,28 @@ exports = module.exports = {
     {
       id: 'checkoutPaymentStep',
       areaId: 'checkoutSteps',
-      source: useSiteComponent('checkout/views/site/checkout/payment/paymentStep/Index.js'),
+      source: useComponent('checkout/payment/paymentStep/Index.js'),
       props: {},
       sortOrder: 15
     },
     {
       id: 'checkoutShipmentStep',
       areaId: 'checkoutSteps',
-      source: useSiteComponent('checkout/views/site/checkout/shipment/shipmentStep/Index.js'),
+      source: useComponent('checkout/shipment/shipmentStep/Index.js'),
       props: {},
       sortOrder: 10
     },
     {
       id: 'checkoutPage',
       areaId: 'content',
-      source: useSiteComponent('checkout/views/site/checkout/Checkout.js'),
+      source: useComponent('checkout/Checkout.js'),
       props: {},
       sortOrder: 0
     },
     {
       id: 'checkoutShippingMethods',
       areaId: 'checkoutShippingAddressForm',
-      source: useSiteComponent('checkout/views/site/checkout/shipment/ShippingMethods.js'),
+      source: useComponent('checkout/shipment/ShippingMethods.js'),
       props: {
         getMethodsAPI: buildUrl('checkoutGetShippingMethods')
       },
@@ -93,7 +93,7 @@ exports = module.exports = {
     {
       id: 'checkoutPaymentMethods',
       areaId: 'checkoutBillingAddressForm',
-      source: useSiteComponent('checkout/views/site/checkout/payment/paymentMethods/Index.js'),
+      source: useComponent('checkout/payment/paymentMethods/Index.js'),
       props: {
         getMethodsAPI: buildUrl('checkoutGetPaymentMethods')
       },
@@ -102,7 +102,7 @@ exports = module.exports = {
     {
       id: 'cartSummary',
       areaId: 'shoppingCartRight',
-      source: useSiteComponent('checkout/views/site/cart/Summary.js'),
+      source: useComponent('cart/Summary.js'),
       props: {
         checkoutUrl: buildUrl('checkout')
       },
@@ -113,7 +113,7 @@ exports = module.exports = {
     {
       id: 'checkoutSuccess',
       areaId: 'content',
-      source: useSiteComponent('checkout/views/site/checkoutSuccess/CheckoutSuccess.js'),
+      source: useComponent('checkoutSuccess/CheckoutSuccess.js'),
       props: {
       },
       sortOrder: 10

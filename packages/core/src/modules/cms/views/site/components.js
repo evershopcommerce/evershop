@@ -1,4 +1,3 @@
-const { useSiteComponent } = require('../../../../lib/componee/useSiteComponent');
 const { useComponent } = require('../../../../lib/componee/useComponent');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 
@@ -8,21 +7,21 @@ exports = module.exports = {
     {
       id: 'notification',
       areaId: 'body',
-      source: useSiteComponent('cms/views/site/Notification.js'),
+      source: useComponent('Notification.js'),
       props: {},
       sortOrder: 1
     },
     {
       id: 'layout',
       areaId: 'body',
-      source: useSiteComponent('cms/views/site/Layout.js'),
+      source: useComponent('Layout.js'),
       props: {},
       sortOrder: 1
     },
     {
       id: 'logo',
       areaId: 'header',
-      source: useSiteComponent('cms/views/site/Logo.js'),
+      source: useComponent('Logo.js'),
       props: {
         homeUrl: buildUrl('homepage')
       },
@@ -31,7 +30,7 @@ exports = module.exports = {
     {
       id: 'menu',
       areaId: 'header',
-      source: useSiteComponent('cms/views/site/Menu.js'),
+      source: useComponent('Menu.js'),
       props: {},
       sortOrder: 10
     },
@@ -48,21 +47,21 @@ exports = module.exports = {
     {
       id: 'mobileMenu',
       areaId: 'iconWrapper',
-      source: useSiteComponent('cms/views/site/MobileMenu.js'),
+      source: useComponent('MobileMenu.js'),
       props: {},
       sortOrder: 20
     },
     {
       id: 'metaTitle',
       areaId: 'head',
-      source: useSiteComponent('cms/views/site/MetaTitle.js'),
+      source: useComponent('MetaTitle.js'),
       props: {},
       sortOrder: 1
     },
     {
       id: 'metaDescription',
       areaId: 'head',
-      source: useSiteComponent('cms/views/site/MetaDescription.js'),
+      source: useComponent('MetaDescription.js'),
       props: {},
       sortOrder: 1
     },
@@ -82,7 +81,7 @@ exports = module.exports = {
     {
       id: 'mainBanner',
       areaId: 'content',
-      source: useSiteComponent('cms/views/site/homepage/MainBanner.js'),
+      source: useComponent('homepage/MainBanner.js'),
       props: {},
       sortOrder: 10
     }
@@ -91,7 +90,7 @@ exports = module.exports = {
     {
       id: 'cmsPageView',
       areaId: 'content',
-      source: useSiteComponent('cms/views/site/page/View.js'),
+      source: useComponent('page/View.js'),
       props: {},
       sortOrder: 10
     }
@@ -100,7 +99,7 @@ exports = module.exports = {
     {
       id: 'notFoundPage',
       areaId: 'content',
-      source: useSiteComponent('cms/views/site/page/NotFound.js'),
+      source: useComponent('page/NotFound.js'),
       props: {
         continueShoppingUrl: buildUrl('homepage')
       },

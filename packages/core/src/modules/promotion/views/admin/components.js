@@ -1,6 +1,5 @@
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 const { useComponent } = require('../../../../lib/componee/useComponent');
-const { useAdminComponent } = require('../../../../lib/componee/useAdminComponent');
 
 // eslint-disable-next-line no-multi-assign
 exports = module.exports = {
@@ -8,7 +7,7 @@ exports = module.exports = {
     {
       id: 'promotion.group',
       areaId: 'admin.menu',
-      source: useAdminComponent('cms/views/admin/NavigationItemGroup.js'),
+      source: useComponent('NavigationItemGroup.js', 'cms'),
       props: {
         id: 'promotion.group',
         name: 'Coupons'
@@ -18,7 +17,7 @@ exports = module.exports = {
     {
       id: 'new.coupon',
       areaId: 'quick.links',
-      source: useAdminComponent('promotion/views/admin/navigation/CouponNewMenuItem.js'),
+      source: useComponent('navigation/CouponNewMenuItem.js'),
       props: {
         url: buildUrl('couponNew')
       },
@@ -27,7 +26,7 @@ exports = module.exports = {
     {
       id: 'coupons',
       areaId: 'promotion.group',
-      source: useAdminComponent('promotion/views/admin/navigation/CouponsMenuItem.js'),
+      source: useComponent('navigation/CouponsMenuItem.js'),
       props: {
         url: buildUrl('couponGrid')
       },
@@ -61,7 +60,7 @@ exports = module.exports = {
     {
       id: 'pageHeading',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/PageHeading.js'),
+      source: useComponent('PageHeading.js', 'cms'),
       props: {
         backUrl: buildUrl('couponGrid')
       },
@@ -70,7 +69,7 @@ exports = module.exports = {
     {
       id: 'couponForm',
       areaId: 'content',
-      source: useAdminComponent('promotion/views/admin/coupon/edit/CouponEditForm.js'),
+      source: useComponent('coupon/edit/CouponEditForm.js'),
       props: {
         id: 'coupon-edit-form',
         action: buildUrl('couponCreate'),
@@ -84,7 +83,7 @@ exports = module.exports = {
     {
       id: 'couponGrid',
       areaId: 'content',
-      source: useAdminComponent('promotion/views/admin/coupon/grid/Grid.js'),
+      source: useComponent('coupon/grid/Grid.js'),
       props: {
         limit: 20
       },
@@ -93,7 +92,7 @@ exports = module.exports = {
     {
       id: 'pageHeading',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/PageHeading.js'),
+      source: useComponent('PageHeading.js', 'cms'),
       props: {
       },
       sortOrder: 10
@@ -131,7 +130,7 @@ exports = module.exports = {
     {
       id: 'couponRow',
       areaId: 'couponGridRow',
-      source: useAdminComponent('promotion/views/admin/coupon/grid/NameRow.js'),
+      source: useComponent('coupon/grid/NameRow.js'),
       props: {
         id: 'coupon',
         editUrl: 'editUrl'
