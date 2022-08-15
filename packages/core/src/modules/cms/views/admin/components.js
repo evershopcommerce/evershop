@@ -1,5 +1,4 @@
 const { useComponent } = require('../../../../lib/componee/useComponent');
-const { useAdminComponent } = require('../../../../lib/componee/useAdminComponent');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 
 // eslint-disable-next-line no-multi-assign
@@ -8,14 +7,14 @@ exports = module.exports = {
     {
       id: 'layout',
       areaId: 'body',
-      source: useAdminComponent('cms/views/admin/Layout.js'),
+      source: useComponent('Layout.js'),
       props: {},
       sortOrder: 1
     },
     {
       id: 'logo',
       areaId: 'header',
-      source: useAdminComponent('cms/views/admin/dashboard/Logo.js'),
+      source: useComponent('dashboard/Logo.js'),
       props: {
         dashboardUrl: buildUrl('dashboard')
       },
@@ -24,7 +23,7 @@ exports = module.exports = {
     {
       id: 'searchBox',
       areaId: 'header',
-      source: useAdminComponent('cms/views/admin/dashboard/search/SearchBox.js'),
+      source: useComponent('dashboard/search/SearchBox.js'),
       props: {
         searchAPI: buildUrl('search'),
         resourceLinks: [
@@ -50,14 +49,14 @@ exports = module.exports = {
     {
       id: 'navigation',
       areaId: 'admin.navigation',
-      source: useAdminComponent('cms/views/admin/Navigation.js'),
+      source: useComponent('Navigation.js'),
       props: {},
       sortOrder: 0
     },
     {
       id: 'quick.link.group',
       areaId: 'admin.menu',
-      source: useAdminComponent('cms/views/admin/NavigationItemGroup.js'),
+      source: useComponent('NavigationItemGroup.js'),
       props: {
         id: 'quick.links',
         name: 'Quick Links'
@@ -67,7 +66,7 @@ exports = module.exports = {
     {
       id: 'cms.group',
       areaId: 'admin.menu',
-      source: useAdminComponent('cms/views/admin/NavigationItemGroup.js'),
+      source: useComponent('NavigationItemGroup.js'),
       props: {
         id: 'cms.links',
         name: 'CMS'
@@ -77,7 +76,7 @@ exports = module.exports = {
     {
       id: 'dashboard',
       areaId: 'quick.links',
-      source: useAdminComponent('cms/views/admin/navigation/DashboardMenuItem.js'),
+      source: useComponent('navigation/DashboardMenuItem.js'),
       props: {
         url: buildUrl('dashboard')
       },
@@ -86,7 +85,7 @@ exports = module.exports = {
     {
       id: 'pages',
       areaId: 'cms.links',
-      source: useAdminComponent('cms/views/admin/navigation/PagesMenuItem.js'),
+      source: useComponent('navigation/PagesMenuItem.js'),
       props: {
         url: buildUrl('cmsPageGrid')
       },
@@ -119,7 +118,7 @@ exports = module.exports = {
     {
       id: 'pageHeading',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/PageHeading.js'),
+      source: useComponent('PageHeading.js'),
       props: {
         backUrl: buildUrl('cmsPageGrid')
       },
@@ -128,7 +127,7 @@ exports = module.exports = {
     {
       id: 'createForm',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/page/edit/PageEditForm.js'),
+      source: useComponent('page/edit/PageEditForm.js'),
       props: {
         id: 'page-edit-form',
         method: 'POST',
@@ -141,7 +140,7 @@ exports = module.exports = {
     {
       id: 'pageEditGeneral',
       areaId: 'leftSide',
-      source: useAdminComponent('cms/views/admin/page/edit/General.js'),
+      source: useComponent('page/edit/General.js'),
       props: {
         browserApi: buildUrl('fileBrowser', ['']),
         deleteApi: buildUrl('fileDelete', ['']),
@@ -153,7 +152,7 @@ exports = module.exports = {
     {
       id: 'pageEditSEO',
       areaId: 'rightSide',
-      source: useAdminComponent('cms/views/admin/page/edit/Seo.js'),
+      source: useComponent('page/edit/Seo.js'),
       props: {},
       sortOrder: 20
     },
@@ -171,7 +170,7 @@ exports = module.exports = {
     {
       id: 'pageGrid',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/page/grid/Grid.js'),
+      source: useComponent('page/grid/Grid.js'),
       props: {
         limit: 20
       },
@@ -180,7 +179,7 @@ exports = module.exports = {
     {
       id: 'pageHeading',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/PageHeading.js'),
+      source: useComponent('PageHeading.js'),
       props: {
       },
       sortOrder: 10
@@ -237,7 +236,7 @@ exports = module.exports = {
     {
       id: 'nameRow',
       areaId: 'pageGridRow',
-      source: useAdminComponent('cms/views/admin/page/grid/NameRow.js'),
+      source: useComponent('page/grid/NameRow.js'),
       props: {
         id: 'name',
         editUrl: 'editUrl'
@@ -249,14 +248,14 @@ exports = module.exports = {
     {
       id: 'contentLayout',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/dashboard/Layout.js'),
+      source: useComponent('dashboard/Layout.js'),
       props: {},
       sortOrder: 10
     },
     {
       id: 'pageHeading',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/PageHeading.js'),
+      source: useComponent('PageHeading.js'),
       props: {
       },
       sortOrder: 5

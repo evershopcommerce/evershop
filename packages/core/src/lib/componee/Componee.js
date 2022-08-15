@@ -10,6 +10,9 @@ class Componee {
     admin: {}
   }
 
+  static currentScope;
+  static currentModule;
+
   static componentsByModule = {}
 
   static addComponent(scope, route, id, areaId, source, props, sortOrder) {
@@ -67,24 +70,27 @@ class Componee {
     });
   }
 
-  static loadModuleComponents(modulePath) {
+  static loadModuleComponents(module) {
+    const modulePath = module.path;
+    this.currentModule = module.name;
     this.componentsByModule[modulePath] = {};
-    // Check for routes
     if (existsSync(path.resolve(modulePath, 'views/site/components.js'))) {
+      this.currentScope = 'site';
       const components = require(path.resolve(modulePath, 'views/site/components.js'));
       if (typeof components === 'object' && components !== null) {
-        this.addComponents('site', components);
+        this.addComponents(this.currentScope, components);
         if (isDevelopmentMode()) {
-          this.componentsByModule[modulePath]['site'] = components;
+          this.componentsByModule[modulePath][this.currentScope] = components;
         }
       }
     }
     if (existsSync(path.resolve(modulePath, 'views/admin/components.js'))) {
+      this.currentScope = 'admin';
       const components = require(path.resolve(modulePath, 'views/admin/components.js'));
       if (typeof components === 'object' && components !== null) {
-        this.addComponents('admin', components);
+        this.addComponents(this.currentScope, components);
         if (isDevelopmentMode()) {
-          this.componentsByModule[modulePath]['admin'] = components;
+          this.componentsByModule[modulePath][this.currentScope] = components;
         }
       }
     }
@@ -114,22 +120,15 @@ class Componee {
     });
   }
 
-  static updateModuleComponents(modulePath) {
-    this.componentsByModule[modulePath] = {};
+  static updateModuleComponents(module) {
+    const modulePath = module.path;
     if (existsSync(path.resolve(modulePath, 'views/site/components.js'))) {
       delete require.cache[path.resolve(modulePath, 'views/site/components.js')];
-      const components = require(path.resolve(modulePath, 'views/site/components.js'));
-      if (typeof components === 'object' && components !== null) {
-        this.componentsByModule[modulePath]['site'] = components;
-      }
     }
     if (existsSync(path.resolve(modulePath, 'views/admin/components.js'))) {
       delete require.cache[path.resolve(modulePath, 'views/admin/components.js')];
-      const components = require(path.resolve(modulePath, 'views/admin/components.js'));
-      if (typeof components === 'object' && components !== null) {
-        this.componentsByModule[modulePath]['admin'] = components;
-      }
     }
+    this.loadModuleComponents(module);
     this.rebuild();
   }
 }

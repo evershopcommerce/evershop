@@ -1,6 +1,5 @@
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 const { useComponent } = require('../../../../lib/componee/useComponent');
-const { useAdminComponent } = require('../../../../lib/componee/useAdminComponent');
 
 // eslint-disable-next-line no-multi-assign
 exports = module.exports = {
@@ -8,7 +7,7 @@ exports = module.exports = {
     {
       id: 'catalog.group',
       areaId: 'admin.menu',
-      source: useAdminComponent('cms/views/admin/NavigationItemGroup.js'),
+      source: useComponent('NavigationItemGroup.js', 'cms'),
       props: {
         id: 'catalog.group',
         name: 'Catalog'
@@ -18,7 +17,7 @@ exports = module.exports = {
     {
       id: 'new.product',
       areaId: 'quick.links',
-      source: useAdminComponent('catalog/views/admin/navigation/NewProductMenuItem.js'),
+      source: useComponent('navigation/NewProductMenuItem.js'),
       props: {
         url: buildUrl('productNew')
       },
@@ -27,7 +26,7 @@ exports = module.exports = {
     {
       id: 'products',
       areaId: 'catalog.group',
-      source: useAdminComponent('catalog/views/admin/navigation/ProductsMenuItem.js'),
+      source: useComponent('navigation/ProductsMenuItem.js'),
       props: {
         url: buildUrl('productGrid')
       },
@@ -36,7 +35,7 @@ exports = module.exports = {
     {
       id: 'categories',
       areaId: 'catalog.group',
-      source: useAdminComponent('catalog/views/admin/navigation/CategoriesMenuItem.js'),
+      source: useComponent('navigation/CategoriesMenuItem.js'),
       props: {
         url: buildUrl('categoryGrid')
       },
@@ -45,7 +44,7 @@ exports = module.exports = {
     {
       id: 'attributes',
       areaId: 'catalog.group',
-      source: useAdminComponent('catalog/views/admin/navigation/AttributesMenuItem.js'),
+      source: useComponent('navigation/AttributesMenuItem.js'),
       props: {
         url: buildUrl('attributeGrid')
       },
@@ -56,7 +55,7 @@ exports = module.exports = {
     {
       id: 'categoryGrid',
       areaId: 'content',
-      source: useAdminComponent('catalog/views/admin/category/grid/Grid.js'),
+      source: useComponent('category/grid/Grid.js'),
       props: {
         limit: 20
       },
@@ -65,7 +64,7 @@ exports = module.exports = {
     {
       id: 'pageHeading',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/PageHeading.js'),
+      source: useComponent('PageHeading.js', 'cms'),
       props: {
       },
       sortOrder: 10
@@ -122,7 +121,7 @@ exports = module.exports = {
     {
       id: 'nameRow',
       areaId: 'categoryGridRow',
-      source: useAdminComponent('catalog/views/admin/category/grid/NameRow.js'),
+      source: useComponent('category/grid/NameRow.js'),
       props: {
         id: 'name',
         editUrl: 'editUrl'
@@ -157,7 +156,7 @@ exports = module.exports = {
     {
       id: 'pageHeading',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/PageHeading.js'),
+      source: useComponent('PageHeading.js', 'cms'),
       props: {
         backUrl: buildUrl('productGrid')
       },
@@ -166,7 +165,7 @@ exports = module.exports = {
     {
       id: 'productForm',
       areaId: 'content',
-      source: useAdminComponent('catalog/views/admin/product/edit/ProductEditForm.js'),
+      source: useComponent('product/edit/ProductEditForm.js'),
       props: {
         id: 'product-edit-form',
         method: 'POST',
@@ -188,7 +187,7 @@ exports = module.exports = {
     {
       id: 'productEditGeneral',
       areaId: 'leftSide',
-      source: useAdminComponent('catalog/views/admin/product/edit/General.js'),
+      source: useComponent('product/edit/General.js'),
       props: {
         browserApi: buildUrl('fileBrowser', ['']),
         deleteApi: buildUrl('fileDelete', ['']),
@@ -200,7 +199,7 @@ exports = module.exports = {
     {
       id: 'productEditStatus',
       areaId: 'rightSide',
-      source: useAdminComponent('catalog/views/admin/product/edit/Status.js'),
+      source: useComponent('product/edit/Status.js'),
       props: {
         browserApi: buildUrl('fileBrowser', ['']),
         deleteApi: buildUrl('fileDelete', ['']),
@@ -212,42 +211,42 @@ exports = module.exports = {
     {
       id: 'productEditImages',
       areaId: 'leftSide',
-      source: useAdminComponent('catalog/views/admin/product/edit/Media.js'),
+      source: useComponent('product/edit/Media.js'),
       props: {},
       sortOrder: 20
     },
     {
       id: 'productEditAttribute',
       areaId: 'rightSide',
-      source: useAdminComponent('catalog/views/admin/product/edit/Attributes.js'),
+      source: useComponent('product/edit/Attributes.js'),
       props: {},
       sortOrder: 30
     },
     {
       id: 'productEditInventory',
       areaId: 'rightSide',
-      source: useAdminComponent('catalog/views/admin/product/edit/Inventory.js'),
+      source: useComponent('product/edit/Inventory.js'),
       props: {},
       sortOrder: 20
     },
     {
       id: 'productEditOptions',
       areaId: 'leftSide',
-      source: useAdminComponent('catalog/views/admin/product/edit/CustomOptions.js'),
+      source: useComponent('product/edit/CustomOptions.js'),
       props: {},
       sortOrder: 30
     },
     {
       id: 'productEditVariants',
       areaId: 'leftSide',
-      source: useAdminComponent('catalog/views/admin/product/edit/variants/Index.js'),
+      source: useComponent('product/edit/variants/Index.js'),
       props: {},
       sortOrder: 40
     },
     {
       id: 'productEditSEO',
       areaId: 'leftSide',
-      source: useAdminComponent('catalog/views/admin/product/edit/Seo.js'),
+      source: useComponent('product/edit/Seo.js'),
       props: {},
       sortOrder: 50
     }
@@ -256,7 +255,7 @@ exports = module.exports = {
     {
       id: 'productGrid',
       areaId: 'content',
-      source: useAdminComponent('catalog/views/admin/product/grid/Grid.js'),
+      source: useComponent('product/grid/Grid.js'),
       props: {
         limit: 20
       },
@@ -265,7 +264,7 @@ exports = module.exports = {
     {
       id: 'pageHeading',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/PageHeading.js'),
+      source: useComponent('PageHeading.js', 'cms'),
       props: {
       },
       sortOrder: 10
@@ -322,7 +321,7 @@ exports = module.exports = {
     {
       id: 'nameRow',
       areaId: 'productGridRow',
-      source: useAdminComponent('catalog/views/admin/product/grid/NameRow.js'),
+      source: useComponent('product/grid/NameRow.js'),
       props: {
         id: 'name',
         editUrl: 'editUrl'
@@ -361,7 +360,7 @@ exports = module.exports = {
     {
       id: 'priceRow',
       areaId: 'productGridRow',
-      source: useAdminComponent('catalog/views/admin/product/grid/PriceRow.js'),
+      source: useComponent('product/grid/PriceRow.js'),
       props: {
         id: 'price'
       },
@@ -432,7 +431,7 @@ exports = module.exports = {
     {
       id: 'pageHeading',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/PageHeading.js'),
+      source: useComponent('PageHeading.js', 'cms'),
       props: {
         backUrl: buildUrl('categoryGrid')
       },
@@ -441,7 +440,7 @@ exports = module.exports = {
     {
       id: 'categoryForm',
       areaId: 'content',
-      source: useAdminComponent('catalog/views/admin/category/edit/CategoryEditForm.js'),
+      source: useComponent('category/edit/CategoryEditForm.js'),
       props: {
         id: 'category-edit-form',
         method: 'POST',
@@ -463,7 +462,7 @@ exports = module.exports = {
     {
       id: 'categoryEditGeneral',
       areaId: 'leftSide',
-      source: useAdminComponent('catalog/views/admin/category/edit/General.js'),
+      source: useComponent('category/edit/General.js'),
       props: {
         browserApi: buildUrl('fileBrowser', ['']),
         deleteApi: buildUrl('fileDelete', ['']),
@@ -475,14 +474,14 @@ exports = module.exports = {
     {
       id: 'categoryEditSEO',
       areaId: 'rightSide',
-      source: useAdminComponent('catalog/views/admin/category/edit/Seo.js'),
+      source: useComponent('category/edit/Seo.js'),
       props: {},
       sortOrder: 20
     },
     {
       id: 'categoryEditBanner',
       areaId: 'rightSide',
-      source: useAdminComponent('catalog/views/admin/category/edit/Image.js'),
+      source: useComponent('category/edit/Image.js'),
       props: {},
       sortOrder: 10
     }
@@ -492,7 +491,7 @@ exports = module.exports = {
     {
       id: 'attributeGrid',
       areaId: 'content',
-      source: useAdminComponent('catalog/views/admin/attribute/grid/Grid.js'),
+      source: useComponent('attribute/grid/Grid.js'),
       props: {
         limit: 20
       },
@@ -501,7 +500,7 @@ exports = module.exports = {
     {
       id: 'pageHeading',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/PageHeading.js'),
+      source: useComponent('PageHeading.js', 'cms'),
       props: {
       },
       sortOrder: 10
@@ -539,7 +538,7 @@ exports = module.exports = {
     {
       id: 'nameRow',
       areaId: 'attributeGridRow',
-      source: useAdminComponent('catalog/views/admin/attribute/grid/NameRow.js'),
+      source: useComponent('attribute/grid/NameRow.js'),
       props: {
         id: 'attribute_name',
         editUrl: 'editUrl'
@@ -549,7 +548,7 @@ exports = module.exports = {
     {
       id: 'groupColumn',
       areaId: 'attributeGridHeader',
-      source: useAdminComponent('catalog/views/admin/attribute/grid/GroupHeaderColumn.js'),
+      source: useComponent('attribute/grid/GroupHeaderColumn.js'),
       props: {
         title: 'Assigned group',
         id: 'group'
@@ -559,7 +558,7 @@ exports = module.exports = {
     {
       id: 'groupRow',
       areaId: 'attributeGridRow',
-      source: useAdminComponent('catalog/views/admin/attribute/grid/GroupRow.js'),
+      source: useComponent('attribute/grid/GroupRow.js'),
       props: {
         id: 'groups'
       },
@@ -584,7 +583,7 @@ exports = module.exports = {
     {
       id: 'typeRow',
       areaId: 'attributeGridRow',
-      source: useAdminComponent('catalog/views/admin/attribute/grid/TypeRow.js'),
+      source: useComponent('attribute/grid/TypeRow.js'),
       props: {
         id: 'type'
       },
@@ -663,7 +662,7 @@ exports = module.exports = {
     {
       id: 'pageHeading',
       areaId: 'content',
-      source: useAdminComponent('cms/views/admin/PageHeading.js'),
+      source: useComponent('PageHeading.js', 'cms'),
       props: {
         backUrl: buildUrl('attributeGrid')
       },
@@ -672,7 +671,7 @@ exports = module.exports = {
     {
       id: 'attributeForm',
       areaId: 'content',
-      source: useAdminComponent('catalog/views/admin/attribute/edit/AttributeEditForm.js'),
+      source: useComponent('attribute/edit/AttributeEditForm.js'),
       props: {
         id: 'attribute-edit-form',
         method: 'POST',
@@ -684,7 +683,7 @@ exports = module.exports = {
     {
       id: 'attributeEditGeneral',
       areaId: 'leftSide',
-      source: useAdminComponent('catalog/views/admin/attribute/edit/General.js'),
+      source: useComponent('attribute/edit/General.js'),
       props: {
       },
       sortOrder: 10
@@ -692,7 +691,7 @@ exports = module.exports = {
     {
       id: 'attributeEditAvaibility',
       areaId: 'rightSide',
-      source: useAdminComponent('catalog/views/admin/attribute/edit/Avaibility.js'),
+      source: useComponent('attribute/edit/Avaibility.js'),
       props: {
       },
       sortOrder: 10

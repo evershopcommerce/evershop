@@ -1,6 +1,7 @@
 node_modules
 dist
-extensions
+plugins
+themes
 .idea/*
 .evershop
 .vscode
