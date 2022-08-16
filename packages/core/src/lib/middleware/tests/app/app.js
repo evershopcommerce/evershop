@@ -64,7 +64,7 @@ modules.forEach((module) => {
     process.exit(0);
   }
 });
-// TODO: load plugins (extensions), themes
+// TODO: load extensions, themes
 
 const routes = getRoutes();
 
