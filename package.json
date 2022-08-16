@@ -13,7 +13,8 @@
     "evershop": "./bin/evershop"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "extensions/*"
   ],
   "scripts": {
     "dev": "evershop dev",

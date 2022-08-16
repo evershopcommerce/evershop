@@ -8,7 +8,7 @@ const { Componee } = require('../../src/lib/componee/Componee');
 const { getCoreModules } = require('./loadModules');
 const { migrate } = require('./bootstrap/migrate');
 const { loadBootstrapScript } = require('./bootstrap/bootstrap');
-const { getEnabledPlugins } = require('../plugin');
+const { getEnabledExtensions } = require('../extension');
 const isDevelopmentMode = require('../../src/lib/util/isDevelopmentMode');
 const { getRoutes } = require('../../src/lib/router/Router');
 const { createComponents } = require('./createComponents');
@@ -19,7 +19,7 @@ var app = createApp();
 const server = http.createServer(app);
 
 module.exports.start = async function start(cb) {
-  const modules = [...getCoreModules(), ...getEnabledPlugins()];
+  const modules = [...getCoreModules(), ...getEnabledExtensions()];
   /** Loading front-end components */
   modules.forEach((module) => {
     try {

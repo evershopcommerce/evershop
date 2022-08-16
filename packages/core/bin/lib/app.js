@@ -8,7 +8,7 @@ const { getCoreModules } = require('./loadModules');
 const { addDefaultMiddlewareFuncs } = require('./addDefaultMiddlewareFuncs');
 const { loadModuleRoutes } = require('./loadModuleRoutes');
 const { Handler } = require('../../src/lib/middleware/Handler');
-const { getEnabledPlugins } = require('../plugin');
+const { getEnabledExtensions } = require('../extension');
 
 module.exports.createApp = () => {
   /** Create express app */
@@ -30,14 +30,14 @@ module.exports.createApp = () => {
     }
   });
 
-  /** Load plugins */
-  const plugins = getEnabledPlugins();
-  plugins.forEach((plugin) => {
+  /** Load extensions */
+  const extensions = getEnabledExtensions();
+  extensions.forEach((extension) => {
     try {
       // Load middleware functions
-      getModuleMiddlewares(plugin.resolve);
+      getModuleMiddlewares(extension.resolve);
       // Load routes
-      loadModuleRoutes(plugin.resolve);
+      loadModuleRoutes(extension.resolve);
     } catch (e) {
       console.log(e);
       process.exit(0);

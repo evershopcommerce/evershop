@@ -25,9 +25,8 @@ module.exports.migrate = async function migrate(module) {
     .filter((dirent) => dirent.isFile() && dirent.name.match(/^Version-+([1-9].[0-9].[0-9])+.js$/))
     .map((dirent) => dirent.name.replace('Version-', '').replace('.js', ''))
     .sort((first, second) => semver.lt(first, second));
-  console.log('migrations', migrations);
+
   const currentInstalledVersion = await getCurrentInstalledVersion(module.name);
-  console.log('current', currentInstalledVersion);
   for (const version of migrations) {
     /** If the version is lower or equal the installed version, ignore it */
     if (semver.lte(version, currentInstalledVersion)) {

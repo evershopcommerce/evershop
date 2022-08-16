@@ -1,7 +1,7 @@
 const { existsSync } = require('fs');
 const { resolve, join } = require('path');
+const { getEnabledExtensions } = require('../../../bin/extension');
 const { getCoreModules } = require('../../../bin/lib/loadModules');
-const { getEnabledPlugins } = require('../../../bin/plugin');
 const { CONSTANTS } = require('../helpers');
 const { getConfig } = require('../util/getConfig');
 const { Componee } = require('./Componee');
@@ -14,9 +14,9 @@ module.exports = exports = {};
 */
 exports.getComponent = function getComponent(scope, module, path) {
   const theme = getConfig('shop.siteTheme');
-  const plugins = getEnabledPlugins();
+  const extensions = getEnabledExtensions();
   const coreModules = getCoreModules();
-  const m = coreModules.find((m) => m.name === module) || plugins.find((p) => p.name === module);
+  const m = coreModules.find((m) => m.name === module) || extensions.find((e) => e.name === module);
   if (!m) {
     throw new Error(`Component ${module} does not exist`);
   }

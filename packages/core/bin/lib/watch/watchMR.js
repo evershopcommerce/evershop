@@ -8,12 +8,12 @@ const { broadcash } = require('./broadcash');
 const { red } = require('kleur');
 
 function watchMR() {
-  const watcher = chokidar.watch('**/packages/core/src/modules/**/controllers', {
+  const watcher = chokidar.watch(resolve(CONSTANTS.ROOTPATH, 'extensions/*/controllers/**'), {
     //ignored: /node_modules[\\/]/,
     ignoreInitial: true,
     persistent: true
   });
-  watcher.add(resolve(CONSTANTS.ROOTPATH, 'extensions/*/controllers'))
+  watcher.add(resolve(CONSTANTS.ROOTPATH, 'extensions/*/apiControllers/**'))
   if (existsSync(resolve(CONSTANTS.ROOTPATH, 'packages'))) {
     watcher.add(resolve(CONSTANTS.ROOTPATH, 'packages/core/src/modules/*/controllers/**'))
     watcher.add(resolve(CONSTANTS.ROOTPATH, 'packages/core/src/modules/*/apiControllers/**'))
