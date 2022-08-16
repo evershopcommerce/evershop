@@ -27,7 +27,7 @@ modules.forEach((module) => {
 modules.forEach((module) => {
   try {
     // Load components
-    Componee.loadModuleComponents(module.path);
+    Componee.loadModuleComponents(module);
   } catch (e) {
     console.log(e);
     process.exit(0);
@@ -40,7 +40,7 @@ if (existsSync(path.resolve(CONSTANTS.BUILDPATH))) {
   rmSync(path.resolve(CONSTANTS.BUILDPATH), { recursive: true });
   mkdirSync(path.resolve(CONSTANTS.BUILDPATH));
 } else {
-  mkdirSync(path.resolve(CONSTANTS.BUILDPATH));
+  mkdirSync(path.resolve(CONSTANTS.BUILDPATH), { recursive: true });
 }
 
 (async () => {
