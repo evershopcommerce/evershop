@@ -6,7 +6,6 @@ themes
 .evershop
 .vscode
 npm-debug.log
-package-lock.json
 media
 .DS_Store
 .log
