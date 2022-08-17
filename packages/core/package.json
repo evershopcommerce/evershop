@@ -1,6 +1,6 @@
 {
   "name": "@evershop/core",
-  "version": "1.2.1-alpha",
+  "version": "1.3.0-alpha",
   "description": "The NodeJs ecommerce framework. Built with ReactJS and MySQL. Open-source and free. Fast and customizable.",
   "files": [
     "bin",
@@ -16,9 +16,7 @@
     "dev": "evershop dev",
     "build": "evershop build",
     "start": "evershop start",
-    "test": "jest",
-    "postpublish": "node postpublish.js",
-    "postpack": "node postpublish.js"
+    "test": "jest"
   },
   "author": "The Nguyen (https://evershop.io)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",

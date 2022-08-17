@@ -2,13 +2,10 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable global-require */
 const path = require('path');
-const http = require('http');
 const { addDefaultMiddlewareFuncs } = require('../../../../../bin/lib/addDefaultMiddlewareFuncs');
 const express = require('express');
-const { loadBootstrapScripts } = require('../../../../../bin/lib/bootstrap');
 const { loadModuleRoutes } = require('../../../../../bin/lib/loadModuleRoutes');
-const { prepare } = require('../../../../../bin/lib/prepare');
-const { getModuleMiddlewares, getAllSortedMiddlewares } = require('../..');
+const { getModuleMiddlewares } = require('../..');
 const { getRoutes } = require('../../../router/Router');
 const { once } = require('events');
 const { Componee } = require('../../../componee/Componee');
@@ -58,7 +55,7 @@ modules.forEach((module) => {
 modules.forEach((module) => {
   try {
     // Load components
-    Componee.loadModuleComponents(module.path);
+    Componee.loadModuleComponents(module);
   } catch (e) {
     console.log(e);
     process.exit(0);
@@ -77,10 +74,8 @@ routes.push({
   path: '/*'
 });
 routes.forEach((route) => {
-  app.use(route.path, Handler.middleware());
+  app.all(route.path, Handler.middleware());
 })
-/** Load bootstrap script from modules */
-loadBootstrapScripts(modules);
 
 module.exports = {
   app,
