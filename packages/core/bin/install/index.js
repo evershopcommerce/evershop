@@ -45,8 +45,8 @@ function error(message) {
     {
       type: 'input',
       name: 'databaseName',
-      message: 'MySql Database Name (nodejscart)',
-      initial: 'nodejscart'
+      message: 'MySql Database Name (evershop)',
+      initial: 'evershop'
     },
     {
       type: 'input',
@@ -57,8 +57,8 @@ function error(message) {
     {
       type: 'input',
       name: 'databasePassword',
-      message: 'MySql Database Password (123456)',
-      initial: '123456'
+      message: 'MySql Database Password (<empty>)',
+      initial: ''
     }
   ];
 
