@@ -74,7 +74,7 @@ routes.push({
   path: '/*'
 });
 routes.forEach((route) => {
-  app.use(route.path, Handler.middleware());
+  app.all(route.path, Handler.middleware());
 })
 
 module.exports = {

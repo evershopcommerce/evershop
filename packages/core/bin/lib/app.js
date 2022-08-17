@@ -49,6 +49,12 @@ module.exports.createApp = () => {
   // Adding default middlewares
   addDefaultMiddlewareFuncs(app, routes);
 
+  /** Hack for 'no route' case*/
+  routes.push({
+    id: 'noRoute',
+    path: '/*'
+  });
+
   routes.forEach((route) => {
     app.all(route.path, Handler.middleware());
   })
