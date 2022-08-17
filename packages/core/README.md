@@ -2,14 +2,14 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 <p align="center">
   <a href="https://evershop.io" target="_blank">
-    <img alt="evershop-logo" height="65" alt="EverShop Logo" src="https://evershop.io/wp-content/uploads/2022/05/evershop-logo.svg"/>
+    <img alt="evershop-logo" height="65" alt="EverShop Logo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-logo.svg"/>
   </a>
 </p>
 <p align="center">
   <h1 align="center">An NodeJS Framework Of Ecommerce</h1>
 </p>
 <p align="center">
-    <a href="https://evershop.io/docs/">Documentation</a>
+    <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a>
 </p>
 <p align="center">
   <img src="https://github.com/nodeonline/nodejscart/actions/workflows/build.yml/badge.svg" alt="Github Action">
@@ -34,7 +34,7 @@ Explore our demo store.
 </p>
 <p align="center">
   <a href="https://demo.evershop.io/admin" target="_blank">
-    <img alt="evershop-backend-demo" height="35" alt="EverShop Admin Demo" src="https://evershop.io/wp-content/uploads/2022/05/evershop-admin-demo.png"/>
+    <img alt="evershop-backend-demo" height="35" alt="EverShop Admin Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-admin-demo.png"/>
   </a>
 </p>
 <p align="center">
@@ -42,7 +42,7 @@ Explore our demo store.
 </p>
 <p align="center">
   <a href="https://demo.evershop.io/" target="_blank">
-    <img alt="evershop-store-demo" height="35" alt="EverShop Store Demo" src="https://evershop.io/wp-content/uploads/2022/05/evershop-store-front-demo.png"/>
+    <img alt="evershop-store-demo" height="35" alt="EverShop Store Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-store-front-demo.png"/>
   </a>
 </p>
 
@@ -63,7 +63,7 @@ EverShop is currently in Beta version. This means that we are still working on e
 
 You can ask questions, and participate in discussions about EverShop-related topics in the EverShop Discord channel.
 
-<a href="https://discord.gg/GSzt7dt7RM"><img src="https://evershop.io/wp-content/uploads/2022/05/discord_banner_github.svg" /></a>
+<a href="https://discord.gg/GSzt7dt7RM"><img src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/discord_banner_github.svg" /></a>
 
 ### Create a bug report
 
@@ -83,6 +83,8 @@ If you add some more information such as your thoughts and vision about the feat
 EverShop is an open-source project. We are committed to a fully transparent development process and appreciate highly any contributions. Whether you are helping us fix bugs, proposing new features, improving our documentation or spreading the word - we would love to have you as part of the EverShop community.
 
 Please refer to our [Contribution Guidelines](./CONTRIBUTING.md) and [Code of Conduct](./code_of_conduct.md).
+
+And give it a :star: to support me :thumbsup:
 
 ## License
 
