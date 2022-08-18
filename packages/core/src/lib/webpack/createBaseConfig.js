@@ -11,7 +11,7 @@ module.exports.createBaseConfig = function createBaseConfig(
       exclude: {
         and: [/node_modules/],
         not: [
-          /evershop\/core/
+          /@evershop[\\/]core/
         ]
       },
       use: {
