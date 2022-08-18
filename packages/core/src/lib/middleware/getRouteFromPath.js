@@ -1,5 +1,7 @@
+const { sep } = require('path');
+
 module.exports.getRouteFromPath = (path) => {
-  const parts = path.split('/').reverse();
+  const parts = path.split(sep).reverse();
   let scope, routeId;
   if (parts[1] === 'controllers' || parts[1] === 'apiControllers') {
     scope = 'app';

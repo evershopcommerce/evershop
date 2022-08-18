@@ -1,5 +1,5 @@
 {
-  "name": "@evershop/core",
+  "name": "evershop",
   "version": "1.0.0-alpha.18",
   "description": "A shopping cart platform with Express, React and MySQL",
   "files": [
