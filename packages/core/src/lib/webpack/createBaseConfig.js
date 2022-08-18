@@ -7,9 +7,13 @@ module.exports.createBaseConfig = function createBaseConfig(
 ) {
   const loaders = [
     {
-      test: /\/views|components|context\/(.*).js?$/,
-      //test: /\.js?$/,
-      exclude: /(bower_components)/,
+      test: /\.m?js$/,
+      exclude: {
+        and: [/node_modules/],
+        not: [
+          /evershop\/core/
+        ]
+      },
       use: {
         loader: 'babel-loader?cacheDirectory',
         options: {
