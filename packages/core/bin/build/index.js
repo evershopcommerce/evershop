@@ -4,13 +4,14 @@ const { Componee } = require('../../src/lib/componee/Componee');
 const { CONSTANTS } = require('../../src/lib/helpers');
 const { getRoutes } = require('../../src/lib/router/Router');
 const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
+const { getEnabledExtensions } = require('../extension');
 const { createComponents } = require('../lib/createComponents');
 const { loadModuleRoutes } = require('../lib/loadModuleRoutes');
-const { loadModules } = require('../lib/loadModules');
+const { getCoreModules } = require('../lib/loadModules');
 const { compile } = require('./complie');
 
-/* Loading modules and initilize routes, components and services */
-const modules = loadModules(path.resolve(__dirname, '../../src', 'modules'));
+/* Loading modules and initilize routes, components */
+const modules = [...getCoreModules(), ...getEnabledExtensions()];
 
 /** Loading routes  */
 modules.forEach((module) => {
