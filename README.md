@@ -20,7 +20,7 @@
     <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License">
   </a>
 </p>
-  
+
 EverShop is an open‑source ecommerce framework with NodeJS. It provides comprehensive features to build and start selling online. Customization and flexibility are two of the main characteristics that make EverShop what it is so you can extend your e-commerce feature with custom extensions and themes.
 
 EverShop use Node.js for backend, and a client built with React. It also use MySQL for database storage.
@@ -48,7 +48,7 @@ Explore our demo store.
 
 ## Getting Started
 
-You can get started with EverShop by following our documentation below. 
+You can get started with EverShop by following our documentation below.
 
 See [EverShop website](http://evershop.io/) or [EverShop docs](http://evershop.io/docs) for more details.
 
