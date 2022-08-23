@@ -44,11 +44,11 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
       }
     });
 
-    // Body parser for API routes
-    if (r.isApi) {
-      app.all(r.path, bodyParser.json({ inflate: false }));
-      app.all(r.path, bodyParser.urlencoded({ extended: true }));
-    }
+    // TODO:Termporary comment this code, Because some API requires body raw data. Like Stripe
+    // if (r.isApi) {
+    //   app.all(r.path, bodyParser.json({ inflate: false }));
+    //   app.all(r.path, bodyParser.urlencoded({ extended: true }));
+    // }
 
     // eslint-disable-next-line no-underscore-dangle
     // eslint-disable-next-line no-param-reassign
