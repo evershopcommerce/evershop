@@ -175,7 +175,7 @@ export default function ProductMediaManager({ productImages, id }) {
   return (
     <div className="product-image-manager">
       <Images id={id} images={images} addImage={addImage} removeImage={removeImage} />
-      {images.map((image) => <input key={id} type="hidden" name={`${id}[]`} value={image.path} />)}
+      {images.map((image) => <input key={image.id} type="hidden" name={`${id}[]`} value={image.path} />)}
     </div>
   );
 }
