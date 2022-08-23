@@ -2,6 +2,7 @@ import React from 'react';
 import { useAppState } from '../../../../../../../lib/context/app';
 import { get } from '../../../../../../../lib/util/get';
 import { ItemVariantOptions } from '../../../cart/items/ItemVariantOptions';
+import './Items.scss';
 
 function Items() {
   const context = useAppState();

@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useAppState } from '../../../../../../lib/context/app';
+import { useSelector } from 'react-redux';
 import { get } from '../../../../../../lib/util/get';
 
 function Current({ image, alt }) {
@@ -27,14 +27,14 @@ Current.propTypes = {
 };
 
 export default function Images() {
-  const product = get(useAppState(), 'product');
+  const product = useSelector((state) => get(state, 'pageData.product', {}));
   const [current, setCurrent] = React.useState(product.gallery[0]);
 
   return (
     <div className="product-single-media">
       <Current image={current} alt={product.name} />
       <ul className="more-view-thumbnail product-gallery mt-2 grid grid-cols-4 gap-1">
-        {product.gallery.map((i, j) => <li key={j}><a href="#" onClick={(e) => { e.preventDefault(); setCurrent({ ...product.gallery[j] }); }} className="flex justify-center block"><img className="self-center" src={i.thumb} alt={product.name} /></a></li>)}
+        {product.gallery.map((i, j) => <li key={j}><a href="#" onClick={(e) => { e.preventDefault(); setCurrent({ ...product.gallery[j] }); }} className="flex justify-center"><img className="self-center" src={i.thumb} alt={product.name} /></a></li>)}
       </ul>
     </div>
   );
