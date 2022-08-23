@@ -2,6 +2,7 @@ import React from 'react';
 import { Items } from './items/Items';
 import Area from '../../../../../../lib/components/Area';
 import { OrderSummary } from './order/OrderSummary';
+import './Summary.scss';
 
 function Summary() {
   return (

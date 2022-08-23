@@ -5,6 +5,7 @@ import { get } from '../../../../../lib/util/get';
 import { useAppState } from '../../../../../lib/context/app';
 import { AddressSummary } from '../../../../customer/views/site/address/AddressSummary';
 import Button from '../../../../../lib/components/form/Button';
+import './CheckoutSuccess.scss';
 
 function CustomerInfo() {
   const context = useAppState();
