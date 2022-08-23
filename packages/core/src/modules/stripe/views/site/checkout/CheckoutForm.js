@@ -16,6 +16,7 @@ export default function CheckoutForm() {
   const [processing, setProcessing] = useState(false);
   const [, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState('');
+  const [showTestCard, setShowTestCard] = useState('success');
   const stripe = useStripe();
   const elements = useElements();
 
@@ -129,24 +130,51 @@ export default function CheckoutForm() {
   }, [checkout.orderPlaced, clientSecret]);
 
   const testSuccess = () => {
-    const cardElement = elements.getElement('card');
-    cardElement.update({
-      value: {
-        cardNumber: '123123123123'
-      }
-    });
+    // const cardElement = elements.getElement('card');
+    // cardElement.update({
+    //   value: {
+    //     cardNumber: '123123123123'
+    //   }
+    // });
+    setShowTestCard('success');
   };
 
-  const testFailure = () => { };
+  const testFailure = () => {
+    setShowTestCard('failure');
+  };
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <form id="payment-form" onSubmit={handleSubmit}>
       <div className="stripe-form">
+        <div style={{
+          border: '1px solid #dddddd',
+          borderRadius: '3px',
+          padding: '5px',
+          boxSizing: 'border-box',
+          marginBottom: '10px'
+        }}>
+          {showTestCard === 'success' && (
+            <div>
+              <div><b>Test success:</b></div>
+              <div className="text-sm text-gray-600">Test card number: 4242 4242 4242 4242</div>
+              <div className="text-sm text-gray-600">Test card expiry: 04/24</div>
+              <div className="text-sm text-gray-600">Test card CVC: 242</div>
+            </div>
+          )}
+          {showTestCard === 'failure' && (
+            <div>
+              <div><b>Test failure:</b></div>
+              <div className="text-sm text-gray-600">Test card number: 4000 0000 0000 9995</div>
+              <div className="text-sm text-gray-600">Test card expiry: 04/24</div>
+              <div className="text-sm text-gray-600">Test card CVC: 242</div>
+            </div>
+          )}
+        </div>
         <div className="stripe-form-heading flex justify-between">
           <div className="self-center">
             <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 34">
               <defs />
-              <title>Powered by Stripe - blurple</title>
+              <title>Powered by Stripe</title>
               <path d="M146,0H3.73A3.73,3.73,0,0,0,0,3.73V30.27A3.73,3.73,0,0,0,3.73,34H146a4,4,0,0,0,4-4V4A4,4,0,0,0,146,0Zm3,30a3,3,0,0,1-3,3H3.73A2.74,2.74,0,0,1,1,30.27V3.73A2.74,2.74,0,0,1,3.73,1H146a3,3,0,0,1,3,3Z" />
               <path d="M17.07,11.24h-4.3V22h1.92V17.84h2.38c2.4,0,3.9-1.16,3.9-3.3S19.47,11.24,17.07,11.24Zm-.1,5H14.69v-3.3H17c1.38,0,2.11.59,2.11,1.65S18.35,16.19,17,16.19Z" />
               <path d="M25.1,14a3.77,3.77,0,0,0-3.8,4.09,3.81,3.81,0,1,0,7.59,0A3.76,3.76,0,0,0,25.1,14Zm0,6.67c-1.22,0-2-1-2-2.58s.76-2.58,2-2.58,2,1,2,2.58S26.31,20.66,25.1,20.66Z" />
