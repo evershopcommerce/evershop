@@ -62,7 +62,7 @@ Explore our demo store.
 
 ## Getting Started
 
-You can get started with EverShop by following our documentation below. 
+You can get started with EverShop by following our documentation below.
 
 See [EverShop website](http://evershop.io/) or [EverShop docs](https://evershop.io/docs/development/getting-started/introduction) for more details.
 
@@ -91,12 +91,11 @@ If you have an idea, or you're missing a capability that would make development 
 If a similar feature request already exists, don't forget to leave a "+1".
 If you add some more information such as your thoughts and vision about the feature, your comments will be embraced warmly :)
 
-
 ## Contributing
 
 EverShop is an open-source project. We are committed to a fully transparent development process and appreciate highly any contributions. Whether you are helping us fix bugs, proposing new features, improving our documentation or spreading the word - we would love to have you as part of the EverShop community.
 
-Please refer to our [Contribution Guidelines](./CONTRIBUTING.md) and [Code of Conduct](./code_of_conduct.md).
+Please refer to our [Contribution Guidelines](./CONTRIBUTING.md) and [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ## License
 
