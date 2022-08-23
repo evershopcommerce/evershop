@@ -23,7 +23,7 @@
 
 ## Why this project?
 
-After some time working with eCommerce platforms (mostly Magento). I decided to create an open-source eCommerce platform with Node. I want to build a lightweight platform that is easy to use and flexible to customize but still provides most of the key features that an eCommerce platform should have.
+After some time working with eCommerce platforms (mostly Magento and Shopify). I decided to create an open-source eCommerce platform with Node. Heavily inspired by both Magento and Shopify, I want to build a lightweight platform that is easy to use, flexible to customize and provides most of the key features that an eCommerce platform should have.
 
 EverShop uses Node for the backend, and a client built with React. It also uses MySQL for database storage.
 

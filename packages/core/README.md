@@ -6,7 +6,7 @@
   </a>
 </p>
 <p align="center">
-  <h1 align="center">An NodeJS Framework Of Ecommerce</h1>
+  <h1 align="center">An Node Ecommerce Platform</h1>
 </p>
 <p align="center">
     <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a>
@@ -20,12 +20,26 @@
     <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License">
   </a>
 </p>
-  
-EverShop is an open‑source ecommerce framework with NodeJS. It provides comprehensive features to build and start selling online. Customization and flexibility are two of the main characteristics that make EverShop what it is so you can extend your e-commerce feature with custom extensions and themes.
 
-EverShop use Node.js for backend, and a client built with React. It also use MySQL for database storage.
+## Why this project?
 
-## Ecommerce framework demo
+After some time working with eCommerce platforms (mostly Magento). I decided to create an open-source eCommerce platform with Node. I want to build a lightweight platform that is easy to use and flexible to customize but still provides most of the key features that an eCommerce platform should have.
+
+EverShop uses Node for the backend, and a client built with React. It also uses MySQL for database storage.
+
+### Love this project? Give it a :star:
+
+## Features
+- Catalog management(with product attribute, custom option and variants)
+- Order management
+- Customer management
+- Coupon management
+- Tax
+- Online payment (For now using Stripe)
+- Basic CMS pages management
+- Easy to customize by developing extensions
+
+## Demo
 
 Explore our demo store.
 
@@ -48,9 +62,9 @@ Explore our demo store.
 
 ## Getting Started
 
-You can get started with EverShop by following our documentation below. 
+You can get started with EverShop by following our documentation below.
 
-See [EverShop website](http://evershop.io/) or [EverShop docs](http://evershop.io/docs) for more details.
+See [EverShop website](http://evershop.io/) or [EverShop docs](https://evershop.io/docs/development/getting-started/introduction) for more details.
 
 
 ## Beta version
@@ -77,14 +91,11 @@ If you have an idea, or you're missing a capability that would make development 
 If a similar feature request already exists, don't forget to leave a "+1".
 If you add some more information such as your thoughts and vision about the feature, your comments will be embraced warmly :)
 
-
 ## Contributing
 
 EverShop is an open-source project. We are committed to a fully transparent development process and appreciate highly any contributions. Whether you are helping us fix bugs, proposing new features, improving our documentation or spreading the word - we would love to have you as part of the EverShop community.
 
-Please refer to our [Contribution Guidelines](./CONTRIBUTING.md) and [Code of Conduct](./code_of_conduct.md).
-
-And give it a :star: to support me :thumbsup:
+Please refer to our [Contribution Guidelines](./CONTRIBUTING.md) and [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ## License
 
