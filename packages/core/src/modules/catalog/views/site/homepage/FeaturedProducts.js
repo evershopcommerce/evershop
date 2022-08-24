@@ -1,10 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useAppState } from '../../../../../lib/context/app';
 import { get } from '../../../../../lib/util/get';
 import ProductList from '../product/list/List';
 
 export default function FeaturedProducts() {
-  const products = useSelector((state) => get(state, 'pageData.featuredProducts', []));
+  const products = get(useAppState(), 'featuredProducts', []);
 
   return (
     <div className="pt-3">

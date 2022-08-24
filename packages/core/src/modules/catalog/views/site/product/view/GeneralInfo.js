@@ -3,7 +3,7 @@ import React from 'react';
 import Area from '../../../../../../lib/components/Area';
 import { get } from '../../../../../../lib/util/get';
 import './GeneralInfo.scss';
-import { useSelector } from 'react-redux';
+import { useAppState } from '../../../../../../lib/context/app';
 
 function Name({ name }) {
   return <h1 className="product-single-name">{name}</h1>;
@@ -14,8 +14,8 @@ Name.propTypes = {
 };
 
 function Price({ price, salePrice }) {
-  const currency = useSelector((state) => get(state, 'pageData.currency', 'USD'));
-  const language = useSelector((state) => get(state, 'pageData.language', 'en'));
+  const currency = get(useAppState(), 'currency', 'USD');
+  const language = get(useAppState(), 'language', 'en');
   const formatedPrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
   const formatedSalePrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(salePrice);
 
@@ -57,7 +57,7 @@ Sku.propTypes = {
 };
 
 export default function GeneralInfo() {
-  const product = useSelector((state) => get(state, 'pageData.product', {}));
+  const product = get(useAppState(), 'product');
   return (
     <Area
       id="product_view_general_info"

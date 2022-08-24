@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 
 function Current({ image, alt }) {
@@ -27,7 +27,7 @@ Current.propTypes = {
 };
 
 export default function Images() {
-  const product = useSelector((state) => get(state, 'pageData.product', {}));
+  const product = get(useAppState(), 'product', {});
   const [current, setCurrent] = React.useState(product.gallery[0]);
 
   return (

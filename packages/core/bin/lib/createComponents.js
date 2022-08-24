@@ -26,10 +26,7 @@ module.exports.createComponents = async function createComponents(routes, client
     } else {
       contentClient += `import { App } from "@evershop/core/src/lib/components/react/client/Client";
       const hot = require('webpack-hot-middleware/client?path=/eHot/${route.id}&reload=true');
-      import axios from 'axios';
-      import { store } from '@evershop/core/src/lib/components/redux/store';
-      import { hotUpdate } from '@evershop/core/src/lib/components/redux/pageDataSlice';
-      import { Provider } from 'react-redux';
+      import { HotReload } from '@evershop/core/src/lib/components/react/client/HotReload';
       `;
     }
     contentClient += '\r\n';
@@ -42,28 +39,7 @@ module.exports.createComponents = async function createComponents(routes, client
       );`
     } else {
       contentClient += `
-      hot.subscribe(async function (event) {
-        if (event.action === 'serverReloaded') {
-          let url = new URL(document.location);
-          url.searchParams.append('fashRefresh', 'true');
-
-          const response = await axios.get(url, {
-            validateStatus: function (status) {
-              return status >= 200 && status <= 500;
-            }
-          });
-          if (response.status < 300) {
-            store.dispatch(hotUpdate({
-              eContext: response.data.eContext,
-            }));
-          } else {
-            location.reload();
-          }
-        }
-      }
-      );
-
-      ReactDOM.render(<Provider store={store}><App routeId="${route.id}" /></Provider>, document.getElementById('app'));
+      ReactDOM.render(<App routeId="${route.id}"><HotReload hot={hot} /></App>, document.getElementById('app'));
       if (module.hot) {
         module.hot.accept();
       }

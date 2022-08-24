@@ -1,10 +1,10 @@
 import React from 'react';
 import Title from '../../../../lib/components/Title';
-import { useSelector } from 'react-redux';
 import { get } from '../../../../lib/util/get';
+import { useAppState } from '../../../../lib/context/app';
 
 export default function MetaTitle() {
-  const title = useSelector((state) => state.pageData.metaTitle)
+  const title = get(useAppState(), 'metaTitle');
 
   return <Title title={title} />;
 }

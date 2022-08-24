@@ -1,16 +1,16 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { MultiSelect } from '../../../../../../lib/components/form/fields/MultiSelect';
 import { Select } from '../../../../../../lib/components/form/fields/Select';
+import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 
 export default function Options({ options = [] }) {
   if (options.length === 0) { return null; }
 
-  const currency = useSelector((state) => get(state, 'pageData.currency', 'USD'));
-  const language = useSelector((state) => get(state, 'pageData.language', 'en'));
+  const currency = get(useAppState(), 'currency', 'USD');
+  const language = get(useAppState(), 'language', 'en');
 
   return (
     <div className="product-single-options mt-4 mb-4">

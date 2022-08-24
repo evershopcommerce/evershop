@@ -1,7 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import React from 'react';
 import PubSub from 'pubsub-js';
-import { useSelector } from 'react-redux';
 import { useAppState } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
 import { FORM_VALIDATED } from '../../../../../../lib/util/events';
@@ -41,7 +40,7 @@ function isAvailable(attributeCode, optionId, variants, currentFilters = {}) {
 }
 
 export default function Variants() {
-  const context = useSelector((state) => get(state, 'pageData', {}));
+  const context = useAppState();
   const attributes = get(context, 'product.variantAttributes', []);
   const variants = get(context, 'product.variants', []);
   const [error, setError] = React.useState(null);
