@@ -1,3 +1,5 @@
+const { findDublicatedMiddleware } = require("./findDublicatedMiddleware");
+
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
@@ -11,19 +13,7 @@ module.exports = exports = {};
  */
 exports.noDublicateId = function noDublicateId(registeredMiddlewares, newMiddleware) {
   if (
-    registeredMiddlewares.findIndex(
-      (middleware) => middleware.id === newMiddleware.id
-        && (
-          middleware.routeId === null
-          || newMiddleware.routeId === null
-          || middleware.routeId === newMiddleware.routeId
-          || (middleware.scope === newMiddleware.scope && (
-            [middleware.routeId, newMiddleware.routeId].includes('admin')
-            || [middleware.routeId, newMiddleware.routeId].includes('site')
-          )
-          )
-        )
-    ) !== -1
+    findDublicatedMiddleware(registeredMiddlewares, newMiddleware) !== -1
   ) {
     return false;
   } else {
