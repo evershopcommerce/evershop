@@ -26,7 +26,7 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(id, path) {
     throw new TypeError(`Middleware ID ${id} is invalid`);
   }
 
-  const isRoutedLevel = !['all', 'controllers', 'apiControllers'].includes(path.split(sep).reverse()[1]);
+  const isRoutedLevel = !['all', 'global'].includes(path.split(sep).reverse()[1]);
   // Check if the middleware is an error handler. 
   // TODO: fix me
   if (id === 'errorHandler') {

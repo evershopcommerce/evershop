@@ -19,12 +19,17 @@ function normalizeAssets(assets) {
 
 function renderDevelopment(request, response) {
   const devMiddleware = get(response, 'locals.webpack.devMiddleware');
+  const contextValue = {
+    graphqlResponse: get(response, 'locals.graphqlResponse', {}),
+    propsMap: get(response, 'locals.propsMap', {}),
+  };
+
   if (!devMiddleware) { // In testing mode, we do not have devMiddleware
     response.send(`
             <html>
               <head>
-                <title>${response.context.metaTitle}</title>
-                <script>var eContext = ${inspect(response.context, { depth: 10, maxArrayLength: null })}</script>
+                <title>${contextValue.metaTitle}</title>
+                <script>var eContext = ${inspect(contextValue, { depth: 10, maxArrayLength: null })}</script>
               </head>
               <body>
               </body>
@@ -40,7 +45,7 @@ function renderDevelopment(request, response) {
   response.send(`
             <!doctype html><html>
                 <head>
-                  <script>var eContext = ${inspect(response.context, { depth: 10, maxArrayLength: null })}</script>
+                  <script>var eContext = ${inspect(contextValue, { depth: 10, maxArrayLength: null })}</script>
                 </head>
                 <body>
                 <div id="app"></div>

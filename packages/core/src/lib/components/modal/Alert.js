@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import produce from 'immer';
-import { Card } from '../../../modules/cms/views/admin/Card';
 import Button from '../form/Button';
 import { assign } from '../../util/assign';
 import './Alert.scss';
+import { Card } from '../../../modules/cms/components/admin/Card';
 
 const AlertContext = React.createContext();
 export const useAlertContext = () => React.useContext(AlertContext);

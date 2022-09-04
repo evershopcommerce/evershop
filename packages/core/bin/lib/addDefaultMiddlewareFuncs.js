@@ -82,6 +82,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
         }
       }
     }
+
     app.use(
       (request, response, next) => {
         const route = findRoute(request);

@@ -1,0 +1,22 @@
+import React from 'react';
+
+export default function ProductRating({ areaProps }) {
+  const product = areaProps.product;
+  return <div>{product.rating}</div>;
+}
+
+ProductRating.propTypes = {
+  rating: PropTypes.number
+};
+
+export const layout = {
+  id: "product-rating",
+  areaId: "product-list-item",
+  sortOrder: 1
+}
+
+export const fragment = `
+  fragment Product on Product {
+    rating
+  }
+`;

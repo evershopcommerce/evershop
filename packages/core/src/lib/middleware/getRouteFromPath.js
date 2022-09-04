@@ -3,7 +3,7 @@ const { sep } = require('path');
 module.exports.getRouteFromPath = (path) => {
   const parts = path.split(sep).reverse();
   let scope, routeId;
-  if (parts[1] === 'controllers' || parts[1] === 'apiControllers') {
+  if (parts[1] === 'global' || parts[1] === 'global') {
     scope = 'app';
     routeId = null;
   } else if (parts[1] === 'all' && ['site', 'admin'].includes(parts[2])) {

@@ -1,21 +1,30 @@
-const path = require('path');
 const webpack = require('webpack');
 const { createBaseConfig } = require('../createBaseConfig');
-const { getRouteBuildPath } = require('../getRouteBuildPath');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const WebpackBar = require('webpackbar');
+const { getComponentsByRoute } = require('../../componee/getComponentsByRoute');
+const path = require('path');
+const { CONSTANTS } = require('../../helpers');
+const { GraphqlPlugin } = require('../plugins/GraphqlPlugin');
 
 module.exports.createConfigClient = function createConfigClient(route) {
-  const entry = {};
-  entry[route.id] = [
-    path.resolve(getRouteBuildPath(route), 'client', 'components.js'),
-    'webpack-hot-middleware/client?path=' + `/eHot/${route.id}&reload=true&overlay=true`,
-  ];
-
   const config = createBaseConfig(false);
   config.name = route.id;
 
   const loaders = config.module.rules;
+  loaders.unshift({
+    test: /components[\\/]react[\\/]client[\\/]Index\.js$/i,
+    //resourceQuery: new RegExp(`Asadasdas`, "i"),
+    use: [
+      {
+        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/AreaLoader.js'),
+        options: {
+          getComponents: () => getComponentsByRoute(route),
+          routeId: route.id,
+        }
+      }
+    ],
+  });
+
   loaders.push({
     test: /\.scss$/i,
     use: [
@@ -34,13 +43,23 @@ module.exports.createConfigClient = function createConfigClient(route) {
   });
 
   const plugins = config.plugins;
-  plugins.push(new webpack.ProgressPlugin())
+  plugins.push(new GraphqlPlugin(route));
+  plugins.push(new webpack.ProgressPlugin());
   plugins.push(new webpack.HotModuleReplacementPlugin());
   plugins.push(new ReactRefreshWebpackPlugin({
     overlay: false,
   }));
 
-  config.entry = entry;
+  config.entry = () => {
+    const entry = {};
+    entry[route.id] = [
+      ...getComponentsByRoute(route),
+      path.resolve(CONSTANTS.LIBPATH, `components/react/client/Index.js`),
+      'webpack-hot-middleware/client?path=' + `/eHot/${route.id}&reload=true&overlay=true`,
+    ];
+    console.log(entry);
+    return entry
+  };
   config.watchOptions = {
     aggregateTimeout: 300,
     poll: 1000,

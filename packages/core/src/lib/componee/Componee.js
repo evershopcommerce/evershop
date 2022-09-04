@@ -1,8 +1,11 @@
 const { existsSync } = require('fs');
 const path = require('path');
+const { getEnabledExtensions } = require('../../../bin/extension');
+const { getCoreModules } = require('../../../bin/lib/loadModules');
 const { getAdminRoutes, getSiteRoutes } = require('../router/Router');
 const { assign } = require('../util/assign');
 const isDevelopmentMode = require('../util/isDevelopmentMode');
+const { scanForComponents } = require('./scanForComponents');
 
 class Componee {
   static components = {
@@ -94,6 +97,20 @@ class Componee {
         }
       }
     }
+  }
+
+  static loadComponentsByRoute(route) {
+    let components = [];
+    const modules = [...getCoreModules(), ...getEnabledExtensions()];
+    modules.forEach((module) => {
+      const pagePath = route.isAdmin ?
+        path.resolve(module.path, 'pages/admin', route.id) :
+        path.resolve(module.path, 'pages/site', route.id);
+
+      components = [...components, ...scanForComponents(pagePath)];
+    });
+
+    return components;
   }
 
   static getComponentsByRoute(routeId) {

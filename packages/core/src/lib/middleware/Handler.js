@@ -86,7 +86,6 @@ class Handler {
 
       const goodHandlers = middlewares.filter((m) => m.middleware.length === 3);
       const errorHandlers = middlewares.filter((m) => m.middleware.length === 4);
-
       let currentGood = 0;
       let currentError = -1;
       const eNext = function eNext() {
