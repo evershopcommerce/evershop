@@ -1,0 +1,9 @@
+type ProductAttributeIndex {
+  attributeId: ID!
+  optionId: Int
+  optionText: String
+}
+
+extend type Product {
+  attributes: [ProductAttributeIndex]!
+}

@@ -1,0 +1,14 @@
+type Product {
+  productId: ID!
+  name: String!
+  status: Int!
+  sku: String!
+  weight: Float
+  taxClass: Int
+  description: String
+  variantGroupId: ID
+  visibility: Int
+  groupId: ID
+  price: Price!
+  categories: [Category]
+}

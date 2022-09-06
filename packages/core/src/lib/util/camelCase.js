@@ -1,0 +1,18 @@
+module.exports.camelCase = (object) => {
+  // Throw error if the object is not an object
+  if (typeof object !== 'object' && object !== null) {
+    throw new Error('The object must be an object');
+  }
+  let newObject = {};
+  Object.keys(object).forEach((key) => {
+    // Convert the key to camelCase
+    const newKey = key.replace(/([-_][a-z])/gi, ($1) => {
+      return $1.toUpperCase().replace('-', '').replace('_', '');
+    }
+    );
+    // Add the new key to the new object
+    newObject[newKey] = object[key];
+  });
+
+  return newObject;
+}

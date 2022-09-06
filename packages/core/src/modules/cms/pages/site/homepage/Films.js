@@ -26,11 +26,9 @@ export const layout = {
 
 export const query = `
   query {
-    allFilms {
-      films {
-        title
-        director
-      }
+    categories {
+      name
+      id
     }
   }
 `;
