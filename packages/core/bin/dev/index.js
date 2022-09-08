@@ -1,17 +1,15 @@
-const { getRoutes } = require('../../src/lib/router/Router');
-const { createComponents } = require('../lib/createComponents');
 const { start } = require('../lib/startUp');
-const { refreshable } = require('../lib/watch/refreshable');
 const { watch } = require('../lib/watch/watch');
-const { watchMR } = require('../lib/watch/watchMR');
+const { watchMF } = require('../lib/watch/watchMF');
 const { watchPage } = require('../lib/watch/watchPage');
+const { watchSchema } = require('../lib/watch/watchSchema');
 
 (async () => {
   await start(() => {
     watch([
-      watchPage
+      watchPage,
+      watchSchema,
+      watchMF
     ]);
-    // watchMR();
-    // refreshable();
   });
 })();

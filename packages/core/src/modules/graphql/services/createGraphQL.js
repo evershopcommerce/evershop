@@ -1,9 +1,14 @@
 const { graphql } = require('graphql');
-const context = require('./buildContext');
-const schema = require('./buildSchema');
+const isDevelopmentMode = require('../../../lib/util/isDevelopmentMode');
+const { context } = require('./buildContext');
+var schema = require('./buildSchema');
 
 module.exports.executeGraphql = async function executeGraphql(source, variables) {
+  if (isDevelopmentMode()) {
+    schema = require('./buildSchema');
+  }
+
   return await graphql({
-    schema, source, context, variables
+    schema, source, contextValue: context, variables
   });
 }

@@ -1,10 +1,7 @@
 import React from 'react';
-import { useAppState } from '../../../../lib/context/app';
-import { get } from '../../../../lib/util/get';
 import './MobileMenu.scss';
 
-export default function MobileMenu() {
-  const items = get(useAppState(), 'menuItems', []);
+export default function MobileMenu({ menu: { items } }) {
   const [show, setShow] = React.useState(false);
 
   return (
@@ -27,3 +24,18 @@ export default function MobileMenu() {
     </div>
   );
 }
+
+export const layout = {
+  areaId: "header",
+  sortOrder: 5
+}
+
+export const query = `
+  query {
+    menu {
+      items {
+        name
+        url
+      }
+    }
+}`;

@@ -11,4 +11,11 @@ type Product {
   groupId: ID
   price: Price!
   categories: [Category]
+  url: String
+  editUrl: String
+}
+
+extend type Query {
+  product(productId: ID!): Product
+  products: [Product]
 }

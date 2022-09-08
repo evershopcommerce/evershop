@@ -1,7 +1,7 @@
 const fs = require('fs');
 const graphqlTag = require('graphql-tag');
 const uniqid = require('uniqid');
-const { CONSTANTS } = require('../../helpers');
+const { getContextValue } = require('../../../modules/graphql/services/buildContext');
 
 // This function should return an object { query, fragments, variables }.
 module.exports.parseGraphqlByFile = function (module) {

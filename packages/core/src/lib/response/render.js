@@ -1,6 +1,5 @@
 const path = require('path');
 const { inspect } = require('util');
-const { CONSTANTS } = require('../helpers');
 const { getRoutes } = require('../router/Router');
 const { get } = require('../util/get');
 const isProductionMode = require('../util/isProductionMode');
@@ -23,7 +22,6 @@ function renderDevelopment(request, response) {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     propsMap: get(response, 'locals.propsMap', {}),
   };
-
   if (!devMiddleware) { // In testing mode, we do not have devMiddleware
     response.send(`
             <html>

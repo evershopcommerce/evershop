@@ -1,9 +1,4 @@
-const fs = require('fs');
-const graphqlTag = require('graphql-tag');
-const uniqid = require('uniqid');
 const { getComponentsByRoute } = require('../../componee/getComponentsByRoute');
-const { CONSTANTS } = require('../../helpers');
-const { getContextValue } = require('../../util/getContextValue');
 const { parseGraphql } = require('../util/parseGraphql');
 
 module.exports = exports = {};

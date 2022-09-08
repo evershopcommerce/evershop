@@ -15,7 +15,7 @@ module.exports = {
         .execute(pool)
         .then((results) => results.map((result) => camelCase(result)));
     },
-    attributeGroups: (_, _, { pool }) => {
+    attributeGroups: (_, { }, { pool }) => {
       const query = select().from('attribute_group');
       return query
         .execute(pool)
@@ -23,36 +23,36 @@ module.exports = {
     }
   },
   AttributeGroup: {
-    attributes: (group, _, { pool }) => {
-      return select()
+    attributes: async (group, _, { pool }) => {
+      const rows = select()
         .from('attribute')
         .where(
           'attribute_id',
           'IN',
           await select('attribute_id')
             .from('attribute_group_link')
-            .where('group_id', group.attributeGroupId)
+            .where('group_id', '', group.attributeGroupId)
             .execute(pool)
         )
-        .execute(pool)
-        .then((results) => results.map((result) => camelCase(result)));
+        .execute(pool);
+      return rows.map((row) => camelCase(row));
     }
   },
 
   Attribute: {
-    groups: (attribute, _, { pool }) => {
-      return select()
+    groups: async (attribute, _, { pool }) => {
+      const results = select()
         .from('attribute_group')
         .where(
           'attribute_id',
           'IN',
           await select('group_id')
             .from('attribute_group_link')
-            .where('attribute_id', attribute.attributeId)
+            .where('attribute_id', '=', attribute.attributeId)
             .execute(pool)
         )
         .execute(pool)
-        .then((results) => results.map((result) => camelCase(result)));
+      return results.map((result) => camelCase(result));
     },
     options: (attribute, _, { pool }) => {
       return select()

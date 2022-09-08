@@ -1,0 +1,14 @@
+type Category {
+  categoryId: ID!
+  name: String!
+  description: String
+  image: String
+  products: [Product]
+  url: String
+  editUrl: String
+}
+
+extend type Query {
+  categories: [Category],
+  category(id: Int!): Category
+}

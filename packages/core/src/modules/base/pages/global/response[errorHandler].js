@@ -3,6 +3,7 @@
 /* eslint-disable import/no-import-module-exports */
 const isErrorHandlerTriggered = require('../../../../lib/middleware/isErrorHandlerTriggered');
 const { render } = require('../../../../lib/response/render');
+const { get } = require('../../../../lib/util/get');
 const isDevelopmentMode = require('../../../../lib/util/isDevelopmentMode');
 
 module.exports = async (request, response, delegate, next) => {
@@ -46,7 +47,10 @@ module.exports = async (request, response, delegate, next) => {
           if (isDevelopmentMode() && request.query && request.query.fashRefresh === 'true') {
             response.json({
               success: true,
-              eContext: response.context
+              eContext: {
+                graphqlResponse: get(response, 'locals.graphqlResponse', {}),
+                propsMap: get(response, 'locals.propsMap', {}),
+              }
             });
           } else {
             render(request, response);

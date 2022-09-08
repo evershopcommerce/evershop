@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { useAppState } from '../../../../../../lib/context/app';
-import { get } from '../../../../../../lib/util/get';
-import { Select } from '../../../../../../lib/components/form/fields/Select';
+import { useAppState } from '../../../../../lib/context/app';
+import { get } from '../../../../../lib/util/get';
+import { Select } from '../../../../../lib/components/form/fields/Select';
 
 export default function Sorting() {
   // TODO: make this list configurable

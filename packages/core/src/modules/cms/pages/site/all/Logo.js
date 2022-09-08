@@ -19,3 +19,8 @@ export default function Logo({ homeUrl }) {
 Logo.propTypes = {
   homeUrl: PropTypes.string.isRequired
 };
+
+export const layout = {
+  areaId: "header",
+  sortOrder: 1
+};

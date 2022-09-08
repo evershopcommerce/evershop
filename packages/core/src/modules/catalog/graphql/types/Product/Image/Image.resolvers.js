@@ -21,7 +21,7 @@ function getUrls(image) {
 module.exports = {
   Product: {
     image: async (product, _, { pool }) => {
-      const mainImage = product['image'];
+      const mainImage = product['image'] || '';
       const urls = getUrls(mainImage);
       return {
         ...urls,
@@ -34,7 +34,7 @@ module.exports = {
         .where('product_id', product.product_id)
         .execute(pool);
       return gallery.map((image) => {
-        const urls = getUrls(image.image);
+        const urls = getUrls(image.image || '');
         return {
           ...urls,
           alt: product['name'],
