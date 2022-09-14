@@ -34,7 +34,7 @@ $h3-font-size: $font-size-base * 1.65;
 $h4-font-size: $font-size-base * 1.45;
 $h5-font-size: $font-size-base * 1.15;
 $h6-font-size: $font-size-base;
-
+@import "./tailwind.scss";
 html {
     font-size: 62.5%;
 

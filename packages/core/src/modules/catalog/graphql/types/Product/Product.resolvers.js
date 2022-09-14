@@ -10,10 +10,10 @@ module.exports = {
         .where(
           'category_id',
           'IN',
-          await select('category_id')
+          (await select('category_id')
             .from('product_category')
             .where('product_id', product.productId)
-            .execute(pool)
+            .execute(pool)).map((row) => row.category_id)
         )
         .execute(pool);
     },
@@ -29,13 +29,6 @@ module.exports = {
         .where('product_id', '=', id)
         .load(pool);
       return camelCase(result);
-    },
-    products: async (_, { }, { pool }) => {
-      const rows = await select()
-        .from('product')
-        .leftJoin('product_description').on('product_description.`product_description_product_id`', '=', 'product.`product_id`')
-        .execute(pool);
-      return rows.map((row) => camelCase(row));
     }
   }
 }

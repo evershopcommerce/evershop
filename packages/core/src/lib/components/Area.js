@@ -40,11 +40,14 @@ function Area(props) {
         const propsMap = context.propsMap;
         const propsData = context.graphqlResponse;
         const propKeys = propsMap[id] || [];
-        const componentProps = propKeys.reduce((acc, key) => {
-          acc[key] = propsData[key];
+        const componentProps = propKeys.reduce((acc, map) => {
+          const { origin, alias } = map;
+          acc[origin] = propsData[alias];
           return acc;
         }, {});
-
+        if (w.props) {
+          Object.assign(componentProps, w.props);
+        }
         if (typeof C === 'string') return <C key={w.id} {...componentProps} />;
         return <C key={w.id} areaProps={props} {...componentProps} />;
       })}

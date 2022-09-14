@@ -1,0 +1,12 @@
+type Shop {
+  homeUrl: String!
+  name: String
+  description: String
+  language: String!
+  currency: String
+  timezone: String
+}
+
+extend type Query {
+  shop: Shop
+}

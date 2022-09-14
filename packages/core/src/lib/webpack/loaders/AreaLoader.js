@@ -17,7 +17,7 @@ module.exports = exports = function areaLoader(c) {
     }
     const source = fs.readFileSync(module, 'utf8');
     // Regex matching 'export const layout = { ... }'
-    const layoutRegex = /export\s+const\s+layout\s*=\s*{\s*areaId\s*:\s*['"]([^'"]+)['"],\s*sortOrder\s*:\s*(\d+)\s*}/;
+    const layoutRegex = /export\s+const\s+layout\s*=\s*{\s*areaId\s*:\s*['"]([^'"]+)['"],\s*sortOrder\s*:\s*(\d+)\s*,*\s*}/;
     const match = source.match(layoutRegex);
     if (match) {
       // Remove everything before '{' from the beginning of the match

@@ -1,4 +1,4 @@
-const { normalize, resolve } = require('path');
+const { normalize, basename } = require('path');
 const { CONSTANTS } = require("../../../src/lib/helpers");
 const { Handler } = require('../../../src/lib/middleware/Handler');
 const { broadcash } = require('./broadcash');
@@ -10,6 +10,12 @@ module.exports.watchMF = function (event, path) {
     !path.includes(normalize('pages/site')) &&
     !path.includes(normalize('pages/global'))
   ) {
+    return;
+  }
+
+  // Check if the file name is capitalized, then it is not a middleware
+  const fileName = basename(path);
+  if (fileName[0] !== '[' && fileName[0] === fileName[0].toUpperCase()) {
     return;
   }
 

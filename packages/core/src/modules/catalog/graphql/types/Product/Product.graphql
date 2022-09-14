@@ -9,7 +9,6 @@ type Product {
   variantGroupId: ID
   visibility: Int
   groupId: ID
-  price: Price!
   categories: [Category]
   url: String
   editUrl: String
@@ -17,5 +16,4 @@ type Product {
 
 extend type Query {
   product(productId: ID!): Product
-  products: [Product]
 }

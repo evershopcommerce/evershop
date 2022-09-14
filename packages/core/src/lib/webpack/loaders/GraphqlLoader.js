@@ -6,5 +6,7 @@ module.exports = exports = function GraphqlLoader(content) {
 
   const fragmentRegex = /export\s+var\s+fragment\s*=\s*`([^`]+)`/;
 
-  return content.replace(queryRegex, '').replace(fragmentRegex, '');
+  const variablesRegex = /export\s+var\s+variables\s*=\s*`([^`]+)`/;
+
+  return content.replace(queryRegex, '').replace(fragmentRegex, '').replace(variablesRegex, '');
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../../../cms/views/site/Button';
+import Button from '../../../../cms/components/site/Button';
 
 export default function FeaturedCategories() {
   return (

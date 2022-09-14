@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Area from '../../../../../../lib/components/Area';
-import { useAppState } from '../../../../../../lib/context/app';
-import { get } from '../../../../../../lib/util/get';
+import Area from '../../../../../lib/components/Area';
 
 function Name({ name }) {
   return <h1 className="category-name text-center mt-25 mb-15">{name}</h1>;
@@ -29,9 +27,7 @@ Description.propTypes = {
   description: PropTypes.string
 };
 
-export default function CategoryInfo() {
-  const category = get(useAppState(), 'category');
-
+export default function CategoryInfo({ category: { name } }) {
   return (
     <div className="page-width">
       <Area
@@ -40,7 +36,7 @@ export default function CategoryInfo() {
         coreComponents={[
           {
             component: { default: Name },
-            props: { name: category.name },
+            props: { name: name },
             sortOrder: 10,
             id: 'category-name'
           }
@@ -49,3 +45,16 @@ export default function CategoryInfo() {
     </div>
   );
 }
+
+export const layout = {
+  areaId: "content",
+  sortOrder: 15
+};
+
+export const query = `
+  query Query {
+    category(id: getContextValue('categoryId')) {
+      name
+      description
+    }
+}`

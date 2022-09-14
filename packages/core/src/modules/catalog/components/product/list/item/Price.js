@@ -1,26 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '../../../../../../../lib/context/app';
-import { get } from '../../../../../../../lib/util/get';
 
-function Price({ price, salePrice }) {
-  const context = useAppState();
-  const currency = get(context, 'currency', 'USD');
-  const language = get(context, 'language', 'en');
-  const formatedPrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
-  const formatedSalePrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(salePrice);
+function Price({ regular, special }) {
   return (
     <div className="product-price-listing">
-      {parseFloat(salePrice) === parseFloat(price) && (
+      {regular.value === special.value && (
         <div>
-          <span className="sale-price font-semibold">{formatedPrice}</span>
+          <span className="sale-price font-semibold">{regular.text}</span>
         </div>
       )}
-      {parseFloat(salePrice) < parseFloat(price) && (
+      {special.value < regular.value && (
         <div>
-          <span className="sale-price text-critical font-semibold">{formatedSalePrice}</span>
+          <span className="sale-price text-critical font-semibold">{special.text}</span>
           {' '}
-          <span className="regular-price font-semibold">{formatedPrice}</span>
+          <span className="regular-price font-semibold">{regular.text}</span>
         </div>
       )}
     </div>
@@ -28,8 +21,14 @@ function Price({ price, salePrice }) {
 }
 
 Price.propTypes = {
-  price: PropTypes.number.isRequired,
-  salePrice: PropTypes.number.isRequired
+  regular: PropTypes.shape({
+    value: PropTypes.number,
+    text: PropTypes.string
+  }),
+  special: PropTypes.shape({
+    value: PropTypes.number,
+    text: PropTypes.string
+  }),
 };
 
 export { Price };

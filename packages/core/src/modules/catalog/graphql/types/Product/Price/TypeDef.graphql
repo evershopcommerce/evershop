@@ -1,6 +1,0 @@
-type Price {
-  id: ID!
-  price: Float!
-  salePrice: Float!
-  priceIncludingTax: Float!
-}

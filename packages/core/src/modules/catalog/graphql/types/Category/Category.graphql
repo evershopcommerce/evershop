@@ -3,12 +3,47 @@ type Category {
   name: String!
   description: String
   image: String
-  products: [Product]
+  products(filters: [FilterInput]): ProductCollection
   url: String
   editUrl: String
+  availableFilters: [FilterAttribute],
+  currentFilters: [Filter]
+}
+
+type CategoryCollection {
+  categories: [Category]
+}
+
+input FilterInput {
+  key: String!
+  operation: String!
+  value: String!
+}
+type Filter {
+  key: String!
+  operation: String!
+  value: String! """ In case of multi value, use comma separated values """
+}
+type FilterOption {
+  optionId: Int!
+  optionText: String!
+}
+
+type FilterAttribute {
+  attributeName: String!
+  attributeCode: String!
+  attributeId: Int!
+  options: [FilterOption]
+}
+
+type ProductCollection {
+  items: [Product],
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
 }
 
 extend type Query {
-  categories: [Category],
+  categories: CategoryCollection,
   category(id: Int!): Category
 }
