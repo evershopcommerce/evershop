@@ -65,6 +65,7 @@
     "i": "^0.3.7",
     "immer": "^9.0.3",
     "is-object": "^1.0.2",
+    "json5": "^2.2.1",
     "kleur": "3.0.3",
     "luxon": "^2.0.2",
     "mini-css-extract-plugin": "^2.6.1",

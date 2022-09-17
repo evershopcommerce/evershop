@@ -6,8 +6,7 @@ type Category {
   products(filters: [FilterInput]): ProductCollection
   url: String
   editUrl: String
-  availableFilters: [FilterAttribute],
-  currentFilters: [Filter]
+  availableFilters: [FilterAttribute]
 }
 
 type CategoryCollection {
@@ -19,11 +18,13 @@ input FilterInput {
   operation: String!
   value: String!
 }
+
 type Filter {
   key: String!
   operation: String!
-  value: String! """ In case of multi value, use comma separated values """
+  value: String!
 }
+
 type FilterOption {
   optionId: Int!
   optionText: String!
@@ -37,13 +38,13 @@ type FilterAttribute {
 }
 
 type ProductCollection {
-  items: [Product],
+  items: [Product]
   currentPage: Int!
   total: Int!
   currentFilters: [Filter]
 }
 
 extend type Query {
-  categories: CategoryCollection,
+  categories: CategoryCollection
   category(id: Int!): Category
 }

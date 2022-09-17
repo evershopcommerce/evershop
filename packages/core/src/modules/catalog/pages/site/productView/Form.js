@@ -2,12 +2,12 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import Area from '../../../../../../lib/components/Area';
-import { Form } from '../../../../../../lib/components/form/Form';
-import { Field } from '../../../../../../lib/components/form/Field';
-import { get } from '../../../../../../lib/util/get';
-import { useAppState, useAppDispatch } from '../../../../../../lib/context/app';
-import Button from '../../../../../../lib/components/form/Button';
+import Area from '../../../../../lib/components/Area';
+import { Form } from '../../../../../lib/components/form/Form';
+import { Field } from '../../../../../lib/components/form/Field';
+import { get } from '../../../../../lib/util/get';
+import { useAppDispatch } from '../../../../../lib/context/app';
+import Button from '../../../../../lib/components/form/Button';
 import './Form.scss';
 
 function ToastMessage({
@@ -94,9 +94,7 @@ AddToCart.defaultProps = {
   error: undefined
 };
 
-export default function ProductForm({ action }) {
-  const context = useAppState();
-  const product = get(context, 'product');
+export default function ProductForm({ product, action }) {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [toastId, setToastId] = useState();
@@ -129,7 +127,7 @@ export default function ProductForm({ action }) {
       onComplete={() => setLoading(false)}
       onError={(e) => setError(e.message)}
     >
-      <input type="hidden" name="product_id" value={product.product_id} />
+      <input type="hidden" name="product_id" value={product.productId} />
 
       <Area
         id="productSinglePageForm"
@@ -137,10 +135,7 @@ export default function ProductForm({ action }) {
           {
             component: { default: AddToCart },
             props: {
-              stockAvaibility: (
-                product.stock_availability === 1
-                && product.qty > 0
-              ) || product.manage_stock === 0,
+              stockAvaibility: product.inventory.isInStock,
               loading,
               error
             },
@@ -156,3 +151,24 @@ export default function ProductForm({ action }) {
 ProductForm.propTypes = {
   action: PropTypes.string.isRequired
 };
+
+export const layout = {
+  areaId: "productPageMiddleRight",
+  sortOrder: 20
+}
+
+export const query = `
+  query Query {
+    product(id: getContextValue('productId')) {
+      productId
+      name
+      gallery {
+        thumb
+      }
+      inventory {
+        isInStock
+      }
+    }
+    action:url (routeId: "addToCart")
+  }
+`

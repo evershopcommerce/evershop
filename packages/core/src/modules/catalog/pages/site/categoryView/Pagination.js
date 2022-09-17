@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ProductList from '../../../components/product/list/List';
+import { Pagination } from '../../../components/product/list/Pagination';
 
-export default function Pagination({ products: { products: { items } } }) {
-  return (
-    <div className="page-width">
-      <span className="product-count italic block mb-2">
-        {`${items.length} products`}
-      </span>
-      <ProductList products={items} countPerRow={3} />
-    </div>
-  );
+export default function PaginationWrapper({ products: { products: { total, currentFilters } } }) {
+  const page = currentFilters.find((filter) => filter.key === 'page');
+  console.log(page)
+  const limit = currentFilters.find((filter) => filter.key === 'limit');
+  return <Pagination total={total} limit={parseInt(limit.value)} currentPage={parseInt(page.value)} />;
 }
 
 export const layout = {
@@ -21,33 +17,13 @@ export const layout = {
 export const query = `
   query Query {
     products: category(id: getContextValue('categoryId')) {
-      products {
-        items {
-          ...Product
+      products(filters: getContextValue('filtersFromUrl')) {
+        total
+        currentFilters {
+          key
+          operation
+          value
         }
       }
     }
   }`;
-
-export const fragments = `
-  fragment Product on Product {
-    productId
-    name
-    sku
-    price {
-      regular {
-        value
-        text
-      }
-      special {
-        value
-        text
-      }
-    }
-    image {
-      alt
-      listing
-    }
-    url
-  }
-`

@@ -1,5 +1,4 @@
 import React from 'react';
-import { getContextValue } from '../../../../graphql/services/buildContext';
 import ProductList from '../../../components/product/list/List';
 
 export default function Products({ products: { products: { items } } }) {
@@ -19,9 +18,9 @@ export const layout = {
 };
 
 export const query = `
-  query Query ($categoryId: Int!, $filters: [FilterInput]) {
-    products: category(id: $categoryId) {
-      products(filters: $filters) {
+  query Query {
+    products: category(id: getContextValue('categoryId')) {
+      products(filters: getContextValue('filtersFromUrl')) {
         items {
           ...Product
         }
@@ -51,9 +50,3 @@ export const fragments = `
     url
   }
 `;
-
-export const variables = `
-{
-  categoryId: getContextValue('categoryId'),
-  filters: getContextValue('filtersFromUrl')
-}`

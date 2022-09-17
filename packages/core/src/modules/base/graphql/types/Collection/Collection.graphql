@@ -1,9 +1,0 @@
-type PageInfo {
-  total: Int!
-  currentPage: Int!
-  lastPage: Int!
-}
-
-interface Collection {
-  pageInfo: PageInfo!
-}

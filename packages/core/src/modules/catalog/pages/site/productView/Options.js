@@ -1,39 +1,33 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { MultiSelect } from '../../../../../../lib/components/form/fields/MultiSelect';
-import { Select } from '../../../../../../lib/components/form/fields/Select';
-import { useAppState } from '../../../../../../lib/context/app';
-import { get } from '../../../../../../lib/util/get';
+import { MultiSelect } from '../../../../../lib/components/form/fields/MultiSelect';
+import { Select } from '../../../../../lib/components/form/fields/Select';
 
 export default function Options({ options = [] }) {
   if (options.length === 0) { return null; }
-
-  const currency = get(useAppState(), 'currency', 'USD');
-  const language = get(useAppState(), 'language', 'en');
 
   return (
     <div className="product-single-options mt-4 mb-4">
       <div className="product-single-options-title mb-2"><strong>Options</strong></div>
       {options.map((o, i) => {
         const values = o.values.map((v) => {
-          const formatedPrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(v.extra_price);
           return {
-            value: v.value_id,
-            text: `${v.value} (+ ${formatedPrice})`
+            value: v.valueId,
+            text: `${v.value} (+ ${v.extraPrice.text})`
           };
         });
         let FieldComponent = '';
-        switch (o.option_type) {
+        switch (o.optionType) {
           case 'select':
             FieldComponent = (
               <Select
                 key={i}
-                name={`product_custom_options[${o.option_id}][]`}
+                name={`product_custom_options[${o.optionId}][]`}
                 options={values}
-                validation_rules={parseInt(o.is_required, 10) === 1 ? ['notEmpty'] : []}
+                validation_rules={parseInt(o.isRequired, 10) === 1 ? ['notEmpty'] : []}
                 formId="product-form"
-                label={o.option_name}
+                label={o.optionName}
               />
             );
             break;
@@ -41,11 +35,11 @@ export default function Options({ options = [] }) {
             FieldComponent = (
               <MultiSelect
                 key={i}
-                name={`product_custom_options[${o.option_id}][]`}
+                name={`product_custom_options[${o.optionId}][]`}
                 options={values}
-                validation_rules={parseInt(o.is_required, 10) === 1 ? ['notEmpty'] : []}
+                validation_rules={parseInt(o.isRequired, 10) === 1 ? ['notEmpty'] : []}
                 formId="product-form"
-                label={o.option_name}
+                label={o.optionName}
               />
             );
             break;
@@ -53,11 +47,11 @@ export default function Options({ options = [] }) {
             FieldComponent = (
               <Select
                 key={i}
-                name={`product_custom_options[${o.option_id}][]`}
+                name={`product_custom_options[${o.optionId}][]`}
                 options={values}
-                validation_rules={parseInt(o.is_required, 10) === 1 ? ['notEmpty'] : []}
+                validation_rules={parseInt(o.isRequired, 10) === 1 ? ['notEmpty'] : []}
                 formId="product-form"
-                label={o.option_name}
+                label={o.optionName}
               />
             );
         }
@@ -69,9 +63,34 @@ export default function Options({ options = [] }) {
 
 Options.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
-    option_id: PropTypes.number,
-    is_required: PropTypes.number,
-    option_name: PropTypes.string,
-    option_type: PropTypes.string
+    optionId: PropTypes.number,
+    isRequired: PropTypes.number,
+    optionName: PropTypes.string,
+    optionType: PropTypes.string
   })).isRequired
 };
+
+export const layout = {
+  areaId: "productPageMiddleRight",
+  sortOrder: 30
+};
+
+export const query = `
+  query Query {
+    product (id: getContextValue('productId')) {
+      options {
+        optionId
+        isRequired
+        optionName
+        optionType
+        values {
+          valueId
+          value
+          extraPrice {
+            value
+            text
+          }
+        }
+      }
+    }
+  }`;

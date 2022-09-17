@@ -3,7 +3,7 @@ const { pool } = require("../../../lib/mysql/connection");
 const { getProductsBaseQuery } = require("./getProductsBaseQuery");
 
 module.exports.getFilterableAttributes = async (categoryId) => {
-  const productsQuery = getProductsBaseQuery(categoryId);
+  const productsQuery = await getProductsBaseQuery(categoryId);
   productsQuery.select('product.`product_id`');
   // Get the list of productIds before applying pagination, sorting...etc
   // Base on this list, we will find all attribute,
@@ -31,7 +31,7 @@ module.exports.getFilterableAttributes = async (categoryId) => {
   const attributes = [];
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < attributeData.length; i++) {
-    const index = attributes.findIndex((a) => a.attribute_code === attributeData[i].attribute_code);
+    const index = attributes.findIndex((a) => a.attributeCode === attributeData[i].attribute_code);
     if (index === -1) {
       attributes.push({
         attributeName: attributeData[i].attribute_name,
@@ -46,7 +46,7 @@ module.exports.getFilterableAttributes = async (categoryId) => {
       });
     } else {
       const idx = attributes[index].options.findIndex(
-        (o) => parseInt(o.option_id, 10) === parseInt(attributeData[i].option_id, 10)
+        (o) => parseInt(o.optionId, 10) === parseInt(attributeData[i].option_id, 10)
       );
       if (idx === -1) {
         attributes[index].options = attributes[index].options.concat({

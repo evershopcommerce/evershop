@@ -1,0 +1,17 @@
+type Option {
+  optionId: ID!
+  optionName: String!
+  optionType: String!
+  isRequired: Boolean!
+  values: [OptionValue]
+}
+
+type OptionValue {
+  valueId: ID!
+  value: String!
+  extraPrice: Price!
+}
+
+extend type Product {
+  options: [Option]
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import Area from '../../../../../../lib/components/Area';
+import Area from '../../../../../lib/components/Area';
 
 export default function ProductPageLayout() {
   return (
@@ -24,4 +24,9 @@ export default function ProductPageLayout() {
       />
     </div>
   );
+}
+
+export const layout = {
+  areaId: "content",
+  sortOrder: 10
 }

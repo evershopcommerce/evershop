@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import Area from '../../../../../../lib/components/Area';
-import { useAppState } from '../../../../../../lib/context/app';
-import { get } from '../../../../../../lib/util/get';
-import Sorting from './Sorting';
+import Area from '../../../../../lib/components/Area';
+import { get } from '../../../../../lib/util/get';
+import Sorting from '../../../components/product/list/Sorting';
 import './Filter.scss';
 
 function Price({
-  activeFilters, updateFilter, minPrice = 0, maxPrice = 0
+  activeFilters, updateFilter, priceFilter
 }) {
-  const context = useAppState();
   const currency = get(context, 'currency', 'USD');
   const language = get(context, 'language', 'en');
+
+  // Get the min price
+  const minPrice = priceFilter.options[0]
 
   const firstRender = React.useRef(true);
   const [from, setFrom] = React.useState(() => {
@@ -103,40 +104,40 @@ Price.propTypes = {
   updateFilter: PropTypes.func.isRequired
 };
 
-function Attributes({ activeFilters, attributes, updateFilter }) {
+function Attributes({ currentFilters, attributes, updateFilter }) {
   const onChange = (e, attributeCode, optionId, isChecked) => {
     e.preventDefault();
     if (isChecked === true) {
       updateFilter(
-        activeFilters.filter(
+        currentFilters.filter(
           (f) => f.key !== attributeCode
             || (f.key === attributeCode && parseInt(f.value, 10) !== parseInt(optionId, 10))
         )
       );
     } else {
-      updateFilter(activeFilters.concat({ key: attributeCode, value: optionId }));
+      updateFilter(currentFilters.concat({ key: attributeCode, value: optionId }));
     }
   };
 
   return (
     <>
       {attributes.map((a) => (
-        <div key={a.attribute_code}>
-          <div className="filter-item-title">{a.attribute_name}</div>
+        <div key={a.attributeCode}>
+          <div className="filter-item-title"><span className="font-medium">{a.attributeName}</span></div>
           <ul className="flex flex-wrap filter-option-list">
             {a.options.map((o) => {
-              const isChecked = activeFilters.find(
-                (f) => f.key === a.attribute_code
-                  && parseInt(f.value, 10) === parseInt(o.option_id, 10)
+              const isChecked = currentFilters.find(
+                (f) => f.key === a.attributeCode
+                  && parseInt(f.value, 10) === parseInt(o.optionId, 10)
               );
               return (
-                <li key={o.option_id} className="mt-05 mr-05">
+                <li key={o.optionId} className="mt-05 mr-05">
                   <button
                     type="button"
                     className={isChecked ? 'checked text-center filter-option link-button' : 'text-center filter-option link-button'}
-                    onClick={(e) => onChange(e, a.attribute_code, o.option_id, !!isChecked)}
+                    onClick={(e) => onChange(e, a.attributeCode, o.optionId, !!isChecked)}
                   >
-                    {o.option_text}
+                    {o.optionText}
                   </button>
                 </li>
               );
@@ -149,40 +150,38 @@ function Attributes({ activeFilters, attributes, updateFilter }) {
 }
 
 Attributes.propTypes = {
-  activeFilters: PropTypes.arrayOf(PropTypes.shape({
+  currentFilters: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string,
     value: PropTypes.string
   })).isRequired,
   attributes: PropTypes.arrayOf(PropTypes.shape({
-    attribute_name: PropTypes.string,
-    attribute_code: PropTypes.string
+    attributeName: PropTypes.string,
+    attributeCode: PropTypes.string
   })).isRequired,
   updateFilter: PropTypes.func.isRequired
 };
 
-export default function Filter() {
-  const data = get(useAppState(), 'productsFilter', []);
-  const activeFilters = get(useAppState(), 'activeProductsFilters', []);
-  const currentUrl = get(useAppState(), 'currentUrl', '');
+export default function Filter({ category: { availableFilters, products: { currentFilters } } }) {
+  const currentUrl = window.location.href;
 
   const [filtering, setFiltering] = useState(false);
 
-  const updateFilter = (filters) => {
+  const updateFilter = (newFilters) => {
     const url = new URL(currentUrl, window.location.origin);
-    for (let i = 0; i < activeFilters.length; i += 1) {
-      url.searchParams.delete(activeFilters[i].key);
+    for (let i = 0; i < currentFilters.length; i += 1) {
+      url.searchParams.delete(currentFilters[i].key);
     }
 
-    for (let i = 0; i < filters.length; i += 1) {
-      url.searchParams.append(filters[i].key, filters[i].value);
+    for (let i = 0; i < newFilters.length; i += 1) {
+      url.searchParams.append(newFilters[i].key, newFilters[i].value);
     }
     window.location.href = url;
   };
 
   const cleanFilter = () => {
     const url = new URL(currentUrl, window.location.origin);
-    for (let i = 0; i < activeFilters.length; i += 1) {
-      url.searchParams.delete(activeFilters[i].key);
+    for (let i = 0; i < currentFilters.length; i += 1) {
+      url.searchParams.delete(currentFilters[i].key);
     }
 
     window.location.href = url;
@@ -194,7 +193,7 @@ export default function Filter() {
         <div className="self-center">
           <div className="filter-heading">
             {filtering === false && (
-              <button type="button" className="link-button lex justify-start space-x-05" onClick={(e) => { e.preventDefault(); setFiltering(true); }}>
+              <button type="button" className="link-button flex justify-start space-x-05" onClick={(e) => { e.preventDefault(); setFiltering(true); }}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                 </svg>
@@ -217,20 +216,12 @@ export default function Filter() {
                 id="productFilter"
                 updateFilter={updateFilter}
                 cleanFilter={cleanFilter}
-                activeFilters={activeFilters}
+                currentFilters={currentFilters}
                 noOuter
                 coreComponents={[
                   {
-                    component: { default: Price },
-                    props: {
-                      activeFilters, updateFilter, minPrice: get(data, 'price.min', ''), maxPrice: get(data, 'price.max', '')
-                    },
-                    sortOrder: 10,
-                    id: 'filterPrice'
-                  },
-                  {
                     component: { default: Attributes },
-                    props: { activeFilters, updateFilter, attributes: get(data, 'attributes', []) },
+                    props: { currentFilters, updateFilter, attributes: availableFilters },
                     sortOrder: 20,
                     id: 'filterAttributes'
                   }
@@ -241,10 +232,37 @@ export default function Filter() {
         </div>
         {filtering === false && (
           <div>
-            <Sorting />
+            <Sorting currentFilters={currentFilters} />
           </div>
         )}
       </div>
     </div>
   );
 }
+
+export const layout = {
+  areaId: "content",
+  sortOrder: 1
+}
+
+export const query = `
+query Query {
+  category (id: getContextValue('categoryId')) {
+    products (filters: getContextValue('filtersFromUrl')) {
+      currentFilters {
+        key
+        operation
+        value
+      }
+    }
+    availableFilters {
+      attributeCode
+      attributeName
+      options {
+        optionId
+        optionText
+      }
+    }
+  }
+}
+`

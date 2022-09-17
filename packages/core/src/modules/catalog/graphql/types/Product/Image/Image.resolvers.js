@@ -31,7 +31,7 @@ module.exports = {
     gallery: async (product, _, { pool }) => {
       const gallery = await select()
         .from('product_image')
-        .where('product_id', product.product_id)
+        .where('product_image_product_id', '=', product.product_id)
         .execute(pool);
       return gallery.map((image) => {
         const urls = getUrls(image.image || '');

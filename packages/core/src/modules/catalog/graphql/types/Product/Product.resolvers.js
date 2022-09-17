@@ -23,11 +23,11 @@ module.exports = {
   },
   Query: {
     product: async (_, { id }, { pool }) => {
-      const result = await select()
-        .from('product')
-        .leftJoin('product_description').on('product_description.`product_id`', '=', 'product.`product_id`')
-        .where('product_id', '=', id)
-        .load(pool);
+      const query = select()
+        .from('product');
+      query.leftJoin('product_description').on('product_description.`product_description_product_id`', '=', 'product.`product_id`')
+      query.where('product_id', '=', id)
+      const result = await query.load(pool);
       return camelCase(result);
     }
   }

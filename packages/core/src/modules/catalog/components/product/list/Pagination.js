@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import './Pagination.scss';
 
-export default function Pagination({
-  total, limit, currentPage, currentUrl
+export function Pagination({
+  total, limit, currentPage
 }) {
   const [, setIsOnEdit] = React.useState(false);
   const [, setInPutVal] = React.useState(currentPage);
@@ -15,8 +16,9 @@ export default function Pagination({
   const onPage = (page) => {
     let pageNum;
     if (page < 1) pageNum = 1;
-    if (page > max) pageNum = max;
-    const url = new URL(currentUrl, window.location.origin);
+    else if (page > max) pageNum = max;
+    else pageNum = page;
+    const url = new URL(window.location.href, window.location.origin);
     url.searchParams.set('page', pageNum);
     window.location.href = url;
     setIsOnEdit(false);
@@ -53,7 +55,7 @@ export default function Pagination({
           </li>
         )}
         {Array.from({ length: max }, (_, i) => i + 1).map((page) => {
-          if (page === currentPage) {
+          if (parseInt(page) === parseInt(currentPage)) {
             return (
               <li key={page} className="page-item current self-center">
                 <button type="button" className="link-button page-link" onClick={(e) => { e.preventDefault(); }}>{page}</button>
@@ -83,7 +85,6 @@ export default function Pagination({
 
 Pagination.propTypes = {
   currentPage: PropTypes.number.isRequired,
-  currentUrl: PropTypes.string.isRequired,
   limit: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired
 };

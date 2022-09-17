@@ -1,15 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { useAppState } from '../../../../../lib/context/app';
-import { get } from '../../../../../lib/util/get';
 import { Select } from '../../../../../lib/components/form/fields/Select';
 
-export default function Sorting() {
+export default function Sorting({ currentFilters }) {
   // TODO: make this list configurable
-  const sortingOptions = get(useAppState(), 'sortingOptions', [{ code: 'price', name: 'Price' }, { code: 'name', name: 'Name' }]);
-  const sortOrder = get(useAppState(), 'sortOrder', 'asc');
-  const sortBy = get(useAppState(), 'sortBy', '');
-  const currentUrl = get(useAppState(), 'currentUrl');
+  const sortingOptions = [{ code: 'price', name: 'Price' }, { code: 'name', name: 'Name' }];
+  const sortOrder = currentFilters.find((f) => f.key === 'sortOrder') || { value: 'asc' };
+  const sortBy = currentFilters.find((f) => f.key === 'sortBy') || { value: 'id' };
+  const currentUrl = window.location.href;
 
   const onChangeSort = (e) => {
     e.preventDefault();
@@ -21,7 +19,7 @@ export default function Sorting() {
   const onChangeDirection = (e) => {
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
-    if (sortOrder === 'asc') {
+    if (sortOrder.value.toLowerCase() === 'asc') {
       url.searchParams.set('sortOrder', 'desc');
       window.location.href = url;
     } else {
@@ -38,7 +36,7 @@ export default function Sorting() {
         <Select
           className="form-control"
           onChange={(e) => onChangeSort(e)}
-          value={sortBy}
+          value={sortBy.value.toLowerCase()}
           options={[{
             value: '',
             text: 'Please select'
@@ -47,7 +45,7 @@ export default function Sorting() {
         />
         <div className="sort-direction self-center">
           <a onClick={(e) => onChangeDirection(e)} href="#">
-            {sortOrder === 'desc' ? (
+            {sortOrder.value.toLowerCase() === 'desc' ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="15"

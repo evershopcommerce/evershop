@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '../../../../../../lib/components/Area';
-import { get } from '../../../../../../lib/util/get';
+import Area from '../../../../../lib/components/Area';
 import './GeneralInfo.scss';
-import { useAppState } from '../../../../../../lib/context/app';
 
 function Name({ name }) {
   return <h1 className="product-single-name">{name}</h1>;
@@ -13,24 +11,20 @@ Name.propTypes = {
   name: PropTypes.string.isRequired
 };
 
-function Price({ price, salePrice }) {
-  const currency = get(useAppState(), 'currency', 'USD');
-  const language = get(useAppState(), 'language', 'en');
-  const formatedPrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
-  const formatedSalePrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(salePrice);
+function Price({ regular, special }) {
 
   return (
     <h4 className="product-single-price">
-      {parseFloat(salePrice) === parseFloat(price) && (
+      {special.value === regular.value && (
         <div>
-          <span className="sale-price">{formatedPrice}</span>
+          <span className="sale-price">{regular.text}</span>
         </div>
       )}
-      {parseFloat(salePrice) < parseFloat(price) && (
+      {special.value < regular.value && (
         <div>
-          <span className="sale-price">{formatedSalePrice}</span>
+          <span className="sale-price">{special.text}</span>
           {' '}
-          <span className="regular-price">{formatedPrice}</span>
+          <span className="regular-price">{regular.text}</span>
         </div>
       )}
     </h4>
@@ -38,8 +32,14 @@ function Price({ price, salePrice }) {
 }
 
 Price.propTypes = {
-  price: PropTypes.number.isRequired,
-  salePrice: PropTypes.number.isRequired
+  regular: PropTypes.shape({
+    value: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired
+  }),
+  special: PropTypes.shape({
+    value: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired
+  })
 };
 
 function Sku({ sku }) {
@@ -56,38 +56,60 @@ Sku.propTypes = {
   sku: PropTypes.string.isRequired
 };
 
-export default function GeneralInfo() {
-  const product = get(useAppState(), 'product');
+export default function GeneralInfo({ product }) {
   return (
     <Area
-      id="product_view_general_info"
+      id="productViewGeneralInfo"
       coreComponents={[
         {
           component: { default: Name },
           props: {
             name: product.name
           },
-          sort_order: 10,
-          id: 'product_single_name'
+          sortOrder: 10,
+          id: 'productSingleName'
         },
         {
           component: { default: Price },
           props: {
-            price: product.price,
-            salePrice: product.price
+            regular: product.price.regular,
+            special: product.price.special
           },
-          sort_order: 10,
-          id: 'product_single_price'
+          sortOrder: 10,
+          id: 'productSinglePrice'
         },
         {
           component: { default: Sku },
           props: {
             sku: product.sku
           },
-          sort_order: 20,
-          id: 'product_single_sku'
+          sortOrder: 20,
+          id: 'productSingleSku'
         }
       ]}
     />
   );
 }
+
+export const layout = {
+  areaId: "productPageMiddleRight",
+  sortOrder: 10
+};
+
+export const query = `
+  query Query {
+    product (id: getContextValue('productId')) {
+      name
+      sku
+      price {
+        regular {
+          value
+          text
+        }
+        special {
+          value
+          text
+        }
+      }
+    }
+  }`;
