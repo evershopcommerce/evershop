@@ -14,5 +14,6 @@ exports.findDublicatedMiddleware = function findDublicatedMiddleware(registeredM
         )
         )
       )
+      && middleware.region === newMiddleware.region
   );
 };

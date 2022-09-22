@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { inspect } = require('util');
 const { CONSTANTS } = require('../../helpers');
+const JSON5 = require('json5');
 
 /* eslint-disable no-multi-assign */
 /* eslint-disable global-require */
@@ -23,7 +24,7 @@ module.exports = exports = function areaLoader(c) {
       // Remove everything before '{' from the beginning of the match
       const check = match[0].replace(/^[^{]*/, '').replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
       try {
-        const layout = JSON.parse(check);
+        const layout = JSON5.parse(check);
         const id = Buffer.from(module.replace(CONSTANTS.ROOTPATH, '')).toString('base64');
         areas[layout.areaId] = areas[layout.areaId] || {};
         areas[layout.areaId][id] = {

@@ -2,13 +2,13 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import produce from 'immer';
 import Area from '../../../../../lib/components/Area';
 import { Form } from '../../../../../lib/components/form/Form';
 import { Field } from '../../../../../lib/components/form/Field';
-import { get } from '../../../../../lib/util/get';
-import { useAppDispatch } from '../../../../../lib/context/app';
 import Button from '../../../../../lib/components/form/Button';
 import './Form.scss';
+import { useAppDispatch, useAppState } from '../../../../../lib/context/app';
 
 function ToastMessage({
   thumbnail, name, qty, count, cartUrl, toastId
@@ -95,19 +95,25 @@ AddToCart.defaultProps = {
 };
 
 export default function ProductForm({ product, action }) {
-  const dispatch = useAppDispatch();
+
   const [loading, setLoading] = useState(false);
   const [toastId, setToastId] = useState();
   const [error, setError] = useState();
+  const appContext = useAppState();
+  const dispatch = useAppDispatch();
 
   const onSuccess = (response) => {
     if (response.success === true) {
-      dispatch({ ...context, cart: response.data.cart });
+      dispatch(produce(appContext, (draff) => {
+        // eslint-disable-next-line no-param-reassign
+        draff.cart = appContext.cart || {};
+        draff.cart.totalQty = response.data.count;
+      }));
       setToastId(toast(<ToastMessage
         thumbnail={product.gallery[0] ? product.gallery[0].thumb : null}
         name={product.name}
         qty={1}
-        count={response.data.cart.items.length}
+        count={response.data.count}
         cartUrl="/cart"
         toastId={toastId}
       />, { closeButton: false }));

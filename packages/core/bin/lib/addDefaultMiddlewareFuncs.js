@@ -1,4 +1,4 @@
-const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const webpack = require("webpack");
 const middleware = require("webpack-dev-middleware");
 const { createConfigClient } = require('../../src/lib/webpack/dev/createConfigClient');
@@ -43,6 +43,9 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
         next();
       }
     });
+
+    // Cookie parser
+    app.use(cookieParser());
 
     // TODO:Termporary comment this code, Because some API requires body raw data. Like Stripe
     // if (r.isApi) {

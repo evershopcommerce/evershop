@@ -37,9 +37,9 @@ function isAvailable(attributeCode, optionId, variants, currentFilters = {}) {
   );
 }
 
-export default function Variants({ product: { variants: { variantAttributes, items } }, pageInfo: { url } }) {
-  const attributes = variantAttributes;
-  const variants = items;
+export default function Variants({ product: { variants: vs }, pageInfo: { url } }) {
+  const attributes = vs ? vs.variantAttributes : [];
+  const variants = vs ? vs.items : [];
   const [error, setError] = React.useState(null);
   const currentProductUrl = url;
   const getCurrentSelection = () => {

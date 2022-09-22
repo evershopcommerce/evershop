@@ -5,7 +5,7 @@ module.exports = {
     variants: async (product, _, { pool }) => {
       const variantGroupId = product.variantGroupId;
       if (!variantGroupId) {
-        return [];
+        return null;
       } else {
         const group = await select()
           .from('variant_group')

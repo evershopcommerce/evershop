@@ -8,7 +8,10 @@ module.exports.watchMF = function (event, path) {
   // Check if path include graphql/types
   if (!path.includes(normalize('pages/admin')) &&
     !path.includes(normalize('pages/site')) &&
-    !path.includes(normalize('pages/global'))
+    !path.includes(normalize('pages/global')) &&
+    !path.includes(normalize('api/admin')) &&
+    !path.includes(normalize('api/site')) &&
+    !path.includes(normalize('api/global'))
   ) {
     return;
   }

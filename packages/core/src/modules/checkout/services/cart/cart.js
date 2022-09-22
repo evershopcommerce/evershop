@@ -41,7 +41,25 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'user_ip',
       async resolver() {
-        return this.request.ip;
+        return this.dataSource.user_ip ?? this.getData('user_ip') ?? null;
+      }
+    },
+    {
+      key: 'sid',
+      async resolver() {
+        return this.dataSource.sid ?? this.getData('sid') ?? null;
+      }
+    },
+    {
+      key: 'customer_id',
+      async resolver() {
+        return this.dataSource.customer_id ?? this.getData('customer_id') ?? null;
+      }
+    },
+    {
+      key: 'customer_group_id',
+      async resolver() {
+        return this.dataSource.customer_group_id ?? this.getData('customer_group_id') ?? null;
       }
     },
     {
@@ -249,10 +267,9 @@ exports.Cart = class Cart extends DataObject {
     }
   ];
 
-  constructor(request, data = {}) {
+  constructor(data = {}) {
     super();
     this.dataSource = data;
-    this.request = request;
     this.prepareFields();
   }
 
@@ -308,5 +325,19 @@ exports.Cart = class Cart extends DataObject {
     }
 
     return flag;
+  }
+
+  export() {
+    const data = {};
+    this.constructor.fields.forEach((f) => {
+      if (f.key !== 'items') {
+        data[f.key] = this.data[f.key];
+      } else {
+        const items = this.getItems();
+        data[f.key] = items.map((item) => item.export());
+      }
+    });
+
+    return data;
   }
 };

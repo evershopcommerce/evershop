@@ -2,10 +2,12 @@ const { sep } = require('path');
 
 module.exports.getRouteFromPath = (path) => {
   const parts = path.split(sep).reverse();
-  let scope, routeId;
-  if (parts[1] === 'global' || parts[1] === 'global') {
+  let scope, routeId, region;
+  region = parts[3];
+  if (parts[1] === 'global') {
     scope = 'app';
     routeId = null;
+    region = parts[2];
   } else if (parts[1] === 'all' && ['site', 'admin'].includes(parts[2])) {
     scope = routeId = parts[2];
   } else if (/^[A-Za-z+.]+$/.test(parts[1]) && ['site', 'admin'].includes(parts[2])) {
@@ -21,6 +23,7 @@ module.exports.getRouteFromPath = (path) => {
   }
 
   return {
+    region,
     scope,
     routeId
   }

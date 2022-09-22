@@ -54,3 +54,8 @@ export default function FeaturedCategories() {
     </div>
   );
 }
+
+export const layout = {
+  areaId: 'content',
+  sortOrder: 10
+}

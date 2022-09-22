@@ -1,6 +1,6 @@
 const path = require('path');
 const JSON5 = require('json5');
-const { context, getContextValue } = require('../../services/buildContext');
+const { getContextValue } = require('../../services/buildContext');
 
 module.exports = (request, response) => {
   // Get the 'query.graphql' from webpack compiler
@@ -27,7 +27,9 @@ module.exports = (request, response) => {
     // JSON sringify without adding double quotes to the property name
     value = JSON5.stringify(value, { quote: '"' });
     // Escape the value so we can insert it into the query
-    value = value.replace(/"/g, '\\"')
+    if (value) {
+      value = value.replace(/"/g, '\\"')
+    }
     return value;
   });
   console.log('---', query, '===');

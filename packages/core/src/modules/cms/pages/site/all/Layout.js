@@ -6,7 +6,13 @@ export default function Layout() {
   return (
     <>
       <div className="header flex justify-between">
-        <Area id="header" noOuter />
+        <Area id="header" noOuter coreComponents={[
+          {
+            component: { default: Area },
+            props: { id: "icon-wrapper", className: "icon-wrapper flex justify-between space-x-1" },
+            sortOrder: 20
+          }
+        ]} />
       </div>
       <main className="content">
         <Area id="content" className="" noOuter />
