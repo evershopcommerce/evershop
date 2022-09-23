@@ -19,12 +19,24 @@ type Cart {
   grandTotal: Price!
   shippingMethod: String
   shippingMethodName: String
-  shippingAddressId: Int
+  shippingAddress: Address
   paymentMethod: String
   paymentMethodName: String
-  billingAddressId: Int
+  billingAddress: Address
   shippingNote: String
   items: [CartItem]!
+}
+
+type Address {
+  cartAddressId: Int!
+  fullName: String!
+  postcode: String!
+  telephone: String!
+  country: String!
+  province: String!
+  city: String!
+  address1: String!
+  address2: String
 }
 
 type CartItem {

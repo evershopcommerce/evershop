@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { get } from '../util/get';
 
 const Steps = React.createContext();
 const CheckoutStepsDispatch = React.createContext();
 
-export function CheckoutSteps({ children }) {
-  const [steps, setSteps] = useState(typeof window !== 'undefined' ? get(window, 'eContext.checkout.steps', []) : []);// TODO: Consider using ajax to load steps
+export function CheckoutSteps({ children, value }) {
+  const [steps, setSteps] = useState(value);// TODO: Consider using ajax to load steps
 
   const canStepDisplay = (step) => {
     const checkoutSteps = [...steps].sort(

@@ -1,44 +1,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import produce from 'immer';
 import { Form } from '../../../../../lib/components/form/Form';
 import { Field } from '../../../../../lib/components/form/Field';
-import { useAppDispatch, useAppState } from '../../../../../lib/context/app';
 import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkout';
-import { Title } from './StepTitle';
+import { Title } from '../../../components/site/checkout/StepTitle';
 
-const { get } = require('../../../../../lib/util/get');
 
-function Completed() {
-  const state = useAppState();
-  const email = get(state, 'cart.customer_email');
-
+function Completed({ customerEmail }) {
   return (
     <div className="checkout-contact-info self-center">
-      <div><span>{email}</span></div>
+      <div><span>{customerEmail}</span></div>
     </div>
   );
 }
 
-function Edit({ setContactUrl }) {
-  const appDispatch = useAppDispatch();
+function Edit({ setContactUrl, email, setEmail }) {
   const { completeStep } = useCheckoutStepsDispatch();
-  const appContext = useAppState();
-  const email = get(appContext, 'cart.customer_email', undefined);
-
   const onSuccess = (response) => {
-    appDispatch(produce(appContext, (draff) => {
-      // eslint-disable-next-line no-param-reassign
-      draff.checkout.steps = appContext.checkout.steps.map((step) => {
-        if (step.id === 'contact') {
-          return { ...step, isCompleted: true };
-        } else {
-          return { ...step };
-        }
-      });
-      // eslint-disable-next-line no-param-reassign
-      draff.cart.customer_email = response.data.email;
-    }));
+    setEmail(response.data.email);
     completeStep('contact');
   };
 
@@ -69,9 +48,9 @@ Edit.propTypes = {
   setContactUrl: PropTypes.string.isRequired
 };
 
-function Content({ step, setContactInfoUrl }) {
+function Content({ step, setContactInfoUrl, email, setEmail }) {
   if (step.isCompleted === false || step.isEditing === true) {
-    return <Edit setContactUrl={setContactInfoUrl} />;
+    return <Edit setContactUrl={setContactInfoUrl} email={email} setEmail={setEmail} />;
   } else {
     return null;
   }
@@ -85,8 +64,9 @@ Content.propTypes = {
   }).isRequired
 };
 
-export default function ContactInformationStep({ setContactInfoUrl }) {
+export default function ContactInformationStep({ setContactInfoUrl, cart: { customerEmail } }) {
   const steps = useCheckoutSteps();
+  const [email, setEmail] = React.useState(customerEmail);
   const step = steps.find((e) => e.id === 'contact') || {};
   const [display, setDisplay] = React.useState(false);
   const { canStepDisplay, editStep } = useCheckoutStepsDispatch();
@@ -99,10 +79,10 @@ export default function ContactInformationStep({ setContactInfoUrl }) {
     <div className="checkout-contact checkout-step">
       <div className="grid-cols-3 grid gap-1" style={{ gridTemplateColumns: '2fr 2fr 1fr' }}>
         <Title step={step} />
-        {(step.isCompleted === true && step.isEditing !== true) && <Completed />}
+        {(step.isCompleted === true && step.isEditing !== true) && <Completed email={email} />}
         {(step.isCompleted === true && step.isEditing !== true) && <div className="self-center text-right"><a href="#" onClick={(e) => { e.preventDefault(); editStep('contact'); }} className="hover:underline text-interactive">Edit</a></div>}
       </div>
-      {display && <Content step={step} setContactInfoUrl={setContactInfoUrl} />}
+      {display && <Content step={step} email={email} setContactInfoUrl={setContactInfoUrl} setEmail={setEmail} />}
     </div>
   );
 }
@@ -110,3 +90,17 @@ export default function ContactInformationStep({ setContactInfoUrl }) {
 ContactInformationStep.propTypes = {
   setContactInfoUrl: PropTypes.string.isRequired
 };
+
+export const layout = {
+  areaId: 'checkoutSteps',
+  sortOrder: 10
+}
+
+export const query = `
+  query Query {
+    setContactInfoUrl: url(routeId: "checkoutSetContactInfo"),
+    cart {
+      customerEmail
+    }
+  }
+`

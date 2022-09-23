@@ -1,11 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { useFormContext } from '../../../../../../lib/components/form/Form';
-import { Field } from '../../../../../../lib/components/form/Field';
+import { useFormContext } from '../../../../../lib/components/form/Form';
+import { Field } from '../../../../../lib/components/form/Field';
 
-export default function ShippingMethods({ areaProps, getMethodsAPI }) {
+export default function ShippingMethods({ getMethodsAPI }) {
   const formContext = useFormContext();
-  const [typeTimeout, setTypeTimeout] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [addressProvided, setAddressProvided] = React.useState(false);
   const [methods, setMethods] = React.useState([]);
@@ -60,3 +59,14 @@ export default function ShippingMethods({ areaProps, getMethodsAPI }) {
     </div>
   );
 }
+
+export const layout = {
+  areaId: 'checkoutShippingAddressForm',
+  sortOrder: 60
+}
+
+export const query = `
+  query Query {
+    getMethodsAPI: url(routeId: "checkoutGetShippingMethods")
+  }
+`

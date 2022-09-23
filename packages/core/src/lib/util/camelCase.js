@@ -6,7 +6,7 @@ module.exports.camelCase = (object) => {
   let newObject = {};
   Object.keys(object).forEach((key) => {
     // Convert the key to camelCase
-    const newKey = key.replace(/([-_][a-z])/gi, ($1) => {
+    const newKey = key.replace(/([-_][a-zA-Z0-9])/gi, ($1) => {
       return $1.toUpperCase().replace('-', '').replace('_', '');
     }
     );

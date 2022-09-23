@@ -44,9 +44,11 @@ exports.getCustomerCart = async () => {
       // Set the customer info
       await cart.setData('sid', sid);
       await cart.setData('customer_id', customerId || null);
-      await cart.setData('customer_email', customerEmail || null);
       await cart.setData('customer_group_id', customerGroupId || null);
       await cart.setData('customer_full_name', customerFullName || null);
+      if (customerEmail) {
+        await cart.setData('customer_email', customerEmail || null);
+      }
       await update('cart')
         .given(cart.export())
         .where('cart_id', '=', cart.getData('cart_id'))

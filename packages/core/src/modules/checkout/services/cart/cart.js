@@ -53,25 +53,25 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'customer_id',
       async resolver() {
-        return this.dataSource.customer_id ?? this.getData('customer_id') ?? null;
+        return this.dataSource.customer_id || null;
       }
     },
     {
       key: 'customer_group_id',
       async resolver() {
-        return this.dataSource.customer_group_id ?? this.getData('customer_group_id') ?? null;
+        return this.dataSource.customer_group_id || null;
       }
     },
     {
       key: 'customer_email',
       async resolver() {
-        return this.dataSource.customer_email ?? this.getData('customer_email') ?? null;
+        return this.dataSource.customer_email || null;
       }
     },
     {
       key: 'customer_full_name',
       async resolver() {
-        return this.dataSource.customer_full_name ?? this.getData('customer_full_name') ?? null;
+        return this.dataSource.customer_full_name || null;
       }
     },
     {

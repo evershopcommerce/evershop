@@ -1,7 +1,11 @@
+const { getCustomerCart } = require("../../../services/getCustomerCart");
+const { saveCart } = require("../../../services/saveCart");
+
 module.exports = async (request, response, stack, next) => {
-  const cart = await stack.initCart;
   try {
+    const cart = await getCustomerCart();
     await cart.setData('customer_email', request.body.email);
+    await saveCart(cart);
     response.$body = {
       data: {
         email: cart.getData('customer_email')

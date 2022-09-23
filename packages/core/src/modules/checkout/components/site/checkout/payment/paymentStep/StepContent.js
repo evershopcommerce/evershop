@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Area from '../../../../../../../lib/components/Area';
 import { useCheckoutStepsDispatch } from '../../../../../../../lib/context/checkout';
-import { useAppState } from '../../../../../../../lib/context/app';
 import { CustomerAddressForm } from '../../../../../../customer/views/site/address/AddressForm';
 import { Form } from '../../../../../../../lib/components/form/Form';
 import { BillingAddress } from './BillingAddress';
 
-export function StepContent() {
-  const appContext = useAppState();
-  const { cart } = appContext;
-  const { checkout: { setPaymentInfoAPI, setBillingAddressAPI } } = appContext;
+export function StepContent({ setBillingAddressAPI, setPaymentInfoAPI, cart: { billingAddress } }) {
   const { completeStep } = useCheckoutStepsDispatch();
-  const [useShippingAddress, setUseShippingAddress] = useState(!cart.billing_address_id);
+  const [useShippingAddress, setUseShippingAddress] = useState(!billingAddress);
   const [billingCompleted, setBillingCompleted] = useState(false);
   const [paymentMethodCompleted, setPaymentMethodCompleted] = useState(false);
 

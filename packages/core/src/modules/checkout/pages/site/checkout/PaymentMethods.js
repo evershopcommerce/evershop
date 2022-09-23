@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import React from 'react';
-import Area from '../../../../../../../lib/components/Area';
-import { Methods } from './Methods';
+import Area from '../../../../../lib/components/Area';
+import { Methods } from '../../../components/site/checkout/payment/paymentMethods/Methods';
 
 export default function PaymentMethods({ getMethodsAPI }) {
   const [methods, setMethods] = React.useState([]);
@@ -36,3 +36,14 @@ export default function PaymentMethods({ getMethodsAPI }) {
 PaymentMethods.propTypes = {
   getMethodsAPI: PropTypes.string.isRequired
 };
+
+export const layout = {
+  areaId: 'checkoutBillingAddressForm',
+  sortOrder: 10
+}
+
+export const query = `
+  query Query {
+    getMethodsAPI: url(routeId: "checkoutGetPaymentMethods")
+  }
+`

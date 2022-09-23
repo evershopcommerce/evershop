@@ -1,12 +1,17 @@
 const { insert, select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 const { addressValidator } = require('../../../services/addressValidator');
+const { getCustomerCart } = require('../../../services/getCustomerCart');
+const { saveCart } = require('../../../services/saveCart');
 
 module.exports = async (request, response, stack, next) => {
-  const cart = await stack.initCart;
   try {
+    const cart = await getCustomerCart();
+
     // Validate address
-    if (!addressValidator(request.body)) { throw new TypeError('Invalid Address'); }
+    if (!addressValidator(request.body)) {
+      throw new TypeError('Invalid Address');
+    }
 
     // Save shipping address
     const result = await insert('cart_address').given(request.body).execute(pool);
@@ -17,6 +22,8 @@ module.exports = async (request, response, stack, next) => {
     // Save shipping method
     await cart.setData('shipping_method', request.body.shipping_method);
 
+    // Save the cart
+    await saveCart(cart);
     response.$body = {
       data: {
         address: await select().from('cart_address').where('cart_address_id', '=', result.insertId).load(pool),

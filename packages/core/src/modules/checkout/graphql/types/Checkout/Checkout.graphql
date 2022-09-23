@@ -1,0 +1,14 @@
+type Checkout {
+  steps: [CheckoutStep]!
+}
+
+type CheckoutStep {
+  id: String!
+  title: String!
+  isCompleted: Boolean!
+  sortOrder: Int!
+}
+
+extend type Query {
+  checkout: Checkout
+}

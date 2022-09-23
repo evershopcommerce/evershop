@@ -8,7 +8,7 @@ import CheckoutForm from './CheckoutForm';
 // loadStripe is initialized with your real test publishable API key.
 const promise = loadStripe('pk_test_51Jdo9iEvEMCuLU1xfxYWbka7AdHF7ADu2H6h1vuvnLZuC5c5L5CUsvyCRHhSgGOF8bhxqrbKIwck6CA0J1jL6HxH005zCFd8sI');
 
-export default function App() {
+export default function StripeApp() {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <div className="App">
@@ -17,4 +17,9 @@ export default function App() {
       </Elements>
     </div>
   );
+}
+
+export const layout = {
+  areaId: 'checkoutPaymentMethods',
+  sortOrder: 10
 }
