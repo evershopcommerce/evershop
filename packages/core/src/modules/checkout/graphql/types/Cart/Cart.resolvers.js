@@ -22,7 +22,7 @@ module.exports = {
       const address = await select().from('cart_address').where('cart_address_id', '=', shippingAddressId).load(pool);
       return address ? camelCase(address) : null;
     },
-    billingAddress: async ({ billingAddressId }, { }, { pool, user }) => {
+    billingAddress: async ({ shippingAddressId, billingAddressId }, { }, { pool, user }) => {
       const address = await select().from('cart_address').where('cart_address_id', '=', billingAddressId).load(pool);
       return address ? camelCase(address) : null;
     }

@@ -15,10 +15,10 @@ function Steps() {
   );
 }
 
-export default function CheckoutPage({ checkout: { steps }, placeOrderAPI }) {
+export default function CheckoutPage({ checkout: { steps }, placeOrderAPI, checkoutSuccessUrl }) {
   return (
     <CheckoutSteps value={steps}>
-      <CheckoutProvider placeOrderAPI={placeOrderAPI}>
+      <CheckoutProvider placeOrderAPI={placeOrderAPI} checkoutSuccessUrl={checkoutSuccessUrl}>
         <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-3">
           <Area
             id="checkoutPageLeft"
@@ -54,5 +54,6 @@ export const query = `
       }
     },
     placeOrderAPI: url(routeId: "checkoutPlaceOrder")
+    checkoutSuccessUrl: url(routeId: "checkoutSuccess")
   }
 `

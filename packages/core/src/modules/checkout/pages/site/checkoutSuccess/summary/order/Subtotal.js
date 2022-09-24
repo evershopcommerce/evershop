@@ -19,5 +19,5 @@ export function Subtotal({ count, total }) {
 
 Subtotal.propTypes = {
   count: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired
+  total: PropTypes.string.isRequired
 };

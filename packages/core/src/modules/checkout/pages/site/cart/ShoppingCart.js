@@ -17,7 +17,8 @@ function Title({ title }) {
   );
 }
 
-export default function ShoppingCart({ cart: { totalQty, items } }) {
+export default function ShoppingCart({ cart }) {
+  const { totalQty = 0, items = [] } = cart || {};
   if (totalQty <= 0) {
     return <Empty />
   } else {
@@ -26,7 +27,7 @@ export default function ShoppingCart({ cart: { totalQty, items } }) {
         <div className="cart page-width">
           <Area
             id="shoppingCartTop"
-            className="cart-page-top sdsd"
+            className="cart-page-top"
             coreComponents={[
               {
                 component: { default: Title },

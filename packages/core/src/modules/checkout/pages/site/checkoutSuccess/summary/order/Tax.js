@@ -14,7 +14,7 @@ export function Tax({ taxClass, amount }) {
 }
 
 Tax.propTypes = {
-  amount: PropTypes.number,
+  amount: PropTypes.string,
   taxClass: PropTypes.string
 };
 

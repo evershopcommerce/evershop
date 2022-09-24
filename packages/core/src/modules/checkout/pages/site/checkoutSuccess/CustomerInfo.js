@@ -1,15 +1,8 @@
 import React from 'react';
-import { Summary } from './summary/Summary';
-import Area from '../../../../../lib/components/Area';
-import { get } from '../../../../../lib/util/get';
-import { useAppState } from '../../../../../lib/context/app';
 import { AddressSummary } from '../../../../customer/views/site/address/AddressSummary';
 import Button from '../../../../../lib/components/form/Button';
-import './CheckoutSuccess.scss';
 
-function CustomerInfo() {
-  const context = useAppState();
-  const order = get(context, 'order', {});
+export default function CustomerInfo({ order: { orderNumber, customerFullName, customerEmail, paymentMethodName, shippingAddress, billingAddress } }) {
   return (
     <div className="checkout-success-customer-info">
       <h3 className="thank-you flex justify-start space-x-1">
@@ -21,11 +14,11 @@ function CustomerInfo() {
         <div className="self-center">
           <span style={{ fontSize: '1.6rem', fontWeight: '300' }}>
             Order #
-            {order.order_number}
+            {orderNumber}
           </span>
           <div>
             Thank you
-            {order.customer_full_name}
+            {customerFullName}
             !
           </div>
         </div>
@@ -37,21 +30,21 @@ function CustomerInfo() {
           <div>
             <div className="mb-2">
               <div className="mb-075">Contact information</div>
-              <div className="text-textSubdued">{order.customer_email}</div>
+              <div className="text-textSubdued">{customerEmail}</div>
             </div>
             <div>
               <div className="mb-075">Shipping Address</div>
-              <div className="text-textSubdued"><AddressSummary address={order.shippingAddress} /></div>
+              <div className="text-textSubdued"><AddressSummary address={shippingAddress} /></div>
             </div>
           </div>
           <div>
             <div className="mb-2">
               <div className="mb-075">Payment Method</div>
-              <div className="text-textSubdued">{order.payment_method_name}</div>
+              <div className="text-textSubdued">{paymentMethodName}</div>
             </div>
             <div>
               <div className="mb-075">Billing Address</div>
-              <div className="text-textSubdued"><AddressSummary address={order.billingAddress} /></div>
+              <div className="text-textSubdued"><AddressSummary address={billingAddress} /></div>
             </div>
           </div>
         </div>
@@ -61,25 +54,38 @@ function CustomerInfo() {
   );
 }
 
-export default function CheckoutPage() {
-  return (
-    <Area
-      id="checkoutSuccessPage"
-      className="page-width grid grid-cols-1 md:grid-cols-2 gap-3"
-      coreComponents={[
-        {
-          component: { default: CustomerInfo },
-          props: {},
-          sortOrder: 10,
-          id: 'customerInfo'
-        },
-        {
-          component: { default: Summary },
-          props: {},
-          sortOrder: 30,
-          id: 'summaryBlock'
-        }
-      ]}
-    />
-  );
+export const layout = {
+  areaId: 'checkoutSuccessPageLeft',
+  sortOrder: 10
 }
+
+export const query = `
+  query Query {
+    order (id: getContextValue('orderId')) {
+      orderNumber
+      customerFullName
+      customerEmail
+      paymentMethodName
+      shippingAddress {
+        fullName
+        postcode
+        telephone
+        country
+        province
+        city
+        address1
+        address2
+      }
+      billingAddress {
+        fullName
+        postcode
+        telephone
+        country
+        province
+        city
+        address1
+        address2
+      }
+    }
+  }
+`

@@ -36,14 +36,3 @@ export default function PaymentMethods({ getMethodsAPI }) {
 PaymentMethods.propTypes = {
   getMethodsAPI: PropTypes.string.isRequired
 };
-
-export const layout = {
-  areaId: 'checkoutBillingAddressForm',
-  sortOrder: 10
-}
-
-export const query = `
-  query Query {
-    getMethodsAPI: url(routeId: "checkoutGetPaymentMethods")
-  }
-`

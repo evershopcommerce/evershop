@@ -5,7 +5,7 @@ import { useCheckoutSteps } from './checkout';
 
 const Checkout = React.createContext();
 
-export function CheckoutProvider({ children, placeOrderAPI }) {
+export function CheckoutProvider({ children, placeOrderAPI, checkoutSuccessUrl }) {
   const steps = useCheckoutSteps();
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState();
@@ -33,7 +33,7 @@ export function CheckoutProvider({ children, placeOrderAPI }) {
   }, [steps]);
 
   return (
-    <Checkout.Provider value={{ steps, orderPlaced, orderId }}>
+    <Checkout.Provider value={{ steps, orderPlaced, orderId, checkoutSuccessUrl }}>
       {children}
     </Checkout.Provider>
   );

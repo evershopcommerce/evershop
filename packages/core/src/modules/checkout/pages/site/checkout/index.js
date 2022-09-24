@@ -13,7 +13,7 @@ module.exports = async (request, response, stack, next) => {
   if (items.length === 0 || cart.hasError()) {
     response.redirect(302, buildUrl('cart'));
   } else {
-    setContextValue('pageInfo', { metaTitle: 'Checkout', metaDescription: 'Checkout' });
+    setContextValue('pageInfo', { title: 'Checkout', description: 'Checkout' });
     next();
   }
 };

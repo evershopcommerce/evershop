@@ -16,7 +16,7 @@ export function Shipping({ method, cost }) {
 }
 
 Shipping.propTypes = {
-  cost: PropTypes.number,
+  cost: PropTypes.string,
   method: PropTypes.string
 };
 

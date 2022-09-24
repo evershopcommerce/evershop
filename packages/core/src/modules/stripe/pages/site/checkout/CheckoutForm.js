@@ -7,8 +7,57 @@ import {
 import { useCheckout } from '../../../../../lib/context/order';
 import Button from '../../../../../lib/components/form/Button';
 import { get } from '../../../../../lib/util/get';
-import { useAppState } from '../../../../../lib/context/app';
 import './CheckoutForm.scss';
+import { useQuery } from 'urql';
+
+const cartQuery = `
+  query Query {
+    cart{
+      billingAddress {
+        cartAddressId
+        fullName
+        postcode
+        telephone
+        country
+        province
+        city
+        address1
+        address2
+      }
+      shippingAddress {
+        cartAddressId
+        fullName
+        postcode
+        telephone
+        country
+        province
+        city
+        address1
+        address2
+      }
+      customerEmail
+    }
+  }
+`;
+
+const cardStyle = {
+  style: {
+    base: {
+      color: '#737373',
+      fontFamily: 'Arial, sans-serif',
+      fontSmoothing: 'antialiased',
+      fontSize: '16px',
+      '::placeholder': {
+        color: '#737373'
+      }
+    },
+    invalid: {
+      color: '#fa755a',
+      iconColor: '#fa755a'
+    }
+  },
+  hidePostalCode: true
+};
 
 export default function CheckoutForm() {
   const [, setSucceeded] = useState(false);
@@ -19,13 +68,15 @@ export default function CheckoutForm() {
   const [showTestCard, setShowTestCard] = useState('success');
   const stripe = useStripe();
   const elements = useElements();
-
-  const context = useAppState();
   const [billingCompleted] = useState(false);
   const [paymentMethodCompleted] = useState(false);
   const checkout = useCheckout();
   const [loading, setLoading] = useState(false);
-  const billingAddress = get(context, 'cart.billingAddress', get(context, 'cart.shippingAddress', {}));
+
+  const [result, reexecuteQuery] = useQuery({
+    query: cartQuery,
+    pause: checkout.orderPlaced === false
+  });
 
   useEffect(() => {
     // Create PaymentIntent as soon as the order is placed
@@ -35,33 +86,58 @@ export default function CheckoutForm() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify({ orderId: checkout.orderId, test: "asdasd" })
         })
         .then((res) => res.json())
         .then((data) => {
           setClientSecret(data.clientSecret);
         });
     }
-  }, [checkout.orderPlaced]);
+  }, [checkout.orderId]);
 
-  const cardStyle = {
-    style: {
-      base: {
-        color: '#737373',
-        fontFamily: 'Arial, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: '16px',
-        '::placeholder': {
-          color: '#737373'
+  useEffect(() => {
+    const pay = async () => {
+      console.log(result);
+      const billingAddress = result.data.cart.billingAddress || result.data.cart.shippingAddress
+      const payload = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: {
+            name: billingAddress.fullName,
+            email: result.data.cart.customerEmail,
+            phone: billingAddress.telephone,
+            address: {
+              line1: billingAddress.address1,
+              country: billingAddress.country,
+              state: billingAddress.province,
+              postal_code: billingAddress.postcode,
+              city: billingAddress.city
+            }
+          }
         }
-      },
-      invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a'
+      });
+
+      if (payload.error) {
+        setError(`Payment failed ${payload.error.message}`);
+        setProcessing(false);
+      } else {
+        setError(null);
+        setProcessing(false);
+        setSucceeded(true);
+        // Redirect to checkout success page
+        window.location.href = `${checkout.checkoutSuccessUrl}?orderId=${checkout.orderId}`;
       }
-    },
-    hidePostalCode: true
-  };
+    };
+
+    if (checkout.orderPlaced === true && clientSecret) {
+      setLoading(false);
+      if (processing !== true) {
+        setProcessing(true);
+        pay();
+      }
+    }
+  }, [checkout.orderPlaced, clientSecret, result]);
 
   const handleChange = async (event) => {
     // Listen for changes in the CardElement
@@ -88,60 +164,16 @@ export default function CheckoutForm() {
     }
   };
 
-  useEffect(() => {
-    const pay = async () => {
-      const payload = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
-          billing_details: {
-            name: billingAddress.full_name,
-            email: get(context, 'cart.customer_email'),
-            phone: billingAddress.telephone,
-            address: {
-              line1: billingAddress.address_1,
-              country: billingAddress.country,
-              state: billingAddress.province,
-              postal_code: billingAddress.postcode,
-              city: billingAddress.city
-            }
-          }
-        }
-      });
-
-      if (payload.error) {
-        setError(`Payment failed ${payload.error.message}`);
-        setProcessing(false);
-      } else {
-        setError(null);
-        setProcessing(false);
-        setSucceeded(true);
-        // Redirect to checkout success page
-        window.location.href = context.checkout.checkoutSuccessUrl;
-      }
-    };
-
-    if (checkout.orderPlaced === true && clientSecret) {
-      setLoading(false);
-      if (processing !== true) {
-        setProcessing(true);
-        pay();
-      }
-    }
-  }, [checkout.orderPlaced, clientSecret]);
-
   const testSuccess = () => {
-    // const cardElement = elements.getElement('card');
-    // cardElement.update({
-    //   value: {
-    //     cardNumber: '123123123123'
-    //   }
-    // });
     setShowTestCard('success');
   };
 
   const testFailure = () => {
     setShowTestCard('failure');
   };
+
+  if (result.error) return <p>Oh no... {error.message}</p>;
+
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <form id="payment-form" onSubmit={handleSubmit}>
