@@ -1,28 +1,28 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAppState } from '../../../../../lib/context/app';
+import Area from '../../../../../lib/components/Area';
 import Pagination from '../../../../../lib/components/grid/Pagination';
 import { useAlertContext } from '../../../../../lib/components/modal/Alert';
-import formData from '../../../../../lib/util/formData';
 import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
-import { Card } from '../../../components/admin/Card';
-import Area from '../../../../../lib/components/Area';
+import formData from '../../../../../lib/util/formData';
+import { Card } from '../../../../cms/components/admin/Card';
+import CategoryNameRow from './rows/CategoryName';
 import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
-import StatusColumnHeader from '../../../../../lib/components/grid/headers/Status';
-import BasicRow from '../../../../../lib/components/grid/rows/Basic';
-import StatusRow from '../../../../../lib/components/grid/rows/Status';
+import DropdownColumnHeader from '../../../../../lib/components/grid/headers/Dropdown';
+import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
 
-function Actions({ selectedIds = [] }) {
+function Actions({ selectedIds = [], deleteCategoriesUrl }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
-  const context = useAppState();
   const actions = [
     {
       name: 'Delete',
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} pages`,
+          heading: `Delete ${selectedIds.length} categories`,
           content: <div>Can&apos;t be undone</div>,
           primaryAction: {
             title: 'Cancel',
@@ -34,11 +34,10 @@ function Actions({ selectedIds = [] }) {
             onAction: async () => {
               setIsLoading(true);
               dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const deleteUrl = context.deleteCmsPagesUrl;
-              const response = await axios.post(deleteUrl, formData().append('ids', selectedIds).build());
+              const response = await axios.post(deleteCategoriesUrl, formData().append('ids', selectedIds).build());
               // setIsLoading(false);
               if (response.data.success === true) {
-                window.location.href = context.currentUrl;
+                location.reload();
                 // TODO: Should display a message and delay for 1 - 2 second
               }
             },
@@ -61,7 +60,7 @@ function Actions({ selectedIds = [] }) {
               {' '}
               selected
             </a>
-            {actions.map((action) => <a href="#" onClick={(e) => { e.preventDefault(); action.onAction(); }} className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"><span>{action.name}</span></a>)}
+            {actions.map((action, index) => <a key={index} href="#" onClick={(e) => { e.preventDefault(); action.onAction(); }} className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"><span>{action.name}</span></a>)}
           </div>
         </td>
       )}
@@ -73,7 +72,7 @@ Actions.propTypes = {
   selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
 };
 
-export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFilters = [] } }) {
+export default function CategoryGrid({ categories: { items: categories, total, currentFilters = [] }, deleteCategoriesUrl }) {
   const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page')['value'] : 1;
   const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit')['value'] : 20;
   const [selectedRows, setSelectedRows] = useState([]);
@@ -85,59 +84,64 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(pages.map((p) => p.cmsPageId));
-                else setSelectedRows([]);
+                if (e.target.checked) {
+                  setSelectedRows(categories.map((c) => c.categoryId));
+                } else {
+                  setSelectedRows([]);
+                }
               }}
               />
             </th>
             <Area
               className=""
-              id="pageGridHeader"
+              id="categoryGridHeader"
               noOuter
-              coreComponents={[
-                {
-                  component: { default: () => <BasicColumnHeader title='Name' id='name' currentFilter={currentFilters.find(f => f.key === 'name')} /> },
-                  sortOrder: 10
-                },
-                {
-                  component: { default: () => <StatusColumnHeader title='Status' id='status' currentFilter={currentFilters.find(f => f.key === 'status')} /> },
-                  sortOrder: 20
-                }
-              ]}
+              coreComponents={
+                [
+                  {
+                    component: { default: () => <BasicColumnHeader title="Product Name" id='name' currentFilters={currentFilters} /> },
+                    sortOrder: 10
+                  },
+                  {
+                    component: { default: () => <DropdownColumnHeader id='status' title='Status' currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
+                    sortOrder: 20
+                  }
+                ]
+              }
             />
           </tr>
         </thead>
         <tbody>
           <Actions
-            ids={pages.map((p) => p.cmsPageId)}
+            ids={categories.map((c) => c.categoryId)}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
+            deleteCategoriesUrl={deleteCategoriesUrl}
           />
-          {pages.map((p, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <tr key={i}>
+          {categories.map((c) => (
+            <tr key={c.categoryId}>
               <td style={{ width: '2rem' }}>
                 <Checkbox
-                  isChecked={selectedRows.includes(p.cmsPageId)}
+                  isChecked={selectedRows.includes(c.categoryId)}
                   onChange={(e) => {
-                    if (e.target.checked) setSelectedRows(selectedRows.concat([p.cmsPageId]));
-                    else setSelectedRows(selectedRows.filter((row) => row !== p.cmsPageId));
+                    if (e.target.checked) setSelectedRows(selectedRows.concat([c.categoryId]));
+                    else setSelectedRows(selectedRows.filter((r) => r !== c.categoryId));
                   }}
                 />
               </td>
               <Area
                 className=""
-                id="pageGridRow"
-                row={p}
+                id="categoryGridRow"
+                row={c}
                 noOuter
                 coreComponents={[
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='name' areaProps={areaProps} /> },
+                    component: { default: () => <CategoryNameRow id='name' name={c.name} url={c.editUrl} /> },
                     sortOrder: 10
                   },
                   {
                     component: { default: ({ areaProps }) => <StatusRow id='status' areaProps={areaProps} /> },
-                    sortOrder: 20
+                    sortOrder: 25
                   }
                 ]}
               />
@@ -145,8 +149,8 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
           ))}
         </tbody>
       </table>
-      {pages.length === 0
-        && <div className="flex w-full justify-center">There is no page to display</div>}
+      {categories.length === 0
+        && <div className="flex w-full justify-center">There is no category to display</div>}
       <Pagination total={total} limit={limit} page={page} />
     </Card>
   );
@@ -159,13 +163,12 @@ export const layout = {
 
 export const query = `
   query Query {
-    cmsPages (filters: getContextValue("filtersFromUrl")) {
+    categories (filters: getContextValue("filtersFromUrl")) {
       items {
-        cmsPageId
+        categoryId
         name
         status
-        content
-        layout
+        editUrl
       }
       total
       currentFilters {
@@ -174,5 +177,6 @@ export const query = `
         value
       }
     }
+    deleteCategoriesUrl: url(routeId: "categoryBulkDelete")
   }
 `;

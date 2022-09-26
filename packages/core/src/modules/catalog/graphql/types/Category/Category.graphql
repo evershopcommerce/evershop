@@ -1,16 +1,13 @@
 type Category {
   categoryId: ID!
   name: String!
+  status: Int!
   description: String
   image: String
   products(filters: [FilterInput]): ProductCollection
   url: String
   editUrl: String
   availableFilters: [FilterAttribute]
-}
-
-type CategoryCollection {
-  categories: [Category]
 }
 
 input FilterInput {
@@ -37,6 +34,13 @@ type FilterAttribute {
   options: [FilterOption]
 }
 
+type CategoryCollection {
+  items: [Category]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
 type ProductCollection {
   items: [Product]
   currentPage: Int!
@@ -45,6 +49,7 @@ type ProductCollection {
 }
 
 extend type Query {
-  categories: CategoryCollection
+  categories(filters: [FilterInput]): CategoryCollection
   category(id: Int!): Category
+  products(filters: [FilterInput]): ProductCollection
 }

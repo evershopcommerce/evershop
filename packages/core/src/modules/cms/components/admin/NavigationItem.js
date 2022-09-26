@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import './NavigationItem.scss';
 
-export default function MenuItem({ Icon, url, title }) {
+export default function NavigationItem({ Icon, url, title }) {
   const [isActive, setIsActive] = React.useState(false);
   React.useEffect(() => {
     const currentUrl = window.location.href;
@@ -31,7 +31,7 @@ export default function MenuItem({ Icon, url, title }) {
   );
 }
 
-MenuItem.propTypes = {
+NavigationItem.propTypes = {
   Icon: PropTypes.elementType.isRequired,
   title: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired

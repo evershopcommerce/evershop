@@ -14,3 +14,8 @@ export default function DashboardLayout() {
     </div>
   );
 }
+
+export const layout = {
+  areaId: 'content',
+  sortOrder: 10
+}

@@ -1,0 +1,25 @@
+type CmsPage {
+  cmsPageId: Int
+  layout: String!
+  status: Int!
+  urlKey: String!
+  name: String!
+  content: String!
+  metaTitle: String
+  metaKeywords: String
+  metaDescription: String
+  url: String!
+  editUrl: String!
+}
+
+type CmsPageCollection {
+  items: [CmsPage]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  cmsPage(id: Int!): CmsPage,
+  cmsPages(filters: [FilterInput]): CmsPageCollection
+}

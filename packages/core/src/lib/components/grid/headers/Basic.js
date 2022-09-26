@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '../../../context/app';
-import { get } from '../../../util/get';
 import { Input } from '../../form/fields/Input';
 
-export default function BasicColumnHeader({ title, id }) {
+export default function BasicColumnHeader({ title, id, currentFilters = [] }) {
   const filterInput = React.useRef(null);
-  const context = useAppState();
 
   const onKeyPress = (e) => {
     const url = new URL(document.location);
@@ -18,7 +15,8 @@ export default function BasicColumnHeader({ title, id }) {
   };
 
   React.useEffect(() => {
-    filterInput.current.value = get(context, `grid.currentFilter.${id}`, '');
+    const filter = currentFilters.find((fillter) => fillter.key === id) || { value: '' };
+    filterInput.current.value = filter.value;
   }, []);
 
   return (

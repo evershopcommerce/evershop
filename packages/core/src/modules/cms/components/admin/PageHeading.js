@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../lib/components/Area';
-import { useAppState } from '../../../../lib/context/app';
-import { get } from '../../../../lib/util/get';
 import './PageHeading.scss';
 
 function BreadcrumbIcon({ backUrl }) {
@@ -30,9 +28,7 @@ Heading.propTypes = {
   heading: PropTypes.string.isRequired
 };
 
-function PageHeading({ backUrl }) {
-  const context = useAppState();
-  const heading = get(context, 'page.heading');
+function PageHeading({ backUrl, heading }) {
   if (!heading) { return null; }
 
   return (

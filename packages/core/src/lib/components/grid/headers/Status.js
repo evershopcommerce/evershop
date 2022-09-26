@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '../../../context/app';
-import { get } from '../../../util/get';
 import { Select } from '../../form/fields/Select';
 
-export default function StatusColumnHeader({ title, id }) {
+export default function StatusColumnHeader({ title, id, currentFilter = {} }) {
   const [current, setCurrent] = React.useState('');
-  const context = useAppState();
 
   const onChange = (e) => {
     const url = new URL(document.location);
@@ -16,7 +13,7 @@ export default function StatusColumnHeader({ title, id }) {
   };
 
   React.useEffect(() => {
-    setCurrent(get(context, `grid.currentFilter.${id}`, 'all'));
+    setCurrent(currentFilter.value || 'all');
   }, []);
 
   return (

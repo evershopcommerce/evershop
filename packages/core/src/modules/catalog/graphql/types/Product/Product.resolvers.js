@@ -19,6 +19,9 @@ module.exports = {
     },
     url: (product, _, { pool }) => {
       return buildUrl('productView', { url_key: product.urlKey });
+    },
+    editUrl: (product, _, { pool }) => {
+      return buildUrl('productEdit', { id: product.productId });
     }
   },
   Query: {

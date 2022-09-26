@@ -1,2 +1,2 @@
 GET
-/pages/edit/:id(\\d+)
+/pages/new

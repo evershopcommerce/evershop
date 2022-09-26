@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '../../../context/app';
-import { get } from '../../../util/get';
 import { Select } from '../../form/fields/Select';
 
-export default function DropdownColumnHeader({ title, id, options = [] }) {
+export default function DropdownColumnHeader({ title, id, options = [], currentFilters = [] }) {
   const [current, setCurrent] = React.useState('');
-  const context = useAppState();
 
   const onChange = (e) => {
     const url = new URL(document.location);
@@ -16,7 +13,8 @@ export default function DropdownColumnHeader({ title, id, options = [] }) {
   };
 
   React.useEffect(() => {
-    setCurrent(get(context, `grid.currentFilter.${id}`, 'all'));
+    const filter = currentFilters.find((fillter) => fillter.key === id) || { value: 'all' };
+    setCurrent(filter.value || 'all');
   }, []);
 
   return (

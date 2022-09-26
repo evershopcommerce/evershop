@@ -9,7 +9,6 @@ module.exports = exports;
 exports.getCustomerCart = async () => {
   const tokenPayload = get(context, 'tokenPayload');
   const { customerId, customerEmail, customerGroupId, customerFullName, sid } = tokenPayload;
-  console.log(sid)
   if (!customerId && !sid) {
     return null;
   };

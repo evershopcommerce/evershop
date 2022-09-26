@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function BasicColumnHeader({ title }) {
+export default function DummyColumnHeader({ title }) {
   return (
     <th className="column">
       <div className="table-header id-header">
@@ -11,6 +11,6 @@ export default function BasicColumnHeader({ title }) {
   );
 }
 
-BasicColumnHeader.propTypes = {
+DummyColumnHeader.propTypes = {
   title: PropTypes.string.isRequired
 };
