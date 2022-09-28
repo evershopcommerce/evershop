@@ -6,6 +6,10 @@ type Product {
   weight: Float
   taxClass: Int
   description: String
+  urlKey: String
+  metaTitle: String
+  metaDescription: String
+  metaKeywords: String
   variantGroupId: ID
   visibility: Int
   groupId: ID

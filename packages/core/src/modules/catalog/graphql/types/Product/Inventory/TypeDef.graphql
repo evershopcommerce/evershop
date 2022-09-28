@@ -2,7 +2,8 @@ type Inventory {
   id: ID!
   qty: Int!
   isInStock: Boolean!
-  manageStock: Boolean!
+  stockAvailability: Int!
+  manageStock: Int!
 }
 
 extend type Product {

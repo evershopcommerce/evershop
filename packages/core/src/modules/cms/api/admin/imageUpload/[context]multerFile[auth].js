@@ -28,7 +28,7 @@ const upload = multer({ storage, fileFilter });
 module.exports = (request, response, stack, next) => {
   const path = request.params[0] || '';
   // eslint-disable-next-line no-useless-escape
-  if (path !== '' && !/^[a-z0-9\/]+$/i.test(path)) {
+  if (!path || !/^[a-z0-9\/]+$/i.test(path)) {
     response.json({ success: false, message: 'Invalid path' });
   } else {
     upload.array('images', 20)(request, response, next);

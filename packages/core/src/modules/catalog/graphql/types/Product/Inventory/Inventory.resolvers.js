@@ -4,6 +4,7 @@ module.exports = {
   Product: {
     inventory: async (product, _, { pool }) => {
       return {
+        ...product,
         qty: parseInt(product.qty, 10),
         isInStock: (parseInt(product.qty, 10) > 0 && parseInt(product.stockAvailability) === 1) || parseInt(product.manageStock) === 0
       }

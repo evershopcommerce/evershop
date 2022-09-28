@@ -10,21 +10,15 @@ module.exports = async (request, response, stack, next) => {
       promises.push(stack[id]);
     }
   });
+
   const connection = await stack.getConnection;
   const results = await Promise.allSettled(promises);
   if (results.findIndex((r) => r.status === 'rejected') === -1) {
     await commit(connection);
-    // Store success message to session
-    request.session.notifications = request.session.notifications || [];
-    request.session.notifications.push({
-      type: 'success',
-      message: request.body.attribute_id ? 'Attribute was updated successfully' : 'Attribute was created successfully'
-    });
-    request.session.save();
     response.json({
-      data: { redirectUrl: buildUrl('attributeGrid') },
+      data: { redirectUrl: buildUrl('categoryGrid') },
       success: true,
-      message: request.body.attribute_id ? 'Attribute was updated successfully' : 'Attribute was created successfully'
+      message: request.body.category_id ? 'Category was updated successfully' : 'Category was created successfully'
     });
   } else {
     await rollback(connection);

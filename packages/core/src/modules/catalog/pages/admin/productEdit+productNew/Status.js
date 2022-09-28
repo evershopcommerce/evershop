@@ -1,12 +1,8 @@
 import React from 'react';
-import { useAppState } from '../../../../../../lib/context/app';
-import { get } from '../../../../../../lib/util/get';
-import { Field } from '../../../../../../lib/components/form/Field';
-import { Card } from '../../../../../cms/views/admin/Card';
+import { Field } from '../../../../../lib/components/form/Field';
+import { Card } from '../../../../cms/components/admin/Card';
 
-export default function Status() {
-  const context = useAppState();
-
+export default function Status({ product }) {
   return (
     <Card
       title="Product status"
@@ -16,7 +12,7 @@ export default function Status() {
         <Field
           id="status"
           name="status"
-          value={get(context, 'product.status', '')}
+          value={product?.status}
           label="Status"
           options={[{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }]}
           type="radio"
@@ -26,7 +22,7 @@ export default function Status() {
         <Field
           id="visibility"
           name="visibility"
-          value={get(context, 'product.visibility', '')}
+          value={product?.visibility}
           label="Visibility"
           options={[{ value: 0, text: 'Not visible' }, { value: 1, text: 'Visible' }]}
           type="radio"
@@ -35,3 +31,18 @@ export default function Status() {
     </Card>
   );
 }
+
+
+export const layout = {
+  areaId: 'rightSide',
+  sortOrder: 10
+}
+
+export const query = `
+  query Query {
+    product(id: getContextValue("productId")) {
+      status
+      visibility
+    }
+  }
+`;

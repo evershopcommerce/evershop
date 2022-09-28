@@ -5,17 +5,21 @@ const { camelCase } = require('../../../../../lib/util/camelCase');
 module.exports = {
   Product: {
     categories: async (product, _, { pool }) => {
-      return await select()
-        .from('category')
-        .where(
-          'category_id',
-          'IN',
-          (await select('category_id')
-            .from('product_category')
-            .where('product_id', product.productId)
-            .execute(pool)).map((row) => row.category_id)
-        )
-        .execute(pool);
+      const query = select()
+        .from('category');
+      query.leftJoin('category_description', 'des')
+        .on('des.`category_description_category_id`', '=', 'category.`category_id`')
+      return (
+        await query
+          .where(
+            'category_id',
+            'IN',
+            (await select('category_id')
+              .from('product_category')
+              .where('product_id', '=', product.productId)
+              .execute(pool)).map((row) => row.category_id)
+          )
+          .execute(pool)).map((row) => camelCase(row));
     },
     url: (product, _, { pool }) => {
       return buildUrl('productView', { url_key: product.urlKey });

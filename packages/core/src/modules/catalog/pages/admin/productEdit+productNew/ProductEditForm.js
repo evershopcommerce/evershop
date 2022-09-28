@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import Area from '../../../../../../lib/components/Area';
-import Button from '../../../../../../lib/components/form/Button';
-import { Form } from '../../../../../../lib/components/form/Form';
-import { get } from '../../../../../../lib/util/get';
+import Area from '../../../../../lib/components/Area';
+import Button from '../../../../../lib/components/form/Button';
+import { Form } from '../../../../../lib/components/form/Form';
+import { get } from '../../../../../lib/util/get';
 
 export default function ProductCreateForm({
-  method, action, gridUrl, id
+  action, gridUrl
 }) {
+  const id = 'productEditForm';
   return (
     <Form
-      method={method}
+      method={'POST'}
       action={action}
       submitBtn={false}
       onSuccess={(response) => {
@@ -56,7 +57,17 @@ export default function ProductCreateForm({
 
 ProductCreateForm.propTypes = {
   action: PropTypes.string.isRequired,
-  gridUrl: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  method: PropTypes.string.isRequired
+  gridUrl: PropTypes.string.isRequired
 };
+
+export const layout = {
+  areaId: 'content',
+  sortOrder: 10
+}
+
+export const query = `
+  query Query {
+    action: url(routeId: "productSavePost")
+    gridUrl: url(routeId: "productGrid")
+  }
+`;

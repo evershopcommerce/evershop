@@ -3,11 +3,17 @@ const { buildUrl } = require("../../../../../lib/router/buildUrl")
 module.exports = {
   Query: {
     url: (root, { routeId, params = [] }, context) => {
-      const queries = {};
+      const queries = [];
       params.forEach((param) => {
-        queries[param.key] = param.value;
+        // Check if the key is a string number
+        if (param.key.match(/^[0-9]+$/)) {
+          queries.push(param.value);
+        } else {
+          queries[param.key] = param.value;
+        }
       });
-
+      if (routeId === "imageUpload")
+        console.log('queries', queries);
       return buildUrl(routeId, queries);
     }
   }

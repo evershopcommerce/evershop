@@ -4,9 +4,10 @@ const config = require('config');
 const path = require('path');
 const { get } = require('../../../../../lib/util/get');
 const { CONSTANTS } = require('../../../../../lib/helpers');
+const { existsSync } = require('fs');
 
 module.exports = async (request, response, stack) => {
-  const gallery = get(request, 'body.productMainImages', []);
+  let gallery = get(request, 'body.productMainImages', []);
 
   // Wait for product saving to be completed
   const promises = [stack.createProduct, stack.updateProduct];
@@ -20,6 +21,10 @@ module.exports = async (request, response, stack) => {
     await del('product_image')
       .where('product_image_product_id', '=', productId)
       .execute(connection);
+    gallery = gallery.filter((image) => {
+      const mediaPath = path.join(CONSTANTS.MEDIAPATH, image);
+      return image && existsSync(mediaPath);
+    });
 
     if (gallery.length > 0) {
       const mainImage = gallery.shift();

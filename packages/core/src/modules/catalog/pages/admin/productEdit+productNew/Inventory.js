@@ -1,11 +1,8 @@
 import React from 'react';
-import { useAppState } from '../../../../../../lib/context/app';
-import { get } from '../../../../../../lib/util/get';
-import { Field } from '../../../../../../lib/components/form/Field';
-import { Card } from '../../../../../cms/views/admin/Card';
+import { Field } from '../../../../../lib/components/form/Field';
+import { Card } from '../../../../cms/components/admin/Card';
 
-export default function Inventory() {
-  const context = useAppState();
+export default function Inventory({ product: { inventory } }) {
   return (
     <Card
       title="Inventory"
@@ -15,7 +12,7 @@ export default function Inventory() {
         <Field
           id="manage_stock"
           name="manage_stock"
-          value={get(context, 'product.manage_stock', '')}
+          value={inventory.manageStock}
           label="Manage stock?"
           options={[{ value: 0, text: 'No' }, { value: 1, text: 'Yes' }]}
           type="radio"
@@ -25,7 +22,7 @@ export default function Inventory() {
         <Field
           id="stock_availability"
           name="stock_availability"
-          value={get(context, 'product.stock_availability', '')}
+          value={inventory.stockAvailability}
           label="Stock availability"
           options={[{ value: 0, text: 'No' }, { value: 1, text: 'Yes' }]}
           type="radio"
@@ -35,7 +32,7 @@ export default function Inventory() {
         <Field
           id="qty"
           name="qty"
-          value={get(context, 'product.qty')}
+          value={inventory.qty}
           placeholder="Quantity"
           label="Quantity"
           type="text"
@@ -45,3 +42,20 @@ export default function Inventory() {
     </Card>
   );
 }
+
+export const layout = {
+  areaId: 'rightSide',
+  sortOrder: 15
+}
+
+export const query = `
+  query Query {
+    product(id: getContextValue("productId")) {
+      inventory {
+        qty
+        stockAvailability
+        manageStock
+      }
+    }
+  }
+`;

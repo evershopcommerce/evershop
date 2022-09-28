@@ -103,7 +103,7 @@ module.exports = {
           'IN',
           (await select('attribute_id')
             .from('attribute_group_link')
-            .where('group_id', '', group.attributeGroupId)
+            .where('group_id', '=', group.attributeGroupId)
             .execute(pool)).map(a => a.attribute_id)
         )
         .execute(pool);
@@ -129,7 +129,7 @@ module.exports = {
     options: async (attribute, _, { pool }) => {
       const results = await select()
         .from('attribute_option')
-        .where('attribute_id', attribute.attributeId)
+        .where('attribute_id', '=', attribute.attributeId)
         .execute(pool);
       return results.map((result) => camelCase(result))
     },

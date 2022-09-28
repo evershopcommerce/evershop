@@ -14,17 +14,10 @@ module.exports = async (request, response, stack, next) => {
   const results = await Promise.allSettled(promises);
   if (results.findIndex((r) => r.status === 'rejected') === -1) {
     await commit(connection);
-    // Store success message to session
-    request.session.notifications = request.session.notifications || [];
-    request.session.notifications.push({
-      type: 'success',
-      message: request.body.product_id ? 'Product was updated successfully' : 'Product was created successfully'
-    });
-    request.session.save();
     response.json({
-      data: { redirectUrl: buildUrl('productGrid') },
+      data: { redirectUrl: buildUrl('attributeGrid') },
       success: true,
-      message: request.body.product_id ? 'Product was updated successfully' : 'Product was created successfully'
+      message: request.body.attribute_id ? 'Attribute was updated successfully' : 'Attribute was created successfully'
     });
   } else {
     await rollback(connection);

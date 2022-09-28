@@ -1,6 +1,8 @@
 type Image {
   id: ID!
+  uniqueId: String!
   alt: String
+  path: String
   listing: String
   single: String
   thumb: String

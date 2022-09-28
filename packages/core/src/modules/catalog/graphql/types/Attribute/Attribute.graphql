@@ -6,7 +6,7 @@ type AttributeGroup {
 
 type AttributeOption {
   attributeOptionId: ID!
-  optionText: Int!
+  optionText: String!
 }
 
 type Attribute {

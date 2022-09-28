@@ -1,6 +1,8 @@
 const { setContextValue } = require("../../../graphql/services/buildContext");
 
 module.exports = (request, response) => {
+  request.locals = request.locals || {};
+  request.locals.context = {};
   response.context = {};
   /** Some default context value */
   setContextValue('homeUrl', `${request.protocol}://${request.get('host')}`);

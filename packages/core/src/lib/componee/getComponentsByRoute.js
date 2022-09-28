@@ -1,5 +1,5 @@
 const path = require('path');
-const { existsSync } = require('fs');
+const { existsSync, readdirSync } = require('fs');
 const { getEnabledExtensions } = require('../../../bin/extension');
 const { getCoreModules } = require('../../../bin/lib/loadModules');
 const { scanForComponents } = require('./scanForComponents');
@@ -12,20 +12,21 @@ exports.getComponentsByRoute = function getComponentsByRoute(route) {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
   modules.forEach((module) => {
     // Scan for 'all' components
-    const allPath = route.isAdmin ?
-      path.resolve(module.path, 'pages/admin', 'all') :
-      path.resolve(module.path, 'pages/site', 'all');
-    if (existsSync(allPath)) {
-      components = [...components, ...scanForComponents(allPath)];
-    }
+    const rootPath = route.isAdmin ? path.resolve(module.path, 'pages/admin') : path.resolve(module.path, 'pages/site');
+    // Get all folders in the rootPath
+    const pages = existsSync(rootPath) ? readdirSync(rootPath, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name) : [];
 
-    // Scan for routed components
-    const pagePath = route.isAdmin ?
-      path.resolve(module.path, 'pages/admin', route.id) :
-      path.resolve(module.path, 'pages/site', route.id);
-    if (existsSync(pagePath)) {
-      components = [...components, ...scanForComponents(pagePath)];
-    }
+    pages.forEach((page) => {
+      if (page === 'all' || page === route.id) {
+        components = [...components, ...scanForComponents(path.resolve(rootPath, page))];
+      }
+      // Check if page include `+ page` or `page+` in the name
+      if (page.includes('+') && page.includes(route.id)) {
+        components = [...components, ...scanForComponents(path.resolve(rootPath, page))];
+      }
+    });
   });
 
   return components;

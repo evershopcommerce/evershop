@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '../../../../../../lib/components/Area';
-import { useAppState } from '../../../../../../lib/context/app';
-import { get } from '../../../../../../lib/util/get';
-import { Field } from '../../../../../../lib/components/form/Field';
-import { Card } from '../../../../../cms/views/admin/Card';
-import { TextArea } from '../../../../../../lib/components/form/fields/Textarea';
+import Area from '../../../../../lib/components/Area';
+import { Field } from '../../../../../lib/components/form/Field';
+import { TextArea } from '../../../../../lib/components/form/fields/Textarea';
+import { Card } from '../../../../cms/components/admin/Card';
 
 function SKUPriceWeight({ sku, price, weight }) {
   return (
@@ -18,6 +16,7 @@ function SKUPriceWeight({ sku, price, weight }) {
           placeholder="SKU"
           label="SKU"
           type="text"
+          validationRules={['notEmpty']}
         />
       </div>
       <div>
@@ -28,6 +27,7 @@ function SKUPriceWeight({ sku, price, weight }) {
           placeholder="Price"
           label="Price"
           type="text"
+          validationRules={['notEmpty']}
         />
       </div>
       <div>
@@ -57,17 +57,15 @@ SKUPriceWeight.defaultProps = {
 };
 
 export default function General({
-  browserApi, deleteApi, uploadApi, folderCreateApi
+  product, browserApi, deleteApi, uploadApi, folderCreateApi
 }) {
-  const context = useAppState();
-
   return (
     <Card
       title="General"
     >
       <Card.Session>
         <Area
-          id="product-edit-general"
+          id="productEditGeneral"
           coreComponents={[
             {
               component: { default: Field },
@@ -75,7 +73,7 @@ export default function General({
                 id: 'name',
                 name: 'name',
                 label: 'Name',
-                value: get(context, 'product.name'),
+                value: product.name,
                 validationRules: ['notEmpty'],
                 type: 'text',
                 placeholder: 'Name'
@@ -88,7 +86,7 @@ export default function General({
               props: {
                 id: 'product_id',
                 name: 'product_id',
-                value: get(context, 'product.product_id'),
+                value: product.productId,
                 type: 'hidden'
               },
               sortOrder: 10,
@@ -97,9 +95,9 @@ export default function General({
             {
               component: { default: SKUPriceWeight },
               props: {
-                sku: get(context, 'product.sku'),
-                price: get(context, 'product.price'),
-                weight: get(context, 'product.weight')
+                sku: product.sku,
+                price: product.price.regular.value,
+                weight: product.weight
               },
               sortOrder: 20,
               id: 'SKUPriceWeight'
@@ -110,7 +108,7 @@ export default function General({
                 id: 'description',
                 name: 'description',
                 label: 'Description',
-                value: get(context, 'product.description'),
+                value: product.description,
                 browserApi,
                 deleteApi,
                 uploadApi,
@@ -132,3 +130,29 @@ General.propTypes = {
   folderCreateApi: PropTypes.string.isRequired,
   uploadApi: PropTypes.string.isRequired
 };
+
+export const layout = {
+  areaId: 'leftSide',
+  sortOrder: 10
+}
+
+export const query = `
+  query Query {
+    product(id: getContextValue("productId")) {
+      productId
+      name
+      description
+      sku
+      price {
+        regular {
+          value
+        }
+      }
+      weight
+    }
+    browserApi: url(routeId: "fileBrowser", params: [{key: "0", value: ""}])
+    deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
+    uploadApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
+    folderCreateApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
+  }
+`;
