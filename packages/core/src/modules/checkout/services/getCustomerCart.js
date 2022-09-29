@@ -1,14 +1,11 @@
 const { select, commit, update, del } = require("@evershop/mysql-query-builder");
 const { pool, getConnection } = require("../../../lib/mysql/connection");
-const { get } = require("../../../lib/util/get");
-const { context } = require("../../graphql/services/buildContext");
 const { Cart } = require("./cart/cart");
 
 module.exports = exports;
 
-exports.getCustomerCart = async () => {
-  const tokenPayload = get(context, 'tokenPayload');
-  const { customerId, customerEmail, customerGroupId, customerFullName, sid } = tokenPayload;
+exports.getCustomerCart = async (customer) => {
+  const { customerId, customerEmail, customerGroupId, customerFullName, sid } = customer;
   if (!customerId && !sid) {
     return null;
   };

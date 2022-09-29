@@ -1,16 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '../../../../../../lib/components/Area';
-import { useAppState } from '../../../../../../lib/context/app';
-import { get } from '../../../../../../lib/util/get';
-import { Field } from '../../../../../../lib/components/form/Field';
-import { Card } from '../../../../../cms/views/admin/Card';
-import { TextArea } from '../../../../../../lib/components/form/fields/Textarea';
+import Area from '../../../../../lib/components/Area';
+import { get } from '../../../../../lib/util/get';
+import { Field } from '../../../../../lib/components/form/Field';
+import { TextArea } from '../../../../../lib/components/form/fields/Textarea';
+import { Card } from '../../../../cms/components/admin/Card';
 
 export default function General({
-  browserApi, deleteApi, uploadApi, folderCreateApi
+  category, browserApi, deleteApi, uploadApi, folderCreateApi
 }) {
-  const context = useAppState();
   const fields = [
     {
       component: { default: Field },
@@ -27,12 +25,11 @@ export default function General({
     {
       component: { default: Field },
       props: {
-        id: 'category_id',
+        id: 'categoryId',
         name: 'category_id',
         type: 'hidden'
       },
-      sortOrder: 10,
-      id: 'category_id'
+      sortOrder: 10
     },
     {
       component: { default: Field },
@@ -43,8 +40,7 @@ export default function General({
         label: 'Status',
         options: [{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }]
       },
-      sortOrder: 30,
-      id: 'status'
+      sortOrder: 30
     },
     {
       component: { default: TextArea },
@@ -57,12 +53,11 @@ export default function General({
         uploadApi,
         folderCreateApi
       },
-      sortOrder: 70,
-      id: 'description'
+      sortOrder: 70
     }
   ].filter((f) => {
     // eslint-disable-next-line no-param-reassign
-    if (get(context, `category.${f.props.name}`) !== undefined) { f.props.value = get(context, `category.${f.props.name}`); }
+    if (get(category, `${f.props.id}`) !== undefined) { f.props.value = get(category, `${f.props.id}`); }
     return f;
   });
 
@@ -71,7 +66,7 @@ export default function General({
       title="General"
     >
       <Card.Session>
-        <Area id="category-edit-general" coreComponents={fields} />
+        <Area id="categoryEditGeneral" coreComponents={fields} />
       </Card.Session>
     </Card>
   );
@@ -83,3 +78,23 @@ General.propTypes = {
   folderCreateApi: PropTypes.string.isRequired,
   uploadApi: PropTypes.string.isRequired
 };
+
+export const layout = {
+  areaId: 'leftSide',
+  sortOrder: 10
+}
+
+export const query = `
+  query Query {
+    category(id: getContextValue("categoryId", null)) {
+      categoryId
+      name
+      description
+      status
+    }
+    browserApi: url(routeId: "fileBrowser", params: [{key: "0", value: ""}])
+    deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
+    uploadApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
+    folderCreateApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
+  }
+`;

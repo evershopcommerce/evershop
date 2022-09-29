@@ -1,11 +1,11 @@
 const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { getContextValue, setContextValue } = require('../../../../graphql/services/buildContext');
+const { getContextValue, setContextValue } = require('../../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, stack, next) => {
   const id = request.query.orderId;
-  const { customerId, sid } = getContextValue('tokenPayload', {});
+  const { customerId, sid } = getContextValue(request, 'tokenPayload', {});
   const query = select()
     .from('order');
   query.where('order_id', '=', id)
@@ -15,8 +15,8 @@ module.exports = async (request, response, stack, next) => {
   if (!order) {
     response.redirect(302, buildUrl('homepage'));
   } else {
-    setContextValue('orderId', parseInt(id));
-    setContextValue('pageInfo', {
+    setContextValue(request, 'orderId', parseInt(id));
+    setContextValue(request, 'pageInfo', {
       title: 'Checkout success',
       description: 'Checkout success'
     });

@@ -3,8 +3,8 @@ const { getCustomerCart } = require("../../../services/getCustomerCart");
 
 module.exports = {
   Query: {
-    checkout: async () => {
-      const cart = await getCustomerCart();
+    checkout: async (_, { }, { tokenPayload }) => {
+      const cart = await getCustomerCart(tokenPayload);
       if (!cart) {
         return null;
       } else {

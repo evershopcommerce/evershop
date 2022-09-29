@@ -1,6 +1,6 @@
 const path = require('path');
 const JSON5 = require('json5');
-const { getContextValue } = require('../../services/buildContext');
+const { getContextValue } = require('../../services/contextHelper');
 
 module.exports = (request, response) => {
   // Get the 'query.graphql' from webpack compiler
@@ -21,8 +21,9 @@ module.exports = (request, response) => {
   query = query.replace(regex, (match, p1) => {
     const base64 = p1;
     const decoded = Buffer.from(base64, 'base64').toString('ascii');
-    const params = JSON.parse(decoded);
-    let value = getContextValue(params.key, params.defaultValue);
+    // const params = JSON5.parse(decoded);
+    // console.log('params', params)
+    let value = eval(`getContextValue(request, ${decoded})`);
 
     // JSON sringify without adding double quotes to the property name
     value = JSON5.stringify(value, { quote: '"' });

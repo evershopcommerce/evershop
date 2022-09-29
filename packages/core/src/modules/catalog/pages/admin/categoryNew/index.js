@@ -2,7 +2,7 @@ const { setContextValue } = require("../../../../graphql/services/contextHelper"
 
 module.exports = (request, response) => {
   setContextValue(request, 'pageInfo', {
-    title: "Dashboard",
-    description: "dashboard"
-  })
+    title: 'Create a new category',
+    description: 'Create a new category'
+  });
 }

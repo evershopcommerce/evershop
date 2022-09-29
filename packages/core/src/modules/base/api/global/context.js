@@ -1,27 +1,31 @@
-const { setContextValue } = require("../../../graphql/services/buildContext");
+const { pool } = require("../../../../lib/mysql/connection");
+const { setContextValue, hasContextValue } = require("../../../graphql/services/contextHelper");
 
 module.exports = (request, response) => {
   response.context = {};
   /** Some default context value */
-  setContextValue('homeUrl', `${request.protocol}://${request.get('host')}`);
-  setContextValue('currentUrl', `${request.protocol}://${request.get('host')}${request.originalUrl}`);
-  setContextValue('baseUrl', request.baseUrl)
-  setContextValue('body', request.body)
-  setContextValue('cookies', request.cookies)
-  setContextValue('fresh', request.fresh)
-  setContextValue('hostname', request.hostname)
-  setContextValue('ip', request.ip)
-  setContextValue('ips', request.ips)
-  setContextValue('method', request.method)
-  setContextValue('originalUrl', request.originalUrl)
-  setContextValue('params', request.params)
-  setContextValue('path', request.path)
-  setContextValue('protocol', request.protocol)
-  setContextValue('query', request.query)
-  setContextValue('route', request.route)
-  setContextValue('secure', request.secure)
-  setContextValue('signedCookies', request.signedCookies)
-  setContextValue('stale', request.stale)
-  setContextValue('subdomains', request.subdomains)
-  setContextValue('xhr', request.xhr)
+  if (!hasContextValue(request, 'pool')) {
+    setContextValue(request.app, 'pool', pool);
+  }
+  setContextValue(request.app, 'homeUrl', `${request.protocol}://${request.get('host')}`);
+  setContextValue(request, 'currentUrl', `${request.protocol}://${request.get('host')}${request.originalUrl}`);
+  setContextValue(request, 'baseUrl', request.baseUrl)
+  setContextValue(request, 'body', request.body)
+  setContextValue(request, 'cookies', request.cookies)
+  setContextValue(request, 'fresh', request.fresh)
+  setContextValue(request.app, 'hostname', request.hostname)
+  setContextValue(request, 'ip', request.ip)
+  setContextValue(request, 'ips', request.ips)
+  setContextValue(request, 'method', request.method)
+  setContextValue(request, 'originalUrl', request.originalUrl)
+  setContextValue(request, 'params', request.params)
+  setContextValue(request, 'path', request.path)
+  setContextValue(request, 'protocol', request.protocol)
+  setContextValue(request, 'query', request.query)
+  setContextValue(request, 'route', request.route)
+  setContextValue(request, 'secure', request.secure)
+  setContextValue(request, 'signedCookies', request.signedCookies)
+  setContextValue(request, 'stale', request.stale)
+  setContextValue(request, 'subdomains', request.subdomains)
+  setContextValue(request, 'xhr', request.xhr)
 };

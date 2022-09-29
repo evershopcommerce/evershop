@@ -35,7 +35,11 @@ module.exports = {
       query.leftJoin('product_description').on('product_description.`product_description_product_id`', '=', 'product.`product_id`')
       query.where('product_id', '=', id)
       const result = await query.load(pool);
-      return camelCase(result);
+      if (!result) {
+        return null
+      } else {
+        return camelCase(result);
+      }
     }
   }
 }

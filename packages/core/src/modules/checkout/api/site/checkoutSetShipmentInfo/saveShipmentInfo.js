@@ -1,12 +1,16 @@
 const { insert, select } = require('@evershop/mysql-query-builder');
+const { get } = require('config');
 const { pool } = require('../../../../../lib/mysql/connection');
+const { getContext } = require('../../../../graphql/services/contextHelper');
 const { addressValidator } = require('../../../services/addressValidator');
 const { getCustomerCart } = require('../../../services/getCustomerCart');
 const { saveCart } = require('../../../services/saveCart');
 
 module.exports = async (request, response, stack, next) => {
   try {
-    const cart = await getCustomerCart();
+    const context = getContext(request);
+    const customer = get(context, 'tokenPayload');
+    const cart = await getCustomerCart(customer);
 
     // Validate address
     if (!addressValidator(request.body)) {

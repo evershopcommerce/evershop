@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { setContextValue } = require('../../../graphql/services/buildContext');
+const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { getTokenCookieId } = require('../../services/getTokenCookieId');
 const { getTokenSecret } = require('../../services/getTokenSecret');
 
@@ -19,7 +19,7 @@ module.exports = (request, response, stack, next) => {
           message: 'Failed to authenticate token.',
         });
       } else {
-        setContextValue('tokenPayload', decoded);
+        setContextValue(request, 'tokenPayload', decoded);
         next();
       }
     });

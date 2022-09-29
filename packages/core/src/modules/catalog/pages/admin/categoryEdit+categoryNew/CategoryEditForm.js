@@ -1,18 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import Area from '../../../../../../lib/components/Area';
-import Button from '../../../../../../lib/components/form/Button';
-import { Form } from '../../../../../../lib/components/form/Form';
-import { get } from '../../../../../../lib/util/get';
+import Area from '../../../../../lib/components/Area';
+import Button from '../../../../../lib/components/form/Button';
+import { Form } from '../../../../../lib/components/form/Form';
+import { get } from '../../../../../lib/util/get';
 
 export default function CategoryEditForm({
-  action, method, gridUrl, id
+  action, gridUrl
 }) {
+  const id = "categoryEditForm";
   return (
     <Form
       action={action}
-      method={method}
+      method={"POST"}
       onError={() => {
         toast.error('Something wrong. Please reload the page!');
       }}
@@ -56,7 +57,17 @@ export default function CategoryEditForm({
 
 CategoryEditForm.propTypes = {
   action: PropTypes.string.isRequired,
-  gridUrl: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  method: PropTypes.string.isRequired
+  gridUrl: PropTypes.string.isRequired
 };
+
+export const layout = {
+  areaId: 'content',
+  sortOrder: 10
+}
+
+export const query = `
+  query Query {
+    action: url(routeId: "categorySavePost")
+    gridUrl: url(routeId: "categoryGrid")
+  }
+`;

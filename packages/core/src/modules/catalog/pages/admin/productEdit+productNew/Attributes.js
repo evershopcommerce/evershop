@@ -7,7 +7,9 @@ const getGroup = (groups = [], groupId) => {
   return groups.find((group) => parseInt(group.groupId) === parseInt(groupId)) || groups[0];
 };
 
-export default function Attributes({ product: { attributeIndex = [], groupId }, groups }) {
+export default function Attributes({ product, groups }) {
+  const attributeIndex = product?.attributeIndex || [];
+  const groupId = product?.groupId || undefined;
   const [currentGroup, setCurrentGroup] = React.useState(getGroup(groups, groupId));
 
   return (
@@ -87,19 +89,19 @@ export default function Attributes({ product: { attributeIndex = [], groupId }, 
                       validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
                       onChange={(e) => {
                         e.persist();
-                        setGroup((prev) => ({
-                          ...prev,
-                          attributes: prev.attributes.map((a) => {
-                            // eslint-disable-next-line max-len
-                            if (parseInt(a.attribute_id, 10) === parseInt(attribute.attribute_id, 10)) {
-                              a.selected_option = e.target.value;
-                              // eslint-disable-next-line max-len
-                              a.value_text = e.nativeEvent.target[e.nativeEvent.target.selectedIndex].text;
-                            }
+                        // setGroup((prev) => ({
+                        //   ...prev,
+                        //   attributes: prev.attributes.map((a) => {
+                        //     // eslint-disable-next-line max-len
+                        //     if (parseInt(a.attribute_id, 10) === parseInt(attribute.attribute_id, 10)) {
+                        //       a.selected_option = e.target.value;
+                        //       // eslint-disable-next-line max-len
+                        //       a.value_text = e.nativeEvent.target[e.nativeEvent.target.selectedIndex].text;
+                        //     }
 
-                            return a;
-                          })
-                        }));
+                        //     return a;
+                        //   })
+                        // }));
                       }}
                       type="select"
                     />
@@ -153,7 +155,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    product(id: getContextValue("productId")) {
+    product(id: getContextValue("productId", null)) {
       groupId
       attributeIndex {
         attributeId

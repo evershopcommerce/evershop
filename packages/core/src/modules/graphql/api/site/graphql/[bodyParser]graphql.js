@@ -3,7 +3,7 @@ const { execute } = require('graphql');
 const isDevelopmentMode = require('../../../../../lib/util/isDevelopmentMode');
 const { validate } = require('graphql/validation');
 const { parse } = require('graphql');
-const { context } = require('../../../services/buildContext');
+const { getContext } = require('../../../services/contextHelper');
 
 module.exports = async function graphql(request, response, delegate, next) {
   try {
@@ -28,7 +28,7 @@ module.exports = async function graphql(request, response, delegate, next) {
         schema = require('../../../services/buildSchema');
       }
       const data = await execute({
-        schema, contextValue: context, document, variableValues: variables
+        schema, contextValue: getContext(request), document, variableValues: variables
       });
       console.log('data', data);
       if (data.errors) {

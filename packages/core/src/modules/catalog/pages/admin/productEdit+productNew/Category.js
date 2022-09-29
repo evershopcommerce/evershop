@@ -7,8 +7,10 @@ import { useQuery } from 'urql';
 const categoryQuery = `
   query Query {
     categories {
-      value: categoryId,
-      label: name
+      items {
+        value: categoryId,
+        label: name
+      }
     }
   }
 `
@@ -32,7 +34,7 @@ export default function Category({
         <div className='mb-1'>Select categories the product belongs to</div>
         <Select
           name='categories'
-          options={data.categories}
+          options={data.categories.items}
           hideSelectedOptions={true}
           isMulti={true}
           defaultValue={categories}
@@ -49,7 +51,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    product(id: getContextValue("productId")) {
+    product(id: getContextValue("productId", null)) {
       categories {
         value: categoryId
         label: name

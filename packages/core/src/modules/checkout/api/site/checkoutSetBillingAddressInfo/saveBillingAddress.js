@@ -1,5 +1,7 @@
 const { insert, update } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
+const { get } = require('../../../../../lib/util/get');
+const { getContext } = require('../../../../graphql/services/contextHelper');
 const { addressValidator } = require('../../../services/addressValidator');
 const { getCustomerCart } = require('../../../services/getCustomerCart');
 const { saveCart } = require('../../../services/saveCart');
@@ -8,7 +10,9 @@ const { saveCart } = require('../../../services/saveCart');
 module.exports = async (request, response, stack, next) => {
   const { body } = request;
   try {
-    const cart = await getCustomerCart();
+    const context = getContext(request);
+    const customer = get(context, 'tokenPayload');
+    const cart = await getCustomerCart(customer);
     // Use shipping address as a billing address
     if (body.use_shipping_address) {
       // Delete if exist billing address

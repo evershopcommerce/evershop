@@ -45,7 +45,7 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('category.`category_id`', sortOrder.value);
+        query.orderBy('category.`category_id`', "DESC");
       };
       if (sortOrder.key) {
         currentFilters.push({
@@ -161,7 +161,7 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('product.`product_id`', sortOrder.value);
+        query.orderBy('product.`product_id`', "DESC");
       };
       if (sortOrder.key) {
         currentFilters.push({
@@ -304,6 +304,17 @@ module.exports = {
     },
     editUrl: (category, _, { pool }) => {
       return buildUrl('categoryEdit', { id: category.categoryId });
+    },
+    image: (category, _, { pool }) => {
+      const image = category.image;
+      if (!image) {
+        return null;
+      } else {
+        return {
+          path: image,
+          url: `/assets${image}`
+        }
+      }
     }
   },
   ProductCollection: {

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { setContextValue } = require('../../../graphql/services/buildContext');
+const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { v4: uuidv4 } = require('uuid');
 const { getTokenCookieId } = require('../../services/getTokenCookieId');
 const { getTokenSecret } = require('../../services/getTokenSecret');
@@ -21,7 +21,7 @@ module.exports = (request, response, stack, next) => {
         response.cookie(getTokenCookieId(), newToken, { maxAge: 172800000, httpOnly: true });
         next();
       } else {
-        setContextValue('tokenPayload', decoded);
+        setContextValue(request, 'tokenPayload', decoded);
         next();
       }
     });

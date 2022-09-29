@@ -1,14 +1,14 @@
-const { setContextValue } = require("../../../../graphql/services/buildContext")
+const { setContextValue } = require("../../../../graphql/services/contextHelper")
 
 module.exports = (request, response) => {
-  setContextValue('pageInfo', {
+  setContextValue(request, 'pageInfo', {
     title: 'Cms Pages',
     description: 'Cms Pages'
   });
 
   const query = request.query;
   if (!query) {
-    setContextValue('filtersFromUrl', []);
+    setContextValue(request, 'filtersFromUrl', []);
     next();
   } else {
     const filtersFromUrl = [];
@@ -62,6 +62,6 @@ module.exports = (request, response) => {
     if (limit !== "20") {
       filtersFromUrl.push({ key: 'limit', operation: '=', value: limit });
     }
-    setContextValue('filtersFromUrl', filtersFromUrl);
+    setContextValue(request, 'filtersFromUrl', filtersFromUrl);
   }
 }

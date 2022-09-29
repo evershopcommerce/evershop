@@ -3,11 +3,20 @@ type Category {
   name: String!
   status: Int!
   description: String
-  image: String
+  urlKey: String
+  metaTitle: String
+  metaDescription: String
+  metaKeywords: String
+  image: CategoryImage
   products(filters: [FilterInput]): ProductCollection
   url: String
   editUrl: String
   availableFilters: [FilterAttribute]
+}
+
+type CategoryImage {
+  path: String!
+  url: String!
 }
 
 input FilterInput {
@@ -50,6 +59,6 @@ type ProductCollection {
 
 extend type Query {
   categories(filters: [FilterInput]): CategoryCollection
-  category(id: Int!): Category
+  category(id: Int): Category
   products(filters: [FilterInput]): ProductCollection
 }

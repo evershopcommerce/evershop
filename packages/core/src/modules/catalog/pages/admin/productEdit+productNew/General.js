@@ -73,7 +73,7 @@ export default function General({
                 id: 'name',
                 name: 'name',
                 label: 'Name',
-                value: product.name,
+                value: product?.name,
                 validationRules: ['notEmpty'],
                 type: 'text',
                 placeholder: 'Name'
@@ -86,7 +86,7 @@ export default function General({
               props: {
                 id: 'product_id',
                 name: 'product_id',
-                value: product.productId,
+                value: product?.productId,
                 type: 'hidden'
               },
               sortOrder: 10,
@@ -95,9 +95,9 @@ export default function General({
             {
               component: { default: SKUPriceWeight },
               props: {
-                sku: product.sku,
-                price: product.price.regular.value,
-                weight: product.weight
+                sku: product?.sku,
+                price: product?.price.regular.value,
+                weight: product?.weight
               },
               sortOrder: 20,
               id: 'SKUPriceWeight'
@@ -108,7 +108,7 @@ export default function General({
                 id: 'description',
                 name: 'description',
                 label: 'Description',
-                value: product.description,
+                value: product?.description,
                 browserApi,
                 deleteApi,
                 uploadApi,
@@ -138,7 +138,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    product(id: getContextValue("productId")) {
+    product(id: getContextValue("productId", null)) {
       productId
       name
       description

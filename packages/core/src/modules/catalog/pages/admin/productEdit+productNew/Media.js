@@ -27,15 +27,15 @@ export const layout = {
 
 export const query = `
   query Query {
-    product(id: getContextValue("productId")) {
+    product(id: getContextValue("productId", null)) {
       image {
         uniqueId
-        origin
+        url: origin
         path
       }
       gallery {
         uniqueId
-        origin
+        url: origin
         path
       }
     }

@@ -1,11 +1,11 @@
 const { buildFilterFromUrl } = require("../../../../../lib/util/buildFilterFromUrl");
-const { setContextValue } = require("../../../../graphql/services/buildContext")
+const { setContextValue } = require("../../../../graphql/services/contextHelper")
 
 module.exports = (request, response) => {
-  setContextValue('pageInfo', {
+  setContextValue(request, 'pageInfo', {
     title: 'Products',
     description: 'Products'
   });
   const query = request.query;
-  setContextValue('filtersFromUrl', buildFilterFromUrl(query));
+  setContextValue(request, 'filtersFromUrl', buildFilterFromUrl(query));
 }

@@ -1,7 +1,7 @@
-const { setContextValue } = require("../../../../graphql/services/buildContext");
+const { setContextValue } = require("../../../../graphql/services/contextHelper");
 
 module.exports = (request, response) => {
-  setContextValue('pageInfo', {
+  setContextValue(request, 'pageInfo', {
     title: 'Shopping cart',
     description: 'Shopping cart'
   });

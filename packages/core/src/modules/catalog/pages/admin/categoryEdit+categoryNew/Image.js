@@ -1,14 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import { get } from '../../../../../../lib/util/get';
-import { useAppState } from '../../../../../../lib/context/app';
-import { Card } from '../../../../../cms/views/admin/Card';
-import Button from '../../../../../../lib/components/form/Button';
+import { get } from '../../../../../lib/util/get';
+import Button from '../../../../../lib/components/form/Button';
 import './Image.scss';
+import { Card } from '../../../../cms/components/admin/Card';
 
-export default function Image() {
-  const context = useAppState();
-  const [image, setImage] = useState(get(context, 'category.image', undefined));
+export default function Image({ category, imageUploadUrl }) {
+  const [image, setImage] = useState(category?.image);
   const [loading, setLoading] = useState(false);
   const ref = useRef();
 
@@ -18,7 +16,7 @@ export default function Image() {
     for (let i = 0; i < e.target.files.length; i += 1) { formData.append('images', e.target.files[i]); }
     setLoading(true);
     fetch(
-      `${get(context, 'imageUploadUrl')}/catalog/${Math.floor(Math.random() * (9999 - 1000)) + 1000}/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`,
+      `${imageUploadUrl}/catalog/${Math.floor(Math.random() * (9999 - 1000)) + 1000}/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`,
       {
         method: 'POST',
         body: formData,
@@ -92,3 +90,21 @@ export default function Image() {
     </Card>
   );
 }
+
+
+export const layout = {
+  areaId: 'rightSide',
+  sortOrder: 10
+}
+
+export const query = `
+  query Query {
+    category(id: getContextValue("categoryId", null)) {
+      image {
+        path
+        url
+      }
+    }
+    imageUploadUrl: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
+  }
+`;

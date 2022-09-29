@@ -1,20 +1,17 @@
-const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../../lib/mysql/connection');
-const { setContextValue, getContextValue } = require('../../../../graphql/services/buildContext');
+const { setContextValue, getContextValue } = require('../../../../graphql/services/contextHelper');
 const { getFilterableAttributes } = require('../../../services/getFilterableAttributes');
 const { getPriceRange } = require('../../../services/getPriceRange');
 
 module.exports = async (request, response, delegate, next) => {
-  console.log(getContextValue('categoryId'))
-  const filterableAttributes = await getFilterableAttributes(getContextValue('categoryId'));
+  const filterableAttributes = await getFilterableAttributes(getContextValue(request, 'categoryId'));
 
   // Set the filterable attributes to the context so that we can use it in the graphql query
-  setContextValue('filterableAttributes', filterableAttributes);
-  setContextValue('priceRange', await getPriceRange(getContextValue('categoryId')));
+  setContextValue(request, 'filterableAttributes', filterableAttributes);
+  setContextValue(request, 'priceRange', await getPriceRange(getContextValue(request, 'categoryId')));
 
   const query = request.query;
   if (!query) {
-    setContextValue('filtersFromUrl', []);
+    setContextValue(request, 'filtersFromUrl', []);
     next();
   } else {
     const filtersFromUrl = [];
@@ -89,7 +86,7 @@ module.exports = async (request, response, delegate, next) => {
       filtersFromUrl.push({ key: 'limit', operation: '=', value: limit });
     }
     console.log('filtersFromUrl', filtersFromUrl)
-    setContextValue('filtersFromUrl', filtersFromUrl);
+    setContextValue(request, 'filtersFromUrl', filtersFromUrl);
     next();
   }
 };

@@ -1,12 +1,11 @@
 const { select } = require("@evershop/mysql-query-builder");
 const { buildUrl } = require("../../../../../lib/router/buildUrl");
 const { camelCase } = require("../../../../../lib/util/camelCase");
-const { getContextValue } = require("../../../../graphql/services/buildContext");
 
 module.exports = {
   Query: {
-    cmsPage: async (root, { id }, { pool }) => {
-      const { admin } = getContextValue('tokenPayload', {});
+    cmsPage: async (root, { id }, { pool, tokenPayload }) => {
+      const { admin } = tokenPayload;
       const query = select()
         .from('cms_page');
       query.leftJoin('cms_page_description')

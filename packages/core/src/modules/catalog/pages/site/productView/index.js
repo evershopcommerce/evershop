@@ -2,7 +2,7 @@ const { select, node } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 const { get } = require('../../../../../lib/util/get');
 const { getConfig } = require('../../../../../lib/util/getConfig');
-const { setContextValue } = require('../../../../graphql/services/buildContext');
+const { setContextValue } = require('../../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, stack, next) => {
   try {
@@ -20,8 +20,8 @@ module.exports = async (request, response, stack, next) => {
     } else {
       const queries = request.query;
       if (!get(product, 'variant_group_id') || Object.values(queries).length === 0) {
-        setContextValue('productId', product.product_id);
-        setContextValue('pageInfo', {
+        setContextValue(request, 'productId', product.product_id);
+        setContextValue(request, 'pageInfo', {
           title: product.meta_title || product.name,
           description: product.meta_description || product.short_description
         });
@@ -72,8 +72,8 @@ module.exports = async (request, response, stack, next) => {
               .on('product.`product_id`', '=', 'product_description.`product_description_product_id`');
             query.where('product_id', '=', variants[0].product_id);
             const pv = await query.load(pool);
-            setContextValue('productId', pv.product_id);
-            setContextValue('pageInfo', {
+            setContextValue(request, 'productId', pv.product_id);
+            setContextValue(request, 'pageInfo', {
               title: pv.meta_title || pv.name,
               description: pv.meta_description || pv.short_description
             });

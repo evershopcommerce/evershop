@@ -2,7 +2,8 @@ import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Card } from '../../../../cms/components/admin/Card';
 
-export default function Inventory({ product: { inventory } }) {
+export default function Inventory({ product }) {
+  const inventory = product?.inventory || {};
   return (
     <Card
       title="Inventory"
@@ -50,7 +51,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    product(id: getContextValue("productId")) {
+    product(id: getContextValue("productId", null)) {
       inventory {
         qty
         stockAvailability

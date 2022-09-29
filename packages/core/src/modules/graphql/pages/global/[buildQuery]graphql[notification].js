@@ -1,5 +1,5 @@
 var schema = require('../../services/buildSchema');
-const { context } = require('../../services/buildContext');
+const { getContext } = require('../../services/contextHelper');
 const { execute } = require('graphql');
 const { parse } = require('graphql');
 const isDevelopmentMode = require('../../../../lib/util/isDevelopmentMode');
@@ -33,8 +33,9 @@ module.exports = async function graphql(request, response, delegate, next) {
         if (isDevelopmentMode()) {
           schema = require('../../services/buildSchema');
         }
+        const context = getContext(request);
         const data = await execute({
-          schema, contextValue: context, document, variableValues: graphqlVariables
+          schema, contextValue: getContext(request), document, variableValues: graphqlVariables
         });
         console.log('data', data);
         if (data.errors) {
