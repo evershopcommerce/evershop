@@ -20,6 +20,6 @@ type CmsPageCollection {
 }
 
 extend type Query {
-  cmsPage(id: Int!): CmsPage,
+  cmsPage(id: Int): CmsPage,
   cmsPages(filters: [FilterInput]): CmsPageCollection
 }

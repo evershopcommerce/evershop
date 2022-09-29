@@ -1,71 +1,81 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
-import { useAppState } from '../../../../../lib/context/app';
 import { Field } from '../../../../../lib/components/form/Field';
 import { get } from '../../../../../lib/util/get';
-import { Card } from '../../Card';
+import { Card } from '../../../components/admin/Card';
 
-export default function General() {
-  const context = useAppState();
+export default function Seo({ page }) {
   const fields = [
     {
       component: { default: Field },
       props: {
         type: 'text',
-        id: 'url_key',
+        id: 'urlKey',
         name: 'url_key',
         label: 'Url key',
         validationRules: ['notEmpty']
       },
-      sortOrder: 0,
-      id: 'url_key'
+      sortOrder: 0
     },
     {
       component: { default: Field },
       props: {
         type: 'text',
-        id: 'meta_title',
+        id: 'metaTitle',
         name: 'meta_title',
         label: 'Meta title',
         placeholder: 'Meta title'
       },
-      sortOrder: 10,
-      id: 'meta_title'
+      sortOrder: 10
     },
     {
       component: { default: Field },
       props: {
         type: 'text',
-        id: 'meta_keywords',
+        id: 'metaKeywords',
         name: 'meta_keywords',
         label: 'Meta keywords',
         placeholder: 'Meta keywords'
       },
-      sortOrder: 20,
-      id: 'meta_keywords'
+      sortOrder: 20
     },
     {
       component: { default: Field },
       props: {
         type: 'textarea',
-        id: 'meta_description',
+        id: 'metaDescription',
         name: 'meta_description',
         label: 'Meta description'
       },
-      sortOrder: 30,
-      id: 'meta_description'
+      sortOrder: 30
     }
   ].filter((f) => {
-    if (get(context, `page.${f.props.name}`) !== undefined) { f.props.value = get(context, `page.${f.props.name}`); }
+    if (get(page, `${f.props.id}`) !== undefined) { f.props.value = get(page, `${f.props.id}`); }
     return f;
   });
 
   return (
-    <Card title="Search engine optimization">
+    <Card title="Search Engine Optimization">
       <Card.Session>
-        <Area id="page-edit-seo" coreComponents={fields} />
+        <Area id="pageEditSeo" coreComponents={fields} />
       </Card.Session>
     </Card>
   );
 }
+
+export const layout = {
+  areaId: 'leftSide',
+  sortOrder: 30
+}
+
+export const query = `
+  query Query {
+    page: cmsPage(id: getContextValue('cmsPageId', null)) {
+      urlKey
+      metaTitle
+      metaKeywords
+      metaDescription
+    }
+  }
+`

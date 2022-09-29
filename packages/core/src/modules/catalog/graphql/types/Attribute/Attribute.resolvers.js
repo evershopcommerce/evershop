@@ -4,6 +4,14 @@ const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
+    attribute: async (_, { id }, { pool }) => {
+      const attribute = await select().from('attribute').where('attribute_id', '=', id).load(pool);
+      if (!attribute) {
+        return null;
+      } else {
+        return camelCase(attribute);
+      }
+    },
     attributes: async (_, { filters = [] }, { pool }) => {
       const query = select().from('attribute');
 
@@ -53,7 +61,7 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('attribute.`attribute_id`', sortOrder.value);
+        query.orderBy('attribute.`attribute_id`', "DESC");
       };
       if (sortOrder.key) {
         currentFilters.push({

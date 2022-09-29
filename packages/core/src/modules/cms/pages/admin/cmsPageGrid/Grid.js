@@ -10,8 +10,9 @@ import { Card } from '../../../components/admin/Card';
 import Area from '../../../../../lib/components/Area';
 import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
 import StatusColumnHeader from '../../../../../lib/components/grid/headers/Status';
-import BasicRow from '../../../../../lib/components/grid/rows/Basic';
-import StatusRow from '../../../../../lib/components/grid/rows/Status';
+import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
+import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
+import PageName from './rows/PageName';
 
 function Actions({ selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
@@ -132,7 +133,7 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
                 noOuter
                 coreComponents={[
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='name' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <PageName url={p.url} name={p.name} /> },
                     sortOrder: 10
                   },
                   {

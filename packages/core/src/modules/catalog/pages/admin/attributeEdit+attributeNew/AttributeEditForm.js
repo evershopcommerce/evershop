@@ -4,22 +4,18 @@ import Area from '../../../../../lib/components/Area';
 import Button from '../../../../../lib/components/form/Button';
 import { Form } from '../../../../../lib/components/form/Form';
 
-export default function CMSPageEditForm({
-  action, gridUrl
+export default function AttributeEditForm({
+  action,
+  gridUrl
 }) {
-  const id = 'CMSPageEditForm'
+  const id = "attributeEditForm";
+
   return (
-    <Form
-      method={"POST"}
-      action={action}
-      submitBtn={false}
-      id={id}
-    >
+    <Form method={"POST"} action={action} submitBtn={false} id={id}>
       <div className="grid grid-cols-3 gap-x-2 grid-flow-row ">
         <div className="col-span-2 grid grid-cols-1 gap-2 auto-rows-max">
           <Area id="leftSide" noOuter />
         </div>
-
         <div className="col-span-1 grid grid-cols-1 gap-2 auto-rows-max">
           <Area id="rightSide" noOuter />
         </div>
@@ -46,9 +42,11 @@ export default function CMSPageEditForm({
   );
 }
 
-CMSPageEditForm.propTypes = {
+AttributeEditForm.propTypes = {
+  method: PropTypes.string.isRequired,
   action: PropTypes.string.isRequired,
-  gridUrl: PropTypes.string.isRequired
+  gridUrl: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
 };
 
 export const layout = {
@@ -58,7 +56,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    action: url(routeId: "cmsPageSavePost")
-    gridUrl: url(routeId: "cmsPageGrid")
+    action: url(routeId: "attributeSavePost")
+    gridUrl: url(routeId: "attributeGrid")
   }
 `;

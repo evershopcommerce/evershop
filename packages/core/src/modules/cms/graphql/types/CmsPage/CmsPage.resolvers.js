@@ -11,9 +11,9 @@ module.exports = {
       query.leftJoin('cms_page_description')
         .on('cms_page.`cms_page_id`', '=', 'cms_page_description.`cms_page_description_cms_page_id`');
       query.where('cms_page_id', '=', id);
-      if (admin !== true) {
-        query.where('cms_page.`status`', '=', 1);
-      }
+      // if (admin !== true) {
+      //   query.where('cms_page.`status`', '=', 1);
+      // }
 
       const page = await query.load(pool);
       return page ? camelCase(page) : null;
@@ -54,7 +54,7 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('cms_page.`cms_page_id`', sortOrder.value);
+        query.orderBy('cms_page.`cms_page_id`', "DESC");
       };
 
       if (sortOrder.key) {

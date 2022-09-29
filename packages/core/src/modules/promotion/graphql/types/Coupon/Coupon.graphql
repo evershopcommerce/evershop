@@ -1,0 +1,30 @@
+type Coupon {
+  couponId: Int
+  status: Int!
+  description: String!
+  discountAmount: Float!
+  freeShipping: Int!
+  discountType: String!
+  coupon: String!
+  usedTime: Int
+  targetProducts: String
+  condition: String
+  userCondition: String
+  buyxGety: String
+  maxUsesTimePerCoupon: Int
+  maxUsesTimePerCustomer: Int
+  startDate: String
+  endDate: String
+}
+
+type CouponCollection {
+  items: [Coupon]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  coupon(id: Int): Coupon,
+  coupons(filters: [FilterInput]): CouponCollection
+}
