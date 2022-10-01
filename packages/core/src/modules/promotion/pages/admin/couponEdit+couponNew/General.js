@@ -3,7 +3,6 @@ import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Toggle } from '../../../../../lib/components/form/fields/Toggle';
-import { useAppState } from '../../../../../lib/context/app';
 import { get } from '../../../../../lib/util/get';
 
 function Setting({ discountAmount, startDate = '', endDate = '' }) {
@@ -22,7 +21,6 @@ function Setting({ discountAmount, startDate = '', endDate = '' }) {
         <Field
           type='date'
           name="start_date"
-          formId="coupon-edit-form"
           label="Start date"
           value={startDate}
         />
@@ -31,7 +29,6 @@ function Setting({ discountAmount, startDate = '', endDate = '' }) {
         <Field
           type='date'
           name="end_date"
-          formId="coupon-edit-form"
           label="End date"
           value={endDate}
         />
@@ -46,8 +43,7 @@ Setting.propTypes = {
   startDate: PropTypes.string
 }
 
-export default function General() {
-  const context = useAppState();
+export default function General({ coupon = {} }) {
   return (
     <Area
       id="couponFormGeneral"
@@ -56,46 +52,42 @@ export default function General() {
           component: { default: Field },
           props: {
             name: 'coupon',
-            value: get(context, 'coupon.coupon'),
+            value: get(coupon, 'coupon'),
             validationRules: ['notEmpty'],
             type: 'text',
             label: 'Coupon code'
           },
-          sortOrder: 10,
-          id: 'couponCoupon'
+          sortOrder: 10
         },
         {
           component: { default: Field },
           props: {
             name: 'description',
-            value: get(context, 'coupon.description'),
+            value: get(coupon, 'description'),
             type: 'textarea',
             label: 'Description',
             validationRules: ['notEmpty']
           },
-          sortOrder: 20,
-          id: 'couponDescription'
+          sortOrder: 20
         },
         {
           component: { default: Toggle },
           props: {
             name: 'status',
-            value: get(context, 'coupon.status', 1).toString(),
+            value: get(coupon, 'status', 1).toString(),
             validationRules: ['notEmpty'],
             label: 'Status'
           },
-          sortOrder: 30,
-          id: 'couponStatus'
+          sortOrder: 30
         },
         {
           component: { default: Setting },
           props: {
-            startDate: get(context, 'coupon.start_date', ''),
-            endDate: get(context, 'coupon.end_date', ''),
-            discountAmount: get(context, 'coupon.discount_amount')
+            startDate: get(coupon, 'startDate', ''),
+            endDate: get(coupon, 'endDate', ''),
+            discountAmount: get(coupon, 'discountAmount')
           },
-          sortOrder: 40,
-          id: 'startEnd'
+          sortOrder: 40
         },
         {
           component: { default: Field },
@@ -104,12 +96,30 @@ export default function General() {
             value: 1,
             type: 'checkbox',
             label: 'Free shipping?',
-            isChecked: get(context, 'coupon.free_shipping') == 1
+            isChecked: get(coupon, 'freeShipping') == 1
           },
-          sortOrder: 50,
-          id: 'couponFreeShipping'
+          sortOrder: 50
         }
       ]}
     />
   );
 }
+
+export const layout = {
+  areaId: 'couponEditGeneral',
+  sortOrder: 10
+}
+
+export const query = `
+  query Query {
+    coupon(id: getContextValue('couponId', null)) {
+      coupon
+      status
+      description
+      discountAmount
+      freeShipping
+      startDate
+      endDate
+    }
+  }
+`;

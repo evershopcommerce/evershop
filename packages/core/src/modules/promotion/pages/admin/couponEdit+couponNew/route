@@ -1,2 +1,2 @@
-GET
+GET,
 /coupon/edit/:id(\\d+)

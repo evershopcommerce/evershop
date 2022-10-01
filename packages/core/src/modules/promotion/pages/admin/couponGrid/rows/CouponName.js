@@ -11,7 +11,7 @@ export default function CouponName({ url, name }) {
   );
 }
 
-PageName.propTypes = {
+CouponName.propTypes = {
   name: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired
 };

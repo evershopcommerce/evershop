@@ -206,7 +206,7 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
                 setSelectedRows={setSelectedRows}
                 coreComponents={[
                   {
-                    component: { default: () => <CouponName url={c.editUrl} name={c.name} /> },
+                    component: { default: () => <CouponName url={c.editUrl} name={c.coupon} /> },
                     sortOrder: 10
                   },
                   {

@@ -97,15 +97,15 @@ module.exports = {
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
       const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
-      if (sortBy && sortBy.value === 'name') {
-        query.orderBy('cms_page_description.`name`', sortOrder.value);
+      if (sortBy && sortBy.value === 'coupon') {
+        query.orderBy('coupon.`coupon`', sortOrder.value);
         currentFilters.push({
           key: 'sortBy',
           operation: '=',
           value: sortBy.value
         });
       } else {
-        query.orderBy('cms_page.`cms_page_id`', "DESC");
+        query.orderBy('coupon.`coupon_id`', "DESC");
       };
 
       if (sortOrder.key) {
@@ -117,7 +117,7 @@ module.exports = {
       }
       // Clone the main query for getting total right before doing the paging
       const cloneQuery = query.clone();
-      cloneQuery.select('COUNT(cms_page.`cms_page_id`)', 'total');
+      cloneQuery.select('COUNT(coupon.`coupon_id`)', 'total');
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
       const limit = filters.find((f) => f.key === 'limit') || { value: 20 };// TODO: Get from config
@@ -139,8 +139,55 @@ module.exports = {
       }
     }
   },
-  CmsPage: {
-    url: ({ urlKey }) => buildUrl('cmsPageView', { url_key: urlKey }),
-    editUrl: ({ cmsPageId }) => buildUrl('cmsPageEdit', { id: cmsPageId })
+  Coupon: {
+    targetProducts: ({ targetProducts }) => {
+      if (!targetProducts) {
+        return null;
+      } else {
+        try {
+          const result = JSON.parse(targetProducts);
+          return camelCase(result);
+        } catch (e) {
+          throw new Error("Invalid JSON in coupon targetProducts");
+        }
+      }
+    },
+    condition: ({ condition }) => {
+      if (!condition) {
+        return null;
+      } else {
+        try {
+          const result = JSON.parse(condition);
+          return camelCase(result);
+        } catch (e) {
+          throw new Error("Invalid JSON in coupon condition");
+        }
+      }
+    },
+    userCondition: ({ userCondition }) => {
+      if (!userCondition) {
+        return null;
+      } else {
+        try {
+          const result = JSON.parse(userCondition);
+          return camelCase(result);
+        } catch (e) {
+          throw new Error("Invalid JSON in coupon userCondition");
+        }
+      }
+    },
+    buyxGety: ({ buyxGety }) => {
+      if (!buyxGety) {
+        return [];
+      } else {
+        try {
+          const results = JSON.parse(buyxGety);
+          return results.map(result => camelCase(result));
+        } catch (e) {
+          throw new Error("Invalid JSON in coupon buyxGety");
+        }
+      }
+    },
+    editUrl: ({ couponId }) => buildUrl('couponEdit', { id: couponId })
   }
 }

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from 'react';
-import { Field } from "../../../../../../lib/components/form/Field";
-import { FORM_FIELD_UPDATED } from "../../../../../../lib/util/events";
+import { Field } from "../../../lib/components/form/Field";
+import { FORM_FIELD_UPDATED } from "../../../lib/util/events";
 
 export function BuyXGetY({ requireProducts, discountType }) {
   const [products, setProducts] = React.useState(requireProducts);
@@ -78,7 +78,7 @@ export function BuyXGetY({ requireProducts, discountType }) {
                     <Field
                       type="text"
                       name={`buyx_gety[${i}][buy_qty]`}
-                      value={p.buy_qty}
+                      value={p.buyQty}
                       validationRules={['notEmpty', 'number']}
                     />
                   </td>
@@ -86,7 +86,7 @@ export function BuyXGetY({ requireProducts, discountType }) {
                     <Field
                       type="text"
                       name={`buyx_gety[${i}][get_qty]`}
-                      value={p.get_qty}
+                      value={p.getQty}
                       validationRules={['notEmpty', 'number']}
                     />
                   </td>
@@ -94,7 +94,7 @@ export function BuyXGetY({ requireProducts, discountType }) {
                     <Field
                       type="text"
                       name={`buyx_gety[${i}][max_y]`}
-                      value={p.max_y}
+                      value={p.maxY}
                       validationRules={['notEmpty', 'number']}
                     />
                   </td>
@@ -137,9 +137,9 @@ export function BuyXGetY({ requireProducts, discountType }) {
 BuyXGetY.propTypes = {
   requireProducts: PropTypes.arrayOf(PropTypes.shape({
     sku: PropTypes.string,
-    buy_qty: PropTypes.string,
-    get_qty: PropTypes.string,
-    max_y: PropTypes.string,
+    buyQty: PropTypes.string,
+    getQty: PropTypes.string,
+    maxY: PropTypes.string,
     discount: PropTypes.string
   })),
   discountType: PropTypes.string

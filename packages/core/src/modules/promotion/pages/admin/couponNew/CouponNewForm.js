@@ -1,9 +1,9 @@
 import React from 'react';
 import CouponForm from '../../../components/CouponForm';
 
-export default function CouponEditForm({ action, gridUrl }) {
+export default function CouponNewForm({ action, gridUrl }) {
   return <CouponForm
-    method={"PUT"}
+    method={"POST"}
     action={action}
     isJSON={true}
     gridUrl={gridUrl}
@@ -17,7 +17,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    action: url(routeId: "couponUpdate", params: [{key: "id", value: getContextValue("couponId", undefined, true)}])
+    action: url(routeId: "couponCreate")
     gridUrl: url(routeId: "couponGrid")
   }
 `;

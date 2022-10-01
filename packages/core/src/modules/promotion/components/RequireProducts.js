@@ -1,12 +1,10 @@
 import PropTypes from "prop-types";
 import React from 'react';
-import Area from "../../../../../../lib/components/Area";
-import { Input } from "../../../../../../lib/components/form/fields/Input";
-import PubSub from "pubsub-js";
-import { FORM_FIELD_UPDATED } from "../../../../../../lib/util/events";
+import Area from '../../../lib/components/Area';
+import { Field } from "../../../lib/components/form/Field";
 
-function Products({ targetProducts, maxQty = '' }) {
-  const [products, setProducts] = React.useState(targetProducts);
+export function RequiredProducts({ requiredProducts }) {
+  const [products, setProducts] = React.useState(requiredProducts);
 
   const addProduct = (e) => {
     e.persist();
@@ -38,26 +36,16 @@ function Products({ targetProducts, maxQty = '' }) {
   };
 
   return (
-    <div>
-      <div className="mb-1 mt-1">
-        <div className="flex justify-start items-center mb-3">
-          <div>Maximum</div>
-          <div style={{ width: "70px", padding: "0 1rem" }}>
-            <Input
-              name="target_products[maxQty]"
-              value={maxQty}
-            />
-          </div>
-          <div>quantity of products are matched bellow conditions(All)</div>
-        </div>
-      </div>
-      <table className="table table-bordered" style={{ marginTop: 0 }}>
+    <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+      <div><span>Order must contains product matched bellow conditions(All)</span></div>
+      <table className="table table-auto" style={{ marginTop: 0 }}>
         <thead>
           <tr>
             <th><span>Key</span></th>
             <th><span>Operator</span></th>
             <th><span>Value</span></th>
-            <th />
+            <th><span>Minimum quantity</span></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -67,38 +55,38 @@ function Products({ targetProducts, maxQty = '' }) {
                 <div className="form-field-container dropdown">
                   <div className="field-wrapper">
                     <select
-                      name={`target_products[products][${i}][key]`}
-                      className="form-control"
+                      name={`condition[required_products][${i}][key]`}
+                      className="form-field"
                       value={p.key}
                       onChange={(e) => updateProduct(e, 'key', i)}
                     >
                       <Area
-                        id="coupon_target_product_key_list"
+                        id="couponRequiredProductKeyList"
                         noOuter
                         coreComponents={[
                           {
-                            component: { default: () => <option value="category">Category</option> },
+                            component: { default: () => <option value="category">Category ID</option> },
                             props: {},
                             sortOrder: 10,
-                            id: 'targetProductKeyCategory'
+                            id: 'requiredProductKeyCategory'
                           },
                           {
                             component: { default: () => <option value="attribute_group">Attribute Group</option> },
                             props: {},
                             sortOrder: 20,
-                            id: 'targetProductKeyAttributeGroup'
+                            id: 'requiredProductKeyAttributeGroup'
                           },
                           {
                             component: { default: () => <option value="price">Price</option> },
                             props: {},
                             sortOrder: 30,
-                            id: 'targetProductKeyPrice'
+                            id: 'requiredProductKeyPrice'
                           },
                           {
                             component: { default: () => <option value="sku">Sku</option> },
                             props: {},
                             sortOrder: 40,
-                            id: 'targetProductKeySku'
+                            id: 'requiredProductKeySku'
                           }
                         ]}
                       />
@@ -112,62 +100,62 @@ function Products({ targetProducts, maxQty = '' }) {
                 <div className="form-field-container dropdown">
                   <div className="field-wrapper">
                     <select
-                      name={`target_products[products][${i}][operator]`}
-                      className="form-control"
+                      name={`condition[required_products][${i}][operator]`}
+                      className="form-field"
                       value={p.operator}
                       onChange={(e) => updateProduct(e, 'operator', i)}
                     >
                       <Area
-                        id="couponTargetProductOperatorList"
+                        id="couponRequiredProductOperatorList"
                         noOuter
                         coreComponents={[
                           {
                             component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="=">Equal</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 10,
-                            id: 'couponTargetProductOperatorEqual'
+                            id: 'couponRequiredProductOperatorEqual'
                           },
                           {
                             component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="!=">Not equal</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 15,
-                            id: 'couponTargetProductOperatorNotEqual'
+                            id: 'couponRequiredProductOperatorNotEqual'
                           },
                           {
                             component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value=">">Greater</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 20,
-                            id: 'couponTargetProductOperatorGreater'
+                            id: 'couponRequiredProductOperatorGreater'
                           },
                           {
                             component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value=">=">Greater or equal</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 25,
-                            id: 'couponTargetProductOperatorGreaterOrEqual'
+                            id: 'couponRequiredProductOperatorGreaterOrEqual'
                           },
                           {
                             component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="<">Smaller</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 30,
-                            id: 'couponTargetProductOperatorSmaller'
+                            id: 'couponRequiredProductOperatorSmaller'
                           },
                           {
                             component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="<=">Equal or smaller</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 35,
-                            id: 'couponTargetProductOperatorEqualOrSmaller'
+                            id: 'couponRequiredProductOperatorEqualOrSmaller'
                           },
                           {
                             component: { default: ({ compareKey }) => ['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="IN">In</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 40,
-                            id: 'couponTargetProductOperatorIn'
+                            id: 'couponRequiredProductOperatorIn'
                           },
                           {
                             component: { default: ({ compareKey }) => ['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="NOT IN">Not in</option> : (null) },
                             props: { compareKey: p.key },
                             sortOrder: 45,
-                            id: 'couponTargetProductOperatorNotIn'
+                            id: 'couponRequiredProductOperatorNotIn'
                           }
                         ]}
                       />
@@ -178,10 +166,20 @@ function Products({ targetProducts, maxQty = '' }) {
                 </div>
               </td>
               <td>
-                <Input
-                  name={`target_products[products][${i}][value]`}
+                <Field
+                  type="text"
+                  name={`condition[required_products][${i}][value]`}
                   formId="coupon-edit-form"
                   value={p.value}
+                  validationRules={['notEmpty']}
+                />
+              </td>
+              <td>
+                <Field
+                  type="text"
+                  name={`condition[required_products][${i}][qty]`}
+                  formId="coupon-edit-form"
+                  value={p.qty}
                   validationRules={['notEmpty']}
                 />
               </td>
@@ -212,9 +210,8 @@ function Products({ targetProducts, maxQty = '' }) {
   );
 }
 
-Products.propTypes = {
-  maxQty: PropTypes.string,
-  targetProducts: PropTypes.arrayOf(PropTypes.shape({
+RequiredProducts.propTypes = {
+  requiredProducts: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string,
     operator: PropTypes.string,
     value: PropTypes.string,
@@ -222,50 +219,6 @@ Products.propTypes = {
   }))
 }
 
-export function TargetProducts({ products, maxQty, discountType }) {
-  const [active, setActive] = React.useState(() => {
-    if (discountType === 'fixed_discount_to_specific_products' || discountType === 'percentage_discount_to_specific_products') {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
-  React.useEffect(() => {
-    const token = PubSub.subscribe(FORM_FIELD_UPDATED, (message, data) => {
-      if (data.name === 'discount_type') {
-        if (data.value === 'fixed_discount_to_specific_products' || data.value === 'percentage_discount_to_specific_products') {
-          setActive(true);
-        } else {
-          setActive(false);
-        }
-      }
-    });
-
-    return function cleanup() {
-      PubSub.unsubscribe(token);
-    };
-  }, []);
-
-  return (
-    <>
-      {active === true && (
-        <div className="">
-          <h2 className="card-title">Target products</h2>
-          <Products targetProducts={products} maxQty={maxQty} />
-        </div>
-      )}
-    </>
-  );
-}
-
-TargetProducts.propTypes = {
-  discountType: PropTypes.string,
-  maxQty: PropTypes.string,
-  products: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    operator: PropTypes.string,
-    value: PropTypes.string,
-    qty: PropTypes.string
-  }))
+RequiredProducts.defaultProps = {
+  requiredProducts: []
 }

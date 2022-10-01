@@ -7,14 +7,47 @@ type Coupon {
   discountType: String!
   coupon: String!
   usedTime: Int
-  targetProducts: String
-  condition: String
-  userCondition: String
-  buyxGety: String
+  targetProducts: TargetProducts
+  condition: OrderCondition
+  userCondition: UserCondition
+  buyxGety: [ByXGetY]
   maxUsesTimePerCoupon: Int
   maxUsesTimePerCustomer: Int
   startDate: String
   endDate: String
+  editUrl: String!
+}
+
+type MatchProductFilter {
+  key: String!
+  operator: String!
+  value: String!
+  qty: String
+}
+
+type TargetProducts {
+  maxQty: String
+  products: [MatchProductFilter]
+}
+
+type OrderCondition {
+  orderTotal: String
+  orderQty: String
+  requiredProducts: [MatchProductFilter]
+}
+
+type ByXGetY {
+  sku: String!
+  buyQty: String
+  getQty: String
+  maxY: String
+  discount: String
+}
+
+type UserCondition {
+  groups: [String]
+  emails: String
+  purchased: String
 }
 
 type CouponCollection {
