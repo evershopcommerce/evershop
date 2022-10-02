@@ -1,0 +1,5 @@
+type Price {
+  value: Float!
+  currency(currency: String): String!
+  text(currency: String): String!
+}

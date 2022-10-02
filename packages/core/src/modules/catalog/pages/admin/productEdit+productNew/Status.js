@@ -1,6 +1,45 @@
 import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Card } from '../../../../cms/components/admin/Card';
+import Select from 'react-select';
+import { useQuery } from 'urql';
+
+const categoryQuery = `
+  query Query {
+    categories {
+      items {
+        value: categoryId,
+        label: name
+      }
+    }
+  }
+`;
+
+export function Category({
+  product
+}) {
+  const categories = product ? product.categories : [];
+  const [result, reexecuteQuery] = useQuery({
+    query: categoryQuery,
+  });
+  const { data, fetching, error } = result;
+
+  if (fetching) return <p>Loading...</p>;
+  if (error) return <p>Oh no... {error.message}</p>;
+
+  return (
+    <div>
+      <div className='mb-1'>Category</div>
+      <Select
+        name='categories'
+        options={data.categories.items}
+        hideSelectedOptions={true}
+        isMulti={true}
+        defaultValue={categories}
+      />
+    </div>
+  );
+}
 
 export default function Status({ product }) {
   return (
@@ -28,10 +67,12 @@ export default function Status({ product }) {
           type="radio"
         />
       </Card.Session>
+      <Card.Session>
+        <Category product={product} />
+      </Card.Session>
     </Card>
   );
 }
-
 
 export const layout = {
   areaId: 'rightSide',
@@ -43,6 +84,10 @@ export const query = `
     product(id: getContextValue("productId", null)) {
       status
       visibility
+      categories {
+        value: categoryId
+        label: name
+      }
     }
   }
 `;

@@ -1,0 +1,18 @@
+type PaymentStatus {
+  name: String
+  code: String!
+  badge: String
+  progress: String
+}
+
+type ShipmentStatus {
+  name: String
+  code: String!
+  badge: String
+  progress: String
+}
+
+extend type Query {
+  shipmentStatusList: [ShipmentStatus]
+  paymentStatusList: [PaymentStatus]
+}

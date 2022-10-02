@@ -1,7 +1,7 @@
 import React from 'react';
 import PageHeading from '../../../../cms/components/admin/PageHeading';
 
-export default function ProductEditPageHeading({ backUrl, page }) {
+export default function PageEditPageHeading({ backUrl, page }) {
   return <PageHeading backUrl={backUrl} heading={page ? `Editing ${page.name}` : `Create A New Page`} />
 }
 

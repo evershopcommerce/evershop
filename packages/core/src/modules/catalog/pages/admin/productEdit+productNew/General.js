@@ -23,21 +23,23 @@ function SKUPriceWeight({ sku, price, weight }) {
         <Field
           id="price"
           name="price"
-          value={price}
+          value={price.value}
           placeholder="Price"
           label="Price"
           type="text"
           validationRules={['notEmpty']}
+          suffix={price.currency}
         />
       </div>
       <div>
         <Field
           id="weight"
           name="weight"
-          value={weight}
+          value={weight.value}
           placeholder="Weight"
           label="Weight"
           type="text"
+          suffix={weight.unit}
         />
       </div>
     </div>
@@ -96,7 +98,7 @@ export default function General({
               component: { default: SKUPriceWeight },
               props: {
                 sku: product?.sku,
-                price: product?.price.regular.value,
+                price: product?.price.regular,
                 weight: product?.weight
               },
               sortOrder: 20,
@@ -146,9 +148,13 @@ export const query = `
       price {
         regular {
           value
+          currency
         }
       }
-      weight
+      weight {
+        value
+        unit
+      }
     }
     browserApi: url(routeId: "fileBrowser", params: [{key: "0", value: ""}])
     deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])

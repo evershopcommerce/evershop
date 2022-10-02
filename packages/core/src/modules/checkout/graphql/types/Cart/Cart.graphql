@@ -12,8 +12,8 @@ interface ShoppingCart {
   shippingFeeInclTax: Price!
   discountAmount: Price!
   subTotal: Price!
-  totalQty: Float!
-  totalWeight: Float!
+  totalQty: Int!
+  totalWeight: Weight!
   taxAmount: Price!
   grandTotal: Price!
   shippingMethod: String
@@ -30,14 +30,14 @@ interface ShoppingCartItem {
   productSku: String!
   productName: String
   thumbnail: String
-  productWeight: Float!
+  productWeight: Weight!
   productPrice: Price!
   productPriceInclTax: Price!
   qty: Int!
   finalPrice: Price!
   finalPriceInclTax: Price!
   taxPercent: Float!
-  taxAmount: Float!
+  taxAmount: Price!
   discountAmount: Price!
   total: Price!
   variantGroupId: Int
@@ -50,8 +50,8 @@ interface Address {
   fullName: String!
   postcode: String!
   telephone: String!
-  country: String!
-  province: String!
+  country: Country!
+  province: Province!
   city: String!
   address1: String!
   address2: String
@@ -62,8 +62,8 @@ type CartAddress implements Address {
   fullName: String!
   postcode: String!
   telephone: String!
-  country: String!
-  province: String!
+  country: Country!
+  province: Province!
   city: String!
   address1: String!
   address2: String
@@ -77,14 +77,14 @@ type CartItem implements ShoppingCartItem{
   productSku: String!
   productName: String
   thumbnail: String
-  productWeight: Float!
+  productWeight: Weight!
   productPrice: Price!
   productPriceInclTax: Price!
   qty: Int!
   finalPrice: Price!
   finalPriceInclTax: Price!
   taxPercent: Float!
-  taxAmount: Float!
+  taxAmount: Price!
   discountAmount: Price!
   total: Price!
   variantGroupId: Int
@@ -111,8 +111,8 @@ type Cart implements ShoppingCart{
   shippingFeeInclTax: Price!
   discountAmount: Price!
   subTotal: Price!
-  totalQty: Float!
-  totalWeight: Float!
+  totalQty: Int!
+  totalWeight: Weight!
   taxAmount: Price!
   grandTotal: Price!
   shippingMethod: String

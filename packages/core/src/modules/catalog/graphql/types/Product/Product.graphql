@@ -3,7 +3,7 @@ type Product {
   name: String!
   status: Int!
   sku: String!
-  weight: Float
+  weight: Weight!
   taxClass: Int
   description: String
   urlKey: String
