@@ -6,6 +6,7 @@ const { getRouteBuildSubPath } = require('../getRouteBuildSubPath');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { isBuildRequired } = require('../isBuildRequired');
 const WebpackBar = require('webpackbar');
+const { CONSTANTS } = require('../../helpers');
 
 module.exports.createConfigClient = function createConfigClient(routes) {
   const config = createBaseConfig(false);
@@ -17,9 +18,8 @@ module.exports.createConfigClient = function createConfigClient(routes) {
     }
     const subPath = getRouteBuildSubPath(route);
     entry[subPath] = [
-      path.resolve(getRouteBuildPath(route), 'client', 'components.js')
+      path.resolve(CONSTANTS.BUILDPATH, subPath, 'client', 'entry.js')
     ];
-
     plugins.push(new HtmlWebpackPlugin({
       templateContent: ({ htmlWebpackPlugin }) => {
         const isFiles = htmlWebpackPlugin.files.js;

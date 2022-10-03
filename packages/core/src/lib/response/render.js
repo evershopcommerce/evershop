@@ -61,7 +61,11 @@ function renderProduction(request, response) {
   const route = response.statusCode === 404 ? routes.find((route) => route.id === 'notFound') : request.currentRoute;
   const { renderHtml } = require(path.resolve(getRouteBuildPath(route), 'server', 'index.js'));
   const assets = require(path.resolve(getRouteBuildPath(route), 'client', 'index.json'));
-  const source = renderHtml(assets.js, assets.css, response.context);
+  const contextValue = {
+    graphqlResponse: get(response, 'locals.graphqlResponse', {}),
+    propsMap: get(response, 'locals.propsMap', {}),
+  };
+  const source = renderHtml(assets.js, assets.css, contextValue);
   response.send(source);
 }
 

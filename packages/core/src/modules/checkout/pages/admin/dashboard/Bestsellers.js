@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useAppState } from '../../../../../lib/context/app';
-import { Card } from '../../../../cms/views/admin/Card';
+import { Card } from '../../../../cms/components/admin/Card';
 
 export default function BestSellers({ listUrl }) {
   const context = useAppState();

@@ -140,7 +140,7 @@ query Query {
   pageInfo {
     url
   }
-  product(id: getContextValue('productId)) {
+  product(id: getContextValue('productId')) {
     variants {
       variantAttributes {
         attributeId

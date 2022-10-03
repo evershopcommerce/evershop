@@ -4,7 +4,7 @@ import {
 } from 'recharts';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { Card } from '../../../../cms/views/admin/Card';
+import { Card } from '../../../../cms/components/admin/Card';
 
 export default function SaleStatistic({ api }) {
   const [data, setData] = useState([]);
@@ -31,7 +31,7 @@ export default function SaleStatistic({ api }) {
 
   return (
     <Card
-      title="Sale statistic"
+      title="Sale Statistic"
       actions={[
         {
           name: 'Daily',

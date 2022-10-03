@@ -162,11 +162,11 @@ Attributes.propTypes = {
 };
 
 export default function Filter({ category: { availableFilters, products: { currentFilters } } }) {
-  const currentUrl = window.location.href;
 
   const [filtering, setFiltering] = useState(false);
 
   const updateFilter = (newFilters) => {
+    const currentUrl = window.location.href;
     const url = new URL(currentUrl, window.location.origin);
     for (let i = 0; i < currentFilters.length; i += 1) {
       url.searchParams.delete(currentFilters[i].key);
@@ -179,6 +179,7 @@ export default function Filter({ category: { availableFilters, products: { curre
   };
 
   const cleanFilter = () => {
+    const currentUrl = window.location.href;
     const url = new URL(currentUrl, window.location.origin);
     for (let i = 0; i < currentFilters.length; i += 1) {
       url.searchParams.delete(currentFilters[i].key);

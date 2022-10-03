@@ -1,26 +1,42 @@
 const path = require('path');
 const JSON5 = require('json5');
+const isDevelopmentMode = require('../../../../lib/util/isDevelopmentMode');
+const { getRouteBuildPath } = require('../../../../lib/webpack/getRouteBuildPath');
+const { readFileSync } = require('fs');
+const { CONSTANTS } = require('../../../../lib/helpers');
+const { getRoutes } = require('../../../../lib/router/Router');
 const { getContextValue } = require('../../services/contextHelper');
 
 module.exports = (request, response) => {
-  // Get the 'query.graphql' from webpack compiler
-  const { devMiddleware } = response.locals.webpack;
-  const outputFileSystem = devMiddleware.outputFileSystem;
-  const jsonWebpackStats = devMiddleware.stats.toJson();
-  const { outputPath } = jsonWebpackStats;
+  let query;
+  if (isDevelopmentMode()) {
+    // Get the 'query.graphql' from webpack compiler
+    const { devMiddleware } = response.locals.webpack;
+    const outputFileSystem = devMiddleware.outputFileSystem;
+    const jsonWebpackStats = devMiddleware.stats.toJson();
+    const { outputPath } = jsonWebpackStats;
 
-  let query = outputFileSystem.readFileSync(
-    path.join(outputPath, 'query.graphql'),
-    'utf8'
-  );
+    query = outputFileSystem.readFileSync(
+      path.join(outputPath, 'query.graphql'),
+      'utf8'
+    );
+  } else {
+    const routes = getRoutes()
+    const route = response.statusCode === 404 ? routes.find((route) => route.id === 'notFound') : request.currentRoute
+    const subPath = getRouteBuildPath(route);
+    query = readFileSync(
+      path.resolve(CONSTANTS.BUILDPATH, subPath, 'server/query.graphql'),
+      'utf8'
+    );
+  }
   console.log('que', query)
   // Parse the query   
-
   // Use regex to replace "getContextValue_'base64 encoded string'" from the query to the actual function
   const regex = /\\\"getContextValue_([a-zA-Z0-9+/=]+)\\\"/g;
   query = query.replace(regex, (match, p1) => {
     const base64 = p1;
     const decoded = Buffer.from(base64, 'base64').toString('ascii');
+    console.log(decoded);
     // const params = JSON5.parse(decoded);
     // console.log('params', params)
     let value = eval(`getContextValue(request, ${decoded})`);

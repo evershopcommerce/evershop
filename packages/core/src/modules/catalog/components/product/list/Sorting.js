@@ -7,9 +7,9 @@ export default function Sorting({ currentFilters }) {
   const sortingOptions = [{ code: 'price', name: 'Price' }, { code: 'name', name: 'Name' }];
   const sortOrder = currentFilters.find((f) => f.key === 'sortOrder') || { value: 'asc' };
   const sortBy = currentFilters.find((f) => f.key === 'sortBy') || { value: 'id' };
-  const currentUrl = window.location.href;
 
   const onChangeSort = (e) => {
+    const currentUrl = window.location.href;
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
     url.searchParams.set('sortBy', e.target.value);
@@ -17,6 +17,7 @@ export default function Sorting({ currentFilters }) {
   };
 
   const onChangeDirection = (e) => {
+    const currentUrl = window.location.href;
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
     if (sortOrder.value.toLowerCase() === 'asc') {

@@ -4,8 +4,8 @@ import {
   PieChart, Pie, Cell, ResponsiveContainer
 } from 'recharts';
 import { useAppState } from '../../../../../lib/context/app';
-import { Card } from '../../../../cms/views/admin/Card';
 import Dot from '../../../../../lib/components/Dot';
+import { Card } from '../../../../cms/components/admin/Card';
 
 export default function LifetimeSale() {
   const context = useAppState();

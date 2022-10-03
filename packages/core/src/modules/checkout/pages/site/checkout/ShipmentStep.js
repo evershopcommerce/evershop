@@ -58,8 +58,14 @@ export const query = `
         fullName
         postcode
         telephone
-        country
-        province
+        country {
+          code
+          name
+        }
+        province {
+          code
+          name
+        }
         city
         address1
         address2

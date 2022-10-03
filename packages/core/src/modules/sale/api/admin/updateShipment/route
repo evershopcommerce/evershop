@@ -1,2 +1,0 @@
-POST
-/shipment/update/:orderId(\\d+)
