@@ -5,6 +5,9 @@ const { Cart } = require("./cart/cart");
 module.exports = exports;
 
 exports.getCustomerCart = async (customer) => {
+  if (!customer) {
+    return null
+  }
   const { customerId, customerEmail, customerGroupId, customerFullName, sid } = customer;
   if (!customerId && !sid) {
     return null;
