@@ -3,8 +3,9 @@ type Shop {
   name: String
   description: String
   language: String!
-  currency: String
-  timezone: String
+  currency: String!
+  timezone: String!
+  weightUnit: String!
 }
 
 extend type Query {

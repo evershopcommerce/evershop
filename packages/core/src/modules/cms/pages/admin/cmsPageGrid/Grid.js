@@ -133,7 +133,7 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
                 noOuter
                 coreComponents={[
                   {
-                    component: { default: ({ areaProps }) => <PageName url={p.url} name={p.name} /> },
+                    component: { default: ({ areaProps }) => <PageName url={p.editUrl} name={p.name} /> },
                     sortOrder: 10
                   },
                   {
@@ -167,6 +167,7 @@ export const query = `
         status
         content
         layout
+        editUrl
       }
       total
       currentFilters {
