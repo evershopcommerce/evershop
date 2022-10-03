@@ -110,7 +110,7 @@ export default function ProductForm({ product, action }) {
         draff.cart.totalQty = response.data.count;
       }));
       setToastId(toast(<ToastMessage
-        thumbnail={product.gallery[0] ? product.gallery[0].thumb : null}
+        thumbnail={response.data.item.thumbnail}
         name={product.name}
         qty={1}
         count={response.data.count}

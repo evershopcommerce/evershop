@@ -122,7 +122,6 @@ module.exports = {
           value: sortOrder.value
         });
       }
-      console.log(query.sql())
       // Clone the main query for getting total right before doing the paging
       const cloneQuery = query.clone();
       cloneQuery.select('COUNT(`order`.`order_id`)', 'total');

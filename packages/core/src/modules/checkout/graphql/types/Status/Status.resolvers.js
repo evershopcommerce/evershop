@@ -2,8 +2,14 @@ const { getConfig } = require("../../../../../lib/util/getConfig");
 
 module.exports = {
   Query: {
-    shipmentStatusList: () => getConfig('order.shipmentStatus', []),
-    paymentStatusList: () => getConfig('order.paymentStatus', []),
+    shipmentStatusList: () => {
+      const statusList = getConfig('order.shipmentStatus', []);
+      return statusList.map(status => status.code)
+    },
+    paymentStatusList: () => {
+      const statusList = getConfig('order.paymentStatus', []);
+      return statusList.map(status => status.code)
+    }
   },
   ShipmentStatus: {
     code: (code) => code,

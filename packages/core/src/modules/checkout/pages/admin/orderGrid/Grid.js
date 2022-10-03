@@ -161,11 +161,11 @@ export default function OrderGrid({ orders: { items: orders, total, currentFilte
                       sortOrder: 15
                     },
                     {
-                      component: { default: () => <ShipmentStatusRow status={o.shipmentStatus} statusList={shipmentStatusList} /> },
+                      component: { default: () => <ShipmentStatusRow status={o.shipmentStatus} /> },
                       sortOrder: 20
                     },
                     {
-                      component: { default: () => <PaymentStatusRow status={o.paymentStatus} statusList={paymentStatusList} /> },
+                      component: { default: () => <PaymentStatusRow status={o.paymentStatus} /> },
                       sortOrder: 25
                     },
                     {
@@ -199,8 +199,18 @@ export const query = `
         orderNumber
         createdAt
         customerEmail
-        shipmentStatus
-        paymentStatus
+        shipmentStatus {
+          name
+          code
+          badge
+          progress
+        }
+        paymentStatus {
+          name
+          code
+          badge
+          progress
+        }
         grandTotal {
           value
           text

@@ -36,14 +36,15 @@ module.exports = {
     gallery: async (product, _, { pool }) => {
       const gallery = await select()
         .from('product_image')
-        .where('product_image_product_id', '=', product.product_id)
+        .where('product_image_product_id', '=', product.productId)
         .execute(pool);
       return gallery.map((image) => {
         const urls = getUrls(image.image || '');
         return {
+          id: image['product_image_id'],
           ...urls,
           alt: product['name'],
-          path: image,
+          path: image['image'],
           uniqueId: uniqid()
         };
       });

@@ -110,7 +110,7 @@ export default function Attributes({ product, groups }) {
                 case 'multiselect':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${attribute.attributeCode}][]`}
                       value={valueIndexMulti.map(i => i.optionId)}
                       options={(() => attribute.options.map(
                         (o) => ({ value: o.optionId, text: o.optionText })

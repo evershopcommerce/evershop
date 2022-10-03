@@ -57,7 +57,7 @@ export const query = `
       }
       image {
         alt
-        listing
+        url: listing
       }
       url
     }

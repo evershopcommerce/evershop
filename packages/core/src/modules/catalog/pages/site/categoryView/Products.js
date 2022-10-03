@@ -45,7 +45,7 @@ export const fragments = `
     }
     image {
       alt
-      listing
+      url: listing
     }
     url
   }

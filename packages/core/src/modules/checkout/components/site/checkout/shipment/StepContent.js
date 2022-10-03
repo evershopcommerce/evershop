@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import produce from 'immer';
+import { toast } from 'react-toastify';
 import { useCheckoutStepsDispatch } from '../../../../../../lib/context/checkout';
 import { CustomerAddressForm } from '../../../../../customer/views/site/address/AddressForm';
 import { Form } from '../../../../../../lib/components/form/Form';
@@ -27,8 +28,10 @@ export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmen
                 draff.method.code = response.data.method.code;
                 draff.method.name = response.data.method.name;
               }));
+              completeStep('shipment');
+            } else {
+              toast.error(response.message)
             }
-            completeStep('shipment');
           }}
         >
           <CustomerAddressForm

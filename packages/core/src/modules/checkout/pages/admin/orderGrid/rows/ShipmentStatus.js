@@ -2,13 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Badge from '../../../../../../lib/components/Badge';
 
-export default function ShipmentStatusRow({ status, statusList }) {
-  const shipmentStatus = statusList.find((s) => s.value === status);
-  if (shipmentStatus) {
-    return <td><Badge title={shipmentStatus.text} variant={shipmentStatus.badge} progress={shipmentStatus.progress} /></td>;
-  } else {
-    return <td>{status}</td>;
-  }
+export default function ShipmentStatusRow({ status }) {
+  return <td><Badge title={status.name} variant={status.badge} progress={status.progress} /></td>;
 }
 
 ShipmentStatusRow.propTypes = {
