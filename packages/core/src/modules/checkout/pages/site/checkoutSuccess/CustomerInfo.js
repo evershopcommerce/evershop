@@ -70,8 +70,14 @@ export const query = `
         fullName
         postcode
         telephone
-        country
-        province
+        country {
+          name
+          code
+        }
+        province {
+          name
+          code
+        }
         city
         address1
         address2
@@ -80,8 +86,14 @@ export const query = `
         fullName
         postcode
         telephone
-        country
-        province
+        country {
+          name
+          code
+        }
+        province {
+          name
+          code
+        }
         city
         address1
         address2

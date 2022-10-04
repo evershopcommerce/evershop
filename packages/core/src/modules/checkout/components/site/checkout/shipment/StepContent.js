@@ -6,9 +6,37 @@ import { toast } from 'react-toastify';
 import { useCheckoutStepsDispatch } from '../../../../../../lib/context/checkout';
 import { CustomerAddressForm } from '../../../../../customer/views/site/address/AddressForm';
 import { Form } from '../../../../../../lib/components/form/Form';
+import { useClient } from 'urql';
+
+const QUERY = `
+  query Query {
+    cart {
+      shippingMethod
+      shippingMethodName
+      shippingAddress {
+        id: cartAddressId
+        fullName
+        postcode
+        telephone
+        country {
+          code
+          name
+        }
+        province {
+          code
+          name
+        }
+        city
+        address1
+        address2
+      }
+    }
+  }
+`;
 
 export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmentInfo }) {
   const { completeStep } = useCheckoutStepsDispatch();
+  const client = useClient();
 
   if (step.isCompleted === true && step.isEditing !== true) {
     return null;
@@ -23,12 +51,16 @@ export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmen
           btnText="Continue to payment"
           onSuccess={(response) => {
             if (response.success === true) {
-              setShipmentInfo(produce(shipmentInfo, (draff) => {
-                draff.address = response.data.address;
-                draff.method.code = response.data.method.code;
-                draff.method.name = response.data.method.name;
-              }));
-              completeStep('shipment');
+              client.query(QUERY)
+                .toPromise()
+                .then((result) => {
+                  setShipmentInfo(produce(shipmentInfo, (draff) => {
+                    draff.address = result.data.cart.shippingAddress;
+                    draff.method.code = result.data.cart.shippingMethod;
+                    draff.method.name = result.data.cart.shippingMethodName;
+                  }));
+                  completeStep('shipment');
+                })
             } else {
               toast.error(response.message)
             }
@@ -38,7 +70,7 @@ export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmen
             areaId="checkoutShippingAddressForm"
             address={shipmentInfo.address}
             method={shipmentInfo.method}
-            countries={['US', 'VN']}
+            allowCountries={['US', 'FR', 'CN', 'IN']}
           />
         </Form>
       </div>

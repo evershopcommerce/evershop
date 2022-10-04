@@ -3,75 +3,98 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
-import { ProvinceOptions } from '../../../../../lib/components/locale/ProvinceOption';
-import { CountryOptions } from '../../../../../lib/components/locale/CountryOption';
 import Area from '../../../../../lib/components/Area';
-import { get } from '../../../../../lib/util/get';
+import { useQuery } from 'urql';
 
-function Province({ selectedCountry, selectedProvince, formId }) {
+const ProvincesQuery = `
+  query Province($countries: [String]) {
+    provinces (countries: $countries) {
+      code
+      name
+      countryCode
+    }
+  }
+`;
+const CountriesQuery = `
+  query Country($countries: [String]) {
+    countries (countries: $countries) {
+      code
+      name
+    }
+  }
+`;
+function Province({ selectedCountry = 'US', selectedProvince, allowCountries = [], formId }) {
+  const [result, reexecuteQuery] = useQuery({
+    query: ProvincesQuery,
+    variables: { countries: allowCountries },
+  });
+  const { data, fetching, error } = result;
+
+  if (fetching) return <p>Loading...</p>;
+  if (error) return <p>Oh no... {error.message}</p>;
+
   return (
-    <ProvinceOptions country={selectedCountry}>
-      <Field
-        type="select"
-        value={selectedProvince}
-        name="province"
-        label="Province"
-        placeholder="Province"
-        validationRules={['notEmpty']}
-        formId={formId}
-      />
-    </ProvinceOptions>
+    <Field
+      type="select"
+      value={selectedProvince}
+      name="province"
+      label="Province"
+      placeholder="Province"
+      validationRules={['notEmpty']}
+      formId={formId}
+      options={
+        data.provinces
+          .filter(p => p.countryCode === selectedCountry)
+          .map(p => { return { value: p.code, text: p.name } })
+      }
+    />
   );
 }
 
 Province.propTypes = {
   formId: PropTypes.string.isRequired,
-  selectedCountry: PropTypes.string.isRequired,
-  selectedProvince: PropTypes.string.isRequired
+  selectedProvince: PropTypes.string,
+  allowCountries: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 function Country({
-  country, setCountry, countries = [], formId
+  selectedCountry, setSelectedCountry, allowCountries = [], formId
 }) {
-  const [selectedCountry, setSelectedCountry] = React.useState(() => {
-    if (countries.length === 1) return countries[0];
-    else return country;
+  const onChange = (e) => {
+    setSelectedCountry(e.target.value);
+  };
+  const [result, reexecuteQuery] = useQuery({
+    query: CountriesQuery,
+    variables: { countries: allowCountries },
   });
 
-  React.useEffect(() => {
-    if (countries.length === 1) {
-      setSelectedCountry(countries[0]);
-      setCountry(countries[0]);
-    }
-  }, []);
+  const { data, fetching, error } = result;
 
-  const onChange = (e) => {
-    setCountry(e.target.value);
-  };
+  if (fetching) return <p>Loading...</p>;
+  if (error) return <p>Oh no... {error.message}</p>;
 
   return (
-    <div style={{ display: countries.length > 1 ? 'block' : 'none', marginTop: '1rem' }}>
-      <CountryOptions countries={countries}>
-        <Field
-          type="select"
-          value={selectedCountry}
-          label="Country"
-          name="country"
-          placeholder="Country"
-          onChange={onChange}
-          formId={formId}
-          validationRules={['notEmpty']}
-        />
-      </CountryOptions>
+    <div style={{ marginTop: '1rem' }}>
+      <Field
+        type="select"
+        value={selectedCountry}
+        label="Country"
+        name="country"
+        placeholder="Country"
+        onChange={onChange}
+        formId={formId}
+        validationRules={['notEmpty']}
+        options={data.countries.map(c => { return { value: c.code, text: c.name } })}
+      />
     </div>
   );
 }
 
 Country.propTypes = {
-  countries: PropTypes.arrayOf(PropTypes.string).isRequired,
-  country: PropTypes.string.isRequired,
+  allowCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedCountry: PropTypes.string.isRequired,
   formId: PropTypes.string.isRequired,
-  setCountry: PropTypes.func.isRequired
+  setSelectedCountry: PropTypes.func.isRequired
 };
 
 function NameAndTelephone({ formId, address }) {
@@ -81,7 +104,7 @@ function NameAndTelephone({ formId, address }) {
         <Field
           type="text"
           name="full_name"
-          value={get(address, 'full_name', '')}
+          value={address?.fullName}
           formId={formId}
           label="Full name"
           placeholder="Full Name"
@@ -92,7 +115,7 @@ function NameAndTelephone({ formId, address }) {
         <Field
           type="text"
           name="telephone"
-          value={get(address, 'telephone', '')}
+          value={address?.telephone}
           formId={formId}
           label="Telephone"
           placeholder="Telephone"
@@ -104,14 +127,16 @@ function NameAndTelephone({ formId, address }) {
 }
 
 function ProvinceAndPostcode({
-  formId, address, selectedCountry, selectedProvince
+  formId, address, allowCountries = [], selectedCountry
 }) {
   return (
     <div className="grid grid-cols-2 gap-1 mt-1">
       <div>
         <Province
+          address={address}
+          allowCountries={allowCountries}
           selectedCountry={selectedCountry}
-          selectedProvince={selectedProvince}
+          selectedProvince={address?.province?.code}
           formId={formId}
         />
       </div>
@@ -119,7 +144,7 @@ function ProvinceAndPostcode({
         <Field
           type="text"
           name="postcode"
-          value={get(address, 'postcode', '')}
+          value={address?.postcode}
           formId={formId}
           label="Postcode"
           placeholder="Postcode"
@@ -130,10 +155,15 @@ function ProvinceAndPostcode({
   );
 }
 
-export function CustomerAddressForm(props) {
-  const [selectedCountry, setSelectedCountry] = React.useState(get(props, 'address.country'));
-  const formId = props.formId || 'customer_address_form';
-  const areaId = props.areaId || 'customerAddressForm';
+export function CustomerAddressForm({ allowCountries = [], address = {}, formId = 'customer_address_form', areaId = 'customerAddressForm' }) {
+  const [selectedCountry, setSelectedCountry] = React.useState(() => {
+    const country = address?.country?.code;
+    if (!country || !allowCountries.includes(country)) {
+      return allowCountries[0];
+    } else {
+      return country;
+    }
+  });
 
   return (
     <Area
@@ -143,7 +173,7 @@ export function CustomerAddressForm(props) {
           component: { default: NameAndTelephone },
           props: {
             formId,
-            address: get(props, 'address', {})
+            address: address
           },
           sortOrder: 10,
           id: 'fullName'
@@ -153,7 +183,7 @@ export function CustomerAddressForm(props) {
           props: {
             type: 'text',
             name: 'address_1',
-            value: get(props, 'address.address_1', ''),
+            value: address?.address1,
             formId,
             label: 'Address',
             placeholder: 'Address',
@@ -167,7 +197,7 @@ export function CustomerAddressForm(props) {
           props: {
             type: 'text',
             name: 'city',
-            value: get(props, 'address.city', ''),
+            value: address?.city,
             formId,
             label: 'City',
             placeholder: 'City',
@@ -179,9 +209,9 @@ export function CustomerAddressForm(props) {
         {
           component: { default: Country },
           props: {
-            country: get(props, 'address.country', ''),
-            countries: get(props, 'countries'),
-            setCountry: setSelectedCountry,
+            selectedCountry: selectedCountry,
+            allowCountries: allowCountries,
+            setSelectedCountry: setSelectedCountry,
             formId
           },
           sortOrder: 50,
@@ -192,8 +222,9 @@ export function CustomerAddressForm(props) {
           props: {
             formId,
             selectedCountry,
-            address: get(props, 'address', {}),
-            selectedProvince: get(props, 'address.province', '')
+            address: address,
+            allowCountries: allowCountries,
+            selectedCountry: selectedCountry
           },
           sortOrder: 60,
           id: 'province'

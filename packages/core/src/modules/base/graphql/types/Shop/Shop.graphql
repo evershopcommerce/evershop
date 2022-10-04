@@ -5,7 +5,7 @@ type Shop {
   language: String!
   currency: String!
   timezone: String!
-  weightUnit: String!
+  weightUnit: String
 }
 
 extend type Query {

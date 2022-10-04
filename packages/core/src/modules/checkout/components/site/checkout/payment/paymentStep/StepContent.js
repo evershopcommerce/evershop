@@ -54,7 +54,7 @@ export function StepContent({ setBillingAddressAPI, setPaymentInfoAPI, cart: { b
         {useShippingAddress === false && (
           <CustomerAddressForm
             areaId="checkoutBillingAddressForm"
-            countries={['US', 'VN']}
+            allowCountries={['US', 'FR', 'CN', 'IN']}
           />
         )}
       </Form>

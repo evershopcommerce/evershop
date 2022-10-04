@@ -12,14 +12,20 @@ import { useQuery } from 'urql';
 
 const cartQuery = `
   query Query {
-    cart{
+    cart {
       billingAddress {
         cartAddressId
         fullName
         postcode
         telephone
-        country
-        province
+        country {
+          name
+          code
+        }
+        province {
+          name
+          code
+        }
         city
         address1
         address2
@@ -29,8 +35,14 @@ const cartQuery = `
         fullName
         postcode
         telephone
-        country
-        province
+        country {
+          name
+          code
+        }
+        province {
+          name
+          code
+        }
         city
         address1
         address2
@@ -75,7 +87,7 @@ export default function CheckoutForm() {
 
   const [result, reexecuteQuery] = useQuery({
     query: cartQuery,
-    pause: checkout.orderPlaced === false
+    pause: checkout.orderPlaced === true
   });
 
   useEffect(() => {
@@ -87,7 +99,7 @@ export default function CheckoutForm() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ orderId: checkout.orderId, test: "asdasd" })
+          body: JSON.stringify({ orderId: checkout.orderId })
         })
         .then((res) => res.json())
         .then((data) => {
@@ -98,7 +110,6 @@ export default function CheckoutForm() {
 
   useEffect(() => {
     const pay = async () => {
-      console.log(result);
       const billingAddress = result.data.cart.billingAddress || result.data.cart.shippingAddress
       const payload = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
@@ -109,8 +120,8 @@ export default function CheckoutForm() {
             phone: billingAddress.telephone,
             address: {
               line1: billingAddress.address1,
-              country: billingAddress.country,
-              state: billingAddress.province,
+              country: billingAddress.country.code,
+              state: billingAddress.province.code,
               postal_code: billingAddress.postcode,
               city: billingAddress.city
             }

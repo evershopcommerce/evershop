@@ -4,7 +4,6 @@ const { Handler } = require('../../../src/lib/middleware/Handler');
 const { broadcash } = require('./broadcash');
 
 module.exports.watchMF = function (event, path) {
-  console.log('updating middleware', path, normalize('pages/global'))
   // Check if path include graphql/types
   if (!path.includes(normalize('pages/admin')) &&
     !path.includes(normalize('pages/site')) &&

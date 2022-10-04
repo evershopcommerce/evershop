@@ -34,7 +34,6 @@ module.exports.parseGraphqlByFile = function (module) {
       const name = selection.name.value;
       const alias = selection.alias ? selection.alias.value : name;
       const newAlias = `e${uniqid()}`;
-      console.log(module, alias, newAlias);
       if (!selection.alias) {
         selection.alias = {
           kind: 'Name',
@@ -186,7 +185,6 @@ module.exports.parseGraphqlByFile = function (module) {
     result.variables.source = '{}';
     result.variables.definitions = [];
   }
-  console.log(result);
   return result;
 }
 

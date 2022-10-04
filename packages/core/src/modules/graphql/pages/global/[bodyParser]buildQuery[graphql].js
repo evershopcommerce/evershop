@@ -29,14 +29,12 @@ module.exports = (request, response) => {
       'utf8'
     );
   }
-  console.log('que', query)
   // Parse the query   
   // Use regex to replace "getContextValue_'base64 encoded string'" from the query to the actual function
   const regex = /\\\"getContextValue_([a-zA-Z0-9+/=]+)\\\"/g;
   query = query.replace(regex, (match, p1) => {
     const base64 = p1;
     const decoded = Buffer.from(base64, 'base64').toString('ascii');
-    console.log(decoded);
     // const params = JSON5.parse(decoded);
     // console.log('params', params)
     let value = eval(`getContextValue(request, ${decoded})`);
@@ -49,10 +47,8 @@ module.exports = (request, response) => {
     }
     return value;
   });
-  console.log('---', query, '===');
   try {
     const json = JSON.parse(query);
-    console.log(json)
     // Get all variables definition and build the operation name
     const variables = JSON.parse(json.variables);
     const operation = 'query Query';

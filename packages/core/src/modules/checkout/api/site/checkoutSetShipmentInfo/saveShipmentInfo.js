@@ -28,11 +28,6 @@ module.exports = async (request, response, stack, next) => {
     await saveCart(cart);
     response.$body = {
       data: {
-        address: await select().from('cart_address').where('cart_address_id', '=', result.insertId).load(pool),
-        method: {
-          code: cart.getData('shipping_method'),
-          name: cart.getData('shipping_method_name')
-        }
       },
       success: true,
       message: ''

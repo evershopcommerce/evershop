@@ -57,7 +57,6 @@ module.exports.createConfigClient = function createConfigClient(route) {
       path.resolve(CONSTANTS.LIBPATH, `components/react/client/Index.js`),
       'webpack-hot-middleware/client?path=' + `/eHot/${route.id}&reload=true&overlay=true`,
     ];
-    console.log(entry);
     return entry
   };
   config.watchOptions = {

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import './Thumbnail.scss';
 
 function Thumbnail({ imageUrl, alt }) {
   return (

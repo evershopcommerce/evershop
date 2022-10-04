@@ -1,4 +1,9 @@
 type Province {
   name: String!
   code: String!
+  countryCode: String!
+}
+
+extend type Query {
+  provinces (countries: [String]) : [Province]
 }

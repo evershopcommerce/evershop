@@ -16,7 +16,6 @@ module.exports = async function graphql(request, response, delegate, next) {
   try {
     const { body } = request;
     const { graphqlQuery, graphqlVariables, propsMap } = body;
-    console.log(graphqlQuery);
     // Try remove all white space and line break
     const query = graphqlQuery.replace(/(\r\n|\n|\r|\s)/gm, '');
     if (query === 'queryQuery{}') {// TODO: oh no, so dirty. find a better way to check if the query is empty
@@ -27,7 +26,6 @@ module.exports = async function graphql(request, response, delegate, next) {
       // Validate the query
       const validationErrors = validate(schema, document);
       if (validationErrors.length > 0) {
-        console.log(validationErrors[0].locations);
         next(new Error(validationErrors[0].message));
       } else {
         if (isDevelopmentMode()) {
@@ -37,7 +35,6 @@ module.exports = async function graphql(request, response, delegate, next) {
         const data = await execute({
           schema, contextValue: getContext(request), document, variableValues: graphqlVariables
         });
-        console.log('data', data);
         if (data.errors) {
           // Create an Error instance with message and stack trace
           console.log(data.errors)

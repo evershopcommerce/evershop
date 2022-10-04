@@ -12,8 +12,6 @@ module.exports = {
           queries[param.key] = param.value;
         }
       });
-      if (routeId === "imageUpload")
-        console.log('queries', queries);
       return buildUrl(routeId, queries);
     }
   }

@@ -6,7 +6,6 @@ const JSON5 = require('json5');
 /* eslint-disable no-multi-assign */
 /* eslint-disable global-require */
 module.exports = exports = function areaLoader(c) {
-  console.log(`----- Area loader`);
   const components = (this.getOptions().getComponents)();
   const routeId = this.getOptions().routeId;
   let content;

@@ -16,7 +16,6 @@ module.exports = async function graphql(request, response, delegate, next) {
       }
     });
     const { query, variables } = body;
-    console.log(query);
     const document = parse(query);
     // Validate the query
     const validationErrors = validate(schema, document);
@@ -30,7 +29,6 @@ module.exports = async function graphql(request, response, delegate, next) {
       const data = await execute({
         schema, contextValue: getContext(request), document, variableValues: variables
       });
-      console.log('data', data);
       if (data.errors) {
         // Create an Error instance with message and stack trace
         console.log(data.errors)
