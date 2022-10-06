@@ -17,7 +17,8 @@ function normalizeAssets(assets) {
 }
 
 function renderDevelopment(request, response) {
-  const devMiddleware = get(response, 'locals.webpack.devMiddleware');
+  const route = request.locals.webpackMatchedRoute;
+  const devMiddleware = route.webpackMiddleware;
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     propsMap: get(response, 'locals.propsMap', {}),
@@ -36,10 +37,9 @@ function renderDevelopment(request, response) {
     return;
   }
 
-  const stats = devMiddleware.stats;
+  const stats = devMiddleware.context.stats;
   //let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
   const { assetsByChunkName, outputPath } = stats.toJson();
-  const route = request.locals.webpackMatchedRoute;
   response.send(`
             <!doctype html><html>
                 <head>

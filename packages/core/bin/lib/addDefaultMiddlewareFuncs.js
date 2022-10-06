@@ -60,10 +60,9 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
   });
 
   if (isDevelopmentMode()) {
-    const compilers = {};
     routes.forEach((route) => {
       if (isBuildRequired(route)) {
-        compilers[route.id] = webpack(createConfigClient(route));
+        route.webpackCompiler = webpack(createConfigClient(route));
       } else {
         return
       }
@@ -94,7 +93,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
         if (!isBuildRequired(route)) {
           next();
         } else {
-          const webpackCompiler = compilers[route.id];
+          const webpackCompiler = route.webpackCompiler;
           let middlewareFunc;
           if (!route.webpackMiddleware) {
             middlewareFunc = route.webpackMiddleware = middleware(webpackCompiler, {
@@ -106,15 +105,30 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
           } else {
             middlewareFunc = route.webpackMiddleware;
           }
-
-          middlewareFunc(request, response, next);
+          // We need to run build for notFound route
+          const notFoundRoute = routes.find((r) => r.id === 'notFound');
+          const notFoundWebpackCompiler = notFoundRoute.webpackCompiler;
+          let notFoundMiddlewareFunc;
+          if (!notFoundRoute.webpackMiddleware) {
+            notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware = middleware(notFoundWebpackCompiler, {
+              serverSideRender: true, publicPath: '/', stats: 'none'
+            });
+            notFoundMiddlewareFunc.context.logger.info = (message) => {
+              return
+            }
+          } else {
+            notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware;
+          }
+          middlewareFunc(request, response, () => {
+            notFoundMiddlewareFunc(request, response, next)
+          });
         }
       }
     );
 
     routes.forEach((route) => {
       if (isBuildRequired(route)) {
-        const webpackCompiler = compilers[route.id];
+        const webpackCompiler = route.webpackCompiler;
         const hotMiddleware = route.hotMiddleware ? route.hotMiddleware : require("webpack-hot-middleware")(webpackCompiler, { path: `/eHot/${route.id}` });
         if (!route.hotMiddleware) {
           route.hotMiddleware = hotMiddleware;

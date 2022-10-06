@@ -11,10 +11,16 @@ const { getContextValue } = require('../../services/contextHelper');
 module.exports = (request, response) => {
   let query;
   if (isDevelopmentMode()) {
-    // Get the 'query.graphql' from webpack compiler
-    const { devMiddleware } = response.locals.webpack;
-    const outputFileSystem = devMiddleware.outputFileSystem;
-    const jsonWebpackStats = devMiddleware.stats.toJson();
+    let route;
+    if (response.statusCode === 404) {
+      route = getRoutes().find((r) => r.id === 'notFound');
+    } else {
+      // Get the 'query.graphql' from webpack compiler
+      route = request.locals.webpackMatchedRoute;
+    }
+    const devMiddleware = route.webpackMiddleware;
+    const outputFileSystem = devMiddleware.context.outputFileSystem;
+    const jsonWebpackStats = devMiddleware.context.stats.toJson();
     const { outputPath } = jsonWebpackStats;
 
     query = outputFileSystem.readFileSync(
