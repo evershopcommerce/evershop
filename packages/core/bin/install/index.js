@@ -197,6 +197,7 @@ function error(message) {
     title: shop.shopTitle,
     description: shop.shopDesc,
     currency: shop.shopCurrency,
+    weightUnit: 'kg',
     language: shop.shopLanguage,
     timezone: shop.shopTimeZone
   };
