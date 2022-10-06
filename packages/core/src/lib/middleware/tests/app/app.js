@@ -8,7 +8,6 @@ const { loadModuleRoutes } = require('../../../../../bin/lib/loadModuleRoutes');
 const { getModuleMiddlewares } = require('../..');
 const { getRoutes } = require('../../../router/Router');
 const { once } = require('events');
-const { Componee } = require('../../../componee/Componee');
 const { Handler } = require('../../Handler');
 
 
@@ -18,8 +17,16 @@ const app = express();
 /* Loading modules and initilize routes, components and services */
 const modules = [
   {
-    name: 'cmscopy',
-    path: path.resolve(__dirname, './modules/cmscopy')
+    name: 'authcopy',
+    path: path.resolve(__dirname, './modules/authcopy')
+  },
+  {
+    name: 'basecopy',
+    path: path.resolve(__dirname, './modules/basecopy')
+  },
+  {
+    name: 'graphqlcopy',
+    path: path.resolve(__dirname, './modules/graphqlcopy')
   },
   {
     name: '404page',
@@ -52,15 +59,6 @@ modules.forEach((module) => {
   }
 });
 
-modules.forEach((module) => {
-  try {
-    // Load components
-    Componee.loadModuleComponents(module);
-  } catch (e) {
-    console.log(e);
-    process.exit(0);
-  }
-});
 // TODO: load extensions, themes
 
 const routes = getRoutes();

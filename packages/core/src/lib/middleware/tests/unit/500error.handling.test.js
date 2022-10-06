@@ -24,7 +24,7 @@ describe('buildMiddlewareFunction', () => {
   });
 
   it('The error handler middleware should be executed only one time per request', async () => {
-    const errorHandler = require('../app/modules/cmscopy/controllers/[response]errorHandler');
+    const errorHandler = require('../app/modules/basecopy/pages/global/[response]errorHandler');
     expect(errorHandler).toHaveBeenCalledTimes(1);
   });
 

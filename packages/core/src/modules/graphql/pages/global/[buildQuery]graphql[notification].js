@@ -16,35 +16,39 @@ module.exports = async function graphql(request, response, delegate, next) {
   try {
     const { body } = request;
     const { graphqlQuery, graphqlVariables, propsMap } = body;
-    // Try remove all white space and line break
-    const query = graphqlQuery.replace(/(\r\n|\n|\r|\s)/gm, '');
-    if (query === 'queryQuery{}') {// TODO: oh no, so dirty. find a better way to check if the query is empty
+    if (!graphqlQuery) {
       next();
     } else {
-      const document = parse(graphqlQuery);
-
-      // Validate the query
-      const validationErrors = validate(schema, document);
-      if (validationErrors.length > 0) {
-        next(new Error(validationErrors[0].message));
+      // Try remove all white space and line break
+      const query = graphqlQuery.replace(/(\r\n|\n|\r|\s)/gm, '');
+      if (query === 'queryQuery{}') {// TODO: oh no, so dirty. find a better way to check if the query is empty
+        next();
       } else {
-        if (isDevelopmentMode()) {
-          schema = require('../../services/buildSchema');
-        }
-        const context = getContext(request);
-        const data = await execute({
-          schema, contextValue: getContext(request), document, variableValues: graphqlVariables
-        });
-        if (data.errors) {
-          // Create an Error instance with message and stack trace
-          console.log(data.errors)
-          next(new Error(data.errors[0].message));
+        const document = parse(graphqlQuery);
+
+        // Validate the query
+        const validationErrors = validate(schema, document);
+        if (validationErrors.length > 0) {
+          next(new Error(validationErrors[0].message));
         } else {
-          response.locals = response.locals || {};
-          response.locals.graphqlResponse = JSON.parse(JSON.stringify(data.data));
-          // Get id and props from the queryRaw object and assign to response.locals.propsMap
-          response.locals.propsMap = propsMap;
-          next();
+          if (isDevelopmentMode()) {
+            schema = require('../../services/buildSchema');
+          }
+          const context = getContext(request);
+          const data = await execute({
+            schema, contextValue: getContext(request), document, variableValues: graphqlVariables
+          });
+          if (data.errors) {
+            // Create an Error instance with message and stack trace
+            console.log(data.errors)
+            next(new Error(data.errors[0].message));
+          } else {
+            response.locals = response.locals || {};
+            response.locals.graphqlResponse = JSON.parse(JSON.stringify(data.data));
+            // Get id and props from the queryRaw object and assign to response.locals.propsMap
+            response.locals.propsMap = propsMap;
+            next();
+          }
         }
       }
     }

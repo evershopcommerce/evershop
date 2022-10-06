@@ -4,15 +4,10 @@ const normalizePort = require('./normalizePort');
 const onListening = require('./onListening');
 const onError = require('./onError');
 const { Handler } = require('../../src/lib/middleware/Handler');
-const { Componee } = require('../../src/lib/componee/Componee');
 const { getCoreModules } = require('./loadModules');
 const { migrate } = require('./bootstrap/migrate');
 const { loadBootstrapScript } = require('./bootstrap/bootstrap');
 const { getEnabledExtensions } = require('../extension');
-const isDevelopmentMode = require('../../src/lib/util/isDevelopmentMode');
-const { getRoutes } = require('../../src/lib/router/Router');
-const { createComponents } = require('./createComponents');
-const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
 
 var app = createApp();
 /** Create a http server */

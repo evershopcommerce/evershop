@@ -1,6 +1,7 @@
 const path = require('path');
 const JSON5 = require('json5');
 const isDevelopmentMode = require('../../../../lib/util/isDevelopmentMode');
+const isProductionMode = require('../../../../lib/util/isProductionMode');
 const { getRouteBuildPath } = require('../../../../lib/webpack/getRouteBuildPath');
 const { readFileSync } = require('fs');
 const { CONSTANTS } = require('../../../../lib/helpers');
@@ -20,7 +21,7 @@ module.exports = (request, response) => {
       path.join(outputPath, 'query.graphql'),
       'utf8'
     );
-  } else {
+  } else if (isProductionMode()) {
     const routes = getRoutes()
     const route = response.statusCode === 404 ? routes.find((route) => route.id === 'notFound') : request.currentRoute
     const subPath = getRouteBuildPath(route);
@@ -29,40 +30,42 @@ module.exports = (request, response) => {
       'utf8'
     );
   }
-  // Parse the query   
-  // Use regex to replace "getContextValue_'base64 encoded string'" from the query to the actual function
-  const regex = /\\\"getContextValue_([a-zA-Z0-9+/=]+)\\\"/g;
-  query = query.replace(regex, (match, p1) => {
-    const base64 = p1;
-    const decoded = Buffer.from(base64, 'base64').toString('ascii');
-    // const params = JSON5.parse(decoded);
-    // console.log('params', params)
-    let value = eval(`getContextValue(request, ${decoded})`);
+  if (query) {
+    // Parse the query   
+    // Use regex to replace "getContextValue_'base64 encoded string'" from the query to the actual function
+    const regex = /\\\"getContextValue_([a-zA-Z0-9+/=]+)\\\"/g;
+    query = query.replace(regex, (match, p1) => {
+      const base64 = p1;
+      const decoded = Buffer.from(base64, 'base64').toString('ascii');
+      // const params = JSON5.parse(decoded);
+      // console.log('params', params)
+      let value = eval(`getContextValue(request, ${decoded})`);
 
-    // JSON sringify without adding double quotes to the property name
-    value = JSON5.stringify(value, { quote: '"' });
-    // Escape the value so we can insert it into the query
-    if (value) {
-      value = value.replace(/"/g, '\\"')
-    }
-    return value;
-  });
-  try {
-    const json = JSON.parse(query);
-    // Get all variables definition and build the operation name
-    const variables = JSON.parse(json.variables);
-    const operation = 'query Query';
-    if (variables.defs.length > 0) {
-      const variablesString = variables.defs.map((variable) => {
-        return `$${variable.name}: ${variable.type}`;
-      }).join(', ');
-      operation += `(${variablesString})`;
-    }
-    request.body.graphqlQuery = `${operation} { ${json.query} } ${json.fragments}`;
-    request.body.graphqlVariables = variables.values;
-    request.body.propsMap = json.propsMap;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  };
+      // JSON sringify without adding double quotes to the property name
+      value = JSON5.stringify(value, { quote: '"' });
+      // Escape the value so we can insert it into the query
+      if (value) {
+        value = value.replace(/"/g, '\\"')
+      }
+      return value;
+    });
+    try {
+      const json = JSON.parse(query);
+      // Get all variables definition and build the operation name
+      const variables = JSON.parse(json.variables);
+      const operation = 'query Query';
+      if (variables.defs.length > 0) {
+        const variablesString = variables.defs.map((variable) => {
+          return `$${variable.name}: ${variable.type}`;
+        }).join(', ');
+        operation += `(${variablesString})`;
+      }
+      request.body.graphqlQuery = `${operation} { ${json.query} } ${json.fragments}`;
+      request.body.graphqlVariables = variables.values;
+      request.body.propsMap = json.propsMap;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    };
+  }
 }
