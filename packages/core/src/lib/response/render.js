@@ -18,17 +18,12 @@ function normalizeAssets(assets) {
 
 function renderDevelopment(request, response) {
   const route = request.locals.webpackMatchedRoute;
-  const devMiddleware = route.webpackMiddleware;
-  const contextValue = {
-    graphqlResponse: get(response, 'locals.graphqlResponse', {}),
-    propsMap: get(response, 'locals.propsMap', {}),
-  };
-  if (!devMiddleware) { // In testing mode, we do not have devMiddleware
+  if (!route) { // In testing mode, we do not have devMiddleware
     response.send(`
             <html>
               <head>
-                <title>${contextValue.metaTitle}</title>
-                <script>var eContext = ${inspect(contextValue, { depth: 10, maxArrayLength: null })}</script>
+                <title>Sample Html Response</title>
+                <script>Sample Html Response</script>
               </head>
               <body>
               </body>
@@ -36,6 +31,12 @@ function renderDevelopment(request, response) {
             `);
     return;
   }
+  const devMiddleware = route.webpackMiddleware;
+  const contextValue = {
+    graphqlResponse: get(response, 'locals.graphqlResponse', {}),
+    propsMap: get(response, 'locals.propsMap', {}),
+  };
+
 
   const stats = devMiddleware.context.stats;
   //let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
