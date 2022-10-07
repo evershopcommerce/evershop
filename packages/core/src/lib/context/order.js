@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useAppState } from './app';
 import { useCheckoutSteps } from './checkout';
 
 const Checkout = React.createContext();
 
-export function CheckoutProvider({ children }) {
+export function CheckoutProvider({ children, placeOrderAPI, checkoutSuccessUrl }) {
   const steps = useCheckoutSteps();
-  const { checkout: { placeOrderAPI } } = useAppState();
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState();
   const [, setError] = useState(null);
@@ -35,7 +33,7 @@ export function CheckoutProvider({ children }) {
   }, [steps]);
 
   return (
-    <Checkout.Provider value={{ steps, orderPlaced, orderId }}>
+    <Checkout.Provider value={{ steps, orderPlaced, orderId, checkoutSuccessUrl }}>
       {children}
     </Checkout.Provider>
   );

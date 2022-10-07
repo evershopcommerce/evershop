@@ -45,18 +45,26 @@ module.exports.parseFromFile = (path) => {
       path: path
     };
   }
-  if (m.id !== 'context' && m.id !== 'errorHandler') {
-    m.before = !m.before ? (['notification']) : m.before;
-    m.after = !m.after ? (['session']) : m.after;
-  }
 
   const route = getRouteFromPath(path);
+  if (route.region === 'api') {
+    if (m.id !== 'context' && m.id !== 'apiErrorHandler') {
+      m.before = !m.before ? (['apiResponse']) : m.before;
+      m.after = !m.after ? (['auth']) : m.after;
+    }
+  } else {
+    if (m.id !== 'context' && m.id !== 'errorHandler') {
+      m.before = !m.before ? (['buildQuery']) : m.before;
+      m.after = !m.after ? (['auth']) : m.after;
+    }
+  }
 
   // Check if routeId is an array of routeIds or a single routeId
   if (Array.isArray(route.routeId)) {
     return route.routeId.map((r) => {
       return {
         ...m,
+        region: route.region,
         scope: route.scope,
         routeId: r
       };

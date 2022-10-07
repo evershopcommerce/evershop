@@ -1,6 +1,5 @@
 const path = require('path');
 const { inspect } = require('util');
-const { CONSTANTS } = require('../helpers');
 const { getRoutes } = require('../router/Router');
 const { get } = require('../util/get');
 const isProductionMode = require('../util/isProductionMode');
@@ -18,13 +17,13 @@ function normalizeAssets(assets) {
 }
 
 function renderDevelopment(request, response) {
-  const devMiddleware = get(response, 'locals.webpack.devMiddleware');
-  if (!devMiddleware) { // In testing mode, we do not have devMiddleware
+  const route = request.locals.webpackMatchedRoute;
+  if (!route) { // In testing mode, we do not have devMiddleware
     response.send(`
             <html>
               <head>
-                <title>${response.context.metaTitle}</title>
-                <script>var eContext = ${inspect(response.context, { depth: 10, maxArrayLength: null })}</script>
+                <title>Sample Html Response</title>
+                <script>Sample Html Response</script>
               </head>
               <body>
               </body>
@@ -32,15 +31,20 @@ function renderDevelopment(request, response) {
             `);
     return;
   }
+  const devMiddleware = route.webpackMiddleware;
+  const contextValue = {
+    graphqlResponse: get(response, 'locals.graphqlResponse', {}),
+    propsMap: get(response, 'locals.propsMap', {}),
+  };
 
-  const stats = devMiddleware.stats;
+
+  const stats = devMiddleware.context.stats;
   //let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
   const { assetsByChunkName, outputPath } = stats.toJson();
-  const route = request.locals.webpackMatchedRoute;
   response.send(`
             <!doctype html><html>
                 <head>
-                  <script>var eContext = ${inspect(response.context, { depth: 10, maxArrayLength: null })}</script>
+                  <script>var eContext = ${inspect(contextValue, { depth: 10, maxArrayLength: null })}</script>
                 </head>
                 <body>
                 <div id="app"></div>
@@ -58,7 +62,11 @@ function renderProduction(request, response) {
   const route = response.statusCode === 404 ? routes.find((route) => route.id === 'notFound') : request.currentRoute;
   const { renderHtml } = require(path.resolve(getRouteBuildPath(route), 'server', 'index.js'));
   const assets = require(path.resolve(getRouteBuildPath(route), 'client', 'index.json'));
-  const source = renderHtml(assets.js, assets.css, response.context);
+  const contextValue = {
+    graphqlResponse: get(response, 'locals.graphqlResponse', {}),
+    propsMap: get(response, 'locals.propsMap', {}),
+  };
+  const source = renderHtml(assets.js, assets.css, contextValue);
   response.send(source);
 }
 

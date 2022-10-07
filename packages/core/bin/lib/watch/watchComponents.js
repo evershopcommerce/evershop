@@ -7,7 +7,7 @@ const { getRoutes } = require('../../../src/lib/router/Router');
 const { isBuildRequired } = require('../../../src/lib/webpack/isBuildRequired');
 
 function watchComponents() {
-  chokidar.watch('**/**/views/*/components.js', {
+  chokidar.watch('**/**/pages/*.js', {
     ignored: /node_modules[\\/]/,
     ignoreInitial: true,
     persistent: true

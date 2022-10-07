@@ -27,11 +27,12 @@ class Handler {
   }
 
   static getMiddlewareByRoute(route) {
-    let middlewares = this.middlewares.filter((m) => m.routeId === route.id || m.scope === 'app');
+    const region = route.isApi ? "api" : "pages";
+    let middlewares = this.middlewares.filter((m) => (m.routeId === route.id || m.scope === 'app') && m.region === region);
     if (route.isAdmin === true) {
-      middlewares = sortMiddlewares(middlewares.concat(this.middlewares.filter((m) => m.routeId === 'admin')));
+      middlewares = sortMiddlewares(middlewares.concat(this.middlewares.filter((m) => m.routeId === 'admin' && m.region === region)));
     } else {
-      middlewares = sortMiddlewares(middlewares.concat(this.middlewares.filter((m) => m.routeId === 'site')));
+      middlewares = sortMiddlewares(middlewares.concat(this.middlewares.filter((m) => m.routeId === 'site' && m.region === region)));
     }
 
     if (isDevelopmentMode()) {
@@ -50,8 +51,8 @@ class Handler {
     return middlewares;
   }
 
-  static getAppLevelMiddlewares() {
-    return sortMiddlewares(this.middlewares.filter((m) => m.scope === 'app'));
+  static getAppLevelMiddlewares(region) {
+    return sortMiddlewares(this.middlewares.filter((m) => m.scope === 'app' && m.region === region));
   }
 
   static removeMiddleware(path) {
@@ -79,14 +80,13 @@ class Handler {
       const currentRoute = request.currentRoute;
       let middlewares;
       if (!currentRoute) {
-        middlewares = this.getAppLevelMiddlewares();
+        middlewares = this.getAppLevelMiddlewares('pages');
       } else {
         middlewares = this.getMiddlewareByRoute(currentRoute);
       }
 
       const goodHandlers = middlewares.filter((m) => m.middleware.length === 3);
       const errorHandlers = middlewares.filter((m) => m.middleware.length === 4);
-
       let currentGood = 0;
       let currentError = -1;
       const eNext = function eNext() {

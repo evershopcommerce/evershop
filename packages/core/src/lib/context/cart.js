@@ -4,11 +4,16 @@ import React from 'react';
 const CartContext = React.createContext();
 const CartContextDispatch = React.createContext();
 
-export function CartProvider({ value, children }) {
-  const [data, setData] = React.useState(value);
+export function CartProvider({ id, children }) {
+  const [id, setId] = React.useState(undefined);
+
+  const getData = () => {
+    fetch()
+  };
+
   return (
-    <CartContextDispatch.Provider value={setData}>
-      <CartContext.Provider value={data}>
+    <CartContextDispatch.Provider value={getData}>
+      <CartContext.Provider value={id}>
         {children}
       </CartContext.Provider>
     </CartContextDispatch.Provider>

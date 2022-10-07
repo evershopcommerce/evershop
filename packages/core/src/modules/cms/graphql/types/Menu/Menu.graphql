@@ -1,0 +1,13 @@
+type MenuItem {
+  name: String!
+  url: String!
+  children: [MenuItem]
+}
+
+type Menu {
+  items: [MenuItem]
+}
+
+extend type Query {
+  menu: Menu
+}

@@ -6,7 +6,7 @@ themes
 .evershop
 .vscode
 npm-debug.log
-media
+/media
 .DS_Store
 .log
 coverage

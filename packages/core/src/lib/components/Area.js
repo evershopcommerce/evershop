@@ -2,16 +2,13 @@
 /* eslint-disable react/destructuring-assignment */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useAppState } from '../context/app';
 
 function Area(props) {
   const {
     id, coreComponents, wrapperProps, noOuter, wrapper, className, components
   } = props;
 
-  // const [components, setComponents] = React.useState(window.components);
-  // React.useEffect(() => {
-  //   setComponents(window.components);
-  // })
   const areaComponents = (() => {
     const areaCoreComponents = coreComponents || [];
     const cs = components[id] === undefined
@@ -32,13 +29,27 @@ function Area(props) {
   } else {
     areaWrapperProps = { className: className || '' };
   }
-  //if (areaComponents.length === 0) return null;
+
+  const context = useAppState();
+
   return (
     <WrapperComponent {...areaWrapperProps}>
       {areaComponents.map((w) => {
         const C = w.component.default;
-        if (typeof C === 'string') return <C key={w.id} {...w.props} />;
-        return <C key={w.id} {...w.props} areaProps={props} />;
+        const id = w.id;
+        const propsMap = context.propsMap;
+        const propsData = context.graphqlResponse;
+        const propKeys = propsMap[id] || [];
+        const componentProps = propKeys.reduce((acc, map) => {
+          const { origin, alias } = map;
+          acc[origin] = propsData[alias];
+          return acc;
+        }, {});
+        if (w.props) {
+          Object.assign(componentProps, w.props);
+        }
+        if (typeof C === 'string') return <C key={w.id} {...componentProps} />;
+        return <C key={w.id} areaProps={props} {...componentProps} />;
       })}
     </WrapperComponent>
   );

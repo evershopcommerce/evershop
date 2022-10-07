@@ -1,0 +1,37 @@
+type AttributeGroup {
+  attributeGroupId: ID!
+  groupName: String!
+  attributes: [Attribute]
+}
+
+type AttributeOption {
+  attributeOptionId: ID!
+  optionText: String!
+}
+
+type Attribute {
+  attributeId: ID!
+  attributeCode: String!
+  attributeName: String!
+  type: String!
+  isRequired: Int!
+  displayOnFrontend: Int!
+  sortOrder: Int!
+  isFilterable: Int!
+  options: [AttributeOption]
+  groups: [AttributeGroup]
+  editUrl: String!
+}
+
+type AttributeCollection {
+  items: [Attribute]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  attribute(id: Int): Attribute
+  attributes(filters: [FilterInput]): AttributeCollection
+  attributeGroups: [AttributeGroup]!
+}

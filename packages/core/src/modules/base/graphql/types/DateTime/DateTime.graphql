@@ -1,0 +1,5 @@
+type DateTime {
+  value: String!
+  timezone: String!
+  text(format: String): String!
+}

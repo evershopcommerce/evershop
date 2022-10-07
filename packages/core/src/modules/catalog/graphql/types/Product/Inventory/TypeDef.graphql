@@ -1,0 +1,11 @@
+type Inventory {
+  id: ID!
+  qty: Int!
+  isInStock: Boolean!
+  stockAvailability: Int!
+  manageStock: Int!
+}
+
+extend type Product {
+  inventory: Inventory!
+}

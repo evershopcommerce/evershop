@@ -1,3 +1,4 @@
+const path = require('path');
 const { CONSTANTS } = require("../helpers");
 const isProductionMode = require("../util/isProductionMode");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -14,25 +15,33 @@ module.exports.createBaseConfig = function createBaseConfig(
           /@evershop[\\/]core/
         ]
       },
-      use: {
-        loader: 'babel-loader?cacheDirectory',
-        options: {
-          sourceType: 'unambiguous',
-          cacheDirectory: true,
-          presets: [
-            [
-              "@babel/preset-env",
-              {
-                "targets": {
-                  "esmodules": true
-                },
-                "exclude": ["@babel/plugin-transform-regenerator", "@babel/plugin-transform-async-to-generator"]
-              }
-            ],
-            '@babel/preset-react'
-          ]
+      use: [
+        {
+          loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/LayoutLoader.js'),
+        },
+        {
+          loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/GraphqlLoader.js'),
+        },
+        {
+          loader: 'babel-loader?cacheDirectory',
+          options: {
+            sourceType: 'unambiguous',
+            cacheDirectory: true,
+            presets: [
+              [
+                "@babel/preset-env",
+                {
+                  "targets": {
+                    "esmodules": true
+                  },
+                  "exclude": ["@babel/plugin-transform-regenerator", "@babel/plugin-transform-async-to-generator"]
+                }
+              ],
+              '@babel/preset-react'
+            ]
+          }
         }
-      }
+      ]
     }
   ];
 

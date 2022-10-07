@@ -1,0 +1,127 @@
+interface ShoppingCart {
+  currency: String!
+  customerId: Int
+  customerGroupId: Int
+  customerEmail: String
+  customerFullName: String
+  userIp: String
+  userId: String
+  status: Int!
+  coupon: String
+  shippingFeeExclTax: Price!
+  shippingFeeInclTax: Price!
+  discountAmount: Price!
+  subTotal: Price!
+  totalQty: Int!
+  totalWeight: Weight!
+  taxAmount: Price!
+  grandTotal: Price!
+  shippingMethod: String
+  shippingMethodName: String
+  shippingAddress: Address
+  paymentMethod: String
+  paymentMethodName: String
+  billingAddress: Address
+  shippingNote: String
+}
+
+interface ShoppingCartItem {
+  productId: ID!
+  productSku: String!
+  productName: String
+  thumbnail: String
+  productWeight: Weight!
+  productPrice: Price!
+  productPriceInclTax: Price!
+  qty: Int!
+  finalPrice: Price!
+  finalPriceInclTax: Price!
+  taxPercent: Float!
+  taxAmount: Price!
+  discountAmount: Price!
+  total: Price!
+  variantGroupId: Int
+  variantOptions: String
+  productCustomOptions: String
+  productUrl: String!
+}
+
+interface Address {
+  fullName: String!
+  postcode: String!
+  telephone: String!
+  country: Country!
+  province: Province!
+  city: String!
+  address1: String!
+  address2: String
+}
+
+type CartAddress implements Address {
+  cartAddressId: Int!
+  fullName: String!
+  postcode: String!
+  telephone: String!
+  country: Country!
+  province: Province!
+  city: String!
+  address1: String!
+  address2: String
+}
+
+type CartItem implements ShoppingCartItem{
+  cartItemId: ID!
+  cartId: ID!
+  removeUrl: String!
+  productId: ID!
+  productSku: String!
+  productName: String
+  thumbnail: String
+  productWeight: Weight!
+  productPrice: Price!
+  productPriceInclTax: Price!
+  qty: Int!
+  finalPrice: Price!
+  finalPriceInclTax: Price!
+  taxPercent: Float!
+  taxAmount: Price!
+  discountAmount: Price!
+  total: Price!
+  variantGroupId: Int
+  variantOptions: String
+  productCustomOptions: String
+  productUrl: String!
+}
+
+type Cart implements ShoppingCart{
+  cartId: ID!
+  items: [CartItem]
+  shippingAddress: CartAddress
+  billingAddress: CartAddress
+  currency: String!
+  customerId: Int
+  customerGroupId: Int
+  customerEmail: String
+  customerFullName: String
+  userIp: String
+  userId: String
+  status: Int!
+  coupon: String
+  shippingFeeExclTax: Price!
+  shippingFeeInclTax: Price!
+  discountAmount: Price!
+  subTotal: Price!
+  totalQty: Int!
+  totalWeight: Weight!
+  taxAmount: Price!
+  grandTotal: Price!
+  shippingMethod: String
+  shippingMethodName: String
+  paymentMethod: String
+  paymentMethodName: String
+  shippingNote: String
+}
+
+extend type Query {
+  cart : Cart
+}

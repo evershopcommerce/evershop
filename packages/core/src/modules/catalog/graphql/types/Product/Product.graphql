@@ -1,0 +1,23 @@
+type Product {
+  productId: ID!
+  name: String!
+  status: Int!
+  sku: String!
+  weight: Weight!
+  taxClass: Int
+  description: String
+  urlKey: String
+  metaTitle: String
+  metaDescription: String
+  metaKeywords: String
+  variantGroupId: ID
+  visibility: Int
+  groupId: ID
+  categories: [Category]
+  url: String
+  editUrl: String
+}
+
+extend type Query {
+  product(id: ID): Product
+}

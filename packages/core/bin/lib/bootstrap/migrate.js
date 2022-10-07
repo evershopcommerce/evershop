@@ -25,12 +25,11 @@ module.exports.migrate = async function migrate(module) {
     .filter((dirent) => dirent.isFile() && dirent.name.match(/^Version-+([1-9].[0-9].[0-9])+.js$/))
     .map((dirent) => dirent.name.replace('Version-', '').replace('.js', ''))
     .sort((first, second) => semver.lt(first, second));
-
   const currentInstalledVersion = await getCurrentInstalledVersion(module.name);
   for (const version of migrations) {
     /** If the version is lower or equal the installed version, ignore it */
     if (semver.lte(version, currentInstalledVersion)) {
-      return;
+      continue;
     }
     // eslint-disable-next-line no-await-in-loop
     // eslint-disable-next-line global-require
@@ -38,7 +37,7 @@ module.exports.migrate = async function migrate(module) {
     await (require(path.resolve(module.path, 'migration', `Version-${version}.js`)))();
     // eslint-disable-next-line no-await-in-loop
     await insertOnUpdate('migration').given({
-      module,
+      module: module.name,
       version,
       status: 1
     })

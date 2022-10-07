@@ -8,8 +8,8 @@ module.exports = exports = {};
 
 exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
   // Check for routes
-  if (existsSync(path.resolve(modulePath, 'controllers', 'admin'))) {
-    const adminControllerRoutes = scanForRoutes(path.resolve(modulePath, 'controllers', 'admin'), true, false);
+  if (existsSync(path.resolve(modulePath, 'pages', 'admin'))) {
+    const adminControllerRoutes = scanForRoutes(path.resolve(modulePath, 'pages', 'admin'), true, false);
     adminControllerRoutes.forEach((route) => {
       registerAdminRoute(
         route.id,
@@ -21,8 +21,8 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
     });
   }
 
-  if (existsSync(path.resolve(modulePath, 'controllers', 'site'))) {
-    const siteControllerRoutes = scanForRoutes(path.resolve(modulePath, 'controllers', 'site'), false, false);
+  if (existsSync(path.resolve(modulePath, 'pages', 'site'))) {
+    const siteControllerRoutes = scanForRoutes(path.resolve(modulePath, 'pages', 'site'), false, false);
     siteControllerRoutes.forEach((route) => {
       registerSiteRoute(
         route.id,
@@ -34,8 +34,8 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
     });
   }
 
-  if (existsSync(path.resolve(modulePath, 'apiControllers', 'admin'))) {
-    const adminApiRoutes = scanForRoutes(path.resolve(modulePath, 'apiControllers', 'admin'), true, true);
+  if (existsSync(path.resolve(modulePath, 'api', 'admin'))) {
+    const adminApiRoutes = scanForRoutes(path.resolve(modulePath, 'api', 'admin'), true, true);
     adminApiRoutes.forEach((route) => {
       registerAdminRoute(
         route.id,
@@ -47,8 +47,8 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
     });
   }
 
-  if (existsSync(path.resolve(modulePath, 'apiControllers', 'site'))) {
-    const siteApiRoutes = scanForRoutes(path.resolve(modulePath, 'apiControllers', 'site'), false, true);
+  if (existsSync(path.resolve(modulePath, 'api', 'site'))) {
+    const siteApiRoutes = scanForRoutes(path.resolve(modulePath, 'api', 'site'), false, true);
     siteApiRoutes.forEach((route) => {
       registerSiteRoute(
         route.id,

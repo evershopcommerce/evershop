@@ -1,0 +1,248 @@
+:root {
+    --primary: #3a3a3a;
+    --secondary: #111213;
+    --surface: #111213;
+    --onSurface: #111213;
+    --interactive: #2c6ecb;
+    --critical: #d72c0d;
+    --warning: #ffc453;
+    --highlight: #5bcdda;
+    --success: #008060;
+    --decorative: #ffc96b;
+    --border: #8c9196;
+    --background: #f6f6f7fc;
+    --icon: #5c5f62;
+    --textSubdued: #6d7175;
+    --divider: #e1e3e5;
+    --text: #202223;
+    --formFieldBorder: #c9cccf;
+    --formFieldBorderShadow: #aeb4b9;
+}
+
+$font-size-sm: 1.4rem;
+$font-size-md: 1.4rem;
+$font-size-lg: 1.6rem;
+
+$line-height-sm: 1.25;
+$line-height-md: 1.5;
+$line-height-lg: 2;
+
+$font-size-base: $font-size-sm;
+$h1-font-size: $font-size-base * 2.1;
+$h2-font-size: $font-size-base * 1.9;
+$h3-font-size: $font-size-base * 1.65;
+$h4-font-size: $font-size-base * 1.45;
+$h5-font-size: $font-size-base * 1.15;
+$h6-font-size: $font-size-base;
+
+html {
+    font-size: 62.5%;
+
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="text"],
+    select,
+    textarea {
+        padding: 1rem 1.2rem;
+    }
+
+    .button {
+        padding: 1rem 2rem;
+        font-weight: 400;
+        border-radius: 2px;
+    }
+}
+body {
+    color: #3a3a3a;
+}
+p {
+    margin-bottom: 1rem;
+}
+@media screen and (max-width: 767px) {
+    $font-size-base: $font-size-sm;
+    body {
+        font-size: $font-size-base;
+        line-height: $line-height-sm;
+        .h1,
+        h1 {
+            font-size: $h1-font-size;
+        }
+        .h2,
+        h2 {
+            font-size: $h2-font-size;
+        }
+        .h3,
+        h3 {
+            font-size: $h3-font-size;
+        }
+        .h4,
+        h4 {
+            font-size: $h4-font-size;
+        }
+        .h5,
+        h5 {
+            font-size: $h5-font-size;
+        }
+        .h6,
+        h6 {
+            font-size: $h6-font-size;
+        }
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1535px) {
+    $font-size-base: $font-size-md;
+    $h1-font-size: $font-size-base * 2.1;
+    $h2-font-size: $font-size-base * 1.9;
+    $h3-font-size: $font-size-base * 1.65;
+    $h4-font-size: $font-size-base * 1.45;
+    $h5-font-size: $font-size-base * 1.15;
+    $h6-font-size: $font-size-base;
+
+    body {
+        font-size: $font-size-base;
+        line-height: $line-height-md;
+        .h1,
+        h1 {
+            font-size: $h1-font-size;
+        }
+        .h2,
+        h2 {
+            font-size: $h2-font-size;
+        }
+        .h3,
+        h3 {
+            font-size: $h3-font-size;
+        }
+        .h4,
+        h4 {
+            font-size: $h4-font-size;
+        }
+        .h5,
+        h5 {
+            font-size: $h5-font-size;
+        }
+        .h6,
+        h6 {
+            font-size: $h6-font-size;
+        }
+    }
+}
+
+@media (min-width: 1536px) {
+    $font-size-base: $font-size-lg;
+    $h1-font-size: $font-size-base * 2.1;
+    $h2-font-size: $font-size-base * 1.9;
+    $h3-font-size: $font-size-base * 1.65;
+    $h4-font-size: $font-size-base * 1.45;
+    $h5-font-size: $font-size-base * 1.15;
+    $h6-font-size: $font-size-base;
+
+    body {
+        font-size: $font-size-base;
+        line-height: $line-height-lg;
+        .h1,
+        h1 {
+            font-size: $h1-font-size;
+        }
+        .h2,
+        h2 {
+            font-size: $h2-font-size;
+        }
+        .h3,
+        h3 {
+            font-size: $h3-font-size;
+        }
+        .h4,
+        h4 {
+            font-size: $h4-font-size;
+        }
+        .h5,
+        h5 {
+            font-size: $h5-font-size;
+        }
+        .h6,
+        h6 {
+            font-size: $h6-font-size;
+        }
+    }
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+}
+.wrapper .content {
+    min-height: calc(100vh - 50px);
+}
+.header {
+    padding: 2.5rem;
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 3rem;
+    @media only screen and (min-width: 1200px) {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+}
+
+.container {
+    margin: 0 auto;
+}
+.page-width {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 22px;
+    @media screen and (min-width: 1200px) {
+        padding: 0 55px;
+    }
+}
+
+.footer {
+    background-color: #f6f6f6;
+    margin-top: 9rem;
+    padding-top: 1rem;
+    padding-block-end: 1rem;
+    border-top: 1px solid #ddd;
+    .card-icons {
+        svg {
+            height: 4rem;
+        }
+    }
+    .copyright {
+        font-size: 13px;
+    }
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    td,
+    th {
+        border: 1px solid var(--divider);
+        padding: 0.5rem;
+        text-align: left;
+    }
+    th {
+        vertical-align: top;
+    }
+    &.listing {
+        td,
+        th {
+            border-left: 0;
+            border-right: 0;
+            padding: 1rem;
+        }
+        th {
+            border: 0;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+    }
+}
+
+button.outline{
+    outline: none;
+}

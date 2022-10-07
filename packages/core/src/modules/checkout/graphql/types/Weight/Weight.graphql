@@ -1,0 +1,5 @@
+type Weight {
+  value: Float!
+  unit: String!
+  text: String!
+}

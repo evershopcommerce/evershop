@@ -13,7 +13,7 @@ describe('test getMiddlewaresByRoute', () => {
   });
 
   it('should contains application level middleware', () => {
-    expect(productMiddleweres.findIndex(m => m.id === 'session')).not.toBe(-1);
+    expect(productMiddleweres.findIndex(m => m.id === 'auth')).not.toBe(-1);
     expect(productMiddleweres.findIndex(m => m.id === 'errorHandler')).not.toBe(-1);
     expect(productMiddleweres.findIndex(m => m.id === 'context')).not.toBe(-1);
     expect(productMiddleweres.findIndex(m => m.id === 'response')).not.toBe(-1);
@@ -31,7 +31,7 @@ describe('test getMiddlewaresByRoute', () => {
   });
 
   it('should contains application level middleware', () => {
-    expect(productEditMiddleweres.findIndex(m => m.id === 'session')).not.toBe(-1);
+    expect(productEditMiddleweres.findIndex(m => m.id === 'auth')).not.toBe(-1);
     expect(productEditMiddleweres.findIndex(m => m.id === 'errorHandler')).not.toBe(-1);
     expect(productEditMiddleweres.findIndex(m => m.id === 'context')).not.toBe(-1);
     expect(productEditMiddleweres.findIndex(m => m.id === 'response')).not.toBe(-1);

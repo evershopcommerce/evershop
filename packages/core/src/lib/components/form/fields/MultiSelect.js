@@ -19,6 +19,7 @@ const MultiSelect = React.forwardRef((props, ref) => {
           defaultValue={value}
           onChange={(e) => { if (onChange) onChange.call(window, e); }}
           ref={ref}
+          multiple={true}
         >
           <option value="" disabled>Please select</option>
           {options && options.map(

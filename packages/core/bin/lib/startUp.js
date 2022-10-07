@@ -4,15 +4,10 @@ const normalizePort = require('./normalizePort');
 const onListening = require('./onListening');
 const onError = require('./onError');
 const { Handler } = require('../../src/lib/middleware/Handler');
-const { Componee } = require('../../src/lib/componee/Componee');
 const { getCoreModules } = require('./loadModules');
 const { migrate } = require('./bootstrap/migrate');
 const { loadBootstrapScript } = require('./bootstrap/bootstrap');
 const { getEnabledExtensions } = require('../extension');
-const isDevelopmentMode = require('../../src/lib/util/isDevelopmentMode');
-const { getRoutes } = require('../../src/lib/router/Router');
-const { createComponents } = require('./createComponents');
-const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
 
 var app = createApp();
 /** Create a http server */
@@ -20,22 +15,22 @@ const server = http.createServer(app);
 
 module.exports.start = async function start(cb) {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
-  /** Loading front-end components */
-  modules.forEach((module) => {
-    try {
-      // Load components
-      Componee.loadModuleComponents(module);
-    } catch (e) {
-      console.log(e);
-      process.exit(0);
-    }
-  });
+  // /** Loading front-end components */
+  // modules.forEach((module) => {
+  //   try {
+  //     // Load components
+  //     Componee.loadModuleComponents(module);
+  //   } catch (e) {
+  //     console.log(e);
+  //     process.exit(0);
+  //   }
+  // });
 
   /** Build the components */
-  if (isDevelopmentMode()) {
-    const routes = getRoutes();
-    await createComponents(routes.filter((r) => isBuildRequired(r)), true);
-  }
+  // if (isDevelopmentMode()) {
+  //   const routes = getRoutes();
+  //   await createComponents(routes.filter((r) => isBuildRequired(r)), true);
+  // }
 
   /** Migration */
   try {

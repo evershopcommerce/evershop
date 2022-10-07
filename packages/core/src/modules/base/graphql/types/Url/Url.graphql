@@ -1,0 +1,8 @@
+input UrlParam {
+  key: String!
+  value: String!
+}
+
+extend type Query {
+  url (routeId: String! params: [UrlParam]): String!
+}
