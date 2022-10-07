@@ -39,6 +39,38 @@ EverShop uses Node for the backend, and a client built with React. It also uses 
 - Basic CMS pages management
 - Easy to customize by developing extensions
 
+## GraphQL Based and Dynamic Layout
+```javascript
+import React from 'react';
+import Products from './components/Products';
+
+export default function NewArrival({ products }) {
+    return <div>
+      <h2>New Arrival</h2>
+      <Products products={products}/>
+    </div>
+}
+
+export const layout = {
+  areaId: 'content',
+  sortOrder: 5
+}
+
+export const query = `
+  query NewArrival {
+    products {
+      name
+      price
+      image {
+        alt
+        url
+      }
+      url
+    }
+}
+`
+```
+
 ## Demo
 
 Explore our demo store.
@@ -66,10 +98,6 @@ You can get started with EverShop by following our documentation below.
 
 See [EverShop website](http://evershop.io/) or [EverShop docs](https://evershop.io/docs/development/getting-started/introduction) for more details.
 
-
-## Beta version
-
-EverShop is currently in Beta version. This means that we are still working on essential features.
 
 ## Support
 
