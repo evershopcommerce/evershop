@@ -32,7 +32,7 @@ export default function NavigationItem({ Icon, url, title }) {
 }
 
 NavigationItem.propTypes = {
-  Icon: PropTypes.elementType.isRequired,
+  Icon: PropTypes.nodeType.isRequired,
   title: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired
 };
