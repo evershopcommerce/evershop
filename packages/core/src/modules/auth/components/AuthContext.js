@@ -1,4 +1,4 @@
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
 import React from 'react';
 import { createClient, Provider } from 'urql';
 import Area from "../../../lib/components/Area";
