@@ -1,7 +1,7 @@
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { Field } from '../../../../../lib/components/form/Field';
-import { get } from "../../../../../lib/util/get";
+import { get } from '../../../../../lib/util/get';
 import Select from 'react-select';
 
 const customStyles = {
