@@ -1,4 +1,4 @@
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
 import React from 'react';
 import Icon from '@heroicons/react/solid/esm/GiftIcon';
 import MenuItem from '../../../../cms/views/admin/NavigationItem';
