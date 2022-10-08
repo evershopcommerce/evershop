@@ -1,4 +1,4 @@
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
 import React from 'react';
 import Meta from '../../../../../lib/components/Meta';
 import Title from '../../../../../lib/components/Title';
