@@ -24,7 +24,7 @@ module.exports.createComponents = async function createComponents(routes, client
     if (isProductionMode()) {
       contentClient += `import Hydrate from '@evershop/core/src/lib/components/react/client/Hydrate';`
     } else {
-      contentClient += `import { App } from "@evershop/core/src/lib/components/react/client/Client";
+      contentClient += `import { App } from '@evershop/core/src/lib/components/react/client/Client';
       const hot = require('webpack-hot-middleware/client?path=/eHot/${route.id}&reload=true');
       import { HotReload } from '@evershop/core/src/lib/components/react/client/HotReload';
       `;
