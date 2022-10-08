@@ -71,7 +71,7 @@ module.exports.buildEntry = async function buildEntry(routes, clientOnly = false
       contentServer += '\r\n';
       contentServer += `import ReactDOM from 'react-dom'; `;
       contentServer += '\r\n';
-      contentServer += `import Area from "@evershop/core/src/lib/components/Area";`;
+      contentServer += `import Area from '@evershop/core/src/lib/components/Area';`;
       contentServer += '\r\n';
       contentServer += `Area.defaultProps.components = ${inspect(areas, { depth: 5 }).replace(/"---/g, '').replace(/---"/g, '')} `;
 
