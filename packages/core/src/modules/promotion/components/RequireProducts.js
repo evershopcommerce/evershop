@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../lib/components/Area';
-import { Field } from "../../../lib/components/form/Field";
+import { Field } from '../../../lib/components/form/Field';
 
 export function RequiredProducts({ requiredProducts }) {
   const [products, setProducts] = React.useState(requiredProducts);
