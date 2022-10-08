@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import React from 'react';
-import Area from "../../../lib/components/Area";
+import Area from '../../../lib/components/Area';
 import { Input } from "../../../lib/components/form/fields/Input";
 import PubSub from "pubsub-js";
 import { FORM_FIELD_UPDATED } from "../../../lib/util/events";
