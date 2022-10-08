@@ -19,12 +19,12 @@ module.exports.createComponents = async function createComponents(routes, client
     let contentClient = `
       import React from 'react';
       import ReactDOM from 'react-dom';
-      import Area from "@evershop/core/src/lib/components/Area";
+      import Area from '@evershop/core/src/lib/components/Area';
       `;
     if (isProductionMode()) {
-      contentClient += `import Hydrate from "@evershop/core/src/lib/components/react/client/Hydrate";`
+      contentClient += `import Area from '@evershop/core/src/lib/components/Area';`
     } else {
-      contentClient += `import { App } from "@evershop/core/src/lib/components/react/client/Client";
+      contentClient += `import Area from '@evershop/core/src/lib/components/Area';
       const hot = require('webpack-hot-middleware/client?path=/eHot/${route.id}&reload=true');
       import { HotReload } from '@evershop/core/src/lib/components/react/client/HotReload';
       `;
@@ -53,7 +53,7 @@ module.exports.createComponents = async function createComponents(routes, client
       contentServer += '\r\n';
       contentServer += `import ReactDOM from 'react-dom'; `;
       contentServer += '\r\n';
-      contentServer += 'import Area from "@evershop/core/src/lib/components/Area";';
+      contentServer += 'import Area from '@evershop/core/src/lib/components/Area';';
       contentServer += '\r\n';
       contentServer += `Area.defaultProps.components = ${inspect(components, { depth: 5 }).replace(/'---/g, '').replace(/---'/g, '')} `;
 
