@@ -51,7 +51,7 @@ module.exports.buildEntry = async function buildEntry(routes, clientOnly = false
       import React from 'react';
       import ReactDOM from 'react-dom';
       import Area from '@evershop/core/src/lib/components/Area';
-      import Hydrate from "@evershop/core/src/lib/components/react/client/Hydrate";
+      import Hydrate from '@evershop/core/src/lib/components/react/client/Hydrate';
       `;
     contentClient += '\r\n';
     contentClient += `Area.defaultProps.components = ${inspect(areas, { depth: 5 }).replace(/"---/g, '').replace(/---"/g, '')} `;
