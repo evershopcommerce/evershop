@@ -5,7 +5,7 @@ import { get } from '../../../../../lib/util/get';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Form } from '../../../../../lib/components/form/Form';
 import { Hidden } from '../../../../../lib/components/form/fields/Hidden';
-import Button from "../../../../../lib/components/form/Button";
+import Button from '../../../../../lib/components/form/Button';
 
 export default function CouponForm({ applyApi, cart: { cartId } }) {
   return <div className="mt-4">
