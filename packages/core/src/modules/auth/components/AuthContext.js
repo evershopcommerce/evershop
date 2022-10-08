@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react';
 import { createClient, Provider } from 'urql';
 import Area from '../../../lib/components/Area';
-import { useAppState } from "../../../lib/context/app";
+import { useAppState } from '../../../lib/context/app';
 import { get } from "../../../lib/util/get";
 
 const AuthContext = React.createContext();
