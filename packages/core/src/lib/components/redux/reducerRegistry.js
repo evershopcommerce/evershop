@@ -1,4 +1,4 @@
-import { ADD_ALERT, REQUEST_END, ADD_APP_STATE, REMOVE_ALERT, SET_ALERT } from "./eventTypes.js"
+import { ADD_ALERT, REQUEST_END, ADD_APP_STATE, REMOVE_ALERT, SET_ALERT } from './eventTypes.js'
 
 let _emitChange = null;
 let reducers = {
