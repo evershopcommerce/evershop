@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '../../../lib/components/form/Field';
-import { FORM_FIELD_UPDATED } from "../../../lib/util/events";
+import { FORM_FIELD_UPDATED } from '../../../lib/util/events';
 
 export function BuyXGetY({ requireProducts, discountType }) {
   const [products, setProducts] = React.useState(requireProducts);
