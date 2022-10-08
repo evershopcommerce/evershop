@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from "../../../../../lib/components/Area";
+import Area from '../../../../../lib/components/Area';
 import Button from '../../../../../lib/components/form/Button';
 import { Form } from '../../../../../lib/components/form/Form';
 
