@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 import { get } from '../../../../../lib/util/get';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Form } from "../../../../../lib/components/form/Form";
