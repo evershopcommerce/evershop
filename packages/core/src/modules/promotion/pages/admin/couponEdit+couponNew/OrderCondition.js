@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from "../../../../../lib/components/form/fields/Input";
+import { Input } from '../../../../../lib/components/form/fields/Input';
 import { RequiredProducts } from '../../../components/RequireProducts';
 
 export default function OrderCondition({ coupon = {} }) {
