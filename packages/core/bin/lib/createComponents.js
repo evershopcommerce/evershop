@@ -53,7 +53,7 @@ module.exports.createComponents = async function createComponents(routes, client
       contentServer += '\r\n';
       contentServer += `import ReactDOM from 'react-dom'; `;
       contentServer += '\r\n';
-      contentServer += 'import Area from '@evershop/core/src/lib/components/Area';';
+      contentServer += `import Area from '@evershop/core/src/lib/components/Area';`;
       contentServer += '\r\n';
       contentServer += `Area.defaultProps.components = ${inspect(components, { depth: 5 }).replace(/'---/g, '').replace(/---'/g, '')} `;
 
