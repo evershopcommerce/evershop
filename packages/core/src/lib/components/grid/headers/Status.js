@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import PropTypes from "prop-types";
+import React from "react";
 import { Select } from '../../form/fields/Select';
 
 export default function StatusColumnHeader({ title, id, currentFilter = {} }) {

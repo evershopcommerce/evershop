@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import { DateTime } from 'luxon';
 import { useAppState } from '../../../context/app';
 import { get } from '../../../util/get';

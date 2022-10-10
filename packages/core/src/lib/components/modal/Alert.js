@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-closing-tag-location */
 /* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable react/jsx-props-no-spreading */
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import produce from 'immer';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import './Off.scss';
 
 export default function Off() {
