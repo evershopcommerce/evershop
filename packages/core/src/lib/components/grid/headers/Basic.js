@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import PropTypes from "prop-types";
+import React from "react";
 import { Input } from '../../form/fields/Input';
 
 export default function BasicColumnHeader({ title, id, currentFilters = [] }) {
