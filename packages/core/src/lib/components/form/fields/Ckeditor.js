@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
-import React from "react";
+import React from 'react';
 import { TextArea } from './Textarea';
 import Button from '../Button';
 import { Input } from './Input';
