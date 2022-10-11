@@ -30,9 +30,37 @@ EverShop uses Node for the backend, and a client built with React. It also uses 
 ### Love this project? Give it a :star:
 
 ## GraphQL Based and Dynamic Layout
-<p align="center">
-<img alt="EverShop Show Case" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/showcase.gif"/>
-</p>
+
+```javascript
+import React from 'react';
+import Products from './components/Products';
+
+export default function NewArrival({ products }) {
+    return <div>
+      <h2>New Arrival</h2>
+      <Products products={products}/>
+    </div>
+}
+
+export const layout = {
+  areaId: 'content',
+  sortOrder: 5
+}
+
+export const query = `
+  query NewArrival {
+    products {
+      name
+      price
+      image {
+        alt
+        url
+      }
+      url
+    }
+}
+`
+```
 
 ## Demo
 
