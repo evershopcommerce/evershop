@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import React from "react";
 import PubSub from 'pubsub-js';
 import { Checkbox } from './fields/Checkbox';
