@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import React from "react";
 import { Input } from '../form/fields/Input';
 import './Pagination.scss';
