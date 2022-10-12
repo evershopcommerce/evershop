@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import PropTypes from 'prop-types';
-import React from "react";
+import React from 'react';
 import Area from '../../Area';
 import { Alert } from '../../modal/Alert';
 
