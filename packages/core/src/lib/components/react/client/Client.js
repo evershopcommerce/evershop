@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { AppProvider } from '../../../context/app';
 import Area from '../../Area';
 import Head from '../Head';
