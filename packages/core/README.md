@@ -29,15 +29,38 @@ EverShop uses Node for the backend, and a client built with React. It also uses 
 
 ### Love this project? Give it a :star:
 
-## Features
-- Catalog management(with product attribute, custom option and variants)
-- Order management
-- Customer management
-- Coupon management
-- Tax
-- Online payment (For now using Stripe)
-- Basic CMS pages management
-- Easy to customize by developing extensions
+## GraphQL Based and Dynamic Layout
+
+```javascript
+import React from 'react';
+import Products from './components/Products';
+
+export default function NewArrival({ products }) {
+    return <div>
+      <h2>New Arrival</h2>
+      <Products products={products}/>
+    </div>
+}
+
+export const layout = {
+  areaId: 'content',
+  sortOrder: 5
+}
+
+export const query = `
+  query NewArrival {
+    products {
+      name
+      price
+      image {
+        alt
+        url
+      }
+      url
+    }
+}
+`
+```
 
 ## Demo
 
@@ -60,16 +83,22 @@ Explore our demo store.
   </a>
 </p>
 
+## Features
+- Catalog management(with product attribute, custom option and variants)
+- Order management
+- Customer management
+- Coupon management
+- Tax
+- Online payment (For now using Stripe)
+- Basic CMS pages management
+- Easy to customize by developing extensions
+
 ## Getting Started
 
 You can get started with EverShop by following our documentation below.
 
 See [EverShop website](http://evershop.io/) or [EverShop docs](https://evershop.io/docs/development/getting-started/introduction) for more details.
 
-
-## Beta version
-
-EverShop is currently in Beta version. This means that we are still working on essential features.
 
 ## Support
 

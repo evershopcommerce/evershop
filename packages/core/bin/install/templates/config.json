@@ -1,6 +1,6 @@
 {
     "shop": {
-        "title": "NodeJS Cart Demo",
+        "title": "EverShop",
         "description": "An E-commerce platform using ReactJS and MySQL",
         "currency": "USD",
         "weightUnit": "kg",

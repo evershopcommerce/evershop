@@ -1,7 +1,7 @@
 {
   "name": "@evershop/core",
-  "version": "2.0.0-alpha",
-  "description": "The Node Ecommerce platform. Built with React and MySQL. Open-source and free. Fast and customizable.",
+  "version": "2.0.1-alpha",
+  "description": "The React Ecommerce platform. Built with React and MySQL. Open-source and free. Fast and customizable.",
   "files": [
     "bin",
     "src"
