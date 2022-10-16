@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/destructuring-assignment */
-import React from "react";
+import React from 'react';
 
 export default function Meta(props) {
   const attributes = Object.keys(props)
