@@ -64,11 +64,15 @@ export const query = `
 
 ## Quick Start
 
+You can get started with EverShop in minutes by running the following command:
+
 ```bash
 npx create-evershop-app my-app --playAround
 ```
 
 Full installation guide can be found in the [documentation](https://evershop.io/docs/development/getting-started/installation-guide).
+
+Check out [EverShop docs](https://evershop.io/docs/development/getting-started/introduction) for the development documentation.
 
 ## Demo
 
@@ -100,13 +104,6 @@ Explore our demo store.
 - Online payment (For now using Stripe)
 - Basic CMS pages management
 - Easy to customize by developing extensions
-
-## Getting Started
-
-You can get started with EverShop by following our documentation below.
-
-See [EverShop website](http://evershop.io/) or [EverShop docs](https://evershop.io/docs/development/getting-started/introduction) for more details.
-
 
 ## Support
 
