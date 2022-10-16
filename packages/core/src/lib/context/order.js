@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useCheckoutSteps } from './checkout';

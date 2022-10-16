@@ -62,6 +62,14 @@ export const query = `
 `
 ```
 
+## Quick Start
+
+```bash
+npx create-evershop-app my-app --playAround
+```
+
+Full installation guide can be found in the [documentation](https://evershop.io/docs/development/getting-started/installation-guide).
+
 ## Demo
 
 Explore our demo store.
