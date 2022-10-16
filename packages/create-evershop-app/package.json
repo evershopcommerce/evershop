@@ -1,0 +1,30 @@
+{
+  "name": "create-evershop-app",
+  "version": "1.0.0",
+  "description": "Create EverShop App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "create-evershop-app": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evershopcommerce/evershop.git"
+  },
+  "author": "The Nguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evershopcommerce/evershop/issues"
+  },
+  "homepage": "https://github.com/evershopcommerce/evershop#readme",
+  "dependencies": {
+    "boxen": "^5.1.2",
+    "chalk": "^4.1.2",
+    "commander": "^9.4.1",
+    "mysql": "^2.18.1",
+    "semver": "^7.3.8",
+    "validate-npm-package-name": "^4.0.0"
+  }
+}

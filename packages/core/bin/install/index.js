@@ -1,16 +1,16 @@
 /* eslint-disable no-await-in-loop */
-const { readdirSync, existsSync, readFileSync } = require('fs');
+const { readFileSync } = require('fs');
 const { writeFile, mkdir } = require('fs').promises;
 const path = require('path');
 const { red, green } = require('kleur');
 const ora = require('ora');
 const boxen = require('boxen');
 const mysql = require('mysql');
-const { execute, insertOnUpdate } = require('@evershop/mysql-query-builder');
+const { execute } = require('@evershop/mysql-query-builder');
 const { prompt } = require('enquirer');
-const semver = require('semver');
-const bcrypt = require('bcrypt');
 const { CONSTANTS } = require('../../src/lib/helpers');
+const { migrate } = require('./migrate');
+const { createMigrationTable } = require('./createMigrationTable');
 
 function error(message) {
   console.log(`\n❌ ${red(message)}`);
@@ -29,6 +29,7 @@ function error(message) {
   console.log(boxen(green('Welcome to EverShop - The open-source e-commerce platform'), {
     title: 'EverShop', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
   }));
+
   const dbQuestions = [
     {
       type: 'input',
@@ -221,89 +222,15 @@ function error(message) {
   spinner.text = messages.join('\n');
 
   try {
-    await execute(pool, `CREATE TABLE \`migration\` (
-        \`migration_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-        \`module\` char(255) NOT NULL,
-        \`version\` char(255) NOT NULL,
-        \`status\` char(255) NOT NULL,
-        \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
-        \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-        PRIMARY KEY (\`migration_id\`),
-        UNIQUE KEY \`MODULE_UNIQUE\` (\`module\`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Migration';
-    `);
+    await createMigrationTable(pool);
   } catch (e) {
     error(e);
     process.exit(0);
   }
 
-  const modules = readdirSync(path.resolve(__dirname, '../../src/modules'), { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name);
-
-  // eslint-disable-next-line no-restricted-syntax
-  for (const module of modules) {
-    try {
-      if (existsSync(path.resolve(__dirname, '../../src/modules', module, 'migration'))) {
-        const migrations = readdirSync(path.resolve(__dirname, '../../src/modules', module, 'migration'), { withFileTypes: true })
-          .filter((dirent) => dirent.isFile() && dirent.name.match(/^Version-+([1-9].[0-9].[0-9])+.js$/))
-          .map((dirent) => dirent.name.replace('Version-', '').replace('.js', ''))
-          .sort((first, second) => semver.lt(first, second));
-        // eslint-disable-next-line no-restricted-syntax
-        for (const version of migrations) {
-          try {
-            // eslint-disable-next-line no-await-in-loop
-            // eslint-disable-next-line global-require
-            await (require(path.resolve(__dirname, '../../src/modules', module, 'migration', `Version-${version}.js`)))();
-            // eslint-disable-next-line no-await-in-loop
-            await insertOnUpdate('migration').given({
-              module,
-              version,
-              status: 1
-            })
-              .execute(pool);
-          } catch (e) {
-            error(e);
-            process.exit(0);
-          }
-        }
-
-        if (migrations.length === 0) {
-          await insertOnUpdate('migration').given({
-            module,
-            version: '1.0.0',
-            status: 1
-          })
-            .execute(pool);
-        }
-      } else {
-        await insertOnUpdate('migration').given({
-          module,
-          version: '1.0.0',
-          status: 1
-        })
-          .execute(pool);
-      }
-    } catch (e) {
-      error(e);
-      process.exit(0);
-    }
-  }
-
+  await migrate(pool, path.resolve(__dirname, '../../src/modules'), adminUser);
   messages.pop();
   messages.push(green('✔ Setup database'));
-  messages.push(green('Creating the admin user'));
-  spinner.succeed(messages.join('\n'));
-
-  await insertOnUpdate('admin_user').given({
-    status: 1,
-    email: adminUser.email,
-    password: await bcrypt.hash(adminUser.password, 10),
-    full_name: adminUser.fullName
-  })
-    .execute(pool);
-
-  messages.pop();
   messages.push(green('✔ Create admin user'));
   spinner.succeed(messages.join('\n'));
 
