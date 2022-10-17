@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from "react";
+import React from 'react';
 import { Select } from '../../form/fields/Select';
 
 export default function DropdownColumnHeader({ title, id, options = [], currentFilters = [] }) {
