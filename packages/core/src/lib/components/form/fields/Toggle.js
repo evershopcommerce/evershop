@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import React from "react";
 import Error from './Error';
 import './Toggle.scss';
