@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React from "react";
+import React from 'react';
 import PropTypes from "prop-types";
 import { get } from '../../../util/get';
 
