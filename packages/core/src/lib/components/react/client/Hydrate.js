@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { AppProvider } from '../../../context/app';
 import { Alert } from '../../modal/Alert';
 import Area from '../../Area';
