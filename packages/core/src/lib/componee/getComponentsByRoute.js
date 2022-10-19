@@ -1,8 +1,10 @@
-const path = require('path');
+const { normalize, resolve, join } = require('path');
 const { existsSync, readdirSync } = require('fs');
 const { getEnabledExtensions } = require('../../../bin/extension');
 const { getCoreModules } = require('../../../bin/lib/loadModules');
 const { scanForComponents } = require('./scanForComponents');
+const { getConfig } = require('../util/getConfig');
+const { CONSTANTS } = require('../helpers');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
@@ -10,9 +12,10 @@ module.exports = exports = {};
 exports.getComponentsByRoute = function getComponentsByRoute(route) {
   let components = [];
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
+
   modules.forEach((module) => {
     // Scan for 'all' components
-    const rootPath = route.isAdmin ? path.resolve(module.path, 'pages/admin') : path.resolve(module.path, 'pages/site');
+    const rootPath = route.isAdmin ? resolve(module.path, 'pages/admin') : resolve(module.path, 'pages/site');
     // Get all folders in the rootPath
     const pages = existsSync(rootPath) ? readdirSync(rootPath, { withFileTypes: true })
       .filter((dirent) => dirent.isDirectory())
@@ -20,14 +23,45 @@ exports.getComponentsByRoute = function getComponentsByRoute(route) {
 
     pages.forEach((page) => {
       if (page === 'all' || page === route.id) {
-        components = [...components, ...scanForComponents(path.resolve(rootPath, page))];
+        components = [...components, ...scanForComponents(resolve(rootPath, page))];
       }
       // Check if page include `+ page` or `page+` in the name
       if (page.includes('+') && page.includes(route.id)) {
-        components = [...components, ...scanForComponents(path.resolve(rootPath, page))];
+        components = [...components, ...scanForComponents(resolve(rootPath, page))];
       }
     });
   });
 
-  return components;
+  if (route.isAdmin) {
+    return components; // We currently don't have any admin theme
+  } else {
+    // Get current theme
+    const theme = getConfig('shop.theme');
+    if (!theme) {
+      return components;
+    }
+
+    const themePath = resolve(CONSTANTS.THEMEPATH, theme);
+    // Check if the path is exists
+    if (existsSync(themePath)) {
+      // Get all theme components inside 'theme/pages' folder
+      let themeComponents = [];
+      if (existsSync(resolve(themePath, 'pages', route.id))) {
+        themeComponents = scanForComponents(resolve(themePath, 'pages', route.id));
+      }
+      return themeComponents.concat(components.map((component) => {
+        // Get the subpath of `moduleName/pages/site/{component.js}`
+        const subPath = component.split(resolve(CONSTANTS.MOLDULESPATH))[1]
+          .replace(normalize('/site'), '')
+        const fullPath = join(themePath, subPath);
+        if (existsSync(fullPath)) {
+          return fullPath;
+        } else {
+          return component;
+        }
+      }));
+    } else {
+      return components;
+    }
+  }
 };
