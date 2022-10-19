@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types';
+import React from 'react';
 import './Badge.scss';
 
 export default function Badge({ title, variant = 'default', progress = 'default' }) {

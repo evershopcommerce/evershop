@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Area from './Area';
 
 export function Body() {

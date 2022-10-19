@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import ReactDOM from 'react-dom';
 import Area from '@evershop/core/src/lib/components/Area';
 import { App } from '@evershop/core/src/lib/components/react/client/Client';

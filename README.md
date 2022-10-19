@@ -6,7 +6,7 @@
   </a>
 </p>
 <p align="center">
-  <h1 align="center">An Node Ecommerce Platform</h1>
+  <h1 align="center">A React E-Commerce Project</h1>
 </p>
 <p align="center">
     <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a>
@@ -20,14 +20,6 @@
     <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License">
   </a>
 </p>
-
-## Why this project?
-
-After some time working with eCommerce platforms (mostly Magento and Shopify). I decided to create an open-source eCommerce platform with Node. Heavily inspired by both Magento and Shopify, I want to build a lightweight platform that is easy to use, flexible to customize and provides most of the key features that an eCommerce platform should have.
-
-EverShop uses Node for the backend, and a client built with React. It also uses MySQL for database storage.
-
-### Love this project? Give it a :star:
 
 ## GraphQL Based and Dynamic Layout
 
@@ -62,18 +54,6 @@ export const query = `
 `
 ```
 
-## Quick Start
-
-You can get started with EverShop in minutes by running the following command:
-
-```bash
-npx create-evershop-app my-app --playAround
-```
-
-Full installation guide can be found in the [documentation](https://evershop.io/docs/development/getting-started/installation-guide).
-
-Check out [EverShop docs](https://evershop.io/docs/development/getting-started/introduction) for the development documentation.
-
 ## Demo
 
 Explore our demo store.
@@ -94,6 +74,18 @@ Explore our demo store.
     <img alt="evershop-store-demo" height="35" alt="EverShop Store Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-store-front-demo.png"/>
   </a>
 </p>
+
+## Quick Start
+
+You can get started with EverShop in minutes by running the following command:
+
+```bash
+npx create-evershop-app my-app --playAround
+```
+
+Full installation guide can be found in the [documentation](https://evershop.io/docs/development/getting-started/installation-guide).
+
+Check out [EverShop docs](https://evershop.io/docs/development/getting-started/introduction) for the development documentation.
 
 ## Features
 - Catalog management(with product attribute, custom option and variants)
