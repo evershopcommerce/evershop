@@ -19,14 +19,13 @@ module.exports = exports = (request, response, next) => {
     request.originalUrl = request.originalUrl.replace('/assets', '');
     request.url = request.originalUrl.replace('/assets', '');
   }
-  if (existsSync(join(CONSTANTS.ROOTPATH, 'src/theme', path))) {
-    staticMiddleware('src/theme')(request, response, next);
-  } else if (existsSync(join(CONSTANTS.ROOTPATH, 'dist/theme', path))) {
-    staticMiddleware('dist/theme')(request, response, next);
+
+  if (existsSync(join(CONSTANTS.ROOTPATH, '.evershop/build', path))) {
+    staticMiddleware(join(CONSTANTS.ROOTPATH, '.evershop/build'))(request, response, next);
   } else if (existsSync(join(CONSTANTS.MEDIAPATH, path))) {
     staticMiddleware(CONSTANTS.MEDIAPATH)(request, response, next);
-  } else if (existsSync(join(CONSTANTS.ROOTPATH, '.evershop/build', path))) {
-    staticMiddleware(join(CONSTANTS.ROOTPATH, '.evershop/build'))(request, response, next);
+  } else if (existsSync(join(CONSTANTS.ROOTPATH, 'public', path))) {
+    staticMiddleware(join(CONSTANTS.ROOTPATH, 'public'))(request, response, next);
   } else {
     response.status(404).send('Not Found');
   }

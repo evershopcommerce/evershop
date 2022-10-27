@@ -50,6 +50,7 @@ module.exports.buildEntry = async function buildEntry(routes, clientOnly = false
     let contentClient = `
       import React from 'react';
       import ReactDOM from 'react-dom';
+      import './tailwind.scss';
       import Area from '@evershop/core/src/lib/components/Area';
       import Hydrate from '@evershop/core/src/lib/components/react/client/Hydrate';
       `;
@@ -60,7 +61,9 @@ module.exports.buildEntry = async function buildEntry(routes, clientOnly = false
         <Hydrate/>,
         document.getElementById('app')
       );`
-    await mkdir(path.resolve(subPath, 'client'), { recursive: true });
+    if (!fs.existsSync(path.resolve(subPath, 'client'))) {
+      await mkdir(path.resolve(subPath, 'client'), { recursive: true });
+    }
     await writeFile(path.resolve(subPath, 'client', 'entry.js'), contentClient);
 
     if (!clientOnly) {
@@ -75,7 +78,9 @@ module.exports.buildEntry = async function buildEntry(routes, clientOnly = false
       contentServer += '\r\n';
       contentServer += `Area.defaultProps.components = ${inspect(areas, { depth: 5 }).replace(/"---/g, '').replace(/---"/g, '')} `;
 
-      await mkdir(path.resolve(subPath, 'server'), { recursive: true });
+      if (!fs.existsSync(path.resolve(subPath, 'server'))) {
+        await mkdir(path.resolve(subPath, 'server'), { recursive: true });
+      }
       await writeFile(path.resolve(subPath, 'server', 'entry.js'), contentServer);
       await writeFile(path.resolve(subPath, 'server', 'query.graphql'), query);
     }

@@ -31,12 +31,12 @@ function renderDevelopment(request, response) {
             `);
     return;
   }
+  // We can not get devMiddleware from response.locals, because there are 2 build (current route, and notFound)
   const devMiddleware = route.webpackMiddleware;
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     propsMap: get(response, 'locals.propsMap', {}),
   };
-
 
   const stats = devMiddleware.context.stats;
   //let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);

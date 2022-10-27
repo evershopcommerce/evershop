@@ -1,6 +1,7 @@
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import './Layout.scss';
+import './tailwind.scss';
 
 export default function AdminLayout() {
   return (
