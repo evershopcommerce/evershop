@@ -4,10 +4,14 @@ const middleware = require("webpack-dev-middleware");
 const { createConfigClient } = require('../../src/lib/webpack/dev/createConfigClient');
 const isDevelopmentMode = require('../../src/lib/util/isDevelopmentMode');
 const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
+const publicStatic = require('../../src/lib/middlewares/publicStatic');
 
 module.exports = exports = {};
 
 exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, routes) {
+  // Add public static middleware
+  app.use(publicStatic);
+
   routes.forEach((r) => {
     const currentRouteMiddleware = (request, response, next) => {
       // eslint-disable-next-line no-underscore-dangle
@@ -75,7 +79,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
         const path = request.originalUrl.split('?')[0];
         if (path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.json')) {
           const id = path.split('/').pop().split('.')[0];
-          return routes.find((r) => r.id === id);
+          return routes.find((r) => r.id === id) || routes.find((r) => r.id === 'notFound');
         } else if (path.includes('/eHot/')) {
           const id = path.split('/').pop();
           return routes.find((r) => r.id === id);

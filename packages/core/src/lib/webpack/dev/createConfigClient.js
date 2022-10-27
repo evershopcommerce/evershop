@@ -5,6 +5,7 @@ const { getComponentsByRoute } = require('../../componee/getComponentsByRoute');
 const path = require('path');
 const { CONSTANTS } = require('../../helpers');
 const { GraphqlPlugin } = require('../plugins/GraphqlPlugin');
+const { Tailwindcss } = require('../plugins/Tailwindcss');
 
 module.exports.createConfigClient = function createConfigClient(route) {
   const config = createBaseConfig(false);
@@ -38,7 +39,25 @@ module.exports.createConfigClient = function createConfigClient(route) {
           url: false,
         }
       },
-      "sass-loader"
+      {
+        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/TailwindLoader.js'),
+        options: {
+          getComponents: () => getComponentsByRoute(route),
+          route: route,
+        }
+      },
+      "sass-loader",
+    ],
+  });
+
+  loaders.push({
+    test: /\.graphql$/i,
+    use: [
+      {
+        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/TestAmitFile.js'),
+        options: {
+        }
+      }
     ],
   });
 

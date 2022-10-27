@@ -7,6 +7,7 @@ themes
 .vscode
 npm-debug.log
 /media
+/public
 .DS_Store
 .log
 coverage

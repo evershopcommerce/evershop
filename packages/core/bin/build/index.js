@@ -6,7 +6,7 @@ const { getRoutes } = require('../../src/lib/router/Router');
 const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
 const { getEnabledExtensions } = require('../extension');
 const { buildEntry } = require('../lib/buildEntry');
-const { createComponents } = require('../lib/createComponents');
+const { buildTailwind } = require('../lib/buildTailWind');
 const { loadModuleRoutes } = require('../lib/loadModuleRoutes');
 const { getCoreModules } = require('../lib/loadModules');
 const { compile } = require('./complie');
@@ -47,6 +47,7 @@ if (existsSync(path.resolve(CONSTANTS.BUILDPATH))) {
 
 (async () => {
   const routes = getRoutes();
+  await buildTailwind(routes.filter((r) => isBuildRequired(r)));
   await buildEntry(routes.filter((r) => isBuildRequired(r)));
 
   /** Build  */

@@ -1,13 +1,4 @@
 module.exports = {
-  purge: {
-    enabled: true,
-    content: [
-      './packages/core/src/lib/components/*.js',
-      './packages/core/src/modules/*/views/site/**/*.js',
-      './packages/core/src/modules/*/views/site/*.js'
-    ]
-  },
-  darkMode: false, // or 'media' or 'class',
   corePlugins: {
     // ...
     lineHeight: false,
@@ -51,29 +42,25 @@ module.exports = {
     skew: false,
   },
   theme: {
-    fontFamily: {
-      'sans': "Helvetica,Helvetica Neue,Arial,Lucida Grande,sans-serif"
-    },
     fontSize: {
       base: '.875rem'
     },
     colors: {
-      white: '#ffffff',
-      primary: '#3a3a3a',
+      primary: '#008060',
       secondary: '#111213',
       surface: '#111213',
       onSurface: '#111213',
       interactive: '#2c6ecb',
-      critical: '#fa4545',
+      critical: '#d72c0d',
       warning: '#FFC453',
       highlight: '#5BCDDA',
       success: '#008060',
       decorative: '#FFC96B',
       border: '#8c9196',
+      background: '#f6f6f7fc',
       icon: '#5c5f62',
       divider: '#e1e3e5',
-      textSubdued: '#737373',
-      button: '#3a3a3a'
+      textSubdued: '#6d7175'
     },
     spacing: {
       '0': '0px',
@@ -88,7 +75,6 @@ module.exports = {
       '25': '2.5rem',
       '275': '2.75rem',
       '3': '3rem',
-      '4': '4rem',
     },
     margin: {
       '0': '0px',
@@ -103,7 +89,6 @@ module.exports = {
       '25': '2.5rem',
       '275': '2.75rem',
       '3': '3rem',
-      '4': '4rem',
     },
     borderRadius: {
       DEFAULT: '0.25rem',
