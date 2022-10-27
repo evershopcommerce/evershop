@@ -1,4 +1,4 @@
-const fs = require('fs/promises');
+const fs = require('fs').promises;
 const { CONSTANTS } = require('../helpers');
 const { join } = require('path');
 const staticMiddleware = require('serve-static');
