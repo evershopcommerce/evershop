@@ -96,6 +96,7 @@
     "sharp": "^0.30.5",
     "stripe": "^8.176.0",
     "style-loader": "^3.3.1",
+    "tailwindcss": "^3.2.1",
     "terser-webpack-plugin": "^5.3.3",
     "touch": "^3.1.0",
     "uniqid": "^5.3.0",
