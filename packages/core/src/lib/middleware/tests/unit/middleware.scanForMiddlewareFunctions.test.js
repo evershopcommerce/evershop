@@ -27,7 +27,7 @@ describe('Test scanForMiddlewareFunctions function', () => {
     ).toEqual(false);
   });
 
-  it('It should return false if site middlewareID is existed', () => {
+  it('It should return false if frontStore middlewareID is existed', () => {
     expect(
       noDublicateId([{
         id: 'routeOne',
@@ -66,11 +66,11 @@ describe('Test scanForMiddlewareFunctions function', () => {
     ).toEqual(false);
   });
 
-  it('It should return false if routeId is site', () => {
+  it('It should return false if routeId is frontStore', () => {
     expect(
       noDublicateId([{
         id: 'routeOne',
-        routeId: 'site',
+        routeId: 'frontStore',
       }],
         {
           id: 'routeOne',

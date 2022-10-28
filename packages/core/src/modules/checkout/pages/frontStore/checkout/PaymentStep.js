@@ -1,7 +1,7 @@
 import React from 'react';
-import { Title } from '../../../components/site/checkout/StepTitle';
+import { Title } from '../../../components/frontStore/checkout/StepTitle';
 import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkout';
-import { StepContent } from '../../../components/site/checkout/payment/paymentStep/StepContent';
+import { StepContent } from '../../../components/frontStore/checkout/payment/paymentStep/StepContent';
 
 export default function PaymentStep({ setBillingAddressAPI, setPaymentInfoAPI, cart }) {
   const steps = useCheckoutSteps();

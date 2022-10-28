@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../../components/site/Button';
+import Button from '../../../components/frontStore/Button';
 import './MainBanner.scss';
 
 export default function MainBanner() {

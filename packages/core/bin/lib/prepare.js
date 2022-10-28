@@ -32,7 +32,7 @@ exports.prepare = function prepare(app, middlewares, routes) {
           });
         }
       });
-    } else if (m.routeId === 'site') {
+    } else if (m.routeId === 'frontStore') {
       app.all('*', (request, response, next) => {
         const route = request.currentRoute;
         if (route.isAdmin === true || route.id === 'staticAsset') {

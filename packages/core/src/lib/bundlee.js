@@ -20,7 +20,7 @@ module.exports = async (request, response, route) => {
     return;
   }
 
-  const scopePath = route.isAdmin === true ? `./admin/${route.id}` : `./site/${route.id}`;
+  const scopePath = route.isAdmin === true ? `./admin/${route.id}` : `./frontStore/${route.id}`;
   response.context.componentsPath = `${scopePath}/components.js`;
   /** This middleware only required for development */
   if (process.env.NODE_ENV === 'production') {
@@ -37,7 +37,7 @@ module.exports = async (request, response, route) => {
       response.context.bundleJs = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.js`]);
       response.context.bundleCss = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.css`]);
     } else {
-      const bundles = readdirSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build/site', route.id), { withFileTypes: true })
+      const bundles = readdirSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build/frontStore', route.id), { withFileTypes: true })
         .filter((dirent) => dirent.isFile())
         .map((dirent) => dirent.name);
       bundles.forEach((b) => {

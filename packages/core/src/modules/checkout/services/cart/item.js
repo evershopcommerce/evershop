@@ -62,9 +62,9 @@ module.exports.Item = class Item extends DataObject {
       async resolver() {
         if (this.dataSource.product.image) {
           const thumb = this.dataSource.product.image.replace(/.([^.]*)$/, '-thumb.$1');
-          return fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/site${config.get('catalog.product.image.placeHolder')}`;
+          return fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/frontStore${config.get('catalog.product.image.placeHolder')}`;
         } else {
-          return `/assets/theme/site${config.get('catalog.product.image.placeHolder')}`;
+          return `/assets/theme/frontStore${config.get('catalog.product.image.placeHolder')}`;
         }
       },
       dependencies: ['product_id']

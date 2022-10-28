@@ -20,16 +20,16 @@ helpers.getAdminJsFile = function getAdminJsFile(filePath) {
   }
 };
 
-helpers.getSiteCssFile = function getSiteCssFile(filePath) {
+helpers.getFrontStoreCssFile = function getFrontStoreCssFile(filePath) {
   const theme = config.get('shop.frontTheme');
 
-  return `/site/${theme}/css/${filePath}`;
+  return `/frontStore/${theme}/css/${filePath}`;
 };
 
-helpers.getSiteJsFile = function getSiteJsFile(filePath) {
+helpers.getFrontStoreJsFile = function getFrontStoreJsFile(filePath) {
   const theme = config.get('shop.frontTheme');
-  if (existsSync(path.resolve(__dirname, '../public', 'theme', 'site', theme, filePath))) {
-    return `/site/${theme}/js/${filePath}`;
+  if (existsSync(path.resolve(__dirname, '../public', 'theme', 'frontStore', theme, filePath))) {
+    return `/frontStore/${theme}/js/${filePath}`;
   } else {
     return `/js/${filePath}`;
   }

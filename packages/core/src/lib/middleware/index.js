@@ -15,7 +15,7 @@ exports.getAdminMiddlewares = function getAdminMiddlewares(routeId) {
 };
 
 exports.getFrontMiddlewares = function getFrontMiddlewares(routeId) {
-  return sortMiddlewares(middlewareList.filter((m) => m.routeId === 'site' || m.routeId === routeId || m.routeId === null));
+  return sortMiddlewares(middlewareList.filter((m) => m.routeId === 'frontStore' || m.routeId === routeId || m.routeId === null));
 };
 
 /**
@@ -44,13 +44,13 @@ exports.getModuleMiddlewares = function getModuleMiddlewares(path) {
       });
     }
 
-    // Scan for the site level middleware
-    if (existsSync(resolve(path, 'pages', 'site'))) {
-      const routes = readdirSync(resolve(path, 'pages', 'site'), { withFileTypes: true })
+    // Scan for the frontStore level middleware
+    if (existsSync(resolve(path, 'pages', 'frontStore'))) {
+      const routes = readdirSync(resolve(path, 'pages', 'frontStore'), { withFileTypes: true })
         .filter((dirent) => dirent.isDirectory())
         .map((dirent) => dirent.name);
       routes.forEach((route) => {
-        scanForMiddlewareFunctions(resolve(path, 'pages', 'site', route)).forEach((m) => {
+        scanForMiddlewareFunctions(resolve(path, 'pages', 'frontStore', route)).forEach((m) => {
           addMiddleware(m);
         });
       });
@@ -75,13 +75,13 @@ exports.getModuleMiddlewares = function getModuleMiddlewares(path) {
       });
     }
 
-    // Scan for the site level middleware
-    if (existsSync(resolve(path, 'api', 'site'))) {
-      const routes = readdirSync(resolve(path, 'api', 'site'), { withFileTypes: true })
+    // Scan for the frontStore level middleware
+    if (existsSync(resolve(path, 'api', 'frontStore'))) {
+      const routes = readdirSync(resolve(path, 'api', 'frontStore'), { withFileTypes: true })
         .filter((dirent) => dirent.isDirectory())
         .map((dirent) => dirent.name);
       routes.forEach((route) => {
-        scanForMiddlewareFunctions(resolve(path, 'api', 'site', route)).forEach((m) => {
+        scanForMiddlewareFunctions(resolve(path, 'api', 'frontStore', route)).forEach((m) => {
           addMiddleware(m);
         });
       });

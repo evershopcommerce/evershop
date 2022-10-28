@@ -1,7 +1,7 @@
 const path = require('path');
 const { existsSync } = require('fs');
 const { registerAdminRoute } = require('../../src/lib/router/registerAdminRoute');
-const { registerSiteRoute } = require('../../src/lib/router/registerSiteRoute');
+const { registerFrontStoreRoute } = require('../../src/lib/router/registerFrontStoreRoute');
 const { scanForRoutes } = require('../../src/lib/router/scanForRoutes');
 
 module.exports = exports = {};
@@ -21,10 +21,10 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
     });
   }
 
-  if (existsSync(path.resolve(modulePath, 'pages', 'site'))) {
-    const siteControllerRoutes = scanForRoutes(path.resolve(modulePath, 'pages', 'site'), false, false);
-    siteControllerRoutes.forEach((route) => {
-      registerSiteRoute(
+  if (existsSync(path.resolve(modulePath, 'pages', 'frontStore'))) {
+    const frontStoreControllerRoutes = scanForRoutes(path.resolve(modulePath, 'pages', 'frontStore'), false, false);
+    frontStoreControllerRoutes.forEach((route) => {
+      registerFrontStoreRoute(
         route.id,
         route.method,
         route.path,
@@ -47,10 +47,10 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
     });
   }
 
-  if (existsSync(path.resolve(modulePath, 'api', 'site'))) {
-    const siteApiRoutes = scanForRoutes(path.resolve(modulePath, 'api', 'site'), false, true);
-    siteApiRoutes.forEach((route) => {
-      registerSiteRoute(
+  if (existsSync(path.resolve(modulePath, 'api', 'frontStore'))) {
+    const frontStoreApiRoutes = scanForRoutes(path.resolve(modulePath, 'api', 'frontStore'), false, true);
+    frontStoreApiRoutes.forEach((route) => {
+      registerFrontStoreRoute(
         route.id,
         route.method,
         route.path,

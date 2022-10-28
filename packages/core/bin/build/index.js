@@ -47,7 +47,6 @@ if (existsSync(path.resolve(CONSTANTS.BUILDPATH))) {
 
 (async () => {
   const routes = getRoutes();
-  await buildTailwind(routes.filter((r) => isBuildRequired(r)));
   await buildEntry(routes.filter((r) => isBuildRequired(r)));
 
   /** Build  */

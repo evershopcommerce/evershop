@@ -1,6 +1,6 @@
 import React from 'react';
-import { Items } from '../../../components/site/checkout/summary/Items';
-import { CartSummary } from '../../../components/site/checkout/summary/Cart';
+import { Items } from '../../../components/frontStore/checkout/summary/Items';
+import { CartSummary } from '../../../components/frontStore/checkout/summary/Cart';
 import Area from '../../../../../lib/components/Area';
 import './Summary.scss';
 

@@ -5,14 +5,14 @@ const { validateRoute } = require('./validateRoute');
 module.exports = exports = {};
 
 /**
- * Register a site route
+ * Register a frontStore route
  *
  * @param   {string}  id      Id of route, this must be unique
  * @param   {string|array} method  HTTP method, can be string like "GET", array like ["GET", "POST"]
  * @param   {string}  path    The path of route
  *
  */
-exports.registerSiteRoute = (id, method, path, isApi = false, folder = '') => {
+exports.registerFrontStoreRoute = (id, method, path, isApi = false, folder = '') => {
   //const route = validateRoute(id, method, path);
   const route = {
     id: String(id),

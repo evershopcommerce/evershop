@@ -94,12 +94,12 @@ webpackVendorPromise.then(async () => {
         });
       });
 
-      const buildPath = route.isAdmin === true ? `./admin/${route.id}` : `./site/${route.id}`;
+      const buildPath = route.isAdmin === true ? `./admin/${route.id}` : `./frontStore/${route.id}`;
       let content = `var components = module.exports = exports = ${inspect(components, { depth: 5 }).replace(/'---/g, '').replace(/---'/g, '')}`;
       content += '\r\n';
       await mkdir(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', buildPath), { recursive: true });
       await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.evershop/build', buildPath, 'components.js'), content);
-      const name = route.isAdmin === true ? `admin/${route.id}` : `site/${route.id}`;
+      const name = route.isAdmin === true ? `admin/${route.id}` : `frontStore/${route.id}`;
       const entry = {};
       entry[name] = [
         path.resolve(CONSTANTS.ROOTPATH, '.evershop', 'build', buildPath, 'components.js'),

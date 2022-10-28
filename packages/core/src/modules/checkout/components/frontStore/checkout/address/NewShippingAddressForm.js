@@ -2,7 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { useAppState, useAppDispatch } from '../../../../../../lib/context/app';
 import { get } from '../../../../../../lib/util/get';
-import AddressForm from '../../../../../customer/views/site/address/addressForm';
+import AddressForm from '../../../../../customer/views/frontStore/address/addressForm';
 
 export default function ShippingAddressForm(props) {
   const context = useAppState();

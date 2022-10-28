@@ -33,9 +33,9 @@ describe('buildMiddlewareFunction', () => {
   });
 
   it('It should bypass the rouded middleware when status is 404', async () => {
-    const loadProductImage = require('../app/modules/404page/pages/site/product/[loadProduct]loadProductImage');
-    const loadCategory = require('../app/modules/404page/pages/site/product/[loadProduct]loadCategory');
-    const loadProduct = require('../app/modules/404page/pages/site/product/loadProduct');
+    const loadProductImage = require('../app/modules/404page/pages/frontStore/product/[loadProduct]loadProductImage');
+    const loadCategory = require('../app/modules/404page/pages/frontStore/product/[loadProduct]loadCategory');
+    const loadProduct = require('../app/modules/404page/pages/frontStore/product/loadProduct');
     expect(loadProductImage).toHaveBeenCalledTimes(0);
     expect(loadCategory).toHaveBeenCalledTimes(0);
     expect(loadProduct).toHaveBeenCalledTimes(1);

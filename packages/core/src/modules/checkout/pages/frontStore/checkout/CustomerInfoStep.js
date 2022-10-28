@@ -3,7 +3,7 @@ import React from 'react';
 import { Form } from '../../../../../lib/components/form/Form';
 import { Field } from '../../../../../lib/components/form/Field';
 import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkout';
-import { Title } from '../../../components/site/checkout/StepTitle';
+import { Title } from '../../../components/frontStore/checkout/StepTitle';
 
 
 function Completed({ customerEmail }) {

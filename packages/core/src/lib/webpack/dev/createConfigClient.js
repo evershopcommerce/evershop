@@ -5,7 +5,6 @@ const { getComponentsByRoute } = require('../../componee/getComponentsByRoute');
 const path = require('path');
 const { CONSTANTS } = require('../../helpers');
 const { GraphqlPlugin } = require('../plugins/GraphqlPlugin');
-const { Tailwindcss } = require('../plugins/Tailwindcss');
 
 module.exports.createConfigClient = function createConfigClient(route) {
   const config = createBaseConfig(false);
