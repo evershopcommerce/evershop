@@ -8,6 +8,13 @@ const autoprefixer = require('autoprefixer');
 /* eslint-disable no-multi-assign */
 /* eslint-disable global-require */
 module.exports = exports = function TailwindLoader(c) {
+  if (this.mode === 'production') {
+    if (this.resourcePath.includes('tailwind.scss')) {
+      return `/*beginTailwind*/${c}/*endTailwind*/`;
+    } else {
+      return c;
+    }
+  }
   const components = (this.getOptions().getComponents)();
   const route = this.getOptions().route;
   let list = [];
@@ -28,10 +35,6 @@ module.exports = exports = function TailwindLoader(c) {
       list.push(filePath);
     }
   });
-
-  if (!this.resourcePath.includes('tailwind.scss')) {
-    return c;
-  }
 
   list.forEach((module) => {
     this.addDependency(module);
@@ -61,7 +64,6 @@ module.exports = exports = function TailwindLoader(c) {
   // Postcss with tailwind plugin
   try {
     const tailwindCssResult = postcss([tailwindcss(mergedTailwindConfig), autoprefixer]).process(c);
-
     // get the css from the result
     const tailwindCss = tailwindCssResult.css;
     return tailwindCss;

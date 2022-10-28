@@ -50,7 +50,6 @@ module.exports.buildEntry = async function buildEntry(routes, clientOnly = false
     let contentClient = `
       import React from 'react';
       import ReactDOM from 'react-dom';
-      import './tailwind.scss';
       import Area from '@evershop/core/src/lib/components/Area';
       import Hydrate from '@evershop/core/src/lib/components/react/client/Hydrate';
       `;

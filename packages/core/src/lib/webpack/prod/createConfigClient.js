@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { isBuildRequired } = require('../isBuildRequired');
 const WebpackBar = require('webpackbar');
 const { CONSTANTS } = require('../../helpers');
+const { Tailwindcss } = require('../plugins/Tailwindcss');
 
 module.exports.createConfigClient = function createConfigClient(routes) {
   const config = createBaseConfig(false);
@@ -35,6 +36,8 @@ module.exports.createConfigClient = function createConfigClient(routes) {
       inject: false,
       publicPath: '/assets/'
     }));
+
+    plugins.push(new Tailwindcss(subPath, route));
   });
 
   const loaders = config.module.rules;
@@ -46,6 +49,11 @@ module.exports.createConfigClient = function createConfigClient(routes) {
         loader: "css-loader",
         options: {
           url: false,
+        }
+      },
+      {
+        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/TailwindLoader.js'),
+        options: {
         }
       },
       "sass-loader"

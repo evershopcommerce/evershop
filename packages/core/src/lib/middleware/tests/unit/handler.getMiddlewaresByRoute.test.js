@@ -8,7 +8,7 @@ describe('test getMiddlewaresByRoute', () => {
     expect(productMiddleweres.findIndex(m => m.id === 'loadProductImage')).not.toBe(-1);
   });
 
-  it('should contains site level middleware', () => {
+  it('should contains frontStore level middleware', () => {
     expect(productMiddleweres.findIndex(m => m.id === 'title')).not.toBe(-1);
   });
 

@@ -9,10 +9,10 @@ function getUrls(image) {
   const thumbVersion = image.replace(/.([^.]*)$/, '-thumb.$1');
   const singleVersion = image.replace(/.([^.]*)$/, '-single.$1');
   const listingVersion = image.replace(/.([^.]*)$/, '-list.$1');
-  const thumb = fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumbVersion)) ? `/assets${thumbVersion}` : `/assets/theme/site${getConfig('catalog.product.image.placeHolder')}`;
-  const single = fs.existsSync(path.join(CONSTANTS.MEDIAPATH, singleVersion)) ? `/assets${singleVersion}` : `/assets/theme/site${getConfig('catalog.product.image.placeHolder')}`;
-  const listing = fs.existsSync(path.join(CONSTANTS.MEDIAPATH, listingVersion)) ? `/assets${listingVersion}` : `/assets/theme/site${getConfig('catalog.product.image.placeHolder')}`;
-  const origin = fs.existsSync(path.join(CONSTANTS.MEDIAPATH, image)) ? `/assets${image}` : `/assets/theme/site${getConfig('catalog.product.image.placeHolder')}`;
+  const thumb = fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumbVersion)) ? `/assets${thumbVersion}` : `/assets/theme/frontStore${getConfig('catalog.product.image.placeHolder')}`;
+  const single = fs.existsSync(path.join(CONSTANTS.MEDIAPATH, singleVersion)) ? `/assets${singleVersion}` : `/assets/theme/frontStore${getConfig('catalog.product.image.placeHolder')}`;
+  const listing = fs.existsSync(path.join(CONSTANTS.MEDIAPATH, listingVersion)) ? `/assets${listingVersion}` : `/assets/theme/frontStore${getConfig('catalog.product.image.placeHolder')}`;
+  const origin = fs.existsSync(path.join(CONSTANTS.MEDIAPATH, image)) ? `/assets${image}` : `/assets/theme/frontStore${getConfig('catalog.product.image.placeHolder')}`;
   return {
     thumb,
     single,

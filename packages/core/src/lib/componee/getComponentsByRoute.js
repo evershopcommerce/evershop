@@ -15,7 +15,7 @@ exports.getComponentsByRoute = function getComponentsByRoute(route) {
 
   modules.forEach((module) => {
     // Scan for 'all' components
-    const rootPath = route.isAdmin ? resolve(module.path, 'pages/admin') : resolve(module.path, 'pages/site');
+    const rootPath = route.isAdmin ? resolve(module.path, 'pages/admin') : resolve(module.path, 'pages/frontStore');
     // Get all folders in the rootPath
     const pages = existsSync(rootPath) ? readdirSync(rootPath, { withFileTypes: true })
       .filter((dirent) => dirent.isDirectory())
@@ -50,9 +50,9 @@ exports.getComponentsByRoute = function getComponentsByRoute(route) {
         themeComponents = scanForComponents(resolve(themePath, 'pages', route.id));
       }
       return themeComponents.concat(components.map((component) => {
-        // Get the subpath of `moduleName/pages/site/{component.js}`
+        // Get the subpath of `moduleName/pages/frontStore/{component.js}`
         const subPath = component.split(resolve(CONSTANTS.MOLDULESPATH))[1]
-          .replace(normalize('/site'), '')
+          .replace(normalize('/frontStore'), '')
         const fullPath = join(themePath, subPath);
         if (existsSync(fullPath)) {
           return fullPath;

@@ -1,6 +1,6 @@
 {
   "name": "@evershop/core",
-  "version": "1.0.0-alpha-5",
+  "version": "2.0.2-alpha",
   "description": "The React Ecommerce platform. Built with React and MySQL. Open-source and free. Fast and customizable.",
   "files": [
     "bin",
@@ -51,6 +51,7 @@
     "body-parser": "^1.20.0",
     "boxen": "^5.1.2",
     "chokidar": "^3.5.3",
+    "clean-css": "^5.3.1",
     "config": "^3.3.6",
     "cookie-parser": "^1.4.6",
     "css-loader": "^6.7.1",
@@ -95,7 +96,6 @@
     "sharp": "^0.30.5",
     "stripe": "^8.176.0",
     "style-loader": "^3.3.1",
-    "tailwindcss": "^3.2.1",
     "terser-webpack-plugin": "^5.3.3",
     "touch": "^3.1.0",
     "uniqid": "^5.3.0",

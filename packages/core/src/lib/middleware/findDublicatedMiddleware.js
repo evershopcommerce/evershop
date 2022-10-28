@@ -10,7 +10,7 @@ exports.findDublicatedMiddleware = function findDublicatedMiddleware(registeredM
         || middleware.routeId === newMiddleware.routeId
         || (middleware.scope === newMiddleware.scope && (
           [middleware.routeId, newMiddleware.routeId].includes('admin')
-          || [middleware.routeId, newMiddleware.routeId].includes('site')
+          || [middleware.routeId, newMiddleware.routeId].includes('frontStore')
         )
         )
       )

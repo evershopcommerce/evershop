@@ -18,10 +18,10 @@ describe('test middleware', () => {
         return status >= 200 && status <= 500;
       },
     });
-    const loadProductAttribute = require('../app/modules/handler/pages/site/middleware/[loadProductImage]loadAttribute');
-    const loadProductImage = require('../app/modules/handler/pages/site/middleware/[loadProduct]loadProductImage');
-    const loadCategory = require('../app/modules/handler/pages/site/middleware/[loadProduct]loadCategory');
-    const loadProduct = require('../app/modules/handler/pages/site/middleware/loadProduct');
+    const loadProductAttribute = require('../app/modules/handler/pages/frontStore/middleware/[loadProductImage]loadAttribute');
+    const loadProductImage = require('../app/modules/handler/pages/frontStore/middleware/[loadProduct]loadProductImage');
+    const loadCategory = require('../app/modules/handler/pages/frontStore/middleware/[loadProduct]loadCategory');
+    const loadProduct = require('../app/modules/handler/pages/frontStore/middleware/loadProduct');
     expect(loadProductAttribute).toHaveBeenCalledTimes(1);
     expect(loadProductImage).toHaveBeenCalledTimes(1);
     expect(loadCategory).toHaveBeenCalledTimes(1);
@@ -29,7 +29,7 @@ describe('test middleware', () => {
   });
 
   it('It should not execute the middleware functions after error occurred', async () => {
-    const loadProductOption = require('../app/modules/handler/pages/site/middleware/[loadAttribute]loadOptions');
+    const loadProductOption = require('../app/modules/handler/pages/frontStore/middleware/[loadAttribute]loadOptions');
     expect(loadProductOption).toHaveBeenCalledTimes(0);
   });
 

@@ -32,7 +32,7 @@ class Handler {
     if (route.isAdmin === true) {
       middlewares = sortMiddlewares(middlewares.concat(this.middlewares.filter((m) => m.routeId === 'admin' && m.region === region)));
     } else {
-      middlewares = sortMiddlewares(middlewares.concat(this.middlewares.filter((m) => m.routeId === 'site' && m.region === region)));
+      middlewares = sortMiddlewares(middlewares.concat(this.middlewares.filter((m) => m.routeId === 'frontStore' && m.region === region)));
     }
 
     if (isDevelopmentMode()) {

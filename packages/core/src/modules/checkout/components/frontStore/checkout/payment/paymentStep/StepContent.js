@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Area from '../../../../../../../lib/components/Area';
 import { useCheckoutStepsDispatch } from '../../../../../../../lib/context/checkout';
-import { CustomerAddressForm } from '../../../../../../customer/views/site/address/AddressForm';
+import { CustomerAddressForm } from '../../../../../../customer/views/frontStore/address/AddressForm';
 import { Form } from '../../../../../../../lib/components/form/Form';
 import { BillingAddress } from './BillingAddress';
 

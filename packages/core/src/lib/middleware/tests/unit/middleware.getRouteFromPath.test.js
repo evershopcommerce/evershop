@@ -38,21 +38,21 @@ describe('Test getRouteFromPath function', () => {
     });
   });
 
-  it('Parse site level route', () => {
+  it('Parse frontStore level route', () => {
     expect(
-      getRouteFromPath(resolve('/catalog/pages/site/all/title.js'))
+      getRouteFromPath(resolve('/catalog/pages/frontStore/all/title.js'))
     ).toEqual({
       region: 'pages',
-      scope: 'site',
-      routeId: 'site',
+      scope: 'frontStore',
+      routeId: 'frontStore',
     });
 
     expect(
-      getRouteFromPath(resolve('/cms/api/site/all/title.js'))
+      getRouteFromPath(resolve('/cms/api/frontStore/all/title.js'))
     ).toEqual({
       region: 'api',
-      scope: 'site',
-      routeId: 'site',
+      scope: 'frontStore',
+      routeId: 'frontStore',
     });
   });
 
@@ -74,20 +74,20 @@ describe('Test getRouteFromPath function', () => {
     });
   });
 
-  it('Parse site routed level route', () => {
+  it('Parse frontStore routed level route', () => {
     expect(
-      getRouteFromPath(resolve('/catalog/pages/site/product/title.js'))
+      getRouteFromPath(resolve('/catalog/pages/frontStore/product/title.js'))
     ).toEqual({
       region: 'pages',
-      scope: 'site',
+      scope: 'frontStore',
       routeId: 'product',
     });
 
     expect(
-      getRouteFromPath(resolve('/cms/api/site/product/title.js'))
+      getRouteFromPath(resolve('/cms/api/frontStore/product/title.js'))
     ).toEqual({
       region: 'api',
-      scope: 'site',
+      scope: 'frontStore',
       routeId: 'product',
     });
   });
@@ -110,31 +110,31 @@ describe('Test getRouteFromPath function', () => {
     });
   });
 
-  it('Parse multi site routed level route', () => {
+  it('Parse multi frontStore routed level route', () => {
     expect(
-      getRouteFromPath(resolve('/catalog/pages/site/product+category/title.js'))
+      getRouteFromPath(resolve('/catalog/pages/frontStore/product+category/title.js'))
     ).toEqual({
       region: 'pages',
-      scope: 'site',
+      scope: 'frontStore',
       routeId: ['product', 'category'],
     });
 
     expect(
-      getRouteFromPath(resolve('/cms/api/site/product+category/title.js'))
+      getRouteFromPath(resolve('/cms/api/frontStore/product+category/title.js'))
     ).toEqual({
       region: 'api',
-      scope: 'site',
+      scope: 'frontStore',
       routeId: ['product', 'category'],
     });
   });
 
   it('Parse invalid path', () => {
     expect(
-      () => getRouteFromPath(resolve('/catalog/controllers/s ite/product/title.js'))
+      () => getRouteFromPath(resolve('/catalog/controllers/fro ntStore/product/title.js'))
     ).toThrow();
 
     expect(
-      () => getRouteFromPath(resolve('/catalog/controllers/site/pro2uct/title.js'))
+      () => getRouteFromPath(resolve('/catalog/controllers/frontStore/pro2uct/title.js'))
     ).toThrow();
   });
 });

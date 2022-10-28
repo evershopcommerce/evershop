@@ -5,7 +5,7 @@ class Router {
     this.routes = [];
   }
 
-  getSiteRoutes() {
+  getFrontStoreRoutes() {
     return this.routes.filter((r) => r.isAdmin === false)
   };
 
@@ -33,7 +33,7 @@ class Router {
 
 const router = new Router();
 exports.addRoute = (route) => router.addRoute(route);
-exports.getSiteRoutes = () => router.getSiteRoutes();
+exports.getFrontStoreRoutes = () => router.getFronStoreRoutes();
 exports.getAdminRoutes = () => router.getAdminRoutes();
 exports.getRoutes = () => router.getRoutes();
 exports.empty = () => router.empty();

@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
-import { Title } from '../../../components/site/checkout/StepTitle';
+import { Title } from '../../../components/frontStore/checkout/StepTitle';
 import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkout';
-import { AddressSummary } from '../../../../customer/views/site/address/AddressSummary';
-import { StepContent } from '../../../components/site/checkout/shipment/StepContent';
+import { AddressSummary } from '../../../../customer/views/frontStore/address/AddressSummary';
+import { StepContent } from '../../../components/frontStore/checkout/shipment/StepContent';
 
 export default function ShipmentStep({ cart: { shippingAddress, shippingMethod, shippingMethodName }, setShipmentInfoAPI }) {
   const steps = useCheckoutSteps();

@@ -1,6 +1,7 @@
 .Toastify__toast-container {
     z-index: 9999;
     -webkit-transform: translate3d(0, 0, 9999px);
+    transform: translate3d(0, 0, 9999px);
     position: fixed;
     width: 380px;
     background-color: #fff;

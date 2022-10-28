@@ -2,14 +2,14 @@ const { existsSync } = require('fs');
 const path = require('path');
 const { getEnabledExtensions } = require('../../../bin/extension');
 const { getCoreModules } = require('../../../bin/lib/loadModules');
-const { getAdminRoutes, getSiteRoutes } = require('../router/Router');
+const { getAdminRoutes, getFrontStoreRoutes } = require('../router/Router');
 const { assign } = require('../util/assign');
 const isDevelopmentMode = require('../util/isDevelopmentMode');
 const { scanForComponents } = require('./scanForComponents');
 
 class Componee {
   static components = {
-    site: {},
+    frontStore: {},
     admin: {}
   }
 
@@ -37,7 +37,7 @@ class Componee {
   }
 
   static addComponents(scope, componentObjects) {
-    const routes = scope === 'admin' ? getAdminRoutes() : getSiteRoutes();
+    const routes = scope === 'admin' ? getAdminRoutes() : getFrontStoreRoutes();
     Object.keys(componentObjects).forEach((key) => {
       if (!Array.isArray(componentObjects[key])) {
         throw new TypeError(`Component list under ${key} must be an array.`);
@@ -77,9 +77,9 @@ class Componee {
     const modulePath = module.path;
     this.currentModule = module.name;
     this.componentsByModule[modulePath] = {};
-    if (existsSync(path.resolve(modulePath, 'views/site/components.js'))) {
-      this.currentScope = 'site';
-      const components = require(path.resolve(modulePath, 'views/site/components.js'));
+    if (existsSync(path.resolve(modulePath, 'views/frontStore/components.js'))) {
+      this.currentScope = 'frontStore';
+      const components = require(path.resolve(modulePath, 'views/frontStore/components.js'));
       if (typeof components === 'object' && components !== null) {
         this.addComponents(this.currentScope, components);
         if (isDevelopmentMode()) {
@@ -105,7 +105,7 @@ class Componee {
     modules.forEach((module) => {
       const pagePath = route.isAdmin ?
         path.resolve(module.path, 'pages/admin', route.id) :
-        path.resolve(module.path, 'pages/site', route.id);
+        path.resolve(module.path, 'pages/frontStore', route.id);
 
       components = [...components, ...scanForComponents(pagePath)];
     });
@@ -114,8 +114,8 @@ class Componee {
   }
 
   static getComponentsByRoute(routeId) {
-    if (this.components.site[routeId]) {
-      return this.components.site[routeId];
+    if (this.components.frontStore[routeId]) {
+      return this.components.frontStore[routeId];
     } else if (this.components.admin[routeId]) {
       return this.components.admin[routeId];
     } else {
@@ -125,22 +125,22 @@ class Componee {
 
   static rebuild() {
     this.components = {
-      site: {},
+      frontStore: {},
       admin: {}
     };
 
     Object.keys(this.componentsByModule).forEach((modulePath) => {
-      const siteComponents = this.componentsByModule[modulePath]['site'] || {};
+      const siteComponents = this.componentsByModule[modulePath]['frontStore'] || {};
       const adminComponents = this.componentsByModule[modulePath]['admin'] || {};
-      this.addComponents('site', siteComponents);
+      this.addComponents('frontStore', siteComponents);
       this.addComponents('admin', adminComponents);
     });
   }
 
   static updateModuleComponents(module) {
     const modulePath = module.path;
-    if (existsSync(path.resolve(modulePath, 'views/site/components.js'))) {
-      delete require.cache[path.resolve(modulePath, 'views/site/components.js')];
+    if (existsSync(path.resolve(modulePath, 'views/frontStore/components.js'))) {
+      delete require.cache[path.resolve(modulePath, 'views/frontStore/components.js')];
     }
     if (existsSync(path.resolve(modulePath, 'views/admin/components.js'))) {
       delete require.cache[path.resolve(modulePath, 'views/admin/components.js')];
