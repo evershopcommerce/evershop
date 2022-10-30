@@ -50,10 +50,12 @@ exports.getComponentsByRoute = function getComponentsByRoute(route) {
         themeComponents = scanForComponents(resolve(themePath, 'pages', route.id));
       }
       return themeComponents.concat(components.map((component) => {
-        // Get the subpath of `moduleName/pages/frontStore/{component.js}`
-        const subPath = component.split(resolve(CONSTANTS.MOLDULESPATH))[1]
-          .replace(normalize('/frontStore'), '')
-        const fullPath = join(themePath, subPath);
+        // Get the subpath of `moduleName/pages/frontStore/{component.js}`;
+        const splits = component.split(normalize('/pages/frontStore'));
+        // Get the moduleName
+        const moduleName = splits[0].split(normalize('/')).pop();
+        const subPath = splits[1];
+        const fullPath = join(themePath, moduleName, 'pages', subPath);
         if (existsSync(fullPath)) {
           return fullPath;
         } else {
