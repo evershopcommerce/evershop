@@ -1,6 +1,7 @@
 node_modules
-dist
-extensions
+./dist
+/extensions/*
+!/extensions/productComment
 themes
 .idea/*
 .evershop
