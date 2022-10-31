@@ -1,9 +1,10 @@
 module.exports = {
-    babelrcRoots: [__dirname
+  babelrcRoots: [__dirname
   ],
-    parserOpts: { allowReturnOutsideFunction: true
+  parserOpts: {
+    allowReturnOutsideFunction: true
   },
-    presets: [
+  presets: [
     [
       "@babel/preset-env",
       {

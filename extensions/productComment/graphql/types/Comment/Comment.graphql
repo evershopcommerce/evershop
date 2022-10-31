@@ -1,0 +1,10 @@
+type Comment {
+  commentId: Int!
+  userName: String
+  comment: String
+  createdAt: String
+}
+
+extend type Query {
+  comments(productId: Int!): [Comment]
+}

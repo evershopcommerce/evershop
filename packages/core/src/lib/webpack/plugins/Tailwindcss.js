@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { join, normalize } = require('path');
+const { join } = require('path');
 const postcss = require('postcss');
 const tailwindcss = require('tailwindcss');
 const autoprefixer = require('autoprefixer');
@@ -26,10 +26,10 @@ exports.Tailwindcss = class Tailwindcss {
           let jsAsset;
           Object.entries(assets).forEach((asset) => {
             const [pathname, source] = asset;
-            if (pathname.endsWith('.css') && pathname.includes(normalize(this.chunks + '/'))) {
+            if (pathname.endsWith('.css') && pathname.includes(this.chunks + '/')) {
               cssAsset = asset;
             }
-            if (pathname.endsWith('.js') && pathname.includes(normalize(this.chunks + '/'))) {
+            if (pathname.endsWith('.js') && pathname.includes(this.chunks + '/')) {
               jsAsset = asset;
             }
           });

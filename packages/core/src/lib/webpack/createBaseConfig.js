@@ -2,17 +2,25 @@ const path = require('path');
 const { CONSTANTS } = require("../helpers");
 const isProductionMode = require("../util/isProductionMode");
 const TerserPlugin = require("terser-webpack-plugin");
+const { getEnabledExtensions } = require('../../../bin/extension');
 
 module.exports.createBaseConfig = function createBaseConfig(
   isServer
 ) {
+  const extenions = getEnabledExtensions()
   const loaders = [
     {
       test: /\.m?js$/,
       exclude: {
         and: [/node_modules/],
         not: [
-          /@evershop[\\/]core/
+          /@evershop[\\/]core/,
+          // Include all enabled extension; 
+          ...extenions.map(ext => {
+            // Create a regex from a path
+            const regex = new RegExp(ext.resolve.replace(/\\/g, '\\\\').replace(/\//g, '\\/'));
+            return regex;
+          })
         ]
       },
       use: [
