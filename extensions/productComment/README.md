@@ -16,7 +16,7 @@ Add the extension to your `config/default.json` file:
         "extensions": [
             {
                 "name": "productcomment",
-                "resolve": "node_modules/@evershop/productcomment/dist",
+                "resolve": "node_modules/@evershop/productcomment",
                 "enabled": true
             }
         ]
