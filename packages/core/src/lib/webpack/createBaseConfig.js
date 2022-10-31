@@ -17,8 +17,7 @@ module.exports.createBaseConfig = function createBaseConfig(
           /@evershop[\\/]core/,
           // Include all enabled extension; 
           ...extenions.map(ext => {
-            // Create a regex from a path
-            const regex = new RegExp(ext.resolve.replace(/\\/g, '\\\\').replace(/\//g, '\\/'));
+            const regex = new RegExp(ext.resolve.replace(/\\/g, '[\\\\\\]').replace(/\//g, '[\\\\/]'));
             return regex;
           })
         ]
