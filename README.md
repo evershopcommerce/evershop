@@ -6,7 +6,7 @@
   </a>
 </p>
 <p align="center">
-  <h1 align="center">A React E-Commerce Project</h1>
+  <h1 align="center">A Full Stack React Ecommerce Template</h1>
 </p>
 <p align="center">
     <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a>
