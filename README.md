@@ -21,7 +21,7 @@
   </a>
 </p>
 
-## GraphQL Based and Dynamic Layout
+## GraphQL Query For Server Side Props
 
 ```javascript
 import React from 'react';
@@ -34,10 +34,7 @@ export default function NewArrival({ products }) {
     </div>
 }
 
-export const layout = {
-  areaId: 'content',
-  sortOrder: 5
-}
+// The GraphQL query result will be passed to the page component as props
 
 export const query = `
   query NewArrival {
