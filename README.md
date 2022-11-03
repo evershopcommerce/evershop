@@ -6,7 +6,7 @@
   </a>
 </p>
 <p align="center">
-  <h1 align="center">A Full Stack React Ecommerce Template</h1>
+  <h1 align="center">A Full Stack React Ecommerce Template For Developers</h1>
 </p>
 <p align="center">
     <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a>
@@ -21,7 +21,7 @@
   </a>
 </p>
 
-## GraphQL Query For Server Side Props
+## Component-Level Data Fetching (Server Side Props)
 
 ```javascript
 import React from 'react';
@@ -35,7 +35,6 @@ export default function NewArrival({ products }) {
 }
 
 // The GraphQL query result will be passed to the page component as props
-
 export const query = `
   query NewArrival {
     products {
