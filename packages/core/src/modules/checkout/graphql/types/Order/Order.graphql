@@ -1,5 +1,6 @@
 type OrderAddress implements Address {
   orderAddressId: Int!
+  uuid: String!
   fullName: String!
   postcode: String!
   telephone: String!
@@ -12,6 +13,7 @@ type OrderAddress implements Address {
 
 type OrdertItem implements ShoppingCartItem{
   orderItemId: ID!
+  uuid: String!
   orderId: ID!
   productId: ID!
   productSku: String!
@@ -35,6 +37,7 @@ type OrdertItem implements ShoppingCartItem{
 
 type Order implements ShoppingCart{
   orderId: ID!
+  uuid: String!
   orderNumber: String!
   items: [OrdertItem]
   shippingAddress: OrderAddress
@@ -80,6 +83,7 @@ type Activity {
 
 type Shipment {
   shipmentId: Int!
+  uuid: String!
   carrierName: String
   trackingNumber: String
   createdAt: DateTime!

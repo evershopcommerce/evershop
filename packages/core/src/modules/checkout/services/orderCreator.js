@@ -110,9 +110,14 @@ exports.createOrder = async function createOrder(cart) {
       .given({ status: 0 })
       .where('cart_id', '=', cart.getData('cart_id'))
       .execute(connection);
+    // Load the created order
+    const createdOrder = await select()
+      .from('order')
+      .where('order_id', '=', order.insertId)
+      .load(connection);
 
     await commit(connection);
-    return order.insertId;
+    return createdOrder.uuid;
   } catch (e) {
     await rollback(connection);
     throw e;

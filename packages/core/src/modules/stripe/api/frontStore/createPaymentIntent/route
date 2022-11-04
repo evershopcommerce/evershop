@@ -1,2 +1,2 @@
 POST
-/stripe/create-payment-intent
+/stripe/paymentIntent
