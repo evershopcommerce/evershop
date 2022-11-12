@@ -29,8 +29,7 @@
       1,
       {
         "extensions": [
-          ".js",
-          ".jsx"
+          ".js"
         ]
       }
     ],
