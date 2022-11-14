@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Area from '../../../../../../../lib/components/Area';
-import { useCheckoutStepsDispatch } from '../../../../../../../lib/context/checkout';
-import { CustomerAddressForm } from '../../../../../../customer/views/frontStore/address/AddressForm';
+import { useCheckoutStepsDispatch } from '../../../../../../../lib/context/checkoutSteps';
+import { CustomerAddressForm } from '../../../../../../customer/pages/frontStore/address/AddressForm';
 import { Form } from '../../../../../../../lib/components/form/Form';
 import { BillingAddress } from './BillingAddress';
 
@@ -43,10 +43,11 @@ export function StepContent({ setBillingAddressAPI, setPaymentInfoAPI, cart: { b
         onError={() => {
           setBillingCompleted(false);
         }}
-        id="checkout_billing_address_form"
+        id="checkoutBillingAddressForm"
         submitBtn={false}
+        isJSON={true}
       >
-        <div className="font-bold mb-1">Billing Address</div>
+        <h5 className="mb-1 mt-1">Billing Address</h5>
         <BillingAddress
           useShippingAddress={useShippingAddress}
           setUseShippingAddress={setUseShippingAddress}
@@ -75,16 +76,13 @@ export function StepContent({ setBillingAddressAPI, setPaymentInfoAPI, cart: { b
         }}
         submitBtn={false}
       >
-        <div className="font-bold mb-1 mt-1">Payment Method</div>
-        <input type="hidden" value="stripe" name="payment_method" />
+        <h5 className="mb-1 mt-1">Payment Method</h5>
+        <input type="hidden" value="stripe" name="method" />
       </Form>
       <Area
         id="checkoutPaymentMethods"
         coreComponents={[]}
       />
-      {/* <div className='mt-2 place-order-button'>
-            <Button variant="primary" title="Place Order" onAction={billing} />
-        </div> */}
     </div>
   );
 }

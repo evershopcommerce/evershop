@@ -4,7 +4,7 @@ import {
   useStripe,
   useElements
 } from '@stripe/react-stripe-js';
-import { useCheckout } from '../../../../../lib/context/order';
+import { useCheckout } from '../../../../../lib/context/checkout';
 import Button from '../../../../../lib/components/form/Button';
 import { get } from '../../../../../lib/util/get';
 import './CheckoutForm.scss';

@@ -1,6 +1,12 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p align="left">
-  <h1 align="left">A Full Stack React Ecommerce Template For Developers</h1>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p align="center">
+  <a href="https://evershop.io" target="_blank">
+    <img alt="evershop-logo" height="65" alt="EverShop Logo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-logo.svg"/>
+  </a>
+</p>
+<p align="center">
+  <h1 align="center">A Full Stack React Ecommerce Template For Developers</h1>
 </p>
 <p align="center">
     <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a>
@@ -91,12 +97,6 @@ npx create-evershop-app my-app --playAround
 
 ## Support
 
-If you like my work, feel free to:
-
-- ⭐ this repository. It is a big motivation for me to continue working on this project.
-- [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)][tweet] about EverShop
-
-[tweet]: https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fevershopcommerce%2Fevershop&text=Awesome%20React%20Ecommerce%20Project&hashtags=react,ecommerce,expressjs,graphql
 ### Ask a question about EverShop
 
 You can ask questions, and participate in discussions about EverShop-related topics in the EverShop Discord channel.

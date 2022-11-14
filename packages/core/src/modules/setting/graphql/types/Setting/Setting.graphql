@@ -1,0 +1,7 @@
+type Setting {
+  storeName: String
+}
+
+extend type Query {
+  setting: Setting
+}

@@ -1,28 +1,34 @@
-const { insert, select } = require('@evershop/mysql-query-builder');
+const { insert } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
-const { getContext, getContextValue } = require('../../../../graphql/services/contextHelper');
 const { addressValidator } = require('../../../services/addressValidator');
-const { getCustomerCart } = require('../../../services/getCustomerCart');
+const { getCartByUUID } = require('../../../services/getCartByUUID');
 const { saveCart } = require('../../../services/saveCart');
 
 module.exports = async (request, response, stack, next) => {
   try {
-    const customer = getContextValue(request, 'tokenPayload');
-    const cart = await getCustomerCart(customer);
-
+    const { address, method, cartId } = request.body;
+    // Check if cart exists
+    const cart = await getCartByUUID(cartId);
+    if (!cart) {
+      return response.status(400).json({
+        message: "Invalid cart id",
+        success: false
+      });
+    }
     // Validate address
-    if (!addressValidator(request.body)) {
+    if (!addressValidator(address)) {
       throw new TypeError('Invalid Address');
     }
 
     // Save shipping address
-    const result = await insert('cart_address').given(request.body).execute(pool);
+    const result = await insert('cart_address').given(address).execute(pool);
 
     // Set shipping address ID
     await cart.setData('shipping_address_id', parseInt(result.insertId, 10));
 
     // Save shipping method
-    await cart.setData('shipping_method', request.body.shipping_method);
+    // Each shipping method should have a middleware to validate the payment method before this step
+    await cart.setData('shipping_method', method);
 
     // Save the cart
     await saveCart(cart);

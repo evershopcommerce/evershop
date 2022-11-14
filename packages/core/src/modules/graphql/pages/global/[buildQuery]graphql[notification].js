@@ -25,11 +25,10 @@ module.exports = async function graphql(request, response, delegate, next) {
         next();
       } else {
         const document = parse(graphqlQuery);
-
         // Validate the query
         const validationErrors = validate(schema, document);
         if (validationErrors.length > 0) {
-          next(new Error(validationErrors[0].message));
+          next(validationErrors[0]);
         } else {
           if (isDevelopmentMode()) {
             schema = require('../../services/buildSchema');
@@ -39,9 +38,7 @@ module.exports = async function graphql(request, response, delegate, next) {
             schema, contextValue: getContext(request), document, variableValues: graphqlVariables
           });
           if (data.errors) {
-            // Create an Error instance with message and stack trace
-            console.log(data.errors)
-            next(new Error(data.errors[0].message));
+            next(data.errors[0]);
           } else {
             response.locals = response.locals || {};
             response.locals.graphqlResponse = JSON.parse(JSON.stringify(data.data));

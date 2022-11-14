@@ -132,6 +132,7 @@ export default function ProductForm({ product, action }) {
       onStart={() => setLoading(true)}
       onComplete={() => setLoading(false)}
       onError={(e) => setError(e.message)}
+      isJSON={true}
     >
       <input type="hidden" name="product_id" value={product.productId} />
 

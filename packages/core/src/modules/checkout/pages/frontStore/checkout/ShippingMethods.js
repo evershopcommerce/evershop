@@ -14,7 +14,7 @@ export default function ShippingMethods({ getMethodsAPI }) {
       const { fields } = formContext;
       let check = !!fields.length;
       fields.forEach((e) => {
-        if (['country', 'province', 'postcode'].includes(e.name) && !e.value) check = false;
+        if (['address[country]', 'address[province]', 'address[postcode]'].includes(e.name) && !e.value) check = false;
       });
 
       if (check === true) {
@@ -51,7 +51,7 @@ export default function ShippingMethods({ getMethodsAPI }) {
       {methods.length > 0 && (
         <Field
           type="radio"
-          name="shipping_method"
+          name="method"
           validationRules={['notEmpty']}
           options={methods}
         />

@@ -1,0 +1,6 @@
+extend type Setting {
+  stripePaymentStatus: Boolean
+  stripeDislayName: String
+  stripePublisableKey: String
+  stripeSecretKey: String
+}

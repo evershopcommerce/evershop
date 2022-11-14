@@ -1,68 +1,49 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useCheckoutSteps } from './checkoutSteps';
 
-const Steps = React.createContext();
-const CheckoutStepsDispatch = React.createContext();
+const Checkout = React.createContext();
 
-export function CheckoutSteps({ children, value }) {
-  const [steps, setSteps] = useState(value);// TODO: Consider using ajax to load steps
+export function CheckoutProvider({ children, cartId, placeOrderAPI, checkoutSuccessUrl }) {
+  const steps = useCheckoutSteps();
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [orderId, setOrderId] = useState();
+  const [, setError] = useState(null);
 
-  const canStepDisplay = (step) => {
-    const checkoutSteps = [...steps].sort(
-      (a, b) => parseInt(a.sortOrder, 10) - parseInt(b.sortOrder, 10)
-    );
-    const index = checkoutSteps.findIndex((s) => s.id === step.id);
-    if (step.isEditing === true) {
-      return true;
-    }
+  useEffect(() => {
+    const placeOrder = async () => {
+      // If order is placed, do nothing
+      if (orderPlaced) return;
+      // If there is a incompleted step, do nothing
+      if (steps.findIndex((s) => s.isCompleted === false) !== -1) return;
+      const response = await axios.post(placeOrderAPI);
+      if (response.data.success === true) {
+        setOrderPlaced(true);
+        setOrderId(response.data.data.orderId);
+        setError(null);
+        // let redirectUrl = response.data.data.redirect || checkoutSuccessUrl;
 
-    if (step.isCompleted === true && index === steps.length - 1) return true;
-    if (step.isCompleted === true || steps.findIndex((s) => s.isEditing === true) !== -1) {
-      return false;
-    } else {
-      let flag = true;
-      checkoutSteps.every((s, i) => {
-        if (i >= index) {
-          return false;
-        } else {
-          if (s.isCompleted === false) flag = false;
-          return true;
-        }
-      });
-      if (flag === true || index === 0) return true;
-      else return false;
-    }
-  };
-
-  const editStep = (step) => {
-    setSteps(steps.map((s) => {
-      if (s.id === step) return { ...s, isEditing: true };
-      else return s;
-    }));
-  };
-
-  const completeStep = (step) => {
-    setSteps(steps.map((s) => {
-      if (s.id === step) return { ...s, isCompleted: true, isEditing: false };
-      else return s;
-    }));
-  };
+        // window.location.href = redirectUrl;
+      } else {
+        setError(response.data.message);
+      }
+    };
+    placeOrder();
+  }, [steps]);
 
   return (
-    <Steps.Provider value={steps}>
-      <CheckoutStepsDispatch.Provider value={{ canStepDisplay, editStep, completeStep }}>
-        {children}
-      </CheckoutStepsDispatch.Provider>
-    </Steps.Provider>
+    <Checkout.Provider value={{ steps, cartId, orderPlaced, orderId, checkoutSuccessUrl }}>
+      {children}
+    </Checkout.Provider>
   );
 }
 
-CheckoutSteps.propTypes = {
+CheckoutProvider.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]).isRequired
 };
 
-export const useCheckoutSteps = () => React.useContext(Steps);
-export const useCheckoutStepsDispatch = () => React.useContext(CheckoutStepsDispatch);
+export const useCheckout = () => React.useContext(Checkout);

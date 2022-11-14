@@ -1,5 +1,5 @@
-const { Cart } = require("../checkout/services/cart/cart");
-const { Item } = require("../checkout/services/cart/item");
+const { Cart } = require("../checkout/services/cart/Cart");
+const { Item } = require("../checkout/services/cart/Item");
 const { toPrice } = require("../checkout/services/toPrice");
 const { Validator } = require("./services/couponValidator");
 const { DiscountCalculator } = require("./services/discountCalculator");

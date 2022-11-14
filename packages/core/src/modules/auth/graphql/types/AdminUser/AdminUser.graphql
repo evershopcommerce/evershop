@@ -1,0 +1,19 @@
+type AdminUser {
+  adminUserId: Int!
+  uuid: String!
+  status: Int!
+  email: String!
+  fullName: String!
+}
+
+type AdminUserCollection {
+  items: [AdminUser]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  adminUser(id: Int): AdminUser,
+  adminUsers(filters: [FilterInput]): AdminUserCollection
+}

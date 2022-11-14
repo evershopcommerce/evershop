@@ -44,6 +44,7 @@ type Order implements ShoppingCart{
   billingAddress: OrderAddress
   currency: String!
   customerId: Int
+  customerUrl: String
   customerGroupId: Int
   customerEmail: String
   customerFullName: String
@@ -98,6 +99,6 @@ type OrderCollection {
 }
 
 extend type Query {
-  order(id: Int): Order
+  order(id: String!): Order
   orders(filters: [FilterInput]): OrderCollection
 }

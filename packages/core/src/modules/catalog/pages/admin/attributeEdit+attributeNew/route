@@ -1,2 +1,0 @@
-GET
-/attributes/edit/:id(\\d+)

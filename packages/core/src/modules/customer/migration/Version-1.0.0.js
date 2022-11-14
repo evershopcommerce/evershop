@@ -3,21 +3,12 @@ const { pool } = require('../../../lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = async () => {
-  await execute(pool, `CREATE TABLE \`admin_user\` (
-  \`admin_user_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`status\` smallint(5) unsigned NOT NULL,
-  \`email\` char(255) NOT NULL,
-  \`password\` char(255) NOT NULL,
-  \`full_name\` char(255) DEFAULT NULL,
-  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
-  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (\`admin_user_id\`),
-  UNIQUE KEY \`EMAIL_UNIQUE\` (\`email\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Admin user';
-`);
+  await execute(pool, `DROP TABLE IF EXISTS \`customer_address\``);
+  await execute(pool, `DROP TABLE IF EXISTS \`customer\``);
 
   await execute(pool, `CREATE TABLE \`customer\` (
   \`customer_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT replace(uuid(),'-',''),
   \`status\` smallint(6) NOT NULL DEFAULT 1,
   \`group_id\` int(10) unsigned DEFAULT NULL,
   \`email\` char(255) NOT NULL,
@@ -34,6 +25,7 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`customer_address\` (
   \`customer_address_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT replace(uuid(),'-',''),
   \`customer_id\` int(10) unsigned NOT NULL,
   \`full_name\` varchar(255) DEFAULT NULL,
   \`telephone\` varchar(255) DEFAULT NULL,

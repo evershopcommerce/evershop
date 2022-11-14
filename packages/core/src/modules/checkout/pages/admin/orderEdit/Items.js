@@ -146,6 +146,7 @@ function FullfillButton({ shipment, createShipmentUrl }) {
                 method="POST"
                 action={createShipmentUrl}
                 submitBtn={false}
+                isJSON={true}
                 onSuccess={() => {
                   location.reload();
                 }}
@@ -245,6 +246,7 @@ function AddTrackingButton({ shipment, updateShipmentUrl }) {
                 method="POST"
                 action={updateShipmentUrl}
                 submitBtn={false}
+                isJSON={true}
                 onSuccess={() => {
                   location.reload();
                 }}

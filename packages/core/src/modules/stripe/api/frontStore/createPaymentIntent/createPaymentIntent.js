@@ -1,8 +1,10 @@
 const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 const smallestUnit = require("zero-decimal-currencies");
+const { getSetting } = require('../../../../setting/services/setting');
 
-const stripe = require('stripe')('sk_test_51Jdo9iEvEMCuLU1xZvrPhTSU4TsvSqRWyGorConYNrNFeSPxXdeJWZ5X1CNQ3dvruG56JvHIKOtD2D6oZGL0eHMR00cXfMu2hW');
+const stripeSecretKey = getSetting('stripeSecretKey', '');
+const stripe = require('stripe')(stripeSecretKey);
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {

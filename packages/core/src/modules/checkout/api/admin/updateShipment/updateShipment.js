@@ -14,7 +14,7 @@ module.exports = async (request, response, stack, next) => {
   try {
     const order = await select()
       .from('order')
-      .where('order_id', '=', orderId)
+      .where('uuid', '=', orderId)
       .load(connection);
 
     if (!order) {
@@ -22,7 +22,7 @@ module.exports = async (request, response, stack, next) => {
     }
     const shipment = await select()
       .from('shipment')
-      .where('shipment_order_id', '=', orderId)
+      .where('shipment_order_id', '=', order.order_id)
       .load(connection);
 
     if (!shipment) {
@@ -33,12 +33,12 @@ module.exports = async (request, response, stack, next) => {
         carrier_name: carrierName,
         tracking_number: trackingNumber
       })
-      .where('shipment_order_id', '=', orderId)
+      .where('shipment_order_id', '=', order.order_id)
       .execute(connection);
     /* Add an activity log message */
     // TODO: This will be improved. It should be treated as a side effect and move to somewhere else
     await insert('order_activity').given({
-      order_activity_order_id: orderId,
+      order_activity_order_id: order.order_id,
       comment: 'Updated tracking number',
       customer_notified: 0
     }).execute(connection);

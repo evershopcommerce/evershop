@@ -52,6 +52,9 @@ table {
         }
     }
 }
+#app {
+    background-color: rgba(246, 246, 247, .9882352941);
+}
 .header {
     height: 5.6rem;
     width: 100%;
@@ -72,7 +75,7 @@ table {
         overflow: hidden;
         margin-left: 24rem;
         .main-content-inner {
-            padding: 0 3rem;
+            padding: 2rem 3rem;
             min-height: 100vh;
         }
     }

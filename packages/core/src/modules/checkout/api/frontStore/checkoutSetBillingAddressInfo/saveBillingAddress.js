@@ -1,20 +1,23 @@
 const { insert, update } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
-const { get } = require('../../../../../lib/util/get');
-const { getContext } = require('../../../../graphql/services/contextHelper');
 const { addressValidator } = require('../../../services/addressValidator');
-const { getCustomerCart } = require('../../../services/getCustomerCart');
+const { getCartByUUID } = require('../../../services/getCartByUUID');
 const { saveCart } = require('../../../services/saveCart');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
-  const { body } = request;
   try {
-    const context = getContext(request);
-    const customer = get(context, 'tokenPayload');
-    const cart = await getCustomerCart(customer);
+    const { address, cartId, useShippingAddress } = request.body;
+    // Check if cart exists
+    const cart = await getCartByUUID(cartId);
+    if (!cart) {
+      return response.status(400).json({
+        message: "Invalid cart id",
+        success: false
+      });
+    }
     // Use shipping address as a billing address
-    if (body.use_shipping_address) {
+    if (useShippingAddress) {
       // Delete if exist billing address
       await update('cart')
         .given({ billing_address_id: null })
@@ -22,7 +25,9 @@ module.exports = async (request, response, stack, next) => {
         .execute(pool);
     } else {
       // Validate address
-      if (!addressValidator(body)) { throw new TypeError('Invalid Address'); }
+      if (!addressValidator(address)) {
+        throw new TypeError('Invalid Address');
+      }
       // Save billing address
       const result = await insert('cart_address').given(body).execute(pool);
 

@@ -13,7 +13,11 @@ module.exports = (request, response) => {
   if (isDevelopmentMode()) {
     let route;
     if (response.statusCode === 404) {
-      route = getRoutes().find((r) => r.id === 'notFound');
+      if (request.currentRoute?.isAdmin) {
+        route = getRoutes().find((r) => r.id === 'adminNotFound');
+      } else {
+        route = getRoutes().find((r) => r.id === 'notFound');
+      }
     } else {
       // Get the 'query.graphql' from webpack compiler
       route = request.locals.webpackMatchedRoute;
@@ -28,8 +32,18 @@ module.exports = (request, response) => {
       'utf8'
     );
   } else if (isProductionMode()) {
-    const routes = getRoutes()
-    const route = response.statusCode === 404 ? routes.find((route) => route.id === 'notFound') : request.currentRoute
+    const routes = getRoutes();
+    let route;
+    if (response.statusCode === 404) {
+      if (request.currentRoute?.isAdmin) {
+        route = routes.find((r) => r.id === 'adminNotFound');
+      } else {
+        route = routes.find((r) => r.id === 'notFound');
+      }
+    } else {
+      route = request.currentRoute;
+    }
+
     const subPath = getRouteBuildPath(route);
     query = readFileSync(
       path.resolve(CONSTANTS.BUILDPATH, subPath, 'server/query.graphql'),

@@ -1,2 +1,2 @@
 GET
-/order/edit/:id(\\d+)
+/order/edit/:id

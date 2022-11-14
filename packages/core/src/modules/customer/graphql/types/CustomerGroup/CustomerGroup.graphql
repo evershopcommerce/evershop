@@ -1,0 +1,11 @@
+type CustomerGroup {
+  customerGroupId: Int!
+  name: String!
+  editUrl: String!
+  customers: [Customer]
+}
+
+extend type Query {
+  customerGroup: CustomerGroup
+  customerGroups: [CustomerGroup]
+}

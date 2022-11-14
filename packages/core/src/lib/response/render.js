@@ -47,14 +47,17 @@ function renderDevelopment(request, response) {
                   <script>var eContext = ${inspect(contextValue, { depth: 10, maxArrayLength: null })}</script>
                 </head>
                 <body>
-                <div id="app"></div>
+                <div id="app" className="bg-background"></div>
                  ${normalizeAssets(assetsByChunkName[route.id])
       .filter((path) => path.endsWith(".js"))
-      .map((path) => `<script defer src="/${response.statusCode === 404 ? 'notFound.js' : path}"></script>`)
+      .map((path) => `<script defer src="/${response.statusCode === 404 ?
+        request.currentRoute?.isAdmin ?
+          'adminNotFound.js' :
+          'notFound.js' : path}"></script>`)
       .join("\n")}
                 </body>
             </html>
-            `)
+            `);
 }
 
 function renderProduction(request, response) {

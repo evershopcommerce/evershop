@@ -1,16 +1,24 @@
-const { get } = require("../../../../../lib/util/get");
-const { getContext } = require("../../../../graphql/services/contextHelper");
-const { getCustomerCart } = require("../../../services/getCustomerCart");
+const { insert } = require("@evershop/mysql-query-builder");
+const { pool } = require("../../../../../lib/mysql/connection");
+const { addressValidator } = require("../../../services/addressValidator");
+const { getCartByUUID } = require("../../../services/getCartByUUID");
 const { saveCart } = require("../../../services/saveCart");
 
 module.exports = async (request, response, stack, next) => {
-  const { body } = request;
   try {
-    const context = getContext(request);
-    const customer = get(context, 'tokenPayload');
-    const cart = await getCustomerCart(customer);
+    const { address, method, cartId } = request.body;
+    // Check if cart exists
+    const cart = await getCartByUUID(cartId);
+    if (!cart) {
+      return response.status(400).json({
+        message: "Invalid cart id",
+        success: false
+      });
+    }
+
     // Save payment method
-    await cart.setData('payment_method', body.payment_method);
+    // Each payment method should have a middleware to validate the payment method before this step
+    await cart.setData('payment_method', method);
     // Save the cart
     await saveCart(cart);
     response.$body = {

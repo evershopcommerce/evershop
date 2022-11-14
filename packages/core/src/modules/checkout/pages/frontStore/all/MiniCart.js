@@ -3,6 +3,7 @@ import React from 'react';
 import './MiniCart.scss';
 import { useAppState } from '../../../../../lib/context/app';
 import { get } from '../../../../../lib/util/get';
+import Bag from '@heroicons/react/outline/ShoppingBagIcon';
 
 export default function MiniCart({ cartUrl, cart }) {
   const miniCart = get(useAppState(), 'cart', cart || {});
@@ -10,9 +11,7 @@ export default function MiniCart({ cartUrl, cart }) {
   return (
     <div className="mini-cart-wrapper self-center">
       <a className="mini-cart-icon" href={cartUrl}>
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-        </svg>
+        <Bag width={20} height={20} />
         {(miniCart.totalQty > 0) && <span>{miniCart.totalQty}</span>}
       </a>
     </div>

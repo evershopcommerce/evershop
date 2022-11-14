@@ -6,6 +6,7 @@ exports.findDublicatedMiddleware = function findDublicatedMiddleware(registeredM
     (middleware) => middleware.id === newMiddleware.id
       && (
         middleware.routeId === null
+        || middleware.scope === 'app'
         || newMiddleware.routeId === null
         || middleware.routeId === newMiddleware.routeId
         || (middleware.scope === newMiddleware.scope && (
