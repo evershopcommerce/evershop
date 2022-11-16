@@ -5,6 +5,7 @@ const { getTokenCookieId } = require('../../../../auth/services/getTokenCookieId
 const { sign } = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { camelCase } = require('../../../../../lib/util/camelCase');
+const { getContextValue } = require('../../../../graphql/services/contextHelper');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
