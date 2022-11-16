@@ -39,7 +39,10 @@ module.exports = async (request, response, stack, next) => {
       .execute(pool);
 
     delete customer.password;
-    const token = sign({ user: { ...camelCase(customer) }, }, JWT_SECRET, { expiresIn: '2d' });
+
+    // Get the tokenPayload
+    const currentTokenPayload = getContextValue(request, 'tokenPayload');
+    const token = sign({ ...currentTokenPayload, user: { ...camelCase(customer) } }, JWT_SECRET, { expiresIn: '2d' });
     // Send a response with the cookie
     response.cookie(getTokenCookieId(), token, {
       httpOnly: true,
