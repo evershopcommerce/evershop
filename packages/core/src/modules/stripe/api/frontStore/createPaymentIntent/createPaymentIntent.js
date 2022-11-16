@@ -2,13 +2,14 @@ const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 const smallestUnit = require("zero-decimal-currencies");
 const { getSetting } = require('../../../../setting/services/setting');
-
-const stripeSecretKey = getSetting('stripeSecretKey', '');
-const stripe = require('stripe')(stripeSecretKey);
+const stripePayment = require('stripe');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
   const { body } = request;
+  const stripeSecretKey = await getSetting('stripeSecretKey', '');
+  console.log('stripeSecretKey', stripeSecretKey);
+  const stripe = stripePayment(stripeSecretKey);
 
   // Check the permission
   const order = await select().from('order').where('uuid', '=', body.orderId).load(pool);

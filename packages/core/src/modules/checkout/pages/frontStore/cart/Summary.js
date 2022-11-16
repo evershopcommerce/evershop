@@ -92,7 +92,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    cart {
+    cart(id: getContextValue('cartId', null)) {
       totalQty
       subTotal {
         value

@@ -16,8 +16,11 @@ export function CheckoutProvider({ children, cartId, placeOrderAPI, checkoutSucc
       // If order is placed, do nothing
       if (orderPlaced) return;
       // If there is a incompleted step, do nothing
-      if (steps.findIndex((s) => s.isCompleted === false) !== -1) return;
-      const response = await axios.post(placeOrderAPI);
+      if (steps.length < 1 || steps.findIndex((s) => s.isCompleted === false) !== -1) return;
+      const response = await axios.post(
+        placeOrderAPI,
+        { cartId },
+      );
       if (response.data.success === true) {
         setOrderPlaced(true);
         setOrderId(response.data.data.orderId);

@@ -3,7 +3,7 @@ import { Field } from '../../../../../lib/components/form/Field';
 import { Toggle } from '../../../../../lib/components/form/fields/Toggle';
 import { Card } from '../../../../cms/components/admin/Card';
 
-export default function StripePayment({ setting: { stripePaymentMethod, stripePublishableKey, stripeSecretKey } }) {
+export default function StripePayment({ setting: { stripePaymentStatus, stripeDislayName, stripePublishableKey, stripeSecretKey } }) {
   return <Card
     title={"Stripe Payment"}
   >
@@ -14,7 +14,8 @@ export default function StripePayment({ setting: { stripePaymentMethod, stripePu
         </div>
         <div className='col-span-2'>
           <Toggle
-            name="stripePaymentMethod"
+            name="stripePaymentStatus"
+            value={stripePaymentStatus}
           />
         </div>
       </div>
@@ -29,6 +30,7 @@ export default function StripePayment({ setting: { stripePaymentMethod, stripePu
             type="text"
             name="stripeDislayName"
             placeholder="Dislay Name"
+            value={stripeDislayName}
           />
         </div>
       </div>
@@ -43,6 +45,7 @@ export default function StripePayment({ setting: { stripePaymentMethod, stripePu
             type="text"
             name="stripePublishableKey"
             placeholder="Publishable Key"
+            value={stripePublishableKey}
           />
         </div>
       </div>
@@ -57,6 +60,7 @@ export default function StripePayment({ setting: { stripePaymentMethod, stripePu
             type="text"
             name="stripeSecretKey"
             placeholder="Secret Key"
+            value={stripeSecretKey}
           />
         </div>
       </div>
@@ -68,3 +72,14 @@ export const layout = {
   areaId: 'paymentSetting',
   sortOrder: 10
 }
+
+export const query = `
+  query Query {
+    setting {
+      stripeDislayName
+      stripePaymentStatus
+      stripePublishableKey
+      stripeSecretKey
+    }
+  }
+`;

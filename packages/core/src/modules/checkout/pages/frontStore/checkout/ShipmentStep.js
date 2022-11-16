@@ -3,7 +3,13 @@ import React from 'react';
 import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
 import { StepContent } from '../../../components/frontStore/checkout/shipment/StepContent';
 
-export default function ShipmentStep({ cart: { shippingAddress, shippingMethod, shippingMethodName }, setShipmentInfoAPI }) {
+export default function ShipmentStep({ cart: {
+  shippingAddress,
+  shippingMethod,
+  shippingMethodName
+},
+  setShipmentInfoAPI
+}) {
   const steps = useCheckoutSteps();
   const [shipmentInfo, setShipmentInfo] = React.useState({
     address: shippingAddress,
@@ -22,7 +28,7 @@ export default function ShipmentStep({ cart: { shippingAddress, shippingMethod, 
       title: 'Shipment',
       previewTitle: 'Ship To',
       isCompleted: shippingAddress && shippingMethod ? true : false,
-      preview: shippingAddress ? `${shippingAddress.address1}, ${shippingAddress.city}, ${shippingAddress.country}` : '',
+      preview: shippingAddress ? `${shippingAddress.address1}, ${shippingAddress.city}, ${shippingAddress.country.name}` : '',
       sortOrder: 10,
       editable: true
     });

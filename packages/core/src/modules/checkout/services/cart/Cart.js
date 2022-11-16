@@ -188,7 +188,12 @@ exports.Cart = class Cart extends DataObject {
       key: 'payment_method',
       async resolver() {
         // TODO: This field should be handled by each of payment method
-        return this.dataSource.payment_method;
+        const method = this.dataSource.payment_method;
+        if (!method) {
+          this.error = 'Payment method is required';
+        }
+
+        return method;
       }
     },
     {
@@ -294,12 +299,34 @@ exports.Cart = class Cart extends DataObject {
     }
   }
 
+  /**
+   * @param {string||int} id
+   * @returns {Item}
+   * @throws {Error}
+  */
+  async removeItem(id) {
+    const items = this.getItems();
+    const item = this.getItem(id);
+    // Check if id in integer string (This item already saved to database)
+    if (/^\d+$/.test(id)) {
+      id = parseInt(id, 10);
+    }
+
+    const newItems = items.filter((i) => i.getData('cart_item_id') !== id)
+    if (item) {
+      await this.setData('items', newItems);
+      return item;
+    } else {
+      throw new Error('Item not found');
+    }
+  }
+
   getItem(id) {
     const items = this.getItems();
     return items.find((item) => item.getData('cart_item_id') == id);
   }
 
-  hasError() {
+  hasItemError() {
     const items = this.getItems();
     let flag = false;
     for (let i = 0; i < items.length; i += 1) {
@@ -310,6 +337,11 @@ exports.Cart = class Cart extends DataObject {
     }
 
     return flag;
+  }
+
+  hasError() {
+    if (this.error) return true;
+    return this.hasItemError();
   }
 
   export() {

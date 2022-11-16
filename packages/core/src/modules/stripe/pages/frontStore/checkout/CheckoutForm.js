@@ -11,8 +11,8 @@ import './CheckoutForm.scss';
 import { useQuery } from 'urql';
 
 const cartQuery = `
-  query Query {
-    cart {
+  query Query($cartId: String) {
+    cart(id: $cartId) {
       billingAddress {
         cartAddressId
         fullName
@@ -87,6 +87,9 @@ export default function CheckoutForm() {
 
   const [result, reexecuteQuery] = useQuery({
     query: cartQuery,
+    variables: {
+      cartId: checkout.cartId
+    },
     pause: checkout.orderPlaced === true
   });
 
@@ -137,7 +140,7 @@ export default function CheckoutForm() {
         setProcessing(false);
         setSucceeded(true);
         // Redirect to checkout success page
-        window.location.href = `${checkout.checkoutSuccessUrl}?orderId=${checkout.orderId}`;
+        window.location.href = `${checkout.checkoutSuccessUrl}/${checkout.orderId}`;
       }
     };
 
@@ -167,7 +170,7 @@ export default function CheckoutForm() {
     } else {
       setError(null);
       if (!billingCompleted) {
-        document.getElementById('checkout_billing_address_form').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        document.getElementById('checkoutBillingAddressForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
       }
       if (!paymentMethodCompleted) {
         document.getElementById('checkoutPaymentMethods').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));

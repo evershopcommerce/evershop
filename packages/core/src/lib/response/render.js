@@ -37,7 +37,7 @@ function renderDevelopment(request, response) {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     propsMap: get(response, 'locals.propsMap', {}),
   };
-
+  console.log(route.id, request.path);
   const stats = devMiddleware.context.stats;
   //let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
   const { assetsByChunkName, outputPath } = stats.toJson();

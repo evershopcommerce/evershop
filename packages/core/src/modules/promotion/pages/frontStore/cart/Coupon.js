@@ -60,9 +60,9 @@ export const layout = {
 
 export const query = `
   query Query {
-    applyApi: url (routeId: "couponApply"),
+    applyApi: url (routeId: "couponApply")
     cart {
       cartId
     }
   }
-`
+`;

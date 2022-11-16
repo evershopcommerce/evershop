@@ -2,11 +2,35 @@ const {
   commit, getConnection, insert, rollback, select, startTransaction, update
 } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../lib/mysql/connection');
+const { Cart } = require('./cart/Cart');
 
 /* Default validation rules */
 let validationServices = [
   {
+    id: 'checkCartError',
+    /**
+     * 
+     * @param {Cart} cart 
+     * @param {*} validationErrors 
+     * @returns 
+     */
+    func: (cart, validationErrors) => {
+      if (cart.hasError()) {
+        validationErrors.push(cart.error);
+        return false;
+      } else {
+        return true;
+      }
+    }
+  },
+  {
     id: 'checkEmpty',
+    /**
+     * 
+     * @param {Cart} cart 
+     * @param {*} validationErrors 
+     * @returns 
+     */
     func: (cart, validationErrors) => {
       const items = cart.getItems();
       if (items.length === 0) {
@@ -19,6 +43,12 @@ let validationServices = [
   },
   {
     id: 'shippingAddress',
+    /**
+     * 
+     * @param {Cart} cart 
+     * @param {*} validationErrors 
+     * @returns 
+     */
     func: (cart, validationErrors) => {
       if (!cart.getData('shipping_address_id')) {
         validationErrors.push('Please provide a shipping address');
@@ -30,6 +60,12 @@ let validationServices = [
   },
   {
     id: 'shippingMethod',
+    /**
+     * 
+     * @param {Cart} cart 
+     * @param {*} validationErrors 
+     * @returns 
+     */
     func: (cart, validationErrors) => {
       if (!cart.getData('shipping_method')) {
         validationErrors.push('Please provide a shipping method');

@@ -4,7 +4,7 @@ const { createOrder } = require('../../../services/orderCreator');
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
   try {
-    const { cartId } = request.params;
+    const { cartId } = request.body;
     // Verify cart
     const cart = await getCartByUUID(cartId);
     if (!cart) {

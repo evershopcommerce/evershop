@@ -4,12 +4,15 @@ import { useCheckoutStepsDispatch } from '../../../../../../../lib/context/check
 import { CustomerAddressForm } from '../../../../../../customer/pages/frontStore/address/AddressForm';
 import { Form } from '../../../../../../../lib/components/form/Form';
 import { BillingAddress } from './BillingAddress';
+import { useCheckout } from '../../../../../../../lib/context/checkout';
+import { Field } from '../../../../../../../lib/components/form/Field';
 
 export function StepContent({ setBillingAddressAPI, setPaymentInfoAPI, cart: { billingAddress } }) {
   const { completeStep } = useCheckoutStepsDispatch();
   const [useShippingAddress, setUseShippingAddress] = useState(!billingAddress);
   const [billingCompleted, setBillingCompleted] = useState(false);
   const [paymentMethodCompleted, setPaymentMethodCompleted] = useState(false);
+  const { cartId } = useCheckout();
 
   const onSuccess = (response) => {
     if (response.success === true) {
@@ -47,7 +50,12 @@ export function StepContent({ setBillingAddressAPI, setPaymentInfoAPI, cart: { b
         submitBtn={false}
         isJSON={true}
       >
-        <h5 className="mb-1 mt-1">Billing Address</h5>
+        <h4 className="mb-1 mt-3">Billing Address</h4>
+        <Field
+          name={'cartId'}
+          type={'hidden'}
+          value={cartId}
+        />
         <BillingAddress
           useShippingAddress={useShippingAddress}
           setUseShippingAddress={setUseShippingAddress}
@@ -76,8 +84,14 @@ export function StepContent({ setBillingAddressAPI, setPaymentInfoAPI, cart: { b
         }}
         submitBtn={false}
       >
-        <h5 className="mb-1 mt-1">Payment Method</h5>
-        <input type="hidden" value="stripe" name="method" />
+        <h4 className="mb-1 mt-3">Payment Method</h4>
+        <Field
+          name={'cartId'}
+          type={'hidden'}
+          value={cartId}
+        />
+        <input type="hidden" value="stripe" name="methodCode" />
+        <input type="hidden" value="Stripe" name="methodName" />
       </Form>
       <Area
         id="checkoutPaymentMethods"

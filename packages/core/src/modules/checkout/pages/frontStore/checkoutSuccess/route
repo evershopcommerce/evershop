@@ -1,2 +1,2 @@
 GET
-/checkout/success
+/checkout/success/:orderId?

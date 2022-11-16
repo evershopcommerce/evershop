@@ -31,12 +31,20 @@ export function CheckoutSteps({ children, value }) {
   };
 
   const editStep = (stepId) => {
-    setSteps(steps.map((s) => {
+    const index = steps.findIndex((s) => s.id === stepId);
+    setSteps(steps.map((s, i) => {
       if (s.id === stepId)
         return {
           ...s, isCompleted: false
         };
-      else return s;
+      else {
+        if (i > index)
+          return {
+            ...s, isCompleted: false
+          };
+        else
+          return s;
+      }
     }));
   };
 

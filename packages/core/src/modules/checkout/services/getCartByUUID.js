@@ -6,9 +6,8 @@ module.exports = exports;
 
 /**
  * This function returns a Cart object by ID. 
- * It only return
  * @param {*} id 
- * @returns {Promise<Cart || null> }
+ * @returns {Promise<Cart>}
  */
 exports.getCartByUUID = async (uuid) => {
   const query = select()

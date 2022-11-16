@@ -22,6 +22,7 @@ module.exports = (request, response) => {
       // Get the 'query.graphql' from webpack compiler
       route = request.locals.webpackMatchedRoute;
     }
+    console.log(route.id, request.path);
     const devMiddleware = route.webpackMiddleware;
     const outputFileSystem = devMiddleware.context.outputFileSystem;
     const jsonWebpackStats = devMiddleware.context.stats.toJson();

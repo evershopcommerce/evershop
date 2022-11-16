@@ -11,8 +11,8 @@ import { useCheckout } from '../../../../../../lib/context/checkout';
 import { Field } from '../../../../../../lib/components/form/Field';
 
 const QUERY = `
-  query Query {
-    cart {
+  query Query($cartId: String) {
+    cart(id: $cartId) {
       shippingMethod
       shippingMethodName
       shippingAddress {
@@ -43,7 +43,7 @@ export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmen
 
   return (
     <div>
-      <div className="font-bold mb-1">Shipping Address</div>
+      <h4 className="mb-1 mt-3">Shipping Address</h4>
       <Form
         method="POST"
         action={setShipmentInfoAPI}
@@ -52,15 +52,16 @@ export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmen
         btnText="Continue to payment"
         onSuccess={(response) => {
           if (response.success === true) {
-            client.query(QUERY)
+            client.query(QUERY, { cartId })
               .toPromise()
               .then((result) => {
+                const address = result.data.cart.shippingAddress;
                 setShipmentInfo(produce(shipmentInfo, (draff) => {
-                  draff.address = result.data.cart.shippingAddress;
+                  draff.address = address;
                   draff.method.code = result.data.cart.shippingMethod;
                   draff.method.name = result.data.cart.shippingMethodName;
                 }));
-                completeStep('shipment');
+                completeStep('shipment', `${address.address1}, ${address.city}, ${address.country.name}`);
               })
           } else {
             toast.error(response.message)

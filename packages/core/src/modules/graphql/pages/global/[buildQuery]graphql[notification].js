@@ -28,6 +28,7 @@ module.exports = async function graphql(request, response, delegate, next) {
         // Validate the query
         const validationErrors = validate(schema, document);
         if (validationErrors.length > 0) {
+          console.log(document)
           next(validationErrors[0]);
         } else {
           if (isDevelopmentMode()) {

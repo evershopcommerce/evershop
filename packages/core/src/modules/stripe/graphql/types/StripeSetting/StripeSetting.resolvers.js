@@ -16,10 +16,18 @@ module.exports = {
         return 'Credit Card';
       }
     },
-    stripePublisableKey: (setting, { _ }, { tokenPayload }) => {
+    stripePublishableKey: (setting, { _ }, { tokenPayload }) => {
       const stripePublishableKey = setting.find(s => s.name === 'stripePublishableKey');
       if (stripePublishableKey) {
         return stripePublishableKey.value;
+      } else {
+        return null;
+      }
+    },
+    stripeSecretKey: (setting, { _ }, { tokenPayload }) => {
+      const stripeSecretKey = setting.find(s => s.name === 'stripeSecretKey');
+      if (stripeSecretKey) {
+        return stripeSecretKey.value;
       } else {
         return null;
       }

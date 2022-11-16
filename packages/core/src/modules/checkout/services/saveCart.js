@@ -1,4 +1,4 @@
-const { startTransaction, del, commit, update, insert, rollback } = require("@evershop/mysql-query-builder");
+const { startTransaction, del, commit, update, insert, rollback, select } = require("@evershop/mysql-query-builder");
 const { pool, getConnection } = require("../../../lib/mysql/connection");
 const { Cart } = require("./cart/Cart");
 
@@ -37,6 +37,21 @@ exports.saveCart = async (cart) => {
           .execute(connection, false);
         cartId = c.insertId;
       }
+
+      // Get current items from database
+      const currentItems = await select()
+        .from('cart_item')
+        .where('cart_id', '=', cartId)
+        .execute(connection, false);
+
+      // Delete items that are not in cart
+      await Promise.all(currentItems.map(async (i) => {
+        if (!cart.getItem(i.cart_item_id)) {
+          await del('cart_item')
+            .where('cart_item_id', '=', i.cart_item_id)
+            .execute(connection, false);
+        }
+      }));
 
       await Promise.all(items.map(async (item) => {
         if (/^\d+$/.test(item.getData('cart_item_id'))) {

@@ -45,7 +45,7 @@ export default function ShippingMethods({ getMethodsAPI }) {
           </svg>
         </div>
       )}
-      <div className="title font-bold mt-1 mb-05">Shipping Method</div>
+      <h4 className="mt-3 mb-1">Shipping Method</h4>
       {(addressProvided === true && methods.length == 0) && <div className="text-center p-3 border border-divider rounded text-textSubdued">Sorry, there is no available method for your address</div>}
       {(addressProvided === false) && <div className="text-center p-3 border border-divider rounded text-textSubdued">Please enter a shipping address in order to see shipping quotes</div>}
       {methods.length > 0 && (

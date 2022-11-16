@@ -9,8 +9,9 @@ module.exports.getSetting = async (name, defaultValue) => {
       .from('setting')
       .execute(pool);
   }
-  if (setting[name]) {
-    return setting[name];
+  const row = setting.find(s => s.name === name);
+  if (row) {
+    return row['value'];
   } else {
     return defaultValue;
   }

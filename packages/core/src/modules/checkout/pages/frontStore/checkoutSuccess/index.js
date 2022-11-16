@@ -4,7 +4,7 @@ const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { setContextValue } = require('../../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, stack, next) => {
-  const orderId = request.query.orderId;
+  const orderId = request.params.orderId;
   const query = select()
     .from('order');
   query.where('uuid', '=', orderId)
@@ -12,7 +12,7 @@ module.exports = async (request, response, stack, next) => {
   if (!order) {
     response.redirect(302, buildUrl('homepage'));
   } else {
-    setContextValue(request, 'orderId', parseInt(order.order_id));
+    setContextValue(request, 'orderId', orderId);
     setContextValue(request, 'pageInfo', {
       title: 'Checkout success',
       description: 'Checkout success'

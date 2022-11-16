@@ -200,7 +200,7 @@ module.exports.Item = class Item extends DataObject {
       key: 'removeUrl',
       async resolver() {
         if (this.getData('cart_item_id')) {
-          return buildUrl('cartItemRemove', { id: this.getData('cart_item_id') });
+          return buildUrl('removeCartItem');
         } else {
           return undefined;
         }

@@ -126,5 +126,5 @@ type Cart implements ShoppingCart{
 }
 
 extend type Query {
-  cart : Cart
+  cart(id: String): Cart
 }

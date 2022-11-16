@@ -9,7 +9,7 @@ import CheckoutForm from './CheckoutForm';
 var stripe;
 const stripeLoader = (publishKey) => {
   if (!stripe) {
-    stripe = stripeLoader(publishKey);
+    stripe = loadStripe(publishKey);
   }
   return stripe
 }
@@ -18,7 +18,7 @@ export default function StripeApp({ setting }) {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <div className="App">
-      <Elements stripe={loadStripe(setting.stripePublisableKey)}>
+      <Elements stripe={stripeLoader(setting.stripePublishableKey)}>
         <CheckoutForm />
       </Elements>
     </div>
@@ -34,7 +34,7 @@ export const query = `
   query Query {
     setting {
       stripeDislayName
-      stripePublisableKey
+      stripePublishableKey
     }
   }
 `

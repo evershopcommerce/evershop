@@ -40,7 +40,7 @@ function Edit({ user, setContactInfoUrl, email, setEmail, cartId, loginUrl }) {
 
   return (
     <div className="">
-      <h3 className="self-center">{'Contact information'}</h3>
+      <h4 className="mb-1 mt-1">{'Contact information'}</h4>
       {!user && <div className='mb-1'>
         <span>Already have an account?</span> <a className='text-interactive hover:underline' href={loginUrl}>Login</a>
       </div>}

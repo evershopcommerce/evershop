@@ -4,7 +4,7 @@ import { Field } from '../../../../../../../lib/components/form/Field';
 
 export function BillingAddress({ useShippingAddress, setUseShippingAddress }) {
   return (
-    <div className='mb-1'>
+    <div>
       <Field
         type="checkbox"
         formId="checkoutBillingAddressForm"

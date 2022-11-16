@@ -1,11 +1,8 @@
-const { CartFactory } = require("../../../services/cart/CartFactory");
-
 module.exports = {
   Query: {
-    checkout: async (_, { }, { tokenPayload }) => {
-      const cart = await CartFactory.getCart(tokenPayload.sid);
+    checkout: async (_, { }, { cartId }) => {
       return {
-        cartId: cart.getData('uuid')
+        cartId: cartId
       }
     }
   }
