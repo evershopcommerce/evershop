@@ -43,6 +43,8 @@ module.exports = async (request, response, stack, next) => {
 
     // Get the tokenPayload
     const currentTokenPayload = getContextValue(request, 'tokenPayload');
+    delete currentTokenPayload.iat;
+    delete currentTokenPayload.exp;
     const token = sign({ ...currentTokenPayload, user: { ...camelCase(customer) } }, JWT_SECRET, { expiresIn: '2d' });
     // Send a response with the cookie
     response.cookie(getTokenCookieId(), token, {
