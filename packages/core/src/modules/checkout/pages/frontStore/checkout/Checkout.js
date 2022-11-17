@@ -61,12 +61,13 @@ function CompletedSteps() {
   </div>
 }
 
-export default function CheckoutPage({ checkout: { cartId }, placeOrderAPI, checkoutSuccessUrl }) {
+export default function CheckoutPage({ checkout: { cartId }, placeOrderAPI, getPaymentMethodAPI, checkoutSuccessUrl }) {
   return (
     <CheckoutSteps value={[]}>
       <CheckoutProvider
         cartId={cartId}
         placeOrderAPI={placeOrderAPI}
+        getPaymentMethodAPI={getPaymentMethodAPI}
         checkoutSuccessUrl={checkoutSuccessUrl}
       >
         <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -107,6 +108,7 @@ export const query = `
       cartId
     }
     placeOrderAPI: url(routeId: "checkoutPlaceOrder")
+    getPaymentMethodAPI: url(routeId: "paymentMethods")
     checkoutSuccessUrl: url(routeId: "checkoutSuccess")
   }
 `;

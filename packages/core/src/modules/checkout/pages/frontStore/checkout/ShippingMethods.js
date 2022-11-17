@@ -49,12 +49,14 @@ export default function ShippingMethods({ getMethodsAPI }) {
       {(addressProvided === true && methods.length == 0) && <div className="text-center p-3 border border-divider rounded text-textSubdued">Sorry, there is no available method for your address</div>}
       {(addressProvided === false) && <div className="text-center p-3 border border-divider rounded text-textSubdued">Please enter a shipping address in order to see shipping quotes</div>}
       {methods.length > 0 && (
-        <Field
-          type="radio"
-          name="method"
-          validationRules={['notEmpty']}
-          options={methods}
-        />
+        <div className='divide-y border rounded border-divider p-1 mb-2'>
+          <Field
+            type="radio"
+            name="method"
+            validationRules={['notEmpty']}
+            options={methods}
+          />
+        </div>
       )}
     </div>
   );

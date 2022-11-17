@@ -1,5 +1,6 @@
 const { getContextValue, setContextValue } = require("../../../../graphql/services/contextHelper");
 const { createNewCart } = require("../../../services/createNewCart");
+const { getCartByUUID } = require("../../../services/getCartByUUID");
 const { saveCart } = require("../../../services/saveCart");
 
 module.exports = async (request, response, delegate, next) => {
@@ -11,7 +12,7 @@ module.exports = async (request, response, delegate, next) => {
       const tokenPayload = getContextValue(request, "tokenPayload", {});
       cart = await createNewCart(tokenPayload);
     } else {
-      cart = await request.getCart(cartId); // Cart object
+      cart = await getCartByUUID(cartId); // Cart object
     }
 
     // If the cart is not found, respond with 400

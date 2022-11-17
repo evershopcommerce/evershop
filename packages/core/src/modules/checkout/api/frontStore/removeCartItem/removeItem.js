@@ -1,9 +1,10 @@
+const { getCartByUUID } = require("../../../services/getCartByUUID");
 const saveCart = require("./saveCart");
 
 module.exports = async (request, response, delegate, next) => {
   try {
     const { cartId, itemId } = request.body;
-    const cart = await request.getCart(cartId);
+    const cart = await getCartByUUID(cartId);
     if (!cart) {
       response.status(400).send({
         message: "Invalid cart ID",

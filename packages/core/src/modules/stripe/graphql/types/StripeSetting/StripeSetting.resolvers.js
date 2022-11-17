@@ -3,9 +3,9 @@ module.exports = {
     stripePaymentStatus: (setting, { _ }, { pool }) => {
       const stripePaymentStatus = setting.find(s => s.name === 'stripePaymentMethod');
       if (stripePaymentStatus) {
-        return parseInt(stripePaymentStatus.value) === 1;
+        return parseInt(stripePaymentStatus.value);
       } else {
-        return false;
+        return 0;
       }
     },
     stripeDislayName: (setting, { _ }, { pool }) => {

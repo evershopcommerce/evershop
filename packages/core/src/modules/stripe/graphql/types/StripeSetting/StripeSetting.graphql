@@ -1,5 +1,5 @@
 extend type Setting {
-  stripePaymentStatus: Boolean
+  stripePaymentStatus: Int
   stripeDislayName: String
   stripePublishableKey: String
   stripeSecretKey: String

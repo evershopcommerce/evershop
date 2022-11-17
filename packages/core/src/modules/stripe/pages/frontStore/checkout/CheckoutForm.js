@@ -82,34 +82,34 @@ export default function CheckoutForm() {
   const elements = useElements();
   const [billingCompleted] = useState(false);
   const [paymentMethodCompleted] = useState(false);
-  const checkout = useCheckout();
+  const { cartId, orderId, orderPlaced, paymentMethods, checkoutSuccessUrl } = useCheckout();
   const [loading, setLoading] = useState(false);
 
   const [result, reexecuteQuery] = useQuery({
     query: cartQuery,
     variables: {
-      cartId: checkout.cartId
+      cartId: cartId
     },
-    pause: checkout.orderPlaced === true
+    pause: orderPlaced === true
   });
 
   useEffect(() => {
     // Create PaymentIntent as soon as the order is placed
-    if (checkout.orderPlaced === true) {
+    if (orderPlaced === true) {
       window
         .fetch('/v1/stripe/paymentIntent', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ orderId: checkout.orderId })
+          body: JSON.stringify({ orderId: orderId })
         })
         .then((res) => res.json())
         .then((data) => {
           setClientSecret(data.clientSecret);
         });
     }
-  }, [checkout.orderId]);
+  }, [orderId]);
 
   useEffect(() => {
     const pay = async () => {
@@ -140,18 +140,18 @@ export default function CheckoutForm() {
         setProcessing(false);
         setSucceeded(true);
         // Redirect to checkout success page
-        window.location.href = `${checkout.checkoutSuccessUrl}/${checkout.orderId}`;
+        window.location.href = `${checkoutSuccessUrl}/${orderId}`;
       }
     };
 
-    if (checkout.orderPlaced === true && clientSecret) {
+    if (orderPlaced === true && clientSecret) {
       setLoading(false);
       if (processing !== true) {
         setProcessing(true);
         pay();
       }
     }
-  }, [checkout.orderPlaced, clientSecret, result]);
+  }, [orderPlaced, clientSecret, result]);
 
   const handleChange = async (event) => {
     // Listen for changes in the CardElement
@@ -187,6 +187,9 @@ export default function CheckoutForm() {
   };
 
   if (result.error) return <p>Oh no... {error.message}</p>;
+  // Check if the selected payment method is Stripe
+  const stripePaymentMethod = paymentMethods.find((method) => method.code === 'stripe' && method.selected === true);
+  if (!stripePaymentMethod) return null;
 
   return (
     // eslint-disable-next-line react/jsx-filename-extension

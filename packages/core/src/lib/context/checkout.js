@@ -5,8 +5,9 @@ import { useCheckoutSteps } from './checkoutSteps';
 
 const Checkout = React.createContext();
 
-export function CheckoutProvider({ children, cartId, placeOrderAPI, checkoutSuccessUrl }) {
+export function CheckoutProvider({ children, cartId, placeOrderAPI, getPaymentMethodAPI, checkoutSuccessUrl }) {
   const steps = useCheckoutSteps();
+  const [paymentMethods, setPaymentMethods] = useState([]);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState();
   const [, setError] = useState(null);
@@ -35,8 +36,29 @@ export function CheckoutProvider({ children, cartId, placeOrderAPI, checkoutSucc
     placeOrder();
   }, [steps]);
 
+  const getPaymentMethods = async () => {
+    const response = await axios.get(
+      `${getPaymentMethodAPI}/${cartId}`,
+    );
+
+    if (response.data.success === true) {
+      setPaymentMethods(response.data.data.methods);
+    } else {
+      setPaymentMethods([]);
+    }
+  }
+
   return (
-    <Checkout.Provider value={{ steps, cartId, orderPlaced, orderId, checkoutSuccessUrl }}>
+    <Checkout.Provider value={{
+      steps,
+      cartId,
+      orderPlaced,
+      orderId,
+      paymentMethods,
+      setPaymentMethods,
+      getPaymentMethods,
+      checkoutSuccessUrl
+    }}>
       {children}
     </Checkout.Provider>
   );
