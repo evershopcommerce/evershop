@@ -6,24 +6,14 @@ import Close from '@heroicons/react/solid/esm/ChevronDoubleUpIcon';
 import NavigationItem from './NavigationItem';
 import './NavigationItemGroup.scss';
 
-export default function NavigationItemGroup({ id, name, items = [], isOpen = false, Icon = null }) {
-  const [open, setOpen] = React.useState(isOpen);
-
+export default function NavigationItemGroup({ id, name, items = [], Icon = null }) {
   return (
-    <li className={open ? 'root-nav-item nav-item opening' : 'root-nav-item nav-item closed'}>
+    <li className='root-nav-item nav-item'>
       <div className='flex justify-between items-center'>
         <div className="root-label flex justify-between items-center">
           {Icon && <span><Icon /></span>}
           <span>{name}</span>
         </div>
-        <span className='controller'>
-          {open && <a>
-            <Open width={15} height={15} onClick={() => setOpen(false)} />
-          </a>}
-          {!open && <a>
-            <Close width={15} height={15} onClick={() => setOpen(true)} />
-          </a>}
-        </span>
       </div>
       <ul className="item-group">
         <Area
