@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '../../../../../../cms/views/admin/Card';
+import { Card } from '../../../../../cms/components/admin/Card';
 import { CreateVariantGroup } from './CreateVariantGroup';
 
 export function New() {

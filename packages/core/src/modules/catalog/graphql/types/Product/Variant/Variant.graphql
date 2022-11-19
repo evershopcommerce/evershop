@@ -1,12 +1,12 @@
 type VariantAttribute {
-  attributeId: ID!
+  attributeId: Int!
   attributeCode: String!
   attributeName: String!
   options: [VariantAttributeOption]
 }
 
 type VariantAttributeOption {
-  optionId: ID!
+  optionId: Int!
   optionText: String!
 }
 
@@ -18,16 +18,17 @@ type VariantAttributeIndex {
 }
 
 type Variant {
-  productId: ID!
-  sku: String!
+  id: String!
+  product: Product!
   attributes: [VariantAttributeIndex]!
 }
 
-type VariantCollection {
+type VariantGroup {
+  variantGroupId: Int!
   variantAttributes: [VariantAttribute]!,
   items: [Variant]
 }
 
 extend type Product {
-  variants: VariantCollection
+  variantGroup: VariantGroup
 }

@@ -1,8 +1,10 @@
 const { select } = require("@evershop/mysql-query-builder");
+const { camelCase } = require("../../../../../../lib/util/camelCase");
+const uniqid = require('uniqid');
 
 module.exports = {
   Product: {
-    variants: async (product, _, { pool }) => {
+    variantGroup: async (product, _, { pool, tokenPayload }) => {
       const variantGroupId = product.variantGroupId;
       if (!variantGroupId) {
         return null;
@@ -38,50 +40,63 @@ module.exports = {
           .and('attribute.attribute_id', 'IN', Object.values(group).filter((v) => v != null))
           .execute(pool);
 
-        for (let i = 0, len = vs.length; i < len; i += 1) {
-          const index = attributes.findIndex((v) => v.attributeId === vs[i].attribute_id);
+        // Filter the vs array, make sure that each product has all the attributes
+        // that are in the variant group.
+        let filteredVs;
+        if (!tokenPayload.user?.isAdmin) {
+          filteredVs = vs.filter((v) => {
+            const attributes = Object.values(group).filter((v) => v != null);
+            const productAttributes = vs.filter((p) => p.product_id === v.product_id).map((p) => p.attribute_id);
+            return attributes.every((a) => productAttributes.includes(a));
+          });
+        } else {
+          filteredVs = vs;
+        }
+
+        for (let i = 0, len = filteredVs.length; i < len; i += 1) {
+          const index = attributes.findIndex((v) => v.attributeId === filteredVs[i].attribute_id);
           if (index !== -1) {
             if (!attributes[index].options) {
               attributes[index].options = [];
             }
             attributes[index].options.push({
-              optionId: vs[i].option_id,
-              optionText: vs[i].option_text,
-              productId: vs[i].product_id
+              optionId: filteredVs[i].option_id,
+              optionText: filteredVs[i].option_text,
+              productId: filteredVs[i].product_id
             });
           } else {
             attributes.push({
-              attributeId: vs[i].attribute_id,
-              attributeCode: vs[i].attribute_code,
-              attributeName: vs[i].attribute_name,
+              attributeId: filteredVs[i].attribute_id,
+              attributeCode: filteredVs[i].attribute_code,
+              attributeName: filteredVs[i].attribute_name,
               options: [
                 {
-                  optionId: vs[i].option_id,
-                  optionText: vs[i].option_text,
-                  productId: vs[i].product_id
+                  optionId: filteredVs[i].option_id,
+                  optionText: filteredVs[i].option_text,
+                  productId: filteredVs[i].product_id
                 }
               ]
             });
           }
 
-          const ind = variants.findIndex((v) => v.product_id === vs[i].product_id);
+          const ind = variants.findIndex((v) => v.productId === filteredVs[i].product_id);
           if (ind !== -1) {
             if (!variants[ind].attributes) { variants[ind].attributes = []; }
             variants[ind].attributes.push({
-              attributeCode: vs[i].attribute_code,
-              attributeId: vs[i].attribute_id,
-              optionId: vs[i].option_id,
-              optionText: vs[i].option_text
+              attributeCode: filteredVs[i].attribute_code,
+              attributeId: filteredVs[i].attribute_id,
+              optionId: filteredVs[i].option_id,
+              optionText: filteredVs[i].option_text
             });
           } else {
             variants.push({
-              product_id: vs[i].product_id,
+              productId: filteredVs[i].product_id,
               attributes: [
                 {
-                  attributeCode: vs[i].attribute_code,
-                  attributeId: vs[i].attribute_id,
-                  optionId: vs[i].option_id,
-                  optionText: vs[i].option_text
+                  attributeCode: filteredVs[i].attribute_code,
+                  attributeId: filteredVs[i].attribute_id,
+                  optionId: filteredVs[i].option_id,
+                  optionText: filteredVs[i].option_text
                 }
               ]
             });
@@ -89,9 +104,26 @@ module.exports = {
         }
 
         return {
+          variantGroupId,
           variantAttributes: attributes,
-          items: variants
+          items: variants.map(v => {
+            return { ...v, id: `id${uniqid()}` }
+          })
         };
+      }
+    }
+  },
+  Variant: {
+    product: async ({ productId }, _, { pool }) => {
+      const query = select()
+        .from('product');
+      query.leftJoin('product_description').on('product_description.`product_description_product_id`', '=', 'product.`product_id`')
+      query.where('product_id', '=', productId)
+      const result = await query.load(pool);
+      if (!result) {
+        return null
+      } else {
+        return camelCase(result);
       }
     }
   }

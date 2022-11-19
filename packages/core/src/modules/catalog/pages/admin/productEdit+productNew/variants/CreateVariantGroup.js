@@ -1,12 +1,8 @@
 import React from 'react';
-import { Field } from '../../../../../../../lib/components/form/Field';
-import { useAppState } from '../../../../../../../lib/context/app';
-import { get } from '../../../../../../../lib/util/get';
+import { Field } from '../../../../../../lib/components/form/Field';
 import { Variants } from './Variants';
 
-export function CreateVariantGroup() {
-  const variantableAttributes = get(useAppState(), 'variantableAttributes', []);
-
+export function CreateVariantGroup({ variantableAttributes }) {
   const [attributes, setAttributes] = React.useState([]);
   const [creating, setCreating] = React.useState(false);
 

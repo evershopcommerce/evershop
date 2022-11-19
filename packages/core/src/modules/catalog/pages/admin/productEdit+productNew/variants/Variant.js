@@ -3,21 +3,18 @@
 import axios from 'axios';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from '../../../../../../../lib/components/form/Field';
-import ProductMediaManager from '../ProductMediaManager';
-import { get } from '../../../../../../../lib/util/get';
-import { useAppState } from '../../../../../../../lib/context/app';
+import ProductMediaManager from '../Media';
 import { VariantType } from './VariantType';
+import { Field } from '../../../../../../lib/components/form/Field';
+import { get } from '../../../../../../lib/util/get';
 
 export function Variant({
-  attributes, variant, removeVariant, updateVariant
+  attributes, variant, removeVariant, updateVariant, unlinkApi, productImageUploadUrl
 }) {
-  const unlinkApi = get(useAppState(), 'unlinkVariant');
-
   const onUnlink = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('id', variant.variant_product_id);
+    formData.append('id', variant.product.productId);
     axios.post(unlinkApi, formData).then((response) => {
       if (response.data.success === true) {
         removeVariant(variant);
@@ -29,24 +26,26 @@ export function Variant({
 
   return (
     <div className="variant-item pb-15 border-b border-solid border-divider mb-15 last:border-b-0 last:pb-0">
-      <input type="hidden" value={variant.variant_product_id} name={`variant_group[variants][${variant.id}][productId]`} />
+      <input type="hidden" value={variant.product.productId} name={`variant_group[variants][${variant.id}][productId]`} />
       <div className="grid grid-cols-2 gap-x-1">
         <div className="col-span-1">
-          <ProductMediaManager id={variant.id} productImages={variant.images || []} />
+          <ProductMediaManager
+            id={variant.id}
+            product={variant?.product || {}}
+            productImageUploadUrl={productImageUploadUrl}
+          />
         </div>
         <div className="col-span-1">
           <div className="grid grid-cols-2 gap-x-1 border-b border-divider pb-15 mb-15">
             {attributes.map((a, i) => (
-              <div key={a.attribute_id} className="mt-1 col">
-                <div><label>{a.attribute_name}</label></div>
-                <input type="hidden" value={a.attribute_id} name={`variant_group[variants][${variant.id}][attributes][${i}][attribute]`} />
+              <div key={a.attributeId} className="mt-1 col">
+                <div><label>{a.attributeName}</label></div>
+                <input type="hidden" value={a.attributeId} name={`variant_group[variants][${variant.id}][attributes][${i}][attribute]`} />
                 <Field
                   name={`variant_group[variants][${variant.id}][attributes][${i}][value]`}
                   validationRules={['notEmpty']}
-                  value={get(get(variant, 'attributes', []).find((e) => parseInt(e.attribute_id, 10) === parseInt(a.attribute_id, 10)), 'option_id', '')}
-                  options={(() => a.options.map(
-                    (o) => ({ value: parseInt(o.attribute_option_id, 10), text: o.option_text })
-                  ))()}
+                  value={get(get(variant, 'attributes', []).find((e) => e.attributeCode === a.attributeCode), 'optionId', '')}
+                  options={a.options}
                   onChange={(e) => {
                     updateVariant(
                       variant.id,
@@ -54,16 +53,16 @@ export function Variant({
                         ...variant,
                         attributes: attributes.map((at) => {
                           const attr = variant.attributes.find(
-                            (ax) => ax.attribute_code === at.attribute_code
+                            (ax) => ax.attributeCode === at.attributeCode
                           )
                             ? variant.attributes.find(
-                              (ax) => ax.attribute_code === at.attribute_code
+                              (ax) => ax.attributeCode === at.attributeCode
                             )
-                            : { attribute_code: at.attribute_code, attribute_id: at.attribute_id };
-                          if (at.attribute_code === a.attribute_code) {
-                            attr.option_id = e.target.value;
+                            : { attributeCode: at.attributeCode, attributeId: at.attributeId };
+                          if (at.attributeCode === a.attributeCode) {
+                            attr.optionId = e.target.value;
                             // eslint-disable-next-line max-len
-                            attr.value_text = e.nativeEvent.target[e.nativeEvent.target.selectedIndex].text;
+                            attr.optionText = e.nativeEvent.target[e.nativeEvent.target.selectedIndex].text;
                           }
                           return attr;
                         })
@@ -82,7 +81,7 @@ export function Variant({
                 name={`variant_group[variants][${variant.id}][sku]`}
                 formId="product-edit-form"
                 validationRules={['notEmpty']}
-                value={variant.sku}
+                value={variant.product?.sku}
                 type="text"
               />
             </div>
@@ -92,7 +91,7 @@ export function Variant({
                 name={`variant_group[variants][${variant.id}][price]`}
                 formId="product-edit-form"
                 validationRules={['notEmpty']}
-                value={variant.price}
+                value={variant.product?.price?.regular?.value}
                 type="text"
               />
             </div>
@@ -102,7 +101,7 @@ export function Variant({
                 name={`variant_group[variants][${variant.id}][qty]`}
                 formId="product-edit-form"
                 validationRules={['notEmpty']}
-                value={variant.qty}
+                value={variant.product?.inventory?.qty}
                 type="text"
               />
             </div>
@@ -114,7 +113,7 @@ export function Variant({
               <Field
                 name={`variant_group[variants][${variant.id}][status]`}
                 formId="product-edit-form"
-                value={variant.status}
+                value={variant.product?.status}
                 type="toggle"
               />
             </div>
@@ -142,11 +141,11 @@ export function Variant({
 
 Variant.propTypes = {
   attributes: PropTypes.arrayOf(PropTypes.shape({
-    attribute_name: PropTypes.string,
-    attribute_id: PropTypes.string.string,
+    attributeName: PropTypes.string,
+    attributeId: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
-      attribute_option_id: PropTypes.number,
-      option_text: PropTypes.string
+      optionId: PropTypes.number,
+      optionText: PropTypes.string
     }))
   })).isRequired,
   removeVariant: PropTypes.func.isRequired,

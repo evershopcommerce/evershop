@@ -2,7 +2,7 @@ import React from 'react';
 import ProductMediaManager from './media/ProductMediaManager';
 import { Card } from '../../../../cms/components/admin/Card';
 
-export default function Media({ product, productImageUploadUrl }) {
+export default function Media({ id, product, productImageUploadUrl }) {
   const image = product?.image;
   let gallery = product?.gallery || [];
 
@@ -14,7 +14,7 @@ export default function Media({ product, productImageUploadUrl }) {
       title="Media"
     >
       <Card.Session>
-        <ProductMediaManager id="productMainImages" productImages={gallery} productImageUploadUrl={productImageUploadUrl} />
+        <ProductMediaManager id={id || 'productMainImages'} productImages={gallery} productImageUploadUrl={productImageUploadUrl} />
       </Card.Session>
     </Card>
   );
