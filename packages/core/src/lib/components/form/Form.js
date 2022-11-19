@@ -110,8 +110,16 @@ export function Form(props) {
         if (onSuccess) {
           await onSuccess(responseJson);
         }
-      } else if (onValidationError) {
-        await onValidationError();
+      } else {
+        if (onValidationError) {
+          await onValidationError();
+        }
+        // Get the first field with error
+        const firstFieldWithError = Object.keys(errors)[0];
+        // Get the first element with the name of the field with error
+        const firstElementWithError = document.getElementsByName(firstFieldWithError)[0];
+        // Focus on the first element with error
+        firstElementWithError.focus();
       }
     } catch (error) {
       if (onError) {
