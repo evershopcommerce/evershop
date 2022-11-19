@@ -29,15 +29,23 @@ Current.propTypes = {
 
 export default function Images({ product: { image, gallery = [] } }) {
   const [current, setCurrent] = React.useState(image);
-  if (image) {
-    // Add image to beginning of gallery
-    gallery.unshift(image);
-  }
+  const [thumbs, setThumbs] = React.useState(() => {
+    if (image) {
+      // Add image to beginning of gallery
+      gallery.unshift(image);
+    }
+    return gallery;
+  });
+
   return (
     <div className="product-single-media">
       <Current image={current} />
       <ul className="more-view-thumbnail product-gallery mt-2 grid grid-cols-4 gap-1">
-        {gallery.map((i, j) => <li key={j}><a href="#" onClick={(e) => { e.preventDefault(); setCurrent({ ...i }); }} className="flex justify-center"><img className="self-center" src={i.thumb} alt={i.alt} /></a></li>)}
+        {thumbs.map((i, j) => <li key={j} className='flex justify-center items-center'>
+          <a href="#" onClick={(e) => { e.preventDefault(); setCurrent({ ...i }); }} className="">
+            <img className="self-center" src={i.thumb} alt={i.alt} />
+          </a>
+        </li>)}
       </ul>
     </div>
   );

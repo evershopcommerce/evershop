@@ -7,7 +7,7 @@ import { Form } from '../../../../../lib/components/form/Form';
 import { Hidden } from '../../../../../lib/components/form/fields/Hidden';
 import Button from '../../../../../lib/components/form/Button';
 
-export default function CouponForm({ applyApi, cart: { cartId } }) {
+export default function CouponForm({ applyApi, cart: { uuid } }) {
   return <div className="mt-4">
     <Form
       method={'POST'}
@@ -34,7 +34,7 @@ export default function CouponForm({ applyApi, cart: { cartId } }) {
             name='coupon'
             placeholder='Enter coupon code'
           />
-          <Hidden name='cart_id' value={cartId} />
+          <Hidden name='cartId' value={uuid} />
         </div>
         <div className="col-span-1">
           <Button
@@ -62,7 +62,7 @@ export const query = `
   query Query {
     applyApi: url (routeId: "couponApply")
     cart {
-      cartId
+      uuid
     }
   }
 `;
