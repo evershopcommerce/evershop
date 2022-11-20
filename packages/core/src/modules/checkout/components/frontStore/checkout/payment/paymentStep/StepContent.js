@@ -100,16 +100,36 @@ export function StepContent({
                   options={[{ value: paymentMethod.code, text: paymentMethod.name }]}
                   value={paymentMethods.find((e) => e.selected === true)?.code}
                   onChange={(value) => {
-                    if (value === paymentMethod.code) {
-                      setPaymentMethods(previous => previous.map((e) => {
-                        if (e.code === value) {
-                          e.selected = true;
-                        } else {
-                          e.selected = false;
+                    fetch(setPaymentInfoAPI, {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        cartId,
+                        methodCode: paymentMethod.code,
+                        methodName: paymentMethod.name,
+                      }),
+                    })
+                      .then((response) => response.json())
+                      .then((data) => {
+                        if (!data.success) {
+                          return;
                         }
-                        return e;
-                      }));
-                    }
+                        setPaymentMethodCompleted(true);
+                        if (value === paymentMethod.code) {
+                          setPaymentMethods((previous) =>
+                            previous.map((e) => {
+                              if (e.code === value) {
+                                e.selected = true;
+                              } else {
+                                e.selected = false;
+                              }
+                              return e;
+                            })
+                          );
+                        }
+                      });
                   }}
                 />
                 <input type="hidden" value={paymentMethods.find((e) => e.selected === true)?.name} name="methodName" />

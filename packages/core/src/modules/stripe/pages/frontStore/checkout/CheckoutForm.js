@@ -172,9 +172,6 @@ export default function CheckoutForm() {
       if (!billingCompleted) {
         document.getElementById('checkoutBillingAddressForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
       }
-      if (!paymentMethodCompleted) {
-        document.getElementById('checkoutPaymentMethods').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-      }
     }
   };
 
