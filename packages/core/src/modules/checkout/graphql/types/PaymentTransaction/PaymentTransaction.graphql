@@ -1,0 +1,15 @@
+type PaymentTransaction {
+  paymentTransactionId: Int!
+  uuid: String!
+  transactionId: String!
+  transactionType: String!
+  amount: Price!
+  parentTransactionId: String!
+  paymentAction: String!
+  additionalInformation: String!
+  createdAt: String!
+}
+
+extend type Order {
+  paymentTransactions: [PaymentTransaction]
+}

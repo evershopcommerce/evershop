@@ -17,7 +17,7 @@ function Title({ title }) {
   );
 }
 
-export default function ShoppingCart({ cart }) {
+export default function ShoppingCart({ cart, removeUrl }) {
   const { totalQty = 0, items = [] } = cart || {};
   if (totalQty <= 0) {
     return <Empty />
@@ -45,7 +45,7 @@ export default function ShoppingCart({ cart }) {
                 coreComponents={[
                   {
                     component: { default: Items },
-                    props: { items: items },
+                    props: { items: items, cartId: cart.uuid, removeUrl },
                     sortOrder: 10,
                     id: 'shoppingCartTitle'
                   }
@@ -74,8 +74,9 @@ export const layout = {
 
 export const query = `
   query Query {
-    cart {
+    cart(id: getContextValue('cartId', null)) {
       totalQty
+      uuid
       items {
         cartItemId
         thumbnail
@@ -97,5 +98,6 @@ export const query = `
         }
       }
     }
+    removeUrl: url(routeId: "removeCartItem")
   }
 `

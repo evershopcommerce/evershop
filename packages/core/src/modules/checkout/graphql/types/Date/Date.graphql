@@ -1,0 +1,4 @@
+type Date {
+  value: String
+  text: String
+}

@@ -16,39 +16,52 @@ module.exports = {
       const query = select().from('attribute');
 
       const currentFilters = [];
+
+      filters = filters.map(filter => {
+        if (filter.operation.toUpperCase() === 'LIKE') {
+          filter.valueRaw = codeFilter.value.replace(/^%/, '').replace(/%$/, '');
+        } else {
+          filter.valueRaw = filter.value;
+        }
+        if (filter.operation.toUpperCase() === 'IN') {
+          filter.value = filter.value.split(',');
+        }
+        return filter;
+      })
+
       // Name filter
       const nameFilter = filters.find((f) => f.key === 'name');
       if (nameFilter) {
-        query.andWhere('attribute.`attribute_name`', 'LIKE', `%${nameFilter.value}%`);
-        currentFilters.push({ key: 'name', operation: '=', value: nameFilter.value });
+        query.andWhere('attribute.`attribute_name`', nameFilter.operation, nameFilter.value);
+        currentFilters.push({ key: 'name', operation: nameFilter.operation, value: nameFilter.value });
       }
 
       // Code filter
       const codeFilter = filters.find((f) => f.key === 'code');
       if (codeFilter) {
-        query.andWhere('attribute.`attribute_code`', 'LIKE', `%${nameFilter.value}%`);
-        currentFilters.push({ key: 'code', operation: '=', value: codeFilter.value });
+        query.andWhere('attribute.`attribute_code`', codeFilter.operation, codeFilter.value);
+        currentFilters.push({ key: 'code', operation: codeFilter.operation, value: codeFilter.valueRaw });
       }
 
       // Type filter
       const typeFilter = filters.find((f) => f.key === 'type');
       if (typeFilter) {
-        query.andWhere('attribute.`type`', '=', typeFilter.value);
-        currentFilters.push({ key: 'type', operation: '=', value: typeFilter.value });
+        query.andWhere('attribute.`type`', typeFilter.operation, typeFilter.value);
+        currentFilters.push({ key: 'type', operation: typeFilter.operation, value: typeFilter.valueRaw });
       }
 
       // isRequired filter
       const isRequiredFilter = filters.find((f) => f.key === 'isRequired');
       if (isRequiredFilter) {
-        query.andWhere('attribute.`is_required`', '=', isRequiredFilter.value);
-        currentFilters.push({ key: 'isRequired', operation: '=', value: isRequiredFilter.value });
+        query.andWhere('attribute.`is_required`', isRequiredFilter.operation, isRequiredFilter.value);
+        currentFilters.push({ key: 'isRequired', operation: isRequiredFilter.operation, value: isRequiredFilter.valueRaw });
       }
 
       // isFilterable filter
       const isFilterableFilter = filters.find((f) => f.key === 'isFilterable');
       if (isFilterableFilter) {
-        query.andWhere('attribute.`is_filterable`', '=', isFilterableFilter.value);
-        currentFilters.push({ key: 'isFilterable', operation: '=', value: isFilterableFilter.value });
+        query.andWhere('attribute.`is_filterable`', isFilterableFilter.operation, isFilterableFilter.value);
+        currentFilters.push({ key: 'isFilterable', operation: isFilterableFilter.operation, value: isFilterableFilter.valueRaw });
       }
 
       const sortBy = filters.find((f) => f.key === 'sortBy');

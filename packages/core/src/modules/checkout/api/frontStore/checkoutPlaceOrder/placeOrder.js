@@ -1,16 +1,24 @@
-const { get } = require('../../../../../lib/util/get');
-const { getContext } = require('../../../../graphql/services/contextHelper');
-const { getCustomerCart } = require('../../../services/getCustomerCart');
+const { getCartByUUID } = require('../../../services/getCartByUUID');
 const { createOrder } = require('../../../services/orderCreator');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
   try {
-    const context = getContext(request);
-    const customer = get(context, 'tokenPayload');
-    const cart = await getCustomerCart(customer);
-    //await stack.savePaymentInfo;
-    // TODO: 1: Use middleware to verify cart, 2: Use JWT to verify user, API should stay stateless
+    const { cartId } = request.body;
+    // Verify cart
+    const cart = await getCartByUUID(cartId);
+    if (!cart) {
+      return response.status(400).json({
+        message: "Invalid cart id",
+        success: false
+      });
+    } else if (cart.hasError()) {
+      return response.status(400).json({
+        message: cart.error,
+        success: false
+      });
+    }
+
     const orderId = await createOrder(cart);
     response.json({
       data: {

@@ -59,6 +59,7 @@ interface Address {
 
 type CartAddress implements Address {
   cartAddressId: Int!
+  uuid: String!
   fullName: String!
   postcode: String!
   telephone: String!
@@ -71,6 +72,7 @@ type CartAddress implements Address {
 
 type CartItem implements ShoppingCartItem{
   cartItemId: ID!
+  uuid: String!
   cartId: ID!
   removeUrl: String!
   productId: ID!
@@ -95,6 +97,7 @@ type CartItem implements ShoppingCartItem{
 
 type Cart implements ShoppingCart{
   cartId: ID!
+  uuid: String!
   items: [CartItem]
   shippingAddress: CartAddress
   billingAddress: CartAddress
@@ -123,5 +126,5 @@ type Cart implements ShoppingCart{
 }
 
 extend type Query {
-  cart : Cart
+  cart(id: String): Cart
 }

@@ -6,8 +6,9 @@ const { parse } = require('graphql');
 const { getContext } = require('../../../services/contextHelper');
 
 module.exports = async function graphql(request, response, delegate, next) {
+  const { body } = request;
+  const { query, variables } = body;
   try {
-    const { body } = request;
     const promises = [];
     Object.keys(delegate).forEach((id) => {
       // Check if middleware is async
@@ -15,7 +16,7 @@ module.exports = async function graphql(request, response, delegate, next) {
         promises.push(delegate[id]);
       }
     });
-    const { query, variables } = body;
+
     const document = parse(query);
     // Validate the query
     const validationErrors = validate(schema, document);
@@ -41,6 +42,7 @@ module.exports = async function graphql(request, response, delegate, next) {
       }
     }
   } catch (error) {
+    console.log('query', query);
     next(error);
   }
 }

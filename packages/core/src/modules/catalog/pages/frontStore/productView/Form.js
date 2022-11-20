@@ -94,8 +94,7 @@ AddToCart.defaultProps = {
   error: undefined
 };
 
-export default function ProductForm({ product, action }) {
-
+export default function ProductForm({ product, action, cart }) {
   const [loading, setLoading] = useState(false);
   const [toastId, setToastId] = useState();
   const [error, setError] = useState();
@@ -108,6 +107,7 @@ export default function ProductForm({ product, action }) {
         // eslint-disable-next-line no-param-reassign
         draff.cart = appContext.cart || {};
         draff.cart.totalQty = response.data.count;
+        draff.cart.uuid = response.data.cartId;
       }));
       setToastId(toast(<ToastMessage
         thumbnail={response.data.item.thumbnail}
@@ -132,8 +132,10 @@ export default function ProductForm({ product, action }) {
       onStart={() => setLoading(true)}
       onComplete={() => setLoading(false)}
       onError={(e) => setError(e.message)}
+      isJSON={true}
     >
-      <input type="hidden" name="product_id" value={product.productId} />
+      <input type="hidden" name="productId" value={product.productId} />
+      {(appContext.cart?.uuid || cart?.uuid) && <input type="hidden" name="cartId" value={appContext.cart?.uuid || cart?.uuid} />}
 
       <Area
         id="productSinglePageForm"
@@ -174,6 +176,9 @@ export const query = `
       inventory {
         isInStock
       }
+    }
+    cart(id: getContextValue('cartId', null)) {
+      uuid
     }
     action:url (routeId: "addToCart")
   }

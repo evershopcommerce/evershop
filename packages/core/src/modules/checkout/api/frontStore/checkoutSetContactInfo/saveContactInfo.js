@@ -1,14 +1,26 @@
-const { get } = require("../../../../../lib/util/get");
-const { getContext } = require("../../../../graphql/services/contextHelper");
-const { getCustomerCart } = require("../../../services/getCustomerCart");
+const { getCartByUUID } = require("../../../services/getCartByUUID");
 const { saveCart } = require("../../../services/saveCart");
 
 module.exports = async (request, response, stack, next) => {
   try {
-    const context = getContext(request);
-    const customer = get(context, 'tokenPayload');
-    const cart = await getCustomerCart(customer);
-    await cart.setData('customer_email', request.body.email);
+    const { email, cartId } = request.body;
+    // Check if email is valid
+    if (!email || !email.match(/.+@.+\..+/)) {
+      return response.status(400).json({
+        message: "Invalid email address",
+        success: false
+      });
+    }
+
+    // Check if cart exists
+    const cart = await getCartByUUID(cartId);
+    if (!cart) {
+      return response.status(400).json({
+        message: "Invalid cart id",
+        success: false
+      });
+    }
+    await cart.setData('customer_email', email);
     await saveCart(cart);
     response.$body = {
       data: {

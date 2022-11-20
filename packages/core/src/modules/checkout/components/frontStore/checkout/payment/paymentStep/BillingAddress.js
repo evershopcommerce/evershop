@@ -7,8 +7,8 @@ export function BillingAddress({ useShippingAddress, setUseShippingAddress }) {
     <div>
       <Field
         type="checkbox"
-        formId="checkout_billing_address_form"
-        name="use_shipping_address"
+        formId="checkoutBillingAddressForm"
+        name="useShippingAddress"
         onChange={(e) => {
           if (e.target.checked) {
             setUseShippingAddress(true);

@@ -37,7 +37,7 @@ function isAvailable(attributeCode, optionId, variants, currentFilters = {}) {
   );
 }
 
-export default function Variants({ product: { variants: vs }, pageInfo: { url } }) {
+export default function Variants({ product: { variantGroup: vs }, pageInfo: { url } }) {
   const attributes = vs ? vs.variantAttributes : [];
   const variants = vs ? vs.items : [];
   const [error, setError] = React.useState(null);
@@ -141,7 +141,7 @@ query Query {
     url
   }
   product(id: getContextValue('productId')) {
-    variants {
+    variantGroup {
       variantAttributes {
         attributeId
         attributeCode

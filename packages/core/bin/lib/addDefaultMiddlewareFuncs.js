@@ -123,8 +123,26 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
           } else {
             notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware;
           }
+
+          // We need to run build for adminNotFound route
+          const adminNotFoundRoute = routes.find((r) => r.id === 'adminNotFound');
+          const adminNotFoundWebpackCompiler = adminNotFoundRoute.webpackCompiler;
+          let adminNotFoundMiddlewareFunc;
+          if (!adminNotFoundRoute.webpackMiddleware) {
+            adminNotFoundMiddlewareFunc = adminNotFoundRoute.webpackMiddleware = middleware(adminNotFoundWebpackCompiler, {
+              serverSideRender: true, publicPath: '/', stats: 'none'
+            });
+            adminNotFoundMiddlewareFunc.context.logger.info = (message) => {
+              return
+            }
+          } else {
+            adminNotFoundMiddlewareFunc = adminNotFoundRoute.webpackMiddleware;
+          }
+
           middlewareFunc(request, response, () => {
-            notFoundMiddlewareFunc(request, response, next)
+            notFoundMiddlewareFunc(request, response, () => {
+              adminNotFoundMiddlewareFunc(request, response, next)
+            })
           });
         }
       }

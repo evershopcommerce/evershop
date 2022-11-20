@@ -20,7 +20,16 @@ exports.sortMiddlewares = function sortMiddlewares(middlewares = []) {
         flag === false
         || middlewares.findIndex(
           (e) => (
-            e.id === d && (e.routeId === null || e.routeId === m.scope || e.routeId === m.routeId)
+            e.id === d
+            && (
+              e.scope === 'app'
+              || e.scope === 'admin'
+              || e.scope === 'frontStore'
+              || e.routeId === null
+              || e.routeId === m.scope
+              || e.routeId === m.routeId
+            )
+
           )
         ) === -1
       ) {

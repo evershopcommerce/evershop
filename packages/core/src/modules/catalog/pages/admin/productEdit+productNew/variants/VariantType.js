@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 
 export const VariantType = PropTypes.shape({
-  attributes: PropTypes.shape({
-    find: PropTypes.func
-  }),
+  attributes: PropTypes.arrayOf(PropTypes.shape({
+    attributeCode: PropTypes.string.isRequired,
+    attributeId: PropTypes.string.isRequired,
+    optionId: PropTypes.number.isRequired,
+  })),
   editUrl: PropTypes.string,
-  id: PropTypes.number,
+  id: PropTypes.string,
   images: PropTypes.arrayOf(PropTypes.shape({
 
   })),
@@ -13,6 +15,6 @@ export const VariantType = PropTypes.shape({
   qty: PropTypes.string,
   sku: PropTypes.string,
   status: PropTypes.number,
-  variant_product_id: PropTypes.number,
+  variantProductId: PropTypes.number,
   visibility: PropTypes.number
 });

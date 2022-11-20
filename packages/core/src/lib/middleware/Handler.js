@@ -29,11 +29,13 @@ class Handler {
   static getMiddlewareByRoute(route) {
     const region = route.isApi ? "api" : "pages";
     let middlewares = this.middlewares.filter((m) => (m.routeId === route.id || m.scope === 'app') && m.region === region);
+
     if (route.isAdmin === true) {
-      middlewares = sortMiddlewares(middlewares.concat(this.middlewares.filter((m) => m.routeId === 'admin' && m.region === region)));
+      middlewares = middlewares.concat(this.middlewares.filter((m) => m.routeId === 'admin' && m.region === region));
     } else {
-      middlewares = sortMiddlewares(middlewares.concat(this.middlewares.filter((m) => m.routeId === 'frontStore' && m.region === region)));
+      middlewares = middlewares.concat(this.middlewares.filter((m) => m.routeId === 'frontStore' && m.region === region));
     }
+    middlewares = sortMiddlewares(middlewares);
 
     if (isDevelopmentMode()) {
       middlewares.unshift({

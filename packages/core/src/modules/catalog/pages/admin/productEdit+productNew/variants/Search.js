@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useAlertContext } from '../../../../../../../lib/components/modal/Alert';
 import { SearchModal } from './SearchModal';
-import { Input } from '../../../../../../../lib/components/form/fields/Input';
+import { Input } from '../../../../../../lib/components/form/fields/Input';
 import { VariantType } from './VariantType';
+import { useAlertContext } from '../../../../../../lib/components/modal/Alert';
 
 export function Search({ addVariant, variants }) {
   const searchInput = React.useRef();

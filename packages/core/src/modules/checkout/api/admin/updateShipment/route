@@ -1,2 +1,2 @@
 POST
-/shipment/update/:orderId(\\d+)
+/shipment/update/:orderId

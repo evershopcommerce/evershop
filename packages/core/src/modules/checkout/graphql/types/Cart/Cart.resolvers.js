@@ -1,11 +1,11 @@
 const { select } = require("@evershop/mysql-query-builder");
 const { camelCase } = require("../../../../../lib/util/camelCase");
-const { getCustomerCart } = require("../../../services/getCustomerCart");
+const { getCartByUUID } = require("../../../services/getCartByUUID");
 
 module.exports = {
   Query: {
-    cart: async (_, { }, { tokenPayload }) => {
-      const cart = await getCustomerCart(tokenPayload);
+    cart: async (_, { id }, { cartId }) => {
+      const cart = await getCartByUUID(id || cartId);
       if (!cart) {
         return null;
       } else {

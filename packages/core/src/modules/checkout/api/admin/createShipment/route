@@ -1,2 +1,2 @@
 POST
-/fullfill/:orderId(\\d+)
+/fullfill/:orderId

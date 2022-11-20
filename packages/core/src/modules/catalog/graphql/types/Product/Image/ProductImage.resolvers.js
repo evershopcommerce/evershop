@@ -26,12 +26,12 @@ module.exports = {
     image: async (product, _, { pool }) => {
       const mainImage = product['image'] || '';
       const urls = getUrls(mainImage);
-      return {
+      return mainImage ? {
         ...urls,
         alt: product['name'],
         path: mainImage,
         uniqueId: uniqid()
-      };
+      } : null;
     },
     gallery: async (product, _, { pool }) => {
       const gallery = await select()

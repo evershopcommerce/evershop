@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import produce from 'immer';
 import { toast } from 'react-toastify';
-import { useCheckoutStepsDispatch } from '../../../../../../lib/context/checkout';
-import { CustomerAddressForm } from '../../../../../customer/views/frontStore/address/AddressForm';
+import { useCheckoutStepsDispatch } from '../../../../../../lib/context/checkoutSteps';
+import { CustomerAddressForm } from '../../../../../customer/pages/frontStore/address/AddressForm';
 import { Form } from '../../../../../../lib/components/form/Form';
 import { useClient } from 'urql';
+import { useCheckout } from '../../../../../../lib/context/checkout';
+import { Field } from '../../../../../../lib/components/form/Field';
 
 const QUERY = `
-  query Query {
-    cart {
+  query Query($cartId: String) {
+    cart(id: $cartId) {
       shippingMethod
       shippingMethodName
       shippingAddress {
@@ -36,46 +38,50 @@ const QUERY = `
 
 export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmentInfo }) {
   const { completeStep } = useCheckoutStepsDispatch();
+  const { cartId } = useCheckout();
   const client = useClient();
 
-  if (step.isCompleted === true && step.isEditing !== true) {
-    return null;
-  } else {
-    return (
-      <div>
-        <div className="font-bold mb-1">Shipping Address</div>
-        <Form
-          method="POST"
-          action={setShipmentInfoAPI}
-          id="checkoutShippingAddressForm"
-          btnText="Continue to payment"
-          onSuccess={(response) => {
-            if (response.success === true) {
-              client.query(QUERY)
-                .toPromise()
-                .then((result) => {
-                  setShipmentInfo(produce(shipmentInfo, (draff) => {
-                    draff.address = result.data.cart.shippingAddress;
-                    draff.method.code = result.data.cart.shippingMethod;
-                    draff.method.name = result.data.cart.shippingMethodName;
-                  }));
-                  completeStep('shipment');
-                })
-            } else {
-              toast.error(response.message)
-            }
-          }}
-        >
-          <CustomerAddressForm
-            areaId="checkoutShippingAddressForm"
-            address={shipmentInfo.address}
-            method={shipmentInfo.method}
-            allowCountries={['US', 'FR', 'CN', 'IN']}
-          />
-        </Form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h4 className="mb-1 mt-3">Shipping Address</h4>
+      <Form
+        method="POST"
+        action={setShipmentInfoAPI}
+        id="checkoutShippingAddressForm"
+        isJSON={false}
+        btnText="Continue to payment"
+        onSuccess={(response) => {
+          if (response.success === true) {
+            client.query(QUERY, { cartId })
+              .toPromise()
+              .then((result) => {
+                const address = result.data.cart.shippingAddress;
+                setShipmentInfo(produce(shipmentInfo, (draff) => {
+                  draff.address = address;
+                  draff.method.code = result.data.cart.shippingMethod;
+                  draff.method.name = result.data.cart.shippingMethodName;
+                }));
+                completeStep('shipment', `${address.address1}, ${address.city}, ${address.country.name}`);
+              })
+          } else {
+            toast.error(response.message)
+          }
+        }}
+      >
+        <Field
+          name="cartId"
+          type="hidden"
+          value={cartId}
+        />
+        <CustomerAddressForm
+          areaId="checkoutShippingAddressForm"
+          address={shipmentInfo.address}
+          method={shipmentInfo.method}
+          allowCountries={['US', 'FR', 'CN', 'IN']} // TODO: get from config
+        />
+      </Form>
+    </div>
+  );
 }
 
 StepContent.propTypes = {

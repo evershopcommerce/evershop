@@ -1,2 +1,2 @@
 POST
-/checkout/setShipmentInfo
+/checkout/shipment

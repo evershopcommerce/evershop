@@ -15,6 +15,7 @@ import { Toggle } from './fields/Toggle';
 import { useFormContext } from './Form';
 import { FORM_FIELD_UPDATED } from '../../util/events';
 import './Field.scss';
+import { Password } from './fields/Password';
 
 export function Field(props) {
   const {
@@ -84,6 +85,8 @@ export function Field(props) {
         return DateTime;
       case 'textarea':
         return TextArea;
+      case 'password':
+        return Password;
       case 'hidden':
         return Hidden;
       default:

@@ -6,12 +6,9 @@ const { getConfig } = require("../../../../../lib/util/getConfig");
 module.exports = {
   Query: {
     order: async (_, { id }, { pool, tokenPayload }) => {
-      const { customerId, sid } = tokenPayload;
       const query = select()
         .from('order');
-      query.where('order_id', '=', id)
-      query.andWhere('customer_id', '=', customerId)
-        .or('sid', '=', sid);
+      query.where('uuid', '=', id)
       const order = await query.load(pool);
       if (!order) {
         return null;
@@ -169,6 +166,7 @@ module.exports = {
       const shipment = await select().from('shipment').where('shipment_order_id', '=', orderId).load(pool);
       return shipment ? camelCase(shipment) : null;
     },
-    editUrl: ({ orderId }) => buildUrl('orderEdit', { id: orderId }),
+    editUrl: ({ uuid }) => buildUrl('orderEdit', { id: uuid }),
+    customerUrl: ({ customerId }) => customerId ? buildUrl('customerEdit', { id: customerId }) : null
   }
 }

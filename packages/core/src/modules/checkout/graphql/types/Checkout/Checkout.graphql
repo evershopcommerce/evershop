@@ -1,14 +1,7 @@
 type Checkout {
-  steps: [CheckoutStep]!
-}
-
-type CheckoutStep {
-  id: String!
-  title: String!
-  isCompleted: Boolean!
-  sortOrder: Int!
+  cartId: String!
 }
 
 extend type Query {
-  checkout: Checkout
+  checkout: Checkout!
 }

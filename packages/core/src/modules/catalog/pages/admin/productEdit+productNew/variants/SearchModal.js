@@ -3,23 +3,19 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import uniqid from 'uniqid';
-import { Input } from '../../../../../../../lib/components/form/fields/Input';
-import { useAppState } from '../../../../../../../lib/context/app';
-import { get } from '../../../../../../../lib/util/get';
+import { Input } from '../../../../../../lib/components/form/fields/Input';
 import { VariantType } from './VariantType';
 
-export function SearchModal({ keyword, variants, addVariant }) {
-  const context = useAppState();
+export function SearchModal({ keyword, variants, addVariant, searchAPI }) {
   const [potentialVariants, setPotentialVariants] = React.useState([]);
   const [typeTimeout, setTypeTimeout] = React.useState(null);
-  const searchUrl = get(useAppState(), 'searchVariantUrl');
   const [loading, setLoading] = React.useState(false);
 
   const search = (kw) => {
     if (typeTimeout) clearTimeout(typeTimeout);
     setTypeTimeout(setTimeout(() => {
       setLoading(true);
-      const url = new URL(searchUrl, window.location.origin);
+      const url = new URL(searchAPI, window.location.origin);
       if (kw) { url.searchParams.set('keyword', kw); }
 
       fetch(

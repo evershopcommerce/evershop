@@ -3,6 +3,8 @@
         .form-submit-button {
             padding-top: 0px;
             border-top: 0;
+            display: flex;
+            justify-content: end;
             button.button {
                 padding: 2rem;
                 font-weight: 400;
@@ -28,6 +30,11 @@
     }
 }
 .checkout-steps {
-    padding-top: 3rem;
     padding-bottom: 2rem;
+}
+.separator {
+    padding: 0 5px
+}
+.checkout-breadcrumb {
+    font-size: 12px;
 }

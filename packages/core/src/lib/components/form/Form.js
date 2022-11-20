@@ -54,8 +54,6 @@ export function Form(props) {
         if (rule === undefined) return;
         if (!rule.handler.call(fields, f.value)) {
           errors[f.name] = rule.errorMessage;
-        } else {
-          delete errors[f.name];
         }
       });
     });

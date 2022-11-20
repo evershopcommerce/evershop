@@ -2,11 +2,28 @@ import uniqid from 'uniqid';
 import React from 'react';
 import PropTypes from 'prop-types';
 import PubSub from 'pubsub-js';
-import { FORM_VALIDATED } from '../../../../../../../lib/util/events';
 import { Variant } from './Variant';
-import { Card } from '../../../../../../cms/views/admin/Card';
 import { Search } from './Search';
 import { VariantType } from './VariantType';
+import { Card } from '../../../../../cms/components/admin/Card';
+import { FORM_VALIDATED } from '../../../../../../lib/util/events';
+import { useQuery } from 'urql';
+
+const AttributesQuery = `
+  query Query($filters: [FilterInput]) {
+    attributes(filters: $filters) {
+      items {
+        attributeId
+        attributeCode
+        options {
+          value: attributeOptionId
+          text: optionText
+        }
+      }
+    }
+    productImageUploadUrl: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
+  }
+`;
 
 function variantReducer(variants, action) {
   switch (action.type) {
@@ -15,13 +32,7 @@ function variantReducer(variants, action) {
         return variants.concat({
           id: uniqid(),
           attributes: [],
-          image: {},
-          sku: '',
-          price: 0,
-          qty: '',
-          status: 1,
-          visibility: 0,
-          isNew: true
+          product: {}
         });
       }
     case 'remove':
@@ -41,6 +52,15 @@ function variantReducer(variants, action) {
 
 export function Variants({ variantAttributes, variantProducts }) {
   const [variants, dispatch] = React.useReducer(variantReducer, variantProducts);
+
+  const [result, reexecuteQuery] = useQuery({
+    query: AttributesQuery,
+    variables: {
+      filters: [
+        { key: 'code', operation: 'in', value: variantAttributes.map((a) => a.attributeCode).join(',') }
+      ]
+    },
+  });
 
   // eslint-disable-next-line no-unused-vars
   const validate = (formId, errors) => { // TODO: Fix validation variants when editing product
@@ -96,18 +116,24 @@ export function Variants({ variantAttributes, variantProducts }) {
     });
   };
 
+  const { data, fetching, error } = result;
+
+  if (fetching) return <p>Loading...</p>;
+  if (error) return <p>Oh no... {error.message}</p>;
+
   return (
     <div>
-      {variantAttributes.map((a) => <input key={a.attribute_id} type="hidden" value={a.attribute_id} name="variant_group[variant_group_attributes][]" />)}
+      {variantAttributes.map((a) => <input key={a.attributeId} type="hidden" value={a.attributeId} name="variant_group[variant_group_attributes][]" />)}
       <Card.Session>
         <div className="variant-list">
           {variants.map((v) => (
             <Variant
               key={v.id}
               variant={v}
-              attributes={variantAttributes}
+              attributes={data?.attributes?.items || []}
               removeVariant={removeVariant}
               updateVariant={updateVariant}
+              productImageUploadUrl={data?.productImageUploadUrl}
             />
           ))}
         </div>
@@ -121,11 +147,11 @@ export function Variants({ variantAttributes, variantProducts }) {
 
 Variants.propTypes = {
   variantAttributes: PropTypes.arrayOf(PropTypes.shape({
-    attribute_name: PropTypes.string,
-    attribute_id: PropTypes.string.string,
+    attributeName: PropTypes.string,
+    attributeId: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
-      attribute_option_id: PropTypes.number,
-      option_text: PropTypes.string
+      optionId: PropTypes.number,
+      optionText: PropTypes.string
     }))
   })).isRequired,
   variantProducts: PropTypes.arrayOf(VariantType).isRequired

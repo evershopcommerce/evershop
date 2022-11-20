@@ -1,20 +1,16 @@
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { get } = require('../../../../../lib/util/get');
-const { setContextValue } = require('../../../../graphql/services/contextHelper');
-const { getContext } = require('../../../../graphql/services/contextHelper');
+const { setContextValue, getContextValue } = require('../../../../graphql/services/contextHelper');
 const { getCustomerCart } = require('../../../services/getCustomerCart');
 
 module.exports = async (request, response, stack, next) => {
-  const context = getContext(request);
-  const customer = get(context, 'tokenPayload');
-  const cart = await getCustomerCart(customer);
+  const cart = await getCustomerCart(getContextValue(request, 'tokenPayload', {}));
   if (!cart) {
     response.redirect(302, buildUrl('cart'));
     return;
   }
   const items = cart.getItems();
 
-  if (items.length === 0 || cart.hasError()) {
+  if (items.length === 0 || cart.hasItemError()) {
     response.redirect(302, buildUrl('cart'));
   } else {
     setContextValue(request, 'pageInfo', { title: 'Checkout', description: 'Checkout' });

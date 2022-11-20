@@ -4,15 +4,15 @@ import {
   useStripe,
   useElements
 } from '@stripe/react-stripe-js';
-import { useCheckout } from '../../../../../lib/context/order';
+import { useCheckout } from '../../../../../lib/context/checkout';
 import Button from '../../../../../lib/components/form/Button';
 import { get } from '../../../../../lib/util/get';
 import './CheckoutForm.scss';
 import { useQuery } from 'urql';
 
 const cartQuery = `
-  query Query {
-    cart {
+  query Query($cartId: String) {
+    cart(id: $cartId) {
       billingAddress {
         cartAddressId
         fullName
@@ -82,31 +82,34 @@ export default function CheckoutForm() {
   const elements = useElements();
   const [billingCompleted] = useState(false);
   const [paymentMethodCompleted] = useState(false);
-  const checkout = useCheckout();
+  const { cartId, orderId, orderPlaced, paymentMethods, checkoutSuccessUrl } = useCheckout();
   const [loading, setLoading] = useState(false);
 
   const [result, reexecuteQuery] = useQuery({
     query: cartQuery,
-    pause: checkout.orderPlaced === true
+    variables: {
+      cartId: cartId
+    },
+    pause: orderPlaced === true
   });
 
   useEffect(() => {
     // Create PaymentIntent as soon as the order is placed
-    if (checkout.orderPlaced === true) {
+    if (orderPlaced === true) {
       window
-        .fetch('/v1/stripe/create-payment-intent', {
+        .fetch('/v1/stripe/paymentIntent', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ orderId: checkout.orderId })
+          body: JSON.stringify({ orderId: orderId })
         })
         .then((res) => res.json())
         .then((data) => {
           setClientSecret(data.clientSecret);
         });
     }
-  }, [checkout.orderId]);
+  }, [orderId]);
 
   useEffect(() => {
     const pay = async () => {
@@ -137,18 +140,18 @@ export default function CheckoutForm() {
         setProcessing(false);
         setSucceeded(true);
         // Redirect to checkout success page
-        window.location.href = `${checkout.checkoutSuccessUrl}?orderId=${checkout.orderId}`;
+        window.location.href = `${checkoutSuccessUrl}/${orderId}`;
       }
     };
 
-    if (checkout.orderPlaced === true && clientSecret) {
+    if (orderPlaced === true && clientSecret) {
       setLoading(false);
       if (processing !== true) {
         setProcessing(true);
         pay();
       }
     }
-  }, [checkout.orderPlaced, clientSecret, result]);
+  }, [orderPlaced, clientSecret, result]);
 
   const handleChange = async (event) => {
     // Listen for changes in the CardElement
@@ -167,7 +170,7 @@ export default function CheckoutForm() {
     } else {
       setError(null);
       if (!billingCompleted) {
-        document.getElementById('checkout_billing_address_form').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        document.getElementById('checkoutBillingAddressForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
       }
       if (!paymentMethodCompleted) {
         document.getElementById('checkoutPaymentMethods').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
@@ -184,6 +187,9 @@ export default function CheckoutForm() {
   };
 
   if (result.error) return <p>Oh no... {error.message}</p>;
+  // Check if the selected payment method is Stripe
+  const stripePaymentMethod = paymentMethods.find((method) => method.code === 'stripe' && method.selected === true);
+  if (!stripePaymentMethod) return null;
 
   return (
     // eslint-disable-next-line react/jsx-filename-extension

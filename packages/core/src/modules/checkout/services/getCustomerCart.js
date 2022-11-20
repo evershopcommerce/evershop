@@ -1,66 +1,53 @@
-const { select, commit, update, del } = require("@evershop/mysql-query-builder");
-const { pool, getConnection } = require("../../../lib/mysql/connection");
-const { Cart } = require("./cart/cart");
+const { select } = require("@evershop/mysql-query-builder");
+const { pool } = require("../../../lib/mysql/connection");
+const { Cart } = require("./cart/Cart");
 
 module.exports = exports;
 
-exports.getCustomerCart = async (customer) => {
-  if (!customer) {
-    return null
-  }
-  const { customerId, customerEmail, customerGroupId, customerFullName, sid } = customer;
-  if (!customerId && !sid) {
-    return null;
-  };
+/**
+ * This function return a Cart object by tokenPayload. Do not use this function directly.
+ * Use CartFactory.getCart() instead.
+ * @param {*} tokenPayLoad : The payload of the jwt token
+ * @returns {Promise<Cart>}
+ */
+exports.getCustomerCart = async (tokenPayLoad) => {
+  const user = tokenPayLoad?.user || {};
+  const sid = tokenPayLoad?.sid || null;
+  const customerId = user?.customerId || null;
+  let cart;
+  // Extract the user info
+  const {
+    customerId: customer_id,
+    email: customer_email,
+    groupId: customer_group_id,
+    fullName: customer_full_name
+  } = user;
 
-  const query = select()
-    .from('cart');
-  query.where('status', '=', 1);
-  if (customerId) {
-    query.andWhere('customer_id', '=', customerId)
+  // Try to get the cart by the session id first
+  const cartBySid = await select()
+    .from('cart')
+    .where('status', '=', 1)
+    .andWhere('sid', '=', sid)
+    .load(pool);
+
+  if (cartBySid) {
+    cart = new Cart({ sid, customer_id, customer_email, customer_group_id, customer_full_name, ...cartBySid });
   } else {
-    query.andWhere('sid', '=', sid)
-  }
-  const data = await query.load(pool);
-  if (!data) {
-    return null;
-  } else {
-    const connection = await getConnection();
-    // Re-calculating the cart
-    let cart = new Cart({ ...data });
-    await cart.build();
-    const items = cart.getItems();
-    if (items.length === 0) {
-      // Delete cart if existed
-      if (cart.getData('cart_id')) {
-        await del('cart')
-          .where('cart_id', '=', cart.getData('cart_id'))
-          .execute(connection, false);
-      }
-      await commit(connection);
-      return null;
+    // Try to get the cart by the customer id
+    const cartByCustomerId = await select()
+      .from('cart')
+      .where('status', '=', 1)
+      .andWhere('customer_id', '=', customerId)
+      .load(pool);
+
+    if (cartByCustomerId) {
+      cart = new Cart({ sid, customer_id, customer_email, customer_group_id, customer_full_name, ...cartByCustomerId });
     } else {
-      // Set the customer info
-      await cart.setData('sid', sid);
-      await cart.setData('customer_id', customerId || null);
-      await cart.setData('customer_group_id', customerGroupId || null);
-      await cart.setData('customer_full_name', customerFullName || null);
-      if (customerEmail) {
-        await cart.setData('customer_email', customerEmail || null);
-      }
-      await update('cart')
-        .given(cart.export())
-        .where('cart_id', '=', cart.getData('cart_id'))
-        .execute(connection, false);
-
-      await Promise.all(items.map(async (item) => {
-        await update('cart_item')
-          .given(item.export())
-          .where('cart_item_id', '=', item.getData('cart_item_id'))
-          .execute(connection, false);
-      }));
-      await commit(connection);
-      return cart;
+      // Create a new cart
+      cart = new Cart({ sid, customer_id, customer_email, customer_group_id, customer_full_name });
     }
   }
+
+  await cart.build();
+  return cart;
 }

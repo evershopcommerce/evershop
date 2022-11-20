@@ -14,16 +14,27 @@ module.exports.buildFilterFromUrl = (query) => {
         if (values.length > 0) {
           filtersFromUrl.push({
             key: key,
-            operation: "=",
+            operation: "IN",
             value: values.join(',')
           });
         }
       } else {
-        filtersFromUrl.push({
-          key: key,
-          operation: "=",
-          value: filter
-        });
+        // Use regex to check if filter is either started or ended with a '%'
+        // If so, use LIKE operation
+        const regex = /^%|%$/;
+        if (!regex.test(filter)) {
+          filtersFromUrl.push({
+            key: key,
+            operation: "=",
+            value: filter
+          });
+        } else {
+          filtersFromUrl.push({
+            key: key,
+            operation: "LIKE",
+            value: filter
+          });
+        }
       }
     });
 

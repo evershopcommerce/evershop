@@ -4,100 +4,29 @@ import Area from '../../../../../lib/components/Area';
 import Circle from '../../../../../lib/components/Circle';
 import { Card } from '../../../../cms/components/admin/Card';
 import './Payment.scss';
+import { Discount } from './payment/Discount';
+import { Shipping } from './payment/Shipping';
+import { SubTotal } from './payment/SubTotal';
+import { Tax } from './payment/Tax';
+import { Total } from './payment/Total';
+import { Transactions } from './payment/Transactions';
 
-function Subtotal({ count, total }) {
-  return (
-    <div className="summary-row">
-      <span>Subtotal</span>
-      <div>
-        <div>
-          {count}
-          {' '}
-          items
-        </div>
-        <div>{total}</div>
-      </div>
-    </div>
-  );
-}
-
-Subtotal.propTypes = {
-  count: PropTypes.number.isRequired,
-  total: PropTypes.string.isRequired
-};
-
-function Discount({ discount, code }) {
-  return (
-    <div className="summary-row">
-      <span>Discount</span>
-      <div>
-        <div>{code}</div>
-        <div>{discount}</div>
-      </div>
-    </div>
-  );
-}
-
-Discount.propTypes = {
-  code: PropTypes.string,
-  discount: PropTypes.number
-};
-
-Discount.defaultProps = {
-  code: undefined,
-  discount: 0
-};
-
-function Shipping({ method, cost }) {
-  return (
-    <div className="summary-row">
-      <span>Shipping</span>
-      <div>
-        <div>{method}</div>
-        <div>{cost}</div>
-      </div>
-    </div>
-  );
-}
-
-Shipping.propTypes = {
-  cost: PropTypes.string.isRequired,
-  method: PropTypes.string.isRequired
-};
-
-function Tax({ taxClass, amount }) {
-  return (
-    <div className="summary-row">
-      <span>Tax</span>
-      <div>
-        <div>{taxClass}</div>
-        <div>{amount}</div>
-      </div>
-    </div>
-  );
-}
-
-Tax.propTypes = {
-  amount: PropTypes.string.isRequired,
-  taxClass: PropTypes.string.isRequired
-};
-
-function Total({ total }) {
-  return (
-    <div className="summary-row">
-      <span>Total</span>
-      <div>
-        <div>{total}</div>
-      </div>
-    </div>
-  );
-}
-
-Total.propTypes = {
-  total: PropTypes.string.isRequired
-};
-
-export default function OrderSummary({ order: { orderId, coupon, shippingMethod, totalQty, taxAmount, discountAmount, grandTotal, subTotal, shippingFeeExclTax, currency, paymentStatus } }) {
+export default function OrderSummary({
+  order: {
+    orderId,
+    coupon,
+    shippingMethod,
+    totalQty,
+    taxAmount,
+    discountAmount,
+    grandTotal,
+    subTotal,
+    shippingFeeExclTax,
+    currency,
+    paymentStatus,
+    transactions
+  }
+}) {
   return (
     <Card title={(
       <div className="flex space-x-1">
@@ -118,48 +47,36 @@ export default function OrderSummary({ order: { orderId, coupon, shippingMethod,
           className="summary-wrapper"
           coreComponents={[
             {
-              component: { default: Subtotal },
+              component: { default: SubTotal },
               props: { count: totalQty, total: subTotal.text },
-              sortOrder: 5,
-              id: 'summary_subtotal'
+              sortOrder: 5
             },
             {
               component: { default: Shipping },
               props: { method: shippingMethod, cost: shippingFeeExclTax.text },
-              'sortOrder ': 10,
-              id: 'summary_shipping'
+              sortOrder: 10
             },
             {
               component: { default: Discount },
               ps: { code: coupon, discount: discountAmount.text },
-              'sortOrder ': 10,
-              id: 'summary_discount'
+              sortOrder: 15
             },
             {
               component: { default: Tax },
               props: { taxClass: '', amount: taxAmount.text },
-              'sortOrder ': 20,
-              id: 'summary_tax'
+              sortOrder: 20
             },
 
             {
               component: { default: Total },
               props: { total: grandTotal.text },
-              sortOrder: 30,
-              id: 'summary_grand_total'
+              sortOrder: 30
             }
           ]}
         />
       </Card.Session>
       <Card.Session>
-        <div className="flex justify-between">
-          <div className="self-center">
-            <span>Paid by customer</span>
-          </div>
-          <div className="self-center">
-            <span>{grandTotal.text}</span>
-          </div>
-        </div>
+        <Transactions transactions={transactions} />
       </Card.Session>
     </Card>
   );
@@ -198,6 +115,15 @@ export const query = `
         badge
         progress
         name
+      }
+      transactions: paymentTransactions {
+        paymentTransactionId
+        amount {
+          text(currency: getContextValue("orderCurrency"))
+          value
+        }
+        paymentAction
+        transactionType
       }
     }
   }

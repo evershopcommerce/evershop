@@ -5,9 +5,9 @@ import { ItemOptions } from './ItemOptions';
 import { ItemVariantOptions } from './ItemVariantOptions';
 import './Items.scss';
 
-function Items({ items }) {
-  const removeItem = async (API) => {
-    const response = await axios.get(API);
+function Items({ items, removeUrl, cartId }) {
+  const removeItem = async (id) => {
+    const response = await axios.delete(removeUrl, { data: { cartId, itemId: id } });
     if (response.data.success === true) {
       location.reload();
     } else {
@@ -55,7 +55,7 @@ function Items({ items }) {
                           <a
                             onClick={async (e) => {
                               e.preventDefault();
-                              await removeItem(item.removeUrl);
+                              await removeItem(item.cartItemId);
                             }}
                             href="#"
                             className="text-textSubdued underline"

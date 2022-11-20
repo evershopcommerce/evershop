@@ -18,7 +18,6 @@
     "react"
   ],
   "ignorePatterns": [
-    "**/dist/**/*.js",
     "**/tests/**/*.js"
   ],
   "rules": {
@@ -30,8 +29,7 @@
       1,
       {
         "extensions": [
-          ".js",
-          ".jsx"
+          ".js"
         ]
       }
     ],

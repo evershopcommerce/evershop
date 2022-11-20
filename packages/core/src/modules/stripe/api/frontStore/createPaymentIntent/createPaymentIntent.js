@@ -1,14 +1,18 @@
 const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
-const { getContextValue } = require('../../../../graphql/services/contextHelper');
-
-const stripe = require('stripe')('sk_test_51Jdo9iEvEMCuLU1xZvrPhTSU4TsvSqRWyGorConYNrNFeSPxXdeJWZ5X1CNQ3dvruG56JvHIKOtD2D6oZGL0eHMR00cXfMu2hW');
+const smallestUnit = require("zero-decimal-currencies");
+const { getSetting } = require('../../../../setting/services/setting');
+const stripePayment = require('stripe');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
-  const { sid } = getContextValue(request, 'tokenPayload', {});
+  const { body } = request;
+  const stripeSecretKey = await getSetting('stripeSecretKey', '');
+  console.log('stripeSecretKey', stripeSecretKey);
+  const stripe = stripePayment(stripeSecretKey);
+
   // Check the permission
-  const order = await select().from('order').where('order_id', '=', request.body.orderId).and('sid', '=', sid).load(pool);
+  const order = await select().from('order').where('uuid', '=', body.orderId).load(pool);
   if (!order) {
     response.json({
       success: false,
@@ -17,10 +21,10 @@ module.exports = async (request, response, stack, next) => {
   } else {
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: 10000,
-      currency: 'usd',
+      amount: smallestUnit.default(order.grand_total, order.currency),
+      currency: order.currency,
       metadata: {
-        orderId: request.body.orderId
+        orderId: body.orderId
       }
     });
 
