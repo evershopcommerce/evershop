@@ -1,0 +1,14 @@
+extend type Setting {
+  storeName: String
+  storeDescription: String
+  storeLanguage: String
+  storeCurrency: String
+  storeTimeZone: String
+  storePhoneNumber: String
+  storeEmail: String
+  storeCountry: String
+  storeAddress: String
+  storeCity: String
+  storeProvince: String
+  storePostalCode: String
+}

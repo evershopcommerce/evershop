@@ -25,9 +25,13 @@ module.exports = {
       }
     },
     stripeSecretKey: (setting, { _ }, { tokenPayload }) => {
-      const stripeSecretKey = setting.find(s => s.name === 'stripeSecretKey');
-      if (stripeSecretKey) {
-        return stripeSecretKey.value;
+      if (tokenPayload && tokenPayload?.user?.isAdmin === true) {
+        const stripeSecretKey = setting.find(s => s.name === 'stripeSecretKey');
+        if (stripeSecretKey) {
+          return stripeSecretKey.value;
+        } else {
+          return null;
+        }
       } else {
         return null;
       }

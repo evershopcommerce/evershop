@@ -24,3 +24,9 @@ export const layout = {
   areaId: 'header',
   sortOrder: 10
 }
+
+export const query = `
+  query Query {
+    dashboardUrl: url(routeId:"dashboard")
+  }
+`;

@@ -1,0 +1,4 @@
+extend type Setting {
+  allowCountries: [String]
+  weightUnit: String
+}

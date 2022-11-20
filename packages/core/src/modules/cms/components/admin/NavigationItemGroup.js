@@ -6,13 +6,14 @@ import Close from '@heroicons/react/solid/esm/ChevronDoubleUpIcon';
 import NavigationItem from './NavigationItem';
 import './NavigationItemGroup.scss';
 
-export default function NavigationItemGroup({ id, name, items = [], Icon = null }) {
+export default function NavigationItemGroup({ id, name, items = [], Icon = null, url = null }) {
   return (
     <li className='root-nav-item nav-item'>
       <div className='flex justify-between items-center'>
         <div className="root-label flex justify-between items-center">
           {Icon && <span><Icon /></span>}
-          <span>{name}</span>
+          {!url && <span>{name}</span>}
+          {url && <a href={url}>{name}</a>}
         </div>
       </div>
       <ul className="item-group">

@@ -4,7 +4,7 @@ import Error from './Error';
 import './../Field.scss';
 
 function TextArea({
-  name, value, label, onChange, error, instruction
+  name, value, label, onChange, error, instruction, placeholder
 }) {
   const [_value, setValue] = React.useState(value || '');
 
@@ -26,6 +26,7 @@ function TextArea({
           className="form-field"
           id={name}
           name={name}
+          placeholder={placeholder}
           value={_value}
           onChange={onChangeFunc}
         />

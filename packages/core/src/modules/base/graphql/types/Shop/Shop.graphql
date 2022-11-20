@@ -2,6 +2,8 @@ type Shop {
   homeUrl: String!
   name: String
   description: String
+  phone: String
+  email: String
   language: String!
   currency: String!
   timezone: String!

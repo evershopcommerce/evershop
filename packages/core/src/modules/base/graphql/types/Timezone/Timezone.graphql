@@ -1,0 +1,8 @@
+type Timezone {
+  name: String!
+  code: String!
+}
+
+extend type Query {
+  timezones: [Timezone]!
+}
