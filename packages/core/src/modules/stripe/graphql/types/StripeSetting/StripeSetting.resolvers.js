@@ -1,7 +1,7 @@
 module.exports = {
   Setting: {
     stripePaymentStatus: (setting, { _ }, { pool }) => {
-      const stripePaymentStatus = setting.find(s => s.name === 'stripePaymentMethod');
+      const stripePaymentStatus = setting.find(s => s.name === 'stripePaymentStatus');
       if (stripePaymentStatus) {
         return parseInt(stripePaymentStatus.value);
       } else {
