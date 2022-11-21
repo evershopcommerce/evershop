@@ -36,6 +36,7 @@ module.exports = {
           .on('product_attribute_value_index.`attribute_id`', '=', 'attribute.`attribute_id`');
 
         const vs = await query.where('variant_group_id', '=', variantGroupId)
+          .and('product.`product_id`', '!=', product.productId)
           .and('status', '=', 1)
           .and('attribute.attribute_id', 'IN', Object.values(group).filter((v) => v != null))
           .execute(pool);

@@ -43,6 +43,18 @@ module.exports = {
         currentFilters.push({ key: 'code', operation: codeFilter.operation, value: codeFilter.valueRaw });
       }
 
+      // Code filter
+      const groupFilter = filters.find((f) => f.key === 'group');
+      if (groupFilter) {
+        const attributes = await select()
+          .from('attribute_group_link')
+          .where('group_id', groupFilter.operation, groupFilter.value)
+          .execute(pool);
+
+        query.andWhere('attribute.`attribute_id`', 'IN', attributes.map(a => a.attribute_id));
+        currentFilters.push({ key: 'group', operation: groupFilter.operation, value: groupFilter.valueRaw });
+      }
+
       // Type filter
       const typeFilter = filters.find((f) => f.key === 'type');
       if (typeFilter) {

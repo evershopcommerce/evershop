@@ -7,6 +7,7 @@ const { CONSTANTS } = require('../../../../../lib/helpers');
 const { get } = require('../../../../../lib/util/get');
 const path = require('path');
 const config = require('config');
+const { existsSync } = require('fs');
 
 module.exports = async (request, response, stack) => {
   // Wait for product table to be updated. get productId
@@ -118,7 +119,6 @@ module.exports = async (request, response, stack) => {
 async function saveVariant(mainProductId, variantProductId, variantSku, variantPrice, variantQty, variantVisibility, variantAttributes, variantImages = [], connection) {
   // Copy master information
   let productId;
-  // console.log(variantProductId);
   if (variantProductId) {
     productId = variantProductId;
     await update('product')
@@ -148,47 +148,47 @@ async function saveVariant(mainProductId, variantProductId, variantSku, variantP
     .execute(connection);
 
   // Save image gallery
-  console.log(variantImages)
   if (variantImages.length > 0) {
     const mainImage = variantImages.shift();
     const mediaPath = path.join(CONSTANTS.MEDIAPATH, mainImage);
     const ext = path.extname(path.resolve(CONSTANTS.MEDIAPATH, mainImage));
-    // Generate thumbnail
-    await sharp(mediaPath)
-      .resize(
-        config.get('catalog.product.image.thumbnail.width'),
-        config.get('catalog.product.image.thumbnail.height'),
-        { fit: 'inside' }
-      )
-      .toFile(mediaPath.replace(
-        ext,
-        `-thumb${ext}`
-      ));
+    if (existsSync(mediaPath)) {
+      // Generate thumbnail
+      await sharp(mediaPath)
+        .resize(
+          config.get('catalog.product.image.thumbnail.width'),
+          config.get('catalog.product.image.thumbnail.height'),
+          { fit: 'inside' }
+        )
+        .toFile(mediaPath.replace(
+          ext,
+          `-thumb${ext}`
+        ));
 
-    // Generate listing
-    await sharp(mediaPath)
-      .resize(
-        config.get('catalog.product.image.listing.width'),
-        config.get('catalog.product.image.listing.height'),
-        { fit: 'inside' }
-      )
-      .toFile(mediaPath.replace(
-        ext,
-        `-list${ext}`
-      ));
+      // Generate listing
+      await sharp(mediaPath)
+        .resize(
+          config.get('catalog.product.image.listing.width'),
+          config.get('catalog.product.image.listing.height'),
+          { fit: 'inside' }
+        )
+        .toFile(mediaPath.replace(
+          ext,
+          `-list${ext}`
+        ));
 
-    // Generate single
-    await sharp(mediaPath)
-      .resize(
-        config.get('catalog.product.image.single.width'),
-        config.get('catalog.product.image.single.height'),
-        { fit: 'inside' }
-      )
-      .toFile(mediaPath.replace(
-        ext,
-        `-single${ext}`
-      ));
-
+      // Generate single
+      await sharp(mediaPath)
+        .resize(
+          config.get('catalog.product.image.single.width'),
+          config.get('catalog.product.image.single.height'),
+          { fit: 'inside' }
+        )
+        .toFile(mediaPath.replace(
+          ext,
+          `-single${ext}`
+        ));
+    }
     await update('product')
       .given({ image: mainImage })
       .where('product_id', '=', productId)
@@ -205,41 +205,43 @@ async function saveVariant(mainProductId, variantProductId, variantSku, variantP
     const mediaPath = path.join(CONSTANTS.MEDIAPATH, f);
     const ext = path.extname(path.resolve(CONSTANTS.MEDIAPATH, f));
 
-    // Generate thumbnail
-    await sharp(mediaPath)
-      .resize(
-        config.get('catalog.product.image.thumbnail.width'),
-        config.get('catalog.product.image.thumbnail.height'),
-        { fit: 'inside' }
-      )
-      .toFile(mediaPath.replace(
-        ext,
-        `-thumb${ext}`
-      ));
+    if (existsSync(mediaPath)) {
+      // Generate thumbnail
+      await sharp(mediaPath)
+        .resize(
+          config.get('catalog.product.image.thumbnail.width'),
+          config.get('catalog.product.image.thumbnail.height'),
+          { fit: 'inside' }
+        )
+        .toFile(mediaPath.replace(
+          ext,
+          `-thumb${ext}`
+        ));
 
-    // Generate listing
-    await sharp(mediaPath)
-      .resize(
-        config.get('catalog.product.image.listing.width'),
-        config.get('catalog.product.image.listing.height'),
-        { fit: 'inside' }
-      )
-      .toFile(mediaPath.replace(
-        ext,
-        `-list${ext}`
-      ));
+      // Generate listing
+      await sharp(mediaPath)
+        .resize(
+          config.get('catalog.product.image.listing.width'),
+          config.get('catalog.product.image.listing.height'),
+          { fit: 'inside' }
+        )
+        .toFile(mediaPath.replace(
+          ext,
+          `-list${ext}`
+        ));
 
-    // Generate single
-    await sharp(mediaPath)
-      .resize(
-        config.get('catalog.product.image.single.width'),
-        config.get('catalog.product.image.single.height'),
-        { fit: 'inside' }
-      )
-      .toFile(mediaPath.replace(
-        ext,
-        `-single${ext}`
-      ));
+      // Generate single
+      await sharp(mediaPath)
+        .resize(
+          config.get('catalog.product.image.single.width'),
+          config.get('catalog.product.image.single.height'),
+          { fit: 'inside' }
+        )
+        .toFile(mediaPath.replace(
+          ext,
+          `-single${ext}`
+        ));
+    }
     await insert('product_image')
       .given({ image: f })
       .prime('product_image_product_id', productId)

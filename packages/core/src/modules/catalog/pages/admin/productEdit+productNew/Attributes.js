@@ -12,6 +12,17 @@ export default function Attributes({ product, groups }) {
   const groupId = product?.groupId || undefined;
   const [currentGroup, setCurrentGroup] = React.useState(getGroup(groups, groupId));
 
+  const handleGroupChange = (e) => {
+    // Check if product is in a variant group
+    if (product?.groupId) {
+      // eslint-disable-next-line no-alert
+      alert('You can not change the attribute group of a product that is already in a variant group.');
+      return;
+    } else {
+      setCurrentGroup(getGroup(groups, e.target.value));
+    }
+  }
+
   return (
     <Card>
       <Card.Session
@@ -19,15 +30,20 @@ export default function Attributes({ product, groups }) {
         subdued
       >
         <div>
-          <Field
+          {product?.variantGroupId && <div>
+            <input type='hidden' value={currentGroup.groupId} name={'group_id'} />
+            <div className='border rounded border-divider p-1'><span>{currentGroup.groupName}</span></div>
+            <div className='italic text-textSubdued'>Can not change the attribute group of a product that is already in a variant group.</div>
+          </div>}
+          {!product?.variantGroupId && <Field
             name="group_id"
             value={currentGroup.groupId}
-            onChange={(e) => setCurrentGroup(getGroup(groups, e.target.value))}
+            onChange={(e) => handleGroupChange(e)}
             options={(() => groups.map(
               (g) => ({ value: parseInt(g.groupId, 10), text: g.groupName })
             ))()}
             type="select"
-          />
+          />}
         </div>
       </Card.Session>
       <Card.Session title="Attributes">
@@ -157,6 +173,7 @@ export const query = `
   query Query {
     product(id: getContextValue("productId", null)) {
       groupId
+      variantGroupId
       attributeIndex {
         attributeId
         optionId
