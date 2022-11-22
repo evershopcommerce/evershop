@@ -11,6 +11,7 @@ import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic'
 import DropdownColumnHeader from '../../../../../lib/components/grid/headers/Dropdown';
 import { Card } from '../../../../cms/components/admin/Card';
 import CustomerNameRow from './rows/CustomerName';
+import CreateAt from './rows/CreateAt';
 
 function Actions({ selectedIds = [], disableCustomersUrl, enableCustomersUrl }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
@@ -122,7 +123,7 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
               coreComponents={
                 [
                   {
-                    component: { default: () => <BasicColumnHeader title="Customer Full Name" id='full_name' currentFilters={currentFilters} /> },
+                    component: { default: () => <BasicColumnHeader title="Full Name" id='full_name' currentFilters={currentFilters} /> },
                     sortOrder: 10
                   },
                   {
@@ -150,7 +151,7 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
             disableCustomersUrl={disableCustomersUrl}
             enableCustomersUrl={enableCustomersUrl}
           />
-          {customers.map((closeAlert) => (
+          {customers.map((c) => (
             <tr key={c.customerId}>
               <td>
                 <Checkbox
@@ -184,7 +185,7 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
                     sortOrder: 20
                   },
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='created_at' areaProps={areaProps} /> },
+                    component: { default: () => <CreateAt time={c.createdAt.text} /> },
                     sortOrder: 25
                   }
                 ]}
@@ -211,7 +212,12 @@ export const query = `
       items {
         customerId
         fullName
+        email
         status
+        createdAt {
+          value
+          text
+        }
         editUrl
       }
       total

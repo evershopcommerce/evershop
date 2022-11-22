@@ -4,6 +4,7 @@ type Customer {
   status: Int!
   email: String!
   fullName: String!
+  createdAt: Date!
   url: String!
   editUrl: String!
   group: CustomerGroup
