@@ -31,7 +31,7 @@ export function Category({
     <div>
       <div className='mb-1'>Category</div>
       <Select
-        name='categories'
+        name='categories[]'
         options={data.categories.items}
         hideSelectedOptions={true}
         isMulti={true}
