@@ -16,7 +16,7 @@ function watch(calbacks = []) {
   };
 
   // Watch themes folder
-  const theme = getConfig('shop.theme');
+  const theme = getConfig('system.theme');
   if (theme && existsSync(resolve(CONSTANTS.ROOTPATH, 'themes', theme))) {
     watcher.add(resolve(CONSTANTS.ROOTPATH, 'themes', theme, '**'));
   }

@@ -1,17 +1,17 @@
-const { getConfig } = require('../../../../../lib/util/getConfig');
+const { getSetting } = require('../../../../setting/services/setting');
 
 module.exports = {
   Weight: {
     value: (raw) => {
       return parseFloat(raw);// TODO: Format for decimal value?
     },
-    unit: () => {
-      return getConfig('shop.weightUnit', 'kg');
+    unit: async () => {
+      return await getSetting('weightUnit', 'kg');
     },
-    text: (raw) => {
+    text: async (raw) => {
       const weight = parseFloat(raw);// TODO: Format for decimal value?
-      const unit = getConfig('shop.weightUnit', 'kg');
-      const language = getConfig('shop.language', 'en');
+      const unit = await getSetting('weightUnit', 'kg');
+      const language = await getSetting('storeLanguage', 'en');
       // Localize the weight
       return new Intl.NumberFormat(language, { style: 'unit', unit }).format(weight);
     }

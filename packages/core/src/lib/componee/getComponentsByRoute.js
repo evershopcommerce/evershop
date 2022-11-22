@@ -36,7 +36,7 @@ exports.getComponentsByRoute = function getComponentsByRoute(route) {
     return components; // We currently don't have any admin theme
   } else {
     // Get current theme
-    const theme = getConfig('shop.theme');
+    const theme = getConfig('system.theme');
     if (!theme) {
       return components;
     }

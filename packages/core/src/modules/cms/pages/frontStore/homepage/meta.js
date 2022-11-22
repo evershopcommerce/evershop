@@ -1,11 +1,11 @@
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { getConfig } = require('../../../../../lib/util/getConfig');
 const { setContextValue } = require('../../../../graphql/services/contextHelper');
+const { getSetting } = require('../../../../setting/services/setting');
 
 module.exports = async (request, response) => {
   setContextValue(request, 'pageInfo', {
-    title: getConfig('shop.description', 'EverShop'),
-    description: getConfig('shop.description', 'An e-commerce platform with Node and MySQL'),
+    title: await getSetting('storeName', 'EverShop'),
+    description: await getSetting('storeDescription', 'An e-commerce platform with Node and MySQL'),
     url: buildUrl('homepage')
   });
 };

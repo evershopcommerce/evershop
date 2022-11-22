@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 const isEqualWith = require('lodash/isEqualWith');
-const config = require('config');
 const { select, del } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 const { DataObject } = require('./DataObject');
 const { Item } = require('./Item');
 const { toPrice } = require('../toPrice');
 const { v4: uuidv4 } = require('uuid');
+const { getSetting } = require('../../../setting/services/setting');
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
@@ -44,7 +44,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'currency',
       async resolver() {
-        return config.get('shop.currency');
+        return await getSetting('storeCurrency', 'USD');
       }
     },
     {

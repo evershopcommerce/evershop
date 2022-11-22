@@ -1,6 +1,6 @@
 const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
-const { getConfig } = require('../../../../../lib/util/getConfig');
+const { getSetting } = require('../../../../setting/services/setting');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async function lifetimeSales(request, response, delegate, next) {
@@ -18,8 +18,8 @@ module.exports = async function lifetimeSales(request, response, delegate, next)
     if (result.payment_status === 'paid' && result.shipment_status === 'delivered') { completed += 1; }
     if (result.payment_status === 'cancelled' && result.shipment_status === 'cancelled') { cancelled += 1; }
   });
-  const currency = getConfig('shop.currency', 'USD');
-  const language = getConfig('shop.language', 'en');
+  const currency = await getSetting('storeCurrency', 'USD');
+  const language = await getSetting('storeLanguage', 'en');
   const formatedTotal = new Intl.NumberFormat(language, { style: 'currency', currency }).format(total);
 
   response.json({

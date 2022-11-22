@@ -22,8 +22,6 @@ function error(message) {
   var db;
   // eslint-disable-next-line no-var
   var adminUser;
-  // eslint-disable-next-line no-var
-  var shop;
 
   // eslint-disable-next-line no-console
   console.log(boxen(green('Welcome to EverShop - The open-source e-commerce platform'), {
@@ -134,42 +132,6 @@ function error(message) {
     process.exit(0);
   }
 
-  const shopQuestions = [
-    {
-      type: 'input',
-      name: 'shopTitle',
-      message: 'Your shop title'
-    },
-    {
-      type: 'input',
-      name: 'shopDesc',
-      message: 'How you describe your shop?'
-    },
-    {
-      type: 'input',
-      name: 'shopCurrency',
-      message: 'Your currency',
-      initial: 'usd'
-    },
-    {
-      type: 'input',
-      name: 'shopLanguage',
-      message: 'Shop language',
-      initial: 'en'
-    },
-    {
-      type: 'input',
-      name: 'shopTimeZone',
-      message: 'Shop TimeZone'
-    }
-  ];
-
-  try {
-    shop = await prompt(shopQuestions);
-  } catch (e) {
-    process.exit(0);
-  }
-
   /* Start installation */
   const messages = [];
   messages.push(`\n\n${green('EverShop is being installed ☕ ☕ ☕')}`);
@@ -191,16 +153,6 @@ function error(message) {
     database: db.databaseName,
     user: db.databaseUser,
     password: db.databasePassword
-  };
-
-  // Update shop information
-  configuration.shop = {
-    title: shop.shopTitle,
-    description: shop.shopDesc,
-    currency: shop.shopCurrency,
-    weightUnit: 'kg',
-    language: shop.shopLanguage,
-    timezone: shop.shopTimeZone
   };
 
   // Create a configuration file
