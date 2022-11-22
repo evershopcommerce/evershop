@@ -16,6 +16,7 @@ import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
 import ShipmentStatusRow from './rows/ShipmentStatus';
 import PaymentStatusRow from './rows/PaymentStatus';
 import TotalRow from './rows/TotalRow';
+import CreateAt from '../../../../customer/pages/admin/customerGrid/rows/CreateAt';
 
 function Actions({ selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
@@ -153,7 +154,7 @@ export default function OrderGrid({ orders: { items: orders, total, currentFilte
                       sortOrder: 5
                     },
                     {
-                      component: { default: ({ areaProps }) => <DateRow id='createdAt' areaProps={areaProps} /> },
+                      component: { default: ({ areaProps }) => <CreateAt time={o.createdAt.text} /> },
                       sortOrder: 10
                     },
                     {
@@ -197,7 +198,10 @@ export const query = `
       items {
         orderId
         orderNumber
-        createdAt
+        createdAt {
+          value
+          text
+        }
         customerEmail
         shipmentStatus {
           name
