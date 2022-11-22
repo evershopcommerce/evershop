@@ -99,7 +99,7 @@ export default function CategoryGrid({ categories: { items: categories, total, c
               coreComponents={
                 [
                   {
-                    component: { default: () => <BasicColumnHeader title="Product Name" id='name' currentFilters={currentFilters} /> },
+                    component: { default: () => <BasicColumnHeader title="Category Name" id='name' currentFilters={currentFilters} /> },
                     sortOrder: 10
                   },
                   {
