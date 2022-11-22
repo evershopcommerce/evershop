@@ -39,6 +39,7 @@ function SKUPriceWeight({ sku, price, weight, setting }) {
           placeholder="Weight"
           label="Weight"
           type="text"
+          validationRules={['notEmpty']}
           suffix={setting.weightUnit}
         />
       </div>
