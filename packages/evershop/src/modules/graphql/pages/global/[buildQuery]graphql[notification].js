@@ -6,13 +6,7 @@ const isDevelopmentMode = require('../../../../lib/util/isDevelopmentMode');
 var { validate } = require('graphql/validation');
 
 module.exports = async function graphql(request, response, delegate, next) {
-  const promises = [];
-  Object.keys(delegate).forEach((id) => {
-    // Check if middleware is async
-    if (delegate[id] instanceof Promise) {
-      promises.push(delegate[id]);
-    }
-  });
+  // TODO: Should we wait for previous async middlewares?
   try {
     const { body } = request;
     const { graphqlQuery, graphqlVariables, propsMap } = body;
