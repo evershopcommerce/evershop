@@ -1,5 +1,5 @@
 const { execute } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/core/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = async () => {

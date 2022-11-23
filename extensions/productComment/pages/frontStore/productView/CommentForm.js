@@ -1,6 +1,6 @@
 import React from 'react';
-import { Form } from '@evershop/core/src/lib/components/form/Form';
-import { Field } from '@evershop/core/src/lib/components/form/Field';
+import { Form } from '@evershop/evershop/src/lib/components/form/Form';
+import { Field } from '@evershop/evershop/src/lib/components/form/Field';
 
 export default function ComponentForm({ action, product }) {
   const [error, setError] = React.useState(null);

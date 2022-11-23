@@ -1,4 +1,4 @@
-const { pool } = require('@evershop/core/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const { insert } = require('@evershop/mysql-query-builder');
 
 module.exports = async function graphql(request, response, delegate, next) {
