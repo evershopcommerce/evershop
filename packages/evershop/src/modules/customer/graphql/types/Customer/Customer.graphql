@@ -1,0 +1,24 @@
+type Customer {
+  customerId: Int!
+  uuid: String!
+  status: Int!
+  email: String!
+  fullName: String!
+  createdAt: Date!
+  url: String!
+  editUrl: String!
+  group: CustomerGroup
+  orders: [Order]
+}
+
+type CustomerCollection {
+  items: [Customer]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  customer(id: String): Customer,
+  customers(filters: [FilterInput]): CustomerCollection
+}

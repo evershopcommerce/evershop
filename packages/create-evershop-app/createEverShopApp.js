@@ -235,13 +235,13 @@ function run(
   playAround
 ) {
   console.log(
-    `Installing ${chalk.cyan('@evershop/core')}`
+    `Installing ${chalk.cyan('@evershop/evershop')}`
   );
   checkIfOnline(useYarn).then(isOnline => ({
     isOnline
   }))
     .then(({ isOnline }) => {
-      const allDependencies = ['@evershop/core'];
+      const allDependencies = ['@evershop/evershop'];
       return install(root, useYarn, allDependencies, verbose, isOnline).then(
         async () => {
           await setUpEverShop(playAround, root);
@@ -552,7 +552,7 @@ async function setUpEverShop(playAround, projectDir) {
     console.log(
       `${chalk.green('✔ Create the migration table')}`
     );
-    const { createMigrationTable } = require(path.resolve(projectDir, 'node_modules/@evershop/core/bin/install/createMigrationTable'));
+    const { createMigrationTable } = require(path.resolve(projectDir, 'node_modules/@evershop/evershop/bin/install/createMigrationTable'));
 
     const pool = mysql.createPool({
       host: 'db.cloud.evershop.io',
@@ -568,8 +568,8 @@ async function setUpEverShop(playAround, projectDir) {
     console.log(
       `${chalk.green('✔ Running the database migration')}`
     );
-    const { migrate } = require(path.resolve(projectDir, 'node_modules/@evershop/core/bin/install/migrate'));
-    await migrate(pool, path.resolve(projectDir, 'node_modules/@evershop/core/src/modules'));
+    const { migrate } = require(path.resolve(projectDir, 'node_modules/@evershop/evershop/bin/install/migrate'));
+    await migrate(pool, path.resolve(projectDir, 'node_modules/@evershop/evershop/src/modules'));
     console.log(boxen(chalk.green(
       `Your shop is successfully installed!. Please go to ${projectDir} and run '${chalk.green(`npm run build`)}'` +
       ` and then run '${chalk.green(`npm run start`)}' to start your EverShop app.`
@@ -600,7 +600,7 @@ async function setUpEverShop(playAround, projectDir) {
 }
 
 function loadConfigTemplate(projectDir) {
-  return JSON.parse(readFileSync(path.resolve(projectDir, './node_modules/@evershop/core/bin/install/templates/config.json'), 'utf-8'));
+  return JSON.parse(readFileSync(path.resolve(projectDir, './node_modules/@evershop/evershop/bin/install/templates/config.json'), 'utf-8'));
 }
 
 async function createConfigFile(projectDir, data) {

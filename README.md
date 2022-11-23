@@ -1,6 +1,6 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 <p align="center">
-  <h1 align="center">A Full Stack React Ecommerce Template For Developers</h1>
+  <h1 align="center">Lightweight, modular, extendable React ecommerce platform.</h1>
 </p>
 <p align="center">
     <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a>

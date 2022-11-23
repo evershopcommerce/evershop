@@ -1,4 +1,4 @@
-const { camelCase } = require('@evershop/core/src/lib/util/camelCase');
+const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { select } = require('@evershop/mysql-query-builder');
 
 module.exports = {
