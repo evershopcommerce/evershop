@@ -23,6 +23,10 @@ module.exports = async (request, response, delegate) => {
   await del('product_category').where('product_id', '=', productId).execute(connection, false);
   // Add new 
   for (let i = 0; i < categories.length; i++) {
-    await insert('product_category').given({ product_id: productId, category_id: categories[i] }).execute(connection, false);
+    if (categories[i]) {
+      await insert('product_category')
+        .given({ product_id: productId, category_id: categories[i] })
+        .execute(connection, false);
+    }
   }
 };
