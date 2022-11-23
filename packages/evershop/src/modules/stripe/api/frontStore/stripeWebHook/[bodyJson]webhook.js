@@ -1,14 +1,10 @@
 /* eslint-disable import/order */
 const {
-  insert, startTransaction, update, commit, rollback
+  insert, startTransaction, update, commit, rollback, select
 } = require('@evershop/mysql-query-builder');
 const { getConnection } = require('../../../../../lib/mysql/connection');
-
-const stripe = require('stripe')('sk_test_51Jdo9iEvEMCuLU1xZvrPhTSU4TsvSqRWyGorConYNrNFeSPxXdeJWZ5X1CNQ3dvruG56JvHIKOtD2D6oZGL0eHMR00cXfMu2hW');
-
-// Webhook enpoint secret
-// TODO: to be configured
-const endpointSecret = 'whsec_pIiChJj8g5eihx1ZiG5nwogxVq7pX35Y';
+const { getConfig } = require('../../../../../lib/util/getConfig');
+const { getSetting } = require('../../../../setting/services/setting');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
@@ -17,6 +13,23 @@ module.exports = async (request, response, stack, next) => {
   let event;
   const connection = await getConnection();
   try {
+    const stripeConfig = getConfig('system.stripe', {});
+    let stripeSecretKey;
+    if (stripeConfig.secretKey) {
+      stripeSecretKey = stripeConfig.secretKey;
+    } else {
+      stripeSecretKey = await getSetting('stripeSecretKey', '');
+    }
+    const stripe = require('stripe')(stripeSecretKey);
+
+    // Webhook enpoint secret
+    let endpointSecret;
+    if (stripeConfig.endpointSecret) {
+      endpointSecret = stripeConfig.endpointSecret;
+    } else {
+      endpointSecret = await getSetting('stripeEndpointSecret', '');
+    }
+
     event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
     await startTransaction(connection);
     // Handle the event
@@ -24,13 +37,18 @@ module.exports = async (request, response, stack, next) => {
       case 'payment_intent.succeeded': {
         const paymentIntent = event.data.object;
         const { orderId } = paymentIntent.metadata;
+        // Load the order
+        const order = await select()
+          .from('order')
+          .where('uuid', '=', orderId)
+          .load(connection);
 
         // Update the order
         // Create payment transaction
         await insert('payment_transaction')
           .given({
             amount: paymentIntent.amount,
-            payment_transaction_order_id: orderId,
+            payment_transaction_order_id: order.order_id,
             transaction_id: paymentIntent.id,
             transaction_type: 'online',
             payment_action: paymentIntent.capture_method === 'automatic' ? 'Capture' : 'Authorize'
@@ -40,13 +58,13 @@ module.exports = async (request, response, stack, next) => {
         // Update the order status
         await update('order')
           .given({ payment_status: 'paid' })
-          .where('order_id', '=', orderId)
+          .where('order_id', '=', order.order_id)
           .execute(connection);
 
         // Add an activity log
         await insert('order_activity')
           .given({
-            order_activity_order_id: orderId,
+            order_activity_order_id: order.order_id,
             comment: `Customer paid by using credit card. Transaction ID: ${paymentIntent.id}`,
             customer_notified: 0
           })

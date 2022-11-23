@@ -3,7 +3,7 @@ import { Field } from '../../../../../lib/components/form/Field';
 import { Toggle } from '../../../../../lib/components/form/fields/Toggle';
 import { Card } from '../../../../cms/components/admin/Card';
 
-export default function StripePayment({ setting: { stripePaymentStatus, stripeDislayName, stripePublishableKey, stripeSecretKey } }) {
+export default function StripePayment({ setting: { stripePaymentStatus, stripeDislayName, stripePublishableKey, stripeSecretKey, stripeEndpointSecret } }) {
   return <Card
     title={"Stripe Payment"}
   >
@@ -65,6 +65,21 @@ export default function StripePayment({ setting: { stripePaymentStatus, stripeDi
         </div>
       </div>
     </Card.Session>
+    <Card.Session >
+      <div className='grid grid-cols-3 gap-2'>
+        <div className='col-span-1 items-center flex'>
+          <h4>Webhook Secret Key</h4>
+        </div>
+        <div className='col-span-2'>
+          <Field
+            type="text"
+            name="stripeEndpointSecret"
+            placeholder="Secret Key"
+            value={stripeEndpointSecret}
+          />
+        </div>
+      </div>
+    </Card.Session>
   </Card>;
 }
 
@@ -80,6 +95,7 @@ export const query = `
       stripePaymentStatus
       stripePublishableKey
       stripeSecretKey
+      stripeEndpointSecret
     }
   }
 `;
