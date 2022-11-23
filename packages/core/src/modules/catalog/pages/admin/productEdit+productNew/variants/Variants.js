@@ -138,9 +138,6 @@ export function Variants({ variantAttributes, variantProducts }) {
           ))}
         </div>
       </Card.Session>
-      <Card.Session>
-        <Search addVariant={addVariant} variants={variants} />
-      </Card.Session>
     </div>
   );
 }

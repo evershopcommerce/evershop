@@ -77,7 +77,19 @@ module.exports = async (request, response, stack, next) => {
               title: pv.meta_title || pv.name,
               description: pv.meta_description || pv.short_description
             });
+          } else {
+            setContextValue(request, 'productId', product.product_id);
+            setContextValue(request, 'pageInfo', {
+              title: product.meta_title || product.name,
+              description: product.meta_description || product.short_description
+            });
           }
+        } else {
+          setContextValue(request, 'productId', product.product_id);
+          setContextValue(request, 'pageInfo', {
+            title: product.meta_title || product.name,
+            description: product.meta_description || product.short_description
+          });
         }
       }
       next();

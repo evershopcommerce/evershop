@@ -12,29 +12,7 @@ function isSelected(attributeCode, optionId, currentFilters = {}) {
 }
 
 function isAvailable(attributeCode, optionId, variants, currentFilters = {}) {
-  let availableVars = [];
-  if (Object.keys(currentFilters).length === 0) {
-    availableVars = variants;
-  } else {
-    variants.forEach((v) => {
-      const vAttrs = v.attributes;
-      let flag = true;
-      for (const attr of Object.keys(currentFilters)) {
-        const option = vAttrs.find((a) => a.attributeCode === attr);
-        if (attr !== attributeCode
-          && parseInt(option.optionId, 10) !== parseInt(currentFilters[attr], 10)) {
-          flag = false;
-        }
-      }
-      if (flag === true) availableVars.push(v);
-    });
-  }
-  return availableVars.find(
-    (a) => a.attributes.find(
-      (at) => at.attributeCode === attributeCode
-        && parseInt(at.optionId, 10) === parseInt(optionId, 10)
-    ) !== undefined
-  );
+  return true; // TODO: Complete me
 }
 
 export default function Variants({ product: { variantGroup: vs }, pageInfo: { url } }) {
@@ -110,7 +88,9 @@ export default function Variants({ product: { variantGroup: vs }, pageInfo: { ur
             <ul className="variant-option-list flex justify-start">
               {options.map((o) => {
                 let className = 'mr-05';
-                if (isSelected(a.attributeCode, o.optionId, variantFilters)) className = 'selected mr-05';
+                if (isSelected(a.attributeCode, o.optionId, variantFilters)) {
+                  className = 'selected mr-05';
+                }
                 if (isAvailable(a.attributeCode, o.optionId, variants, variantFilters)) {
                   return (
                     <li key={o.optionId} className={className}>

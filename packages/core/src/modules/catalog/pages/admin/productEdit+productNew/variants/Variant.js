@@ -129,7 +129,6 @@ export function Variant({
 
             <div>
               <div>Actions</div>
-              <div><a href="#" className="text-critical" onClick={(e) => { e.preventDefault(); onUnlink(e); }}>Unlink</a></div>
               <div>{variant.editUrl && <a href={variant.editUrl} target="_blank" rel="noreferrer">Edit</a>}</div>
             </div>
           </div>
