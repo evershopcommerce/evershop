@@ -32,17 +32,6 @@ export default function General({
       sortOrder: 10
     },
     {
-      component: { default: Field },
-      props: {
-        id: 'status',
-        type: 'radio',
-        name: 'status',
-        label: 'Status',
-        options: [{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }]
-      },
-      sortOrder: 30
-    },
-    {
       component: { default: TextArea },
       props: {
         id: 'description',
@@ -53,7 +42,7 @@ export default function General({
         uploadApi,
         folderCreateApi
       },
-      sortOrder: 70
+      sortOrder: 30
     }
   ].filter((f) => {
     // eslint-disable-next-line no-param-reassign

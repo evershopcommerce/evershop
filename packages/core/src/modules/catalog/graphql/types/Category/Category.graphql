@@ -2,6 +2,7 @@ type Category {
   categoryId: ID!
   name: String!
   status: Int!
+  includeInNav: Int!
   description: String
   urlKey: String
   metaTitle: String
