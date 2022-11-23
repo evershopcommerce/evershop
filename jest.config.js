@@ -1,7 +1,7 @@
 const config = {
   verbose: true,
   setupFilesAfterEnv: [require.resolve('regenerator-runtime/runtime')],
-  testMatch: ['**/packages/core/src/**/tests/unit/*.[jt]s?(x)'],
+  testMatch: ['**/packages/evershop/src/**/tests/unit/*.[jt]s?(x)'],
   coveragePathIgnorePatterns: [
     '<rootDir>/.evershop/',
     '<rootDir>/node_modules/',
