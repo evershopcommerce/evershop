@@ -19,7 +19,7 @@ function Edit({ user, setContactInfoUrl, email, setEmail, cartId, loginUrl }) {
         return;
       }
       // Post fetch to set contact info
-      const response = await fetch(setContactUrl, {
+      const response = await fetch(setContactInfoUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ function Edit({ user, setContactInfoUrl, email, setEmail, cartId, loginUrl }) {
 }
 
 Edit.propTypes = {
-  setContactUrl: PropTypes.string.isRequired
+  setContactInfoUrl: PropTypes.string.isRequired
 };
 
 export default function ContactInformationStep({ setContactInfoUrl, cart: { customerEmail }, user, loginUrl }) {
