@@ -132,6 +132,7 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`customer_group\` (
   \`customer_group_id\` int(10) unsigned NOT NULL,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`group_name\` char(255) NOT NULL,
   \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
   \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -143,6 +144,7 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`product\` (
   \`product_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`variant_group_id\` int(10) unsigned DEFAULT NULL,
   \`visibility\` smallint(2) DEFAULT NULL,
   \`group_id\` int(10) unsigned DEFAULT NULL,
@@ -247,6 +249,7 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`category\` (
   \`category_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`status\` smallint(6) NOT NULL,
   \`parent_id\` int(10) unsigned DEFAULT NULL,
   \`include_in_nav\` smallint(5) unsigned NOT NULL,

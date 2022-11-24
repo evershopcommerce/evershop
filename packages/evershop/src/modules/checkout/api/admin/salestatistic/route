@@ -1,2 +1,2 @@
-POST
-/salestatistic/:period
+GET
+/salestatistic

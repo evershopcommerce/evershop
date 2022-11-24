@@ -5,7 +5,7 @@ const { pool } = require('../../../../../lib/mysql/connection');
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
   response.$body = [];
-  const { period } = request.params;
+  const { period = 'weekly' } = request.query;
   let i = 5;
   const result = [];
   const today = dayjs().format('YYYY-MM-DD').toString();

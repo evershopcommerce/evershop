@@ -5,6 +5,7 @@ const { pool } = require('../../../lib/mysql/connection');
 module.exports = exports = async () => {
   await execute(pool, `CREATE TABLE \`coupon\` (
   \`coupon_id\` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`status\` smallint(6) NOT NULL DEFAULT 1,
   \`description\` char(255) NOT NULL,
   \`discount_amount\` decimal(12,4) NOT NULL,

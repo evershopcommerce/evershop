@@ -5,6 +5,8 @@ const { pool } = require('../../../lib/mysql/connection');
 module.exports = exports = async () => {
   await execute(pool, `CREATE TABLE \`cart\` (
   \`cart_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
+  \`sid\` varchar(255) DEFAULT NULL,
   \`currency\` varchar(11) NOT NULL,
   \`customer_id\` int(10) unsigned DEFAULT NULL,
   \`customer_group_id\` smallint(6) DEFAULT NULL,
@@ -36,6 +38,7 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`cart_address\` (
   \`cart_address_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`full_name\` varchar(255) DEFAULT NULL,
   \`postcode\` varchar(255) DEFAULT NULL,
   \`telephone\` varchar(255) DEFAULT NULL,
@@ -50,10 +53,12 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`cart_item\` (
   \`cart_item_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`cart_id\` int(10) unsigned NOT NULL,
   \`product_id\` int(10) unsigned NOT NULL,
   \`product_sku\` varchar(255) NOT NULL,
   \`product_name\` text NOT NULL,
+  \`thumbnail\` varchar(255) DEFAULT NULL,
   \`product_weight\` decimal(12,4) DEFAULT NULL,
   \`product_price\` decimal(12,4) NOT NULL,
   \`product_price_incl_tax\` decimal(12,4) NOT NULL,
@@ -79,6 +84,8 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`order\` (
   \`order_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
+  \`sid\` varchar(255) DEFAULT NULL,
   \`order_number\` varchar(255) NOT NULL,
   \`cart_id\` int(10) unsigned NOT NULL,
   \`currency\` varchar(11) NOT NULL,
@@ -127,6 +134,7 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`order_address\` (
   \`order_address_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`full_name\` varchar(255) DEFAULT NULL,
   \`postcode\` varchar(255) DEFAULT NULL,
   \`telephone\` varchar(255) DEFAULT NULL,
@@ -141,11 +149,13 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`order_item\` (
   \`order_item_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`order_item_order_id\` int(10) unsigned NOT NULL,
   \`product_id\` int(10) unsigned NOT NULL,
   \`referer\` int(10) unsigned DEFAULT NULL,
   \`product_sku\` varchar(255) NOT NULL,
   \`product_name\` text NOT NULL,
+  \`thumbnail\` varchar(255) DEFAULT NULL,
   \`product_weight\` decimal(12,4) DEFAULT NULL,
   \`product_price\` decimal(12,4) NOT NULL,
   \`product_price_incl_tax\` decimal(12,4) NOT NULL,
@@ -170,6 +180,7 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`payment_transaction\` (
   \`payment_transaction_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`payment_transaction_order_id\` int(10) unsigned NOT NULL,
   \`transaction_id\` varchar(100) DEFAULT NULL,
   \`transaction_type\` char(255) NOT NULL,
@@ -186,6 +197,7 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`shipment\` (
   \`shipment_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`shipment_order_id\` int(10) unsigned NOT NULL,
   \`carrier_name\` varchar(255) DEFAULT NULL,
   \`tracking_number\` varchar(255) DEFAULT NULL,

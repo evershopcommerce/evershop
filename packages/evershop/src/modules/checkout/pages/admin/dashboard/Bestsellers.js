@@ -13,7 +13,7 @@ export default function BestSellers({ api }) {
   React.useEffect(() => {
     if (window !== undefined) {
       fetch(api, {
-        method: 'POST', // or 'PUT'
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
