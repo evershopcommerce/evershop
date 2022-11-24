@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "dev": "evershop dev",
-    "install": "evershop install",
+    "setup": "evershop install",
     "build": "evershop build",
     "start": "evershop start",
     "test": "jest --workspace=@evershop/evershop",
