@@ -56,6 +56,7 @@ export const query = `
     order(id: getContextValue("orderId")) {
       customerFullName
       customerEmail
+      customerUrl
       shippingAddress {
         fullName
         city
