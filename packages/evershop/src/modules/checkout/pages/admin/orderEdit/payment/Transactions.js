@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export function Transactions({ transactions }) {
-  const paidAmount = '';
+  let paidAmount = '';
   transactions.forEach(transaction => {
-    if (transaction.transactionType.toUpperCase() === 'CAPTURE') {
+    if (transaction.paymentAction.toUpperCase() === 'CAPTURE') {
       paidAmount = transaction.amount.text; // TODO: How about partial captures?
     }
   });
