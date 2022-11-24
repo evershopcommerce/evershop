@@ -1,14 +1,4 @@
 {
-    "shop": {
-        "title": "EverShop",
-        "description": "An E-commerce platform using ReactJS and MySQL",
-        "currency": "USD",
-        "weightUnit": "kg",
-        "language": "fr",
-        "timezone": "America/New_York",
-        "adminTheme": "default",
-        "siteTheme": "justatheme"
-    },
     "catalog": {
         "product": {
             "image": {

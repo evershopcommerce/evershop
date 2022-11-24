@@ -159,7 +159,11 @@ module.exports = {
       return address ? camelCase(address) : null;
     },
     activities: async ({ orderId }, { }, { pool }) => {
-      const activities = await select().from('order_activity').where('order_activity_order_id', '=', orderId).execute(pool);
+      const query = select()
+        .from('order_activity');
+      query.where('order_activity_order_id', '=', orderId)
+      query.orderBy('order_activity_id', 'DESC');
+      const activities = await query.execute(pool);
       return activities ? activities.map((activity) => camelCase(activity)) : null;
     },
     shipment: async ({ orderId }, { }, { pool }) => {

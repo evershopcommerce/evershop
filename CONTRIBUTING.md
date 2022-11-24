@@ -37,7 +37,7 @@ To develop locally:
    ```
 5. Run installation command to create a database schema:
    ```
-   npm run install
+   npm run setup
    ```
 6. Start development server:
    ```
