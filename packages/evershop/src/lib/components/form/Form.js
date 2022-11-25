@@ -119,7 +119,9 @@ export function Form(props) {
         // Get the first element with the name of the field with error
         const firstElementWithError = document.getElementsByName(firstFieldWithError)[0];
         // Focus on the first element with error
-        firstElementWithError.focus();
+        if (firstElementWithError) {
+          firstElementWithError.focus();
+        }
       }
     } catch (error) {
       if (onError) {
