@@ -5,6 +5,7 @@ const { pool } = require('../../../lib/mysql/connection');
 module.exports = exports = async () => {
   await execute(pool, `CREATE TABLE \`customer\` (
   \`customer_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`status\` smallint(6) NOT NULL DEFAULT 1,
   \`group_id\` int(10) unsigned DEFAULT NULL,
   \`email\` char(255) NOT NULL,
@@ -21,6 +22,7 @@ module.exports = exports = async () => {
 
   await execute(pool, `CREATE TABLE \`customer_address\` (
   \`customer_address_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`customer_id\` int(10) unsigned NOT NULL,
   \`full_name\` varchar(255) DEFAULT NULL,
   \`telephone\` varchar(255) DEFAULT NULL,

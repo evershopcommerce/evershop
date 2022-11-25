@@ -5,6 +5,7 @@ const { pool } = require('../../../lib/mysql/connection');
 module.exports = exports = async () => {
   await execute(pool, `CREATE TABLE \`cms_page\` (
   \`cms_page_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`layout\` varchar(255) NOT NULL,
   \`status\` smallint(6) DEFAULT NULL,
   \`created_at\` datetime DEFAULT NULL,

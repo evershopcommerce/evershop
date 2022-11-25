@@ -14,12 +14,11 @@ export default function SaleStatistic({ api }) {
 
   useEffect(() => {
     if (window !== undefined) {
-      fetch(api.replace('monthly', period).replace('weekly', period).replace('daily', period), {
-        method: 'POST', // or 'PUT'
+      fetch((api + `?period=${period}`), {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+        }
       })
         .then((response) => response.json())
         .then((json) => {
