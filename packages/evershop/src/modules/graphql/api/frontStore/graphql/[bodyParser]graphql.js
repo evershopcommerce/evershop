@@ -17,6 +17,14 @@ module.exports = async function graphql(request, response, delegate, next) {
       }
     });
 
+    if (!query) {
+      response.json({
+        success: true,
+        data: {}
+      });
+      return;
+    }
+
     const document = parse(query);
     // Validate the query
     const validationErrors = validate(schema, document);

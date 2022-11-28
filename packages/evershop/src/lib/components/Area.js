@@ -34,7 +34,7 @@ function Area(props) {
 
   return (
     <WrapperComponent {...areaWrapperProps}>
-      {areaComponents.map((w) => {
+      {areaComponents.map((w, index) => {
         const C = w.component.default;
         const id = w.id;
         const propsMap = context.propsMap;
@@ -48,8 +48,8 @@ function Area(props) {
         if (w.props) {
           Object.assign(componentProps, w.props);
         }
-        if (typeof C === 'string') return <C key={w.id} {...componentProps} />;
-        return <C key={w.id} areaProps={props} {...componentProps} />;
+        if (typeof C === 'string') return <C key={index} {...componentProps} />;
+        return <C key={index} areaProps={props} {...componentProps} />;
       })}
     </WrapperComponent>
   );

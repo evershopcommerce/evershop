@@ -7,6 +7,7 @@ export default function SeoMeta({ pageInfo: { title, description } }) {
   return <>
     <Title title={title} />
     <Meta name="description" content={description} />
+    <Meta name="viewport" content='width=device-width, initial-scale=1.0' />
   </>
 }
 
