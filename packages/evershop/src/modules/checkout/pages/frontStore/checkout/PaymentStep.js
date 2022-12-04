@@ -25,7 +25,7 @@ export default function PaymentStep({ setBillingAddressAPI, setPaymentInfoAPI, c
 
   return (
     <div className="checkout-payment checkout-step">
-      {display && <StepContent cart={cart} step={step} setPaymentInfoAPI={setPaymentInfoAPI} setBillingAddressAPI={setBillingAddressAPI} />}
+      {display && <StepContent cart={cart} step={step} setPaymentInfoAPI={setPaymentInfoAPI} />}
     </div>
   );
 }
@@ -38,7 +38,6 @@ export const layout = {
 export const query = `
   query Query {
     setPaymentInfoAPI: url(routeId: "checkoutSetPaymentInfo")
-    setBillingAddressAPI: url(routeId: "checkoutSetBillingAddressInfo")
     cart {
       billingAddress {
         cartAddressId

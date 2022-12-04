@@ -7,9 +7,9 @@ import { BillingAddress } from './BillingAddress';
 import { useCheckout } from '../../../../../../../lib/context/checkout';
 import { Field } from '../../../../../../../lib/components/form/Field';
 import { Radio } from '../../../../../../../lib/components/form/fields/Radio';
+import Button from '../../../../../../../lib/components/form/Button';
 
 export function StepContent({
-  setBillingAddressAPI,
   setPaymentInfoAPI,
   cart: {
     billingAddress
@@ -17,22 +17,13 @@ export function StepContent({
 }) {
   const { completeStep } = useCheckoutStepsDispatch();
   const [useShippingAddress, setUseShippingAddress] = useState(!billingAddress);
-  const [billingCompleted, setBillingCompleted] = useState(false);
-  const [paymentMethodCompleted, setPaymentMethodCompleted] = useState(false);
   const { cartId, paymentMethods, getPaymentMethods, setPaymentMethods } = useCheckout();
 
   const onSuccess = (response) => {
     if (response.success === true) {
-      setBillingCompleted(true);
-    } else {
-      setBillingCompleted(false);
+      completeStep('payment');
     }
   };
-
-  useEffect(() => {
-    if (billingCompleted && paymentMethodCompleted)
-      completeStep('payment');
-  }, [billingCompleted, paymentMethodCompleted]);
 
   useEffect(() => {
     getPaymentMethods();
@@ -42,12 +33,9 @@ export function StepContent({
     <div>
       <Form
         method="POST"
-        action={setBillingAddressAPI}
+        action={setPaymentInfoAPI}
         onSuccess={onSuccess}
-        onError={() => {
-          setBillingCompleted(false);
-        }}
-        id="checkoutBillingAddressForm"
+        id="checkoutPaymentForm"
         submitBtn={false}
         isJSON={true}
       >
@@ -67,24 +55,7 @@ export function StepContent({
             allowCountries={['US', 'FR', 'CN', 'IN']}
           />
         )}
-      </Form>
 
-      <Form
-        method="POST"
-        action={setPaymentInfoAPI}
-        id="checkoutPaymentMethods"
-        onSuccess={(response) => {
-          if (response.success === true) {
-            setPaymentMethodCompleted(true);
-          } else {
-            setPaymentMethodCompleted(false);
-          }
-        }}
-        onError={() => {
-          setPaymentMethodCompleted(false);
-        }}
-        submitBtn={false}
-      >
         <h4 className="mb-1 mt-3">Payment Method</h4>
         <Field
           name={'cartId'}
@@ -92,61 +63,42 @@ export function StepContent({
           value={cartId}
         />
         {paymentMethods && paymentMethods.length > 0 && (
-          <div className='divide-y border rounded border-divider p-1 mb-2'>
-            {paymentMethods.map((paymentMethod) => (
-              <div key={paymentMethod.code} className="border-divider">
-                <Radio
-                  name="methodCode"
-                  options={[{ value: paymentMethod.code, text: paymentMethod.name }]}
-                  value={paymentMethods.find((e) => e.selected === true)?.code}
-                  onChange={(value) => {
-                    fetch(setPaymentInfoAPI, {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        cartId,
-                        methodCode: paymentMethod.code,
-                        methodName: paymentMethod.name,
-                      }),
-                    })
-                      .then((response) => response.json())
-                      .then((data) => {
-                        if (!data.success) {
-                          return;
-                        }
-                        setPaymentMethodCompleted(true);
-                        if (value === paymentMethod.code) {
-                          setPaymentMethods((previous) =>
-                            previous.map((e) => {
-                              if (e.code === value) {
-                                e.selected = true;
-                              } else {
-                                e.selected = false;
-                              }
-                              return e;
-                            })
-                          );
-                        }
-                      });
-                  }}
-                />
-                <input type="hidden" value={paymentMethods.find((e) => e.selected === true)?.name} name="methodName" />
-              </div>
-            ))}
-          </div>
+          <>
+            <div className='divide-y border rounded border-divider px-2 mb-2'>
+              {paymentMethods.map((method) => (
+                <div key={method.code} className="border-divider payment-method-list">
+                  <div className='py-1'>
+                    <Area id={`checkoutPaymentMethod${method.code}`} />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Field
+              type='hidden'
+              name='methodCode'
+              value={paymentMethods.find((e) => e.selected === true)?.name}
+              validationRules={[{
+                rule: 'notEmpty',
+                message: 'Please select a payment method'
+              }]}
+            />
+            <input type="hidden" value={paymentMethods.find((e) => e.selected === true)?.name} name="methodName" />
+          </>
         )}
         {paymentMethods.length === 0 && (
           <div className="alert alert-warning">
             No payment methods available
           </div>
         )}
+        <div className="form-submit-button">
+          <Button
+            onAction={
+              () => { document.getElementById('checkoutPaymentForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
+            }
+            title="Place Order"
+          />
+        </div>
       </Form>
-      <Area
-        id="checkoutPaymentMethods"
-        coreComponents={[]}
-      />
     </div>
   );
 }

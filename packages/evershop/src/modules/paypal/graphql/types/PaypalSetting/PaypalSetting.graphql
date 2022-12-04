@@ -1,0 +1,9 @@
+extend type Setting {
+  paypalPaymentStatus: Int
+  paypalDislayName: String
+  paypalClientId: String
+  paypalClientSecret: String
+  paypalWebhookSecret: String
+  paypalPaymentIntent: String
+  paypalEnvironment: String
+}

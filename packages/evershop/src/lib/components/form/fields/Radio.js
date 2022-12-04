@@ -66,7 +66,7 @@ Radio.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     text: PropTypes.string
   })).isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 Radio.defaultProps = {

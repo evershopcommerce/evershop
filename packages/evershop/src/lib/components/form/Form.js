@@ -50,10 +50,22 @@ export function Form(props) {
     const errors = {};
     fields.forEach((f) => {
       f.validationRules.forEach((r) => {
-        const rule = validator.getRule(r);
-        if (rule === undefined) return;
-        if (!rule.handler.call(fields, f.value)) {
-          errors[f.name] = rule.errorMessage;
+        let rule;
+        // Check if r is a string or an object
+        if (typeof r === 'string') {
+          rule = r;
+        } else {
+          rule = r.rule;
+        }
+
+        const ruleValidator = validator.getRule(rule);
+        if (ruleValidator === undefined) return;
+        if (!ruleValidator.handler.call(fields, f.value)) {
+          if (r.message) {
+            errors[f.name] = r.message;
+          } else {
+            errors[f.name] = ruleValidator.errorMessage;
+          }
         }
       });
     });

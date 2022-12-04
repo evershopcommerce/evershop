@@ -9,6 +9,7 @@ import Button from '../../../../../lib/components/form/Button';
 import { get } from '../../../../../lib/util/get';
 import './CheckoutForm.scss';
 import { useQuery } from 'urql';
+import { Field } from '../../../../../lib/components/form/Field';
 
 const cartQuery = `
   query Query($cartId: String) {
@@ -73,17 +74,15 @@ const cardStyle = {
 
 export default function CheckoutForm() {
   const [, setSucceeded] = useState(false);
+  const [cardComleted, setCardCompleted] = useState(false);
   const [error, setError] = useState(null);
-  const [processing, setProcessing] = useState(false);
   const [, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState('');
   const [showTestCard, setShowTestCard] = useState('success');
   const stripe = useStripe();
   const elements = useElements();
   const [billingCompleted] = useState(false);
-  const [paymentMethodCompleted] = useState(false);
   const { cartId, orderId, orderPlaced, paymentMethods, checkoutSuccessUrl } = useCheckout();
-  const [loading, setLoading] = useState(false);
 
   const [result, reexecuteQuery] = useQuery({
     query: cartQuery,
@@ -95,7 +94,7 @@ export default function CheckoutForm() {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the order is placed
-    if (orderPlaced === true) {
+    if (orderId) {
       window
         .fetch('/v1/stripe/paymentIntent', {
           method: 'POST',
@@ -134,10 +133,8 @@ export default function CheckoutForm() {
 
       if (payload.error) {
         setError(`Payment failed ${payload.error.message}`);
-        setProcessing(false);
       } else {
         setError(null);
-        setProcessing(false);
         setSucceeded(true);
         // Redirect to checkout success page
         window.location.href = `${checkoutSuccessUrl}/${orderId}`;
@@ -145,28 +142,24 @@ export default function CheckoutForm() {
     };
 
     if (orderPlaced === true && clientSecret) {
-      setLoading(false);
-      if (processing !== true) {
-        setProcessing(true);
-        pay();
-      }
+      pay();
     }
   }, [orderPlaced, clientSecret, result]);
 
-  const handleChange = async (event) => {
+  const handleChange = (event) => {
     // Listen for changes in the CardElement
     // and display any errors as the customer types their card details
     setDisabled(event.empty);
-    setError(event.error ? event.error.message : '');
+    if (event.complete === true && !event.error) {
+      setCardCompleted(true);
+    }
   };
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    setLoading(true);
     const cardElement = elements.getElement('card');
     if (get(cardElement, '_implementation._complete') !== true) {
       setError('Please complete the card information');
-      setLoading(false);
     } else {
       setError(null);
       if (!billingCompleted) {
@@ -190,7 +183,7 @@ export default function CheckoutForm() {
 
   return (
     // eslint-disable-next-line react/jsx-filename-extension
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <div>
       <div className="stripe-form">
         <div style={{
           border: '1px solid #dddddd',
@@ -253,16 +246,17 @@ export default function CheckoutForm() {
           {error}
         </div>
       )}
-
-      <div className="form-submit-button">
-        <Button
-          onAction={
-            () => { document.getElementById('payment-form').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
+      <Field
+        type='hidden'
+        name='stripeCartComplete'
+        value={cardComleted ? 1 : ''}
+        validationRules={[
+          {
+            rule: 'notEmpty',
+            message: 'Please complete the card information'
           }
-          title="Place Order"
-          isLoading={processing || loading}
-        />
-      </div>
-    </form>
+        ]}
+      />
+    </div>
   );
 }
