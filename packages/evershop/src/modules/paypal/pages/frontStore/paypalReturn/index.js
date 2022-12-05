@@ -21,23 +21,31 @@ module.exports = async (request, response, stack, next) => {
     if (!order) {
       response.redirect(302, buildUrl('homepage'));
     } else {
-      // Call API using Axios to capture/authorize the payment
-      const paymentIntent = await getSetting('paypalPaymentIntent', 'CAPTURE');
-      const response = await axios.post(`${getContextValue(request, 'homeUrl')}${buildUrl(paymentIntent === 'CAPTURE' ? 'paypalCapturePayment' : 'paypalAuthorizePayment')}`,
-        {
-          orderId: orderId,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            // Include all cookies from the current request
-            Cookie: request.headers.cookie
+      try {
+        // Call API using Axios to capture/authorize the payment
+        const paymentIntent = await getSetting('paypalPaymentIntent', 'CAPTURE');
+        const responseData = await axios.post(`${getContextValue(request, 'homeUrl')}${buildUrl(paymentIntent === 'CAPTURE' ? 'paypalCapturePayment' : 'paypalAuthorizePayment')}`,
+          {
+            orderId: orderId,
           },
-        });
-      console.log(response.data);
-      next();
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              // Include all cookies from the current request
+              Cookie: request.headers.cookie
+            },
+          });
+        if (!responseData.data.success) {
+          throw new Error(responseData.data.message);
+        }
+        // Redirect to order success page
+        response.redirect(302, `${buildUrl('checkoutSuccess')}/${orderId}`);
+      } catch (e) {
+        next();
+      }
     }
   } else {
-    next();
+    // Redirect to homepage if no token
+    response.redirect(302, buildUrl('homepage'));
   }
 };

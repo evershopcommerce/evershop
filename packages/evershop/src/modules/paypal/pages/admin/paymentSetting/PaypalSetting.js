@@ -9,8 +9,6 @@ export default function StripePayment(
     paypalDislayName,
     paypalClientId,
     paypalClientSecret,
-    paypalPaymentIntent,
-    paypalWebhookSecret,
     paypalEnvironment
   } }
 ) {
@@ -78,31 +76,6 @@ export default function StripePayment(
     <Card.Session >
       <div className='grid grid-cols-3 gap-2'>
         <div className='col-span-1 items-center flex'>
-          <h4>Payment Action</h4>
-        </div>
-        <div className='col-span-2'>
-          <Field
-            type="radio"
-            name="paypalPaymentIntent"
-            placeholder="Payment Action"
-            value={paypalPaymentIntent}
-            options={[
-              {
-                text: 'Authorization Only',
-                value: 'AUTHORIZE'
-              },
-              {
-                text: 'Capture',
-                value: 'CAPTURE'
-              }
-            ]}
-          />
-        </div>
-      </div>
-    </Card.Session>
-    <Card.Session >
-      <div className='grid grid-cols-3 gap-2'>
-        <div className='col-span-1 items-center flex'>
           <h4>Environment</h4>
         </div>
         <div className='col-span-2'>
@@ -125,21 +98,6 @@ export default function StripePayment(
         </div>
       </div>
     </Card.Session>
-    <Card.Session >
-      <div className='grid grid-cols-3 gap-2'>
-        <div className='col-span-1 items-center flex'>
-          <h4>Webhook Secret ID</h4>
-        </div>
-        <div className='col-span-2'>
-          <Field
-            type="text"
-            name="paypalWebhookSecret"
-            placeholder="Secret Key"
-            value={paypalWebhookSecret}
-          />
-        </div>
-      </div>
-    </Card.Session>
   </Card>;
 }
 
@@ -155,8 +113,6 @@ export const query = `
       paypalDislayName
       paypalClientId
       paypalClientSecret
-      paypalPaymentIntent
-      paypalWebhookSecret
       paypalEnvironment
     }
   }

@@ -18,6 +18,7 @@ export function StepContent({
   const { completeStep } = useCheckoutStepsDispatch();
   const [useShippingAddress, setUseShippingAddress] = useState(!billingAddress);
   const { cartId, paymentMethods, getPaymentMethods, setPaymentMethods } = useCheckout();
+  const [loading, setLoading] = useState(false);
 
   const onSuccess = (response) => {
     if (response.success === true) {
@@ -67,7 +68,7 @@ export function StepContent({
             <div className='divide-y border rounded border-divider px-2 mb-2'>
               {paymentMethods.map((method) => (
                 <div key={method.code} className="border-divider payment-method-list">
-                  <div className='py-1'>
+                  <div className='py-2'>
                     <Area id={`checkoutPaymentMethod${method.code}`} />
                   </div>
                 </div>
@@ -93,9 +94,13 @@ export function StepContent({
         <div className="form-submit-button">
           <Button
             onAction={
-              () => { document.getElementById('checkoutPaymentForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
+              () => {
+                setLoading(true);
+                document.getElementById('checkoutPaymentForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+              }
             }
             title="Place Order"
+            isLoading={loading}
           />
         </div>
       </Form>

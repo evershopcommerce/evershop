@@ -1,2 +1,2 @@
 POST
-/paypal/authorize
+/paypal/capture

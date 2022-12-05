@@ -1,4 +1,4 @@
-const { select } = require('@evershop/mysql-query-builder');
+const { select, update } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 
 module.exports = async (request, response, stack, next) => {
@@ -19,10 +19,7 @@ module.exports = async (request, response, stack, next) => {
         .given({ status: 1 })
         .where('cart_id', '=', order.cart_id)
         .execute(pool);
-    } else {
-      next();
     }
-  } else {
-    next();
   }
+  next();
 };
