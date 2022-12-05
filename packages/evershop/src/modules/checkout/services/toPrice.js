@@ -3,6 +3,7 @@ const { getConfig } = require("../../../lib/util/getConfig");
 module.exports = exports = {};
 
 exports.toPrice = function toPrice(value) {
+  value = value || 0;
   let price = parseFloat(value);
   if (isNaN(price)) {
     throw new Error("Price is not a number");

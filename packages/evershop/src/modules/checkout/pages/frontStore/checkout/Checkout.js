@@ -33,7 +33,7 @@ function Breadcrumb() {
 function CompletedSteps() {
   const steps = useCheckoutSteps();
   const { editStep } = useCheckoutStepsDispatch();
-  const completedSteps = steps.filter(step => step.isCompleted === true);
+  const completedSteps = steps.filter((step, index) => step.isCompleted === true && index < steps.length - 1);
   if (completedSteps.length === 0) {
     return null;
   }

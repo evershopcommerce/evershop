@@ -1,16 +1,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Error from './Error';
 
-export function Hidden({ name, value }) {
+export function Hidden({ name, value, error }) {
   return (
-    <input
-      type="text"
-      id={name}
-      name={name}
-      value={value}
-      readOnly
-      style={{ display: 'none' }}
-    />
+    <>
+      {error && <Error error={error} />}
+      <input
+        type="text"
+        id={name}
+        name={name}
+        value={value}
+        readOnly
+        style={{ display: 'none' }}
+      />
+    </>
   );
 }
 
