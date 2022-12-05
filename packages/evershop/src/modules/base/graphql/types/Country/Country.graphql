@@ -1,8 +1,10 @@
 type Country {
   name: String!
   code: String!
+  provinces: [Province]
 }
 
 extend type Query {
   countries (countries: [String]) : [Country]
+  allowedCountries : [Country]
 }

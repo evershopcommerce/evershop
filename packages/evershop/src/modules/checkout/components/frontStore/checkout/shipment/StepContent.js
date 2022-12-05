@@ -4,7 +4,7 @@ import React from 'react';
 import produce from 'immer';
 import { toast } from 'react-toastify';
 import { useCheckoutStepsDispatch } from '../../../../../../lib/context/checkoutSteps';
-import { CustomerAddressForm } from '../../../../../customer/pages/frontStore/address/AddressForm';
+import CustomerAddressForm from '../../../../../customer/components/Address/AddressForm/Index';
 import { Form } from '../../../../../../lib/components/form/Form';
 import { useClient } from 'urql';
 import { useCheckout } from '../../../../../../lib/context/checkout';
@@ -77,7 +77,6 @@ export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmen
           areaId="checkoutShippingAddressForm"
           address={shipmentInfo.address}
           method={shipmentInfo.method}
-          allowCountries={['US', 'FR', 'CN', 'IN']} // TODO: get from config
         />
       </Form>
     </div>

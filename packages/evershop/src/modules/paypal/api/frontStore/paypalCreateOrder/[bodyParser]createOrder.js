@@ -138,7 +138,8 @@ module.exports = async (request, response, stack, next) => {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${getContextValue(request, 'paypalAccessToken')}`,
-        }
+        },
+        validateStatus: (status) => status < 500,
       }
     );
 
@@ -157,6 +158,7 @@ module.exports = async (request, response, stack, next) => {
         }
       });
     } else {
+      console.log(data);
       response.json({
         success: false,
         message: data.message

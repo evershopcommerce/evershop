@@ -31,7 +31,7 @@ export function AllowCountries({
     <div>
       <div style={{ marginBottom: '0.3rem' }}>Allow Countries</div>
       <Select
-        name='allowCountries'
+        name='allowedCountries'
         options={data.countries}
         hideSelectedOptions={true}
         isMulti={true}
@@ -41,7 +41,7 @@ export function AllowCountries({
   );
 }
 
-export default function StoreSetting({ saveSettingApi, setting: { allowCountries, weightUnit } }) {
+export default function StoreSetting({ saveSettingApi, setting: { allowedCountries, weightUnit } }) {
   return <div className='main-content-inner'>
     <div className='grid grid-cols-6 gap-x-2 grid-flow-row '>
       <div className='col-span-2'>
@@ -63,7 +63,7 @@ export default function StoreSetting({ saveSettingApi, setting: { allowCountries
             <Card.Session title={"Shipping Details"}>
               <div>
                 <AllowCountries
-                  selectedCountries={allowCountries}
+                  selectedCountries={allowedCountries}
                 />
                 <Field
                   name="weightUnit"
@@ -94,7 +94,7 @@ export const query = `
   query Query {
     saveSettingApi: url(routeId: "saveSetting")
     setting {
-      allowCountries
+      allowedCountries
       weightUnit
     }
   }
