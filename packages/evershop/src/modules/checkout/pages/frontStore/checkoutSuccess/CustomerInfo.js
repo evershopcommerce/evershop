@@ -1,6 +1,6 @@
 import React from 'react';
-import { AddressSummary } from '../../../../customer/pages/frontStore/address/AddressSummary';
 import Button from '../../../../../lib/components/form/Button';
+import { AddressSummary } from '../../../../customer/components/Address/AddressSummary';
 
 export default function CustomerInfo({ order: { orderNumber, customerFullName, customerEmail, paymentMethodName, shippingAddress, billingAddress } }) {
   return (

@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import Area from '../../../../../lib/components/Area';
+import Area from '../../../../lib/components/Area';
 
 export function AddressSummary({ address }) {
   return (

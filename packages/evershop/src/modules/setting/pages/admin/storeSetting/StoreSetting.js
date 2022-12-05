@@ -44,10 +44,10 @@ const CurrencyQuery = `
   }
 `;
 
-function Province({ selectedCountry = 'US', selectedProvince, allowCountries = [], fieldName = 'storeProvince' }) {
+function Province({ selectedCountry = 'US', selectedProvince, allowedCountries = [], fieldName = 'storeProvince' }) {
   const [result, reexecuteQuery] = useQuery({
     query: ProvincesQuery,
-    variables: { countries: allowCountries },
+    variables: { countries: allowedCountries },
   });
   const { data, fetching, error } = result;
 
@@ -73,18 +73,18 @@ function Province({ selectedCountry = 'US', selectedProvince, allowCountries = [
 
 Province.propTypes = {
   selectedProvince: PropTypes.string,
-  allowCountries: PropTypes.arrayOf(PropTypes.string)
+  allowedCountries: PropTypes.arrayOf(PropTypes.string)
 };
 
 function Country({
-  selectedCountry, setSelectedCountry, allowCountries = [], fieldName = 'storeCountry'
+  selectedCountry, setSelectedCountry, allowedCountries = [], fieldName = 'storeCountry'
 }) {
   const onChange = (e) => {
     setSelectedCountry(e.target.value);
   };
   const [result, reexecuteQuery] = useQuery({
     query: CountriesQuery,
-    variables: { countries: allowCountries },
+    variables: { countries: allowedCountries },
   });
 
   const { data, fetching, error } = result;
@@ -109,7 +109,7 @@ function Country({
 }
 
 Country.propTypes = {
-  allowCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
+  allowedCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedCountry: PropTypes.string.isRequired,
   setSelectedCountry: PropTypes.func.isRequired
 };

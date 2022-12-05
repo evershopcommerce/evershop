@@ -1,4 +1,6 @@
-const { contries } = require("../../../../../lib/locale/countries")
+const { contries } = require("../../../../../lib/locale/countries");
+const { getSetting } = require("../../../../setting/services/setting");
+const { provinces } = require("../../../../../lib/locale/provinces");
 
 module.exports = {
   Query: {
@@ -9,6 +11,11 @@ module.exports = {
       } else {
         return contries.filter((c) => list.includes(c.code));
       }
+    },
+    allowedCountries: async () => {
+      const allowedCountries = await getSetting("allowedCountries", "['US']");
+      let list = JSON.parse(allowedCountries);
+      return contries.filter((c) => list.includes(c.code));
     }
   },
   Country: {
@@ -26,6 +33,9 @@ module.exports = {
       } else {
         return country;
       }
+    },
+    provinces: (country) => {
+      return provinces.filter((p) => p.countryCode === country.code);
     }
   }
 }

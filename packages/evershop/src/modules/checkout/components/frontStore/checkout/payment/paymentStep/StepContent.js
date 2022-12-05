@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Area from '../../../../../../../lib/components/Area';
 import { useCheckoutStepsDispatch } from '../../../../../../../lib/context/checkoutSteps';
-import { CustomerAddressForm } from '../../../../../../customer/pages/frontStore/address/AddressForm';
+import CustomerAddressForm from '../../../../../../customer/components/Address/AddressForm/Index';
 import { Form } from '../../../../../../../lib/components/form/Form';
 import { BillingAddress } from './BillingAddress';
 import { useCheckout } from '../../../../../../../lib/context/checkout';
 import { Field } from '../../../../../../../lib/components/form/Field';
-import { Radio } from '../../../../../../../lib/components/form/fields/Radio';
 import Button from '../../../../../../../lib/components/form/Button';
 
 export function StepContent({
@@ -53,7 +52,6 @@ export function StepContent({
         {useShippingAddress === false && (
           <CustomerAddressForm
             areaId="checkoutBillingAddressForm"
-            allowCountries={['US', 'FR', 'CN', 'IN']}
           />
         )}
 
