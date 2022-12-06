@@ -90,3 +90,45 @@ input[type="range"]:nth-child(1)::-webkit-slider-thumb {
     float: right;
     margin-right: -5px;
 }
+
+.filter-opener, .filter-closer {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 35px;
+    height: 35px;
+}
+
+.filter-opener, .filter-closer {
+    z-index: 998;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    justify-content: center;
+    align-items: center;
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 639px) {
+    .product-filter-tool.opening {
+        display: block;
+        position: fixed;
+        // Make full screen
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 999;
+        background-color: #fff;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+        .filter-opener,
+        .filter-closer {
+            display: flex;
+        }
+}
