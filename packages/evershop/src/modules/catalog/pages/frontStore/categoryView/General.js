@@ -48,7 +48,7 @@ export default function CategoryInfo({ category: { name } }) {
 
 export const layout = {
   areaId: "content",
-  sortOrder: 15
+  sortOrder: 5
 };
 
 export const query = `

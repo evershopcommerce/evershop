@@ -6,7 +6,7 @@ import { Price } from './item/Price';
 import Area from '../../../../../lib/components/Area';
 import { get } from '../../../../../lib/util/get';
 
-export default function ProductList({ products = [] }) {
+export default function ProductList({ products = [], countPerRow = 3 }) {
   if (products.length === 0) {
     return (
       <div className="product-list">
@@ -15,7 +15,7 @@ export default function ProductList({ products = [] }) {
     );
   }
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div className={`grid grid-cols-2 md:grid-cols-${countPerRow} gap-2`}>
       {
         products.map((p) => (
           <Area

@@ -3,7 +3,7 @@ import ProductList from '../../../components/product/list/List';
 
 export default function Products({ products: { products: { items } } }) {
   return (
-    <div className="page-width">
+    <div>
       <span className="product-count italic block mb-2">
         {`${items.length} products`}
       </span>
@@ -13,8 +13,8 @@ export default function Products({ products: { products: { items } } }) {
 }
 
 export const layout = {
-  areaId: "content",
-  sortOrder: 15
+  areaId: "rightColumn",
+  sortOrder: 25
 };
 
 export const query = `

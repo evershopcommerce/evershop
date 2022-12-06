@@ -1,8 +1,6 @@
 .product-filter-tool {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    border-top: 1px solid var(--divider);
-    border-bottom: 1px solid var(--divider);
     margin-bottom: 1.5rem;
     .filter-item-title {
         margin-bottom: 0.5rem;
@@ -16,13 +14,8 @@
     }
 }
 .filter-option {
-    border: 1px solid var(--divider);
-    display: block;
-    padding: 0.5rem 1.5rem;
+    padding: 0rem 0.8rem;
     border-radius: 2px;
-    &.checked {
-        border: 2px solid var(--text);
-    }
 }
 
 .filter-heading {

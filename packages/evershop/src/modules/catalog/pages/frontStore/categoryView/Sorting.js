@@ -2,11 +2,14 @@
 import React from 'react';
 import { Select } from '../../../../../lib/components/form/fields/Select';
 
-export default function Sorting({ currentFilters }) {
+export default function Sorting() {
   // TODO: make this list configurable
   const sortingOptions = [{ code: 'price', name: 'Price' }, { code: 'name', name: 'Name' }];
-  const sortOrder = currentFilters.find((f) => f.key === 'sortOrder') || { value: 'asc' };
-  const sortBy = currentFilters.find((f) => f.key === 'sortBy') || { value: 'id' };
+
+  let params = (new URL(document.location)).searchParams;
+
+  const sortOrder = params.get("sortOrder") || 'asc';
+  const sortBy = params.get("sortBy") || 'id';
 
   const onChangeSort = (e) => {
     const currentUrl = window.location.href;
@@ -20,7 +23,7 @@ export default function Sorting({ currentFilters }) {
     const currentUrl = window.location.href;
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
-    if (sortOrder.value.toLowerCase() === 'asc') {
+    if (sortOrder.toLowerCase() === 'asc') {
       url.searchParams.set('sortOrder', 'desc');
       window.location.href = url;
     } else {
@@ -37,7 +40,7 @@ export default function Sorting({ currentFilters }) {
         <Select
           className="form-control"
           onChange={(e) => onChangeSort(e)}
-          value={sortBy.value.toLowerCase()}
+          value={sortBy.toLowerCase()}
           options={[{
             value: '',
             text: 'Please select'
@@ -46,7 +49,7 @@ export default function Sorting({ currentFilters }) {
         />
         <div className="sort-direction self-center">
           <a onClick={(e) => onChangeDirection(e)} href="#">
-            {sortOrder.value.toLowerCase() === 'desc' ? (
+            {sortOrder.toLowerCase() === 'desc' ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="15"
@@ -85,3 +88,8 @@ export default function Sorting({ currentFilters }) {
     </div>
   );
 }
+
+export const layout = {
+  areaId: "rightColumn",
+  sortOrder: 15
+};

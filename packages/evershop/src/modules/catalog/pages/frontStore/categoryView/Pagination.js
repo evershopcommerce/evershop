@@ -10,8 +10,8 @@ export default function PaginationWrapper({ products: { products: { total, curre
 }
 
 export const layout = {
-  areaId: "content",
-  sortOrder: 20
+  areaId: "rightColumn",
+  sortOrder: 30
 };
 
 export const query = `
