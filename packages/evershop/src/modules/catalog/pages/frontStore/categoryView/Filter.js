@@ -128,7 +128,7 @@ function Attributes({ currentFilters, attributes, updateFilter }) {
             {a.options.map((o) => {
               const isChecked = currentFilters.find(
                 (f) => f.key === a.attributeCode
-                  && parseInt(f.value, 10) === parseInt(o.optionId, 10)
+                  && f.value.split(',').includes(o.optionId.toString())
               );
               return (
                 <li key={o.optionId} className="mt-05 mr-05">
