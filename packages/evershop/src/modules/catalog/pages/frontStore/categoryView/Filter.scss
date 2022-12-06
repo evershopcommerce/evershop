@@ -1,8 +1,6 @@
 .product-filter-tool {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    border-top: 1px solid var(--divider);
-    border-bottom: 1px solid var(--divider);
     margin-bottom: 1.5rem;
     .filter-item-title {
         margin-bottom: 0.5rem;
@@ -16,13 +14,8 @@
     }
 }
 .filter-option {
-    border: 1px solid var(--divider);
-    display: block;
-    padding: 0.5rem 1.5rem;
+    padding: 0rem 0.8rem;
     border-radius: 2px;
-    &.checked {
-        border: 2px solid var(--text);
-    }
 }
 
 .filter-heading {
@@ -96,4 +89,46 @@ input[type="range"]:nth-child(1)::-webkit-slider-thumb {
     position: relative;
     float: right;
     margin-right: -5px;
+}
+
+.filter-opener, .filter-closer {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 35px;
+    height: 35px;
+}
+
+.filter-opener, .filter-closer {
+    z-index: 998;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    justify-content: center;
+    align-items: center;
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 639px) {
+    .product-filter-tool.opening {
+        display: block;
+        position: fixed;
+        // Make full screen
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 999;
+        background-color: #fff;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+        .filter-opener,
+        .filter-closer {
+            display: flex;
+        }
 }

@@ -13,7 +13,7 @@ module.exports = {
       }
     },
     allowedCountries: async () => {
-      const allowedCountries = await getSetting("allowedCountries", "['US']");
+      const allowedCountries = await getSetting("allowedCountries", '["US"]');
       let list = JSON.parse(allowedCountries);
       return contries.filter((c) => list.includes(c.code));
     }

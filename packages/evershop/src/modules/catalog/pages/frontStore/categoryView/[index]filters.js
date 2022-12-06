@@ -85,7 +85,6 @@ module.exports = async (request, response, delegate, next) => {
     if (limit !== "20") {
       filtersFromUrl.push({ key: 'limit', operation: '=', value: limit });
     }
-    console.log('filtersFromUrl', filtersFromUrl)
     setContextValue(request, 'filtersFromUrl', filtersFromUrl);
     next();
   }

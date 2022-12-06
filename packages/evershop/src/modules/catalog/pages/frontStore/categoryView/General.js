@@ -1,54 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Area from '../../../../../lib/components/Area';
+import './General.scss';
 
-function Name({ name }) {
-  return <h1 className="category-name text-center mt-25 mb-15">{name}</h1>;
-}
-
-Name.propTypes = {
-  name: PropTypes.string
-};
-
-Name.defaultProps = {
-  name: ''
-};
-
-function Description({ description }) {
-  // eslint-disable-next-line react/no-danger
-  return <div className="category-description" dangerouslySetInnerHTML={{ __html: description }} />;
-}
-
-Description.defaultProps = {
-  description: ''
-};
-
-Description.propTypes = {
-  description: PropTypes.string
-};
-
-export default function CategoryInfo({ category: { name } }) {
+export default function CategoryInfo({ category: { name, description, image } }) {
   return (
     <div className="page-width">
-      <Area
-        id="category-general-info"
-        className="category-general-info"
-        coreComponents={[
-          {
-            component: { default: Name },
-            props: { name: name },
-            sortOrder: 10,
-            id: 'category-name'
-          }
-        ]}
-      />
+      <div className='p-4 mb-1 md:mb-2' style={image ? { background: `url(${image.url}) no-repeat center center` } : { background: '#685f58' }}>
+        <div className='text-left text-white'>
+          <h1 className="category-name mt-25">{name}</h1>
+          <div className="category-description" dangerouslySetInnerHTML={{ __html: description }} />
+        </div>
+      </div>
     </div>
   );
 }
 
 export const layout = {
   areaId: "content",
-  sortOrder: 15
+  sortOrder: 5
 };
 
 export const query = `
@@ -56,5 +25,8 @@ export const query = `
     category(id: getContextValue('categoryId')) {
       name
       description
+      image {
+        url
+      }
     }
 }`

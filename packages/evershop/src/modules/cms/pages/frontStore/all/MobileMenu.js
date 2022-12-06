@@ -26,8 +26,8 @@ export default function MobileMenu({ menu: { items } }) {
 }
 
 export const layout = {
-  areaId: "header",
-  sortOrder: 5
+  areaId: "icon-wrapper",
+  sortOrder: 50
 }
 
 export const query = `

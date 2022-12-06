@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Area from '../../../../../lib/components/Area';
 import { get } from '../../../../../lib/util/get';
-import Sorting from '../../../components/product/list/Sorting';
 import './Filter.scss';
 
 function Price({
@@ -109,10 +108,16 @@ function Attributes({ currentFilters, attributes, updateFilter }) {
     e.preventDefault();
     if (isChecked === true) {
       updateFilter(
-        currentFilters.filter(
-          (f) => f.key !== attributeCode
-            || (f.key === attributeCode && parseInt(f.value, 10) !== parseInt(optionId, 10))
-        )
+        currentFilters.map(
+          (f) => {
+            if (f.key !== attributeCode) {
+              return f
+            } else {
+              const value = f.value.split(',').filter((v) => parseInt(v) !== parseInt(optionId));
+              return { key: attributeCode, value: value.join(',') };
+            }
+          }
+        ).filter((f) => f.value !== '')
       );
     } else {
       updateFilter(currentFilters.concat({ key: attributeCode, value: optionId }));
@@ -124,21 +129,31 @@ function Attributes({ currentFilters, attributes, updateFilter }) {
       {attributes.map((a) => (
         <div key={a.attributeCode}>
           <div className="filter-item-title"><span className="font-medium">{a.attributeName}</span></div>
-          <ul className="flex flex-wrap filter-option-list">
+          <ul className="filter-option-list">
             {a.options.map((o) => {
               const isChecked = currentFilters.find(
                 (f) => f.key === a.attributeCode
-                  && parseInt(f.value, 10) === parseInt(o.optionId, 10)
+                  && f.value.split(',').includes(o.optionId.toString())
               );
               return (
                 <li key={o.optionId} className="mt-05 mr-05">
-                  <button
-                    type="button"
-                    className={isChecked ? 'checked text-center filter-option link-button' : 'text-center filter-option link-button'}
-                    onClick={(e) => onChange(e, a.attributeCode, o.optionId, !!isChecked)}
-                  >
-                    {o.optionText}
-                  </button>
+                  <a href="#" className='flex justify-start items-center' onClick={(e) => onChange(e, a.attributeCode, o.optionId, !!isChecked)}>
+                    {isChecked && <svg width="24px" height="24px" viewBox="0 0 24 24" >
+                      <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                        <g fill="#212121" fillRule="nonzero">
+                          <path d="M18,3 C19.6568542,3 21,4.34314575 21,6 L21,18 C21,19.6568542 19.6568542,21 18,21 L6,21 C4.34314575,21 3,19.6568542 3,18 L3,6 C3,4.34314575 4.34314575,3 6,3 L18,3 Z M16.4696699,7.96966991 L10,14.4393398 L7.53033009,11.9696699 C7.23743687,11.6767767 6.76256313,11.6767767 6.46966991,11.9696699 C6.1767767,12.2625631 6.1767767,12.7374369 6.46966991,13.0303301 L9.46966991,16.0303301 C9.76256313,16.3232233 10.2374369,16.3232233 10.5303301,16.0303301 L17.5303301,9.03033009 C17.8232233,8.73743687 17.8232233,8.26256313 17.5303301,7.96966991 C17.2374369,7.6767767 16.7625631,7.6767767 16.4696699,7.96966991 Z" ></path>
+                        </g>
+                      </g>
+                    </svg>}
+                    {!isChecked && <svg width="24px" height="24px" viewBox="0 0 24 24">
+                      <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                        <g fill="#212121" fillRule="nonzero">
+                          <path d="M5.75,3 L18.25,3 C19.7687831,3 21,4.23121694 21,5.75 L21,18.25 C21,19.7687831 19.7687831,21 18.25,21 L5.75,21 C4.23121694,21 3,19.7687831 3,18.25 L3,5.75 C3,4.23121694 4.23121694,3 5.75,3 Z M5.75,4.5 C5.05964406,4.5 4.5,5.05964406 4.5,5.75 L4.5,18.25 C4.5,18.9403559 5.05964406,19.5 5.75,19.5 L18.25,19.5 C18.9403559,19.5 19.5,18.9403559 19.5,18.25 L19.5,5.75 C19.5,5.05964406 18.9403559,4.5 18.25,4.5 L5.75,4.5 Z"></path>
+                        </g>
+                      </g>
+                    </svg>}
+                    <span className='filter-option'>{o.optionText}</span>
+                  </a>
                 </li>
               );
             })}
@@ -162,8 +177,7 @@ Attributes.propTypes = {
 };
 
 export default function Filter({ category: { availableFilters, products: { currentFilters } } }) {
-
-  const [filtering, setFiltering] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const updateFilter = (newFilters) => {
     const currentUrl = window.location.href;
@@ -189,30 +203,14 @@ export default function Filter({ category: { availableFilters, products: { curre
   };
 
   return (
-    <div className="product-filter-tool">
-      <div className="page-width flex justify-between">
-        <div className="self-center">
-          <div className="filter-heading">
-            {filtering === false && (
-              <button type="button" className="link-button flex justify-start space-x-05" onClick={(e) => { e.preventDefault(); setFiltering(true); }}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                </svg>
-                <span className="font-light">FILTER BY</span>
-              </button>
-            )}
-            {filtering === true && (
-              <div className="close-filter mb-1">
-                <button type="button" onClick={(e) => { e.preventDefault(); setFiltering(false); }} className="link-button">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
-              </div>
-            )}
-          </div>
-          {filtering === true && (
-            <div className="filter-table md:grid md:grid-cols-4 gap-2">
+    <>
+      <div className={`product-filter-tool hidden md:block ${isOpen ? 'opening' : 'closed'}`}>
+        <div className="">
+          <div className="self-center">
+            <div className="filter-heading">
+              <span className="font-bold ">SHOP BY</span>
+            </div>
+            <div className='mt-1 grid grid-cols-1 gap-2'>
               <Area
                 id="productFilter"
                 updateFilter={updateFilter}
@@ -229,20 +227,25 @@ export default function Filter({ category: { availableFilters, products: { curre
                 ]}
               />
             </div>
-          )}
-        </div>
-        {filtering === false && (
-          <div>
-            <Sorting currentFilters={currentFilters} />
           </div>
-        )}
+        </div>
+        <a className='filter-closer flex md:hidden' href="#" onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen) }}>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+          </svg>
+        </a>
       </div>
-    </div>
+      <a className='filter-opener flex md:hidden' href="#" onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen) }}>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+        </svg>
+      </a>
+    </>
   );
 }
 
 export const layout = {
-  areaId: "content",
+  areaId: "leftColumn",
   sortOrder: 1
 }
 

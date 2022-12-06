@@ -3,18 +3,18 @@ import ProductList from '../../../components/product/list/List';
 
 export default function Products({ products: { products: { items } } }) {
   return (
-    <div className="page-width">
-      <span className="product-count italic block mb-2">
+    <div>
+      <ProductList products={items} countPerRow={3} />
+      <span className="product-count italic block mt-2">
         {`${items.length} products`}
       </span>
-      <ProductList products={items} countPerRow={3} />
     </div>
   );
 }
 
 export const layout = {
-  areaId: "content",
-  sortOrder: 15
+  areaId: "rightColumn",
+  sortOrder: 25
 };
 
 export const query = `
