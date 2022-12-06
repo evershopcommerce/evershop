@@ -11,7 +11,7 @@ export default function UserIcon({ user, accountUrl, loginUrl }) {
 
 export const layout = {
   areaId: 'icon-wrapper',
-  sortOrder: 100
+  sortOrder: 30
 }
 
 export const query = `
