@@ -5,7 +5,7 @@ const { saveCart } = require("../../../services/saveCart");
 
 module.exports = async (request, response, delegate, next) => {
   try {
-    let { cartId, productId, qty } = request.body;
+    let { cartId = getContextValue(request, 'cartId'), productId, qty } = request.body;
     let cart;
     if (!cartId) {
       // Create a new cart
