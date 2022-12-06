@@ -4,10 +4,10 @@ import ProductList from '../../../components/product/list/List';
 export default function Products({ products: { products: { items } } }) {
   return (
     <div>
-      <span className="product-count italic block mb-2">
+      <ProductList products={items} countPerRow={3} />
+      <span className="product-count italic block mt-2">
         {`${items.length} products`}
       </span>
-      <ProductList products={items} countPerRow={3} />
     </div>
   );
 }
