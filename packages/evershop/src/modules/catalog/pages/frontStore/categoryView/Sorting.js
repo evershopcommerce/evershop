@@ -6,10 +6,13 @@ export default function Sorting() {
   // TODO: make this list configurable
   const sortingOptions = [{ code: 'price', name: 'Price' }, { code: 'name', name: 'Name' }];
 
-  let params = (new URL(document.location)).searchParams;
-
-  const sortOrder = params.get("sortOrder") || 'asc';
-  const sortBy = params.get("sortBy") || 'id';
+  let sortOrder = 'asc', sortBy = 'id';
+  // Check if this is browser or server
+  if (typeof window !== 'undefined') {
+    let params = (new URL(document.location)).searchParams;
+    sortOrder = params.get("sortOrder") || 'asc';
+    sortBy = params.get("sortBy") || 'id';
+  }
 
   const onChangeSort = (e) => {
     const currentUrl = window.location.href;

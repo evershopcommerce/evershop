@@ -71,7 +71,7 @@ module.exports = async (request, response, stack, next) => {
         },
       ],
       application_context: {
-        cancel_url: `${getContextValue(request, 'homeUrl')}${buildUrl('checkout')}`,
+        cancel_url: `${getContextValue(request, 'homeUrl')}${buildUrl('paypalCancel', { orderId: orderId })}`,
         return_url: `${getContextValue(request, 'homeUrl')}${buildUrl('paypalReturn', { orderId: orderId })}`,
         shipping_preference: "SET_PROVIDED_ADDRESS",
         user_action: "PAY_NOW",
