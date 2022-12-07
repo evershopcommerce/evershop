@@ -23,7 +23,6 @@ exports.DiscountCalculator = class DiscountCalculator {
   }
 
   #registerDefaultDiscountCalculator() {
-    const _this = this;
     this.constructor.addDiscountCalculator('percentage_discount_to_entire_order', function (coupon, cart) {
       if (coupon['discount_type'] !== "percentage_discount_to_entire_order") {
         return false;
@@ -33,7 +32,7 @@ exports.DiscountCalculator = class DiscountCalculator {
         return false;
       }
 
-      let cartDiscountAmount = toPrice((discountPercent * _this.getCartTotalBeforeDiscount(cart)) / 100);
+      let cartDiscountAmount = toPrice((discountPercent * this.getCartTotalBeforeDiscount(cart)) / 100);
       let distributedAmount = 0;
       const items = cart.getItems();
       items.forEach((item, index) => {
@@ -42,10 +41,10 @@ exports.DiscountCalculator = class DiscountCalculator {
           sharedDiscount = cartDiscountAmount - distributedAmount;
         } else {
           const rowTotal = item.getData('final_price') * item.getData('qty');
-          sharedDiscount = toPrice(rowTotal * cartDiscountAmount / _this.getCartTotalBeforeDiscount(cart), 0);
+          sharedDiscount = toPrice(rowTotal * cartDiscountAmount / this.getCartTotalBeforeDiscount(cart), 0);
         }
-        if (_this.discounts[item.getId()] || _this.discounts[item.getId()] != sharedDiscount) {
-          _this.discounts[item.getId()] = sharedDiscount;
+        if (this.discounts[item.getId()] || this.discounts[item.getId()] != sharedDiscount) {
+          this.discounts[item.getId()] = sharedDiscount;
         }
         distributedAmount += sharedDiscount;
       });
@@ -53,7 +52,7 @@ exports.DiscountCalculator = class DiscountCalculator {
       return true;
     });
 
-    this.constructor.addDiscountCalculator('fixed_discount_to_entire_order', (coupon, cart) => {
+    this.constructor.addDiscountCalculator('fixed_discount_to_entire_order', function (coupon, cart) {
       if (coupon['discount_type'] !== "fixed_discount_to_entire_order")
         return false;
 
@@ -61,20 +60,22 @@ exports.DiscountCalculator = class DiscountCalculator {
       if (cartDiscountAmount < 0) {
         return false;
       }
-      let cartTotal = _this.getCartTotalBeforeDiscount(cart);
+      let cartTotal = this.getCartTotalBeforeDiscount(cart);
       cartDiscountAmount = cartTotal > cartDiscountAmount ? cartDiscountAmount : cartTotal;
       let distributedAmount = 0;
       const items = cart.getItems();
       items.forEach((item, index) => {
         let sharedDiscount = 0;
         if (index === items.length - 1) {
-          sharedDiscount = cartDiscountAmount - distributedAmount;
+          const precision = getConfig('pricing.precision', '2');
+          const precisionFix = parseInt(`1${'0'.repeat(precision)}`, 10);
+          sharedDiscount = (cartDiscountAmount * precisionFix - distributedAmount * precisionFix) / precisionFix;
         } else {
           const rowTotal = item.getData('final_price') * item.getData('qty');
-          sharedDiscount = toPrice(rowTotal * cartDiscountAmount / _this.getCartTotalBeforeDiscount(cart), 0);
+          sharedDiscount = toPrice(rowTotal * cartDiscountAmount / this.getCartTotalBeforeDiscount(cart), 0);
         }
-        if (_this.discounts[item.getId()] || _this.discounts[item.getId()] != sharedDiscount) {
-          _this.discounts[item.getId()] = sharedDiscount;
+        if (!this.discounts[item.getId()] || this.discounts[item.getId()] != sharedDiscount) {
+          this.discounts[item.getId()] = sharedDiscount;
         }
         distributedAmount += sharedDiscount;
       });
@@ -82,7 +83,7 @@ exports.DiscountCalculator = class DiscountCalculator {
       return true;
     });
 
-    this.constructor.addDiscountCalculator('discount_to_specific_products', async (coupon, cart) => {
+    this.constructor.addDiscountCalculator('discount_to_specific_products', async function (coupon, cart) {
       if (!["fixed_discount_to_specific_products", "percentage_discount_to_specific_products"].includes(coupon['discount_type'])) {
         return false;
       }
@@ -198,11 +199,11 @@ exports.DiscountCalculator = class DiscountCalculator {
         }
       });
 
-      _this.discounts = discounts;
+      this.discounts = discounts;
       return true;
     });
 
-    this.constructor.addDiscountCalculator('buy_x_get_y', (coupon, cart) => {
+    this.constructor.addDiscountCalculator('buy_x_get_y', function (coupon, cart) {
       if (coupon['discount_type'] !== "buy_x_get_y")
         return true;
 
@@ -233,8 +234,8 @@ exports.DiscountCalculator = class DiscountCalculator {
             else
               discountAmount = toPrice(discountPerUnit * maxY);
 
-            if (_this.discounts[item.getId()] || _this.discounts[item.getId()] !== discountAmount) {
-              _this.discounts[item.getId()] = discountAmount;
+            if (this.discounts[item.getId()] || this.discounts[item.getId()] !== discountAmount) {
+              this.discounts[item.getId()] = discountAmount;
             }
           }
         }
@@ -261,7 +262,7 @@ exports.DiscountCalculator = class DiscountCalculator {
 
     // Calling calculator functions
     for (const calculatorId in this.constructor.discountCalculators) {
-      await this.constructor.discountCalculators[calculatorId](coupon, cart);
+      await this.constructor.discountCalculators[calculatorId].call(this, coupon, cart);
     }
 
     return this.discounts;
