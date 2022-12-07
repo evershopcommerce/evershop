@@ -14,199 +14,224 @@ exports.Cart = class Cart extends DataObject {
   static fields = [
     {
       key: 'cart_id',
-      async resolver() {
-        if (this.dataSource.cart_id) {
-          const cart = await select()
-            .from('cart')
-            .where('cart_id', '=', this.dataSource.cart_id)
-            .load(pool);
-          if (!cart || cart.status === 0) {
-            this.error = 'Cart does not exist';
-            this.dataSource = {};
-            return null;
+      resolvers: [
+        async function () {
+          if (this.dataSource.cart_id) {
+            const cart = await select()
+              .from('cart')
+              .where('cart_id', '=', this.dataSource.cart_id)
+              .load(pool);
+            if (!cart || cart.status === 0) {
+              this.errors['cart_id'] = 'Cart does not exist';
+              this.dataSource = {};
+              return null;
+            } else {
+              return cart.cart_id;
+            }
           } else {
-            return cart.cart_id;
+            return undefined;
           }
-        } else {
-          return undefined;
         }
-      }
+      ]
     },
     {
       key: 'uuid',
-      resolver() {
-        const key = uuidv4();
-        // Replace all '-' with '' from key
-        return this.dataSource.uuid ? this.dataSource.uuid : key.replace(/-/g, '');
-      },
+      resolvers: [
+        function () {
+          const key = uuidv4();
+          // Replace all '-' with '' from key
+          return this.dataSource.uuid ? this.dataSource.uuid : key.replace(/-/g, '');
+        }
+      ],
       dependencies: ['cart_id']
     },
     {
       key: 'currency',
-      async resolver() {
-        return await getSetting('storeCurrency', 'USD');
-      }
+      resolvers: [
+        async function () {
+          return await getSetting('storeCurrency', 'USD');
+        }
+      ]
     },
     {
       key: 'user_ip',
-      async resolver() {
-        return this.dataSource.user_ip ?? this.getData('user_ip') ?? null;
-      }
+      resolvers: [
+        async function () {
+          return this.dataSource.user_ip ?? this.getData('user_ip') ?? null;
+        }
+      ]
     },
     {
       key: 'sid',
-      async resolver() {
-        return this.dataSource.sid;
-      }
+      resolvers: [
+        async function () {
+          return this.dataSource.sid;
+        }
+      ]
     },
     {
       key: 'status',
-      async resolver() {
-        return this.dataSource.status ?? this.getData('status') ?? 1;
-      }
+      resolvers: [
+        async function () {
+          return this.dataSource.status ?? this.getData('status') ?? 1;
+        }
+      ]
     },
     {
       key: 'total_qty',
-      async resolver() {
-        let count = 0;
-        const items = this.getItems();
-        items.forEach((i) => {
-          count += parseInt(i.getData('qty'), 10);
-        });
-
-        return count;
-      },
+      resolvers: [
+        async function () {
+          let count = 0;
+          const items = this.getItems();
+          items.forEach((i) => {
+            count += parseInt(i.getData('qty'), 10);
+          });
+          return count;
+        }
+      ],
       dependencies: ['items']
     },
     {
       key: 'total_weight',
-      async resolver() {
-        let weight = 0;
-        const items = this.getItems();
-        items.forEach((i) => {
-          weight += i.getData('product_weight') * i.getData('qty');
-        });
-
-        return weight;
-      },
+      resolvers: [
+        async function () {
+          let weight = 0;
+          const items = this.getItems();
+          items.forEach((i) => {
+            weight += i.getData('product_weight') * i.getData('qty');
+          });
+          return weight;
+        }
+      ],
       dependencies: ['items']
     },
     {
       key: 'tax_amount',
-      async resolver() {
-        return 0; // Will be added later
-      },
+      resolvers: [
+        async function () {
+          return 0; // Will be added later
+        }
+      ],
       dependencies: []
     },
     {
       key: 'sub_total',
-      async resolver() {
-        let total = 0;
-        const items = this.getItems();
-        items.forEach((i) => {
-          total += i.getData('final_price') * i.getData('qty');
-        });
-
-        return toPrice(total);
-      },
+      resolvers: [
+        async function () {
+          let total = 0;
+          const items = this.getItems();
+          items.forEach((i) => {
+            total += i.getData('final_price') * i.getData('qty');
+          });
+          return toPrice(total);
+        }
+      ],
       dependencies: ['items']
     },
     {
       key: 'grand_total',
-      async resolver() {
-        return this.getData('sub_total');
-      },
+      resolvers: [
+        async function () {
+          return this.getData('sub_total');
+        }
+      ],
       dependencies: ['sub_total']
     },
     {
       key: 'shipping_address_id',
-      async resolver() {
-        return this.dataSource.shipping_address_id;
-      },
+      resolvers: [
+        async function () {
+          return this.dataSource.shipping_address_id;
+        }
+      ],
       dependencies: ['cart_id']
     },
     {
       key: 'shippingAddress',
-      async resolver() {
-        if (!this.getData('shipping_address_id')) {
-          return undefined;
-        } else {
-          return { ...await select().from('cart_address').where('cart_address_id', '=', this.getData('shipping_address_id')).load(pool) };
+      resolvers: [
+        async function () {
+          if (!this.getData('shipping_address_id')) {
+            return undefined;
+          } else {
+            return { ...await select().from('cart_address').where('cart_address_id', '=', this.getData('shipping_address_id')).load(pool) };
+          }
         }
-      },
+      ],
       dependencies: ['shipping_address_id']
     },
     {
       key: 'shipping_method',
-      async resolver() {
-        // TODO: This field should be handled by each of shipping method
-        return this.dataSource.shipping_method;
-      },
+      resolvers: [
+        async function () {
+          // TODO: This field should be handled by each of shipping method
+          return this.dataSource.shipping_method;
+        }
+      ],
       dependencies: ['shipping_address_id']
     },
     {
       key: 'shipping_method_name',
-      async resolver() {
-        // TODO: This field should be handled by each of shipping method
-        return this.dataSource.shipping_method_name;
-      },
+      resolvers: [
+        async function () {
+          // TODO: This field should be handled by each of shipping method
+          return this.dataSource.shipping_method_name;
+        }
+      ],
       dependencies: ['shipping_method']
     },
     {
       key: 'shipping_fee_excl_tax',
-      async resolver() {
-        return 0;// TODO: This field should be handled by each of shipping method
-      },
+      resolvers: [
+        async function () {
+          return 0;// TODO: This field should be handled by each of shipping method
+        }
+      ],
       dependencies: ['shipping_method']
     },
     {
       key: 'shipping_fee_incl_tax',
-      async resolver() {
+      resolvers: [async function () {
         return 0;// TODO: This field should be handled by each of shipping method
-      },
+      }],
       dependencies: ['shipping_method']
     },
     {
       key: 'billing_address_id',
-      async resolver() {
+      resolvers: [async function () {
         return this.dataSource.billing_address_id;
-      },
+      }],
       dependencies: ['cart_id']
     },
     {
       key: 'billingAddress',
-      async resolver() {
+      resolvers: [async function () {
         if (!this.getData('billing_address_id')) {
           return undefined;
         } else {
           return { ...await select().from('cart_address').where('cart_address_id', '=', this.getData('billing_address_id')).load(pool) };
         }
-      },
+      }],
       dependencies: ['billing_address_id']
     },
     {
       key: 'payment_method',
-      async resolver() {
-        // TODO: This field should be handled by each of payment method
-        const method = this.dataSource.payment_method;
-        if (!method) {
-          this.error = 'Payment method is required';
-        }
-
-        return method;
-      }
+      resolvers: [async function () {
+        this.errors['payment_method'] = 'Payment method is required';
+        // Each payment method should handle this field 
+        // by returning the payment method code and remove this error if the payment method is valid
+      }]
     },
     {
       key: 'payment_method_name',
-      async resolver() {
+      resolvers: [async function () {
         // TODO: This field should be handled by each of payment method
         return this.dataSource.payment_method_name;
-      },
+      }],
       dependencies: ['payment_method']
     },
     {
       key: 'items',
-      async resolver() {
+      resolvers: [async function () {
         const items = [];
         if (this.dataSource.items) {
           await Promise.all(this.dataSource.items.map(async (item) => {
@@ -252,7 +277,7 @@ exports.Cart = class Cart extends DataObject {
         }
 
         return items;
-      },
+      }],
       dependencies: ['cart_id']
     }
   ];
@@ -330,7 +355,7 @@ exports.Cart = class Cart extends DataObject {
     const items = this.getItems();
     let flag = false;
     for (let i = 0; i < items.length; i += 1) {
-      if (items[i].error) {
+      if (items[i].hasError()) {
         flag = true;
         break;
       }
@@ -340,8 +365,7 @@ exports.Cart = class Cart extends DataObject {
   }
 
   hasError() {
-    if (this.error) return true;
-    return this.hasItemError();
+    return super.hasError() || this.hasItemError();
   }
 
   export() {

@@ -14,7 +14,7 @@ module.exports.DataObject = class DataObject {
     this.dataSource = [];
     this.isBuilding = false;
     this.isCommited = false;
-    this.error = undefined;
+    this.errors = {};
   }
 
   // Sort the fields by dependencies
@@ -50,12 +50,32 @@ module.exports.DataObject = class DataObject {
   /**
    * Add a field
    * @param {*} key 
-   * @param {*} resolver 
+   * @param {*} resolvers
    * @param {*} dependencies 
    */
-  static addField(key, resolver, dependencies) {
-    if (!this.fields) this.fields = [];
-    this.fields.push({ key, resolver, dependencies });
+  static addField(key, resolvers, dependencies = []) {
+    if (!this.fields) {
+      this.fields = [];
+    }
+
+    // Check if the field is existed
+    const field = this.fields.find((f) => f.key === key);
+    if (field) {
+      // Push the resolver and dependencies to the existed field
+      // Check if resolvers is an array
+      if (!Array.isArray(resolvers)) {
+        field.resolvers = [...field.resolvers, resolvers];
+      } else {
+        field.resolvers = [...field.resolvers, ...resolvers];
+      }
+      field.dependencies = field.dependencies ? [...dependencies, ...field.dependencies] : dependencies;
+    } else {
+      if (!Array.isArray(resolvers)) {
+        this.fields.push({ key, resolvers: [resolvers], dependencies });
+      } else {
+        this.fields.push({ key, resolvers: resolvers, dependencies });
+      }
+    }
   }
 
   // Build the field value. This function will be called when the field value is changed
@@ -68,16 +88,22 @@ module.exports.DataObject = class DataObject {
 
     try {
       this.isBuilding = true;
-      this.error = undefined;
+      this.errors = {};
 
       for (let i = 0; i < this.constructor.fields.length; i += 1) {
         const field = this.constructor.fields[i];
-        this.data[field.key] = await field.resolver.call(_this);
+        let value;
+        // Execute the list of resolvers
+        for (let j = 0; j < field.resolvers.length; j += 1) {
+          const resolver = field.resolvers[j];
+          value = await resolver.call(_this, value);
+        }
+        this.data[field.key] = value;
       }
       this.isBuilding = false;
       this.isCommited = false;
     } catch (e) {
-      this.error = e;
+      this.errors['buildingError'] = e.message;
       this.isBuilding = false;
       // Rollback the changes
       this.data = { ...values };
@@ -113,18 +139,18 @@ module.exports.DataObject = class DataObject {
     await this.build();
     const result = this.data[key];
     if (!isEqualWith(result, value)) {
-      throw new Error(`Field resolver returned different value - ${key}`);
+      throw new Error(`Field resolvers returned different value - ${key}`);
     } else {
       return value;
     }
   }
 
   hasError() {
-    return this.error !== undefined;
+    return Object.keys(this.errors).length > 0;
   }
 
   getError() {
-    return this.error;
+    return this.errors;
   }
 
   export() {

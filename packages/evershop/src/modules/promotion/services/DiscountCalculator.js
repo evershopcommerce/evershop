@@ -67,7 +67,9 @@ exports.DiscountCalculator = class DiscountCalculator {
       items.forEach((item, index) => {
         let sharedDiscount = 0;
         if (index === items.length - 1) {
-          sharedDiscount = cartDiscountAmount - distributedAmount;
+          const precision = getConfig('pricing.precision', '2');
+          const precisionFix = parseInt(`1${'0'.repeat(precision)}`, 10);
+          sharedDiscount = (cartDiscountAmount * precisionFix - distributedAmount * precisionFix) / precisionFix;
         } else {
           const rowTotal = item.getData('final_price') * item.getData('qty');
           sharedDiscount = toPrice(rowTotal * cartDiscountAmount / this.getCartTotalBeforeDiscount(cart), 0);
