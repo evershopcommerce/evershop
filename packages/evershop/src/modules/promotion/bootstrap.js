@@ -1,8 +1,8 @@
 const { Cart } = require("../checkout/services/cart/Cart");
 const { Item } = require("../checkout/services/cart/Item");
 const { toPrice } = require("../checkout/services/toPrice");
-const { Validator } = require("./services/couponValidator");
-const { DiscountCalculator } = require("./services/discountCalculator");
+const { Validator } = require("./services/CouponValidator");
+const { DiscountCalculator } = require("./services/DiscountCalculator");
 
 module.exports = () => {
   /** Adding fields to the Cart object */
@@ -28,13 +28,13 @@ module.exports = () => {
     {
       key: 'discount_amount',
       async resolver() {
-        const coupon = this.dataSource['coupon'] ?? this.dataSource['coupon'] ?? null;
+        const coupon = this.getData('coupon');
         if (!coupon) {
           return 0;
         }
         // Start calculate discount amount
         let calculator = new DiscountCalculator(this);
-        await calculator.calculate(this.getData('coupon'));
+        await calculator.calculate(coupon);
         let discountAmounts = calculator.getDiscounts();
         let discountAmount = 0;
         for (const id in discountAmounts) {
