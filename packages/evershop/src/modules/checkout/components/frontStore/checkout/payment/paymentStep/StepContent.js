@@ -76,7 +76,7 @@ export function StepContent({
             <Field
               type='hidden'
               name='methodCode'
-              value={paymentMethods.find((e) => e.selected === true)?.name}
+              value={paymentMethods.find((e) => e.selected === true)?.code}
               validationRules={[{
                 rule: 'notEmpty',
                 message: 'Please select a payment method'
