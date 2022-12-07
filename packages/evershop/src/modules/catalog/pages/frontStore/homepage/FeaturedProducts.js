@@ -7,7 +7,7 @@ export default function FeaturedProducts({ featuredProducts }) {
     <div className="pt-3">
       <div className="page-width">
         <h3 className="mt-3 mb-3 text-center uppercase h5 tracking-widest">Featured collection</h3>
-        <ProductList products={featuredProducts} />
+        <ProductList products={featuredProducts} countPerRow={4} />
       </div>
     </div>
   );

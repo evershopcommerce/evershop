@@ -35,6 +35,7 @@ export function StepContent({
         method="POST"
         action={setPaymentInfoAPI}
         onSuccess={onSuccess}
+        onValidationError={() => setLoading(false)}
         id="checkoutPaymentForm"
         submitBtn={false}
         isJSON={true}

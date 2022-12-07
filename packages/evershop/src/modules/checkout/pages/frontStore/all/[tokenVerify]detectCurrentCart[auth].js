@@ -1,4 +1,4 @@
-const { select } = require("@evershop/mysql-query-builder");
+const { select, update } = require("@evershop/mysql-query-builder");
 const { pool } = require("../../../../../lib/mysql/connection");
 const { getContextValue, setContextValue } = require("../../../../graphql/services/contextHelper")
 
@@ -26,6 +26,12 @@ module.exports = async (request, response, delegate, next) => {
         .load(pool);
 
       if (cart) {
+        // Update the cart with the session id
+        await update('cart')
+          .given({ sid })
+          .where('uuid', '=', cart.uuid)
+          .execute(pool);
+
         setContextValue(request, "cartId", cart.uuid);
       } else {
         setContextValue(request, "cartId", null);
