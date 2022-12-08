@@ -7,6 +7,7 @@ import { BillingAddress } from './BillingAddress';
 import { useCheckout } from '../../../../../../../lib/context/checkout';
 import { Field } from '../../../../../../../lib/components/form/Field';
 import Button from '../../../../../../../lib/components/form/Button';
+import { toast } from 'react-toastify';
 
 export function StepContent({
   setPaymentInfoAPI,
@@ -22,6 +23,9 @@ export function StepContent({
   const onSuccess = (response) => {
     if (response.success === true) {
       completeStep('payment');
+    } else {
+      setLoading(false);
+      toast.error(response.message);
     }
   };
 

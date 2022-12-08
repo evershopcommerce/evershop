@@ -51,7 +51,7 @@ module.exports = async (request, response, stack, next) => {
     response.json({
       data: {},
       success: false,
-      message: e.message
+      message: 'Payment method is invalid'
     });
   }
 };
