@@ -15,8 +15,8 @@ module.exports = async (request, response, delegate, next) => {
     } else {
       setContextValue(request, 'attributeId', attribute.attribute_id);
       setContextValue(request, 'pageInfo', {
-        title: attribute.name,
-        description: attribute.name
+        title: attribute.attribute_name,
+        description: attribute.attribute_name
       });
       next();
     }
