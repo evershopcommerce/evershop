@@ -18,7 +18,7 @@ export default function CustomerMenuGroup({ customerGrid }) {
 
 export const layout = {
   areaId: 'adminMenu',
-  sortOrder: 23
+  sortOrder: 40
 }
 
 export const query = `

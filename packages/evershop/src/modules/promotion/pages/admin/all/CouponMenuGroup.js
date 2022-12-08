@@ -18,7 +18,7 @@ export default function CatalogMenuGroup({ couponGrid }) {
 
 export const layout = {
   areaId: 'adminMenu',
-  sortOrder: 30
+  sortOrder: 50
 }
 
 export const query = `

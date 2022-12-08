@@ -18,7 +18,7 @@ export default function CheckoutMenuGroup({ orderGrid }) {
 
 export const layout = {
   areaId: 'adminMenu',
-  sortOrder: 40
+  sortOrder: 30
 }
 
 export const query = `

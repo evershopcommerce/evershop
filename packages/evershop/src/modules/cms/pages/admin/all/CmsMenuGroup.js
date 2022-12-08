@@ -18,7 +18,7 @@ export default function CmsMenuGroup({ cmsPageGrid }) {
 
 export const layout = {
   areaId: 'adminMenu',
-  sortOrder: 50
+  sortOrder: 60
 }
 
 export const query = `
