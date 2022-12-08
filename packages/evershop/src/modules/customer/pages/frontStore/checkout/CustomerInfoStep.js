@@ -4,13 +4,18 @@ import { Form } from '../../../../../lib/components/form/Form';
 import { Field } from '../../../../../lib/components/form/Field';
 import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
 import { useCheckout } from '../../../../../lib/context/checkout';
+import { toast } from 'react-toastify';
 
 function Edit({ user, setContactInfoUrl, email, setEmail, cartId, loginUrl }) {
   const { completeStep } = useCheckoutStepsDispatch();
 
   const onSuccess = (response) => {
-    setEmail(response.data.email);
-    completeStep('contact', response.data.email);
+    if (response.success === true) {
+      setEmail(response.data.email);
+      completeStep('contact', response.data.email);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   React.useEffect(() => {

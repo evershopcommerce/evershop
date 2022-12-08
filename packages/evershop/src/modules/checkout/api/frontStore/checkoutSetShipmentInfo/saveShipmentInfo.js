@@ -38,12 +38,12 @@ module.exports = async (request, response, stack, next) => {
       success: true,
       message: ''
     };
+    next();
   } catch (e) {
-    response.$body = {
+    response.json({
       data: {},
       success: false,
-      message: e.message
-    };
+      message: 'Shipment information is invalid'
+    });
   }
-  next();
 };

@@ -29,12 +29,12 @@ module.exports = async (request, response, stack, next) => {
       success: true,
       message: ''
     };
+    next();
   } catch (e) {
-    response.$body = {
+    response.json({
       data: {},
       success: false,
-      message: e.message
-    };
+      message: 'Customer email is invalid'
+    });
   }
-  next();
 };
