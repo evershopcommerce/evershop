@@ -3,7 +3,7 @@ import { Field } from '../../../../../lib/components/form/Field';
 import { Toggle } from '../../../../../lib/components/form/fields/Toggle';
 import { Card } from '../../../../cms/components/admin/Card';
 
-export default function StripePayment(
+export default function PaypalPayment(
   { setting: {
     paypalPaymentStatus,
     paypalDislayName,

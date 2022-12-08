@@ -79,6 +79,10 @@ export default function OrderSummary({
       <Card.Session>
         <Transactions transactions={transactions} />
       </Card.Session>
+      <Area
+        id="orderPaymentActions"
+        noOuter={true}
+      />
     </Card>
   );
 }
