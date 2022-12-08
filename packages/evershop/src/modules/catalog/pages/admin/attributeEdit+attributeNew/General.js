@@ -57,7 +57,7 @@ function Groups({ groups, addGroupUrl }) {
     <div className='grid gap-2 grid-cols-2'>
       <div>
         <Select
-          name='groups'
+          name='groups[]'
           options={data.attributeGroups}
           hideSelectedOptions={true}
           isMulti={true}
