@@ -16,6 +16,7 @@ export default function OrderSummary({
     orderId,
     coupon,
     shippingMethod,
+    paymentMethodName,
     totalQty,
     taxAmount,
     discountAmount,
@@ -31,7 +32,7 @@ export default function OrderSummary({
     <Card title={(
       <div className="flex space-x-1">
         <Circle variant={paymentStatus.badge} />
-        <span className="block self-center">{paymentStatus.name || 'Unknown'}</span>
+        <span className="block self-center">{paymentMethodName || 'Unknown'}</span>
       </div>
     )}
     >
@@ -94,6 +95,8 @@ export const query = `
       totalQty
       coupon
       shippingMethod
+      paymentMethod
+      paymentMethodName
       taxAmount {
         text(currency: getContextValue("orderCurrency"))
       }
