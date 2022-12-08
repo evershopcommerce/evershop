@@ -21,11 +21,12 @@ export default function GroupRow({ groups, saveAttributeGroupUrl }) {
           onSuccess={() => {
             location.reload();
           }}
+          isJSON={true}
         >
           <Field
             formId="group-edit"
             type="text"
-            name="groupName"
+            name="group_name"
             value={group.groupName}
           />
           <Field
