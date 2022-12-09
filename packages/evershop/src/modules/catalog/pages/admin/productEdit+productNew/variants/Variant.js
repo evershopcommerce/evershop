@@ -122,7 +122,7 @@ export function Variant({
               <Field
                 name={`variant_group[variants][${variant.id}][visibility]`}
                 formId="product-edit-form"
-                value={variant.visibility}
+                value={variant.product?.visibility}
                 type="toggle"
               />
             </div>

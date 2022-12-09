@@ -53,6 +53,7 @@ query Query {
           name
           sku
           status
+          visibility
           price {
             regular {
               value
