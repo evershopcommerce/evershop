@@ -17,6 +17,7 @@ module.exports = {
       query.leftJoin('cart_item')
         .on('cart_item.`product_id`', '=', 'product.`product_id`');
       query.where('product.`status`', '=', 1);
+      query.andWhere('product.`visibility`', '=', 1);
       query.groupBy('product.`product_id`');
       query.orderBy('soldQty', 'desc');
       query.limit(0, 4);
