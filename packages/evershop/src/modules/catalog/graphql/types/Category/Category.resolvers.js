@@ -1,8 +1,9 @@
-const { select } = require('@evershop/mysql-query-builder');
+const { select, node } = require('@evershop/mysql-query-builder');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { camelCase } = require('../../../../../lib/util/camelCase');
 const uniqid = require('uniqid');
-const { getProductsQuery } = require('../../../services/getProductsQuery');
+const { getProductsBaseQuery } = require('../../../services/getProductsBaseQuery');
+const { pool } = require('../../../../../lib/mysql/connection');
 
 module.exports = {
   Query: {
@@ -198,7 +199,7 @@ module.exports = {
   },
   Category: {
     products: async (category, { filters = [] }, { filterableAttributes, priceRange }) => {
-      const query = await getProductsQuery(category.categoryId);
+      const query = await getProductsBaseQuery(category.categoryId);
       const currentFilters = [];
       // Price filter 
       const priceFilter = filters.find((f) => f.key === 'price');
@@ -271,6 +272,39 @@ module.exports = {
           value: sortOrder.value
         });
       }
+
+      // Visibility. For variant group
+      const copy = query.clone();
+      // Get all group that have at lease 1 item visibile
+      const visibleGroups = (await select('variant_group_id')
+        .from('variant_group')
+        .where('visibility', '=', 1)
+        .execute(pool)).map((v) => v.variant_group_id);
+
+      if (visibleGroups) {
+        // Get all invisible variants from current query
+        copy.select('SUM(product.`visibility`)', 'sumv')
+          .select('product.`product_id`')
+          .andWhere('product.`variant_group_id`', 'IN', visibleGroups);
+        copy.groupBy('product.`variant_group_id`')
+          .having('sumv', '=', 0);
+
+        const invisibleIds = (await copy.execute(pool)).map((v) => v.product_id);
+        if (invisibleIds.length > 0) {
+          const n = node('AND');
+          n.addLeaf('AND', 'product.`product_id`', 'IN', invisibleIds)
+            .addNode(
+              node('OR')
+                .addLeaf('OR', 'product.`visibility`', '=', 1)
+            );
+          query.getWhere().addNode(n);
+        } else {
+          query.andWhere('product.`visibility`', '=', 1);
+        }
+      } else {
+        query.andWhere('product.`visibility`', '=', 1);
+      }
+
       // Clone the main query for getting total right before doing the paging
       const cloneQuery = query.clone();
       cloneQuery.select('COUNT(product.`product_id`)', 'total');
