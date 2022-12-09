@@ -104,21 +104,34 @@ Price.propTypes = {
 };
 
 function Attributes({ currentFilters, attributes, updateFilter }) {
-  const onChange = (e, attributeCode, optionId, isChecked) => {
+  const onChange = (e, attributeCode, optionId) => {
     e.preventDefault();
-    if (isChecked === true) {
-      updateFilter(
-        currentFilters.map(
-          (f) => {
-            if (f.key !== attributeCode) {
-              return f
-            } else {
-              const value = f.value.split(',').filter((v) => parseInt(v) !== parseInt(optionId));
-              return { key: attributeCode, value: value.join(',') };
-            }
-          }
-        ).filter((f) => f.value !== '')
-      );
+    // Check if the attribute is already in the filter
+    const index = currentFilters.findIndex((f) => f.key === attributeCode);
+    if (index !== -1) {
+      const value = currentFilters[index].value.split(',');
+      // Check if the option is already in the filter
+      const optionIndex = value.findIndex((v) => v === optionId.toString());
+      if (optionIndex !== -1) {
+        // Remove the option from the filter
+        value.splice(optionIndex, 1);
+        if (value.length === 0) {
+          // Remove the attribute from the filter
+          updateFilter(currentFilters.filter((f) => f.key !== attributeCode));
+        } else {
+          // Update the filter
+          updateFilter(currentFilters.map((f) => {
+            if (f.key !== attributeCode) return f;
+            else return { key: attributeCode, value: value.join(',') };
+          }));
+        }
+      } else {
+        // Add the option to the filter
+        updateFilter(currentFilters.map((f) => {
+          if (f.key !== attributeCode) return f;
+          else return { key: attributeCode, value: value.concat(optionId).join(',') };
+        }));
+      }
     } else {
       updateFilter(currentFilters.concat({ key: attributeCode, value: optionId }));
     }
@@ -137,7 +150,7 @@ function Attributes({ currentFilters, attributes, updateFilter }) {
               );
               return (
                 <li key={o.optionId} className="mt-05 mr-05">
-                  <a href="#" className='flex justify-start items-center' onClick={(e) => onChange(e, a.attributeCode, o.optionId, !!isChecked)}>
+                  <a href="#" className='flex justify-start items-center' onClick={(e) => onChange(e, a.attributeCode, o.optionId)}>
                     {isChecked && <svg width="24px" height="24px" viewBox="0 0 24 24" >
                       <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                         <g fill="#212121" fillRule="nonzero">
