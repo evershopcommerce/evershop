@@ -9,7 +9,7 @@ export default function FeaturedCategories() {
           <div className="text-center">
             <img src="/assets/homepage/banner/men-shoes.jpeg" alt="" />
           </div>
-          <h3 className="h6 mt-1 mb-1">Men shoes collection</h3>
+          <h3 className="h4 uppercase mt-1 mb-1">Men shoes collection</h3>
           <div className="mb-1">
             <p>
               Constructed from luxury nylons,
@@ -24,7 +24,7 @@ export default function FeaturedCategories() {
           <div>
             <img src="/assets/homepage/banner/women-shoes.jpeg" alt="" />
           </div>
-          <h3 className="h6 mt-1 mb-1">Women shoes collection</h3>
+          <h3 className="h4 uppercase mt-1 mb-1">Women shoes collection</h3>
           <div className="mb-1">
             <p>
               Constructed from luxury nylons,
@@ -39,7 +39,7 @@ export default function FeaturedCategories() {
           <div>
             <img src="/assets/homepage/banner/kid-shoes.jpeg" alt="" />
           </div>
-          <h3 className="h6 mt-1 mb-1">Men shoes collection</h3>
+          <h3 className="h4 uppercase mt-1 mb-1">Men shoes collection</h3>
           <div className="mb-1">
             <p>
               Constructed from luxury nylons,

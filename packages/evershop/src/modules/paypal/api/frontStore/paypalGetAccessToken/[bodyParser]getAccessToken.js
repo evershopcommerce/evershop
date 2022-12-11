@@ -26,8 +26,8 @@ module.exports = async (request, response, stack, next) => {
 
   const paypalConfig = getConfig('system.paypal', {});
   let clientId, clientSecret;
-  if (paypalConfig.secretKey) {
-    clientSecret = paypalConfig.secretKey;
+  if (paypalConfig.clientSecret) {
+    clientSecret = paypalConfig.clientSecret;
   } else {
     clientSecret = await getSetting('paypalClientSecret', '');
   }

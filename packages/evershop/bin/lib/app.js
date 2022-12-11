@@ -13,7 +13,8 @@ const { getEnabledExtensions } = require('../extension');
 module.exports.createApp = () => {
   /** Create express app */
   const app = express();
-
+  // Enable trust proxy
+  app.enable('trust proxy');
   /* Loading modules and initilize routes, components and services */
   const modules = getCoreModules();
 
