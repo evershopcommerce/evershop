@@ -1,6 +1,6 @@
 {
   "name": "evershop",
-  "version": "1.0.1",
+  "version": "1.0.0-beta",
   "description": "A shopping cart platform with Express, React and MySQL",
   "files": [
     "bin",
@@ -22,8 +22,7 @@
     "build": "evershop build",
     "start": "evershop start",
     "test": "jest --workspace=@evershop/evershop",
-    "cypress": "cypress run",
-    "release": "standard-version --no-verify"
+    "cypress": "cypress run"
   },
   "author": "The Nguyen (https://evershop.io)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
