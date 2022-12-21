@@ -23,10 +23,10 @@
     "boxen": "^5.1.2",
     "chalk": "^4.1.2",
     "commander": "^9.4.1",
-    "mysql": "^2.18.1",
-    "semver": "^7.3.8",
-    "fs-extra": "^10.0.0",
     "cross-spawn": "^7.0.3",
+    "fs-extra": "^10.0.0",
+    "mysql2": "^2.3.3",
+    "semver": "^7.3.8",
     "validate-npm-package-name": "^4.0.0"
   }
 }
