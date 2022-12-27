@@ -1,0 +1,6 @@
+{
+  "methods": [
+    "PATCH"
+  ],
+  "path": "/products/:id"
+}

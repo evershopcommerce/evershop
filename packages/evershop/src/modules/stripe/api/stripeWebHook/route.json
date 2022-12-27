@@ -1,0 +1,6 @@
+{
+  "method": [
+    "POST"
+  ],
+  "path": "/stripe/webhook"
+}

@@ -1,0 +1,3 @@
+POST, GET
+/logout
+PUBLIC, PRIVATE

@@ -1,2 +1,0 @@
-GET
-/customers/edit/:id(\\d+)

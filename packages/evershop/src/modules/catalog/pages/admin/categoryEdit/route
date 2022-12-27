@@ -1,2 +1,0 @@
-GET
-/categories/edit/:id(\\d+)

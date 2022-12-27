@@ -1,0 +1,6 @@
+{
+  "method": [
+    "POST"
+  ],
+  "path": "/orders/:id/shipments"
+}

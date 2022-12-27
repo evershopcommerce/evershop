@@ -1,0 +1,6 @@
+{
+  "methods": [
+    "GET"
+  ],
+  "path": "/account/register"
+}
