@@ -198,8 +198,5 @@
       }
     }
   },
-  "required": [
-    "sku"
-  ],
   "additionalProperties": true
 }

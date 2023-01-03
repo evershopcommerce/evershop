@@ -13,12 +13,21 @@ module.exports = async (request, response, delegate) => {
     throw new Error('Invalid product id');
   }
 
-  await update('product').given(request.body)
-    .where('product_id', '=', product['product_id'])
-    .execute(connection);
-  await update('product_description')
-    .given(request.body).where('product_description_product_id', '=', product['product_id'])
-    .execute(connection);
+  try {
+    await update('product')
+      .given(request.body)
+      .where('product_id', '=', product['product_id'])
+      .execute(connection);
+
+    await update('product_description')
+      .given(request.body)
+      .where('product_description_product_id', '=', product['product_id'])
+      .execute(connection);
+  } catch (e) {
+    if (!e.message.includes('No data was provided')) {
+      throw e;
+    }
+  }
 
   return product['product_id'];
 };

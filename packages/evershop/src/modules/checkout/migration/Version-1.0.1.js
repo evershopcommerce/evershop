@@ -33,4 +33,8 @@ module.exports = exports = async () => {
 
   await execute(pool, `ALTER TABLE shipment MODIFY uuid varchar(36) NOT NULL DEFAULT (replace(uuid(),'-',''))`);
   await execute(pool, `ALTER TABLE shipment ADD UNIQUE KEY \`SHIPMENT_UUID\` (\`uuid\`)`);
+
+  // Delete a foreign key constraint from order item table
+  await execute(pool, `ALTER TABLE \`order_item\` DROP FOREIGN KEY \`FK_PRODUCT\``);
+  await execute(pool, `ALTER TABLE \`order_item\` DROP INDEX \`FK_PRODUCT\``);
 };
