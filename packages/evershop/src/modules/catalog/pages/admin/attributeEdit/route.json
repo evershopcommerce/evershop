@@ -2,5 +2,5 @@
   "methods": [
     "GET"
   ],
-  "path": "/attributes/edit/:id(\\d+)"
+  "path": "/attributes/edit/:id"
 }

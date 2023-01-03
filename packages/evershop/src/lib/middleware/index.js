@@ -56,36 +56,17 @@ exports.getModuleMiddlewares = function getModuleMiddlewares(path) {
       });
     }
   }
+
+  // Scan for the api middleware
   if (existsSync(resolve(path, 'api'))) {
-    // Scan for the application level middleware
-    if (existsSync(resolve(path, 'api', 'global'))) {
-      scanForMiddlewareFunctions(resolve(path, 'api', 'global')).forEach((m) => {
+    const routes = readdirSync(resolve(path, 'api'), { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name);
+    routes.forEach((route) => {
+      scanForMiddlewareFunctions(resolve(path, 'api', route)).forEach((m) => {
         addMiddleware(m);
       });
-    }
-    // Scan for the admin level middleware
-    if (existsSync(resolve(path, 'api', 'admin'))) {
-      const routes = readdirSync(resolve(path, 'api', 'admin'), { withFileTypes: true })
-        .filter((dirent) => dirent.isDirectory())
-        .map((dirent) => dirent.name);
-      routes.forEach((route) => {
-        scanForMiddlewareFunctions(resolve(path, 'api', 'admin', route)).forEach((m) => {
-          addMiddleware(m);
-        });
-      });
-    }
-
-    // Scan for the frontStore level middleware
-    if (existsSync(resolve(path, 'api', 'frontStore'))) {
-      const routes = readdirSync(resolve(path, 'api', 'frontStore'), { withFileTypes: true })
-        .filter((dirent) => dirent.isDirectory())
-        .map((dirent) => dirent.name);
-      routes.forEach((route) => {
-        scanForMiddlewareFunctions(resolve(path, 'api', 'frontStore', route)).forEach((m) => {
-          addMiddleware(m);
-        });
-      });
-    }
+    });
   }
 };
 

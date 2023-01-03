@@ -1,0 +1,88 @@
+{
+  "type": "object",
+  "properties": {
+    "coupon": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9]+$"
+    },
+    "status": {
+      "type": [
+        "string",
+        "integer"
+      ],
+      "enum": [
+        "0",
+        "1",
+        0,
+        1
+      ]
+    },
+    "description": {
+      "type": "string"
+    },
+    "discount_amount": {
+      "type": [
+        "string",
+        "number"
+      ],
+      "pattern": "^\\d*\\.?\\d*$"
+    },
+    "free_shipping": {
+      "type": [
+        "string",
+        "integer"
+      ],
+      "enum": [
+        "0",
+        "1",
+        0,
+        1
+      ]
+    },
+    "discount_type": {
+      "type": "string"
+    },
+    "target_products": {
+      "type": "string"
+    },
+    "condition": {
+      "type": "string"
+    },
+    "user_condition": {
+      "type": "string"
+    },
+    "buyx_gety": {
+      "type": "string"
+    },
+    "max_uses_time_per_coupon": {
+      "type": "string",
+      "pattern": "^[0-9]*$"
+    },
+    "max_uses_time_per_customer": {
+      "type": "string",
+      "pattern": "integer"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "number"
+    }
+  },
+  "required": [
+    "coupon",
+    "status",
+    "discount_amount",
+    "discount_type"
+  ],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "coupon": "Coupon is invalid",
+      "status": "Status is invalid",
+      "discount_amount": "Discount amount is invalid"
+    }
+  }
+}

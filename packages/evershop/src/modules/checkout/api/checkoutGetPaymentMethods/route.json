@@ -1,6 +1,0 @@
-{
-  "methods": [
-    "GET"
-  ],
-  "path": "/checkout/paymentMethods"
-}

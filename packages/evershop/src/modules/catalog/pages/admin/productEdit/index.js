@@ -15,6 +15,7 @@ module.exports = async (request, response, delegate, next) => {
       next();
     } else {
       setContextValue(request, 'productId', product.product_id);
+      setContextValue(request, 'productUuid', product.uuid);
       setContextValue(request, 'pageInfo', {
         title: product.meta_title || product.name,
         description: product.meta_description || product.short_description

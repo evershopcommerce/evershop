@@ -1,0 +1,63 @@
+const { commit, rollback, select } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../../lib/mysql/connection');
+const { buildUrl } = require('../../../../lib/router/buildUrl');
+const { OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+
+// eslint-disable-next-line no-unused-vars
+module.exports = async (request, response, delegate, next) => {
+  const promises = [];
+  Object.keys(delegate).forEach((id) => {
+    // Check if middleware is async
+    if (delegate[id] instanceof Promise) {
+      promises.push(delegate[id]);
+    }
+  });
+  const result = await delegate.createAttribute;
+  const connection = await delegate.getConnection;
+  const results = await Promise.allSettled(promises);
+  if (results.findIndex((r) => r.status === 'rejected') === -1) {
+    await commit(connection);
+
+    const attribute = await select()
+      .from('attribute')
+      .where('attribute_id', '=', result.insertId)
+      .load(pool);
+
+    if (attribute.type === 'select' || attribute.type === 'multiselect') {
+      attribute['options'] = await select()
+        .from('attribute_option')
+        .where('attribute_id', '=', attribute.attribute_id)
+        .execute(pool);
+    }
+    response.status(OK);
+    response.json({
+      data: {
+        ...attribute,
+        links: [
+          {
+            "rel": "attributeGrid",
+            "href": buildUrl('attributeGrid'),
+            "action": "GET",
+            "types": ["text/xml"]
+          },
+          {
+            "rel": "edit",
+            "href": buildUrl('attributeEdit', { id: attribute.uuid }),
+            "action": "GET",
+            "types": ["text/xml"]
+          }
+        ]
+      }
+    });
+  } else {
+    await rollback(connection);
+    response.status(INTERNAL_SERVER_ERROR)
+    response.json({
+      data: null,
+      error: {
+        status: INTERNAL_SERVER_ERROR,
+        message: e.message
+      }
+    });
+  }
+};

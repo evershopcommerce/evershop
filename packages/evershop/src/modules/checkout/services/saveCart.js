@@ -46,7 +46,7 @@ exports.saveCart = async (cart) => {
 
       // Delete items that are not in cart
       await Promise.all(currentItems.map(async (i) => {
-        if (!cart.getItem(i.cart_item_id)) {
+        if (!cart.getItem(i.uuid)) {
           await del('cart_item')
             .where('cart_item_id', '=', i.cart_item_id)
             .execute(connection, false);

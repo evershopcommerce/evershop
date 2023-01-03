@@ -4,7 +4,7 @@
 const path = require('path');
 const { addDefaultMiddlewareFuncs } = require('../../../../../bin/lib/addDefaultMiddlewareFuncs');
 const express = require('express');
-const { loadModuleRoutes } = require('../../../../../bin/lib/loadModuleRoutes');
+const { loadModuleRoutes } = require('../../../../lib/router/loadModuleRoutes');
 const { getModuleMiddlewares } = require('../..');
 const { getRoutes } = require('../../../router/Router');
 const { once } = require('events');
@@ -16,6 +16,10 @@ const app = express();
 
 /* Loading modules and initilize routes, components and services */
 const modules = [
+  {
+    name: 'api',
+    path: path.resolve(__dirname, './modules/api')
+  },
   {
     name: 'authcopy',
     path: path.resolve(__dirname, './modules/authcopy')

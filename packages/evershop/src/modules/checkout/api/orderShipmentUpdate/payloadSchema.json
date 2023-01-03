@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "carrier_name": {
+      "type": "string"
+    },
+    "tracking_number": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

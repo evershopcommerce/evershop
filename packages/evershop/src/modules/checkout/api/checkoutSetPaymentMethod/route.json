@@ -1,6 +1,0 @@
-{
-  "methods": [
-    "POST"
-  ],
-  "path": "/checkout/paymentMethods"
-}

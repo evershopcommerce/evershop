@@ -8,9 +8,7 @@ module.exports.watchMF = function (event, path) {
   if (!path.includes(normalize('pages/admin')) &&
     !path.includes(normalize('pages/frontStore')) &&
     !path.includes(normalize('pages/global')) &&
-    !path.includes(normalize('api/admin')) &&
-    !path.includes(normalize('api/frontStore')) &&
-    !path.includes(normalize('api/global'))
+    !path.includes(normalize('api/'))
   ) {
     return;
   }

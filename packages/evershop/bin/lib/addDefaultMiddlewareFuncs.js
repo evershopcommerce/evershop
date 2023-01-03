@@ -32,6 +32,9 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(app, rout
         case 'DELETE':
           app.delete(r.path, currentRouteMiddleware);
           break;
+        case 'PATCH':
+          app.patch(r.path, currentRouteMiddleware);
+          break;
         default:
           app.get(r.path, currentRouteMiddleware);
           break;

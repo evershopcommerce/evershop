@@ -2,6 +2,17 @@ const { sep } = require('path');
 
 module.exports.getRouteFromPath = (path) => {
   const parts = path.split(sep).reverse();
+
+  // Check if current path is an api path
+  if (parts[2] === 'api') {
+    return {
+      region: 'api',
+      scope: parts[1] === 'global' ? 'app' : parts[1],
+      routeId: parts[1] === 'global' ? null : parts[1]
+    }
+  }
+
+  // Current path is a page path
   let scope, routeId, region;
   region = parts[3];
   if (parts[1] === 'global') {

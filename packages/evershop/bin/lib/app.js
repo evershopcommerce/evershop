@@ -6,7 +6,7 @@ const { getModuleMiddlewares } = require('../../src/lib/middleware');
 const { getRoutes } = require('../../src/lib/router/Router');
 const { getCoreModules } = require('./loadModules');
 const { addDefaultMiddlewareFuncs } = require('./addDefaultMiddlewareFuncs');
-const { loadModuleRoutes } = require('./loadModuleRoutes');
+const { loadModuleRoutes } = require('../../src/lib/router/loadModuleRoutes');
 const { Handler } = require('../../src/lib/middleware/Handler');
 const { getEnabledExtensions } = require('../extension');
 
@@ -53,11 +53,34 @@ module.exports.createApp = () => {
   /** Hack for 'no route' case*/
   routes.push({
     id: 'noRoute',
-    path: '/*'
+    path: '/*',
+    method: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
   });
 
   routes.forEach((route) => {
-    app.all(route.path, Handler.middleware());
+    //app.all(route.path, Handler.middleware());
+    route.method.forEach((method) => {
+      switch (method.toUpperCase()) {
+        case 'GET':
+          app.get(route.path, Handler.middleware());
+          break;
+        case 'POST':
+          app.post(route.path, Handler.middleware());
+          break;
+        case 'PUT':
+          app.put(route.path, Handler.middleware());
+          break;
+        case 'DELETE':
+          app.delete(route.path, Handler.middleware());
+          break;
+        case 'PATCH':
+          app.patch(route.path, Handler.middleware());
+          break;
+        default:
+          app.get(route.path, Handler.middleware());
+          break;
+      }
+    });
   })
 
   return app;

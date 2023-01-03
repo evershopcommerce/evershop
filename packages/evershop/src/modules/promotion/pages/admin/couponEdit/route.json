@@ -2,5 +2,5 @@
   "methods": [
     "GET"
   ],
-  "path": "/coupon/edit/:id(\\d+)"
+  "path": "/coupon/edit/:id"
 }

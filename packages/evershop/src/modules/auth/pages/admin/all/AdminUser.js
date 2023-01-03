@@ -44,6 +44,6 @@ export const query = `
       fullName
       email
     },
-    logoutUrl: url(routeId: "adminLogout")
+    logoutUrl: url(routeId: "userLogout")
   }
 `

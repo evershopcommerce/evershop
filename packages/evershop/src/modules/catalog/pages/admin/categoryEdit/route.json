@@ -2,5 +2,5 @@
   "methods": [
     "GET"
   ],
-  "path": "/categories/edit/:id(\\d+)"
+  "path": "/categories/edit/:id"
 }

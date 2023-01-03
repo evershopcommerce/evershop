@@ -7,13 +7,13 @@ import { Form } from '../../../../../lib/components/form/Form';
 import { get } from '../../../../../lib/util/get';
 
 export default function ProductCreateForm({
-  action, gridUrl
+  createAction, updateAction, gridUrl, product
 }) {
   const id = 'productEditForm';
   return (
     <Form
       method={'POST'}
-      action={action}
+      action={product?.productId ? updateAction : createAction}
       submitBtn={false}
       onSuccess={(response) => {
         if (get(response, 'success') === false) {
@@ -24,8 +24,9 @@ export default function ProductCreateForm({
         toast.error('Something wrong. Please reload the page!');
       }}
       id={id}
+      isJSON={true}
     >
-      <div className="grid grid-cols-3 gap-x-2 grid-flow-row ">
+      <div className="grid grid-cols-3 gap-x-2 grid-flow-row">
         <div className="col-span-2 grid grid-cols-1 gap-2 auto-rows-max">
           <Area id="leftSide" noOuter />
         </div>
@@ -67,7 +68,11 @@ export const layout = {
 
 export const query = `
   query Query {
-    action: url(routeId: "productSavePost")
+    product(id: getContextValue("productId", null)) {
+      productId
+    }
+    createAction: url(routeId: "createProduct")
+    updateAction: url(routeId: "updateProduct", params: [{key: "id", value: getContextValue("productUuid")}])
     gridUrl: url(routeId: "productGrid")
   }
 `;
