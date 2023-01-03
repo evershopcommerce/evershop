@@ -1,12 +1,27 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 import './AdminUser.scss';
 
-export default function AdminUser({ adminUser, logoutUrl }) {
+export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
   const [showLogout, setShowLogout] = React.useState(false);
 
   const show = (e) => {
     e.preventDefault();
     setShowLogout(!showLogout);
+  }
+
+  const logout = async () => {
+    const response = await fetch(logoutUrl, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if (response.status === 200) {
+      window.location.href = loginPage;
+    } else {
+      toast.error('Logout failed');
+    }
   }
 
   if (!adminUser) {
@@ -23,7 +38,12 @@ export default function AdminUser({ adminUser, logoutUrl }) {
               Hello <span className='text-primary'>{fullName}!</span>
             </div>
             <div className='mt-1'>
-              <a className='text-critical' href={logoutUrl}>Logout</a>
+              <a className='text-critical' href={"#"} onClick={
+                (e) => {
+                  e.preventDefault();
+                  logout();
+                }
+              }>Logout</a>
             </div>
           </div>
         </div>}
@@ -44,6 +64,7 @@ export const query = `
       fullName
       email
     },
-    logoutUrl: url(routeId: "userLogout")
+    logoutUrl: url(routeId: "deleteAdminUserSession", params: [{ key: "id", value: getContextValue('sid') }]),
+    loginPage: url(routeId: "adminLogin")
   }
 `

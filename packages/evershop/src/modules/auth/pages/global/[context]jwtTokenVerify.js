@@ -14,8 +14,8 @@ module.exports = async (request, response, delegate, next) => {
   const cookieId = request.currentRoute.isAdmin ? getAdminTokenCookieId() : getTokenCookieId();
   // Get the jwt token from the cookies
   const token = request.cookies[cookieId];
-
-  const guestPayload = { user: null, sid: uuidv4() };
+  const sid = uuidv4();
+  const guestPayload = { user: null, sid: sid };
   // If there is no token, generate a new one for guest user
   if (!token) {
     // Issue a new token for guest user
@@ -23,6 +23,7 @@ module.exports = async (request, response, delegate, next) => {
     // Set the new token in the cookies
     response.cookie(cookieId, newToken, { maxAge: 172800, httpOnly: true });
     setContextValue(request, 'tokenPayload', guestPayload);
+    setContextValue(request, 'sid', sid);
     // Continue to the next middleware
     next();
   } else {
@@ -32,7 +33,8 @@ module.exports = async (request, response, delegate, next) => {
     // Get the secret from database
     const check = await select()
       .from('user_token_secret')
-      .where('sid', '=', get(tokenPayload, 'payload.user.sid', null))
+      .where('sid', '=', get(tokenPayload, 'payload.sid', null))
+      .and('user_id', '=', get(tokenPayload, 'payload.user.uuid', null))
       .load(pool);
 
     if (!check) { // This is guest user
@@ -47,6 +49,7 @@ module.exports = async (request, response, delegate, next) => {
         // Issue a new token for guest user
         const newToken = generateToken(guestPayload, getTokenSecret());
         setContextValue(request, 'tokenPayload', guestPayload);
+        setContextValue(request, 'sid', sid);
         // Set the new token in the cookies
         response.cookie(cookieId, newToken, { maxAge: 172800, httpOnly: true });
         // Redirect to home page
@@ -55,6 +58,7 @@ module.exports = async (request, response, delegate, next) => {
         );
       } else {
         setContextValue(request, 'tokenPayload', decoded);
+        setContextValue(request, 'sid', decoded.sid);
         next();
       }
     });

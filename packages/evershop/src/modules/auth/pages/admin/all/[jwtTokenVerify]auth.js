@@ -2,9 +2,10 @@ const { getContextValue, setContextValue } = require('../../../../graphql/servic
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { get } = require('../../../../../lib/util/get');
 
-module.exports = (request, response, stack, next) => {
+module.exports = (request, response, delegate, next) => {
   // Get the token Payload
   const tokenPayLoad = getContextValue(request, 'tokenPayload');
+  console.log('asdasd', tokenPayLoad)
   // If there is no token or is not admin, redirect to login page
   if (!tokenPayLoad || !get(tokenPayLoad, 'user.isAdmin')) {
     // Check if current route is adminLogin
