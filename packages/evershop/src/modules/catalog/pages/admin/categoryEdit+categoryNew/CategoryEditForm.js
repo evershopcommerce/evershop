@@ -7,19 +7,21 @@ import { Form } from '../../../../../lib/components/form/Form';
 import { get } from '../../../../../lib/util/get';
 
 export default function CategoryEditForm({
-  action, gridUrl
+  category, createAction, updateAction, gridUrl
 }) {
   const id = "categoryEditForm";
   return (
     <Form
-      action={action}
-      method={"POST"}
+      method={category?.categoryId ? 'PATCH' : 'POST'}
+      action={category?.categoryId ? updateAction : createAction}
       onError={() => {
         toast.error('Something wrong. Please reload the page!');
       }}
       onSuccess={(response) => {
-        if (get(response, 'success') === false) {
-          toast.error(get(response, 'message', 'Something wrong. Please reload the page!'));
+        if (response.error) {
+          toast.error(get(response, 'error.message', 'Something wrong. Please reload the page!'));
+        } else {
+          toast.success('Category saved successfully!');
         }
       }}
       submitBtn={false}
@@ -56,7 +58,11 @@ export default function CategoryEditForm({
 }
 
 CategoryEditForm.propTypes = {
-  action: PropTypes.string.isRequired,
+  category: PropTypes.shape({
+    categoryId: PropTypes.string
+  }),
+  updateAction: PropTypes.string.isRequired,
+  createAction: PropTypes.string.isRequired,
   gridUrl: PropTypes.string.isRequired
 };
 
@@ -67,7 +73,11 @@ export const layout = {
 
 export const query = `
   query Query {
-    action: url(routeId: "categorySavePost")
+    category(id: getContextValue("categoryId", null)) {
+      categoryId
+    }
+    createAction: url(routeId: "createCategory")
+    updateAction: url(routeId: "updateCategory", params: [{key: "id", value: getContextValue("categoryUuid")}])
     gridUrl: url(routeId: "categoryGrid")
   }
 `;

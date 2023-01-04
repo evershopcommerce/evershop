@@ -16,7 +16,7 @@ export function Form(props) {
     id,
     action,
     method,
-    isJSON,
+    isJSON = true,
     onStart,
     onComplete,
     onError,

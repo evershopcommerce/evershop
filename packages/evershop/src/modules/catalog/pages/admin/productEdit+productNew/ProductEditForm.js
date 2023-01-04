@@ -57,7 +57,11 @@ export default function ProductCreateForm({
 }
 
 ProductCreateForm.propTypes = {
-  action: PropTypes.string.isRequired,
+  product: PropTypes.shape({
+    productId: PropTypes.string
+  }),
+  updateAction: PropTypes.string.isRequired,
+  createAction: PropTypes.string.isRequired,
   gridUrl: PropTypes.string.isRequired
 };
 

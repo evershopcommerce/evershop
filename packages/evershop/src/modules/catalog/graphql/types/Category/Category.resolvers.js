@@ -11,8 +11,7 @@ module.exports = {
       const query = select().from('category');
       query.leftJoin('category_description')
         .on('category_description.`category_description_category_id`', '=', 'category.`category_id`')
-      query.where('category_id', '=', id)
-        .andWhere('category.`status`', '=', 1);
+      query.where('category_id', '=', id);
       const result = await query.load(pool)
       return result ? camelCase(result) : null;
     },
@@ -344,7 +343,7 @@ module.exports = {
       return buildUrl('categoryView', { url_key: category.urlKey });
     },
     editUrl: (category, _, { pool }) => {
-      return buildUrl('categoryEdit', { id: category.categoryId });
+      return buildUrl('categoryEdit', { id: category.uuid });
     },
     updateApi: (category, _, { pool }) => {
       return buildUrl('updateCategory', { id: category.uuid });
