@@ -36,6 +36,13 @@ module.exports = {
         currentFilters.push({ key: 'status', operation: '=', value: statusFilter.value });
       }
 
+      // includeInNav filter
+      const includeInNav = filters.find((f) => f.key === 'includeInNav');
+      if (includeInNav) {
+        query.andWhere('category.`include_in_nav`', '=', includeInNav.value);
+        currentFilters.push({ key: 'includeInNav', operation: '=', value: includeInNav.value });
+      }
+
       const sortBy = filters.find((f) => f.key === 'sortBy');
       const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'name') {
@@ -338,6 +345,12 @@ module.exports = {
     },
     editUrl: (category, _, { pool }) => {
       return buildUrl('categoryEdit', { id: category.categoryId });
+    },
+    updateApi: (category, _, { pool }) => {
+      return buildUrl('updateCategory', { id: category.uuid });
+    },
+    deleteApi: (category, _, { pool }) => {
+      return buildUrl('deleteCategory', { id: category.uuid });
     },
     image: (category, _, { pool }) => {
       const image = category.image;

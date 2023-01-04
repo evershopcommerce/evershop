@@ -1,5 +1,6 @@
 type Category {
   categoryId: ID!
+  uuid: String!
   name: String!
   status: Int!
   includeInNav: Int!
@@ -12,6 +13,8 @@ type Category {
   products(filters: [FilterInput]): ProductCollection
   url: String
   editUrl: String
+  updateApi: String!
+  deleteApi: String!
   availableFilters: [FilterAttribute]
 }
 
