@@ -1,5 +1,6 @@
 type Coupon {
   couponId: Int
+  uuid: String!
   status: Int!
   description: String!
   discountAmount: Float!
@@ -16,6 +17,8 @@ type Coupon {
   startDate: String
   endDate: String
   editUrl: String!
+  updateApi: String!
+  deleteApi: String!
 }
 
 type MatchProductFilter {

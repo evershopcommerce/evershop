@@ -5,7 +5,6 @@ import Area from '../../../../../lib/components/Area';
 import Pagination from '../../../../../lib/components/grid/Pagination';
 import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
 import { useAlertContext } from '../../../../../lib/components/modal/Alert';
-import formData from '../../../../../lib/util/formData';
 import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
 import FromToColumnHeader from '../../../../../lib/components/grid/headers/FromTo';
 import StatusColumnHeader from '../../../../../lib/components/grid/headers/Status';
@@ -14,9 +13,35 @@ import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
 import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
 import { Card } from '../../../../cms/components/admin/Card';
 
-function Actions({ selectedIds = [], enableCouponsUrl, disableCouponUrl, deleteCouponsUrl }) {
-  const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
+function Actions({ coupons = [], selectedIds = [] }) {
+  const { openAlert, closeAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
+
+  const updateCoupons = async (status) => {
+    setIsLoading(true);
+    const promises = coupons.filter((coupon) => selectedIds.includes(coupon.uuid)).map((coupon) => {
+      return axios.patch(coupon.updateApi, {
+        status: status,
+        coupon: coupon.coupon
+      });
+    });
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  }
+
+  const deleteCoupons = async () => {
+    setIsLoading(true);
+    const promises = coupons.filter((coupon) => selectedIds.includes(coupon.uuid)).map((coupon) => {
+      return axios.delete(coupon.deleteApi);
+    });
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  }
+
   const actions = [
     {
       name: 'Disable',
@@ -32,14 +57,7 @@ function Actions({ selectedIds = [], enableCouponsUrl, disableCouponUrl, deleteC
           secondaryAction: {
             title: 'Disable',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(disableCouponUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await updateCoupons(0);
             },
             variant: 'critical',
             isLoading: false
@@ -61,14 +79,7 @@ function Actions({ selectedIds = [], enableCouponsUrl, disableCouponUrl, deleteC
           secondaryAction: {
             title: 'Enable',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(enableCouponsUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await updateCoupons(1);
             },
             variant: 'critical',
             isLoading: false
@@ -90,14 +101,7 @@ function Actions({ selectedIds = [], enableCouponsUrl, disableCouponUrl, deleteC
           secondaryAction: {
             title: 'Delete',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(deleteCouponsUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await deleteCoupons();
             },
             variant: 'critical',
             isLoading
@@ -127,7 +131,7 @@ function Actions({ selectedIds = [], enableCouponsUrl, disableCouponUrl, deleteC
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default function CouponGrid({ coupons: { items: coupons, total, currentFilters = [] }, disableCouponUrl, enableCouponsUrl, deleteCouponsUrl }) {
@@ -142,8 +146,10 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(coupons.map((c) => c.couponId));
-                else setSelectedRows([]);
+                if (e.target.checked)
+                  setSelectedRows(coupons.map((c) => c.uuid));
+                else
+                  setSelectedRows([]);
               }}
               />
             </th>
@@ -177,23 +183,20 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
         </thead>
         <tbody>
           <Actions
-            ids={coupons.map((c) => c.couponId)}
+            coupons={coupons}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
-            disableCouponUrl={disableCouponUrl}
-            enableCouponsUrl={enableCouponsUrl}
-            deleteCouponsUrl={deleteCouponsUrl}
           />
           {coupons.map((c) => (
             <tr key={c.couponId}>
               <td>
                 <Checkbox
-                  isChecked={selectedRows.includes(c.couponId)}
+                  isChecked={selectedRows.includes(c.uuid)}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([c.couponId]));
+                      setSelectedRows(selectedRows.concat([c.uuid]));
                     } else {
-                      setSelectedRows(selectedRows.filter((row) => row !== c.couponId));
+                      setSelectedRows(selectedRows.filter((row) => row !== c.uuid));
                     }
                   }}
                 />
@@ -248,12 +251,15 @@ export const query = `
     coupons (filters: getContextValue("filtersFromUrl")) {
       items {
         couponId
+        uuid
         coupon
         status
         usedTime
         startDate
         endDate
         editUrl
+        updateApi
+        deleteApi
       }
       total
       currentFilters {
@@ -262,8 +268,5 @@ export const query = `
         value
       }
     }
-    disableCouponUrl: url(routeId: "couponBulkDisable")
-    enableCouponsUrl: url(routeId: "couponBulkEnable")
-    deleteCouponsUrl: url(routeId: "couponBulkDelete")
   }
 `;
