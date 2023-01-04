@@ -17,10 +17,17 @@ module.exports = async (request, response, delegate) => {
     throw new Error('Invalid attribute id');
   }
 
-  await update('attribute')
-    .given(data)
-    .where('uuid', '=', request.params.id)
-    .execute(connection);
+  try {
+    await update('attribute')
+      .given(data)
+      .where('uuid', '=', request.params.id)
+      .execute(connection);
+  } catch (e) {
+    response.status(INVALID_PAYLOAD);
+    if (!e.message.includes('No data was provided')) {
+      throw e;
+    }
+  }
 
   return await select().from('attribute').where('uuid', '=', request.params.id).load(pool);
 };

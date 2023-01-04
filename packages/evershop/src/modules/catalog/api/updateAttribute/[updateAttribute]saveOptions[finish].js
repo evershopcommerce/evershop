@@ -50,16 +50,16 @@ module.exports = async (request, response, delegate) => {
         .given({
           option_text: option['option_text'],
           attribute_id: attributeId,
-          attribute_code: get(attributeData, 'attribute_code')
+          attribute_code: get(attribute, 'attribute_code')
         })
-        .where('attribute_option_id', '=', key)
+        .where('attribute_option_id', '=', option['option_id'])
         .execute(connection);
     } else {
       await insert('attribute_option')
         .given({
           option_text: option['option_text'],
           attribute_id: attributeId,
-          attribute_code: get(attributeData, 'attribute_code')
+          attribute_code: get(attribute, 'attribute_code')
         })
         .execute(connection);
     }

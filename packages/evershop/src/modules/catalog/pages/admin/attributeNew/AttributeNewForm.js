@@ -49,7 +49,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    action: url(routeId: "createCategory")
-    gridUrl: url(routeId: "categoryGrid")
+    action: url(routeId: "createAttribute")
+    gridUrl: url(routeId: "attributeGrid")
   }
 `;

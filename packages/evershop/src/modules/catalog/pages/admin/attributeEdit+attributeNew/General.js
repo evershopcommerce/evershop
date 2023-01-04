@@ -18,7 +18,7 @@ const GroupsQuery = `
     }
   }
 `
-function Groups({ groups, addGroupUrl }) {
+function Groups({ groups, createGroupApi }) {
   const [result, reexecuteQuery] = useQuery({
     query: GroupsQuery,
   });
@@ -31,7 +31,7 @@ function Groups({ groups, addGroupUrl }) {
       setCreateGroupError("Group name is required");
       return
     }
-    fetch(addGroupUrl, {
+    fetch(createGroupApi, {
       method: "POST",
       headers: {
         'Content-Type': "application/json"
@@ -39,11 +39,11 @@ function Groups({ groups, addGroupUrl }) {
       body: JSON.stringify({ group_name: newGroup.current.value })
     }).then(response => response.json())
       .then((data) => {
-        if (data.success === true) {
+        if (!data.error) {
           newGroup.current.value = '';
           reexecuteQuery({ requestPolicy: 'network-only' });
         } else {
-          setCreateGroupError(data.message)
+          setCreateGroupError(data.error.message)
         }
       })
   }
@@ -53,7 +53,6 @@ function Groups({ groups, addGroupUrl }) {
 
   return <div>
     <div className='mb-1'>Select groups the attribute belongs to</div>
-
     <div className='grid gap-2 grid-cols-2'>
       <div>
         <Select
@@ -89,35 +88,36 @@ function Options({ originOptions = [] }) {
   const addOption = (e) => {
     e.preventDefault();
     setOptions(options.concat({
-      attributeOptionId: Date.now(),
+      optionId: Date.now(),
+      uuid: Date.now(),
       optionText: ''
     }));
   };
 
-  const removeOption = (key, e) => {
+  const removeOption = (uuid, e) => {
     e.preventDefault();
-    const newOptions = options.filter((_, index) => index !== key);
+    const newOptions = options.filter((option) => option.uuid !== uuid);
     setOptions(newOptions);
   };
 
   return (
     <div className="attribute-edit-options">
       {options.map((option, index) => {
-        const { attributeOptionId, optionText } = option;
-        return (
-          <div key={attributeOptionId} className="flex mb-05 space-x-2">
-            <div>
-              <Field
-                type="text"
-                name={`options[${attributeOptionId}][option_text]`}
-                formId="attribute-edit-form"
-                value={optionText}
-                validationRules={['notEmpty']}
-              />
-            </div>
-            <div className="self-center"><a href="#" onClick={(e) => removeOption(index, e)} className="text-critical hover:underline">Remove option</a></div>
+        const { uuid, optionId, optionText } = option;
+        return <div key={uuid} className="flex mb-05 space-x-2">
+          <div>
+            <Field
+              key={uuid}
+              type="text"
+              name={`options[${index}][option_text]`}
+              formId="attribute-edit-form"
+              value={optionText}
+              validationRules={['notEmpty']}
+            />
+            <input type={"hidden"} name={`options[${index}][option_id]`} value={optionId} />
           </div>
-        );
+          <div className="self-center"><a href="#" onClick={(e) => removeOption(uuid, e)} className="text-critical hover:underline">Remove option</a></div>
+        </div>;
       })}
       <div className="mt-1"><a href="#" onClick={(e) => addOption(e)} className="text-interactive hover:underline">Add option</a></div>
     </div>
@@ -126,12 +126,12 @@ function Options({ originOptions = [] }) {
 
 Options.propTypes = {
   originOptions: PropTypes.arrayOf(PropTypes.shape({
-    attributeOptionId: PropTypes.number,
+    optionId: PropTypes.number,
     optionText: PropTypes.string
   })).isRequired
 };
 
-export default function General({ attribute, addGroupUrl }) {
+export default function General({ attribute, createGroupApi }) {
   const [type, setType] = React.useState(attribute?.type);
   const fields = [
     {
@@ -205,7 +205,7 @@ export default function General({ attribute, addGroupUrl }) {
         </Card.Session>
       )}
       <Card.Session title="Attribute Group">
-        <Groups groups={get(attribute, 'groups', [])} addGroupUrl={addGroupUrl} />
+        <Groups groups={get(attribute, 'groups', [])} createGroupApi={createGroupApi} />
       </Card.Session>
     </Card>
   );
@@ -224,7 +224,8 @@ export const query = `
       attributeCode
       type
       options {
-        attributeOptionId
+        optionId: attributeOptionId
+        uuid
         optionText
       }
       groups {
@@ -232,6 +233,6 @@ export const query = `
         label: groupName
       }
     }
-    addGroupUrl: url(routeId: "attributeGroupSavePost")
+    createGroupApi: url(routeId: "createAttributeGroup")
   }
 `;

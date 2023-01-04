@@ -8,6 +8,7 @@ type AttributeGroup {
 
 type AttributeOption {
   attributeOptionId: ID!
+  uuid: String!
   optionText: String!
 }
 
