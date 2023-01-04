@@ -7,7 +7,6 @@ import Area from '../../../../../lib/components/Area';
 import Pagination from '../../../../../lib/components/grid/Pagination';
 import { useAlertContext } from '../../../../../lib/components/modal/Alert';
 import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
-import formData from '../../../../../lib/util/formData';
 import { Card } from '../../../../cms/components/admin/Card';
 import CategoryNameRow from './rows/CategoryName';
 import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
@@ -74,7 +73,7 @@ function Actions({ categories = [], selectedIds = [] }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default function CategoryGrid({ categories: { items: categories, total, currentFilters = [] }, deleteCategoriesUrl }) {

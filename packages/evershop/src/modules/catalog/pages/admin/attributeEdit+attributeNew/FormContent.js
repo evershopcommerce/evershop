@@ -27,7 +27,7 @@ export default function FormContent({ gridUrl }) {
       <Button
         title="Save"
         onAction={
-          () => { document.getElementById('categoryForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
+          () => { document.getElementById('attributeForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
         }
       />
     </div>
@@ -35,12 +35,12 @@ export default function FormContent({ gridUrl }) {
 }
 
 export const layout = {
-  areaId: 'categoryForm',
+  areaId: 'attributeForm',
   sortOrder: 10
 }
 
 export const query = `
   query Query {
-    gridUrl: url(routeId: "categoryGrid")
+    gridUrl: url(routeId: "attributeGrid")
   }
 `;

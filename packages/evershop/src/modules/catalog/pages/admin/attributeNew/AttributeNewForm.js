@@ -5,10 +5,10 @@ import Area from '../../../../../lib/components/Area';
 import { Form } from '../../../../../lib/components/form/Form';
 import { get } from '../../../../../lib/util/get';
 
-export default function CategoryNewForm({
+export default function AttributeNewForm({
   action
 }) {
-  const id = "categoryForm";
+  const id = "attributeForm";
   return (
     <Form
       method={'POST'}
@@ -20,7 +20,7 @@ export default function CategoryNewForm({
         if (response.error) {
           toast.error(get(response, 'error.message', 'Something wrong. Please reload the page!'));
         } else {
-          toast.success('Category saved successfully!');
+          toast.success('Attribute saved successfully!');
           // Wait for 2 seconds to show the success message
           setTimeout(() => {
             // Redirect to the edit page
@@ -37,7 +37,7 @@ export default function CategoryNewForm({
   );
 }
 
-CategoryNewForm.propTypes = {
+AttributeNewForm.propTypes = {
   action: PropTypes.string.isRequired,
   gridUrl: PropTypes.string.isRequired
 };

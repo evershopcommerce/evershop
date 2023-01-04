@@ -6,7 +6,6 @@ import Area from '../../../../../lib/components/Area';
 import Pagination from '../../../../../lib/components/grid/Pagination';
 import { useAlertContext } from '../../../../../lib/components/modal/Alert';
 import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
-import formData from '../../../../../lib/util/formData';
 import { Card } from '../../../../cms/components/admin/Card';
 import AttributeNameRow from './rows/AttributeName';
 import GroupRow from './rows/GroupRow';
@@ -16,9 +15,21 @@ import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic'
 import GroupHeader from './headers/GroupHeader';
 import DropdownColumnHeader from '../../../../../lib/components/grid/headers/Dropdown';
 
-function Actions({ selectedIds = [], deleteAttributesUrl }) {
+function Actions({ attributes = [], selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
+
+  const deleteAttributes = async () => {
+    setIsLoading(true);
+    const promises = attributes.filter((attribute) => selectedIds.includes(attribute.uuid)).map((attribute) => {
+      return axios.delete(attribute.deleteApi);
+    });
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  }
+
   const actions = [
     {
       name: 'Delete',
@@ -34,14 +45,7 @@ function Actions({ selectedIds = [], deleteAttributesUrl }) {
           secondaryAction: {
             title: 'Delete',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(deleteAttributesUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await deleteAttributes();
             },
             variant: 'critical',
             isLoading
@@ -71,10 +75,10 @@ function Actions({ selectedIds = [], deleteAttributesUrl }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
-export default function AttributeGrid({ attributes: { items: attributes, total, currentFilters = [] }, deleteAttributesUrl, saveAttributeGroupUrl }) {
+export default function AttributeGrid({ attributes: { items: attributes, total, currentFilters = [] } }) {
   const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page')['value'] : 1;
   const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit')['value'] : 20;
   const [selectedRows, setSelectedRows] = useState([]);
@@ -86,8 +90,10 @@ export default function AttributeGrid({ attributes: { items: attributes, total, 
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(attributes.map((a) => a.attributeId));
-                else setSelectedRows([]);
+                if (e.target.checked)
+                  setSelectedRows(attributes.map((a) => a.uuid));
+                else
+                  setSelectedRows([]);
               }}
               />
             </th>
@@ -143,21 +149,20 @@ export default function AttributeGrid({ attributes: { items: attributes, total, 
         </thead>
         <tbody>
           <Actions
-            ids={attributes.map((a) => a.attributeId)}
+            attributes={attributes}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
-            deleteAttributesUrl={deleteAttributesUrl}
           />
           {attributes.map((a) => (
             <tr key={a.attributeId}>
               <td>
                 <Checkbox
-                  isChecked={selectedRows.includes(a.attributeId)}
+                  isChecked={selectedRows.includes(a.uuid)}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([a.attributeId]));
+                      setSelectedRows(selectedRows.concat([a.uuid]));
                     } else {
-                      setSelectedRows(selectedRows.filter((r) => r !== a.attributeId));
+                      setSelectedRows(selectedRows.filter((r) => r !== a.uuid));
                     }
                   }}
                 />
@@ -173,7 +178,7 @@ export default function AttributeGrid({ attributes: { items: attributes, total, 
                     sortOrder: 10
                   },
                   {
-                    component: { default: () => <GroupRow saveAttributeGroupUrl={saveAttributeGroupUrl} groups={a.groups} /> },
+                    component: { default: () => <GroupRow groups={a.groups} /> },
                     sortOrder: 15
                   },
                   {
@@ -211,15 +216,19 @@ export const query = `
     attributes (filters: getContextValue("filtersFromUrl")) {
       items {
         attributeId
+        uuid
         attributeName
         attributeCode
         type
         isRequired
         isFilterable
         editUrl
+        updateApi
+        deleteApi
         groups {
           attributeGroupId
           groupName
+          updateApi
         }
       }
       total
@@ -229,7 +238,5 @@ export const query = `
         value
       }
     }
-    deleteAttributesUrl: url(routeId: "attributeBulkDelete")
-    saveAttributeGroupUrl: url(routeId: "attributeGroupSavePost")
   }
 `;

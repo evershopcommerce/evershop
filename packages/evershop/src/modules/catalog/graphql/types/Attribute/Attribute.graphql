@@ -1,6 +1,8 @@
 type AttributeGroup {
   attributeGroupId: ID!
+  uuid: String!
   groupName: String!
+  updateApi: String!
   attributes: [Attribute]
 }
 
@@ -11,6 +13,7 @@ type AttributeOption {
 
 type Attribute {
   attributeId: ID!
+  uuid: String!
   attributeCode: String!
   attributeName: String!
   type: String!
@@ -21,6 +24,8 @@ type Attribute {
   options: [AttributeOption]
   groups: [AttributeGroup]
   editUrl: String!
+  updateApi: String!
+  deleteApi: String!
 }
 
 type AttributeCollection {

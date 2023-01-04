@@ -141,6 +141,9 @@ module.exports = {
         )
         .execute(pool);
       return rows.map((row) => camelCase(row));
+    },
+    updateApi: (group, _, { pool }) => {
+      return buildUrl('updateAttributeGroup', { id: group.uuid });
     }
   },
 
@@ -166,6 +169,12 @@ module.exports = {
         .execute(pool);
       return results.map((result) => camelCase(result))
     },
-    editUrl: ({ attributeId }) => buildUrl('attributeEdit', { id: attributeId })
+    editUrl: ({ attributeId }) => buildUrl('attributeEdit', { id: attributeId }),
+    updateApi: (attribute, _, { pool }) => {
+      return buildUrl('updateAttribute', { id: attribute.uuid });
+    },
+    deleteApi: (attribute, _, { pool }) => {
+      return buildUrl('deleteAttribute', { id: attribute.uuid });
+    }
   }
 }
