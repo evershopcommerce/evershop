@@ -1,5 +1,6 @@
 type CmsPage {
   cmsPageId: Int
+  uuid: String!
   layout: String!
   status: Int!
   urlKey: String!
@@ -10,6 +11,8 @@ type CmsPage {
   metaDescription: String
   url: String!
   editUrl: String!
+  updateApi: String!
+  deleteApi: String!
 }
 
 type CmsPageCollection {

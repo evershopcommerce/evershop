@@ -32,17 +32,6 @@ export default function General({
       sortOrder: 10
     },
     {
-      component: { default: Field },
-      props: {
-        type: 'radio',
-        id: 'status',
-        name: 'status',
-        label: 'Status',
-        options: [{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }]
-      },
-      sortOrder: 20
-    },
-    {
       component: { default: TextArea },
       props: {
         id: 'content',
@@ -88,7 +77,6 @@ export const query = `
       cmsPageId
       name
       content
-      status
     }
     browserApi: url(routeId: "fileBrowser", params: [{key: "0", value: ""}])
     deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])

@@ -21,15 +21,21 @@ module.exports = async (request, response, delegate) => {
     return;
   }
 
-  await update('cms_page')
-    .given(data)
-    .where('uuid', '=', request.params.id)
-    .execute(connection);
+  try {
+    await update('cms_page')
+      .given(data)
+      .where('uuid', '=', request.params.id)
+      .execute(connection);
 
-  await update('cms_page_description')
-    .given(request.body)
-    .where('cms_page_description_cms_page_id', '=', page['cms_page_id'])
-    .execute(connection);
+    await update('cms_page_description')
+      .given(request.body)
+      .where('cms_page_description_cms_page_id', '=', page['cms_page_id'])
+      .execute(connection);
+  } catch (e) {
+    if (!e.message.includes('No data was provided')) {
+      throw e;
+    }
+  }
 
   return request.params.id;
 };

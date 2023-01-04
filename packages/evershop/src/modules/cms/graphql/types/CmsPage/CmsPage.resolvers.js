@@ -90,6 +90,12 @@ module.exports = {
   },
   CmsPage: {
     url: ({ urlKey }) => buildUrl('cmsPageView', { url_key: urlKey }),
-    editUrl: ({ cmsPageId }) => buildUrl('cmsPageEdit', { id: cmsPageId })
+    editUrl: ({ uuid }) => buildUrl('cmsPageEdit', { id: uuid }),
+    updateApi: (page, _, { pool }) => {
+      return buildUrl('updateCmsPage', { id: page.uuid });
+    },
+    deleteApi: (page, _, { pool }) => {
+      return buildUrl('deleteCmsPage', { id: page.uuid });
+    }
   }
 }
