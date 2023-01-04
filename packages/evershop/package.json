@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/evershopcommerce/evershop/issues"
   },
-  "homepage": "https://github.com/evershopcommerce/evershop",
+  "homepage": "http://evershop.io/",
   "dependencies": {
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
