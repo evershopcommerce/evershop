@@ -12,12 +12,12 @@ export default function ProductCreateForm({
   const id = 'productEditForm';
   return (
     <Form
-      method={'POST'}
+      method={product?.productId ? 'PATCH' : 'POST'}
       action={product?.productId ? updateAction : createAction}
       submitBtn={false}
       onSuccess={(response) => {
-        if (get(response, 'success') === false) {
-          toast.error(get(response, 'message', 'Something wrong. Please reload the page!'));
+        if (response.error) {
+          toast.error(get(response, 'error.message', 'Something wrong. Please reload the page!'));
         }
       }}
       onError={() => {
