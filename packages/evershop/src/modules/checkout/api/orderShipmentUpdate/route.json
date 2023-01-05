@@ -1,6 +1,0 @@
-{
-  "methods": [
-    "PATCH"
-  ],
-  "path": "/orders/:id/shipments/:shipment_id"
-}

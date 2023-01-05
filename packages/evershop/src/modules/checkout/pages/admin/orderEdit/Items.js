@@ -129,10 +129,11 @@ Name.defaultProps = {
   options: undefined
 };
 
-function FullfillButton({ shipment, createShipmentUrl }) {
+function FullfillButton({ shipment, createShipmentApi }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
-  if (shipment) return null;
-  else {
+  if (shipment) {
+    return null;
+  } else {
     return (
       <Button
         title="Fullfill items"
@@ -144,7 +145,7 @@ function FullfillButton({ shipment, createShipmentUrl }) {
               <Form
                 id="fullfill-items"
                 method="POST"
-                action={createShipmentUrl}
+                action={createShipmentApi}
                 submitBtn={false}
                 isJSON={true}
                 onSuccess={() => {
@@ -207,7 +208,9 @@ function FullfillButton({ shipment, createShipmentUrl }) {
 }
 
 function TrackingButton({ shipment }) {
-  if (!shipment || !shipment.trackingNumber || !shipment.carrierName) return null;
+  if (!shipment || !shipment.trackingNumber || !shipment.carrierName) {
+    return null;
+  }
 
   let url = null; // TODO: This should let extension to add a carrier with link
   if (shipment.carrierName === 'Fedex') {
@@ -228,7 +231,7 @@ function TrackingButton({ shipment }) {
   );
 }
 
-function AddTrackingButton({ shipment, updateShipmentUrl }) {
+function AddTrackingButton({ shipment }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   if (!shipment || shipment.trackingNumber || shipment.carrierName) return null;
 
@@ -243,8 +246,8 @@ function AddTrackingButton({ shipment, updateShipmentUrl }) {
             content: <div>
               <Form
                 id="add-tracking-items"
-                method="POST"
-                action={updateShipmentUrl}
+                method="PATCH"
+                action={shipment.updateShipmentApi}
                 submitBtn={false}
                 isJSON={true}
                 onSuccess={() => {
@@ -306,7 +309,7 @@ function AddTrackingButton({ shipment, updateShipmentUrl }) {
   }
 }
 
-export default function Items({ order: { items, shipmentStatus, shipment }, createShipmentUrl, updateShipmentUrl }) {
+export default function Items({ order: { items, shipmentStatus, shipment, fullFillApi } }) {
   return (
     <Card title={(
       <div className="flex space-x-1">
@@ -361,9 +364,9 @@ export default function Items({ order: { items, shipmentStatus, shipment }, crea
       </Card.Session>
       <Card.Session>
         <div className="flex justify-end">
-          <FullfillButton createShipmentUrl={createShipmentUrl} shipment={shipment} />
+          <FullfillButton createShipmentApi={fullFillApi} shipment={shipment} />
           <TrackingButton shipment={shipment} />
-          <AddTrackingButton updateShipmentUrl={updateShipmentUrl} shipment={shipment} />
+          <AddTrackingButton shipment={shipment} />
         </div>
       </Card.Session>
     </Card>
@@ -383,6 +386,7 @@ export const query = `
         shipmentId
         carrierName
         trackingNumber
+        updateShipmentApi
       }
       shipmentStatus {
         code
@@ -408,8 +412,7 @@ export const query = `
           text
         }
       }
+      fullFillApi
     }
-    createShipmentUrl: url(routeId: "createShipment", params: [{key: "orderId", value: getContextValue("orderId", undefined, true)}])
-    updateShipmentUrl: url(routeId: "updateShipment", params: [{key: "orderId", value: getContextValue("orderId", undefined, true)}])
   }
 `

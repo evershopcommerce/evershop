@@ -2,7 +2,7 @@ const {
   rollback, insert, commit, select, update, startTransaction
 } = require('@evershop/mysql-query-builder');
 const config = require('config');
-const { getConnection } = require('../../../../lib/mysql/connection');
+const { getConnection, pool } = require('../../../../lib/mysql/connection');
 const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
@@ -37,12 +37,12 @@ module.exports = async (request, response, deledate, next) => {
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: 'Shipment was fullfilled'
+          message: 'Shipment was created'
         }
       });
       return;
     }
-    await insert('shipment')
+    const result = await insert('shipment')
       .given({
         shipment_order_id: order.order_id,
         carrier_name: carrier_name,
@@ -66,9 +66,15 @@ module.exports = async (request, response, deledate, next) => {
     }).execute(connection);
 
     await commit(connection);
+
+    const shipmentData = await select()
+      .from('shipment')
+      .where('shipment_id', '=', result.insertId)
+      .load(pool);
+
     response.status(OK);
     response.json({
-      data: {}
+      data: shipmentData
     });
   } catch (e) {
     await rollback(connection);
