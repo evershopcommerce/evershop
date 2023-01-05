@@ -87,7 +87,13 @@ module.exports = {
   },
   Customer: {
     url: ({ urlKey }) => buildUrl('customerView', { url_key: urlKey }),
-    editUrl: ({ customerId }) => buildUrl('customerEdit', { id: customerId }),
+    editUrl: ({ uuid }) => buildUrl('customerEdit', { id: uuid }),
+    updateApi: (customer, _, { pool }) => {
+      return buildUrl('updateCustomer', { id: customer.uuid });
+    },
+    deleteApi: (customer, _, { pool }) => {
+      return buildUrl('deleteCustomer', { id: customer.uuid });
+    },
     group: async ({ groupId }, _, { pool }) => {
       const group = await select()
         .from('customer_group')

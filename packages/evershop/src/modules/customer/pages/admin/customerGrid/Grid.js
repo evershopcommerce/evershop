@@ -13,9 +13,23 @@ import { Card } from '../../../../cms/components/admin/Card';
 import CustomerNameRow from './rows/CustomerName';
 import CreateAt from './rows/CreateAt';
 
-function Actions({ selectedIds = [], disableCustomersUrl, enableCustomersUrl }) {
+function Actions({ customers = [], selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
+
+  const updateCustomers = async (status) => {
+    setIsLoading(true);
+    const promises = customers.filter((customer) => selectedIds.includes(customer.uuid)).map((customer) => {
+      return axios.patch(customer.updateApi, {
+        status: status
+      });
+    });
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  }
+
   const actions = [
     {
       name: 'Disable',
@@ -31,14 +45,7 @@ function Actions({ selectedIds = [], disableCustomersUrl, enableCustomersUrl }) 
           secondaryAction: {
             title: 'Disable',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(disableCustomersUrl, { ids: selectedIds });
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await updateCustomers(0);
             },
             variant: 'critical',
             isLoading: false
@@ -60,14 +67,7 @@ function Actions({ selectedIds = [], disableCustomersUrl, enableCustomersUrl }) 
           secondaryAction: {
             title: 'Enable',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(enableCustomersUrl, { ids: selectedIds });
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await updateCustomers(1);
             },
             variant: 'critical',
             isLoading: false
@@ -97,7 +97,7 @@ function Actions({ selectedIds = [], disableCustomersUrl, enableCustomersUrl }) 
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default function CustomerGrid({ customers: { items: customers, total, currentFilters = [] }, disableCustomersUrl, enableCustomersUrl }) {
@@ -112,8 +112,10 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(customers.map((c) => c.customerId));
-                else setSelectedRows([]);
+                if (e.target.checked)
+                  setSelectedRows(customers.map((c) => c.uuid));
+                else
+                  setSelectedRows([]);
               }}
               />
             </th>
@@ -145,22 +147,20 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
         </thead>
         <tbody>
           <Actions
-            ids={customers.map(() => customers.customerId)}
+            customers={customers}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
-            disableCustomersUrl={disableCustomersUrl}
-            enableCustomersUrl={enableCustomersUrl}
           />
           {customers.map((c) => (
             <tr key={c.customerId}>
               <td>
                 <Checkbox
-                  isChecked={selectedRows.includes(c.customerId)}
+                  isChecked={selectedRows.includes(c.uuid)}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([c.customerId]));
+                      setSelectedRows(selectedRows.concat([c.uuid]));
                     } else {
-                      setSelectedRows(selectedRows.filter((row) => row !== c.customerId));
+                      setSelectedRows(selectedRows.filter((row) => row !== c.uuid));
                     }
                   }}
                 />
@@ -211,6 +211,7 @@ export const query = `
     customers (filters: getContextValue("filtersFromUrl")) {
       items {
         customerId
+        uuid
         fullName
         email
         status
@@ -219,6 +220,7 @@ export const query = `
           text
         }
         editUrl
+        updateApi
       }
       total
       currentFilters {
@@ -227,7 +229,5 @@ export const query = `
         value
       }
     }
-    disableCustomersUrl: url(routeId: "disableCustomers")
-    enableCustomersUrl: url(routeId: "enableCustomers")
   }
 `;

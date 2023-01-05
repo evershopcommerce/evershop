@@ -26,8 +26,7 @@ module.exports = async (request, response, delegate, next) => {
     await update('customer')
       .given({
         ...request.body,
-        group_id: 1,
-        status: 1
+        group_id: 1 //TODO: fix me
       })
       .where('uuid', '=', request.params.id)
       .execute(connection, false);

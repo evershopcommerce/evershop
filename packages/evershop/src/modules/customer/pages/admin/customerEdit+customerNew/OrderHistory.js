@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '../../../../../lib/components/Area';
 import { Card } from '../../../../cms/components/admin/Card';
 
 export default function OrderHistory({
@@ -45,7 +44,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    customer(id: getContextValue("customerId", null)) {
+    customer(id: getContextValue("customerUuid", null)) {
       orders {
         orderNumber
         editUrl
