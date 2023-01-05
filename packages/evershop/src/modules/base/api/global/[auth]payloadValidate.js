@@ -17,6 +17,7 @@ module.exports = (request, response, delegate, next) => {
       useDefaults: true
     });
     addFormats(ajv);
+    ajv.addFormat("digits", /^[0-9]*$/);
     const validate = ajv.compile(payloadSchema);
     const valid = validate(request.body);
     if (valid) {
