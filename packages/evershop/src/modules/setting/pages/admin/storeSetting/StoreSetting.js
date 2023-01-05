@@ -207,8 +207,10 @@ export default function StoreSetting({
           id="storeSetting"
           action={saveSettingApi}
           onSuccess={(response) => {
-            if (response?.success === true) {
+            if (!response.error) {
               toast.success('Setting saved');
+            } else {
+              toast.error(response.error.message);
             }
           }}
         >
