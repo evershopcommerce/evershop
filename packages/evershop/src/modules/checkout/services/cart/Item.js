@@ -265,6 +265,6 @@ module.exports.Item = class Item extends DataObject {
   }
 
   getId() {
-    return this.getData('cart_item_id');
+    return this.getData('uuid');
   }
 }

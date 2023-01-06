@@ -195,5 +195,10 @@ module.exports = {
     deleteApi: (coupon, _, { pool }) => {
       return buildUrl('deleteCoupon', { id: coupon.uuid });
     }
+  },
+  Cart: {
+    applyCouponApi: (cart, _, { pool }) => {
+      return buildUrl('couponApply', { cart_id: cart.uuid });
+    }
   }
 }

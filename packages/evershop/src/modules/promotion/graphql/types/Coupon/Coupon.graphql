@@ -60,6 +60,10 @@ type CouponCollection {
   currentFilters: [Filter]
 }
 
+extend type Cart {
+  applyCouponApi: String!
+}
+
 extend type Query {
   coupon(id: Int): Coupon,
   coupons(filters: [FilterInput]): CouponCollection

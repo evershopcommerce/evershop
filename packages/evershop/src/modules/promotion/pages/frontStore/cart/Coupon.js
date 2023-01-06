@@ -7,16 +7,20 @@ import { Form } from '../../../../../lib/components/form/Form';
 import { Hidden } from '../../../../../lib/components/form/fields/Hidden';
 import Button from '../../../../../lib/components/form/Button';
 
-export default function CouponForm({ applyApi, cart: { uuid } }) {
+export default function CouponForm({ cart: { applyCouponApi } }) {
   return <div className="mt-4">
     <Form
       method={'POST'}
       isJSON={true}
-      action={applyApi}
+      action={applyCouponApi}
       submitBtn={false}
       onSuccess={(response) => {
-        if (get(response, 'success') === true) {
-          location.reload();
+        if (!response.error) {
+          toast.success('Coupon applied successfully!');
+          // Wait for 1.5 second to reload the page
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
         } else {
           toast.error('Invalid coupon');
         }
@@ -34,7 +38,6 @@ export default function CouponForm({ applyApi, cart: { uuid } }) {
             name='coupon'
             placeholder='Enter coupon code'
           />
-          <Hidden name='cartId' value={uuid} />
         </div>
         <div className="col-span-1">
           <Button
@@ -50,7 +53,9 @@ export default function CouponForm({ applyApi, cart: { uuid } }) {
 }
 
 CouponForm.propTypes = {
-  applyApi: PropTypes.string.isRequired
+  cart: PropTypes.shape({
+    applyCouponApi: PropTypes.string.isRequired
+  })
 }
 
 export const layout = {
@@ -60,9 +65,8 @@ export const layout = {
 
 export const query = `
   query Query {
-    applyApi: url (routeId: "couponApply")
     cart {
-      uuid
+      applyCouponApi
     }
   }
 `;

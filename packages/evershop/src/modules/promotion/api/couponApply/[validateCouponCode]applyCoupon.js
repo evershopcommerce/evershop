@@ -4,9 +4,9 @@ const { saveCart } = require("../../../checkout/services/saveCart");
 
 module.exports = async (request, response, delegate, next) => {
   try {
-    const { cartId } = request.params;
+    const { cart_id } = request.params;
     const { coupon } = request.body;
-    const cart = await getCartByUUID(cartId);
+    const cart = await getCartByUUID(cart_id);
     if (!cart) {
       response.status(INVALID_PAYLOAD);
       response.json({
