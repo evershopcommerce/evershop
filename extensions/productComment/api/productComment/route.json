@@ -1,0 +1,6 @@
+{
+  "methods": [
+    "POST"
+  ],
+  "path": "/productComments"
+}
