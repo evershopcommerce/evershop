@@ -34,6 +34,7 @@ module.exports = async (request, response, delegate, next) => {
     const check = await select()
       .from('user_token_secret')
       .where('user_id', '=', get(tokenPayload, 'payload.user.uuid', null))
+      .and('sid', '=', get(tokenPayload, 'payload.sid', null))
       .load(pool);
 
     if (!check) { // This is guest user
