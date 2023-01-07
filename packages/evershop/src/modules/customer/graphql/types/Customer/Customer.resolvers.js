@@ -88,6 +88,7 @@ module.exports = {
   Customer: {
     url: ({ urlKey }) => buildUrl('customerView', { url_key: urlKey }),
     editUrl: ({ uuid }) => buildUrl('customerEdit', { id: uuid }),
+    logoutApi: ({ uuid }) => buildUrl('deleteCustomerSession', { id: uuid }),
     updateApi: (customer, _, { pool }) => {
       return buildUrl('updateCustomer', { id: customer.uuid });
     },

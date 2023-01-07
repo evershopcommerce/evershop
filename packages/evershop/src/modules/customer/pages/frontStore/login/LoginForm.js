@@ -16,10 +16,10 @@ export default function LoginForm({ action, homeUrl, registerUrl }) {
         isJSON={true}
         method='POST'
         onSuccess={(response) => {
-          if (response.success) {
+          if (!response.error) {
             window.location.href = homeUrl;
           } else {
-            setError(response.message);
+            setError(response.error.message);
           }
         }}
         btnText='SIGN IN'
@@ -52,7 +52,7 @@ export const layout = {
 export const query = `
   query Query {
     homeUrl: url(routeId: "homepage")
-    action: url(routeId: "auth")
+    action: url(routeId: "createCustomerSession")
     registerUrl: url(routeId: "register")
   }
 `

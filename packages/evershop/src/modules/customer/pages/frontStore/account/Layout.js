@@ -1,7 +1,20 @@
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
+import { toast } from 'react-toastify';
 
-export default function Layout({ logoutUrl }) {
+export default function Layout({ account: { logoutApi } }) {
+  const logout = async (e) => {
+    e.preventDefault();
+    const respone = await fetch(logoutApi, {
+      method: 'DELETE'
+    });
+    const data = await respone.json();
+    if (data.error) {
+      toast.error(data.error.message);
+    } else {
+      window.location.href = '/';
+    }
+  }
   return <div>
     <h1 className='text-center'>My Account</h1>
     <div className='page-width mt-3 grid grid-cols-1 md:grid-cols-3 gap-3'>
@@ -15,7 +28,7 @@ export default function Layout({ logoutUrl }) {
       <div className='col-span-1'>
         <div className='border-b mb-1 flex justify-between items-center  border-textSubdued'>
           <h2>Account Details</h2>
-          <a className='text-interactive' href={logoutUrl}>Logout</a>
+          <a className='text-interactive' href={'#'} onClick={(e) => logout(e)}>Logout</a>
         </div>
         <Area
           id='accountPageRight'
@@ -33,6 +46,8 @@ export const layout = {
 
 export const query = `
   query Query {
-    logoutUrl: url(routeId: "logout")
+    account: customer(id: getContextValue("customerId", null)) {
+      logoutApi
+    }
   }
 `;
