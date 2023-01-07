@@ -74,8 +74,8 @@ module.exports = async (request, response, stack, next) => {
         },
       ],
       application_context: {
-        cancel_url: `${getContextValue(request, 'homeUrl')}${buildUrl('paypalCancel', { orderId: orderId })}`,
-        return_url: `${getContextValue(request, 'homeUrl')}${buildUrl('paypalReturn', { orderId: orderId })}`,
+        cancel_url: `${getContextValue(request, 'homeUrl')}${buildUrl('paypalCancel', { order_id: order_id })}`,
+        return_url: `${getContextValue(request, 'homeUrl')}${buildUrl('paypalReturn', { order_id: order_id })}`,
         shipping_preference: "SET_PROVIDED_ADDRESS",
         user_action: "PAY_NOW",
         brand_name: await getSetting('storeName', 'Evershop'),

@@ -6,17 +6,13 @@ import { StepContent } from '../../../components/frontStore/checkout/shipment/St
 export default function ShipmentStep({ cart: {
   shippingAddress,
   shippingMethod,
-  shippingMethodName
-},
-  setShipmentInfoAPI
-}) {
+  shippingMethodName,
+  addShippingMethodApi,
+  addShippingAddressApi
+} }) {
   const steps = useCheckoutSteps();
   const [shipmentInfo, setShipmentInfo] = React.useState({
-    address: shippingAddress,
-    method: {
-      name: shippingMethodName,
-      code: shippingMethod
-    }
+    address: shippingAddress
   })
   const step = steps.find((e) => e.id === 'shipment') || {};
   const [display, setDisplay] = React.useState(false);
@@ -48,7 +44,8 @@ export default function ShipmentStep({ cart: {
         step={step}
         shipmentInfo={shipmentInfo}
         setShipmentInfo={setShipmentInfo}
-        setShipmentInfoAPI={setShipmentInfoAPI}
+        addShippingAddressApi={addShippingAddressApi}
+        addShippingMethodApi={addShippingMethodApi}
       />
     </div>
   );
@@ -81,7 +78,8 @@ export const query = `
         address1
         address2
       }
-    },
-    setShipmentInfoAPI: url(routeId: "checkoutSetShipmentInfo")
+      addShippingAddressApi: addAddressApi
+      addShippingMethodApi
+    }
   }
 `

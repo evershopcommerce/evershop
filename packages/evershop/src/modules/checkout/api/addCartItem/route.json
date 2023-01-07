@@ -2,5 +2,5 @@
   "methods": [
     "POST"
   ],
-  "path": "/cart/:id/items"
+  "path": "/cart/:cart_id/items"
 }

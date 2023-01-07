@@ -9,10 +9,10 @@ module.exports = async (request, response, stack, next) => {
   // Get paypal token from query string
   const paypalToken = request.query.token;
   if (paypalToken) {
-    const orderId = request.params.orderId;
+    const order_id = request.params.order_id;
     const query = select()
       .from('order');
-    query.where('uuid', '=', orderId)
+    query.where('uuid', '=', order_id)
       .and('integration_order_id', '=', paypalToken)
       .and('payment_method', '=', 'paypal')
       .and('payment_status', '=', 'pending');
@@ -26,7 +26,7 @@ module.exports = async (request, response, stack, next) => {
         const paymentIntent = await getSetting('paypalPaymentIntent', 'CAPTURE');
         const responseData = await axios.post(`${getContextValue(request, 'homeUrl')}${buildUrl(paymentIntent === 'CAPTURE' ? 'paypalCapturePayment' : 'paypalAuthorizePayment')}`,
           {
-            orderId: orderId,
+            order_id: order_id,
           },
           {
             headers: {
@@ -35,12 +35,13 @@ module.exports = async (request, response, stack, next) => {
               Cookie: request.headers.cookie
             },
           });
-        if (!responseData.data.success) {
-          throw new Error(responseData.data.message);
+        if (responseData.data.error) {
+          throw new Error(responseData.data.error.message);
         }
         // Redirect to order success page
-        response.redirect(302, `${buildUrl('checkoutSuccess')}/${orderId}`);
+        response.redirect(302, `${buildUrl('checkoutSuccess')}/${order_id}`);
       } catch (e) {
+        console.log(e);
         next();
       }
     }

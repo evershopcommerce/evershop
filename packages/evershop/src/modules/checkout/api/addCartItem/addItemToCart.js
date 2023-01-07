@@ -7,7 +7,7 @@ const { pool } = require("../../../../lib/mysql/connection");
 
 module.exports = async (request, response, delegate, next) => {
   try {
-    let cartId = request.params.id;
+    let cartId = request.params.cart_id;
     let { sku, qty } = request.body;
     let cart = await getCartByUUID(cartId); // Cart object
 

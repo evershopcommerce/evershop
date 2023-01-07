@@ -37,6 +37,21 @@ module.exports = {
         .where('cart_address_id', '=', billingAddressId)
         .load(pool);
       return address ? camelCase(address) : null;
+    },
+    addItemApi: (cart, { }, { pool, user }) => {
+      return buildUrl('addCartItem', { cart_id: cart.uuid });
+    },
+    addPaymentMethodApi: (cart, { }, { pool, user }) => {
+      return buildUrl('addCartPaymentMethod', { cart_id: cart.uuid });
+    },
+    addShippingMethodApi: (cart, { }, { pool, user }) => {
+      return buildUrl('addCartShippingMethod', { cart_id: cart.uuid });
+    },
+    addContactInfoApi: (cart, { }, { pool, user }) => {
+      return buildUrl('addCartContactInfo', { cart_id: cart.uuid });
+    },
+    addAddressApi: (cart, { }, { pool, user }) => {
+      return buildUrl('addCartAddress', { cart_id: cart.uuid });
     }
   }
 }

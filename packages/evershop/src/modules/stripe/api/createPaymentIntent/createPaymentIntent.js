@@ -1,9 +1,9 @@
 const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../../lib/mysql/connection');
+const { pool } = require('../../../../lib/mysql/connection');
 const smallestUnit = require("zero-decimal-currencies");
-const { getSetting } = require('../../../../setting/services/setting');
+const { getSetting } = require('../../../setting/services/setting');
 const stripePayment = require('stripe');
-const { getConfig } = require('../../../../../lib/util/getConfig');
+const { getConfig } = require('../../../../lib/util/getConfig');
 const { OK, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars

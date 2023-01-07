@@ -69,6 +69,7 @@ module.exports = async (request, response, delegate, next) => {
         data: {}
       });
     } else {
+      console.log(responseData);
       response.status(INTERNAL_SERVER_ERROR);
       response.json({
         error: {

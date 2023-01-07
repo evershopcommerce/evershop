@@ -123,6 +123,11 @@ type Cart implements ShoppingCart{
   paymentMethod: String
   paymentMethodName: String
   shippingNote: String
+  addItemApi: String!
+  addPaymentMethodApi: String!
+  addShippingMethodApi: String!
+  addContactInfoApi: String!
+  addAddressApi: String!
 }
 
 extend type Query {

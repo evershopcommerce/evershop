@@ -107,8 +107,8 @@ export const query = `
     checkout {
       cartId
     }
-    placeOrderAPI: url(routeId: "checkoutPlaceOrder")
-    getPaymentMethodAPI: url(routeId: "paymentMethods")
+    placeOrderAPI: url(routeId: "createOrder")
+    getPaymentMethodAPI: url(routeId: "getPaymentMethods")
     checkoutSuccessUrl: url(routeId: "checkoutSuccess")
   }
 `;

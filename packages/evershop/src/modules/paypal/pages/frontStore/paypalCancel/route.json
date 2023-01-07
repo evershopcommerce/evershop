@@ -2,5 +2,5 @@
   "methods": [
     "GET"
   ],
-  "path": "/paypal/cancelling/:orderId"
+  "path": "/paypal/cancelling/:order_id"
 }

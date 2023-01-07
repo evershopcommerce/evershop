@@ -1,5 +1,6 @@
 const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
+const { buildUrl } = require('../../../../lib/router/buildUrl');
 const { INVALID_PAYLOAD, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 const { createOrder } = require('../../services/orderCreator');
@@ -58,8 +59,8 @@ module.exports = async (request, response, delegate, next) => {
         ...order,
         links: [
           {
-            "rel": "view",
-            "href": buildUrl('orderEdit', { order_id: order.uuid }),
+            "rel": "edit",
+            "href": buildUrl('orderEdit', { id: order.uuid }),
             "action": "GET",
             "types": ["text/xml"]
           }
@@ -67,6 +68,7 @@ module.exports = async (request, response, delegate, next) => {
       }
     });
   } catch (e) {
+    console.error(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {
