@@ -5,7 +5,7 @@ const { sign } = require('jsonwebtoken');
 const { camelCase } = require('../../../../lib/util/camelCase');
 const { v4: uuidv4 } = require('uuid');
 const { getTokenCookieId } = require('../../../auth/services/getTokenCookieId');
-const { getContextValue } = require('../../../graphql/services/contextHelper');
+const { getContextValue, setContextValue } = require('../../../graphql/services/contextHelper');
 const { INVALID_PAYLOAD, OK } = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
@@ -51,18 +51,22 @@ module.exports = async (request, response, delegate, next) => {
         .execute(pool);
 
       delete user.password;
-      const token = sign({ ...currentTokenPayload, user: { ...camelCase(user) } }, JWT_SECRET);
+      const newPayload = { ...currentTokenPayload, user: { ...camelCase(user) } };
+      const token = sign(newPayload, JWT_SECRET);
+      setContextValue(request, 'tokenPayload', newPayload);
       // Send a response with the cookie
       response.cookie(getTokenCookieId(), token, {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24
       });
-      return response.status(OK).json({
+      response.status(OK);
+      response.$body = {
         data: {
           token,
           sid: currentTokenPayload.sid
         }
-      });
+      };
+      next();
     }
   }
 };
