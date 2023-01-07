@@ -1,6 +1,6 @@
 const { select } = require('@evershop/mysql-query-builder');
 const dayjs = require('dayjs');
-const { pool } = require('../../../../../lib/mysql/connection');
+const { pool } = require('../../../../lib/mysql/connection');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {

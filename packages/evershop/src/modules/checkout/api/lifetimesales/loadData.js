@@ -1,6 +1,6 @@
 const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../../lib/mysql/connection');
-const { getSetting } = require('../../../../setting/services/setting');
+const { pool } = require('../../../../lib/mysql/connection');
+const { getSetting } = require('../../../setting/services/setting');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async function lifetimeSales(request, response, delegate, next) {

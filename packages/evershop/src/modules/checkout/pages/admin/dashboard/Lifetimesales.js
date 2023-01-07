@@ -129,6 +129,6 @@ export const layout = {
 
 export const query = `
   query Query {
-    api: url(routeId: "lifetimesales")
+    api: url(routeId: "lifetimesales")    
   }
 `
