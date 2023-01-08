@@ -13,25 +13,20 @@ describe('test API middleware', () => {
   });
 
   it('It should execute the valid middleware functions', async () => {
-    try {
-      const response = await axios.post(`http://localhost:${port}/api/as`, {
-        validateStatus: function (status) {
-          return status >= 200 && status <= 500;
-        },
-      });
-      console.log('response', response)
-      const createA = require('../app/modules/api/api/createA/index');
-      const afterIndex = require('../app/modules/authcopy/api/createA/[index]afterIndex');
-      const createAGlobal = require('../app/modules/api/api/global/apiGlobal');
-      const authApiGlobal = require('../app/modules/authcopy/api/global/apiAuthGlobal');
-      expect(createA).toHaveBeenCalledTimes(1);
-      expect(afterIndex).toHaveBeenCalledTimes(1);
-      expect(createAGlobal).toHaveBeenCalledTimes(1);
-      expect(authApiGlobal).toHaveBeenCalledTimes(1);
-    } catch (e) {
-      console.log('e', e);
-      throw e;
-    }
+    const response = await axios.post(`http://localhost:${port}/api/as`, {
+      validateStatus: function (status) {
+        return status >= 200 && status < 600;
+      },
+    });
+    console.log('response', response)
+    const createA = require('../app/modules/api/api/createA/index');
+    const afterIndex = require('../app/modules/authcopy/api/createA/[index]afterIndex');
+    const createAGlobal = require('../app/modules/api/api/global/apiGlobal');
+    const authApiGlobal = require('../app/modules/authcopy/api/global/apiAuthGlobal');
+    expect(createA).toHaveBeenCalledTimes(1);
+    expect(afterIndex).toHaveBeenCalledTimes(1);
+    expect(createAGlobal).toHaveBeenCalledTimes(1);
+    expect(authApiGlobal).toHaveBeenCalledTimes(1);
   });
 
   afterAll((done) => {
