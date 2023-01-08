@@ -33,14 +33,14 @@ function Upload({ addImage, productImageUploadUrl }) {
       return response.json();
     })
       .then((response) => {
-        if (get(response, 'success') === true) {
+        if (!response.error) {
           addImage(get(response, 'data.files', []).map((i) => ({
             id: uniqid(),
             url: i.url,
             path: i.path
           })));
         } else {
-          toast.error(get(response, 'message', 'Failed!'));
+          toast.error(get(response, 'error.message', 'Failed!'));
         }
       })
       .catch(
