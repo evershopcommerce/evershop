@@ -117,7 +117,13 @@
             "type": "string"
           },
           "value": {
-            "type": "string"
+            "type": [
+              "string",
+              "array"
+            ],
+            "items": {
+              "type": "string"
+            }
           }
         }
       }
