@@ -29,12 +29,12 @@ export const query = `
   query Query {
     product(id: getContextValue("productId", null)) {
       image {
-        uniqueId
+        id: uniqueId
         url: origin
         path
       }
       gallery {
-        uniqueId
+        id: uniqueId
         url: origin
         path
       }
