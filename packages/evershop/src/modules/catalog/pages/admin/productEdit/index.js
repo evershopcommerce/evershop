@@ -7,7 +7,9 @@ module.exports = async (request, response, delegate, next) => {
     const query = select();
     query.from('product')
     query.andWhere('product.`uuid`', '=', request.params.id);
-    query.leftJoin('product_description').on('product_description.`product_description_product_id`', '=', 'product.`product_id`')
+    query
+      .leftJoin('product_description')
+      .on('product_description.`product_description_product_id`', '=', 'product.`product_id`')
     const product = await query.load(pool);
 
     if (product === null) {
