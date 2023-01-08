@@ -5,7 +5,7 @@ import Area from '../../Area';
 import { createClient, Provider } from 'urql';
 
 const client = createClient({
-  url: '/v1/graphql'
+  url: '/api/graphql'
 });
 
 export default function Hydrate() {
