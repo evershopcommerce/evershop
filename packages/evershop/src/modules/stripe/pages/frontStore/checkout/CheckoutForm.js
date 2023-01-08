@@ -96,16 +96,16 @@ export default function CheckoutForm() {
     // Create PaymentIntent as soon as the order is placed
     if (orderId) {
       window
-        .fetch('/v1/stripe/paymentIntent', {
+        .fetch('/api/stripe/paymentIntents', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ orderId: orderId })
+          body: JSON.stringify({ order_id: orderId })
         })
         .then((res) => res.json())
         .then((data) => {
-          setClientSecret(data.clientSecret);
+          setClientSecret(data.data.clientSecret);
         });
     }
   }, [orderId]);

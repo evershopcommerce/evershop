@@ -94,6 +94,6 @@ export const layout = {
 
 export const query = `
   query Query {
-    api: url(routeId: "bestsellers")
+    api: url(routeId: "bestsellers")    
   }
 `

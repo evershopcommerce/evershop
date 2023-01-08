@@ -1,0 +1,6 @@
+{
+  "methods": [
+    "PATCH"
+  ],
+  "path": "/categories/:id"
+}

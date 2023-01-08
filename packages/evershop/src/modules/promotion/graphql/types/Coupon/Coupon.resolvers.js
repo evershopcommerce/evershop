@@ -188,6 +188,17 @@ module.exports = {
         }
       }
     },
-    editUrl: ({ couponId }) => buildUrl('couponEdit', { id: couponId })
+    editUrl: ({ uuid }) => buildUrl('couponEdit', { id: uuid }),
+    updateApi: (coupon, _, { pool }) => {
+      return buildUrl('updateCoupon', { id: coupon.uuid });
+    },
+    deleteApi: (coupon, _, { pool }) => {
+      return buildUrl('deleteCoupon', { id: coupon.uuid });
+    }
+  },
+  Cart: {
+    applyCouponApi: (cart, _, { pool }) => {
+      return buildUrl('couponApply', { cart_id: cart.uuid });
+    }
   }
 }

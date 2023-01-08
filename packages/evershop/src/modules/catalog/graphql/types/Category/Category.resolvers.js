@@ -11,8 +11,7 @@ module.exports = {
       const query = select().from('category');
       query.leftJoin('category_description')
         .on('category_description.`category_description_category_id`', '=', 'category.`category_id`')
-      query.where('category_id', '=', id)
-        .andWhere('category.`status`', '=', 1);
+      query.where('category_id', '=', id);
       const result = await query.load(pool)
       return result ? camelCase(result) : null;
     },
@@ -34,6 +33,13 @@ module.exports = {
       if (statusFilter) {
         query.andWhere('category.`status`', '=', statusFilter.value);
         currentFilters.push({ key: 'status', operation: '=', value: statusFilter.value });
+      }
+
+      // includeInNav filter
+      const includeInNav = filters.find((f) => f.key === 'includeInNav');
+      if (includeInNav) {
+        query.andWhere('category.`include_in_nav`', '=', includeInNav.value);
+        currentFilters.push({ key: 'includeInNav', operation: '=', value: includeInNav.value });
       }
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
@@ -337,7 +343,13 @@ module.exports = {
       return buildUrl('categoryView', { url_key: category.urlKey });
     },
     editUrl: (category, _, { pool }) => {
-      return buildUrl('categoryEdit', { id: category.categoryId });
+      return buildUrl('categoryEdit', { id: category.uuid });
+    },
+    updateApi: (category, _, { pool }) => {
+      return buildUrl('updateCategory', { id: category.uuid });
+    },
+    deleteApi: (category, _, { pool }) => {
+      return buildUrl('deleteCategory', { id: category.uuid });
     },
     image: (category, _, { pool }) => {
       const image = category.image;

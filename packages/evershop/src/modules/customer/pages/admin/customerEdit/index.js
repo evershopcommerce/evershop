@@ -6,14 +6,15 @@ module.exports = async (request, response, delegate, next) => {
   try {
     const query = select();
     query.from('customer')
-    query.andWhere('customer.`customer_id`', '=', request.params.id);
+    query.andWhere('customer.`uuid`', '=', request.params.id);
     const customer = await query.load(pool);
 
     if (customer === null) {
       response.status(404);
       next();
     } else {
-      setContextValue(request, 'customerId', customer.uuid);
+      setContextValue(request, 'customerId', customer.customer_id);
+      setContextValue(request, 'customerUuid', customer.uuid);
       setContextValue(request, 'pageInfo', {
         title: customer.full_name,
         description: customer.full_name

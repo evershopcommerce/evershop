@@ -5,7 +5,6 @@ import Area from '../../../../../lib/components/Area';
 import Pagination from '../../../../../lib/components/grid/Pagination';
 import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
 import { useAlertContext } from '../../../../../lib/components/modal/Alert';
-import formData from '../../../../../lib/util/formData';
 import ProductNameRow from './rows/ProductName';
 import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
 import ProductPriceRow from './rows/PriceRow';
@@ -18,9 +17,34 @@ import { Card } from '../../../../cms/components/admin/Card';
 import DummyColumnHeader from '../../../../../lib/components/grid/headers/Dummy';
 import QtyRow from './rows/QtyRow';
 
-function Actions({ selectedIds = [], disableProductUrl, enableProductsUrl, deleteProductsUrl }) {
+function Actions({ products = [], selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
+
+  const updateProducts = async (status) => {
+    setIsLoading(true);
+    const promises = products.filter((product) => selectedIds.includes(product.uuid)).map((product) => {
+      return axios.patch(product.updateApi, {
+        status: status
+      });
+    });
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  }
+
+  const deleteProducts = async () => {
+    setIsLoading(true);
+    const promises = products.filter((product) => selectedIds.includes(product.uuid)).map((product) => {
+      return axios.delete(product.deleteApi);
+    });
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  }
+
   const actions = [
     {
       name: 'Disable',
@@ -36,14 +60,7 @@ function Actions({ selectedIds = [], disableProductUrl, enableProductsUrl, delet
           secondaryAction: {
             title: 'Disable',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(disableProductUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await updateProducts(0);
             },
             variant: 'critical',
             isLoading: false
@@ -65,14 +82,7 @@ function Actions({ selectedIds = [], disableProductUrl, enableProductsUrl, delet
           secondaryAction: {
             title: 'Enable',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(enableProductsUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await updateProducts(1);
             },
             variant: 'critical',
             isLoading: false
@@ -94,14 +104,7 @@ function Actions({ selectedIds = [], disableProductUrl, enableProductsUrl, delet
           secondaryAction: {
             title: 'Delete',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(deleteProductsUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await deleteProducts();
             },
             variant: 'critical',
             isLoading
@@ -146,8 +149,10 @@ export default function ProductGrid({ products: { items: products, total, curren
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(products.map((p) => p.productId));
-                else setSelectedRows([]);
+                if (e.target.checked)
+                  setSelectedRows(products.map((p) => p.uuid));
+                else
+                  setSelectedRows([]);
               }}
               />
             </th>
@@ -187,23 +192,20 @@ export default function ProductGrid({ products: { items: products, total, curren
         </thead>
         <tbody>
           <Actions
-            ids={products.map(() => products.productId)}
+            products={products}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
-            disableProductUrl={disableProductUrl}
-            enableProductsUrl={enableProductsUrl}
-            deleteProductsUrl={deleteProductsUrl}
           />
           {products.map((p) => (
-            <tr key={p.productId}>
+            <tr key={p.uuid}>
               <td>
                 <Checkbox
-                  isChecked={selectedRows.includes(p.productId)}
+                  isChecked={selectedRows.includes(p.uuid)}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([p.productId]));
+                      setSelectedRows(selectedRows.concat([p.uuid]));
                     } else {
-                      setSelectedRows(selectedRows.filter((row) => row !== p.productId));
+                      setSelectedRows(selectedRows.filter((row) => row !== p.uuid));
                     }
                   }}
                 />
@@ -262,6 +264,7 @@ export const query = `
     products (filters: getContextValue("filtersFromUrl")) {
       items {
         productId
+        uuid
         name
         image {
           thumb
@@ -278,6 +281,8 @@ export const query = `
           }
         }
         editUrl
+        updateApi
+        deleteApi
       }
       total
       currentFilters {
@@ -286,8 +291,5 @@ export const query = `
         value
       }
     }
-    disableProductUrl: url(routeId: "productBulkDisable")
-    enableProductsUrl: url(routeId: "productBulkEnable")
-    deleteProductsUrl: url(routeId: "productBulkDelete")
   }
 `;

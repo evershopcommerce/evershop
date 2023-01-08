@@ -5,7 +5,13 @@ import { useCheckoutSteps } from './checkoutSteps';
 
 const Checkout = React.createContext();
 
-export function CheckoutProvider({ children, cartId, placeOrderAPI, getPaymentMethodAPI, checkoutSuccessUrl }) {
+export function CheckoutProvider({
+  children,
+  cartId,
+  placeOrderAPI,
+  getPaymentMethodAPI,
+  checkoutSuccessUrl
+}) {
   const steps = useCheckoutSteps();
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [orderPlaced, setOrderPlaced] = useState(false);
@@ -20,17 +26,17 @@ export function CheckoutProvider({ children, cartId, placeOrderAPI, getPaymentMe
       if (steps.length < 1 || steps.findIndex((s) => s.isCompleted === false) !== -1) return;
       const response = await axios.post(
         placeOrderAPI,
-        { cartId },
+        { cart_id: cartId },
       );
-      if (response.data.success === true) {
+      if (!response.data.error) {
         setOrderPlaced(true);
-        setOrderId(response.data.data.orderId);
+        setOrderId(response.data.data.uuid);
         setError(null);
         // let redirectUrl = response.data.data.redirect || checkoutSuccessUrl;
 
         // window.location.href = redirectUrl;
       } else {
-        setError(response.data.message);
+        setError(response.data.error.message);
       }
     };
     placeOrder();
@@ -38,10 +44,10 @@ export function CheckoutProvider({ children, cartId, placeOrderAPI, getPaymentMe
 
   const getPaymentMethods = async () => {
     const response = await axios.get(
-      `${getPaymentMethodAPI}/${cartId}`,
+      getPaymentMethodAPI
     );
 
-    if (response.data.success === true) {
+    if (!response.data.error) {
       setPaymentMethods(response.data.data.methods);
     } else {
       setPaymentMethods([]);

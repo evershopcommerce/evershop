@@ -14,7 +14,7 @@ export default function Media({ id, product, productImageUploadUrl }) {
       title="Media"
     >
       <Card.Session>
-        <ProductMediaManager id={id || 'productMainImages'} productImages={gallery} productImageUploadUrl={productImageUploadUrl} />
+        <ProductMediaManager id={id || 'images'} productImages={gallery} productImageUploadUrl={productImageUploadUrl} />
       </Card.Session>
     </Card>
   );
@@ -29,12 +29,12 @@ export const query = `
   query Query {
     product(id: getContextValue("productId", null)) {
       image {
-        uniqueId
+        id: uniqueId
         url: origin
         path
       }
       gallery {
-        uniqueId
+        id: uniqueId
         url: origin
         path
       }

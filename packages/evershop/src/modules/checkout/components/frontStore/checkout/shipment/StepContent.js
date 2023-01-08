@@ -3,18 +3,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import produce from 'immer';
 import { toast } from 'react-toastify';
-import { useCheckoutStepsDispatch } from '../../../../../../lib/context/checkoutSteps';
 import CustomerAddressForm from '../../../../../customer/components/Address/AddressForm/Index';
 import { Form } from '../../../../../../lib/components/form/Form';
 import { useClient } from 'urql';
 import { useCheckout } from '../../../../../../lib/context/checkout';
-import { Field } from '../../../../../../lib/components/form/Field';
 
 const QUERY = `
   query Query($cartId: String) {
     cart(id: $cartId) {
-      shippingMethod
-      shippingMethodName
       shippingAddress {
         id: cartAddressId
         fullName
@@ -36,8 +32,11 @@ const QUERY = `
   }
 `;
 
-export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmentInfo }) {
-  const { completeStep } = useCheckoutStepsDispatch();
+export function StepContent({
+  addShippingAddressApi,
+  shipmentInfo,
+  setShipmentInfo
+}) {
   const { cartId } = useCheckout();
   const client = useClient();
 
@@ -46,38 +45,31 @@ export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmen
       <h4 className="mb-1 mt-3">Shipping Address</h4>
       <Form
         method="POST"
-        action={setShipmentInfoAPI}
+        action={addShippingAddressApi}
         id="checkoutShippingAddressForm"
-        isJSON={false}
+        isJSON={true}
         btnText="Continue to payment"
         onSuccess={(response) => {
-          if (response.success === true) {
+          if (!response.error) {
             client.query(QUERY, { cartId })
               .toPromise()
               .then((result) => {
                 const address = result.data.cart.shippingAddress;
                 setShipmentInfo(produce(shipmentInfo, (draff) => {
                   draff.address = address;
-                  draff.method.code = result.data.cart.shippingMethod;
-                  draff.method.name = result.data.cart.shippingMethodName;
                 }));
-                completeStep('shipment', `${address.address1}, ${address.city}, ${address.country.name}`);
               })
           } else {
-            toast.error(response.message)
+            toast.error(response.error.message)
           }
         }}
       >
-        <Field
-          name="cartId"
-          type="hidden"
-          value={cartId}
-        />
         <CustomerAddressForm
           areaId="checkoutShippingAddressForm"
           address={shipmentInfo.address}
           method={shipmentInfo.method}
         />
+        <input type={'hidden'} name={'type'} value={'shipping'} />
       </Form>
     </div>
   );

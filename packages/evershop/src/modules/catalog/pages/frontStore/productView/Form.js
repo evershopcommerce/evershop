@@ -102,7 +102,7 @@ export default function ProductForm({ product, action, cart }) {
   const dispatch = useAppDispatch();
 
   const onSuccess = (response) => {
-    if (response.success === true) {
+    if (!response.error) {
       dispatch(produce(appContext, (draff) => {
         // eslint-disable-next-line no-param-reassign
         draff.cart = appContext.cart || {};
@@ -134,9 +134,7 @@ export default function ProductForm({ product, action, cart }) {
       onError={(e) => setError(e.message)}
       isJSON={true}
     >
-      <input type="hidden" name="productId" value={product.productId} />
-      {(appContext.cart?.uuid || cart?.uuid) && <input type="hidden" name="cartId" value={appContext.cart?.uuid || cart?.uuid} />}
-
+      <input type="hidden" name="sku" value={product.sku} />
       <Area
         id="productSinglePageForm"
         coreComponents={[
@@ -169,6 +167,7 @@ export const query = `
   query Query {
     product(id: getContextValue('productId')) {
       productId
+      sku
       name
       gallery {
         thumb
@@ -177,9 +176,6 @@ export const query = `
         isInStock
       }
     }
-    cart(id: getContextValue('cartId', null)) {
-      uuid
-    }
-    action:url (routeId: "addToCart")
+    action:url (routeId: "addMineCartItem")
   }
 `

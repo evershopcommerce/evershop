@@ -1,14 +1,40 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import CouponForm from '../../../components/CouponForm';
+import { toast } from 'react-toastify';
+import Area from '../../../../../lib/components/Area';
+import { Form } from '../../../../../lib/components/form/Form';
+import { get } from '../../../../../lib/util/get';
 
-export default function CouponEditForm({ action, gridUrl }) {
-  return <CouponForm
-    method={"PUT"}
-    action={action}
-    isJSON={true}
-    gridUrl={gridUrl}
-  />
+export default function CouponEditForm({
+  action, gridUrl
+}) {
+  const id = "couponForm";
+  return (
+    <Form
+      method={'PATCH'}
+      action={action}
+      onError={() => {
+        toast.error('Something wrong. Please reload the page!');
+      }}
+      onSuccess={(response) => {
+        if (response.error) {
+          toast.error(get(response, 'error.message', 'Something wrong. Please reload the page!'));
+        } else {
+          toast.success('Coupon saved successfully!');
+        }
+      }}
+      submitBtn={false}
+      id={id}
+    >
+      <Area id={id} noOuter={true} />
+    </Form>
+  );
 }
+
+CouponEditForm.propTypes = {
+  action: PropTypes.string.isRequired,
+  gridUrl: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'content',
@@ -17,7 +43,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    action: url(routeId: "couponUpdate", params: [{key: "id", value: getContextValue("couponId", undefined, true)}])
+    action: url(routeId: "updateCoupon", params: [{key: "id", value: getContextValue("couponUuid")}]),
     gridUrl: url(routeId: "couponGrid")
   }
 `;

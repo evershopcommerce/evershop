@@ -25,7 +25,13 @@ module.exports = {
       return buildUrl('productView', { url_key: product.urlKey });
     },
     editUrl: (product, _, { pool }) => {
-      return buildUrl('productEdit', { id: product.productId });
+      return buildUrl('productEdit', { id: product.uuid });
+    },
+    updateApi: (product, _, { pool }) => {
+      return buildUrl('updateProduct', { id: product.uuid });
+    },
+    deleteApi: (product, _, { pool }) => {
+      return buildUrl('deleteProduct', { id: product.uuid });
     }
   },
   Query: {

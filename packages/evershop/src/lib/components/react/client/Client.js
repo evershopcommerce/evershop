@@ -6,7 +6,7 @@ import { createClient, Provider } from 'urql';
 import { Alert } from '../../modal/Alert';
 
 const client = createClient({
-  url: '/v1/graphql'
+  url: '/api/graphql'
 });
 
 export const App = ({ children }) => <AppProvider value={window.eContext}>

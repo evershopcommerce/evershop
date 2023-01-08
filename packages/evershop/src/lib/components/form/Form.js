@@ -16,7 +16,7 @@ export function Form(props) {
     id,
     action,
     method,
-    isJSON,
+    isJSON = true,
     onStart,
     onComplete,
     onError,
@@ -30,6 +30,7 @@ export function Form(props) {
   const [fields, setFields] = React.useState([]);
   const formRef = React.useRef();
   const [loading, setLoading] = useState(false);
+  const [state, setState] = useState('initialized');
 
   const addField = (name, value, validationRules = []) => {
     setFields((previous) => previous.concat({ name, value, validationRules }));
@@ -88,6 +89,7 @@ export function Form(props) {
 
   const submit = async (e) => {
     e.preventDefault();
+    setState('submitting');
     try {
       PubSub.publishSync(FORM_SUBMIT, { props });
       const errors = validate();
@@ -122,7 +124,9 @@ export function Form(props) {
         if (onSuccess) {
           await onSuccess(responseJson);
         }
+        setState('submitSuccess');
       } else {
+        setState('validateFailed');
         if (onValidationError) {
           await onValidationError();
         }
@@ -136,12 +140,14 @@ export function Form(props) {
         }
       }
     } catch (error) {
+      setState('submitFailed');
       if (onError) {
         await onError(error);
       }
       throw error
     } finally {
       setLoading(false);
+      setState('submitted');
       if (onComplete) {
         await onComplete();
       }
@@ -152,7 +158,7 @@ export function Form(props) {
   return (
     <FormContext.Provider
       value={{
-        fields, addField, updateField, removeField, ...props
+        fields, addField, updateField, removeField, state, ...props
       }}
     >
       <FormDispatch.Provider value={{ submit }}>

@@ -12,7 +12,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    customer(id: getContextValue("customerId", null)) {
+    customer(id: getContextValue("customerUuid", null)) {
       fullName
     }
     backUrl: url(routeId: "customerGrid")

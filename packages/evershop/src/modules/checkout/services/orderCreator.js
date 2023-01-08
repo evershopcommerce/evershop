@@ -99,22 +99,29 @@ exports.createOrder = async function createOrder(cart) {
     }
 
     // Save the shipping address
+    const cartShippingAddress = await select()
+      .from('cart_address')
+      .where('cart_address_id', '=', cart.getData('shipping_address_id'))
+      .load(connection);
+    delete (cartShippingAddress.uuid);
     const shipAddr = await insert('order_address')
-      .given(await select()
-        .from('cart_address')
-        .where('cart_address_id', '=', cart.getData('shipping_address_id'))
-        .load(connection))
+      .given(cartShippingAddress)
       .execute(connection);
     // Save the billing address
+    const cartBillingAddress = await select()
+      .from('cart_address')
+      .where('cart_address_id', '=', cart.getData('shipping_address_id'))
+      .load(connection);
+    delete (cartBillingAddress.uuid);
     const billAddr = await insert('order_address')
-      .given(await select()
-        .from('cart_address')
-        .where('cart_address_id', '=', cart.getData('billing_address_id') || cart.getData('shipping_address_id'))
-        .load(connection))
+      .given(cartBillingAddress)
       .execute(connection);
     // Save order to DB
     // TODO: Maybe we should allow plugin to prepare order data before created?
-    const previous = await select('order_id').from('order').orderBy('order_id', 'DESC').limit(0, 1)
+    const previous = await select('order_id')
+      .from('order')
+      .orderBy('order_id', 'DESC')
+      .limit(0, 1)
       .execute(pool);
 
     const order = await insert('order')
@@ -133,7 +140,13 @@ exports.createOrder = async function createOrder(cart) {
     // Save order items
     const items = cart.getItems();
     await Promise.all(items.map(async (item) => {
-      await insert('order_item').given({ ...item.export(), order_item_order_id: order.insertId }).execute(connection);
+      await insert('order_item')
+        .given({
+          ...item.export(),
+          uuid: uuidv4().replace(/-/g, ''),
+          order_item_order_id: order.insertId
+        })
+        .execute(connection);
     }));
 
     // Save order activities

@@ -20,5 +20,13 @@ exports.createNewCart = async (tokenPayLoad = {}) => {
     groupId: customer_group_id,
     fullName: customer_full_name
   } = user;
-  return new Cart({ sid, customer_id, customer_email, customer_group_id, customer_full_name });
+  const cart = new Cart({
+    sid,
+    customer_id,
+    customer_email,
+    customer_group_id,
+    customer_full_name
+  });
+  await cart.build();
+  return cart;
 }

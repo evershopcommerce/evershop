@@ -49,7 +49,7 @@ export default function Attributes({ product, groups }) {
       <Card.Session title="Attributes">
         <table className="table table-auto">
           <tbody>
-            {currentGroup.attributes.map((attribute) => {
+            {currentGroup.attributes.map((attribute, index) => {
               const valueIndex = attributeIndex.find(idx => idx.attributeId === attribute.attributeId);
               const valueIndexMulti = attributeIndex.filter(idx => idx.attributeId === attribute.attributeId);
               let field = null;
@@ -57,7 +57,7 @@ export default function Attributes({ product, groups }) {
                 case 'text':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex?.optionText}
                       validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
                       type="text"
@@ -67,7 +67,7 @@ export default function Attributes({ product, groups }) {
                 case 'date':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex?.optionText}
                       validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
                       type="date"
@@ -77,7 +77,7 @@ export default function Attributes({ product, groups }) {
                 case 'datetime':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex?.optionText}
                       validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
                       type="datetime"
@@ -87,7 +87,7 @@ export default function Attributes({ product, groups }) {
                 case 'textarea':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex?.optionText}
                       validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
                       type="textarea"
@@ -97,7 +97,7 @@ export default function Attributes({ product, groups }) {
                 case 'select':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex?.optionId}
                       options={(() => attribute.options.map(
                         (o) => ({ value: o.optionId, text: o.optionText })
@@ -105,19 +105,6 @@ export default function Attributes({ product, groups }) {
                       validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
                       onChange={(e) => {
                         e.persist();
-                        // setGroup((prev) => ({
-                        //   ...prev,
-                        //   attributes: prev.attributes.map((a) => {
-                        //     // eslint-disable-next-line max-len
-                        //     if (parseInt(a.attribute_id, 10) === parseInt(attribute.attribute_id, 10)) {
-                        //       a.selected_option = e.target.value;
-                        //       // eslint-disable-next-line max-len
-                        //       a.value_text = e.nativeEvent.target[e.nativeEvent.target.selectedIndex].text;
-                        //     }
-
-                        //     return a;
-                        //   })
-                        // }));
                       }}
                       type="select"
                     />
@@ -126,7 +113,7 @@ export default function Attributes({ product, groups }) {
                 case 'multiselect':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}][]`}
+                      name={`attributes[${index}][value][]`}
                       value={valueIndexMulti.map(i => i.optionId)}
                       options={(() => attribute.options.map(
                         (o) => ({ value: o.optionId, text: o.optionText })
@@ -139,7 +126,7 @@ export default function Attributes({ product, groups }) {
                 default:
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex.optionText}
                       validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
                       type="text"
@@ -152,6 +139,7 @@ export default function Attributes({ product, groups }) {
                     {attribute.attributeName}
                   </td>
                   <td>
+                    <input type='hidden' value={attribute.attributeCode} name={`attributes[${index}][attribute_code]`} />
                     {field}
                   </td>
                 </tr>

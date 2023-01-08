@@ -6,15 +6,15 @@ import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/c
 import { useCheckout } from '../../../../../lib/context/checkout';
 import { toast } from 'react-toastify';
 
-function Edit({ user, setContactInfoUrl, email, setEmail, cartId, loginUrl }) {
+function Edit({ user, addContactInfoApi, email, setEmail, loginUrl }) {
   const { completeStep } = useCheckoutStepsDispatch();
 
   const onSuccess = (response) => {
-    if (response.success === true) {
+    if (!response.error) {
       setEmail(response.data.email);
       completeStep('contact', response.data.email);
     } else {
-      toast.error(response.message);
+      toast.error(response.error.message);
     }
   };
 
@@ -24,20 +24,21 @@ function Edit({ user, setContactInfoUrl, email, setEmail, cartId, loginUrl }) {
         return;
       }
       // Post fetch to set contact info
-      const response = await fetch(setContactInfoUrl, {
+      const response = await fetch(addContactInfoApi, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          email: user.email,
-          cartId
+          email: user.email
         })
       });
       const data = await response.json();
-      if (data.success === true) {
-        setEmail(data.data.email);
-        completeStep('contact', data.data.email);
+      if (!data.error) {
+        setEmail(data.email);
+        completeStep('contact', data.email);
+      } else {
+        toast.error(data.error.message);
       }
     }
     setContactIfLoggedIn()
@@ -51,7 +52,7 @@ function Edit({ user, setContactInfoUrl, email, setEmail, cartId, loginUrl }) {
       </div>}
       <Form
         id="checkout-contact-info-form"
-        action={setContactInfoUrl}
+        action={addContactInfoApi}
         method="POST"
         isJSON={true}
         onSuccess={onSuccess}
@@ -66,22 +67,23 @@ function Edit({ user, setContactInfoUrl, email, setEmail, cartId, loginUrl }) {
           placeholder="Email"
           value={email}
         />
-        <Field
-          type="hidden"
-          formId="checkout-contact-info-form"
-          name="cartId"
-          value={cartId}
-        />
       </Form>
     </div>
   );
 }
 
 Edit.propTypes = {
-  setContactInfoUrl: PropTypes.string.isRequired
+  addContactInfoApi: PropTypes.string.isRequired
 };
 
-export default function ContactInformationStep({ setContactInfoUrl, cart: { customerEmail }, user, loginUrl }) {
+export default function ContactInformationStep({
+  cart: {
+    customerEmail,
+    addContactInfoApi
+  },
+  user,
+  loginUrl
+}) {
   const steps = useCheckoutSteps();
   const { cartId } = useCheckout();
   const [email, setEmail] = React.useState(customerEmail);
@@ -115,7 +117,7 @@ export default function ContactInformationStep({ setContactInfoUrl, cart: { cust
         step={step}
         cartId={cartId}
         email={email}
-        setContactInfoUrl={setContactInfoUrl}
+        addContactInfoApi={addContactInfoApi}
         setEmail={setEmail}
         loginUrl={loginUrl}
       />}
@@ -134,9 +136,9 @@ export const layout = {
 
 export const query = `
   query Query {
-    setContactInfoUrl: url(routeId: "checkoutSetContactInfo"),
     cart {
       customerEmail
+      addContactInfoApi
     }
     user: customer(id: getContextValue("customerId", null)) {
       email

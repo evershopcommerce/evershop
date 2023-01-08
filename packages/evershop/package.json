@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/evershopcommerce/evershop/issues"
   },
-  "homepage": "https://github.com/evershopcommerce/evershop",
+  "homepage": "http://evershop.io/",
   "dependencies": {
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
@@ -45,6 +45,8 @@
     "@shopify/draggable": "^1.0.0-beta.8",
     "@stripe/react-stripe-js": "^1.5.0",
     "@stripe/stripe-js": "^1.18.0",
+    "ajv": "^8.11.2",
+    "ajv-formats": "^2.1.1",
     "axios": "^0.21.1",
     "babel-loader": "^8.2.3",
     "bcrypt": "^5.0.1",
@@ -69,7 +71,7 @@
     "immer": "^9.0.3",
     "is-object": "^1.0.2",
     "json5": "^2.2.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "kleur": "3.0.3",
     "luxon": "^2.0.2",
     "mini-css-extract-plugin": "^2.6.1",

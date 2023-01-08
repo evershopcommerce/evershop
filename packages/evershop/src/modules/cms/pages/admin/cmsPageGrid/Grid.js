@@ -14,7 +14,7 @@ import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
 import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
 import PageName from './rows/PageName';
 
-function Actions({ selectedIds = [] }) {
+function Actions({ pages = [], selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
   const context = useAppState();
@@ -71,7 +71,7 @@ function Actions({ selectedIds = [] }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFilters = [] } }) {
@@ -86,8 +86,10 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(pages.map((p) => p.cmsPageId));
-                else setSelectedRows([]);
+                if (e.target.checked)
+                  setSelectedRows(pages.map((p) => p.uuid));
+                else
+                  setSelectedRows([]);
               }}
               />
             </th>
@@ -110,7 +112,7 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
         </thead>
         <tbody>
           <Actions
-            ids={pages.map((p) => p.cmsPageId)}
+            pages={pages}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
           />
@@ -119,10 +121,12 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
             <tr key={i}>
               <td style={{ width: '2rem' }}>
                 <Checkbox
-                  isChecked={selectedRows.includes(p.cmsPageId)}
+                  isChecked={selectedRows.includes(p.uuid)}
                   onChange={(e) => {
-                    if (e.target.checked) setSelectedRows(selectedRows.concat([p.cmsPageId]));
-                    else setSelectedRows(selectedRows.filter((row) => row !== p.cmsPageId));
+                    if (e.target.checked)
+                      setSelectedRows(selectedRows.concat([p.uuid]));
+                    else
+                      setSelectedRows(selectedRows.filter((row) => row !== p.uuid));
                   }}
                 />
               </td>
@@ -163,11 +167,13 @@ export const query = `
     cmsPages (filters: getContextValue("filtersFromUrl")) {
       items {
         cmsPageId
+        uuid
         name
         status
         content
         layout
         editUrl
+        deleteApi
       }
       total
       currentFilters {

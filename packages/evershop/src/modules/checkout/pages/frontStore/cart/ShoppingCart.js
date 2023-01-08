@@ -97,8 +97,8 @@ export const query = `
           value
           text
         }
+        removeApi
       }
     }
-    removeUrl: url(routeId: "removeCartItem")
   }
 `

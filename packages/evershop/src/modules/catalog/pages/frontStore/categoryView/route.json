@@ -1,0 +1,6 @@
+{
+  "methods": [
+    "GET"
+  ],
+  "path": "/category/:url_key"
+}

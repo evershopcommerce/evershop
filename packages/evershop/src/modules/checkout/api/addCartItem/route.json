@@ -1,0 +1,6 @@
+{
+  "methods": [
+    "POST"
+  ],
+  "path": "/cart/:cart_id/items"
+}

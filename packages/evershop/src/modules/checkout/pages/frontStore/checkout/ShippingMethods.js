@@ -2,26 +2,68 @@ import React from 'react';
 import axios from 'axios';
 import { useFormContext } from '../../../../../lib/components/form/Form';
 import { Field } from '../../../../../lib/components/form/Field';
+import { useClient } from 'urql';
+import { useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
+import { useCheckout } from '../../../../../lib/context/checkout';
 
-export default function ShippingMethods({ getMethodsAPI }) {
+const QUERY = `
+  query Query($cartId: String) {
+    cart(id: $cartId) {
+      shippingAddress {
+        id: cartAddressId
+        fullName
+        postcode
+        telephone
+        country {
+          code
+          name
+        }
+        province {
+          code
+          name
+        }
+        city
+        address1
+        address2
+      }
+    }
+  }
+`;
+
+export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMethodApi } }) {
   const formContext = useFormContext();
+  const { completeStep } = useCheckoutStepsDispatch();
   const [loading, setLoading] = React.useState(false);
   const [addressProvided, setAddressProvided] = React.useState(false);
   const [methods, setMethods] = React.useState([]);
+  const { cartId } = useCheckout();
+  const client = useClient();
 
   React.useEffect(() => {
-    const timeout1 = setTimeout(() => {
+    const timeout = setTimeout(() => {
       const { fields } = formContext;
       let check = !!fields.length;
       fields.forEach((e) => {
-        if (['address[country]', 'address[province]', 'address[postcode]'].includes(e.name) && !e.value) check = false;
+        if (['address[country]', 'address[province]', 'address[postcode]'].includes(e.name) && !e.value) {
+          check = false;
+        }
       });
 
       if (check === true) {
         setAddressProvided(true);
-        axios.post(getMethodsAPI)
+        axios.get(getMethodsAPI)
           .then((response) => {
-            setMethods(response.data.data.methods.map((m) => ({ value: m.code, text: m.name })));
+            setMethods((previous) => {
+              const methods = response.data.data.methods;
+              return methods.map((m) => {
+                const find = previous.find((p) => p.code === m.code);
+                if (find) {
+                  return { ...find, ...m };
+                } else {
+                  return { ...m, selected: false };
+                }
+              });
+            });
             setLoading(false);
           });
       } else {
@@ -30,9 +72,30 @@ export default function ShippingMethods({ getMethodsAPI }) {
     }, 1000);
 
     return () => {
-      clearTimeout(timeout1);
+      clearTimeout(timeout);
     };
   }, [formContext]);
+
+  React.useEffect(() => {
+    async function saveMethods() {
+      // Get the selected method 
+      const selectedMethod = methods.find((m) => m.selected === true);
+      const response = await axios.post(addShippingMethodApi,
+        {
+          method_code: selectedMethod.code,
+          method_name: selectedMethod.name
+        });
+      if (!response.data.error) {
+        const result = await client.query(QUERY, { cartId })
+          .toPromise();
+        const address = result.data.cart.shippingAddress;
+        completeStep('shipment', `${address.address1}, ${address.city}, ${address.country.name}`);
+      }
+    }
+    if (formContext.state === 'submitSuccess') {
+      saveMethods();
+    };
+  }, [formContext.state])
 
   return (
     <div className="shipping-methods">
@@ -46,15 +109,40 @@ export default function ShippingMethods({ getMethodsAPI }) {
         </div>
       )}
       <h4 className="mt-3 mb-1">Shipping Method</h4>
-      {(addressProvided === true && methods.length == 0) && <div className="text-center p-3 border border-divider rounded text-textSubdued">Sorry, there is no available method for your address</div>}
-      {(addressProvided === false) && <div className="text-center p-3 border border-divider rounded text-textSubdued">Please enter a shipping address in order to see shipping quotes</div>}
+      {
+        (addressProvided === true && methods.length == 0) &&
+        <div className="text-center p-3 border border-divider rounded text-textSubdued">
+          Sorry, there is no available method for your address
+        </div>
+      }
+      {
+        (addressProvided === false) &&
+        <div className="text-center p-3 border border-divider rounded text-textSubdued">
+          Please enter a shipping address in order to see shipping quotes
+        </div>
+      }
       {methods.length > 0 && (
         <div className='divide-y border rounded border-divider p-1 mb-2'>
           <Field
             type="radio"
             name="method"
             validationRules={['notEmpty']}
-            options={methods}
+            options={methods.map((m) => {
+              return {
+                value: m.code,
+                text: m.name,
+              }
+            })}
+            onChange={(value) => {
+              // Update methods with selected flag
+              const newMethods = methods.map((m) => {
+                if (m.code === value) {
+                  return { ...m, selected: true };
+                }
+                return { ...m, selected: false };
+              });
+              setMethods(newMethods);
+            }}
           />
         </div>
       )}
@@ -69,6 +157,9 @@ export const layout = {
 
 export const query = `
   query Query {
-    getMethodsAPI: url(routeId: "checkoutGetShippingMethods")
+    getMethodsAPI: url(routeId: "getShippingMethods")
+    cart {
+      addShippingMethodApi
+    }
   }
 `

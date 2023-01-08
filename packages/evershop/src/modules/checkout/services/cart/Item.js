@@ -9,6 +9,7 @@ const { buildUrl } = require('../../../../lib/router/buildUrl');
 const { DataObject } = require('./DataObject');
 const { toPrice } = require('../toPrice');
 const uniqid = require('uniqid');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports.Item = class Item extends DataObject {
   static fields = [
@@ -17,6 +18,14 @@ module.exports.Item = class Item extends DataObject {
       resolvers: [
         async function () {
           return this.dataSource.cart_item_id ?? uniqid();
+        }
+      ]
+    },
+    {
+      key: 'uuid',
+      resolvers: [
+        async function () {
+          return this.dataSource.uuid ?? uuidv4().replace(/-/g, '');
         }
       ]
     },
@@ -239,13 +248,13 @@ module.exports.Item = class Item extends DataObject {
       resolvers: [
         async function () {
           if (this.getData('cart_item_id')) {
-            return buildUrl('removeCartItem');
+            return buildUrl('removeMineCartItem', { item_id: this.getData('uuid') });
           } else {
             return undefined;
           }
         }
       ],
-      dependencies: ['cart_item_id']
+      dependencies: ['cart_item_id', 'uuid']
     }
   ];
 
@@ -256,6 +265,6 @@ module.exports.Item = class Item extends DataObject {
   }
 
   getId() {
-    return this.getData('cart_item_id');
+    return this.getData('uuid');
   }
 }

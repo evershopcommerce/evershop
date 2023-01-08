@@ -16,22 +16,22 @@ module.exports = {
         return province.name
       } else {
         const p = provinces.find((p) => p.code === province);
-        return p.name;
+        return p?.name || 'INVALID_PROVINCE';
       }
     },
     countryCode: (province) => {
       if (province.countryCode) {
-        return province.countryCode
+        return province.countryCode;
       } else {
         const p = provinces.find((p) => p.code === province);
-        return p.countryCode;
+        return p?.countryCode || 'INVALID_PROVINCE';
       }
     },
     code: (province) => {
-      if (province.code) {
-        return province.code
+      if (province?.code) {
+        return province?.code
       } else {
-        return province;
+        return province || 'INVALID_PROVINCE';
       }
     }
   }

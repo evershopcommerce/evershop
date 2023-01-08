@@ -7,6 +7,9 @@ type Customer {
   createdAt: Date!
   url: String!
   editUrl: String!
+  logoutApi: String!
+  updateApi: String!
+  deleteApi: String!
   group: CustomerGroup
   orders: [Order]
 }

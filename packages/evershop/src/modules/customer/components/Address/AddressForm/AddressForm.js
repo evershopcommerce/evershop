@@ -8,7 +8,12 @@ import { Country } from './Country';
 import { ProvinceAndPostcode } from './ProvinceAndPostcode';
 import { NameAndTelephone } from './NameAndTelephone';
 
-export function CustomerAddressForm({ allowCountries, address = {}, formId = 'customerAddressForm', areaId = 'customerAddressForm' }) {
+export function CustomerAddressForm({
+  allowCountries,
+  address = {},
+  formId = 'customerAddressForm',
+  areaId = 'customerAddressForm'
+}) {
   const [selectedCountry, setSelectedCountry] = React.useState(() => {
     const country = address?.country?.code;
     if (!country || !allowCountries.find(c => c.code === country)) {

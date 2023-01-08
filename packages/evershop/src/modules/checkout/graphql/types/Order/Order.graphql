@@ -70,6 +70,7 @@ type Order implements ShoppingCart{
   createdAt: Date!
   updatedAt: String!
   editUrl: String!
+  fullFillApi: String!
   activities: [Activity]
   shipment: Shipment
 }
@@ -89,6 +90,7 @@ type Shipment {
   trackingNumber: String
   createdAt: DateTime!
   updatedAt: DateTime
+  updateShipmentApi: String!
 }
 
 type OrderCollection {

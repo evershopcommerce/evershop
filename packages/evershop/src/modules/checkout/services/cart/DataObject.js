@@ -103,6 +103,7 @@ module.exports.DataObject = class DataObject {
       this.isBuilding = false;
       this.isCommited = false;
     } catch (e) {
+      console.log(e);
       this.errors['buildingError'] = e.message;
       this.isBuilding = false;
       // Rollback the changes

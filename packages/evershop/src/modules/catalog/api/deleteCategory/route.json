@@ -1,0 +1,6 @@
+{
+  "methods": [
+    "DELETE"
+  ],
+  "path": "/categories/:id"
+}

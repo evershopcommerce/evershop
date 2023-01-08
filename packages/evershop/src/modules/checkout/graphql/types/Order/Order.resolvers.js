@@ -147,15 +147,24 @@ module.exports = {
   },
   Order: {
     items: async ({ orderId }, { }, { pool, user }) => {
-      const items = await select().from('order_item').where('order_item_order_id', '=', orderId).execute(pool);
+      const items = await select()
+        .from('order_item')
+        .where('order_item_order_id', '=', orderId)
+        .execute(pool);
       return items.map((item) => camelCase(item));
     },
     shippingAddress: async ({ shippingAddressId }, { }, { pool, user }) => {
-      const address = await select().from('order_address').where('order_address_id', '=', shippingAddressId).load(pool);
+      const address = await select()
+        .from('order_address')
+        .where('order_address_id', '=', shippingAddressId)
+        .load(pool);
       return address ? camelCase(address) : null;
     },
     billingAddress: async ({ billingAddressId }, { }, { pool, user }) => {
-      const address = await select().from('order_address').where('order_address_id', '=', billingAddressId).load(pool);
+      const address = await select()
+        .from('order_address')
+        .where('order_address_id', '=', billingAddressId)
+        .load(pool);
       return address ? camelCase(address) : null;
     },
     activities: async ({ orderId }, { }, { pool }) => {
@@ -166,11 +175,18 @@ module.exports = {
       const activities = await query.execute(pool);
       return activities ? activities.map((activity) => camelCase(activity)) : null;
     },
-    shipment: async ({ orderId }, { }, { pool }) => {
-      const shipment = await select().from('shipment').where('shipment_order_id', '=', orderId).load(pool);
-      return shipment ? camelCase(shipment) : null;
+    shipment: async ({ orderId, uuid }, { }, { pool }) => {
+      const shipment = await select()
+        .from('shipment')
+        .where('shipment_order_id', '=', orderId)
+        .load(pool);
+      return shipment ? { ...camelCase(shipment), orderUuid: uuid } : null;
     },
     editUrl: ({ uuid }) => buildUrl('orderEdit', { id: uuid }),
+    fullFillApi: ({ uuid }) => buildUrl('createShipment', { id: uuid }),
     customerUrl: ({ customerId }) => customerId ? buildUrl('customerEdit', { id: customerId }) : null
+  },
+  Shipment: {
+    updateShipmentApi: ({ orderUuid, uuid }) => buildUrl('updateShipment', { order_id: orderUuid, shipment_id: uuid })
   }
 }

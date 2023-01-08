@@ -7,16 +7,27 @@ import Area from '../../../../../lib/components/Area';
 import Pagination from '../../../../../lib/components/grid/Pagination';
 import { useAlertContext } from '../../../../../lib/components/modal/Alert';
 import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
-import formData from '../../../../../lib/util/formData';
 import { Card } from '../../../../cms/components/admin/Card';
 import CategoryNameRow from './rows/CategoryName';
 import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
 import DropdownColumnHeader from '../../../../../lib/components/grid/headers/Dropdown';
 import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
 
-function Actions({ selectedIds = [], deleteCategoriesUrl }) {
+function Actions({ categories = [], selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
+
+  const deleteCategories = async () => {
+    setIsLoading(true);
+    const promises = categories.filter((category) => selectedIds.includes(category.uuid)).map((category) => {
+      return axios.delete(category.deleteApi);
+    });
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  }
+
   const actions = [
     {
       name: 'Delete',
@@ -32,14 +43,7 @@ function Actions({ selectedIds = [], deleteCategoriesUrl }) {
           secondaryAction: {
             title: 'Delete',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(deleteCategoriesUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await deleteCategories();
             },
             variant: 'critical',
             isLoading
@@ -69,7 +73,7 @@ function Actions({ selectedIds = [], deleteCategoriesUrl }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default function CategoryGrid({ categories: { items: categories, total, currentFilters = [] }, deleteCategoriesUrl }) {
@@ -85,7 +89,7 @@ export default function CategoryGrid({ categories: { items: categories, total, c
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
                 if (e.target.checked) {
-                  setSelectedRows(categories.map((c) => c.categoryId));
+                  setSelectedRows(categories.map((c) => c.uuid));
                 } else {
                   setSelectedRows([]);
                 }
@@ -104,7 +108,11 @@ export default function CategoryGrid({ categories: { items: categories, total, c
                   },
                   {
                     component: { default: () => <DropdownColumnHeader id='status' title='Status' currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
-                    sortOrder: 20
+                    sortOrder: 25
+                  },
+                  {
+                    component: { default: () => <DropdownColumnHeader id='includeInNav' title='Include In Menu' currentFilters={currentFilters} options={[{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }]} /> },
+                    sortOrder: 30
                   }
                 ]
               }
@@ -113,19 +121,18 @@ export default function CategoryGrid({ categories: { items: categories, total, c
         </thead>
         <tbody>
           <Actions
-            ids={categories.map((c) => c.categoryId)}
+            categories={categories}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
-            deleteCategoriesUrl={deleteCategoriesUrl}
           />
           {categories.map((c) => (
             <tr key={c.categoryId}>
               <td style={{ width: '2rem' }}>
                 <Checkbox
-                  isChecked={selectedRows.includes(c.categoryId)}
+                  isChecked={selectedRows.includes(c.uuid)}
                   onChange={(e) => {
-                    if (e.target.checked) setSelectedRows(selectedRows.concat([c.categoryId]));
-                    else setSelectedRows(selectedRows.filter((r) => r !== c.categoryId));
+                    if (e.target.checked) setSelectedRows(selectedRows.concat([c.uuid]));
+                    else setSelectedRows(selectedRows.filter((r) => r !== c.uuid));
                   }}
                 />
               </td>
@@ -142,6 +149,10 @@ export default function CategoryGrid({ categories: { items: categories, total, c
                   {
                     component: { default: ({ areaProps }) => <StatusRow id='status' areaProps={areaProps} /> },
                     sortOrder: 25
+                  },
+                  {
+                    component: { default: ({ areaProps }) => <StatusRow id='includeInNav' areaProps={areaProps} /> },
+                    sortOrder: 30
                   }
                 ]}
               />
@@ -166,9 +177,12 @@ export const query = `
     categories (filters: getContextValue("filtersFromUrl")) {
       items {
         categoryId
+        uuid
         name
         status
+        includeInNav
         editUrl
+        deleteApi
       }
       total
       currentFilters {
@@ -177,6 +191,5 @@ export const query = `
         value
       }
     }
-    deleteCategoriesUrl: url(routeId: "categoryBulkDelete")
   }
 `;

@@ -31,7 +31,7 @@ export function AllowCountries({
     <div>
       <div style={{ marginBottom: '0.3rem' }}>Allow Countries</div>
       <Select
-        name='allowedCountries'
+        name='allowedCountries[]'
         options={data.countries}
         hideSelectedOptions={true}
         isMulti={true}
@@ -53,8 +53,10 @@ export default function StoreSetting({ saveSettingApi, setting: { allowedCountri
           id='shippingSettingForm'
           action={saveSettingApi}
           onSuccess={(response) => {
-            if (response?.success === true) {
+            if (!response.error) {
               toast.success('Setting saved');
+            } else {
+              toast.error(response.error.message);
             }
           }}
         >

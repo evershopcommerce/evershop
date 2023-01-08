@@ -303,24 +303,23 @@ exports.Cart = class Cart extends DataObject {
       throw new Error(item.error);
     } else {
       let items = this.getItems();
-      //console.log(items);
-      let flag = false;
+      let duplicateItem;
       for (let i = 0; i < items.length; i += 1) {
         if (items[i].getData('product_sku') === item.getData('product_sku') && isEqualWith(items[i].getData('product_custom_options'), item.getData('product_custom_options'))) {
           // eslint-disable-next-line no-await-in-loop
           await items[i].setData('qty', item.getData('qty') + items[i].getData('qty'));
-          if (item.error) {
-            throw new Error(item.error);
+          if (items[i].error) {
+            throw new Error(items[i].error);
           }
-          flag = true;
+          duplicateItem = items[i];
         }
       }
 
-      if (flag === false) {
+      if (!duplicateItem) {
         items = items.concat(item);
       }
       await this.setData('items', items);
-      return item;
+      return duplicateItem || item;
     }
   }
 
@@ -337,7 +336,7 @@ exports.Cart = class Cart extends DataObject {
       id = parseInt(id, 10);
     }
 
-    const newItems = items.filter((i) => i.getData('cart_item_id') !== id)
+    const newItems = items.filter((i) => i.getData('uuid') !== id)
     if (item) {
       await this.setData('items', newItems);
       return item;
@@ -348,7 +347,7 @@ exports.Cart = class Cart extends DataObject {
 
   getItem(id) {
     const items = this.getItems();
-    return items.find((item) => item.getData('cart_item_id') == id);
+    return items.find((item) => item.getData('uuid') == id);
   }
 
   hasItemError() {

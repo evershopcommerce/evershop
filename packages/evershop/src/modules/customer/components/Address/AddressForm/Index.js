@@ -16,7 +16,11 @@ const CountriesQuery = `
   }
 `;
 
-export default function Index({ address = {}, formId = 'customerAddressForm', areaId = 'customerAddressForm' }) {
+export default function Index({
+  address = {},
+  formId = 'customerAddressForm',
+  areaId = 'customerAddressForm'
+}) {
   const [result, reexecuteQuery] = useQuery({
     query: CountriesQuery
   });

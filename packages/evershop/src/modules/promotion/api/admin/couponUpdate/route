@@ -1,2 +1,0 @@
-PUT
-/coupons/:id(\d+)

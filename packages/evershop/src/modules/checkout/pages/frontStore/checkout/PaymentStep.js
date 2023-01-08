@@ -2,7 +2,7 @@ import React from 'react';
 import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
 import { StepContent } from '../../../components/frontStore/checkout/payment/paymentStep/StepContent';
 
-export default function PaymentStep({ setBillingAddressAPI, setPaymentInfoAPI, cart }) {
+export default function PaymentStep({ cart }) {
   const steps = useCheckoutSteps();
   const step = steps.find((e) => e.id === 'payment') || {};
   const [display, setDisplay] = React.useState(false);
@@ -25,7 +25,10 @@ export default function PaymentStep({ setBillingAddressAPI, setPaymentInfoAPI, c
 
   return (
     <div className="checkout-payment checkout-step">
-      {display && <StepContent cart={cart} step={step} setPaymentInfoAPI={setPaymentInfoAPI} />}
+      {display && <StepContent
+        cart={cart}
+        step={step}
+      />}
     </div>
   );
 }
@@ -37,11 +40,26 @@ export const layout = {
 
 export const query = `
   query Query {
-    setPaymentInfoAPI: url(routeId: "checkoutSetPaymentInfo")
     cart {
       billingAddress {
-        cartAddressId
+        id: cartAddressId
+        fullName
+        postcode
+        telephone
+        country {
+          code
+          name
+        }
+        province {
+          code
+          name
+        }
+        city
+        address1
+        address2
       }
+      addBillingAddressApi: addAddressApi
+      addPaymentMethodApi
     }
   }
 `

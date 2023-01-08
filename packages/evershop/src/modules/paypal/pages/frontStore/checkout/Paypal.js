@@ -21,14 +21,14 @@ export function Paypal({
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          orderId: orderId
+          order_id: orderId
         })
       });
       response = await response.json();
-      if (response.success === true) {
+      if (!response.error) {
         setAccessTokenGenerated(true);
       } else {
-        setError(response.message);
+        setError(response.error.message);
       }
     };
 
@@ -46,16 +46,16 @@ export function Paypal({
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          orderId: orderId
+          order_id: orderId
         })
       });
       const data = await response.json();
-      if (data.success === true) {
+      if (!response.error) {
         const { paypalOrderId, approveUrl } = data.data;
         // Redirect to PayPal for payment approval
         window.location.href = approveUrl;
       } else {
-        setError(data.message);
+        setError(response.error.message);
       }
     };
 

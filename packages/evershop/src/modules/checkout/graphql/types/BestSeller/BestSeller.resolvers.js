@@ -5,8 +5,12 @@ module.exports = {
   Query: {
     bestSellers: async (_, { }, { tokenPayload }) => {
       const query = select();
-      query.from('product').leftJoin('product_description').on('product.`product_id`', '=', 'product_description.`product_description_product_id`');
-      query.leftJoin('order_item').on('product.`product_id`', '=', 'order_item.`product_id`');
+      query.from('product')
+        .leftJoin('product_description')
+        .on('product.`product_id`', '=', 'product_description.`product_description_product_id`');
+      query
+        .leftJoin('order_item')
+        .on('product.`product_id`', '=', 'order_item.`product_id`');
       query.select('product.*')
         .select('product_description.*')
         .select('SUM(order_item.`qty`)', 'qty')

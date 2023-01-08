@@ -14,7 +14,7 @@ export default function Status({
           type='radio'
           name='status'
           options={[{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }]}
-          value={category?.status || 1}
+          value={category?.status}
         />
       </Card.Session>
       <Card.Session title={'Include In Store Menu'}>
@@ -22,7 +22,7 @@ export default function Status({
           type='radio'
           name='include_in_nav'
           options={[{ value: 0, text: 'No' }, { value: 1, text: 'Yes' }]}
-          value={category?.includeInNav || 1}
+          value={category?.includeInNav}
         />
       </Card.Session>
     </Card>

@@ -11,16 +11,29 @@ import FromToColumnHeader from '../../../../../lib/components/grid/headers/FromT
 import ShipmentStatusColumnHeader from './headers/ShipmentStatusColumnHeader';
 import PaymentStatusColumnHeader from './headers/PaymentStatusColumnHeader';
 import OrderNumberRow from './rows/OrderNumberRow';
-import DateRow from '../../../../../lib/components/grid/rows/DateRow';
 import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
 import ShipmentStatusRow from './rows/ShipmentStatus';
 import PaymentStatusRow from './rows/PaymentStatus';
 import TotalRow from './rows/TotalRow';
 import CreateAt from '../../../../customer/pages/admin/customerGrid/rows/CreateAt';
 
-function Actions({ selectedIds = [] }) {
+function Actions({ orders = [], selectedIds = [] }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
+
+  const fullFillOrders = async () => {
+    setIsLoading(true);
+    const promises = orders.filter((order) => selectedIds.includes(order.uuid)).map((order) => {
+      return axios.post(order.fullFillApi, {
+        status: status
+      });
+    });
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  }
+
   const actions = [
     {
       name: 'Mark as fullfilled',
@@ -36,10 +49,7 @@ function Actions({ selectedIds = [] }) {
           secondaryAction: {
             title: 'Mark as fullfilled',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              await axios.post(orderBulkFullFillUrl, { ids: selectedIds });
-              location.reload();
+              await fullFillOrders();
             },
             variant: 'primary',
             isLoading
@@ -69,7 +79,7 @@ function Actions({ selectedIds = [] }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default function OrderGrid({ orders: { items: orders, total, currentFilters = [] }, shipmentStatusList, paymentStatusList, orderBulkFullFillUrl }) {
@@ -84,8 +94,11 @@ export default function OrderGrid({ orders: { items: orders, total, currentFilte
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(orders.map((o) => o.orderId));
-                else setSelectedRows([]);
+                if (e.target.checked) {
+                  setSelectedRows(orders.map((o) => o.uuid));
+                } else {
+                  setSelectedRows([]);
+                }
               }}
               />
             </th>
@@ -126,19 +139,21 @@ export default function OrderGrid({ orders: { items: orders, total, currentFilte
         </thead>
         <tbody>
           <Actions
-            ids={orders.map(() => orders.orderId)}
+            orders={orders}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
-            orderBulkFullFillUrl={orderBulkFullFillUrl}
           />
           {orders.map((o) => (
             <tr key={o.orderId}>
               <td>
                 <Checkbox
-                  isChecked={selectedRows.includes(o.orderId)}
+                  isChecked={selectedRows.includes(o.uuid)}
                   onChange={(e) => {
-                    if (e.target.checked) setSelectedRows(selectedRows.concat([o.orderId]));
-                    else setSelectedRows(selectedRows.filter((row) => row !== o.orderId));
+                    if (e.target.checked) {
+                      setSelectedRows(selectedRows.concat([o.uuid]));
+                    } else {
+                      setSelectedRows(selectedRows.filter((row) => row !== o.uuid));
+                    }
                   }}
                 />
               </td>
@@ -197,6 +212,7 @@ export const query = `
     orders (filters: getContextValue("filtersFromUrl")) {
       items {
         orderId
+        uuid
         orderNumber
         createdAt {
           value
@@ -220,6 +236,7 @@ export const query = `
           text
         }
         editUrl
+        fullFillApi
       }
       total
       currentFilters {
@@ -228,7 +245,6 @@ export const query = `
         value
       }
     }
-    orderBulkFullFillUrl: url(routeId: "orderBulkFullFill")
     shipmentStatusList {
       text: name
       value: code
