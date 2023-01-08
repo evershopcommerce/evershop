@@ -1,6 +1,5 @@
-const axios = require('axios');
-
 module.exports = async (request, response, delegates) => {
-  await axios.get('https://deelay.me/500/https://picsum.photos/200/300');
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  await delay(3000);
   undefined.b = 1;
 };
