@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useAppDispatch } from '../../../../../lib/context/app';
 import './Pagination.scss';
 
 export function Pagination({
@@ -7,39 +8,56 @@ export function Pagination({
 }) {
   const [, setIsOnEdit] = React.useState(false);
   const [, setInPutVal] = React.useState(currentPage);
+  const AppContextDispatch = useAppDispatch();
+  const [page, setPage] = React.useState(currentPage);
 
   const max = Math.ceil(total / limit);
   React.useEffect(() => {
     setInPutVal(currentPage);
   }, [currentPage]);
 
-  const onPage = (page) => {
+  const onPage = async (p) => {
     let pageNum;
-    if (page < 1) pageNum = 1;
-    else if (page > max) pageNum = max;
-    else pageNum = page;
+    if (p < 1) pageNum = 1;
+    else if (p > max) pageNum = max;
+    else pageNum = p;
     const url = new URL(window.location.href, window.location.origin);
     url.searchParams.set('page', pageNum);
-    window.location.href = url;
+    url.searchParams.append('ajax', true);
+    setPage(p);
+    await AppContextDispatch.fetchPageData(url);
+    url.searchParams.delete('ajax');
+    history.pushState(null, "", url);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setIsOnEdit(false);
   };
 
-  const onPrev = (e) => {
+  const onPrev = async (e) => {
     e.preventDefault();
-    const prev = currentPage - 1;
-    if (currentPage === 1) { return; }
-    const url = new URL(currentUrl, window.location.origin);
+    const prev = page - 1;
+    if (page === 1) { return; }
+    const url = new URL(window.location.href, window.location.origin);
     url.searchParams.set('page', prev);
-    window.location.href = url;
+    setPage(prev);
+    url.searchParams.append('ajax', true);
+    await AppContextDispatch.fetchPageData(url);
+    url.searchParams.delete('ajax');
+    history.pushState(null, "", url);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const onNext = (e) => {
+  const onNext = async (e) => {
     e.preventDefault();
-    const next = currentPage + 1;
-    if (currentPage * limit >= total) { return; }
-    const url = new URL(currentUrl, window.location.origin);
+    const next = page + 1;
+    if (page * limit >= total) { return; }
+    const url = new URL(window.location.href, window.location.origin);
     url.searchParams.set('page', next);
-    window.location.href = url;
+    setPage(next);
+    url.searchParams.append('ajax', true);
+    await AppContextDispatch.fetchPageData(url);
+    url.searchParams.delete('ajax');
+    history.pushState(null, "", url);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
