@@ -1,41 +1,53 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Select } from '../../../../../lib/components/form/fields/Select';
+import { useAppDispatch } from '../../../../../lib/context/app';
+
+// TODO: make this list configurable
+const sortingOptions = [{ code: 'price', name: 'Price' }, { code: 'name', name: 'Name' }];
 
 export default function Sorting() {
-  // TODO: make this list configurable
-  const sortingOptions = [{ code: 'price', name: 'Price' }, { code: 'name', name: 'Name' }];
+  const AppContextDispatch = useAppDispatch();
+  const [sortBy, setSortBy] = React.useState(() => {
+    // Check if this is browser or server
+    if (typeof window !== 'undefined') {
+      let params = (new URL(document.location)).searchParams;
+      return params.get("sortBy") || 'id';
+    }
+  });
 
-  let sortOrder = 'asc', sortBy = 'id';
-  // Check if this is browser or server
-  if (typeof window !== 'undefined') {
-    let params = (new URL(document.location)).searchParams;
-    sortOrder = params.get("sortOrder") || 'asc';
-    sortBy = params.get("sortBy") || 'id';
-  }
+  const [sortOrder, setSortOrder] = React.useState(() => {
+    // Check if this is browser or server
+    if (typeof window !== 'undefined') {
+      let params = (new URL(document.location)).searchParams;
+      return params.get("sortOrder") || 'asc';
+    }
+  });
 
-  const onChangeSort = (e) => {
+  const onChangeSort = async (e) => {
     const currentUrl = window.location.href;
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
     url.searchParams.set('sortBy', e.target.value);
-    window.location.href = url;
+    url.searchParams.append('ajax', true);
+    setSortBy(e.target.value);
+    await AppContextDispatch.fetchPageData(url);
+    url.searchParams.delete('ajax');
+    history.pushState(null, "", url);
   };
 
-  const onChangeDirection = (e) => {
+  const onChangeDirection = async (e) => {
     const currentUrl = window.location.href;
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
-    if (sortOrder.toLowerCase() === 'asc') {
-      url.searchParams.set('sortOrder', 'desc');
-      window.location.href = url;
-    } else {
-      url.searchParams.set('sortOrder', 'asc');
-      window.location.href = url;
-    }
+    let order = sortOrder.toLowerCase() === 'asc' ? 'desc' : 'asc';
+    url.searchParams.set('sortOrder', order);
+    url.searchParams.append('ajax', true);
+    setSortOrder(order);
+    await AppContextDispatch.fetchPageData(url);
+    url.searchParams.delete('ajax');
+    history.pushState(null, "", url);
   };
-
-  if (sortingOptions.length === 0) { return (null); }
 
   return (
     <div className="product-sorting mb-1">
@@ -44,7 +56,7 @@ export default function Sorting() {
         <div style={{ width: '160px' }}>
           <Select
             className="form-control"
-            onChange={(e) => onChangeSort(e)}
+            onChange={async (e) => await onChangeSort(e)}
             value={sortBy.toLowerCase()}
             options={[{
               value: '',

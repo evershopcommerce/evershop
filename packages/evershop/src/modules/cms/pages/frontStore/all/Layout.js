@@ -1,11 +1,13 @@
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
+import LoadingBar from '../../../../../lib/components/LoadingBar';
 import './Layout.scss';
 import './tailwind.scss';
 
 export default function Layout() {
   return (
     <>
+      <LoadingBar />
       <div className="header flex justify-between">
         <Area id="header" noOuter coreComponents={[
           {
