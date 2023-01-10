@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Area from '../../../../../lib/components/Area';
+import { useAppDispatch } from '../../../../../lib/context/app';
 import { get } from '../../../../../lib/util/get';
 import './Filter.scss';
 
@@ -191,8 +192,9 @@ Attributes.propTypes = {
 
 export default function Filter({ category: { availableFilters, products: { currentFilters } } }) {
   const [isOpen, setIsOpen] = useState(false);
+  const AppContextDispatch = useAppDispatch();
 
-  const updateFilter = (newFilters) => {
+  const updateFilter = async (newFilters) => {
     const currentUrl = window.location.href;
     const url = new URL(currentUrl, window.location.origin);
     for (let i = 0; i < currentFilters.length; i += 1) {
@@ -202,7 +204,11 @@ export default function Filter({ category: { availableFilters, products: { curre
     for (let i = 0; i < newFilters.length; i += 1) {
       url.searchParams.append(newFilters[i].key, newFilters[i].value);
     }
-    window.location.href = url;
+    //window.location.href = url;
+    url.searchParams.append('ajax', true);
+    await AppContextDispatch.fetchPageData(url);
+    url.searchParams.delete('ajax');
+    history.pushState(null, "", url);
   };
 
   const cleanFilter = () => {
