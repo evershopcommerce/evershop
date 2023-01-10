@@ -205,6 +205,10 @@ export default function Filter({ category: { availableFilters, products: { curre
       url.searchParams.append(newFilters[i].key, newFilters[i].value);
     }
     //window.location.href = url;
+    url.searchParams.delete('ajax', true);
+
+    // Delete the page. We want to go back to page 1
+    url.searchParams.delete('page');
     url.searchParams.append('ajax', true);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
