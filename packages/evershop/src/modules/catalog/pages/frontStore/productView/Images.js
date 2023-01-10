@@ -27,7 +27,7 @@ Current.propTypes = {
   }).isRequired
 };
 
-export default function Images({ product: { image, gallery = [] } }) {
+export default function Images({ product: { uuid, image, gallery = [] } }) {
   const [current, setCurrent] = React.useState(image);
   const [thumbs, setThumbs] = React.useState(() => {
     if (image) {
@@ -36,6 +36,18 @@ export default function Images({ product: { image, gallery = [] } }) {
     }
     return gallery;
   });
+
+  React.useEffect(() => {
+    setCurrent(image);
+    setThumbs(() => {
+      const gls = [...gallery]
+      if (image) {
+        // Add image to beginning of gallery
+        gls.unshift(image);
+      }
+      return gls;
+    });
+  }, [uuid])
 
   return (
     <div className="product-single-media">
@@ -59,6 +71,7 @@ export const layout = {
 export const query = `
   query Query {
     product (id: getContextValue('productId')) {
+      uuid
       image {
         alt
         thumb

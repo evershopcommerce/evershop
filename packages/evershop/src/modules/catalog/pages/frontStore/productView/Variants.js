@@ -3,6 +3,7 @@ import React from 'react';
 import PubSub from 'pubsub-js';
 import { FORM_VALIDATED } from '../../../../../lib/util/events';
 import './Variants.scss';
+import { useAppDispatch } from '../../../../../lib/context/app';
 
 function isSelected(attributeCode, optionId, currentFilters = {}) {
   return (
@@ -16,6 +17,7 @@ function isAvailable(attributeCode, optionId, variants, currentFilters = {}) {
 }
 
 export default function Variants({ product: { variantGroup: vs }, pageInfo: { url } }) {
+  const AppContextDispatch = useAppDispatch();
   const attributes = vs ? vs.variantAttributes : [];
   const variants = vs ? vs.items : [];
   const [error, setError] = React.useState(null);
@@ -40,7 +42,9 @@ export default function Variants({ product: { variantGroup: vs }, pageInfo: { ur
 
     let flag = true;
     attributes.forEach((a) => {
-      if (variantFilters[a.attributeCode] === undefined) { flag = false; }
+      if (variantFilters[a.attributeCode] === undefined) {
+        flag = false;
+      }
     });
     if (flag === false) {
       // eslint-disable-next-line no-param-reassign
@@ -74,6 +78,15 @@ export default function Variants({ product: { variantGroup: vs }, pageInfo: { ur
     return url;
   };
 
+  const onClick = async (attributeCode, optionId) => {
+    const url = new URL(getUrl(attributeCode, optionId), window.location.origin);
+    url.searchParams.delete('ajax', true);
+    url.searchParams.append('ajax', true);
+    await AppContextDispatch.fetchPageData(url);
+    url.searchParams.delete('ajax');
+    history.pushState(null, "", url);
+  }
+
   return (
     <div className="variant variant-container grid grid-cols-1 gap-1 mt-2">
       {attributes.map((a, i) => {
@@ -82,9 +95,19 @@ export default function Variants({ product: { variantGroup: vs }, pageInfo: { ur
         );
         return (
           <div key={a.attributeCode}>
-            <input name={`variant_options[${i}][attribute_id]`} type="hidden" value={a.attributeId} />
-            <input name={`variant_options[${i}][optionId]`} type="hidden" value={variantFilters[a.attributeCode] ? variantFilters[a.attributeCode] : ''} />
-            <div className="mb-05 text-textSubdued uppercase"><span>{a.attribute_name}</span></div>
+            <input
+              name={`variant_options[${i}][attribute_id]`}
+              type="hidden"
+              value={a.attributeId}
+            />
+            <input
+              name={`variant_options[${i}][optionId]`}
+              type="hidden"
+              value={variantFilters[a.attributeCode] ? variantFilters[a.attributeCode] : ''}
+            />
+            <div className="mb-05 text-textSubdued uppercase">
+              <span>{a.attribute_name}</span>
+            </div>
             <ul className="variant-option-list flex justify-start">
               {options.map((o) => {
                 let className = 'mr-05';
@@ -94,11 +117,19 @@ export default function Variants({ product: { variantGroup: vs }, pageInfo: { ur
                 if (isAvailable(a.attributeCode, o.optionId, variants, variantFilters)) {
                   return (
                     <li key={o.optionId} className={className}>
-                      <a href={getUrl(a.attributeCode, o.optionId)}>{o.optionText}</a>
+                      <a
+                        href={"#"}
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          await onClick(a.attributeCode, o.optionId);
+                        }}
+                      >{o.optionText}</a>
                     </li>
                   );
                 } else {
-                  return <li key={o.optionId} className="un-available mr-05"><span>{o.optionText}</span></li>;
+                  return <li key={o.optionId} className="un-available mr-05">
+                    <span>{o.optionText}</span>
+                  </li>;
                 }
               })}
             </ul>
