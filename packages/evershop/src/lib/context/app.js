@@ -30,6 +30,15 @@ export function AppProvider({ value, children }) {
     setFetching(false);
   }
 
+  React.useEffect(() => {
+    window.onpopstate = async (event) => {
+      // Get the current url
+      const url = new URL(window.location.href, window.location.origin);
+      url.searchParams.append('ajax', true);
+      await fetchPageData(url);
+    }
+  }, []);
+
   return (
     <AppContextDispatch.Provider value={{ setData, fetchPageData }}>
       <AppStateContext.Provider value={{ ...data, fetching }}>
