@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Error from './Error';
-import './../Field.scss';
+import '../Field.scss';
 
 const MultiSelect = React.forwardRef((props, ref) => {
   const {
@@ -19,7 +19,7 @@ const MultiSelect = React.forwardRef((props, ref) => {
           defaultValue={value}
           onChange={(e) => { if (onChange) onChange.call(window, e); }}
           ref={ref}
-          multiple={true}
+          multiple
         >
           <option value="" disabled>Please select</option>
           {options && options.map(

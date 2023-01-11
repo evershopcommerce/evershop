@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import { useClient } from 'urql';
 import { useFormContext } from '../../../../../lib/components/form/Form';
 import { Field } from '../../../../../lib/components/form/Field';
-import { useClient } from 'urql';
 import { useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
 import { useCheckout } from '../../../../../lib/context/checkout';
 
@@ -54,7 +54,7 @@ export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMeth
         axios.get(getMethodsAPI)
           .then((response) => {
             setMethods((previous) => {
-              const methods = response.data.data.methods;
+              const { methods } = response.data.data;
               return methods.map((m) => {
                 const find = previous.find((p) => p.code === m.code);
                 if (find) {
@@ -78,13 +78,15 @@ export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMeth
 
   React.useEffect(() => {
     async function saveMethods() {
-      // Get the selected method 
+      // Get the selected method
       const selectedMethod = methods.find((m) => m.selected === true);
-      const response = await axios.post(addShippingMethodApi,
+      const response = await axios.post(
+        addShippingMethodApi,
         {
           method_code: selectedMethod.code,
           method_name: selectedMethod.name
-        });
+        }
+      );
       if (!response.data.error) {
         const result = await client.query(QUERY, { cartId })
           .toPromise();
@@ -94,8 +96,8 @@ export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMeth
     }
     if (formContext.state === 'submitSuccess') {
       saveMethods();
-    };
-  }, [formContext.state])
+    }
+  }, [formContext.state]);
 
   return (
     <div className="shipping-methods">
@@ -110,29 +112,31 @@ export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMeth
       )}
       <h4 className="mt-3 mb-1">Shipping Method</h4>
       {
-        (addressProvided === true && methods.length == 0) &&
+        (addressProvided === true && methods.length == 0)
+        && (
         <div className="text-center p-3 border border-divider rounded text-textSubdued">
           Sorry, there is no available method for your address
         </div>
+        )
       }
       {
-        (addressProvided === false) &&
+        (addressProvided === false)
+        && (
         <div className="text-center p-3 border border-divider rounded text-textSubdued">
           Please enter a shipping address in order to see shipping quotes
         </div>
+        )
       }
       {methods.length > 0 && (
-        <div className='divide-y border rounded border-divider p-1 mb-2'>
+        <div className="divide-y border rounded border-divider p-1 mb-2">
           <Field
             type="radio"
             name="method"
             validationRules={['notEmpty']}
-            options={methods.map((m) => {
-              return {
-                value: m.code,
-                text: m.name,
-              }
-            })}
+            options={methods.map((m) => ({
+              value: m.code,
+              text: m.name
+            }))}
             onChange={(value) => {
               // Update methods with selected flag
               const newMethods = methods.map((m) => {
@@ -153,7 +157,7 @@ export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMeth
 export const layout = {
   areaId: 'checkoutShippingAddressForm',
   sortOrder: 60
-}
+};
 
 export const query = `
   query Query {
@@ -162,4 +166,4 @@ export const query = `
       addShippingMethodApi
     }
   }
-`
+`;

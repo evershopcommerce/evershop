@@ -1,4 +1,4 @@
-const { select } = require("@evershop/mysql-query-builder")
+const { select } = require('@evershop/mysql-query-builder');
 
 module.exports = {
   Query: {
@@ -11,7 +11,7 @@ module.exports = {
   },
   Setting: {
     storeName: (setting, { _ }, { pool }) => {
-      const storeName = setting.find(s => s.name === 'storeName');
+      const storeName = setting.find((s) => s.name === 'storeName');
       if (storeName) {
         return storeName.value;
       } else {
@@ -19,4 +19,4 @@ module.exports = {
       }
     }
   }
-}
+};

@@ -1,6 +1,6 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { buildUrl } = require("../../../../../lib/router/buildUrl");
-const { camelCase } = require("../../../../../lib/util/camelCase");
+const { select } = require('@evershop/mysql-query-builder');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
@@ -42,7 +42,7 @@ module.exports = {
             value: filter.value
           });
         }
-      })
+      });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
       const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
@@ -54,8 +54,8 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('cms_page.`cms_page_id`', "DESC");
-      };
+        query.orderBy('cms_page.`cms_page_id`', 'DESC');
+      }
 
       if (sortOrder.key) {
         currentFilters.push({
@@ -82,20 +82,16 @@ module.exports = {
       });
       query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
       return {
-        items: (await query.execute(pool)).map(row => camelCase(row)),
-        total: (await cloneQuery.load(pool))['total'],
-        currentFilters: currentFilters,
-      }
+        items: (await query.execute(pool)).map((row) => camelCase(row)),
+        total: (await cloneQuery.load(pool)).total,
+        currentFilters
+      };
     }
   },
   CmsPage: {
     url: ({ urlKey }) => buildUrl('cmsPageView', { url_key: urlKey }),
     editUrl: ({ uuid }) => buildUrl('cmsPageEdit', { id: uuid }),
-    updateApi: (page, _, { pool }) => {
-      return buildUrl('updateCmsPage', { id: page.uuid });
-    },
-    deleteApi: (page, _, { pool }) => {
-      return buildUrl('deleteCmsPage', { id: page.uuid });
-    }
+    updateApi: (page, _, { pool }) => buildUrl('updateCmsPage', { id: page.uuid }),
+    deleteApi: (page, _, { pool }) => buildUrl('deleteCmsPage', { id: page.uuid })
   }
-}
+};

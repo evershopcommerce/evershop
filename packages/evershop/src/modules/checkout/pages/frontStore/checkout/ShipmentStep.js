@@ -3,17 +3,19 @@ import React from 'react';
 import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
 import { StepContent } from '../../../components/frontStore/checkout/shipment/StepContent';
 
-export default function ShipmentStep({ cart: {
-  shippingAddress,
-  shippingMethod,
-  shippingMethodName,
-  addShippingMethodApi,
-  addShippingAddressApi
-} }) {
+export default function ShipmentStep({
+  cart: {
+    shippingAddress,
+    shippingMethod,
+    shippingMethodName,
+    addShippingMethodApi,
+    addShippingAddressApi
+  }
+}) {
   const steps = useCheckoutSteps();
   const [shipmentInfo, setShipmentInfo] = React.useState({
     address: shippingAddress
-  })
+  });
   const step = steps.find((e) => e.id === 'shipment') || {};
   const [display, setDisplay] = React.useState(false);
   const { canStepDisplay, editStep, addStep } = useCheckoutStepsDispatch();
@@ -23,7 +25,7 @@ export default function ShipmentStep({ cart: {
       id: 'shipment',
       title: 'Shipment',
       previewTitle: 'Ship To',
-      isCompleted: shippingAddress && shippingMethod ? true : false,
+      isCompleted: !!(shippingAddress && shippingMethod),
       preview: shippingAddress ? `${shippingAddress.address1}, ${shippingAddress.city}, ${shippingAddress.country.name}` : '',
       sortOrder: 10,
       editable: true
@@ -54,7 +56,7 @@ export default function ShipmentStep({ cart: {
 export const layout = {
   areaId: 'checkoutSteps',
   sortOrder: 15
-}
+};
 
 export const query = `
   query Query {
@@ -82,4 +84,4 @@ export const query = `
       addShippingMethodApi
     }
   }
-`
+`;

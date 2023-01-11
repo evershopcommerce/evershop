@@ -20,7 +20,7 @@ function Title({ title }) {
 export default function ShoppingCart({ cart, removeUrl }) {
   const { totalQty = 0, items = [] } = cart || {};
   if (totalQty <= 0) {
-    return <Empty />
+    return <Empty />;
   } else {
     return (
       <div>
@@ -45,7 +45,7 @@ export default function ShoppingCart({ cart, removeUrl }) {
                 coreComponents={[
                   {
                     component: { default: Items },
-                    props: { items: items, cartId: cart.uuid, removeUrl },
+                    props: { items, cartId: cart.uuid, removeUrl },
                     sortOrder: 10,
                     id: 'shoppingCartTitle'
                   }
@@ -70,7 +70,7 @@ export default function ShoppingCart({ cart, removeUrl }) {
 export const layout = {
   areaId: 'content',
   sortOrder: 1
-}
+};
 
 export const query = `
   query Query {
@@ -101,4 +101,4 @@ export const query = `
       }
     }
   }
-`
+`;

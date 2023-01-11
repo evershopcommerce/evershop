@@ -1,11 +1,11 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { camelCase } = require("../../../../../../lib/util/camelCase");
+const { select } = require('@evershop/mysql-query-builder');
 const uniqid = require('uniqid');
+const { camelCase } = require('../../../../../../lib/util/camelCase');
 
 module.exports = {
   Product: {
     variantGroup: async (product, _, { pool, tokenPayload }) => {
-      const variantGroupId = product.variantGroupId;
+      const { variantGroupId } = product;
       if (!variantGroupId) {
         return null;
       } else {
@@ -107,9 +107,7 @@ module.exports = {
         return {
           variantGroupId,
           variantAttributes: attributes,
-          items: variants.map(v => {
-            return { ...v, id: `id${uniqid()}` }
-          })
+          items: variants.map((v) => ({ ...v, id: `id${uniqid()}` }))
         };
       }
     }
@@ -118,11 +116,11 @@ module.exports = {
     product: async ({ productId }, _, { pool }) => {
       const query = select()
         .from('product');
-      query.leftJoin('product_description').on('product_description.`product_description_product_id`', '=', 'product.`product_id`')
-      query.where('product_id', '=', productId)
+      query.leftJoin('product_description').on('product_description.`product_description_product_id`', '=', 'product.`product_id`');
+      query.where('product_id', '=', productId);
       const result = await query.load(pool);
       if (!result) {
-        return null
+        return null;
       } else {
         return camelCase(result);
       }

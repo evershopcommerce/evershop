@@ -9,10 +9,10 @@ const { get } = require('../../../../lib/util/get');
 
 module.exports = async (request, response, delegate) => {
   const result = await delegate.createProduct;
-  let productId = result.insertId;
+  const productId = result.insertId;
   const connection = await delegate.getConnection;
   const categories = get(request, 'body.categories', []);
-  // Add new 
+  // Add new
   for (let i = 0; i < categories.length; i++) {
     if (categories[i]) {
       await insert('product_category')

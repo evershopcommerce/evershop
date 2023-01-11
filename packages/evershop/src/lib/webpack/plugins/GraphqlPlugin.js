@@ -19,6 +19,6 @@ exports.GraphqlPlugin = class GraphqlPlugin {
     compiler.hooks.thisCompilation.tap('GraphqlPlugin', (compilation) => {
       const components = getComponentsByRoute(this.route); // TODO: Can we get list of module without calling getComponentsByRoute again?
       compilation.emitAsset(this.outputFile, new RawSource(JSON.stringify(parseGraphql(components))));
-    })
+    });
   }
 };

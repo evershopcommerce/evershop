@@ -6,7 +6,7 @@ const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/
 module.exports = async (request, response, delegate, next) => {
   const connection = await getConnection();
   try {
-    const id = request.params.id;
+    const { id } = request.params;
     const attributeGroup = await select()
       .from('attribute_group')
       .where('uuid', '=', id)
@@ -43,7 +43,7 @@ module.exports = async (request, response, delegate, next) => {
       data: attributeGroup
     });
   } catch (e) {
-    response.status(INTERNAL_SERVER_ERROR)
+    response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,

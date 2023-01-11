@@ -27,7 +27,7 @@ export function Pagination({
     setPage(p);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    history.pushState(null, "", url);
+    history.pushState(null, '', url);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setIsOnEdit(false);
   };
@@ -42,7 +42,7 @@ export function Pagination({
     url.searchParams.append('ajax', true);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    history.pushState(null, "", url);
+    history.pushState(null, '', url);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -56,7 +56,7 @@ export function Pagination({
     url.searchParams.append('ajax', true);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    history.pushState(null, "", url);
+    history.pushState(null, '', url);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

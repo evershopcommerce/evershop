@@ -19,28 +19,24 @@ function Actions({ coupons = [], selectedIds = [] }) {
 
   const updateCoupons = async (status) => {
     setIsLoading(true);
-    const promises = coupons.filter((coupon) => selectedIds.includes(coupon.uuid)).map((coupon) => {
-      return axios.patch(coupon.updateApi, {
-        status: status,
-        coupon: coupon.coupon
-      });
-    });
+    const promises = coupons.filter((coupon) => selectedIds.includes(coupon.uuid)).map((coupon) => axios.patch(coupon.updateApi, {
+      status,
+      coupon: coupon.coupon
+    }));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
     window.location.reload();
-  }
+  };
 
   const deleteCoupons = async () => {
     setIsLoading(true);
-    const promises = coupons.filter((coupon) => selectedIds.includes(coupon.uuid)).map((coupon) => {
-      return axios.delete(coupon.deleteApi);
-    });
+    const promises = coupons.filter((coupon) => selectedIds.includes(coupon.uuid)).map((coupon) => axios.delete(coupon.deleteApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
     window.location.reload();
-  }
+  };
 
   const actions = [
     {
@@ -134,9 +130,11 @@ Actions.propTypes = {
   selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
-export default function CouponGrid({ coupons: { items: coupons, total, currentFilters = [] }, disableCouponUrl, enableCouponsUrl, deleteCouponsUrl }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page')['value'] : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit')['value'] : 20;
+export default function CouponGrid({
+  coupons: { items: coupons, total, currentFilters = [] }, disableCouponUrl, enableCouponsUrl, deleteCouponsUrl
+}) {
+  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
+  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -146,10 +144,8 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked)
-                  setSelectedRows(coupons.map((c) => c.uuid));
-                else
-                  setSelectedRows([]);
+                if (e.target.checked) setSelectedRows(coupons.map((c) => c.uuid));
+                else setSelectedRows([]);
               }}
               />
             </th>
@@ -158,23 +154,23 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
               noOuter
               coreComponents={[
                 {
-                  component: { default: () => <BasicColumnHeader title='Coupon Code' id='coupon' currentFilter={currentFilters.find(f => f.key === 'coupon')} /> },
+                  component: { default: () => <BasicColumnHeader title="Coupon Code" id="coupon" currentFilter={currentFilters.find((f) => f.key === 'coupon')} /> },
                   sortOrder: 10
                 },
                 {
-                  component: { default: () => <FromToColumnHeader title='State Date' id='startDate' currentFilter={currentFilters.find(f => f.key === 'startDate')} /> },
+                  component: { default: () => <FromToColumnHeader title="State Date" id="startDate" currentFilter={currentFilters.find((f) => f.key === 'startDate')} /> },
                   sortOrder: 20
                 },
                 {
-                  component: { default: () => <FromToColumnHeader title='End Date' id='endDate' currentFilter={currentFilters.find(f => f.key === 'endDate')} /> },
+                  component: { default: () => <FromToColumnHeader title="End Date" id="endDate" currentFilter={currentFilters.find((f) => f.key === 'endDate')} /> },
                   sortOrder: 30
                 },
                 {
-                  component: { default: () => <StatusColumnHeader title='Status' id='status' currentFilter={currentFilters.find(f => f.key === 'status')} /> },
+                  component: { default: () => <StatusColumnHeader title="Status" id="status" currentFilter={currentFilters.find((f) => f.key === 'status')} /> },
                   sortOrder: 40
                 },
                 {
-                  component: { default: () => <FromToColumnHeader title='Used Times' id='usedTime' currentFilter={currentFilters.find(f => f.key === 'usedTime')} /> },
+                  component: { default: () => <FromToColumnHeader title="Used Times" id="usedTime" currentFilter={currentFilters.find((f) => f.key === 'usedTime')} /> },
                   sortOrder: 50
                 }
               ]}
@@ -213,19 +209,19 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
                     sortOrder: 10
                   },
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='startDate' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <BasicRow id="startDate" areaProps={areaProps} /> },
                     sortOrder: 20
                   },
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='endDate' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <BasicRow id="endDate" areaProps={areaProps} /> },
                     sortOrder: 30
                   },
                   {
-                    component: { default: ({ areaProps }) => <StatusRow title='Status' id='status' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <StatusRow title="Status" id="status" areaProps={areaProps} /> },
                     sortOrder: 40
                   },
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='usedTime' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <BasicRow id="usedTime" areaProps={areaProps} /> },
                     sortOrder: 50
                   }
                 ]}
@@ -244,7 +240,7 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
 export const layout = {
   areaId: 'content',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {

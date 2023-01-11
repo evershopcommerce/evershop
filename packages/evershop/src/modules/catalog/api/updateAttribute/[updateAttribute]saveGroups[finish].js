@@ -8,7 +8,7 @@ const { get } = require('../../../../lib/util/get');
 
 module.exports = async (request, response, delegate) => {
   const attribute = await delegate.updateAttribute;
-  const attributeId = attribute['attribute_id'];
+  const attributeId = attribute.attribute_id;
   const attributeData = request.body;
 
   const connection = await delegate.getConnection;
@@ -24,9 +24,9 @@ module.exports = async (request, response, delegate) => {
     .execute(connection);
 
   const shouldDelete = [];
-  currentGroups.forEach(g => {
+  currentGroups.forEach((g) => {
     if (!groups.find((group) => parseInt(group) === parseInt(g.group_id))) {
-      shouldDelete.push(g.group_id)
+      shouldDelete.push(g.group_id);
     }
   });
 

@@ -82,12 +82,14 @@ export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
   const [billingCompleted] = useState(false);
-  const { cartId, orderId, orderPlaced, paymentMethods, checkoutSuccessUrl } = useCheckout();
+  const {
+    cartId, orderId, orderPlaced, paymentMethods, checkoutSuccessUrl
+  } = useCheckout();
 
   const [result, reexecuteQuery] = useQuery({
     query: cartQuery,
     variables: {
-      cartId: cartId
+      cartId
     },
     pause: orderPlaced === true
   });
@@ -112,7 +114,7 @@ export default function CheckoutForm() {
 
   useEffect(() => {
     const pay = async () => {
-      const billingAddress = result.data.cart.billingAddress || result.data.cart.shippingAddress
+      const billingAddress = result.data.cart.billingAddress || result.data.cart.shippingAddress;
       const payload = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
@@ -176,7 +178,14 @@ export default function CheckoutForm() {
     setShowTestCard('failure');
   };
 
-  if (result.error) return <p>Oh no... {error.message}</p>;
+  if (result.error) {
+    return (
+      <p>
+        Oh no...
+        {error.message}
+      </p>
+    );
+  }
   // Check if the selected payment method is Stripe
   const stripePaymentMethod = paymentMethods.find((method) => method.code === 'stripe' && method.selected === true);
   if (!stripePaymentMethod) return null;
@@ -191,7 +200,8 @@ export default function CheckoutForm() {
           padding: '5px',
           boxSizing: 'border-box',
           marginBottom: '10px'
-        }}>
+        }}
+        >
           {showTestCard === 'success' && (
             <div>
               <div><b>Test success:</b></div>
@@ -247,8 +257,8 @@ export default function CheckoutForm() {
         </div>
       )}
       <Field
-        type='hidden'
-        name='stripeCartComplete'
+        type="hidden"
+        name="stripeCartComplete"
         value={cardComleted ? 1 : ''}
         validationRules={[
           {

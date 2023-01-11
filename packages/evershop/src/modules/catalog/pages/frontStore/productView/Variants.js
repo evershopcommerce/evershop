@@ -18,12 +18,12 @@ export default function Variants({
     if (!vs) {
       return [];
     } else {
-      return vs.variantAttributes.map(attribute => {
+      return vs.variantAttributes.map((attribute) => {
         const url = new URL(currentProductUrl);
         const params = new URLSearchParams(url.search).entries();
         const check = Array.from(params).find(
           ([key, value]) => key === attribute.attributeCode
-            && attribute.options.find(option => parseInt(option.optionId) === parseInt(value))
+            && attribute.options.find((option) => parseInt(option.optionId) === parseInt(value))
         );
         if (check) {
           return { ...attribute, selected: true, selectedOption: parseInt(check[1]) };
@@ -32,7 +32,7 @@ export default function Variants({
         }
       });
     }
-  })
+  });
   const attributesRef = React.useRef();
   attributesRef.current = attributes;
 
@@ -71,16 +71,14 @@ export default function Variants({
     url.searchParams.set(attributeCode, optionId);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    history.pushState(null, "", url);
-    setAttributes(previous => {
-      return previous.map(a => {
-        if (a.attributeCode === attributeCode) {
-          return { ...a, selected: true, selectedOption: optionId }
-        }
-        return a;
-      })
-    })
-  }
+    history.pushState(null, '', url);
+    setAttributes((previous) => previous.map((a) => {
+      if (a.attributeCode === attributeCode) {
+        return { ...a, selected: true, selectedOption: optionId };
+      }
+      return a;
+    }));
+  };
 
   return (
     <div className="variant variant-container grid grid-cols-1 gap-1 mt-2">
@@ -112,12 +110,14 @@ export default function Variants({
                 return (
                   <li key={o.optionId} className={className}>
                     <a
-                      href={"#"}
+                      href="#"
                       onClick={async (e) => {
                         e.preventDefault();
                         await onClick(a.attributeCode, o.optionId);
                       }}
-                    >{o.optionText}</a>
+                    >
+                      {o.optionText}
+                    </a>
                   </li>
                 );
               })}
@@ -131,9 +131,9 @@ export default function Variants({
 }
 
 export const layout = {
-  areaId: "productPageMiddleRight",
+  areaId: 'productPageMiddleRight',
   sortOrder: 40
-}
+};
 
 export const query = `
 query Query {
@@ -160,4 +160,4 @@ query Query {
     }
   }
 }
-`
+`;

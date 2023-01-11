@@ -1,8 +1,8 @@
+const { default: axios } = require('axios');
+const { select } = require('@evershop/mysql-query-builder');
 const { getSetting } = require('../../../setting/services/setting');
 const { setContextValue } = require('../../../graphql/services/contextHelper');
-const { default: axios } = require('axios');
 const { getConfig } = require('../../../../lib/util/getConfig');
-const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 const { INVALID_PAYLOAD, OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
@@ -28,7 +28,8 @@ module.exports = async (request, response, delegate, next) => {
   }
 
   const paypalConfig = getConfig('system.paypal', {});
-  let clientId, clientSecret;
+  let clientId; let
+    clientSecret;
   if (paypalConfig.clientSecret) {
     clientSecret = paypalConfig.clientSecret;
   } else {

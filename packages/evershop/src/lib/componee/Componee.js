@@ -11,12 +11,13 @@ class Componee {
   static components = {
     frontStore: {},
     admin: {}
-  }
+  };
 
   static currentScope;
+
   static currentModule;
 
-  static componentsByModule = {}
+  static componentsByModule = {};
 
   static addComponent(scope, route, id, areaId, source, props, sortOrder) {
     const data = {
@@ -103,9 +104,9 @@ class Componee {
     let components = [];
     const modules = [...getCoreModules(), ...getEnabledExtensions()];
     modules.forEach((module) => {
-      const pagePath = route.isAdmin ?
-        path.resolve(module.path, 'pages/admin', route.id) :
-        path.resolve(module.path, 'pages/frontStore', route.id);
+      const pagePath = route.isAdmin
+        ? path.resolve(module.path, 'pages/admin', route.id)
+        : path.resolve(module.path, 'pages/frontStore', route.id);
 
       components = [...components, ...scanForComponents(pagePath)];
     });
@@ -121,7 +122,7 @@ class Componee {
     } else {
       return null;
     }
-  };
+  }
 
   static rebuild() {
     this.components = {
@@ -130,8 +131,8 @@ class Componee {
     };
 
     Object.keys(this.componentsByModule).forEach((modulePath) => {
-      const siteComponents = this.componentsByModule[modulePath]['frontStore'] || {};
-      const adminComponents = this.componentsByModule[modulePath]['admin'] || {};
+      const siteComponents = this.componentsByModule[modulePath].frontStore || {};
+      const adminComponents = this.componentsByModule[modulePath].admin || {};
       this.addComponents('frontStore', siteComponents);
       this.addComponents('admin', adminComponents);
     });

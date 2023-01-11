@@ -43,23 +43,25 @@ export default function LifetimeSale({ api }) {
   }, []);
 
   if (fetching) {
-    return <Card
-      title="Lifetime Sale"
-    >
-      <Card.Session>
-        <div className='skeleton-wrapper-lifetime'>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
-        </div>
-      </Card.Session>
-      <Card.Session>
-        <div className='skeleton-wrapper-lifetime'>
-          <div class="skeleton-chart"></div>
-        </div>
-      </Card.Session>
-    </Card>
+    return (
+      <Card
+        title="Lifetime Sale"
+      >
+        <Card.Session>
+          <div className="skeleton-wrapper-lifetime">
+            <div className="skeleton" />
+            <div className="skeleton" />
+            <div className="skeleton" />
+            <div className="skeleton" />
+          </div>
+        </Card.Session>
+        <Card.Session>
+          <div className="skeleton-wrapper-lifetime">
+            <div className="skeleton-chart" />
+          </div>
+        </Card.Session>
+      </Card>
+    );
   } else {
     return (
       <Card title="Lifetime Sale">
@@ -125,10 +127,10 @@ export default function LifetimeSale({ api }) {
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
     api: url(routeId: "lifetimesales")    
   }
-`
+`;

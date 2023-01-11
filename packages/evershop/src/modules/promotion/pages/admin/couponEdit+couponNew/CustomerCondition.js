@@ -1,26 +1,26 @@
 import React from 'react';
+import Select from 'react-select';
 import Area from '../../../../../lib/components/Area';
 import { Field } from '../../../../../lib/components/form/Field';
 import { get } from '../../../../../lib/util/get';
-import Select from 'react-select';
 
 const customStyles = {
   container: (provided, state) => ({
     ...provided,
-    zIndex: 1000,
+    zIndex: 1000
   })
-}
+};
 
 export default function CustomerCondition({ coupon = {}, groups }) {
   const condition = coupon?.userCondition || {};
   const selectedGroups = (condition.groups || [])
     .filter((g) => groups.find((group) => parseInt(group.value) === parseInt(g)))
-    .map(g => {
+    .map((g) => {
       const group = groups.find((group) => parseInt(group.value) === parseInt(g));
       return {
         value: group.value.toString(),
         label: group.name
-      }
+      };
     });
   return (
     <Area
@@ -28,17 +28,19 @@ export default function CustomerCondition({ coupon = {}, groups }) {
       coreComponents={[
         {
           component: {
-            default: () => <Select
-              name='user_condition[groups][]'
-              options={groups.map(group => ({
-                value: group.value.toString(),
-                label: group.name
-              }))}
-              hideSelectedOptions={true}
-              isMulti={true}
-              defaultValue={selectedGroups}
-              styles={customStyles}
-            />
+            default: () => (
+              <Select
+                name="user_condition[groups][]"
+                options={groups.map((group) => ({
+                  value: group.value.toString(),
+                  label: group.name
+                }))}
+                hideSelectedOptions
+                isMulti
+                defaultValue={selectedGroups}
+                styles={customStyles}
+              />
+            )
           },
           props: {
           },
@@ -75,11 +77,10 @@ export default function CustomerCondition({ coupon = {}, groups }) {
   );
 }
 
-
 export const layout = {
   areaId: 'couponEditRight',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

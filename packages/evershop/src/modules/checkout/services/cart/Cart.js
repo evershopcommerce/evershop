@@ -1,11 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 const isEqualWith = require('lodash/isEqualWith');
 const { select, del } = require('@evershop/mysql-query-builder');
+const { v4: uuidv4 } = require('uuid');
 const { pool } = require('../../../../lib/mysql/connection');
 const { DataObject } = require('./DataObject');
 const { Item } = require('./Item');
 const { toPrice } = require('../toPrice');
-const { v4: uuidv4 } = require('uuid');
 const { getSetting } = require('../../../setting/services/setting');
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
@@ -22,7 +22,7 @@ exports.Cart = class Cart extends DataObject {
               .where('cart_id', '=', this.dataSource.cart_id)
               .load(pool);
             if (!cart || cart.status === 0) {
-              this.errors['cart_id'] = 'Cart does not exist';
+              this.errors.cart_id = 'Cart does not exist';
               this.dataSource = {};
               return null;
             } else {
@@ -216,8 +216,8 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'payment_method',
       resolvers: [async function () {
-        this.errors['payment_method'] = 'Payment method is required';
-        // Each payment method should handle this field 
+        this.errors.payment_method = 'Payment method is required';
+        // Each payment method should handle this field
         // by returning the payment method code and remove this error if the payment method is valid
       }]
     },
@@ -240,8 +240,7 @@ exports.Cart = class Cart extends DataObject {
               items.push(item);
             } else if (/^\d+$/.test(item.getData('cart_item_id'))) {
               // If the item is not build
-              if (item.dataSource.product === undefined)
-                await item.build();
+              if (item.dataSource.product === undefined) await item.build();
               items.push(item);
             }
           }));
@@ -336,7 +335,7 @@ exports.Cart = class Cart extends DataObject {
       id = parseInt(id, 10);
     }
 
-    const newItems = items.filter((i) => i.getData('uuid') !== id)
+    const newItems = items.filter((i) => i.getData('uuid') !== id);
     if (item) {
       await this.setData('items', newItems);
       return item;

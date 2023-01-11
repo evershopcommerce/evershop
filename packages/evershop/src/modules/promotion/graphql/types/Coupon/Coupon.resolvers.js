@@ -1,6 +1,6 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { buildUrl } = require("../../../../../lib/router/buildUrl");
-const { camelCase } = require("../../../../../lib/util/camelCase");
+const { select } = require('@evershop/mysql-query-builder');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
@@ -38,7 +38,7 @@ module.exports = {
             value: filter.value
           });
         }
-        // Start date filter 
+        // Start date filter
         const startDate = filters.find((f) => f.key === 'startDate');
         if (startDate) {
           const [min, max] = startDate.value.split('-').map((v) => parseFloat(v));
@@ -56,7 +56,7 @@ module.exports = {
             currentFilters.push(currentStartDateFilter);
           }
         }
-        // Start date filter 
+        // Start date filter
         const endDate = filters.find((f) => f.key === 'endDate');
         if (endDate) {
           const [min, max] = endDate.value.split('-').map((v) => parseFloat(v));
@@ -75,7 +75,7 @@ module.exports = {
           }
         }
 
-        // Used time filter 
+        // Used time filter
         const usedTime = filters.find((f) => f.key === 'usedTime');
         if (usedTime) {
           const [min, max] = usedTime.value.split('-').map((v) => parseFloat(v));
@@ -93,7 +93,7 @@ module.exports = {
             currentFilters.push(currentUsedTimeFilter);
           }
         }
-      })
+      });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
       const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
@@ -105,8 +105,8 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('coupon.`coupon_id`', "DESC");
-      };
+        query.orderBy('coupon.`coupon_id`', 'DESC');
+      }
 
       if (sortOrder.key) {
         currentFilters.push({
@@ -133,10 +133,10 @@ module.exports = {
       });
       query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
       return {
-        items: (await query.execute(pool)).map(row => camelCase(row)),
-        total: (await cloneQuery.load(pool))['total'],
-        currentFilters: currentFilters,
-      }
+        items: (await query.execute(pool)).map((row) => camelCase(row)),
+        total: (await cloneQuery.load(pool)).total,
+        currentFilters
+      };
     }
   },
   Coupon: {
@@ -148,7 +148,7 @@ module.exports = {
           const result = JSON.parse(targetProducts);
           return camelCase(result);
         } catch (e) {
-          throw new Error("Invalid JSON in coupon targetProducts");
+          throw new Error('Invalid JSON in coupon targetProducts');
         }
       }
     },
@@ -160,7 +160,7 @@ module.exports = {
           const result = JSON.parse(condition);
           return camelCase(result);
         } catch (e) {
-          throw new Error("Invalid JSON in coupon condition");
+          throw new Error('Invalid JSON in coupon condition');
         }
       }
     },
@@ -172,7 +172,7 @@ module.exports = {
           const result = JSON.parse(userCondition);
           return camelCase(result);
         } catch (e) {
-          throw new Error("Invalid JSON in coupon userCondition");
+          throw new Error('Invalid JSON in coupon userCondition');
         }
       }
     },
@@ -182,23 +182,17 @@ module.exports = {
       } else {
         try {
           const results = JSON.parse(buyxGety);
-          return results.map(result => camelCase(result));
+          return results.map((result) => camelCase(result));
         } catch (e) {
-          throw new Error("Invalid JSON in coupon buyxGety");
+          throw new Error('Invalid JSON in coupon buyxGety');
         }
       }
     },
     editUrl: ({ uuid }) => buildUrl('couponEdit', { id: uuid }),
-    updateApi: (coupon, _, { pool }) => {
-      return buildUrl('updateCoupon', { id: coupon.uuid });
-    },
-    deleteApi: (coupon, _, { pool }) => {
-      return buildUrl('deleteCoupon', { id: coupon.uuid });
-    }
+    updateApi: (coupon, _, { pool }) => buildUrl('updateCoupon', { id: coupon.uuid }),
+    deleteApi: (coupon, _, { pool }) => buildUrl('deleteCoupon', { id: coupon.uuid })
   },
   Cart: {
-    applyCouponApi: (cart, _, { pool }) => {
-      return buildUrl('couponApply', { cart_id: cart.uuid });
-    }
+    applyCouponApi: (cart, _, { pool }) => buildUrl('couponApply', { cart_id: cart.uuid })
   }
-}
+};

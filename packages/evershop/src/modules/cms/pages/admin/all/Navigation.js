@@ -17,4 +17,4 @@ export default function AdminNavigation() {
 export const layout = {
   areaId: 'adminNavigation',
   sortOrder: 10
-}
+};

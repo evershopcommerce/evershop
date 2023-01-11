@@ -1,10 +1,10 @@
-const { provinces } = require("../../../../../lib/locale/provinces");
+const { provinces } = require('../../../../../lib/locale/provinces');
 
 module.exports = {
   Query: {
     provinces: (_, { countries = [] }) => {
       if (countries.length === 0) {
-        return provinces
+        return provinces;
       } else {
         return provinces.filter((p) => countries.includes(p.countryCode));
       }
@@ -13,7 +13,7 @@ module.exports = {
   Province: {
     name: (province) => {
       if (province.name) {
-        return province.name
+        return province.name;
       } else {
         const p = provinces.find((p) => p.code === province);
         return p?.name || 'INVALID_PROVINCE';
@@ -29,10 +29,10 @@ module.exports = {
     },
     code: (province) => {
       if (province?.code) {
-        return province?.code
+        return province?.code;
       } else {
         return province || 'INVALID_PROVINCE';
       }
     }
   }
-}
+};

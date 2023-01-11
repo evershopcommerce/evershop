@@ -12,5 +12,5 @@ export default function CreateAt({ time }) {
 }
 
 CreateAt.propTypes = {
-  time: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired
 };

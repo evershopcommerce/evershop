@@ -27,7 +27,7 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(id, path) {
   }
 
   const isRoutedLevel = !['all', 'global'].includes(path.split(sep).reverse()[1]);
-  // Check if the middleware is an error handler. 
+  // Check if the middleware is an error handler.
   // TODO: fix me
   if (id === 'errorHandler' || id === 'apiErrorHandler') {
     return (error, request, response, next) => {

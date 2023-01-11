@@ -1,8 +1,8 @@
 const webpack = require('webpack');
-const { createBaseConfig } = require('../createBaseConfig');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const { getComponentsByRoute } = require('../../componee/getComponentsByRoute');
 const path = require('path');
+const { createBaseConfig } = require('../createBaseConfig');
+const { getComponentsByRoute } = require('../../componee/getComponentsByRoute');
 const { CONSTANTS } = require('../../helpers');
 const { GraphqlPlugin } = require('../plugins/GraphqlPlugin');
 
@@ -13,40 +13,40 @@ module.exports.createConfigClient = function createConfigClient(route) {
   const loaders = config.module.rules;
   loaders.unshift({
     test: /components[\\/]react[\\/]client[\\/]Index\.js$/i,
-    //resourceQuery: new RegExp(`Asadasdas`, "i"),
+    // resourceQuery: new RegExp(`Asadasdas`, "i"),
     use: [
       {
         loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/AreaLoader.js'),
         options: {
           getComponents: () => getComponentsByRoute(route),
-          routeId: route.id,
+          routeId: route.id
         }
       }
-    ],
+    ]
   });
 
   loaders.push({
     test: /\.scss$/i,
     use: [
       {
-        loader: "style-loader",
-        options: {},
+        loader: 'style-loader',
+        options: {}
       },
       {
-        loader: "css-loader",
+        loader: 'css-loader',
         options: {
-          url: false,
+          url: false
         }
       },
       {
         loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/TailwindLoader.js'),
         options: {
           getComponents: () => getComponentsByRoute(route),
-          route: route,
+          route
         }
       },
-      "sass-loader",
-    ],
+      'sass-loader'
+    ]
   });
 
   loaders.push({
@@ -57,25 +57,25 @@ module.exports.createConfigClient = function createConfigClient(route) {
         options: {
         }
       }
-    ],
+    ]
   });
 
-  const plugins = config.plugins;
+  const { plugins } = config;
   plugins.push(new GraphqlPlugin(route));
   plugins.push(new webpack.ProgressPlugin());
   plugins.push(new webpack.HotModuleReplacementPlugin());
   plugins.push(new ReactRefreshWebpackPlugin({
-    overlay: false,
+    overlay: false
   }));
 
   config.entry = () => {
     const entry = {};
     entry[route.id] = [
       ...getComponentsByRoute(route),
-      path.resolve(CONSTANTS.LIBPATH, `components/react/client/Index.js`),
-      'webpack-hot-middleware/client?path=' + `/eHot/${route.id}&reload=true&overlay=true`,
+      path.resolve(CONSTANTS.LIBPATH, 'components/react/client/Index.js'),
+      'webpack-hot-middleware/client?path=' + `/eHot/${route.id}&reload=true&overlay=true`
     ];
-    return entry
+    return entry;
   };
   config.watchOptions = {
     aggregateTimeout: 300,
@@ -84,4 +84,4 @@ module.exports.createConfigClient = function createConfigClient(route) {
   };
 
   return config;
-}
+};

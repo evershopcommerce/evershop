@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React from 'react';
 import { createClient, Provider } from 'urql';
 import Area from '../../../lib/components/Area';
@@ -28,7 +28,7 @@ AuthProvider.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]).isRequired,
+  ]).isRequired
 };
 
 export const useToken = () => React.useContext(AuthContext);

@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Select } from '../../../../../../lib/components/form/fields/Select';
 
-export default function PaymentStatusColumnHeader({ title, id, paymentStatusList = [], currentFilters = [] }) {
+export default function PaymentStatusColumnHeader({
+  title, id, paymentStatusList = [], currentFilters = []
+}) {
   const [current, setCurrent] = React.useState('');
 
   const onChange = (e) => {

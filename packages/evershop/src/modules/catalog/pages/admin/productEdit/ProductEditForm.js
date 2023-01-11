@@ -8,10 +8,10 @@ import { get } from '../../../../../lib/util/get';
 export default function ProductEditForm({
   action, gridUrl
 }) {
-  const id = "productForm";
+  const id = 'productForm';
   return (
     <Form
-      method={'PATCH'}
+      method="PATCH"
       action={action}
       onError={() => {
         toast.error('Something wrong. Please reload the page!');
@@ -26,7 +26,7 @@ export default function ProductEditForm({
       submitBtn={false}
       id={id}
     >
-      <Area id='productForm' noOuter={true} />
+      <Area id="productForm" noOuter />
     </Form>
   );
 }
@@ -39,7 +39,7 @@ ProductEditForm.propTypes = {
 export const layout = {
   areaId: 'content',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

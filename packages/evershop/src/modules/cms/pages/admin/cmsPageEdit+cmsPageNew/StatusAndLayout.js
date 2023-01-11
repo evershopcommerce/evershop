@@ -7,20 +7,19 @@ export default function StatusAndLayout({
   cmsPage
 }) {
   return (
-    <Card
-    >
-      <Card.Session title={'Status'}>
+    <Card>
+      <Card.Session title="Status">
         <Field
-          type='radio'
-          name='status'
+          type="radio"
+          name="status"
           options={[{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }]}
           value={cmsPage?.status}
         />
       </Card.Session>
-      <Card.Session title={'Layout'}>
+      <Card.Session title="Layout">
         <Field
-          type='radio'
-          name='layout'
+          type="radio"
+          name="layout"
           options={[
             { value: 'oneColumn', text: 'One column' },
             { value: 'twoColumnsLeft', text: 'Two columns left' },
@@ -44,7 +43,7 @@ StatusAndLayout.propTypes = {
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 15
-}
+};
 
 export const query = `
   query Query {

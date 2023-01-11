@@ -16,7 +16,7 @@ export function CustomerAddressForm({
 }) {
   const [selectedCountry, setSelectedCountry] = React.useState(() => {
     const country = address?.country?.code;
-    if (!country || !allowCountries.find(c => c.code === country)) {
+    if (!country || !allowCountries.find((c) => c.code === country)) {
       return null;
     } else {
       return country;
@@ -30,7 +30,7 @@ export function CustomerAddressForm({
         {
           component: { default: NameAndTelephone },
           props: {
-            address: address
+            address
           },
           sortOrder: 10
         },
@@ -62,9 +62,9 @@ export function CustomerAddressForm({
         {
           component: { default: Country },
           props: {
-            selectedCountry: selectedCountry,
-            allowCountries: allowCountries,
-            setSelectedCountry: setSelectedCountry,
+            selectedCountry,
+            allowCountries,
+            setSelectedCountry,
             fieldName: 'address[country]'
           },
           sortOrder: 50
@@ -73,9 +73,9 @@ export function CustomerAddressForm({
           component: { default: ProvinceAndPostcode },
           props: {
             selectedCountry,
-            address: address,
-            allowCountries: allowCountries,
-            selectedCountry: selectedCountry
+            address,
+            allowCountries,
+            selectedCountry
           },
           sortOrder: 60
         }

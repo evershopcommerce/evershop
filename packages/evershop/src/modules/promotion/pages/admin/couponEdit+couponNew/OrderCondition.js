@@ -24,7 +24,7 @@ export default function OrderCondition({ coupon = {} }) {
 export const layout = {
   areaId: 'couponEditLeft',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

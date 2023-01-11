@@ -49,9 +49,9 @@ module.exports.DataObject = class DataObject {
 
   /**
    * Add a field
-   * @param {*} key 
+   * @param {*} key
    * @param {*} resolvers
-   * @param {*} dependencies 
+   * @param {*} dependencies
    */
   static addField(key, resolvers, dependencies = []) {
     if (!this.fields) {
@@ -69,19 +69,17 @@ module.exports.DataObject = class DataObject {
         field.resolvers = [...field.resolvers, ...resolvers];
       }
       field.dependencies = field.dependencies ? [...dependencies, ...field.dependencies] : dependencies;
+    } else if (!Array.isArray(resolvers)) {
+      this.fields.push({ key, resolvers: [resolvers], dependencies });
     } else {
-      if (!Array.isArray(resolvers)) {
-        this.fields.push({ key, resolvers: [resolvers], dependencies });
-      } else {
-        this.fields.push({ key, resolvers: resolvers, dependencies });
-      }
+      this.fields.push({ key, resolvers, dependencies });
     }
   }
 
   // Build the field value. This function will be called when the field value is changed
   // If error is thrown, all changes will be rollback
   async build() {
-    let _this = this;
+    const _this = this;
 
     // Keep current values for rollback
     const values = { ...this.data };
@@ -104,7 +102,7 @@ module.exports.DataObject = class DataObject {
       this.isCommited = false;
     } catch (e) {
       console.log(e);
-      this.errors['buildingError'] = e.message;
+      this.errors.buildingError = e.message;
       this.isBuilding = false;
       // Rollback the changes
       this.data = { ...values };
@@ -166,4 +164,4 @@ module.exports.DataObject = class DataObject {
   commit() {
     this.isCommited = true;
   }
-}
+};

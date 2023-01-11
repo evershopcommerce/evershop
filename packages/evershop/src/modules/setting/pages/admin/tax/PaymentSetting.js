@@ -2,23 +2,23 @@ import React from 'react';
 import { Card } from '../../../../cms/components/admin/Card';
 
 export default function PaymentSetting() {
-  return <div>
-    <div className='row'>
-      <div className='col-3'>
-        <Card
-          title="Menu"
+  return (
+    <div>
+      <div className="row">
+        <div className="col-3">
+          <Card
+            title="Menu"
+          />
+        </div>
+        <div className="col-9">
+          <Card
+            title="Menu"
+          >
+            <h1>Payment Setting</h1>
 
-        />
-      </div>
-      <div className='col-9'>
-        <Card
-          title="Menu"
-
-        >
-          <h1>Payment Setting</h1>
-
-        </Card>
+          </Card>
+        </div>
       </div>
     </div>
-  </div>;
+  );
 }

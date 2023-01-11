@@ -43,7 +43,7 @@ module.exports = async (request, response, delegate, next) => {
     // Save order activities
     await insert('order_activity').given({
       order_activity_order_id: order.order_id,
-      comment: `Customer paid using cash.`,
+      comment: 'Customer paid using cash.',
       customer_notified: 0 // TODO: check config of SendGrid
     }).execute(pool);
 

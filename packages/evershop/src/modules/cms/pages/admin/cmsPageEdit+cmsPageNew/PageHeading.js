@@ -1,14 +1,14 @@
 import React from 'react';
-import PageHeading from '../../../../cms/components/admin/PageHeading';
+import PageHeading from '../../../components/admin/PageHeading';
 
 export default function PageEditPageHeading({ backUrl, page }) {
-  return <PageHeading backUrl={backUrl} heading={page ? `Editing ${page.name}` : `Create A New Page`} />
+  return <PageHeading backUrl={backUrl} heading={page ? `Editing ${page.name}` : 'Create A New Page'} />;
 }
 
 export const layout = {
   areaId: 'content',
   sortOrder: 5
-}
+};
 
 export const query = `
   query Query {
@@ -17,4 +17,4 @@ export const query = `
     }
     backUrl: url(routeId: "cmsPageGrid")
   }
-`
+`;

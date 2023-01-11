@@ -1,7 +1,7 @@
 import React from 'react';
+import { useQuery } from 'urql';
 import { CustomerAddressForm } from './AddressForm';
 import { AddressFormLoadingSkeleton } from './AddressFormLoadingSkeleton';
-import { useQuery } from 'urql';
 
 const CountriesQuery = `
   query Country {
@@ -28,12 +28,21 @@ export default function Index({
   const { data, fetching, error } = result;
 
   if (fetching) return <AddressFormLoadingSkeleton />;
-  if (error) return <p>Oh no... {error.message}</p>;
+  if (error) {
+    return (
+      <p>
+        Oh no...
+        {error.message}
+      </p>
+    );
+  }
 
-  return <CustomerAddressForm
-    address={address}
-    formId={formId}
-    areaId={areaId}
-    allowCountries={data.allowedCountries}
-  />
+  return (
+    <CustomerAddressForm
+      address={address}
+      formId={formId}
+      areaId={areaId}
+      allowCountries={data.allowedCountries}
+    />
+  );
 }

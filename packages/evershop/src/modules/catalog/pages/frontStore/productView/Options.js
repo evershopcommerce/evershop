@@ -11,12 +11,10 @@ export default function Options({ options = [] }) {
     <div className="product-single-options mt-4 mb-4">
       <div className="product-single-options-title mb-2"><strong>Options</strong></div>
       {options.map((o, i) => {
-        const values = o.values.map((v) => {
-          return {
-            value: v.valueId,
-            text: `${v.value} (+ ${v.extraPrice.text})`
-          };
-        });
+        const values = o.values.map((v) => ({
+          value: v.valueId,
+          text: `${v.value} (+ ${v.extraPrice.text})`
+        }));
         let FieldComponent = '';
         switch (o.optionType) {
           case 'select':
@@ -71,7 +69,7 @@ Options.propTypes = {
 };
 
 export const layout = {
-  areaId: "productPageMiddleRight",
+  areaId: 'productPageMiddleRight',
   sortOrder: 30
 };
 

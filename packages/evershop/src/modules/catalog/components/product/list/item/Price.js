@@ -28,7 +28,7 @@ Price.propTypes = {
   special: PropTypes.shape({
     value: PropTypes.number,
     text: PropTypes.string
-  }),
+  })
 };
 
 export { Price };

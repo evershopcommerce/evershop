@@ -1,7 +1,7 @@
 module.exports = {
   Setting: {
     storeName: (setting, { _ }, { pool }) => {
-      const storeName = setting.find(s => s.name === 'storeName');
+      const storeName = setting.find((s) => s.name === 'storeName');
       if (storeName) {
         return storeName.value;
       } else {
@@ -9,7 +9,7 @@ module.exports = {
       }
     },
     storeDescription: (setting, { _ }, { pool }) => {
-      const storeDescription = setting.find(s => s.name === 'storeDescription');
+      const storeDescription = setting.find((s) => s.name === 'storeDescription');
       if (storeDescription) {
         return storeDescription.value;
       } else {
@@ -17,7 +17,7 @@ module.exports = {
       }
     },
     storeLanguage: (setting, { _ }, { tokenPayload }) => {
-      const storeLanguage = setting.find(s => s.name === 'storeLanguage');
+      const storeLanguage = setting.find((s) => s.name === 'storeLanguage');
       if (storeLanguage) {
         return storeLanguage.value;
       } else {
@@ -25,7 +25,7 @@ module.exports = {
       }
     },
     storeCurrency: (setting, { _ }, { tokenPayload }) => {
-      const storeCurrency = setting.find(s => s.name === 'storeCurrency');
+      const storeCurrency = setting.find((s) => s.name === 'storeCurrency');
       if (storeCurrency) {
         return storeCurrency.value;
       } else {
@@ -33,7 +33,7 @@ module.exports = {
       }
     },
     storeTimeZone: (setting, { _ }, { tokenPayload }) => {
-      const storeTimeZone = setting.find(s => s.name === 'storeTimeZone');
+      const storeTimeZone = setting.find((s) => s.name === 'storeTimeZone');
       if (storeTimeZone) {
         return storeTimeZone.value;
       } else {
@@ -41,7 +41,7 @@ module.exports = {
       }
     },
     storePhoneNumber: (setting, { _ }, { tokenPayload }) => {
-      const storePhoneNumber = setting.find(s => s.name === 'storePhoneNumber');
+      const storePhoneNumber = setting.find((s) => s.name === 'storePhoneNumber');
       if (storePhoneNumber) {
         return storePhoneNumber.value;
       } else {
@@ -49,7 +49,7 @@ module.exports = {
       }
     },
     storeEmail: (setting, { _ }, { tokenPayload }) => {
-      const storeEmail = setting.find(s => s.name === 'storeEmail');
+      const storeEmail = setting.find((s) => s.name === 'storeEmail');
       if (storeEmail) {
         return storeEmail.value;
       } else {
@@ -57,7 +57,7 @@ module.exports = {
       }
     },
     storeCountry: (setting, { _ }, { tokenPayload }) => {
-      const storeCountry = setting.find(s => s.name === 'storeCountry');
+      const storeCountry = setting.find((s) => s.name === 'storeCountry');
       if (storeCountry) {
         return storeCountry.value;
       } else {
@@ -65,7 +65,7 @@ module.exports = {
       }
     },
     storeAddress: (setting, { _ }, { tokenPayload }) => {
-      const storeAddress = setting.find(s => s.name === 'storeAddress');
+      const storeAddress = setting.find((s) => s.name === 'storeAddress');
       if (storeAddress) {
         return storeAddress.value;
       } else {
@@ -73,7 +73,7 @@ module.exports = {
       }
     },
     storeCity: (setting, { _ }, { tokenPayload }) => {
-      const storeCity = setting.find(s => s.name === 'storeCity');
+      const storeCity = setting.find((s) => s.name === 'storeCity');
       if (storeCity) {
         return storeCity.value;
       } else {
@@ -81,7 +81,7 @@ module.exports = {
       }
     },
     storeProvince: (setting, { _ }, { tokenPayload }) => {
-      const storeProvince = setting.find(s => s.name === 'storeProvince');
+      const storeProvince = setting.find((s) => s.name === 'storeProvince');
       if (storeProvince) {
         return storeProvince.value;
       } else {
@@ -89,7 +89,7 @@ module.exports = {
       }
     },
     storePostalCode: (setting, { _ }, { tokenPayload }) => {
-      const storePostalCode = setting.find(s => s.name === 'storePostalCode');
+      const storePostalCode = setting.find((s) => s.name === 'storePostalCode');
       if (storePostalCode) {
         return storePostalCode.value;
       } else {
@@ -97,4 +97,4 @@ module.exports = {
       }
     }
   }
-}
+};

@@ -27,28 +27,28 @@ module.exports = async (request, response, delegate, next) => {
     const category = await query
       .where('category_id', '=', result.insertId)
       .load(pool);
-    response.status(OK)
+    response.status(OK);
     response.json({
       data: {
         ...category,
         links: [
           {
-            "rel": "categoryGrid",
-            "href": buildUrl('categoryGrid'),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'categoryGrid',
+            href: buildUrl('categoryGrid'),
+            action: 'GET',
+            types: ['text/xml']
           },
           {
-            "rel": "view",
-            "href": buildUrl('categoryView', { url_key: category.url_key }),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'view',
+            href: buildUrl('categoryView', { url_key: category.url_key }),
+            action: 'GET',
+            types: ['text/xml']
           },
           {
-            "rel": "edit",
-            "href": buildUrl('categoryEdit', { id: category.uuid }),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'edit',
+            href: buildUrl('categoryEdit', { id: category.uuid }),
+            action: 'GET',
+            types: ['text/xml']
           }
         ]
       }

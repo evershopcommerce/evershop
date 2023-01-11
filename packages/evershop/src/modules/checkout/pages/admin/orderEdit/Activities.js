@@ -19,7 +19,7 @@ export default function Activities({ order: { activities = [] } }) {
           }
         ]
       });
-    } else if (DateTime.fromSQL(element.createdAt.value).startOf("day") === DateTime.fromSQL(current.time).startOf("day")) {
+    } else if (DateTime.fromSQL(element.createdAt.value).startOf('day') === DateTime.fromSQL(current.time).startOf('day')) {
       current.activities.push(
         {
           comment: element.comment,
@@ -71,7 +71,7 @@ export default function Activities({ order: { activities = [] } }) {
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 30
-}
+};
 
 export const query = `
   query Query {
@@ -88,4 +88,4 @@ export const query = `
       }
     }
   }
-`
+`;

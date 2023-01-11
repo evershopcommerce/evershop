@@ -32,16 +32,16 @@ module.exports = async (request, response, delegate, next) => {
         ...coupon,
         links: [
           {
-            "rel": "couponGrid",
-            "href": buildUrl('couponGrid'),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'couponGrid',
+            href: buildUrl('couponGrid'),
+            action: 'GET',
+            types: ['text/xml']
           },
           {
-            "rel": "edit",
-            "href": buildUrl('couponEdit', { id: coupon.uuid }),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'edit',
+            href: buildUrl('couponEdit', { id: coupon.uuid }),
+            action: 'GET',
+            types: ['text/xml']
           }
         ]
       }

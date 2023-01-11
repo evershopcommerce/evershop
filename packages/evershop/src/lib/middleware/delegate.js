@@ -1,6 +1,6 @@
 const getDelegates = function getDelegates(request) {
   return request.locals ? request.locals.delegates || {} : {};
-}
+};
 
 const setDelegate = function setDelegate(id, value, request) {
   if (request.locals) {
@@ -15,8 +15,8 @@ const setDelegate = function setDelegate(id, value, request) {
     request.locals.delegates = {};
     request.locals.delegates[id] = value;
   }
-}
+};
 
-module.exports.getDelegates = getDelegates
+module.exports.getDelegates = getDelegates;
 
-module.exports.setDelegate = setDelegate
+module.exports.setDelegate = setDelegate;

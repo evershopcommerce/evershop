@@ -5,11 +5,11 @@ const { setContextValue } = require('../../../../graphql/services/contextHelper'
 module.exports = async (request, response, delegate, next) => {
   try {
     const query = select();
-    query.from('cms_page')
+    query.from('cms_page');
     query.andWhere('cms_page.`uuid`', '=', request.params.id);
     query
       .leftJoin('cms_page_description')
-      .on('cms_page_description.`cms_page_description_cms_page_id`', '=', 'cms_page.`cms_page_id`')
+      .on('cms_page_description.`cms_page_description_cms_page_id`', '=', 'cms_page.`cms_page_id`');
 
     const cmsPage = await query.load(pool);
 

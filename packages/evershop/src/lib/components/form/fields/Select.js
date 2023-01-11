@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Error from './Error';
-import './../Field.scss';
+import '../Field.scss';
 
 const Select = React.forwardRef((props, ref) => {
   const {
@@ -25,12 +25,11 @@ const Select = React.forwardRef((props, ref) => {
           value={_value}
           onChange={(e) => {
             if (onChange) {
-              onChange.call(window, e)
+              onChange.call(window, e);
             } else {
               setValue(e.target.value);
             }
-          }
-          }
+          }}
           ref={ref}
         >
           <option value="" disabled>Please select</option>

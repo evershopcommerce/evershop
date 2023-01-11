@@ -44,8 +44,8 @@ module.exports = async (request, response, delegate, next) => {
     }
     await update('shipment')
       .given({
-        carrier_name: carrier_name,
-        tracking_number: tracking_number
+        carrier_name,
+        tracking_number
       })
       .where('uuid', '=', shipment_id)
       .execute(connection);

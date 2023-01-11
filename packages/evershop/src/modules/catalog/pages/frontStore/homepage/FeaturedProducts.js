@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React from 'react';
 import ProductList from '../../../components/product/list/List';
 
@@ -33,12 +33,12 @@ FeaturedProducts.propTypes = {
       listing: PropTypes.string
     })
   }))
-}
+};
 
 export const layout = {
-  areaId: "content",
+  areaId: 'content',
   sortOrder: 15
-}
+};
 
 export const query = `
   query query {
@@ -62,4 +62,4 @@ export const query = `
       url
     }
   }
-`
+`;

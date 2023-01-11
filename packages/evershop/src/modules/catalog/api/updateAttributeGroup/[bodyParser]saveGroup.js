@@ -28,14 +28,14 @@ module.exports = async (request, response, delegate, next) => {
       .where('uuid', '=', request.params.id)
       .load(pool);
 
-    response.status(OK)
+    response.status(OK);
     response.json({
       data: {
         ...updatedGroup
       }
     });
   } catch (e) {
-    response.status(INTERNAL_SERVER_ERROR)
+    response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,

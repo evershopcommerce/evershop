@@ -83,7 +83,7 @@ export default function Layout() {
 }
 
 export const layout = {
-  id: "layout",
-  areaId: "body",
+  id: 'layout',
+  areaId: 'body',
   sortOrder: 1
 };

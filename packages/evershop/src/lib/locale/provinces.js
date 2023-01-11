@@ -3520,4 +3520,4 @@ module.exports.provinces = [
   { code: 'ZW-MN', countryCode: 'ZW', name: 'Matabeleland North' },
   { code: 'ZW-MS', countryCode: 'ZW', name: 'Matabeleland South' },
   { code: 'ZW-MI', countryCode: 'ZW', name: 'Midlands' }
-]
+];

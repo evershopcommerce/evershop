@@ -1,6 +1,6 @@
-const { select, update } = require("@evershop/mysql-query-builder");
-const { pool } = require("../../../../lib/mysql/connection");
-const { getContextValue } = require("../../../graphql/services/contextHelper");
+const { select, update } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../../lib/mysql/connection');
+const { getContextValue } = require('../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
   try {

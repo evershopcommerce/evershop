@@ -4,7 +4,7 @@ export const VariantType = PropTypes.shape({
   attributes: PropTypes.arrayOf(PropTypes.shape({
     attributeCode: PropTypes.string.isRequired,
     attributeId: PropTypes.string.isRequired,
-    optionId: PropTypes.number.isRequired,
+    optionId: PropTypes.number.isRequired
   })),
   editUrl: PropTypes.string,
   id: PropTypes.string,

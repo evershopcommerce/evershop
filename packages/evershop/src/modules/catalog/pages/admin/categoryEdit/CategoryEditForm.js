@@ -8,10 +8,10 @@ import { get } from '../../../../../lib/util/get';
 export default function CategoryEditForm({
   action, gridUrl
 }) {
-  const id = "categoryForm";
+  const id = 'categoryForm';
   return (
     <Form
-      method={'PATCH'}
+      method="PATCH"
       action={action}
       onError={() => {
         toast.error('Something wrong. Please reload the page!');
@@ -26,7 +26,7 @@ export default function CategoryEditForm({
       submitBtn={false}
       id={id}
     >
-      <Area id='categoryForm' noOuter={true} />
+      <Area id="categoryForm" noOuter />
     </Form>
   );
 }
@@ -39,7 +39,7 @@ CategoryEditForm.propTypes = {
 export const layout = {
   areaId: 'content',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

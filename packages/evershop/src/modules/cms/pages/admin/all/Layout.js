@@ -28,4 +28,4 @@ export default function AdminLayout() {
 export const layout = {
   areaId: 'body',
   sortOrder: 10
-}
+};

@@ -23,27 +23,23 @@ function Actions({ products = [], selectedIds = [] }) {
 
   const updateProducts = async (status) => {
     setIsLoading(true);
-    const promises = products.filter((product) => selectedIds.includes(product.uuid)).map((product) => {
-      return axios.patch(product.updateApi, {
-        status: status
-      });
-    });
+    const promises = products.filter((product) => selectedIds.includes(product.uuid)).map((product) => axios.patch(product.updateApi, {
+      status
+    }));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
     window.location.reload();
-  }
+  };
 
   const deleteProducts = async () => {
     setIsLoading(true);
-    const promises = products.filter((product) => selectedIds.includes(product.uuid)).map((product) => {
-      return axios.delete(product.deleteApi);
-    });
+    const promises = products.filter((product) => selectedIds.includes(product.uuid)).map((product) => axios.delete(product.deleteApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
     window.location.reload();
-  }
+  };
 
   const actions = [
     {
@@ -137,9 +133,11 @@ Actions.propTypes = {
   selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
 };
 
-export default function ProductGrid({ products: { items: products, total, currentFilters = [] }, disableProductUrl, enableProductsUrl, deleteProductsUrl }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page')['value'] : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit')['value'] : 20;
+export default function ProductGrid({
+  products: { items: products, total, currentFilters = [] }, disableProductUrl, enableProductsUrl, deleteProductsUrl
+}) {
+  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
+  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -149,10 +147,8 @@ export default function ProductGrid({ products: { items: products, total, curren
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked)
-                  setSelectedRows(products.map((p) => p.uuid));
-                else
-                  setSelectedRows([]);
+                if (e.target.checked) setSelectedRows(products.map((p) => p.uuid));
+                else setSelectedRows([]);
               }}
               />
             </th>
@@ -166,23 +162,23 @@ export default function ProductGrid({ products: { items: products, total, curren
                     sortOrder: 5
                   },
                   {
-                    component: { default: () => <BasicColumnHeader title="Product Name" id='name' currentFilters={currentFilters} /> },
+                    component: { default: () => <BasicColumnHeader title="Product Name" id="name" currentFilters={currentFilters} /> },
                     sortOrder: 10
                   },
                   {
-                    component: { default: () => <FromToColumnHeader id='price' title='Price' currentFilters={currentFilters} /> },
+                    component: { default: () => <FromToColumnHeader id="price" title="Price" currentFilters={currentFilters} /> },
                     sortOrder: 15
                   },
                   {
-                    component: { default: () => <BasicColumnHeader title="SKU" id='sku' currentFilters={currentFilters} /> },
+                    component: { default: () => <BasicColumnHeader title="SKU" id="sku" currentFilters={currentFilters} /> },
                     sortOrder: 20
                   },
                   {
-                    component: { default: () => <BasicColumnHeader title="Qty" id='qty' currentFilters={currentFilters} /> },
+                    component: { default: () => <BasicColumnHeader title="Qty" id="qty" currentFilters={currentFilters} /> },
                     sortOrder: 25
                   },
                   {
-                    component: { default: () => <DropdownColumnHeader id='status' title='Status' currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
+                    component: { default: () => <DropdownColumnHeader id="status" title="Status" currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
                     sortOrder: 30
                   }
                 ]
@@ -222,7 +218,7 @@ export default function ProductGrid({ products: { items: products, total, curren
                     sortOrder: 5
                   },
                   {
-                    component: { default: ({ areaProps }) => <ProductNameRow id='name' name={p.name} url={p.editUrl} /> },
+                    component: { default: ({ areaProps }) => <ProductNameRow id="name" name={p.name} url={p.editUrl} /> },
                     sortOrder: 10
                   },
                   {
@@ -230,7 +226,7 @@ export default function ProductGrid({ products: { items: products, total, curren
                     sortOrder: 15
                   },
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='sku' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <BasicRow id="sku" areaProps={areaProps} /> },
                     sortOrder: 20
                   },
                   {
@@ -238,7 +234,7 @@ export default function ProductGrid({ products: { items: products, total, curren
                     sortOrder: 25
                   },
                   {
-                    component: { default: ({ areaProps }) => <StatusRow id='status' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <StatusRow id="status" areaProps={areaProps} /> },
                     sortOrder: 30
                   }
                 ]}
@@ -257,7 +253,7 @@ export default function ProductGrid({ products: { items: products, total, curren
 export const layout = {
   areaId: 'content',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {

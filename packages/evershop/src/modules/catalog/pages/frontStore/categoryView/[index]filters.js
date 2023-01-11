@@ -9,14 +9,14 @@ module.exports = async (request, response, delegate, next) => {
   setContextValue(request, 'filterableAttributes', filterableAttributes);
   setContextValue(request, 'priceRange', await getPriceRange(getContextValue(request, 'categoryId')));
 
-  const query = request.query;
+  const { query } = request;
   if (!query) {
     setContextValue(request, 'filtersFromUrl', []);
     next();
   } else {
     const filtersFromUrl = [];
 
-    // Price filter 
+    // Price filter
     // const priceFilter = query.price;
     // if (priceFilter) {
     //   const [min, max] = priceFilter.value.split('-').map((v) => parseFloat(v));
@@ -44,22 +44,22 @@ module.exports = async (request, response, delegate, next) => {
             .filter((v) => isNaN(v) === false);
           if (values.length > 0) {
             filtersFromUrl.push({
-              key: key,
-              operation: "=",
+              key,
+              operation: '=',
               value: values.join(',')
             });
           }
         } else {
           filtersFromUrl.push({
-            key: key,
-            operation: "=",
+            key,
+            operation: '=',
             value: filter
           });
         }
       }
     });
 
-    const sortBy = query.sortBy;
+    const { sortBy } = query;
     const sortOrder = (query.sortOrder && ['ASC', 'DESC'].includes(query.sortOrder.toUpperCase())) ? query.sortOrder.toUpperCase() : 'ASC';
     if (sortBy) {
       filtersFromUrl.push({
@@ -77,12 +77,12 @@ module.exports = async (request, response, delegate, next) => {
       });
     }
     // Paging
-    const page = isNaN(parseInt(query.page)) ? "1" : query.page.toString();
-    if (page !== "1") {
+    const page = isNaN(parseInt(query.page)) ? '1' : query.page.toString();
+    if (page !== '1') {
       filtersFromUrl.push({ key: 'page', operation: '=', value: page });
     }
-    const limit = isNaN(parseInt(query.limit)) ? "20" : query.limit.toString();// TODO: Get from config
-    if (limit !== "20") {
+    const limit = isNaN(parseInt(query.limit)) ? '20' : query.limit.toString();// TODO: Get from config
+    if (limit !== '20') {
       filtersFromUrl.push({ key: 'limit', operation: '=', value: limit });
     }
     setContextValue(request, 'filtersFromUrl', filtersFromUrl);

@@ -1,12 +1,12 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { buildUrl } = require("../../../../../lib/router/buildUrl");
-const { camelCase } = require("../../../../../lib/util/camelCase");
-const { get } = require("../../../../../lib/util/get");
+const { select } = require('@evershop/mysql-query-builder');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { camelCase } = require('../../../../../lib/util/camelCase');
+const { get } = require('../../../../../lib/util/get');
 
 module.exports = {
   Query: {
     adminUser: async (root, { id }, { pool, tokenPayload }) => {
-      if (!get(tokenPayload, "user.isAdmin", false)) {
+      if (!get(tokenPayload, 'user.isAdmin', false)) {
         return null;
       }
       const query = select()
@@ -18,7 +18,7 @@ module.exports = {
     },
     adminUsers: async (_, { filters = [] }, { pool, tokenPayload }) => {
       // This field is for admin only
-      if (!get(tokenPayload, "user.isAdmin", false)) {
+      if (!get(tokenPayload, 'user.isAdmin', false)) {
         return [];
       }
       const query = select().from('admin_user');
@@ -42,7 +42,7 @@ module.exports = {
             value: filter.value
           });
         }
-      })
+      });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
       const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
@@ -54,8 +54,8 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('admin_user.`admin_user_id`', "DESC");
-      };
+        query.orderBy('admin_user.`admin_user_id`', 'DESC');
+      }
 
       if (sortOrder.key) {
         currentFilters.push({
@@ -82,10 +82,10 @@ module.exports = {
       });
       query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
       return {
-        items: (await query.execute(pool)).map(row => camelCase(row)),
-        total: (await cloneQuery.load(pool))['total'],
-        currentFilters: currentFilters,
-      }
+        items: (await query.execute(pool)).map((row) => camelCase(row)),
+        total: (await cloneQuery.load(pool)).total,
+        currentFilters
+      };
     }
   }
-}
+};

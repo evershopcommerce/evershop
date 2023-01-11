@@ -5,7 +5,7 @@ const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   try {
-    const id = request.params.id;
+    const { id } = request.params;
     const query = select()
       .from('product');
     query.leftJoin('product_description')

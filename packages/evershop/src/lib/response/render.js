@@ -6,9 +6,9 @@ const isProductionMode = require('../util/isProductionMode');
 const { getRouteBuildPath } = require('../webpack/getRouteBuildPath');
 
 function normalizeAssets(assets) {
-  if (typeof assets === 'object' &&
-    !Array.isArray(assets) &&
-    assets !== null
+  if (typeof assets === 'object'
+    && !Array.isArray(assets)
+    && assets !== null
   ) {
     return Object.values(assets);
   }
@@ -35,11 +35,11 @@ function renderDevelopment(request, response) {
   const devMiddleware = route.webpackMiddleware;
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
-    propsMap: get(response, 'locals.propsMap', {}),
+    propsMap: get(response, 'locals.propsMap', {})
   };
   console.log(route.id, request.path);
-  const stats = devMiddleware.context.stats;
-  //let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
+  const { stats } = devMiddleware.context;
+  // let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
   const { assetsByChunkName, outputPath } = stats.toJson();
   response.send(`
             <!doctype html><html>
@@ -49,25 +49,25 @@ function renderDevelopment(request, response) {
                 <body>
                 <div id="app" className="bg-background"></div>
                  ${normalizeAssets(assetsByChunkName[route.id])
-      .filter((path) => path.endsWith(".js"))
-      .map((path) => `<script defer src="/${response.statusCode === 404 ?
-        request.currentRoute?.isAdmin ?
-          'adminNotFound.js' :
-          'notFound.js' : path}"></script>`)
-      .join("\n")}
+    .filter((path) => path.endsWith('.js'))
+    .map((path) => `<script defer src="/${response.statusCode === 404
+      ? request.currentRoute?.isAdmin
+        ? 'adminNotFound.js'
+        : 'notFound.js' : path}"></script>`)
+    .join('\n')}
                 </body>
             </html>
             `);
 }
 
 function renderProduction(request, response) {
-  const routes = getRoutes()
+  const routes = getRoutes();
   const route = response.statusCode === 404 ? routes.find((route) => route.id === 'notFound') : request.currentRoute;
   const { renderHtml } = require(path.resolve(getRouteBuildPath(route), 'server', 'index.js'));
   const assets = require(path.resolve(getRouteBuildPath(route), 'client', 'index.json'));
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
-    propsMap: get(response, 'locals.propsMap', {}),
+    propsMap: get(response, 'locals.propsMap', {})
   };
   const source = renderHtml(assets.js, assets.css, contextValue);
   response.send(source);
@@ -79,4 +79,4 @@ module.exports.render = function render(request, response) {
   } else {
     renderDevelopment(request, response);
   }
-}
+};

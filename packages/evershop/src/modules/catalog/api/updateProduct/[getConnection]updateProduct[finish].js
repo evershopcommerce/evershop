@@ -16,12 +16,12 @@ module.exports = async (request, response, delegate) => {
   try {
     await update('product')
       .given(request.body)
-      .where('product_id', '=', product['product_id'])
+      .where('product_id', '=', product.product_id)
       .execute(connection);
 
     await update('product_description')
       .given(request.body)
-      .where('product_description_product_id', '=', product['product_id'])
+      .where('product_description_product_id', '=', product.product_id)
       .execute(connection);
   } catch (e) {
     if (!e.message.includes('No data was provided')) {
@@ -29,5 +29,5 @@ module.exports = async (request, response, delegate) => {
     }
   }
 
-  return product['product_id'];
+  return product.product_id;
 };

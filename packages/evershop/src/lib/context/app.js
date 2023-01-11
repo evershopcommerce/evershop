@@ -28,7 +28,7 @@ export function AppProvider({ value, children }) {
       return draff;
     }));
     setFetching(false);
-  }
+  };
 
   React.useEffect(() => {
     window.onpopstate = async (event) => {
@@ -36,7 +36,7 @@ export function AppProvider({ value, children }) {
       const url = new URL(window.location.href, window.location.origin);
       url.searchParams.append('ajax', true);
       await fetchPageData(url);
-    }
+    };
   }, []);
 
   return (

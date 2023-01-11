@@ -1,6 +1,8 @@
-const { select, commit, update, del, insert } = require("@evershop/mysql-query-builder");
-const { pool, getConnection } = require("../../../lib/mysql/connection");
-const { Cart } = require("./cart/Cart");
+const {
+  select, commit, update, del, insert
+} = require('@evershop/mysql-query-builder');
+const { pool, getConnection } = require('../../../lib/mysql/connection');
+const { Cart } = require('./cart/Cart');
 
 module.exports = exports;
 
@@ -29,4 +31,4 @@ exports.createNewCart = async (tokenPayLoad = {}) => {
   });
   await cart.build();
   return cart;
-}
+};

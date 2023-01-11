@@ -4,7 +4,7 @@ const { get } = require('../../../../../lib/util/get');
 module.exports = (request, response, delegate, next) => {
   // Get the token Payload
   const tokenPayLoad = getContextValue(request, 'tokenPayload');
-  console.log('tokenPayLoad', tokenPayLoad)
+  console.log('tokenPayLoad', tokenPayLoad);
   if (get(tokenPayLoad, 'user.uuid')) {
     setContextValue(request, 'customerId', tokenPayLoad.user?.uuid || null);
   }

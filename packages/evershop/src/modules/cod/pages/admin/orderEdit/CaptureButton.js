@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '../../../../../lib/components/form/Button';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import Button from '../../../../../lib/components/form/Button';
 import { Card } from '../../../../cms/components/admin/Card';
 
 export default function CaptureButton({
@@ -31,11 +31,11 @@ export default function CaptureButton({
   if (paymentStatus.code === 'pending' && paymentMethod === 'cod') {
     return (
       <Card.Session>
-        <div className='flex justify-end'>
+        <div className="flex justify-end">
           <Button title="Capture" onAction={onAction} isLoading={isLoading} />
         </div>
       </Card.Session>
-    )
+    );
   } else {
     return null;
   }
@@ -50,12 +50,12 @@ CaptureButton.propTypes = {
     uuid: PropTypes.string.isRequired,
     paymentMethod: PropTypes.string.isRequired
   }).isRequired
-}
+};
 
 export const layout = {
-  areaId: "orderPaymentActions",
+  areaId: 'orderPaymentActions',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -68,4 +68,4 @@ export const query = `
       paymentMethod
     }
   }
-`
+`;

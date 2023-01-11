@@ -1,27 +1,27 @@
-const { contries } = require("../../../../../lib/locale/countries");
-const { getSetting } = require("../../../../setting/services/setting");
-const { provinces } = require("../../../../../lib/locale/provinces");
+const { contries } = require('../../../../../lib/locale/countries');
+const { getSetting } = require('../../../../setting/services/setting');
+const { provinces } = require('../../../../../lib/locale/provinces');
 
 module.exports = {
   Query: {
     countries: (_, argument) => {
-      let list = argument?.countries || [];
+      const list = argument?.countries || [];
       if (list.length === 0) {
-        return contries
+        return contries;
       } else {
         return contries.filter((c) => list.includes(c.code));
       }
     },
     allowedCountries: async () => {
-      const allowedCountries = await getSetting("allowedCountries", '["US"]');
-      let list = JSON.parse(allowedCountries);
+      const allowedCountries = await getSetting('allowedCountries', '["US"]');
+      const list = JSON.parse(allowedCountries);
       return contries.filter((c) => list.includes(c.code));
     }
   },
   Country: {
     name: (country) => {
       if (country.name) {
-        return country.name
+        return country.name;
       } else {
         const c = contries.find((p) => p.code === country);
         return c.name;
@@ -29,13 +29,11 @@ module.exports = {
     },
     code: (country) => {
       if (country.code) {
-        return country.code
+        return country.code;
       } else {
         return country;
       }
     },
-    provinces: (country) => {
-      return provinces.filter((p) => p.countryCode === country.code);
-    }
+    provinces: (country) => provinces.filter((p) => p.countryCode === country.code)
   }
-}
+};

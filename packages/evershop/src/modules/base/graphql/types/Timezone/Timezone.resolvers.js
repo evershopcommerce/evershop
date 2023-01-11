@@ -1,9 +1,7 @@
-const { timezones } = require("../../../../../lib/locale/timezones")
+const { timezones } = require('../../../../../lib/locale/timezones');
 
 module.exports = {
   Query: {
-    timezones: () => {
-      return timezones;
-    }
+    timezones: () => timezones
   }
-}
+};

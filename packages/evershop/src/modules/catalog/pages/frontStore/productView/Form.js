@@ -132,7 +132,7 @@ export default function ProductForm({ product, action, cart }) {
       onStart={() => setLoading(true)}
       onComplete={() => setLoading(false)}
       onError={(e) => setError(e.message)}
-      isJSON={true}
+      isJSON
     >
       <input type="hidden" name="sku" value={product.sku} />
       <Area
@@ -159,9 +159,9 @@ ProductForm.propTypes = {
 };
 
 export const layout = {
-  areaId: "productPageMiddleRight",
+  areaId: 'productPageMiddleRight',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {
@@ -178,4 +178,4 @@ export const query = `
     }
     action:url (routeId: "addMineCartItem")
   }
-`
+`;

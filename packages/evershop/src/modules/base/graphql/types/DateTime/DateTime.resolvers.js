@@ -1,5 +1,5 @@
 const { DateTime } = require('luxon');
-const { getSetting } = require("../../../../setting/services/setting");
+const { getSetting } = require('../../../../setting/services/setting');
 
 module.exports = {
   DateTime: {
@@ -15,4 +15,4 @@ module.exports = {
       return date;
     }
   }
-}
+};

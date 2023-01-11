@@ -12,9 +12,9 @@ module.exports = () => {
       if (parseInt(paypalStatus) !== 1) {
         return previousValue;
       } else {
-        delete this.errors['payment_method'];
+        delete this.errors.payment_method;
         return paymentMethod;
       }
     }
   });
-}
+};

@@ -75,8 +75,8 @@ Actions.propTypes = {
 };
 
 export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFilters = [] } }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page')['value'] : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit')['value'] : 20;
+  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
+  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -86,10 +86,8 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked)
-                  setSelectedRows(pages.map((p) => p.uuid));
-                else
-                  setSelectedRows([]);
+                if (e.target.checked) setSelectedRows(pages.map((p) => p.uuid));
+                else setSelectedRows([]);
               }}
               />
             </th>
@@ -99,11 +97,11 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
               noOuter
               coreComponents={[
                 {
-                  component: { default: () => <BasicColumnHeader title='Name' id='name' currentFilter={currentFilters.find(f => f.key === 'name')} /> },
+                  component: { default: () => <BasicColumnHeader title="Name" id="name" currentFilter={currentFilters.find((f) => f.key === 'name')} /> },
                   sortOrder: 10
                 },
                 {
-                  component: { default: () => <StatusColumnHeader title='Status' id='status' currentFilter={currentFilters.find(f => f.key === 'status')} /> },
+                  component: { default: () => <StatusColumnHeader title="Status" id="status" currentFilter={currentFilters.find((f) => f.key === 'status')} /> },
                   sortOrder: 20
                 }
               ]}
@@ -123,10 +121,8 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
                 <Checkbox
                   isChecked={selectedRows.includes(p.uuid)}
                   onChange={(e) => {
-                    if (e.target.checked)
-                      setSelectedRows(selectedRows.concat([p.uuid]));
-                    else
-                      setSelectedRows(selectedRows.filter((row) => row !== p.uuid));
+                    if (e.target.checked) setSelectedRows(selectedRows.concat([p.uuid]));
+                    else setSelectedRows(selectedRows.filter((row) => row !== p.uuid));
                   }}
                 />
               </td>
@@ -141,7 +137,7 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
                     sortOrder: 10
                   },
                   {
-                    component: { default: ({ areaProps }) => <StatusRow id='status' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <StatusRow id="status" areaProps={areaProps} /> },
                     sortOrder: 20
                   }
                 ]}
@@ -160,7 +156,7 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
 export const layout = {
   areaId: 'content',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {

@@ -1,6 +1,6 @@
 const { select, update, insert } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
 const { default: axios } = require('axios');
+const { pool } = require('../../../../lib/mysql/connection');
 const { getContextValue } = require('../../../graphql/services/contextHelper');
 const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 const { INVALID_PAYLOAD, OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
@@ -28,12 +28,12 @@ module.exports = async (request, response, delegate, next) => {
   } else {
     // Call API to authorize the paypal order using axios
     const responseData = await axios.post(
-      `${(await getApiBaseUrl())}/v2/checkout/orders/` + order['integration_order_id'] + '/authorize',
+      `${(await getApiBaseUrl())}/v2/checkout/orders/${order.integration_order_id}/authorize`,
       {},
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${getContextValue(request, 'paypalAccessToken')}`,
+          Authorization: `Bearer ${getContextValue(request, 'paypalAccessToken')}`
         }
       }
     );

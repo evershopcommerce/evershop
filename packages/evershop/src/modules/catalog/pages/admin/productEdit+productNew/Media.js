@@ -23,7 +23,7 @@ export default function Media({ id, product, productImageUploadUrl }) {
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 15
-}
+};
 
 export const query = `
   query Query {

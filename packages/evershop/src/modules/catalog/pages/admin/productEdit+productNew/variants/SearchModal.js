@@ -6,7 +6,9 @@ import uniqid from 'uniqid';
 import { Input } from '../../../../../../lib/components/form/fields/Input';
 import { VariantType } from './VariantType';
 
-export function SearchModal({ keyword, variants, addVariant, searchAPI }) {
+export function SearchModal({
+  keyword, variants, addVariant, searchAPI
+}) {
   const [potentialVariants, setPotentialVariants] = React.useState([]);
   const [typeTimeout, setTypeTimeout] = React.useState(null);
   const [loading, setLoading] = React.useState(false);

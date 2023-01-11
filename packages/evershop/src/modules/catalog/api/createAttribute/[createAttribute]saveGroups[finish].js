@@ -8,7 +8,7 @@ const { get } = require('../../../../lib/util/get');
 
 module.exports = async (request, response, delegate) => {
   const attribute = await delegate.createAttribute;
-  let attributeId = attribute.insertId;
+  const attributeId = attribute.insertId;
   const attributeData = request.body;
 
   const connection = await delegate.getConnection;

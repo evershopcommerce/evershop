@@ -9,11 +9,12 @@ module.exports.getRouteFromPath = (path) => {
       region: 'api',
       scope: parts[1] === 'global' ? 'app' : parts[1],
       routeId: parts[1] === 'global' ? null : parts[1]
-    }
+    };
   }
 
   // Current path is a page path
-  let scope, routeId, region;
+  let scope; let routeId; let
+    region;
   region = parts[3];
   if (parts[1] === 'global') {
     scope = 'app';
@@ -37,5 +38,5 @@ module.exports.getRouteFromPath = (path) => {
     region,
     scope,
     routeId
-  }
-}
+  };
+};

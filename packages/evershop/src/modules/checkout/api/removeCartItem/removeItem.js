@@ -1,13 +1,13 @@
-const { INVALID_PAYLOAD, INTERNAL_SERVER_ERROR, OK } = require("../../../../lib/util/httpStatus");
-const { getCartByUUID } = require("../../services/getCartByUUID");
-const { saveCart } = require("../../services/saveCart");
+const { INVALID_PAYLOAD, INTERNAL_SERVER_ERROR, OK } = require('../../../../lib/util/httpStatus');
+const { getCartByUUID } = require('../../services/getCartByUUID');
+const { saveCart } = require('../../services/saveCart');
 
 module.exports = async (request, response, delegate, next) => {
   try {
     const { cart_id, item_id } = request.params;
     const cart = await getCartByUUID(cart_id);
     if (!cart) {
-      response.status(INVALID_PAYLOAD)
+      response.status(INVALID_PAYLOAD);
       response.json({
         error: {
           message: 'Invalid cart',

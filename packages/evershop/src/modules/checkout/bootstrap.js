@@ -25,5 +25,5 @@ module.exports = () => {
     }
 
     return this.locals.cart || null;
-  }
-}
+  };
+};

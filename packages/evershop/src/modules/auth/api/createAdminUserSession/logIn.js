@@ -1,9 +1,9 @@
 const { select, insertOnUpdate } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
 const { compare } = require('bcrypt');
 const { sign } = require('jsonwebtoken');
-const { camelCase } = require('../../../../lib/util/camelCase');
 const { v4: uuidv4 } = require('uuid');
+const { camelCase } = require('../../../../lib/util/camelCase');
+const { pool } = require('../../../../lib/mysql/connection');
 const { getAdminTokenCookieId } = require('../../services/getAdminTokenCookieId');
 const { INVALID_PAYLOAD, OK } = require('../../../../lib/util/httpStatus');
 
@@ -53,7 +53,7 @@ module.exports = async (request, response, delegate, next) => {
             ...camelCase(user),
             isAdmin: true
           },
-          sid: sid
+          sid
         },
         JWT_SECRET,
         {

@@ -13,7 +13,6 @@ export function Shipping({ method, cost }) {
   );
 }
 
-
 Shipping.propTypes = {
   cost: PropTypes.string.isRequired,
   method: PropTypes.string.isRequired

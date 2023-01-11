@@ -103,11 +103,10 @@ export function Form(props) {
           {
             method,
             body: isJSON === true ? JSON.stringify(serializeForm(formData.entries())) : formData,
-            headers: Object.assign({
-              'X-Requested-With': 'XMLHttpRequest'
-            },
-              isJSON === true ? { 'Content-Type': 'application/json' } : {}
-            )
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              ...(isJSON === true ? { 'Content-Type': 'application/json' } : {})
+            }
           }
         );
 
@@ -144,7 +143,7 @@ export function Form(props) {
       if (onError) {
         await onError(error);
       }
-      throw error
+      throw error;
     } finally {
       setLoading(false);
       setState('submitted');

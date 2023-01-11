@@ -3,6 +3,6 @@ import pageDataReducer from './pageDataSlice';
 
 export const store = configureStore({
   reducer: {
-    pageData: pageDataReducer,
-  },
-})
+    pageData: pageDataReducer
+  }
+});

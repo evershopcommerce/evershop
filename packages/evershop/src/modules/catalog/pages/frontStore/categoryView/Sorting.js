@@ -11,16 +11,16 @@ export default function Sorting() {
   const [sortBy, setSortBy] = React.useState(() => {
     // Check if this is browser or server
     if (typeof window !== 'undefined') {
-      let params = (new URL(document.location)).searchParams;
-      return params.get("sortBy") || 'id';
+      const params = (new URL(document.location)).searchParams;
+      return params.get('sortBy') || 'id';
     }
   });
 
   const [sortOrder, setSortOrder] = React.useState(() => {
     // Check if this is browser or server
     if (typeof window !== 'undefined') {
-      let params = (new URL(document.location)).searchParams;
-      return params.get("sortOrder") || 'asc';
+      const params = (new URL(document.location)).searchParams;
+      return params.get('sortOrder') || 'asc';
     }
   });
 
@@ -33,20 +33,20 @@ export default function Sorting() {
     setSortBy(e.target.value);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    history.pushState(null, "", url);
+    history.pushState(null, '', url);
   };
 
   const onChangeDirection = async (e) => {
     const currentUrl = window.location.href;
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
-    let order = sortOrder.toLowerCase() === 'asc' ? 'desc' : 'asc';
+    const order = sortOrder.toLowerCase() === 'asc' ? 'desc' : 'asc';
     url.searchParams.set('sortOrder', order);
     url.searchParams.append('ajax', true);
     setSortOrder(order);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    history.pushState(null, "", url);
+    history.pushState(null, '', url);
   };
 
   return (
@@ -108,6 +108,6 @@ export default function Sorting() {
 }
 
 export const layout = {
-  areaId: "rightColumn",
+  areaId: 'rightColumn',
   sortOrder: 15
 };

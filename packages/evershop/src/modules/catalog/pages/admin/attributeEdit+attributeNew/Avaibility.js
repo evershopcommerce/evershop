@@ -60,11 +60,10 @@ export default function General({ attribute }) {
   );
 }
 
-
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

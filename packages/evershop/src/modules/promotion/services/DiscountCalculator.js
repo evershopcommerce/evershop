@@ -1,7 +1,7 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { pool } = require("../../../lib/mysql/connection");
-const { getConfig } = require("../../../lib/util/getConfig");
-const { toPrice } = require("../../checkout/services/toPrice");
+const { select } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../lib/mysql/connection');
+const { getConfig } = require('../../../lib/util/getConfig');
+const { toPrice } = require('../../checkout/services/toPrice');
 
 exports.DiscountCalculator = class DiscountCalculator {
   static discountCalculators = [];
@@ -17,22 +17,22 @@ exports.DiscountCalculator = class DiscountCalculator {
     const items = cart.getItems();
     items.forEach((item) => {
       total += item.getData('final_price') * item.getData('qty');
-    })
+    });
 
     return total;
   }
 
   #registerDefaultDiscountCalculator() {
     this.constructor.addDiscountCalculator('percentage_discount_to_entire_order', function (coupon, cart) {
-      if (coupon['discount_type'] !== "percentage_discount_to_entire_order") {
+      if (coupon.discount_type !== 'percentage_discount_to_entire_order') {
         return false;
       }
-      const discountPercent = parseInt(coupon['discount_amount']);
+      const discountPercent = parseInt(coupon.discount_amount);
       if (discountPercent <= 0 || discountPercent > 100) {
         return false;
       }
 
-      let cartDiscountAmount = toPrice((discountPercent * this.getCartTotalBeforeDiscount(cart)) / 100);
+      const cartDiscountAmount = toPrice((discountPercent * this.getCartTotalBeforeDiscount(cart)) / 100);
       let distributedAmount = 0;
       const items = cart.getItems();
       items.forEach((item, index) => {
@@ -55,14 +55,13 @@ exports.DiscountCalculator = class DiscountCalculator {
     });
 
     this.constructor.addDiscountCalculator('fixed_discount_to_entire_order', function (coupon, cart) {
-      if (coupon['discount_type'] !== "fixed_discount_to_entire_order")
-        return false;
+      if (coupon.discount_type !== 'fixed_discount_to_entire_order') return false;
 
-      let cartDiscountAmount = toPrice(parseFloat(coupon['discount_amount']) || 0);
+      let cartDiscountAmount = toPrice(parseFloat(coupon.discount_amount) || 0);
       if (cartDiscountAmount < 0) {
         return false;
       }
-      let cartTotal = this.getCartTotalBeforeDiscount(cart);
+      const cartTotal = this.getCartTotalBeforeDiscount(cart);
       cartDiscountAmount = cartTotal > cartDiscountAmount ? cartDiscountAmount : cartTotal;
       let distributedAmount = 0;
       const items = cart.getItems();
@@ -86,25 +85,25 @@ exports.DiscountCalculator = class DiscountCalculator {
     });
 
     this.constructor.addDiscountCalculator('discount_to_specific_products', async function (coupon, cart) {
-      if (!["fixed_discount_to_specific_products", "percentage_discount_to_specific_products"].includes(coupon['discount_type'])) {
+      if (!['fixed_discount_to_specific_products', 'percentage_discount_to_specific_products'].includes(coupon.discount_type)) {
         return false;
       }
       let targetConfig;
       try {
-        targetConfig = JSON.parse(coupon['target_products']);
+        targetConfig = JSON.parse(coupon.target_products);
       } catch (e) {
         return false;
       }
 
-      const maxQty = parseInt(targetConfig['maxQty']) || 0;
+      const maxQty = parseInt(targetConfig.maxQty) || 0;
       if (maxQty <= 0) {
         return false;
       }
-      const targetProducts = targetConfig['products'] || []
-      let discountAmount = toPrice(parseFloat(coupon['discount_amount']) || 0);
-      let discounts = {};
+      const targetProducts = targetConfig.products || [];
+      let discountAmount = toPrice(parseFloat(coupon.discount_amount) || 0);
+      const discounts = {};
       const items = cart.getItems();
-      const productIds = items.map((item) => { return item.getData('product_id') });
+      const productIds = items.map((item) => item.getData('product_id'));
 
       // Load the category of each item
       const categories = await select()
@@ -118,9 +117,9 @@ exports.DiscountCalculator = class DiscountCalculator {
           if (flag === false) {
             return;
           }
-          const key = targetProduct['key'];
-          const operator = targetProduct['operator'];
-          const value = targetProduct['value'];
+          const { key } = targetProduct;
+          const { operator } = targetProduct;
+          const { value } = targetProduct;
           // Check attribute group
           if (key === 'attribute_group') {
             // If key is attribute group, we only support IN and NOT IN operator
@@ -128,8 +127,8 @@ exports.DiscountCalculator = class DiscountCalculator {
               flag = false;
               return false;
             }
-            const attributeGroupIds = value.split(',').map((id) => { return parseInt(id.trim()) });
-            flag = operator === 'IN' ? attributeGroupIds.includes(item.getData('group_id')) : !attributeGroupIds.includes(item.getData('group_id'))
+            const attributeGroupIds = value.split(',').map((id) => parseInt(id.trim()));
+            flag = operator === 'IN' ? attributeGroupIds.includes(item.getData('group_id')) : !attributeGroupIds.includes(item.getData('group_id'));
           }
 
           // Check category
@@ -144,8 +143,8 @@ exports.DiscountCalculator = class DiscountCalculator {
               return false;
             }
 
-            const values = value.split(',').map((id) => { return parseInt(id.trim()) });
-            let e = categories.find(
+            const values = value.split(',').map((id) => parseInt(id.trim()));
+            const e = categories.find(
               (e) => (values.includes(e.category_id) && parseInt(e.product_id) === parseInt(item.getData('product_id')))
             );
             flag = operator === 'IN' ? e !== undefined : e === undefined;
@@ -175,7 +174,7 @@ exports.DiscountCalculator = class DiscountCalculator {
           if (key === 'sku') {
             if (['IN', 'NOT IN'].includes(operator)) {
               const skus = value.split(',').map((v) => v.trim());
-              flag = operator === 'IN' ? skus.includes(item.getData('product_sku')) : !skus.includes(item.getData('product_sku'))
+              flag = operator === 'IN' ? skus.includes(item.getData('product_sku')) : !skus.includes(item.getData('product_sku'));
             } else {
               // For 'sku' type of condition, we only support 'IN', 'NOT IN' operators
               flag = false;
@@ -188,16 +187,16 @@ exports.DiscountCalculator = class DiscountCalculator {
         if (flag === false) {
           return;
         }
-        if (coupon['discount_type'] == "fixed_discount_to_specific_products") {
-          if (discountAmount > item.getData("final_price")) {
-            discountAmount = item.getData("final_price");
+        if (coupon.discount_type == 'fixed_discount_to_specific_products') {
+          if (discountAmount > item.getData('final_price')) {
+            discountAmount = item.getData('final_price');
           }
-          discounts[item.getId()] = (maxQty > item.getData("qty")) ? toPrice(discountAmount * item.getData("qty")) : toPrice(discountAmount * maxQty);
+          discounts[item.getId()] = (maxQty > item.getData('qty')) ? toPrice(discountAmount * item.getData('qty')) : toPrice(discountAmount * maxQty);
         } else {
           const discountPercent = Math.min(discountAmount, 100);
           discounts[item.getId()] = toPrice(
             Math.min(item.getData('qty'), maxQty) * (item.getData('final_price') * discountPercent / 100)
-          );;
+          );
         }
       });
 
@@ -206,42 +205,38 @@ exports.DiscountCalculator = class DiscountCalculator {
     });
 
     this.constructor.addDiscountCalculator('buy_x_get_y', function (coupon, cart) {
-      if (coupon['discount_type'] !== "buy_x_get_y")
-        return true;
+      if (coupon.discount_type !== 'buy_x_get_y') return true;
 
       let configs;
       try {
-        configs = JSON.parse(coupon['buyx_gety']);
+        configs = JSON.parse(coupon.buyx_gety);
       } catch (e) {
         return false;
       }
       const items = cart.getItems();
       configs.forEach((row) => {
-        const sku = row['sku'] ?? null;
-        const buyQty = parseInt(row['buy_qty']) || null;
-        const getQty = parseInt(row['get_qty']) || null;
-        const maxY = row['max_y'].trim() ? Math.max(parseInt(row['max_y']), 0) : 10000000;
-        const discount = row['discount'] ? (parseFloat(row['discount']) || 0) : 100;
-        if (!sku || !buyQty || !getQty || discount <= 0 || discount > 100)
-          return;
+        const sku = row.sku ?? null;
+        const buyQty = parseInt(row.buy_qty) || null;
+        const getQty = parseInt(row.get_qty) || null;
+        const maxY = row.max_y.trim() ? Math.max(parseInt(row.max_y), 0) : 10000000;
+        const discount = row.discount ? (parseFloat(row.discount) || 0) : 100;
+        if (!sku || !buyQty || !getQty || discount <= 0 || discount > 100) return;
 
         for (let i = 0; i < items.length; i++) {
           const item = items[i];
-          if (item.getData("product_sku") === sku.trim() && item.getData("qty") >= buyQty + getQty) {
-            const discountPerUnit = toPrice(discount * item.getData("final_price") / 100);
-            const discountAbleUnits = Math.floor(item.getData("qty") / buyQty) * getQty;
+          if (item.getData('product_sku') === sku.trim() && item.getData('qty') >= buyQty + getQty) {
+            const discountPerUnit = toPrice(discount * item.getData('final_price') / 100);
+            const discountAbleUnits = Math.floor(item.getData('qty') / buyQty) * getQty;
             let discountAmount;
-            if (discountAbleUnits < maxY)
-              discountAmount = toPrice(discountAbleUnits * discountPerUnit);
-            else
-              discountAmount = toPrice(discountPerUnit * maxY);
+            if (discountAbleUnits < maxY) discountAmount = toPrice(discountAbleUnits * discountPerUnit);
+            else discountAmount = toPrice(discountPerUnit * maxY);
 
             if (this.discounts[item.getId()] || this.discounts[item.getId()] !== discountAmount) {
               this.discounts[item.getId()] = discountAmount;
             }
           }
         }
-      })
+      });
     });
   }
 
@@ -254,7 +249,7 @@ exports.DiscountCalculator = class DiscountCalculator {
   }
 
   async calculate(couponCode = null) {
-    let cart = this.cart;
+    const { cart } = this;
     if (!couponCode) {
       this.discounts = {};
       return {};
@@ -273,4 +268,4 @@ exports.DiscountCalculator = class DiscountCalculator {
   getDiscounts() {
     return this.discounts;
   }
-}
+};

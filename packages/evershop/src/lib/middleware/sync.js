@@ -1,5 +1,5 @@
-const logger = require("../log/logger");
-const { setDelegate } = require("./delegate");
+const logger = require('../log/logger');
+const { setDelegate } = require('./delegate');
 
 module.exports = exports = {};
 
@@ -7,7 +7,7 @@ exports.syncMiddlewareWrapper = function syncMiddlewareWrapper(id, middlewareFun
   logger.log('info', `Executing middleware ${id}`); // TODO: Should use debug instead of logging
 
   try {
-    let delegate = undefined;
+    let delegate;
     // If the middleware function has the next function as a parameter
     if (middlewareFunc.length === 4) {
       delegate = middlewareFunc(request, response, delegates, next);
@@ -22,4 +22,4 @@ exports.syncMiddlewareWrapper = function syncMiddlewareWrapper(id, middlewareFun
     // Call error handler middleware if it is not called yet
     next(e);
   }
-}
+};

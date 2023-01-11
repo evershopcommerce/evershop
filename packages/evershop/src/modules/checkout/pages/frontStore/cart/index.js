@@ -1,4 +1,4 @@
-const { setContextValue } = require("../../../../graphql/services/contextHelper");
+const { setContextValue } = require('../../../../graphql/services/contextHelper');
 
 module.exports = (request, response) => {
   setContextValue(request, 'pageInfo', {

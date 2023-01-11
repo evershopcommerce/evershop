@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import './MiniCart.scss';
+import Bag from '@heroicons/react/outline/ShoppingBagIcon';
 import { useAppState } from '../../../../../lib/context/app';
 import { get } from '../../../../../lib/util/get';
-import Bag from '@heroicons/react/outline/ShoppingBagIcon';
 
 export default function MiniCart({ cartUrl, cart }) {
   const miniCart = get(useAppState(), 'cart', cart || {});
@@ -25,7 +25,7 @@ MiniCart.propTypes = {
 export const layout = {
   areaId: 'icon-wrapper',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

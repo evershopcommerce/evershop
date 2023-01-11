@@ -1,9 +1,9 @@
 const path = require('path');
 const JSON5 = require('json5');
+const { readFileSync } = require('fs');
 const isDevelopmentMode = require('../../../../lib/util/isDevelopmentMode');
 const isProductionMode = require('../../../../lib/util/isProductionMode');
 const { getRouteBuildPath } = require('../../../../lib/webpack/getRouteBuildPath');
-const { readFileSync } = require('fs');
 const { CONSTANTS } = require('../../../../lib/helpers');
 const { getRoutes } = require('../../../../lib/router/Router');
 const { getContextValue } = require('../../services/contextHelper');
@@ -24,7 +24,7 @@ module.exports = (request, response) => {
     }
     console.log(route.id, request.path);
     const devMiddleware = route.webpackMiddleware;
-    const outputFileSystem = devMiddleware.context.outputFileSystem;
+    const { outputFileSystem } = devMiddleware.context;
     const jsonWebpackStats = devMiddleware.context.stats.toJson();
     const { outputPath } = jsonWebpackStats;
 
@@ -52,7 +52,7 @@ module.exports = (request, response) => {
     );
   }
   if (query) {
-    // Parse the query   
+    // Parse the query
     // Use regex to replace "getContextValue_'base64 encoded string'" from the query to the actual function
     const regex = /\\\"getContextValue_([a-zA-Z0-9+/=]+)\\\"/g;
     query = query.replace(regex, (match, p1) => {
@@ -66,7 +66,7 @@ module.exports = (request, response) => {
       value = JSON5.stringify(value, { quote: '"' });
       // Escape the value so we can insert it into the query
       if (value) {
-        value = value.replace(/"/g, '\\"')
+        value = value.replace(/"/g, '\\"');
       }
       return value;
     });
@@ -76,9 +76,7 @@ module.exports = (request, response) => {
       const variables = JSON.parse(json.variables);
       const operation = 'query Query';
       if (variables.defs.length > 0) {
-        const variablesString = variables.defs.map((variable) => {
-          return `$${variable.name}: ${variable.type}`;
-        }).join(', ');
+        const variablesString = variables.defs.map((variable) => `$${variable.name}: ${variable.type}`).join(', ');
         operation += `(${variablesString})`;
       }
       request.body.graphqlQuery = `${operation} { ${json.query} } ${json.fragments}`;
@@ -87,6 +85,6 @@ module.exports = (request, response) => {
     } catch (error) {
       console.error(error);
       throw error;
-    };
+    }
   }
-}
+};

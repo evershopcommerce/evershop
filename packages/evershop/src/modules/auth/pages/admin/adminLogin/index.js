@@ -1,4 +1,4 @@
-const { getContextValue, setContextValue } = require("../../../../graphql/services/contextHelper");
+const { getContextValue, setContextValue } = require('../../../../graphql/services/contextHelper');
 
 module.exports = (request, response, stack, next) => {
   // Check if the user is logged in
@@ -13,4 +13,4 @@ module.exports = (request, response, stack, next) => {
     });
     next();
   }
-}
+};

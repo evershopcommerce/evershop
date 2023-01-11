@@ -91,11 +91,10 @@ export default function Image({ category, imageUploadUrl }) {
   );
 }
 
-
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

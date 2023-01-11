@@ -9,13 +9,17 @@ export default function Layout() {
     <>
       <LoadingBar />
       <div className="header flex justify-between">
-        <Area id="header" noOuter coreComponents={[
-          {
-            component: { default: Area },
-            props: { id: "icon-wrapper", className: "icon-wrapper flex justify-between space-x-1" },
-            sortOrder: 20
-          }
-        ]} />
+        <Area
+          id="header"
+          noOuter
+          coreComponents={[
+            {
+              component: { default: Area },
+              props: { id: 'icon-wrapper', className: 'icon-wrapper flex justify-between space-x-1' },
+              sortOrder: 20
+            }
+          ]}
+        />
       </div>
       <main className="content">
         <Area id="content" className="" noOuter />
@@ -92,6 +96,6 @@ export default function Layout() {
 }
 
 export const layout = {
-  areaId: "body",
+  areaId: 'body',
   sortOrder: 1
 };

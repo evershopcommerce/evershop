@@ -7,20 +7,19 @@ export default function Status({
   category
 }) {
   return (
-    <Card
-    >
-      <Card.Session title={'Status'}>
+    <Card>
+      <Card.Session title="Status">
         <Field
-          type='radio'
-          name='status'
+          type="radio"
+          name="status"
           options={[{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }]}
           value={category?.status}
         />
       </Card.Session>
-      <Card.Session title={'Include In Store Menu'}>
+      <Card.Session title="Include In Store Menu">
         <Field
-          type='radio'
-          name='include_in_nav'
+          type="radio"
+          name="include_in_nav"
           options={[{ value: 0, text: 'No' }, { value: 1, text: 'Yes' }]}
           value={category?.includeInNav}
         />
@@ -39,7 +38,7 @@ Status.propTypes = {
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 15
-}
+};
 
 export const query = `
   query Query {

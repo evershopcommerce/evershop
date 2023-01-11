@@ -40,7 +40,11 @@ Discount.defaultProps = {
   coupon: ''
 };
 
-function Summary({ checkoutUrl, cart: { totalQty, subTotal, coupon, discountAmount } }) {
+function Summary({
+  checkoutUrl, cart: {
+    totalQty, subTotal, coupon, discountAmount
+  }
+}) {
   if (totalQty === undefined || totalQty <= 0) { return null; }
   return (
     <div className="summary">
@@ -52,13 +56,13 @@ function Summary({ checkoutUrl, cart: { totalQty, subTotal, coupon, discountAmou
           coreComponents={[
             {
               component: { default: Subtotal },
-              props: { subTotal: subTotal },
+              props: { subTotal },
               sortOrder: 10,
               id: 'shoppingCartSubtotal'
             },
             {
               component: { default: Discount },
-              props: { discountAmount: discountAmount, coupon: coupon },
+              props: { discountAmount, coupon },
               sortOrder: 20,
               id: 'shoppingCartDiscount'
             },
@@ -88,7 +92,7 @@ export default Summary;
 export const layout = {
   areaId: 'shoppingCartRight',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -106,4 +110,4 @@ export const query = `
     }
     checkoutUrl: url(routeId: "checkout")
   }
-`
+`;

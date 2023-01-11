@@ -40,7 +40,7 @@ async function saveOptionValues(optionId, values, connection) {
 
 module.exports = async (request, response, deledate) => {
   const result = await deledate.createProduct;
-  let productId = result.insertId;
+  const productId = result.insertId;
   const connection = await deledate.getConnection;
   const options = request.body.options || [];
   if (options.length === 0) {
@@ -50,7 +50,7 @@ module.exports = async (request, response, deledate) => {
   // eslint-disable-next-line guard-for-in
   for (let i = 0; i < options.length; i++) {
     const option = options[i];
-    let result = await insert('product_custom_option')
+    const result = await insert('product_custom_option')
       .given(
         {
           ...option,

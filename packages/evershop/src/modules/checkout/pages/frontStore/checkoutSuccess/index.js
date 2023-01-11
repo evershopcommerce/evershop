@@ -4,10 +4,10 @@ const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { setContextValue } = require('../../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, stack, next) => {
-  const orderId = request.params.orderId;
+  const { orderId } = request.params;
   const query = select()
     .from('order');
-  query.where('uuid', '=', orderId)
+  query.where('uuid', '=', orderId);
   const order = await query.load(pool);
   if (!order) {
     response.redirect(302, buildUrl('homepage'));

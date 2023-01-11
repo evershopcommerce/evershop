@@ -32,4 +32,4 @@ module.exports = exports = async () => {
           UPDATE \`coupon\` SET \`coupon\`.used_time = \`coupon\`.used_time + 1 WHERE \`coupon\`.coupon = NEW.coupon;
   
                     END`);
-}
+};

@@ -29,10 +29,10 @@ module.exports = async (request, response, delegate, next) => {
         ...attribute,
         links: [
           {
-            "rel": "attributeGrid",
-            "href": buildUrl('attributeGrid'),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'attributeGrid',
+            href: buildUrl('attributeGrid'),
+            action: 'GET',
+            types: ['text/xml']
           }
         ]
       }

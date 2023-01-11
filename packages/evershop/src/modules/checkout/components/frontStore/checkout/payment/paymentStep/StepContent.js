@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { useQuery } from 'urql';
 import Area from '../../../../../../../lib/components/Area';
 import { useCheckoutStepsDispatch } from '../../../../../../../lib/context/checkoutSteps';
 import CustomerAddressForm from '../../../../../../customer/components/Address/AddressForm/Index';
@@ -7,8 +9,6 @@ import { BillingAddress } from './BillingAddress';
 import { useCheckout } from '../../../../../../../lib/context/checkout';
 import { Field } from '../../../../../../../lib/components/form/Field';
 import Button from '../../../../../../../lib/components/form/Button';
-import { toast } from 'react-toastify';
-import { useQuery } from 'urql';
 
 const QUERY = `
   query Query($cartId: String) {
@@ -76,12 +76,19 @@ export function StepContent({
     query: QUERY,
     variables: {
       cartId
-    },
+    }
   });
   const { data, fetching, error } = result;
 
   if (fetching) return <p>Loading .....</p>;
-  if (error) return <p>Oh no... {error.message}</p>;
+  if (error) {
+    return (
+      <p>
+        Oh no...
+        {error.message}
+      </p>
+    );
+  }
   return (
     <div>
       <Form
@@ -91,7 +98,7 @@ export function StepContent({
         onValidationError={() => setLoading(false)}
         id="checkoutPaymentForm"
         submitBtn={false}
-        isJSON={true}
+        isJSON
       >
         <h4 className="mb-1 mt-3">Billing Address</h4>
         <BillingAddress
@@ -99,7 +106,7 @@ export function StepContent({
           setUseShippingAddress={setUseShippingAddress}
         />
         {useShippingAddress === false && (
-          <div style={{ display: "block" }}>
+          <div style={{ display: 'block' }}>
             <CustomerAddressForm
               areaId="checkoutBillingAddressForm"
               address={billingAddress || data.cart.shippingAddress}
@@ -108,7 +115,7 @@ export function StepContent({
         )}
 
         {useShippingAddress === true && (
-          <div style={{ display: "none" }}>
+          <div style={{ display: 'none' }}>
             <CustomerAddressForm
               areaId="checkoutBillingAddressForm"
               address={data.cart.shippingAddress}
@@ -119,18 +126,18 @@ export function StepContent({
         <h4 className="mb-1 mt-3">Payment Method</h4>
         {paymentMethods && paymentMethods.length > 0 && (
           <>
-            <div className='divide-y border rounded border-divider px-2 mb-2'>
+            <div className="divide-y border rounded border-divider px-2 mb-2">
               {paymentMethods.map((method) => (
                 <div key={method.code} className="border-divider payment-method-list">
-                  <div className='py-2'>
+                  <div className="py-2">
                     <Area id={`checkoutPaymentMethod${method.code}`} />
                   </div>
                 </div>
               ))}
             </div>
             <Field
-              type='hidden'
-              name='method_code'
+              type="hidden"
+              name="method_code"
               value={paymentMethods.find((e) => e.selected === true)?.code}
               validationRules={[{
                 rule: 'notEmpty',
@@ -138,7 +145,7 @@ export function StepContent({
               }]}
             />
             <input type="hidden" value={paymentMethods.find((e) => e.selected === true)?.name} name="method_name" />
-            <input type="hidden" value={'billing'} name="type" />
+            <input type="hidden" value="billing" name="type" />
           </>
         )}
         {paymentMethods.length === 0 && (

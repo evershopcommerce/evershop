@@ -52,7 +52,6 @@ module.exports = async (request, response, delegate, next) => {
             status: UNAUTHORIZED
           }
         });
-        return;
       } else {
         setContextValue(request, 'tokenPayload', decoded);
         setContextValue(request, 'user', { ...decoded.user, roles: '*' });

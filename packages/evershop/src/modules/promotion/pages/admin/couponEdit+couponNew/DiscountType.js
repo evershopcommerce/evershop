@@ -50,7 +50,7 @@ export default function DiscountType({ coupon = {} }) {
           ]}
         />
       </div>
-      <div className='mt-1'>
+      <div className="mt-1">
         <TargetProducts
           products={get(targetProducts, 'products', [])}
           maxQty={get(targetProducts, 'maxQty', '')}
@@ -68,7 +68,7 @@ export default function DiscountType({ coupon = {} }) {
 export const layout = {
   areaId: 'couponEditDiscountType',
   sortOrder: 30
-}
+};
 
 export const query = `
   query Query {

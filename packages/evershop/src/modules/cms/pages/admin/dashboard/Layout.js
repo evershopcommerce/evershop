@@ -18,4 +18,4 @@ export default function DashboardLayout() {
 export const layout = {
   areaId: 'content',
   sortOrder: 10
-}
+};

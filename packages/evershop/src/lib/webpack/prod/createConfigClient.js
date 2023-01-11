@@ -1,17 +1,17 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebpackBar = require('webpackbar');
 const { createBaseConfig } = require('../createBaseConfig');
 const { getRouteBuildPath } = require('../getRouteBuildPath');
 const { getRouteBuildSubPath } = require('../getRouteBuildSubPath');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { isBuildRequired } = require('../isBuildRequired');
-const WebpackBar = require('webpackbar');
 const { CONSTANTS } = require('../../helpers');
 const { Tailwindcss } = require('../plugins/Tailwindcss');
 
 module.exports.createConfigClient = function createConfigClient(routes) {
   const config = createBaseConfig(false);
-  const plugins = config.plugins;
+  const { plugins } = config;
   const entry = {};
   routes.forEach((route) => {
     if (!isBuildRequired(route)) {
@@ -46,9 +46,9 @@ module.exports.createConfigClient = function createConfigClient(routes) {
     use: [
       MiniCssExtractPlugin.loader,
       {
-        loader: "css-loader",
+        loader: 'css-loader',
         options: {
-          url: false,
+          url: false
         }
       },
       {
@@ -56,11 +56,11 @@ module.exports.createConfigClient = function createConfigClient(routes) {
         options: {
         }
       },
-      "sass-loader"
-    ],
+      'sass-loader'
+    ]
   });
 
-  plugins.push(new WebpackBar({ name: 'Client' }),)
+  plugins.push(new WebpackBar({ name: 'Client' }));
   plugins.push(new MiniCssExtractPlugin({
     filename: '[name]/client/[fullhash].css'
   }));
@@ -82,4 +82,4 @@ module.exports.createConfigClient = function createConfigClient(routes) {
   config.name = 'Client';
 
   return config;
-}
+};

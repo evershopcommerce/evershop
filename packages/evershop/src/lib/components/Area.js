@@ -36,8 +36,8 @@ function Area(props) {
     <WrapperComponent {...areaWrapperProps}>
       {areaComponents.map((w, index) => {
         const C = w.component.default;
-        const id = w.id;
-        const propsMap = context.propsMap;
+        const { id } = w;
+        const { propsMap } = context;
         const propsData = context.graphqlResponse;
         const propKeys = propsMap[id] || [];
         const componentProps = propKeys.reduce((acc, map) => {

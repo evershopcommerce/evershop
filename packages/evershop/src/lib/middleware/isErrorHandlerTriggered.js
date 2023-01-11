@@ -4,4 +4,4 @@ module.exports = (response) => {
   } else {
     return response.locals.errorHandlerTriggered === true;
   }
-}
+};

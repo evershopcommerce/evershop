@@ -1,7 +1,7 @@
 import React from 'react';
+import { useQuery } from 'urql';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Variants } from './Variants';
-import { useQuery } from 'urql';
 import { useFormContext } from '../../../../../../lib/components/form/Form';
 
 const AttributesQuery = `
@@ -36,22 +36,29 @@ export function CreateVariantGroup() {
     setCreating(true);
   };
 
-  const shouldPause = groupField === undefined || groupField === null ||
-    !groupField.value;
+  const shouldPause = groupField === undefined || groupField === null
+    || !groupField.value;
 
   const [result, reexecuteQuery] = useQuery({
     query: AttributesQuery,
     variables: {
       filters: [
         { key: 'type', operation: '=', value: 'select' },
-        { key: 'group', operation: '=', value: groupField?.value },
+        { key: 'group', operation: '=', value: groupField?.value }
       ]
     },
-    pause: shouldPause,
+    pause: shouldPause
   });
   const { data, fetching, error } = result;
   if (fetching) return <p>Loading...</p>;
-  if (error) return <p>Oh no... {error.message}</p>;
+  if (error) {
+    return (
+      <p>
+        Oh no...
+        {error.message}
+      </p>
+    );
+  }
 
   return (
     <div>

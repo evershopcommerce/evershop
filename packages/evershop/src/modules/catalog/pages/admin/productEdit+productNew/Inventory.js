@@ -47,7 +47,7 @@ export default function Inventory({ product }) {
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 15
-}
+};
 
 export const query = `
   query Query {

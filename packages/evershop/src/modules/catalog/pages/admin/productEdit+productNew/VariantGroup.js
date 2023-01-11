@@ -25,7 +25,7 @@ export default function VariantGroup({ product }) {
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 70
-}
+};
 
 export const query = `
 query Query {

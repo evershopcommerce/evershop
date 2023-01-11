@@ -8,7 +8,7 @@ const {
 const { get } = require('../../../../lib/util/get');
 
 module.exports = async (request, response, delegate) => {
-  let productId = await delegate.updateProduct;
+  const productId = await delegate.updateProduct;
   const connection = await delegate.getConnection;
   const categories = get(request, 'body.categories', []);
 

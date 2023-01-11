@@ -1,6 +1,6 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { pool } = require("../../../lib/mysql/connection");
-const { getProductsBaseQuery } = require("./getProductsBaseQuery");
+const { select } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../lib/mysql/connection');
+const { getProductsBaseQuery } = require('./getProductsBaseQuery');
 
 module.exports.getFilterableAttributes = async (categoryId) => {
   const productsQuery = await getProductsBaseQuery(categoryId);
@@ -40,7 +40,7 @@ module.exports.getFilterableAttributes = async (categoryId) => {
         options: [
           {
             optionId: attributeData[i].option_id,
-            optionText: attributeData[i].option_text,
+            optionText: attributeData[i].option_text
           }
         ]
       });
@@ -51,7 +51,7 @@ module.exports.getFilterableAttributes = async (categoryId) => {
       if (idx === -1) {
         attributes[index].options = attributes[index].options.concat({
           optionId: attributeData[i].option_id,
-          optionText: attributeData[i].option_text,
+          optionText: attributeData[i].option_text
         });
       } else {
         // eslint-disable-next-line no-plusplus
@@ -61,4 +61,4 @@ module.exports.getFilterableAttributes = async (categoryId) => {
   }
 
   return attributes;
-}
+};

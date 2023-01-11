@@ -1,11 +1,11 @@
-const isDevelopmentMode = require("../util/isDevelopmentMode");
-const isErrorHandlerTriggered = require("./isErrorHandlerTriggered");
-const { sortMiddlewares } = require("./sort");
-const { existsSync } = require("fs");
-const { parseFromFile } = require("./parseFromFile");
-const { noDublicateId } = require("./noDuplicateId");
-const { buildMiddlewareFunction } = require("./buildMiddlewareFunction");
-const { getRoutes } = require("../router/Router");
+const { existsSync } = require('fs');
+const isDevelopmentMode = require('../util/isDevelopmentMode');
+const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
+const { sortMiddlewares } = require('./sort');
+const { parseFromFile } = require('./parseFromFile');
+const { noDublicateId } = require('./noDuplicateId');
+const { buildMiddlewareFunction } = require('./buildMiddlewareFunction');
+const { getRoutes } = require('../router/Router');
 
 class Handler {
   static middlewares = [];
@@ -27,7 +27,7 @@ class Handler {
   }
 
   static getMiddlewareByRoute(route) {
-    const region = route.isApi ? "api" : "pages";
+    const region = route.isApi ? 'api' : 'pages';
     let middlewares = this.middlewares.filter((m) => (m.routeId === route.id || m.scope === 'app') && m.region === region);
 
     if (route.isAdmin === true) {
@@ -72,14 +72,13 @@ class Handler {
         } else {
           console.error(`Duplicate middleware id: ${middleware.id}`);
         }
-      }
-      );
+      });
     }
   }
 
   static middleware() {
     return (request, response, next) => {
-      const currentRoute = request.currentRoute;
+      const { currentRoute } = request;
       let middlewares;
       if (!currentRoute) {
         middlewares = this.getAppLevelMiddlewares('pages');
@@ -96,27 +95,25 @@ class Handler {
           next();
         } else if (currentError === errorHandlers.length - 1) {
           next(arguments[0]);
-        } else {
-          if (arguments.length > 0) {
-            // Call the error handler middleware if it is not called yet
-            if (!isErrorHandlerTriggered(response)) {
-              currentError++;
-              //console.log(errorHandlers[currentError]);
-              const middlewareFunc = errorHandlers[currentError]['middleware'];
-              middlewareFunc(arguments[0], request, response, eNext);
-            }
-          } else {
-            currentGood++;
-            //console.log(goodHandlers[currentGood]);
-            const middlewareFunc = goodHandlers[currentGood]['middleware'];
-            middlewareFunc(request, response, eNext);
+        } else if (arguments.length > 0) {
+          // Call the error handler middleware if it is not called yet
+          if (!isErrorHandlerTriggered(response)) {
+            currentError++;
+            // console.log(errorHandlers[currentError]);
+            const middlewareFunc = errorHandlers[currentError].middleware;
+            middlewareFunc(arguments[0], request, response, eNext);
           }
+        } else {
+          currentGood++;
+          // console.log(goodHandlers[currentGood]);
+          const middlewareFunc = goodHandlers[currentGood].middleware;
+          middlewareFunc(request, response, eNext);
         }
-      }
+      };
       // Run the middlewares
-      const middleware = goodHandlers[0]['middleware'];
+      const { middleware } = goodHandlers[0];
       middleware(request, response, eNext);
-    }
+    };
   }
 }
 

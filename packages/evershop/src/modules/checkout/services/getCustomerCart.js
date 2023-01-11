@@ -1,6 +1,6 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { pool } = require("../../../lib/mysql/connection");
-const { Cart } = require("./cart/Cart");
+const { select } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../lib/mysql/connection');
+const { Cart } = require('./cart/Cart');
 
 module.exports = exports;
 
@@ -31,7 +31,9 @@ exports.getCustomerCart = async (tokenPayLoad) => {
     .load(pool);
 
   if (cartBySid) {
-    cart = new Cart({ sid, customer_id, customer_email, customer_group_id, customer_full_name, ...cartBySid });
+    cart = new Cart({
+      sid, customer_id, customer_email, customer_group_id, customer_full_name, ...cartBySid
+    });
   } else {
     // Try to get the cart by the customer id
     const cartByCustomerId = await select()
@@ -41,13 +43,17 @@ exports.getCustomerCart = async (tokenPayLoad) => {
       .load(pool);
 
     if (cartByCustomerId) {
-      cart = new Cart({ sid, customer_id, customer_email, customer_group_id, customer_full_name, ...cartByCustomerId });
+      cart = new Cart({
+        sid, customer_id, customer_email, customer_group_id, customer_full_name, ...cartByCustomerId
+      });
     } else {
       // Create a new cart
-      cart = new Cart({ sid, customer_id, customer_email, customer_group_id, customer_full_name });
+      cart = new Cart({
+        sid, customer_id, customer_email, customer_group_id, customer_full_name
+      });
     }
   }
 
   await cart.build();
   return cart;
-}
+};

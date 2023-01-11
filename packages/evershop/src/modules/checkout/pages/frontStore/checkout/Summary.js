@@ -30,7 +30,7 @@ export default function Summary({ cart }) {
 export const layout = {
   areaId: 'checkoutPageRight',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -71,4 +71,4 @@ export const query = `
       }
     }
   }
-`
+`;

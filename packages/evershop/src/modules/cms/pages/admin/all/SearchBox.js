@@ -140,10 +140,10 @@ SearchBox.defaultProps = {
 export const layout = {
   areaId: 'header',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {
     searchAPI: url(routeId: "search")
   }
-`
+`;

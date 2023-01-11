@@ -1,12 +1,12 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { pool } = require("../../../lib/mysql/connection");
-const { Cart } = require("./cart/Cart");
+const { select } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../lib/mysql/connection');
+const { Cart } = require('./cart/Cart');
 
 module.exports = exports;
 
 /**
- * This function returns a Cart object by ID. 
- * @param {*} id 
+ * This function returns a Cart object by ID.
+ * @param {*} id
  * @returns {Promise<Cart>}
  */
 exports.getCartByUUID = async (uuid) => {
@@ -19,8 +19,8 @@ exports.getCartByUUID = async (uuid) => {
   if (!data) {
     return null;
   } else {
-    let cart = new Cart({ ...data });
+    const cart = new Cart({ ...data });
     await cart.build();
     return cart;
   }
-}
+};

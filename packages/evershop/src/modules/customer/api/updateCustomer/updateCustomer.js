@@ -26,7 +26,7 @@ module.exports = async (request, response, delegate, next) => {
     await update('customer')
       .given({
         ...request.body,
-        group_id: 1 //TODO: fix me
+        group_id: 1 // TODO: fix me
       })
       .where('uuid', '=', request.params.id)
       .execute(connection, false);
@@ -43,16 +43,16 @@ module.exports = async (request, response, delegate, next) => {
         ...updatedCustomer,
         links: [
           {
-            "rel": "customerGrid",
-            "href": buildUrl('customerGrid'),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'customerGrid',
+            href: buildUrl('customerGrid'),
+            action: 'GET',
+            types: ['text/xml']
           },
           {
-            "rel": "edit",
-            "href": buildUrl('customerEdit', { id: customer.uuid }),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'edit',
+            href: buildUrl('customerEdit', { id: customer.uuid }),
+            action: 'GET',
+            types: ['text/xml']
           }
         ]
       }

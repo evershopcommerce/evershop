@@ -2,12 +2,12 @@ import uniqid from 'uniqid';
 import React from 'react';
 import PropTypes from 'prop-types';
 import PubSub from 'pubsub-js';
+import { useQuery } from 'urql';
 import { Variant } from './Variant';
 import { Search } from './Search';
 import { VariantType } from './VariantType';
 import { Card } from '../../../../../cms/components/admin/Card';
 import { FORM_VALIDATED } from '../../../../../../lib/util/events';
-import { useQuery } from 'urql';
 
 const AttributesQuery = `
   query Query($filters: [FilterInput]) {
@@ -59,7 +59,7 @@ export function Variants({ variantAttributes, variantProducts }) {
       filters: [
         { key: 'code', operation: 'in', value: variantAttributes.map((a) => a.attributeCode).join(',') }
       ]
-    },
+    }
   });
 
   // eslint-disable-next-line no-unused-vars
@@ -119,7 +119,14 @@ export function Variants({ variantAttributes, variantProducts }) {
   const { data, fetching, error } = result;
 
   if (fetching) return <p>Loading...</p>;
-  if (error) return <p>Oh no... {error.message}</p>;
+  if (error) {
+    return (
+      <p>
+        Oh no...
+        {error.message}
+      </p>
+    );
+  }
 
   return (
     <div>

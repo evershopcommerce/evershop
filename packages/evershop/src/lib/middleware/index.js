@@ -8,7 +8,7 @@ const { addMiddleware } = require('./addMiddleware');
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
-let middlewareList = Handler.middlewares;
+const middlewareList = Handler.middlewares;
 
 exports.getAdminMiddlewares = function getAdminMiddlewares(routeId) {
   return sortMiddlewares(middlewareList.filter((m) => m.routeId === 'admin' || m.routeId === routeId || m.routeId === null));

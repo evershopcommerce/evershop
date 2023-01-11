@@ -1,8 +1,8 @@
-var schema = require('../../services/buildSchema');
 const { execute } = require('graphql');
-const isDevelopmentMode = require('../../../../lib/util/isDevelopmentMode');
 const { validate } = require('graphql/validation');
 const { parse } = require('graphql');
+let schema = require('../../services/buildSchema');
+const isDevelopmentMode = require('../../../../lib/util/isDevelopmentMode');
 const { getContext } = require('../../services/contextHelper');
 const { OK } = require('../../../../lib/util/httpStatus');
 
@@ -40,7 +40,7 @@ module.exports = async function graphql(request, response, delegate, next) {
       });
       if (data.errors) {
         // Create an Error instance with message and stack trace
-        console.log(data.errors)
+        console.log(data.errors);
         next(new Error(data.errors[0].message));
       } else {
         response.status(OK).json({
@@ -52,4 +52,4 @@ module.exports = async function graphql(request, response, delegate, next) {
     console.log('query', query);
     next(error);
   }
-}
+};

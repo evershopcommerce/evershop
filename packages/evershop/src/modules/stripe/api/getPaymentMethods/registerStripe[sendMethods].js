@@ -14,8 +14,8 @@ module.exports = async (request, response) => {
     return {
       methodCode: 'stripe',
       methodName: await getSetting('stripeDislayName', 'Stripe')
-    }
+    };
   } else {
-    return;
+
   }
 };

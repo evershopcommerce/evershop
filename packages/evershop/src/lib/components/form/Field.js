@@ -47,7 +47,7 @@ export function Field(props) {
   }, [field]);
 
   React.useEffect(() => {
-    PubSub.publishSync(FORM_FIELD_UPDATED, { name: name, value: fieldValue });
+    PubSub.publishSync(FORM_FIELD_UPDATED, { name, value: fieldValue });
   }, [fieldValue]);
 
   const onChangeFunc = (newValue) => {

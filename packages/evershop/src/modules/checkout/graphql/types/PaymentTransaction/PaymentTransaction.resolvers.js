@@ -1,5 +1,5 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { camelCase } = require("../../../../../lib/util/camelCase");
+const { select } = require('@evershop/mysql-query-builder');
+const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Order: {
@@ -11,4 +11,4 @@ module.exports = {
       return items.map((item) => camelCase(item));
     }
   }
-}
+};

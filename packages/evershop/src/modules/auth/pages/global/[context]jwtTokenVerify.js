@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
-const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { v4: uuidv4 } = require('uuid');
+const { select } = require('@evershop/mysql-query-builder');
+const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { getTokenCookieId } = require('../../services/getTokenCookieId');
 const { getTokenSecret } = require('../../services/getTokenSecret');
 const { generateToken } = require('../../services/generateToken');
 const { get } = require('../../../../lib/util/get');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 const { getAdminTokenCookieId } = require('../../services/getAdminTokenCookieId');
-const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 
 module.exports = async (request, response, delegate, next) => {
@@ -15,7 +15,7 @@ module.exports = async (request, response, delegate, next) => {
   // Get the jwt token from the cookies
   const token = request.cookies[cookieId];
   const sid = uuidv4();
-  const guestPayload = { user: null, sid: sid };
+  const guestPayload = { user: null, sid };
   // If there is no token, generate a new one for guest user
   if (!token) {
     // Issue a new token for guest user

@@ -14,7 +14,7 @@ export default function SaleStatistic({ api }) {
 
   useEffect(() => {
     if (window !== undefined) {
-      fetch((api + `?period=${period}`), {
+      fetch((`${api}?period=${period}`), {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -32,14 +32,15 @@ export default function SaleStatistic({ api }) {
   }, [period]);
 
   if (fetching) {
-    return <Card
-      title="Sale Statistic"
-    >
-      <div className='skeleton-wrapper-statistic'>
-        <div class="skeleton"></div>
-      </div>
-    </Card>
-
+    return (
+      <Card
+        title="Sale Statistic"
+      >
+        <div className="skeleton-wrapper-statistic">
+          <div className="skeleton" />
+        </div>
+      </Card>
+    );
   } else {
     return (
       <Card
@@ -90,10 +91,10 @@ SaleStatistic.propTypes = {
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
     api: url(routeId: "salestatistic")    
   }
-`
+`;

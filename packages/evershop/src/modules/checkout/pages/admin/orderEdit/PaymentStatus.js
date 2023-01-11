@@ -12,7 +12,7 @@ export default function PaymentStatus({ order: { paymentStatus } }) {
 export const layout = {
   areaId: 'pageHeadingLeft',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -25,4 +25,4 @@ export const query = `
       }
     }
   }
-`
+`;

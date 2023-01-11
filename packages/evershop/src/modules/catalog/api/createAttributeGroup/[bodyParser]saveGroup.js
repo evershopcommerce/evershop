@@ -20,7 +20,7 @@ module.exports = async (request, response, delegate, next) => {
       .where('attribute_group_id', '=', result.insertId)
       .load(pool);
 
-    response.status(OK)
+    response.status(OK);
     response.json({
       data: {
         ...group
@@ -28,7 +28,7 @@ module.exports = async (request, response, delegate, next) => {
     });
   } catch (e) {
     await rollback(connection);
-    response.status(INTERNAL_SERVER_ERROR)
+    response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,

@@ -8,7 +8,7 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
   const show = (e) => {
     e.preventDefault();
     setShowLogout(!showLogout);
-  }
+  };
 
   const logout = async () => {
     const response = await fetch(logoutUrl, {
@@ -22,40 +22,55 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
     } else {
       toast.error('Logout failed');
     }
-  }
+  };
 
   if (!adminUser) {
     return null;
   }
   const { fullName, email } = adminUser;
-  return <div className='admin-user flex flex-grow justify-end items-center'>
-    <div className='flex justify-items-start gap-1 justify-center'>
-      <div className='relative'>
-        <a className='first-letter' href="#" onClick={(e) => show(e)}>{fullName[0]}</a>
-        {showLogout && <div className='logout bg-background shadow p-2'>
-          <div>
+  return (
+    <div className="admin-user flex flex-grow justify-end items-center">
+      <div className="flex justify-items-start gap-1 justify-center">
+        <div className="relative">
+          <a className="first-letter" href="#" onClick={(e) => show(e)}>{fullName[0]}</a>
+          {showLogout && (
+          <div className="logout bg-background shadow p-2">
             <div>
-              Hello <span className='text-primary'>{fullName}!</span>
-            </div>
-            <div className='mt-1'>
-              <a className='text-critical' href={"#"} onClick={
+              <div>
+                Hello
+                {' '}
+                <span className="text-primary">
+                  {fullName}
+                  !
+              </span>
+              </div>
+              <div className="mt-1">
+                <a
+                  className="text-critical"
+                  href="#"
+                  onClick={
                 (e) => {
                   e.preventDefault();
                   logout();
                 }
-              }>Logout</a>
+              }
+                >
+                Logout
+                </a>
+              </div>
             </div>
           </div>
-        </div>}
+          )}
+        </div>
       </div>
     </div>
-  </div>;
+  );
 }
 
 export const layout = {
   areaId: 'header',
   sortOrder: 50
-}
+};
 
 export const query = `
   query Query {
@@ -67,4 +82,4 @@ export const query = `
     logoutUrl: url(routeId: "deleteAdminUserSession", params: [{ key: "id", value: getContextValue('sid') }]),
     loginPage: url(routeId: "adminLogin")
   }
-`
+`;

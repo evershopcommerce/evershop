@@ -1,4 +1,4 @@
-const isErrorHandlerTriggered = require("./isErrorHandlerTriggered");
+const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
 
 function noop() { }
 
@@ -9,7 +9,7 @@ function eNext(request, response, next) {
     } else {
       noop();
     }
-  }
+  };
 }
 
 module.exports = eNext;

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import produce from 'immer';
 import { toast } from 'react-toastify';
+import { useClient } from 'urql';
 import CustomerAddressForm from '../../../../../customer/components/Address/AddressForm/Index';
 import { Form } from '../../../../../../lib/components/form/Form';
-import { useClient } from 'urql';
 import { useCheckout } from '../../../../../../lib/context/checkout';
 
 const QUERY = `
@@ -47,7 +47,7 @@ export function StepContent({
         method="POST"
         action={addShippingAddressApi}
         id="checkoutShippingAddressForm"
-        isJSON={true}
+        isJSON
         btnText="Continue to payment"
         onSuccess={(response) => {
           if (!response.error) {
@@ -58,9 +58,9 @@ export function StepContent({
                 setShipmentInfo(produce(shipmentInfo, (draff) => {
                   draff.address = address;
                 }));
-              })
+              });
           } else {
-            toast.error(response.error.message)
+            toast.error(response.error.message);
           }
         }}
       >
@@ -69,7 +69,7 @@ export function StepContent({
           address={shipmentInfo.address}
           method={shipmentInfo.method}
         />
-        <input type={'hidden'} name={'type'} value={'shipping'} />
+        <input type="hidden" name="type" value="shipping" />
       </Form>
     </div>
   );
