@@ -1,3 +1,6 @@
+"""
+Look up for a Product
+"""
 type Product {
   productId: Int!
   uuid: String!

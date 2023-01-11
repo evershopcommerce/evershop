@@ -1,3 +1,6 @@
+"""
+Represents a weight value.
+"""
 type Weight {
   value: Float!
   unit: String!

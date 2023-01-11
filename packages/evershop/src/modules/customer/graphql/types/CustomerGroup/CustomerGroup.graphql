@@ -1,3 +1,6 @@
+"""
+Represents a customer group.
+"""
 type CustomerGroup {
   customerGroupId: Int!
   groupName: String!

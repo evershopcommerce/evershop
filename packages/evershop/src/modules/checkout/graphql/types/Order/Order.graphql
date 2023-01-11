@@ -1,3 +1,6 @@
+"""
+Retrieve an Order Address.
+"""
 type OrderAddress implements Address {
   orderAddressId: Int!
   uuid: String!
@@ -11,6 +14,9 @@ type OrderAddress implements Address {
   address2: String
 }
 
+"""
+Retrieve an Order Item.
+"""
 type OrdertItem implements ShoppingCartItem{
   orderItemId: ID!
   uuid: String!
@@ -35,6 +41,9 @@ type OrdertItem implements ShoppingCartItem{
   productUrl: String!
 }
 
+"""
+Retrieve an Order.
+"""
 type Order implements ShoppingCart{
   orderId: ID!
   uuid: String!
@@ -75,6 +84,9 @@ type Order implements ShoppingCart{
   shipment: Shipment
 }
 
+"""
+Retrieve an Order Activity.
+"""
 type Activity {
   orderActivityId: Int!
   comment: String
@@ -83,6 +95,9 @@ type Activity {
   updatedAt: DateTime
 }
 
+"""
+Retrieve an Order Shipment.
+"""
 type Shipment {
   shipmentId: Int!
   uuid: String!
@@ -93,6 +108,9 @@ type Shipment {
   updateShipmentApi: String!
 }
 
+"""
+Retrieve an list of order.
+"""
 type OrderCollection {
   items: [Order]
   currentPage: Int!

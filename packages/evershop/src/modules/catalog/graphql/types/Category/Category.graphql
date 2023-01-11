@@ -1,3 +1,6 @@
+"""
+The `Category` type represents a category object.
+"""
 type Category {
   categoryId: ID!
   uuid: String!
@@ -18,28 +21,43 @@ type Category {
   availableFilters: [FilterAttribute]
 }
 
+"""
+The `CategoryImage` type represents a category image object.
+"""
 type CategoryImage {
   path: String!
   url: String!
 }
 
+"""
+The `FilterInput` type represents a filter input object.
+"""
 input FilterInput {
   key: String!
   operation: String!
   value: String!
 }
 
+"""
+The `Filter` type represents a filter object.
+"""
 type Filter {
   key: String!
   operation: String!
   value: String!
 }
 
+"""
+The `FilterOption` type represents a filter option object.
+"""
 type FilterOption {
   optionId: Int!
   optionText: String!
 }
 
+"""
+The `FilterAttribute` type represents a filter attribute object.
+"""
 type FilterAttribute {
   attributeName: String!
   attributeCode: String!
@@ -47,6 +65,9 @@ type FilterAttribute {
   options: [FilterOption]
 }
 
+"""
+Returns a collection of categories.
+"""
 type CategoryCollection {
   items: [Category]
   currentPage: Int!
@@ -54,6 +75,9 @@ type CategoryCollection {
   currentFilters: [Filter]
 }
 
+"""
+Returns a collection of products.
+"""
 type ProductCollection {
   items: [Product]
   currentPage: Int!

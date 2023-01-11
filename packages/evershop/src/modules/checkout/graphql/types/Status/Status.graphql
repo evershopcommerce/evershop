@@ -1,3 +1,6 @@
+"""
+The `PaymentStatus` type defines the status of a payment.
+"""
 type PaymentStatus {
   name: String
   code: String!
@@ -5,6 +8,9 @@ type PaymentStatus {
   progress: String
 }
 
+"""
+The `ShipmentStatus` type defines the status of a shipment.
+"""
 type ShipmentStatus {
   name: String
   code: String!

@@ -1,3 +1,6 @@
+"""
+Single store setting
+"""
 type Setting {
   storeName: String
 }

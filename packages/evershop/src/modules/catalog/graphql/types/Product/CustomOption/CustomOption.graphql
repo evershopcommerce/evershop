@@ -1,3 +1,6 @@
+"""
+Represents a product option
+"""
 type Option {
   optionId: ID!
   optionName: String!
@@ -6,6 +9,9 @@ type Option {
   values: [OptionValue]
 }
 
+"""
+Represents a product option value
+"""
 type OptionValue {
   valueId: ID!
   value: String!

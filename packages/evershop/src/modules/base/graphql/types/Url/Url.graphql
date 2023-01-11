@@ -1,3 +1,6 @@
+"""
+A query parameter for a URL
+"""
 input UrlParam {
   key: String!
   value: String!
