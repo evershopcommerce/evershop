@@ -1,3 +1,6 @@
+"""
+Represents a payment transaction
+"""
 type PaymentTransaction {
   paymentTransactionId: Int!
   uuid: String!

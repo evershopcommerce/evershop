@@ -1,3 +1,6 @@
+"""
+Look up a customer by ID
+"""
 type Customer {
   customerId: Int!
   uuid: String!
@@ -14,6 +17,9 @@ type Customer {
   orders: [Order]
 }
 
+"""
+Return a collection of customers
+"""
 type CustomerCollection {
   items: [Customer]
   currentPage: Int!

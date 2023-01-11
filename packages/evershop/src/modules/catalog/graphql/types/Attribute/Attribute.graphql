@@ -1,3 +1,6 @@
+"""
+Represents a single attribute group
+"""
 type AttributeGroup {
   attributeGroupId: ID!
   uuid: String!
@@ -6,12 +9,18 @@ type AttributeGroup {
   attributes: [Attribute]
 }
 
+"""
+Represents a single attribute option
+"""
 type AttributeOption {
   attributeOptionId: ID!
   uuid: String!
   optionText: String!
 }
 
+"""
+Represents a single attribute
+"""
 type Attribute {
   attributeId: ID!
   uuid: String!
@@ -29,6 +38,9 @@ type Attribute {
   deleteApi: String!
 }
 
+"""
+Represents a collection of attributes
+"""
 type AttributeCollection {
   items: [Attribute]
   currentPage: Int!

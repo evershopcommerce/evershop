@@ -1,3 +1,6 @@
+"""
+Shopping Cart interface
+"""
 interface ShoppingCart {
   currency: String!
   customerId: Int
@@ -25,6 +28,9 @@ interface ShoppingCart {
   shippingNote: String
 }
 
+"""
+Shopping Cart Item interface
+"""
 interface ShoppingCartItem {
   productId: ID!
   productSku: String!
@@ -46,6 +52,9 @@ interface ShoppingCartItem {
   productUrl: String!
 }
 
+"""
+Address interface
+"""
 interface Address {
   fullName: String!
   postcode: String!
@@ -57,6 +66,9 @@ interface Address {
   address2: String
 }
 
+"""
+Represent a Cart Address
+"""
 type CartAddress implements Address {
   cartAddressId: Int!
   uuid: String!
@@ -70,6 +82,9 @@ type CartAddress implements Address {
   address2: String
 }
 
+"""
+Represent a Cart Item
+"""
 type CartItem implements ShoppingCartItem{
   cartItemId: ID!
   uuid: String!
@@ -95,6 +110,9 @@ type CartItem implements ShoppingCartItem{
   productUrl: String!
 }
 
+"""
+Represent a Cart
+"""
 type Cart implements ShoppingCart{
   cartId: ID!
   uuid: String!

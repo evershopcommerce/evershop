@@ -1,3 +1,6 @@
+"""
+Lookup CMS page by ID
+"""
 type CmsPage {
   cmsPageId: Int
   uuid: String!
@@ -15,6 +18,9 @@ type CmsPage {
   deleteApi: String!
 }
 
+"""
+Return a collection of CMS pages
+"""
 type CmsPageCollection {
   items: [CmsPage]
   currentPage: Int!

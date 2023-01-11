@@ -1,3 +1,6 @@
+"""
+A currency
+"""
 type Currency {
   name: String!
   code: String!

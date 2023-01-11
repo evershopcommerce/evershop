@@ -1,3 +1,6 @@
+"""
+Represents a checkout object in the store.
+"""
 type Checkout {
   cartId: String!
 }

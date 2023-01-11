@@ -1,3 +1,7 @@
+
+"""
+Represents a product variant attribute
+"""
 type VariantAttribute {
   attributeId: Int!
   attributeCode: String!
@@ -5,11 +9,17 @@ type VariantAttribute {
   options: [VariantAttributeOption]
 }
 
+"""
+Represents a product variant attribute option
+"""
 type VariantAttributeOption {
   optionId: Int!
   optionText: String!
 }
 
+"""
+Represents a product variant attribute index
+"""
 type VariantAttributeIndex {
   attributeId: ID!
   attributeCode: String!
@@ -17,12 +27,18 @@ type VariantAttributeIndex {
   optionText: String!
 }
 
+"""
+Represents a product variant
+"""
 type Variant {
   id: String!
   product: Product!
   attributes: [VariantAttributeIndex]!
 }
 
+"""
+Represents a product variant group
+"""
 type VariantGroup {
   variantGroupId: Int!
   variantAttributes: [VariantAttribute]!,
