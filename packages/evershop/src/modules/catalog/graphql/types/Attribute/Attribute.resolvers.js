@@ -167,7 +167,7 @@ module.exports = {
         .execute(pool);
       return results.map((result) => camelCase(result));
     },
-    editUrl: ({ attributeId }) => buildUrl('attributeEdit', { id: attributeId }),
+    editUrl: ({ uuid }) => buildUrl('attributeEdit', { id: uuid }),
     updateApi: (attribute, _, { pool }) => buildUrl('updateAttribute', { id: attribute.uuid }),
     deleteApi: (attribute, _, { pool }) => buildUrl('deleteAttribute', { id: attribute.uuid })
   }
