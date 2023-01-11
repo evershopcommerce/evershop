@@ -5,53 +5,52 @@ import { FORM_VALIDATED } from '../../../../../lib/util/events';
 import './Variants.scss';
 import { useAppDispatch } from '../../../../../lib/context/app';
 
-function isSelected(attributeCode, optionId, currentFilters = {}) {
-  return (
-    currentFilters[attributeCode] !== undefined
-    && parseInt(currentFilters[attributeCode], 10) === parseInt(optionId, 10)
-  );
-}
-
-function isAvailable(attributeCode, optionId, variants, currentFilters = {}) {
-  return true; // TODO: Complete me
-}
-
-export default function Variants({ product: { variantGroup: vs }, pageInfo: { url } }) {
-  const AppContextDispatch = useAppDispatch();
-  const attributes = vs ? vs.variantAttributes : [];
-  const variants = vs ? vs.items : [];
-  const [error, setError] = React.useState(null);
-  const currentProductUrl = url;
-  const getCurrentSelection = () => {
-    const currentSelection = {};
-    const url = new URL(currentProductUrl);
-    const params = new URLSearchParams(url.search);
-    for (const [key, value] of params.entries()) {
-      // Check if the key is a variant attribute
-      if (attributes.find((a) => a.attributeCode === key)) {
-        currentSelection[key] = value;
-      }
-    }
-
-    return currentSelection;
+export default function Variants({
+  product: {
+    variantGroup: vs
+  },
+  pageInfo: {
+    url: currentProductUrl
   }
-  const variantFilters = getCurrentSelection();
+}) {
+  const AppContextDispatch = useAppDispatch();
+  const [attributes, setAttributes] = React.useState(() => {
+    if (!vs) {
+      return [];
+    } else {
+      return vs.variantAttributes.map(attribute => {
+        const url = new URL(currentProductUrl);
+        const params = new URLSearchParams(url.search).entries();
+        const check = Array.from(params).find(
+          ([key, value]) => key === attribute.attributeCode
+            && attribute.options.find(option => parseInt(option.optionId) === parseInt(value))
+        );
+        if (check) {
+          return { ...attribute, selected: true, selectedOption: parseInt(check[1]) };
+        } else {
+          return { ...attribute, selected: false, selectedOption: null };
+        }
+      });
+    }
+  })
+  const attributesRef = React.useRef();
+  attributesRef.current = attributes;
+
+  const [error, setError] = React.useState(null);
 
   const validate = (formId, errors) => {
-    if (formId !== 'productForm') { return true; }
-
-    let flag = true;
-    attributes.forEach((a) => {
-      if (variantFilters[a.attributeCode] === undefined) {
-        flag = false;
-      }
-    });
-    if (flag === false) {
+    if (formId !== 'productForm') {
+      return true;
+    }
+    const attributes = attributesRef.current;
+    if (attributes.find((a) => a.selected === false)) {
       // eslint-disable-next-line no-param-reassign
       errors.variants = 'Missing variant';
       setError('Please select variant option');
       return false;
     } else {
+      delete errors.variants;
+      setError(null);
       return true;
     }
   };
@@ -66,25 +65,21 @@ export default function Variants({ product: { variantGroup: vs }, pageInfo: { ur
     };
   }, []);
 
-  const getUrl = (attributeCode, optionId) => {
-    const url = new URL(currentProductUrl);
-    if (!Object.keys(variantFilters).includes(attributeCode)
-      || parseInt(variantFilters[attributeCode], 10) !== parseInt(optionId, 10)) {
-      url.searchParams.set(attributeCode, optionId);
-    } else {
-      url.searchParams.delete(attributeCode);
-    }
-
-    return url;
-  };
-
   const onClick = async (attributeCode, optionId) => {
-    const url = new URL(getUrl(attributeCode, optionId), window.location.origin);
-    url.searchParams.delete('ajax', true);
-    url.searchParams.append('ajax', true);
+    const url = new URL(window.location.href);
+    url.searchParams.set('ajax', true);
+    url.searchParams.set(attributeCode, optionId);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
     history.pushState(null, "", url);
+    setAttributes(previous => {
+      return previous.map(a => {
+        if (a.attributeCode === attributeCode) {
+          return { ...a, selected: true, selectedOption: optionId }
+        }
+        return a;
+      })
+    })
   }
 
   return (
@@ -103,7 +98,7 @@ export default function Variants({ product: { variantGroup: vs }, pageInfo: { ur
             <input
               name={`variant_options[${i}][optionId]`}
               type="hidden"
-              value={variantFilters[a.attributeCode] ? variantFilters[a.attributeCode] : ''}
+              value={a.selectedOption}
             />
             <div className="mb-05 text-textSubdued uppercase">
               <span>{a.attribute_name}</span>
@@ -111,26 +106,20 @@ export default function Variants({ product: { variantGroup: vs }, pageInfo: { ur
             <ul className="variant-option-list flex justify-start">
               {options.map((o) => {
                 let className = 'mr-05';
-                if (isSelected(a.attributeCode, o.optionId, variantFilters)) {
+                if (a.selected && a.selectedOption === o.optionId) {
                   className = 'selected mr-05';
                 }
-                if (isAvailable(a.attributeCode, o.optionId, variants, variantFilters)) {
-                  return (
-                    <li key={o.optionId} className={className}>
-                      <a
-                        href={"#"}
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          await onClick(a.attributeCode, o.optionId);
-                        }}
-                      >{o.optionText}</a>
-                    </li>
-                  );
-                } else {
-                  return <li key={o.optionId} className="un-available mr-05">
-                    <span>{o.optionText}</span>
-                  </li>;
-                }
+                return (
+                  <li key={o.optionId} className={className}>
+                    <a
+                      href={"#"}
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        await onClick(a.attributeCode, o.optionId);
+                      }}
+                    >{o.optionText}</a>
+                  </li>
+                );
               })}
             </ul>
           </div>

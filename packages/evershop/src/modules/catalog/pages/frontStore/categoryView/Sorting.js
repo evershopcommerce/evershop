@@ -57,7 +57,7 @@ export default function Sorting() {
           <Select
             className="form-control"
             onChange={async (e) => await onChangeSort(e)}
-            value={sortBy.toLowerCase()}
+            value={sortBy}
             options={[{
               value: '',
               text: 'Please select'
@@ -67,7 +67,7 @@ export default function Sorting() {
         </div>
         <div className="sort-direction self-center">
           <a onClick={(e) => onChangeDirection(e)} href="#">
-            {sortOrder.toLowerCase() === 'desc' ? (
+            {sortOrder === 'desc' ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="15"

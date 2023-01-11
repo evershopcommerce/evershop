@@ -99,11 +99,11 @@ export default function ProductForm({ product, action, cart }) {
   const [toastId, setToastId] = useState();
   const [error, setError] = useState();
   const appContext = useAppState();
-  const dispatch = useAppDispatch();
+  const { setData } = useAppDispatch();
 
   const onSuccess = (response) => {
     if (!response.error) {
-      dispatch(produce(appContext, (draff) => {
+      setData(produce(appContext, (draff) => {
         // eslint-disable-next-line no-param-reassign
         draff.cart = appContext.cart || {};
         draff.cart.totalQty = response.data.count;
