@@ -49,12 +49,12 @@ function renderDevelopment(request, response) {
                 <body>
                 <div id="app" className="bg-background"></div>
                  ${normalizeAssets(assetsByChunkName[route.id])
-    .filter((path) => path.endsWith('.js'))
-    .map((path) => `<script defer src="/${response.statusCode === 404
-      ? request.currentRoute?.isAdmin
-        ? 'adminNotFound.js'
-        : 'notFound.js' : path}"></script>`)
-    .join('\n')}
+      .filter((path) => path.endsWith('.js'))
+      .map((path) => `<script defer src="/${response.statusCode === 404
+        ? request.currentRoute?.isAdmin
+          ? 'adminNotFound.js'
+          : 'notFound.js' : path}"></script>`)
+      .join('\n')}
                 </body>
             </html>
             `);
@@ -62,7 +62,9 @@ function renderDevelopment(request, response) {
 
 function renderProduction(request, response) {
   const routes = getRoutes();
-  const route = response.statusCode === 404 ? routes.find((route) => route.id === 'notFound') : request.currentRoute;
+  const notFound = routes.find((route) => route.id === 'notFound');
+  const adminNotFound = routes.find((route) => route.id === 'adminNotFound');
+  const route = response.statusCode === 404 ? (request.currentRoute?.isAdmin ? adminNotFound : notFound) : request.currentRoute;
   const { renderHtml } = require(path.resolve(getRouteBuildPath(route), 'server', 'index.js'));
   const assets = require(path.resolve(getRouteBuildPath(route), 'client', 'index.json'));
   const contextValue = {
