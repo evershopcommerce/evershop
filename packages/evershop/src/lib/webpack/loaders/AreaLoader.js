@@ -39,5 +39,5 @@ module.exports = exports = function areaLoader(c) {
   });
 
   content = `Area.defaultProps.components = ${inspect(areas, { depth: 5 }).replace(/"---/g, '').replace(/---"/g, '')} `;
-  return c.replace('/**render*/', content).replace('/eHot', `/eHot/${routeId}`);
+  return c.replace('/** render */', content).replace('/eHot', `/eHot/${routeId}`);
 };
