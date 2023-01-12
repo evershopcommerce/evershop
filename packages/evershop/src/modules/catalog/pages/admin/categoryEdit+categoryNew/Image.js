@@ -32,10 +32,10 @@ export default function Image({ category, imageUploadUrl }) {
       return response.json();
     })
       .then((response) => {
-        if (get(response, 'success') === true) {
+        if (!response.error) {
           setImage(response.data.files[0]);
         } else {
-          toast.error(get(response, 'message', 'Failed!'));
+          toast.error(get(response, 'error.message', 'Failed!'));
         }
       })
       .catch(
