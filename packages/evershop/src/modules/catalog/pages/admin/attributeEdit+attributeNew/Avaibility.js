@@ -54,6 +54,7 @@ export default function General({ attribute }) {
           name="sort_order"
           label="Sort order"
           value={attribute?.sortOrder}
+          validationRules={['notEmpty', 'number']}
         />
       </Card.Session>
     </Card>
