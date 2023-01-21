@@ -16,6 +16,9 @@ module.exports = async (request, response, delegate) => {
   // Looping attributes array
   for (let i = 0; i < attributes.length; i++) {
     const attribute = attributes[i];
+    if (attribute.value === null || attribute.value === undefined) {
+      continue;
+    }
     const attr = await select()
       .from('attribute')
       .where('attribute_code', '=', attribute.attribute_code)
