@@ -39,5 +39,6 @@ module.exports = async (request, response, delegate) => {
 
   await del('attribute_group_link')
     .where('group_id', 'IN', shouldDelete)
+    .and('attribute_id', '=', attributeId)
     .execute(connection);
 };
