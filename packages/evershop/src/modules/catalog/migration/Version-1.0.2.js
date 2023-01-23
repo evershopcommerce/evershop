@@ -62,4 +62,11 @@ module.exports = exports = async () => {
   await execute(pool, 'ALTER TABLE category ADD UNIQUE KEY `CATEGORY_UUID` (`uuid`)');
 
   await execute(pool, 'ALTER TABLE product_category ADD KEY `FK_CATEGORY_PRODUCT_LINK` (`category_id`)');
+
+  await execute(pool, `CREATE TRIGGER \`TRIGGER_ATTRIBUTE_AFTER_UPDATE\` AFTER UPDATE ON \`attribute\` FOR EACH ROW BEGIN
+
+                    IF (OLD.type = 'select' AND NEW.type <> 'select') THEN
+                                DELETE FROM \`variant_group\` WHERE (\`variant_group\`.\`attribute_one\` = OLD.attribute_id OR \`variant_group\`.\`attribute_two\` = OLD.attribute_id OR \`variant_group\`.\`attribute_three\` = OLD.attribute_id OR \`variant_group\`.\`attribute_four\` = OLD.attribute_id OR \`variant_group\`.\`attribute_five\` = OLD.attribute_id);
+                            END IF;
+                    END`);
 };

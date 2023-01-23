@@ -12,9 +12,8 @@ const { getTokenSecret } = require('../../services/getTokenSecret');
 
 module.exports = async (request, response, delegate, next) => {
   const message = 'Unauthorized';
-  const cookieId = request.currentRoute.isAdmin ? getAdminTokenCookieId() : getTokenCookieId();
-  // Get the jwt token from the cookies
-  const token = request.cookies[cookieId];
+  // Get the jwt token from the cookies, admin token has higher priority
+  const token = request.cookies[getAdminTokenCookieId()] || request.cookies[getTokenCookieId()];
   // If there is no token, generate a new one for guest user
   if (!token) {
     // Issue a new token for guest user

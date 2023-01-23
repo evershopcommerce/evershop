@@ -8,13 +8,13 @@ export const VariantType = PropTypes.shape({
   })),
   editUrl: PropTypes.string,
   id: PropTypes.string,
-  images: PropTypes.arrayOf(PropTypes.shape({
+  image: PropTypes.shape({
 
-  })),
+  }),
   price: PropTypes.number,
   qty: PropTypes.string,
   sku: PropTypes.string,
   status: PropTypes.number,
-  variantProductId: PropTypes.number,
+  uuid: PropTypes.string,
   visibility: PropTypes.number
 });

@@ -29,9 +29,7 @@ export function Search({ addVariant, variants }) {
 
   return (
     <div className="flex justify-between mt-1">
-      <div className="self-center">
-        <a href="#" onClick={(e) => addVariant(e)}><span className="text-interactive hover:underline">Add a new variant</span></a>
-      </div>
+
       <div className="self-center">
         <div className="autocomplete-search">
           <Input

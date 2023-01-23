@@ -88,6 +88,7 @@ export function Form(props) {
   };
 
   const submit = async (e) => {
+    console.log('submitting form', id);
     e.preventDefault();
     setState('submitting');
     try {
@@ -160,7 +161,7 @@ export function Form(props) {
         fields, addField, updateField, removeField, state, ...props
       }}
     >
-      <FormDispatch.Provider value={{ submit }}>
+      <FormDispatch.Provider value={{ submit, validate }}>
         <form
           ref={formRef}
           id={id}
