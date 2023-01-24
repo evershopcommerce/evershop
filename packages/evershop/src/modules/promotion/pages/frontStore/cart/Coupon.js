@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { get } from '../../../../../lib/util/get';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Form } from '../../../../../lib/components/form/Form';
-import { Hidden } from '../../../../../lib/components/form/fields/Hidden';
 import Button from '../../../../../lib/components/form/Button';
+import { useAppDispatch } from '../../../../../lib/context/app';
 
 export default function CouponForm({ cart: { applyCouponApi } }) {
+  const AppContextDispatch = useAppDispatch();
+
   return (
     <div className="mt-4">
       <Form
@@ -15,13 +16,13 @@ export default function CouponForm({ cart: { applyCouponApi } }) {
         isJSON
         action={applyCouponApi}
         submitBtn={false}
-        onSuccess={(response) => {
+        onSuccess={async (response) => {
           if (!response.error) {
+            const currentUrl = window.location.href;
+            const url = new URL(currentUrl, window.location.origin);
+            url.searchParams.set('ajax', true);
+            await AppContextDispatch.fetchPageData(url);
             toast.success('Coupon applied successfully!');
-            // Wait for 1.5 second to reload the page
-            setTimeout(() => {
-              window.location.reload();
-            }, 1500);
           } else {
             toast.error('Invalid coupon');
           }
@@ -44,8 +45,8 @@ export default function CouponForm({ cart: { applyCouponApi } }) {
             <Button
               title="Apply"
               onAction={
-              () => { document.getElementById('couponForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
-            }
+                () => { document.getElementById('couponForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
+              }
             />
           </div>
         </div>
