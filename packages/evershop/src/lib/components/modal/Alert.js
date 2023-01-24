@@ -74,7 +74,7 @@ function Alert({ children }) {
               <Card.Session>
                 {alert.content}
               </Card.Session>
-              {alert.primaryAction || alert.secondaryAction && (
+              {(alert.primaryAction !== undefined || alert.secondaryAction !== undefined) && (
                 <Card.Session>
                   <div className="flex justify-end space-x-1">
                     {alert.primaryAction && (
