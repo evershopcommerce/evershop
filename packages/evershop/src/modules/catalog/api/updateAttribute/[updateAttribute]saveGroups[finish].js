@@ -31,10 +31,15 @@ module.exports = async (request, response, delegate) => {
   });
 
   for (let index = 0; index < groups.length; index++) {
-    const group = groups[index];
-    await insertOnUpdate('attribute_group_link')
-      .given({ attribute_id: attributeId, group_id: group })
-      .execute(connection);
+    const group = await select()
+      .from('attribute_group')
+      .where('attribute_group_id', '=', groups[index])
+      .load(connection, false);
+    if (group) {
+      await insertOnUpdate('attribute_group_link')
+        .given({ attribute_id: attributeId, group_id: groups[index] })
+        .execute(connection);
+    }
   }
 
   await del('attribute_group_link')
