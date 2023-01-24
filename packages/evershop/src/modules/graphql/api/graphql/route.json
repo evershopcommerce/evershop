@@ -3,5 +3,6 @@
     "GET",
     "POST"
   ],
-  "path": "/graphql"
+  "path": "/graphql",
+  "access": "public"
 }

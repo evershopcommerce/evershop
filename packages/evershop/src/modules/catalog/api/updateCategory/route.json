@@ -2,5 +2,6 @@
   "methods": [
     "PATCH"
   ],
-  "path": "/categories/:id"
+  "path": "/categories/:id",
+  "access": "private"
 }

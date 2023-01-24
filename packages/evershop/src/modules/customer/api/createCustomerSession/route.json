@@ -2,5 +2,6 @@
   "methods": [
     "POST"
   ],
-  "path": "/customers/sessions"
+  "path": "/customers/sessions",
+  "access": "public"
 }

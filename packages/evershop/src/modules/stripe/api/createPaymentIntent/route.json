@@ -2,5 +2,6 @@
   "methods": [
     "POST"
   ],
-  "path": "/stripe/paymentIntents"
+  "path": "/stripe/paymentIntents",
+  "access": "public"
 }

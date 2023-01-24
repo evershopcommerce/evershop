@@ -2,5 +2,6 @@
   "methods": [
     "DELETE"
   ],
-  "path": "/user/sessions/:id"
+  "path": "/user/sessions/:id",
+  "access": "public"
 }

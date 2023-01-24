@@ -44,7 +44,8 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
         route.path,
         route.isApi,
         route.folder,
-        route.payloadSchema
+        route.payloadSchema,
+        route.access
       );
     });
   }

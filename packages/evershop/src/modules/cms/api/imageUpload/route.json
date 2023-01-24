@@ -2,5 +2,6 @@
   "methods": [
     "POST"
   ],
-  "path": "/images/*"
+  "path": "/images/*",
+  "access": "private"
 }

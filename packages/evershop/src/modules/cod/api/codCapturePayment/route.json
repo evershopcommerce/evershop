@@ -2,5 +2,6 @@
   "methods": [
     "POST"
   ],
-  "path": "/cod/captures"
+  "path": "/cod/captures",
+  "access": "private"
 }

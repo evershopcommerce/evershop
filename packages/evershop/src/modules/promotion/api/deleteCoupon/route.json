@@ -2,5 +2,6 @@
   "methods": [
     "DELETE"
   ],
-  "path": "/coupons/:id"
+  "path": "/coupons/:id",
+  "access": "private"
 }

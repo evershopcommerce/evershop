@@ -2,5 +2,6 @@
   "methods": [
     "POST"
   ],
-  "path": "/settings"
+  "path": "/settings",
+  "access": "private"
 }

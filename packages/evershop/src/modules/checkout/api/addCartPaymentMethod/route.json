@@ -2,5 +2,6 @@
   "methods": [
     "POST"
   ],
-  "path": "/carts/:cart_id/paymentMethods"
+  "path": "/carts/:cart_id/paymentMethods",
+  "access": "public"
 }

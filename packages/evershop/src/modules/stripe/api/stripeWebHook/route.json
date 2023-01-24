@@ -2,5 +2,6 @@
   "methods": [
     "POST"
   ],
-  "path": "/stripe/webhook"
+  "path": "/stripe/webhook",
+  "access": "public"
 }

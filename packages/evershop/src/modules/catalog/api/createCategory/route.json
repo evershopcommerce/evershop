@@ -2,5 +2,6 @@
   "methods": [
     "POST"
   ],
-  "path": "/categories"
+  "path": "/categories",
+  "access": "private"
 }

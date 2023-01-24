@@ -12,13 +12,14 @@ module.exports = exports = {};
  * @param   {string}  path    The path of route
  *
  */
-exports.registerFrontStoreRoute = (id, method, path, isApi = false, folder = '', payloadSchema) => {
+exports.registerFrontStoreRoute = (id, method, path, isApi = false, folder = '', payloadSchema, access) => {
   // const route = validateRoute(id, method, path);
   const route = {
     id: String(id),
     method,
     path,
-    payloadSchema
+    payloadSchema,
+    access
   };
   route.isAdmin = false;
   route.isApi = isApi;

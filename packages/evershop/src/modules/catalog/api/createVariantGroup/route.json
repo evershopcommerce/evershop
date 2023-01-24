@@ -2,5 +2,6 @@
   "methods": [
     "POST"
   ],
-  "path": "/variantGroups"
+  "path": "/variantGroups",
+  "access": "private"
 }

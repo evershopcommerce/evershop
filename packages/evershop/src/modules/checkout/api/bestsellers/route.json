@@ -2,5 +2,6 @@
   "methods": [
     "GET"
   ],
-  "path": "/lifetimesales"
+  "path": "/lifetimesales",
+  "access": "private"
 }

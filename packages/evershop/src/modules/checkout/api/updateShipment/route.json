@@ -2,5 +2,6 @@
   "methods": [
     "PATCH"
   ],
-  "path": "/orders/:order_id/shipments/:shipment_id"
+  "path": "/orders/:order_id/shipments/:shipment_id",
+  "access": "private"
 }
