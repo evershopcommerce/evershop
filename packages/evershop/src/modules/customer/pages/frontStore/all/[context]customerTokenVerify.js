@@ -15,10 +15,8 @@ module.exports = async (request, response, delegate, next) => {
   const token = request.cookies[cookieId];
   const sid = uuidv4();
   const guestPayload = { customer: null, sid };
-  console.log(token)
   // If there is no token, generate a new one for guest user
   if (!token) {
-    console.log('no token')
     // Issue a new token for guest user
     const newToken = generateToken(guestPayload, getTokenSecret());
     // Set the new token in the cookies
@@ -30,7 +28,6 @@ module.exports = async (request, response, delegate, next) => {
   } else {
     // Get user from token
     const tokenPayload = jwt.decode(token, { complete: true, json: true });
-    console.log(tokenPayload);
     let secret;
     // Get the secret from database
     const check = await select()
@@ -38,7 +35,7 @@ module.exports = async (request, response, delegate, next) => {
       .where('sid', '=', get(tokenPayload, 'payload.sid', null))
       .and('user_id', '=', get(tokenPayload, 'payload.customer.uuid', null))
       .load(pool);
-    console.log(check)
+
     if (!check) { // This is guest user
       secret = getTokenSecret();
     } else {
@@ -48,7 +45,6 @@ module.exports = async (request, response, delegate, next) => {
     // Verify the token
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
-        console.log(err);
         // Issue a new token for guest user
         const newToken = generateToken(guestPayload, getTokenSecret());
         setContextValue(request, 'customerTokenPayload', guestPayload);
