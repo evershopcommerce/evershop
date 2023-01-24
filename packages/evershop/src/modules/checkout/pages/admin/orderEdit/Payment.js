@@ -59,7 +59,7 @@ export default function OrderSummary({
             },
             {
               component: { default: Discount },
-              ps: { code: coupon, discount: discountAmount.text },
+              props: { code: coupon, discount: discountAmount.text },
               sortOrder: 15
             },
             {
