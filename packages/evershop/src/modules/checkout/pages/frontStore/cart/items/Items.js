@@ -4,8 +4,11 @@ import { toast } from 'react-toastify';
 import { ItemOptions } from './ItemOptions';
 import { ItemVariantOptions } from './ItemVariantOptions';
 import './Items.scss';
+import { useAppDispatch } from '../../../../../../lib/context/app';
 
 function Items({ items }) {
+  const AppContextDispatch = useAppDispatch();
+
   const removeItem = async (item) => {
     const response = await fetch(item.removeApi, {
       method: 'DELETE',
@@ -14,7 +17,10 @@ function Items({ items }) {
       }
     });
     if (response.ok) {
-      location.reload();
+      const currentUrl = window.location.href;
+      const url = new URL(currentUrl, window.location.origin);
+      url.searchParams.set('ajax', true);
+      await AppContextDispatch.fetchPageData(url);
     } else {
       // TODO: display message
       const data = await response.json();
