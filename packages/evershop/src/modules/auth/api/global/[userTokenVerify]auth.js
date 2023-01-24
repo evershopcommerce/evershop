@@ -5,15 +5,15 @@ module.exports = (request, response, delegate, next) => {
   // Get the current route
   const { currentRoute } = request;
   // If the current route is public, continue to the next middleware
-  // Missing access property means public
-  if (!currentRoute?.access || currentRoute?.access === 'public') {
+  // Missing access property means private
+  if (currentRoute?.access === 'public') {
     next();
     return;
   }
 
   // Get the user from the context.
   const user = getContextValue(request, 'user');
-  if (!user) {
+  if (!user?.uuid) {
     // Response with 401 status code
     response.status(UNAUTHORIZED);
     response.json({

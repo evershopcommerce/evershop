@@ -2,5 +2,6 @@
   "methods": [
     "GET"
   ],
-  "path": "/salestatistic"
+  "path": "/salestatistic",
+  "access": "private"
 }

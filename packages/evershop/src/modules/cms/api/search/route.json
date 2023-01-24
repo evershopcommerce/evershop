@@ -2,5 +2,6 @@
   "methods": [
     "GET"
   ],
-  "path": "/search"
+  "path": "/search",
+  "access": "private"
 }

@@ -55,7 +55,8 @@ exports.scanForRoutes = (path, isAdmin, isApi) => {
             isAdmin,
             isApi,
             folder: join(path, r),
-            payloadSchema
+            payloadSchema,
+            access: routeJson?.access || 'private'
           };
         } else {
           return false;

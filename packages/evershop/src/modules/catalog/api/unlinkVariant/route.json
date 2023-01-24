@@ -2,5 +2,6 @@
   "methods": [
     "DELETE"
   ],
-  "path": "/variants/:id"
+  "path": "/variants/:id",
+  "access": "private"
 }

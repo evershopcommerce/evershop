@@ -2,5 +2,6 @@
   "methods": [
     "GET"
   ],
-  "path": "/variants"
+  "path": "/variants",
+  "access": "private"
 }

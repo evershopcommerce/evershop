@@ -2,5 +2,6 @@
   "methods": [
     "POST"
   ],
-  "path": "/cart/mine/items"
+  "path": "/cart/mine/items",
+  "access": "public"
 }

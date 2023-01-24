@@ -2,5 +2,6 @@
   "methods": [
     "DELETE"
   ],
-  "path": "/pages/:id"
+  "path": "/pages/:id",
+  "access": "private"
 }

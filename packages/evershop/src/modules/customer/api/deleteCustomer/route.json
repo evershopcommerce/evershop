@@ -2,5 +2,6 @@
   "methods": [
     "DELETE"
   ],
-  "path": "/customers/:id"
+  "path": "/customers/:id",
+  "access": "public"
 }

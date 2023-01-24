@@ -53,6 +53,7 @@ module.exports = async (request, response, delegate, next) => {
         });
       } else {
         setContextValue(request, 'userTokenPayload', decoded);
+        //TODO: Get user roles from database
         setContextValue(request, 'user', { ...decoded.user, roles: '*' });
         next();
       }

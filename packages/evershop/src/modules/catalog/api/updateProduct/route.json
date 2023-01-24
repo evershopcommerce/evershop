@@ -2,5 +2,6 @@
   "methods": [
     "PATCH"
   ],
-  "path": "/products/:id"
+  "path": "/products/:id",
+  "access": "private"
 }
