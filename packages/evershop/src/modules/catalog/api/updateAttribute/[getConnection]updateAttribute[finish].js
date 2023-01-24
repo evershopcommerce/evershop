@@ -18,6 +18,8 @@ module.exports = async (request, response, delegate) => {
   }
 
   try {
+    // We do not want to update the type of the attribute
+    delete data.type;
     await update('attribute')
       .given(data)
       .where('uuid', '=', request.params.id)
@@ -29,5 +31,8 @@ module.exports = async (request, response, delegate) => {
     }
   }
 
-  return await select().from('attribute').where('uuid', '=', request.params.id).load(pool);
+  return await select()
+    .from('attribute')
+    .where('uuid', '=', request.params.id)
+    .load(pool);
 };
