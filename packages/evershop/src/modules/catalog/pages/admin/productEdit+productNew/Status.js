@@ -18,7 +18,7 @@ const categoryQuery = `
 export function Category({
   product
 }) {
-  const categories = product ? product.categories : [];
+  const [categories, setCategories] = React.useState(product ? product.categories : []);
   const [result, reexecuteQuery] = useQuery({
     query: categoryQuery
   });
@@ -43,7 +43,11 @@ export function Category({
         hideSelectedOptions
         isMulti
         defaultValue={categories}
+        onChange={value => setCategories(value.map(item => item.value))}
       />
+      {categories.length === 0 && (
+        <input type="hidden" name="categories[0]" value="0" />
+      )}
     </div>
   );
 }
