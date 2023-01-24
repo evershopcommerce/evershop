@@ -4,7 +4,6 @@ const { mergeResolvers } = require('@graphql-tools/merge');
 const { CONSTANTS } = require('../../../lib/helpers');
 const { getEnabledExtensions } = require('../../../../bin/extension');
 
-
 module.exports.buildResolvers = function buildResolvers() {
   const typeSources = [path.join(CONSTANTS.MOLDULESPATH, '*/graphql/types/**/*.resolvers.js')];
   const extensions = getEnabledExtensions();

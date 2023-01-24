@@ -15,7 +15,7 @@
 .card-section {
     border-color: var(--divider);
     padding: 2rem;
-    .card-section {
+    >.card-section {
         padding: 0;
     }
 }

@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { Field } from '../../../../../lib/components/form/Field';
@@ -10,16 +10,16 @@ function Setting({ discountAmount, startDate = '', endDate = '' }) {
     <div className="grid grid-cols-3 gap-2 form-field-container">
       <div>
         <Field
-          type='text'
-          name='discount_amount'
+          type="text"
+          name="discount_amount"
           value={discountAmount}
           validationRules={['notEmpty']}
-          label='Discount amount'
+          label="Discount amount"
         />
       </div>
       <div>
         <Field
-          type='date'
+          type="date"
           name="start_date"
           label="Start date"
           value={startDate}
@@ -27,7 +27,7 @@ function Setting({ discountAmount, startDate = '', endDate = '' }) {
       </div>
       <div>
         <Field
-          type='date'
+          type="date"
           name="end_date"
           label="End date"
           value={endDate}
@@ -41,7 +41,7 @@ Setting.propTypes = {
   discountAmount: PropTypes.number,
   endDate: PropTypes.string,
   startDate: PropTypes.string
-}
+};
 
 export default function General({ coupon = {} }) {
   return (
@@ -108,7 +108,7 @@ export default function General({ coupon = {} }) {
 export const layout = {
   areaId: 'couponEditGeneral',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

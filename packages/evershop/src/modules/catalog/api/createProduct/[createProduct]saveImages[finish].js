@@ -2,9 +2,9 @@ const { insert, update } = require('@evershop/mysql-query-builder');
 const sharp = require('sharp');
 const config = require('config');
 const path = require('path');
+const { existsSync } = require('fs');
 const { get } = require('../../../../lib/util/get');
 const { CONSTANTS } = require('../../../../lib/helpers');
-const { existsSync } = require('fs');
 
 module.exports = async (request, response, deledate) => {
   let gallery = get(request, 'body.images', []);
@@ -12,7 +12,7 @@ module.exports = async (request, response, deledate) => {
   // Wait for product saving to be completed
   const result = await deledate.createProduct;
 
-  let productId = result.insertId;
+  const productId = result.insertId;
   const connection = await deledate.getConnection;
   // eslint-disable-next-line no-useless-catch
   try {

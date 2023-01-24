@@ -1,10 +1,13 @@
-const { assign } = require('../../../../lib/util/assign');
+const { setContextValue } = require("../../../graphql/services/contextHelper");
 
-module.exports = async (request, response, stack, next) => {
+module.exports = async (request, response, delegate, next) => {
   if (response.statusCode !== 404) {
     next();
   } else {
-    assign(response.context, { metaTitle: 'Not found', metaDescription: 'Not found' });
+    setContextValue(request, 'pageInfo', {
+      title: 'Not found',
+      description: 'Page not found'
+    });
     next();
   }
 };

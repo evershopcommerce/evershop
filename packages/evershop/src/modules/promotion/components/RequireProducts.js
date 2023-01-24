@@ -45,7 +45,7 @@ export function RequiredProducts({ requiredProducts }) {
             <th><span>Operator</span></th>
             <th><span>Value</span></th>
             <th><span>Minimum quantity</span></th>
-            <th></th>
+            <th />
           </tr>
         </thead>
         <tbody>
@@ -91,8 +91,8 @@ export function RequiredProducts({ requiredProducts }) {
                         ]}
                       />
                     </select>
-                    <div className="field-border"></div>
-                    <div className="field-suffix"><svg viewBox="0 0 20 20" width="1rem" height="1.25rem" focusable="false" aria-hidden="true"><path d="m10 16-4-4h8l-4 4zm0-12 4 4H6l4-4z"></path></svg></div>
+                    <div className="field-border" />
+                    <div className="field-suffix"><svg viewBox="0 0 20 20" width="1rem" height="1.25rem" focusable="false" aria-hidden="true"><path d="m10 16-4-4h8l-4 4zm0-12 4 4H6l4-4z" /></svg></div>
                   </div>
                 </div>
               </td>
@@ -110,49 +110,49 @@ export function RequiredProducts({ requiredProducts }) {
                         noOuter
                         coreComponents={[
                           {
-                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="=">Equal</option> : (null) },
+                            component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="=">Equal</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 10,
                             id: 'couponRequiredProductOperatorEqual'
                           },
                           {
-                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="!=">Not equal</option> : (null) },
+                            component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="!=">Not equal</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 15,
                             id: 'couponRequiredProductOperatorNotEqual'
                           },
                           {
-                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value=">">Greater</option> : (null) },
+                            component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value=">">Greater</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 20,
                             id: 'couponRequiredProductOperatorGreater'
                           },
                           {
-                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value=">=">Greater or equal</option> : (null) },
+                            component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value=">=">Greater or equal</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 25,
                             id: 'couponRequiredProductOperatorGreaterOrEqual'
                           },
                           {
-                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="<">Smaller</option> : (null) },
+                            component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="<">Smaller</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 30,
                             id: 'couponRequiredProductOperatorSmaller'
                           },
                           {
-                            component: { default: ({ compareKey }) => ['price'].includes(compareKey) ? <option value="<=">Equal or smaller</option> : (null) },
+                            component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="<=">Equal or smaller</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 35,
                             id: 'couponRequiredProductOperatorEqualOrSmaller'
                           },
                           {
-                            component: { default: ({ compareKey }) => ['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="IN">In</option> : (null) },
+                            component: { default: ({ compareKey }) => (['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="IN">In</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 40,
                             id: 'couponRequiredProductOperatorIn'
                           },
                           {
-                            component: { default: ({ compareKey }) => ['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="NOT IN">Not in</option> : (null) },
+                            component: { default: ({ compareKey }) => (['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="NOT IN">Not in</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 45,
                             id: 'couponRequiredProductOperatorNotIn'
@@ -160,8 +160,8 @@ export function RequiredProducts({ requiredProducts }) {
                         ]}
                       />
                     </select>
-                    <div className="field-border"></div>
-                    <div className="field-suffix"><svg viewBox="0 0 20 20" width="1rem" height="1.25rem" focusable="false" aria-hidden="true"><path d="m10 16-4-4h8l-4 4zm0-12 4 4H6l4-4z"></path></svg></div>
+                    <div className="field-border" />
+                    <div className="field-suffix"><svg viewBox="0 0 20 20" width="1rem" height="1.25rem" focusable="false" aria-hidden="true"><path d="m10 16-4-4h8l-4 4zm0-12 4 4H6l4-4z" /></svg></div>
                   </div>
                 </div>
               </td>
@@ -185,7 +185,7 @@ export function RequiredProducts({ requiredProducts }) {
               </td>
               <td>
                 <a href="#" className="text-critical" onClick={(e) => removeProduct(e, i)}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width={'1.5rem'} height={'1.5rem'} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
                   </svg>
                 </a>
@@ -196,7 +196,7 @@ export function RequiredProducts({ requiredProducts }) {
       </table>
       <div className="mt-1 flex justify-start">
         <div className="items-center flex">
-          <svg xmlns="http://www.w3.org/2000/svg" width={'1.5rem'} height={'1.5rem'} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
         </div>
@@ -217,8 +217,8 @@ RequiredProducts.propTypes = {
     value: PropTypes.string,
     qty: PropTypes.string
   }))
-}
+};
 
 RequiredProducts.defaultProps = {
   requiredProducts: []
-}
+};

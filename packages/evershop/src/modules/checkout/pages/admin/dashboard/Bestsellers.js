@@ -29,18 +29,19 @@ export default function BestSellers({ api }) {
     }
   }, []);
   if (fetching) {
-    return <Card
-      title="Best Sellers"
-    >
-      <div className='skeleton-wrapper-bestsellers'>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-      </div>
-    </Card>
-
+    return (
+      <Card
+        title="Best Sellers"
+      >
+        <div className="skeleton-wrapper-bestsellers">
+          <div className="skeleton" />
+          <div className="skeleton" />
+          <div className="skeleton" />
+          <div className="skeleton" />
+          <div className="skeleton" />
+        </div>
+      </Card>
+    );
   } else {
     return (
       <Card
@@ -90,10 +91,10 @@ BestSellers.propTypes = {
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {
     api: url(routeId: "bestsellers")    
   }
-`
+`;

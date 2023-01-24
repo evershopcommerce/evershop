@@ -19,14 +19,12 @@ function Actions({ categories = [], selectedIds = [] }) {
 
   const deleteCategories = async () => {
     setIsLoading(true);
-    const promises = categories.filter((category) => selectedIds.includes(category.uuid)).map((category) => {
-      return axios.delete(category.deleteApi);
-    });
+    const promises = categories.filter((category) => selectedIds.includes(category.uuid)).map((category) => axios.delete(category.deleteApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
     window.location.reload();
-  }
+  };
 
   const actions = [
     {
@@ -77,8 +75,8 @@ Actions.propTypes = {
 };
 
 export default function CategoryGrid({ categories: { items: categories, total, currentFilters = [] }, deleteCategoriesUrl }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page')['value'] : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit')['value'] : 20;
+  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
+  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -103,15 +101,15 @@ export default function CategoryGrid({ categories: { items: categories, total, c
               coreComponents={
                 [
                   {
-                    component: { default: () => <BasicColumnHeader title="Category Name" id='name' currentFilters={currentFilters} /> },
+                    component: { default: () => <BasicColumnHeader title="Category Name" id="name" currentFilters={currentFilters} /> },
                     sortOrder: 10
                   },
                   {
-                    component: { default: () => <DropdownColumnHeader id='status' title='Status' currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
+                    component: { default: () => <DropdownColumnHeader id="status" title="Status" currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
                     sortOrder: 25
                   },
                   {
-                    component: { default: () => <DropdownColumnHeader id='includeInNav' title='Include In Menu' currentFilters={currentFilters} options={[{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }]} /> },
+                    component: { default: () => <DropdownColumnHeader id="includeInNav" title="Include In Menu" currentFilters={currentFilters} options={[{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }]} /> },
                     sortOrder: 30
                   }
                 ]
@@ -143,15 +141,15 @@ export default function CategoryGrid({ categories: { items: categories, total, c
                 noOuter
                 coreComponents={[
                   {
-                    component: { default: () => <CategoryNameRow id='name' name={c.name} url={c.editUrl} /> },
+                    component: { default: () => <CategoryNameRow id="name" name={c.name} url={c.editUrl} /> },
                     sortOrder: 10
                   },
                   {
-                    component: { default: ({ areaProps }) => <StatusRow id='status' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <StatusRow id="status" areaProps={areaProps} /> },
                     sortOrder: 25
                   },
                   {
-                    component: { default: ({ areaProps }) => <StatusRow id='includeInNav' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <StatusRow id="includeInNav" areaProps={areaProps} /> },
                     sortOrder: 30
                   }
                 ]}
@@ -170,7 +168,7 @@ export default function CategoryGrid({ categories: { items: categories, total, c
 export const layout = {
   areaId: 'content',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {

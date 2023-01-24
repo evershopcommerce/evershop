@@ -108,22 +108,23 @@ export function BuyXGetY({ requireProducts, discountType }) {
                   </td>
                   <td>
                     <a className="text-critical" href="#" onClick={(e) => removeProduct(e, i)}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width={'1.5rem'} height={'1.5rem'} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
                       </svg>
-                    </a></td>
+                    </a>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
           <div className="mt-1 flex justify-start">
             <div className="items-center flex">
-              <svg xmlns="http://www.w3.org/2000/svg" width={'1.5rem'} height={'1.5rem'} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
             </div>
             <div className="pl-1">
-              <a href="#" onClick={(e) => addProduct(e)} >
+              <a href="#" onClick={(e) => addProduct(e)}>
                 <span>Add product</span>
               </a>
             </div>
@@ -143,8 +144,8 @@ BuyXGetY.propTypes = {
     discount: PropTypes.string
   })),
   discountType: PropTypes.string
-}
+};
 
 BuyXGetY.defaultProps = {
   requireProducts: []
-}
+};

@@ -25,4 +25,4 @@ module.exports = {
       return products.map((product) => camelCase(product));
     }
   }
-}
+};

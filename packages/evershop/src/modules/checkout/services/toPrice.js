@@ -1,4 +1,4 @@
-const { getConfig } = require("../../../lib/util/getConfig");
+const { getConfig } = require('../../../lib/util/getConfig');
 
 module.exports = exports = {};
 
@@ -6,7 +6,7 @@ exports.toPrice = function toPrice(value) {
   value = value || 0;
   let price = parseFloat(value);
   if (isNaN(price)) {
-    throw new Error("Price is not a number");
+    throw new Error('Price is not a number');
   }
   const rounding = getConfig('pricing.rounding', 'round');
   const precision = getConfig('pricing.precision', '2');
@@ -27,4 +27,4 @@ exports.toPrice = function toPrice(value) {
   }
 
   return price;
-}
+};

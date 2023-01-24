@@ -48,7 +48,7 @@ module.exports = async (request, response, delegate) => {
   // Delete all removed options
   await del('product_custom_option')
     .where('product_custom_option_product_id', '=', productId)
-    .and('product_custom_option_id', 'NOT IN', options.map(o => o.option_id)).execute(connection);
+    .and('product_custom_option_id', 'NOT IN', options.map((o) => o.option_id)).execute(connection);
 
   // Get all remaining options for comparison
   const currentOptions = await select('product_custom_option_id')
@@ -61,7 +61,7 @@ module.exports = async (request, response, delegate) => {
   for (let i = 0; i < options.length; i++) {
     const option = options[i];
     let result;
-    if (currentOptions.find((o) => parseInt(o.product_custom_option_id, 10) === parseInt(option['option_id'], 10))) {
+    if (currentOptions.find((o) => parseInt(o.product_custom_option_id, 10) === parseInt(option.option_id, 10))) {
       result = await update('product_custom_option')
         .given(
           {
@@ -69,7 +69,7 @@ module.exports = async (request, response, delegate) => {
             is_required: option.is_required || 0
           }
         )
-        .where('product_custom_option_id', '=', option['option_id'])
+        .where('product_custom_option_id', '=', option.option_id)
         .execute(connection);
     } else {
       result = await insert('product_custom_option')

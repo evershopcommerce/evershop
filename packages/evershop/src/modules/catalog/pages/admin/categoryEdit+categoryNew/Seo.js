@@ -66,7 +66,7 @@ export default function Seo({ category }) {
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 60
-}
+};
 
 export const query = `
   query Query {
@@ -77,4 +77,4 @@ export const query = `
       metaDescription
     }
   }
-`
+`;

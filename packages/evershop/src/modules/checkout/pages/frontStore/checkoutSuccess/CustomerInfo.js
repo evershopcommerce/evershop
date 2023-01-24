@@ -2,7 +2,11 @@ import React from 'react';
 import Button from '../../../../../lib/components/form/Button';
 import { AddressSummary } from '../../../../customer/components/Address/AddressSummary';
 
-export default function CustomerInfo({ order: { orderNumber, customerFullName, customerEmail, paymentMethodName, shippingAddress, billingAddress } }) {
+export default function CustomerInfo({
+  order: {
+    orderNumber, customerFullName, customerEmail, paymentMethodName, shippingAddress, billingAddress
+  }
+}) {
   return (
     <div className="checkout-success-customer-info">
       <h3 className="thank-you flex justify-start space-x-1">
@@ -57,7 +61,7 @@ export default function CustomerInfo({ order: { orderNumber, customerFullName, c
 export const layout = {
   areaId: 'checkoutSuccessPageLeft',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -100,4 +104,4 @@ export const query = `
       }
     }
   }
-`
+`;

@@ -5,10 +5,10 @@ const { parseGraphqlByFile } = require('./parseGraphqlByFile');
 
 module.exports.parseGraphql = function (modules) {
   let inUsedFragments = [];
-  let propsMap = {};
+  const propsMap = {};
   let queryStr = '';
   let fragmentStr = '';
-  let variables = {
+  const variables = {
     values: {},
     defs: []
   };
@@ -20,8 +20,8 @@ module.exports.parseGraphql = function (modules) {
 
     const moduleKey = Buffer.from(module.replace(CONSTANTS.ROOTPATH, '')).toString('base64');
     const moduleGraphqlData = parseGraphqlByFile(module);
-    queryStr += '\n' + moduleGraphqlData.query.source;
-    fragmentStr += '\n' + moduleGraphqlData.fragments.source;
+    queryStr += `\n${moduleGraphqlData.query.source}`;
+    fragmentStr += `\n${moduleGraphqlData.fragments.source}`;
     Object.assign(variables.values, JSON.parse(moduleGraphqlData.variables.source));
     variables.defs = variables.defs.concat(moduleGraphqlData.variables.definitions);
     propsMap[moduleKey] = moduleGraphqlData.query.props;
@@ -55,7 +55,7 @@ module.exports.parseGraphql = function (modules) {
           });
         }
         return `fragment ${alias} on ${fragment.type}`;
-      })
+      });
     }
   });
   extraFragments.forEach((fragment) => {
@@ -66,6 +66,6 @@ module.exports.parseGraphql = function (modules) {
     query: queryStr,
     fragments: fragmentStr,
     variables: JSON.stringify(variables),
-    propsMap: propsMap
-  }
-}
+    propsMap
+  };
+};

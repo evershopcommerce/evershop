@@ -1,9 +1,7 @@
 module.exports = {
   Query: {
-    checkout: async (_, { }, { cartId }) => {
-      return {
-        cartId: cartId
-      }
-    }
+    checkout: async (_, { }, { cartId }) => ({
+      cartId
+    })
   }
-}
+};

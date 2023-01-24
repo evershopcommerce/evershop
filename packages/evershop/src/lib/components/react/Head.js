@@ -4,7 +4,7 @@ import Area from '../Area';
 
 export default function Head() {
   return ReactDOM.createPortal(
-    <Area id="head" noOuter={true} />,
+    <Area id="head" noOuter />,
     document.getElementsByTagName('head')[0]
   );
 }

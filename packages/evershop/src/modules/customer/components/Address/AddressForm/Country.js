@@ -20,9 +20,9 @@ export function Country({
         onChange={onChange}
         validationRules={[{
           rule: 'notEmpty',
-          message: 'Country is required',
+          message: 'Country is required'
         }]}
-        options={allowCountries.map(c => { return { value: c.code, text: c.name } })}
+        options={allowCountries.map((c) => ({ value: c.code, text: c.name }))}
       />
     </div>
   );

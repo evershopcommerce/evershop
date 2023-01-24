@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { parse } = require('graphql');
 const uniqid = require('uniqid');
-const { print } = require("graphql/language/printer");
+const { print } = require('graphql/language/printer');
 
 // This function should return an object { query, fragments, variables }.
 module.exports.parseGraphqlByFile = function (module) {
@@ -17,7 +17,7 @@ module.exports.parseGraphqlByFile = function (module) {
   /** Process query */
   // Regex matching export const query = `...` or export const query = "" or export const query = ''
   const queryRegex = /export\s+const\s+query\s*=\s*`([^`]+)`|export\s+const\s+query\s*=\s*["']([^"']+)["']/g;
-  let queryMatch = fileSource.match(queryRegex);
+  const queryMatch = fileSource.match(queryRegex);
   if (queryMatch) {
     let queryBody = queryMatch[0].replace(queryRegex, (match, p1, p2) => p1 || p2);
     // Replace 'getContextValue("key")' or getContextValue('key') or 'getContextValue("key", defaultValue)' or 'getContextValue('x', defaultValue)' to 'getContextValue_`base64 encoded of key and defaultValue`'`)' to avoid conflict with graphql-tag
@@ -38,14 +38,14 @@ module.exports.parseGraphqlByFile = function (module) {
         selection.alias = {
           kind: 'Name',
           value: newAlias
-        }
+        };
       } else {
         selection.alias.value = newAlias;
       }
 
       return {
         origin: alias,
-        alias: newAlias,
+        alias: newAlias
       };
     });
 
@@ -54,7 +54,7 @@ module.exports.parseGraphqlByFile = function (module) {
 
     // Regex to find all variable name and type ($name: Type!) in graphql query
     const variableRegex = /\$([a-zA-Z0-9]+)\s*:\s*([a-zA-Z0-9\[\]!]+)/g;
-    let variableMatch = queryBody.match(variableRegex);
+    const variableMatch = queryBody.match(variableRegex);
     if (variableMatch) {
       variableMatch.map((variable) => {
         const variableRegex = /\$([a-zA-Z0-9]+)\s*:\s*([a-zA-Z0-9\[\]!]+)/;
@@ -64,7 +64,7 @@ module.exports.parseGraphqlByFile = function (module) {
         variables.push({
           origin: name,
           type,
-          alias: `v${uniqid()}`,
+          alias: `v${uniqid()}`
         });
       });
     }
@@ -85,7 +85,7 @@ module.exports.parseGraphqlByFile = function (module) {
     result.query.props = [];
   }
 
-  //const variableRegex = /\$([a-zA-Z0-9]+\s*[:][])/g;
+  // const variableRegex = /\$([a-zA-Z0-9]+\s*[:][])/g;
 
   // let variableMatch = queryBody.match(variableRegex);
   // if (variableMatch) {
@@ -101,10 +101,10 @@ module.exports.parseGraphqlByFile = function (module) {
   /** Process fragments */
   // Regex matching export const query = `...` or export const query = "" or export const query = ''
   const fragmentsRegex = /export\s+const\s+fragments\s*=\s*`([^`]+)`|export\s+const\s+fragments\s*=\s*["']([^"']+)["']/g;
-  let fragmentsMatch = fileSource.match(fragmentsRegex);
+  const fragmentsMatch = fileSource.match(fragmentsRegex);
   const fragmentNames = [];
   if (fragmentsMatch) {
-    let fragmentsBody = fragmentsMatch[0].replace(fragmentsRegex, (match, p1, p2) => p1 || p2);
+    const fragmentsBody = fragmentsMatch[0].replace(fragmentsRegex, (match, p1, p2) => p1 || p2);
     const fragmentsAst = parse(fragmentsBody);
     fragmentsAst.definitions.forEach((fragment) => {
       if (fragment.kind === 'FragmentDefinition') {
@@ -139,7 +139,7 @@ module.exports.parseGraphqlByFile = function (module) {
         result.fragments.source = result.fragments.source.replace(regex, `...${alias}`);
         result.fragments.pairs.push({
           name: fragmentName,
-          alias: alias,
+          alias,
           type: fragment.type
         });
       }
@@ -151,7 +151,7 @@ module.exports.parseGraphqlByFile = function (module) {
   /** Processing variables */
   // Regex matching export const variables = `{ ... }`
   const variablesRegex = /export\s+const\s+variables\s*=\s*`([^`]+)`/g;
-  let variablesMatch = fileSource.match(variablesRegex);
+  const variablesMatch = fileSource.match(variablesRegex);
   if (variablesMatch) {
     let variablesBody = variablesMatch[0].replace(variablesRegex, (match, p1) => p1);
     // Replace 'getContextValue("key")' or getContextValue('key') or 'getContextValue("key", defaultValue)' or 'getContextValue('x', defaultValue)' to 'getContextValue_`base64 encoded of key and defaultValue`'`)' to avoid conflict with graphql-tag
@@ -186,6 +186,4 @@ module.exports.parseGraphqlByFile = function (module) {
     result.variables.definitions = [];
   }
   return result;
-}
-
-
+};

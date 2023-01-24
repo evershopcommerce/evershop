@@ -8,7 +8,7 @@ const { get } = require('../../../../lib/util/get');
 
 module.exports = async (request, response, delegate) => {
   const attribute = await delegate.updateAttribute;
-  const attributeId = attribute['attribute_id'];
+  const attributeId = attribute.attribute_id;
   const connection = await delegate.getConnection;
   const attributeData = request.body;
   /* Save options */
@@ -25,7 +25,7 @@ module.exports = async (request, response, delegate) => {
     return;
   }
 
-  const ids = options.filter(o => o !== undefined).map(o => parseInt(o.option_id));
+  const ids = options.filter((o) => o !== undefined).map((o) => parseInt(o.option_id));
   const oldOptions = await select()
     .from('attribute_option')
     .where('attribute_id', '=', attributeId)
@@ -42,22 +42,22 @@ module.exports = async (request, response, delegate) => {
   for (const option of options) {
     const exists = await select()
       .from('attribute_option')
-      .where('attribute_option_id', '=', option['option_id'])
+      .where('attribute_option_id', '=', option.option_id)
       .load(connection);
 
     if (exists) {
       await update('attribute_option')
         .given({
-          option_text: option['option_text'],
+          option_text: option.option_text,
           attribute_id: attributeId,
           attribute_code: get(attribute, 'attribute_code')
         })
-        .where('attribute_option_id', '=', option['option_id'])
+        .where('attribute_option_id', '=', option.option_id)
         .execute(connection);
     } else {
       await insert('attribute_option')
         .given({
-          option_text: option['option_text'],
+          option_text: option.option_text,
           attribute_id: attributeId,
           attribute_code: get(attribute, 'attribute_code')
         })

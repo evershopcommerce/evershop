@@ -3,18 +3,23 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 const {
-  insert
+  insert, select
 } = require('@evershop/mysql-query-builder');
 const { get } = require('../../../../lib/util/get');
 
 module.exports = async (request, response, delegate) => {
   const result = await delegate.createProduct;
-  let productId = result.insertId;
+  const productId = result.insertId;
   const connection = await delegate.getConnection;
   const categories = get(request, 'body.categories', []);
-  // Add new 
+  // Add new
   for (let i = 0; i < categories.length; i++) {
-    if (categories[i]) {
+    const category = await select()
+      .from('category')
+      .where('category_id', '=', categories[i])
+      .load(connection, false);
+
+    if (category) {
       await insert('product_category')
         .given({ product_id: productId, category_id: categories[i] })
         .execute(connection, false);

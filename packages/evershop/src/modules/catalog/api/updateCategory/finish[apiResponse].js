@@ -33,10 +33,10 @@ module.exports = async (request, response, delegate, next) => {
         ...category,
         links: [
           {
-            "rel": "categoryGrid",
-            "href": buildUrl('categoryGrid'),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'categoryGrid',
+            href: buildUrl('categoryGrid'),
+            action: 'GET',
+            types: ['text/xml']
           }
         ]
       }

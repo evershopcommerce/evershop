@@ -38,17 +38,15 @@ module.exports = async (request, response, stack, next) => {
       intent: await getSetting('paypalPaymentIntent', 'CAPTURE'),
       purchase_units: [
         {
-          items: items.map((item) => {
-            return {
-              name: item.product_name,
-              sku: item.product_sku,
-              quantity: item.qty,
-              unit_amount: {
-                currency_code: order.currency,
-                value: item.final_price
-              }
-            };
-          }),
+          items: items.map((item) => ({
+            name: item.product_name,
+            sku: item.product_sku,
+            quantity: item.qty,
+            unit_amount: {
+              currency_code: order.currency,
+              value: item.final_price
+            }
+          })),
           amount: {
             currency_code: order.currency,
             value: toPrice(order.grand_total),
@@ -71,14 +69,14 @@ module.exports = async (request, response, stack, next) => {
               }
             }
           }
-        },
+        }
       ],
       application_context: {
-        cancel_url: `${getContextValue(request, 'homeUrl')}${buildUrl('paypalCancel', { order_id: order_id })}`,
-        return_url: `${getContextValue(request, 'homeUrl')}${buildUrl('paypalReturn', { order_id: order_id })}`,
-        shipping_preference: "SET_PROVIDED_ADDRESS",
-        user_action: "PAY_NOW",
-        brand_name: await getSetting('storeName', 'Evershop'),
+        cancel_url: `${getContextValue(request, 'homeUrl')}${buildUrl('paypalCancel', { order_id })}`,
+        return_url: `${getContextValue(request, 'homeUrl')}${buildUrl('paypalReturn', { order_id })}`,
+        shipping_preference: 'SET_PROVIDED_ADDRESS',
+        user_action: 'PAY_NOW',
+        brand_name: await getSetting('storeName', 'Evershop')
       }
     };
 
@@ -111,7 +109,7 @@ module.exports = async (request, response, stack, next) => {
           postal_code: 'No shipping address',
           country_code: 'No shipping address'
         }
-      }
+      };
     }
 
     const billingAddress = await select()
@@ -139,9 +137,9 @@ module.exports = async (request, response, stack, next) => {
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${getContextValue(request, 'paypalAccessToken')}`,
+          Authorization: `Bearer ${getContextValue(request, 'paypalAccessToken')}`
         },
-        validateStatus: (status) => status < 500,
+        validateStatus: (status) => status < 500
       }
     );
 

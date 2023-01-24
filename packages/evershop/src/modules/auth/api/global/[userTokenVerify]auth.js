@@ -3,7 +3,7 @@ const { getContextValue } = require('../../../graphql/services/contextHelper');
 
 module.exports = (request, response, delegate, next) => {
   // Get the current route
-  const currentRoute = request.currentRoute;
+  const { currentRoute } = request;
   // If the current route is public, continue to the next middleware
   // Missing access property means public
   if (!currentRoute?.access || currentRoute?.access === 'public') {
@@ -21,7 +21,7 @@ module.exports = (request, response, delegate, next) => {
         status: UNAUTHORIZED,
         message: 'Unauthorized'
       }
-    })
+    });
   } else {
     // Get user roles
     let userRoles = user.roles;
@@ -38,7 +38,7 @@ module.exports = (request, response, delegate, next) => {
             status: UNAUTHORIZED,
             message: 'Unauthorized'
           }
-        })
+        });
       }
     }
   }

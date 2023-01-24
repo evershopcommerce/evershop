@@ -1,6 +1,6 @@
 const { insert, select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
 const bcrypt = require('bcrypt');
+const { pool } = require('../../../../lib/mysql/connection');
 const { OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 
@@ -31,16 +31,16 @@ module.exports = async (request, response, delegate, next) => {
         ...customer,
         links: [
           {
-            "rel": "customerGrid",
-            "href": buildUrl('customerGrid'),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'customerGrid',
+            href: buildUrl('customerGrid'),
+            action: 'GET',
+            types: ['text/xml']
           },
           {
-            "rel": "edit",
-            "href": buildUrl('customerEdit', { id: customer.uuid }),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'edit',
+            href: buildUrl('customerEdit', { id: customer.uuid }),
+            action: 'GET',
+            types: ['text/xml']
           }
         ]
       }

@@ -9,4 +9,4 @@ module.exports.generateToken = (payload, secret, options = {}, cb) => {
   } else {
     return token;
   }
-}
+};

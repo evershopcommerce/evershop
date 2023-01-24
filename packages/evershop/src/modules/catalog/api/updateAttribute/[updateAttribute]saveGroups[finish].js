@@ -8,7 +8,7 @@ const { get } = require('../../../../lib/util/get');
 
 module.exports = async (request, response, delegate) => {
   const attribute = await delegate.updateAttribute;
-  const attributeId = attribute['attribute_id'];
+  const attributeId = attribute.attribute_id;
   const attributeData = request.body;
 
   const connection = await delegate.getConnection;
@@ -24,20 +24,26 @@ module.exports = async (request, response, delegate) => {
     .execute(connection);
 
   const shouldDelete = [];
-  currentGroups.forEach(g => {
+  currentGroups.forEach((g) => {
     if (!groups.find((group) => parseInt(group) === parseInt(g.group_id))) {
-      shouldDelete.push(g.group_id)
+      shouldDelete.push(g.group_id);
     }
   });
 
   for (let index = 0; index < groups.length; index++) {
-    const group = groups[index];
-    await insertOnUpdate('attribute_group_link')
-      .given({ attribute_id: attributeId, group_id: group })
-      .execute(connection);
+    const group = await select()
+      .from('attribute_group')
+      .where('attribute_group_id', '=', groups[index])
+      .load(connection, false);
+    if (group) {
+      await insertOnUpdate('attribute_group_link')
+        .given({ attribute_id: attributeId, group_id: groups[index] })
+        .execute(connection);
+    }
   }
 
   await del('attribute_group_link')
     .where('group_id', 'IN', shouldDelete)
+    .and('attribute_id', '=', attributeId)
     .execute(connection);
 };

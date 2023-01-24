@@ -8,10 +8,10 @@ import { get } from '../../../../../lib/util/get';
 export default function CategoryNewForm({
   action
 }) {
-  const id = "categoryForm";
+  const id = 'categoryForm';
   return (
     <Form
-      method={'POST'}
+      method="POST"
       action={action}
       onError={() => {
         toast.error('Something wrong. Please reload the page!');
@@ -24,7 +24,7 @@ export default function CategoryNewForm({
           // Wait for 2 seconds to show the success message
           setTimeout(() => {
             // Redirect to the edit page
-            const editUrl = response.data.links.find(link => link.rel === 'edit').href;
+            const editUrl = response.data.links.find((link) => link.rel === 'edit').href;
             window.location.href = editUrl;
           }, 1500);
         }
@@ -32,7 +32,7 @@ export default function CategoryNewForm({
       submitBtn={false}
       id={id}
     >
-      <Area id={id} noOuter={true} />
+      <Area id={id} noOuter />
     </Form>
   );
 }
@@ -45,7 +45,7 @@ CategoryNewForm.propTypes = {
 export const layout = {
   areaId: 'content',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

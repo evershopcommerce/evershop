@@ -5,7 +5,9 @@ import { Subtotal } from './cart/Subtotal';
 import { Tax } from './cart/Tax';
 import { Total } from './cart/Total';
 
-function CartSummary({ totalQty, subTotal, grandTotal, discountAmount, taxAmount, shippingFeeExclTax, shippingMethod, coupon }) {
+function CartSummary({
+  totalQty, subTotal, grandTotal, discountAmount, taxAmount, shippingFeeExclTax, shippingMethod, coupon
+}) {
   return (
     <div className="checkout-summary-block">
       <Subtotal count={totalQty} total={subTotal.text} />

@@ -23,16 +23,14 @@ function Actions({ orders = [], selectedIds = [] }) {
 
   const fullFillOrders = async () => {
     setIsLoading(true);
-    const promises = orders.filter((order) => selectedIds.includes(order.uuid)).map((order) => {
-      return axios.post(order.fullFillApi, {
-        status: status
-      });
-    });
+    const promises = orders.filter((order) => selectedIds.includes(order.uuid)).map((order) => axios.post(order.fullFillApi, {
+      status
+    }));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
     window.location.reload();
-  }
+  };
 
   const actions = [
     {
@@ -82,9 +80,11 @@ Actions.propTypes = {
   selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
-export default function OrderGrid({ orders: { items: orders, total, currentFilters = [] }, shipmentStatusList, paymentStatusList, orderBulkFullFillUrl }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page')['value'] : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit')['value'] : 20;
+export default function OrderGrid({
+  orders: { items: orders, total, currentFilters = [] }, shipmentStatusList, paymentStatusList, orderBulkFullFillUrl
+}) {
+  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
+  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -109,27 +109,27 @@ export default function OrderGrid({ orders: { items: orders, total, currentFilte
               coreComponents={
                 [
                   {
-                    component: { default: () => <BasicColumnHeader title="Order Number" id='orderNumber' currentFilters={currentFilters} /> },
+                    component: { default: () => <BasicColumnHeader title="Order Number" id="orderNumber" currentFilters={currentFilters} /> },
                     sortOrder: 5
                   },
                   {
-                    component: { default: () => <FromToColumnHeader title='Date' id='createdAt' currentFilters={currentFilters} /> },
+                    component: { default: () => <FromToColumnHeader title="Date" id="createdAt" currentFilters={currentFilters} /> },
                     sortOrder: 10
                   },
                   {
-                    component: { default: () => <BasicColumnHeader title="Customer Email" id='customerEmail' currentFilters={currentFilters} /> },
+                    component: { default: () => <BasicColumnHeader title="Customer Email" id="customerEmail" currentFilters={currentFilters} /> },
                     sortOrder: 15
                   },
                   {
-                    component: { default: () => <ShipmentStatusColumnHeader title="Shipment Status" id='shipmentStatus' shipmentStatusList={shipmentStatusList} currentFilters={currentFilters} /> },
+                    component: { default: () => <ShipmentStatusColumnHeader title="Shipment Status" id="shipmentStatus" shipmentStatusList={shipmentStatusList} currentFilters={currentFilters} /> },
                     sortOrder: 20
                   },
                   {
-                    component: { default: () => <PaymentStatusColumnHeader title="Payment Status" id='paymentStatus' paymentStatusList={paymentStatusList} currentFilters={currentFilters} /> },
+                    component: { default: () => <PaymentStatusColumnHeader title="Payment Status" id="paymentStatus" paymentStatusList={paymentStatusList} currentFilters={currentFilters} /> },
                     sortOrder: 25
                   },
                   {
-                    component: { default: () => <FromToColumnHeader title='Total' id='grandTotal' currentFilters={currentFilters} /> },
+                    component: { default: () => <FromToColumnHeader title="Total" id="grandTotal" currentFilters={currentFilters} /> },
                     sortOrder: 30
                   }
                 ]
@@ -173,7 +173,7 @@ export default function OrderGrid({ orders: { items: orders, total, currentFilte
                       sortOrder: 10
                     },
                     {
-                      component: { default: ({ areaProps }) => <BasicRow id='customerEmail' areaProps={areaProps} /> },
+                      component: { default: ({ areaProps }) => <BasicRow id="customerEmail" areaProps={areaProps} /> },
                       sortOrder: 15
                     },
                     {
@@ -205,7 +205,7 @@ export default function OrderGrid({ orders: { items: orders, total, currentFilte
 export const layout = {
   areaId: 'content',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {

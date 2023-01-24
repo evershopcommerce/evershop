@@ -5,7 +5,7 @@ const { setContextValue } = require('../../../../graphql/services/contextHelper'
 module.exports = async (request, response, delegate, next) => {
   try {
     const query = select();
-    query.from('coupon')
+    query.from('coupon');
     query.andWhere('coupon.`uuid`', '=', request.params.id);
     const coupon = await query.load(pool);
 

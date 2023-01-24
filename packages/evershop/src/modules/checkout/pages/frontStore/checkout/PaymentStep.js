@@ -25,10 +25,12 @@ export default function PaymentStep({ cart }) {
 
   return (
     <div className="checkout-payment checkout-step">
-      {display && <StepContent
+      {display && (
+      <StepContent
         cart={cart}
         step={step}
-      />}
+      />
+      )}
     </div>
   );
 }
@@ -36,7 +38,7 @@ export default function PaymentStep({ cart }) {
 export const layout = {
   areaId: 'checkoutSteps',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {
@@ -62,4 +64,4 @@ export const query = `
       addPaymentMethodApi
     }
   }
-`
+`;

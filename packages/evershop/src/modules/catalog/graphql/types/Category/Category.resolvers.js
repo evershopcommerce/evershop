@@ -1,7 +1,7 @@
 const { select, node } = require('@evershop/mysql-query-builder');
+const uniqid = require('uniqid');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { camelCase } = require('../../../../../lib/util/camelCase');
-const uniqid = require('uniqid');
 const { getProductsBaseQuery } = require('../../../services/getProductsBaseQuery');
 const { pool } = require('../../../../../lib/mysql/connection');
 
@@ -10,9 +10,9 @@ module.exports = {
     category: async (_, { id }, { pool }) => {
       const query = select().from('category');
       query.leftJoin('category_description')
-        .on('category_description.`category_description_category_id`', '=', 'category.`category_id`')
+        .on('category_description.`category_description_category_id`', '=', 'category.`category_id`');
       query.where('category_id', '=', id);
-      const result = await query.load(pool)
+      const result = await query.load(pool);
       return result ? camelCase(result) : null;
     },
     categories: async (_, { filters = [] }, { pool }) => {
@@ -52,8 +52,8 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('category.`category_id`', "DESC");
-      };
+        query.orderBy('category.`category_id`', 'DESC');
+      }
       if (sortOrder.key) {
         currentFilters.push({
           key: 'sortOrder',
@@ -81,10 +81,10 @@ module.exports = {
       });
       query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
       return {
-        items: (await query.execute(pool)).map(row => camelCase(row)),
-        total: (await cloneQuery.load(pool))['total'],
-        currentFilters: currentFilters,
-      }
+        items: (await query.execute(pool)).map((row) => camelCase(row)),
+        total: (await cloneQuery.load(pool)).total,
+        currentFilters
+      };
     },
     products: async (_, { filters = [] }, { pool, tokenPlayload }) => {
       const query = select()
@@ -92,7 +92,7 @@ module.exports = {
       query.leftJoin('product_description', 'des')
         .on('product.`product_id`', '=', 'des.`product_description_product_id`');
       const currentFilters = [];
-      // Price filter 
+      // Price filter
       const priceFilter = filters.find((f) => f.key === 'price');
       if (priceFilter) {
         const [min, max] = priceFilter.value.split('-').map((v) => parseFloat(v));
@@ -109,9 +109,9 @@ module.exports = {
         if (currentPriceFilter) {
           currentFilters.push(currentPriceFilter);
         }
-      };
+      }
 
-      // Qty filter 
+      // Qty filter
       const qtyFilter = filters.find((f) => f.key === 'qty');
       if (qtyFilter) {
         const [min, max] = qtyFilter.value.split('-').map((v) => parseFloat(v));
@@ -128,7 +128,7 @@ module.exports = {
         if (currentQtyFilter) {
           currentFilters.push(currentQtyFilter);
         }
-      };
+      }
 
       // Name filter
       const nameFilter = filters.find((f) => f.key === 'name');
@@ -168,8 +168,8 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('product.`product_id`', "DESC");
-      };
+        query.orderBy('product.`product_id`', 'DESC');
+      }
       if (sortOrder.key) {
         currentFilters.push({
           key: 'sortOrder',
@@ -199,15 +199,15 @@ module.exports = {
       return {
         itemQuery: query,
         totalQuery: cloneQuery,
-        currentFilters: currentFilters,
-      }
+        currentFilters
+      };
     }
   },
   Category: {
     products: async (category, { filters = [] }, { filterableAttributes, priceRange }) => {
       const query = await getProductsBaseQuery(category.categoryId);
       const currentFilters = [];
-      // Price filter 
+      // Price filter
       const priceFilter = filters.find((f) => f.key === 'price');
       if (priceFilter) {
         const [min, max] = priceFilter.value.split('-').map((v) => parseFloat(v));
@@ -250,7 +250,7 @@ module.exports = {
             value: values.join(',')
           });
         }
-      })
+      });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
       const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
@@ -270,7 +270,7 @@ module.exports = {
         });
       } else {
         query.orderBy('product.`product_id`', sortOrder.value);
-      };
+      }
       if (sortOrder.key) {
         currentFilters.push({
           key: 'sortOrder',
@@ -333,42 +333,28 @@ module.exports = {
       return {
         itemQuery: query,
         totalQuery: cloneQuery,
-        currentFilters: currentFilters,
-      }
+        currentFilters
+      };
     },
-    availableFilters: async (category, _, { filterableAttributes, priceRange }) => {
-      return filterableAttributes;
-    },
-    url: (category, _, { pool }) => {
-      return buildUrl('categoryView', { url_key: category.urlKey });
-    },
-    editUrl: (category, _, { pool }) => {
-      return buildUrl('categoryEdit', { id: category.uuid });
-    },
-    updateApi: (category, _, { pool }) => {
-      return buildUrl('updateCategory', { id: category.uuid });
-    },
-    deleteApi: (category, _, { pool }) => {
-      return buildUrl('deleteCategory', { id: category.uuid });
-    },
+    availableFilters: async (category, _, { filterableAttributes, priceRange }) => filterableAttributes,
+    url: (category, _, { pool }) => buildUrl('categoryView', { url_key: category.urlKey }),
+    editUrl: (category, _, { pool }) => buildUrl('categoryEdit', { id: category.uuid }),
+    updateApi: (category, _, { pool }) => buildUrl('updateCategory', { id: category.uuid }),
+    deleteApi: (category, _, { pool }) => buildUrl('deleteCategory', { id: category.uuid }),
     image: (category, _, { pool }) => {
-      const image = category.image;
+      const { image } = category;
       if (!image) {
         return null;
       } else {
         return {
           path: image,
           url: `/assets${image}`
-        }
+        };
       }
     }
   },
   ProductCollection: {
-    items: async ({ itemQuery }, _, { pool }) => {
-      return (await itemQuery.execute(pool)).map((row) => camelCase(row));
-    },
-    total: async ({ totalQuery }, _, { pool }) => {
-      return (await totalQuery.load(pool)).total;
-    }
+    items: async ({ itemQuery }, _, { pool }) => (await itemQuery.execute(pool)).map((row) => camelCase(row)),
+    total: async ({ totalQuery }, _, { pool }) => (await totalQuery.load(pool)).total
   }
-}
+};

@@ -5,7 +5,9 @@ import { Subtotal } from './Subtotal';
 import { Tax } from './Tax';
 import { Total } from './Total';
 
-function OrderSummary({ items, subTotal, shippingMethod, shippingFeeExclTax, taxAmount, discountAmount, grandTotal }) {
+function OrderSummary({
+  items, subTotal, shippingMethod, shippingFeeExclTax, taxAmount, discountAmount, grandTotal
+}) {
   return (
     <div className="checkout-summary-block">
       <Subtotal count={items.length} total={subTotal.text} />

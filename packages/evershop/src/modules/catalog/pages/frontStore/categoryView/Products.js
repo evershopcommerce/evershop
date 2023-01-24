@@ -13,7 +13,7 @@ export default function Products({ products: { products: { items } } }) {
 }
 
 export const layout = {
-  areaId: "rightColumn",
+  areaId: 'rightColumn',
   sortOrder: 25
 };
 

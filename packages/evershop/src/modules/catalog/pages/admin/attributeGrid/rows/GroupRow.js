@@ -2,10 +2,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { toast } from 'react-toastify';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Form } from '../../../../../../lib/components/form/Form';
 import { useAlertContext } from '../../../../../../lib/components/modal/Alert';
-import { toast } from 'react-toastify';
 
 export default function GroupRow({ groups }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
@@ -26,7 +26,7 @@ export default function GroupRow({ groups }) {
               location.reload();
             }
           }}
-          isJSON={true}
+          isJSON
         >
           <Field
             formId="group-edit"

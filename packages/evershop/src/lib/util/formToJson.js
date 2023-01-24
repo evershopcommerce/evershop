@@ -15,10 +15,10 @@ function update(data, keys, value) {
   }
 
   // Try converting key to a numeric value
-  let index = +key;
+  const index = +key;
   if (!isNaN(index)) {
     // We have a numeric index, make data a numeric array
-    // This will not work if this is a associative array 
+    // This will not work if this is a associative array
     // with numeric keys
     data = data || [];
     key = index;
@@ -27,7 +27,7 @@ function update(data, keys, value) {
   // If none of the above matched, we have an associative array
   data = data || {};
 
-  let val = update(data[key], keys, value);
+  const val = update(data[key], keys, value);
   data[key] = val;
 
   return data;
@@ -39,10 +39,10 @@ exports.serializeForm = function serializeForm(formDataEntries) {
       let [_, prefix, keys] = field.match(/^([^\[]+)((?:\[[^\]]*\])*)/);
 
       if (keys) {
-        keys = Array.from(keys.matchAll(/\[([^\]]*)\]/g), m => m[1]);
+        keys = Array.from(keys.matchAll(/\[([^\]]*)\]/g), (m) => m[1]);
         value = update(data[prefix], keys, value);
       }
       data[prefix] = value;
       return data;
     }, {});
-}
+};

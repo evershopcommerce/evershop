@@ -1,8 +1,8 @@
 import React from 'react';
 import { inspect } from 'util';
+import { renderToString } from 'react-dom/server';
 import ServerHtml from './Server';
 import { AppProvider } from '../../../context/app';
-import { renderToString } from 'react-dom/server';
 
 export function renderHtml(js, css, contextData) {
   const source = renderToString(

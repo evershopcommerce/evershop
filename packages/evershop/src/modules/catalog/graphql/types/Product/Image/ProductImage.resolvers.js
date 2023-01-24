@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const { select } = require('@evershop/mysql-query-builder');
+const uniqid = require('uniqid');
 const { CONSTANTS } = require('../../../../../../lib/helpers');
 const { getConfig } = require('../../../../../../lib/util/getConfig');
-const uniqid = require('uniqid');
 
 function getUrls(image) {
   const thumbVersion = image.replace(/.([^.]*)$/, '-thumb.$1');
@@ -24,11 +24,11 @@ function getUrls(image) {
 module.exports = {
   Product: {
     image: async (product, _, { pool }) => {
-      const mainImage = product['image'] || '';
+      const mainImage = product.image || '';
       const urls = getUrls(mainImage);
       return mainImage ? {
         ...urls,
-        alt: product['name'],
+        alt: product.name,
         path: mainImage,
         uniqueId: uniqid()
       } : null;
@@ -41,13 +41,13 @@ module.exports = {
       return gallery.map((image) => {
         const urls = getUrls(image.image || '');
         return {
-          id: image['product_image_id'],
+          id: image.product_image_id,
           ...urls,
-          alt: product['name'],
-          path: image['image'],
+          alt: product.name,
+          path: image.image,
           uniqueId: uniqid()
         };
       });
     }
   }
-}
+};

@@ -1,6 +1,6 @@
-const { INVALID_PAYLOAD, OK, INTERNAL_SERVER_ERROR } = require("../../../../lib/util/httpStatus");
-const { getCartByUUID } = require("../../../checkout/services/getCartByUUID");
-const { saveCart } = require("../../../checkout/services/saveCart");
+const { INVALID_PAYLOAD, OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+const { getCartByUUID } = require('../../../checkout/services/getCartByUUID');
+const { saveCart } = require('../../../checkout/services/saveCart');
 
 module.exports = async (request, response, delegate, next) => {
   try {
@@ -14,7 +14,7 @@ module.exports = async (request, response, delegate, next) => {
           message: 'Invalid cart',
           status: INVALID_PAYLOAD
         }
-      })
+      });
       return;
     }
     await cart.setData('coupon', coupon);
@@ -22,7 +22,7 @@ module.exports = async (request, response, delegate, next) => {
     response.status(OK);
     response.$body = {
       data: {
-        coupon: coupon
+        coupon
       }
     };
     next();
@@ -33,6 +33,5 @@ module.exports = async (request, response, delegate, next) => {
         status: INTERNAL_SERVER_ERROR
       }
     });
-    return;
   }
 };

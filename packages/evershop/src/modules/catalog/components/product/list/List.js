@@ -84,6 +84,6 @@ ProductList.propTypes = {
     image: PropTypes.shape({
       alt: PropTypes.string,
       listing: PropTypes.string
-    }),
+    })
   })).isRequired
 };

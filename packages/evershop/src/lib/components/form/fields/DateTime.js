@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import flatpickr from './Flatpickr';
 import Error from './Error';
-import './../Field.scss';
+import '../Field.scss';
 
 const DateTime = React.forwardRef((props, ref) => {
   const {

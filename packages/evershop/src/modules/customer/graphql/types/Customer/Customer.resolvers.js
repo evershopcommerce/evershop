@@ -1,11 +1,11 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { buildUrl } = require("../../../../../lib/router/buildUrl");
-const { camelCase } = require("../../../../../lib/util/camelCase");
-const { get } = require("../../../../../lib/util/get");
+const { select } = require('@evershop/mysql-query-builder');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { camelCase } = require('../../../../../lib/util/camelCase');
+const { get } = require('../../../../../lib/util/get');
 
 module.exports = {
   Query: {
-    customer: async (root, { id }, { pool, tokenPayload }) => {
+    customer: async (root, { id }, { pool }) => {
       const query = select()
         .from('customer');
       query.where('uuid', '=', id);
@@ -13,9 +13,9 @@ module.exports = {
       const customer = await query.load(pool);
       return customer ? camelCase(customer) : null;
     },
-    customers: async (_, { filters = [] }, { pool, tokenPayload }) => {
+    customers: async (_, { filters = [] }, { pool, userTokenPayload }) => {
       // This field is for admin only
-      if (!get(tokenPayload, "user.isAdmin", false)) {
+      if (!get(userTokenPayload, 'user.uuid', false)) {
         return [];
       }
       const query = select().from('customer');
@@ -39,7 +39,7 @@ module.exports = {
             value: filter.value
           });
         }
-      })
+      });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
       const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
@@ -51,8 +51,8 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('customer.`customer_id`', "DESC");
-      };
+        query.orderBy('customer.`customer_id`', 'DESC');
+      }
 
       if (sortOrder.key) {
         currentFilters.push({
@@ -79,22 +79,18 @@ module.exports = {
       });
       query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
       return {
-        items: (await query.execute(pool)).map(row => camelCase(row)),
-        total: (await cloneQuery.load(pool))['total'],
-        currentFilters: currentFilters,
-      }
+        items: (await query.execute(pool)).map((row) => camelCase(row)),
+        total: (await cloneQuery.load(pool)).total,
+        currentFilters
+      };
     }
   },
   Customer: {
     url: ({ urlKey }) => buildUrl('customerView', { url_key: urlKey }),
     editUrl: ({ uuid }) => buildUrl('customerEdit', { id: uuid }),
     logoutApi: ({ uuid }) => buildUrl('deleteCustomerSession', { id: uuid }),
-    updateApi: (customer, _, { pool }) => {
-      return buildUrl('updateCustomer', { id: customer.uuid });
-    },
-    deleteApi: (customer, _, { pool }) => {
-      return buildUrl('deleteCustomer', { id: customer.uuid });
-    },
+    updateApi: (customer) => buildUrl('updateCustomer', { id: customer.uuid }),
+    deleteApi: (customer) => buildUrl('deleteCustomer', { id: customer.uuid }),
     group: async ({ groupId }, _, { pool }) => {
       const group = await select()
         .from('customer_group')
@@ -107,7 +103,7 @@ module.exports = {
         .from('order')
         .where('order.`customer_id`', '=', customerId)
         .execute(pool);
-      return orders.map(row => camelCase(row));
+      return orders.map((row) => camelCase(row));
     }
   }
-}
+};

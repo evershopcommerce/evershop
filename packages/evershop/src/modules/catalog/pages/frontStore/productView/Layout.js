@@ -27,6 +27,6 @@ export default function ProductPageLayout() {
 }
 
 export const layout = {
-  areaId: "content",
+  areaId: 'content',
   sortOrder: 10
-}
+};

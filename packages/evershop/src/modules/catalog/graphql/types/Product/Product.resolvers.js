@@ -8,7 +8,7 @@ module.exports = {
       const query = select()
         .from('category');
       query.leftJoin('category_description', 'des')
-        .on('des.`category_description_category_id`', '=', 'category.`category_id`')
+        .on('des.`category_description_category_id`', '=', 'category.`category_id`');
       return (
         await query
           .where(
@@ -21,31 +21,23 @@ module.exports = {
           )
           .execute(pool)).map((row) => camelCase(row));
     },
-    url: (product, _, { pool }) => {
-      return buildUrl('productView', { url_key: product.urlKey });
-    },
-    editUrl: (product, _, { pool }) => {
-      return buildUrl('productEdit', { id: product.uuid });
-    },
-    updateApi: (product, _, { pool }) => {
-      return buildUrl('updateProduct', { id: product.uuid });
-    },
-    deleteApi: (product, _, { pool }) => {
-      return buildUrl('deleteProduct', { id: product.uuid });
-    }
+    url: (product, _, { pool }) => buildUrl('productView', { url_key: product.urlKey }),
+    editUrl: (product, _, { pool }) => buildUrl('productEdit', { id: product.uuid }),
+    updateApi: (product, _, { pool }) => buildUrl('updateProduct', { id: product.uuid }),
+    deleteApi: (product, _, { pool }) => buildUrl('deleteProduct', { id: product.uuid })
   },
   Query: {
     product: async (_, { id }, { pool }) => {
       const query = select()
         .from('product');
-      query.leftJoin('product_description').on('product_description.`product_description_product_id`', '=', 'product.`product_id`')
-      query.where('product_id', '=', id)
+      query.leftJoin('product_description').on('product_description.`product_description_product_id`', '=', 'product.`product_id`');
+      query.where('product_id', '=', id);
       const result = await query.load(pool);
       if (!result) {
-        return null
+        return null;
       } else {
         return camelCase(result);
       }
     }
   }
-}
+};

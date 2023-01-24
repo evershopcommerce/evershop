@@ -4,4 +4,4 @@ module.exports.isBuildRequired = function isBuildRequired(route) {
   } else {
     return true;
   }
-}
+};

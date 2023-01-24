@@ -22,7 +22,7 @@ module.exports = async (request, response, delegate) => {
   for (const option of options) {
     await insert('attribute_option')
       .given({
-        option_text: option['option_text'],
+        option_text: option.option_text,
         attribute_id: attribute.insertId,
         attribute_code: get(attributeData, 'attribute_code')
       })

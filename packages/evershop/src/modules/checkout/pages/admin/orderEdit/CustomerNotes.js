@@ -30,7 +30,7 @@ export default function CustomerNotes({ order: { shippingNote } }) {
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -38,4 +38,4 @@ export const query = `
       shippingNote
     }
   }
-`
+`;

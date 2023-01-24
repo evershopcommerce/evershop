@@ -1,8 +1,8 @@
 const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
-const smallestUnit = require("zero-decimal-currencies");
-const { getSetting } = require('../../../setting/services/setting');
+const smallestUnit = require('zero-decimal-currencies');
 const stripePayment = require('stripe');
+const { pool } = require('../../../../lib/mysql/connection');
+const { getSetting } = require('../../../setting/services/setting');
 const { getConfig } = require('../../../../lib/util/getConfig');
 const { OK, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
 

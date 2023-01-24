@@ -1,12 +1,12 @@
-const { INVALID_PAYLOAD, INTERNAL_SERVER_ERROR } = require("../../../../lib/util/httpStatus");
-const { getContextValue } = require("../../../graphql/services/contextHelper");
+const { INVALID_PAYLOAD, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+const { getContextValue } = require('../../../graphql/services/contextHelper');
 const removeItem = require('../removeCartItem/removeItem');
 
 module.exports = async (request, response, delegate, next) => {
   try {
     const cartId = getContextValue(request, 'cartId');
     if (!cartId) {
-      response.status(INVALID_PAYLOAD)
+      response.status(INVALID_PAYLOAD);
       response.json({
         error: {
           message: 'Invalid cart',

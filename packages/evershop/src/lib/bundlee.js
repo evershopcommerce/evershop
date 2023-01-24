@@ -90,8 +90,7 @@ module.exports = async (request, response, route) => {
   // eslint-disable-next-line no-param-reassign
   route.__BUILDING__ = true;
 
-  if (existsSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath)))
-    await rmdir(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath), { recursive: true });
+  if (existsSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath))) await rmdir(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build', scopePath), { recursive: true });
 
   const components = JSON.parse(JSON.stringify(getComponentsByRoute(route.id))) || {};
   Object.keys(components).forEach((area) => {
@@ -156,7 +155,7 @@ module.exports = async (request, response, route) => {
 
   await writeFile(path.resolve(CONSTANTS.ROOTPATH, '.evershop/build', scopePath, `${hash}.css`), cssOutput.styles);
 
-  if (!response.context.bundleJs || route.id === "notFound") {
+  if (!response.context.bundleJs || route.id === 'notFound') {
     if (request.isAdmin === true) {
       response.context.bundleJs = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.js`]);
       response.context.bundleCss = buildUrl('adminStaticAsset', [`${scopePath}/${hash}.css`]);

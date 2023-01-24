@@ -1,11 +1,11 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { buildUrl } = require("../../../../../lib/router/buildUrl");
-const { camelCase } = require("../../../../../lib/util/camelCase");
+const { select } = require('@evershop/mysql-query-builder');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
-    customerGroup: async (root, { id }, { pool, tokenPayload }) => {
-      if (!tokenPayload.isAdmin) {
+    customerGroup: async (root, { id }, { pool, userTokenPayload }) => {
+      if (!userTokenPayload?.user?.uuid) {
         return null;
       }
       const group = await select()
@@ -15,14 +15,14 @@ module.exports = {
 
       return group ? camelCase(group) : null;
     },
-    customerGroups: async (root, { id }, { pool, tokenPayload }) => {
-      if (!tokenPayload.isAdmin) {
+    customerGroups: async (root, { id }, { pool, userTokenPayload }) => {
+      if (!userTokenPayload?.user?.uuid) {
         return [];
       }
       const groups = await select()
         .from('customer_group')
         .execute(pool);
-      return groups.map(group => camelCase(group));
+      return groups.map((group) => camelCase(group));
     }
   },
   CustomerGroup: {
@@ -31,8 +31,8 @@ module.exports = {
         .from('customer')
         .where('customer.`group_id`', '=', group.customerGroupId)
         .execute(pool);
-      return customers.map(customer => camelCase(customer));
+      return customers.map((customer) => camelCase(customer));
     },
-    editUrl: (group, _, { }) => buildUrl('customerGroupEdit', { id: group.customerGroupId }),
+    editUrl: (group, _, { }) => buildUrl('customerGroupEdit', { id: group.customerGroupId })
   }
-}
+};

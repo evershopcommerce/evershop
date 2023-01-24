@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '../../../../lib/components/Area';
 import Open from '@heroicons/react/solid/esm/ChevronDoubleDownIcon';
 import Close from '@heroicons/react/solid/esm/ChevronDoubleUpIcon';
+import Area from '../../../../lib/components/Area';
 import NavigationItem from './NavigationItem';
 import './NavigationItemGroup.scss';
 
-export default function NavigationItemGroup({ id, name, items = [], Icon = null, url = null }) {
+export default function NavigationItemGroup({
+  id, name, items = [], Icon = null, url = null
+}) {
   return (
-    <li className='root-nav-item nav-item'>
-      <div className='flex justify-between items-center'>
+    <li className="root-nav-item nav-item">
+      <div className="flex justify-between items-center">
         <div className="root-label flex justify-between items-center">
           {Icon && <span><Icon /></span>}
           {!url && <span>{name}</span>}
@@ -20,11 +22,9 @@ export default function NavigationItemGroup({ id, name, items = [], Icon = null,
         <Area
           id={id}
           noOuter
-          coreComponents={items.map((item) => {
-            return {
-              component: { default: () => <NavigationItem {...item} /> }
-            }
-          })}
+          coreComponents={items.map((item) => ({
+            component: { default: () => <NavigationItem {...item} /> }
+          }))}
         />
       </ul>
     </li>

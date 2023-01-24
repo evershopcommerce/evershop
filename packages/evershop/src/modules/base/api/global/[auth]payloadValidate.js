@@ -1,15 +1,14 @@
-const Ajv = require("ajv")
-const addFormats = require("ajv-formats");
-const { INVALID_PAYLOAD } = require("../../../../lib/util/httpStatus");
+const Ajv = require('ajv');
+const addFormats = require('ajv-formats');
+const { INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
 
 module.exports = (request, response, delegate, next) => {
   // Get the current route
-  const currentRoute = request.currentRoute;
+  const { currentRoute } = request;
   // Get the payload schema
-  const payloadSchema = currentRoute.payloadSchema;
+  const { payloadSchema } = currentRoute;
   if (!payloadSchema) {
     next();
-    return;
   } else {
     // Validate the payload
     const ajv = new Ajv({
@@ -17,7 +16,7 @@ module.exports = (request, response, delegate, next) => {
       useDefaults: true
     });
     addFormats(ajv);
-    ajv.addFormat("digits", /^[0-9]*$/);
+    ajv.addFormat('digits', /^[0-9]*$/);
     const validate = ajv.compile(payloadSchema);
     const valid = validate(request.body);
     if (valid) {
@@ -29,7 +28,7 @@ module.exports = (request, response, delegate, next) => {
           status: INVALID_PAYLOAD,
           message: `${validate.errors[0].instancePath === '' ? 'Request data' : validate.errors[0].instancePath} ${validate.errors[0].message}`
         }
-      })
+      });
     }
   }
 };

@@ -8,15 +8,18 @@ const {
 const { get } = require('../../../../lib/util/get');
 
 module.exports = async (request, response, delegate) => {
-  let productId = await delegate.updateProduct;
+  const productId = await delegate.updateProduct;
   const connection = await delegate.getConnection;
   const attributes = get(request, 'body.attributes', []);
 
   for (let i = 0; i < attributes.length; i++) {
     const attribute = attributes[i];
+    if (attribute.value === null || attribute.value === undefined) {
+      continue;
+    }
     const attr = await select()
       .from('attribute')
-      .where('attribute_code', '=', attribute['attribute_code'])
+      .where('attribute_code', '=', attribute.attribute_code)
       .load(connection);
 
     if (!attr) {
@@ -32,7 +35,7 @@ module.exports = async (request, response, delegate) => {
 
       if (flag) {
         await update('product_attribute_value_index')
-          .given({ option_text: attribute['value'].trim() })
+          .given({ option_text: attribute.value.trim() })
           .where('product_id', '=', productId)
           .and('attribute_id', '=', attr.attribute_id)
           .execute(connection);
@@ -40,14 +43,14 @@ module.exports = async (request, response, delegate) => {
         await insert('product_attribute_value_index')
           .prime('product_id', productId)
           .prime('attribute_id', attr.attribute_id)
-          .prime('option_text', attribute['value'].trim())
+          .prime('option_text', attribute.value.trim())
           .execute(connection);
       }
     } else if (attr.type === 'multiselect') {
-      await Promise.all(attribute['value'].map(() => (async () => {
+      await Promise.all(attribute.value.map(() => (async () => {
         const option = await select()
           .from('attribute_option')
-          .where('attribute_option_id', '=', parseInt(attribute['value'], 10))
+          .where('attribute_option_id', '=', parseInt(attribute.value, 10))
           .load(connection);
         if (option === null) {
           return;
@@ -62,7 +65,7 @@ module.exports = async (request, response, delegate) => {
     } else if (attr.type === 'select') {
       const option = await select()
         .from('attribute_option')
-        .where('attribute_option_id', '=', parseInt(attribute['value'], 10))
+        .where('attribute_option_id', '=', parseInt(attribute.value, 10))
         .load(connection);
       // eslint-disable-next-line no-continue
       if (option === false) {
@@ -82,7 +85,7 @@ module.exports = async (request, response, delegate) => {
         .execute(connection);
     } else {
       await insertOnUpdate('product_attribute_value_index')
-        .prime('option_text', attribute['value'])
+        .prime('option_text', attribute.value)
         .execute(connection);
     }
   }

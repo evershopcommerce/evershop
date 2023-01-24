@@ -17,9 +17,9 @@ export default function Menu({ menu: { items } }) {
 }
 
 export const layout = {
-  areaId: "header",
+  areaId: 'header',
   sortOrder: 5
-}
+};
 
 export const query = `
   query {

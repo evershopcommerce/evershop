@@ -147,7 +147,7 @@ function FullfillButton({ shipment, createShipmentApi }) {
                 method="POST"
                 action={createShipmentApi}
                 submitBtn={false}
-                isJSON={true}
+                isJSON
                 onSuccess={() => {
                   location.reload();
                 }}
@@ -249,7 +249,7 @@ function AddTrackingButton({ shipment }) {
                 method="PATCH"
                 action={shipment.updateShipmentApi}
                 submitBtn={false}
-                isJSON={true}
+                isJSON
                 onSuccess={() => {
                   location.reload();
                 }}
@@ -309,7 +309,11 @@ function AddTrackingButton({ shipment }) {
   }
 }
 
-export default function Items({ order: { items, shipmentStatus, shipment, fullFillApi } }) {
+export default function Items({
+  order: {
+    items, shipmentStatus, shipment, fullFillApi
+  }
+}) {
   return (
     <Card title={(
       <div className="flex space-x-1">
@@ -321,44 +325,42 @@ export default function Items({ order: { items, shipmentStatus, shipment, fullFi
       <Card.Session>
         <table className="listing order-items">
           <tbody>
-            {items.map((i, k) => {
-              return (
-                <tr key={k}>
-                  <Area
-                    key={k}
-                    id={`order_item_row_${i.id}`}
-                    noOuter
-                    item={i}
-                    coreComponents={[
-                      {
-                        component: { default: Thumbnail },
-                        props: { imageUrl: i.thumbnail, qty: i.qty },
-                        sortOrder: 10,
-                        id: 'productThumbnail'
-                      },
-                      {
-                        component: { default: Name },
-                        props: { name: i.productName, options: [] }, // TODO: Implement custom options
-                        sortOrder: 20,
-                        id: 'productName'
-                      },
-                      {
-                        component: { default: Price },
-                        props: { price: i.productPrice.text, qty: i.qty },
-                        sortOrder: 30,
-                        id: 'price'
-                      },
-                      {
-                        component: { default: 'td' },
-                        props: { children: <span>{i.total.text}</span>, key: 'total' },
-                        sortOrder: 40,
-                        id: 'total'
-                      }
-                    ]}
-                  />
-                </tr>
-              );
-            })}
+            {items.map((i, k) => (
+              <tr key={k}>
+                <Area
+                  key={k}
+                  id={`order_item_row_${i.id}`}
+                  noOuter
+                  item={i}
+                  coreComponents={[
+                    {
+                      component: { default: Thumbnail },
+                      props: { imageUrl: i.thumbnail, qty: i.qty },
+                      sortOrder: 10,
+                      id: 'productThumbnail'
+                    },
+                    {
+                      component: { default: Name },
+                      props: { name: i.productName, options: [] }, // TODO: Implement custom options
+                      sortOrder: 20,
+                      id: 'productName'
+                    },
+                    {
+                      component: { default: Price },
+                      props: { price: i.productPrice.text, qty: i.qty },
+                      sortOrder: 30,
+                      id: 'price'
+                    },
+                    {
+                      component: { default: 'td' },
+                      props: { children: <span>{i.total.text}</span>, key: 'total' },
+                      sortOrder: 40,
+                      id: 'total'
+                    }
+                  ]}
+                />
+              </tr>
+            ))}
           </tbody>
         </table>
       </Card.Session>
@@ -376,7 +378,7 @@ export default function Items({ order: { items, shipmentStatus, shipment, fullFi
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -415,4 +417,4 @@ export const query = `
       fullFillApi
     }
   }
-`
+`;

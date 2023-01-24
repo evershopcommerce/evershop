@@ -1,4 +1,4 @@
-const { findDublicatedMiddleware } = require("./findDublicatedMiddleware");
+const { findDublicatedMiddleware } = require('./findDublicatedMiddleware');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};

@@ -13,12 +13,12 @@ module.exports = exports = {};
  *
  */
 exports.registerAdminRoute = (id, method, path, isApi = false, folder = '') => {
-  //const route = validateRoute(id, method, path);
+  // const route = validateRoute(id, method, path);
   const route = {
     id: String(id),
     method,
-    path,
-  }
+    path
+  };
   route.isAdmin = true;
   route.isApi = isApi;
   route.path = route.path === '/' ? '/admin' : `/admin${path}`;

@@ -1,25 +1,46 @@
-import React, { useState } from 'react';
+import { useReducer } from 'react';
+import './Alert.scss';
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'close':
+      return { ...state, showing: false, closing: false };
+    case 'closing':
+      return { ...state, showing: true, closing: true };
+    case 'open':
+      return { ...state, showing: true, closing: false };
+    default:
+      throw new Error();
+  }
+}
 
 const useModal = () => {
-  const [isShowing, setIsShowing] = useState(false);
-  const [closing, setClosing] = useState(false);
+  const [state, dispatch] = useReducer(reducer, { showing: false, closing: false });
 
-  React.useEffect(() => {
-    if (isShowing) setClosing(false);
-  }, [isShowing]);
+  const openModal = () => {
+    dispatch({
+      type: 'open'
+    });
+  };
 
-  function toggle() {
-    if (isShowing === false) setIsShowing(true);
-    else {
-      setClosing(true);
+  const closeModal = () => {
+    dispatch({
+      type: 'closing'
+    });
+  };
+
+  const onAnimationEnd = () => {
+    if (state.closing) {
+      dispatch({ type: 'close' })
     }
-  }
+  };
 
   return {
-    isShowing,
-    close: () => { setIsShowing(false); setClosing(false); },
-    closing,
-    toggle
+    state,
+    openModal,
+    closeModal,
+    onAnimationEnd,
+    className: state.closing === false ? 'modal-overlay fadeIn' : 'modal-overlay fadeOut'
   };
 };
 

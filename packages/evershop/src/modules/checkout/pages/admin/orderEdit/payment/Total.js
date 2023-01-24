@@ -6,7 +6,7 @@ export function Total({ total }) {
     <div className="summary-row">
       <span>Total</span>
       <div>
-        <span></span>
+        <span />
         <div>{total}</div>
       </div>
     </div>

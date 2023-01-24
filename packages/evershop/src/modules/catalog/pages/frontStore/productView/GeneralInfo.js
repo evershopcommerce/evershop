@@ -12,7 +12,6 @@ Name.propTypes = {
 };
 
 function Price({ regular, special }) {
-
   return (
     <h4 className="product-single-price">
       {special.value === regular.value && (
@@ -92,7 +91,7 @@ export default function GeneralInfo({ product }) {
 }
 
 export const layout = {
-  areaId: "productPageMiddleRight",
+  areaId: 'productPageMiddleRight',
   sortOrder: 10
 };
 

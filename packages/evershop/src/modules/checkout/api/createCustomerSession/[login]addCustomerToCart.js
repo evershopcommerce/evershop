@@ -1,11 +1,11 @@
-const { select, update } = require("@evershop/mysql-query-builder");
-const { pool } = require("../../../../lib/mysql/connection");
-const { getContextValue } = require("../../../graphql/services/contextHelper");
+const { select, update } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../../lib/mysql/connection');
+const { getContextValue } = require('../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
   try {
-    const tokenPayload = getContextValue(request, 'tokenPayload');
-    const { sid, user: { fullName, email, customerId } } = tokenPayload;
+    const customerTokenPayload = getContextValue(request, 'customerTokenPayload');
+    const { sid, customer: { fullName, email, customerId, groupId } } = customerTokenPayload;
     // Check if there is any cart with the same sid
     const cart = await select()
       .from('cart')
@@ -15,8 +15,9 @@ module.exports = async (request, response, delegate, next) => {
     if (cart) {
       await update('cart')
         .given({
+          customer_group_id: groupId,
           customer_id: customerId,
-          customer_name: fullName,
+          customer_full_name: fullName,
           customer_email: email
         })
         .where('cart_id', '=', cart.cart_id)

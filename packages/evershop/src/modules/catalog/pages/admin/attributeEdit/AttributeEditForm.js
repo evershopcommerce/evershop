@@ -8,10 +8,10 @@ import { get } from '../../../../../lib/util/get';
 export default function AttributeEditForm({
   action, gridUrl
 }) {
-  const id = "attributeForm";
+  const id = 'attributeForm';
   return (
     <Form
-      method={'PATCH'}
+      method="PATCH"
       action={action}
       onError={() => {
         toast.error('Something wrong. Please reload the page!');
@@ -26,7 +26,7 @@ export default function AttributeEditForm({
       submitBtn={false}
       id={id}
     >
-      <Area id={id} noOuter={true} />
+      <Area id={id} noOuter />
     </Form>
   );
 }
@@ -39,7 +39,7 @@ AttributeEditForm.propTypes = {
 export const layout = {
   areaId: 'content',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

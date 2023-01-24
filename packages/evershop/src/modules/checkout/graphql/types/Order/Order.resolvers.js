@@ -1,19 +1,19 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { buildUrl } = require("../../../../../lib/router/buildUrl");
-const { camelCase } = require("../../../../../lib/util/camelCase");
-const { getConfig } = require("../../../../../lib/util/getConfig");
+const { select } = require('@evershop/mysql-query-builder');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { camelCase } = require('../../../../../lib/util/camelCase');
+const { getConfig } = require('../../../../../lib/util/getConfig');
 
 module.exports = {
   Query: {
-    order: async (_, { id }, { pool, tokenPayload }) => {
+    order: async (_, { id }, { pool }) => {
       const query = select()
         .from('order');
-      query.where('uuid', '=', id)
+      query.where('uuid', '=', id);
       const order = await query.load(pool);
       if (!order) {
         return null;
       } else {
-        return camelCase(order)
+        return camelCase(order);
       }
     },
     orders: async (_, { filters = [] }, { pool }) => {
@@ -30,7 +30,7 @@ module.exports = {
             value: filter.value
           });
         }
-        // Order Date filter 
+        // Order Date filter
         const createdAtFilter = filters.find((f) => f.key === 'createdAt');
         if (createdAtFilter) {
           const [min, max] = createdAtFilter.value.split('-').map((v) => parseFloat(v));
@@ -49,7 +49,7 @@ module.exports = {
           }
         }
 
-        // Customer email filter 
+        // Customer email filter
         if (filter.key === 'customerEmail') {
           query.andWhere('order.`customer_email`', 'LIKE', `%${filter.value}%`);
           currentFilters.push({
@@ -59,7 +59,7 @@ module.exports = {
           });
         }
 
-        // Shipment status filter 
+        // Shipment status filter
         if (filter.key === 'shipmentStatus') {
           query.andWhere('order.`shipment_status`', '=', filter.value);
           currentFilters.push({
@@ -69,7 +69,7 @@ module.exports = {
           });
         }
 
-        // Payment status filter 
+        // Payment status filter
         if (filter.key === 'paymentStatus') {
           query.andWhere('order.`payment_status`', '=', filter.value);
           currentFilters.push({
@@ -79,7 +79,7 @@ module.exports = {
           });
         }
 
-        // Order Total filter 
+        // Order Total filter
         const totalFilter = filters.find((f) => f.key === 'total');
         if (totalFilter) {
           const [min, max] = totalFilter.value.split('-').map((v) => parseFloat(v));
@@ -97,7 +97,7 @@ module.exports = {
             currentFilters.push(currentTotalFilter);
           }
         }
-      })
+      });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
       const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
@@ -109,8 +109,8 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('`order`.`order_id`', "DESC");// TODO: Fix 'order' table name should be wrapped in backticks
-      };
+        query.orderBy('`order`.`order_id`', 'DESC');// TODO: Fix 'order' table name should be wrapped in backticks
+      }
 
       if (sortOrder.key) {
         currentFilters.push({
@@ -137,13 +137,13 @@ module.exports = {
       });
       query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
       return {
-        items: (await query.execute(pool)).map(row => camelCase(row)),
-        total: (await cloneQuery.load(pool))['total'],
-        currentFilters: currentFilters,
-      }
+        items: (await query.execute(pool)).map((row) => camelCase(row)),
+        total: (await cloneQuery.load(pool)).total,
+        currentFilters
+      };
     },
     shipmentStatusList: () => getConfig('order.shipmentStatus', []),
-    paymentStatusList: () => getConfig('order.paymentStatus', []),
+    paymentStatusList: () => getConfig('order.paymentStatus', [])
   },
   Order: {
     items: async ({ orderId }, { }, { pool, user }) => {
@@ -170,7 +170,7 @@ module.exports = {
     activities: async ({ orderId }, { }, { pool }) => {
       const query = select()
         .from('order_activity');
-      query.where('order_activity_order_id', '=', orderId)
+      query.where('order_activity_order_id', '=', orderId);
       query.orderBy('order_activity_id', 'DESC');
       const activities = await query.execute(pool);
       return activities ? activities.map((activity) => camelCase(activity)) : null;
@@ -184,9 +184,9 @@ module.exports = {
     },
     editUrl: ({ uuid }) => buildUrl('orderEdit', { id: uuid }),
     fullFillApi: ({ uuid }) => buildUrl('createShipment', { id: uuid }),
-    customerUrl: ({ customerId }) => customerId ? buildUrl('customerEdit', { id: customerId }) : null
+    customerUrl: ({ customerId }) => (customerId ? buildUrl('customerEdit', { id: customerId }) : null)
   },
   Shipment: {
     updateShipmentApi: ({ orderUuid, uuid }) => buildUrl('updateShipment', { order_id: orderUuid, shipment_id: uuid })
   }
-}
+};

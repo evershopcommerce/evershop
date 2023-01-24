@@ -1,5 +1,5 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { buildUrl } = require("../../../../../lib/router/buildUrl");
+const { select } = require('@evershop/mysql-query-builder');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
 module.exports = {
   Query: {
@@ -23,4 +23,4 @@ module.exports = {
       return { items };
     }
   }
-}
+};

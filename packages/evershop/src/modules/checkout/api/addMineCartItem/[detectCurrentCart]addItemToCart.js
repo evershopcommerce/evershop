@@ -1,10 +1,10 @@
-const { setContextValue, getContextValue } = require("../../../graphql/services/contextHelper");
-const { getCartByUUID } = require("../../services/getCartByUUID");
-const { saveCart } = require("../../services/saveCart");
-const { INVALID_PAYLOAD, INTERNAL_SERVER_ERROR, OK } = require("../../../../lib/util/httpStatus");
-const { select } = require("@evershop/mysql-query-builder");
-const { pool } = require("../../../../lib/mysql/connection");
-const { createNewCart } = require("../../services/createNewCart");
+const { select } = require('@evershop/mysql-query-builder');
+const { setContextValue, getContextValue } = require('../../../graphql/services/contextHelper');
+const { getCartByUUID } = require('../../services/getCartByUUID');
+const { saveCart } = require('../../services/saveCart');
+const { INVALID_PAYLOAD, INTERNAL_SERVER_ERROR, OK } = require('../../../../lib/util/httpStatus');
+const { pool } = require('../../../../lib/mysql/connection');
+const { createNewCart } = require('../../services/createNewCart');
 
 module.exports = async (request, response, delegate, next) => {
   try {
@@ -12,13 +12,13 @@ module.exports = async (request, response, delegate, next) => {
     let cart;
     if (!cartId) {
       // Create a new cart
-      const tokenPayload = getContextValue(request, "tokenPayload", {});
-      cart = await createNewCart(tokenPayload);
+      const customerTokenPayload = getContextValue(request, 'customerTokenPayload', {});
+      cart = await createNewCart(customerTokenPayload);
       cartId = cart.getData('uuid');
     } else {
       cart = await getCartByUUID(cartId); // Cart object
     }
-    let { sku, qty } = request.body;
+    const { sku, qty } = request.body;
 
     // Load the product by sku
     const product = await select()
@@ -32,14 +32,14 @@ module.exports = async (request, response, delegate, next) => {
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: "Product not found"
+          message: 'Product not found'
         }
       });
       return;
     }
 
     // If everything is fine, add the product to the cart
-    const item = await cart.addItem({ product_id: product['product_id'], qty });
+    const item = await cart.addItem({ product_id: product.product_id, qty });
     await saveCart(cart);
     // Set the new cart id to the context, so next middleware can use it
     setContextValue(request, 'cartId', cart.getData('uuid'));
@@ -53,7 +53,7 @@ module.exports = async (request, response, delegate, next) => {
     };
     next();
   } catch (error) {
-    console.log(error)
+    console.log(error);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

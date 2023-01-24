@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Error from './Error';
-import './../Field.scss';
+import '../Field.scss';
 
 const inputProps = function buidProps(props) {
   const obj = {};

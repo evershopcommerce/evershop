@@ -3,9 +3,7 @@ import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Card } from '../../../../cms/components/admin/Card';
 
-const getGroup = (groups = [], groupId) => {
-  return groups.find((group) => parseInt(group.groupId) === parseInt(groupId)) || groups[0];
-};
+const getGroup = (groups = [], groupId) => groups.find((group) => parseInt(group.groupId) === parseInt(groupId)) || groups[0];
 
 export default function Attributes({ product, groups }) {
   const attributeIndex = product?.attributeIndex || [];
@@ -17,11 +15,10 @@ export default function Attributes({ product, groups }) {
     if (product?.groupId) {
       // eslint-disable-next-line no-alert
       alert('You can not change the attribute group of a product that is already in a variant group.');
-      return;
     } else {
       setCurrentGroup(getGroup(groups, e.target.value));
     }
-  }
+  };
 
   return (
     <Card>
@@ -30,12 +27,15 @@ export default function Attributes({ product, groups }) {
         subdued
       >
         <div>
-          {product?.variantGroupId && <div>
-            <input type='hidden' value={currentGroup.groupId} name={'group_id'} />
-            <div className='border rounded border-divider p-1'><span>{currentGroup.groupName}</span></div>
-            <div className='italic text-textSubdued'>Can not change the attribute group of a product that is already in a variant group.</div>
-          </div>}
-          {!product?.variantGroupId && <Field
+          {product?.variantGroupId && (
+          <div>
+            <input type="hidden" value={currentGroup.groupId} name="group_id" />
+            <div className="border rounded border-divider p-1"><span>{currentGroup.groupName}</span></div>
+            <div className="italic text-textSubdued">Can not change the attribute group of a product that is already in a variant group.</div>
+          </div>
+          )}
+          {!product?.variantGroupId && (
+          <Field
             name="group_id"
             value={currentGroup.groupId}
             onChange={(e) => handleGroupChange(e)}
@@ -43,15 +43,16 @@ export default function Attributes({ product, groups }) {
               (g) => ({ value: parseInt(g.groupId, 10), text: g.groupName })
             ))()}
             type="select"
-          />}
+          />
+          )}
         </div>
       </Card.Session>
       <Card.Session title="Attributes">
         <table className="table table-auto">
           <tbody>
             {currentGroup.attributes.map((attribute, index) => {
-              const valueIndex = attributeIndex.find(idx => idx.attributeId === attribute.attributeId);
-              const valueIndexMulti = attributeIndex.filter(idx => idx.attributeId === attribute.attributeId);
+              const valueIndex = attributeIndex.find((idx) => idx.attributeId === attribute.attributeId);
+              const valueIndexMulti = attributeIndex.filter((idx) => idx.attributeId === attribute.attributeId);
               let field = null;
               switch (attribute.type) {
                 case 'text':
@@ -114,7 +115,7 @@ export default function Attributes({ product, groups }) {
                   field = (
                     <Field
                       name={`attributes[${index}][value][]`}
-                      value={valueIndexMulti.map(i => i.optionId)}
+                      value={valueIndexMulti.map((i) => i.optionId)}
                       options={(() => attribute.options.map(
                         (o) => ({ value: o.optionId, text: o.optionText })
                       ))()}
@@ -139,7 +140,7 @@ export default function Attributes({ product, groups }) {
                     {attribute.attributeName}
                   </td>
                   <td>
-                    <input type='hidden' value={attribute.attributeCode} name={`attributes[${index}][attribute_code]`} />
+                    <input type="hidden" value={attribute.attributeCode} name={`attributes[${index}][attribute_code]`} />
                     {field}
                   </td>
                 </tr>
@@ -155,7 +156,7 @@ export default function Attributes({ product, groups }) {
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 30
-}
+};
 
 export const query = `
   query Query {

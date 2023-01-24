@@ -14,5 +14,4 @@ export default function CheckoutSuccessPage({ order }) {
 export const layout = {
   areaId: 'content',
   sortOrder: 10
-}
-
+};

@@ -1,6 +1,6 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { pool } = require("../../../lib/mysql/connection");
-const { getProductsBaseQuery } = require("./getProductsBaseQuery");
+const { select } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../lib/mysql/connection');
+const { getProductsBaseQuery } = require('./getProductsBaseQuery');
 
 module.exports.getPriceRange = async function getPriceRange(categoryId) {
   const productsQuery = await getProductsBaseQuery(categoryId);
@@ -17,4 +17,4 @@ module.exports.getPriceRange = async function getPriceRange(categoryId) {
     .execute(pool);
 
   return priceRange[0];
-}
+};

@@ -9,6 +9,6 @@ export default function ShipmentStatusRow({ status }) {
 ShipmentStatusRow.propTypes = {
   status: PropTypes.string.isRequired,
   statusList: PropTypes.arrayOf({
-    code: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired
   }).isRequired
 };

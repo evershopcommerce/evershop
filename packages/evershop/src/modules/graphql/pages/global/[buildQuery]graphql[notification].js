@@ -1,9 +1,9 @@
-var schema = require('../../services/buildSchema');
-const { getContext } = require('../../services/contextHelper');
 const { execute } = require('graphql');
 const { parse } = require('graphql');
+const { validate } = require('graphql/validation');
+let schema = require('../../services/buildSchema');
+const { getContext } = require('../../services/contextHelper');
 const isDevelopmentMode = require('../../../../lib/util/isDevelopmentMode');
-var { validate } = require('graphql/validation');
 
 module.exports = async function graphql(request, response, delegate, next) {
   // TODO: Should we wait for previous async middlewares?
@@ -15,14 +15,14 @@ module.exports = async function graphql(request, response, delegate, next) {
     } else {
       // Try remove all white space and line break
       const query = graphqlQuery.replace(/(\r\n|\n|\r|\s)/gm, '');
-      if (query === 'queryQuery{}') {// TODO: oh no, so dirty. find a better way to check if the query is empty
+      if (query === 'queryQuery{}') { // TODO: oh no, so dirty. find a better way to check if the query is empty
         next();
       } else {
         const document = parse(graphqlQuery);
         // Validate the query
         const validationErrors = validate(schema, document);
         if (validationErrors.length > 0) {
-          console.log(document)
+          console.log(document);
           next(validationErrors[0]);
         } else {
           if (isDevelopmentMode()) {
@@ -47,4 +47,4 @@ module.exports = async function graphql(request, response, delegate, next) {
   } catch (error) {
     next(error);
   }
-}
+};

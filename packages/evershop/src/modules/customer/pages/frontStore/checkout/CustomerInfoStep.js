@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { toast } from 'react-toastify';
 import { Form } from '../../../../../lib/components/form/Form';
 import { Field } from '../../../../../lib/components/form/Field';
 import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
 import { useCheckout } from '../../../../../lib/context/checkout';
-import { toast } from 'react-toastify';
 
-function Edit({ user, addContactInfoApi, email, setEmail, loginUrl }) {
+function Edit({
+  user, addContactInfoApi, email, setEmail, loginUrl
+}) {
   const { completeStep } = useCheckoutStepsDispatch();
 
   const onSuccess = (response) => {
@@ -41,20 +43,24 @@ function Edit({ user, addContactInfoApi, email, setEmail, loginUrl }) {
         toast.error(data.error.message);
       }
     }
-    setContactIfLoggedIn()
+    setContactIfLoggedIn();
   }, []);
 
   return (
     <div className="">
-      <h4 className="mb-1 mt-1">{'Contact information'}</h4>
-      {!user && <div className='mb-1'>
-        <span>Already have an account?</span> <a className='text-interactive hover:underline' href={loginUrl}>Login</a>
-      </div>}
+      <h4 className="mb-1 mt-1">Contact information</h4>
+      {!user && (
+      <div className="mb-1">
+        <span>Already have an account?</span>
+        {' '}
+        <a className="text-interactive hover:underline" href={loginUrl}>Login</a>
+      </div>
+      )}
       <Form
         id="checkout-contact-info-form"
         action={addContactInfoApi}
         method="POST"
-        isJSON={true}
+        isJSON
         onSuccess={onSuccess}
         submitBtn
         btnText="Continue to shipping"
@@ -96,10 +102,10 @@ export default function ContactInformationStep({
       id: 'contact',
       title: 'Contact information',
       previewTitle: 'Contact',
-      isCompleted: customerEmail ? true : false,
-      preview: customerEmail ? customerEmail : '',
+      isCompleted: !!customerEmail,
+      preview: customerEmail || '',
       sortOrder: 5,
-      editable: user ? false : true
+      editable: !user
     });
   }, []);
 
@@ -107,12 +113,12 @@ export default function ContactInformationStep({
     setDisplay(canStepDisplay(step, steps));
   });
 
-  if (step.isCompleted)
-    return null;
+  if (step.isCompleted) return null;
 
   return (
     <div className="checkout-contact checkout-step">
-      {display && <Edit
+      {display && (
+      <Edit
         user={user}
         step={step}
         cartId={cartId}
@@ -120,7 +126,8 @@ export default function ContactInformationStep({
         addContactInfoApi={addContactInfoApi}
         setEmail={setEmail}
         loginUrl={loginUrl}
-      />}
+      />
+      )}
     </div>
   );
 }
@@ -132,7 +139,7 @@ ContactInformationStep.propTypes = {
 export const layout = {
   areaId: 'checkoutSteps',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -145,4 +152,4 @@ export const query = `
     }
     loginUrl: url(routeId: "login")
   }
-`
+`;

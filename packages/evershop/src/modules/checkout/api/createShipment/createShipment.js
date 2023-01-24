@@ -45,8 +45,8 @@ module.exports = async (request, response, deledate, next) => {
     const result = await insert('shipment')
       .given({
         shipment_order_id: order.order_id,
-        carrier_name: carrier_name,
-        tracking_number: tracking_number
+        carrier_name,
+        tracking_number
       })
       .execute(connection);
     /* Update Shipment status to fullfilled */

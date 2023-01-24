@@ -2,19 +2,27 @@ import React from 'react';
 import { Card } from '../../../../cms/components/admin/Card';
 
 export default function OrderInfo(
-  { order: {
-    shippingAddress,
-    billingAddress,
-    customerFullName,
-    customerEmail,
-    customerUrl
-  } }
+  {
+    order: {
+      shippingAddress,
+      billingAddress,
+      customerFullName,
+      customerEmail,
+      customerUrl
+    }
+  }
 ) {
   return (
     <Card title="Customer">
       <Card.Session>
         {customerUrl && <a href={customerUrl} className="text-interactive hover:underline block">{customerFullName}</a>}
-        {!customerUrl && <span>{customerEmail} (Guest Checkout)</span>}
+        {!customerUrl && (
+        <span>
+          {customerEmail}
+          {' '}
+          (Guest Checkout)
+        </span>
+        )}
       </Card.Session>
       <Card.Session title="Contact information">
         <div><a href="#" className="text-interactive hover:underline">{customerEmail}</a></div>
@@ -49,7 +57,7 @@ export default function OrderInfo(
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 15
-}
+};
 
 export const query = `
   query Query {
@@ -87,4 +95,4 @@ export const query = `
       }
     }
   }
-`
+`;

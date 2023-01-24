@@ -12,7 +12,7 @@ export default function ShipmentStatus({ order: { shipmentStatus } }) {
 export const layout = {
   areaId: 'pageHeadingLeft',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {
@@ -25,4 +25,4 @@ export const query = `
       }
     }
   }
-`
+`;

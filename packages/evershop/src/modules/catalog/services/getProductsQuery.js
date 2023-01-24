@@ -1,6 +1,6 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { pool } = require("../../../lib/mysql/connection");
-const { getProductsBaseQuery } = require("./getProductsBaseQuery");
+const { select } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../lib/mysql/connection');
+const { getProductsBaseQuery } = require('./getProductsBaseQuery');
 
 module.exports.getProductsQuery = async function getProductsQuery(categoryId) {
   // Visibility filter
@@ -43,4 +43,4 @@ module.exports.getProductsQuery = async function getProductsQuery(categoryId) {
   }
 
   return query;
-}
+};

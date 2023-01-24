@@ -21,7 +21,7 @@ module.exports = async (request, response, delegate) => {
 
     await update('category_description')
       .given(request.body)
-      .where('category_description_category_id', '=', category['category_id'])
+      .where('category_description_category_id', '=', category.category_id)
       .execute(connection);
   } catch (e) {
     if (!e.message.includes('No data was provided')) {

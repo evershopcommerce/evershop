@@ -1,5 +1,3 @@
-const { getConfig } = require("../../../lib/util/getConfig");
+const { getConfig } = require('../../../lib/util/getConfig');
 
-module.exports.getTokenLifeTime = () => {
-  return getConfig('jwt.web_token_life_time', '2d');
-}
+module.exports.getTokenLifeTime = () => getConfig('jwt.web_token_life_time', '2d');

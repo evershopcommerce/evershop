@@ -1,15 +1,15 @@
 const fs = require('fs');
 const { inspect } = require('util');
-const { CONSTANTS } = require('../../helpers');
 const JSON5 = require('json5');
+const { CONSTANTS } = require('../../helpers');
 
 /* eslint-disable no-multi-assign */
 /* eslint-disable global-require */
 module.exports = exports = function areaLoader(c) {
   const components = (this.getOptions().getComponents)();
-  const routeId = this.getOptions().routeId;
+  const { routeId } = this.getOptions();
   let content;
-  let areas = {};
+  const areas = {};
   components.forEach((module) => {
     this.addDependency(module);
     if (!fs.existsSync(module)) {
@@ -27,9 +27,9 @@ module.exports = exports = function areaLoader(c) {
         const id = Buffer.from(module.replace(CONSTANTS.ROOTPATH, '')).toString('base64');
         areas[layout.areaId] = areas[layout.areaId] || {};
         areas[layout.areaId][id] = {
-          id: id,
+          id,
           sortOrder: layout.sortOrder,
-          component: `---require('${module}')---`,
+          component: `---require('${module}')---`
         };
       } catch (e) {
         console.log(`Error parsing layout from ${module}`);
@@ -39,5 +39,5 @@ module.exports = exports = function areaLoader(c) {
   });
 
   content = `Area.defaultProps.components = ${inspect(areas, { depth: 5 }).replace(/"---/g, '').replace(/---"/g, '')} `;
-  return c.replace('/**render*/', content).replace('/eHot', `/eHot/${routeId}`);
+  return c.replace('/** render */', content).replace('/eHot', `/eHot/${routeId}`);
 };

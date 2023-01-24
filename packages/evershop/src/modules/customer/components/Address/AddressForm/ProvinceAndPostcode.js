@@ -25,7 +25,7 @@ export function ProvinceAndPostcode({
           placeholder="Postcode"
           validationRules={[{
             rule: 'notEmpty',
-            message: 'Postcode is required',
+            message: 'Postcode is required'
           }]}
         />
       </div>
@@ -36,17 +36,17 @@ export function ProvinceAndPostcode({
 ProvinceAndPostcode.propTypes = {
   address: PropTypes.shape({
     province: PropTypes.shape({
-      code: PropTypes.string,
+      code: PropTypes.string
     }),
-    postcode: PropTypes.string,
+    postcode: PropTypes.string
   }),
   allowCountries: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
     provinces: PropTypes.arrayOf(PropTypes.shape({
       code: PropTypes.string,
-      name: PropTypes.string,
-    })),
+      name: PropTypes.string
+    }))
   })).isRequired,
-  selectedCountry: PropTypes.string,
+  selectedCountry: PropTypes.string
 };

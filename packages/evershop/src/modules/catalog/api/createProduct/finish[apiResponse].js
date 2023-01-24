@@ -35,22 +35,22 @@ module.exports = async (request, response, delegate, next) => {
         ...product,
         links: [
           {
-            "rel": "productGrid",
-            "href": buildUrl('productGrid'),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'productGrid',
+            href: buildUrl('productGrid'),
+            action: 'GET',
+            types: ['text/xml']
           },
           {
-            "rel": "view",
-            "href": buildUrl('productView', { url_key: product.url_key }),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'view',
+            href: buildUrl('productView', { url_key: product.url_key }),
+            action: 'GET',
+            types: ['text/xml']
           },
           {
-            "rel": "edit",
-            "href": buildUrl('productEdit', { id: product.uuid }),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'edit',
+            href: buildUrl('productEdit', { id: product.uuid }),
+            action: 'GET',
+            types: ['text/xml']
           }
         ]
       }

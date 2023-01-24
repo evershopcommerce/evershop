@@ -3534,7 +3534,9 @@ function ProvinceOptions(props) {
       child,
       {
         options: options.filter(
-          (o) => o.country_code === country), ...props
+          (o) => o.country_code === country
+        ),
+        ...props
       }
     )
   );

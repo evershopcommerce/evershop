@@ -1,14 +1,14 @@
-const { getConfig } = require("../../../../../lib/util/getConfig");
+const { getConfig } = require('../../../../../lib/util/getConfig');
 
 module.exports = {
   Query: {
     shipmentStatusList: () => {
       const statusList = getConfig('order.shipmentStatus', []);
-      return statusList.map(status => status.code)
+      return statusList.map((status) => status.code);
     },
     paymentStatusList: () => {
       const statusList = getConfig('order.paymentStatus', []);
-      return statusList.map(status => status.code)
+      return statusList.map((status) => status.code);
     }
   },
   ShipmentStatus: {
@@ -47,4 +47,4 @@ module.exports = {
       return status ? status.progress : null;
     }
   }
-}
+};

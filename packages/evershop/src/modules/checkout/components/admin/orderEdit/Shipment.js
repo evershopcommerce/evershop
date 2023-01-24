@@ -91,7 +91,11 @@ Actions.propTypes = {
   status: PropTypes.string.isRequired
 };
 
-export default function Shipment({ order: { orderId, shippingNote, shippingMethod, shippingMethodName, shipmentStatus, totalWeight, grandTotal }, startShipUrl, completeShipUrl }) {
+export default function Shipment({
+  order: {
+    orderId, shippingNote, shippingMethod, shippingMethodName, shipmentStatus, totalWeight, grandTotal
+  }, startShipUrl, completeShipUrl
+}) {
   return (
     <Card title="Shipment">
       <Card.Session>
@@ -219,4 +223,4 @@ export const layout = `
     startShipUrl: url(routeId: )
     completeShipUrl
   }
-`
+`;

@@ -62,7 +62,7 @@ function Alert({ children }) {
     <AlertContext.Provider value={{ dispatchAlert, openAlert, closeAlert: () => dispatch({ type: 'closing' }) }}>
       {children}
       {state.showing === true && ReactDOM.createPortal(<div className={state.closing === false ? 'modal-overlay fadeIn' : 'modal-overlay fadeOut'} onAnimationEnd={() => { if (state.closing) { dispatch({ type: 'close' }); dispatchAlert({ type: 'remove' }); } }}>
-        <div key={state.key} className="modal-wrapper flex self-center" aria-modal aria-hidden tabIndex={-1} role="dialog">
+        <div key={state.key} className="modal-wrapper flex self-center justify-center" aria-modal aria-hidden tabIndex={-1} role="dialog">
           <div className="modal">
             <button type="button" className="modal-close-button text-icon" onClick={() => dispatch({ type: 'closing' })}>
               <svg xmlns="http://www.w3.org/2000/svg" width="2rem" viewBox="0 0 20 20" fill="currentColor">
@@ -74,20 +74,22 @@ function Alert({ children }) {
               <Card.Session>
                 {alert.content}
               </Card.Session>
-              <Card.Session>
-                <div className="flex justify-end space-x-1">
-                  {alert.primaryAction && (
-                    <Button
-                      {...alert.primaryAction}
-                    />
-                  )}
-                  {alert.secondaryAction && (
-                    <Button
-                      {...alert.secondaryAction}
-                    />
-                  )}
-                </div>
-              </Card.Session>
+              {(alert.primaryAction !== undefined || alert.secondaryAction !== undefined) && (
+                <Card.Session>
+                  <div className="flex justify-end space-x-1">
+                    {alert.primaryAction && (
+                      <Button
+                        {...alert.primaryAction}
+                      />
+                    )}
+                    {alert.secondaryAction && (
+                      <Button
+                        {...alert.secondaryAction}
+                      />
+                    )}
+                  </div>
+                </Card.Session>
+              )}
             </Card>
           </div>
         </div>

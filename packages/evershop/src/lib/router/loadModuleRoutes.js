@@ -48,4 +48,4 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
       );
     });
   }
-}
+};

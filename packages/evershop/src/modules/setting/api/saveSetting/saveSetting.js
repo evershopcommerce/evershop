@@ -19,15 +19,15 @@ module.exports = async (request, response, delegate, next) => {
               value: JSON.stringify(value),
               is_json: 1
             })
-            .execute(pool)
+            .execute(pool);
         } else {
           await insertOnUpdate('setting')
             .given({
               name: key,
-              value: value,
+              value,
               is_json: 0
             })
-            .execute(pool)
+            .execute(pool);
         }
       }
     }

@@ -1,54 +1,54 @@
-const { getConfig } = require("../../../../../lib/util/getConfig");
+const { getConfig } = require('../../../../../lib/util/getConfig');
 
 module.exports = {
   Setting: {
-    paypalPaymentStatus: (setting, { _ }, { pool }) => {
+    paypalPaymentStatus: (setting) => {
       const paypalConfig = getConfig('system.paypal', {});
       if (paypalConfig.status) {
         return paypalConfig.status;
       }
-      const paypalPaymentStatus = setting.find(s => s.name === 'paypalPaymentStatus');
+      const paypalPaymentStatus = setting.find((s) => s.name === 'paypalPaymentStatus');
       if (paypalPaymentStatus) {
         return parseInt(paypalPaymentStatus.value);
       } else {
         return 0;
       }
     },
-    paypalDislayName: (setting, { _ }, { pool }) => {
-      const paypalDislayName = setting.find(s => s.name === 'paypalDislayName');
+    paypalDislayName: (setting) => {
+      const paypalDislayName = setting.find((s) => s.name === 'paypalDislayName');
       if (paypalDislayName) {
         return paypalDislayName.value;
       } else {
         return 'Paypal';
       }
     },
-    paypalPaymentIntent: (setting, { _ }, { pool }) => {
-      const paypalPaymentIntent = setting.find(s => s.name === 'paypalPaymentIntent');
+    paypalPaymentIntent: (setting) => {
+      const paypalPaymentIntent = setting.find((s) => s.name === 'paypalPaymentIntent');
       if (paypalPaymentIntent) {
         return paypalPaymentIntent.value;
       } else {
         return 'CAPTURE';
       }
     },
-    paypalClientId: (setting, { _ }, { tokenPayload }) => {
+    paypalClientId: (setting) => {
       const paypalConfig = getConfig('system.paypal', {});
       if (paypalConfig.clientId) {
         return paypalConfig.clientId;
       }
-      const paypalClientId = setting.find(s => s.name === 'paypalClientId');
+      const paypalClientId = setting.find((s) => s.name === 'paypalClientId');
       if (paypalClientId) {
         return paypalClientId.value;
       } else {
         return null;
       }
     },
-    paypalClientSecret: (setting, { _ }, { tokenPayload }) => {
+    paypalClientSecret: (setting, { _ }, { userTokenPayload }) => {
       const paypalConfig = getConfig('system.paypal', {});
       if (paypalConfig.clientSecret) {
         return '*******************************';
       }
-      if (tokenPayload && tokenPayload?.user?.isAdmin === true) {
-        const paypalClientSecret = setting.find(s => s.name === 'paypalClientSecret');
+      if (userTokenPayload && userTokenPayload?.user?.uuid) {
+        const paypalClientSecret = setting.find((s) => s.name === 'paypalClientSecret');
         if (paypalClientSecret) {
           return paypalClientSecret.value;
         } else {
@@ -58,13 +58,13 @@ module.exports = {
         return null;
       }
     },
-    paypalWebhookSecret: (setting, { _ }, { tokenPayload }) => {
+    paypalWebhookSecret: (setting, { _ }, { userTokenPayload }) => {
       const paypalConfig = getConfig('system.paypal', {});
       if (paypalConfig.webhookSecret) {
         return '*******************************';
       }
-      if (tokenPayload && tokenPayload?.user?.isAdmin === true) {
-        const paypalWebhookSecret = setting.find(s => s.name === 'paypalWebhookSecret');
+      if (userTokenPayload && userTokenPayload?.user?.uuid) {
+        const paypalWebhookSecret = setting.find((s) => s.name === 'paypalWebhookSecret');
         if (paypalWebhookSecret) {
           return paypalWebhookSecret.value;
         } else {
@@ -74,12 +74,12 @@ module.exports = {
         return null;
       }
     },
-    paypalEnvironment: (setting, { _ }, { tokenPayload }) => {
+    paypalEnvironment: (setting) => {
       const paypalConfig = getConfig('system.paypal', {});
       if (paypalConfig.environment) {
         return paypalConfig.environment;
       }
-      const paypalEnvironment = setting.find(s => s.name === 'paypalEnvironment');
+      const paypalEnvironment = setting.find((s) => s.name === 'paypalEnvironment');
       if (paypalEnvironment) {
         return paypalEnvironment.value;
       } else {
@@ -87,4 +87,4 @@ module.exports = {
       }
     }
   }
-}
+};

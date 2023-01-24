@@ -19,16 +19,14 @@ function Actions({ customers = [], selectedIds = [] }) {
 
   const updateCustomers = async (status) => {
     setIsLoading(true);
-    const promises = customers.filter((customer) => selectedIds.includes(customer.uuid)).map((customer) => {
-      return axios.patch(customer.updateApi, {
-        status: status
-      });
-    });
+    const promises = customers.filter((customer) => selectedIds.includes(customer.uuid)).map((customer) => axios.patch(customer.updateApi, {
+      status
+    }));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
     window.location.reload();
-  }
+  };
 
   const actions = [
     {
@@ -101,8 +99,8 @@ Actions.propTypes = {
 };
 
 export default function CustomerGrid({ customers: { items: customers, total, currentFilters = [] }, disableCustomersUrl, enableCustomersUrl }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page')['value'] : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit')['value'] : 20;
+  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
+  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -112,10 +110,8 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked)
-                  setSelectedRows(customers.map((c) => c.uuid));
-                else
-                  setSelectedRows([]);
+                if (e.target.checked) setSelectedRows(customers.map((c) => c.uuid));
+                else setSelectedRows([]);
               }}
               />
             </th>
@@ -125,19 +121,19 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
               coreComponents={
                 [
                   {
-                    component: { default: () => <BasicColumnHeader title="Full Name" id='full_name' currentFilters={currentFilters} /> },
+                    component: { default: () => <BasicColumnHeader title="Full Name" id="full_name" currentFilters={currentFilters} /> },
                     sortOrder: 10
                   },
                   {
-                    component: { default: () => <BasicColumnHeader title="Email" id='email' currentFilters={currentFilters} /> },
+                    component: { default: () => <BasicColumnHeader title="Email" id="email" currentFilters={currentFilters} /> },
                     sortOrder: 15
                   },
                   {
-                    component: { default: () => <DropdownColumnHeader title='Status' id='status' currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
+                    component: { default: () => <DropdownColumnHeader title="Status" id="status" currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
                     sortOrder: 20
                   },
                   {
-                    component: { default: () => <BasicColumnHeader title="Created At" id='created_at' currentFilters={currentFilters} /> },
+                    component: { default: () => <BasicColumnHeader title="Created At" id="created_at" currentFilters={currentFilters} /> },
                     sortOrder: 25
                   }
                 ]
@@ -173,15 +169,15 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
                 setSelectedRows={setSelectedRows}
                 coreComponents={[
                   {
-                    component: { default: ({ areaProps }) => <CustomerNameRow id='name' name={c.fullName} url={c.editUrl} /> },
+                    component: { default: ({ areaProps }) => <CustomerNameRow id="name" name={c.fullName} url={c.editUrl} /> },
                     sortOrder: 10
                   },
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='email' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <BasicRow id="email" areaProps={areaProps} /> },
                     sortOrder: 15
                   },
                   {
-                    component: { default: ({ areaProps }) => <StatusRow id='status' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <StatusRow id="status" areaProps={areaProps} /> },
                     sortOrder: 20
                   },
                   {
@@ -204,7 +200,7 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
 export const layout = {
   areaId: 'content',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {

@@ -26,7 +26,7 @@ export function CheckoutProvider({
       if (steps.length < 1 || steps.findIndex((s) => s.isCompleted === false) !== -1) return;
       const response = await axios.post(
         placeOrderAPI,
-        { cart_id: cartId },
+        { cart_id: cartId }
       );
       if (!response.data.error) {
         setOrderPlaced(true);
@@ -52,7 +52,7 @@ export function CheckoutProvider({
     } else {
       setPaymentMethods([]);
     }
-  }
+  };
 
   return (
     <Checkout.Provider value={{
@@ -64,7 +64,8 @@ export function CheckoutProvider({
       setPaymentMethods,
       getPaymentMethods,
       checkoutSuccessUrl
-    }}>
+    }}
+    >
       {children}
     </Checkout.Provider>
   );

@@ -1,19 +1,19 @@
 const {
   commit, getConnection, insert, rollback, select, startTransaction, update
 } = require('@evershop/mysql-query-builder');
+const { v4: uuidv4 } = require('uuid');
 const { pool } = require('../../../lib/mysql/connection');
 const { Cart } = require('./cart/Cart');
-const { v4: uuidv4 } = require('uuid');
 
 /* Default validation rules */
 let validationServices = [
   {
     id: 'checkCartError',
     /**
-     * 
-     * @param {Cart} cart 
-     * @param {*} validationErrors 
-     * @returns 
+     *
+     * @param {Cart} cart
+     * @param {*} validationErrors
+     * @returns
      */
     func: (cart, validationErrors) => {
       if (cart.hasError()) {
@@ -27,10 +27,10 @@ let validationServices = [
   {
     id: 'checkEmpty',
     /**
-     * 
-     * @param {Cart} cart 
-     * @param {*} validationErrors 
-     * @returns 
+     *
+     * @param {Cart} cart
+     * @param {*} validationErrors
+     * @returns
      */
     func: (cart, validationErrors) => {
       const items = cart.getItems();
@@ -45,10 +45,10 @@ let validationServices = [
   {
     id: 'shippingAddress',
     /**
-     * 
-     * @param {Cart} cart 
-     * @param {*} validationErrors 
-     * @returns 
+     *
+     * @param {Cart} cart
+     * @param {*} validationErrors
+     * @returns
      */
     func: (cart, validationErrors) => {
       if (!cart.getData('shipping_address_id')) {
@@ -62,10 +62,10 @@ let validationServices = [
   {
     id: 'shippingMethod',
     /**
-     * 
-     * @param {Cart} cart 
-     * @param {*} validationErrors 
-     * @returns 
+     *
+     * @param {Cart} cart
+     * @param {*} validationErrors
+     * @returns
      */
     func: (cart, validationErrors) => {
       if (!cart.getData('shipping_method')) {

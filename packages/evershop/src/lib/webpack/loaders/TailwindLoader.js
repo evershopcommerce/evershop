@@ -1,9 +1,9 @@
 const fs = require('fs');
 const { join, normalize } = require('path');
-const { CONSTANTS } = require('../../helpers');
 const postcss = require('postcss');
 const tailwindcss = require('tailwindcss');
 const autoprefixer = require('autoprefixer');
+const { CONSTANTS } = require('../../helpers');
 
 /* eslint-disable no-multi-assign */
 /* eslint-disable global-require */
@@ -16,8 +16,8 @@ module.exports = exports = function TailwindLoader(c) {
     }
   }
   const components = (this.getOptions().getComponents)();
-  const route = this.getOptions().route;
-  let list = [];
+  const { route } = this.getOptions();
+  const list = [];
   components.forEach((module) => {
     this.addDependency(module);
   });
@@ -42,20 +42,17 @@ module.exports = exports = function TailwindLoader(c) {
 
   // Use PostCss to parse tailwind.css with tailwind config
 
-  const defaultTailwindConfig = route.isAdmin ?
-    require('@evershop/evershop/src/modules/cms/services/tailwind.admin.config.js') :
-    require('@evershop/evershop/src/modules/cms/services/tailwind.frontStore.config.js');
+  const defaultTailwindConfig = route.isAdmin
+    ? require('@evershop/evershop/src/modules/cms/services/tailwind.admin.config.js')
+    : require('@evershop/evershop/src/modules/cms/services/tailwind.frontStore.config.js');
 
   let tailwindConfig = {};
   if (route.isAdmin) {
     if (fs.existsSync(join(CONSTANTS.ROOTPATH, 'tailwind.admin.config.js'))) {
       tailwindConfig = require(join(CONSTANTS.ROOTPATH, 'tailwind.admin.config.js'));
     }
-  } else {
-    if (fs.existsSync(join(CONSTANTS.ROOTPATH, 'tailwind.frontStore.config.js'))) {
-      tailwindConfig = require(join(CONSTANTS.ROOTPATH, 'tailwind.frontStore.config.js'));
-    }
-
+  } else if (fs.existsSync(join(CONSTANTS.ROOTPATH, 'tailwind.frontStore.config.js'))) {
+    tailwindConfig = require(join(CONSTANTS.ROOTPATH, 'tailwind.frontStore.config.js'));
   }
   // Merge defaultTailwindConfig with tailwindConfigJs
   const mergedTailwindConfig = Object.assign(defaultTailwindConfig, tailwindConfig);
@@ -69,7 +66,7 @@ module.exports = exports = function TailwindLoader(c) {
     // All file in node_modules/@evershop/evershop/src and name is capitalized
     join(CONSTANTS.ROOTPATH, 'node_modules', '@evershop', 'evershop', 'src', '**', '[A-Z]*.js'),
     // All file in themes folder and name is capitalized
-    join(CONSTANTS.ROOTPATH, 'themes', '**', '[A-Z]*.js'),
+    join(CONSTANTS.ROOTPATH, 'themes', '**', '[A-Z]*.js')
   ];
   // Postcss with tailwind plugin
   try {
@@ -81,4 +78,3 @@ module.exports = exports = function TailwindLoader(c) {
     throw new Error(error);
   }
 };
-

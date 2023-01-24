@@ -1,5 +1,5 @@
-const logger = require("../log/logger");
-const { setDelegate } = require("./delegate");
+const logger = require('../log/logger');
+const { setDelegate } = require('./delegate');
 
 module.exports = exports = {};
 
@@ -8,7 +8,7 @@ exports.asyncMiddlewareWrapper = async function asyncMiddlewareWrapper(id, middl
 
   try {
     // If the middleware function has the next function as a parameter
-    let delegate = undefined;
+    let delegate;
     if (middlewareFunc.length === 4) {
       delegate = middlewareFunc(request, response, delegates, next);
     } else {
@@ -22,4 +22,4 @@ exports.asyncMiddlewareWrapper = async function asyncMiddlewareWrapper(id, middl
     // Call error handler middleware if it is not called yet
     next(e);
   }
-}
+};

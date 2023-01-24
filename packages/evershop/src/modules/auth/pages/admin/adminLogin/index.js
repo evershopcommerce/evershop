@@ -1,9 +1,10 @@
-const { getContextValue, setContextValue } = require("../../../../graphql/services/contextHelper");
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { getContextValue, setContextValue } = require('../../../../graphql/services/contextHelper');
 
-module.exports = (request, response, stack, next) => {
+module.exports = (request, response, delegate, next) => {
   // Check if the user is logged in
-  const tokenPayload = getContextValue(request, 'tokenPayload');
-  if (tokenPayload && tokenPayload.isAdmin) {
+  const userTokenPayload = getContextValue(request, 'userTokenPayload');
+  if (userTokenPayload && userTokenPayload?.user?.uuid) {
     // Redirect to admin dashboard
     response.redirect(buildUrl('dashboard'));
   } else {
@@ -13,4 +14,4 @@ module.exports = (request, response, stack, next) => {
     });
     next();
   }
-}
+};

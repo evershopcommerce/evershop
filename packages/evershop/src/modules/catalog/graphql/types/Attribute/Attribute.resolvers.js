@@ -17,7 +17,7 @@ module.exports = {
 
       const currentFilters = [];
 
-      filters = filters.map(filter => {
+      filters = filters.map((filter) => {
         if (filter.operation.toUpperCase() === 'LIKE') {
           filter.valueRaw = codeFilter.value.replace(/^%/, '').replace(/%$/, '');
         } else {
@@ -27,7 +27,7 @@ module.exports = {
           filter.value = filter.value.split(',');
         }
         return filter;
-      })
+      });
 
       // Name filter
       const nameFilter = filters.find((f) => f.key === 'name');
@@ -51,7 +51,7 @@ module.exports = {
           .where('group_id', groupFilter.operation, groupFilter.value)
           .execute(pool);
 
-        query.andWhere('attribute.`attribute_id`', 'IN', attributes.map(a => a.attribute_id));
+        query.andWhere('attribute.`attribute_id`', 'IN', attributes.map((a) => a.attribute_id));
         currentFilters.push({ key: 'group', operation: groupFilter.operation, value: groupFilter.valueRaw });
       }
 
@@ -86,8 +86,8 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('attribute.`attribute_id`', "DESC");
-      };
+        query.orderBy('attribute.`attribute_id`', 'DESC');
+      }
       if (sortOrder.key) {
         currentFilters.push({
           key: 'sortOrder',
@@ -115,10 +115,10 @@ module.exports = {
       });
       query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
       return {
-        items: (await query.execute(pool)).map(row => camelCase(row)),
-        total: (await cloneQuery.load(pool))['total'],
-        currentFilters: currentFilters,
-      }
+        items: (await query.execute(pool)).map((row) => camelCase(row)),
+        total: (await cloneQuery.load(pool)).total,
+        currentFilters
+      };
     },
     attributeGroups: async (_, { }, { pool }) => {
       const query = select().from('attribute_group');
@@ -137,14 +137,12 @@ module.exports = {
           (await select('attribute_id')
             .from('attribute_group_link')
             .where('group_id', '=', group.attributeGroupId)
-            .execute(pool)).map(a => a.attribute_id)
+            .execute(pool)).map((a) => a.attribute_id)
         )
         .execute(pool);
       return rows.map((row) => camelCase(row));
     },
-    updateApi: (group, _, { pool }) => {
-      return buildUrl('updateAttributeGroup', { id: group.uuid });
-    }
+    updateApi: (group, _, { pool }) => buildUrl('updateAttributeGroup', { id: group.uuid })
   },
 
   Attribute: {
@@ -157,9 +155,9 @@ module.exports = {
           (await select('group_id')
             .from('attribute_group_link')
             .where('attribute_id', '=', attribute.attributeId)
-            .execute(pool)).map(g => g.group_id)
+            .execute(pool)).map((g) => g.group_id)
         )
-        .execute(pool)
+        .execute(pool);
       return results.map((result) => camelCase(result));
     },
     options: async (attribute, _, { pool }) => {
@@ -167,14 +165,10 @@ module.exports = {
         .from('attribute_option')
         .where('attribute_id', '=', attribute.attributeId)
         .execute(pool);
-      return results.map((result) => camelCase(result))
+      return results.map((result) => camelCase(result));
     },
-    editUrl: ({ attributeId }) => buildUrl('attributeEdit', { id: attributeId }),
-    updateApi: (attribute, _, { pool }) => {
-      return buildUrl('updateAttribute', { id: attribute.uuid });
-    },
-    deleteApi: (attribute, _, { pool }) => {
-      return buildUrl('deleteAttribute', { id: attribute.uuid });
-    }
+    editUrl: ({ uuid }) => buildUrl('attributeEdit', { id: uuid }),
+    updateApi: (attribute, _, { pool }) => buildUrl('updateAttribute', { id: attribute.uuid }),
+    deleteApi: (attribute, _, { pool }) => buildUrl('deleteAttribute', { id: attribute.uuid })
   }
-}
+};

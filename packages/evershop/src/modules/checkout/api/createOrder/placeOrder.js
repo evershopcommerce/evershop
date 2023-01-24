@@ -41,17 +41,17 @@ module.exports = async (request, response, delegate, next) => {
 
     order.items = await select()
       .from('order_item')
-      .where('order_item_order_id', '=', order['order_id'])
+      .where('order_item_order_id', '=', order.order_id)
       .execute(pool);
 
     order.shipping_address = await select()
       .from('order_address')
-      .where('order_address_id', '=', order['shipping_address_id'])
+      .where('order_address_id', '=', order.shipping_address_id)
       .load(pool);
 
     order.billing_address = await select()
       .from('order_address')
-      .where('order_address_id', '=', order['billing_address_id'])
+      .where('order_address_id', '=', order.billing_address_id)
       .load(pool);
 
     response.json({
@@ -59,10 +59,10 @@ module.exports = async (request, response, delegate, next) => {
         ...order,
         links: [
           {
-            "rel": "edit",
-            "href": buildUrl('orderEdit', { id: order.uuid }),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'edit',
+            href: buildUrl('orderEdit', { id: order.uuid }),
+            action: 'GET',
+            types: ['text/xml']
           }
         ]
       }

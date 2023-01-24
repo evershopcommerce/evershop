@@ -21,14 +21,12 @@ function Actions({ attributes = [], selectedIds = [] }) {
 
   const deleteAttributes = async () => {
     setIsLoading(true);
-    const promises = attributes.filter((attribute) => selectedIds.includes(attribute.uuid)).map((attribute) => {
-      return axios.delete(attribute.deleteApi);
-    });
+    const promises = attributes.filter((attribute) => selectedIds.includes(attribute.uuid)).map((attribute) => axios.delete(attribute.deleteApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
     window.location.reload();
-  }
+  };
 
   const actions = [
     {
@@ -79,8 +77,8 @@ Actions.propTypes = {
 };
 
 export default function AttributeGrid({ attributes: { items: attributes, total, currentFilters = [] } }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page')['value'] : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit')['value'] : 20;
+  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
+  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -90,10 +88,8 @@ export default function AttributeGrid({ attributes: { items: attributes, total, 
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked)
-                  setSelectedRows(attributes.map((a) => a.uuid));
-                else
-                  setSelectedRows([]);
+                if (e.target.checked) setSelectedRows(attributes.map((a) => a.uuid));
+                else setSelectedRows([]);
               }}
               />
             </th>
@@ -103,43 +99,49 @@ export default function AttributeGrid({ attributes: { items: attributes, total, 
               noOuter
               coreComponents={[
                 {
-                  component: { default: () => <BasicColumnHeader id='name' title='Attribute Name' currentFilters={currentFilters} /> },
+                  component: { default: () => <BasicColumnHeader id="name" title="Attribute Name" currentFilters={currentFilters} /> },
                   sortOrder: 10
                 },
                 {
-                  component: { default: () => <GroupHeader id='group' currentFilters={currentFilters} /> },
+                  component: { default: () => <GroupHeader id="group" currentFilters={currentFilters} /> },
                   sortOrder: 15
                 },
                 {
                   component: {
-                    default: () => <DropdownColumnHeader
-                      id='type'
-                      title='Type'
-                      currentFilters={currentFilters}
-                      options={[{ value: 'text', text: 'Text' }, { value: 'select', text: 'Select' }, { value: 'multiselect', text: 'Multi Select' }, { value: 'textarea', text: 'Text Area' }]}
-                    />
+                    default: () => (
+                      <DropdownColumnHeader
+                        id="type"
+                        title="Type"
+                        currentFilters={currentFilters}
+                        options={[{ value: 'text', text: 'Text' }, { value: 'select', text: 'Select' }, { value: 'multiselect', text: 'Multi Select' }, { value: 'textarea', text: 'Text Area' }]}
+                      />
+                    )
                   },
                   sortOrder: 20
                 },
                 {
                   component: {
-                    default: () => <DropdownColumnHeader
-                      id='isRequired'
-                      title='Is Required?'
-                      currentFilters={currentFilters}
-                      options={[{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }]}
-                    />
+                    default: () => (
+                      <DropdownColumnHeader
+                        id="isRequired"
+                        title="Is Required?"
+                        currentFilters={currentFilters}
+                        options={[{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }]}
+                      />
+                    )
                   },
                   sortOrder: 25
                 },
                 {
                   component: {
-                    default: () => <DropdownColumnHeader
-                      id='isFilterable'
-                      title='Is Filterable?'
-                      currentFilters={currentFilters}
-                      options={[{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }]}
-                    />
+                    default: () => (
+                      <DropdownColumnHeader
+                        id="isFilterable"
+                        title="Is Filterable?"
+                        currentFilters={currentFilters}
+                        options={[{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }]}
+                      />
+                    )
                   },
                   sortOrder: 30
                 }
@@ -174,7 +176,7 @@ export default function AttributeGrid({ attributes: { items: attributes, total, 
                 noOuter
                 coreComponents={[
                   {
-                    component: { default: () => <AttributeNameRow id='name' name={a.attributeName} url={a.editUrl} /> },
+                    component: { default: () => <AttributeNameRow id="name" name={a.attributeName} url={a.editUrl} /> },
                     sortOrder: 10
                   },
                   {
@@ -182,15 +184,15 @@ export default function AttributeGrid({ attributes: { items: attributes, total, 
                     sortOrder: 15
                   },
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='type' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <BasicRow id="type" areaProps={areaProps} /> },
                     sortOrder: 20
                   },
                   {
-                    component: { default: ({ areaProps }) => <YesNoRow id='isRequired' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <YesNoRow id="isRequired" areaProps={areaProps} /> },
                     sortOrder: 25
                   },
                   {
-                    component: { default: ({ areaProps }) => <YesNoRow id='isFilterable' areaProps={areaProps} /> },
+                    component: { default: ({ areaProps }) => <YesNoRow id="isFilterable" areaProps={areaProps} /> },
                     sortOrder: 30
                   }
                 ]}
@@ -209,7 +211,7 @@ export default function AttributeGrid({ attributes: { items: attributes, total, 
 export const layout = {
   areaId: 'content',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {

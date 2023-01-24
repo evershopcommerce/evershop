@@ -14,8 +14,8 @@ module.exports = async (request, response) => {
     return {
       methodCode: 'paypal',
       methodName: await getSetting('paypalDislayName', 'Paypal')
-    }
+    };
   } else {
-    return;
+
   }
 };

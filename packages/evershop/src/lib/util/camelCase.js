@@ -3,16 +3,13 @@ module.exports.camelCase = (object) => {
   if (typeof object !== 'object' && object !== null) {
     throw new Error('The object must be an object');
   }
-  let newObject = {};
+  const newObject = {};
   Object.keys(object).forEach((key) => {
     // Convert the key to camelCase
-    const newKey = key.replace(/([-_][a-zA-Z0-9])/gi, ($1) => {
-      return $1.toUpperCase().replace('-', '').replace('_', '');
-    }
-    );
+    const newKey = key.replace(/([-_][a-zA-Z0-9])/gi, ($1) => $1.toUpperCase().replace('-', '').replace('_', ''));
     // Add the new key to the new object
     newObject[newKey] = object[key];
   });
 
   return newObject;
-}
+};

@@ -24,7 +24,7 @@ module.exports = async (request, response, delegate, next) => {
       .load(pool);
 
     if (attribute.type === 'select' || attribute.type === 'multiselect') {
-      attribute['options'] = await select()
+      attribute.options = await select()
         .from('attribute_option')
         .where('attribute_id', '=', attribute.attribute_id)
         .execute(pool);
@@ -35,23 +35,23 @@ module.exports = async (request, response, delegate, next) => {
         ...attribute,
         links: [
           {
-            "rel": "attributeGrid",
-            "href": buildUrl('attributeGrid'),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'attributeGrid',
+            href: buildUrl('attributeGrid'),
+            action: 'GET',
+            types: ['text/xml']
           },
           {
-            "rel": "edit",
-            "href": buildUrl('attributeEdit', { id: attribute.uuid }),
-            "action": "GET",
-            "types": ["text/xml"]
+            rel: 'edit',
+            href: buildUrl('attributeEdit', { id: attribute.uuid }),
+            action: 'GET',
+            types: ['text/xml']
           }
         ]
       }
     });
   } else {
     await rollback(connection);
-    response.status(INTERNAL_SERVER_ERROR)
+    response.status(INTERNAL_SERVER_ERROR);
     response.json({
       data: null,
       error: {

@@ -2,14 +2,14 @@ const config = require('config');
 const { select } = require('@evershop/mysql-query-builder');
 const fs = require('fs');
 const path = require('path');
+const uniqid = require('uniqid');
+const { v4: uuidv4 } = require('uuid');
 const { pool } = require('../../../../lib/mysql/connection');
 const { CONSTANTS } = require('../../../../lib/helpers');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 /* eslint-disable no-underscore-dangle */
 const { DataObject } = require('./DataObject');
 const { toPrice } = require('../toPrice');
-const uniqid = require('uniqid');
-const { v4: uuidv4 } = require('uuid');
 
 module.exports.Item = class Item extends DataObject {
   static fields = [
@@ -40,7 +40,7 @@ module.exports.Item = class Item extends DataObject {
           const product = await query.where('product_id', '=', this.dataSource.product_id)
             .load(pool);
           if (!product || product.status === 0) {
-            this.errors['product_id'] = 'Requested product does not exist';
+            this.errors.product_id = 'Requested product does not exist';
             this.dataSource = { ...this.dataSource, product: {} };
             return null;
           }
@@ -126,12 +126,12 @@ module.exports.Item = class Item extends DataObject {
             && this.dataSource.product.manage_stock === 1
             && this.dataSource.product.qty < 1
           ) {
-            this.errors['qty'] = 'This item is out of stock';
+            this.errors.qty = 'This item is out of stock';
           } else if (
             this.dataSource.product.product_id
             && this.dataSource.product.manage_stock === 1
             && this.dataSource.product.qty < this.dataSource.qty
-          ) this.errors['qty'] = 'We do not have enough stock';
+          ) this.errors.qty = 'We do not have enough stock';
 
           return parseInt(this.dataSource.qty, 10) ?? null;
         }
@@ -267,4 +267,4 @@ module.exports.Item = class Item extends DataObject {
   getId() {
     return this.getData('uuid');
   }
-}
+};

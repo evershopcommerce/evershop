@@ -1,4 +1,4 @@
-const { INVALID_PAYLOAD } = require("../../../../lib/util/httpStatus");
+const { INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
 
 module.exports = async (request, response, delegate, next) => {
   if (!request.body.coupon || !/^\S*$/.test(request.body.coupon)) {
@@ -8,7 +8,6 @@ module.exports = async (request, response, delegate, next) => {
         status: INVALID_PAYLOAD
       }
     });
-    return;
   } else {
     return next();
   }

@@ -1,4 +1,4 @@
-const { buildUrl } = require("../../../../../lib/router/buildUrl")
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
 module.exports = {
   Query: {
@@ -15,4 +15,4 @@ module.exports = {
       return buildUrl(routeId, queries);
     }
   }
-}
+};

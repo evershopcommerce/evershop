@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Select } from '../../form/fields/Select';
 
-export default function DropdownColumnHeader({ title, id, options = [], currentFilters = [] }) {
+export default function DropdownColumnHeader({
+  title, id, options = [], currentFilters = []
+}) {
   const [current, setCurrent] = React.useState('');
 
   const onChange = (e) => {

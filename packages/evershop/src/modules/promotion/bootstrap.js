@@ -1,8 +1,8 @@
-const { Cart } = require("../checkout/services/cart/Cart");
-const { Item } = require("../checkout/services/cart/Item");
-const { toPrice } = require("../checkout/services/toPrice");
-const { Validator } = require("./services/CouponValidator");
-const { DiscountCalculator } = require("./services/DiscountCalculator");
+const { Cart } = require('../checkout/services/cart/Cart');
+const { Item } = require('../checkout/services/cart/Item');
+const { toPrice } = require('../checkout/services/toPrice');
+const { Validator } = require('./services/CouponValidator');
+const { DiscountCalculator } = require('./services/DiscountCalculator');
 
 module.exports = () => {
   /** Adding fields to the Cart object */
@@ -11,10 +11,10 @@ module.exports = () => {
       key: 'coupon',
       resolvers: [
         async function () {
-          const coupon = this.dataSource['coupon'] ?? this.dataSource['coupon'] ?? null;
+          const coupon = this.dataSource.coupon ?? this.dataSource.coupon ?? null;
           if (coupon) {
             const validator = new Validator();
-            const check = await validator.validate(this.dataSource['coupon'], this);
+            const check = await validator.validate(this.dataSource.coupon, this);
             if (check === true) {
               return coupon;
             } else {
@@ -36,9 +36,9 @@ module.exports = () => {
             return 0;
           }
           // Start calculate discount amount
-          let calculator = new DiscountCalculator(this);
+          const calculator = new DiscountCalculator(this);
           await calculator.calculate(coupon);
-          let discountAmounts = calculator.getDiscounts();
+          const discountAmounts = calculator.getDiscounts();
           let discountAmount = 0;
           for (const id in discountAmounts) {
             // Set discount amount to cart items
@@ -61,7 +61,7 @@ module.exports = () => {
       ],
       dependencies: ['discount_amount']
     }
-  ].forEach(field => {
+  ].forEach((field) => {
     Cart.addField(field.key, field.resolvers, field.dependencies);
   });
 
@@ -88,7 +88,7 @@ module.exports = () => {
       ],
       dependencies: ['discount_amount']
     }
-  ].forEach(field => {
+  ].forEach((field) => {
     Item.addField(field.key, field.resolvers, field.dependencies);
   });
-}
+};

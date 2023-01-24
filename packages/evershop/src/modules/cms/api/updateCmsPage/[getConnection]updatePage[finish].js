@@ -29,7 +29,7 @@ module.exports = async (request, response, delegate) => {
 
     await update('cms_page_description')
       .given(request.body)
-      .where('cms_page_description_cms_page_id', '=', page['cms_page_id'])
+      .where('cms_page_description_cms_page_id', '=', page.cms_page_id)
       .execute(connection);
   } catch (e) {
     if (!e.message.includes('No data was provided')) {

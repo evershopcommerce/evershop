@@ -1,10 +1,10 @@
 const path = require('path');
+const WebpackBar = require('webpackbar');
 const { CONSTANTS } = require('../../helpers');
 const { createBaseConfig } = require('../createBaseConfig');
 const { getRouteBuildPath } = require('../getRouteBuildPath');
 const { getRouteBuildSubPath } = require('../getRouteBuildSubPath');
 const { isBuildRequired } = require('../isBuildRequired');
-const WebpackBar = require('webpackbar');
 
 module.exports.createConfigServer = function createConfigServer(routes) {
   const entry = {};
@@ -19,20 +19,20 @@ module.exports.createConfigServer = function createConfigServer(routes) {
     ];
   });
   const config = createBaseConfig(true);
-  const plugins = config.plugins;
-  plugins.push(new WebpackBar({ name: 'Server', color: 'orange' }),)
+  const { plugins } = config;
+  plugins.push(new WebpackBar({ name: 'Server', color: 'orange' }));
 
   const loaders = config.module.rules;
   loaders.push({
     test: /\.scss$/i,
     use: [
       {
-        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/styleLoader.js'),
+        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/styleLoader.js')
       }
-    ],
-  })
+    ]
+  });
   config.entry = entry;
   config.name = 'Server';
 
   return config;
-}
+};

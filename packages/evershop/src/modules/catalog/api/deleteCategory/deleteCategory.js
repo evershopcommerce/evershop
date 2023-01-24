@@ -5,7 +5,7 @@ const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/
 
 module.exports = async (request, response, delegate, next) => {
   try {
-    const id = request.params.id;
+    const { id } = request.params;
     const query = select()
       .from('category');
     query.leftJoin('category_description')

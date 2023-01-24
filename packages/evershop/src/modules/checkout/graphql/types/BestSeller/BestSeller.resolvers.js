@@ -1,9 +1,9 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { camelCase } = require("../../../../../lib/util/camelCase");
+const { select } = require('@evershop/mysql-query-builder');
+const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
-    bestSellers: async (_, { }, { tokenPayload }) => {
+    bestSellers: async (_, { }) => {
       const query = select();
       query.from('product')
         .leftJoin('product_description')
@@ -20,7 +20,7 @@ module.exports = {
         .orderBy('qty', 'DESC')
         .limit(0, 5);
       const results = await query.execute(pool);
-      return results.map(p => camelCase(p));
+      return results.map((p) => camelCase(p));
     }
   }
-}
+};

@@ -27,7 +27,7 @@ export function NameAndTelephone({ address }) {
           placeholder="Telephone"
           validationRules={[{
             rule: 'notEmpty',
-            message: 'Telephone is required',
+            message: 'Telephone is required'
           }]}
         />
       </div>
@@ -38,6 +38,6 @@ export function NameAndTelephone({ address }) {
 NameAndTelephone.propTypes = {
   address: PropTypes.shape({
     fullName: PropTypes.string,
-    telephone: PropTypes.string,
-  }),
+    telephone: PropTypes.string
+  })
 };

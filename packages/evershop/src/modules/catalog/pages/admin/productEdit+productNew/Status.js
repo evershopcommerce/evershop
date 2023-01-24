@@ -1,8 +1,8 @@
 import React from 'react';
-import { Field } from '../../../../../lib/components/form/Field';
-import { Card } from '../../../../cms/components/admin/Card';
 import Select from 'react-select';
 import { useQuery } from 'urql';
+import { Field } from '../../../../../lib/components/form/Field';
+import { Card } from '../../../../cms/components/admin/Card';
 
 const categoryQuery = `
   query Query {
@@ -18,25 +18,36 @@ const categoryQuery = `
 export function Category({
   product
 }) {
-  const categories = product ? product.categories : [];
+  const [categories, setCategories] = React.useState(product ? product.categories : []);
   const [result, reexecuteQuery] = useQuery({
-    query: categoryQuery,
+    query: categoryQuery
   });
   const { data, fetching, error } = result;
 
   if (fetching) return <p>Loading...</p>;
-  if (error) return <p>Oh no... {error.message}</p>;
+  if (error) {
+    return (
+      <p>
+        Oh no...
+        {error.message}
+      </p>
+    );
+  }
 
   return (
     <div>
-      <div className='mb-1'>Category</div>
+      <div className="mb-1">Category</div>
       <Select
-        name='categories[]'
+        name="categories[]"
         options={data.categories.items}
-        hideSelectedOptions={true}
-        isMulti={true}
+        hideSelectedOptions
+        isMulti
         defaultValue={categories}
+        onChange={value => setCategories(value.map(item => item.value))}
       />
+      {categories.length === 0 && (
+        <input type="hidden" name="categories[0]" value="0" />
+      )}
     </div>
   );
 }
@@ -77,7 +88,7 @@ export default function Status({ product }) {
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

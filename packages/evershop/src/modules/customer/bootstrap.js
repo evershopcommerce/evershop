@@ -15,5 +15,5 @@ module.exports = () => {
 
   Cart.addField('customer_full_name', function resolver() {
     return this.dataSource?.customer_full_name ?? null;
-  })
-}
+  });
+};

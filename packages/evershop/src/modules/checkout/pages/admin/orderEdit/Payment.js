@@ -59,7 +59,7 @@ export default function OrderSummary({
             },
             {
               component: { default: Discount },
-              ps: { code: coupon, discount: discountAmount.text },
+              props: { code: coupon, discount: discountAmount.text },
               sortOrder: 15
             },
             {
@@ -81,7 +81,7 @@ export default function OrderSummary({
       </Card.Session>
       <Area
         id="orderPaymentActions"
-        noOuter={true}
+        noOuter
       />
     </Card>
   );
@@ -90,7 +90,7 @@ export default function OrderSummary({
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {
@@ -134,4 +134,4 @@ export const query = `
       }
     }
   }
-`
+`;

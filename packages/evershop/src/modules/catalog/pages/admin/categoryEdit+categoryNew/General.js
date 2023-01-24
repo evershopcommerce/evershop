@@ -71,7 +71,7 @@ General.propTypes = {
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

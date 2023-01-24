@@ -1,19 +1,15 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { buildUrl } = require("../../../../../lib/router/buildUrl");
-const { camelCase } = require("../../../../../lib/util/camelCase");
+const { select } = require('@evershop/mysql-query-builder');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
-    cmsPage: async (root, { id }, { pool, tokenPayload }) => {
-      const { admin } = tokenPayload;
+    cmsPage: async (root, { id }, { pool }) => {
       const query = select()
         .from('cms_page');
       query.leftJoin('cms_page_description')
         .on('cms_page.`cms_page_id`', '=', 'cms_page_description.`cms_page_description_cms_page_id`');
       query.where('cms_page_id', '=', id);
-      // if (admin !== true) {
-      //   query.where('cms_page.`status`', '=', 1);
-      // }
 
       const page = await query.load(pool);
       return page ? camelCase(page) : null;
@@ -42,7 +38,7 @@ module.exports = {
             value: filter.value
           });
         }
-      })
+      });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
       const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
@@ -54,8 +50,8 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('cms_page.`cms_page_id`', "DESC");
-      };
+        query.orderBy('cms_page.`cms_page_id`', 'DESC');
+      }
 
       if (sortOrder.key) {
         currentFilters.push({
@@ -82,20 +78,16 @@ module.exports = {
       });
       query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
       return {
-        items: (await query.execute(pool)).map(row => camelCase(row)),
-        total: (await cloneQuery.load(pool))['total'],
-        currentFilters: currentFilters,
-      }
+        items: (await query.execute(pool)).map((row) => camelCase(row)),
+        total: (await cloneQuery.load(pool)).total,
+        currentFilters
+      };
     }
   },
   CmsPage: {
     url: ({ urlKey }) => buildUrl('cmsPageView', { url_key: urlKey }),
     editUrl: ({ uuid }) => buildUrl('cmsPageEdit', { id: uuid }),
-    updateApi: (page, _, { pool }) => {
-      return buildUrl('updateCmsPage', { id: page.uuid });
-    },
-    deleteApi: (page, _, { pool }) => {
-      return buildUrl('deleteCmsPage', { id: page.uuid });
-    }
+    updateApi: (page) => buildUrl('updateCmsPage', { id: page.uuid }),
+    deleteApi: (page) => buildUrl('deleteCmsPage', { id: page.uuid })
   }
-}
+};

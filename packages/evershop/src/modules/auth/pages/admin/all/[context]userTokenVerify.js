@@ -1,28 +1,27 @@
 const jwt = require('jsonwebtoken');
-const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { v4: uuidv4 } = require('uuid');
-const { getTokenCookieId } = require('../../services/getTokenCookieId');
-const { getTokenSecret } = require('../../services/getTokenSecret');
-const { generateToken } = require('../../services/generateToken');
-const { get } = require('../../../../lib/util/get');
-const { buildUrl } = require('../../../../lib/router/buildUrl');
-const { getAdminTokenCookieId } = require('../../services/getAdminTokenCookieId');
 const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
+const { setContextValue } = require('../../../../graphql/services/contextHelper');
+const { getTokenSecret } = require('../../../services/getTokenSecret');
+const { generateToken } = require('../../../services/generateToken');
+const { get } = require('../../../../../lib/util/get');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { getAdminTokenCookieId } = require('../../../services/getAdminTokenCookieId');
+const { pool } = require('../../../../../lib/mysql/connection');
 
 module.exports = async (request, response, delegate, next) => {
-  const cookieId = request.currentRoute.isAdmin ? getAdminTokenCookieId() : getTokenCookieId();
+  const cookieId = getAdminTokenCookieId();
   // Get the jwt token from the cookies
   const token = request.cookies[cookieId];
   const sid = uuidv4();
-  const guestPayload = { user: null, sid: sid };
+  const guestPayload = { user: null, sid };
   // If there is no token, generate a new one for guest user
   if (!token) {
     // Issue a new token for guest user
     const newToken = generateToken(guestPayload, getTokenSecret());
     // Set the new token in the cookies
-    response.cookie(cookieId, newToken, { maxAge: 172800, httpOnly: true });
-    setContextValue(request, 'tokenPayload', guestPayload);
+    response.cookie(cookieId, newToken, { maxAge: 1.728e+8, httpOnly: true });
+    setContextValue(request, 'userTokenPayload', guestPayload);
     setContextValue(request, 'sid', sid);
     // Continue to the next middleware
     next();
@@ -48,16 +47,16 @@ module.exports = async (request, response, delegate, next) => {
       if (err) {
         // Issue a new token for guest user
         const newToken = generateToken(guestPayload, getTokenSecret());
-        setContextValue(request, 'tokenPayload', guestPayload);
+        setContextValue(request, 'userTokenPayload', guestPayload);
         setContextValue(request, 'sid', sid);
         // Set the new token in the cookies
-        response.cookie(cookieId, newToken, { maxAge: 172800, httpOnly: true });
+        response.cookie(cookieId, newToken, { maxAge: 1.728e+8, httpOnly: true });
         // Redirect to home page
         response.redirect(
-          request.currentRoute.isAdmin ? buildUrl('adminLogin') : buildUrl('homepage')
+          buildUrl('adminLogin')
         );
       } else {
-        setContextValue(request, 'tokenPayload', decoded);
+        setContextValue(request, 'userTokenPayload', decoded);
         setContextValue(request, 'sid', decoded.sid);
         next();
       }

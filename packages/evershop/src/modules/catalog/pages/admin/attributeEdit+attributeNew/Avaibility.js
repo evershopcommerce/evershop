@@ -54,17 +54,17 @@ export default function General({ attribute }) {
           name="sort_order"
           label="Sort order"
           value={attribute?.sortOrder}
+          validationRules={['notEmpty', 'number']}
         />
       </Card.Session>
     </Card>
   );
 }
 
-
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
