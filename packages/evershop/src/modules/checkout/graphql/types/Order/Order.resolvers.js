@@ -5,7 +5,7 @@ const { getConfig } = require('../../../../../lib/util/getConfig');
 
 module.exports = {
   Query: {
-    order: async (_, { id }, { pool, tokenPayload }) => {
+    order: async (_, { id }, { pool }) => {
       const query = select()
         .from('order');
       query.where('uuid', '=', id);

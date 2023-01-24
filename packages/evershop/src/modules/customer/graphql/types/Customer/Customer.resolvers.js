@@ -5,7 +5,7 @@ const { get } = require('../../../../../lib/util/get');
 
 module.exports = {
   Query: {
-    customer: async (root, { id }, { pool, tokenPayload }) => {
+    customer: async (root, { id }, { pool }) => {
       const query = select()
         .from('customer');
       query.where('uuid', '=', id);
@@ -13,9 +13,9 @@ module.exports = {
       const customer = await query.load(pool);
       return customer ? camelCase(customer) : null;
     },
-    customers: async (_, { filters = [] }, { pool, tokenPayload }) => {
+    customers: async (_, { filters = [] }, { pool, userTokenPayload }) => {
       // This field is for admin only
-      if (!get(tokenPayload, 'user.isAdmin', false)) {
+      if (!get(userTokenPayload, 'user.uuid', false)) {
         return [];
       }
       const query = select().from('customer');
@@ -89,8 +89,8 @@ module.exports = {
     url: ({ urlKey }) => buildUrl('customerView', { url_key: urlKey }),
     editUrl: ({ uuid }) => buildUrl('customerEdit', { id: uuid }),
     logoutApi: ({ uuid }) => buildUrl('deleteCustomerSession', { id: uuid }),
-    updateApi: (customer, _, { pool }) => buildUrl('updateCustomer', { id: customer.uuid }),
-    deleteApi: (customer, _, { pool }) => buildUrl('deleteCustomer', { id: customer.uuid }),
+    updateApi: (customer) => buildUrl('updateCustomer', { id: customer.uuid }),
+    deleteApi: (customer) => buildUrl('deleteCustomer', { id: customer.uuid }),
     group: async ({ groupId }, _, { pool }) => {
       const group = await select()
         .from('customer_group')

@@ -5,7 +5,7 @@ const { camelCase } = require('../../../../../../lib/util/camelCase');
 
 module.exports = {
   Product: {
-    variantGroup: async (product, _, { pool, tokenPayload }) => {
+    variantGroup: async (product, _, { pool, userTokenPayload }) => {
       const { variantGroupId } = product;
       if (!variantGroupId) {
         return null;
@@ -39,14 +39,14 @@ module.exports = {
         query.where('variant_group_id', '=', variantGroupId)
           .and('product.`product_id`', '!=', product.productId)
           .and('attribute.attribute_id', 'IN', Object.values(group).filter((v) => Number.isInteger(v)));
-        if (!tokenPayload.user?.isAdmin) {
+        if (!userTokenPayload?.user?.uuid) {
           query.andWhere('status', '=', 1);
         }
         const vs = await query.execute(pool);
         // Filter the vs array, make sure that each product has all the attributes
         // that are in the variant group.
         let filteredVs;
-        if (!tokenPayload.user?.isAdmin) {
+        if (!userTokenPayload?.user?.uuid) {
           filteredVs = vs.filter((v) => {
             const attributes = Object.values(group).filter((v) => Number.isInteger(v));
             const productAttributes = vs.filter((p) => p.product_id === v.product_id).map((p) => p.attribute_id);

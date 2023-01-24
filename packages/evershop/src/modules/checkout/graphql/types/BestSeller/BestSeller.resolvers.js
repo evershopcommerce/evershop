@@ -3,7 +3,7 @@ const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
-    bestSellers: async (_, { }, { tokenPayload }) => {
+    bestSellers: async (_, { }) => {
       const query = select();
       query.from('product')
         .leftJoin('product_description')

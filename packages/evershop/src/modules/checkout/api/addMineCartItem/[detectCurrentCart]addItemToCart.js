@@ -12,8 +12,8 @@ module.exports = async (request, response, delegate, next) => {
     let cart;
     if (!cartId) {
       // Create a new cart
-      const tokenPayload = getContextValue(request, 'tokenPayload', {});
-      cart = await createNewCart(tokenPayload);
+      const customerTokenPayload = getContextValue(request, 'customerTokenPayload', {});
+      cart = await createNewCart(customerTokenPayload);
       cartId = cart.getData('uuid');
     } else {
       cart = await getCartByUUID(cartId); // Cart object

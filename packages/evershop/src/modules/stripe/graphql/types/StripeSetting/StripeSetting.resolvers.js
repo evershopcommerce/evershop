@@ -2,7 +2,7 @@ const { getConfig } = require('../../../../../lib/util/getConfig');
 
 module.exports = {
   Setting: {
-    stripePaymentStatus: (setting, { _ }, { pool }) => {
+    stripePaymentStatus: (setting) => {
       const stripeConfig = getConfig('system.stripe', {});
       if (stripeConfig.status) {
         return stripeConfig.status;
@@ -14,7 +14,7 @@ module.exports = {
         return 0;
       }
     },
-    stripeDislayName: (setting, { _ }, { pool }) => {
+    stripeDislayName: (setting) => {
       const stripeDislayName = setting.find((s) => s.name === 'stripeDislayName');
       if (stripeDislayName) {
         return stripeDislayName.value;
@@ -22,7 +22,7 @@ module.exports = {
         return 'Credit Card';
       }
     },
-    stripePublishableKey: (setting, { _ }, { tokenPayload }) => {
+    stripePublishableKey: (setting) => {
       const stripeConfig = getConfig('system.stripe', {});
       if (stripeConfig.publishableKey) {
         return stripeConfig.publishableKey;
@@ -34,12 +34,12 @@ module.exports = {
         return null;
       }
     },
-    stripeSecretKey: (setting, { _ }, { tokenPayload }) => {
+    stripeSecretKey: (setting, { _ }, { userTokenPayload }) => {
       const stripeConfig = getConfig('system.stripe', {});
       if (stripeConfig.secretKey) {
         return '*******************************';
       }
-      if (tokenPayload && tokenPayload?.user?.isAdmin === true) {
+      if (userTokenPayload && userTokenPayload?.user?.uuid) {
         const stripeSecretKey = setting.find((s) => s.name === 'stripeSecretKey');
         if (stripeSecretKey) {
           return stripeSecretKey.value;
@@ -50,12 +50,12 @@ module.exports = {
         return null;
       }
     },
-    stripeEndpointSecret: (setting, { _ }, { tokenPayload }) => {
+    stripeEndpointSecret: (setting, { _ }, { userTokenPayload }) => {
       const stripeConfig = getConfig('system.stripe', {});
       if (stripeConfig.endpointSecret) {
         return '*******************************';
       }
-      if (tokenPayload && tokenPayload?.user?.isAdmin === true) {
+      if (userTokenPayload && userTokenPayload?.user?.uuid) {
         const stripeEndpointSecret = setting.find((s) => s.name === 'stripeEndpointSecret');
         if (stripeEndpointSecret) {
           return stripeEndpointSecret.value;

@@ -2,8 +2,8 @@ const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { setContextValue, getContextValue } = require('../../../../graphql/services/contextHelper');
 const { getCustomerCart } = require('../../../services/getCustomerCart');
 
-module.exports = async (request, response, stack, next) => {
-  const cart = await getCustomerCart(getContextValue(request, 'tokenPayload', {}));
+module.exports = async (request, response, delegate, next) => {
+  const cart = await getCustomerCart(getContextValue(request, 'customerTokenPayload', {}));
   if (!cart) {
     response.redirect(302, buildUrl('cart'));
     return;

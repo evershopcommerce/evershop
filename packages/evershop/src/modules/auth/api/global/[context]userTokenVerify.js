@@ -7,21 +7,21 @@ const { UNAUTHORIZED } = require('../../../../lib/util/httpStatus');
 const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { generateToken } = require('../../services/generateToken');
 const { getAdminTokenCookieId } = require('../../services/getAdminTokenCookieId');
-const { getTokenCookieId } = require('../../services/getTokenCookieId');
 const { getTokenSecret } = require('../../services/getTokenSecret');
 
 module.exports = async (request, response, delegate, next) => {
   const message = 'Unauthorized';
-  // Get the jwt token from the cookies, admin token has higher priority
-  const token = request.cookies[getAdminTokenCookieId()] || request.cookies[getTokenCookieId()];
+  // Get the jwt token from the cookies
+  const cookieId = getAdminTokenCookieId();
+  const token = request.cookies[cookieId];
   // If there is no token, generate a new one for guest user
   if (!token) {
     // Issue a new token for guest user
     const payload = { user: null, sid: uuidv4() };
     const newToken = generateToken(payload, getTokenSecret());
     // Set the new token in the cookies
-    response.cookie(cookieId, newToken, { maxAge: 172800000, httpOnly: true });
-    setContextValue(request, 'tokenPayload', payload);
+    response.cookie(cookieId, newToken, { maxAge: 1.728e+8, httpOnly: true });
+    setContextValue(request, 'userTokenPayload', payload);
     setContextValue(request, 'user', null);
     // Continue to the next middleware
     next();
@@ -52,7 +52,7 @@ module.exports = async (request, response, delegate, next) => {
           }
         });
       } else {
-        setContextValue(request, 'tokenPayload', decoded);
+        setContextValue(request, 'userTokenPayload', decoded);
         setContextValue(request, 'user', { ...decoded.user, roles: '*' });
         next();
       }

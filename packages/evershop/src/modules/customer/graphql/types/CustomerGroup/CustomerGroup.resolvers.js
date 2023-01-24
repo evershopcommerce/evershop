@@ -4,8 +4,8 @@ const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
-    customerGroup: async (root, { id }, { pool, tokenPayload }) => {
-      if (!tokenPayload.isAdmin) {
+    customerGroup: async (root, { id }, { pool, userTokenPayload }) => {
+      if (!userTokenPayload?.user?.uuid) {
         return null;
       }
       const group = await select()
@@ -15,8 +15,8 @@ module.exports = {
 
       return group ? camelCase(group) : null;
     },
-    customerGroups: async (root, { id }, { pool, tokenPayload }) => {
-      if (!tokenPayload.isAdmin) {
+    customerGroups: async (root, { id }, { pool, userTokenPayload }) => {
+      if (!userTokenPayload?.user?.uuid) {
         return [];
       }
       const groups = await select()

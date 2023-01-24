@@ -1,6 +1,6 @@
 module.exports = {
   Setting: {
-    storeName: (setting, { _ }, { pool }) => {
+    storeName: (setting) => {
       const storeName = setting.find((s) => s.name === 'storeName');
       if (storeName) {
         return storeName.value;
@@ -8,7 +8,7 @@ module.exports = {
         return 'An Amazing EverShop Store';
       }
     },
-    storeDescription: (setting, { _ }, { pool }) => {
+    storeDescription: (setting) => {
       const storeDescription = setting.find((s) => s.name === 'storeDescription');
       if (storeDescription) {
         return storeDescription.value;
@@ -16,7 +16,7 @@ module.exports = {
         return 'An Amazing EverShop Store';
       }
     },
-    storeLanguage: (setting, { _ }, { tokenPayload }) => {
+    storeLanguage: (setting) => {
       const storeLanguage = setting.find((s) => s.name === 'storeLanguage');
       if (storeLanguage) {
         return storeLanguage.value;
@@ -24,7 +24,7 @@ module.exports = {
         return 'en';
       }
     },
-    storeCurrency: (setting, { _ }, { tokenPayload }) => {
+    storeCurrency: (setting) => {
       const storeCurrency = setting.find((s) => s.name === 'storeCurrency');
       if (storeCurrency) {
         return storeCurrency.value;
@@ -32,7 +32,7 @@ module.exports = {
         return 'USD';
       }
     },
-    storeTimeZone: (setting, { _ }, { tokenPayload }) => {
+    storeTimeZone: (setting) => {
       const storeTimeZone = setting.find((s) => s.name === 'storeTimeZone');
       if (storeTimeZone) {
         return storeTimeZone.value;
@@ -40,7 +40,7 @@ module.exports = {
         return 'America/New_York';
       }
     },
-    storePhoneNumber: (setting, { _ }, { tokenPayload }) => {
+    storePhoneNumber: (setting) => {
       const storePhoneNumber = setting.find((s) => s.name === 'storePhoneNumber');
       if (storePhoneNumber) {
         return storePhoneNumber.value;
@@ -48,7 +48,7 @@ module.exports = {
         return null;
       }
     },
-    storeEmail: (setting, { _ }, { tokenPayload }) => {
+    storeEmail: (setting) => {
       const storeEmail = setting.find((s) => s.name === 'storeEmail');
       if (storeEmail) {
         return storeEmail.value;
@@ -56,7 +56,7 @@ module.exports = {
         return null;
       }
     },
-    storeCountry: (setting, { _ }, { tokenPayload }) => {
+    storeCountry: (setting) => {
       const storeCountry = setting.find((s) => s.name === 'storeCountry');
       if (storeCountry) {
         return storeCountry.value;
@@ -64,7 +64,7 @@ module.exports = {
         return 'US';
       }
     },
-    storeAddress: (setting, { _ }, { tokenPayload }) => {
+    storeAddress: (setting) => {
       const storeAddress = setting.find((s) => s.name === 'storeAddress');
       if (storeAddress) {
         return storeAddress.value;
@@ -72,7 +72,7 @@ module.exports = {
         return null;
       }
     },
-    storeCity: (setting, { _ }, { tokenPayload }) => {
+    storeCity: (setting) => {
       const storeCity = setting.find((s) => s.name === 'storeCity');
       if (storeCity) {
         return storeCity.value;
@@ -80,7 +80,7 @@ module.exports = {
         return null;
       }
     },
-    storeProvince: (setting, { _ }, { tokenPayload }) => {
+    storeProvince: (setting) => {
       const storeProvince = setting.find((s) => s.name === 'storeProvince');
       if (storeProvince) {
         return storeProvince.value;
@@ -88,7 +88,7 @@ module.exports = {
         return null;
       }
     },
-    storePostalCode: (setting, { _ }, { tokenPayload }) => {
+    storePostalCode: (setting) => {
       const storePostalCode = setting.find((s) => s.name === 'storePostalCode');
       if (storePostalCode) {
         return storePostalCode.value;

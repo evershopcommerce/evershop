@@ -7,9 +7,9 @@ const CartFactory = {};
 
 CartFactory.init = function init(request, response) {
   // Get the token payload from the request
-  const tokenPayload = getContextValue(request, 'tokenPayload');
+  const customerTokenPayload = getContextValue(request, 'customerTokenPayload');
   this.carts = {
-    [tokenPayload.sid]: {
+    [customerTokenPayload.sid]: {
       request,
       response
     }
@@ -18,7 +18,7 @@ CartFactory.init = function init(request, response) {
   // Subscribe to the 'finish' event of the response
   response.on('finish', () => {
     // When the response is finished, delete the cart from the factory
-    delete this.carts[tokenPayload.sid];
+    delete this.carts[customerTokenPayload.sid];
   });
 };
 
@@ -33,7 +33,7 @@ CartFactory.getCart = async function getCart(sid) {
   } else {
     const cart = this.carts[sid]?.cart;
     if (cart === undefined) {
-      this.carts[sid].cart = getCustomerCart(getContextValue(this.carts[sid].request, 'tokenPayload'));
+      this.carts[sid].cart = getCustomerCart(getContextValue(this.carts[sid].request, 'customerTokenPayload'));
     }
 
     return await this.carts[sid].cart;

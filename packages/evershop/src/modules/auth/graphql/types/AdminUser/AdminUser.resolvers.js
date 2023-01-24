@@ -1,12 +1,11 @@
 const { select } = require('@evershop/mysql-query-builder');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { camelCase } = require('../../../../../lib/util/camelCase');
 const { get } = require('../../../../../lib/util/get');
 
 module.exports = {
   Query: {
-    adminUser: async (root, { id }, { pool, tokenPayload }) => {
-      if (!get(tokenPayload, 'user.isAdmin', false)) {
+    adminUser: async (root, { id }, { pool, userTokenPayload }) => {
+      if (!get(userTokenPayload, 'user.isAdmin', false)) {
         return null;
       }
       const query = select()
@@ -16,9 +15,9 @@ module.exports = {
       const user = await query.load(pool);
       return user ? camelCase(user) : null;
     },
-    adminUsers: async (_, { filters = [] }, { pool, tokenPayload }) => {
+    adminUsers: async (_, { filters = [] }, { pool, userTokenPayload }) => {
       // This field is for admin only
-      if (!get(tokenPayload, 'user.isAdmin', false)) {
+      if (!get(userTokenPayload, 'user.isAdmin', false)) {
         return [];
       }
       const query = select().from('admin_user');

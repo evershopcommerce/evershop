@@ -1,10 +1,10 @@
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { getContextValue, setContextValue } = require('../../../../graphql/services/contextHelper');
 
-module.exports = (request, response, stack, next) => {
+module.exports = (request, response, delegate, next) => {
   // Check if the user is logged in
-  const tokenPayload = getContextValue(request, 'tokenPayload');
-  if (tokenPayload && tokenPayload.user?.customerId) {
+  const customerTokenPayload = getContextValue(request, 'customerTokenPayload');
+  if (customerTokenPayload && customerTokenPayload.customer?.customerId) {
     // Redirect to admin dashboard
     response.redirect(buildUrl('homepage'));
   } else {

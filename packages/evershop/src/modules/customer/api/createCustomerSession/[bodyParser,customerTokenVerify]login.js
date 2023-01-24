@@ -12,12 +12,12 @@ const { INVALID_PAYLOAD, OK } = require('../../../../lib/util/httpStatus');
 module.exports = async (request, response, delegate, next) => {
   const { body } = request;
   const { email, password } = body;
-  const user = await select()
+  const customer = await select()
     .from('customer')
     .where('email', '=', email)
     .load(pool);
 
-  if (!user) {
+  if (!customer) {
     response.status(INVALID_PAYLOAD);
     return response.json({
       error: {
@@ -26,7 +26,7 @@ module.exports = async (request, response, delegate, next) => {
       }
     });
   } else {
-    const { password: hash } = user;
+    const { password: hash } = customer;
     const result = await compare(password, hash);
 
     if (!result) {
@@ -39,25 +39,25 @@ module.exports = async (request, response, delegate, next) => {
       });
     } else {
       // Get the tokenPayload
-      const currentTokenPayload = getContextValue(request, 'tokenPayload');
+      const currentTokenPayload = getContextValue(request, 'customerTokenPayload');
       const JWT_SECRET = uuidv4();
       // Save the JWT_SECRET to the database
       await insertOnUpdate('user_token_secret')
         .given({
-          user_id: user.uuid,
+          user_id: customer.uuid,
           sid: currentTokenPayload.sid,
           secret: JWT_SECRET
         })
         .execute(pool);
 
-      delete user.password;
-      const newPayload = { ...currentTokenPayload, user: { ...camelCase(user) } };
+      delete customer.password;
+      const newPayload = { ...currentTokenPayload, customer: { ...camelCase(customer) } };
       const token = sign(newPayload, JWT_SECRET);
-      setContextValue(request, 'tokenPayload', newPayload);
+      setContextValue(request, 'customerTokenPayload', newPayload);
       // Send a response with the cookie
       response.cookie(getTokenCookieId(), token, {
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24
+        maxAge: 1.728e+8
       });
       response.status(OK);
       response.$body = {

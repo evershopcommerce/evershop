@@ -4,8 +4,7 @@ const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
-    coupon: async (root, { id }, { pool, tokenPayload }) => {
-      const { admin } = tokenPayload;
+    coupon: async (root, { id }, { pool }) => {
       const query = select()
         .from('coupon');
       query.where('coupon_id', '=', id);

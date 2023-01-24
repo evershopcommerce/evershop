@@ -4,16 +4,12 @@ const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
-    cmsPage: async (root, { id }, { pool, tokenPayload }) => {
-      const { admin } = tokenPayload;
+    cmsPage: async (root, { id }, { pool }) => {
       const query = select()
         .from('cms_page');
       query.leftJoin('cms_page_description')
         .on('cms_page.`cms_page_id`', '=', 'cms_page_description.`cms_page_description_cms_page_id`');
       query.where('cms_page_id', '=', id);
-      // if (admin !== true) {
-      //   query.where('cms_page.`status`', '=', 1);
-      // }
 
       const page = await query.load(pool);
       return page ? camelCase(page) : null;
@@ -91,7 +87,7 @@ module.exports = {
   CmsPage: {
     url: ({ urlKey }) => buildUrl('cmsPageView', { url_key: urlKey }),
     editUrl: ({ uuid }) => buildUrl('cmsPageEdit', { id: uuid }),
-    updateApi: (page, _, { pool }) => buildUrl('updateCmsPage', { id: page.uuid }),
-    deleteApi: (page, _, { pool }) => buildUrl('deleteCmsPage', { id: page.uuid })
+    updateApi: (page) => buildUrl('updateCmsPage', { id: page.uuid }),
+    deleteApi: (page) => buildUrl('deleteCmsPage', { id: page.uuid })
   }
 };
