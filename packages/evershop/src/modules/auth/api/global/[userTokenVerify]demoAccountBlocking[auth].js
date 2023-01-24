@@ -6,8 +6,8 @@ module.exports = (request, response, delegate, next) => {
   if (request.method == 'GET') {
     next();
   } else {
-    const tokenPayLoad = getContextValue(request, 'tokenPayload');
-    const currentUserEmail = tokenPayLoad?.user?.email;
+    const userTokenPayload = getContextValue(request, 'userTokenPayload');
+    const currentUserEmail = userTokenPayload?.user?.email;
     const demoUserEmail = getConfig('system.demoUser');
     if (demoUserEmail && currentUserEmail === demoUserEmail) {
       response.status(UNAUTHORIZED).json({
