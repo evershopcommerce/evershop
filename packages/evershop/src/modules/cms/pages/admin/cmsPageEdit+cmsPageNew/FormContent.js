@@ -1,9 +1,11 @@
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import Button from '../../../../../lib/components/form/Button';
+import { useFormContext } from '../../../../../lib/components/form/Form';
 import './FormContent.scss';
 
 export default function FormContent({ gridUrl }) {
+  const { state } = useFormContext();
   return (
     <>
       <div className="grid grid-cols-3 gap-x-2 grid-flow-row ">
@@ -20,16 +22,23 @@ export default function FormContent({ gridUrl }) {
           variant="critical"
           outline
           onAction={
-          () => {
-            window.location = gridUrl;
+            () => {
+              window.location = gridUrl;
+            }
           }
-        }
         />
         <Button
           title="Save"
           onAction={
-          () => { document.getElementById('cmsPageForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
-        }
+            () => {
+              document
+                .getElementById('cmsPageForm')
+                .dispatchEvent(
+                  new Event('submit', { cancelable: true, bubbles: true })
+                );
+            }
+          }
+          isLoading={state === 'submitting'}
         />
       </div>
     </>

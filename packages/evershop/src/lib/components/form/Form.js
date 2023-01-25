@@ -88,7 +88,6 @@ export function Form(props) {
   };
 
   const submit = async (e) => {
-    console.log('submitting form', id);
     e.preventDefault();
     setState('submitting');
     try {

@@ -28,22 +28,22 @@ export default function Attributes({ product, groups }) {
       >
         <div>
           {product?.variantGroupId && (
-          <div>
-            <input type="hidden" value={currentGroup.groupId} name="group_id" />
-            <div className="border rounded border-divider p-1"><span>{currentGroup.groupName}</span></div>
-            <div className="italic text-textSubdued">Can not change the attribute group of a product that is already in a variant group.</div>
-          </div>
+            <div>
+              <input type="hidden" value={currentGroup.groupId} name="group_id" />
+              <div className="border rounded border-divider p-1"><span>{currentGroup.groupName}</span></div>
+              <div className="italic text-textSubdued">Can not change the attribute group of a product that is already in a variant group.</div>
+            </div>
           )}
           {!product?.variantGroupId && (
-          <Field
-            name="group_id"
-            value={currentGroup.groupId}
-            onChange={(e) => handleGroupChange(e)}
-            options={(() => groups.map(
-              (g) => ({ value: parseInt(g.groupId, 10), text: g.groupName })
-            ))()}
-            type="select"
-          />
+            <Field
+              name="group_id"
+              value={currentGroup.groupId}
+              onChange={(e) => handleGroupChange(e)}
+              options={(() => groups.map(
+                (g) => ({ value: parseInt(g.groupId, 10), text: g.groupName })
+              ))()}
+              type="select"
+            />
           )}
         </div>
       </Card.Session>
@@ -104,9 +104,6 @@ export default function Attributes({ product, groups }) {
                         (o) => ({ value: o.optionId, text: o.optionText })
                       ))()}
                       validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
-                      onChange={(e) => {
-                        e.persist();
-                      }}
                       type="select"
                     />
                   );
