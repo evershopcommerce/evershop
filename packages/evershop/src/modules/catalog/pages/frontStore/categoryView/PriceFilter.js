@@ -3,22 +3,19 @@ import PropTypes from 'prop-types';
 import { useFilterDispatch } from './Filter';
 import './PriceFilter.scss';
 
-export default function Price({ areaProps: {
-  currentFilters,
-  priceRange: {
-    min,
-    max
-  }
-},
+export default function Price({
+  areaProps: {
+    currentFilters,
+    priceRange: {
+      min: minPrice,
+      max: maxPrice
+    }
+  },
   setting: {
     storeLanguge: language,
     storeCurrency: currency
   }
 }) {
-  // Get the min price
-  const minPrice = min;
-  const maxPrice = max;
-
   const { updateFilter } = useFilterDispatch();
   const firstRender = React.useRef(true);
   const [from, setFrom] = React.useState(() => {
@@ -38,6 +35,26 @@ export default function Price({ areaProps: {
       return maxPrice;
     }
   });
+
+  React.useEffect(() => {
+    firstRender.current = true;
+    setFrom(() => {
+      const minPriceFilter = currentFilters.find((f) => f.key === 'minPrice');
+      if (minPriceFilter) {
+        return minPriceFilter.value;
+      } else {
+        return minPrice;
+      }
+    });
+    setTo(() => {
+      const maxPriceFilter = currentFilters.find((f) => f.key === 'maxPrice');
+      if (maxPriceFilter) {
+        return maxPriceFilter.value;
+      } else {
+        return maxPrice;
+      }
+    });
+  }, [currentFilters]);
 
   React.useLayoutEffect(() => {
     const timeoutID = setTimeout(() => {
@@ -88,6 +105,7 @@ export default function Price({ areaProps: {
 
   const onChange = (e, direction) => {
     e.persist();
+    firstRender.current = false;
     const { value } = e.target;
     if (direction === 'min') {
       if (value > to - 5) {
