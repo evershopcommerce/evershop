@@ -4,6 +4,7 @@ const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { camelCase } = require('../../../../../lib/util/camelCase');
 const { getProductsBaseQuery } = require('../../../services/getProductsBaseQuery');
 const { pool } = require('../../../../../lib/mysql/connection');
+const { getFilterableAttributes } = require('../../../services/getFilterableAttributes');
 
 module.exports = {
   Query: {
@@ -204,52 +205,49 @@ module.exports = {
     }
   },
   Category: {
-    products: async (category, { filters = [] }, { filterableAttributes, priceRange }) => {
+    products: async (category, { filters = [] }) => {
       const query = await getProductsBaseQuery(category.categoryId);
       const currentFilters = [];
       // Price filter
-      const priceFilter = filters.find((f) => f.key === 'price');
-      if (priceFilter) {
-        const [min, max] = priceFilter.value.split('-').map((v) => parseFloat(v));
-        let currentPriceFilter;
-        if (isNaN(min) === false) {
-          query.andWhere('product.`price`', '>=', min);
-          currentPriceFilter = { key: 'price', value: `${min}` };
-        }
-
-        if (isNaN(max) === false) {
-          query.andWhere('product.`price`', '<=', max);
-          currentPriceFilter = { key: 'price', value: `${currentPriceFilter.value}-${max}` };
-        }
-        if (currentPriceFilter) {
-          currentFilters.push(currentPriceFilter);
-        }
+      const minPrice = filters.find((f) => f.key === 'minPrice');
+      const maxPrice = filters.find((f) => f.key === 'maxPrice');
+      if (minPrice && isNaN(parseFloat(minPrice.value)) === false) {
+        query.andWhere('product.`price`', '>=', minPrice.value);
+        currentFilters.push({ key: 'minPrice', operation: '=', value: minPrice.value });
       }
-      // TODO: Apply category filters
+      if (maxPrice && isNaN(parseFloat(maxPrice.value)) === false) {
+        query.andWhere('product.`price`', '<=', maxPrice.value);
+        currentFilters.push({ key: 'maxPrice', operation: '=', value: maxPrice.value });
+      }
 
+      // TODO: Apply category filters
+      const filterableAttributes = await select()
+        .from('attribute')
+        .where('type', '=', 'select')
+        .and('is_filterable', '=', 1)
+        .execute(pool);
       // Attribute filters
       filters.forEach((filter) => {
-        if (filter.key === 'price') {
+        const attribute = filterableAttributes.find((a) => a.attribute_code === filter.key);
+        if (!attribute) {
           return;
         }
-        const attribute = filterableAttributes.find((a) => a.attributeCode === filter.key);
-        if (attribute) {
-          const values = filter.value.split(',')
-            .map((v) => parseInt(v))
-            .filter((v) => isNaN(v) === false);
-          if (values.length > 0) {
-            const alias = uniqid();
-            query.innerJoin('product_attribute_value_index', alias)
-              .on(`${alias}.product_id`, '=', 'product.`product_id`')
-              .and(`${alias}.attribute_id`, '=', attribute.attributeId)
-              .and(`${alias}.option_id`, 'IN', values);
-          }
-          currentFilters.push({
-            key: filter.key,
-            operation: filter.operation,
-            value: values.join(',')
-          });
+
+        const values = filter.value.split(',')
+          .map((v) => parseInt(v))
+          .filter((v) => isNaN(v) === false);
+        if (values.length > 0) {
+          const alias = uniqid();
+          query.innerJoin('product_attribute_value_index', alias)
+            .on(`${alias}.product_id`, '=', 'product.`product_id`')
+            .and(`${alias}.attribute_id`, '=', attribute.attribute_id)
+            .and(`${alias}.option_id`, 'IN', values);
         }
+        currentFilters.push({
+          key: filter.key,
+          operation: filter.operation,
+          value: values.join(',')
+        });
       });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
@@ -312,8 +310,8 @@ module.exports = {
       }
 
       // Clone the main query for getting total right before doing the paging
-      const cloneQuery = query.clone();
-      cloneQuery.select('COUNT(product.`product_id`)', 'total');
+      const totalQuery = query.clone();
+      totalQuery.select('COUNT(product.`product_id`)', 'total');
       // const total = await cloneQuery.load(pool);
       // console.log('total', total);
       // Paging
@@ -332,16 +330,25 @@ module.exports = {
       query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
       return {
         itemQuery: query,
-        totalQuery: cloneQuery,
+        totalQuery: totalQuery,
         currentFilters
       };
     },
-    availableFilters: async (category, _, { filterableAttributes, priceRange }) => filterableAttributes,
-    url: (category, _, { pool }) => buildUrl('categoryView', { url_key: category.urlKey }),
-    editUrl: (category, _, { pool }) => buildUrl('categoryEdit', { id: category.uuid }),
-    updateApi: (category, _, { pool }) => buildUrl('updateCategory', { id: category.uuid }),
-    deleteApi: (category, _, { pool }) => buildUrl('deleteCategory', { id: category.uuid }),
-    image: (category, _, { pool }) => {
+    availableAttributes: async (category) => {
+      return await getFilterableAttributes(category.categoryId);
+    },
+    priceRange: async (category) => {
+      const query = await getProductsBaseQuery(category.categoryId);
+      query.select('MIN(product.`price`)', 'min')
+        .select('MAX(product.`price`)', 'max');
+      const result = await query.load(pool);
+      return result || { min: 0, max: 0 };
+    },
+    url: (category) => buildUrl('categoryView', { url_key: category.urlKey }),
+    editUrl: (category) => buildUrl('categoryEdit', { id: category.uuid }),
+    updateApi: (category) => buildUrl('updateCategory', { id: category.uuid }),
+    deleteApi: (category) => buildUrl('deleteCategory', { id: category.uuid }),
+    image: (category) => {
       const { image } = category;
       if (!image) {
         return null;

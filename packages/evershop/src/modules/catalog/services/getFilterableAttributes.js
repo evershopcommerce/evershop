@@ -23,7 +23,7 @@ module.exports.getFilterableAttributes = async (categoryId) => {
     .on('attribute.`attribute_id`', '=', 'product_attribute_value_index.`attribute_id`');
 
   query.where('product_attribute_value_index.`product_id`', 'IN', allIds)
-    .and('type', 'IN', ['select', 'multiselect'])
+    .and('type', '=', 'select')
     .and('is_filterable', '=', 1);
 
   const attributeData = await query.execute(pool);

@@ -3,7 +3,7 @@
     padding-bottom: 1rem;
     margin-bottom: 1.5rem;
     .filter-item-title {
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
         padding-bottom: 0.5rem;
         border-bottom: 1px solid var(--divider);
         text-transform: uppercase;
@@ -11,6 +11,9 @@
     }
     .field-border {
         border: none !important;
+    }
+    .filter-heading {
+        margin-bottom: 20px
     }
 }
 .filter-option {
