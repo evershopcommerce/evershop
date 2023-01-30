@@ -142,6 +142,9 @@ module.exports = exports = async () => {
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer group';
 `);
 
+  // Add default customer group
+  await execute(pool, 'INSERT INTO `customer_group` ( `customer_group_id`, `group_name` ) VALUES (1, \'Default\') ON DUPLICATE KEY UPDATE group_name=\'Default\'');
+
   await execute(pool, `CREATE TABLE \`product\` (
   \`product_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
