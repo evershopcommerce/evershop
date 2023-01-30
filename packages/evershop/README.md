@@ -1,10 +1,15 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 <p align="center">
-  <h1 align="center">Lightweight And Extendable React E-commerce Platform</h1>
+<img width="60" height="68" alt="EverShop Logo" src="https://evershop.io/img/logo.png"/>
 </p>
 <p align="center">
-    <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a>
+  <h1 align="center">EverShop</h1>
 </p>
+<h4 align="center">
+    <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a> |
+    <a href="https://demo.evershop.io/">Demo</a>
+</h4>
+
 <p align="center">
   <img src="https://github.com/nodeonline/nodejscart/actions/workflows/build.yml/badge.svg" alt="Github Action">
   <a href="https://discord.gg/GSzt7dt7RM">
