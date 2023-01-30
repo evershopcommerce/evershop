@@ -18,7 +18,8 @@ type Category {
   editUrl: String
   updateApi: String!
   deleteApi: String!
-  availableFilters: [FilterAttribute]
+  availableAttributes: [FilterAttribute]
+  priceRange: PriceRange
 }
 
 """
@@ -83,6 +84,11 @@ type ProductCollection {
   currentPage: Int!
   total: Int!
   currentFilters: [Filter]
+}
+
+type PriceRange {
+  min: Float!
+  max: Float!
 }
 
 extend type Query {

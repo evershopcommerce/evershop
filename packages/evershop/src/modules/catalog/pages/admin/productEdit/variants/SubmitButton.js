@@ -105,6 +105,6 @@ export function SubmitButton({
     title="Create"
     variant='primary'
     onAction={createVariant}
-    loading={loading}
+    isLoading={loading}
   />
 }

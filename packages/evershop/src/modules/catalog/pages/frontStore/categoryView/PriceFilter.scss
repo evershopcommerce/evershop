@@ -1,0 +1,25 @@
+.rangeslider {
+  position: relative;
+}
+.tooltip {
+  position: absolute;
+  width: 100%;
+  &.min{
+    left: 0;
+  }
+  &.max{
+    right: 0;
+  }
+  top: 50%;
+  display: flex;
+  justify-content: start;
+}
+.push {
+  display: block;
+  min-width: 0px;
+  height: 1px;
+}
+
+.price-filter .filter-item-title {
+  border-bottom: 0
+}

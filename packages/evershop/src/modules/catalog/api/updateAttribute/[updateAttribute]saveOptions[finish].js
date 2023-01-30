@@ -12,10 +12,10 @@ module.exports = async (request, response, delegate) => {
   const connection = await delegate.getConnection;
   const attributeData = request.body;
   /* Save options */
-  if (!['select', 'multiselect'].includes(get(attributeData, 'type'))) {
+  if (!['select', 'multiselect'].includes(attribute.type)) {
     await del('attribute_option')
       .where('attribute_id', '=', attributeId)
-      .execute(connection);
+      .execute(connection, false);
     return;
   }
   const options = get(attributeData, 'options', []);
@@ -29,13 +29,13 @@ module.exports = async (request, response, delegate) => {
   const oldOptions = await select()
     .from('attribute_option')
     .where('attribute_id', '=', attributeId)
-    .execute(connection);
+    .execute(connection, false);
 
   for (const oldOption of oldOptions) {
     if (!ids.includes(parseInt(oldOption.attribute_option_id, 10))) {
       await del('attribute_option')
         .where('attribute_option_id', '=', oldOption.attribute_option_id)
-        .execute(connection);
+        .execute(connection, false);
     }
   }
   /* Adding new options */
@@ -43,7 +43,7 @@ module.exports = async (request, response, delegate) => {
     const exists = await select()
       .from('attribute_option')
       .where('attribute_option_id', '=', option.option_id)
-      .load(connection);
+      .load(connection, false);
 
     if (exists) {
       await update('attribute_option')
@@ -53,7 +53,7 @@ module.exports = async (request, response, delegate) => {
           attribute_code: get(attribute, 'attribute_code')
         })
         .where('attribute_option_id', '=', option.option_id)
-        .execute(connection);
+        .execute(connection, false);
     } else {
       await insert('attribute_option')
         .given({
@@ -61,7 +61,7 @@ module.exports = async (request, response, delegate) => {
           attribute_id: attributeId,
           attribute_code: get(attribute, 'attribute_code')
         })
-        .execute(connection);
+        .execute(connection, false);
     }
   }
 };

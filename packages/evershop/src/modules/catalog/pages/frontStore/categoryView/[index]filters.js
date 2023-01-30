@@ -1,13 +1,13 @@
-const { setContextValue, getContextValue } = require('../../../../graphql/services/contextHelper');
-const { getFilterableAttributes } = require('../../../services/getFilterableAttributes');
-const { getPriceRange } = require('../../../services/getPriceRange');
+const { select } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../../../lib/mysql/connection');
+const { setContextValue } = require('../../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
-  const filterableAttributes = await getFilterableAttributes(getContextValue(request, 'categoryId'));
-
-  // Set the filterable attributes to the context so that we can use it in the graphql query
-  setContextValue(request, 'filterableAttributes', filterableAttributes);
-  setContextValue(request, 'priceRange', await getPriceRange(getContextValue(request, 'categoryId')));
+  const filterableAttributes = await select()
+    .from('attribute')
+    .where('type', '=', 'select')
+    .and('is_filterable', '=', 1)
+    .execute(pool);
 
   const { query } = request;
   if (!query) {
@@ -18,25 +18,19 @@ module.exports = async (request, response, delegate, next) => {
 
     // Price filter
     // const priceFilter = query.price;
-    // if (priceFilter) {
-    //   const [min, max] = priceFilter.value.split('-').map((v) => parseFloat(v));
-    //   let currentPriceFilter;
-    //   if (isNaN(min) === false) {
-    //     currentPriceFilter = { key: 'price', value: `${min}` };
-    //   }
-
-    //   if (isNaN(max) === false) {
-    //     currentPriceFilter = { key: 'price', value: `${currentPriceFilter.value}-${max}` };
-    //   }
-    //   if (currentPriceFilter) {
-    //     filtersFromUrl.push(currentPriceFilter);
-    //   }
-    // }
+    const minPrice = Object.keys(query).find((key) => key === 'minPrice');
+    const maxPrice = Object.keys(query).find((key) => key === 'maxPrice');
+    if (minPrice) {
+      filtersFromUrl.push({ key: 'minPrice', operation: '=', value: "" + query[minPrice] });
+    }
+    if (maxPrice) {
+      filtersFromUrl.push({ key: 'maxPrice', operation: '=', value: "" + query[maxPrice] });
+    }
 
     // Attribute filters
     Object.keys(query).forEach((key) => {
       const filter = query[key];
-      const attribute = filterableAttributes.find((a) => a.attributeCode === key);
+      const attribute = filterableAttributes.find((a) => a.attribute_code === key);
       if (attribute) {
         if (Array.isArray(filter)) {
           const values = filter

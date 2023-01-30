@@ -16,6 +16,24 @@ import { useFormContext } from './Form';
 import { FORM_FIELD_UPDATED } from '../../util/events';
 import './Field.scss';
 import { Password } from './fields/Password';
+import isEqual from 'react-fast-compare';
+
+const useMemoizeArgs = (args, equalityFunc) => {
+  const ref = React.useRef();
+  const prevArgs = ref.current;
+  const argsAreEqual =
+    prevArgs !== undefined &&
+    args.length === prevArgs.length &&
+    args.every((v, i) => equalityFunc(v, prevArgs[i]));
+
+  React.useEffect(() => {
+    if (!argsAreEqual) {
+      ref.current = args;
+    }
+  });
+
+  return argsAreEqual ? prevArgs : args;
+};
 
 export function Field(props) {
   const {
@@ -40,7 +58,7 @@ export function Field(props) {
   React.useEffect(() => {
     setFieldValue(value);
     context.updateField(name, value, validationRules);
-  }, [value]);
+  }, useMemoizeArgs([value], isEqual));
 
   React.useEffect(() => {
     if (field) setFieldValue(field.value);
