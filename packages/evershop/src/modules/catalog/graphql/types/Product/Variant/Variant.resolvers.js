@@ -37,7 +37,6 @@ module.exports = {
           .on('product_attribute_value_index.`attribute_id`', '=', 'attribute.`attribute_id`');
 
         query.where('variant_group_id', '=', variantGroupId)
-          .and('product.`product_id`', '!=', product.productId)
           .and('attribute.attribute_id', 'IN', Object.values(group).filter((v) => Number.isInteger(v)));
         if (!userTokenPayload?.user?.uuid) {
           query.andWhere('status', '=', 1);

@@ -19,6 +19,7 @@ query Query($productId: ID!) {
           optionText
         }
         product {
+          productId
           uuid
           name
           sku
@@ -116,7 +117,7 @@ export function Variants({
             </tr>
           </thead>
           <tbody>
-            {(data.product.variantGroup?.items || []).filter((v) => v.product.uuid !== productId).map((v) => (
+            {(data.product.variantGroup?.items || []).filter((v) => v.product.productId !== productId).map((v) => (
               <Variant
                 key={v.id}
                 variant={v}
