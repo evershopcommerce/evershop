@@ -342,7 +342,10 @@ module.exports = {
       query.select('MIN(product.`price`)', 'min')
         .select('MAX(product.`price`)', 'max');
       const result = await query.load(pool);
-      return result || { min: 0, max: 0 };
+      return {
+        min: result.min || 0,
+        max: result.max || 0
+      };
     },
     url: (category) => buildUrl('categoryView', { url_key: category.urlKey }),
     editUrl: (category) => buildUrl('categoryEdit', { id: category.uuid }),
