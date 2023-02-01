@@ -4,8 +4,8 @@ const { getRoutes } = require('./Router');
 module.exports = exports = {};
 
 /**
- * This function validate where ther the id of route is already existed or not.
- * It return a route object
+ * This function validates if the id of a route already exists or not.
+ * It returns a route object
  *
  * @param   {string}  id      Route ID
  * @param {string||array} method HTTP method, can be string like "GET", array like ["GET", "POST"]
@@ -16,7 +16,7 @@ module.exports = exports = {};
 exports.validateRoute = (id, method, path) => {
   const routes = getRoutes();
   if (routes.find((r) => r.id === id) !== undefined) {
-    throw new Error(`Route with ID ${String(id)} is already existed`);
+    throw new Error(`Route with ID ${String(id)} already exists`);
   }
   return {
     id: String(id),
