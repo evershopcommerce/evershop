@@ -61,7 +61,7 @@ Area.propTypes = {
     id: PropTypes.string,
     sortOrder: PropTypes.number,
     component: PropTypes.shape({
-      default: PropTypes.node
+      default: PropTypes.elementType
     })
   })),
   id: PropTypes.string.isRequired,
