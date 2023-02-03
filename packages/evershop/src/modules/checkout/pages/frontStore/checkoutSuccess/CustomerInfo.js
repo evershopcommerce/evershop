@@ -21,9 +21,7 @@ export default function CustomerInfo({
             {orderNumber}
           </span>
           <div>
-            Thank you
-            {customerFullName}
-            !
+            {`Thank you ${customerFullName || billingAddress?.fullName}!`}
           </div>
         </div>
       </h3>
