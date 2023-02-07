@@ -3,7 +3,7 @@
   "properties": {
     "address": {
       "type": "object",
-      "property": {
+      "properties": {
         "full_name": {
           "type": "string"
         },
