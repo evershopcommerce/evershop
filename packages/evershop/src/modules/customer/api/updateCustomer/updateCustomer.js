@@ -1,4 +1,5 @@
 const { update, select } = require('@evershop/mysql-query-builder');
+const bcrypt = require('bcrypt');
 const { getConnection } = require('../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
@@ -21,6 +22,12 @@ module.exports = async (request, response, delegate, next) => {
         }
       });
       return;
+    }
+
+    // Check if password is set
+    if (request.body.password) {
+      // Hash the password
+      request.body.password = await bcrypt.hash(request.body.password, 10);
     }
 
     await update('customer')
