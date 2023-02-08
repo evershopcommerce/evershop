@@ -104,7 +104,9 @@ module.exports = async (request, response, delegate, next) => {
     const array = [];
     for (let i = 0; i < attributes.length; i += 1) {
       const attribute = attributes[i];
-      const { attribute_id, attribute_code, attribute_name, type } = attribute;
+      const {
+        attribute_id, attribute_code, attribute_name, type
+      } = attribute;
       array.push({
         ...attribute,
         options: await select()
@@ -114,7 +116,7 @@ module.exports = async (request, response, delegate, next) => {
       });
     }
     group.attributes = array;
-    group.addItemApi = buildUrl('addVariantItem', { id: group.uuid })
+    group.addItemApi = buildUrl('addVariantItem', { id: group.uuid });
 
     response.status(OK);
     response.json({

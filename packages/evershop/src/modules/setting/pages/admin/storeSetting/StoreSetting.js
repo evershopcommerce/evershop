@@ -263,8 +263,8 @@ export default function StoreSetting({
                 <div className="grid grid-cols-2 gap-2 mt-2">
                   <div>
                     <Currency
-                  selectedCurrency={storeCurrency}
-                />
+                      selectedCurrency={storeCurrency}
+                    />
                   </div>
                   <div>
                     <Timezone selectedTimeZone={storeTimeZone} />
@@ -275,21 +275,21 @@ export default function StoreSetting({
                 <div className="grid grid-cols-2 gap-2 mt-2">
                   <div>
                     <Field
-                  name="storePhoneNumber"
-                  label="Store Phone Number"
-                  value={storePhoneNumber}
-                  placeholder="Store Phone Number"
-                  type="text"
-                />
+                      name="storePhoneNumber"
+                      label="Store Phone Number"
+                      value={storePhoneNumber}
+                      placeholder="Store Phone Number"
+                      type="text"
+                    />
                   </div>
                   <div>
                     <Field
-                  name="storeEmail"
-                  label="Store Email"
-                  value={storeEmail}
-                  placeholder="Store Email"
-                  type="text"
-                />
+                      name="storeEmail"
+                      label="Store Email"
+                      value={storeEmail}
+                      placeholder="Store Email"
+                      type="text"
+                    />
                   </div>
                 </div>
               </Card.Session>
@@ -308,27 +308,27 @@ export default function StoreSetting({
                 <div className="grid grid-cols-3 gap-2 mt-2">
                   <div>
                     <Field
-                  name="storeCity"
-                  label="City"
-                  value={storeCity}
-                  placeholder="City"
-                  type="text"
-                />
+                      name="storeCity"
+                      label="City"
+                      value={storeCity}
+                      placeholder="City"
+                      type="text"
+                    />
                   </div>
                   <div>
                     <Province
-                  selectedProvince={storeProvince}
-                  selectedCountry={selectedCountry}
-                />
+                      selectedProvince={storeProvince}
+                      selectedCountry={selectedCountry}
+                    />
                   </div>
                   <div>
                     <Field
-                  name="storePostalCode"
-                  label="PostalCode"
-                  value={storePostalCode}
-                  placeholder="PostalCode"
-                  type="text"
-                />
+                      name="storePostalCode"
+                      label="PostalCode"
+                      value={storePostalCode}
+                      placeholder="PostalCode"
+                      type="text"
+                    />
                   </div>
                 </div>
               </Card.Session>

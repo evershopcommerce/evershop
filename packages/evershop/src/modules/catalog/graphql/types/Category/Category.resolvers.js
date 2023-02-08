@@ -330,13 +330,11 @@ module.exports = {
       query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
       return {
         itemQuery: query,
-        totalQuery: totalQuery,
+        totalQuery,
         currentFilters
       };
     },
-    availableAttributes: async (category) => {
-      return await getFilterableAttributes(category.categoryId);
-    },
+    availableAttributes: async (category) => await getFilterableAttributes(category.categoryId),
     priceRange: async (category) => {
       const query = await getProductsBaseQuery(category.categoryId);
       query.select('MIN(product.`price`)', 'min')

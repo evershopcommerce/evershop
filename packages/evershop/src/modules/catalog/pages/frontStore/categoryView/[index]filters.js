@@ -21,10 +21,10 @@ module.exports = async (request, response, delegate, next) => {
     const minPrice = Object.keys(query).find((key) => key === 'minPrice');
     const maxPrice = Object.keys(query).find((key) => key === 'maxPrice');
     if (minPrice) {
-      filtersFromUrl.push({ key: 'minPrice', operation: '=', value: "" + query[minPrice] });
+      filtersFromUrl.push({ key: 'minPrice', operation: '=', value: `${query[minPrice]}` });
     }
     if (maxPrice) {
-      filtersFromUrl.push({ key: 'maxPrice', operation: '=', value: "" + query[maxPrice] });
+      filtersFromUrl.push({ key: 'maxPrice', operation: '=', value: `${query[maxPrice]}` });
     }
 
     // Attribute filters

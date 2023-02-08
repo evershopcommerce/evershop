@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useQuery } from 'urql';
 import { Variant } from './Variant';
 import { VariantType } from './VariantType';
 import { Card } from '../../../../../cms/components/admin/Card';
 import { CreateVariant } from './CreateVariant';
-import { useQuery } from 'urql';
 
 export const VariantQuery = `
 query Query($productId: ID!) {
@@ -69,7 +69,7 @@ export function Variants({
   const [result, reexecuteQuery] = useQuery({
     query: VariantQuery,
     variables: {
-      productId: productId
+      productId
     }
   });
 
@@ -79,13 +79,15 @@ export function Variants({
 
   const { data, fetching, error } = result;
   if (fetching) {
-    return <div className="skeleton-wrapper-variants">
-      <div className="skeleton" />
-      <div className="skeleton" />
-      <div className="skeleton" />
-      <div className="skeleton" />
-      <div className="skeleton" />
-    </div>;
+    return (
+      <div className="skeleton-wrapper-variants">
+        <div className="skeleton" />
+        <div className="skeleton" />
+        <div className="skeleton" />
+        <div className="skeleton" />
+        <div className="skeleton" />
+      </div>
+    );
   }
 
   if (error) {

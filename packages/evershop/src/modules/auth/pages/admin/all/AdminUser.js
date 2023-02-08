@@ -42,7 +42,7 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
                 <span className="text-primary">
                   {fullName}
                   !
-              </span>
+                </span>
               </div>
               <div className="mt-1">
                 <a
@@ -55,7 +55,7 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
                 }
               }
                 >
-                Logout
+                  Logout
                 </a>
               </div>
             </div>

@@ -60,13 +60,11 @@ module.exports = {
           .where('attribute_id', 'IN', Object.values(group).filter((v) => Number.isInteger(v)))
           .execute(pool);
 
-        attributes = attributes.map((a) => {
-          return {
-            attributeId: a.attribute_id,
-            attributeCode: a.attribute_code,
-            attributeName: a.attribute_name
-          };
-        });
+        attributes = attributes.map((a) => ({
+          attributeId: a.attribute_id,
+          attributeCode: a.attribute_code,
+          attributeName: a.attribute_name
+        }));
         for (let i = 0; i < attributes.length; i++) {
           const attribute = attributes[i];
           const options = await select()

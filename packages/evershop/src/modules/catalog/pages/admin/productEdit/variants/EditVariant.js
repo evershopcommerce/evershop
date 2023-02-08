@@ -46,7 +46,7 @@ export function EditVariant({
               <div className="grid grid-cols-2 gap-1">
                 <Button
                   title="Save"
-                  variant='primary'
+                  variant="primary"
                   onAction={
                     () => {
                       document
@@ -59,7 +59,7 @@ export function EditVariant({
                 />
                 <Button
                   title="Cancel"
-                  variant='secondary'
+                  variant="secondary"
                   onAction={closeAlert}
                 />
               </div>
@@ -70,10 +70,18 @@ export function EditVariant({
     });
   };
 
-  return <div>
-    <a className="button" onClick={(e) => {
-      e.preventDefault();
-      openModal(e);
-    }} href={"#"}>Edit</a>
-  </div>
+  return (
+    <div>
+      <a
+        className="button"
+        onClick={(e) => {
+          e.preventDefault();
+          openModal(e);
+        }}
+        href="#"
+      >
+        Edit
+      </a>
+    </div>
+  );
 }

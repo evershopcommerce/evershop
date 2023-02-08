@@ -43,7 +43,7 @@ export function Category({
         hideSelectedOptions
         isMulti
         defaultValue={categories}
-        onChange={value => setCategories(value.map(item => item.value))}
+        onChange={(value) => setCategories(value.map((item) => item.value))}
       />
       {categories.length === 0 && (
         <input type="hidden" name="categories[0]" value="0" />

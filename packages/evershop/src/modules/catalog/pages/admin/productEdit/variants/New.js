@@ -18,8 +18,8 @@ export function New({ createVariantGroupApi, setGroup }) {
                   onClick={(e) => {
                     e.preventDefault();
                     setAction('create');
-                  }
-                  }>
+                  }}
+                >
                   Create a variant group
                 </a>
               </div>
@@ -43,8 +43,7 @@ export function New({ createVariantGroupApi, setGroup }) {
             onClick={(e) => {
               e.preventDefault();
               setAction(undefined);
-            }
-            }
+            }}
           >
             Cancel
           </a>

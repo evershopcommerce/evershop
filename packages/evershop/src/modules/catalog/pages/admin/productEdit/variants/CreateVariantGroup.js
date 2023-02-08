@@ -1,8 +1,8 @@
 import React from 'react';
 import { useQuery } from 'urql';
+import { toast } from 'react-toastify';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { useFormContext } from '../../../../../../lib/components/form/Form';
-import { toast } from 'react-toastify';
 
 const AttributesQuery = `
   query Query($filters: [FilterInput]) {
@@ -44,22 +44,18 @@ export function CreateVariantGroup({ createVariantGroupApi, setGroup }) {
         variantGroupId: response.data.variant_group_id,
         addItemApi: response.data.addItemApi,
         attributes: response.data.attributes.map(
-          (attribute) => {
-            return {
-              attributeCode: attribute.attribute_code,
-              uuid: attribute.uuid,
-              attributeName: attribute.attribute_name,
-              attributeId: attribute.attribute_id,
-              options: attribute.options.map(
-                (option) => {
-                  return {
-                    optionId: option.attribute_option_id,
-                    optionText: option.option_text
-                  };
-                }
-              )
-            };
-          }
+          (attribute) => ({
+            attributeCode: attribute.attribute_code,
+            uuid: attribute.uuid,
+            attributeName: attribute.attribute_name,
+            attributeId: attribute.attribute_id,
+            options: attribute.options.map(
+              (option) => ({
+                optionId: option.attribute_option_id,
+                optionText: option.option_text
+              })
+            )
+          })
         )
       });
     } else {

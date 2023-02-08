@@ -17,37 +17,39 @@ export function CreateVariant({
   const productFormContextDispatch = useFormDispatch();
   const modal = useModal();
 
-  return <div>
-    <div className="mt-2">
-      <Button
-        title="Add Variant"
-        onAction={() => {
-          modal.openModal();
-        }}
-      />
-    </div>
-    {modal.state.showing && <div className={modal.className} onAnimationEnd={modal.onAnimationEnd}>
-      <div
-        className="modal-wrapper flex self-center justify-center items-center"
-        tabIndex={-1}
-        role="dialog"
-      >
-        <div className="modal">
-          <Form
-            id="variantForm"
-            submitBtn={false}
-          >
-            <Card title={"Create a new variant"}>
-              <Card.Session>
-                <VariantModal
-                  variantAttributes={variantGroup.attributes}
-                  productImageUploadUrl={productImageUploadUrl}
-                />
-              </Card.Session>
-              <Card.Session>
-                <div className="flex justify-end">
-                  <div className="grid grid-cols-2 gap-1">
-                    <SubmitButton
+  return (
+    <div>
+      <div className="mt-2">
+        <Button
+          title="Add Variant"
+          onAction={() => {
+            modal.openModal();
+          }}
+        />
+      </div>
+      {modal.state.showing && (
+      <div className={modal.className} onAnimationEnd={modal.onAnimationEnd}>
+        <div
+          className="modal-wrapper flex self-center justify-center items-center"
+          tabIndex={-1}
+          role="dialog"
+        >
+          <div className="modal">
+            <Form
+              id="variantForm"
+              submitBtn={false}
+            >
+              <Card title="Create a new variant">
+                <Card.Session>
+                  <VariantModal
+                variantAttributes={variantGroup.attributes}
+                productImageUploadUrl={productImageUploadUrl}
+              />
+                </Card.Session>
+                <Card.Session>
+                  <div className="flex justify-end">
+                <div className="grid grid-cols-2 gap-1">
+                <SubmitButton
                       productId={productId}
                       attributes={variantGroup.attributes}
                       createProductApi={createProductApi}
@@ -56,18 +58,20 @@ export function CreateVariant({
                       modal={modal}
                       refresh={refresh}
                     />
-                    <Button
+                <Button
                       title="Cancel"
-                      variant='secondary'
+                      variant="secondary"
                       onAction={modal.closeModal}
                     />
-                  </div>
-                </div>
-              </Card.Session>
-            </Card>
-          </Form>
+              </div>
+              </div>
+                </Card.Session>
+              </Card>
+            </Form>
+          </div>
         </div>
       </div>
-    </div>}
-  </div>
+      )}
+    </div>
+  );
 }

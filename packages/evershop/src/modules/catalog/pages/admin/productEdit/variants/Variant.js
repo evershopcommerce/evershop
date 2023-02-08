@@ -20,8 +20,7 @@ export function Variant({
         <td key={a.attributeId}>
           <label>{a.optionText}</label>
         </td>
-      )
-      )}
+      ))}
       <td>
         <a href={variant.product.editUrl} className="hover:text-interactive">{variant.product?.sku}</a>
       </td>

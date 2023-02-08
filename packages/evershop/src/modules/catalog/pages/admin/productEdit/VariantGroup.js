@@ -14,10 +14,12 @@ export default function VariantGroup({
     <Card
       title="Variant"
     >
-      {!group && <New
+      {!group && (
+      <New
         createVariantGroupApi={createVariantGroupApi}
         setGroup={setGroup}
-      />}
+      />
+      )}
       {group && (
         <Variants
           productId={product.productId}

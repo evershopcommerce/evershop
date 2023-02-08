@@ -64,7 +64,6 @@ export function SubmitButton({
       if (responseJson.error) {
         toast.error(responseJson.error.message);
         setLoading(false);
-        return;
       } else {
         const responses = await Promise.all([
           fetch(addVariantItemApi, {
@@ -91,7 +90,6 @@ export function SubmitButton({
         if (errorRes) {
           toast.error(errorRes.error.message);
           setLoading(false);
-          return;
         } else {
           refresh();
           setLoading(false);
@@ -101,10 +99,12 @@ export function SubmitButton({
     }
   };
 
-  return <Button
-    title="Create"
-    variant='primary'
-    onAction={createVariant}
-    isLoading={loading}
-  />
+  return (
+    <Button
+      title="Create"
+      variant="primary"
+      onAction={createVariant}
+      isLoading={loading}
+    />
+  );
 }

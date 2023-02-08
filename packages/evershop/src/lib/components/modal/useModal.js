@@ -31,7 +31,7 @@ const useModal = () => {
 
   const onAnimationEnd = () => {
     if (state.closing) {
-      dispatch({ type: 'close' })
+      dispatch({ type: 'close' });
     }
   };
 

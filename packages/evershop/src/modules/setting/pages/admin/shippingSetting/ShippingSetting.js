@@ -81,9 +81,9 @@ export default function StoreSetting({ saveSettingApi, setting: { allowedCountri
                     type="select"
                     value={weightUnit}
                     options={[
-                  { value: 'kg', text: 'kg' },
-                  { value: 'lb', text: 'lb' }
-                ]}
+                      { value: 'kg', text: 'kg' },
+                      { value: 'lb', text: 'lb' }
+                    ]}
                   />
                 </div>
               </Card.Session>

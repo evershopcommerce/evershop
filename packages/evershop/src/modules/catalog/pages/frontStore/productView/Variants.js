@@ -84,8 +84,8 @@ export default function Variants({
     <div className="variant variant-container grid grid-cols-1 gap-1 mt-2">
       {attributes.map((a, i) => {
         const options = a.options.filter(
-          (v, j, s) => s.findIndex((o) => o.optionId === v.optionId) === j &&
-            v.productId
+          (v, j, s) => s.findIndex((o) => o.optionId === v.optionId) === j
+            && v.productId
         );
         return (
           <div key={a.attributeCode}>

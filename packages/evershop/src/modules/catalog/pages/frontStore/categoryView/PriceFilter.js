@@ -61,7 +61,8 @@ export default function Price({
       if (firstRender.current) {
         firstRender.current = false;
       } else {
-        let minValue, maxValue;
+        let minValue; let
+          maxValue;
         if (from >= minPrice) {
           minValue = from;
         }
@@ -73,13 +74,13 @@ export default function Price({
             if (f.key === 'minPrice' && minValue) {
               return {
                 ...f,
-                value: minValue,
+                value: minValue
               };
             }
             if (f.key === 'maxPrice' && maxValue) {
               return {
                 ...f,
-                value: maxValue,
+                value: maxValue
               };
             }
             return f;
@@ -146,11 +147,10 @@ export default function Price({
             className="push"
             style={
               {
-                width: `calc(${(from - minPrice) / (maxPrice - minPrice) * 100}% + 3px)`,
+                width: `calc(${(from - minPrice) / (maxPrice - minPrice) * 100}% + 3px)`
               }
             }
-          >
-          </div>
+          />
           <output>{f}</output>
         </div>
         <input
@@ -168,11 +168,10 @@ export default function Price({
             className="push"
             style={
               {
-                width: `calc(${(to - minPrice) / (maxPrice - minPrice) * 100}% - 6px)`,
+                width: `calc(${(to - minPrice) / (maxPrice - minPrice) * 100}% - 6px)`
               }
             }
-          >
-          </div>
+          />
           <output>{t}</output>
         </div>
       </div>
@@ -184,16 +183,16 @@ Price.propTypes = {
   areaProps: PropTypes.shape({
     currentFilters: PropTypes.arrayOf(PropTypes.shape({
       key: PropTypes.string,
-      value: PropTypes.string,
+      value: PropTypes.string
     })),
     priceRange: PropTypes.shape({
       min: PropTypes.number,
-      max: PropTypes.number,
-    }),
+      max: PropTypes.number
+    })
   }),
   setting: PropTypes.shape({
     storeLanguage: PropTypes.string,
-    storeCurrency: PropTypes.string,
+    storeCurrency: PropTypes.string
   })
 };
 
@@ -209,4 +208,4 @@ query Query {
     storeCurrency
   }
 }
-`
+`;

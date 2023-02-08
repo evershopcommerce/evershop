@@ -49,12 +49,12 @@ function renderDevelopment(request, response) {
                 <body>
                 <div id="app" className="bg-background"></div>
                  ${normalizeAssets(assetsByChunkName[route.id])
-      .filter((path) => path.endsWith('.js'))
-      .map((path) => `<script defer src="/${response.statusCode === 404
-        ? request.currentRoute?.isAdmin
-          ? 'adminNotFound.js'
-          : 'notFound.js' : path}"></script>`)
-      .join('\n')}
+    .filter((path) => path.endsWith('.js'))
+    .map((path) => `<script defer src="/${response.statusCode === 404
+      ? request.currentRoute?.isAdmin
+        ? 'adminNotFound.js'
+        : 'notFound.js' : path}"></script>`)
+    .join('\n')}
                 </body>
             </html>
             `);

@@ -8,7 +8,7 @@ import { Field } from '../../../../../../lib/components/form/Field';
 export function VariantModal({
   variant,
   variantAttributes,
-  productImageUploadUrl,
+  productImageUploadUrl
 }) {
   const image = variant?.product?.image;
   let gallery = variant?.product?.gallery || [];
@@ -21,7 +21,7 @@ export function VariantModal({
       <div className="grid grid-cols-2 gap-x-1">
         <div className="col-span-1">
           <ProductMediaManager
-            id={'images'}
+            id="images"
             productImageUploadUrl={productImageUploadUrl}
             productImages={gallery}
           />
@@ -47,7 +47,7 @@ export function VariantModal({
             <div>
               <div>SKU</div>
               <Field
-                name={`sku`}
+                name="sku"
                 formId="product-edit-form"
                 validationRules={['notEmpty']}
                 value={variant?.product?.sku}
@@ -57,7 +57,7 @@ export function VariantModal({
             <div>
               <div>Qty</div>
               <Field
-                name={`qty`}
+                name="qty"
                 formId="product-edit-form"
                 validationRules={['notEmpty']}
                 value={variant?.product?.inventory?.qty}
@@ -69,7 +69,7 @@ export function VariantModal({
             <div>
               <div>Status</div>
               <Field
-                name={`status`}
+                name="status"
                 formId="product-edit-form"
                 value={variant?.product?.status}
                 type="toggle"
@@ -78,7 +78,7 @@ export function VariantModal({
             <div>
               <div>Visibility</div>
               <Field
-                name={`visibility`}
+                name="visibility"
                 formId="product-edit-form"
                 value={variant?.product?.visibility}
                 type="toggle"
