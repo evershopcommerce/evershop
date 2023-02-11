@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import axios from 'axios';
 import { useClient } from 'urql';
@@ -54,8 +55,8 @@ export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMeth
         axios.get(getMethodsAPI)
           .then((response) => {
             setMethods((previous) => {
-              const { methods } = response.data.data;
-              return methods.map((m) => {
+              const { methods: shippingMethods } = response.data.data;
+              return shippingMethods.map((m) => {
                 const find = previous.find((p) => p.code === m.code);
                 if (find) {
                   return { ...find, ...m };
@@ -112,19 +113,19 @@ export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMeth
       )}
       <h4 className="mt-3 mb-1">Shipping Method</h4>
       {
-        (addressProvided === true && methods.length == 0)
+        (addressProvided === true && methods.length === 0)
         && (
-        <div className="text-center p-3 border border-divider rounded text-textSubdued">
-          Sorry, there is no available method for your address
-        </div>
+          <div className="text-center p-3 border border-divider rounded text-textSubdued">
+            Sorry, there is no available method for your address
+          </div>
         )
       }
       {
         (addressProvided === false)
         && (
-        <div className="text-center p-3 border border-divider rounded text-textSubdued">
-          Please enter a shipping address in order to see shipping quotes
-        </div>
+          <div className="text-center p-3 border border-divider rounded text-textSubdued">
+            Please enter a shipping address in order to see shipping quotes
+          </div>
         )
       }
       {methods.length > 0 && (
@@ -153,6 +154,13 @@ export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMeth
     </div>
   );
 }
+
+ShippingMethods.propTypes = {
+  getMethodsAPI: PropTypes.string.isRequired,
+  cart: PropTypes.shape({
+    addShippingMethodApi: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'checkoutShippingAddressForm',

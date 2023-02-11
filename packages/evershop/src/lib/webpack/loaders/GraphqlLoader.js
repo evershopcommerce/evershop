@@ -1,4 +1,4 @@
-/* eslint-disable global-require */
+/* eslint-disable no-multi-assign */
 module.exports = exports = function GraphqlLoader(content) {
   // Regex matching 'export var query = `query { ... }`'
   const queryRegex = /export\s+var\s+query\s*=\s*`([^`]+)`/;

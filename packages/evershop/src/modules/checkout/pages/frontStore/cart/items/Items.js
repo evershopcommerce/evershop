@@ -1,4 +1,4 @@
-import axios from 'axios';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
 import { ItemOptions } from './ItemOptions';
@@ -105,5 +105,29 @@ function Items({ items }) {
     </div>
   );
 }
+
+Items.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.shape({
+    thumbnail: PropTypes.string,
+    productName: PropTypes.string,
+    productUrl: PropTypes.string,
+    productCustomOptions: PropTypes.string,
+    variantOptions: PropTypes.string,
+    finalPrice: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    }),
+    productPrice: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    }),
+    qty: PropTypes.number,
+    total: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    }),
+    removeApi: PropTypes.string
+  })).isRequired
+};
 
 export default Items;

@@ -8,6 +8,7 @@ const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { id: groupId } = request.params;
+  // eslint-disable-next-line camelcase
   const { product_id } = request.body;
   try {
     const group = await select()
@@ -81,7 +82,6 @@ module.exports = async (request, response, delegate, next) => {
       }
     });
   } catch (e) {
-    console.log(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

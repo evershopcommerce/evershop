@@ -13,7 +13,13 @@ function UnCheckedIcon() {
 }
 
 function Radio({
-  name, value, label, onChange, error, instruction, options
+  name,
+  value,
+  label,
+  onChange,
+  error,
+  instruction,
+  options
 }) {
   const [_value, setValue] = React.useState(value || '');
   const onChangeFunc = (e) => {
@@ -73,7 +79,8 @@ Radio.defaultProps = {
   error: undefined,
   instruction: undefined,
   label: undefined,
-  onChange: undefined
+  onChange: undefined,
+  value: undefined
 };
 
 export { Radio };

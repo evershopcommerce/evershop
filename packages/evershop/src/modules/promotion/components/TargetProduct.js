@@ -57,11 +57,12 @@ function Products({ targetProducts, maxQty = '' }) {
             <th><span>Key</span></th>
             <th><span>Operator</span></th>
             <th><span>Value</span></th>
-            <th />
+            <th> </th>
           </tr>
         </thead>
         <tbody>
           {products.map((p, i) => (
+            // eslint-disable-next-line react/no-array-index-key
             <tr key={i}>
               <td>
                 <div className="form-field-container dropdown">
@@ -77,21 +78,25 @@ function Products({ targetProducts, maxQty = '' }) {
                         noOuter
                         coreComponents={[
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: () => <option value="category">Category</option> },
                             props: {},
                             sortOrder: 10
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: () => <option value="attribute_group">Attribute Group</option> },
                             props: {},
                             sortOrder: 20
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: () => <option value="price">Price</option> },
                             props: {},
                             sortOrder: 30
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: () => <option value="sku">Sku</option> },
                             props: {},
                             sortOrder: 40
@@ -118,48 +123,56 @@ function Products({ targetProducts, maxQty = '' }) {
                         noOuter
                         coreComponents={[
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="=">Equal</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 10,
                             id: 'couponTargetProductOperatorEqual'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="!=">Not equal</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 15,
                             id: 'couponTargetProductOperatorNotEqual'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value=">">Greater</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 20,
                             id: 'couponTargetProductOperatorGreater'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value=">=">Greater or equal</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 25,
                             id: 'couponTargetProductOperatorGreaterOrEqual'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="<">Smaller</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 30,
                             id: 'couponTargetProductOperatorSmaller'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="<=">Equal or smaller</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 35,
                             id: 'couponTargetProductOperatorEqualOrSmaller'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="IN">In</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 40,
                             id: 'couponTargetProductOperatorIn'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="NOT IN">Not in</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 45,
@@ -218,6 +231,11 @@ Products.propTypes = {
   }))
 };
 
+Products.defaultProps = {
+  maxQty: '',
+  targetProducts: []
+};
+
 export function TargetProducts({ products, maxQty, discountType }) {
   const [active, setActive] = React.useState(() => {
     if (discountType === 'fixed_discount_to_specific_products' || discountType === 'percentage_discount_to_specific_products') {
@@ -243,16 +261,16 @@ export function TargetProducts({ products, maxQty, discountType }) {
     };
   }, []);
 
-  return (
-    <>
-      {active === true && (
-        <div className="">
-          <h2 className="card-title">Target products</h2>
-          <Products targetProducts={products} maxQty={maxQty} />
-        </div>
-      )}
-    </>
-  );
+  if (!active) {
+    return null;
+  } else {
+    return (
+      <div>
+        <h2 className="card-title">Target products</h2>
+        <Products targetProducts={products} maxQty={maxQty} />
+      </div>
+    );
+  }
 }
 
 TargetProducts.propTypes = {
@@ -264,4 +282,10 @@ TargetProducts.propTypes = {
     value: PropTypes.string,
     qty: PropTypes.string
   }))
+};
+
+TargetProducts.defaultProps = {
+  discountType: '',
+  maxQty: '',
+  products: []
 };

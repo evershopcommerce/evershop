@@ -1,6 +1,6 @@
 module.exports = {
   Setting: {
-    allowedCountries: (setting, { _ }, { pool }) => {
+    allowedCountries: (setting) => {
       const allowedCountries = setting.find((s) => s.name === 'allowedCountries');
       if (allowedCountries && allowedCountries.value) {
         return JSON.parse(allowedCountries.value);
@@ -8,7 +8,7 @@ module.exports = {
         return ['US'];
       }
     },
-    weightUnit: (setting, { _ }, { pool }) => {
+    weightUnit: (setting) => {
       const weightUnit = setting.find((s) => s.name === 'weightUnit');
       if (weightUnit) {
         return weightUnit.value;

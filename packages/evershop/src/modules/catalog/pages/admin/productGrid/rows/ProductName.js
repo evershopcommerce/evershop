@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function ProductNameRow({ id, url, name }) {
+export default function ProductNameRow({ url, name }) {
   return (
     <td>
       <div>
@@ -13,6 +13,5 @@ export default function ProductNameRow({ id, url, name }) {
 
 ProductNameRow.propTypes = {
   name: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired
 };

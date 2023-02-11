@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { get } from '../../../../../lib/util/get';
@@ -62,6 +63,24 @@ export default function Seo({ category }) {
     </Card>
   );
 }
+
+Seo.propTypes = {
+  category: PropTypes.shape({
+    metaDescription: PropTypes.string,
+    metaKeywords: PropTypes.string,
+    metaTitle: PropTypes.string,
+    urlKey: PropTypes.string
+  })
+};
+
+Seo.defaultProps = {
+  category: {
+    metaDescription: '',
+    metaKeywords: '',
+    metaTitle: '',
+    urlKey: ''
+  }
+};
 
 export const layout = {
   areaId: 'leftSide',

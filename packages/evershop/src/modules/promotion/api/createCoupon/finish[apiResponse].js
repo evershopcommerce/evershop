@@ -15,7 +15,7 @@ module.exports = async (request, response, delegate, next) => {
   const result = await delegate.createCoupon;
   const connection = await delegate.getConnection;
   const results = await Promise.allSettled(promises);
-  const failed = results.find((result) => result.status === 'rejected');
+  const failed = results.find((r) => r.status === 'rejected');
   if (!failed) {
     await commit(connection);
     // Load the updated coupon

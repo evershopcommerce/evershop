@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '@heroicons/react/solid/esm/DocumentIcon';
 import NavigationItemGroup from '../../../components/admin/NavigationItemGroup';
@@ -17,6 +18,10 @@ export default function CmsMenuGroup({ cmsPageGrid }) {
     />
   );
 }
+
+CmsMenuGroup.propTypes = {
+  cmsPageGrid: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'adminMenu',

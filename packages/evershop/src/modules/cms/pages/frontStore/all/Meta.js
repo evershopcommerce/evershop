@@ -14,8 +14,10 @@ export default function SeoMeta({ pageInfo: { title, description } }) {
 }
 
 SeoMeta.propTypes = {
-  description: PropTypes.any,
-  title: PropTypes.any
+  pageInfo: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export const layout = {

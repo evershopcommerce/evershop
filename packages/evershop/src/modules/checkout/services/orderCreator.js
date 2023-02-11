@@ -3,7 +3,6 @@ const {
 } = require('@evershop/mysql-query-builder');
 const { v4: uuidv4 } = require('uuid');
 const { pool } = require('../../../lib/mysql/connection');
-const { Cart } = require('./cart/Cart');
 
 /* Default validation rules */
 let validationServices = [

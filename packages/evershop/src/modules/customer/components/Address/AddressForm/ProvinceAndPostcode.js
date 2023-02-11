@@ -50,3 +50,8 @@ ProvinceAndPostcode.propTypes = {
   })).isRequired,
   selectedCountry: PropTypes.string
 };
+
+ProvinceAndPostcode.defaultProps = {
+  address: {},
+  selectedCountry: ''
+};

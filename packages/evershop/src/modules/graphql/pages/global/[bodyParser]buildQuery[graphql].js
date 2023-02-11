@@ -6,6 +6,7 @@ const isProductionMode = require('../../../../lib/util/isProductionMode');
 const { getRouteBuildPath } = require('../../../../lib/webpack/getRouteBuildPath');
 const { CONSTANTS } = require('../../../../lib/helpers');
 const { getRoutes } = require('../../../../lib/router/Router');
+// eslint-disable-next-line no-unused-vars
 const { getContextValue } = require('../../services/contextHelper');
 
 module.exports = (request, response) => {
@@ -22,7 +23,6 @@ module.exports = (request, response) => {
       // Get the 'query.graphql' from webpack compiler
       route = request.locals.webpackMatchedRoute;
     }
-    console.log(route.id, request.path);
     const devMiddleware = route.webpackMiddleware;
     const { outputFileSystem } = devMiddleware.context;
     const jsonWebpackStats = devMiddleware.context.stats.toJson();
@@ -53,13 +53,13 @@ module.exports = (request, response) => {
   }
   if (query) {
     // Parse the query
-    // Use regex to replace "getContextValue_'base64 encoded string'" from the query to the actual function
-    const regex = /\\\"getContextValue_([a-zA-Z0-9+/=]+)\\\"/g;
+    // Use regex to replace "getContextValue_'base64 encoded string'"
+    // from the query to the actual function
+    const regex = /\\"getContextValue_([a-zA-Z0-9+/=]+)\\"/g;
     query = query.replace(regex, (match, p1) => {
       const base64 = p1;
       const decoded = Buffer.from(base64, 'base64').toString('ascii');
-      // const params = JSON5.parse(decoded);
-      // console.log('params', params)
+      // eslint-disable-next-line no-eval
       let value = eval(`getContextValue(request, ${decoded})`);
 
       // JSON sringify without adding double quotes to the property name
@@ -74,7 +74,7 @@ module.exports = (request, response) => {
       const json = JSON.parse(query);
       // Get all variables definition and build the operation name
       const variables = JSON.parse(json.variables);
-      const operation = 'query Query';
+      let operation = 'query Query';
       if (variables.defs.length > 0) {
         const variablesString = variables.defs.map((variable) => `$${variable.name}: ${variable.type}`).join(', ');
         operation += `(${variablesString})`;
@@ -83,6 +83,7 @@ module.exports = (request, response) => {
       request.body.graphqlVariables = variables.values;
       request.body.propsMap = json.propsMap;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
       throw error;
     }

@@ -4,7 +4,13 @@ import Error from './Error';
 import '../Field.scss';
 
 function TextArea({
-  name, value, label, onChange, error, instruction, placeholder
+  name,
+  value,
+  label,
+  onChange,
+  error,
+  instruction,
+  placeholder
 }) {
   const [_value, setValue] = React.useState(value || '');
 
@@ -45,7 +51,8 @@ TextArea.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.string,
+  placeholder: PropTypes.string
 };
 
 TextArea.defaultProps = {
@@ -53,7 +60,8 @@ TextArea.defaultProps = {
   instruction: undefined,
   label: undefined,
   onChange: undefined,
-  value: undefined
+  value: undefined,
+  placeholder: undefined
 };
 
 export { TextArea };

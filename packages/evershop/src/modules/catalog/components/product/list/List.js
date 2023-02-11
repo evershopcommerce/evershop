@@ -85,5 +85,6 @@ ProductList.propTypes = {
       alt: PropTypes.string,
       listing: PropTypes.string
     })
-  })).isRequired
+  })).isRequired,
+  countPerRow: PropTypes.number.isRequired
 };

@@ -8,6 +8,7 @@ const { OK, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
+  // eslint-disable-next-line camelcase
   const { order_id } = request.body;
   // Check the order
   const order = await select()
@@ -38,6 +39,7 @@ module.exports = async (request, response, delegate, next) => {
       amount: smallestUnit.default(order.grand_total, order.currency),
       currency: order.currency,
       metadata: {
+        // eslint-disable-next-line camelcase
         orderId: order_id
       }
     });

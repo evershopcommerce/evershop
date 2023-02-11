@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
 import './AdminUser.scss';
@@ -27,45 +28,54 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
   if (!adminUser) {
     return null;
   }
-  const { fullName, email } = adminUser;
+  const { fullName } = adminUser;
   return (
     <div className="admin-user flex flex-grow justify-end items-center">
       <div className="flex justify-items-start gap-1 justify-center">
         <div className="relative">
           <a className="first-letter" href="#" onClick={(e) => show(e)}>{fullName[0]}</a>
           {showLogout && (
-          <div className="logout bg-background shadow p-2">
-            <div>
+            <div className="logout bg-background shadow p-2">
               <div>
-                Hello
-                {' '}
-                <span className="text-primary">
-                  {fullName}
-                  !
-                </span>
-              </div>
-              <div className="mt-1">
-                <a
-                  className="text-critical"
-                  href="#"
-                  onClick={
-                (e) => {
-                  e.preventDefault();
-                  logout();
-                }
-              }
-                >
-                  Logout
-                </a>
+                <div>
+                  Hello
+                  {' '}
+                  <span className="text-primary">
+                    {fullName}
+                    !
+                  </span>
+                </div>
+                <div className="mt-1">
+                  <a
+                    className="text-critical"
+                    href="#"
+                    onClick={
+                      (e) => {
+                        e.preventDefault();
+                        logout();
+                      }
+                    }
+                  >
+                    Logout
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
           )}
         </div>
       </div>
     </div>
   );
 }
+
+AdminUser.propTypes = {
+  adminUser: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    fullName: PropTypes.string.isRequired
+  }).isRequired,
+  loginPage: PropTypes.string.isRequired,
+  logoutUrl: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'header',

@@ -47,7 +47,7 @@ const CurrencyQuery = `
 function Province({
   selectedCountry = 'US', selectedProvince, allowedCountries = [], fieldName = 'storeProvince'
 }) {
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: ProvincesQuery,
     variables: { countries: allowedCountries }
   });
@@ -81,8 +81,17 @@ function Province({
 }
 
 Province.propTypes = {
-  selectedProvince: PropTypes.string,
-  allowedCountries: PropTypes.arrayOf(PropTypes.string)
+  allowedCountries: PropTypes.arrayOf(PropTypes.string),
+  fieldName: PropTypes.string,
+  selectedCountry: PropTypes.string,
+  selectedProvince: PropTypes.string
+};
+
+Province.defaultProps = {
+  allowedCountries: [],
+  fieldName: 'storeProvince',
+  selectedCountry: 'US',
+  selectedProvince: ''
 };
 
 function Country({
@@ -91,7 +100,7 @@ function Country({
   const onChange = (e) => {
     setSelectedCountry(e.target.value);
   };
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: CountriesQuery,
     variables: { countries: allowedCountries }
   });
@@ -125,13 +134,19 @@ function Country({
 }
 
 Country.propTypes = {
-  allowedCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
+  allowedCountries: PropTypes.arrayOf(PropTypes.string),
+  fieldName: PropTypes.string,
   selectedCountry: PropTypes.string.isRequired,
   setSelectedCountry: PropTypes.func.isRequired
 };
 
+Country.defaultProps = {
+  allowedCountries: [],
+  fieldName: 'storeCountry'
+};
+
 function Timezone({ selectedTimeZone, fieldName = 'storeTimeZone' }) {
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: TimezonesQuery
   });
   const { data, fetching, error } = result;
@@ -161,12 +176,12 @@ function Timezone({ selectedTimeZone, fieldName = 'storeTimeZone' }) {
 }
 
 Timezone.propTypes = {
-  selectedTimeZone: PropTypes.string,
-  fieldName: PropTypes.string
+  fieldName: PropTypes.string.isRequired,
+  selectedTimeZone: PropTypes.string.isRequired
 };
 
 function Currency({ selectedCurrency, fieldName = 'storeCurrency' }) {
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: CurrencyQuery
   });
   const { data, fetching, error } = result;
@@ -196,8 +211,12 @@ function Currency({ selectedCurrency, fieldName = 'storeCurrency' }) {
 }
 
 Currency.propTypes = {
-  selectedCurrency: PropTypes.string,
-  fieldName: PropTypes.string
+  fieldName: PropTypes.string,
+  selectedCurrency: PropTypes.string.isRequired
+};
+
+Currency.defaultProps = {
+  fieldName: 'storeCurrency'
 };
 
 export default function StoreSetting({
@@ -339,6 +358,23 @@ export default function StoreSetting({
     </div>
   );
 }
+
+StoreSetting.propTypes = {
+  saveSettingApi: PropTypes.string.isRequired,
+  setting: PropTypes.shape({
+    storeName: PropTypes.string,
+    storeDescription: PropTypes.string,
+    storeCurrency: PropTypes.string,
+    storeTimeZone: PropTypes.string,
+    storePhoneNumber: PropTypes.string,
+    storeEmail: PropTypes.string,
+    storeCountry: PropTypes.string,
+    storeAddress: PropTypes.string,
+    storeCity: PropTypes.string,
+    storeProvince: PropTypes.string,
+    storePostalCode: PropTypes.string
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'content',

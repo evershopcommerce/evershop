@@ -41,8 +41,5 @@
       "type": "string"
     }
   },
-  "required": [
-    "name"
-  ],
   "additionalProperties": true
 }

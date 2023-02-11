@@ -17,7 +17,7 @@ module.exports = async (request, response, delegate) => {
     .where('product_id', '=', productId)
     .execute(connection, false);
 
-  for (let i = 0; i < categories.length; i++) {
+  for (let i = 0; i < categories.length; i += 1) {
     const category = await select()
       .from('category')
       .where('category_id', '=', categories[i])

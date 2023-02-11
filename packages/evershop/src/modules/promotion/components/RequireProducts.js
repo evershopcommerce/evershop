@@ -45,11 +45,12 @@ export function RequiredProducts({ requiredProducts }) {
             <th><span>Operator</span></th>
             <th><span>Value</span></th>
             <th><span>Minimum quantity</span></th>
-            <th />
+            <th> </th>
           </tr>
         </thead>
         <tbody>
           {products.map((p, i) => (
+            // eslint-disable-next-line react/no-array-index-key
             <tr key={i}>
               <td>
                 <div className="form-field-container dropdown">
@@ -65,24 +66,28 @@ export function RequiredProducts({ requiredProducts }) {
                         noOuter
                         coreComponents={[
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: () => <option value="category">Category ID</option> },
                             props: {},
                             sortOrder: 10,
                             id: 'requiredProductKeyCategory'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: () => <option value="attribute_group">Attribute Group</option> },
                             props: {},
                             sortOrder: 20,
                             id: 'requiredProductKeyAttributeGroup'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: () => <option value="price">Price</option> },
                             props: {},
                             sortOrder: 30,
                             id: 'requiredProductKeyPrice'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: () => <option value="sku">Sku</option> },
                             props: {},
                             sortOrder: 40,
@@ -110,48 +115,56 @@ export function RequiredProducts({ requiredProducts }) {
                         noOuter
                         coreComponents={[
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="=">Equal</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 10,
                             id: 'couponRequiredProductOperatorEqual'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="!=">Not equal</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 15,
                             id: 'couponRequiredProductOperatorNotEqual'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value=">">Greater</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 20,
                             id: 'couponRequiredProductOperatorGreater'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value=">=">Greater or equal</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 25,
                             id: 'couponRequiredProductOperatorGreaterOrEqual'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="<">Smaller</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 30,
                             id: 'couponRequiredProductOperatorSmaller'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['price'].includes(compareKey) ? <option value="<=">Equal or smaller</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 35,
                             id: 'couponRequiredProductOperatorEqualOrSmaller'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="IN">In</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 40,
                             id: 'couponRequiredProductOperatorIn'
                           },
                           {
+                            // eslint-disable-next-line react/no-unstable-nested-components
                             component: { default: ({ compareKey }) => (['category', 'attribute_group', 'sku'].includes(compareKey) ? <option value="NOT IN">Not in</option> : (null)) },
                             props: { compareKey: p.key },
                             sortOrder: 45,
@@ -201,7 +214,7 @@ export function RequiredProducts({ requiredProducts }) {
           </svg>
         </div>
         <div className="pl-1">
-          <a href="#" onClick={(e) => addProduct(e)} className="">
+          <a href="#" onClick={(e) => addProduct(e)}>
             <span>Add product</span>
           </a>
         </div>

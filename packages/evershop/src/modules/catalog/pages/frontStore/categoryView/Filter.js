@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import Area from '../../../../../lib/components/Area';
 import { useAppDispatch } from '../../../../../lib/context/app';
@@ -36,11 +36,14 @@ export default function Filter({
     url.searchParams.append('ajax', true);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
+    // eslint-disable-next-line no-restricted-globals
     history.pushState(null, '', url);
   };
 
+  const contextValue = useMemo(() => ({ updateFilter }), [currentFilters]);
+
   return (
-    <FilterDispatch.Provider value={{ updateFilter }}>
+    <FilterDispatch.Provider value={contextValue}>
       <div className={`product-filter-tool hidden md:block ${isOpen ? 'opening' : 'closed'}`}>
         <div className="filter-heading">
           <span className="font-bold ">SHOP BY</span>
@@ -88,7 +91,7 @@ Filter.propTypes = {
       min: PropTypes.number,
       max: PropTypes.number
     })
-  })
+  }).isRequired
 };
 
 export const layout = {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Methods({ methods, selectedMethod, setSelectedMethod }) {
+export function Methods() {
   return (
     <div>
       {/* <strong>Payment methods</strong>

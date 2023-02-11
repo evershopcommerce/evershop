@@ -26,7 +26,7 @@ function ServerHtml({ css, js, appContext }) {
 }
 
 ServerHtml.propTypes = {
-  js: PropTypes.arrayOf(PropTypes.string).isRequired,
+  css: PropTypes.arrayOf(PropTypes.string).isRequired,
   js: PropTypes.arrayOf(PropTypes.string).isRequired,
   appContext: PropTypes.string.isRequired
 };

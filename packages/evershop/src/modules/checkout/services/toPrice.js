@@ -1,11 +1,11 @@
 const { getConfig } = require('../../../lib/util/getConfig');
 
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
 exports.toPrice = function toPrice(value) {
-  value = value || 0;
-  let price = parseFloat(value);
-  if (isNaN(price)) {
+  let price = parseFloat(value || 0);
+  if (Number.isNaN(price)) {
     throw new Error('Price is not a number');
   }
   const rounding = getConfig('pricing.rounding', 'round');

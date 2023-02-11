@@ -10,7 +10,6 @@ module.exports = async (request, response, delegate, next) => {
     const order = await query.load(pool);
 
     if (order === null) {
-      console.log('order not found');
       response.status(404);
       next();
     } else {

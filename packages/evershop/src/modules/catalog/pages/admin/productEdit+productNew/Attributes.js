@@ -1,9 +1,13 @@
 /* eslint-disable no-param-reassign */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Card } from '../../../../cms/components/admin/Card';
 
-const getGroup = (groups = [], groupId) => groups.find((group) => parseInt(group.groupId) === parseInt(groupId)) || groups[0];
+const getGroup = (groups = [], groupId = null) => groups.find(
+  (group) => parseInt(group.groupId, 10) === parseInt(groupId, 10)
+)
+  || groups[0];
 
 export default function Attributes({ product, groups }) {
   const attributeIndex = product?.attributeIndex || [];
@@ -51,8 +55,12 @@ export default function Attributes({ product, groups }) {
         <table className="table table-auto">
           <tbody>
             {currentGroup.attributes.map((attribute, index) => {
-              const valueIndex = attributeIndex.find((idx) => idx.attributeId === attribute.attributeId);
-              const valueIndexMulti = attributeIndex.filter((idx) => idx.attributeId === attribute.attributeId);
+              const valueIndex = attributeIndex.find(
+                (idx) => idx.attributeId === attribute.attributeId
+              );
+              const valueIndexMulti = attributeIndex.filter(
+                (idx) => idx.attributeId === attribute.attributeId
+              );
               let field = null;
               switch (attribute.type) {
                 case 'text':
@@ -149,6 +157,38 @@ export default function Attributes({ product, groups }) {
     </Card>
   );
 }
+
+Attributes.propTypes = {
+  groups: PropTypes.arrayOf(PropTypes.shape({
+    groupId: PropTypes.number,
+    groupName: PropTypes.string,
+    attributes: PropTypes.arrayOf(PropTypes.shape({
+      attributeId: PropTypes.number,
+      attributeName: PropTypes.string,
+      attributeCode: PropTypes.string,
+      type: PropTypes.string,
+      isRequired: PropTypes.number,
+      options: PropTypes.arrayOf(PropTypes.shape({
+        optionId: PropTypes.number,
+        optionText: PropTypes.string
+      }))
+    }))
+  })),
+  product: PropTypes.shape({
+    attributeIndex: PropTypes.arrayOf(PropTypes.shape({
+      attributeId: PropTypes.number,
+      optionId: PropTypes.number,
+      optionText: PropTypes.string
+    })),
+    groupId: PropTypes.number,
+    variantGroupId: PropTypes.number
+  })
+};
+
+Attributes.defaultProps = {
+  groups: [],
+  product: {}
+};
 
 export const layout = {
   areaId: 'rightSide',

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import Button from '../../../../../lib/components/form/Button';
@@ -38,6 +39,10 @@ export default function FormContent({ gridUrl }) {
     </>
   );
 }
+
+FormContent.propTypes = {
+  gridUrl: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'attributeForm',

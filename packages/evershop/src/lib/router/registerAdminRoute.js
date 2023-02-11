@@ -1,5 +1,4 @@
 const { addRoute } = require('./Router');
-const { validateRoute } = require('./validateRoute');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};

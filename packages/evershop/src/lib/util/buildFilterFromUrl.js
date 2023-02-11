@@ -9,8 +9,8 @@ module.exports.buildFilterFromUrl = (query) => {
       const filter = query[key];
       if (Array.isArray(filter)) {
         const values = filter
-          .map((v) => parseInt(v))
-          .filter((v) => isNaN(v) === false);
+          .map((v) => parseInt(v, 10))
+          .filter((v) => Number.isNaN(v) === false);
         if (values.length > 0) {
           filtersFromUrl.push({
             key,
@@ -39,7 +39,10 @@ module.exports.buildFilterFromUrl = (query) => {
     });
 
     const { sortBy } = query;
-    const sortOrder = (query.sortOrder && ['ASC', 'DESC'].includes(query.sortOrder.toUpperCase())) ? query.sortOrder.toUpperCase() : 'ASC';
+    const sortOrder = (query.sortOrder && ['ASC', 'DESC'].includes(query.sortOrder.toUpperCase()))
+      ? query.sortOrder.toUpperCase()
+      : 'ASC';
+
     if (sortBy) {
       filtersFromUrl.push({
         key: 'sortBy',
@@ -56,11 +59,12 @@ module.exports.buildFilterFromUrl = (query) => {
       });
     }
     // Paging
-    const page = isNaN(parseInt(query.page)) ? '1' : query.page.toString();
+    const page = Number.isNaN(parseInt(query.page, 10)) ? '1' : query.page.toString();
     if (page !== '1') {
       filtersFromUrl.push({ key: 'page', operation: '=', value: page });
     }
-    const limit = isNaN(parseInt(query.limit)) ? '20' : query.limit.toString();// TODO: Get from config
+    // TODO: Get from config
+    const limit = Number.isNaN(parseInt(query.limit, 10)) ? '20' : query.limit.toString();
     if (limit !== '20') {
       filtersFromUrl.push({ key: 'limit', operation: '=', value: limit });
     }

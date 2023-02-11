@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import AttributeIcon from '@heroicons/react/solid/esm/HashtagIcon';
 import CategoryIcon from '@heroicons/react/solid/esm/TagIcon';
@@ -29,6 +30,12 @@ export default function CatalogMenuGroup({ productGrid, categoryGrid, attributeG
     />
   );
 }
+
+CatalogMenuGroup.propTypes = {
+  attributeGrid: PropTypes.string.isRequired,
+  categoryGrid: PropTypes.string.isRequired,
+  productGrid: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'adminMenu',

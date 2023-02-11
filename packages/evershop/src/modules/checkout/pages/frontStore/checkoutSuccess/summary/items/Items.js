@@ -1,6 +1,5 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '../../../../../../../lib/context/app';
-import { get } from '../../../../../../../lib/util/get';
 import { ItemVariantOptions } from '../../../cart/items/ItemVariantOptions';
 import './Items.scss';
 
@@ -37,5 +36,18 @@ function Items({ items }) {
     </div>
   );
 }
+
+Items.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    productName: PropTypes.string.isRequired,
+    qty: PropTypes.number.isRequired,
+    thumbnail: PropTypes.string,
+    total: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    variantOptions: PropTypes.string
+  })).isRequired
+};
 
 export { Items };

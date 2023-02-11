@@ -7,8 +7,9 @@ const sass = require('node-sass');
 const CleanCss = require('clean-css');
 const { CONSTANTS } = require('./helpers');
 const { buildUrl } = require('./router/buildUrl');
-const { getComponentsByRoute } = require('./componee/getComponentByRoute');
+// eslint-disable-next-line import/no-unresolved, import/extensions
 const { createWebpack } = require('./webpack/webpack');
+const { getComponentsByRoute } = require('./componee/getComponentsByRoute');
 
 module.exports = async (request, response, route) => {
   /** Only create bundle file for GET and "text/html" route */

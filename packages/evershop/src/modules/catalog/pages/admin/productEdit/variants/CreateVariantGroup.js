@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useQuery } from 'urql';
 import { toast } from 'react-toastify';
@@ -66,7 +67,7 @@ export function CreateVariantGroup({ createVariantGroupApi, setGroup }) {
   const shouldPause = groupField === undefined || groupField === null
     || !groupField.value;
 
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: AttributesQuery,
     variables: {
       filters: [
@@ -128,3 +129,8 @@ export function CreateVariantGroup({ createVariantGroupApi, setGroup }) {
     </div>
   );
 }
+
+CreateVariantGroup.propTypes = {
+  createVariantGroupApi: PropTypes.string.isRequired,
+  setGroup: PropTypes.func.isRequired
+};

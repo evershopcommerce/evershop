@@ -1,9 +1,26 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import PageHeading from '../../../../cms/components/admin/PageHeading';
 
 export default function CategoryEditPageHeading({ backUrl, category }) {
-  return <PageHeading backUrl={backUrl} heading={category ? `Editing ${category.name}` : 'Create A New category'} />;
+  return (
+    <PageHeading
+      backUrl={backUrl}
+      heading={category ? `Editing ${category.name}` : 'Create A New category'}
+    />
+  );
 }
+
+CategoryEditPageHeading.propTypes = {
+  backUrl: PropTypes.string.isRequired,
+  category: PropTypes.shape({
+    name: PropTypes.string
+  })
+};
+
+CategoryEditPageHeading.defaultProps = {
+  category: {}
+};
 
 export const layout = {
   areaId: 'content',

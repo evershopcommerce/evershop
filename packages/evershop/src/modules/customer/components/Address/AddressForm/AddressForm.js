@@ -72,7 +72,6 @@ export function CustomerAddressForm({
         {
           component: { default: ProvinceAndPostcode },
           props: {
-            selectedCountry,
             address,
             allowCountries,
             selectedCountry
@@ -85,14 +84,6 @@ export function CustomerAddressForm({
 }
 
 CustomerAddressForm.propTypes = {
-  allowCountries: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string,
-    name: PropTypes.string,
-    provinces: PropTypes.arrayOf(PropTypes.shape({
-      code: PropTypes.string,
-      name: PropTypes.string
-    }))
-  })).isRequired,
   address: PropTypes.shape({
     address1: PropTypes.string,
     city: PropTypes.string,
@@ -106,6 +97,20 @@ CustomerAddressForm.propTypes = {
     }),
     telephone: PropTypes.string
   }),
-  formId: PropTypes.string,
-  areaId: PropTypes.string
+  allowCountries: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+    provinces: PropTypes.arrayOf(PropTypes.shape({
+      code: PropTypes.string,
+      name: PropTypes.string
+    }))
+  })).isRequired,
+  areaId: PropTypes.string,
+  formId: PropTypes.string
+};
+
+CustomerAddressForm.defaultProps = {
+  address: {},
+  areaId: 'customerAddressForm',
+  formId: 'customerAddressForm'
 };

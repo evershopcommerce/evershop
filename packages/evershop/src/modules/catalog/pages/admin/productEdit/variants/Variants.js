@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useQuery } from 'urql';
 import { Variant } from './Variant';
-import { VariantType } from './VariantType';
 import { Card } from '../../../../../cms/components/admin/Card';
 import { CreateVariant } from './CreateVariant';
 
@@ -119,7 +118,9 @@ export function Variants({
             </tr>
           </thead>
           <tbody>
-            {(data.product.variantGroup?.items || []).filter((v) => v.product.productId !== productId).map((v) => (
+            {(data.product.variantGroup?.items || []).filter(
+              (v) => v.product.productId !== productId
+            ).map((v) => (
               <Variant
                 key={v.id}
                 variant={v}
@@ -155,5 +156,24 @@ Variants.propTypes = {
       optionText: PropTypes.string
     }))
   })).isRequired,
-  variantProducts: PropTypes.arrayOf(VariantType).isRequired
+  productId: PropTypes.number.isRequired,
+  productUuid: PropTypes.string.isRequired,
+  variantGroup: PropTypes.shape({
+    attributes: PropTypes.arrayOf(PropTypes.shape({
+      attributeName: PropTypes.string,
+      attributeId: PropTypes.string.isRequired,
+      attributeType: PropTypes.string.isRequired,
+      attributeValues: PropTypes.arrayOf(PropTypes.shape({
+        attributeValueId: PropTypes.string.isRequired,
+        attributeValueName: PropTypes.string.isRequired
+      }))
+    }))
+  }),
+  createProductApi: PropTypes.string.isRequired,
+  addVariantItemApi: PropTypes.string.isRequired,
+  productImageUploadUrl: PropTypes.string.isRequired
+};
+
+Variants.defaultProps = {
+  variantGroup: null
 };

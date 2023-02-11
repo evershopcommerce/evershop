@@ -1,9 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Button from '../../../../../lib/components/form/Button';
 
 export default function NewCouponButton({ newCouponUrl }) {
   return <Button url={newCouponUrl} title="New Coupon" />;
 }
+
+NewCouponButton.propTypes = {
+  newCouponUrl: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'pageHeadingRight',

@@ -19,12 +19,14 @@ function Thumbnail({ url, imageUrl, alt }) {
 
 Thumbnail.propTypes = {
   alt: PropTypes.string,
-  imageUrl: PropTypes.string
+  imageUrl: PropTypes.string,
+  url: PropTypes.string
 };
 
 Thumbnail.defaultProps = {
   alt: '',
-  imageUrl: ''
+  imageUrl: '',
+  url: ''
 };
 
 export { Thumbnail };

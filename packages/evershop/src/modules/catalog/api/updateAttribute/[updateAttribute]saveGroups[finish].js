@@ -25,12 +25,12 @@ module.exports = async (request, response, delegate) => {
 
   const shouldDelete = [];
   currentGroups.forEach((g) => {
-    if (!groups.find((group) => parseInt(group) === parseInt(g.group_id))) {
+    if (!groups.find((group) => parseInt(group, 10) === parseInt(g.group_id, 10))) {
       shouldDelete.push(g.group_id);
     }
   });
 
-  for (let index = 0; index < groups.length; index++) {
+  for (let index = 0; index < groups.length; index += 1) {
     const group = await select()
       .from('attribute_group')
       .where('attribute_group_id', '=', groups[index])

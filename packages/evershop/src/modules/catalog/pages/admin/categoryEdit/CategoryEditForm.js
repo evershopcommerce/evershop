@@ -6,7 +6,7 @@ import { Form } from '../../../../../lib/components/form/Form';
 import { get } from '../../../../../lib/util/get';
 
 export default function CategoryEditForm({
-  action, gridUrl
+  action
 }) {
   const id = 'categoryForm';
   return (
@@ -32,8 +32,7 @@ export default function CategoryEditForm({
 }
 
 CategoryEditForm.propTypes = {
-  action: PropTypes.string.isRequired,
-  gridUrl: PropTypes.string.isRequired
+  action: PropTypes.string.isRequired
 };
 
 export const layout = {

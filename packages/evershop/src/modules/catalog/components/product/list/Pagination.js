@@ -27,6 +27,7 @@ export function Pagination({
     setPage(p);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
+    // eslint-disable-next-line no-restricted-globals
     history.pushState(null, '', url);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setIsOnEdit(false);
@@ -42,6 +43,7 @@ export function Pagination({
     url.searchParams.append('ajax', true);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
+    // eslint-disable-next-line no-restricted-globals
     history.pushState(null, '', url);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -56,6 +58,7 @@ export function Pagination({
     url.searchParams.append('ajax', true);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
+    // eslint-disable-next-line no-restricted-globals
     history.pushState(null, '', url);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -72,17 +75,17 @@ export function Pagination({
             </button>
           </li>
         )}
-        {Array.from({ length: max }, (_, i) => i + 1).map((page) => {
-          if (parseInt(page) === parseInt(currentPage)) {
+        {Array.from({ length: max }, (_, i) => i + 1).map((p) => {
+          if (parseInt(p, 10) === parseInt(currentPage, 10)) {
             return (
-              <li key={page} className="page-item current self-center">
-                <button type="button" className="link-button page-link" onClick={(e) => { e.preventDefault(); }}>{page}</button>
+              <li key={p} className="page-item current self-center">
+                <button type="button" className="link-button page-link" onClick={(e) => { e.preventDefault(); }}>{p}</button>
               </li>
             );
           } else {
             return (
-              <li key={page} className="page-item self-center">
-                <button type="button" className="link-button page-link" onClick={(e) => { e.preventDefault(); onPage(page); }}>{page}</button>
+              <li key={p} className="page-item self-center">
+                <button type="button" className="link-button page-link" onClick={(e) => { e.preventDefault(); onPage(p); }}>{p}</button>
               </li>
             );
           }

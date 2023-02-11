@@ -1,3 +1,5 @@
+/* eslint-disable react/no-danger */
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function Page({ page }) {
@@ -8,6 +10,13 @@ export default function Page({ page }) {
     </div>
   );
 }
+
+Page.propTypes = {
+  page: PropTypes.shape({
+    content: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'content',

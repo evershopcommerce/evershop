@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Form } from '../../../../../lib/components/form/Form';
@@ -81,6 +82,13 @@ export default function RegisterForm({
     </div>
   );
 }
+
+RegisterForm.propTypes = {
+  action: PropTypes.string.isRequired,
+  homeUrl: PropTypes.string.isRequired,
+  loginApi: PropTypes.string.isRequired,
+  loginUrl: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'content',

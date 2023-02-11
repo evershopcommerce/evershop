@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Form } from '../../../../../lib/components/form/Form';
@@ -46,6 +47,11 @@ export default function LoginForm({ authUrl, dashboardUrl }) {
     </div>
   );
 }
+
+LoginForm.propTypes = {
+  authUrl: PropTypes.string.isRequired,
+  dashboardUrl: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'content',

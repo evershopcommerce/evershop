@@ -27,7 +27,8 @@ module.exports = async (request, response, delegate, next) => {
     if (!isErrorHandlerTriggered(response)) {
       next(error);
     } else {
-      // Do nothing here since the next(error) is already called when the error is thrown on each middleware
+      // Do nothing here since the next(error) is already called
+      // when the error is thrown on each middleware
     }
   }
 };

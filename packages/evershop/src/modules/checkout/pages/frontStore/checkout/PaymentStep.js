@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
 import { StepContent } from '../../../components/frontStore/checkout/payment/paymentStep/StepContent';
@@ -26,14 +27,37 @@ export default function PaymentStep({ cart }) {
   return (
     <div className="checkout-payment checkout-step">
       {display && (
-      <StepContent
-        cart={cart}
-        step={step}
-      />
+        <StepContent
+          cart={cart}
+          step={step}
+        />
       )}
     </div>
   );
 }
+
+PaymentStep.propTypes = {
+  cart: PropTypes.shape({
+    addBillingAddressApi: PropTypes.string.isRequired,
+    addPaymentMethodApi: PropTypes.string.isRequired,
+    billingAddress: PropTypes.shape({
+      address1: PropTypes.string,
+      address2: PropTypes.string,
+      city: PropTypes.string,
+      country: PropTypes.shape({
+        code: PropTypes.string,
+        name: PropTypes.string
+      }),
+      fullName: PropTypes.string,
+      postcode: PropTypes.string,
+      province: PropTypes.shape({
+        code: PropTypes.string,
+        name: PropTypes.string
+      }),
+      telephone: PropTypes.string
+    })
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'checkoutSteps',

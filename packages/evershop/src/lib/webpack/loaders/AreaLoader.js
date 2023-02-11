@@ -8,7 +8,6 @@ const { CONSTANTS } = require('../../helpers');
 module.exports = exports = function areaLoader(c) {
   const components = (this.getOptions().getComponents)();
   const { routeId } = this.getOptions();
-  let content;
   const areas = {};
   components.forEach((module) => {
     this.addDependency(module);
@@ -32,12 +31,14 @@ module.exports = exports = function areaLoader(c) {
           component: `---require('${module}')---`
         };
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.log(`Error parsing layout from ${module}`);
+        // eslint-disable-next-line no-console
         console.log(e);
       }
     }
   });
 
-  content = `Area.defaultProps.components = ${inspect(areas, { depth: 5 }).replace(/"---/g, '').replace(/---"/g, '')} `;
+  const content = `Area.defaultProps.components = ${inspect(areas, { depth: 5 }).replace(/"---/g, '').replace(/---"/g, '')} `;
   return c.replace('/** render */', content).replace('/eHot', `/eHot/${routeId}`);
 };

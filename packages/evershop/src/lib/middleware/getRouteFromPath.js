@@ -1,3 +1,5 @@
+/* eslint-disable no-multi-assign */
+/* eslint-disable prefer-destructuring */
 const { sep } = require('path');
 
 module.exports.getRouteFromPath = (path) => {
@@ -13,8 +15,9 @@ module.exports.getRouteFromPath = (path) => {
   }
 
   // Current path is a page path
-  let scope; let routeId; let
-    region;
+  let scope;
+  let routeId;
+  let region;
   region = parts[3];
   if (parts[1] === 'global') {
     scope = 'app';

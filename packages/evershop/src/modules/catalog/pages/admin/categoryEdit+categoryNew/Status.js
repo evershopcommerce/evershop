@@ -31,8 +31,12 @@ export default function Status({
 Status.propTypes = {
   category: PropTypes.shape({
     status: PropTypes.number,
-    includeInNave: PropTypes.number
+    includeInNav: PropTypes.number
   })
+};
+
+Status.defaultProps = {
+  category: {}
 };
 
 export const layout = {

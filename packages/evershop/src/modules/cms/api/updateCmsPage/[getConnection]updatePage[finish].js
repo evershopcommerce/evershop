@@ -12,13 +12,7 @@ module.exports = async (request, response, delegate) => {
 
   if (!page) {
     response.status(INVALID_PAYLOAD);
-    response.json({
-      error: {
-        status: INVALID_PAYLOAD,
-        message: 'Invalid page id'
-      }
-    });
-    return;
+    throw new Error('Invalid page id');
   }
 
   try {

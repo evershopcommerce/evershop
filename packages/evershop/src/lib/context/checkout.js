@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { useCheckoutSteps } from './checkoutSteps';
 
@@ -54,18 +54,19 @@ export function CheckoutProvider({
     }
   };
 
+  const contextValue = useMemo(() => ({
+    steps,
+    cartId,
+    orderPlaced,
+    orderId,
+    paymentMethods,
+    setPaymentMethods,
+    getPaymentMethods,
+    checkoutSuccessUrl
+  }), [steps, cartId, orderPlaced, orderId, paymentMethods, checkoutSuccessUrl]);
+
   return (
-    <Checkout.Provider value={{
-      steps,
-      cartId,
-      orderPlaced,
-      orderId,
-      paymentMethods,
-      setPaymentMethods,
-      getPaymentMethods,
-      checkoutSuccessUrl
-    }}
-    >
+    <Checkout.Provider value={contextValue}>
       {children}
     </Checkout.Provider>
   );
@@ -75,7 +76,11 @@ CheckoutProvider.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]).isRequired
+  ]).isRequired,
+  cartId: PropTypes.string.isRequired,
+  placeOrderAPI: PropTypes.string.isRequired,
+  getPaymentMethodAPI: PropTypes.string.isRequired,
+  checkoutSuccessUrl: PropTypes.string.isRequired
 };
 
 export const useCheckout = () => React.useContext(Checkout);

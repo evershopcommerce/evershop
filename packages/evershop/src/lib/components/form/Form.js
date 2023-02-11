@@ -187,19 +187,20 @@ export function Form(props) {
 }
 
 Form.propTypes = {
-  action: PropTypes.string.isRequired,
+  action: PropTypes.string,
   btnText: PropTypes.string,
   children: PropTypes.oneOfType(
     [PropTypes.arrayOf(PropTypes.node), PropTypes.node]
   ).isRequired,
   id: PropTypes.string.isRequired,
-  method: PropTypes.string.isRequired,
+  method: PropTypes.string,
   onComplete: PropTypes.func,
   onError: PropTypes.func,
   onStart: PropTypes.func,
   onSuccess: PropTypes.func,
   onValidationError: PropTypes.func,
-  submitBtn: PropTypes.bool
+  submitBtn: PropTypes.bool,
+  isJSON: PropTypes.bool
 };
 
 Form.defaultProps = {
@@ -209,7 +210,10 @@ Form.defaultProps = {
   onStart: undefined,
   onSuccess: undefined,
   onValidationError: undefined,
-  submitBtn: true
+  submitBtn: true,
+  isJSON: true,
+  action: '',
+  method: 'POST'
 };
 
 export const useFormContext = () => React.useContext(FormContext);

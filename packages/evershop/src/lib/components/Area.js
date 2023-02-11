@@ -6,7 +6,13 @@ import { useAppState } from '../context/app';
 
 function Area(props) {
   const {
-    id, coreComponents, wrapperProps, noOuter, wrapper, className, components
+    id,
+    coreComponents,
+    wrapperProps,
+    noOuter,
+    wrapper,
+    className,
+    components
   } = props;
 
   const areaComponents = (() => {
@@ -36,6 +42,7 @@ function Area(props) {
     <WrapperComponent {...areaWrapperProps}>
       {areaComponents.map((w, index) => {
         const C = w.component.default;
+        // eslint-disable-next-line no-shadow
         const { id } = w;
         const { propsMap } = context;
         const propsData = context.graphqlResponse;
@@ -48,7 +55,10 @@ function Area(props) {
         if (w.props) {
           Object.assign(componentProps, w.props);
         }
+        // eslint-disable-next-line react/no-array-index-key
         if (typeof C === 'string') return <C key={index} {...componentProps} />;
+
+        // eslint-disable-next-line react/no-array-index-key
         return <C key={index} areaProps={props} {...componentProps} />;
       })}
     </WrapperComponent>
@@ -68,7 +78,8 @@ Area.propTypes = {
   noOuter: PropTypes.bool,
   wrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   // eslint-disable-next-line react/forbid-prop-types
-  wrapperProps: PropTypes.object
+  wrapperProps: PropTypes.object,
+  components: PropTypes.shape({}).isRequired
 };
 
 Area.defaultProps = {

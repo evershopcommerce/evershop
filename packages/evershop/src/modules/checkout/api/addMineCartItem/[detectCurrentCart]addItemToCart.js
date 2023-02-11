@@ -53,7 +53,6 @@ module.exports = async (request, response, delegate, next) => {
     };
     next();
   } catch (error) {
-    console.log(error);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

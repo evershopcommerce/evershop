@@ -1,8 +1,9 @@
+/* eslint-disable consistent-return */
 import React from 'react';
 import { useAppState } from '../context/app';
 import './LoadingBar.scss';
 
-const LoadingBar = function () {
+const LoadingBar = function LoadingBar() {
   const { fetching } = useAppState();
   const [width, setWidth] = React.useState(0);
   const widthRef = React.useRef(0);
@@ -21,7 +22,9 @@ const LoadingBar = function () {
     } else if (widthRef.current === 100) {
       setWidth(0);
       widthRef.current = 0;
-    } else if (widthRef.current !== 0) setWidth(100);
+    } else if (widthRef.current !== 0) {
+      setWidth(100);
+    }
   });
 
   return (

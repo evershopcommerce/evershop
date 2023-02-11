@@ -1,9 +1,26 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import PageHeading from '../../../../cms/components/admin/PageHeading';
 
 export default function ProductEditPageHeading({ backUrl, product }) {
-  return <PageHeading backUrl={backUrl} heading={product ? `Editing ${product.name}` : 'Create A New Product'} />;
+  return (
+    <PageHeading
+      backUrl={backUrl}
+      heading={product ? `Editing ${product.name}` : 'Create A New Product'}
+    />
+  );
 }
+
+ProductEditPageHeading.propTypes = {
+  backUrl: PropTypes.string.isRequired,
+  product: PropTypes.shape({
+    name: PropTypes.string.isRequired
+  })
+};
+
+ProductEditPageHeading.defaultProps = {
+  product: null
+};
 
 export const layout = {
   areaId: 'content',

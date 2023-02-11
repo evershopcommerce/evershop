@@ -9,7 +9,7 @@ module.exports = {
       }
       const stripePaymentStatus = setting.find((s) => s.name === 'stripePaymentStatus');
       if (stripePaymentStatus) {
-        return parseInt(stripePaymentStatus.value);
+        return parseInt(stripePaymentStatus.value, 10);
       } else {
         return 0;
       }
@@ -34,7 +34,7 @@ module.exports = {
         return null;
       }
     },
-    stripeSecretKey: (setting, { _ }, { userTokenPayload }) => {
+    stripeSecretKey: (setting, _, { userTokenPayload }) => {
       const stripeConfig = getConfig('system.stripe', {});
       if (stripeConfig.secretKey) {
         return '*******************************';
@@ -50,7 +50,7 @@ module.exports = {
         return null;
       }
     },
-    stripeEndpointSecret: (setting, { _ }, { userTokenPayload }) => {
+    stripeEndpointSecret: (setting, _, { userTokenPayload }) => {
       const stripeConfig = getConfig('system.stripe', {});
       if (stripeConfig.endpointSecret) {
         return '*******************************';

@@ -60,10 +60,23 @@ export default function General({
 }
 
 General.propTypes = {
+  page: PropTypes.shape({
+    cmsPageId: PropTypes.number,
+    name: PropTypes.string,
+    content: PropTypes.string
+  }),
   browserApi: PropTypes.string.isRequired,
   deleteApi: PropTypes.string.isRequired,
   folderCreateApi: PropTypes.string.isRequired,
   uploadApi: PropTypes.string.isRequired
+};
+
+General.defaultProps = {
+  page: {
+    cmsPageId: null,
+    name: '',
+    content: ''
+  }
 };
 
 export const layout = {

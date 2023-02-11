@@ -23,7 +23,7 @@ module.exports = async (request, response, delegate, next) => {
       return;
     }
 
-    if (parseInt(attributeGroup.attribute_group_id) === 1) {
+    if (parseInt(attributeGroup.attribute_group_id, 10) === 1) {
       response.status(INVALID_PAYLOAD);
       response.json({
         error: {

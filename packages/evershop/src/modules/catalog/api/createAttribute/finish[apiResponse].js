@@ -15,7 +15,8 @@ module.exports = async (request, response, delegate, next) => {
   const result = await delegate.createAttribute;
   const connection = await delegate.getConnection;
   const results = await Promise.allSettled(promises);
-  if (results.findIndex((r) => r.status === 'rejected') === -1) {
+  const rejected = results.find((r) => r.status === 'rejected');
+  if (!rejected) {
     await commit(connection);
 
     const attribute = await select()
@@ -56,7 +57,7 @@ module.exports = async (request, response, delegate, next) => {
       data: null,
       error: {
         status: INTERNAL_SERVER_ERROR,
-        message: e.message
+        message: rejected.reason.message
       }
     });
   }

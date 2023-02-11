@@ -1,3 +1,6 @@
+/* eslint-disable no-multi-assign */
+/* eslint-disable no-param-reassign */
+/* eslint-disable prefer-const */
 module.exports = exports = {};
 
 function update(data, keys, value) {
@@ -16,7 +19,7 @@ function update(data, keys, value) {
 
   // Try converting key to a numeric value
   const index = +key;
-  if (!isNaN(index)) {
+  if (!Number.isNaN(index)) {
     // We have a numeric index, make data a numeric array
     // This will not work if this is a associative array
     // with numeric keys
@@ -36,6 +39,7 @@ function update(data, keys, value) {
 exports.serializeForm = function serializeForm(formDataEntries) {
   return Array.from(formDataEntries)
     .reduce((data, [field, value]) => {
+      // eslint-disable-next-line no-useless-escape,no-unused-vars
       let [_, prefix, keys] = field.match(/^([^\[]+)((?:\[[^\]]*\])*)/);
 
       if (keys) {

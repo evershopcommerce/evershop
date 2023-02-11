@@ -58,7 +58,7 @@ export default function CouponForm({ cart: { applyCouponApi } }) {
 CouponForm.propTypes = {
   cart: PropTypes.shape({
     applyCouponApi: PropTypes.string.isRequired
-  })
+  }).isRequired
 };
 
 export const layout = {

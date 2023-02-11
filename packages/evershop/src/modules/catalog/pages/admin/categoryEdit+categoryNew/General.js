@@ -7,7 +7,11 @@ import { TextArea } from '../../../../../lib/components/form/fields/Textarea';
 import { Card } from '../../../../cms/components/admin/Card';
 
 export default function General({
-  category, browserApi, deleteApi, uploadApi, folderCreateApi
+  category,
+  browserApi,
+  deleteApi,
+  uploadApi,
+  folderCreateApi
 }) {
   const fields = [
     {
@@ -65,7 +69,16 @@ General.propTypes = {
   browserApi: PropTypes.string.isRequired,
   deleteApi: PropTypes.string.isRequired,
   folderCreateApi: PropTypes.string.isRequired,
-  uploadApi: PropTypes.string.isRequired
+  uploadApi: PropTypes.string.isRequired,
+  category: PropTypes.shape({
+    name: PropTypes.string,
+    description: PropTypes.string,
+    categoryId: PropTypes.number
+  })
+};
+
+General.defaultProps = {
+  category: {}
 };
 
 export const layout = {

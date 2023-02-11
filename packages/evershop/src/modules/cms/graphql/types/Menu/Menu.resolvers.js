@@ -3,7 +3,7 @@ const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
 module.exports = {
   Query: {
-    menu: async (root, { id }, { pool }) => {
+    menu: async (root, _, { pool }) => {
       const query = select('name')
         .select('url_key')
         .from('category', 'cat');

@@ -31,8 +31,10 @@ module.exports = async (request, response, delegate) => {
     }
   }
 
-  return await select()
+  const results = await select()
     .from('attribute')
     .where('uuid', '=', request.params.id)
     .load(pool);
+
+  return results;
 };

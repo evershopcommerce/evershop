@@ -1,9 +1,17 @@
 const logger = require('../log/logger');
 const { setDelegate } = require('./delegate');
 
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
-exports.syncMiddlewareWrapper = function syncMiddlewareWrapper(id, middlewareFunc, request, response, delegates, next) {
+exports.syncMiddlewareWrapper = function syncMiddlewareWrapper(
+  id,
+  middlewareFunc,
+  request,
+  response,
+  delegates,
+  next
+) {
   logger.log('info', `Executing middleware ${id}`); // TODO: Should use debug instead of logging
 
   try {

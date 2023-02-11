@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Select from 'react-select';
 import { useQuery } from 'urql';
@@ -19,7 +20,7 @@ export function Category({
   product
 }) {
   const [categories, setCategories] = React.useState(product ? product.categories : []);
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: categoryQuery
   });
   const { data, fetching, error } = result;
@@ -51,6 +52,21 @@ export function Category({
     </div>
   );
 }
+
+Category.propTypes = {
+  product: PropTypes.shape({
+    categories: PropTypes.arrayOf(PropTypes.shape({
+      value: PropTypes.number.isRequired,
+      label: PropTypes.string.isRequired
+    }))
+  })
+};
+
+Category.defaultProps = {
+  product: {
+    categories: []
+  }
+};
 
 export default function Status({ product }) {
   return (
@@ -84,6 +100,20 @@ export default function Status({ product }) {
     </Card>
   );
 }
+
+Status.propTypes = {
+  product: PropTypes.shape({
+    status: PropTypes.number.isRequired,
+    visibility: PropTypes.number.isRequired
+  })
+};
+
+Status.defaultProps = {
+  product: {
+    status: 1,
+    visibility: 1
+  }
+};
 
 export const layout = {
   areaId: 'rightSide',

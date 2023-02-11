@@ -12,7 +12,7 @@ export default function Price({
     }
   },
   setting: {
-    storeLanguge: language,
+    storeLanguage: language,
     storeCurrency: currency
   }
 }) {
@@ -147,6 +147,7 @@ export default function Price({
             className="push"
             style={
               {
+                // eslint-disable-next-line no-mixed-operators
                 width: `calc(${(from - minPrice) / (maxPrice - minPrice) * 100}% + 3px)`
               }
             }
@@ -168,6 +169,7 @@ export default function Price({
             className="push"
             style={
               {
+                // eslint-disable-next-line no-mixed-operators
                 width: `calc(${(to - minPrice) / (maxPrice - minPrice) * 100}% - 6px)`
               }
             }
@@ -189,11 +191,11 @@ Price.propTypes = {
       min: PropTypes.number,
       max: PropTypes.number
     })
-  }),
+  }).isRequired,
   setting: PropTypes.shape({
     storeLanguage: PropTypes.string,
     storeCurrency: PropTypes.string
-  })
+  }).isRequired
 };
 
 export const layout = {

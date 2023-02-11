@@ -69,7 +69,8 @@ function PageHeading({ backUrl, heading }) {
 }
 
 PageHeading.propTypes = {
-  backUrl: PropTypes.string
+  backUrl: PropTypes.string,
+  heading: PropTypes.string.isRequired
 };
 
 PageHeading.defaultProps = {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '@heroicons/react/solid/esm/GiftIcon';
 import NavigationItemGroup from '../../../../cms/components/admin/NavigationItemGroup';
@@ -17,6 +18,10 @@ export default function CatalogMenuGroup({ couponGrid }) {
     />
   );
 }
+
+CatalogMenuGroup.propTypes = {
+  couponGrid: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'adminMenu',

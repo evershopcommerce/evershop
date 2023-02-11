@@ -10,7 +10,7 @@ module.exports = () => {
     {
       key: 'coupon',
       resolvers: [
-        async function () {
+        async function resolver() {
           const coupon = this.dataSource.coupon ?? this.dataSource.coupon ?? null;
           if (coupon) {
             const validator = new Validator();
@@ -30,7 +30,7 @@ module.exports = () => {
     {
       key: 'discount_amount',
       resolvers: [
-        async function () {
+        async function resolver() {
           const coupon = this.getData('coupon');
           if (!coupon) {
             return 0;
@@ -40,11 +40,16 @@ module.exports = () => {
           await calculator.calculate(coupon);
           const discountAmounts = calculator.getDiscounts();
           let discountAmount = 0;
+          // eslint-disable-next-line guard-for-in
+          // eslint-disable-next-line no-restricted-syntax
           for (const id in discountAmounts) {
-            // Set discount amount to cart items
-            const item = this.getItem(id);
-            await item.setData('discount_amount', discountAmounts[id]);
-            discountAmount += discountAmounts[id];
+            if (id in discountAmounts) {
+              // Set discount amount to cart items
+              const item = this.getItem(id);
+              // eslint-disable-next-line no-await-in-loop
+              await item.setData('discount_amount', discountAmounts[id]);
+              discountAmount += discountAmounts[id];
+            }
           }
 
           return discountAmount;
@@ -55,7 +60,7 @@ module.exports = () => {
     {
       key: 'grand_total',
       resolvers: [
-        async function (previousValue) {
+        async function resolver(previousValue) {
           return previousValue - this.getData('discount_amount');
         }
       ],
@@ -70,7 +75,7 @@ module.exports = () => {
     {
       key: 'discount_amount',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (this.dataSource.discount_amount) {
             return toPrice(this.dataSource.discount_amount);
           } else {
@@ -82,7 +87,7 @@ module.exports = () => {
     {
       key: 'total',
       resolvers: [
-        async function (previousValue) {
+        async function resolver(previousValue) {
           return previousValue - this.getData('discount_amount');
         }
       ],

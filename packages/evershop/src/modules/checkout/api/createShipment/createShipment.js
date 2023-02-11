@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const {
   rollback, insert, commit, select, update, startTransaction
 } = require('@evershop/mysql-query-builder');

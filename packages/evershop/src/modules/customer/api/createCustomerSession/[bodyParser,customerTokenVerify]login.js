@@ -19,7 +19,7 @@ module.exports = async (request, response, delegate, next) => {
 
   if (!customer) {
     response.status(INVALID_PAYLOAD);
-    return response.json({
+    response.json({
       error: {
         status: INVALID_PAYLOAD,
         message: 'Invalid email or password'
@@ -31,7 +31,7 @@ module.exports = async (request, response, delegate, next) => {
 
     if (!result) {
       response.status(INVALID_PAYLOAD);
-      return response.json({
+      response.json({
         error: {
           status: INVALID_PAYLOAD,
           message: 'Invalid email or password'

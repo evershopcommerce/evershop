@@ -1,45 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '../../../../../../lib/context/app';
-import { get } from '../../../../../../lib/util/get';
 import './Items.scss';
-
-function ItemOptions({ options = [] }) {
-  if (options.length === 0) { return null; }
-  const currency = get(useAppState(), 'currency', 'USD');
-  const language = get(useAppState(), 'language', 'en');
-
-  return (
-    <div className="cart-item-options mt-05">
-      <ul className="list-basic">
-        {options.map((o, i) => (
-          <li key={i}>
-            <span className="option-name">
-              {o.option_name}
-              :
-              {' '}
-            </span>
-            {o.values.map((v, k) => {
-              const _extraPrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(v.extra_price);
-              return (
-                <span key={k}>
-                  {v.value_text}
-                  <span className="extra-price">
-                    (
-                    {_extraPrice}
-                    )
-                  </span>
-                  {' '}
-
-                </span>
-              );
-            })}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
 function ItemVariantOptions({ options = [] }) {
   if (!Array.isArray(options) || !options || options.length === 0) { return null; }
@@ -64,7 +25,14 @@ function ItemVariantOptions({ options = [] }) {
 }
 
 ItemVariantOptions.propTypes = {
-  options: PropTypes.array
+  options: PropTypes.arrayOf(PropTypes.shape({
+    attribute_name: PropTypes.string,
+    option_text: PropTypes.string
+  }))
+};
+
+ItemVariantOptions.defaultProps = {
+  options: []
 };
 
 function Items({ items }) {
@@ -100,5 +68,21 @@ function Items({ items }) {
     </div>
   );
 }
+
+Items.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.shape({
+    thumbnail: PropTypes.string,
+    productName: PropTypes.string,
+    variantOptions: PropTypes.string,
+    qty: PropTypes.number,
+    total: PropTypes.shape({
+      text: PropTypes.string
+    })
+  }))
+};
+
+Items.defaultProps = {
+  items: []
+};
 
 export { Items };

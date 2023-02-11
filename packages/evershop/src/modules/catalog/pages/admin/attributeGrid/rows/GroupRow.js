@@ -23,7 +23,7 @@ export default function GroupRow({ groups }) {
             if (response.error) {
               toast.error(response.error.message);
             } else {
-              location.reload();
+              window.location.reload();
             }
           }}
           isJSON

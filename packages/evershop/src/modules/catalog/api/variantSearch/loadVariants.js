@@ -1,5 +1,5 @@
 const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../../lib/mysql/connection');
+const { pool } = require('../../../../lib/mysql/connection');
 const { OK } = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars

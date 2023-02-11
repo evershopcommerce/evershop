@@ -3,7 +3,7 @@ const uniqid = require('uniqid');
 const { CONSTANTS } = require('../../helpers');
 const { parseGraphqlByFile } = require('./parseGraphqlByFile');
 
-module.exports.parseGraphql = function (modules) {
+module.exports.parseGraphql = function parseGraphql(modules) {
   let inUsedFragments = [];
   const propsMap = {};
   let queryStr = '';
@@ -32,7 +32,7 @@ module.exports.parseGraphql = function (modules) {
   const extraFragments = [];
   inUsedFragments.forEach((fragment) => {
     // Check if there was a fragment with same name and type already processed
-    const f = extraFragments.find((f) => f.name === fragment.name && f.type === fragment.type);
+    const f = extraFragments.find((ar) => ar.name === fragment.name && ar.type === fragment.type);
     if (f) {
       // Replace fragment alias with the one already processed
       const regex = new RegExp(`\\.\\.\\.([ ]+)?${fragment.alias}`, 'g');
@@ -40,10 +40,12 @@ module.exports.parseGraphql = function (modules) {
       fragmentStr = fragmentStr.replace(regex, `...${f.alias}`);
     } else {
       const regex = new RegExp(`fragment([ ]+)${fragment.name}([ ]+)on([ ]+)${fragment.type}`, 'g');
-      fragmentStr = fragmentStr.replace(regex, (match, p1, p2, p3) => {
+      fragmentStr = fragmentStr.replace(regex, () => {
         const alias = `${fragment.name}_${uniqid()}`;
         // Check if there is a fragment with the same name and type
-        const frm = extraFragments.find((f) => f.name === fragment.name && f.type === fragment.type);
+        const frm = extraFragments.find(
+          (ar) => ar.name === fragment.name && ar.type === fragment.type
+        );
         if (frm) {
           frm.child.push(alias);
         } else {

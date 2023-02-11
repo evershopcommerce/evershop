@@ -1,4 +1,5 @@
 /* eslint-disable react/no-danger */
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function Description({ description }) {
@@ -8,3 +9,7 @@ export default function Description({ description }) {
     </div>
   );
 }
+
+Description.propTypes = {
+  description: PropTypes.string.isRequired
+};

@@ -19,7 +19,14 @@ export default function MiniCart({ cartUrl, cart }) {
 }
 
 MiniCart.propTypes = {
-  cartUrl: PropTypes.string.isRequired
+  cartUrl: PropTypes.string.isRequired,
+  cart: PropTypes.shape({
+    totalQty: PropTypes.number
+  })
+};
+
+MiniCart.defaultProps = {
+  cart: null
 };
 
 export const layout = {

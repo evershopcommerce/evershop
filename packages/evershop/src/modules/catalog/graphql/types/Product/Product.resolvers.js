@@ -21,10 +21,10 @@ module.exports = {
           )
           .execute(pool)).map((row) => camelCase(row));
     },
-    url: (product, _, { pool }) => buildUrl('productView', { url_key: product.urlKey }),
-    editUrl: (product, _, { pool }) => buildUrl('productEdit', { id: product.uuid }),
-    updateApi: (product, _, { pool }) => buildUrl('updateProduct', { id: product.uuid }),
-    deleteApi: (product, _, { pool }) => buildUrl('deleteProduct', { id: product.uuid })
+    url: (product) => buildUrl('productView', { url_key: product.urlKey }),
+    editUrl: (product) => buildUrl('productEdit', { id: product.uuid }),
+    updateApi: (product) => buildUrl('updateProduct', { id: product.uuid }),
+    deleteApi: (product) => buildUrl('deleteProduct', { id: product.uuid })
   },
   Query: {
     product: async (_, { id }, { pool }) => {

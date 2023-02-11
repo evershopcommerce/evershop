@@ -25,7 +25,7 @@ module.exports = async (request, response, delegate) => {
     return;
   }
 
-  const ids = options.filter((o) => o !== undefined).map((o) => parseInt(o.option_id));
+  const ids = options.filter((o) => o !== undefined).map((o) => parseInt(o.option_id, 10));
   const oldOptions = await select()
     .from('attribute_option')
     .where('attribute_id', '=', attributeId)

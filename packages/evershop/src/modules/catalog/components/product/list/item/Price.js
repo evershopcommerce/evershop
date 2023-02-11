@@ -24,11 +24,11 @@ Price.propTypes = {
   regular: PropTypes.shape({
     value: PropTypes.number,
     text: PropTypes.string
-  }),
+  }).isRequired,
   special: PropTypes.shape({
     value: PropTypes.number,
     text: PropTypes.string
-  })
+  }).isRequired
 };
 
 export { Price };

@@ -13,6 +13,5 @@ export default function AttributeNameRow({ url, name }) {
 
 AttributeNameRow.propTypes = {
   name: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired
 };

@@ -1,5 +1,6 @@
 const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { setContextValue } = require('../../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
@@ -12,7 +13,7 @@ module.exports = async (request, response, delegate, next) => {
     if (coupon === null) {
       response.redirect(302, buildUrl('couponGrid'));
     } else {
-      setContextValue(request, 'couponId', parseInt(coupon.coupon_id));
+      setContextValue(request, 'couponId', parseInt(coupon.coupon_id, 10));
       setContextValue(request, 'couponUuid', coupon.uuid);
       setContextValue(request, 'pageInfo', {
         title: coupon.coupon,

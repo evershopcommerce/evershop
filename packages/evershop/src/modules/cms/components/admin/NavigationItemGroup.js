@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Open from '@heroicons/react/solid/esm/ChevronDoubleDownIcon';
-import Close from '@heroicons/react/solid/esm/ChevronDoubleUpIcon';
 import Area from '../../../../lib/components/Area';
 import NavigationItem from './NavigationItem';
 import './NavigationItemGroup.scss';
 
 export default function NavigationItemGroup({
-  id, name, items = [], Icon = null, url = null
+  id,
+  name,
+  items = [],
+  Icon = null,
+  url = null
 }) {
   return (
     <li className="root-nav-item nav-item">
@@ -23,7 +25,16 @@ export default function NavigationItemGroup({
           id={id}
           noOuter
           coreComponents={items.map((item) => ({
-            component: { default: () => <NavigationItem {...item} /> }
+            component: {
+              // eslint-disable-next-line react/no-unstable-nested-components
+              default: () => (
+                <NavigationItem
+                  Icon={item.Icon}
+                  url={item.url}
+                  title={item.title}
+                />
+              )
+            }
           }))}
         />
       </ul>
@@ -33,5 +44,18 @@ export default function NavigationItemGroup({
 
 NavigationItemGroup.propTypes = {
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(PropTypes.shape({
+    Icon: PropTypes.elementType,
+    url: PropTypes.string,
+    title: PropTypes.string.isRequired
+  })),
+  Icon: PropTypes.elementType,
+  url: PropTypes.string
+};
+
+NavigationItemGroup.defaultProps = {
+  items: [],
+  Icon: null,
+  url: null
 };

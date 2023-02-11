@@ -9,7 +9,7 @@ module.exports = {
       }
       const paypalPaymentStatus = setting.find((s) => s.name === 'paypalPaymentStatus');
       if (paypalPaymentStatus) {
-        return parseInt(paypalPaymentStatus.value);
+        return parseInt(paypalPaymentStatus.value, 10);
       } else {
         return 0;
       }
@@ -42,7 +42,7 @@ module.exports = {
         return null;
       }
     },
-    paypalClientSecret: (setting, { _ }, { userTokenPayload }) => {
+    paypalClientSecret: (setting, _, { userTokenPayload }) => {
       const paypalConfig = getConfig('system.paypal', {});
       if (paypalConfig.clientSecret) {
         return '*******************************';
@@ -58,7 +58,7 @@ module.exports = {
         return null;
       }
     },
-    paypalWebhookSecret: (setting, { _ }, { userTokenPayload }) => {
+    paypalWebhookSecret: (setting, _, { userTokenPayload }) => {
       const paypalConfig = getConfig('system.paypal', {});
       if (paypalConfig.webhookSecret) {
         return '*******************************';

@@ -42,7 +42,10 @@ Discount.defaultProps = {
 
 function Summary({
   checkoutUrl, cart: {
-    totalQty, subTotal, coupon, discountAmount
+    totalQty,
+    subTotal,
+    coupon,
+    discountAmount
   }
 }) {
   if (totalQty === undefined || totalQty <= 0) { return null; }
@@ -84,7 +87,19 @@ function Summary({
 }
 
 Summary.propTypes = {
-  checkoutUrl: PropTypes.string.isRequired
+  checkoutUrl: PropTypes.string.isRequired,
+  cart: PropTypes.shape({
+    totalQty: PropTypes.number,
+    subTotal: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    }),
+    discountAmount: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    }),
+    coupon: PropTypes.string
+  }).isRequired
 };
 
 export default Summary;

@@ -1,5 +1,5 @@
 const { update } = require('@evershop/mysql-query-builder');
-const { getConnection } = require('../../../../../lib/mysql/connection');
+const { getConnection } = require('../../../../lib/mysql/connection');
 const { INTERNAL_SERVER_ERROR, OK } = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars

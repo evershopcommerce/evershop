@@ -23,7 +23,7 @@ function getUrls(image) {
 
 module.exports = {
   Product: {
-    image: async (product, _, { pool }) => {
+    image: async (product) => {
       const mainImage = product.image || '';
       const urls = getUrls(mainImage);
       return mainImage ? {

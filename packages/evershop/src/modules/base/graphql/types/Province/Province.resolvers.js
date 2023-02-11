@@ -15,7 +15,7 @@ module.exports = {
       if (province.name) {
         return province.name;
       } else {
-        const p = provinces.find((p) => p.code === province);
+        const p = provinces.find((pr) => pr.code === province);
         return p?.name || 'INVALID_PROVINCE';
       }
     },
@@ -23,7 +23,7 @@ module.exports = {
       if (province.countryCode) {
         return province.countryCode;
       } else {
-        const p = provinces.find((p) => p.code === province);
+        const p = provinces.find((pr) => pr.code === province);
         return p?.countryCode || 'INVALID_PROVINCE';
       }
     },

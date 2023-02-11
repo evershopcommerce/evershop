@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '@heroicons/react/solid/esm/ArchiveIcon';
 import NavigationItem from '../../../../cms/components/admin/NavigationItem';
@@ -11,6 +12,10 @@ export default function NewProductQuickLink({ productNew }) {
     />
   );
 }
+
+NewProductQuickLink.propTypes = {
+  productNew: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'quickLinks',
