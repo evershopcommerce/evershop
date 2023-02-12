@@ -6,7 +6,9 @@ const { get } = require('../../../../lib/util/get');
 const { UNAUTHORIZED } = require('../../../../lib/util/httpStatus');
 const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { generateToken } = require('../../services/generateToken');
-const { getAdminTokenCookieId } = require('../../services/getAdminTokenCookieId');
+const {
+  getAdminTokenCookieId
+} = require('../../services/getAdminTokenCookieId');
 const { getTokenSecret } = require('../../services/getTokenSecret');
 
 module.exports = async (request, response, delegate, next) => {
@@ -20,7 +22,7 @@ module.exports = async (request, response, delegate, next) => {
     const payload = { user: null, sid: uuidv4() };
     const newToken = generateToken(payload, getTokenSecret());
     // Set the new token in the cookies
-    response.cookie(cookieId, newToken, { maxAge: 1.728e+8, httpOnly: true });
+    response.cookie(cookieId, newToken, { maxAge: 1.728e8, httpOnly: true });
     setContextValue(request, 'userTokenPayload', payload);
     setContextValue(request, 'user', null);
     // Continue to the next middleware
@@ -36,7 +38,8 @@ module.exports = async (request, response, delegate, next) => {
       .and('sid', '=', get(tokenPayload, 'payload.sid', null))
       .load(pool);
 
-    if (!check) { // This is guest user
+    if (!check) {
+      // This is guest user
       secret = getTokenSecret();
     } else {
       secret = check.secret;

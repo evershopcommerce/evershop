@@ -3,7 +3,9 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 const {
-  insertOnUpdate, select, del
+  insertOnUpdate,
+  select,
+  del
 } = require('@evershop/mysql-query-builder');
 const { get } = require('../../../../lib/util/get');
 

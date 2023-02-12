@@ -5,7 +5,11 @@ import CategoryIcon from '@heroicons/react/solid/esm/TagIcon';
 import ProductIcon from '@heroicons/react/solid/esm/ArchiveIcon';
 import NavigationItemGroup from '../../../../cms/components/admin/NavigationItemGroup';
 
-export default function CatalogMenuGroup({ productGrid, categoryGrid, attributeGrid }) {
+export default function CatalogMenuGroup({
+  productGrid,
+  categoryGrid,
+  attributeGrid
+}) {
   return (
     <NavigationItemGroup
       id="catalogMenuGroup"

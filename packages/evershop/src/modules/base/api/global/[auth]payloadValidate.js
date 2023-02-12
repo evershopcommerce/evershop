@@ -26,7 +26,11 @@ module.exports = (request, response, delegate, next) => {
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: `${validate.errors[0].instancePath === '' ? 'Request data' : validate.errors[0].instancePath} ${validate.errors[0].message}`
+          message: `${
+            validate.errors[0].instancePath === ''
+              ? 'Request data'
+              : validate.errors[0].instancePath
+          } ${validate.errors[0].message}`
         }
       });
     }

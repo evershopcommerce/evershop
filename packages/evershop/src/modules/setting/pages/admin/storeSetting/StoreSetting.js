@@ -45,7 +45,10 @@ const CurrencyQuery = `
 `;
 
 function Province({
-  selectedCountry = 'US', selectedProvince, allowedCountries = [], fieldName = 'storeProvince'
+  selectedCountry = 'US',
+  selectedProvince,
+  allowedCountries = [],
+  fieldName = 'storeProvince'
 }) {
   const [result] = useQuery({
     query: ProvincesQuery,
@@ -71,11 +74,9 @@ function Province({
       label="Province"
       placeholder="Province"
       validationRules={['notEmpty']}
-      options={
-        data.provinces
-          .filter((p) => p.countryCode === selectedCountry)
-          .map((p) => ({ value: p.code, text: p.name }))
-      }
+      options={data.provinces
+        .filter((p) => p.countryCode === selectedCountry)
+        .map((p) => ({ value: p.code, text: p.name }))}
     />
   );
 }
@@ -95,7 +96,10 @@ Province.defaultProps = {
 };
 
 function Country({
-  selectedCountry, setSelectedCountry, allowedCountries = [], fieldName = 'storeCountry'
+  selectedCountry,
+  setSelectedCountry,
+  allowedCountries = [],
+  fieldName = 'storeCountry'
 }) {
   const onChange = (e) => {
     setSelectedCountry(e.target.value);
@@ -168,9 +172,7 @@ function Timezone({ selectedTimeZone, fieldName = 'storeTimeZone' }) {
       name={fieldName}
       label="TimeZone"
       placeholder="TimeZone"
-      options={
-        data.timezones.map((t) => ({ value: t.code, text: t.name }))
-      }
+      options={data.timezones.map((t) => ({ value: t.code, text: t.name }))}
     />
   );
 }
@@ -203,9 +205,7 @@ function Currency({ selectedCurrency, fieldName = 'storeCurrency' }) {
       name={fieldName}
       label="Currency"
       placeholder="Currency"
-      options={
-        data.currencies.map((c) => ({ value: c.code, text: c.name }))
-      }
+      options={data.currencies.map((c) => ({ value: c.code, text: c.name }))}
     />
   );
 }
@@ -281,9 +281,7 @@ export default function StoreSetting({
                 />
                 <div className="grid grid-cols-2 gap-2 mt-2">
                   <div>
-                    <Currency
-                      selectedCurrency={storeCurrency}
-                    />
+                    <Currency selectedCurrency={storeCurrency} />
                   </div>
                   <div>
                     <Timezone selectedTimeZone={storeTimeZone} />

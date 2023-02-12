@@ -6,10 +6,7 @@ import { Card } from '../../../../cms/components/admin/Card';
 function Status({ status }) {
   return (
     <td>
-      <span className={`badge badge-${status.badge}`}>
-        {' '}
-        {status.name}
-      </span>
+      <span className={`badge badge-${status.badge}`}> {status.name}</span>
     </td>
   );
 }
@@ -50,37 +47,31 @@ Weight.propTypes = {
 function Actions({ status, startShipUrl, completeShipUrl }) {
   const startShipment = (e) => {
     e.preventDefault();
-    fetch(
-      startShipUrl,
-      false,
-      'GET',
-      {},
-      null,
-      () => {
-        // eslint-disable-next-line no-restricted-globals
-        location.reload();
-      }
-    );
+    fetch(startShipUrl, false, 'GET', {}, null, () => {
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
+    });
   };
 
   const completeShipment = (e) => {
     e.preventDefault();
-    fetch(
-      completeShipUrl,
-      false,
-      'GET',
-      {},
-      null,
-      () => {
-        // eslint-disable-next-line no-restricted-globals
-        location.reload();
-      }
-    );
+    fetch(completeShipUrl, false, 'GET', {}, null, () => {
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
+    });
   };
   return (
     <td>
-      {status === 'pending' && <a href="#" onClick={(e) => startShipment(e)}><span>Start shipment</span></a>}
-      {status === 'delivering' && <a href="#" onClick={(e) => completeShipment(e)}><span>Complete shipment</span></a>}
+      {status === 'pending' && (
+        <a href="#" onClick={(e) => startShipment(e)}>
+          <span>Start shipment</span>
+        </a>
+      )}
+      {status === 'delivering' && (
+        <a href="#" onClick={(e) => completeShipment(e)}>
+          <span>Complete shipment</span>
+        </a>
+      )}
     </td>
   );
 }
@@ -194,7 +185,11 @@ export default function Shipment({
                   },
                   {
                     component: { default: Actions },
-                    props: { status: shipmentStatus, startShipUrl, completeShipUrl },
+                    props: {
+                      status: shipmentStatus,
+                      startShipUrl,
+                      completeShipUrl
+                    },
                     sortOrder: 50,
                     id: 'order_shipment_action'
                   }

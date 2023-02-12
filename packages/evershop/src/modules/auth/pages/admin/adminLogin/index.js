@@ -1,5 +1,8 @@
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { getContextValue, setContextValue } = require('../../../../graphql/services/contextHelper');
+const {
+  getContextValue,
+  setContextValue
+} = require('../../../../graphql/services/contextHelper');
 
 module.exports = (request, response, delegate, next) => {
   // Check if the user is logged in

@@ -10,14 +10,21 @@ export default function SEO({ product }) {
     {
       component: { default: Field },
       props: {
-        id: 'urlKey', name: 'url_key', label: 'Url key', validationRules: ['notEmpty'], type: 'text'
+        id: 'urlKey',
+        name: 'url_key',
+        label: 'Url key',
+        validationRules: ['notEmpty'],
+        type: 'text'
       },
       sortOrder: 0
     },
     {
       component: { default: Field },
       props: {
-        id: 'metaTitle', name: 'meta_title', label: 'Meta title', type: 'text'
+        id: 'metaTitle',
+        name: 'meta_title',
+        label: 'Meta title',
+        type: 'text'
       },
       sortOrder: 10
     },
@@ -37,21 +44,24 @@ export default function SEO({ product }) {
         id: 'metaDescription',
         name: 'meta_description',
         label: 'Meta description',
-        options: [{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }],
+        options: [
+          { value: 0, text: 'Disabled' },
+          { value: 1, text: 'Enabled' }
+        ],
         type: 'textarea'
       },
       sortOrder: 30
     }
   ].filter((f) => {
     // eslint-disable-next-line no-param-reassign
-    if (get(product, `${f.props.id}`) !== undefined) { f.props.value = get(product, `${f.props.id}`); }
+    if (get(product, `${f.props.id}`) !== undefined) {
+      f.props.value = get(product, `${f.props.id}`);
+    }
     return f;
   });
 
   return (
-    <Card
-      title="Search engine optimize"
-    >
+    <Card title="Search engine optimize">
       <Card.Session>
         <Area id="productEditSeo" coreComponents={fields} />
       </Card.Session>

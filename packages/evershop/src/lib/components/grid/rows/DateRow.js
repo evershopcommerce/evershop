@@ -12,11 +12,12 @@ export default function DateRow({ id, areaProps }) {
     <td>
       <div>
         <span>
-          {
-            date.isValid ? date.setLocale(get(context, 'shop.language', 'en'))
-              .setZone(get(context, 'shop.timezone', 'UTC'))
-              .toFormat('LLL dd yyyy') : '--'
-          }
+          {date.isValid
+            ? date
+                .setLocale(get(context, 'shop.language', 'en'))
+                .setZone(get(context, 'shop.timezone', 'UTC'))
+                .toFormat('LLL dd yyyy')
+            : '--'}
         </span>
       </div>
     </td>

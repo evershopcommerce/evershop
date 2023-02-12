@@ -4,7 +4,9 @@ import { useAppState } from '../../../../../../../lib/context/app';
 import { get } from '../../../../../../../lib/util/get';
 
 export function ItemOptions({ options = [] }) {
-  if (options.length === 0) { return null; }
+  if (options.length === 0) {
+    return null;
+  }
   const currency = get(useAppState(), 'currency', 'USD');
   const language = get(useAppState(), 'language', 'en');
 
@@ -14,24 +16,19 @@ export function ItemOptions({ options = [] }) {
         {options.map((o, i) => (
           // eslint-disable-next-line react/no-array-index-key
           <li key={i}>
-            <span className="option-name">
-              {o.option_name}
-              :
-              {' '}
-            </span>
+            <span className="option-name">{o.option_name}: </span>
             {o.values.map((v, k) => {
-              const formatedExtraPrice = new Intl.NumberFormat(language, { style: 'currency', currency }).format(v.extra_price);
+              const formatedExtraPrice = new Intl.NumberFormat(language, {
+                style: 'currency',
+                currency
+              }).format(v.extra_price);
               return (
                 // eslint-disable-next-line react/no-array-index-key
                 <span key={k}>
                   {v.value_text}
                   <span className="extra-price">
-                    (
-                    {formatedExtraPrice}
-                    )
-                  </span>
-                  {' '}
-
+                    ({formatedExtraPrice})
+                  </span>{' '}
                 </span>
               );
             })}
@@ -43,13 +40,17 @@ export function ItemOptions({ options = [] }) {
 }
 
 ItemOptions.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.shape({
-    option_name: PropTypes.string,
-    values: PropTypes.arrayOf(PropTypes.shape({
-      extra_price: PropTypes.number,
-      value_text: PropTypes.string
-    }))
-  }))
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      option_name: PropTypes.string,
+      values: PropTypes.arrayOf(
+        PropTypes.shape({
+          extra_price: PropTypes.number,
+          value_text: PropTypes.string
+        })
+      )
+    })
+  )
 };
 
 ItemOptions.defaultProps = {

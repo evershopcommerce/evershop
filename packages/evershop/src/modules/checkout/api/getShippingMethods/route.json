@@ -1,7 +1,5 @@
 {
-  "methods": [
-    "GET"
-  ],
+  "methods": ["GET"],
   "path": "/shippingMethods",
   "access": "public"
 }

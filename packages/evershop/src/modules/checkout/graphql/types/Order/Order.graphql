@@ -17,7 +17,7 @@ type OrderAddress implements Address {
 """
 Retrieve an Order Item.
 """
-type OrdertItem implements ShoppingCartItem{
+type OrdertItem implements ShoppingCartItem {
   orderItemId: ID!
   uuid: String!
   orderId: ID!
@@ -44,7 +44,7 @@ type OrdertItem implements ShoppingCartItem{
 """
 Retrieve an Order.
 """
-type Order implements ShoppingCart{
+type Order implements ShoppingCart {
   orderId: ID!
   uuid: String!
   orderNumber: String!

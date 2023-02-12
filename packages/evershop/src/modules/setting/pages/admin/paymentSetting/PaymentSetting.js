@@ -25,10 +25,7 @@ export default function PaymentSetting({ saveSettingApi }) {
               }
             }}
           >
-            <Area
-              id="paymentSetting"
-              className="grid gap-2"
-            />
+            <Area id="paymentSetting" className="grid gap-2" />
           </Form>
         </div>
       </div>

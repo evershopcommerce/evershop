@@ -51,13 +51,16 @@ export function StepContent({
         btnText="Continue to payment"
         onSuccess={(response) => {
           if (!response.error) {
-            client.query(QUERY, { cartId })
+            client
+              .query(QUERY, { cartId })
               .toPromise()
               .then((result) => {
                 const address = result.data.cart.shippingAddress;
-                setShipmentInfo(produce(shipmentInfo, (draff) => {
-                  draff.address = address;
-                }));
+                setShipmentInfo(
+                  produce(shipmentInfo, (draff) => {
+                    draff.address = address;
+                  })
+                );
               });
           } else {
             toast.error(response.error.message);

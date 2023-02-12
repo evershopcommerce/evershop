@@ -6,7 +6,15 @@ import '../Field.scss';
 
 const Date = React.forwardRef((props, ref) => {
   const {
-    name, value, label, onChange, error, suffix, prefix, placeholder, instruction
+    name,
+    value,
+    label,
+    onChange,
+    error,
+    suffix,
+    prefix,
+    placeholder,
+    instruction
   } = props;
 
   const inputRef = ref || React.createRef();
@@ -36,8 +44,9 @@ const Date = React.forwardRef((props, ref) => {
         <div className="field-border" />
         {suffix && <div className="field-suffix">{suffix}</div>}
       </div>
-      {instruction
-        && <div className="field-instruction mt-sm">{instruction}</div>}
+      {instruction && (
+        <div className="field-instruction mt-sm">{instruction}</div>
+      )}
       <Error error={error} />
     </div>
   );

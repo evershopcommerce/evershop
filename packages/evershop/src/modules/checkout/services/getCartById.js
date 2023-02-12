@@ -11,8 +11,7 @@ module.exports = exports;
  * @returns {Promise<Cart || null> }
  */
 exports.getCartById = async (id) => {
-  const query = select()
-    .from('cart');
+  const query = select().from('cart');
   query.where('cart_id', '=', id);
   const data = await query.load(pool);
   if (!data) {

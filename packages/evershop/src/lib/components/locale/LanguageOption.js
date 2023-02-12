@@ -33,7 +33,10 @@ function LanguageOptions(props) {
     { value: 'co', text: 'Corsican' },
     { value: 'cr', text: 'Cree' },
     { value: 'cs', text: 'Czech' },
-    { value: 'cu', text: 'Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic' },
+    {
+      value: 'cu',
+      text: 'Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic'
+    },
     { value: 'cv', text: 'Chuvash' },
     { value: 'cy', text: 'Welsh' },
     { value: 'da', text: 'Danish' },
@@ -69,7 +72,10 @@ function LanguageOptions(props) {
     { value: 'hu', text: 'Hungarian' },
     { value: 'hy', text: 'Armenian' },
     { value: 'hz', text: 'Herero' },
-    { value: 'ia', text: 'Interlingua (International Auxiliary Language Association)' },
+    {
+      value: 'ia',
+      text: 'Interlingua (International Auxiliary Language Association)'
+    },
     { value: 'id', text: 'Indonesian' },
     { value: 'ie', text: 'Interlingue; Occidental' },
     { value: 'ig', text: 'Igbo' },
@@ -193,9 +199,8 @@ function LanguageOptions(props) {
     if (languages) return languages.indexOf(l.value) !== -1;
     else return true;
   });
-  const childrenWithProps = React.Children.map(
-    children,
-    (child) => React.cloneElement(child, { options, ...props })
+  const childrenWithProps = React.Children.map(children, (child) =>
+    React.cloneElement(child, { options, ...props })
   );
 
   return <div>{childrenWithProps}</div>;

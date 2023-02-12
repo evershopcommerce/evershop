@@ -6,10 +6,6 @@ const { watchSchema } = require('../lib/watch/watchSchema');
 
 (async () => {
   await start(() => {
-    watch([
-      watchPage,
-      watchSchema,
-      watchMF
-    ]);
+    watch([watchPage, watchSchema, watchMF]);
   });
 })();

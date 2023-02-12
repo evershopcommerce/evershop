@@ -30,7 +30,10 @@ const LoadingBar = function LoadingBar() {
   return (
     <div
       className="loading-bar"
-      style={{ width: `${width}%`, display: fetching === true ? 'block' : 'none' }}
+      style={{
+        width: `${width}%`,
+        display: fetching === true ? 'block' : 'none'
+      }}
     />
   );
 };

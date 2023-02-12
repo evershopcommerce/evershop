@@ -81,7 +81,7 @@ module.exports.createApp = () => {
           break;
       }
     });
-  })
+  });
 
   return app;
 };

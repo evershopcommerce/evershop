@@ -177,9 +177,8 @@ function CurrencyOptions(props) {
     if (currencies) return currencies.indexOf(c.value) !== -1;
     else return true;
   });
-  const childrenWithProps = React.Children.map(
-    children,
-    (child) => React.cloneElement(child, { options, ...props })
+  const childrenWithProps = React.Children.map(children, (child) =>
+    React.cloneElement(child, { options, ...props })
   );
 
   return <div>{childrenWithProps}</div>;

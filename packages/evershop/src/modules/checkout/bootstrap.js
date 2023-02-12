@@ -10,7 +10,7 @@ module.exports = () => {
    * it will return the cart by that id. Else it will return the cart by the token payload
    * @returns {Promise<Cart>}
    * @returns {Promise<null>}
-  */
+   */
   request.getCart = async function getCart(uuid) {
     this.locals = this.locals || {};
     if (this.locals?.cart) {

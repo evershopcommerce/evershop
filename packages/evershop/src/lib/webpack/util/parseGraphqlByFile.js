@@ -16,45 +16,54 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
   const fileSource = fs.readFileSync(module, 'utf8');
   /** Process query */
   // Regex matching export const query = `...` or export const query = "" or export const query = ''
-  const queryRegex = /export\s+const\s+query\s*=\s*`([^`]+)`|export\s+const\s+query\s*=\s*["']([^"']+)["']/g;
+  const queryRegex =
+    /export\s+const\s+query\s*=\s*`([^`]+)`|export\s+const\s+query\s*=\s*["']([^"']+)["']/g;
   const queryMatch = fileSource.match(queryRegex);
   if (queryMatch) {
-    let queryBody = queryMatch[0].replace(queryRegex, (match, p1, p2) => p1 || p2);
+    let queryBody = queryMatch[0].replace(
+      queryRegex,
+      (match, p1, p2) => p1 || p2
+    );
     // Replace 'getContextValue("key")'
     // or getContextValue('key')
     // or 'getContextValue("key", defaultValue)'
     // or 'getContextValue('x', defaultValue)'
     // to 'getContextValue_`base64 encoded of key and defaultValue`'`)'
     // to avoid conflict with graphql-tag
-    queryBody = queryBody.replace(/getContextValue\(([^)]+)\)/g, (match, p1) => {
-      // const args = p1.split(',').map((arg) => arg.trim());
-      // const key = args[0].replace(/['"]/g, '');
-      // const defaultValue = args[1] ? args[1].replace(/['"]/g, '') : undefined;
-      const base64 = Buffer.from(p1).toString('base64');
-      return `"getContextValue_${base64}"`;
-    });
+    queryBody = queryBody.replace(
+      /getContextValue\(([^)]+)\)/g,
+      (match, p1) => {
+        // const args = p1.split(',').map((arg) => arg.trim());
+        // const key = args[0].replace(/['"]/g, '');
+        // const defaultValue = args[1] ? args[1].replace(/['"]/g, '') : undefined;
+        const base64 = Buffer.from(p1).toString('base64');
+        return `"getContextValue_${base64}"`;
+      }
+    );
 
     const queryAst = parse(queryBody);
-    const map = queryAst.definitions[0].selectionSet.selections.map((selection) => {
-      const name = selection.name.value;
-      const alias = selection.alias ? selection.alias.value : name;
-      const newAlias = `e${uniqid()}`;
-      if (!selection.alias) {
-        // eslint-disable-next-line no-param-reassign
-        selection.alias = {
-          kind: 'Name',
-          value: newAlias
-        };
-      } else {
-        // eslint-disable-next-line no-param-reassign
-        selection.alias.value = newAlias;
-      }
+    const map = queryAst.definitions[0].selectionSet.selections.map(
+      (selection) => {
+        const name = selection.name.value;
+        const alias = selection.alias ? selection.alias.value : name;
+        const newAlias = `e${uniqid()}`;
+        if (!selection.alias) {
+          // eslint-disable-next-line no-param-reassign
+          selection.alias = {
+            kind: 'Name',
+            value: newAlias
+          };
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          selection.alias.value = newAlias;
+        }
 
-      return {
-        origin: alias,
-        alias: newAlias
-      };
-    });
+        return {
+          origin: alias,
+          alias: newAlias
+        };
+      }
+    );
 
     // Get back the new query string
     queryBody = print(queryAst);
@@ -85,7 +94,10 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
     });
 
     // Use slice function to get everything between the first '{' and the last '}' in the query
-    queryBody = queryBody.slice(queryBody.indexOf('{') + 1, queryBody.lastIndexOf('}'));
+    queryBody = queryBody.slice(
+      queryBody.indexOf('{') + 1,
+      queryBody.lastIndexOf('}')
+    );
 
     result.query.source = queryBody;
     result.query.props = map;
@@ -96,11 +108,15 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
 
   /** Process fragments */
   // Regex matching export const query = `...` or export const query = "" or export const query = ''
-  const fragmentsRegex = /export\s+const\s+fragments\s*=\s*`([^`]+)`|export\s+const\s+fragments\s*=\s*["']([^"']+)["']/g;
+  const fragmentsRegex =
+    /export\s+const\s+fragments\s*=\s*`([^`]+)`|export\s+const\s+fragments\s*=\s*["']([^"']+)["']/g;
   const fragmentsMatch = fileSource.match(fragmentsRegex);
   const fragmentNames = [];
   if (fragmentsMatch) {
-    const fragmentsBody = fragmentsMatch[0].replace(fragmentsRegex, (match, p1, p2) => p1 || p2);
+    const fragmentsBody = fragmentsMatch[0].replace(
+      fragmentsRegex,
+      (match, p1, p2) => p1 || p2
+    );
     const fragmentsAst = parse(fragmentsBody);
     fragmentsAst.definitions.forEach((fragment) => {
       if (fragment.kind === 'FragmentDefinition') {
@@ -109,7 +125,9 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
           type: fragment.typeCondition.name.value
         });
       } else {
-        throw new Error(`Only fragments are allowed in 'export const fragments = \`...\`. Error in ${module}`);
+        throw new Error(
+          `Only fragments are allowed in 'export const fragments = \`...\`. Error in ${module}`
+        );
       }
     });
     result.fragments.source = fragmentsBody;
@@ -118,13 +136,19 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
   }
 
   // Using regex to get all fragment consumption (e.g. ...fragmentName)
-  const fragmentConsumptions = (result.query.source.match(/\.\.\.([ ]+)?([a-zA-Z0-9_]+)/g) || []).concat((result.fragments.source.match(/\.\.\.([ ]+)?([a-zA-Z0-9_]+)/g) || []));
+  const fragmentConsumptions = (
+    result.query.source.match(/\.\.\.([ ]+)?([a-zA-Z0-9_]+)/g) || []
+  ).concat(
+    result.fragments.source.match(/\.\.\.([ ]+)?([a-zA-Z0-9_]+)/g) || []
+  );
   if (fragmentConsumptions.length > 0) {
     fragmentConsumptions.forEach((fragmentConsumption) => {
       const fragmentName = fragmentConsumption.replace(/\.\.\.([ ]+)?/, '');
       const fragment = fragmentNames.find((f) => f.name === fragmentName);
       if (!fragment) {
-        throw new Error(`Fragment '${fragmentName}' is not defined in ${module}`);
+        throw new Error(
+          `Fragment '${fragmentName}' is not defined in ${module}`
+        );
       } else {
         result.fragments.pairs = result.fragments.pairs || [];
         const alias = `${fragmentName}_${uniqid()}`;
@@ -132,7 +156,10 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
         // Replace in query source with alias
         result.query.source = result.query.source.replace(regex, `...${alias}`);
         // Replace in fragment source with alias
-        result.fragments.source = result.fragments.source.replace(regex, `...${alias}`);
+        result.fragments.source = result.fragments.source.replace(
+          regex,
+          `...${alias}`
+        );
         result.fragments.pairs.push({
           name: fragmentName,
           alias,
@@ -149,20 +176,26 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
   const variablesRegex = /export\s+const\s+variables\s*=\s*`([^`]+)`/g;
   const variablesMatch = fileSource.match(variablesRegex);
   if (variablesMatch) {
-    let variablesBody = variablesMatch[0].replace(variablesRegex, (match, p1) => p1);
+    let variablesBody = variablesMatch[0].replace(
+      variablesRegex,
+      (match, p1) => p1
+    );
     // Replace 'getContextValue("key")' or getContextValue('key')
     // or 'getContextValue("key", defaultValue)'
     // or 'getContextValue('x', defaultValue)'
     // to 'getContextValue_`base64 encoded of key and defaultValue`'`)'
     // to avoid conflict with graphql-tag
-    variablesBody = variablesBody.replace(/getContextValue\(([^)]+)\)/g, (match, p1) => {
-      // const args = p1.split(',').map((arg) => arg.trim());
-      // const key = args[0].replace(/['"]/g, '');
-      // const defaultValue = args[1] ? args[1].replace(/['"]/g, '') : undefined;
-      // console.log('defaultValue', defaultValue);
-      const base64 = Buffer.from(p1).toString('base64');
-      return `"getContextValue_${base64}"`;
-    });
+    variablesBody = variablesBody.replace(
+      /getContextValue\(([^)]+)\)/g,
+      (match, p1) => {
+        // const args = p1.split(',').map((arg) => arg.trim());
+        // const key = args[0].replace(/['"]/g, '');
+        // const defaultValue = args[1] ? args[1].replace(/['"]/g, '') : undefined;
+        // console.log('defaultValue', defaultValue);
+        const base64 = Buffer.from(p1).toString('base64');
+        return `"getContextValue_${base64}"`;
+      }
+    );
 
     try {
       // Json parse the variables body

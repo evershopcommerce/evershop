@@ -10,11 +10,8 @@ module.exports = exports;
  * @returns {Promise<Cart>}
  */
 exports.getCartByUUID = async (uuid) => {
-  const query = select()
-    .from('cart');
-  query
-    .where('uuid', '=', uuid)
-    .and('status', '=', 1);
+  const query = select().from('cart');
+  query.where('uuid', '=', uuid).and('status', '=', 1);
   const data = await query.load(pool);
   if (!data) {
     return null;

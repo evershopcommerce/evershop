@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
+import {
+  useCheckoutSteps,
+  useCheckoutStepsDispatch
+} from '../../../../../lib/context/checkoutSteps';
 import { StepContent } from '../../../components/frontStore/checkout/payment/paymentStep/StepContent';
 
 export default function PaymentStep({ cart }) {
@@ -26,12 +29,7 @@ export default function PaymentStep({ cart }) {
 
   return (
     <div className="checkout-payment checkout-step">
-      {display && (
-        <StepContent
-          cart={cart}
-          step={step}
-        />
-      )}
+      {display && <StepContent cart={cart} step={step} />}
     </div>
   );
 }

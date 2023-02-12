@@ -1,6 +1,4 @@
 {
-  "methods": [
-    "GET"
-  ],
+  "methods": ["GET"],
   "path": "/coupon/edit/:id"
 }

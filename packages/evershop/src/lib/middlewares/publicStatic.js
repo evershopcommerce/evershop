@@ -14,7 +14,11 @@ module.exports = async function publiStatic(request, response, next) {
     const test = await fs.stat(join(CONSTANTS.ROOTPATH, 'public', path));
     if (test.isFile()) {
       // If it is a file, serve it
-      staticMiddleware(join(CONSTANTS.ROOTPATH, 'public'))(request, response, next);
+      staticMiddleware(join(CONSTANTS.ROOTPATH, 'public'))(
+        request,
+        response,
+        next
+      );
     }
   } catch (e) {
     // If the path is not a file or does not exist in the public folder, call next

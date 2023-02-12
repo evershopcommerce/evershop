@@ -5,14 +5,17 @@ import { Select } from '../../../../../lib/components/form/fields/Select';
 import { useAppDispatch } from '../../../../../lib/context/app';
 
 // TODO: make this list configurable
-const sortingOptions = [{ code: 'price', name: 'Price' }, { code: 'name', name: 'Name' }];
+const sortingOptions = [
+  { code: 'price', name: 'Price' },
+  { code: 'name', name: 'Name' }
+];
 
 export default function Sorting() {
   const AppContextDispatch = useAppDispatch();
   const [sortBy, setSortBy] = React.useState(() => {
     // Check if this is browser or server
     if (typeof window !== 'undefined') {
-      const params = (new URL(document.location)).searchParams;
+      const params = new URL(document.location).searchParams;
       return params.get('sortBy') || 'id';
     } else {
       return undefined;
@@ -22,7 +25,7 @@ export default function Sorting() {
   const [sortOrder, setSortOrder] = React.useState(() => {
     // Check if this is browser or server
     if (typeof window !== 'undefined') {
-      const params = (new URL(document.location)).searchParams;
+      const params = new URL(document.location).searchParams;
       return params.get('sortOrder') || 'asc';
     } else {
       return undefined;
@@ -57,7 +60,9 @@ export default function Sorting() {
   return (
     <div className="product-sorting mb-1">
       <div className="product-sorting-inner flex justify-end items-center space-x-05">
-        <div><span>Sort By:</span></div>
+        <div>
+          <span>Sort By:</span>
+        </div>
         <div style={{ width: '160px' }}>
           <Select
             className="form-control"
@@ -65,11 +70,14 @@ export default function Sorting() {
               await onChangeSort(e);
             }}
             value={sortBy}
-            options={[{
-              value: '',
-              text: 'Please select'
-            }]
-              .concat(sortingOptions.map((o) => ({ value: o.code, text: o.name })))}
+            options={[
+              {
+                value: '',
+                text: 'Please select'
+              }
+            ].concat(
+              sortingOptions.map((o) => ({ value: o.code, text: o.name }))
+            )}
           />
         </div>
         <div className="sort-direction self-center">

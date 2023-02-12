@@ -19,11 +19,13 @@ export function AppProvider({ value, children }) {
     });
     const dataResponse = await response.json();
     // Update the entire context using immer
-    setData(produce(data, (draff) => {
-      // eslint-disable-next-line no-param-reassign
-      draff = dataResponse.eContext;
-      return draff;
-    }));
+    setData(
+      produce(data, (draff) => {
+        // eslint-disable-next-line no-param-reassign
+        draff = dataResponse.eContext;
+        return draff;
+      })
+    );
     setFetching(false);
   };
 

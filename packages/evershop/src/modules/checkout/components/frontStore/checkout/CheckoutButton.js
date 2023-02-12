@@ -13,7 +13,9 @@ export default function CheckoutButton({ action, cartId }) {
       <td />
       <td>
         <div className="checkout-button">
-          <a href="#" onClick={(e) => onClick(e)} className="btn btn-success"><span>Place order</span></a>
+          <a href="#" onClick={(e) => onClick(e)} className="btn btn-success">
+            <span>Place order</span>
+          </a>
         </div>
       </td>
     </tr>

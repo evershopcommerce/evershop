@@ -4,9 +4,7 @@ import { Field } from '../../../../../lib/components/form/Field';
 import { Form } from '../../../../../lib/components/form/Form';
 import './RegisterForm.scss';
 
-export default function RegisterForm({
-  action, homeUrl, loginApi, loginUrl
-}) {
+export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {
   const [error, setError] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [password, setPassword] = React.useState(null);
@@ -75,7 +73,10 @@ export default function RegisterForm({
         <div className="text-center mt-1">
           <span>
             Already have an account?
-            <a className="text-interactive" href={loginUrl}> Login </a>
+            <a className="text-interactive" href={loginUrl}>
+              {' '}
+              Login{' '}
+            </a>
           </span>
         </div>
       </div>

@@ -21,9 +21,10 @@ import { Password } from './fields/Password';
 const useMemoizeArgs = (args, equalityFunc) => {
   const ref = React.useRef();
   const prevArgs = ref.current;
-  const argsAreEqual = prevArgs !== undefined
-    && args.length === prevArgs.length
-    && args.every((v, i) => equalityFunc(v, prevArgs[i]));
+  const argsAreEqual =
+    prevArgs !== undefined &&
+    args.length === prevArgs.length &&
+    args.every((v, i) => equalityFunc(v, prevArgs[i]));
 
   React.useEffect(() => {
     if (!argsAreEqual) {
@@ -35,13 +36,7 @@ const useMemoizeArgs = (args, equalityFunc) => {
 };
 
 export function Field(props) {
-  const {
-    name,
-    value,
-    validationRules,
-    onChange,
-    type
-  } = props;
+  const { name, value, validationRules, onChange, type } = props;
   const context = useFormContext();
   const [fieldValue, setFieldValue] = React.useState('');
   const field = context.fields.find((f) => f.name === name);

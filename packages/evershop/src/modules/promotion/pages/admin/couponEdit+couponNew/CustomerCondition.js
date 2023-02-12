@@ -14,9 +14,13 @@ const customStyles = {
 export default function CustomerCondition({ coupon = {}, groups }) {
   const condition = coupon?.userCondition || {};
   const selectedGroups = (condition.groups || [])
-    .filter((g) => groups.find((group) => parseInt(group.value, 10) === parseInt(g, 10)))
+    .filter((g) =>
+      groups.find((group) => parseInt(group.value, 10) === parseInt(g, 10))
+    )
     .map((g) => {
-      const group = groups.find((e) => parseInt(e.value, 10) === parseInt(g, 10));
+      const group = groups.find(
+        (e) => parseInt(e.value, 10) === parseInt(g, 10)
+      );
       return {
         value: group.value.toString(),
         label: group.name
@@ -43,8 +47,7 @@ export default function CustomerCondition({ coupon = {}, groups }) {
               />
             )
           },
-          props: {
-          },
+          props: {},
           sortOrder: 10,
           id: 'couponCustomerConditionGroup'
         },
@@ -86,10 +89,12 @@ CustomerCondition.propTypes = {
       purchased: PropTypes.number
     })
   }),
-  groups: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.number,
-    name: PropTypes.string
-  }))
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.number,
+      name: PropTypes.string
+    })
+  )
 };
 
 CustomerCondition.defaultProps = {

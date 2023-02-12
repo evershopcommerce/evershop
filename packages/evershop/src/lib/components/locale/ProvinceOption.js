@@ -101,7 +101,11 @@ function ProvinceOptions(props) {
     { value: 'AR-K', country_code: 'AR', text: 'Catamarca' },
     { value: 'AR-H', country_code: 'AR', text: 'Chaco' },
     { value: 'AR-U', country_code: 'AR', text: 'Chubut' },
-    { value: 'AR-C', country_code: 'AR', text: 'Ciudad Autonoma de Buenos Aires' },
+    {
+      value: 'AR-C',
+      country_code: 'AR',
+      text: 'Ciudad Autonoma de Buenos Aires'
+    },
     { value: 'AR-X', country_code: 'AR', text: 'Cordoba' },
     { value: 'AR-W', country_code: 'AR', text: 'Corrientes' },
     { value: 'AR-E', country_code: 'AR', text: 'Entre Rios' },
@@ -130,7 +134,11 @@ function ProvinceOptions(props) {
     { value: 'AT-7', country_code: 'AT', text: 'Tirol' },
     { value: 'AT-8', country_code: 'AT', text: 'Vorarlberg' },
     { value: 'AT-9', country_code: 'AT', text: 'Wien' },
-    { value: 'AU-ACT', country_code: 'AU', text: 'Australian Capital Territory' },
+    {
+      value: 'AU-ACT',
+      country_code: 'AU',
+      text: 'Australian Capital Territory'
+    },
     { value: 'AU-NSW', country_code: 'AU', text: 'New South Wales' },
     { value: 'AU-NT', country_code: 'AU', text: 'Northern Territory' },
     { value: 'AU-QLD', country_code: 'AU', text: 'Queensland' },
@@ -202,7 +210,11 @@ function ProvinceOptions(props) {
     { value: 'AZ-ZAN', country_code: 'AZ', text: 'Zangilan' },
     { value: 'AZ-ZAQ', country_code: 'AZ', text: 'Zaqatala' },
     { value: 'AZ-ZAR', country_code: 'AZ', text: 'Zardab' },
-    { value: 'BA-BIH', country_code: 'BA', text: 'Federacija Bosne i Hercegovine' },
+    {
+      value: 'BA-BIH',
+      country_code: 'BA',
+      text: 'Federacija Bosne i Hercegovine'
+    },
     { value: 'BA-SRP', country_code: 'BA', text: 'Republika Srpska' },
     { value: 'BB-01', country_code: 'BB', text: 'Christ Church' },
     { value: 'BB-04', country_code: 'BB', text: 'Saint James' },
@@ -218,7 +230,11 @@ function ProvinceOptions(props) {
     { value: 'BD-60', country_code: 'BD', text: 'Sylhet' },
     { value: 'BE-VAN', country_code: 'BE', text: 'Antwerpen' },
     { value: 'BE-WBR', country_code: 'BE', text: 'Brabant wallon' },
-    { value: 'BE-BRU', country_code: 'BE', text: 'Brussels Hoofdstedelijk Gewest' },
+    {
+      value: 'BE-BRU',
+      country_code: 'BE',
+      text: 'Brussels Hoofdstedelijk Gewest'
+    },
     { value: 'BE-WHT', country_code: 'BE', text: 'Hainaut' },
     { value: 'BE-WLG', country_code: 'BE', text: 'Liege' },
     { value: 'BE-VLI', country_code: 'BE', text: 'Limburg' },
@@ -518,19 +534,31 @@ function ProvinceOptions(props) {
     { value: 'CI-VB', country_code: 'CI', text: 'Vallee du Bandama' },
     { value: 'CI-WR', country_code: 'CI', text: 'Woroba' },
     { value: 'CI-ZZ', country_code: 'CI', text: 'Zanzan' },
-    { value: 'CL-AI', country_code: 'CL', text: 'Aisen del General Carlos Ibanez del Campo' },
+    {
+      value: 'CL-AI',
+      country_code: 'CL',
+      text: 'Aisen del General Carlos Ibanez del Campo'
+    },
     { value: 'CL-AN', country_code: 'CL', text: 'Antofagasta' },
     { value: 'CL-AP', country_code: 'CL', text: 'Arica y Parinacota' },
     { value: 'CL-AT', country_code: 'CL', text: 'Atacama' },
     { value: 'CL-BI', country_code: 'CL', text: 'Biobio' },
     { value: 'CL-CO', country_code: 'CL', text: 'Coquimbo' },
     { value: 'CL-AR', country_code: 'CL', text: 'La Araucania' },
-    { value: 'CL-LI', country_code: 'CL', text: "Libertador General Bernardo O'Higgins" },
+    {
+      value: 'CL-LI',
+      country_code: 'CL',
+      text: "Libertador General Bernardo O'Higgins"
+    },
     { value: 'CL-LL', country_code: 'CL', text: 'Los Lagos' },
     { value: 'CL-LR', country_code: 'CL', text: 'Los Rios' },
     { value: 'CL-MA', country_code: 'CL', text: 'Magallanes' },
     { value: 'CL-ML', country_code: 'CL', text: 'Maule' },
-    { value: 'CL-RM', country_code: 'CL', text: 'Region Metropolitana de Santiago' },
+    {
+      value: 'CL-RM',
+      country_code: 'CL',
+      text: 'Region Metropolitana de Santiago'
+    },
     { value: 'CL-TA', country_code: 'CL', text: 'Tarapaca' },
     { value: 'CL-VS', country_code: 'CL', text: 'Valparaiso' },
     { value: 'CM-AD', country_code: 'CM', text: 'Adamaoua' },
@@ -600,7 +628,11 @@ function ProvinceOptions(props) {
     { value: 'CO-PUT', country_code: 'CO', text: 'Putumayo' },
     { value: 'CO-QUI', country_code: 'CO', text: 'Quindio' },
     { value: 'CO-RIS', country_code: 'CO', text: 'Risaralda' },
-    { value: 'CO-SAP', country_code: 'CO', text: 'San Andres, Providencia y Santa Catalina' },
+    {
+      value: 'CO-SAP',
+      country_code: 'CO',
+      text: 'San Andres, Providencia y Santa Catalina'
+    },
     { value: 'CO-SAN', country_code: 'CO', text: 'Santander' },
     { value: 'CO-SUC', country_code: 'CO', text: 'Sucre' },
     { value: 'CO-TOL', country_code: 'CO', text: 'Tolima' },
@@ -711,7 +743,11 @@ function ProvinceOptions(props) {
     { value: 'DO-03', country_code: 'DO', text: 'Baoruco' },
     { value: 'DO-04', country_code: 'DO', text: 'Barahona' },
     { value: 'DO-05', country_code: 'DO', text: 'Dajabon' },
-    { value: 'DO-01', country_code: 'DO', text: 'Distrito Nacional (Santo Domingo)' },
+    {
+      value: 'DO-01',
+      country_code: 'DO',
+      text: 'Distrito Nacional (Santo Domingo)'
+    },
     { value: 'DO-06', country_code: 'DO', text: 'Duarte' },
     { value: 'DO-08', country_code: 'DO', text: 'El Seibo' },
     { value: 'DO-07', country_code: 'DO', text: 'Elias Pina' },
@@ -884,7 +920,11 @@ function ProvinceOptions(props) {
     { value: 'ET-OR', country_code: 'ET', text: 'Oromiya' },
     { value: 'ET-SO', country_code: 'ET', text: 'Sumale' },
     { value: 'ET-TI', country_code: 'ET', text: 'Tigray' },
-    { value: 'ET-SN', country_code: 'ET', text: 'YeDebub Biheroch Bihereseboch na Hizboch' },
+    {
+      value: 'ET-SN',
+      country_code: 'ET',
+      text: 'YeDebub Biheroch Bihereseboch na Hizboch'
+    },
     { value: 'FI-02', country_code: 'FI', text: 'Etela-Karjala' },
     { value: 'FI-03', country_code: 'FI', text: 'Etela-Pohjanmaa' },
     { value: 'FI-04', country_code: 'FI', text: 'Etela-Savo' },
@@ -949,7 +989,11 @@ function ProvinceOptions(props) {
     { value: 'GE-KA', country_code: 'GE', text: "K'akheti" },
     { value: 'GE-KK', country_code: 'GE', text: 'Kvemo Kartli' },
     { value: 'GE-MM', country_code: 'GE', text: 'Mtskheta-Mtianeti' },
-    { value: 'GE-RL', country_code: 'GE', text: "Rach'a-Lechkhumi-Kvemo Svaneti" },
+    {
+      value: 'GE-RL',
+      country_code: 'GE',
+      text: "Rach'a-Lechkhumi-Kvemo Svaneti"
+    },
     { value: 'GE-SZ', country_code: 'GE', text: 'Samegrelo-Zemo Svaneti' },
     { value: 'GE-SJ', country_code: 'GE', text: 'Samtskhe-Javakheti' },
     { value: 'GE-SK', country_code: 'GE', text: 'Shida Kartli' },
@@ -1015,7 +1059,11 @@ function ProvinceOptions(props) {
     { value: 'GQ-KN', country_code: 'GQ', text: 'Kie-Ntem' },
     { value: 'GQ-LI', country_code: 'GQ', text: 'Litoral' },
     { value: 'GQ-WN', country_code: 'GQ', text: 'Wele-Nzas' },
-    { value: 'GR-A', country_code: 'GR', text: 'Anatoliki Makedonia kai Thraki' },
+    {
+      value: 'GR-A',
+      country_code: 'GR',
+      text: 'Anatoliki Makedonia kai Thraki'
+    },
     { value: 'GR-I', country_code: 'GR', text: 'Attiki' },
     { value: 'GR-G', country_code: 'GR', text: 'Dytiki Ellada' },
     { value: 'GR-C', country_code: 'GR', text: 'Dytiki Makedonia' },
@@ -1062,7 +1110,11 @@ function ProvinceOptions(props) {
     { value: 'GY-CU', country_code: 'GY', text: 'Cuyuni-Mazaruni' },
     { value: 'GY-DE', country_code: 'GY', text: 'Demerara-Mahaica' },
     { value: 'GY-EB', country_code: 'GY', text: 'East Berbice-Corentyne' },
-    { value: 'GY-ES', country_code: 'GY', text: 'Essequibo Islands-West Demerara' },
+    {
+      value: 'GY-ES',
+      country_code: 'GY',
+      text: 'Essequibo Islands-West Demerara'
+    },
     { value: 'GY-MA', country_code: 'GY', text: 'Mahaica-Berbice' },
     { value: 'GY-PM', country_code: 'GY', text: 'Pomeroon-Supenaam' },
     { value: 'GY-UD', country_code: 'GY', text: 'Upper Demerara-Berbice' },
@@ -1084,13 +1136,25 @@ function ProvinceOptions(props) {
     { value: 'HN-SB', country_code: 'HN', text: 'Santa Barbara' },
     { value: 'HN-VA', country_code: 'HN', text: 'Valle' },
     { value: 'HN-YO', country_code: 'HN', text: 'Yoro' },
-    { value: 'HR-07', country_code: 'HR', text: 'Bjelovarsko-bilogorska zupanija' },
+    {
+      value: 'HR-07',
+      country_code: 'HR',
+      text: 'Bjelovarsko-bilogorska zupanija'
+    },
     { value: 'HR-12', country_code: 'HR', text: 'Brodsko-posavska zupanija' },
-    { value: 'HR-19', country_code: 'HR', text: 'Dubrovacko-neretvanska zupanija' },
+    {
+      value: 'HR-19',
+      country_code: 'HR',
+      text: 'Dubrovacko-neretvanska zupanija'
+    },
     { value: 'HR-21', country_code: 'HR', text: 'Grad Zagreb' },
     { value: 'HR-18', country_code: 'HR', text: 'Istarska zupanija' },
     { value: 'HR-04', country_code: 'HR', text: 'Karlovacka zupanija' },
-    { value: 'HR-06', country_code: 'HR', text: 'Koprivnicko-krizevacka zupanija' },
+    {
+      value: 'HR-06',
+      country_code: 'HR',
+      text: 'Koprivnicko-krizevacka zupanija'
+    },
     { value: 'HR-02', country_code: 'HR', text: 'Krapinsko-zagorska zupanija' },
     { value: 'HR-09', country_code: 'HR', text: 'Licko-senjska zupanija' },
     { value: 'HR-20', country_code: 'HR', text: 'Medimurska zupanija' },
@@ -1099,10 +1163,22 @@ function ProvinceOptions(props) {
     { value: 'HR-08', country_code: 'HR', text: 'Primorsko-goranska zupanija' },
     { value: 'HR-15', country_code: 'HR', text: 'Sibensko-kninska zupanija' },
     { value: 'HR-03', country_code: 'HR', text: 'Sisacko-moslavacka zupanija' },
-    { value: 'HR-17', country_code: 'HR', text: 'Splitsko-dalmatinska zupanija' },
+    {
+      value: 'HR-17',
+      country_code: 'HR',
+      text: 'Splitsko-dalmatinska zupanija'
+    },
     { value: 'HR-05', country_code: 'HR', text: 'Varazdinska zupanija' },
-    { value: 'HR-10', country_code: 'HR', text: 'Viroviticko-podravska zupanija' },
-    { value: 'HR-16', country_code: 'HR', text: 'Vukovarsko-srijemska zupanija' },
+    {
+      value: 'HR-10',
+      country_code: 'HR',
+      text: 'Viroviticko-podravska zupanija'
+    },
+    {
+      value: 'HR-16',
+      country_code: 'HR',
+      text: 'Vukovarsko-srijemska zupanija'
+    },
     { value: 'HR-13', country_code: 'HR', text: 'Zadarska zupanija' },
     { value: 'HR-01', country_code: 'HR', text: 'Zagrebacka zupanija' },
     { value: 'HT-AR', country_code: 'HT', text: 'Artibonite' },
@@ -1286,7 +1362,11 @@ function ProvinceOptions(props) {
     { value: 'IR-25', country_code: 'IR', text: 'Yazd' },
     { value: 'IR-11', country_code: 'IR', text: 'Zanjan' },
     { value: 'IS-7', country_code: 'IS', text: 'Austurland' },
-    { value: 'IS-1', country_code: 'IS', text: 'Hofudborgarsvaedi utan Reykjavikur' },
+    {
+      value: 'IS-1',
+      country_code: 'IS',
+      text: 'Hofudborgarsvaedi utan Reykjavikur'
+    },
     { value: 'IS-6', country_code: 'IS', text: 'Nordurland eystra' },
     { value: 'IS-5', country_code: 'IS', text: 'Nordurland vestra' },
     { value: 'IS-8', country_code: 'IS', text: 'Sudurland' },
@@ -1732,7 +1812,11 @@ function ProvinceOptions(props) {
     { value: 'MD-ED', country_code: 'MD', text: 'Edinet' },
     { value: 'MD-FA', country_code: 'MD', text: 'Falesti' },
     { value: 'MD-FL', country_code: 'MD', text: 'Floresti' },
-    { value: 'MD-GA', country_code: 'MD', text: 'Gagauzia, Unitatea teritoriala autonoma' },
+    {
+      value: 'MD-GA',
+      country_code: 'MD',
+      text: 'Gagauzia, Unitatea teritoriala autonoma'
+    },
     { value: 'MD-GL', country_code: 'MD', text: 'Glodeni' },
     { value: 'MD-HI', country_code: 'MD', text: 'Hincesti' },
     { value: 'MD-IA', country_code: 'MD', text: 'Ialoveni' },
@@ -1746,7 +1830,11 @@ function ProvinceOptions(props) {
     { value: 'MD-SD', country_code: 'MD', text: 'Soldanesti' },
     { value: 'MD-SO', country_code: 'MD', text: 'Soroca' },
     { value: 'MD-SV', country_code: 'MD', text: 'Stefan Voda' },
-    { value: 'MD-SN', country_code: 'MD', text: 'Stinga Nistrului, unitatea teritoriala din' },
+    {
+      value: 'MD-SN',
+      country_code: 'MD',
+      text: 'Stinga Nistrului, unitatea teritoriala din'
+    },
     { value: 'MD-ST', country_code: 'MD', text: 'Straseni' },
     { value: 'MD-TA', country_code: 'MD', text: 'Taraclia' },
     { value: 'MD-TE', country_code: 'MD', text: 'Telenesti' },
@@ -2059,7 +2147,11 @@ function ProvinceOptions(props) {
     { value: 'MX-TAB', country_code: 'MX', text: 'Tabasco' },
     { value: 'MX-TAM', country_code: 'MX', text: 'Tamaulipas' },
     { value: 'MX-TLA', country_code: 'MX', text: 'Tlaxcala' },
-    { value: 'MX-VER', country_code: 'MX', text: 'Veracruz de Ignacio de la Llave' },
+    {
+      value: 'MX-VER',
+      country_code: 'MX',
+      text: 'Veracruz de Ignacio de la Llave'
+    },
     { value: 'MX-YUC', country_code: 'MX', text: 'Yucatan' },
     { value: 'MX-ZAC', country_code: 'MX', text: 'Zacatecas' },
     { value: 'MY-01', country_code: 'MY', text: 'Johor' },
@@ -2075,9 +2167,17 @@ function ProvinceOptions(props) {
     { value: 'MY-13', country_code: 'MY', text: 'Sarawak' },
     { value: 'MY-10', country_code: 'MY', text: 'Selangor' },
     { value: 'MY-11', country_code: 'MY', text: 'Terengganu' },
-    { value: 'MY-14', country_code: 'MY', text: 'Wilayah Persekutuan Kuala Lumpur' },
+    {
+      value: 'MY-14',
+      country_code: 'MY',
+      text: 'Wilayah Persekutuan Kuala Lumpur'
+    },
     { value: 'MY-15', country_code: 'MY', text: 'Wilayah Persekutuan Labuan' },
-    { value: 'MY-16', country_code: 'MY', text: 'Wilayah Persekutuan Putrajaya' },
+    {
+      value: 'MY-16',
+      country_code: 'MY',
+      text: 'Wilayah Persekutuan Putrajaya'
+    },
     { value: 'MZ-P', country_code: 'MZ', text: 'Cabo Delgado' },
     { value: 'MZ-G', country_code: 'MZ', text: 'Gaza' },
     { value: 'MZ-I', country_code: 'MZ', text: 'Inhambane' },
@@ -2110,7 +2210,11 @@ function ProvinceOptions(props) {
     { value: 'NE-6', country_code: 'NE', text: 'Tillaberi' },
     { value: 'NE-7', country_code: 'NE', text: 'Zinder' },
     { value: 'NG-AB', country_code: 'NG', text: 'Abia' },
-    { value: 'NG-FC', country_code: 'NG', text: 'Abuja Federal Capital Territory' },
+    {
+      value: 'NG-FC',
+      country_code: 'NG',
+      text: 'Abuja Federal Capital Territory'
+    },
     { value: 'NG-AD', country_code: 'NG', text: 'Adamawa' },
     { value: 'NG-AK', country_code: 'NG', text: 'Akwa Ibom' },
     { value: 'NG-AN', country_code: 'NG', text: 'Anambra' },
@@ -2282,7 +2386,11 @@ function ProvinceOptions(props) {
     { value: 'PG-MRL', country_code: 'PG', text: 'Manus' },
     { value: 'PG-MBA', country_code: 'PG', text: 'Milne Bay' },
     { value: 'PG-MPL', country_code: 'PG', text: 'Morobe' },
-    { value: 'PG-NCD', country_code: 'PG', text: 'National Capital District (Port Moresby)' },
+    {
+      value: 'PG-NCD',
+      country_code: 'PG',
+      text: 'National Capital District (Port Moresby)'
+    },
     { value: 'PG-NIK', country_code: 'PG', text: 'New Ireland' },
     { value: 'PG-NPP', country_code: 'PG', text: 'Northern' },
     { value: 'PG-SHM', country_code: 'PG', text: 'Southern Highlands' },
@@ -2366,7 +2474,11 @@ function ProvinceOptions(props) {
     { value: 'PH-ZAS', country_code: 'PH', text: 'Zamboanga del Sur' },
     { value: 'PK-JK', country_code: 'PK', text: 'Azad Kashmir' },
     { value: 'PK-BA', country_code: 'PK', text: 'Balochistan' },
-    { value: 'PK-TA', country_code: 'PK', text: 'Federally Administered Tribal Areas' },
+    {
+      value: 'PK-TA',
+      country_code: 'PK',
+      text: 'Federally Administered Tribal Areas'
+    },
     { value: 'PK-GB', country_code: 'PK', text: 'Gilgit-Baltistan' },
     { value: 'PK-IS', country_code: 'PK', text: 'Islamabad' },
     { value: 'PK-KP', country_code: 'PK', text: 'Khyber Pakhtunkhwa' },
@@ -2538,23 +2650,39 @@ function ProvinceOptions(props) {
     { value: 'RU-BU', country_code: 'RU', text: 'Buryatiya, Respublika' },
     { value: 'RU-CE', country_code: 'RU', text: 'Chechenskaya Respublika' },
     { value: 'RU-CHE', country_code: 'RU', text: "Chelyabinskaya oblast'" },
-    { value: 'RU-CHU', country_code: 'RU', text: 'Chukotskiy avtonomnyy okrug' },
+    {
+      value: 'RU-CHU',
+      country_code: 'RU',
+      text: 'Chukotskiy avtonomnyy okrug'
+    },
     { value: 'RU-CU', country_code: 'RU', text: 'Chuvashskaya Respublika' },
     { value: 'RU-DA', country_code: 'RU', text: 'Dagestan, Respublika' },
     { value: 'RU-IN', country_code: 'RU', text: 'Ingushetiya, Respublika' },
     { value: 'RU-IRK', country_code: 'RU', text: "Irkutskaya oblast'" },
     { value: 'RU-IVA', country_code: 'RU', text: "Ivanovskaya oblast'" },
-    { value: 'RU-KB', country_code: 'RU', text: 'Kabardino-Balkarskaya Respublika' },
+    {
+      value: 'RU-KB',
+      country_code: 'RU',
+      text: 'Kabardino-Balkarskaya Respublika'
+    },
     { value: 'RU-KGD', country_code: 'RU', text: "Kaliningradskaya oblast'" },
     { value: 'RU-KL', country_code: 'RU', text: 'Kalmykiya, Respublika' },
     { value: 'RU-KLU', country_code: 'RU', text: "Kaluzhskaya oblast'" },
     { value: 'RU-KAM', country_code: 'RU', text: 'Kamchatskiy kray' },
-    { value: 'RU-KC', country_code: 'RU', text: 'Karachayevo-Cherkesskaya Respublika' },
+    {
+      value: 'RU-KC',
+      country_code: 'RU',
+      text: 'Karachayevo-Cherkesskaya Respublika'
+    },
     { value: 'RU-KR', country_code: 'RU', text: 'Kareliya, Respublika' },
     { value: 'RU-KEM', country_code: 'RU', text: "Kemerovskaya oblast'" },
     { value: 'RU-KHA', country_code: 'RU', text: 'Khabarovskiy kray' },
     { value: 'RU-KK', country_code: 'RU', text: 'Khakasiya, Respublika' },
-    { value: 'RU-KHM', country_code: 'RU', text: 'Khanty-Mansiyskiy avtonomnyy okrug' },
+    {
+      value: 'RU-KHM',
+      country_code: 'RU',
+      text: 'Khanty-Mansiyskiy avtonomnyy okrug'
+    },
     { value: 'RU-KIR', country_code: 'RU', text: "Kirovskaya oblast'" },
     { value: 'RU-KO', country_code: 'RU', text: 'Komi, Respublika' },
     { value: 'RU-KOS', country_code: 'RU', text: "Kostromskaya oblast'" },
@@ -2588,7 +2716,11 @@ function ProvinceOptions(props) {
     { value: 'RU-SAM', country_code: 'RU', text: "Samarskaya oblast'" },
     { value: 'RU-SPE', country_code: 'RU', text: 'Sankt-Peterburg' },
     { value: 'RU-SAR', country_code: 'RU', text: "Saratovskaya oblast'" },
-    { value: 'RU-SE', country_code: 'RU', text: 'Severnaya Osetiya, Respublika' },
+    {
+      value: 'RU-SE',
+      country_code: 'RU',
+      text: 'Severnaya Osetiya, Respublika'
+    },
     { value: 'RU-SMO', country_code: 'RU', text: "Smolenskaya oblast'" },
     { value: 'RU-STA', country_code: 'RU', text: "Stavropol'skiy kray" },
     { value: 'RU-SVE', country_code: 'RU', text: "Sverdlovskaya oblast'" },
@@ -2605,9 +2737,17 @@ function ProvinceOptions(props) {
     { value: 'RU-VGG', country_code: 'RU', text: "Volgogradskaya oblast'" },
     { value: 'RU-VLG', country_code: 'RU', text: "Vologodskaya oblast'" },
     { value: 'RU-VOR', country_code: 'RU', text: "Voronezhskaya oblast'" },
-    { value: 'RU-YAN', country_code: 'RU', text: 'Yamalo-Nenetskiy avtonomnyy okrug' },
+    {
+      value: 'RU-YAN',
+      country_code: 'RU',
+      text: 'Yamalo-Nenetskiy avtonomnyy okrug'
+    },
     { value: 'RU-YAR', country_code: 'RU', text: "Yaroslavskaya oblast'" },
-    { value: 'RU-YEV', country_code: 'RU', text: "Yevreyskaya avtonomnaya oblast'" },
+    {
+      value: 'RU-YEV',
+      country_code: 'RU',
+      text: "Yevreyskaya avtonomnaya oblast'"
+    },
     { value: 'RU-ZAB', country_code: 'RU', text: "Zabaykal'skiy kray" },
     { value: 'RW-02', country_code: 'RW', text: 'Est' },
     { value: 'RW-03', country_code: 'RW', text: 'Nord' },
@@ -3375,7 +3515,11 @@ function ProvinceOptions(props) {
     { value: 'UZ-NG', country_code: 'UZ', text: 'Namangan' },
     { value: 'UZ-NW', country_code: 'UZ', text: 'Navoiy' },
     { value: 'UZ-QA', country_code: 'UZ', text: 'Qashqadaryo' },
-    { value: 'UZ-QR', country_code: 'UZ', text: "Qoraqalpog'iston Respublikasi" },
+    {
+      value: 'UZ-QR',
+      country_code: 'UZ',
+      text: "Qoraqalpog'iston Respublikasi"
+    },
     { value: 'UZ-SA', country_code: 'UZ', text: 'Samarqand' },
     { value: 'UZ-SI', country_code: 'UZ', text: 'Sirdaryo' },
     { value: 'UZ-SU', country_code: 'UZ', text: 'Surxondaryo' },
@@ -3528,17 +3672,11 @@ function ProvinceOptions(props) {
     { value: 'ZW-MI', country_code: 'ZW', text: 'Midlands' }
   ].filter((p) => p.country_code === country);
 
-  const childrenWithProps = React.Children.map(
-    children,
-    (child) => React.cloneElement(
-      child,
-      {
-        options: options.filter(
-          (o) => o.country_code === country
-        ),
-        ...props
-      }
-    )
+  const childrenWithProps = React.Children.map(children, (child) =>
+    React.cloneElement(child, {
+      options: options.filter((o) => o.country_code === country),
+      ...props
+    })
   );
 
   return <div>{childrenWithProps}</div>;

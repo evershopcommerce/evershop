@@ -24,12 +24,16 @@ async function saveOptionValues(optionId, values, connection) {
   // Get all remaining option values for comparison
   const optionValues = await select('product_custom_option_value_id')
     .from('product_custom_option_value')
-    .where('option_id', '=', optionId).execute(connection);
+    .where('option_id', '=', optionId)
+    .execute(connection);
 
   for (const id in values) {
-    if (optionValues.find(
-      (v) => parseInt(v.product_custom_option_value_id, 10) === parseInt(id, 10)
-    )) {
+    if (
+      optionValues.find(
+        (v) =>
+          parseInt(v.product_custom_option_value_id, 10) === parseInt(id, 10)
+      )
+    ) {
       await update('product_custom_option_value')
         .given(merge(values[id], { sort_order: 0 }))
         .where('product_custom_option_value_id', '=', id)
@@ -56,12 +60,10 @@ module.exports = async (request, response, deledate) => {
   for (let i = 0; i < options.length; i += 1) {
     const option = options[i];
     const newOption = await insert('product_custom_option')
-      .given(
-        {
-          ...option,
-          product_custom_option_product_id: productId
-        }
-      )
+      .given({
+        ...option,
+        product_custom_option_product_id: productId
+      })
       .prime('product_custom_option_product_id', productId)
       .execute(connection);
     await saveOptionValues(

@@ -1,12 +1,16 @@
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const { select } = require('@evershop/mysql-query-builder');
-const { setContextValue } = require('../../../../graphql/services/contextHelper');
+const {
+  setContextValue
+} = require('../../../../graphql/services/contextHelper');
 const { getTokenSecret } = require('../../../services/getTokenSecret');
 const { generateToken } = require('../../../services/generateToken');
 const { get } = require('../../../../../lib/util/get');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { getAdminTokenCookieId } = require('../../../services/getAdminTokenCookieId');
+const {
+  getAdminTokenCookieId
+} = require('../../../services/getAdminTokenCookieId');
 const { pool } = require('../../../../../lib/mysql/connection');
 
 module.exports = async (request, response, delegate, next) => {
@@ -20,7 +24,7 @@ module.exports = async (request, response, delegate, next) => {
     // Issue a new token for guest user
     const newToken = generateToken(guestPayload, getTokenSecret());
     // Set the new token in the cookies
-    response.cookie(cookieId, newToken, { maxAge: 1.728e+8, httpOnly: true });
+    response.cookie(cookieId, newToken, { maxAge: 1.728e8, httpOnly: true });
     setContextValue(request, 'userTokenPayload', guestPayload);
     setContextValue(request, 'sid', sid);
     // Continue to the next middleware
@@ -36,7 +40,8 @@ module.exports = async (request, response, delegate, next) => {
       .and('user_id', '=', get(tokenPayload, 'payload.user.uuid', null))
       .load(pool);
 
-    if (!check) { // This is guest user
+    if (!check) {
+      // This is guest user
       secret = getTokenSecret();
     } else {
       secret = check.secret;
@@ -50,11 +55,12 @@ module.exports = async (request, response, delegate, next) => {
         setContextValue(request, 'userTokenPayload', guestPayload);
         setContextValue(request, 'sid', sid);
         // Set the new token in the cookies
-        response.cookie(cookieId, newToken, { maxAge: 1.728e+8, httpOnly: true });
+        response.cookie(cookieId, newToken, {
+          maxAge: 1.728e8,
+          httpOnly: true
+        });
         // Redirect to home page
-        response.redirect(
-          buildUrl('adminLogin')
-        );
+        response.redirect(buildUrl('adminLogin'));
       } else {
         setContextValue(request, 'userTokenPayload', decoded);
         setContextValue(request, 'sid', decoded.sid);

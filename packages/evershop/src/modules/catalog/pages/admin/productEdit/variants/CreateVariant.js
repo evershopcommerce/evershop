@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Button from '../../../../../../lib/components/form/Button';
-import { Form, useFormDispatch } from '../../../../../../lib/components/form/Form';
+import {
+  Form,
+  useFormDispatch
+} from '../../../../../../lib/components/form/Form';
 import { useModal } from '../../../../../../lib/components/modal/useModal';
 import { Card } from '../../../../../cms/components/admin/Card';
 import { VariantModal } from './VariantModal';
@@ -36,10 +39,7 @@ export function CreateVariant({
             role="dialog"
           >
             <div className="modal">
-              <Form
-                id="variantForm"
-                submitBtn={false}
-              >
+              <Form id="variantForm" submitBtn={false}>
                 <Card title="Create a new variant">
                   <Card.Session>
                     <VariantModal
@@ -55,7 +55,9 @@ export function CreateVariant({
                           attributes={variantGroup.attributes}
                           createProductApi={createProductApi}
                           addVariantItemApi={addVariantItemApi}
-                          productFormContextDispatch={productFormContextDispatch}
+                          productFormContextDispatch={
+                            productFormContextDispatch
+                          }
                           modal={modal}
                           refresh={refresh}
                         />
@@ -80,15 +82,19 @@ export function CreateVariant({
 CreateVariant.propTypes = {
   productId: PropTypes.string.isRequired,
   variantGroup: PropTypes.shape({
-    attributes: PropTypes.arrayOf(PropTypes.shape({
-      attributeName: PropTypes.string,
-      attributeId: PropTypes.string.isRequired,
-      attributeType: PropTypes.string.isRequired,
-      attributeValues: PropTypes.arrayOf(PropTypes.shape({
-        attributeValueId: PropTypes.string.isRequired,
-        attributeValueName: PropTypes.string.isRequired
-      }))
-    }))
+    attributes: PropTypes.arrayOf(
+      PropTypes.shape({
+        attributeName: PropTypes.string,
+        attributeId: PropTypes.string.isRequired,
+        attributeType: PropTypes.string.isRequired,
+        attributeValues: PropTypes.arrayOf(
+          PropTypes.shape({
+            attributeValueId: PropTypes.string.isRequired,
+            attributeValueName: PropTypes.string.isRequired
+          })
+        )
+      })
+    )
   }).isRequired,
   createProductApi: PropTypes.func.isRequired,
   addVariantItemApi: PropTypes.func.isRequired,

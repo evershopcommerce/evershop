@@ -12,8 +12,8 @@ function watch(calbacks = []) {
   });
 
   if (existsSync(resolve(CONSTANTS.ROOTPATH, 'packages'))) {
-    watcher.add(resolve(CONSTANTS.ROOTPATH, 'packages/evershop/src/**'))
-  };
+    watcher.add(resolve(CONSTANTS.ROOTPATH, 'packages/evershop/src/**'));
+  }
 
   // Watch themes folder
   const theme = getConfig('system.theme');

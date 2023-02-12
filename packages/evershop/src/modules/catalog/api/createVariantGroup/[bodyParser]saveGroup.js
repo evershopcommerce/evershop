@@ -2,7 +2,11 @@
 const { insert, select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
-const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
+const {
+  OK,
+  INTERNAL_SERVER_ERROR,
+  INVALID_PAYLOAD
+} = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -50,7 +54,11 @@ module.exports = async (request, response, delegate, next) => {
     const attributeGroupLinks = await select()
       .from('attribute_group_link')
       .where('group_id', '=', attribute_group_id)
-      .and('attribute_id', 'in', attributes.map((a) => a.attribute_id))
+      .and(
+        'attribute_id',
+        'in',
+        attributes.map((a) => a.attribute_id)
+      )
       .execute(pool);
 
     if (attributeGroupLinks.length !== attributes.length) {
@@ -90,9 +98,7 @@ module.exports = async (request, response, delegate, next) => {
     });
     data.attribute_group_id = attribute_group_id;
     // Create a variant group
-    const result = await insert('variant_group')
-      .given(data)
-      .execute(pool);
+    const result = await insert('variant_group').given(data).execute(pool);
 
     const group = await select()
       .from('variant_group')
@@ -100,9 +106,7 @@ module.exports = async (request, response, delegate, next) => {
       .load(pool);
 
     const promises = attributes.map(async (attribute) => {
-      const {
-        attribute_id
-      } = attribute;
+      const { attribute_id } = attribute;
       const options = await select()
         .from('attribute_option')
         .where('attribute_id', '=', attribute_id)

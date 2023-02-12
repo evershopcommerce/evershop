@@ -1,8 +1,5 @@
 {
-  "methods": [
-    "GET",
-    "POST"
-  ],
+  "methods": ["GET", "POST"],
   "path": "/graphql",
   "access": "public"
 }

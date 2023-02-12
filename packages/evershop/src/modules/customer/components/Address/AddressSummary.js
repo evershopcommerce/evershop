@@ -11,7 +11,11 @@ export function AddressSummary({ address }) {
       className="address-summary"
       coreComponents={[
         {
-          component: { default: ({ fullName }) => <div className="full-name">{fullName}</div> },
+          component: {
+            default: ({ fullName }) => (
+              <div className="full-name">{fullName}</div>
+            )
+          },
           props: {
             fullName: address.fullName
           },
@@ -19,7 +23,11 @@ export function AddressSummary({ address }) {
           id: 'fullName'
         },
         {
-          component: { default: ({ address1 }) => <div className="address-one">{address1}</div> },
+          component: {
+            default: ({ address1 }) => (
+              <div className="address-one">{address1}</div>
+            )
+          },
           props: {
             address1: address.address1
           },
@@ -28,9 +36,7 @@ export function AddressSummary({ address }) {
         },
         {
           component: {
-            default: ({
-              city, province, postcode, country
-            }) => (
+            default: ({ city, province, postcode, country }) => (
               <div className="city-province-postcode">
                 <div>{`${postcode}, ${city}`}</div>
                 <div>{`${province.name}, ${country.name}`}</div>
@@ -47,7 +53,11 @@ export function AddressSummary({ address }) {
           id: 'cityProvincePostcode'
         },
         {
-          component: { default: ({ telephone }) => <div className="telephone">{telephone}</div> },
+          component: {
+            default: ({ telephone }) => (
+              <div className="telephone">{telephone}</div>
+            )
+          },
           props: {
             telephone: address.telephone
           },

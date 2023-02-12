@@ -5,10 +5,7 @@ import { Card } from '../../../../cms/components/admin/Card';
 
 export default function General({ attribute }) {
   return (
-    <Card
-      title="Setting"
-      subdued
-    >
+    <Card title="Setting" subdued>
       <Card.Session>
         <Field
           id="is_required"

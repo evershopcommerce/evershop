@@ -5,9 +5,7 @@
       "type": "string"
     }
   },
-  "required": [
-    "coupon"
-  ],
+  "required": ["coupon"],
   "additionalProperties": true,
   "errorMessage": {
     "properties": {

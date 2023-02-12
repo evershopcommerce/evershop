@@ -26,7 +26,10 @@ module.exports.DataObject = class DataObject {
       let flag = true;
       // Field will be removed if it's dependency missing
       dependencies.forEach((d) => {
-        if (flag === false || this.constructor.fields.findIndex((m) => m.key === d) === -1) {
+        if (
+          flag === false ||
+          this.constructor.fields.findIndex((m) => m.key === d) === -1
+        ) {
           flag = false;
         }
       });

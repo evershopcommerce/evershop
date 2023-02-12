@@ -6,8 +6,7 @@ const { get } = require('../../../../../lib/util/get');
 module.exports = {
   Query: {
     customer: async (root, { id }, { pool }) => {
-      const query = select()
-        .from('customer');
+      const query = select().from('customer');
       query.where('uuid', '=', id);
 
       const customer = await query.load(pool);
@@ -42,7 +41,9 @@ module.exports = {
       });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
-      const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
+      const sortOrder = filters.find(
+        (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
+      ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'full_name') {
         query.orderBy('customer.`full_name`', sortOrder.value);
         currentFilters.push({
@@ -66,7 +67,7 @@ module.exports = {
       cloneQuery.select('COUNT(customer.`customer_id`)', 'total');
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = filters.find((f) => f.key === 'limit') || { value: 20 };// TODO: Get from config
+      const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
       currentFilters.push({
         key: 'page',
         operation: '=',
@@ -77,7 +78,10 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value, 10), parseInt(limit.value, 10));
+      query.limit(
+        (page.value - 1) * parseInt(limit.value, 10),
+        parseInt(limit.value, 10)
+      );
       return {
         items: (await query.execute(pool)).map((row) => camelCase(row)),
         total: (await cloneQuery.load(pool)).total,

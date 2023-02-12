@@ -37,7 +37,8 @@ function Groups({ groups, createGroupApi }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ group_name: newGroup.current.value })
-    }).then((response) => response.json())
+    })
+      .then((response) => response.json())
       .then((jsonData) => {
         if (!jsonData.error) {
           newGroup.current.value = '';
@@ -78,13 +79,33 @@ function Groups({ groups, createGroupApi }) {
               placeholder="Create a new group"
               ref={newGroup}
               error={createGroupError}
-              suffix={(
-                <a className="text-interactive" href="#" onClick={(e) => { e.preventDefault(); createGroup(); }}>
-                  <svg width="1.5rem" height="1.5rem" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              suffix={
+                <a
+                  className="text-interactive"
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    createGroup();
+                  }}
+                >
+                  <svg
+                    width="1.5rem"
+                    height="1.5rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                 </a>
-              )}
+              }
             />
           </div>
         </div>
@@ -95,10 +116,12 @@ function Groups({ groups, createGroupApi }) {
 
 Groups.propTypes = {
   createGroupApi: PropTypes.string.isRequired,
-  groups: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.number,
-    label: PropTypes.string
-  })).isRequired
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.number,
+      label: PropTypes.string
+    })
+  ).isRequired
 };
 
 function Options({ originOptions = [] }) {
@@ -106,11 +129,13 @@ function Options({ originOptions = [] }) {
 
   const addOption = (e) => {
     e.preventDefault();
-    setOptions(options.concat({
-      optionId: Date.now(),
-      uuid: Date.now(),
-      optionText: ''
-    }));
+    setOptions(
+      options.concat({
+        optionId: Date.now(),
+        uuid: Date.now(),
+        optionText: ''
+      })
+    );
   };
 
   const removeOption = (uuid, e) => {
@@ -134,22 +159,44 @@ function Options({ originOptions = [] }) {
                 value={optionText}
                 validationRules={['notEmpty']}
               />
-              <input type="hidden" name={`options[${index}][option_id]`} value={optionId} />
+              <input
+                type="hidden"
+                name={`options[${index}][option_id]`}
+                value={optionId}
+              />
             </div>
-            <div className="self-center"><a href="#" onClick={(e) => removeOption(uuid, e)} className="text-critical hover:underline">Remove option</a></div>
+            <div className="self-center">
+              <a
+                href="#"
+                onClick={(e) => removeOption(uuid, e)}
+                className="text-critical hover:underline"
+              >
+                Remove option
+              </a>
+            </div>
           </div>
         );
       })}
-      <div className="mt-1"><a href="#" onClick={(e) => addOption(e)} className="text-interactive hover:underline">Add option</a></div>
+      <div className="mt-1">
+        <a
+          href="#"
+          onClick={(e) => addOption(e)}
+          className="text-interactive hover:underline"
+        >
+          Add option
+        </a>
+      </div>
     </div>
   );
 }
 
 Options.propTypes = {
-  originOptions: PropTypes.arrayOf(PropTypes.shape({
-    optionId: PropTypes.number,
-    optionText: PropTypes.string
-  })).isRequired
+  originOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      optionId: PropTypes.number,
+      optionText: PropTypes.string
+    })
+  ).isRequired
 };
 
 export default function General({ attribute, createGroupApi }) {
@@ -214,9 +261,7 @@ export default function General({ attribute, createGroupApi }) {
   });
 
   return (
-    <Card
-      title="General"
-    >
+    <Card title="General">
       <Card.Session>
         <Area id="attributeEditGeneral" coreComponents={fields} />
       </Card.Session>
@@ -226,7 +271,10 @@ export default function General({ attribute, createGroupApi }) {
         </Card.Session>
       )}
       <Card.Session title="Attribute Group">
-        <Groups groups={get(attribute, 'groups', [])} createGroupApi={createGroupApi} />
+        <Groups
+          groups={get(attribute, 'groups', [])}
+          createGroupApi={createGroupApi}
+        />
       </Card.Session>
     </Card>
   );
@@ -238,14 +286,18 @@ General.propTypes = {
     attribute_id: PropTypes.number,
     attribute_name: PropTypes.string,
     attribute_code: PropTypes.string,
-    options: PropTypes.arrayOf(PropTypes.shape({
-      optionId: PropTypes.number,
-      optionText: PropTypes.string
-    })),
-    groups: PropTypes.arrayOf(PropTypes.shape({
-      value: PropTypes.number,
-      label: PropTypes.string
-    }))
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        optionId: PropTypes.number,
+        optionText: PropTypes.string
+      })
+    ),
+    groups: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.number,
+        label: PropTypes.string
+      })
+    )
   }),
   createGroupApi: PropTypes.string.isRequired
 };

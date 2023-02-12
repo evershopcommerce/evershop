@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { Field } from '../../../../../lib/components/form/Field';
 
 export function Country({
-  allowCountries, selectedCountry, setSelectedCountry, fieldName = 'country'
+  allowCountries,
+  selectedCountry,
+  setSelectedCountry,
+  fieldName = 'country'
 }) {
   const onChange = (e) => {
     setSelectedCountry(e.target.value);
@@ -18,10 +21,12 @@ export function Country({
         name={fieldName}
         placeholder="Country"
         onChange={onChange}
-        validationRules={[{
-          rule: 'notEmpty',
-          message: 'Country is required'
-        }]}
+        validationRules={[
+          {
+            rule: 'notEmpty',
+            message: 'Country is required'
+          }
+        ]}
         options={allowCountries.map((c) => ({ value: c.code, text: c.name }))}
       />
     </div>

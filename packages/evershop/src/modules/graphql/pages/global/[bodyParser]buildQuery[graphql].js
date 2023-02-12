@@ -3,7 +3,9 @@ const JSON5 = require('json5');
 const { readFileSync } = require('fs');
 const isDevelopmentMode = require('../../../../lib/util/isDevelopmentMode');
 const isProductionMode = require('../../../../lib/util/isProductionMode');
-const { getRouteBuildPath } = require('../../../../lib/webpack/getRouteBuildPath');
+const {
+  getRouteBuildPath
+} = require('../../../../lib/webpack/getRouteBuildPath');
 const { CONSTANTS } = require('../../../../lib/helpers');
 const { getRoutes } = require('../../../../lib/router/Router');
 // eslint-disable-next-line no-unused-vars
@@ -76,7 +78,9 @@ module.exports = (request, response) => {
       const variables = JSON.parse(json.variables);
       let operation = 'query Query';
       if (variables.defs.length > 0) {
-        const variablesString = variables.defs.map((variable) => `$${variable.name}: ${variable.type}`).join(', ');
+        const variablesString = variables.defs
+          .map((variable) => `$${variable.name}: ${variable.type}`)
+          .join(', ');
         operation += `(${variablesString})`;
       }
       request.body.graphqlQuery = `${operation} { ${json.query} } ${json.fragments}`;

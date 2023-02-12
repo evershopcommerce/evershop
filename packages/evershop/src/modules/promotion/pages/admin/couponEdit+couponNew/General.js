@@ -26,12 +26,7 @@ function Setting({ discountAmount, startDate = '', endDate = '' }) {
         />
       </div>
       <div>
-        <Field
-          type="date"
-          name="end_date"
-          label="End date"
-          value={endDate}
-        />
+        <Field type="date" name="end_date" label="End date" value={endDate} />
       </div>
     </div>
   );

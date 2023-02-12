@@ -6,15 +6,10 @@
       "format": "email"
     },
     "password": {
-      "type": [
-        "string"
-      ]
+      "type": ["string"]
     }
   },
-  "required": [
-    "email",
-    "password"
-  ],
+  "required": ["email", "password"],
   "additionalProperties": true,
   "errorMessage": {
     "properties": {

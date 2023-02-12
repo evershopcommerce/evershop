@@ -33,13 +33,15 @@ export function BuyXGetY({ requireProducts, discountType }) {
   const addProduct = (e) => {
     e.persist();
     e.preventDefault();
-    setProducts(products.concat({
-      sku: '',
-      buy_qty: '',
-      get_qty: '',
-      max_y: '',
-      discount: 100
-    }));
+    setProducts(
+      products.concat({
+        sku: '',
+        buy_qty: '',
+        get_qty: '',
+        max_y: '',
+        discount: 100
+      })
+    );
   };
 
   const removeProduct = (e, index) => {
@@ -55,11 +57,21 @@ export function BuyXGetY({ requireProducts, discountType }) {
         <table className="table table-bordered">
           <thead>
             <tr>
-              <th><span>Sku</span></th>
-              <th><span>X</span></th>
-              <th><span>Y</span></th>
-              <th><span>Max of Y</span></th>
-              <th><span>Discount percent</span></th>
+              <th>
+                <span>Sku</span>
+              </th>
+              <th>
+                <span>X</span>
+              </th>
+              <th>
+                <span>Y</span>
+              </th>
+              <th>
+                <span>Max of Y</span>
+              </th>
+              <th>
+                <span>Discount percent</span>
+              </th>
               <th> </th>
             </tr>
           </thead>
@@ -107,9 +119,25 @@ export function BuyXGetY({ requireProducts, discountType }) {
                   />
                 </td>
                 <td>
-                  <a className="text-critical" href="#" onClick={(e) => removeProduct(e, i)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                  <a
+                    className="text-critical"
+                    href="#"
+                    onClick={(e) => removeProduct(e, i)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1.5rem"
+                      height="1.5rem"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M18 12H6"
+                      />
                     </svg>
                   </a>
                 </td>
@@ -119,8 +147,20 @@ export function BuyXGetY({ requireProducts, discountType }) {
         </table>
         <div className="mt-1 flex justify-start">
           <div className="items-center flex">
-            <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1.5rem"
+              height="1.5rem"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
             </svg>
           </div>
           <div className="pl-1">
@@ -137,13 +177,15 @@ export function BuyXGetY({ requireProducts, discountType }) {
 }
 
 BuyXGetY.propTypes = {
-  requireProducts: PropTypes.arrayOf(PropTypes.shape({
-    sku: PropTypes.string,
-    buyQty: PropTypes.string,
-    getQty: PropTypes.string,
-    maxY: PropTypes.string,
-    discount: PropTypes.string
-  })),
+  requireProducts: PropTypes.arrayOf(
+    PropTypes.shape({
+      sku: PropTypes.string,
+      buyQty: PropTypes.string,
+      getQty: PropTypes.string,
+      maxY: PropTypes.string,
+      discount: PropTypes.string
+    })
+  ),
   discountType: PropTypes.string.isRequired
 };
 

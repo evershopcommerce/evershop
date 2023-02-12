@@ -1,7 +1,7 @@
 const path = require('path');
 
 // eslint-disable-next-line no-multi-assign
-const helpers = module.exports = exports = {};
+const helpers = (module.exports = exports = {});
 
 const rootPath = process.cwd();
 helpers.CONSTANTS = Object.freeze({

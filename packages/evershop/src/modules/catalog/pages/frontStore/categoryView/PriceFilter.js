@@ -6,15 +6,9 @@ import './PriceFilter.scss';
 export default function Price({
   areaProps: {
     currentFilters,
-    priceRange: {
-      min: minPrice,
-      max: maxPrice
-    }
+    priceRange: { min: minPrice, max: maxPrice }
   },
-  setting: {
-    storeLanguage: language,
-    storeCurrency: currency
-  }
+  setting: { storeLanguage: language, storeCurrency: currency }
 }) {
   const { updateFilter } = useFilterDispatch();
   const firstRender = React.useRef(true);
@@ -61,8 +55,8 @@ export default function Price({
       if (firstRender.current) {
         firstRender.current = false;
       } else {
-        let minValue; let
-          maxValue;
+        let minValue;
+        let maxValue;
         if (from >= minPrice) {
           minValue = from;
         }
@@ -86,12 +80,16 @@ export default function Price({
             return f;
           });
           // Check if the minPrice filter is already in the filter
-          const minPriceIndex = currentFilters.findIndex((f) => f.key === 'minPrice');
+          const minPriceIndex = currentFilters.findIndex(
+            (f) => f.key === 'minPrice'
+          );
           if (minPriceIndex === -1 && minValue) {
             newFilters.push({ key: 'minPrice', value: minValue });
           }
           // Check if the maxPrice filter is already in the filter
-          const maxPriceIndex = currentFilters.findIndex((f) => f.key === 'maxPrice');
+          const maxPriceIndex = currentFilters.findIndex(
+            (f) => f.key === 'maxPrice'
+          );
           if (maxPriceIndex === -1 && maxValue) {
             newFilters.push({ key: 'maxPrice', value: maxValue });
           }
@@ -125,8 +123,14 @@ export default function Price({
     }
   };
 
-  const f = new Intl.NumberFormat(language, { style: 'currency', currency }).format(from);
-  const t = new Intl.NumberFormat(language, { style: 'currency', currency }).format(to);
+  const f = new Intl.NumberFormat(language, {
+    style: 'currency',
+    currency
+  }).format(from);
+  const t = new Intl.NumberFormat(language, {
+    style: 'currency',
+    currency
+  }).format(to);
 
   return (
     <div className="price-filter">
@@ -140,17 +144,15 @@ export default function Price({
           value={from}
           onChange={(e) => onChange(e, 'min')}
         />
-        <div
-          className="tooltip min"
-        >
+        <div className="tooltip min">
           <div
             className="push"
-            style={
-              {
-                // eslint-disable-next-line no-mixed-operators
-                width: `calc(${(from - minPrice) / (maxPrice - minPrice) * 100}% + 3px)`
-              }
-            }
+            style={{
+              // eslint-disable-next-line no-mixed-operators
+              width: `calc(${
+                ((from - minPrice) / (maxPrice - minPrice)) * 100
+              }% + 3px)`
+            }}
           />
           <output>{f}</output>
         </div>
@@ -162,17 +164,15 @@ export default function Price({
           value={to}
           onChange={(e) => onChange(e, 'max')}
         />
-        <div
-          className="tooltip max"
-        >
+        <div className="tooltip max">
           <div
             className="push"
-            style={
-              {
-                // eslint-disable-next-line no-mixed-operators
-                width: `calc(${(to - minPrice) / (maxPrice - minPrice) * 100}% - 6px)`
-              }
-            }
+            style={{
+              // eslint-disable-next-line no-mixed-operators
+              width: `calc(${
+                ((to - minPrice) / (maxPrice - minPrice)) * 100
+              }% - 6px)`
+            }}
           />
           <output>{t}</output>
         </div>
@@ -183,10 +183,12 @@ export default function Price({
 
 Price.propTypes = {
   areaProps: PropTypes.shape({
-    currentFilters: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.string,
-      value: PropTypes.string
-    })),
+    currentFilters: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string,
+        value: PropTypes.string
+      })
+    ),
     priceRange: PropTypes.shape({
       min: PropTypes.number,
       max: PropTypes.number

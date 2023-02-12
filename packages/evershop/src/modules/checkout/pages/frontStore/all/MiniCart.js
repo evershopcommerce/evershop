@@ -12,7 +12,7 @@ export default function MiniCart({ cartUrl, cart }) {
     <div className="mini-cart-wrapper self-center">
       <a className="mini-cart-icon" href={cartUrl}>
         <Bag width={20} height={20} />
-        {(miniCart.totalQty > 0) && <span>{miniCart.totalQty}</span>}
+        {miniCart.totalQty > 0 && <span>{miniCart.totalQty}</span>}
       </a>
     </div>
   );

@@ -1,6 +1,4 @@
 {
-  "methods": [
-    "GET"
-  ],
+  "methods": ["GET"],
   "path": "/paypal/proccessing/:order_id"
 }

@@ -11,19 +11,13 @@ function Attributes({ attributes, areaProps }) {
       <ul className="list-basic">
         {attributes.map((attribute) => (
           <li key={attribute.attribute_code}>
-            <strong>
-              {attribute.attribute_name}
-              {' '}
-              :
-              {' '}
-            </strong>
-            {' '}
+            <strong>{attribute.attribute_name} : </strong>{' '}
             <span>{attribute.option_text}</span>
           </li>
         ))}
       </ul>
     </div>
-  ) : (null);
+  ) : null;
 }
 
 Attributes.propTypes = {
@@ -31,10 +25,12 @@ Attributes.propTypes = {
     currentTab: PropTypes.string,
     registerTab: PropTypes.func
   }).isRequired,
-  attributes: PropTypes.arrayOf(PropTypes.shape({
-    attribute_name: PropTypes.string,
-    attribute_code: PropTypes.string,
-    option_text: PropTypes.string
-  })).isRequired
+  attributes: PropTypes.arrayOf(
+    PropTypes.shape({
+      attribute_name: PropTypes.string,
+      attribute_code: PropTypes.string,
+      option_text: PropTypes.string
+    })
+  ).isRequired
 };
 export default Attributes;

@@ -17,7 +17,7 @@ module.exports = exports = function TailwindLoader(c) {
       return c;
     }
   }
-  const components = (this.getOptions().getComponents)();
+  const components = this.getOptions().getComponents();
   const { route } = this.getOptions();
   components.forEach((module) => {
     this.addDependency(module);
@@ -50,13 +50,24 @@ module.exports = exports = function TailwindLoader(c) {
   let tailwindConfig = {};
   if (route.isAdmin) {
     if (fs.existsSync(join(CONSTANTS.ROOTPATH, 'tailwind.admin.config.js'))) {
-      tailwindConfig = require(join(CONSTANTS.ROOTPATH, 'tailwind.admin.config.js'));
+      tailwindConfig = require(join(
+        CONSTANTS.ROOTPATH,
+        'tailwind.admin.config.js'
+      ));
     }
-  } else if (fs.existsSync(join(CONSTANTS.ROOTPATH, 'tailwind.frontStore.config.js'))) {
-    tailwindConfig = require(join(CONSTANTS.ROOTPATH, 'tailwind.frontStore.config.js'));
+  } else if (
+    fs.existsSync(join(CONSTANTS.ROOTPATH, 'tailwind.frontStore.config.js'))
+  ) {
+    tailwindConfig = require(join(
+      CONSTANTS.ROOTPATH,
+      'tailwind.frontStore.config.js'
+    ));
   }
   // Merge defaultTailwindConfig with tailwindConfigJs
-  const mergedTailwindConfig = Object.assign(defaultTailwindConfig, tailwindConfig);
+  const mergedTailwindConfig = Object.assign(
+    defaultTailwindConfig,
+    tailwindConfig
+  );
   // get list of modules that are used in the webpack build
 
   mergedTailwindConfig.content = [
@@ -65,13 +76,24 @@ module.exports = exports = function TailwindLoader(c) {
     // All file in packages/evershop/src and name is capitalized
     join(CONSTANTS.ROOTPATH, 'packages', 'evershop', 'src', '**', '[A-Z]*.js'),
     // All file in node_modules/@evershop/evershop/src and name is capitalized
-    join(CONSTANTS.ROOTPATH, 'node_modules', '@evershop', 'evershop', 'src', '**', '[A-Z]*.js'),
+    join(
+      CONSTANTS.ROOTPATH,
+      'node_modules',
+      '@evershop',
+      'evershop',
+      'src',
+      '**',
+      '[A-Z]*.js'
+    ),
     // All file in themes folder and name is capitalized
     join(CONSTANTS.ROOTPATH, 'themes', '**', '[A-Z]*.js')
   ];
   // Postcss with tailwind plugin
   try {
-    const tailwindCssResult = postcss([tailwindcss(mergedTailwindConfig), autoprefixer]).process(c);
+    const tailwindCssResult = postcss([
+      tailwindcss(mergedTailwindConfig),
+      autoprefixer
+    ]).process(c);
     // get the css from the result
     const tailwindCss = tailwindCssResult.css;
     return tailwindCss;

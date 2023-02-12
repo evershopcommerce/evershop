@@ -8,10 +8,7 @@
           "type": "string"
         },
         "telephone": {
-          "type": [
-            "string",
-            "number"
-          ]
+          "type": ["string", "number"]
         },
         "address_1": {
           "type": "string"
@@ -45,16 +42,10 @@
     },
     "type": {
       "type": "string",
-      "enum": [
-        "shipping",
-        "billing"
-      ]
+      "enum": ["shipping", "billing"]
     }
   },
-  "required": [
-    "address",
-    "type"
-  ],
+  "required": ["address", "type"],
   "additionalProperties": true,
   "errorMessage": {
     "properties": {

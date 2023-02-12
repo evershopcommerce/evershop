@@ -2,18 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Chervon from '@heroicons/react/outline/ChevronRightIcon';
 import Area from '../../../../../lib/components/Area';
-import { CheckoutSteps, useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
+import {
+  CheckoutSteps,
+  useCheckoutSteps,
+  useCheckoutStepsDispatch
+} from '../../../../../lib/context/checkoutSteps';
 import { CheckoutProvider } from '../../../../../lib/context/checkout';
 import './Checkout.scss';
 
 function Steps() {
   return (
-    <Area
-      id="checkoutSteps"
-      className="checkout-steps"
-      coreComponents={[
-      ]}
-    />
+    <Area id="checkoutSteps" className="checkout-steps" coreComponents={[]} />
   );
 }
 
@@ -22,23 +21,22 @@ function Breadcrumb() {
   return (
     <div className="mb-2 mt-1 flex checkout-breadcrumb">
       {steps.map((step, index) => {
-        const separator = index < steps.length - 1
-          ? <span className="separator"><Chervon width={10} height={10} /></span>
-          : null;
+        const separator =
+          index < steps.length - 1 ? (
+            <span className="separator">
+              <Chervon width={10} height={10} />
+            </span>
+          ) : null;
         if (step.isCompleted === true) {
           return (
             <span key={step.id} className="text-muted flex items-center">
-              <span>{step.title}</span>
-              {' '}
-              {separator}
+              <span>{step.title}</span> {separator}
             </span>
           );
         } else {
           return (
             <span key={step.id} className="text-interactive flex items-center">
-              <span>{step.title}</span>
-              {' '}
-              {separator}
+              <span>{step.title}</span> {separator}
             </span>
           );
         }
@@ -61,24 +59,29 @@ function CompletedSteps() {
     <div className="mt-1">
       <div className="checkout-completed-steps border rounded px-2 border-divider divide-y">
         {completedSteps.map((step) => (
-          <div key={step.id} className="grid gap-1 grid-cols-4 py-1 border-divider">
-            <div className="col-span-1"><span>{step.previewTitle}</span></div>
-            <div className="col-span-2"><span>{step.preview}</span></div>
+          <div
+            key={step.id}
+            className="grid gap-1 grid-cols-4 py-1 border-divider"
+          >
+            <div className="col-span-1">
+              <span>{step.previewTitle}</span>
+            </div>
+            <div className="col-span-2">
+              <span>{step.preview}</span>
+            </div>
             <div className="col-span-1 flex justify-end">
-              {
-                step.editable && (
-                  <a
-                    href="#"
-                    className="text-interactive hover:underline"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      editStep(step.id);
-                    }}
-                  >
-                    Change
-                  </a>
-                )
-              }
+              {step.editable && (
+                <a
+                  href="#"
+                  className="text-interactive hover:underline"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    editStep(step.id);
+                  }}
+                >
+                  Change
+                </a>
+              )}
             </div>
           </div>
         ))}
@@ -88,7 +91,10 @@ function CompletedSteps() {
 }
 
 export default function CheckoutPage({
-  checkout: { cartId }, placeOrderAPI, getPaymentMethodAPI, checkoutSuccessUrl
+  checkout: { cartId },
+  placeOrderAPI,
+  getPaymentMethodAPI,
+  checkoutSuccessUrl
 }) {
   return (
     <CheckoutSteps value={[]}>
@@ -116,9 +122,7 @@ export default function CheckoutPage({
               }
             ]}
           />
-          <Area
-            id="checkoutPageRight"
-          />
+          <Area id="checkoutPageRight" />
         </div>
       </CheckoutProvider>
     </CheckoutSteps>

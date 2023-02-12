@@ -1,6 +1,8 @@
 const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
-const { setContextValue } = require('../../../../graphql/services/contextHelper');
+const {
+  setContextValue
+} = require('../../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
   try {
@@ -9,7 +11,11 @@ module.exports = async (request, response, delegate, next) => {
     query.andWhere('product.`uuid`', '=', request.params.id);
     query
       .leftJoin('product_description')
-      .on('product_description.`product_description_product_id`', '=', 'product.`product_id`');
+      .on(
+        'product_description.`product_description_product_id`',
+        '=',
+        'product.`product_id`'
+      );
     const product = await query.load(pool);
 
     if (product === null) {

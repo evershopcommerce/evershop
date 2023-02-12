@@ -7,7 +7,9 @@ module.exports = {
       if (stripeConfig.status) {
         return stripeConfig.status;
       }
-      const stripePaymentStatus = setting.find((s) => s.name === 'stripePaymentStatus');
+      const stripePaymentStatus = setting.find(
+        (s) => s.name === 'stripePaymentStatus'
+      );
       if (stripePaymentStatus) {
         return parseInt(stripePaymentStatus.value, 10);
       } else {
@@ -15,7 +17,9 @@ module.exports = {
       }
     },
     stripeDislayName: (setting) => {
-      const stripeDislayName = setting.find((s) => s.name === 'stripeDislayName');
+      const stripeDislayName = setting.find(
+        (s) => s.name === 'stripeDislayName'
+      );
       if (stripeDislayName) {
         return stripeDislayName.value;
       } else {
@@ -27,7 +31,9 @@ module.exports = {
       if (stripeConfig.publishableKey) {
         return stripeConfig.publishableKey;
       }
-      const stripePublishableKey = setting.find((s) => s.name === 'stripePublishableKey');
+      const stripePublishableKey = setting.find(
+        (s) => s.name === 'stripePublishableKey'
+      );
       if (stripePublishableKey) {
         return stripePublishableKey.value;
       } else {
@@ -40,7 +46,9 @@ module.exports = {
         return '*******************************';
       }
       if (userTokenPayload && userTokenPayload?.user?.uuid) {
-        const stripeSecretKey = setting.find((s) => s.name === 'stripeSecretKey');
+        const stripeSecretKey = setting.find(
+          (s) => s.name === 'stripeSecretKey'
+        );
         if (stripeSecretKey) {
           return stripeSecretKey.value;
         } else {
@@ -56,7 +64,9 @@ module.exports = {
         return '*******************************';
       }
       if (userTokenPayload && userTokenPayload?.user?.uuid) {
-        const stripeEndpointSecret = setting.find((s) => s.name === 'stripeEndpointSecret');
+        const stripeEndpointSecret = setting.find(
+          (s) => s.name === 'stripeEndpointSecret'
+        );
         if (stripeEndpointSecret) {
           return stripeEndpointSecret.value;
         } else {

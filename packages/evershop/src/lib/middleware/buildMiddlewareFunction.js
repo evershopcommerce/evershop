@@ -27,28 +27,18 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(id, path) {
     throw new TypeError(`Middleware ID ${id} is invalid`);
   }
 
-  const isRoutedLevel = !['all', 'global'].includes(path.split(sep).reverse()[1]);
+  const isRoutedLevel = !['all', 'global'].includes(
+    path.split(sep).reverse()[1]
+  );
   // Check if the middleware is an error handler.
   // TODO: fix me
   if (id === 'errorHandler' || id === 'apiErrorHandler') {
     return (error, request, response, next) => {
       const func = require(path);
       if (request.currentRoute) {
-        func(
-          error,
-          request,
-          response,
-          getDelegates(request),
-          next
-        );
+        func(error, request, response, getDelegates(request), next);
       } else {
-        func(
-          error,
-          request,
-          response,
-          [],
-          next
-        );
+        func(error, request, response, [], next);
       }
     };
   } else {

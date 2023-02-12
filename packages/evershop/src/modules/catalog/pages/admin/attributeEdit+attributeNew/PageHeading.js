@@ -6,7 +6,11 @@ export default function AttributeEditPageHeading({ backUrl, attribute }) {
   return (
     <PageHeading
       backUrl={backUrl}
-      heading={attribute ? `Editing ${attribute.attributeName}` : 'Create A New Attribute'}
+      heading={
+        attribute
+          ? `Editing ${attribute.attributeName}`
+          : 'Create A New Attribute'
+      }
     />
   );
 }

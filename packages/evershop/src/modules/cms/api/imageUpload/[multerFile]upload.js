@@ -15,15 +15,21 @@ module.exports = (request, response, delegate, next) => {
   } else {
     response.status(OK).json({
       data: {
-        files: request.files.map(
-          (f) => ({
-            name: f.filename,
-            type: f.minetype,
-            size: f.size,
-            path: f.path.replace(resolve(CONSTANTS.MEDIAPATH), '').split('\\').join('/'),
-            url: buildUrl('adminStaticAsset', [f.path.replace(resolve(CONSTANTS.MEDIAPATH), '').split('\\').join('/')])
-          })
-        )
+        files: request.files.map((f) => ({
+          name: f.filename,
+          type: f.minetype,
+          size: f.size,
+          path: f.path
+            .replace(resolve(CONSTANTS.MEDIAPATH), '')
+            .split('\\')
+            .join('/'),
+          url: buildUrl('adminStaticAsset', [
+            f.path
+              .replace(resolve(CONSTANTS.MEDIAPATH), '')
+              .split('\\')
+              .join('/')
+          ])
+        }))
       }
     });
   }

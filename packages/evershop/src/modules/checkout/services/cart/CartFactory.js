@@ -25,13 +25,15 @@ CartFactory.init = function init(request, response) {
  * @param {string} uuid
  * @returns {Promise<Cart>}
  * @throws {Error}
-*/
+ */
 CartFactory.getCart = async function getCart(sid) {
   if (!sid) {
     throw new Error('Session ID is required');
   } else {
     if (this.carts[sid]?.cart === undefined) {
-      this.carts[sid].cart = getCustomerCart(getContextValue(this.carts[sid].request, 'customerTokenPayload'));
+      this.carts[sid].cart = getCustomerCart(
+        getContextValue(this.carts[sid].request, 'customerTokenPayload')
+      );
     }
 
     const cart = await this.carts[sid].cart;

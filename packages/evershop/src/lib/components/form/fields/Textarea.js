@@ -38,8 +38,9 @@ function TextArea({
         />
         <div className="field-border" />
       </div>
-      {instruction
-        && <div className="field-instruction mt-sm">{instruction}</div>}
+      {instruction && (
+        <div className="field-instruction mt-sm">{instruction}</div>
+      )}
       <Error error={error} />
     </div>
   );

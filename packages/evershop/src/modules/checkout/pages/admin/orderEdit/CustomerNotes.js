@@ -13,10 +13,17 @@ export default function CustomerNotes({ order: { shippingNote } }) {
             {
               component: {
                 // eslint-disable-next-line react/no-unstable-nested-components
-                default: () => <div>{shippingNote || <span className="text-border">No notes from customer</span>}</div>
+                default: () => (
+                  <div>
+                    {shippingNote || (
+                      <span className="text-border">
+                        No notes from customer
+                      </span>
+                    )}
+                  </div>
+                )
               },
-              props: {
-              },
+              props: {},
               sortOrder: 10,
               id: 'title'
             }

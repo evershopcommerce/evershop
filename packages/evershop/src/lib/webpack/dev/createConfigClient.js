@@ -16,7 +16,10 @@ module.exports.createConfigClient = function createConfigClient(route) {
     // resourceQuery: new RegExp(`Asadasdas`, "i"),
     use: [
       {
-        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/AreaLoader.js'),
+        loader: path.resolve(
+          CONSTANTS.LIBPATH,
+          'webpack/loaders/AreaLoader.js'
+        ),
         options: {
           getComponents: () => getComponentsByRoute(route),
           routeId: route.id
@@ -39,7 +42,10 @@ module.exports.createConfigClient = function createConfigClient(route) {
         }
       },
       {
-        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/TailwindLoader.js'),
+        loader: path.resolve(
+          CONSTANTS.LIBPATH,
+          'webpack/loaders/TailwindLoader.js'
+        ),
         options: {
           getComponents: () => getComponentsByRoute(route),
           route
@@ -53,9 +59,11 @@ module.exports.createConfigClient = function createConfigClient(route) {
     test: /\.graphql$/i,
     use: [
       {
-        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/TestAmitFile.js'),
-        options: {
-        }
+        loader: path.resolve(
+          CONSTANTS.LIBPATH,
+          'webpack/loaders/TestAmitFile.js'
+        ),
+        options: {}
       }
     ]
   });
@@ -64,9 +72,11 @@ module.exports.createConfigClient = function createConfigClient(route) {
   plugins.push(new GraphqlPlugin(route));
   plugins.push(new webpack.ProgressPlugin());
   plugins.push(new webpack.HotModuleReplacementPlugin());
-  plugins.push(new ReactRefreshWebpackPlugin({
-    overlay: false
-  }));
+  plugins.push(
+    new ReactRefreshWebpackPlugin({
+      overlay: false
+    })
+  );
 
   config.entry = () => {
     const entry = {};

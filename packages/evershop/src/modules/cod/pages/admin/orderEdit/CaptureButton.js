@@ -7,18 +7,18 @@ import { Card } from '../../../../cms/components/admin/Card';
 
 export default function CaptureButton({
   captureAPI,
-  order: {
-    paymentStatus,
-    uuid,
-    paymentMethod
-  }
+  order: { paymentStatus, uuid, paymentMethod }
 }) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const onAction = async () => {
     setIsLoading(true);
     // Use Axios to call the capture API
-    const response = await axios.post(captureAPI, { order_id: uuid }, { validateStatus: false });
+    const response = await axios.post(
+      captureAPI,
+      { order_id: uuid },
+      { validateStatus: false }
+    );
     if (!response.data.error) {
       // Reload the page
       window.location.reload();

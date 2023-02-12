@@ -86,6 +86,6 @@ extend type Cart {
 }
 
 extend type Query {
-  coupon(id: Int): Coupon,
+  coupon(id: Int): Coupon
   coupons(filters: [FilterInput]): CouponCollection
 }

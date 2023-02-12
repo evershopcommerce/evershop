@@ -11,10 +11,14 @@ module.exports = () => {
       key: 'coupon',
       resolvers: [
         async function resolver() {
-          const coupon = this.dataSource.coupon ?? this.dataSource.coupon ?? null;
+          const coupon =
+            this.dataSource.coupon ?? this.dataSource.coupon ?? null;
           if (coupon) {
             const validator = new Validator();
-            const check = await validator.validate(this.dataSource.coupon, this);
+            const check = await validator.validate(
+              this.dataSource.coupon,
+              this
+            );
             if (check === true) {
               return coupon;
             } else {

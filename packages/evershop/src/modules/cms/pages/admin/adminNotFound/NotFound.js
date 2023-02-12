@@ -4,7 +4,9 @@ import Area from '../../../../../lib/components/Area';
 import Button from '../../../../../lib/components/form/Button';
 
 function Name() {
-  return <h1 className="page-name text-center mt-25 mb-15">404 Page Not Found</h1>;
+  return (
+    <h1 className="page-name text-center mt-25 mb-15">404 Page Not Found</h1>
+  );
 }
 
 function Content({ dashboardUrl }) {

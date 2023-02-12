@@ -10,7 +10,11 @@ module.exports = exports = {};
 exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
   // Check for routes
   if (existsSync(path.resolve(modulePath, 'pages', 'admin'))) {
-    const adminControllerRoutes = scanForRoutes(path.resolve(modulePath, 'pages', 'admin'), true, false);
+    const adminControllerRoutes = scanForRoutes(
+      path.resolve(modulePath, 'pages', 'admin'),
+      true,
+      false
+    );
     adminControllerRoutes.forEach((route) => {
       registerAdminRoute(
         route.id,
@@ -23,7 +27,11 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
   }
 
   if (existsSync(path.resolve(modulePath, 'pages', 'frontStore'))) {
-    const frontStoreControllerRoutes = scanForRoutes(path.resolve(modulePath, 'pages', 'frontStore'), false, false);
+    const frontStoreControllerRoutes = scanForRoutes(
+      path.resolve(modulePath, 'pages', 'frontStore'),
+      false,
+      false
+    );
     frontStoreControllerRoutes.forEach((route) => {
       registerFrontStoreRoute(
         route.id,

@@ -16,7 +16,9 @@ export default function YesNoRow({ id, areaProps }) {
 
 YesNoRow.propTypes = {
   areaProps: PropTypes.shape({
-    row: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))
+    row: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    )
   }).isRequired,
   id: PropTypes.string.isRequired
 };

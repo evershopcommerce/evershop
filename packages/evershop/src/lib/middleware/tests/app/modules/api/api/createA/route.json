@@ -1,6 +1,4 @@
 {
-  "methods": [
-    "POST"
-  ],
+  "methods": ["POST"],
   "path": "/as"
 }

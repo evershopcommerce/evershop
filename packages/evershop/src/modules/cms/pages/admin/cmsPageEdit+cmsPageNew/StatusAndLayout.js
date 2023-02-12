@@ -3,16 +3,17 @@ import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Card } from '../../../components/admin/Card';
 
-export default function StatusAndLayout({
-  cmsPage
-}) {
+export default function StatusAndLayout({ cmsPage }) {
   return (
     <Card>
       <Card.Session title="Status">
         <Field
           type="radio"
           name="status"
-          options={[{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }]}
+          options={[
+            { value: 0, text: 'Disabled' },
+            { value: 1, text: 'Enabled' }
+          ]}
           value={cmsPage?.status}
         />
       </Card.Session>

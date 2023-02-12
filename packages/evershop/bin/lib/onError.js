@@ -1,19 +1,16 @@
 const { red, green } = require('kleur');
 const normalizePort = require('./normalizePort');
 
-const port = normalizePort()
+const port = normalizePort();
 /**
-* Event listener for HTTP server "error" event.
-*/
+ * Event listener for HTTP server "error" event.
+ */
 module.exports = function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-
-  const bind = typeof port === 'string'
-    ? `Pipe ${port}`
-    : `Port ${port}`;
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -28,5 +25,4 @@ module.exports = function onError(error) {
     default:
       throw error;
   }
-}
-
+};

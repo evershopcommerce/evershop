@@ -5,8 +5,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "group_name"
-  ],
+  "required": ["group_name"],
   "additionalProperties": true
 }

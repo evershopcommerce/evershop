@@ -9,7 +9,9 @@ export default function Menu({ menu: { items } }) {
         {items.map((i, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <li className="nav-item" key={index}>
-            <a className="nav-link hover:underline" href={i.url}>{i.name}</a>
+            <a className="nav-link hover:underline" href={i.url}>
+              {i.name}
+            </a>
           </li>
         ))}
       </ul>
@@ -19,10 +21,12 @@ export default function Menu({ menu: { items } }) {
 
 Menu.propTypes = {
   menu: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired
-    })).isRequired
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
+      })
+    ).isRequired
   }).isRequired
 };
 

@@ -1,7 +1,11 @@
 /* eslint-disable no-unused-vars */
 const { del, select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
-const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
+const {
+  OK,
+  INTERNAL_SERVER_ERROR,
+  INVALID_PAYLOAD
+} = require('../../../../lib/util/httpStatus');
 
 module.exports = async (request, response, delegate, next) => {
   try {
@@ -21,9 +25,7 @@ module.exports = async (request, response, delegate, next) => {
       });
       return;
     }
-    await del('coupon')
-      .where('uuid', '=', id)
-      .execute(pool);
+    await del('coupon').where('uuid', '=', id).execute(pool);
 
     response.status(OK);
     response.json({

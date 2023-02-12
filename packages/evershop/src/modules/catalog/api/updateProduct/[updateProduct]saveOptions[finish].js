@@ -1,13 +1,18 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 const {
-  insert, del, select, update
+  insert,
+  del,
+  select,
+  update
 } = require('@evershop/mysql-query-builder');
 const { merge } = require('../../../../lib/util/merge');
 
 async function saveOptionValues(optionId, values, connection) {
   if (!values || values === 0) {
-    await del('product_custom_option_value').where('option_id', '=', optionId).execute(connection);
+    await del('product_custom_option_value')
+      .where('option_id', '=', optionId)
+      .execute(connection);
     return;
   }
 
@@ -19,12 +24,16 @@ async function saveOptionValues(optionId, values, connection) {
   // Get all remaining option values for comparison
   const optionValues = await select('product_custom_option_value_id')
     .from('product_custom_option_value')
-    .where('option_id', '=', optionId).execute(connection);
+    .where('option_id', '=', optionId)
+    .execute(connection);
 
   for (const id in values) {
-    if (optionValues.find(
-      (v) => parseInt(v.product_custom_option_value_id, 10) === parseInt(id, 10)
-    )) {
+    if (
+      optionValues.find(
+        (v) =>
+          parseInt(v.product_custom_option_value_id, 10) === parseInt(id, 10)
+      )
+    ) {
       await update('product_custom_option_value')
         .given(merge(values[id], { sort_order: 0 }))
         .where('product_custom_option_value_id', '=', id)
@@ -48,7 +57,12 @@ module.exports = async (request, response, delegate) => {
   // Delete all removed options
   await del('product_custom_option')
     .where('product_custom_option_product_id', '=', productId)
-    .and('product_custom_option_id', 'NOT IN', options.map((o) => o.option_id)).execute(connection);
+    .and(
+      'product_custom_option_id',
+      'NOT IN',
+      options.map((o) => o.option_id)
+    )
+    .execute(connection);
 
   // Get all remaining options for comparison
   const currentOptions = await select('product_custom_option_id')
@@ -61,26 +75,26 @@ module.exports = async (request, response, delegate) => {
   for (let i = 0; i < options.length; i += 1) {
     const option = options[i];
     let result;
-    if (currentOptions.find(
-      (o) => parseInt(o.product_custom_option_id, 10) === parseInt(option.option_id, 10)
-    )) {
+    if (
+      currentOptions.find(
+        (o) =>
+          parseInt(o.product_custom_option_id, 10) ===
+          parseInt(option.option_id, 10)
+      )
+    ) {
       result = await update('product_custom_option')
-        .given(
-          {
-            ...option,
-            is_required: option.is_required || 0
-          }
-        )
+        .given({
+          ...option,
+          is_required: option.is_required || 0
+        })
         .where('product_custom_option_id', '=', option.option_id)
         .execute(connection);
     } else {
       result = await insert('product_custom_option')
-        .given(
-          {
-            ...option,
-            is_required: option.is_required || 0
-          }
-        )
+        .given({
+          ...option,
+          is_required: option.is_required || 0
+        })
         .prime('product_custom_option_product_id', productId)
         .execute(connection);
     }

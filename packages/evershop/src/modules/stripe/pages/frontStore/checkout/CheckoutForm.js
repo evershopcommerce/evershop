@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  CardElement,
-  useStripe,
-  useElements
-} from '@stripe/react-stripe-js';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useQuery } from 'urql';
 import { useCheckout } from '../../../../../lib/context/checkout';
 import Button from '../../../../../lib/components/form/Button';
@@ -80,13 +76,8 @@ export default function CheckoutForm() {
   const [showTestCard, setShowTestCard] = useState('success');
   const stripe = useStripe();
   const elements = useElements();
-  const {
-    cartId,
-    orderId,
-    orderPlaced,
-    paymentMethods,
-    checkoutSuccessUrl
-  } = useCheckout();
+  const { cartId, orderId, orderPlaced, paymentMethods, checkoutSuccessUrl } =
+    useCheckout();
 
   const [result] = useQuery({
     query: cartQuery,
@@ -116,7 +107,8 @@ export default function CheckoutForm() {
 
   useEffect(() => {
     const pay = async () => {
-      const billingAddress = result.data.cart.billingAddress || result.data.cart.shippingAddress;
+      const billingAddress =
+        result.data.cart.billingAddress || result.data.cart.shippingAddress;
       const payload = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
@@ -176,41 +168,61 @@ export default function CheckoutForm() {
     );
   }
   // Check if the selected payment method is Stripe
-  const stripePaymentMethod = paymentMethods.find((method) => method.code === 'stripe' && method.selected === true);
+  const stripePaymentMethod = paymentMethods.find(
+    (method) => method.code === 'stripe' && method.selected === true
+  );
   if (!stripePaymentMethod) return null;
 
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <div>
       <div className="stripe-form">
-        <div style={{
-          border: '1px solid #dddddd',
-          borderRadius: '3px',
-          padding: '5px',
-          boxSizing: 'border-box',
-          marginBottom: '10px'
-        }}
+        <div
+          style={{
+            border: '1px solid #dddddd',
+            borderRadius: '3px',
+            padding: '5px',
+            boxSizing: 'border-box',
+            marginBottom: '10px'
+          }}
         >
           {showTestCard === 'success' && (
             <div>
-              <div><b>Test success:</b></div>
-              <div className="text-sm text-gray-600">Test card number: 4242 4242 4242 4242</div>
-              <div className="text-sm text-gray-600">Test card expiry: 04/24</div>
+              <div>
+                <b>Test success:</b>
+              </div>
+              <div className="text-sm text-gray-600">
+                Test card number: 4242 4242 4242 4242
+              </div>
+              <div className="text-sm text-gray-600">
+                Test card expiry: 04/24
+              </div>
               <div className="text-sm text-gray-600">Test card CVC: 242</div>
             </div>
           )}
           {showTestCard === 'failure' && (
             <div>
-              <div><b>Test failure:</b></div>
-              <div className="text-sm text-gray-600">Test card number: 4000 0000 0000 9995</div>
-              <div className="text-sm text-gray-600">Test card expiry: 04/24</div>
+              <div>
+                <b>Test failure:</b>
+              </div>
+              <div className="text-sm text-gray-600">
+                Test card number: 4000 0000 0000 9995
+              </div>
+              <div className="text-sm text-gray-600">
+                Test card expiry: 04/24
+              </div>
               <div className="text-sm text-gray-600">Test card CVC: 242</div>
             </div>
           )}
         </div>
         <div className="stripe-form-heading flex justify-between">
           <div className="self-center">
-            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 34">
+            <svg
+              id="Layer_1"
+              data-name="Layer 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 150 34"
+            >
               <defs />
               <title>Powered by Stripe</title>
               <path d="M146,0H3.73A3.73,3.73,0,0,0,0,3.73V30.27A3.73,3.73,0,0,0,3.73,34H146a4,4,0,0,0,4-4V4A4,4,0,0,0,146,0Zm3,30a3,3,0,0,1-3,3H3.73A2.74,2.74,0,0,1,1,30.27V3.73A2.74,2.74,0,0,1,3.73,1H146a3,3,0,0,1,3,3Z" />
@@ -233,11 +245,25 @@ export default function CheckoutForm() {
             </svg>
           </div>
           <div className="self-center flex space-x-1">
-            <Button onAction={testSuccess} title="Test success" outline variant="interactive" />
-            <Button onAction={testFailure} title="Test failure" variant="critical" outline />
+            <Button
+              onAction={testSuccess}
+              title="Test success"
+              outline
+              variant="interactive"
+            />
+            <Button
+              onAction={testFailure}
+              title="Test failure"
+              variant="critical"
+              outline
+            />
           </div>
         </div>
-        <CardElement id="card-element" options={cardStyle} onChange={handleChange} />
+        <CardElement
+          id="card-element"
+          options={cardStyle}
+          onChange={handleChange}
+        />
       </div>
       {/* Show any error that happens when processing the payment */}
       {error && (

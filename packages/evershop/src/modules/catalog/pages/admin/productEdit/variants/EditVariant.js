@@ -20,55 +20,55 @@ export function EditVariant({
     e.persist();
     openAlert({
       heading: 'Edit variant',
-      content:
-  <Form
-    id={formId}
-    method="PATCH"
-    submitBtn={false}
-    action={variant.product.updateApi}
-    onSuccess={(response) => {
-      if (!response.error) {
-        refresh();
-        closeAlert();
-      } else {
-        toast.error(response.error.message);
-      }
-    }}
-  >
-    <Card>
-      <Card.Session>
-        <VariantModal
-          variantAttributes={variantGroup.attributes}
-          productImageUploadUrl={productImageUploadUrl}
-          variant={variant}
-        />
-      </Card.Session>
-      <Card.Session>
-        <div className="flex justify-end">
-          <div className="grid grid-cols-2 gap-1">
-            <Button
-              title="Save"
-              variant="primary"
-              onAction={
-                      () => {
-                        document
-                          .getElementById(formId)
-                          .dispatchEvent(
-                            new Event('submit', { cancelable: true, bubbles: true })
-                          );
-                      }
-                    }
-            />
-            <Button
-              title="Cancel"
-              variant="secondary"
-              onAction={closeAlert}
-            />
-          </div>
-        </div>
-      </Card.Session>
-    </Card>
-  </Form>
+      content: (
+        <Form
+          id={formId}
+          method="PATCH"
+          submitBtn={false}
+          action={variant.product.updateApi}
+          onSuccess={(response) => {
+            if (!response.error) {
+              refresh();
+              closeAlert();
+            } else {
+              toast.error(response.error.message);
+            }
+          }}
+        >
+          <Card>
+            <Card.Session>
+              <VariantModal
+                variantAttributes={variantGroup.attributes}
+                productImageUploadUrl={productImageUploadUrl}
+                variant={variant}
+              />
+            </Card.Session>
+            <Card.Session>
+              <div className="flex justify-end">
+                <div className="grid grid-cols-2 gap-1">
+                  <Button
+                    title="Save"
+                    variant="primary"
+                    onAction={() => {
+                      document.getElementById(formId).dispatchEvent(
+                        new Event('submit', {
+                          cancelable: true,
+                          bubbles: true
+                        })
+                      );
+                    }}
+                  />
+                  <Button
+                    title="Cancel"
+                    variant="secondary"
+                    onAction={closeAlert}
+                  />
+                </div>
+              </div>
+            </Card.Session>
+          </Card>
+        </Form>
+      )
     });
   };
 
@@ -98,14 +98,18 @@ EditVariant.propTypes = {
     id: PropTypes.number.isRequired
   }).isRequired,
   variantGroup: PropTypes.shape({
-    attributes: PropTypes.arrayOf(PropTypes.shape({
-      attributeId: PropTypes.number,
-      attributeName: PropTypes.string,
-      attributeCode: PropTypes.string,
-      options: PropTypes.arrayOf(PropTypes.shape({
-        optionId: PropTypes.number,
-        optionText: PropTypes.string
-      }))
-    }))
+    attributes: PropTypes.arrayOf(
+      PropTypes.shape({
+        attributeId: PropTypes.number,
+        attributeName: PropTypes.string,
+        attributeCode: PropTypes.string,
+        options: PropTypes.arrayOf(
+          PropTypes.shape({
+            optionId: PropTypes.number,
+            optionText: PropTypes.string
+          })
+        )
+      })
+    )
   }).isRequired
 };

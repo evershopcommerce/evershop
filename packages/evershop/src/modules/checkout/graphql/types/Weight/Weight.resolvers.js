@@ -8,11 +8,13 @@ module.exports = {
       return unit;
     },
     text: async (raw) => {
-      const weight = parseFloat(raw);// TODO: Format for decimal value?
+      const weight = parseFloat(raw); // TODO: Format for decimal value?
       const unit = await getSetting('weightUnit', 'kg');
       const language = await getSetting('storeLanguage', 'en');
       // Localize the weight
-      return new Intl.NumberFormat(language, { style: 'unit', unit }).format(weight);
+      return new Intl.NumberFormat(language, { style: 'unit', unit }).format(
+        weight
+      );
     }
   }
 };

@@ -1,4 +1,7 @@
-const { getContextValue, setContextValue } = require('../../../../graphql/services/contextHelper');
+const {
+  getContextValue,
+  setContextValue
+} = require('../../../../graphql/services/contextHelper');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { get } = require('../../../../../lib/util/get');
 
@@ -14,7 +17,11 @@ module.exports = (request, response, delegate, next) => {
       response.redirect(buildUrl('adminLogin'));
     }
   } else {
-    setContextValue(request, 'userId', parseInt(tokenPayLoad.user.adminUserId, 10));
+    setContextValue(
+      request,
+      'userId',
+      parseInt(tokenPayLoad.user.adminUserId, 10)
+    );
     next();
   }
 };

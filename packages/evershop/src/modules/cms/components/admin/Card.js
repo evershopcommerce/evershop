@@ -2,9 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import './Card.scss';
 
-function Card({
-  title, actions = [], subdued = false, children
-}) {
+function Card({ title, actions = [], subdued = false, children }) {
   return (
     <div className={subdued ? 'card shadow subdued' : 'card shadow'}>
       {(title || actions.length > 0) && (
@@ -28,7 +26,11 @@ function Card({
                         e.preventDefault();
                         if (action.onAction) action.onAction.call();
                       }}
-                      className={className[action.variant ? action.variant : 'interactive']}
+                      className={
+                        className[
+                          action.variant ? action.variant : 'interactive'
+                        ]
+                      }
                     >
                       {action.name}
                     </a>
@@ -45,11 +47,13 @@ function Card({
 }
 
 Card.propTypes = {
-  actions: PropTypes.arrayOf(PropTypes.shape({
-    onAction: PropTypes.func,
-    variant: PropTypes.string,
-    name: PropTypes.string
-  })),
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      onAction: PropTypes.func,
+      variant: PropTypes.string,
+      name: PropTypes.string
+    })
+  ),
   children: PropTypes.node.isRequired,
   subdued: PropTypes.bool,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
@@ -85,7 +89,11 @@ const Session = function Session({ actions = [], title, children }) {
                         e.preventDefault();
                         if (action.onAction) action.onAction.call();
                       }}
-                      className={className[action.variant ? action.variant : 'interactive']}
+                      className={
+                        className[
+                          action.variant ? action.variant : 'interactive'
+                        ]
+                      }
                     >
                       {action.name}
                     </a>
@@ -102,11 +110,13 @@ const Session = function Session({ actions = [], title, children }) {
 };
 
 Session.propTypes = {
-  actions: PropTypes.arrayOf(PropTypes.shape({
-    onAction: PropTypes.func,
-    variant: PropTypes.string,
-    name: PropTypes.string
-  })),
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      onAction: PropTypes.func,
+      variant: PropTypes.string,
+      name: PropTypes.string
+    })
+  ),
   children: PropTypes.node,
   title: PropTypes.string
 };

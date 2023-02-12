@@ -1,7 +1,9 @@
 module.exports = {
   Setting: {
     codPaymentStatus: (setting) => {
-      const codPaymentStatus = setting.find((s) => s.name === 'codPaymentStatus');
+      const codPaymentStatus = setting.find(
+        (s) => s.name === 'codPaymentStatus'
+      );
       if (codPaymentStatus) {
         return parseInt(codPaymentStatus.value, 10);
       } else {

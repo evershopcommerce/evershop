@@ -26,7 +26,10 @@ exports.asyncMiddlewareWrapper = async function asyncMiddlewareWrapper(
     await delegate;
   } catch (e) {
     // Log the error
-    logger.log('error', `Exception in middleware ${id}`, { message: e.message, stack: e.stack });
+    logger.log('error', `Exception in middleware ${id}`, {
+      message: e.message,
+      stack: e.stack
+    });
     // Call error handler middleware if it is not called yet
     next(e);
   }

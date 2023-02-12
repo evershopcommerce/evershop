@@ -18,10 +18,14 @@ module.exports = (request, response, delegate, next) => {
     response.status(OK);
     response.json({
       data: {
-        folders: readdirSync(join(CONSTANTS.MEDIAPATH, path), { withFileTypes: true })
+        folders: readdirSync(join(CONSTANTS.MEDIAPATH, path), {
+          withFileTypes: true
+        })
           .filter((dirent) => dirent.isDirectory())
           .map((dirent) => dirent.name),
-        files: readdirSync(join(CONSTANTS.MEDIAPATH, path), { withFileTypes: true })
+        files: readdirSync(join(CONSTANTS.MEDIAPATH, path), {
+          withFileTypes: true
+        })
           .filter((dirent) => dirent.isFile())
           .map((f) => ({
             url: buildUrl('adminStaticAsset', [`${path}/${f.name}`]),

@@ -1,9 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-restricted-syntax */
-const {
-  insert
-} = require('@evershop/mysql-query-builder');
+const { insert } = require('@evershop/mysql-query-builder');
 const { get } = require('../../../../lib/util/get');
 
 module.exports = async (request, response, delegate) => {

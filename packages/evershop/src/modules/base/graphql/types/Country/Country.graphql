@@ -8,6 +8,6 @@ type Country {
 }
 
 extend type Query {
-  countries (countries: [String]) : [Country]
-  allowedCountries : [Country]
+  countries(countries: [String]): [Country]
+  allowedCountries: [Country]
 }

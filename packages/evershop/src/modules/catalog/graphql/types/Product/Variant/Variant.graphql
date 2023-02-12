@@ -1,4 +1,3 @@
-
 """
 Represents a product variant attribute
 """
@@ -43,7 +42,7 @@ Represents a product variant group
 """
 type VariantGroup {
   variantGroupId: Int!
-  variantAttributes: [VariantAttribute]!,
+  variantAttributes: [VariantAttribute]!
   items: [Variant]
   addItemApi: String!
 }

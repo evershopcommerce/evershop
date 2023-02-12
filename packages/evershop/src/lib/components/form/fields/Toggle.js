@@ -5,7 +5,18 @@ import Error from './Error';
 import './Toggle.scss';
 
 function Enabled({ onClick }) {
-  return <a href="#" className="toggle enabled" onClick={(e) => { e.preventDefault(); onClick(); }}><span /></a>;
+  return (
+    <a
+      href="#"
+      className="toggle enabled"
+      onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
+    >
+      <span />
+    </a>
+  );
 }
 
 Enabled.propTypes = {
@@ -13,16 +24,25 @@ Enabled.propTypes = {
 };
 
 function Disabled({ onClick }) {
-  return <a href="#" className="toggle disabled" onClick={(e) => { e.preventDefault(); onClick(); }}><span /></a>;
+  return (
+    <a
+      href="#"
+      className="toggle disabled"
+      onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
+    >
+      <span />
+    </a>
+  );
 }
 
 Disabled.propTypes = {
   onClick: PropTypes.func.isRequired
 };
 
-function Toggle({
-  name, value, label, onChange, error, instruction
-}) {
+function Toggle({ name, value, label, onChange, error, instruction }) {
   const [_value, setValue] = React.useState(parseInt(value, 10) === 1 ? 1 : 0);
 
   React.useEffect(() => {
@@ -41,11 +61,16 @@ function Toggle({
       {label && <label htmlFor={name}>{label}</label>}
       <input type="hidden" value={_value} name={name} />
       <div className="field-wrapper flex flex-grow">
-        {parseInt(_value, 10) === 1 && <Enabled onClick={() => onChangeFunc()} />}
-        {parseInt(_value, 10) === 0 && <Disabled onClick={() => onChangeFunc()} />}
+        {parseInt(_value, 10) === 1 && (
+          <Enabled onClick={() => onChangeFunc()} />
+        )}
+        {parseInt(_value, 10) === 0 && (
+          <Disabled onClick={() => onChangeFunc()} />
+        )}
       </div>
-      {instruction
-        && <div className="field-instruction mt-sm">{instruction}</div>}
+      {instruction && (
+        <div className="field-instruction mt-sm">{instruction}</div>
+      )}
       <Error error={error} />
     </div>
   );

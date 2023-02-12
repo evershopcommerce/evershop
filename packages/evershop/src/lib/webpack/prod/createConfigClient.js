@@ -21,21 +21,27 @@ module.exports.createConfigClient = function createConfigClient(routes) {
     entry[subPath] = [
       path.resolve(CONSTANTS.BUILDPATH, subPath, 'client', 'entry.js')
     ];
-    plugins.push(new HtmlWebpackPlugin({
-      templateContent: ({ htmlWebpackPlugin }) => {
-        const isFiles = htmlWebpackPlugin.files.js;
-        const cssFiles = htmlWebpackPlugin.files.css;
-        return JSON.stringify({
-          js: isFiles,
-          css: cssFiles
-        });
-      },
-      filename: path.resolve(getRouteBuildPath(route), 'client', 'index.json'),
-      chunks: [subPath],
-      chunksSortMode: 'manual',
-      inject: false,
-      publicPath: '/assets/'
-    }));
+    plugins.push(
+      new HtmlWebpackPlugin({
+        templateContent: ({ htmlWebpackPlugin }) => {
+          const isFiles = htmlWebpackPlugin.files.js;
+          const cssFiles = htmlWebpackPlugin.files.css;
+          return JSON.stringify({
+            js: isFiles,
+            css: cssFiles
+          });
+        },
+        filename: path.resolve(
+          getRouteBuildPath(route),
+          'client',
+          'index.json'
+        ),
+        chunks: [subPath],
+        chunksSortMode: 'manual',
+        inject: false,
+        publicPath: '/assets/'
+      })
+    );
 
     plugins.push(new Tailwindcss(subPath, route));
   });
@@ -52,18 +58,22 @@ module.exports.createConfigClient = function createConfigClient(routes) {
         }
       },
       {
-        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/TailwindLoader.js'),
-        options: {
-        }
+        loader: path.resolve(
+          CONSTANTS.LIBPATH,
+          'webpack/loaders/TailwindLoader.js'
+        ),
+        options: {}
       },
       'sass-loader'
     ]
   });
 
   plugins.push(new WebpackBar({ name: 'Client' }));
-  plugins.push(new MiniCssExtractPlugin({
-    filename: '[name]/client/[fullhash].css'
-  }));
+  plugins.push(
+    new MiniCssExtractPlugin({
+      filename: '[name]/client/[fullhash].css'
+    })
+  );
   // plugins.push(new HtmlWebpackPlugin({
   //   filename: 'index.json',
   //   templateContent: ({ htmlWebpackPlugin }) => {

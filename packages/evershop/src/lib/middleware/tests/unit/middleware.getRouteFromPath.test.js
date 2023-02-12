@@ -1,19 +1,17 @@
 const { resolve } = require('path');
-const { getRouteFromPath } = require("../../getRouteFromPath");
+const { getRouteFromPath } = require('../../getRouteFromPath');
 
 describe('Test getRouteFromPath function', () => {
   it('Parse app level route', () => {
-    expect(
-      getRouteFromPath(resolve('/catalog/pages/global/title.js'))
-    ).toEqual({
-      region: 'pages',
-      scope: 'app',
-      routeId: null
-    });
+    expect(getRouteFromPath(resolve('/catalog/pages/global/title.js'))).toEqual(
+      {
+        region: 'pages',
+        scope: 'app',
+        routeId: null
+      }
+    );
 
-    expect(
-      getRouteFromPath(resolve('/cms/api/global/title.js'))
-    ).toEqual({
+    expect(getRouteFromPath(resolve('/cms/api/global/title.js'))).toEqual({
       region: 'api',
       scope: 'app',
       routeId: null
@@ -26,15 +24,13 @@ describe('Test getRouteFromPath function', () => {
     ).toEqual({
       region: 'pages',
       scope: 'admin',
-      routeId: 'admin',
+      routeId: 'admin'
     });
 
-    expect(
-      getRouteFromPath(resolve('/cms/api/admin/all/title.js'))
-    ).toEqual({
+    expect(getRouteFromPath(resolve('/cms/api/admin/all/title.js'))).toEqual({
       region: 'api',
       scope: 'admin',
-      routeId: 'admin',
+      routeId: 'admin'
     });
   });
 
@@ -44,7 +40,7 @@ describe('Test getRouteFromPath function', () => {
     ).toEqual({
       region: 'pages',
       scope: 'frontStore',
-      routeId: 'frontStore',
+      routeId: 'frontStore'
     });
 
     expect(
@@ -52,7 +48,7 @@ describe('Test getRouteFromPath function', () => {
     ).toEqual({
       region: 'api',
       scope: 'frontStore',
-      routeId: 'frontStore',
+      routeId: 'frontStore'
     });
   });
 
@@ -62,7 +58,7 @@ describe('Test getRouteFromPath function', () => {
     ).toEqual({
       region: 'pages',
       scope: 'admin',
-      routeId: 'product',
+      routeId: 'product'
     });
 
     expect(
@@ -70,7 +66,7 @@ describe('Test getRouteFromPath function', () => {
     ).toEqual({
       region: 'api',
       scope: 'admin',
-      routeId: 'product',
+      routeId: 'product'
     });
   });
 
@@ -80,7 +76,7 @@ describe('Test getRouteFromPath function', () => {
     ).toEqual({
       region: 'pages',
       scope: 'frontStore',
-      routeId: 'product',
+      routeId: 'product'
     });
 
     expect(
@@ -88,17 +84,19 @@ describe('Test getRouteFromPath function', () => {
     ).toEqual({
       region: 'api',
       scope: 'frontStore',
-      routeId: 'product',
+      routeId: 'product'
     });
   });
 
   it('Parse multi admin routed level route', () => {
     expect(
-      getRouteFromPath(resolve('/catalog/pages/admin/product+category/title.js'))
+      getRouteFromPath(
+        resolve('/catalog/pages/admin/product+category/title.js')
+      )
     ).toEqual({
       region: 'pages',
       scope: 'admin',
-      routeId: ['product', 'category'],
+      routeId: ['product', 'category']
     });
 
     expect(
@@ -106,17 +104,19 @@ describe('Test getRouteFromPath function', () => {
     ).toEqual({
       region: 'api',
       scope: 'admin',
-      routeId: ['product', 'category'],
+      routeId: ['product', 'category']
     });
   });
 
   it('Parse multi frontStore routed level route', () => {
     expect(
-      getRouteFromPath(resolve('/catalog/pages/frontStore/product+category/title.js'))
+      getRouteFromPath(
+        resolve('/catalog/pages/frontStore/product+category/title.js')
+      )
     ).toEqual({
       region: 'pages',
       scope: 'frontStore',
-      routeId: ['product', 'category'],
+      routeId: ['product', 'category']
     });
 
     expect(
@@ -124,17 +124,21 @@ describe('Test getRouteFromPath function', () => {
     ).toEqual({
       region: 'api',
       scope: 'frontStore',
-      routeId: ['product', 'category'],
+      routeId: ['product', 'category']
     });
   });
 
   it('Parse invalid path', () => {
-    expect(
-      () => getRouteFromPath(resolve('/catalog/controllers/fro ntStore/product/title.js'))
+    expect(() =>
+      getRouteFromPath(
+        resolve('/catalog/controllers/fro ntStore/product/title.js')
+      )
     ).toThrow();
 
-    expect(
-      () => getRouteFromPath(resolve('/catalog/controllers/frontStore/pro2uct/title.js'))
+    expect(() =>
+      getRouteFromPath(
+        resolve('/catalog/controllers/frontStore/pro2uct/title.js')
+      )
     ).toThrow();
   });
 });

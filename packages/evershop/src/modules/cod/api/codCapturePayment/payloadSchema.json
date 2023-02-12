@@ -5,8 +5,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "order_id"
-  ],
+  "required": ["order_id"],
   "additionalProperties": true
 }

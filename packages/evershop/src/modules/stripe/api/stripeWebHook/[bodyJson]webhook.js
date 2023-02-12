@@ -56,7 +56,10 @@ module.exports = async (request, response, stack, next) => {
             payment_transaction_order_id: order.order_id,
             transaction_id: paymentIntent.id,
             transaction_type: 'online',
-            payment_action: paymentIntent.capture_method === 'automatic' ? 'Capture' : 'Authorize'
+            payment_action:
+              paymentIntent.capture_method === 'automatic'
+                ? 'Capture'
+                : 'Authorize'
           })
           .execute(connection);
 

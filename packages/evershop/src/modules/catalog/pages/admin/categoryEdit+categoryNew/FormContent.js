@@ -22,17 +22,19 @@ export default function FormContent({ gridUrl }) {
           title="Cancel"
           variant="critical"
           outline
-          onAction={
-            () => {
-              window.location = gridUrl;
-            }
-          }
+          onAction={() => {
+            window.location = gridUrl;
+          }}
         />
         <Button
           title="Save"
-          onAction={
-            () => { document.getElementById('categoryForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
-          }
+          onAction={() => {
+            document
+              .getElementById('categoryForm')
+              .dispatchEvent(
+                new Event('submit', { cancelable: true, bubbles: true })
+              );
+          }}
           isLoading={state === 'submitting'}
         />
       </div>

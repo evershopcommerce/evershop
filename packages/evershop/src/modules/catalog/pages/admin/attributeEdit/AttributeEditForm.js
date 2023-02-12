@@ -5,9 +5,7 @@ import Area from '../../../../../lib/components/Area';
 import { Form } from '../../../../../lib/components/form/Form';
 import { get } from '../../../../../lib/util/get';
 
-export default function AttributeEditForm({
-  action
-}) {
+export default function AttributeEditForm({ action }) {
   const id = 'attributeForm';
   return (
     <Form
@@ -18,7 +16,13 @@ export default function AttributeEditForm({
       }}
       onSuccess={(response) => {
         if (response.error) {
-          toast.error(get(response, 'error.message', 'Something wrong. Please reload the page!'));
+          toast.error(
+            get(
+              response,
+              'error.message',
+              'Something wrong. Please reload the page!'
+            )
+          );
         } else {
           toast.success('Attribute saved successfully!');
         }

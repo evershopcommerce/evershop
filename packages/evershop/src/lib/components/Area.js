@@ -17,15 +17,21 @@ function Area(props) {
 
   const areaComponents = (() => {
     const areaCoreComponents = coreComponents || [];
-    const cs = components[id] === undefined
-      ? areaCoreComponents
-      : areaCoreComponents.concat(Object.values(components[id]));
+    const cs =
+      components[id] === undefined
+        ? areaCoreComponents
+        : areaCoreComponents.concat(Object.values(components[id]));
 
     return cs.sort((obj1, obj2) => obj1.sortOrder - obj2.sortOrder);
   })();
 
   // eslint-disable-next-line no-nested-ternary
-  const WrapperComponent = noOuter !== true ? (wrapper !== undefined ? wrapper : 'div') : React.Fragment;
+  const WrapperComponent =
+    noOuter !== true
+      ? wrapper !== undefined
+        ? wrapper
+        : 'div'
+      : React.Fragment;
 
   let areaWrapperProps = {};
   if (noOuter === true) {
@@ -67,13 +73,15 @@ function Area(props) {
 
 Area.propTypes = {
   className: PropTypes.string,
-  coreComponents: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    sortOrder: PropTypes.number,
-    component: PropTypes.shape({
-      default: PropTypes.elementType
+  coreComponents: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      sortOrder: PropTypes.number,
+      component: PropTypes.shape({
+        default: PropTypes.elementType
+      })
     })
-  })),
+  ),
   id: PropTypes.string.isRequired,
   noOuter: PropTypes.bool,
   wrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),

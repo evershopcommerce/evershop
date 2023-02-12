@@ -27,7 +27,10 @@ class Handler {
 
   static getMiddlewareByRoute(route) {
     const region = route.isApi ? 'api' : 'pages';
-    let middlewares = this.middlewares.filter((m) => (m.routeId === route.id || m.scope === 'app') && m.region === region);
+    let middlewares = this.middlewares.filter(
+      (m) =>
+        (m.routeId === route.id || m.scope === 'app') && m.region === region
+    );
 
     if (route.isAdmin === true) {
       middlewares = middlewares.concat(
@@ -62,9 +65,7 @@ class Handler {
 
   static getAppLevelMiddlewares(region) {
     return sortMiddlewares(
-      this.middlewares.filter(
-        (m) => m.scope === 'app' && m.region === region
-      )
+      this.middlewares.filter((m) => m.scope === 'app' && m.region === region)
     );
   }
 
@@ -99,7 +100,9 @@ class Handler {
       }
 
       const goodHandlers = middlewares.filter((m) => m.middleware.length === 3);
-      const errorHandlers = middlewares.filter((m) => m.middleware.length === 4);
+      const errorHandlers = middlewares.filter(
+        (m) => m.middleware.length === 4
+      );
       let currentGood = 0;
       let currentError = -1;
       const eNext = function eNext() {

@@ -1,7 +1,5 @@
 {
-  "methods": [
-    "PATCH"
-  ],
+  "methods": ["PATCH"],
   "path": "/attributes/:id",
   "access": "private"
 }

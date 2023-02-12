@@ -33,11 +33,16 @@ module.exports.Item = class Item extends DataObject {
       key: 'product_id',
       resolvers: [
         async function resolver() {
-          const query = select()
-            .from('product');
-          query.leftJoin('product_description', 'des')
-            .on('product.`product_id`', '=', 'des.`product_description_product_id`');
-          const product = await query.where('product_id', '=', this.dataSource.product_id)
+          const query = select().from('product');
+          query
+            .leftJoin('product_description', 'des')
+            .on(
+              'product.`product_id`',
+              '=',
+              'des.`product_description_product_id`'
+            );
+          const product = await query
+            .where('product_id', '=', this.dataSource.product_id)
             .load(pool);
           if (!product || product.status === 0) {
             this.errors.product_id = 'Requested product does not exist';
@@ -81,10 +86,19 @@ module.exports.Item = class Item extends DataObject {
       resolvers: [
         async function resolver() {
           if (this.dataSource.product.image) {
-            const thumb = this.dataSource.product.image.replace(/.([^.]*)$/, '-thumb.$1');
-            return fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/frontStore${config.get('catalog.product.image.placeHolder')}`;
+            const thumb = this.dataSource.product.image.replace(
+              /.([^.]*)$/,
+              '-thumb.$1'
+            );
+            return fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb))
+              ? `/assets${thumb}`
+              : `/assets/theme/frontStore${config.get(
+                  'catalog.product.image.placeHolder'
+                )}`;
           } else {
-            return `/assets/theme/frontStore${config.get('catalog.product.image.placeHolder')}`;
+            return `/assets/theme/frontStore${config.get(
+              'catalog.product.image.placeHolder'
+            )}`;
           }
         }
       ],
@@ -122,16 +136,17 @@ module.exports.Item = class Item extends DataObject {
       resolvers: [
         async function resolver() {
           if (
-            this.dataSource.product.product_id
-            && this.dataSource.product.manage_stock === 1
-            && this.dataSource.product.qty < 1
+            this.dataSource.product.product_id &&
+            this.dataSource.product.manage_stock === 1 &&
+            this.dataSource.product.qty < 1
           ) {
             this.errors.qty = 'This item is out of stock';
           } else if (
-            this.dataSource.product.product_id
-            && this.dataSource.product.manage_stock === 1
-            && this.dataSource.product.qty < this.dataSource.qty
-          ) this.errors.qty = 'We do not have enough stock';
+            this.dataSource.product.product_id &&
+            this.dataSource.product.manage_stock === 1 &&
+            this.dataSource.product.qty < this.dataSource.qty
+          )
+            this.errors.qty = 'We do not have enough stock';
 
           return parseInt(this.dataSource.qty, 10) ?? null;
         }
@@ -160,7 +175,10 @@ module.exports.Item = class Item extends DataObject {
       key: 'total',
       resolvers: [
         async function resolver() {
-          return toPrice(this.getData('final_price') * this.getData('qty') + this.getData('tax_amount'));
+          return toPrice(
+            this.getData('final_price') * this.getData('qty') +
+              this.getData('tax_amount')
+          );
         }
       ],
       dependencies: ['final_price', 'qty', 'tax_amount']
@@ -202,7 +220,11 @@ module.exports.Item = class Item extends DataObject {
               .select('attribute_four')
               .select('attribute_five')
               .from('variant_group')
-              .where('variant_group_id', '=', this.dataSource.product.variant_group_id)
+              .where(
+                'variant_group_id',
+                '=',
+                this.dataSource.product.variant_group_id
+              )
               .load(pool);
             if (!group) return null;
             else {
@@ -212,9 +234,20 @@ module.exports.Item = class Item extends DataObject {
                 .select('o.`option_id`')
                 .select('o.`option_text`')
                 .from('attribute', 'a');
-              query.innerJoin('product_attribute_value_index', 'o').on('a.`attribute_id`', '=', 'o.`attribute_id`');
-              query.where('o.`product_id`', '=', this.dataSource.product.product_id)
-                .and('a.`attribute_id`', 'IN', Object.values(group).filter((v) => v != null));
+              query
+                .innerJoin('product_attribute_value_index', 'o')
+                .on('a.`attribute_id`', '=', 'o.`attribute_id`');
+              query
+                .where(
+                  'o.`product_id`',
+                  '=',
+                  this.dataSource.product.product_id
+                )
+                .and(
+                  'a.`attribute_id`',
+                  'IN',
+                  Object.values(group).filter((v) => v != null)
+                );
 
               return JSON.stringify(await query.execute(pool));
             }
@@ -238,7 +271,11 @@ module.exports.Item = class Item extends DataObject {
       key: 'productUrl',
       resolvers: [
         async function resolver() {
-          return this.getData('product_id') ? buildUrl('productView', { url_key: this.dataSource.product.url_key }) : null;
+          return this.getData('product_id')
+            ? buildUrl('productView', {
+                url_key: this.dataSource.product.url_key
+              })
+            : null;
         }
       ],
       dependencies: ['product_id']
@@ -248,7 +285,9 @@ module.exports.Item = class Item extends DataObject {
       resolvers: [
         async function resolver() {
           if (this.getData('cart_item_id')) {
-            return buildUrl('removeMineCartItem', { item_id: this.getData('uuid') });
+            return buildUrl('removeMineCartItem', {
+              item_id: this.getData('uuid')
+            });
           } else {
             return undefined;
           }

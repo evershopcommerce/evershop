@@ -39,8 +39,10 @@ module.exports = async (request, response, delegate, next) => {
           isAdmin: route.isAdmin
         };
         if (
-          (isDevelopmentMode() && request.query && request.query.fashRefresh === 'true')
-          || (request.query && request.query.ajax === 'true')
+          (isDevelopmentMode() &&
+            request.query &&
+            request.query.fashRefresh === 'true') ||
+          (request.query && request.query.ajax === 'true')
         ) {
           response.json({
             success: true,

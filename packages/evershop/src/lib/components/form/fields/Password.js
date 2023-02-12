@@ -33,24 +33,19 @@ const inputProps = function buidProps(props) {
 };
 
 const Password = React.forwardRef((props, ref) => {
-  const {
-    label, name, instruction, prefix, suffix, error
-  } = props;
+  const { label, name, instruction, prefix, suffix, error } = props;
   return (
     <div className={`form-field-container ${error ? 'has-error' : null}`}>
       {label && <label htmlFor={name}>{label}</label>}
       <div className="field-wrapper flex flex-grow">
         {prefix && <div className="field-prefix align-middle">{prefix}</div>}
-        <input
-          type="password"
-          {...inputProps(props)}
-          ref={ref}
-        />
+        <input type="password" {...inputProps(props)} ref={ref} />
         <div className="field-border" />
         {suffix && <div className="field-suffix">{suffix}</div>}
       </div>
-      {instruction
-        && <div className="field-instruction mt-sm">{instruction}</div>}
+      {instruction && (
+        <div className="field-instruction mt-sm">{instruction}</div>
+      )}
       <Error error={error} />
     </div>
   );

@@ -21,7 +21,8 @@ exports.FileListPlugin = class FileListPlugin {
       modules.forEach((m) => {
         if (m) {
           const path = m.replace('.js', '.css');
-          if (fs.existsSync(path)) filelist += `${fs.readFileSync(path, 'utf-8')}\n`;
+          if (fs.existsSync(path))
+            filelist += `${fs.readFileSync(path, 'utf-8')}\n`;
         }
       });
 

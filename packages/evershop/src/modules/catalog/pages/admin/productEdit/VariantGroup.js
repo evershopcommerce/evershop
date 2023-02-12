@@ -12,9 +12,7 @@ export default function VariantGroup({
 }) {
   const [group, setGroup] = React.useState(product?.variantGroup || null);
   return (
-    <Card
-      title="Variant"
-    >
+    <Card title="Variant">
       {!group && (
         <New
           createVariantGroupApi={createVariantGroupApi}
@@ -46,15 +44,19 @@ VariantGroup.propTypes = {
     variantGroup: PropTypes.shape({
       variantGroupId: PropTypes.number.isRequired,
       addItemApi: PropTypes.string.isRequired,
-      attributes: PropTypes.arrayOf(PropTypes.shape({
-        attributeId: PropTypes.number.isRequired,
-        attributeCode: PropTypes.string.isRequired,
-        attributeName: PropTypes.string.isRequired,
-        options: PropTypes.arrayOf(PropTypes.shape({
-          optionId: PropTypes.number.isRequired,
-          optionText: PropTypes.string.isRequired
-        })).isRequired
-      })).isRequired
+      attributes: PropTypes.arrayOf(
+        PropTypes.shape({
+          attributeId: PropTypes.number.isRequired,
+          attributeCode: PropTypes.string.isRequired,
+          attributeName: PropTypes.string.isRequired,
+          options: PropTypes.arrayOf(
+            PropTypes.shape({
+              optionId: PropTypes.number.isRequired,
+              optionText: PropTypes.string.isRequired
+            })
+          ).isRequired
+        })
+      ).isRequired
     })
   }).isRequired,
   productImageUploadUrl: PropTypes.string.isRequired

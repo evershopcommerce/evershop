@@ -7,7 +7,12 @@ export default function PriceRow({ id, areaProps }) {
   return (
     <td>
       <div>
-        <span>{new Intl.NumberFormat(context.language, { style: 'currency', currency: context.currency }).format(areaProps.row[id])}</span>
+        <span>
+          {new Intl.NumberFormat(context.language, {
+            style: 'currency',
+            currency: context.currency
+          }).format(areaProps.row[id])}
+        </span>
       </div>
     </td>
   );

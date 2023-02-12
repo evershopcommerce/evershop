@@ -15,7 +15,8 @@ module.exports = async (request, response, delegate) => {
   }
 
   try {
-    await update('category').given(request.body)
+    await update('category')
+      .given(request.body)
       .where('uuid', '=', request.params.id)
       .execute(connection);
 

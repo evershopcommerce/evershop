@@ -5,12 +5,7 @@ import { Field } from '../../../../../lib/components/form/Field';
 import { TextArea } from '../../../../../lib/components/form/fields/Textarea';
 import { Card } from '../../../../cms/components/admin/Card';
 
-function SKUPriceWeight({
-  sku,
-  price,
-  weight,
-  setting
-}) {
+function SKUPriceWeight({ sku, price, weight, setting }) {
   return (
     <div className="grid grid-cols-3 gap-1 mt-15">
       <div>
@@ -77,9 +72,7 @@ export default function General({
   setting
 }) {
   return (
-    <Card
-      title="General"
-    >
+    <Card title="General">
       <Card.Session>
         <Area
           id="productEditGeneral"

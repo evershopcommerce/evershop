@@ -16,9 +16,9 @@ describe('test API middleware', () => {
     const response = await axios.post(`http://localhost:${port}/api/as`, {
       validateStatus: function (status) {
         return status >= 200 && status < 600;
-      },
+      }
     });
-    console.log('response', response)
+    console.log('response', response);
     const createA = require('../app/modules/api/api/createA/index');
     const afterIndex = require('../app/modules/authcopy/api/createA/[index]afterIndex');
     const createAGlobal = require('../app/modules/api/api/global/apiGlobal');

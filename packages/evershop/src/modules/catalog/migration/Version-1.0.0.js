@@ -3,7 +3,9 @@ const { pool } = require('../../../lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = async () => {
-  await execute(pool, `CREATE TABLE \`attribute\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`attribute\` (
   \`attribute_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`attribute_code\` varchar(255) NOT NULL,
   \`attribute_name\` varchar(255) NOT NULL,
@@ -14,27 +16,34 @@ module.exports = exports = async () => {
   \`is_filterable\` smallint(2) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (\`attribute_id\`),
   UNIQUE KEY \`UNIQUE_ATTRIBUTE_CODE\` (\`attribute_code\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute'`
+  );
 
-  const color = await insert('attribute').given({
-    attribute_code: 'color',
-    attribute_name: 'Color',
-    type: 'select',
-    is_required: 0,
-    display_on_frontend: 1,
-    is_filterable: 1
-  }).execute(pool);
+  const color = await insert('attribute')
+    .given({
+      attribute_code: 'color',
+      attribute_name: 'Color',
+      type: 'select',
+      is_required: 0,
+      display_on_frontend: 1,
+      is_filterable: 1
+    })
+    .execute(pool);
 
-  const size = await insert('attribute').given({
-    attribute_code: 'size',
-    attribute_name: 'Size',
-    type: 'select',
-    is_required: 0,
-    display_on_frontend: 1,
-    is_filterable: 1
-  }).execute(pool);
+  const size = await insert('attribute')
+    .given({
+      attribute_code: 'size',
+      attribute_name: 'Size',
+      type: 'select',
+      is_required: 0,
+      display_on_frontend: 1,
+      is_filterable: 1
+    })
+    .execute(pool);
 
-  await execute(pool, `CREATE TABLE \`attribute_option\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`attribute_option\` (
   \`attribute_option_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`attribute_id\` int(10) unsigned NOT NULL,
   \`attribute_code\` varchar(255) NOT NULL,
@@ -43,55 +52,75 @@ module.exports = exports = async () => {
   KEY \`FK_ATTRIBUTE_OPTION\` (\`attribute_id\`),
   CONSTRAINT \`FK_ATTRIBUTE_OPTION\` FOREIGN KEY (\`attribute_id\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute option';
-`);
+`
+  );
 
-  await insert('attribute_option').given({
-    attribute_id: color.insertId,
-    attribute_code: 'color',
-    option_text: 'White'
-  }).execute(pool);
+  await insert('attribute_option')
+    .given({
+      attribute_id: color.insertId,
+      attribute_code: 'color',
+      option_text: 'White'
+    })
+    .execute(pool);
 
-  await insert('attribute_option').given({
-    attribute_id: color.insertId,
-    attribute_code: 'color',
-    option_text: 'Black'
-  }).execute(pool);
+  await insert('attribute_option')
+    .given({
+      attribute_id: color.insertId,
+      attribute_code: 'color',
+      option_text: 'Black'
+    })
+    .execute(pool);
 
-  await insert('attribute_option').given({
-    attribute_id: color.insertId,
-    attribute_code: 'color',
-    option_text: 'Yellow'
-  }).execute(pool);
+  await insert('attribute_option')
+    .given({
+      attribute_id: color.insertId,
+      attribute_code: 'color',
+      option_text: 'Yellow'
+    })
+    .execute(pool);
 
-  await insert('attribute_option').given({
-    attribute_id: size.insertId,
-    attribute_code: 'size',
-    option_text: 'XXL'
-  }).execute(pool);
+  await insert('attribute_option')
+    .given({
+      attribute_id: size.insertId,
+      attribute_code: 'size',
+      option_text: 'XXL'
+    })
+    .execute(pool);
 
-  await insert('attribute_option').given({
-    attribute_id: size.insertId,
-    attribute_code: 'size',
-    option_text: 'XL'
-  }).execute(pool);
+  await insert('attribute_option')
+    .given({
+      attribute_id: size.insertId,
+      attribute_code: 'size',
+      option_text: 'XL'
+    })
+    .execute(pool);
 
-  await insert('attribute_option').given({
-    attribute_id: size.insertId,
-    attribute_code: 'size',
-    option_text: 'SM'
-  }).execute(pool);
+  await insert('attribute_option')
+    .given({
+      attribute_id: size.insertId,
+      attribute_code: 'size',
+      option_text: 'SM'
+    })
+    .execute(pool);
 
-  await execute(pool, `CREATE TABLE \`attribute_group\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`attribute_group\` (
   \`attribute_group_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`group_name\` text NOT NULL,
   \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
   \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (\`attribute_group_id\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute group'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute group'`
+  );
 
-  const defaultGroup = await insert('attribute_group').given({ group_name: 'Default' }).execute(pool);
+  const defaultGroup = await insert('attribute_group')
+    .given({ group_name: 'Default' })
+    .execute(pool);
 
-  await execute(pool, `CREATE TABLE \`attribute_group_link\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`attribute_group_link\` (
   \`attribute_group_link_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`attribute_id\` int(10) unsigned NOT NULL,
   \`group_id\` int(10) unsigned NOT NULL,
@@ -100,12 +129,19 @@ module.exports = exports = async () => {
   KEY \`FK_GROUP_LINK\` (\`group_id\`),
   CONSTRAINT \`FK_ATTRIBUTE_LINK\` FOREIGN KEY (\`attribute_id\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT \`FK_GROUP_LINK\` FOREIGN KEY (\`group_id\`) REFERENCES \`attribute_group\` (\`attribute_group_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Attribute and group linking table'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Attribute and group linking table'`
+  );
 
-  await insert('attribute_group_link').given({ group_id: defaultGroup.insertId, attribute_id: color.insertId }).execute(pool);
-  await insert('attribute_group_link').given({ group_id: defaultGroup.insertId, attribute_id: size.insertId }).execute(pool);
+  await insert('attribute_group_link')
+    .given({ group_id: defaultGroup.insertId, attribute_id: color.insertId })
+    .execute(pool);
+  await insert('attribute_group_link')
+    .given({ group_id: defaultGroup.insertId, attribute_id: size.insertId })
+    .execute(pool);
 
-  await execute(pool, `CREATE TABLE \`variant_group\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`variant_group\` (
   \`variant_group_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`attribute_group_id\` int(10) unsigned NOT NULL,
   \`attribute_one\` int(10) unsigned DEFAULT NULL,
@@ -128,9 +164,12 @@ module.exports = exports = async () => {
   CONSTRAINT \`FK_ATTRIBUTE_VARIANT_THREE\` FOREIGN KEY (\`attribute_three\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT \`FK_ATTRIBUTE_VARIANT_TWO\` FOREIGN KEY (\`attribute_two\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-`);
+`
+  );
 
-  await execute(pool, `CREATE TABLE \`customer_group\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`customer_group\` (
   \`customer_group_id\` int(10) unsigned NOT NULL,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`group_name\` char(255) NOT NULL,
@@ -140,12 +179,18 @@ module.exports = exports = async () => {
   PRIMARY KEY (\`customer_group_id\`),
   KEY \`row_id\` (\`row_id\`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer group';
-`);
+`
+  );
 
   // Add default customer group
-  await execute(pool, 'INSERT INTO `customer_group` ( `customer_group_id`, `group_name` ) VALUES (1, \'Default\') ON DUPLICATE KEY UPDATE group_name=\'Default\'');
+  await execute(
+    pool,
+    "INSERT INTO `customer_group` ( `customer_group_id`, `group_name` ) VALUES (1, 'Default') ON DUPLICATE KEY UPDATE group_name='Default'"
+  );
 
-  await execute(pool, `CREATE TABLE \`product\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`product\` (
   \`product_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`variant_group_id\` int(10) unsigned DEFAULT NULL,
@@ -168,9 +213,12 @@ module.exports = exports = async () => {
   KEY \`FK_PRODUCT_VARIANT_GROUP\` (\`variant_group_id\`),
   CONSTRAINT \`FK_PRODUCT_ATTRIBUTE_GROUP\` FOREIGN KEY (\`group_id\`) REFERENCES \`attribute_group\` (\`attribute_group_id\`) ON DELETE SET NULL,
   CONSTRAINT \`FK_PRODUCT_VARIANT_GROUP\` FOREIGN KEY (\`variant_group_id\`) REFERENCES \`variant_group\` (\`variant_group_id\`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product'`
+  );
 
-  await execute(pool, `CREATE TABLE \`product_attribute_value_index\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`product_attribute_value_index\` (
   \`product_attribute_value_index_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`product_id\` int(10) unsigned NOT NULL,
   \`attribute_id\` int(10) unsigned NOT NULL,
@@ -183,9 +231,12 @@ module.exports = exports = async () => {
   CONSTRAINT \`FK_ATTRIBUTE_OPTION_VALUE_LINK\` FOREIGN KEY (\`option_id\`) REFERENCES \`attribute_option\` (\`attribute_option_id\`) ON DELETE CASCADE,
   CONSTRAINT \`FK_ATTRIBUTE_VALUE_LINK\` FOREIGN KEY (\`attribute_id\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE,
   CONSTRAINT \`FK_PRODUCT_ATTRIBUTE_LINK\` FOREIGN KEY (\`product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute value index'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute value index'`
+  );
 
-  await execute(pool, `CREATE TABLE \`product_custom_option\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`product_custom_option\` (
   \`product_custom_option_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`product_custom_option_product_id\` int(10) unsigned NOT NULL,
   \`option_name\` varchar(255) NOT NULL,
@@ -195,9 +246,12 @@ module.exports = exports = async () => {
   PRIMARY KEY (\`product_custom_option_id\`),
   KEY \`FK_PRODUCT_CUSTOM_OPTION\` (\`product_custom_option_product_id\`),
   CONSTRAINT \`FK_PRODUCT_CUSTOM_OPTION\` FOREIGN KEY (\`product_custom_option_product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product custom option'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product custom option'`
+  );
 
-  await execute(pool, `CREATE TABLE \`product_custom_option_value\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`product_custom_option_value\` (
   \`product_custom_option_value_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`option_id\` int(10) unsigned NOT NULL,
   \`extra_price\` decimal(12,4) DEFAULT NULL,
@@ -206,9 +260,12 @@ module.exports = exports = async () => {
   PRIMARY KEY (\`product_custom_option_value_id\`),
   KEY \`FK_CUSTOM_OPTION_VALUE\` (\`option_id\`),
   CONSTRAINT \`FK_CUSTOM_OPTION_VALUE\` FOREIGN KEY (\`option_id\`) REFERENCES \`product_custom_option\` (\`product_custom_option_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product option value'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product option value'`
+  );
 
-  await execute(pool, `CREATE TABLE \`product_description\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`product_description\` (
   \`product_description_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`product_description_product_id\` int(10) unsigned NOT NULL,
   \`name\` text NOT NULL,
@@ -221,18 +278,24 @@ module.exports = exports = async () => {
   PRIMARY KEY (\`product_description_id\`),
   UNIQUE KEY \`PRODUCT_ID_UNIQUE\` (\`product_description_product_id\`),
   CONSTRAINT \`FK_PRODUCT_DESCRIPTION\` FOREIGN KEY (\`product_description_product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product description'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product description'`
+  );
 
-  await execute(pool, `CREATE TABLE \`product_image\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`product_image\` (
   \`product_image_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`product_image_product_id\` int(10) unsigned NOT NULL,
   \`image\` varchar(225) NOT NULL,
   PRIMARY KEY (\`product_image_id\`),
   KEY \`FK_PRODUCT_IMAGE_LINK\` (\`product_image_product_id\`),
   CONSTRAINT \`FK_PRODUCT_IMAGE_LINK\` FOREIGN KEY (\`product_image_product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product image'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product image'`
+  );
 
-  await execute(pool, `CREATE TABLE \`product_price\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`product_price\` (
   \`product_price_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`product_price_product_id\` int(10) unsigned NOT NULL,
   \`tier_price\` decimal(12,4) NOT NULL,
@@ -248,9 +311,12 @@ module.exports = exports = async () => {
   KEY \`FK_PRICE_CUSTOMER_GROUP\` (\`customer_group_id\`),
   CONSTRAINT \`FK_PRICE_CUSTOMER_GROUP\` FOREIGN KEY (\`customer_group_id\`) REFERENCES \`customer_group\` (\`customer_group_id\`) ON DELETE CASCADE,
   CONSTRAINT \`FK_PRICE_PRODUCT\` FOREIGN KEY (\`product_price_product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product advanced price'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product advanced price'`
+  );
 
-  await execute(pool, `CREATE TABLE \`category\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`category\` (
   \`category_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`status\` smallint(6) NOT NULL,
@@ -260,9 +326,12 @@ module.exports = exports = async () => {
   \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
   \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (\`category_id\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Category'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Category'`
+  );
 
-  await execute(pool, `CREATE TABLE \`product_category\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`product_category\` (
   \`product_category_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`category_id\` int(10) unsigned NOT NULL,
   \`product_id\` int(10) unsigned NOT NULL,
@@ -271,9 +340,12 @@ module.exports = exports = async () => {
   KEY \`FK_PRODUCT_CATEGORY_LINK\` (\`product_id\`),
   CONSTRAINT \`FK_CATEGORY_PRODUCT_LINK\` FOREIGN KEY (\`category_id\`) REFERENCES \`category\` (\`category_id\`) ON DELETE CASCADE,
   CONSTRAINT \`FK_PRODUCT_CATEGORY_LINK\` FOREIGN KEY (\`product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product and category link'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product and category link'`
+  );
 
-  await execute(pool, `CREATE TABLE \`category_description\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`category_description\` (
   \`category_description_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`category_description_category_id\` int(10) unsigned NOT NULL,
   \`name\` text NOT NULL,
@@ -287,34 +359,49 @@ module.exports = exports = async () => {
   PRIMARY KEY (\`category_description_id\`),
   UNIQUE KEY \`CATEGORY_ID_UNIQUE\` (\`category_description_category_id\`),
   CONSTRAINT \`FK_CATEGORY_DESCRIPTION\` FOREIGN KEY (\`category_description_category_id\`) REFERENCES \`category\` (\`category_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Category description'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Category description'`
+  );
 
   /* CREATE SOME TRIGGERS */
 
-  await execute(pool, `CREATE TRIGGER \`TRIGGER_REMOVE_ATTRIBUTE_FROM_GROUP\` AFTER DELETE ON \`attribute_group_link\` FOR EACH ROW BEGIN
+  await execute(
+    pool,
+    `CREATE TRIGGER \`TRIGGER_REMOVE_ATTRIBUTE_FROM_GROUP\` AFTER DELETE ON \`attribute_group_link\` FOR EACH ROW BEGIN
                 
                         DELETE FROM \`product_attribute_value_index\` WHERE product_attribute_value_index.attribute_id = OLD.attribute_id AND product_attribute_value_index.product_id IN (SELECT product.product_id FROM product WHERE product.group_id = OLD.group_id);
                 
                         DELETE FROM \`variant_group\` WHERE \`variant_group\`.\`attribute_group_id\` = OLD.group_id AND (\`variant_group\`.\`attribute_one\` = OLD.attribute_id OR \`variant_group\`.\`attribute_two\` = OLD.attribute_id OR \`variant_group\`.\`attribute_three\` = OLD.attribute_id OR \`variant_group\`.\`attribute_four\` = OLD.attribute_id OR \`variant_group\`.\`attribute_five\` = OLD.attribute_id);
                     
-                    END`);
-  await execute(pool, `CREATE TRIGGER \`TRIGGER_ATTRIBUTE_OPTION_UPDATE\` AFTER UPDATE ON \`attribute_option\` FOR EACH ROW UPDATE \`product_attribute_value_index\` SET \`product_attribute_value_index\`.\`option_text\` = NEW.option_text
+                    END`
+  );
+  await execute(
+    pool,
+    `CREATE TRIGGER \`TRIGGER_ATTRIBUTE_OPTION_UPDATE\` AFTER UPDATE ON \`attribute_option\` FOR EACH ROW UPDATE \`product_attribute_value_index\` SET \`product_attribute_value_index\`.\`option_text\` = NEW.option_text
                         
-                        WHERE \`product_attribute_value_index\`.option_id = NEW.attribute_option_id AND \`product_attribute_value_index\`.attribute_id = NEW.attribute_id`);
+                        WHERE \`product_attribute_value_index\`.option_id = NEW.attribute_option_id AND \`product_attribute_value_index\`.attribute_id = NEW.attribute_id`
+  );
 
-  await execute(pool, `CREATE TRIGGER \`TRIGGER_AFTER_DELETE_ATTRIBUTE_OPTION\` AFTER DELETE ON \`attribute_option\` FOR EACH ROW BEGIN
+  await execute(
+    pool,
+    `CREATE TRIGGER \`TRIGGER_AFTER_DELETE_ATTRIBUTE_OPTION\` AFTER DELETE ON \`attribute_option\` FOR EACH ROW BEGIN
                     
                         DELETE FROM \`product_attribute_value_index\` WHERE \`product_attribute_value_index\`.option_id = OLD.attribute_option_id AND \`product_attribute_value_index\`.\`attribute_id\` = OLD.attribute_id;
                     
-                    END`);
+                    END`
+  );
 
-  await execute(pool, `CREATE TRIGGER \`TRIGGER_AFTER_INSERT_PRODUCT\` AFTER INSERT ON \`product\` FOR EACH ROW BEGIN
+  await execute(
+    pool,
+    `CREATE TRIGGER \`TRIGGER_AFTER_INSERT_PRODUCT\` AFTER INSERT ON \`product\` FOR EACH ROW BEGIN
                     
                         UPDATE \`variant_group\` SET visibility = (SELECT MAX(visibility) FROM \`product\` WHERE \`product\`.\`variant_group_id\` = new.variant_group_id AND \`product\`.\`status\` = 1 GROUP BY \`product\`.\`variant_group_id\`) WHERE \`variant_group\`.\`variant_group_id\` = new.variant_group_id;
                     
-                    END`);
+                    END`
+  );
 
-  await execute(pool, `CREATE TRIGGER \`TRIGGER_PRODUCT_AFTER_UPDATE\` AFTER UPDATE ON \`product\` FOR EACH ROW BEGIN
+  await execute(
+    pool,
+    `CREATE TRIGGER \`TRIGGER_PRODUCT_AFTER_UPDATE\` AFTER UPDATE ON \`product\` FOR EACH ROW BEGIN
 
                         DELETE FROM \`product_attribute_value_index\`
 
@@ -326,5 +413,6 @@ module.exports = exports = async () => {
 
                         UPDATE \`variant_group\` SET visibility = (SELECT MAX(visibility) FROM \`product\` WHERE \`product\`.\`variant_group_id\` = OLD.variant_group_id AND \`product\`.\`status\` = 1 GROUP BY \`product\`.\`variant_group_id\`) WHERE \`variant_group\`.\`variant_group_id\` = OLD.variant_group_id;
 
-                    END`);
+                    END`
+  );
 };

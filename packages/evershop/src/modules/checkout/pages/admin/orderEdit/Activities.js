@@ -20,14 +20,15 @@ export default function Activities({ order: { activities = [] } }) {
           }
         ]
       });
-    } else if (DateTime.fromSQL(element.createdAt.value).startOf('day') === DateTime.fromSQL(current.time).startOf('day')) {
-      current.activities.push(
-        {
-          comment: element.comment,
-          customerNotified: element.customerNotified,
-          time: element.createdAt.time
-        }
-      );
+    } else if (
+      DateTime.fromSQL(element.createdAt.value).startOf('day') ===
+      DateTime.fromSQL(current.time).startOf('day')
+    ) {
+      current.activities.push({
+        comment: element.comment,
+        customerNotified: element.customerNotified,
+        time: element.createdAt.time
+      });
     } else {
       dailyActivities.push({
         date: element.createdAt.value,
@@ -55,7 +56,11 @@ export default function Activities({ order: { activities = [] } }) {
                   <span className="dot" />
                   <div className="comment">
                     <span>{a.comment}</span>
-                    {parseInt(a.customerNotified, 10) === 1 && <span className="customer-notified">Customer was notified</span>}
+                    {parseInt(a.customerNotified, 10) === 1 && (
+                      <span className="customer-notified">
+                        Customer was notified
+                      </span>
+                    )}
                   </div>
                   <span className="time">{a.time}</span>
                 </li>
@@ -70,16 +75,18 @@ export default function Activities({ order: { activities = [] } }) {
 
 Activities.propTypes = {
   order: PropTypes.shape({
-    activities: PropTypes.arrayOf(PropTypes.shape({
-      comment: PropTypes.string,
-      customerNotified: PropTypes.string,
-      createdAt: PropTypes.shape({
-        value: PropTypes.string,
-        timezone: PropTypes.string,
-        date: PropTypes.string,
-        time: PropTypes.string
+    activities: PropTypes.arrayOf(
+      PropTypes.shape({
+        comment: PropTypes.string,
+        customerNotified: PropTypes.string,
+        createdAt: PropTypes.shape({
+          value: PropTypes.string,
+          timezone: PropTypes.string,
+          date: PropTypes.string,
+          time: PropTypes.string
+        })
       })
-    }))
+    )
   }).isRequired
 };
 

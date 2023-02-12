@@ -1,7 +1,5 @@
 {
-  "methods": [
-    "POST"
-  ],
+  "methods": ["POST"],
   "path": "/carts/:cart_id/contacts",
   "access": "public"
 }

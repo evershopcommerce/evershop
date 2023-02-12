@@ -8,5 +8,5 @@ type Province {
 }
 
 extend type Query {
-  provinces (countries: [String]) : [Province]
+  provinces(countries: [String]): [Province]
 }

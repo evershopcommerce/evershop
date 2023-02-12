@@ -2,7 +2,9 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-restricted-syntax */
 const {
-  del, select, insertOnUpdate
+  del,
+  select,
+  insertOnUpdate
 } = require('@evershop/mysql-query-builder');
 const { get } = require('../../../../lib/util/get');
 
@@ -25,7 +27,9 @@ module.exports = async (request, response, delegate) => {
 
   const shouldDelete = [];
   currentGroups.forEach((g) => {
-    if (!groups.find((group) => parseInt(group, 10) === parseInt(g.group_id, 10))) {
+    if (
+      !groups.find((group) => parseInt(group, 10) === parseInt(g.group_id, 10))
+    ) {
       shouldDelete.push(g.group_id);
     }
   });

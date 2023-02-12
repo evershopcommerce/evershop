@@ -9,8 +9,13 @@ export default function FromToColumnHeader({ title, id, currentFilters = [] }) {
   const onKeyPress = (e) => {
     const url = new URL(document.location);
     if (e.key === 'Enter') {
-      if (filterTo.current.value === '' && filterFrom.current.value === '') url.searchParams.delete(id);
-      else url.searchParams.set(id, `${filterFrom.current.value}-${filterTo.current.value}`);
+      if (filterTo.current.value === '' && filterFrom.current.value === '')
+        url.searchParams.delete(id);
+      else
+        url.searchParams.set(
+          id,
+          `${filterFrom.current.value}-${filterTo.current.value}`
+        );
       window.location.href = url.href;
     }
   };
@@ -24,7 +29,9 @@ export default function FromToColumnHeader({ title, id, currentFilters = [] }) {
   return (
     <th>
       <div className="table-header price-header">
-        <div className="title" style={{ marginBottom: '1rem' }}><span>{title}</span></div>
+        <div className="title" style={{ marginBottom: '1rem' }}>
+          <span>{title}</span>
+        </div>
         <div className="flex space-x-1">
           <div style={{ width: '6rem' }}>
             <Input
@@ -53,10 +60,12 @@ export default function FromToColumnHeader({ title, id, currentFilters = [] }) {
 FromToColumnHeader.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  currentFilters: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    value: PropTypes.string
-  }))
+  currentFilters: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      value: PropTypes.string
+    })
+  )
 };
 
 FromToColumnHeader.defaultProps = {

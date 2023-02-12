@@ -23,11 +23,12 @@ export function CheckoutProvider({
       // If order is placed, do nothing
       if (orderPlaced) return;
       // If there is a incompleted step, do nothing
-      if (steps.length < 1 || steps.findIndex((s) => s.isCompleted === false) !== -1) return;
-      const response = await axios.post(
-        placeOrderAPI,
-        { cart_id: cartId }
-      );
+      if (
+        steps.length < 1 ||
+        steps.findIndex((s) => s.isCompleted === false) !== -1
+      )
+        return;
+      const response = await axios.post(placeOrderAPI, { cart_id: cartId });
       if (!response.data.error) {
         setOrderPlaced(true);
         setOrderId(response.data.data.uuid);
@@ -43,9 +44,7 @@ export function CheckoutProvider({
   }, [steps]);
 
   const getPaymentMethods = async () => {
-    const response = await axios.get(
-      getPaymentMethodAPI
-    );
+    const response = await axios.get(getPaymentMethodAPI);
 
     if (!response.data.error) {
       setPaymentMethods(response.data.data.methods);
@@ -54,22 +53,21 @@ export function CheckoutProvider({
     }
   };
 
-  const contextValue = useMemo(() => ({
-    steps,
-    cartId,
-    orderPlaced,
-    orderId,
-    paymentMethods,
-    setPaymentMethods,
-    getPaymentMethods,
-    checkoutSuccessUrl
-  }), [steps, cartId, orderPlaced, orderId, paymentMethods, checkoutSuccessUrl]);
-
-  return (
-    <Checkout.Provider value={contextValue}>
-      {children}
-    </Checkout.Provider>
+  const contextValue = useMemo(
+    () => ({
+      steps,
+      cartId,
+      orderPlaced,
+      orderId,
+      paymentMethods,
+      setPaymentMethods,
+      getPaymentMethods,
+      checkoutSuccessUrl
+    }),
+    [steps, cartId, orderPlaced, orderId, paymentMethods, checkoutSuccessUrl]
   );
+
+  return <Checkout.Provider value={contextValue}>{children}</Checkout.Provider>;
 }
 
 CheckoutProvider.propTypes = {

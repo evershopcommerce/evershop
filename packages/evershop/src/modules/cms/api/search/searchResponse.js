@@ -1,4 +1,7 @@
-const { OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+const {
+  OK,
+  INTERNAL_SERVER_ERROR
+} = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {

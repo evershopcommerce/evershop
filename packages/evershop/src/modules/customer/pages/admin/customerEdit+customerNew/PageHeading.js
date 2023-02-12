@@ -3,7 +3,14 @@ import React from 'react';
 import PageHeading from '../../../../cms/components/admin/PageHeading';
 
 export default function CustomerEditPageHeading({ backUrl, customer }) {
-  return <PageHeading backUrl={backUrl} heading={customer ? `Editing ${customer.fullName}` : 'Create A New Customer'} />;
+  return (
+    <PageHeading
+      backUrl={backUrl}
+      heading={
+        customer ? `Editing ${customer.fullName}` : 'Create A New Customer'
+      }
+    />
+  );
 }
 
 CustomerEditPageHeading.propTypes = {

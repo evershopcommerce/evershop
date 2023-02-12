@@ -1,8 +1,15 @@
 const { select } = require('@evershop/mysql-query-builder');
-const { setContextValue, getContextValue } = require('../../../graphql/services/contextHelper');
+const {
+  setContextValue,
+  getContextValue
+} = require('../../../graphql/services/contextHelper');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 const { saveCart } = require('../../services/saveCart');
-const { INVALID_PAYLOAD, INTERNAL_SERVER_ERROR, OK } = require('../../../../lib/util/httpStatus');
+const {
+  INVALID_PAYLOAD,
+  INTERNAL_SERVER_ERROR,
+  OK
+} = require('../../../../lib/util/httpStatus');
 const { pool } = require('../../../../lib/mysql/connection');
 const { createNewCart } = require('../../services/createNewCart');
 
@@ -12,7 +19,11 @@ module.exports = async (request, response, delegate, next) => {
     let cart;
     if (!cartId) {
       // Create a new cart
-      const customerTokenPayload = getContextValue(request, 'customerTokenPayload', {});
+      const customerTokenPayload = getContextValue(
+        request,
+        'customerTokenPayload',
+        {}
+      );
       cart = await createNewCart(customerTokenPayload);
       cartId = cart.getData('uuid');
     } else {

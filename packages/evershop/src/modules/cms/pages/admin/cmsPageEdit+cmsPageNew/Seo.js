@@ -52,7 +52,9 @@ export default function Seo({ page }) {
       sortOrder: 30
     }
   ].filter((f) => {
-    if (get(page, `${f.props.id}`) !== undefined) { f.props.value = get(page, `${f.props.id}`); }
+    if (get(page, `${f.props.id}`) !== undefined) {
+      f.props.value = get(page, `${f.props.id}`);
+    }
     return f;
   });
 

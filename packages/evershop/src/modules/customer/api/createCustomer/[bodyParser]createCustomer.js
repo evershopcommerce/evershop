@@ -1,7 +1,10 @@
 const { insert, select } = require('@evershop/mysql-query-builder');
 const bcrypt = require('bcrypt');
 const { pool } = require('../../../../lib/mysql/connection');
-const { OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+const {
+  OK,
+  INTERNAL_SERVER_ERROR
+} = require('../../../../lib/util/httpStatus');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 
 // eslint-disable-next-line no-unused-vars

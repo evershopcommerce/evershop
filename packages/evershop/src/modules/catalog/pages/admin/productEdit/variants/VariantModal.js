@@ -30,7 +30,9 @@ export function VariantModal({
           <div className="grid grid-cols-2 gap-x-1 border-b border-divider pb-15 mb-15">
             {variantAttributes.map((a) => (
               <div key={a.attributeId} className="mt-1 col">
-                <div><label>{a.attributeName}</label></div>
+                <div>
+                  <label>{a.attributeName}</label>
+                </div>
                 <Field
                   name={a.attributeCode}
                   validationRules={['notEmpty']}
@@ -39,11 +41,10 @@ export function VariantModal({
                       (v) => v.attributeCode === a.attributeCode
                     )?.optionId
                   }
-                  options={
-                    a.options.map(
-                      (o) => ({ value: o.optionId, text: o.optionText })
-                    )
-                  }
+                  options={a.options.map((o) => ({
+                    value: o.optionId,
+                    text: o.optionText
+                  }))}
                   type="select"
                 />
               </div>
@@ -108,25 +109,33 @@ VariantModal.propTypes = {
       }),
       status: PropTypes.number,
       visibility: PropTypes.number,
-      attributes: PropTypes.arrayOf(PropTypes.shape({
+      attributes: PropTypes.arrayOf(
+        PropTypes.shape({
+          attributeCode: PropTypes.string,
+          optionId: PropTypes.number
+        })
+      )
+    }),
+    attributes: PropTypes.arrayOf(
+      PropTypes.shape({
         attributeCode: PropTypes.string,
         optionId: PropTypes.number
-      }))
-    }),
-    attributes: PropTypes.arrayOf(PropTypes.shape({
-      attributeCode: PropTypes.string,
-      optionId: PropTypes.number
-    }))
+      })
+    )
   }),
-  variantAttributes: PropTypes.arrayOf(PropTypes.shape({
-    attributeId: PropTypes.number,
-    attributeName: PropTypes.string,
-    attributeCode: PropTypes.string,
-    options: PropTypes.arrayOf(PropTypes.shape({
-      optionId: PropTypes.number,
-      optionText: PropTypes.string
-    }))
-  })),
+  variantAttributes: PropTypes.arrayOf(
+    PropTypes.shape({
+      attributeId: PropTypes.number,
+      attributeName: PropTypes.string,
+      attributeCode: PropTypes.string,
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          optionId: PropTypes.number,
+          optionText: PropTypes.string
+        })
+      )
+    })
+  ),
   productImageUploadUrl: PropTypes.string.isRequired
 };
 

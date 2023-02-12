@@ -1,7 +1,5 @@
 {
-  "methods": [
-    "PATCH"
-  ],
+  "methods": ["PATCH"],
   "path": "/orders/:order_id/shipments/:shipment_id",
   "access": "private"
 }

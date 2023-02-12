@@ -22,11 +22,13 @@ export function HotReload({ hot }) {
           }
         });
         if (response.status < 300) {
-          appDispatch(produce(appContext, (draff) => {
-            // eslint-disable-next-line no-param-reassign
-            draff = response.data.eContext;
-            return draff;
-          }));
+          appDispatch(
+            produce(appContext, (draff) => {
+              // eslint-disable-next-line no-param-reassign
+              draff = response.data.eContext;
+              return draff;
+            })
+          );
         } else {
           // eslint-disable-next-line no-restricted-globals
           location.reload();

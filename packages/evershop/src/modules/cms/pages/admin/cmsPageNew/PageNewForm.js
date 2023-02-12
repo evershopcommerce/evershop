@@ -5,9 +5,7 @@ import Area from '../../../../../lib/components/Area';
 import { Form } from '../../../../../lib/components/form/Form';
 import { get } from '../../../../../lib/util/get';
 
-export default function CmsPageNewForm({
-  action
-}) {
+export default function CmsPageNewForm({ action }) {
   const id = 'cmsPageForm';
   return (
     <Form
@@ -18,13 +16,21 @@ export default function CmsPageNewForm({
       }}
       onSuccess={(response) => {
         if (response.error) {
-          toast.error(get(response, 'error.message', 'Something wrong. Please reload the page!'));
+          toast.error(
+            get(
+              response,
+              'error.message',
+              'Something wrong. Please reload the page!'
+            )
+          );
         } else {
           toast.success('Page saved successfully!');
           // Wait for 2 seconds to show the success message
           setTimeout(() => {
             // Redirect to the edit page
-            const editUrl = response.data.links.find((link) => link.rel === 'edit').href;
+            const editUrl = response.data.links.find(
+              (link) => link.rel === 'edit'
+            ).href;
             window.location.href = editUrl;
           }, 1500);
         }

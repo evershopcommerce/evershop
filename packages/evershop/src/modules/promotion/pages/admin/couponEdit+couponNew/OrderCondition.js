@@ -27,12 +27,14 @@ OrderCondition.propTypes = {
     condition: PropTypes.shape({
       orderTotal: PropTypes.number,
       orderQty: PropTypes.number,
-      requiredProducts: PropTypes.arrayOf(PropTypes.shape({
-        key: PropTypes.string,
-        operator: PropTypes.string,
-        value: PropTypes.string,
-        qty: PropTypes.string
-      }))
+      requiredProducts: PropTypes.arrayOf(
+        PropTypes.shape({
+          key: PropTypes.string,
+          operator: PropTypes.string,
+          value: PropTypes.string,
+          qty: PropTypes.string
+        })
+      )
     })
   })
 };
