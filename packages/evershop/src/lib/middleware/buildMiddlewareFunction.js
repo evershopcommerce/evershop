@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const { existsSync } = require('fs');
 const { sep } = require('path');
 const { asyncMiddlewareWrapper } = require('./async');
@@ -33,9 +34,21 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(id, path) {
     return (error, request, response, next) => {
       const func = require(path);
       if (request.currentRoute) {
-        func(error, request, response, getDelegates(request), next);
+        func(
+          error,
+          request,
+          response,
+          getDelegates(request),
+          next
+        );
       } else {
-        func(error, request, response, [], next);
+        func(
+          error,
+          request,
+          response,
+          [],
+          next
+        );
       }
     };
   } else {
@@ -50,9 +63,23 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(id, path) {
         next();
       } else {
         if (func.constructor.name === 'AsyncFunction') {
-          asyncMiddlewareWrapper(id, func, request, response, getDelegates(request), eNext(request, response, next));
+          asyncMiddlewareWrapper(
+            id,
+            func,
+            request,
+            response,
+            getDelegates(request),
+            eNext(request, response, next)
+          );
         } else {
-          syncMiddlewareWrapper(id, func, request, response, getDelegates(request), eNext(request, response, next));
+          syncMiddlewareWrapper(
+            id,
+            func,
+            request,
+            response,
+            getDelegates(request),
+            eNext(request, response, next)
+          );
         }
 
         // If middleware function does not have next function as a parameter

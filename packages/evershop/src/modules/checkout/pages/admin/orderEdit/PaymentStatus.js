@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Badge from '../../../../../lib/components/Badge';
 
@@ -8,6 +9,16 @@ export default function PaymentStatus({ order: { paymentStatus } }) {
     return null;
   }
 }
+
+PaymentStatus.propTypes = {
+  order: PropTypes.shape({
+    paymentStatus: PropTypes.shape({
+      badge: PropTypes.string,
+      name: PropTypes.string,
+      progress: PropTypes.number
+    })
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'pageHeadingLeft',

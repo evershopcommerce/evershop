@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
 class Router {
@@ -18,7 +19,7 @@ class Router {
   }
 
   addRoute(route) {
-    const r = this.routes.find((r) => r.id === route.id);
+    const r = this.routes.find((rt) => rt.id === route.id);
     if (r !== undefined) {
       Object.assign(r, route);
     } else {

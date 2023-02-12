@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
 import Button from '../../../../../../lib/components/form/Button';
@@ -30,15 +31,15 @@ export function SubmitButton({
 
       // Merge product and variant form data
       const formData = new FormData();
+      // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of productFormData.entries()) {
         formData.append(key, value);
       }
+      // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of variantFormData.entries()) {
         // If key not include 'attributes'
         if (key.indexOf('attributes') === -1) {
           formData.set(key, value);
-        } else {
-
         }
       }
       const productData = serializeForm(formData.entries());
@@ -46,6 +47,7 @@ export function SubmitButton({
       productData.attributes = productData.attributes.map(
         (attribute) => {
           if (variantFormData.has(attribute.attribute_code)) {
+            // eslint-disable-next-line no-param-reassign
             attribute.value = variantFormData.get(attribute.attribute_code);
           }
           return attribute;
@@ -64,7 +66,6 @@ export function SubmitButton({
       if (responseJson.error) {
         toast.error(responseJson.error.message);
         setLoading(false);
-        return;
       } else {
         const responses = await Promise.all([
           fetch(addVariantItemApi, {
@@ -91,7 +92,6 @@ export function SubmitButton({
         if (errorRes) {
           toast.error(errorRes.error.message);
           setLoading(false);
-          return;
         } else {
           refresh();
           setLoading(false);
@@ -101,10 +101,25 @@ export function SubmitButton({
     }
   };
 
-  return <Button
-    title="Create"
-    variant='primary'
-    onAction={createVariant}
-    isLoading={loading}
-  />
+  return (
+    <Button
+      title="Create"
+      variant="primary"
+      onAction={createVariant}
+      isLoading={loading}
+    />
+  );
 }
+
+SubmitButton.propTypes = {
+  addVariantItemApi: PropTypes.string.isRequired,
+  createProductApi: PropTypes.string.isRequired,
+  productFormContextDispatch: PropTypes.shape({
+    validate: PropTypes.func.isRequired
+  }).isRequired,
+  productId: PropTypes.string.isRequired,
+  refresh: PropTypes.func.isRequired,
+  modal: PropTypes.shape({
+    closeModal: PropTypes.func.isRequired
+  }).isRequired
+};

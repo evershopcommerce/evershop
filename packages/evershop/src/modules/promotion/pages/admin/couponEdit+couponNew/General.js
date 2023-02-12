@@ -43,6 +43,12 @@ Setting.propTypes = {
   startDate: PropTypes.string
 };
 
+Setting.defaultProps = {
+  discountAmount: 0,
+  endDate: '',
+  startDate: ''
+};
+
 export default function General({ coupon = {} }) {
   return (
     <Area
@@ -96,7 +102,7 @@ export default function General({ coupon = {} }) {
             value: 1,
             type: 'checkbox',
             label: 'Free shipping?',
-            isChecked: get(coupon, 'freeShipping') == 1
+            isChecked: parseInt(get(coupon, 'freeShipping'), 10) === 1
           },
           sortOrder: 50
         }
@@ -104,6 +110,22 @@ export default function General({ coupon = {} }) {
     />
   );
 }
+
+General.propTypes = {
+  coupon: PropTypes.shape({
+    coupon: PropTypes.string,
+    status: PropTypes.number,
+    description: PropTypes.string,
+    discountAmount: PropTypes.number,
+    freeShipping: PropTypes.number,
+    startDate: PropTypes.string,
+    endDate: PropTypes.string
+  })
+};
+
+General.defaultProps = {
+  coupon: {}
+};
 
 export const layout = {
   areaId: 'couponEditGeneral',

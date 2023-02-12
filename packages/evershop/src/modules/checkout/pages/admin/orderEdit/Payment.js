@@ -87,6 +87,47 @@ export default function OrderSummary({
   );
 }
 
+OrderSummary.propTypes = {
+  order: PropTypes.shape({
+    orderId: PropTypes.string.isRequired,
+    totalQty: PropTypes.number.isRequired,
+    coupon: PropTypes.string,
+    shippingMethod: PropTypes.string,
+    paymentMethodName: PropTypes.string,
+    taxAmount: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    discountAmount: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    grandTotal: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    subTotal: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    shippingFeeExclTax: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    currency: PropTypes.string.isRequired,
+    paymentStatus: PropTypes.shape({
+      code: PropTypes.string,
+      badge: PropTypes.string,
+      progress: PropTypes.number,
+      name: PropTypes.string
+    }).isRequired,
+    transactions: PropTypes.arrayOf(PropTypes.shape({
+      paymentTransactionId: PropTypes.string.isRequired,
+      amount: PropTypes.shape({
+        text: PropTypes.string.isRequired,
+        value: PropTypes.number.isRequired
+      }).isRequired,
+      paymentAction: PropTypes.string.isRequired,
+      transactionType: PropTypes.string.isRequired
+    })).isRequired
+  }).isRequired
+};
+
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 20

@@ -1,9 +1,17 @@
 const logger = require('../log/logger');
 const { setDelegate } = require('./delegate');
 
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
-exports.asyncMiddlewareWrapper = async function asyncMiddlewareWrapper(id, middlewareFunc, request, response, delegates, next) {
+exports.asyncMiddlewareWrapper = async function asyncMiddlewareWrapper(
+  id,
+  middlewareFunc,
+  request,
+  response,
+  delegates,
+  next
+) {
   logger.log('info', `Executing middleware ${id}`);
 
   try {

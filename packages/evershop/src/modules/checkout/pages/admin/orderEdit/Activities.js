@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { DateTime } from 'luxon';
 import './Activities.scss';
@@ -30,7 +31,6 @@ export default function Activities({ order: { activities = [] } }) {
     } else {
       dailyActivities.push({
         date: element.createdAt.value,
-        date: element.createdAt.date,
         activities: [
           {
             comment: element.comment,
@@ -67,6 +67,21 @@ export default function Activities({ order: { activities = [] } }) {
     </div>
   );
 }
+
+Activities.propTypes = {
+  order: PropTypes.shape({
+    activities: PropTypes.arrayOf(PropTypes.shape({
+      comment: PropTypes.string,
+      customerNotified: PropTypes.string,
+      createdAt: PropTypes.shape({
+        value: PropTypes.string,
+        timezone: PropTypes.string,
+        date: PropTypes.string,
+        time: PropTypes.string
+      })
+    }))
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'leftSide',

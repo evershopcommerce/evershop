@@ -149,7 +149,8 @@ function FullfillButton({ shipment, createShipmentApi }) {
                 submitBtn={false}
                 isJSON
                 onSuccess={() => {
-                  location.reload();
+                  // Reload the page
+                  window.location.reload();
                 }}
                 onValidationError={() => {
                   dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: false } } });
@@ -207,6 +208,18 @@ function FullfillButton({ shipment, createShipmentApi }) {
   }
 }
 
+FullfillButton.propTypes = {
+  createShipmentApi: PropTypes.string.isRequired,
+  shipment: PropTypes.shape({
+    trackingNumber: PropTypes.string,
+    carrierName: PropTypes.string
+  })
+};
+
+FullfillButton.defaultProps = {
+  shipment: undefined
+};
+
 function TrackingButton({ shipment }) {
   if (!shipment || !shipment.trackingNumber || !shipment.carrierName) {
     return null;
@@ -231,6 +244,17 @@ function TrackingButton({ shipment }) {
   );
 }
 
+TrackingButton.propTypes = {
+  shipment: PropTypes.shape({
+    carrierName: PropTypes.string,
+    trackingNumber: PropTypes.string
+  })
+};
+
+TrackingButton.defaultProps = {
+  shipment: undefined
+};
+
 function AddTrackingButton({ shipment }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   if (!shipment || shipment.trackingNumber || shipment.carrierName) return null;
@@ -251,6 +275,7 @@ function AddTrackingButton({ shipment }) {
                 submitBtn={false}
                 isJSON
                 onSuccess={() => {
+                  // eslint-disable-next-line no-restricted-globals
                   location.reload();
                 }}
                 onValidationError={() => {
@@ -309,9 +334,24 @@ function AddTrackingButton({ shipment }) {
   }
 }
 
+AddTrackingButton.propTypes = {
+  shipment: PropTypes.shape({
+    carrierName: PropTypes.string,
+    trackingNumber: PropTypes.string,
+    updateShipmentApi: PropTypes.string.isRequired
+  })
+};
+
+AddTrackingButton.defaultProps = {
+  shipment: undefined
+};
+
 export default function Items({
   order: {
-    items, shipmentStatus, shipment, fullFillApi
+    items,
+    shipmentStatus,
+    shipment,
+    fullFillApi
   }
 }) {
   return (
@@ -374,6 +414,42 @@ export default function Items({
     </Card>
   );
 }
+
+Items.propTypes = {
+  order: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      qty: PropTypes.number,
+      productName: PropTypes.string,
+      thumbnail: PropTypes.string,
+      productPrice: PropTypes.shape({
+        value: PropTypes.number,
+        text: PropTypes.string
+      }),
+      finalPrice: PropTypes.shape({
+        value: PropTypes.number,
+        text: PropTypes.string
+      }),
+      total: PropTypes.shape({
+        value: PropTypes.number,
+        text: PropTypes.string
+      })
+    })),
+    shipmentStatus: PropTypes.shape({
+      code: PropTypes.string,
+      badge: PropTypes.string,
+      progress: PropTypes.number,
+      name: PropTypes.string
+    }),
+    shipment: PropTypes.shape({
+      shipmentId: PropTypes.string,
+      carrierName: PropTypes.string,
+      trackingNumber: PropTypes.string,
+      updateShipmentApi: PropTypes.string
+    }),
+    fullFillApi: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'leftSide',

@@ -8,7 +8,9 @@ export function Province({
   allowCountries,
   fieldName = 'province'
 }) {
-  const provinces = selectedCountry ? allowCountries.find((c) => c.code === selectedCountry).provinces : [];
+  const provinces = selectedCountry
+    ? allowCountries.find((c) => c.code === selectedCountry).provinces
+    : [];
   return (
     <Field
       type="select"
@@ -28,7 +30,6 @@ export function Province({
 }
 
 Province.propTypes = {
-  formId: PropTypes.string.isRequired,
   selectedProvince: PropTypes.string,
   selectedCountry: PropTypes.string,
   allowCountries: PropTypes.arrayOf(PropTypes.shape({
@@ -38,5 +39,12 @@ Province.propTypes = {
       code: PropTypes.string,
       name: PropTypes.string
     }))
-  })).isRequired
+  })).isRequired,
+  fieldName: PropTypes.string
+};
+
+Province.defaultProps = {
+  selectedProvince: '',
+  selectedCountry: '',
+  fieldName: 'province'
 };

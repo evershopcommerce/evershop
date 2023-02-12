@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { createClient, Provider } from 'urql';
 import { AppProvider } from '../../../context/app';
@@ -22,3 +23,10 @@ export function App({ children }) {
     </AppProvider>
   );
 }
+
+App.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired
+};

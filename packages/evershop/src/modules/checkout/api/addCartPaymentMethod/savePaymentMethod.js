@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 const { saveCart } = require('../../services/saveCart');
@@ -9,30 +10,30 @@ module.exports = async (request, response, delegate, next) => {
     // Check if cart exists
     const cart = await getCartByUUID(cart_id);
     if (!cart) {
-      return response.status(INVALID_PAYLOAD).json({
+      response.status(INVALID_PAYLOAD).json({
         error: {
           message: 'Invalid cart',
           status: INVALID_PAYLOAD
         }
       });
-    }
+    } else {
+      // Save payment method
+      await cart.setData('payment_method', method_code);
+      await cart.setData('payment_method_name', method_name);
 
-    // Save payment method
-    await cart.setData('payment_method', method_code);
-    await cart.setData('payment_method_name', method_name);
-
-    // Save the cart
-    await saveCart(cart);
-    response.status(OK);
-    response.$body = {
-      data: {
-        method: {
-          code: method_code,
-          name: method_name
+      // Save the cart
+      await saveCart(cart);
+      response.status(OK);
+      response.$body = {
+        data: {
+          method: {
+            code: method_code,
+            name: method_name
+          }
         }
-      }
-    };
-    next();
+      };
+      next();
+    }
   } catch (e) {
     response.status(INTERNAL_SERVER_ERROR);
     response.json({

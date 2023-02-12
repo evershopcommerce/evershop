@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-assign */
 module.exports = exports = {};
 
 exports.OK = 200;

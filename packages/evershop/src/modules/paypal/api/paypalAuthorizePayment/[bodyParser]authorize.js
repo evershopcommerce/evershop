@@ -6,7 +6,8 @@ const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 const { INVALID_PAYLOAD, OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+module.exports = async (request, response) => {
+  // eslint-disable-next-line camelcase
   const { order_id } = request.body;
 
   // Validate the order;
@@ -49,10 +50,29 @@ module.exports = async (request, response, delegate, next) => {
       await insert('payment_transaction')
         .given({
           payment_transaction_order_id: order.order_id,
-          transaction_id: responseData.data.purchase_units[0].payments.authorizations[0].id,
-          amount: responseData.data.purchase_units[0].payments.authorizations[0].amount.value,
-          currency: responseData.data.purchase_units[0].payments.authorizations[0].amount.currency_code,
-          status: responseData.data.purchase_units[0].payments.authorizations[0].status,
+          transaction_id: responseData
+            .data
+            .purchase_units[0]
+            .payments
+            .authorizations[0]
+            .id,
+          amount: responseData
+            .data
+            .purchase_units[0]
+            .payments
+            .authorizations[0]
+            .amount.value,
+          currency: responseData
+            .data.purchase_units[0]
+            .payments
+            .authorizations[0]
+            .amount.currency_code,
+          status: responseData
+            .data
+            .purchase_units[0]
+            .payments
+            .authorizations[0]
+            .status,
           payment_action: 'authorize',
           transaction_type: 'online',
           additional_information: JSON.stringify(responseData.data)

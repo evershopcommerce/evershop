@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Card } from '../../../../cms/components/admin/Card';
 
@@ -17,11 +18,11 @@ export default function OrderInfo(
       <Card.Session>
         {customerUrl && <a href={customerUrl} className="text-interactive hover:underline block">{customerFullName}</a>}
         {!customerUrl && (
-        <span>
-          {customerEmail}
-          {' '}
-          (Guest Checkout)
-        </span>
+          <span>
+            {customerEmail}
+            {' '}
+            (Guest Checkout)
+          </span>
         )}
       </Card.Session>
       <Card.Session title="Contact information">
@@ -53,6 +54,44 @@ export default function OrderInfo(
     </Card>
   );
 }
+
+OrderInfo.propTypes = {
+  order: PropTypes.shape({
+    customerFullName: PropTypes.string.isRequired,
+    customerEmail: PropTypes.string.isRequired,
+    customerUrl: PropTypes.string,
+    shippingAddress: PropTypes.shape({
+      fullName: PropTypes.string.isRequired,
+      address1: PropTypes.string.isRequired,
+      city: PropTypes.string.isRequired,
+      postcode: PropTypes.string.isRequired,
+      telephone: PropTypes.string.isRequired,
+      province: PropTypes.shape({
+        code: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+      }).isRequired,
+      country: PropTypes.shape({
+        code: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired,
+    billingAddress: PropTypes.shape({
+      fullName: PropTypes.string.isRequired,
+      address1: PropTypes.string.isRequired,
+      city: PropTypes.string.isRequired,
+      postcode: PropTypes.string.isRequired,
+      telephone: PropTypes.string.isRequired,
+      province: PropTypes.shape({
+        code: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+      }).isRequired,
+      country: PropTypes.shape({
+        code: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'rightSide',

@@ -20,20 +20,20 @@ module.exports = async (request, response, delegate, next) => {
     const customerId = customerTokenPayload.customer?.customerId || null;
     if (customerId) {
       // Check if any cart is associated with the customer id
-      const cart = await select()
+      const customerCart = await select()
         .from('cart')
         .where('customer_id', '=', customerId)
         .andWhere('status', '=', 1)
         .load(pool);
 
-      if (cart) {
+      if (customerCart) {
         // Update the cart with the session id
         await update('cart')
           .given({ sid })
-          .where('uuid', '=', cart.uuid)
+          .where('uuid', '=', customerCart.uuid)
           .execute(pool);
 
-        setContextValue(request, 'cartId', cart.uuid);
+        setContextValue(request, 'cartId', customerCart.uuid);
       } else {
         setContextValue(request, 'cartId', null);
       }

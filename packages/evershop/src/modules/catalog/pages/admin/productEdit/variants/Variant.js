@@ -14,14 +14,13 @@ export function Variant({
   return (
     <tr>
       <td>
-        <img style={{ maxWidth: '50px', height: 'auto' }} src={variant?.product?.image?.url} />
+        <img style={{ maxWidth: '50px', height: 'auto' }} src={variant?.product?.image?.url} alt="" />
       </td>
-      {variant.attributes.map((a, i) => (
+      {variant.attributes.map((a) => (
         <td key={a.attributeId}>
           <label>{a.optionText}</label>
         </td>
-      )
-      )}
+      ))}
       <td>
         <a href={variant.product.editUrl} className="hover:text-interactive">{variant.product?.sku}</a>
       </td>
@@ -47,5 +46,18 @@ export function Variant({
 }
 
 Variant.propTypes = {
-  variant: VariantType.isRequired
+  variant: VariantType.isRequired,
+  productImageUploadUrl: PropTypes.string.isRequired,
+  refresh: PropTypes.func.isRequired,
+  variantGroup: PropTypes.shape({
+    attributes: PropTypes.arrayOf(PropTypes.shape({
+      attributeId: PropTypes.number.isRequired,
+      attributeName: PropTypes.string.isRequired,
+      attributeCode: PropTypes.string.isRequired,
+      options: PropTypes.arrayOf(PropTypes.shape({
+        optionId: PropTypes.number.isRequired,
+        optionText: PropTypes.string.isRequired
+      })).isRequired
+    })).isRequired
+  }).isRequired
 };

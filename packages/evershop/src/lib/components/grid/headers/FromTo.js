@@ -17,8 +17,8 @@ export default function FromToColumnHeader({ title, id, currentFilters = [] }) {
 
   React.useEffect(() => {
     const filter = currentFilters.find((f) => f.key === id) || { value: '-' };
-    filterFrom.current.value ? filter.value.split('-')[0] : '';
-    filterTo.current.value ? filter.value.split('-')[1] : '';
+    filterFrom.current.value = filter.value.split('-')[0] || '';
+    filterTo.current.value = filter.value.split('-')[1] || '';
   }, []);
 
   return (
@@ -52,5 +52,13 @@ export default function FromToColumnHeader({ title, id, currentFilters = [] }) {
 
 FromToColumnHeader.propTypes = {
   id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  currentFilters: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    value: PropTypes.string
+  }))
+};
+
+FromToColumnHeader.defaultProps = {
+  currentFilters: []
 };

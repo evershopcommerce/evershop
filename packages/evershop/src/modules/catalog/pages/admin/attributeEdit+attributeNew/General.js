@@ -38,12 +38,12 @@ function Groups({ groups, createGroupApi }) {
       },
       body: JSON.stringify({ group_name: newGroup.current.value })
     }).then((response) => response.json())
-      .then((data) => {
-        if (!data.error) {
+      .then((jsonData) => {
+        if (!jsonData.error) {
           newGroup.current.value = '';
           reexecuteQuery({ requestPolicy: 'network-only' });
         } else {
-          setCreateGroupError(data.error.message);
+          setCreateGroupError(jsonData.error.message);
         }
       });
   };
@@ -84,7 +84,7 @@ function Groups({ groups, createGroupApi }) {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </a>
-)}
+              )}
             />
           </div>
         </div>
@@ -92,6 +92,14 @@ function Groups({ groups, createGroupApi }) {
     </div>
   );
 }
+
+Groups.propTypes = {
+  createGroupApi: PropTypes.string.isRequired,
+  groups: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.number,
+    label: PropTypes.string
+  })).isRequired
+};
 
 function Options({ originOptions = [] }) {
   const [options, setOptions] = React.useState(originOptions);
@@ -223,6 +231,30 @@ export default function General({ attribute, createGroupApi }) {
     </Card>
   );
 }
+
+General.propTypes = {
+  attribute: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    attribute_id: PropTypes.number,
+    attribute_name: PropTypes.string,
+    attribute_code: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.shape({
+      optionId: PropTypes.number,
+      optionText: PropTypes.string
+    })),
+    groups: PropTypes.arrayOf(PropTypes.shape({
+      value: PropTypes.number,
+      label: PropTypes.string
+    }))
+  }),
+  createGroupApi: PropTypes.string.isRequired
+};
+
+General.defaultProps = {
+  attribute: {
+    type: 'text'
+  }
+};
 
 export const layout = {
   areaId: 'leftSide',

@@ -1,11 +1,11 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Select from 'react-select';
 import Area from '../../../../../lib/components/Area';
 import { Field } from '../../../../../lib/components/form/Field';
-import { get } from '../../../../../lib/util/get';
 
 const customStyles = {
-  container: (provided, state) => ({
+  container: (provided) => ({
     ...provided,
     zIndex: 1000
   })
@@ -14,9 +14,9 @@ const customStyles = {
 export default function CustomerCondition({ coupon = {}, groups }) {
   const condition = coupon?.userCondition || {};
   const selectedGroups = (condition.groups || [])
-    .filter((g) => groups.find((group) => parseInt(group.value) === parseInt(g)))
+    .filter((g) => groups.find((group) => parseInt(group.value, 10) === parseInt(g, 10)))
     .map((g) => {
-      const group = groups.find((group) => parseInt(group.value) === parseInt(g));
+      const group = groups.find((e) => parseInt(e.value, 10) === parseInt(g, 10));
       return {
         value: group.value.toString(),
         label: group.name
@@ -28,6 +28,7 @@ export default function CustomerCondition({ coupon = {}, groups }) {
       coreComponents={[
         {
           component: {
+            // eslint-disable-next-line react/no-unstable-nested-components
             default: () => (
               <Select
                 name="user_condition[groups][]"
@@ -76,6 +77,25 @@ export default function CustomerCondition({ coupon = {}, groups }) {
     />
   );
 }
+
+CustomerCondition.propTypes = {
+  coupon: PropTypes.shape({
+    userCondition: PropTypes.shape({
+      groups: PropTypes.arrayOf(PropTypes.number),
+      emails: PropTypes.string,
+      purchased: PropTypes.number
+    })
+  }),
+  groups: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.number,
+    name: PropTypes.string
+  }))
+};
+
+CustomerCondition.defaultProps = {
+  coupon: {},
+  groups: []
+};
 
 export const layout = {
   areaId: 'couponEditRight',

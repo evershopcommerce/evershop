@@ -17,6 +17,6 @@ export default function ThumbnailRow({ src, name }) {
 }
 
 ThumbnailRow.propTypes = {
-  src: PropTypes.string,
-  name: PropTypes.string
+  src: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired
 };

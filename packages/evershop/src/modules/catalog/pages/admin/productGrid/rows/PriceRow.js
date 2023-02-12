@@ -15,8 +15,10 @@ ProductPriceRow.propTypes = {
   areaProps: PropTypes.shape({
     row: PropTypes.shape({
       price: PropTypes.shape({
-        text: PropTypes.string
-      })
-    })
+        regular: PropTypes.shape({
+          text: PropTypes.string.isRequired
+        }).isRequired
+      }).isRequired
+    }).isRequired
   }).isRequired
 };

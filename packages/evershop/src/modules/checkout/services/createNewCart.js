@@ -1,7 +1,4 @@
-const {
-  select, commit, update, del, insert
-} = require('@evershop/mysql-query-builder');
-const { pool, getConnection } = require('../../../lib/mysql/connection');
+/* eslint-disable camelcase */
 const { Cart } = require('./cart/Cart');
 
 module.exports = exports;

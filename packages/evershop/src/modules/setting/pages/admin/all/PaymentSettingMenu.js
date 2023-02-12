@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Card } from '../../../../cms/components/admin/Card';
 
@@ -8,6 +9,10 @@ export default function PaymentSettingMenu({ paymentSettingUrl }) {
     </Card.Session>
   );
 }
+
+PaymentSettingMenu.propTypes = {
+  paymentSettingUrl: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'settingPageMenu',

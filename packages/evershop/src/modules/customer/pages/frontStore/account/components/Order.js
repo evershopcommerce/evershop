@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function Order({ order }) {
@@ -47,3 +48,24 @@ export default function Order({ order }) {
     </div>
   );
 }
+
+Order.propTypes = {
+  order: PropTypes.shape({
+    createdAt: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }),
+    grandTotal: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }),
+    items: PropTypes.arrayOf(PropTypes.shape({
+      productPrice: PropTypes.shape({
+        text: PropTypes.string.isRequired
+      }),
+      productSku: PropTypes.string.isRequired,
+      productName: PropTypes.string.isRequired,
+      thumbnail: PropTypes.string,
+      qty: PropTypes.number.isRequired
+    })),
+    orderNumber: PropTypes.string.isRequired
+  }).isRequired
+};

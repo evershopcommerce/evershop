@@ -1,6 +1,6 @@
 module.exports = {
   Query: {
-    checkout: async (_, { }, { cartId }) => ({
+    checkout: async (r, c, { cartId }) => ({
       cartId
     })
   }

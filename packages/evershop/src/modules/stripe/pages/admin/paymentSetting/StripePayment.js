@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Toggle } from '../../../../../lib/components/form/fields/Toggle';
@@ -5,7 +6,11 @@ import { Card } from '../../../../cms/components/admin/Card';
 
 export default function StripePayment({
   setting: {
-    stripePaymentStatus, stripeDislayName, stripePublishableKey, stripeSecretKey, stripeEndpointSecret
+    stripePaymentStatus,
+    stripeDislayName,
+    stripePublishableKey,
+    stripeSecretKey,
+    stripeEndpointSecret
   }
 }) {
   return (
@@ -88,6 +93,16 @@ export default function StripePayment({
     </Card>
   );
 }
+
+StripePayment.propTypes = {
+  setting: PropTypes.shape({
+    stripePaymentStatus: PropTypes.bool,
+    stripeDislayName: PropTypes.string,
+    stripePublishableKey: PropTypes.string,
+    stripeSecretKey: PropTypes.string,
+    stripeEndpointSecret: PropTypes.string
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'paymentSetting',

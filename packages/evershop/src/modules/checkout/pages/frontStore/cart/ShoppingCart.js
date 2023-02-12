@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { get } from '../../../../../lib/util/get';
@@ -16,6 +17,10 @@ function Title({ title }) {
     </div>
   );
 }
+
+Title.propTypes = {
+  title: PropTypes.string.isRequired
+};
 
 export default function ShoppingCart({ cart, removeUrl }) {
   const { totalQty = 0, items = [] } = cart || {};
@@ -66,6 +71,13 @@ export default function ShoppingCart({ cart, removeUrl }) {
     );
   }
 }
+
+ShoppingCart.propTypes = {
+  cart: PropTypes.shape({
+    uuid: PropTypes.string.isRequired
+  }).isRequired,
+  removeUrl: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'content',

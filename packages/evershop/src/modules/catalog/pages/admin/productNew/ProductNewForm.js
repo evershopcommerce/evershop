@@ -38,8 +38,7 @@ export default function ProductNewForm({
 }
 
 ProductNewForm.propTypes = {
-  action: PropTypes.string.isRequired,
-  gridUrl: PropTypes.string.isRequired
+  action: PropTypes.string.isRequired
 };
 
 export const layout = {

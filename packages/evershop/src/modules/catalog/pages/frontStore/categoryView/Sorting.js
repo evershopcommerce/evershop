@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-restricted-globals */
 import React from 'react';
 import { Select } from '../../../../../lib/components/form/fields/Select';
 import { useAppDispatch } from '../../../../../lib/context/app';
@@ -13,6 +14,8 @@ export default function Sorting() {
     if (typeof window !== 'undefined') {
       const params = (new URL(document.location)).searchParams;
       return params.get('sortBy') || 'id';
+    } else {
+      return undefined;
     }
   });
 
@@ -21,6 +24,8 @@ export default function Sorting() {
     if (typeof window !== 'undefined') {
       const params = (new URL(document.location)).searchParams;
       return params.get('sortOrder') || 'asc';
+    } else {
+      return undefined;
     }
   });
 
@@ -56,7 +61,9 @@ export default function Sorting() {
         <div style={{ width: '160px' }}>
           <Select
             className="form-control"
-            onChange={async (e) => await onChangeSort(e)}
+            onChange={async (e) => {
+              await onChangeSort(e);
+            }}
             value={sortBy}
             options={[{
               value: '',

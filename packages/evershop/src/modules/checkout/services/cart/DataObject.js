@@ -20,7 +20,7 @@ module.exports.DataObject = class DataObject {
   // Sort the fields by dependencies
   prepareFields() {
     // eslint-disable-next-line no-shadow
-    const fields = this.constructor.fields.filter((f, index, fields) => {
+    const fields = this.constructor.fields.filter((f) => {
       if (!f.dependencies) return true;
       const { dependencies } = f;
       let flag = true;
@@ -68,7 +68,9 @@ module.exports.DataObject = class DataObject {
       } else {
         field.resolvers = [...field.resolvers, ...resolvers];
       }
-      field.dependencies = field.dependencies ? [...dependencies, ...field.dependencies] : dependencies;
+      field.dependencies = field.dependencies
+        ? [...dependencies, ...field.dependencies]
+        : dependencies;
     } else if (!Array.isArray(resolvers)) {
       this.fields.push({ key, resolvers: [resolvers], dependencies });
     } else {
@@ -94,6 +96,7 @@ module.exports.DataObject = class DataObject {
         // Execute the list of resolvers
         for (let j = 0; j < field.resolvers.length; j += 1) {
           const resolver = field.resolvers[j];
+          // eslint-disable-next-line no-await-in-loop
           value = await resolver.call(_this, value);
         }
         this.data[field.key] = value;
@@ -101,7 +104,6 @@ module.exports.DataObject = class DataObject {
       this.isBuilding = false;
       this.isCommited = false;
     } catch (e) {
-      console.log(e);
       this.errors.buildingError = e.message;
       this.isBuilding = false;
       // Rollback the changes

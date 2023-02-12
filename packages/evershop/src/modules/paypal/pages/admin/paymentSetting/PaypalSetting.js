@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Toggle } from '../../../../../lib/components/form/fields/Toggle';
@@ -104,6 +105,26 @@ export default function PaypalPayment(
     </Card>
   );
 }
+
+PaypalPayment.propTypes = {
+  setting: PropTypes.shape({
+    paypalPaymentStatus: PropTypes.number,
+    paypalDislayName: PropTypes.string,
+    paypalClientId: PropTypes.string,
+    paypalClientSecret: PropTypes.string,
+    paypalEnvironment: PropTypes.string
+  })
+};
+
+PaypalPayment.defaultProps = {
+  setting: {
+    paypalPaymentStatus: 0,
+    paypalDislayName: '',
+    paypalClientId: '',
+    paypalClientSecret: '',
+    paypalEnvironment: ''
+  }
+};
 
 export const layout = {
   areaId: 'paymentSetting',

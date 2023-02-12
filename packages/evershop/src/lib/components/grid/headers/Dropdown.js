@@ -42,5 +42,16 @@ DropdownColumnHeader.propTypes = {
     value: PropTypes.string || PropTypes.number,
     text: PropTypes.string
   })).isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  currentFilters: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ])
+  }))
+};
+
+DropdownColumnHeader.defaultProps = {
+  currentFilters: []
 };

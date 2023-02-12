@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { Card } from '../../../../cms/components/admin/Card';
@@ -26,6 +27,12 @@ export default function CustomerNotes({ order: { shippingNote } }) {
     </Card>
   );
 }
+
+CustomerNotes.propTypes = {
+  order: PropTypes.shape({
+    shippingNote: PropTypes.string
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'rightSide',

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { New } from './variants/New';
 import { Card } from '../../../../cms/components/admin/Card';
@@ -14,10 +15,12 @@ export default function VariantGroup({
     <Card
       title="Variant"
     >
-      {!group && <New
-        createVariantGroupApi={createVariantGroupApi}
-        setGroup={setGroup}
-      />}
+      {!group && (
+        <New
+          createVariantGroupApi={createVariantGroupApi}
+          setGroup={setGroup}
+        />
+      )}
       {group && (
         <Variants
           productId={product.productId}
@@ -33,6 +36,29 @@ export default function VariantGroup({
     </Card>
   );
 }
+
+VariantGroup.propTypes = {
+  createProductApi: PropTypes.string.isRequired,
+  createVariantGroupApi: PropTypes.string.isRequired,
+  product: PropTypes.shape({
+    productId: PropTypes.number.isRequired,
+    uuid: PropTypes.string.isRequired,
+    variantGroup: PropTypes.shape({
+      variantGroupId: PropTypes.number.isRequired,
+      addItemApi: PropTypes.string.isRequired,
+      attributes: PropTypes.arrayOf(PropTypes.shape({
+        attributeId: PropTypes.number.isRequired,
+        attributeCode: PropTypes.string.isRequired,
+        attributeName: PropTypes.string.isRequired,
+        options: PropTypes.arrayOf(PropTypes.shape({
+          optionId: PropTypes.number.isRequired,
+          optionText: PropTypes.string.isRequired
+        })).isRequired
+      })).isRequired
+    })
+  }).isRequired,
+  productImageUploadUrl: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'leftSide',

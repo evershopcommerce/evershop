@@ -3,7 +3,10 @@ import React from 'react';
 import { Select } from '../../../../../../lib/components/form/fields/Select';
 
 export default function ShipmentStatusColumnHeader({
-  title, id, shipmentStatusList = [], currentFilters = []
+  title,
+  id,
+  shipmentStatusList = [],
+  currentFilters = []
 }) {
   const [current, setCurrent] = React.useState('');
 
@@ -36,5 +39,13 @@ export default function ShipmentStatusColumnHeader({
 
 ShipmentStatusColumnHeader.propTypes = {
   id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  shipmentStatusList: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired
+  })).isRequired,
+  currentFilters: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired
+  })).isRequired
 };

@@ -2,10 +2,14 @@ const { select, update } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
-module.exports = async (request, response, stack, next) => {
-  // When the user cancelled the payment from PayPal, he/she will be redirected to the checkout page. We need to check if the cart is still valid.
+module.exports = async (request, response) => {
+  // When the user cancelled the payment from PayPal
+  // he/she will be redirected to the checkout page.
+  // We need to check if the cart is still valid.
   // Get the paypal token from query string
   const paypalToken = request.query.token;
+
+  // eslint-disable-next-line camelcase
   const { order_id } = request.params;
   if (paypalToken) {
     // This token actually the paypal order id

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '@heroicons/react/solid/esm/HomeIcon';
 import NavigationItemGroup from '../../../components/admin/NavigationItemGroup';
@@ -17,6 +18,10 @@ export default function QuickLinks({ dashboard }) {
     />
   );
 }
+
+QuickLinks.propTypes = {
+  dashboard: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'adminMenu',

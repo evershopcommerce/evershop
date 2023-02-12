@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -16,12 +17,14 @@ import GroupHeader from './headers/GroupHeader';
 import DropdownColumnHeader from '../../../../../lib/components/grid/headers/Dropdown';
 
 function Actions({ attributes = [], selectedIds = [] }) {
-  const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
+  const { openAlert, closeAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const deleteAttributes = async () => {
     setIsLoading(true);
-    const promises = attributes.filter((attribute) => selectedIds.includes(attribute.uuid)).map((attribute) => axios.delete(attribute.deleteApi));
+    const promises = attributes.filter(
+      (attribute) => selectedIds.includes(attribute.uuid)
+    ).map((attribute) => axios.delete(attribute.deleteApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
@@ -73,12 +76,30 @@ function Actions({ attributes = [], selectedIds = [] }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  attributes: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.string.isRequired,
+    deleteApi: PropTypes.string.isRequired
+  })).isRequired
 };
 
-export default function AttributeGrid({ attributes: { items: attributes, total, currentFilters = [] } }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
+export default function AttributeGrid({
+  attributes: {
+    items: attributes,
+    total,
+    currentFilters = []
+  }
+}) {
+  const page = currentFilters.find(
+    (filter) => filter.key === 'page'
+  )
+    ? currentFilters.find((filter) => filter.key === 'page').value
+    : 1;
+  const limit = currentFilters.find(
+    (filter) => filter.key === 'limit'
+  )
+    ? currentFilters.find((filter) => filter.key === 'limit').value
+    : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -207,6 +228,29 @@ export default function AttributeGrid({ attributes: { items: attributes, total, 
     </Card>
   );
 }
+
+AttributeGrid.propTypes = {
+  attributes: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      attributeId: PropTypes.number.isRequired,
+      attributeName: PropTypes.string.isRequired,
+      attributeCode: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      isRequired: PropTypes.bool.isRequired,
+      isFilterable: PropTypes.bool.isRequired,
+      editUrl: PropTypes.string.isRequired,
+      updateApi: PropTypes.string.isRequired,
+      deleteApi: PropTypes.string.isRequired
+    })).isRequired,
+    total: PropTypes.number.isRequired,
+    currentFilters: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      operation: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })).isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'content',

@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import Chervon from '@heroicons/react/outline/ChevronRightIcon';
 import Area from '../../../../../lib/components/Area';
 import { CheckoutSteps, useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
 import { CheckoutProvider } from '../../../../../lib/context/checkout';
 import './Checkout.scss';
-import Chervon from '@heroicons/react/outline/ChevronRightIcon';
 
 function Steps() {
   return (
@@ -21,7 +22,9 @@ function Breadcrumb() {
   return (
     <div className="mb-2 mt-1 flex checkout-breadcrumb">
       {steps.map((step, index) => {
-        const separator = index < steps.length - 1 ? <span className="separator"><Chervon width={10} height={10} /></span> : null;
+        const separator = index < steps.length - 1
+          ? <span className="separator"><Chervon width={10} height={10} /></span>
+          : null;
         if (step.isCompleted === true) {
           return (
             <span key={step.id} className="text-muted flex items-center">
@@ -47,7 +50,9 @@ function Breadcrumb() {
 function CompletedSteps() {
   const steps = useCheckoutSteps();
   const { editStep } = useCheckoutStepsDispatch();
-  const completedSteps = steps.filter((step, index) => step.isCompleted === true && index < steps.length - 1);
+  const completedSteps = steps.filter(
+    (step, index) => step.isCompleted === true && index < steps.length - 1
+  );
   if (completedSteps.length === 0) {
     return null;
   }
@@ -61,19 +66,19 @@ function CompletedSteps() {
             <div className="col-span-2"><span>{step.preview}</span></div>
             <div className="col-span-1 flex justify-end">
               {
-              step.editable && (
-              <a
-                href="#"
-                className="text-interactive hover:underline"
-                onClick={(e) => {
-                  e.preventDefault();
-                  editStep(step.id);
-                }}
-              >
-                Change
-              </a>
-              )
-            }
+                step.editable && (
+                  <a
+                    href="#"
+                    className="text-interactive hover:underline"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      editStep(step.id);
+                    }}
+                  >
+                    Change
+                  </a>
+                )
+              }
             </div>
           </div>
         ))}
@@ -119,6 +124,15 @@ export default function CheckoutPage({
     </CheckoutSteps>
   );
 }
+
+CheckoutPage.propTypes = {
+  checkoutSuccessUrl: PropTypes.string.isRequired,
+  getPaymentMethodAPI: PropTypes.string.isRequired,
+  placeOrderAPI: PropTypes.string.isRequired,
+  checkout: PropTypes.shape({
+    cartId: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'content',

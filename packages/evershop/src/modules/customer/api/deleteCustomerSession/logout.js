@@ -16,7 +16,7 @@ module.exports = async (request, response, delegate, next) => {
     });
   } catch (e) {
     response.status(INTERNAL_SERVER_ERROR);
-    response.json({
+    return response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,
         message: e.message

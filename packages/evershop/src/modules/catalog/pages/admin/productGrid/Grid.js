@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -18,12 +19,14 @@ import DummyColumnHeader from '../../../../../lib/components/grid/headers/Dummy'
 import QtyRow from './rows/QtyRow';
 
 function Actions({ products = [], selectedIds = [] }) {
-  const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
+  const { openAlert, closeAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const updateProducts = async (status) => {
     setIsLoading(true);
-    const promises = products.filter((product) => selectedIds.includes(product.uuid)).map((product) => axios.patch(product.updateApi, {
+    const promises = products.filter(
+      (product) => selectedIds.includes(product.uuid)
+    ).map((product) => axios.patch(product.updateApi, {
       status
     }));
     await Promise.all(promises);
@@ -34,7 +37,9 @@ function Actions({ products = [], selectedIds = [] }) {
 
   const deleteProducts = async () => {
     setIsLoading(true);
-    const promises = products.filter((product) => selectedIds.includes(product.uuid)).map((product) => axios.delete(product.deleteApi));
+    const promises = products.filter(
+      (product) => selectedIds.includes(product.uuid)
+    ).map((product) => axios.delete(product.deleteApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
@@ -130,14 +135,32 @@ function Actions({ products = [], selectedIds = [] }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  products: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.number.isRequired,
+    updateApi: PropTypes.string.isRequired,
+    deleteApi: PropTypes.string.isRequired
+  })).isRequired
 };
 
 export default function ProductGrid({
-  products: { items: products, total, currentFilters = [] }, disableProductUrl, enableProductsUrl, deleteProductsUrl
+  products: {
+    items: products,
+    total,
+    currentFilters = []
+  }
 }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
+  const page = currentFilters.find(
+    (filter) => filter.key === 'page'
+  )
+    ? currentFilters.find((filter) => filter.key === 'page').value
+    : 1;
+
+  const limit = currentFilters.find(
+    (filter) => filter.key === 'limit'
+  )
+    ? currentFilters.find((filter) => filter.key === 'limit').value
+    : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -147,8 +170,11 @@ export default function ProductGrid({
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(products.map((p) => p.uuid));
-                else setSelectedRows([]);
+                if (e.target.checked) {
+                  setSelectedRows(products.map((p) => p.uuid));
+                } else {
+                  setSelectedRows([]);
+                }
               }}
               />
             </th>
@@ -162,23 +188,65 @@ export default function ProductGrid({
                     sortOrder: 5
                   },
                   {
-                    component: { default: () => <BasicColumnHeader title="Product Name" id="name" currentFilters={currentFilters} /> },
+                    component: {
+                      default: () => (
+                        <BasicColumnHeader
+                          title="Product Name"
+                          id="name"
+                          currentFilters={currentFilters}
+                        />
+                      )
+                    },
                     sortOrder: 10
                   },
                   {
-                    component: { default: () => <FromToColumnHeader id="price" title="Price" currentFilters={currentFilters} /> },
+                    component: {
+                      default: () => (
+                        <FromToColumnHeader
+                          id="price"
+                          title="Price"
+                          currentFilters={currentFilters}
+                        />
+                      )
+                    },
                     sortOrder: 15
                   },
                   {
-                    component: { default: () => <BasicColumnHeader title="SKU" id="sku" currentFilters={currentFilters} /> },
+                    component: {
+                      default: () => (
+                        <BasicColumnHeader
+                          title="SKU"
+                          id="sku"
+                          currentFilters={currentFilters}
+                        />
+                      )
+                    },
                     sortOrder: 20
                   },
                   {
-                    component: { default: () => <BasicColumnHeader title="Qty" id="qty" currentFilters={currentFilters} /> },
+                    component: {
+                      default: () => (
+                        <BasicColumnHeader
+                          title="Qty"
+                          id="qty"
+                          currentFilters={currentFilters}
+                        />
+                      )
+                    },
                     sortOrder: 25
                   },
                   {
-                    component: { default: () => <DropdownColumnHeader id="status" title="Status" currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
+
+                    component: {
+                      default: () => (
+                        <DropdownColumnHeader
+                          id="status"
+                          title="Status"
+                          currentFilters={currentFilters}
+                          options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]}
+                        />
+                      )
+                    },
                     sortOrder: 30
                   }
                 ]
@@ -214,26 +282,50 @@ export default function ProductGrid({
                 setSelectedRows={setSelectedRows}
                 coreComponents={[
                   {
-                    component: { default: () => <ThumbnailRow src={p.image?.thumb} name={p.name} /> },
+                    component: {
+                      default: () => (
+                        <ThumbnailRow
+                          src={p.image?.thumb}
+                          name={p.name}
+                        />
+                      )
+                    },
                     sortOrder: 5
                   },
                   {
-                    component: { default: ({ areaProps }) => <ProductNameRow id="name" name={p.name} url={p.editUrl} /> },
+                    component: {
+                      default: () => (
+                        <ProductNameRow
+                          id="name"
+                          name={p.name}
+                          url={p.editUrl}
+                        />
+                      )
+                    },
                     sortOrder: 10
                   },
                   {
-                    component: { default: ({ areaProps }) => <ProductPriceRow areaProps={areaProps} /> },
+                    component: {
+                      default: ({ areaProps }) => (
+                        <ProductPriceRow
+                          areaProps={areaProps}
+                        />
+                      )
+                    },
                     sortOrder: 15
                   },
                   {
+                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: { default: ({ areaProps }) => <BasicRow id="sku" areaProps={areaProps} /> },
                     sortOrder: 20
                   },
                   {
+                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: { default: () => <QtyRow qty={p.inventory?.qty} /> },
                     sortOrder: 25
                   },
                   {
+                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: { default: ({ areaProps }) => <StatusRow id="status" areaProps={areaProps} /> },
                     sortOrder: 30
                   }
@@ -249,6 +341,39 @@ export default function ProductGrid({
     </Card>
   );
 }
+
+ProductGrid.propTypes = {
+  products: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      productId: PropTypes.number,
+      uuid: PropTypes.string,
+      name: PropTypes.string,
+      image: PropTypes.shape({
+        thumb: PropTypes.string
+      }),
+      sku: PropTypes.string,
+      status: PropTypes.number,
+      inventory: PropTypes.shape({
+        qty: PropTypes.number
+      }),
+      price: PropTypes.shape({
+        regular: PropTypes.shape({
+          value: PropTypes.number,
+          text: PropTypes.string
+        })
+      }),
+      editUrl: PropTypes.string,
+      updateApi: PropTypes.string,
+      deleteApi: PropTypes.string
+    })),
+    total: PropTypes.number,
+    currentFilters: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string,
+      operation: PropTypes.string,
+      value: PropTypes.string
+    }))
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'content',

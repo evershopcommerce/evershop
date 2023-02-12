@@ -1,7 +1,6 @@
 // This factory creates one Cart object per request
 const { getContextValue } = require('../../../graphql/services/contextHelper');
 const { getCustomerCart } = require('../getCustomerCart');
-const { Cart } = require('./Cart');
 
 const CartFactory = {};
 
@@ -31,14 +30,15 @@ CartFactory.getCart = async function getCart(sid) {
   if (!sid) {
     throw new Error('Session ID is required');
   } else {
-    const cart = this.carts[sid]?.cart;
-    if (cart === undefined) {
+    if (this.carts[sid]?.cart === undefined) {
       this.carts[sid].cart = getCustomerCart(getContextValue(this.carts[sid].request, 'customerTokenPayload'));
     }
 
-    return await this.carts[sid].cart;
+    const cart = await this.carts[sid].cart;
+    return cart;
   }
 };
 
+// eslint-disable-next-line no-multi-assign
 exports = module.exports = {};
 exports.CartFactory = CartFactory;

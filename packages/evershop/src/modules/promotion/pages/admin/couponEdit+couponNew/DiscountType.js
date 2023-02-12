@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { Field } from '../../../../../lib/components/form/Field';
@@ -64,6 +65,32 @@ export default function DiscountType({ coupon = {} }) {
     </div>
   );
 }
+
+DiscountType.propTypes = {
+  coupon: PropTypes.shape({
+    buyxGety: PropTypes.arrayOf(PropTypes.shape({
+      sku: PropTypes.string,
+      buyQty: PropTypes.string,
+      getQty: PropTypes.string,
+      maxY: PropTypes.string,
+      discount: PropTypes.string
+    })),
+    discountType: PropTypes.string,
+    targetProducts: PropTypes.shape({
+      maxQty: PropTypes.string,
+      products: PropTypes.arrayOf(PropTypes.shape({
+        key: PropTypes.string,
+        operator: PropTypes.string,
+        value: PropTypes.string,
+        qty: PropTypes.string
+      }))
+    })
+  })
+};
+
+DiscountType.defaultProps = {
+  coupon: {}
+};
 
 export const layout = {
   areaId: 'couponEditDiscountType',

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -18,14 +19,15 @@ import TotalRow from './rows/TotalRow';
 import CreateAt from '../../../../customer/pages/admin/customerGrid/rows/CreateAt';
 
 function Actions({ orders = [], selectedIds = [] }) {
-  const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
+  const { openAlert, closeAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const fullFillOrders = async () => {
     setIsLoading(true);
-    const promises = orders.filter((order) => selectedIds.includes(order.uuid)).map((order) => axios.post(order.fullFillApi, {
-      status
-    }));
+    const promises = orders.filter(
+      (order) => selectedIds.includes(order.uuid)
+    ).map((order) => axios.post(order.fullFillApi));
+
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
@@ -77,14 +79,34 @@ function Actions({ orders = [], selectedIds = [] }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  orders: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.string.isRequired,
+    fullFillApi: PropTypes.string.isRequired
+  })).isRequired
 };
 
 export default function OrderGrid({
-  orders: { items: orders, total, currentFilters = [] }, shipmentStatusList, paymentStatusList, orderBulkFullFillUrl
+  orders: {
+    items: orders,
+    total,
+    currentFilters = []
+  },
+  shipmentStatusList,
+  paymentStatusList
 }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
+  const page = currentFilters.find(
+    (filter) => filter.key === 'page'
+  )
+    ? currentFilters.find((filter) => filter.key === 'page').value
+    : 1;
+
+  const limit = currentFilters.find(
+    (filter) => filter.key === 'limit'
+  )
+    ? currentFilters.find((filter) => filter.key === 'limit').value
+    : 20;
+
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -109,19 +131,52 @@ export default function OrderGrid({
               coreComponents={
                 [
                   {
-                    component: { default: () => <BasicColumnHeader title="Order Number" id="orderNumber" currentFilters={currentFilters} /> },
+                    component: {
+                      default: () => (
+                        <BasicColumnHeader
+                          title="Order Number"
+                          id="orderNumber"
+                          currentFilters={currentFilters}
+                        />
+                      )
+                    },
                     sortOrder: 5
                   },
                   {
-                    component: { default: () => <FromToColumnHeader title="Date" id="createdAt" currentFilters={currentFilters} /> },
+                    component: {
+                      default: () => (
+                        <FromToColumnHeader
+                          title="Date"
+                          id="createdAt"
+                          currentFilters={currentFilters}
+                        />
+                      )
+                    },
                     sortOrder: 10
                   },
                   {
-                    component: { default: () => <BasicColumnHeader title="Customer Email" id="customerEmail" currentFilters={currentFilters} /> },
+                    component: {
+                      default: () => (
+                        <BasicColumnHeader
+                          title="Customer Email"
+                          id="customerEmail"
+                          currentFilters={currentFilters}
+                        />
+                      )
+                    },
                     sortOrder: 15
                   },
                   {
-                    component: { default: () => <ShipmentStatusColumnHeader title="Shipment Status" id="shipmentStatus" shipmentStatusList={shipmentStatusList} currentFilters={currentFilters} /> },
+                    component: {
+                      default: () => (
+                        <ShipmentStatusColumnHeader
+                          title="Shipment Status"
+                          id="shipmentStatus"
+                          shipmentStatusList={shipmentStatusList}
+                          currentFilters={currentFilters}
+                        />
+                      )
+                    },
                     sortOrder: 20
                   },
                   {
@@ -165,15 +220,29 @@ export default function OrderGrid({
                 coreComponents={
                   [
                     {
-                      component: { default: () => <OrderNumberRow name={o.orderNumber} editUrl={o.editUrl} /> },
+                      component: {
+                        default: () => (
+                          <OrderNumberRow
+                            name={o.orderNumber}
+                            editUrl={o.editUrl}
+                          />
+                        )
+                      },
                       sortOrder: 5
                     },
                     {
-                      component: { default: ({ areaProps }) => <CreateAt time={o.createdAt.text} /> },
+                      component: { default: () => <CreateAt time={o.createdAt.text} /> },
                       sortOrder: 10
                     },
                     {
-                      component: { default: ({ areaProps }) => <BasicRow id="customerEmail" areaProps={areaProps} /> },
+                      component: {
+                        default: ({ areaProps }) => (
+                          <BasicRow
+                            id="customerEmail"
+                            areaProps={areaProps}
+                          />
+                        )
+                      },
                       sortOrder: 15
                     },
                     {
@@ -185,7 +254,7 @@ export default function OrderGrid({
                       sortOrder: 25
                     },
                     {
-                      component: { default: ({ areaProps }) => <TotalRow total={o.grandTotal.text} /> },
+                      component: { default: () => <TotalRow total={o.grandTotal.text} /> },
                       sortOrder: 30
                     }
                   ]
@@ -201,6 +270,63 @@ export default function OrderGrid({
     </Card>
   );
 }
+
+OrderGrid.propTypes = {
+  paymentStatusList: PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    badge: PropTypes.string.isRequired,
+    progress: PropTypes.number.isRequired
+  })).isRequired,
+  shipmentStatusList: PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    badge: PropTypes.string.isRequired,
+    progress: PropTypes.number.isRequired
+  })).isRequired,
+  orders: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      orderId: PropTypes.number.isRequired,
+      uuid: PropTypes.string.isRequired,
+      orderNumber: PropTypes.string.isRequired,
+      createdAt: PropTypes.shape({
+        value: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired
+      }).isRequired,
+      customerEmail: PropTypes.string.isRequired,
+      shipmentStatus: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        code: PropTypes.string.isRequired,
+        badge: PropTypes.string.isRequired,
+        progress: PropTypes.number.isRequired
+      }).isRequired,
+      paymentStatus: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        code: PropTypes.string.isRequired,
+        badge: PropTypes.string.isRequired,
+        progress: PropTypes.number.isRequired
+      }).isRequired,
+      grandTotal: PropTypes.shape({
+        value: PropTypes.number.isRequired,
+        text: PropTypes.string.isRequired
+      }).isRequired,
+      editUrl: PropTypes.string.isRequired,
+      fullFillApi: PropTypes.string.isRequired
+    })).isRequired,
+    total: PropTypes.number.isRequired,
+    currentFilters: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      operation: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })).isRequired
+  }).isRequired,
+  total: PropTypes.number.isRequired,
+  currentFilters: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    operation: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired
+  })).isRequired
+};
 
 export const layout = {
   areaId: 'content',

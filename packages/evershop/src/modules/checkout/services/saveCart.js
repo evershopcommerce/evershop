@@ -2,7 +2,6 @@ const {
   startTransaction, del, commit, update, insert, rollback, select
 } = require('@evershop/mysql-query-builder');
 const { pool, getConnection } = require('../../../lib/mysql/connection');
-const { Cart } = require('./cart/Cart');
 
 module.exports = exports;
 

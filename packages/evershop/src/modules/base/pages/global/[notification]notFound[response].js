@@ -1,4 +1,4 @@
-const { setContextValue } = require("../../../graphql/services/contextHelper");
+const { setContextValue } = require('../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
   if (response.statusCode !== 404) {

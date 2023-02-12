@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useQuery } from 'urql';
 import { CustomerAddressForm } from './AddressForm';
@@ -21,7 +22,7 @@ export default function Index({
   formId = 'customerAddressForm',
   areaId = 'customerAddressForm'
 }) {
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: CountriesQuery
   });
 
@@ -46,3 +47,27 @@ export default function Index({
     />
   );
 }
+
+Index.propTypes = {
+  address: PropTypes.shape({
+    address1: PropTypes.string,
+    city: PropTypes.string,
+    country: PropTypes.shape({
+      code: PropTypes.string
+    }),
+    fullName: PropTypes.string,
+    postcode: PropTypes.string,
+    province: PropTypes.shape({
+      code: PropTypes.string
+    }),
+    telephone: PropTypes.string
+  }),
+  areaId: PropTypes.string,
+  formId: PropTypes.string
+};
+
+Index.defaultProps = {
+  address: {},
+  areaId: 'customerAddressForm',
+  formId: 'customerAddressForm'
+};

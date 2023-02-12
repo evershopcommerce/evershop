@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const { existsSync } = require('fs');
 const path = require('path');
 const { getEnabledExtensions } = require('../../../bin/extension');

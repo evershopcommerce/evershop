@@ -14,16 +14,15 @@ import CustomerNameRow from './rows/CustomerName';
 import CreateAt from './rows/CreateAt';
 
 function Actions({ customers = [], selectedIds = [] }) {
-  const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
-  const [isLoading, setIsLoading] = useState(false);
+  const { openAlert, closeAlert } = useAlertContext();
 
   const updateCustomers = async (status) => {
-    setIsLoading(true);
-    const promises = customers.filter((customer) => selectedIds.includes(customer.uuid)).map((customer) => axios.patch(customer.updateApi, {
+    const promises = customers.filter(
+      (customer) => selectedIds.includes(customer.uuid)
+    ).map((customer) => axios.patch(customer.updateApi, {
       status
     }));
     await Promise.all(promises);
-    setIsLoading(false);
     // Refresh the page
     window.location.reload();
   };
@@ -95,12 +94,30 @@ function Actions({ customers = [], selectedIds = [] }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  customers: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.string.isRequired,
+    updateApi: PropTypes.string.isRequired
+  })).isRequired
 };
 
-export default function CustomerGrid({ customers: { items: customers, total, currentFilters = [] }, disableCustomersUrl, enableCustomersUrl }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
+export default function CustomerGrid({
+  customers: {
+    items: customers,
+    total,
+    currentFilters = []
+  }
+}) {
+  const page = currentFilters.find(
+    (filter) => filter.key === 'page'
+  )
+    ? currentFilters.find((filter) => filter.key === 'page').value
+    : 1;
+  const limit = currentFilters.find(
+    (filter) => filter.key === 'limit'
+  )
+    ? currentFilters.find((filter) => filter.key === 'limit').value
+    : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -121,18 +138,22 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
               coreComponents={
                 [
                   {
+                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: { default: () => <BasicColumnHeader title="Full Name" id="full_name" currentFilters={currentFilters} /> },
                     sortOrder: 10
                   },
                   {
+                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: { default: () => <BasicColumnHeader title="Email" id="email" currentFilters={currentFilters} /> },
                     sortOrder: 15
                   },
                   {
+                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: { default: () => <DropdownColumnHeader title="Status" id="status" currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
                     sortOrder: 20
                   },
                   {
+                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: { default: () => <BasicColumnHeader title="Created At" id="created_at" currentFilters={currentFilters} /> },
                     sortOrder: 25
                   }
@@ -169,18 +190,22 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
                 setSelectedRows={setSelectedRows}
                 coreComponents={[
                   {
-                    component: { default: ({ areaProps }) => <CustomerNameRow id="name" name={c.fullName} url={c.editUrl} /> },
+                    // eslint-disable-next-line react/no-unstable-nested-components
+                    component: { default: () => <CustomerNameRow id="name" name={c.fullName} url={c.editUrl} /> },
                     sortOrder: 10
                   },
                   {
+                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: { default: ({ areaProps }) => <BasicRow id="email" areaProps={areaProps} /> },
                     sortOrder: 15
                   },
                   {
+                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: { default: ({ areaProps }) => <StatusRow id="status" areaProps={areaProps} /> },
                     sortOrder: 20
                   },
                   {
+                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: { default: () => <CreateAt time={c.createdAt.text} /> },
                     sortOrder: 25
                   }
@@ -196,6 +221,30 @@ export default function CustomerGrid({ customers: { items: customers, total, cur
     </Card>
   );
 }
+
+CustomerGrid.propTypes = {
+  customers: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      customerId: PropTypes.number.isRequired,
+      uuid: PropTypes.string.isRequired,
+      fullName: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      status: PropTypes.number.isRequired,
+      createdAt: PropTypes.shape({
+        value: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired
+      }).isRequired,
+      editUrl: PropTypes.string.isRequired,
+      updateApi: PropTypes.string.isRequired
+    })).isRequired,
+    total: PropTypes.number.isRequired,
+    currentFilters: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      operation: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })).isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'content',

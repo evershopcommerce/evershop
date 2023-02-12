@@ -4,14 +4,20 @@ import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import uniqid from 'uniqid';
 import { Input } from '../../../../../../lib/components/form/fields/Input';
+import { useAppState } from '../../../../../../lib/context/app';
+import { get } from '../../../../../../lib/util/get';
 import { VariantType } from './VariantType';
 
 export function SearchModal({
-  keyword, variants, addVariant, searchAPI
+  keyword,
+  variants,
+  addVariant,
+  searchAPI
 }) {
   const [potentialVariants, setPotentialVariants] = React.useState([]);
   const [typeTimeout, setTypeTimeout] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+  const context = useAppState();
 
   const search = (kw) => {
     if (typeTimeout) clearTimeout(typeTimeout);
@@ -133,5 +139,6 @@ export function SearchModal({
 SearchModal.propTypes = {
   addVariant: PropTypes.func.isRequired,
   keyword: PropTypes.string.isRequired,
-  variants: PropTypes.arrayOf(VariantType).isRequired
+  variants: PropTypes.arrayOf(VariantType).isRequired,
+  searchAPI: PropTypes.string.isRequired
 };

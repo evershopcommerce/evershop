@@ -1,13 +1,24 @@
+/* eslint-disable no-param-reassign */
 const { get } = require('../../../lib/util/get');
 
-module.exports.getContextValue = function getContextValue(request, key, defaultValue = undefined, toString = false) {
+module.exports.getContextValue = function getContextValue(
+  request,
+  key,
+  defaultValue = undefined,
+  toString = false
+) {
   // We check if the request have it, if not we try to get it from the app
   // So if you set a context which already available in app, the old one will be overwited
-  const value = get(request, `locals.context.${key}`, get(request.app.locals, `context.${key}`, defaultValue));
+  const value = get(
+    request,
+    `locals.context.${key}`,
+    get(request.app.locals, `context.${key}`, defaultValue)
+  );
   return toString ? value.toString() : value;
 };
 /**
- * Pass the app instance if you want to set a application level value (This value will be shared across all request)
+ * Pass the app instance if you want to set a application level value
+ * (This value will be shared across all request)
  * Pass the request instance if you want to set a request level value
 */
 module.exports.setContextValue = function setContextValue(requestOrApp, key, value) {
@@ -29,5 +40,5 @@ module.exports.hasContextValue = function hasContextValue(request, key) {
   const requestLevelContext = get(request, 'locals.context', {});
   const appLevelContext = get(request.app.locals, 'context', {});
 
-  return requestLevelContext.hasOwnProperty(key) || appLevelContext.hasOwnProperty();
+  return (key in requestLevelContext) || (key in appLevelContext);
 };

@@ -16,7 +16,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'cart_item_id',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.cart_item_id ?? uniqid();
         }
       ]
@@ -24,7 +24,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'uuid',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.uuid ?? uuidv4().replace(/-/g, '');
         }
       ]
@@ -32,7 +32,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_id',
       resolvers: [
-        async function () {
+        async function resolver() {
           const query = select()
             .from('product');
           query.leftJoin('product_description', 'des')
@@ -52,7 +52,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_sku',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.product.sku ?? null;
         }
       ],
@@ -61,8 +61,8 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'group_id',
       resolvers: [
-        async function () {
-          return parseInt(this.dataSource.product.group_id) ?? null;
+        async function resolver() {
+          return parseInt(this.dataSource.product.group_id, 10) ?? null;
         }
       ],
       dependencies: ['product_id']
@@ -70,7 +70,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_name',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.product.name ?? null;
         }
       ],
@@ -79,7 +79,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'thumbnail',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (this.dataSource.product.image) {
             const thumb = this.dataSource.product.image.replace(/.([^.]*)$/, '-thumb.$1');
             return fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/frontStore${config.get('catalog.product.image.placeHolder')}`;
@@ -93,7 +93,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_weight',
       resolvers: [
-        async function () {
+        async function resolver() {
           return parseFloat(this.dataSource.product.weight) ?? null;
         }
       ],
@@ -102,7 +102,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_price',
       resolvers: [
-        async function () {
+        async function resolver() {
           return toPrice(this.dataSource.product.price);
         }
       ],
@@ -111,7 +111,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_price_incl_tax',
       resolvers: [
-        async function () {
+        async function resolver() {
           return toPrice(this.getData('product_price')); // TODO: Tax will be added in tax module
         }
       ],
@@ -120,7 +120,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'qty',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (
             this.dataSource.product.product_id
             && this.dataSource.product.manage_stock === 1
@@ -141,7 +141,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'final_price',
       resolvers: [
-        async function () {
+        async function resolver() {
           return toPrice(this.getData('product_price')); // TODO This price should include the custom option price
         }
       ],
@@ -150,7 +150,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'final_price_incl_tax',
       resolvers: [
-        async function () {
+        async function resolver() {
           return toPrice(this.getData('final_price'));
         }
       ],
@@ -159,7 +159,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'total',
       resolvers: [
-        async function () {
+        async function resolver() {
           return toPrice(this.getData('final_price') * this.getData('qty') + this.getData('tax_amount'));
         }
       ],
@@ -168,7 +168,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'tax_percent',
       resolvers: [
-        async function () {
+        async function resolver() {
           return 0; // Will be added later
         }
       ]
@@ -176,7 +176,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'tax_amount',
       resolvers: [
-        async function () {
+        async function resolver() {
           return 0; // Will be added later
         }
       ],
@@ -185,7 +185,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'variant_group_id',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.product.variant_group_id ?? null;
         }
       ],
@@ -194,7 +194,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'variant_options',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (this.dataSource.product.variant_group_id) {
             const group = await select('attribute_one')
               .select('attribute_two')
@@ -228,7 +228,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_custom_options',
       resolvers: [
-        async function () {
+        async function resolver() {
           return null; // TODO: Add custom options
         }
       ],
@@ -237,7 +237,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'productUrl',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.getData('product_id') ? buildUrl('productView', { url_key: this.dataSource.product.url_key }) : null;
         }
       ],
@@ -246,7 +246,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'removeUrl',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (this.getData('cart_item_id')) {
             return buildUrl('removeMineCartItem', { item_id: this.getData('uuid') });
           } else {

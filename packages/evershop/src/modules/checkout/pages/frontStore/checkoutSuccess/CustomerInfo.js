@@ -1,10 +1,16 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Button from '../../../../../lib/components/form/Button';
 import { AddressSummary } from '../../../../customer/components/Address/AddressSummary';
 
 export default function CustomerInfo({
   order: {
-    orderNumber, customerFullName, customerEmail, paymentMethodName, shippingAddress, billingAddress
+    orderNumber,
+    customerFullName,
+    customerEmail,
+    paymentMethodName,
+    shippingAddress,
+    billingAddress
   }
 }) {
   return (
@@ -55,6 +61,47 @@ export default function CustomerInfo({
     </div>
   );
 }
+
+CustomerInfo.propTypes = {
+  order: PropTypes.shape({
+    orderNumber: PropTypes.string.isRequired,
+    customerFullName: PropTypes.string,
+    customerEmail: PropTypes.string.isRequired,
+    paymentMethodName: PropTypes.string.isRequired,
+    shippingAddress: PropTypes.shape({
+      fullName: PropTypes.string,
+      postcode: PropTypes.string,
+      telephone: PropTypes.string,
+      country: PropTypes.shape({
+        name: PropTypes.string,
+        code: PropTypes.string
+      }),
+      province: PropTypes.shape({
+        name: PropTypes.string,
+        code: PropTypes.string
+      }),
+      city: PropTypes.string,
+      address1: PropTypes.string,
+      address2: PropTypes.string
+    }),
+    billingAddress: PropTypes.shape({
+      fullName: PropTypes.string,
+      postcode: PropTypes.string,
+      telephone: PropTypes.string,
+      country: PropTypes.shape({
+        name: PropTypes.string,
+        code: PropTypes.string
+      }),
+      province: PropTypes.shape({
+        name: PropTypes.string,
+        code: PropTypes.string
+      }),
+      city: PropTypes.string,
+      address1: PropTypes.string,
+      address2: PropTypes.string
+    })
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'checkoutSuccessPageLeft',

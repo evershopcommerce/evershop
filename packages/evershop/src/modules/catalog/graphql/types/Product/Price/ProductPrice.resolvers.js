@@ -1,8 +1,6 @@
-const { getConfig } = require('../../../../../../lib/util/getConfig');
-
 module.exports = {
   Product: {
-    price: (product, _, { pool }) => {
+    price: (product) => {
       const price = parseFloat(product.price);
       return {
         regular: price,

@@ -7,6 +7,7 @@ const { INVALID_PAYLOAD, OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
+  // eslint-disable-next-line camelcase
   const { order_id } = request.body;
 
   // Validate the order;
@@ -69,7 +70,6 @@ module.exports = async (request, response, delegate, next) => {
         data: {}
       });
     } else {
-      console.log(responseData);
       response.status(INTERNAL_SERVER_ERROR);
       response.json({
         error: {

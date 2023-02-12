@@ -39,5 +39,15 @@ export default function StatusColumnHeader({ title, id, currentFilter = {} }) {
 
 StatusColumnHeader.propTypes = {
   id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  currentFilter: PropTypes.shape({
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ])
+  })
+};
+
+StatusColumnHeader.defaultProps = {
+  currentFilter: {}
 };

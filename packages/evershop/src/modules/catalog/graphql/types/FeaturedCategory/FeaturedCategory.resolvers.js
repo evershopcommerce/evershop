@@ -3,7 +3,7 @@ const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
-    featuredProducts: async (_, { }, { pool }) => {
+    featuredProducts: async (r, _, { pool }) => {
       const query = select('product.`product_id`')
         .select('product.`sku`')
         .select('product.`price`')

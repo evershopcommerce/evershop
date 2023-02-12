@@ -9,7 +9,7 @@ module.exports = () => {
     } else {
       // Validate the payment method
       const stripeStatus = await getSetting('stripePaymentStatus');
-      if (parseInt(stripeStatus) !== 1) {
+      if (parseInt(stripeStatus, 10) !== 1) {
         return previousValue;
       } else {
         delete this.errors.payment_method;

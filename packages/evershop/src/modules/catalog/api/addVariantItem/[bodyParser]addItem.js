@@ -1,13 +1,14 @@
 const {
   select, update
 } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
 const uniqid = require('uniqid');
+const { pool } = require('../../../../lib/mysql/connection');
 const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { id: groupId } = request.params;
+  // eslint-disable-next-line camelcase
   const { product_id } = request.body;
   try {
     const group = await select()
@@ -77,11 +78,10 @@ module.exports = async (request, response, delegate, next) => {
           attribute_code: a.attribute_code,
           option_id: a.option_id
         })),
-        product: product
+        product
       }
     });
   } catch (e) {
-    console.log(e)
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

@@ -15,7 +15,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'cart_id',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (this.dataSource.cart_id) {
             const cart = await select()
               .from('cart')
@@ -37,7 +37,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'uuid',
       resolvers: [
-        function () {
+        function resolver() {
           const key = uuidv4();
           // Replace all '-' with '' from key
           return this.dataSource.uuid ? this.dataSource.uuid : key.replace(/-/g, '');
@@ -48,15 +48,16 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'currency',
       resolvers: [
-        async function () {
-          return await getSetting('storeCurrency', 'USD');
+        async function resolver() {
+          const currency = await getSetting('storeCurrency', 'USD');
+          return currency;
         }
       ]
     },
     {
       key: 'user_ip',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.user_ip ?? this.getData('user_ip') ?? null;
         }
       ]
@@ -64,7 +65,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'sid',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.sid;
         }
       ]
@@ -72,7 +73,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'status',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.status ?? this.getData('status') ?? 1;
         }
       ]
@@ -80,7 +81,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'total_qty',
       resolvers: [
-        async function () {
+        async function resolver() {
           let count = 0;
           const items = this.getItems();
           items.forEach((i) => {
@@ -94,7 +95,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'total_weight',
       resolvers: [
-        async function () {
+        async function resolver() {
           let weight = 0;
           const items = this.getItems();
           items.forEach((i) => {
@@ -108,7 +109,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'tax_amount',
       resolvers: [
-        async function () {
+        async function resolver() {
           return 0; // Will be added later
         }
       ],
@@ -117,7 +118,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'sub_total',
       resolvers: [
-        async function () {
+        async function resolver() {
           let total = 0;
           const items = this.getItems();
           items.forEach((i) => {
@@ -131,7 +132,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'grand_total',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.getData('sub_total');
         }
       ],
@@ -140,7 +141,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'shipping_address_id',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.shipping_address_id;
         }
       ],
@@ -149,7 +150,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'shippingAddress',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (!this.getData('shipping_address_id')) {
             return undefined;
           } else {
@@ -162,7 +163,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'shipping_method',
       resolvers: [
-        async function () {
+        async function resolver() {
           // TODO: This field should be handled by each of shipping method
           return this.dataSource.shipping_method;
         }
@@ -172,7 +173,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'shipping_method_name',
       resolvers: [
-        async function () {
+        async function resolver() {
           // TODO: This field should be handled by each of shipping method
           return this.dataSource.shipping_method_name;
         }
@@ -182,7 +183,7 @@ exports.Cart = class Cart extends DataObject {
     {
       key: 'shipping_fee_excl_tax',
       resolvers: [
-        async function () {
+        async function resolver() {
           return 0;// TODO: This field should be handled by each of shipping method
         }
       ],
@@ -190,21 +191,21 @@ exports.Cart = class Cart extends DataObject {
     },
     {
       key: 'shipping_fee_incl_tax',
-      resolvers: [async function () {
+      resolvers: [async function resolver() {
         return 0;// TODO: This field should be handled by each of shipping method
       }],
       dependencies: ['shipping_method']
     },
     {
       key: 'billing_address_id',
-      resolvers: [async function () {
+      resolvers: [async function resolver() {
         return this.dataSource.billing_address_id;
       }],
       dependencies: ['cart_id']
     },
     {
       key: 'billingAddress',
-      resolvers: [async function () {
+      resolvers: [async function resolver() {
         if (!this.getData('billing_address_id')) {
           return undefined;
         } else {
@@ -215,7 +216,7 @@ exports.Cart = class Cart extends DataObject {
     },
     {
       key: 'payment_method',
-      resolvers: [async function () {
+      resolvers: [async function resolver() {
         this.errors.payment_method = 'Payment method is required';
         // Each payment method should handle this field
         // by returning the payment method code and remove this error if the payment method is valid
@@ -223,7 +224,7 @@ exports.Cart = class Cart extends DataObject {
     },
     {
       key: 'payment_method_name',
-      resolvers: [async function () {
+      resolvers: [async function resolver() {
         // TODO: This field should be handled by each of payment method
         return this.dataSource.payment_method_name;
       }],
@@ -231,7 +232,7 @@ exports.Cart = class Cart extends DataObject {
     },
     {
       key: 'items',
-      resolvers: [async function () {
+      resolvers: [async function resolver() {
         const items = [];
         if (this.dataSource.items) {
           await Promise.all(this.dataSource.items.map(async (item) => {
@@ -281,10 +282,9 @@ exports.Cart = class Cart extends DataObject {
     }
   ];
 
-  constructor(data = {}, request) {
+  constructor(data = {}) {
     super();
     this.dataSource = data;
-    this.request = request;
     this.prepareFields();
   }
 
@@ -330,11 +330,6 @@ exports.Cart = class Cart extends DataObject {
   async removeItem(id) {
     const items = this.getItems();
     const item = this.getItem(id);
-    // Check if id in integer string (This item already saved to database)
-    if (/^\d+$/.test(id)) {
-      id = parseInt(id, 10);
-    }
-
     const newItems = items.filter((i) => i.getData('uuid') !== id);
     if (item) {
       await this.setData('items', newItems);
@@ -346,7 +341,7 @@ exports.Cart = class Cart extends DataObject {
 
   getItem(id) {
     const items = this.getItems();
-    return items.find((item) => item.getData('uuid') == id);
+    return items.find((item) => item.getData('uuid') === id);
   }
 
   hasItemError() {

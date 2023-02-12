@@ -35,12 +35,12 @@ module.exports = {
         if (createdAtFilter) {
           const [min, max] = createdAtFilter.value.split('-').map((v) => parseFloat(v));
           let currentCreatedAtFilter;
-          if (isNaN(min) === false) {
+          if (Number.isNaN(min) === false) {
             query.andWhere('order.`created_at`', '>=', min);
             currentCreatedAtFilter = { key: 'createdAt', value: `${min}` };
           }
 
-          if (isNaN(max) === false) {
+          if (Number.isNaN(max) === false) {
             query.andWhere('order.`created_at`', '<=', max);
             currentCreatedAtFilter = { key: 'createdAt', value: `${currentCreatedAtFilter.value}-${max}` };
           }
@@ -84,12 +84,12 @@ module.exports = {
         if (totalFilter) {
           const [min, max] = totalFilter.value.split('-').map((v) => parseFloat(v));
           let currentTotalFilter;
-          if (isNaN(min) === false) {
+          if (Number.isNaN(min) === false) {
             query.andWhere('order.`grand_total`', '>=', min);
             currentTotalFilter = { key: 'total', value: `${min}` };
           }
 
-          if (isNaN(max) === false) {
+          if (Number.isNaN(max) === false) {
             query.andWhere('order.`grand_total`', '<=', max);
             currentTotalFilter = { key: 'total', value: `${currentTotalFilter.value}-${max}` };
           }
@@ -135,7 +135,7 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
+      query.limit((page.value - 1) * parseInt(limit.value, 10), parseInt(limit.value, 10));
       return {
         items: (await query.execute(pool)).map((row) => camelCase(row)),
         total: (await cloneQuery.load(pool)).total,
@@ -146,28 +146,28 @@ module.exports = {
     paymentStatusList: () => getConfig('order.paymentStatus', [])
   },
   Order: {
-    items: async ({ orderId }, { }, { pool, user }) => {
+    items: async ({ orderId }, _, { pool }) => {
       const items = await select()
         .from('order_item')
         .where('order_item_order_id', '=', orderId)
         .execute(pool);
       return items.map((item) => camelCase(item));
     },
-    shippingAddress: async ({ shippingAddressId }, { }, { pool, user }) => {
+    shippingAddress: async ({ shippingAddressId }, _, { pool }) => {
       const address = await select()
         .from('order_address')
         .where('order_address_id', '=', shippingAddressId)
         .load(pool);
       return address ? camelCase(address) : null;
     },
-    billingAddress: async ({ billingAddressId }, { }, { pool, user }) => {
+    billingAddress: async ({ billingAddressId }, _, { pool }) => {
       const address = await select()
         .from('order_address')
         .where('order_address_id', '=', billingAddressId)
         .load(pool);
       return address ? camelCase(address) : null;
     },
-    activities: async ({ orderId }, { }, { pool }) => {
+    activities: async ({ orderId }, _, { pool }) => {
       const query = select()
         .from('order_activity');
       query.where('order_activity_order_id', '=', orderId);
@@ -175,7 +175,7 @@ module.exports = {
       const activities = await query.execute(pool);
       return activities ? activities.map((activity) => camelCase(activity)) : null;
     },
-    shipment: async ({ orderId, uuid }, { }, { pool }) => {
+    shipment: async ({ orderId, uuid }, _, { pool }) => {
       const shipment = await select()
         .from('shipment')
         .where('shipment_order_id', '=', orderId)

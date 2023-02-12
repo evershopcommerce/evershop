@@ -66,12 +66,12 @@ module.exports = async (request, response, stack, next) => {
           const variants = await vsQuery.execute(pool);
 
           if (variants.length > 0) {
-            const query = select();
-            query.from('product')
+            const variantQuery = select();
+            variantQuery.from('product')
               .leftJoin('product_description')
               .on('product.`product_id`', '=', 'product_description.`product_description_product_id`');
-            query.where('product_id', '=', variants[0].product_id);
-            const pv = await query.load(pool);
+            variantQuery.where('product_id', '=', variants[0].product_id);
+            const pv = await variantQuery.load(pool);
             setContextValue(request, 'productId', pv.product_id);
             setContextValue(request, 'pageInfo', {
               title: pv.meta_title || pv.name,

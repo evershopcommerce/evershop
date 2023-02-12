@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
@@ -72,7 +73,7 @@ export function StepContent({
     getPaymentMethods();
   }, []);
 
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: QUERY,
     variables: {
       cartId
@@ -169,3 +170,27 @@ export function StepContent({
     </div>
   );
 }
+
+StepContent.propTypes = {
+  cart: PropTypes.shape({
+    billingAddress: PropTypes.shape({
+      id: PropTypes.string,
+      fullName: PropTypes.string,
+      postcode: PropTypes.string,
+      telephone: PropTypes.string,
+      country: PropTypes.shape({
+        code: PropTypes.string,
+        name: PropTypes.string
+      }),
+      province: PropTypes.shape({
+        code: PropTypes.string,
+        name: PropTypes.string
+      }),
+      city: PropTypes.string,
+      address1: PropTypes.string,
+      address2: PropTypes.string
+    }),
+    addBillingAddressApi: PropTypes.string.isRequired,
+    addPaymentMethodApi: PropTypes.string.isRequired
+  }).isRequired
+};

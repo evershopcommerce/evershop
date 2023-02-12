@@ -71,7 +71,8 @@ function Upload({ addImage, productImageUploadUrl }) {
 }
 
 Upload.propTypes = {
-  addImage: PropTypes.func.isRequired
+  addImage: PropTypes.func.isRequired,
+  productImageUploadUrl: PropTypes.string.isRequired
 };
 
 function Image({ image, removeImage }) {
@@ -174,8 +175,21 @@ export default function ProductMediaManager({ productImages = [], id, productIma
 
   return (
     <div className="product-image-manager">
-      <Images id={id} images={images} addImage={addImage} removeImage={removeImage} productImageUploadUrl={productImageUploadUrl} />
-      {images.map((image) => <input key={image.id} type="hidden" name={`${id}[]`} value={image.path} />)}
+      <Images
+        id={id}
+        images={images}
+        addImage={addImage}
+        removeImage={removeImage}
+        productImageUploadUrl={productImageUploadUrl}
+      />
+      {images.map((image) => (
+        <input
+          key={image.id}
+          type="hidden"
+          name={`${id}[]`}
+          value={image.path}
+        />
+      ))}
     </div>
   );
 }

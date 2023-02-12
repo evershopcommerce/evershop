@@ -3,7 +3,10 @@ const { getSetting } = require('../../../../setting/services/setting');
 module.exports = {
   Weight: {
     value: (raw) => parseFloat(raw), // TODO: Format for decimal value?
-    unit: async () => await getSetting('weightUnit', 'kg'),
+    unit: async () => {
+      const unit = await getSetting('weightUnit', 'kg');
+      return unit;
+    },
     text: async (raw) => {
       const weight = parseFloat(raw);// TODO: Format for decimal value?
       const unit = await getSetting('weightUnit', 'kg');

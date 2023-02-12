@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useMemo } from 'react';
 import produce from 'immer';
 
 const AppStateContext = React.createContext();
 const AppContextDispatch = React.createContext();
 
 export function AppProvider({ value, children }) {
-  // React.useEffect(() => {
-  //   window.eContext = undefined;
-  // }, []);
   const [data, setData] = React.useState(value);
   const [fetching, setFetching] = React.useState(false);
 
@@ -31,7 +28,7 @@ export function AppProvider({ value, children }) {
   };
 
   React.useEffect(() => {
-    window.onpopstate = async (event) => {
+    window.onpopstate = async () => {
       // Get the current url
       const url = new URL(window.location.href, window.location.origin);
       url.searchParams.append('ajax', true);
@@ -39,9 +36,11 @@ export function AppProvider({ value, children }) {
     };
   }, []);
 
+  const contextDispatchValue = useMemo(() => ({ setData, fetchPageData }), []);
+  const contextValue = useMemo(() => ({ ...data, fetching }), [data, fetching]);
   return (
-    <AppContextDispatch.Provider value={{ setData, fetchPageData }}>
-      <AppStateContext.Provider value={{ ...data, fetching }}>
+    <AppContextDispatch.Provider value={contextDispatchValue}>
+      <AppStateContext.Provider value={contextValue}>
         {children}
       </AppStateContext.Provider>
     </AppContextDispatch.Provider>

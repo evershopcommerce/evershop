@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { toast } from 'react-toastify';
 import { useAppState } from '../../../../../lib/context/app';
 import { Card } from '../../../../cms/components/admin/Card';
 import './Bestsellers.scss';
 
-export default function BestSellers({ api }) {
+export default function BestSellers({ api, listUrl }) {
   const context = useAppState();
   const currency = context.currency || 'USD';
   const [products, setProducts] = React.useState([]);
@@ -85,6 +86,7 @@ export default function BestSellers({ api }) {
 }
 
 BestSellers.propTypes = {
+  api: PropTypes.string.isRequired,
   listUrl: PropTypes.string.isRequired
 };
 
@@ -95,6 +97,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    api: url(routeId: "bestsellers")    
+    api: url(routeId: "bestsellers")
+    listUrl: url(routeId: "productGrid")
   }
 `;

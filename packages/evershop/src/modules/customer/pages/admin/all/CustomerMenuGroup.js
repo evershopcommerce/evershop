@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import UsersIcon from '@heroicons/react/solid/esm/UsersIcon';
 import NavigationItemGroup from '../../../../cms/components/admin/NavigationItemGroup';
@@ -17,6 +18,10 @@ export default function CustomerMenuGroup({ customerGrid }) {
     />
   );
 }
+
+CustomerMenuGroup.propTypes = {
+  customerGrid: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'adminMenu',

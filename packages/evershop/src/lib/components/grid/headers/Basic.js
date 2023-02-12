@@ -37,5 +37,13 @@ export default function BasicColumnHeader({ title, id, currentFilters = [] }) {
 
 BasicColumnHeader.propTypes = {
   id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  currentFilters: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    value: PropTypes.string
+  }))
+};
+
+BasicColumnHeader.defaultProps = {
+  currentFilters: []
 };

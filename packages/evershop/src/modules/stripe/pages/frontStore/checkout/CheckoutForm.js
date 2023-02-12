@@ -4,11 +4,10 @@ import {
   useStripe,
   useElements
 } from '@stripe/react-stripe-js';
+import { useQuery } from 'urql';
 import { useCheckout } from '../../../../../lib/context/checkout';
 import Button from '../../../../../lib/components/form/Button';
-import { get } from '../../../../../lib/util/get';
 import './CheckoutForm.scss';
-import { useQuery } from 'urql';
 import { Field } from '../../../../../lib/components/form/Field';
 
 const cartQuery = `
@@ -81,12 +80,15 @@ export default function CheckoutForm() {
   const [showTestCard, setShowTestCard] = useState('success');
   const stripe = useStripe();
   const elements = useElements();
-  const [billingCompleted] = useState(false);
   const {
-    cartId, orderId, orderPlaced, paymentMethods, checkoutSuccessUrl
+    cartId,
+    orderId,
+    orderPlaced,
+    paymentMethods,
+    checkoutSuccessUrl
   } = useCheckout();
 
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: cartQuery,
     variables: {
       cartId
@@ -154,19 +156,6 @@ export default function CheckoutForm() {
     setDisabled(event.empty);
     if (event.complete === true && !event.error) {
       setCardCompleted(true);
-    }
-  };
-
-  const handleSubmit = async (ev) => {
-    ev.preventDefault();
-    const cardElement = elements.getElement('card');
-    if (get(cardElement, '_implementation._complete') !== true) {
-      setError('Please complete the card information');
-    } else {
-      setError(null);
-      if (!billingCompleted) {
-        document.getElementById('checkoutBillingAddressForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-      }
     }
   };
 

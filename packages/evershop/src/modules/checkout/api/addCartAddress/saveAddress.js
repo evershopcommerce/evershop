@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { insert, select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 const { INVALID_PAYLOAD, OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
@@ -46,12 +47,12 @@ module.exports = async (request, response, delegate, next) => {
       .load(pool);
 
     response.status(OK);
-    response.json({
+    return response.json({
       data: createdAddress
     });
   } catch (e) {
     response.status(INTERNAL_SERVER_ERROR);
-    response.json({
+    return response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,
         message: e.message

@@ -2,10 +2,24 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Pagination } from '../../../components/product/list/Pagination';
 
-export default function PaginationWrapper({ products: { products: { total, currentFilters } } }) {
+export default function PaginationWrapper({
+  products: {
+    products: {
+      total,
+      currentFilters
+    }
+  }
+}) {
   const page = currentFilters.find((filter) => filter.key === 'page');
   const limit = currentFilters.find((filter) => filter.key === 'limit');
-  return <Pagination total={total} limit={parseInt(limit.value)} currentPage={parseInt(page.value)} />;
+
+  return (
+    <Pagination
+      total={total}
+      limit={parseInt(limit.value, 10)}
+      currentPage={parseInt(page.value, 10)}
+    />
+  );
 }
 
 PaginationWrapper.propTypes = {

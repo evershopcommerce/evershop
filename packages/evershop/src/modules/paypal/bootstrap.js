@@ -9,7 +9,7 @@ module.exports = () => {
     } else {
       // Validate the payment method
       const paypalStatus = await getSetting('paypalPaymentStatus');
-      if (parseInt(paypalStatus) !== 1) {
+      if (parseInt(paypalStatus, 10) !== 1) {
         return previousValue;
       } else {
         delete this.errors.payment_method;

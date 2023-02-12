@@ -14,7 +14,9 @@ module.exports = exports = {};
 exports.buildUrl = (routeId, params = {}) => {
   const routes = getRoutes();
   const route = routes.find((r) => r.id === routeId);
-  if (route === undefined) { throw new Error(`Route ${routeId} is not existed`); }
+  if (route === undefined) {
+    throw new Error(`Route ${routeId} is not existed`);
+  }
 
   const toPath = compile(route.path);
   return toPath(params);

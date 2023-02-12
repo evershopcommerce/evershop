@@ -47,8 +47,13 @@ module.exports = {
         let filteredVs;
         if (!userTokenPayload?.user?.uuid) {
           filteredVs = vs.filter((v) => {
-            const attributes = Object.values(group).filter((v) => Number.isInteger(v));
-            const productAttributes = vs.filter((p) => p.product_id === v.product_id).map((p) => p.attribute_id);
+            const attributes = Object.values(group)
+              .filter(
+                (attr) => Number.isInteger(attr)
+              );
+            const productAttributes = vs.filter(
+              (p) => p.product_id === v.product_id
+            ).map((p) => p.attribute_id);
             return attributes.every((a) => productAttributes.includes(a));
           });
         } else {
@@ -60,24 +65,23 @@ module.exports = {
           .where('attribute_id', 'IN', Object.values(group).filter((v) => Number.isInteger(v)))
           .execute(pool);
 
-        attributes = attributes.map((a) => {
-          return {
-            attributeId: a.attribute_id,
-            attributeCode: a.attribute_code,
-            attributeName: a.attribute_name
-          };
-        });
-        for (let i = 0; i < attributes.length; i++) {
-          const attribute = attributes[i];
+        attributes = attributes.map((a) => ({
+          attributeId: a.attribute_id,
+          attributeCode: a.attribute_code,
+          attributeName: a.attribute_name
+        }));
+
+        const promises = attributes.map(async (attribute) => {
           const options = await select()
             .from('attribute_option')
             .where('attribute_id', '=', attribute.attributeId)
             .execute(pool);
 
+          // eslint-disable-next-line no-param-reassign
           attribute.options = options.map((o) => {
             // Check if the option is used in a variant
             const used = filteredVs.find(
-              (v) => parseInt(v.option_id) === parseInt(o.attribute_option_id)
+              (v) => parseInt(v.option_id, 10) === parseInt(o.attribute_option_id, 10)
             );
             if (!used) {
               return {
@@ -92,7 +96,10 @@ module.exports = {
               };
             }
           });
-        }
+          return attribute;
+        });
+
+        attributes = await Promise.all(promises);
 
         for (let i = 0, len = filteredVs.length; i < len; i += 1) {
           const ind = variants.findIndex((v) => v.productId === filteredVs[i].product_id);

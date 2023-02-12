@@ -1,13 +1,30 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Badge from '../../../../../lib/components/Badge';
 
 export default function ShipmentStatus({ order: { shipmentStatus } }) {
   if (shipmentStatus) {
-    return <Badge variant={shipmentStatus.badge} title={shipmentStatus.name} progress={shipmentStatus.progress} />;
+    return (
+      <Badge
+        variant={shipmentStatus.badge}
+        title={shipmentStatus.name}
+        progress={shipmentStatus.progress}
+      />
+    );
   } else {
     return null;
   }
 }
+
+ShipmentStatus.propTypes = {
+  order: PropTypes.shape({
+    shipmentStatus: PropTypes.shape({
+      badge: PropTypes.string,
+      name: PropTypes.string,
+      progress: PropTypes.number
+    })
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'pageHeadingLeft',

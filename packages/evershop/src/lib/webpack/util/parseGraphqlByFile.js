@@ -4,7 +4,7 @@ const uniqid = require('uniqid');
 const { print } = require('graphql/language/printer');
 
 // This function should return an object { query, fragments, variables }.
-module.exports.parseGraphqlByFile = function (module) {
+module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
   const result = {
     query: {},
     fragments: {},
@@ -20,7 +20,12 @@ module.exports.parseGraphqlByFile = function (module) {
   const queryMatch = fileSource.match(queryRegex);
   if (queryMatch) {
     let queryBody = queryMatch[0].replace(queryRegex, (match, p1, p2) => p1 || p2);
-    // Replace 'getContextValue("key")' or getContextValue('key') or 'getContextValue("key", defaultValue)' or 'getContextValue('x', defaultValue)' to 'getContextValue_`base64 encoded of key and defaultValue`'`)' to avoid conflict with graphql-tag
+    // Replace 'getContextValue("key")'
+    // or getContextValue('key')
+    // or 'getContextValue("key", defaultValue)'
+    // or 'getContextValue('x', defaultValue)'
+    // to 'getContextValue_`base64 encoded of key and defaultValue`'`)'
+    // to avoid conflict with graphql-tag
     queryBody = queryBody.replace(/getContextValue\(([^)]+)\)/g, (match, p1) => {
       // const args = p1.split(',').map((arg) => arg.trim());
       // const key = args[0].replace(/['"]/g, '');
@@ -35,11 +40,13 @@ module.exports.parseGraphqlByFile = function (module) {
       const alias = selection.alias ? selection.alias.value : name;
       const newAlias = `e${uniqid()}`;
       if (!selection.alias) {
+        // eslint-disable-next-line no-param-reassign
         selection.alias = {
           kind: 'Name',
           value: newAlias
         };
       } else {
+        // eslint-disable-next-line no-param-reassign
         selection.alias.value = newAlias;
       }
 
@@ -53,14 +60,16 @@ module.exports.parseGraphqlByFile = function (module) {
     queryBody = print(queryAst);
 
     // Regex to find all variable name and type ($name: Type!) in graphql query
+    // eslint-disable-next-line no-useless-escape
     const variableRegex = /\$([a-zA-Z0-9]+)\s*:\s*([a-zA-Z0-9\[\]!]+)/g;
     const variableMatch = queryBody.match(variableRegex);
     if (variableMatch) {
-      variableMatch.map((variable) => {
-        const variableRegex = /\$([a-zA-Z0-9]+)\s*:\s*([a-zA-Z0-9\[\]!]+)/;
-        const variableMatch = variableRegex.exec(variable);
-        const name = variableMatch[1];
-        const type = variableMatch[2];
+      variableMatch.forEach((variable) => {
+        // eslint-disable-next-line no-useless-escape
+        const varRegex = /\$([a-zA-Z0-9]+)\s*:\s*([a-zA-Z0-9\[\]!]+)/;
+        const varMatch = varRegex.exec(variable);
+        const name = varMatch[1];
+        const type = varMatch[2];
         variables.push({
           origin: name,
           type,
@@ -84,19 +93,6 @@ module.exports.parseGraphqlByFile = function (module) {
     result.query.source = '';
     result.query.props = [];
   }
-
-  // const variableRegex = /\$([a-zA-Z0-9]+\s*[:][])/g;
-
-  // let variableMatch = queryBody.match(variableRegex);
-  // if (variableMatch) {
-  //   variableMatch.forEach((variable) => {
-  //     const variableName = variable.replace(/[:\s]/g, '');
-  //     variables.push({
-  //       origin: variableName,
-  //       alias: `v${uniqid()}`,
-  //     });
-  //   });
-  // };
 
   /** Process fragments */
   // Regex matching export const query = `...` or export const query = "" or export const query = ''
@@ -126,7 +122,7 @@ module.exports.parseGraphqlByFile = function (module) {
   if (fragmentConsumptions.length > 0) {
     fragmentConsumptions.forEach((fragmentConsumption) => {
       const fragmentName = fragmentConsumption.replace(/\.\.\.([ ]+)?/, '');
-      const fragment = fragmentNames.find((fragment) => fragment.name === fragmentName);
+      const fragment = fragmentNames.find((f) => f.name === fragmentName);
       if (!fragment) {
         throw new Error(`Fragment '${fragmentName}' is not defined in ${module}`);
       } else {
@@ -154,7 +150,11 @@ module.exports.parseGraphqlByFile = function (module) {
   const variablesMatch = fileSource.match(variablesRegex);
   if (variablesMatch) {
     let variablesBody = variablesMatch[0].replace(variablesRegex, (match, p1) => p1);
-    // Replace 'getContextValue("key")' or getContextValue('key') or 'getContextValue("key", defaultValue)' or 'getContextValue('x', defaultValue)' to 'getContextValue_`base64 encoded of key and defaultValue`'`)' to avoid conflict with graphql-tag
+    // Replace 'getContextValue("key")' or getContextValue('key')
+    // or 'getContextValue("key", defaultValue)'
+    // or 'getContextValue('x', defaultValue)'
+    // to 'getContextValue_`base64 encoded of key and defaultValue`'`)'
+    // to avoid conflict with graphql-tag
     variablesBody = variablesBody.replace(/getContextValue\(([^)]+)\)/g, (match, p1) => {
       // const args = p1.split(',').map((arg) => arg.trim());
       // const key = args[0].replace(/['"]/g, '');
@@ -169,7 +169,7 @@ module.exports.parseGraphqlByFile = function (module) {
       const variablesJson = JSON.parse(variablesBody);
       // Replace all variable in graphql query
       Object.keys(variablesJson).forEach((variableName) => {
-        const variable = variables.find((variable) => variable.origin === variableName);
+        const variable = variables.find((v) => v.origin === variableName);
         if (variable) {
           variablesJson[variable.alias] = variablesJson[variableName];
           delete variablesJson[variableName];
@@ -178,7 +178,6 @@ module.exports.parseGraphqlByFile = function (module) {
       result.variables.source = JSON.stringify(variablesJson);
       result.variables.definitions = variables;
     } catch (e) {
-      console.log(e);
       throw new Error(`Invalid variables in ${module}`);
     }
   } else {

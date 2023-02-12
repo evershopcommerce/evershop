@@ -2,7 +2,6 @@ const path = require('path');
 const WebpackBar = require('webpackbar');
 const { CONSTANTS } = require('../../helpers');
 const { createBaseConfig } = require('../createBaseConfig');
-const { getRouteBuildPath } = require('../getRouteBuildPath');
 const { getRouteBuildSubPath } = require('../getRouteBuildSubPath');
 const { isBuildRequired } = require('../isBuildRequired');
 

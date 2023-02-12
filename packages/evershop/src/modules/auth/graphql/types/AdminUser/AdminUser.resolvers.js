@@ -79,7 +79,7 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
+      query.limit((page.value - 1) * parseInt(limit.value, 10), parseInt(limit.value, 10));
       return {
         items: (await query.execute(pool)).map((row) => camelCase(row)),
         total: (await cloneQuery.load(pool)).total,

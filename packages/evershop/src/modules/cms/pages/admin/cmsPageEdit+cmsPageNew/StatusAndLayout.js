@@ -36,8 +36,13 @@ export default function StatusAndLayout({
 StatusAndLayout.propTypes = {
   cmsPage: PropTypes.shape({
     status: PropTypes.number,
-    includeInNave: PropTypes.number
+    includeInNave: PropTypes.number,
+    layout: PropTypes.string.isRequired
   })
+};
+
+StatusAndLayout.defaultProps = {
+  cmsPage: null
 };
 
 export const layout = {

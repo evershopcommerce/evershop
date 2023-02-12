@@ -93,8 +93,16 @@ Actions.propTypes = {
 
 export default function Shipment({
   order: {
-    orderId, shippingNote, shippingMethod, shippingMethodName, shipmentStatus, totalWeight, grandTotal
-  }, startShipUrl, completeShipUrl
+    orderId,
+    shippingNote,
+    shippingMethod,
+    shippingMethodName,
+    shipmentStatus,
+    totalWeight,
+    grandTotal
+  },
+  startShipUrl,
+  completeShipUrl
 }) {
   return (
     <Card title="Shipment">
@@ -202,7 +210,21 @@ export default function Shipment({
 
 Shipment.propTypes = {
   completeShipUrl: PropTypes.string.isRequired,
-  startShipUrl: PropTypes.string.isRequired
+  startShipUrl: PropTypes.string.isRequired,
+  order: PropTypes.shape({
+    orderId: PropTypes.string,
+    shippingNote: PropTypes.string,
+    shippingMethod: PropTypes.string,
+    shippingMethodName: PropTypes.string,
+    shipmentStatus: PropTypes.string,
+    totalWeight: PropTypes.shape({
+      text: PropTypes.string
+    }),
+    grandTotal: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    })
+  }).isRequired
 };
 
 export const layout = `

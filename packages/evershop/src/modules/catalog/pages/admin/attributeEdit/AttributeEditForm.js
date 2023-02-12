@@ -6,7 +6,7 @@ import { Form } from '../../../../../lib/components/form/Form';
 import { get } from '../../../../../lib/util/get';
 
 export default function AttributeEditForm({
-  action, gridUrl
+  action
 }) {
   const id = 'attributeForm';
   return (
@@ -32,8 +32,7 @@ export default function AttributeEditForm({
 }
 
 AttributeEditForm.propTypes = {
-  action: PropTypes.string.isRequired,
-  gridUrl: PropTypes.string.isRequired
+  action: PropTypes.string.isRequired
 };
 
 export const layout = {

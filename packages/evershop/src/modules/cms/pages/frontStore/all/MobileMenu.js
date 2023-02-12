@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import './MobileMenu.scss';
 
@@ -24,6 +25,15 @@ export default function MobileMenu({ menu: { items } }) {
     </div>
   );
 }
+
+MobileMenu.propTypes = {
+  menu: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired
+    })).isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'icon-wrapper',

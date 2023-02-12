@@ -1,5 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/extensions */
 const fs = require('fs');
-const { join, normalize } = require('path');
+const { join } = require('path');
 const postcss = require('postcss');
 const tailwindcss = require('tailwindcss');
 const autoprefixer = require('autoprefixer');
@@ -17,7 +19,6 @@ module.exports = exports = function TailwindLoader(c) {
   }
   const components = (this.getOptions().getComponents)();
   const { route } = this.getOptions();
-  const list = [];
   components.forEach((module) => {
     this.addDependency(module);
   });

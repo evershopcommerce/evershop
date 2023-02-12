@@ -9,6 +9,7 @@ const { INVALID_PAYLOAD, OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
+  // eslint-disable-next-line camelcase
   const { order_id } = request.body;
 
   const order = await select()
@@ -59,14 +60,14 @@ module.exports = async (request, response, delegate, next) => {
     // Save paypal access token to app level context
     setContextValue(request.app, 'paypalAccessToken', paypalAccessToken.data.access_token);
     response.status(OK);
-    response.json({
+    return response.json({
       data: {
         paypalAccessToken: paypalAccessToken.data.access_token
       }
     });
   } else {
     response.status(INTERNAL_SERVER_ERROR);
-    response.json({
+    return response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,
         message: response.data.error_description

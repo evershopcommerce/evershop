@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import './Logo.scss';
 
@@ -15,10 +14,6 @@ export default function Logo() {
     </div>
   );
 }
-
-Logo.propTypes = {
-  homeUrl: PropTypes.string.isRequired
-};
 
 export const layout = {
   areaId: 'header',

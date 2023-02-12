@@ -2,7 +2,7 @@ const { buildUrl } = require('../../../../../lib/router/buildUrl');
 
 module.exports = {
   Query: {
-    url: (root, { routeId, params = [] }, context) => {
+    url: (root, { routeId, params = [] }) => {
       const queries = [];
       params.forEach((param) => {
         // Check if the key is a string number

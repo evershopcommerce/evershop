@@ -31,6 +31,10 @@ export function Country({
 Country.propTypes = {
   allowCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedCountry: PropTypes.string.isRequired,
-  formId: PropTypes.string.isRequired,
-  setSelectedCountry: PropTypes.func.isRequired
+  setSelectedCountry: PropTypes.func.isRequired,
+  fieldName: PropTypes.string
+};
+
+Country.defaultProps = {
+  fieldName: 'country'
 };

@@ -4,6 +4,7 @@ const { registerAdminRoute } = require('./registerAdminRoute');
 const { registerFrontStoreRoute } = require('./registerFrontStoreRoute');
 const { scanForRoutes } = require('./scanForRoutes');
 
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
 exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {

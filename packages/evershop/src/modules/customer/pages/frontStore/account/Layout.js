@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
 import Area from '../../../../../lib/components/Area';
@@ -40,6 +41,12 @@ export default function Layout({ account: { logoutApi } }) {
     </div>
   );
 }
+
+Layout.propTypes = {
+  account: PropTypes.shape({
+    logoutApi: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'content',

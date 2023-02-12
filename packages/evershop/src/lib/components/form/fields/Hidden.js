@@ -20,9 +20,11 @@ export function Hidden({ name, value, error }) {
 
 Hidden.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  error: PropTypes.string
 };
 
 Hidden.defaultProps = {
-  value: undefined
+  value: undefined,
+  error: undefined
 };

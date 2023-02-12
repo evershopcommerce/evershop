@@ -1,24 +1,90 @@
+/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAppState } from '../../../../../lib/context/app';
 import Pagination from '../../../../../lib/components/grid/Pagination';
 import { useAlertContext } from '../../../../../lib/components/modal/Alert';
-import formData from '../../../../../lib/util/formData';
 import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
 import { Card } from '../../../components/admin/Card';
 import Area from '../../../../../lib/components/Area';
 import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
 import StatusColumnHeader from '../../../../../lib/components/grid/headers/Status';
 import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
-import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
 import PageName from './rows/PageName';
 
 function Actions({ pages = [], selectedIds = [] }) {
-  const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
+  const { openAlert, closeAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
-  const context = useAppState();
+
+  const updatePages = async (status) => {
+    setIsLoading(true);
+    const promises = pages.filter(
+      (page) => selectedIds.includes(page.uuid)
+    ).map((page) => axios.patch(page.updateApi, {
+      status
+    }));
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  };
+
+  const deletePages = async () => {
+    setIsLoading(true);
+    const promises = pages.filter(
+      (page) => selectedIds.includes(page.uuid)
+    ).map((page) => axios.delete(page.deleteApi));
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  };
+
   const actions = [
+    {
+      name: 'Disable',
+      onAction: () => {
+        openAlert({
+          heading: `Disable ${selectedIds.length} products`,
+          content: 'Are you sure?',
+          primaryAction: {
+            title: 'Cancel',
+            onAction: closeAlert,
+            variant: 'primary'
+          },
+          secondaryAction: {
+            title: 'Disable',
+            onAction: async () => {
+              await updatePages(0);
+            },
+            variant: 'critical',
+            isLoading: false
+          }
+        });
+      }
+    },
+    {
+      name: 'Enable',
+      onAction: () => {
+        openAlert({
+          heading: `Enable ${selectedIds.length} pages`,
+          content: 'Are you sure?',
+          primaryAction: {
+            title: 'Cancel',
+            onAction: closeAlert,
+            variant: 'primary'
+          },
+          secondaryAction: {
+            title: 'Enable',
+            onAction: async () => {
+              await updatePages(1);
+            },
+            variant: 'critical',
+            isLoading: false
+          }
+        });
+      }
+    },
     {
       name: 'Delete',
       onAction: () => {
@@ -33,15 +99,7 @@ function Actions({ pages = [], selectedIds = [] }) {
           secondaryAction: {
             title: 'Delete',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const deleteUrl = context.deleteCmsPagesUrl;
-              const response = await axios.post(deleteUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                window.location.href = context.currentUrl;
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await deletePages();
             },
             variant: 'critical',
             isLoading
@@ -71,12 +129,32 @@ function Actions({ pages = [], selectedIds = [] }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  pages: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.number.isRequired,
+    updateApi: PropTypes.string.isRequired,
+    deleteApi: PropTypes.string.isRequired
+  })).isRequired
 };
 
-export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFilters = [] } }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
+export default function CMSPageGrid({
+  cmsPages: {
+    items: pages,
+    total,
+    currentFilters = []
+  }
+}) {
+  const page = currentFilters.find(
+    (filter) => filter.key === 'page'
+  )
+    ? currentFilters.find((filter) => filter.key === 'page').value
+    : 1;
+  const limit = currentFilters.find(
+    (filter) => filter.key === 'limit'
+  )
+    ? currentFilters.find((filter) => filter.key === 'limit').value
+    : 20;
+
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -86,8 +164,11 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
           <tr>
             <th className="align-bottom">
               <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(pages.map((p) => p.uuid));
-                else setSelectedRows([]);
+                if (e.target.checked) {
+                  setSelectedRows(pages.map((p) => p.uuid));
+                } else {
+                  setSelectedRows([]);
+                }
               }}
               />
             </th>
@@ -97,11 +178,27 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
               noOuter
               coreComponents={[
                 {
-                  component: { default: () => <BasicColumnHeader title="Name" id="name" currentFilter={currentFilters.find((f) => f.key === 'name')} /> },
+                  component: {
+                    default: () => (
+                      <BasicColumnHeader
+                        title="Name"
+                        id="name"
+                        currentFilter={currentFilters.find((f) => f.key === 'name')}
+                      />
+                    )
+                  },
                   sortOrder: 10
                 },
                 {
-                  component: { default: () => <StatusColumnHeader title="Status" id="status" currentFilter={currentFilters.find((f) => f.key === 'status')} /> },
+                  component: {
+                    default: () => (
+                      <StatusColumnHeader
+                        title="Status"
+                        id="status"
+                        currentFilter={currentFilters.find((f) => f.key === 'status')}
+                      />
+                    )
+                  },
                   sortOrder: 20
                 }
               ]}
@@ -121,8 +218,11 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
                 <Checkbox
                   isChecked={selectedRows.includes(p.uuid)}
                   onChange={(e) => {
-                    if (e.target.checked) setSelectedRows(selectedRows.concat([p.uuid]));
-                    else setSelectedRows(selectedRows.filter((row) => row !== p.uuid));
+                    if (e.target.checked) {
+                      setSelectedRows(selectedRows.concat([p.uuid]));
+                    } else {
+                      setSelectedRows(selectedRows.filter((row) => row !== p.uuid));
+                    }
                   }}
                 />
               </td>
@@ -133,11 +233,25 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
                 noOuter
                 coreComponents={[
                   {
-                    component: { default: ({ areaProps }) => <PageName url={p.editUrl} name={p.name} /> },
+                    component: {
+                      default: () => (
+                        <PageName
+                          url={p.editUrl}
+                          name={p.name}
+                        />
+                      )
+                    },
                     sortOrder: 10
                   },
                   {
-                    component: { default: ({ areaProps }) => <StatusRow id="status" areaProps={areaProps} /> },
+                    component: {
+                      default: ({ areaProps }) => (
+                        <StatusRow
+                          id="status"
+                          areaProps={areaProps}
+                        />
+                      )
+                    },
                     sortOrder: 20
                   }
                 ]}
@@ -152,6 +266,22 @@ export default function CMSPageGrid({ cmsPages: { items: pages, total, currentFi
     </Card>
   );
 }
+
+CMSPageGrid.propTypes = {
+  cmsPages: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      uuid: PropTypes.number.isRequired,
+      updateApi: PropTypes.string.isRequired,
+      deleteApi: PropTypes.string.isRequired
+    })).isRequired,
+    total: PropTypes.number.isRequired,
+    currentFilters: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      operation: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    }))
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'content',
@@ -169,6 +299,7 @@ export const query = `
         content
         layout
         editUrl
+        updateApi
         deleteApi
       }
       total

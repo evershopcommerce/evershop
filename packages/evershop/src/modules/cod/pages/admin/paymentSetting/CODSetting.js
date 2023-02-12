@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Toggle } from '../../../../../lib/components/form/fields/Toggle';
@@ -46,6 +47,13 @@ export default function CODPayment(
     </Card>
   );
 }
+
+CODPayment.propTypes = {
+  setting: PropTypes.shape({
+    codPaymentStatus: PropTypes.number,
+    codDislayName: PropTypes.string
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'paymentSetting',

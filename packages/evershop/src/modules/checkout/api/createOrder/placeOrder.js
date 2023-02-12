@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
@@ -68,7 +69,6 @@ module.exports = async (request, response, delegate, next) => {
       }
     });
   } catch (e) {
-    console.error(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import PubSub from 'pubsub-js';
+import isEqual from 'react-fast-compare';
 import { Checkbox } from './fields/Checkbox';
 import { Date } from './fields/Date';
 import { DateTime } from './fields/DateTime';
@@ -16,15 +17,13 @@ import { useFormContext } from './Form';
 import { FORM_FIELD_UPDATED } from '../../util/events';
 import './Field.scss';
 import { Password } from './fields/Password';
-import isEqual from 'react-fast-compare';
 
 const useMemoizeArgs = (args, equalityFunc) => {
   const ref = React.useRef();
   const prevArgs = ref.current;
-  const argsAreEqual =
-    prevArgs !== undefined &&
-    args.length === prevArgs.length &&
-    args.every((v, i) => equalityFunc(v, prevArgs[i]));
+  const argsAreEqual = prevArgs !== undefined
+    && args.length === prevArgs.length
+    && args.every((v, i) => equalityFunc(v, prevArgs[i]));
 
   React.useEffect(() => {
     if (!argsAreEqual) {

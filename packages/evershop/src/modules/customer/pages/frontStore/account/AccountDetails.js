@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import EmailIcon from '@heroicons/react/outline/MailIcon';
 import User from '@heroicons/react/outline/UserIcon';
@@ -20,6 +21,13 @@ export default function AccountDetails({ account }) {
     </div>
   );
 }
+
+AccountDetails.propTypes = {
+  account: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    fullName: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'accountPageRight',

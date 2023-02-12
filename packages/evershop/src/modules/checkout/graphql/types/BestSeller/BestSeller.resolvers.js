@@ -1,9 +1,10 @@
 const { select } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../../../lib/mysql/connection');
 const { camelCase } = require('../../../../../lib/util/camelCase');
 
 module.exports = {
   Query: {
-    bestSellers: async (_, { }) => {
+    bestSellers: async () => {
       const query = select();
       query.from('product')
         .leftJoin('product_description')

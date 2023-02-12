@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   PieChart, Pie, Cell, ResponsiveContainer
@@ -123,6 +124,10 @@ export default function LifetimeSale({ api }) {
     );
   }
 }
+
+LifetimeSale.propTypes = {
+  api: PropTypes.string.isRequired
+};
 
 export const layout = {
   areaId: 'rightSide',

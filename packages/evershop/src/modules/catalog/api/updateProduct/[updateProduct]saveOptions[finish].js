@@ -58,10 +58,12 @@ module.exports = async (request, response, delegate) => {
 
   // eslint-disable-next-line no-restricted-syntax
   // eslint-disable-next-line guard-for-in
-  for (let i = 0; i < options.length; i++) {
+  for (let i = 0; i < options.length; i += 1) {
     const option = options[i];
     let result;
-    if (currentOptions.find((o) => parseInt(o.product_custom_option_id, 10) === parseInt(option.option_id, 10))) {
+    if (currentOptions.find(
+      (o) => parseInt(o.product_custom_option_id, 10) === parseInt(option.option_id, 10)
+    )) {
       result = await update('product_custom_option')
         .given(
           {
@@ -83,7 +85,7 @@ module.exports = async (request, response, delegate) => {
         .execute(connection);
     }
     await saveOptionValues(
-      parseInt(result.insertId || id, 10),
+      parseInt(result.insertId || option.option_id, 10),
       option.values || [],
       connection
     );

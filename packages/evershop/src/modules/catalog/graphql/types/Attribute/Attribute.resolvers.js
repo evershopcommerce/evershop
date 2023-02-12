@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const { select } = require('@evershop/mysql-query-builder');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { camelCase } = require('../../../../../lib/util/camelCase');
@@ -5,21 +6,24 @@ const { camelCase } = require('../../../../../lib/util/camelCase');
 module.exports = {
   Query: {
     attribute: async (_, { id }, { pool }) => {
-      const attribute = await select().from('attribute').where('attribute_id', '=', id).load(pool);
+      const attribute = await select()
+        .from('attribute')
+        .where('attribute_id', '=', id)
+        .load(pool);
       if (!attribute) {
         return null;
       } else {
         return camelCase(attribute);
       }
     },
-    attributes: async (_, { filters = [] }, { pool }) => {
+    attributes: async (_, { filters: requestedFilters = [] }, { pool }) => {
       const query = select().from('attribute');
 
       const currentFilters = [];
 
-      filters = filters.map((filter) => {
+      const filters = requestedFilters.map((filter) => {
         if (filter.operation.toUpperCase() === 'LIKE') {
-          filter.valueRaw = codeFilter.value.replace(/^%/, '').replace(/%$/, '');
+          filter.valueRaw = filter.value.replace(/^%/, '').replace(/%$/, '');
         } else {
           filter.valueRaw = filter.value;
         }
@@ -113,18 +117,19 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
+      query.limit((page.value - 1) * parseInt(limit.value, 10), parseInt(limit.value, 10));
       return {
         items: (await query.execute(pool)).map((row) => camelCase(row)),
         total: (await cloneQuery.load(pool)).total,
         currentFilters
       };
     },
-    attributeGroups: async (_, { }, { pool }) => {
+    attributeGroups: async (root, _, { pool }) => {
       const query = select().from('attribute_group');
-      return await query
+      const results = await query
         .execute(pool)
-        .then((results) => results.map((result) => camelCase(result)));
+        .then((rs) => rs.map((r) => camelCase(r)));
+      return results;
     }
   },
   AttributeGroup: {
@@ -142,7 +147,7 @@ module.exports = {
         .execute(pool);
       return rows.map((row) => camelCase(row));
     },
-    updateApi: (group, _, { pool }) => buildUrl('updateAttributeGroup', { id: group.uuid })
+    updateApi: (group) => buildUrl('updateAttributeGroup', { id: group.uuid })
   },
 
   Attribute: {
@@ -168,7 +173,7 @@ module.exports = {
       return results.map((result) => camelCase(result));
     },
     editUrl: ({ uuid }) => buildUrl('attributeEdit', { id: uuid }),
-    updateApi: (attribute, _, { pool }) => buildUrl('updateAttribute', { id: attribute.uuid }),
-    deleteApi: (attribute, _, { pool }) => buildUrl('deleteAttribute', { id: attribute.uuid })
+    updateApi: (attribute) => buildUrl('updateAttribute', { id: attribute.uuid }),
+    deleteApi: (attribute) => buildUrl('deleteAttribute', { id: attribute.uuid })
   }
 };

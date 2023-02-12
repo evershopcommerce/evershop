@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const { readdirSync, existsSync } = require('fs');
 const { join } = require('path');
 

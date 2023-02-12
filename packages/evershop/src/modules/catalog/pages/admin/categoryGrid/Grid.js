@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -14,12 +15,14 @@ import DropdownColumnHeader from '../../../../../lib/components/grid/headers/Dro
 import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
 
 function Actions({ categories = [], selectedIds = [] }) {
-  const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
+  const { openAlert, closeAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const deleteCategories = async () => {
     setIsLoading(true);
-    const promises = categories.filter((category) => selectedIds.includes(category.uuid)).map((category) => axios.delete(category.deleteApi));
+    const promises = categories.filter(
+      (category) => selectedIds.includes(category.uuid)
+    ).map((category) => axios.delete(category.deleteApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
@@ -71,12 +74,29 @@ function Actions({ categories = [], selectedIds = [] }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.string.isRequired
+  })).isRequired
 };
 
-export default function CategoryGrid({ categories: { items: categories, total, currentFilters = [] }, deleteCategoriesUrl }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page').value : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit').value : 20;
+export default function CategoryGrid({
+  categories: {
+    items: categories,
+    total,
+    currentFilters = []
+  }
+}) {
+  const page = currentFilters.find(
+    (filter) => filter.key === 'page'
+  )
+    ? currentFilters.find((filter) => filter.key === 'page').value
+    : 1;
+  const limit = currentFilters.find(
+    (filter) => filter.key === 'limit'
+  )
+    ? currentFilters.find((filter) => filter.key === 'limit').value
+    : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -164,6 +184,26 @@ export default function CategoryGrid({ categories: { items: categories, total, c
     </Card>
   );
 }
+
+CategoryGrid.propTypes = {
+  categories: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      categoryId: PropTypes.number.isRequired,
+      uuid: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      status: PropTypes.number.isRequired,
+      includeInNav: PropTypes.number.isRequired,
+      editUrl: PropTypes.string.isRequired,
+      deleteApi: PropTypes.string.isRequired
+    })).isRequired,
+    total: PropTypes.number.isRequired,
+    currentFilters: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      operation: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    }))
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'content',

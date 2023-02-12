@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import produce from 'immer';
 import axios from 'axios';
@@ -27,6 +28,7 @@ export function HotReload({ hot }) {
             return draff;
           }));
         } else {
+          // eslint-disable-next-line no-restricted-globals
           location.reload();
         }
       }
@@ -35,3 +37,9 @@ export function HotReload({ hot }) {
 
   return isRefreshing ? <div>Refreshing</div> : null;
 }
+
+HotReload.propTypes = {
+  hot: PropTypes.shape({
+    subscribe: PropTypes.func
+  }).isRequired
+};

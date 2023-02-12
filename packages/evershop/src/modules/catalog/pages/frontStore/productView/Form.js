@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -11,7 +12,12 @@ import './Form.scss';
 import { useAppDispatch, useAppState } from '../../../../../lib/context/app';
 
 function ToastMessage({
-  thumbnail, name, qty, count, cartUrl, toastId
+  thumbnail,
+  name,
+  qty,
+  count,
+  cartUrl,
+  toastId
 }) {
   return (
     <div className="toast-mini-cart">
@@ -94,7 +100,7 @@ AddToCart.defaultProps = {
   error: undefined
 };
 
-export default function ProductForm({ product, action, cart }) {
+export default function ProductForm({ product, action }) {
   const [loading, setLoading] = useState(false);
   const [toastId, setToastId] = useState();
   const [error, setError] = useState();
@@ -104,7 +110,6 @@ export default function ProductForm({ product, action, cart }) {
   const onSuccess = (response) => {
     if (!response.error) {
       setData(produce(appContext, (draff) => {
-        // eslint-disable-next-line no-param-reassign
         draff.cart = appContext.cart || {};
         draff.cart.totalQty = response.data.count;
         draff.cart.uuid = response.data.cartId;
@@ -155,7 +160,14 @@ export default function ProductForm({ product, action, cart }) {
 }
 
 ProductForm.propTypes = {
-  action: PropTypes.string.isRequired
+  action: PropTypes.string.isRequired,
+  product: PropTypes.shape({
+    inventory: PropTypes.shape({
+      isInStock: PropTypes.bool.isRequired
+    }).isRequired,
+    name: PropTypes.string.isRequired,
+    sku: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export const layout = {

@@ -21,10 +21,10 @@ module.exports = async (request, response, delegate, next) => {
     const minPrice = Object.keys(query).find((key) => key === 'minPrice');
     const maxPrice = Object.keys(query).find((key) => key === 'maxPrice');
     if (minPrice) {
-      filtersFromUrl.push({ key: 'minPrice', operation: '=', value: "" + query[minPrice] });
+      filtersFromUrl.push({ key: 'minPrice', operation: '=', value: `${query[minPrice]}` });
     }
     if (maxPrice) {
-      filtersFromUrl.push({ key: 'maxPrice', operation: '=', value: "" + query[maxPrice] });
+      filtersFromUrl.push({ key: 'maxPrice', operation: '=', value: `${query[maxPrice]}` });
     }
 
     // Attribute filters
@@ -34,8 +34,8 @@ module.exports = async (request, response, delegate, next) => {
       if (attribute) {
         if (Array.isArray(filter)) {
           const values = filter
-            .map((v) => parseInt(v))
-            .filter((v) => isNaN(v) === false);
+            .map((v) => parseInt(v, 10))
+            .filter((v) => Number.isNaN(v) === false);
           if (values.length > 0) {
             filtersFromUrl.push({
               key,
@@ -71,11 +71,11 @@ module.exports = async (request, response, delegate, next) => {
       });
     }
     // Paging
-    const page = isNaN(parseInt(query.page)) ? '1' : query.page.toString();
+    const page = Number.isNaN(parseInt(query.page, 10)) ? '1' : query.page.toString();
     if (page !== '1') {
       filtersFromUrl.push({ key: 'page', operation: '=', value: page });
     }
-    const limit = isNaN(parseInt(query.limit)) ? '20' : query.limit.toString();// TODO: Get from config
+    const limit = Number.isNaN(parseInt(query.limit, 10)) ? '20' : query.limit.toString();// TODO: Get from config
     if (limit !== '20') {
       filtersFromUrl.push({ key: 'limit', operation: '=', value: limit });
     }

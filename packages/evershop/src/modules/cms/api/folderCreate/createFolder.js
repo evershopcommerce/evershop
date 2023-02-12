@@ -1,6 +1,6 @@
 const { join, basename } = require('path');
 const { existsSync, mkdirSync } = require('fs');
-const { CONSTANTS } = require('../../../../../lib/helpers');
+const { CONSTANTS } = require('../../../../lib/helpers');
 const { INVALID_PAYLOAD, OK } = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars

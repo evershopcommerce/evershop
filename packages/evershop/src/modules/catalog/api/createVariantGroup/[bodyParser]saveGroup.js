@@ -1,6 +1,5 @@
-const {
-  insert, select
-} = require('@evershop/mysql-query-builder');
+/* eslint-disable camelcase */
+const { insert, select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
@@ -100,21 +99,24 @@ module.exports = async (request, response, delegate, next) => {
       .where('variant_group_id', '=', result.insertId)
       .load(pool);
 
-    // array map async await
-    const array = [];
-    for (let i = 0; i < attributes.length; i += 1) {
-      const attribute = attributes[i];
-      const { attribute_id, attribute_code, attribute_name, type } = attribute;
-      array.push({
+    const promises = attributes.map(async (attribute) => {
+      const {
+        attribute_id
+      } = attribute;
+      const options = await select()
+        .from('attribute_option')
+        .where('attribute_id', '=', attribute_id)
+        .execute(pool);
+      return {
         ...attribute,
-        options: await select()
-          .from('attribute_option')
-          .where('attribute_id', '=', attribute_id)
-          .execute(pool)
-      });
-    }
-    group.attributes = array;
-    group.addItemApi = buildUrl('addVariantItem', { id: group.uuid })
+        options
+      };
+    });
+
+    const results = await Promise.all(promises);
+
+    group.attributes = results;
+    group.addItemApi = buildUrl('addVariantItem', { id: group.uuid });
 
     response.status(OK);
     response.json({

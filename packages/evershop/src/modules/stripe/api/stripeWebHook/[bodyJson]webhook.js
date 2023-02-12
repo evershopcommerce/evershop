@@ -1,6 +1,11 @@
-/* eslint-disable import/order */
+/* eslint-disable global-require */
 const {
-  insert, startTransaction, update, commit, rollback, select
+  insert,
+  startTransaction,
+  update,
+  commit,
+  rollback,
+  select
 } = require('@evershop/mysql-query-builder');
 const { getConnection } = require('../../../../lib/mysql/connection');
 const { getConfig } = require('../../../../lib/util/getConfig');
@@ -72,11 +77,13 @@ module.exports = async (request, response, stack, next) => {
         break;
       }
       case 'payment_method.attached': {
+        // eslint-disable-next-line no-console
         console.log('PaymentMethod was attached to a Customer!');
         break;
       }
       // ... handle other event types
       default: {
+        // eslint-disable-next-line no-console
         console.log(`Unhandled event type ${event.type}`);
       }
     }

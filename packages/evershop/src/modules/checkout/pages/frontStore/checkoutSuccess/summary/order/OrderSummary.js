@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Discount } from './Discount';
 import { Shipping } from './Shipping';
@@ -6,7 +7,13 @@ import { Tax } from './Tax';
 import { Total } from './Total';
 
 function OrderSummary({
-  items, subTotal, shippingMethod, shippingFeeExclTax, taxAmount, discountAmount, grandTotal
+  items,
+  subTotal,
+  shippingMethod,
+  shippingFeeExclTax,
+  taxAmount,
+  discountAmount,
+  grandTotal
 }) {
   return (
     <div className="checkout-summary-block">
@@ -18,5 +25,55 @@ function OrderSummary({
     </div>
   );
 }
+
+OrderSummary.propTypes = {
+  discountAmount: PropTypes.shape({
+    text: PropTypes.string.isRequired
+  }),
+  grandTotal: PropTypes.shape({
+    text: PropTypes.string.isRequired
+  }),
+  items: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    price: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired
+  })).isRequired,
+  shippingFeeExclTax: PropTypes.shape({
+    text: PropTypes.string.isRequired
+  }),
+  shippingMethod: PropTypes.shape({
+    text: PropTypes.string
+  }),
+  subTotal: PropTypes.shape({
+    text: PropTypes.string
+  }),
+  taxAmount: PropTypes.shape({
+    text: PropTypes.string
+  })
+};
+
+OrderSummary.defaultProps = {
+  discountAmount: {
+    text: '0.00'
+  },
+  grandTotal: {
+    text: '0.00'
+  },
+  shippingFeeExclTax: {
+    text: '0.00'
+  },
+  shippingMethod: {
+    text: 'Free Shipping'
+  },
+  subTotal: {
+    text: '0.00'
+  },
+  taxAmount: {
+    text: '0.00'
+  }
+};
 
 export { OrderSummary };

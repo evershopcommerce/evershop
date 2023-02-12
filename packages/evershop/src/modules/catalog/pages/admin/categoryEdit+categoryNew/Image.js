@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { get } from '../../../../../lib/util/get';
@@ -90,6 +91,20 @@ export default function Image({ category, imageUploadUrl }) {
     </Card>
   );
 }
+
+Image.propTypes = {
+  category: PropTypes.shape({
+    image: PropTypes.shape({
+      path: PropTypes.string,
+      url: PropTypes.string
+    })
+  }),
+  imageUploadUrl: PropTypes.string.isRequired
+};
+
+Image.defaultProps = {
+  category: undefined
+};
 
 export const layout = {
   areaId: 'rightSide',

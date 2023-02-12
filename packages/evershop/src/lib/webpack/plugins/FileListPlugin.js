@@ -1,11 +1,13 @@
+/* eslint-disable class-methods-use-this */
 const fs = require('fs');
 
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
 exports.FileListPlugin = class FileListPlugin {
   apply(compiler) {
-    // emit is asynchronous hook, tapping into it using tapAsync, you can use tapPromise/tap(synchronous) as well
     compiler.hooks.emit.tapAsync('FileListPlugin', (compilation, callback) => {
+      // eslint-disable-next-line no-underscore-dangle
       const list = compilation._modules;
       const modules = [];
       list.forEach((element) => {
@@ -24,6 +26,7 @@ exports.FileListPlugin = class FileListPlugin {
       });
 
       // Insert this list into the webpack build as a new file asset:
+      // eslint-disable-next-line no-param-reassign
       compilation.assets['filelist.md'] = {
         source() {
           return filelist;

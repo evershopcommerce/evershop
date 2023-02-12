@@ -8,7 +8,7 @@ import { Field } from '../../../../../../lib/components/form/Field';
 export function VariantModal({
   variant,
   variantAttributes,
-  productImageUploadUrl,
+  productImageUploadUrl
 }) {
   const image = variant?.product?.image;
   let gallery = variant?.product?.gallery || [];
@@ -21,23 +21,29 @@ export function VariantModal({
       <div className="grid grid-cols-2 gap-x-1">
         <div className="col-span-1">
           <ProductMediaManager
-            id={'images'}
+            id="images"
             productImageUploadUrl={productImageUploadUrl}
             productImages={gallery}
           />
         </div>
         <div className="col-span-1">
           <div className="grid grid-cols-2 gap-x-1 border-b border-divider pb-15 mb-15">
-            {variantAttributes.map((a, i) => (
+            {variantAttributes.map((a) => (
               <div key={a.attributeId} className="mt-1 col">
                 <div><label>{a.attributeName}</label></div>
                 <Field
                   name={a.attributeCode}
                   validationRules={['notEmpty']}
-                  value={variant?.attributes.find((v) => v.attributeCode === a.attributeCode)?.optionId}
-                  options={a.options.map(
-                    (o) => ({ value: o.optionId, text: o.optionText })
-                  )}
+                  value={
+                    variant?.attributes.find(
+                      (v) => v.attributeCode === a.attributeCode
+                    )?.optionId
+                  }
+                  options={
+                    a.options.map(
+                      (o) => ({ value: o.optionId, text: o.optionText })
+                    )
+                  }
                   type="select"
                 />
               </div>
@@ -47,7 +53,7 @@ export function VariantModal({
             <div>
               <div>SKU</div>
               <Field
-                name={`sku`}
+                name="sku"
                 formId="product-edit-form"
                 validationRules={['notEmpty']}
                 value={variant?.product?.sku}
@@ -57,7 +63,7 @@ export function VariantModal({
             <div>
               <div>Qty</div>
               <Field
-                name={`qty`}
+                name="qty"
                 formId="product-edit-form"
                 validationRules={['notEmpty']}
                 value={variant?.product?.inventory?.qty}
@@ -69,7 +75,7 @@ export function VariantModal({
             <div>
               <div>Status</div>
               <Field
-                name={`status`}
+                name="status"
                 formId="product-edit-form"
                 value={variant?.product?.status}
                 type="toggle"
@@ -78,7 +84,7 @@ export function VariantModal({
             <div>
               <div>Visibility</div>
               <Field
-                name={`visibility`}
+                name="visibility"
                 formId="product-edit-form"
                 value={variant?.product?.visibility}
                 type="toggle"
@@ -90,3 +96,41 @@ export function VariantModal({
     </div>
   );
 }
+
+VariantModal.propTypes = {
+  variant: PropTypes.shape({
+    product: PropTypes.shape({
+      image: PropTypes.string,
+      gallery: PropTypes.arrayOf(PropTypes.string),
+      sku: PropTypes.string,
+      inventory: PropTypes.shape({
+        qty: PropTypes.number
+      }),
+      status: PropTypes.number,
+      visibility: PropTypes.number,
+      attributes: PropTypes.arrayOf(PropTypes.shape({
+        attributeCode: PropTypes.string,
+        optionId: PropTypes.number
+      }))
+    }),
+    attributes: PropTypes.arrayOf(PropTypes.shape({
+      attributeCode: PropTypes.string,
+      optionId: PropTypes.number
+    }))
+  }),
+  variantAttributes: PropTypes.arrayOf(PropTypes.shape({
+    attributeId: PropTypes.number,
+    attributeName: PropTypes.string,
+    attributeCode: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.shape({
+      optionId: PropTypes.number,
+      optionText: PropTypes.string
+    }))
+  })),
+  productImageUploadUrl: PropTypes.string.isRequired
+};
+
+VariantModal.defaultProps = {
+  variant: null,
+  variantAttributes: []
+};

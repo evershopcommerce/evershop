@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useFilterDispatch } from './Filter';
 
-export default function AttributeFilter({ areaProps: { currentFilters, availableAttributes } }) {
+export default function AttributeFilter({
+  areaProps: {
+    currentFilters,
+    availableAttributes
+  }
+}) {
   const { updateFilter } = useFilterDispatch();
   const onChange = (e, attributeCode, optionId) => {
     e.preventDefault();
@@ -98,8 +103,8 @@ AttributeFilter.propTypes = {
         optionText: PropTypes.string
       }))
     })),
-    updateFilter: PropTypes.func
-  })
+    updateFilter: PropTypes.func.isRequired
+  }).isRequired
 };
 
 export const layout = {

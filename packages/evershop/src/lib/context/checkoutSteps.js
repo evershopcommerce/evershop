@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 const Steps = React.createContext();
 const CheckoutStepsDispatch = React.createContext();
@@ -55,12 +55,13 @@ export function CheckoutSteps({ children, value }) {
     }));
   };
 
+  const contextDispatchValue = useMemo(() => ({
+    canStepDisplay, editStep, completeStep, addStep
+  }), [steps]);
+
   return (
     <Steps.Provider value={steps}>
-      <CheckoutStepsDispatch.Provider value={{
-        canStepDisplay, editStep, completeStep, addStep
-      }}
-      >
+      <CheckoutStepsDispatch.Provider value={contextDispatchValue}>
         {children}
       </CheckoutStepsDispatch.Provider>
     </Steps.Provider>
@@ -71,7 +72,14 @@ CheckoutSteps.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]).isRequired
+  ]).isRequired,
+  value: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    isCompleted: PropTypes.bool,
+    sortOrder: PropTypes.number,
+    editable: PropTypes.bool
+  })).isRequired
 };
 
 export const useCheckoutSteps = () => React.useContext(Steps);

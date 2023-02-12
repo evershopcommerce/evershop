@@ -41,3 +41,7 @@ NameAndTelephone.propTypes = {
     telephone: PropTypes.string
   })
 };
+
+NameAndTelephone.defaultProps = {
+  address: {}
+};

@@ -8,7 +8,7 @@ const { getFilterableAttributes } = require('../../../services/getFilterableAttr
 
 module.exports = {
   Query: {
-    category: async (_, { id }, { pool }) => {
+    category: async (_, { id }) => {
       const query = select().from('category');
       query.leftJoin('category_description')
         .on('category_description.`category_description_category_id`', '=', 'category.`category_id`');
@@ -16,8 +16,9 @@ module.exports = {
       const result = await query.load(pool);
       return result ? camelCase(result) : null;
     },
-    categories: async (_, { filters = [] }, { pool }) => {
-      const query = select().from('category');
+    categories: async (_, { filters = [] }) => {
+      const query = select()
+        .from('category');
       query.leftJoin('category_description', 'des')
         .on('des.`category_description_category_id`', '=', 'category.`category_id`');
 
@@ -80,14 +81,14 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
+      query.limit((page.value - 1) * parseInt(limit.value, 10), parseInt(limit.value, 10));
       return {
         items: (await query.execute(pool)).map((row) => camelCase(row)),
         total: (await cloneQuery.load(pool)).total,
         currentFilters
       };
     },
-    products: async (_, { filters = [] }, { pool, tokenPlayload }) => {
+    products: async (_, { filters = [] }) => {
       const query = select()
         .from('product');
       query.leftJoin('product_description', 'des')
@@ -98,12 +99,12 @@ module.exports = {
       if (priceFilter) {
         const [min, max] = priceFilter.value.split('-').map((v) => parseFloat(v));
         let currentPriceFilter;
-        if (isNaN(min) === false) {
+        if (Number.isNaN(min) === false) {
           query.andWhere('product.`price`', '>=', min);
           currentPriceFilter = { key: 'price', operation: '=', value: `${min}` };
         }
 
-        if (isNaN(max) === false) {
+        if (Number.isNaN(max) === false) {
           query.andWhere('product.`price`', '<=', max);
           currentPriceFilter = { key: 'price', operation: '=', value: `${currentPriceFilter.value}-${max}` };
         }
@@ -117,12 +118,12 @@ module.exports = {
       if (qtyFilter) {
         const [min, max] = qtyFilter.value.split('-').map((v) => parseFloat(v));
         let currentQtyFilter;
-        if (isNaN(min) === false) {
+        if (Number.isNaN(min) === false) {
           query.andWhere('product.`qty`', '>=', min);
           currentQtyFilter = { key: 'qty', operation: '=', value: `${min}` };
         }
 
-        if (isNaN(max) === false) {
+        if (Number.isNaN(max) === false) {
           query.andWhere('product.`qty`', '<=', max);
           currentQtyFilter = { key: 'qty', operation: '=', value: `${currentQtyFilter.value}-${max}` };
         }
@@ -196,7 +197,7 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
+      query.limit((page.value - 1) * parseInt(limit.value, 10), parseInt(limit.value, 10));
       return {
         itemQuery: query,
         totalQuery: cloneQuery,
@@ -211,11 +212,11 @@ module.exports = {
       // Price filter
       const minPrice = filters.find((f) => f.key === 'minPrice');
       const maxPrice = filters.find((f) => f.key === 'maxPrice');
-      if (minPrice && isNaN(parseFloat(minPrice.value)) === false) {
+      if (minPrice && Number.isNaN(parseFloat(minPrice.value)) === false) {
         query.andWhere('product.`price`', '>=', minPrice.value);
         currentFilters.push({ key: 'minPrice', operation: '=', value: minPrice.value });
       }
-      if (maxPrice && isNaN(parseFloat(maxPrice.value)) === false) {
+      if (maxPrice && Number.isNaN(parseFloat(maxPrice.value)) === false) {
         query.andWhere('product.`price`', '<=', maxPrice.value);
         currentFilters.push({ key: 'maxPrice', operation: '=', value: maxPrice.value });
       }
@@ -234,8 +235,8 @@ module.exports = {
         }
 
         const values = filter.value.split(',')
-          .map((v) => parseInt(v))
-          .filter((v) => isNaN(v) === false);
+          .map((v) => parseInt(v, 10))
+          .filter((v) => Number.isNaN(v) === false);
         if (values.length > 0) {
           const alias = uniqid();
           query.innerJoin('product_attribute_value_index', alias)
@@ -327,15 +328,16 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
+      query.limit((page.value - 1) * parseInt(limit.value, 10), parseInt(limit.value, 10));
       return {
         itemQuery: query,
-        totalQuery: totalQuery,
+        totalQuery,
         currentFilters
       };
     },
     availableAttributes: async (category) => {
-      return await getFilterableAttributes(category.categoryId);
+      const results = await getFilterableAttributes(category.categoryId);
+      return results;
     },
     priceRange: async (category) => {
       const query = await getProductsBaseQuery(category.categoryId);
@@ -364,7 +366,12 @@ module.exports = {
     }
   },
   ProductCollection: {
-    items: async ({ itemQuery }, _, { pool }) => (await itemQuery.execute(pool)).map((row) => camelCase(row)),
-    total: async ({ totalQuery }, _, { pool }) => (await totalQuery.load(pool)).total
+    items: async ({ itemQuery }) => (
+      await itemQuery.execute(pool)
+    ).map((row) => camelCase(row)),
+    total: async ({ totalQuery }) => {
+      const result = await totalQuery.load(pool);
+      return result.total;
+    }
   }
 };

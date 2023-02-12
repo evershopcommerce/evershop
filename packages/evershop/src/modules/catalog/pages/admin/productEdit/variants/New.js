@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Card } from '../../../../../cms/components/admin/Card';
 import { CreateVariantGroup } from './CreateVariantGroup';
@@ -18,8 +19,8 @@ export function New({ createVariantGroupApi, setGroup }) {
                   onClick={(e) => {
                     e.preventDefault();
                     setAction('create');
-                  }
-                  }>
+                  }}
+                >
                   Create a variant group
                 </a>
               </div>
@@ -43,8 +44,7 @@ export function New({ createVariantGroupApi, setGroup }) {
             onClick={(e) => {
               e.preventDefault();
               setAction(undefined);
-            }
-            }
+            }}
           >
             Cancel
           </a>
@@ -53,3 +53,8 @@ export function New({ createVariantGroupApi, setGroup }) {
     </>
   );
 }
+
+New.propTypes = {
+  createVariantGroupApi: PropTypes.string.isRequired,
+  setGroup: PropTypes.func.isRequired
+};

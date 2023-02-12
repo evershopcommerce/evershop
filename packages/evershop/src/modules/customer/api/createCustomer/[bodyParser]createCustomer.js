@@ -7,6 +7,7 @@ const { buildUrl } = require('../../../../lib/router/buildUrl');
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { body } = request;
+  // eslint-disable-next-line camelcase
   const { email, full_name, password } = body;
   try {
     // Hash the password
@@ -14,6 +15,7 @@ module.exports = async (request, response, delegate, next) => {
     await insert('customer')
       .given({
         email,
+        // eslint-disable-next-line camelcase
         full_name,
         password: hash,
         group_id: 1,
