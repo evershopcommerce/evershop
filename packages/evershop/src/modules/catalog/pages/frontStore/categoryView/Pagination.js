@@ -4,10 +4,7 @@ import { Pagination } from '../../../components/product/list/Pagination';
 
 export default function PaginationWrapper({
   products: {
-    products: {
-      total,
-      currentFilters
-    }
+    products: { total, currentFilters }
   }
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page');
@@ -26,11 +23,13 @@ PaginationWrapper.propTypes = {
   products: PropTypes.shape({
     products: PropTypes.shape({
       total: PropTypes.number.isRequired,
-      currentFilters: PropTypes.arrayOf(PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        operation: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired
-      })).isRequired
+      currentFilters: PropTypes.arrayOf(
+        PropTypes.shape({
+          key: PropTypes.string.isRequired,
+          operation: PropTypes.string.isRequired,
+          value: PropTypes.string.isRequired
+        })
+      ).isRequired
     }).isRequired
   }).isRequired
 };

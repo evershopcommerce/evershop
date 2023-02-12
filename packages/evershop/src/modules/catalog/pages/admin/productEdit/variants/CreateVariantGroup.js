@@ -25,7 +25,9 @@ export function CreateVariantGroup({ createVariantGroupApi, setGroup }) {
   const [attributes, setAttributes] = React.useState([]);
   const formContext = useFormContext();
   // Get the current value of attribute_group_id from the form context
-  const groupField = (formContext?.fields || []).find((f) => f.name === 'group_id');
+  const groupField = (formContext?.fields || []).find(
+    (f) => f.name === 'group_id'
+  );
 
   const onCreate = async (e) => {
     e.preventDefault();
@@ -44,28 +46,24 @@ export function CreateVariantGroup({ createVariantGroupApi, setGroup }) {
       setGroup({
         variantGroupId: response.data.variant_group_id,
         addItemApi: response.data.addItemApi,
-        attributes: response.data.attributes.map(
-          (attribute) => ({
-            attributeCode: attribute.attribute_code,
-            uuid: attribute.uuid,
-            attributeName: attribute.attribute_name,
-            attributeId: attribute.attribute_id,
-            options: attribute.options.map(
-              (option) => ({
-                optionId: option.attribute_option_id,
-                optionText: option.option_text
-              })
-            )
-          })
-        )
+        attributes: response.data.attributes.map((attribute) => ({
+          attributeCode: attribute.attribute_code,
+          uuid: attribute.uuid,
+          attributeName: attribute.attribute_name,
+          attributeId: attribute.attribute_id,
+          options: attribute.options.map((option) => ({
+            optionId: option.attribute_option_id,
+            optionText: option.option_text
+          }))
+        }))
       });
     } else {
       toast.error(response.error.message);
     }
   };
 
-  const shouldPause = groupField === undefined || groupField === null
-    || !groupField.value;
+  const shouldPause =
+    groupField === undefined || groupField === null || !groupField.value;
 
   const [result] = useQuery({
     query: AttributesQuery,
@@ -94,7 +92,9 @@ export function CreateVariantGroup({ createVariantGroupApi, setGroup }) {
       <div>
         {(data?.attributes?.items || []).length > 0 && (
           <div>
-            <div><span>Select the list of attribute</span></div>
+            <div>
+              <span>Select the list of attribute</span>
+            </div>
             {(data?.attributes?.items || []).map((a) => (
               <Field
                 key={a.attributeCode}
@@ -104,7 +104,9 @@ export function CreateVariantGroup({ createVariantGroupApi, setGroup }) {
                   if (e.target.checked) {
                     setAttributes(attributes.concat(a.attributeCode));
                   } else {
-                    setAttributes(attributes.filter((attr) => a !== attr.attributeCode));
+                    setAttributes(
+                      attributes.filter((attr) => a !== attr.attributeCode)
+                    );
                   }
                 }}
               />

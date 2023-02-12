@@ -14,9 +14,14 @@ export function NoResult({ keyword, resourseLinks = [] }) {
       <div className="grid grid-cols-2 mt-1">
         {resourseLinks.map((link, index) => (
           // eslint-disable-next-line react/no-array-index-key
-          <div key={index} className="flex space-x-1 justify-center items-center">
+          <div
+            key={index}
+            className="flex space-x-1 justify-center items-center"
+          >
             <Dot variant="info" />
-            <a href={link.url} className="text-divider hover:underline">{link.name}</a>
+            <a href={link.url} className="text-divider hover:underline">
+              {link.name}
+            </a>
           </div>
         ))}
       </div>
@@ -26,10 +31,12 @@ export function NoResult({ keyword, resourseLinks = [] }) {
 
 NoResult.propTypes = {
   keyword: PropTypes.string,
-  resourseLinks: PropTypes.arrayOf(PropTypes.shape({
-    url: PropTypes.string,
-    name: PropTypes.string
-  }))
+  resourseLinks: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.string,
+      name: PropTypes.string
+    })
+  )
 };
 
 NoResult.defaultProps = {

@@ -50,14 +50,14 @@ export default function General({
     }
   ].filter((f) => {
     // eslint-disable-next-line no-param-reassign
-    if (get(category, `${f.props.id}`) !== undefined) { f.props.value = get(category, `${f.props.id}`); }
+    if (get(category, `${f.props.id}`) !== undefined) {
+      f.props.value = get(category, `${f.props.id}`);
+    }
     return f;
   });
 
   return (
-    <Card
-      title="General"
-    >
+    <Card title="General">
       <Card.Session>
         <Area id="categoryEditGeneral" coreComponents={fields} />
       </Card.Session>

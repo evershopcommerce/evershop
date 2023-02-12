@@ -3,7 +3,9 @@ const { pool } = require('../../../lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = async () => {
-  await execute(pool, `CREATE TABLE \`coupon\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`coupon\` (
   \`coupon_id\` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`status\` smallint(6) NOT NULL DEFAULT 1,
@@ -25,11 +27,15 @@ module.exports = exports = async () => {
   \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (\`coupon_id\`),
   UNIQUE KEY \`UNIQUE_COUPON\` (\`coupon\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Coupon'`);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Coupon'`
+  );
 
-  await execute(pool, `CREATE TRIGGER \`TRIGGER_UPDATE_COUPON_USED_TIME_AFTER_CREATE_ORDER\` AFTER INSERT ON \`order\` FOR EACH ROW BEGIN
+  await execute(
+    pool,
+    `CREATE TRIGGER \`TRIGGER_UPDATE_COUPON_USED_TIME_AFTER_CREATE_ORDER\` AFTER INSERT ON \`order\` FOR EACH ROW BEGIN
                   
           UPDATE \`coupon\` SET \`coupon\`.used_time = \`coupon\`.used_time + 1 WHERE \`coupon\`.coupon = NEW.coupon;
   
-                    END`);
+                    END`
+  );
 };

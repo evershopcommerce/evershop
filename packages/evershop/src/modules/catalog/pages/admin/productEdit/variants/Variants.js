@@ -106,9 +106,7 @@ export function Variants({
             <tr>
               <th>Image</th>
               {variantAttributes.map((attribute) => (
-                <th key={attribute.attributeId}>
-                  {attribute.attributeName}
-                </th>
+                <th key={attribute.attributeId}>{attribute.attributeName}</th>
               ))}
               <th>SKU</th>
               <th>Price</th>
@@ -118,18 +116,18 @@ export function Variants({
             </tr>
           </thead>
           <tbody>
-            {(data.product.variantGroup?.items || []).filter(
-              (v) => v.product.productId !== productId
-            ).map((v) => (
-              <Variant
-                key={v.id}
-                variant={v}
-                attributes={variantAttributes}
-                productImageUploadUrl={productImageUploadUrl}
-                refresh={refresh}
-                variantGroup={variantGroup}
-              />
-            ))}
+            {(data.product.variantGroup?.items || [])
+              .filter((v) => v.product.productId !== productId)
+              .map((v) => (
+                <Variant
+                  key={v.id}
+                  variant={v}
+                  attributes={variantAttributes}
+                  productImageUploadUrl={productImageUploadUrl}
+                  refresh={refresh}
+                  variantGroup={variantGroup}
+                />
+              ))}
           </tbody>
         </table>
       </div>
@@ -148,26 +146,34 @@ export function Variants({
 }
 
 Variants.propTypes = {
-  variantAttributes: PropTypes.arrayOf(PropTypes.shape({
-    attributeName: PropTypes.string,
-    attributeId: PropTypes.string.isRequired,
-    options: PropTypes.arrayOf(PropTypes.shape({
-      optionId: PropTypes.number,
-      optionText: PropTypes.string
-    }))
-  })).isRequired,
+  variantAttributes: PropTypes.arrayOf(
+    PropTypes.shape({
+      attributeName: PropTypes.string,
+      attributeId: PropTypes.string.isRequired,
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          optionId: PropTypes.number,
+          optionText: PropTypes.string
+        })
+      )
+    })
+  ).isRequired,
   productId: PropTypes.number.isRequired,
   productUuid: PropTypes.string.isRequired,
   variantGroup: PropTypes.shape({
-    attributes: PropTypes.arrayOf(PropTypes.shape({
-      attributeName: PropTypes.string,
-      attributeId: PropTypes.string.isRequired,
-      attributeType: PropTypes.string.isRequired,
-      attributeValues: PropTypes.arrayOf(PropTypes.shape({
-        attributeValueId: PropTypes.string.isRequired,
-        attributeValueName: PropTypes.string.isRequired
-      }))
-    }))
+    attributes: PropTypes.arrayOf(
+      PropTypes.shape({
+        attributeName: PropTypes.string,
+        attributeId: PropTypes.string.isRequired,
+        attributeType: PropTypes.string.isRequired,
+        attributeValues: PropTypes.arrayOf(
+          PropTypes.shape({
+            attributeValueId: PropTypes.string.isRequired,
+            attributeValueName: PropTypes.string.isRequired
+          })
+        )
+      })
+    )
   }),
   createProductApi: PropTypes.string.isRequired,
   addVariantItemApi: PropTypes.string.isRequired,

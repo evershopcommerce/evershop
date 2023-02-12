@@ -19,9 +19,7 @@ module.exports = {
       if (!userTokenPayload?.user?.uuid) {
         return [];
       }
-      const groups = await select()
-        .from('customer_group')
-        .execute(pool);
+      const groups = await select().from('customer_group').execute(pool);
       return groups.map((group) => camelCase(group));
     }
   },
@@ -33,6 +31,7 @@ module.exports = {
         .execute(pool);
       return customers.map((customer) => camelCase(customer));
     },
-    editUrl: (group) => buildUrl('customerGroupEdit', { id: group.customerGroupId })
+    editUrl: (group) =>
+      buildUrl('customerGroupEdit', { id: group.customerGroupId })
   }
 };

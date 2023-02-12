@@ -14,8 +14,7 @@ module.exports = {
       }
       const timeZone = await getSetting('storeTimeZone', 'UTC');
       const language = await getSetting('storeLanguage', 'en');
-      const date = DateTime
-        .fromSQL(value, { zone: timeZone })
+      const date = DateTime.fromSQL(value, { zone: timeZone })
         .setLocale(language)
         .setZone(timeZone)
         .toFormat(format);

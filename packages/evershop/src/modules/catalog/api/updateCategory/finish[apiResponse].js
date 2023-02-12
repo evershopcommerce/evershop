@@ -1,7 +1,10 @@
 const { commit, rollback, select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
-const { OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+const {
+  OK,
+  INTERNAL_SERVER_ERROR
+} = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -19,10 +22,14 @@ module.exports = async (request, response, delegate, next) => {
   if (!rejected) {
     await commit(connection);
     response.status(OK);
-    const query = select()
-      .from('category');
-    query.leftJoin('category_description')
-      .on('category_description.`category_description_category_id`', '=', 'category.`category_id`');
+    const query = select().from('category');
+    query
+      .leftJoin('category_description')
+      .on(
+        'category_description.`category_description_category_id`',
+        '=',
+        'category.`category_id`'
+      );
 
     const category = await query
       .where('uuid', '=', request.params.id)
@@ -43,10 +50,15 @@ module.exports = async (request, response, delegate, next) => {
     });
   } else {
     await rollback(connection);
-    response.status(response.statusCode !== 200 ? response.statusCode : INTERNAL_SERVER_ERROR);
+    response.status(
+      response.statusCode !== 200 ? response.statusCode : INTERNAL_SERVER_ERROR
+    );
     response.json({
       error: {
-        status: response.statusCode !== 200 ? response.statusCode : INTERNAL_SERVER_ERROR,
+        status:
+          response.statusCode !== 200
+            ? response.statusCode
+            : INTERNAL_SERVER_ERROR,
         message: rejected.reason.message
       }
     });

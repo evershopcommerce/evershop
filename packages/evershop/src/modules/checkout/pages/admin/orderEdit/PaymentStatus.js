@@ -4,7 +4,13 @@ import Badge from '../../../../../lib/components/Badge';
 
 export default function PaymentStatus({ order: { paymentStatus } }) {
   if (paymentStatus) {
-    return <Badge variant={paymentStatus.badge} title={paymentStatus.name || 'Unknown'} progress={paymentStatus.progress} />;
+    return (
+      <Badge
+        variant={paymentStatus.badge}
+        title={paymentStatus.name || 'Unknown'}
+        progress={paymentStatus.progress}
+      />
+    );
   } else {
     return null;
   }

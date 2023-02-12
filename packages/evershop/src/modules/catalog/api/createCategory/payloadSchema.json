@@ -23,41 +23,19 @@
       "type": "string"
     },
     "status": {
-      "type": [
-        "integer",
-        "string"
-      ],
-      "enum": [
-        0,
-        1,
-        "0",
-        "1"
-      ]
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
     },
     "include_in_nav": {
-      "type": [
-        "integer",
-        "string"
-      ],
-      "enum": [
-        0,
-        1,
-        "0",
-        "1"
-      ]
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
     },
     "parent_id": {
-      "type": [
-        "string",
-        "integer"
-      ],
+      "type": ["string", "integer"],
       "pattern": "^[0-9]*$"
     },
     "position": {
-      "type": [
-        "string",
-        "integer"
-      ],
+      "type": ["string", "integer"],
       "pattern": "^[0-9]*$"
     }
   },

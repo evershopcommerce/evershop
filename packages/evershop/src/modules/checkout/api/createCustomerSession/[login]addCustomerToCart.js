@@ -4,11 +4,13 @@ const { getContextValue } = require('../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
   try {
-    const customerTokenPayload = getContextValue(request, 'customerTokenPayload');
+    const customerTokenPayload = getContextValue(
+      request,
+      'customerTokenPayload'
+    );
     const {
-      sid, customer: {
-        fullName, email, customerId, groupId
-      }
+      sid,
+      customer: { fullName, email, customerId, groupId }
     } = customerTokenPayload;
     // Check if there is any cart with the same sid
     const cart = await select()

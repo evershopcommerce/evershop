@@ -1,19 +1,25 @@
 /* eslint-disable no-unused-vars */
 const { del, select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
-const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
+const {
+  OK,
+  INTERNAL_SERVER_ERROR,
+  INVALID_PAYLOAD
+} = require('../../../../lib/util/httpStatus');
 
 module.exports = async (request, response, delegate, next) => {
   try {
     const { id } = request.params;
-    const query = select()
-      .from('category');
-    query.leftJoin('category_description')
-      .on('category_description.category_description_category_id', '=', 'category.category_id');
+    const query = select().from('category');
+    query
+      .leftJoin('category_description')
+      .on(
+        'category_description.category_description_category_id',
+        '=',
+        'category.category_id'
+      );
 
-    const category = await query
-      .where('uuid', '=', id)
-      .load(pool);
+    const category = await query.where('uuid', '=', id).load(pool);
 
     if (!category) {
       response.status(INVALID_PAYLOAD);
@@ -26,9 +32,7 @@ module.exports = async (request, response, delegate, next) => {
       return;
     }
 
-    await del('category')
-      .where('uuid', '=', id)
-      .execute(pool);
+    await del('category').where('uuid', '=', id).execute(pool);
     response.status(OK);
     response.json({
       data: category

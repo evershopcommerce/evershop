@@ -2,14 +2,15 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable global-require */
 const path = require('path');
-const { addDefaultMiddlewareFuncs } = require('../../../../../bin/lib/addDefaultMiddlewareFuncs');
+const {
+  addDefaultMiddlewareFuncs
+} = require('../../../../../bin/lib/addDefaultMiddlewareFuncs');
 const express = require('express');
 const { loadModuleRoutes } = require('../../../../lib/router/loadModuleRoutes');
 const { getModuleMiddlewares } = require('../..');
 const { getRoutes } = require('../../../router/Router');
 const { once } = require('events');
 const { Handler } = require('../../Handler');
-
 
 /** Create express app */
 const app = express();
@@ -77,7 +78,7 @@ routes.push({
 });
 routes.forEach((route) => {
   app.all(route.path, Handler.middleware());
-})
+});
 
 module.exports = {
   app,
@@ -89,8 +90,7 @@ module.exports = {
   close: (server, done) => {
     server.close(done);
   }
-}
-
+};
 
 // server.listen(0, () => {
 //   console.log(server.address().port);

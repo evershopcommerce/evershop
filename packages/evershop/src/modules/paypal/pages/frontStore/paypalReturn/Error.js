@@ -5,8 +5,8 @@ export default function Error() {
     <div className="text-center">
       <h1>Error</h1>
       <p>
-        We are sorry. There was an error processing your payment.
-        Your card was not charged. Please try again.
+        We are sorry. There was an error processing your payment. Your card was
+        not charged. Please try again.
       </p>
     </div>
   );

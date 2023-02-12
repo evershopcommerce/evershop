@@ -7,11 +7,7 @@ export default function SettingMenu() {
   return (
     <div className="setting-page-menu">
       <Card>
-        <Area
-          id="settingPageMenu"
-          noOuter
-          coreComponents={[]}
-        />
+        <Area id="settingPageMenu" noOuter coreComponents={[]} />
       </Card>
     </div>
   );

@@ -35,18 +35,18 @@ export default function CouponForm({ cart: { applyCouponApi } }) {
         <p style={{ fontWeight: 600 }}>Promotion code?</p>
         <div className="grid grid-cols-3 gap-2" style={{ width: '300px' }}>
           <div className="col-span-2">
-            <Field
-              type="text"
-              name="coupon"
-              placeholder="Enter coupon code"
-            />
+            <Field type="text" name="coupon" placeholder="Enter coupon code" />
           </div>
           <div className="col-span-1">
             <Button
               title="Apply"
-              onAction={
-                () => { document.getElementById('couponForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
-              }
+              onAction={() => {
+                document
+                  .getElementById('couponForm')
+                  .dispatchEvent(
+                    new Event('submit', { cancelable: true, bubbles: true })
+                  );
+              }}
             />
           </div>
         </div>

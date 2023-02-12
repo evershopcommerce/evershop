@@ -29,12 +29,15 @@ function init() {
     .version(packageJson.version)
     .arguments('[project-directory]')
     .usage(`${chalk.green('<project-directory>')} [options]`)
-    .action(name => {
+    .action((name) => {
       projectName = name;
     })
     .option('--verbose', 'Print additional logs')
     .option('--info', 'Print environment debug info')
-    .option('--playAround', 'Install EverShop in playaround mode(No MySQL database required)')
+    .option(
+      '--playAround',
+      'Install EverShop in playaround mode(No MySQL database required)'
+    )
     .on('--help', () => {
       console.log(
         `    Only ${chalk.green('<project-directory>')} is required.`
@@ -79,41 +82,37 @@ function init() {
   checkForLatestVersion()
     .catch(() => {
       try {
-        return execSync('npm view create-evershop-app version').toString().trim();
+        return execSync('npm view create-evershop-app version')
+          .toString()
+          .trim();
       } catch (e) {
         return null;
       }
     })
-    .then(latest => {
+    .then((latest) => {
       if (latest && semver.lt(packageJson.version, latest)) {
         console.log();
         console.error(
           chalk.yellow(
             `You are running \`create-evershop-app\` ${packageJson.version}, which is behind the latest release (${latest}).\n\n` +
-            'We recommend always using the latest version of create-evershop-app if possible.'
+              'We recommend always using the latest version of create-evershop-app if possible.'
           )
         );
         console.log();
         console.log(
           'The latest instructions for creating a new app can be found here:\n' +
-          'https://evershop.io/docs/development/getting-started/installation-guide/'
+            'https://evershop.io/docs/development/getting-started/installation-guide/'
         );
         console.log();
       } else {
         const useYarn = isUsingYarn();
 
-        createApp(
-          projectName,
-          options.verbose,
-          useYarn,
-          options.playAround
-        );
+        createApp(projectName, options.verbose, useYarn, options.playAround);
       }
     });
 }
 
 function createApp(name, verbose, useYarn, playAround = false) {
-
   const root = path.resolve(name);
   const appName = path.basename(root);
 
@@ -136,7 +135,7 @@ function createApp(name, verbose, useYarn, playAround = false) {
       start: 'evershop start',
       build: 'evershop build',
       dev: 'evershop dev'
-    },
+    }
   };
   fs.writeFileSync(
     path.join(root, 'package.json'),
@@ -162,14 +161,7 @@ function createApp(name, verbose, useYarn, playAround = false) {
     }
   }
 
-  run(
-    root,
-    appName,
-    verbose,
-    originalDirectory,
-    useYarn,
-    playAround
-  );
+  run(root, appName, verbose, originalDirectory, useYarn, playAround);
 }
 
 function install(root, useYarn, dependencies, verbose, isOnline) {
@@ -205,7 +197,7 @@ function install(root, useYarn, dependencies, verbose, isOnline) {
         '--save',
         '--save-exact',
         '--loglevel',
-        'error',
+        'error'
       ].concat(dependencies);
     }
 
@@ -214,10 +206,10 @@ function install(root, useYarn, dependencies, verbose, isOnline) {
     }
 
     const child = spawn(command, args, { stdio: 'inherit' });
-    child.on('close', code => {
+    child.on('close', (code) => {
       if (code !== 0) {
         reject({
-          command: `${command} ${args.join(' ')}`,
+          command: `${command} ${args.join(' ')}`
         });
         return;
       }
@@ -226,20 +218,12 @@ function install(root, useYarn, dependencies, verbose, isOnline) {
   });
 }
 
-function run(
-  root,
-  appName,
-  verbose,
-  originalDirectory,
-  useYarn,
-  playAround
-) {
-  console.log(
-    `Installing ${chalk.cyan('@evershop/evershop')}`
-  );
-  checkIfOnline(useYarn).then(isOnline => ({
-    isOnline
-  }))
+function run(root, appName, verbose, originalDirectory, useYarn, playAround) {
+  console.log(`Installing ${chalk.cyan('@evershop/evershop')}`);
+  checkIfOnline(useYarn)
+    .then((isOnline) => ({
+      isOnline
+    }))
     .then(({ isOnline }) => {
       const allDependencies = ['@evershop/evershop'];
       return install(root, useYarn, allDependencies, verbose, isOnline).then(
@@ -248,25 +232,27 @@ function run(
         }
       );
     })
-    .catch(reason => {
+    .catch((reason) => {
       console.log(reason);
       console.log();
       console.log('Aborting installation.');
       if (reason.command) {
         console.log(`  ${chalk.cyan(reason.command)} has failed.`);
       } else {
-        console.log(
-          chalk.red('Unexpected error. Please report it as a bug:')
-        );
+        console.log(chalk.red('Unexpected error. Please report it as a bug:'));
         console.log(reason);
       }
       console.log();
 
       // On 'exit' we will delete these files from target directory.
-      const knownGeneratedFiles = ['package.json', 'node_modules', 'package-lock.json'];
+      const knownGeneratedFiles = [
+        'package.json',
+        'node_modules',
+        'package-lock.json'
+      ];
       const currentFiles = fs.readdirSync(path.join(root));
-      currentFiles.forEach(file => {
-        knownGeneratedFiles.forEach(fileToMatch => {
+      currentFiles.forEach((file) => {
+        knownGeneratedFiles.forEach((fileToMatch) => {
           // This removes all knownGeneratedFiles.
           if (file === fileToMatch) {
             console.log(`Deleting generated file... ${chalk.cyan(file)}`);
@@ -301,7 +287,7 @@ function checkNpmVersion() {
   }
   return {
     hasMinNpm: hasMinNpm,
-    npmVersion: npmVersion,
+    npmVersion: npmVersion
   };
 }
 
@@ -317,8 +303,8 @@ function checkAppName(appName) {
     );
     [
       ...(validationResult.errors || []),
-      ...(validationResult.warnings || []),
-    ].forEach(error => {
+      ...(validationResult.warnings || [])
+    ].forEach((error) => {
       console.error(chalk.red(`  * ${error}`));
     });
     console.error(chalk.red('\nPlease choose a different project name.'));
@@ -333,10 +319,10 @@ function checkAppName(appName) {
         `Cannot create a project named ${chalk.green(
           `"${appName}"`
         )} because a dependency with the same name exists.\n` +
-        `Due to the way npm works, the following names are not allowed:\n\n`
+          `Due to the way npm works, the following names are not allowed:\n\n`
       ) +
-      chalk.cyan(dependencies.map(depName => `  ${depName}`).join('\n')) +
-      chalk.red('\n\nPlease choose a different project name.')
+        chalk.cyan(dependencies.map((depName) => `  ${depName}`).join('\n')) +
+        chalk.red('\n\nPlease choose a different project name.')
     );
     process.exit(1);
   }
@@ -364,26 +350,26 @@ function isSafeToCreateProjectIn(root, name) {
     'LICENSE',
     'README.md',
     'mkdocs.yml',
-    'Thumbs.db',
+    'Thumbs.db'
   ];
   // These files should be allowed to remain on a failed install, but then
   // silently removed during the next create.
   const errorLogFilePatterns = [
     'npm-debug.log',
     'yarn-error.log',
-    'yarn-debug.log',
+    'yarn-debug.log'
   ];
-  const isErrorLog = file => {
-    return errorLogFilePatterns.some(pattern => file.startsWith(pattern));
+  const isErrorLog = (file) => {
+    return errorLogFilePatterns.some((pattern) => file.startsWith(pattern));
   };
 
   const conflicts = fs
     .readdirSync(root)
-    .filter(file => !validFiles.includes(file))
+    .filter((file) => !validFiles.includes(file))
     // IntelliJ IDEA creates module files before CRA is launched
-    .filter(file => !/\.iml$/.test(file))
+    .filter((file) => !/\.iml$/.test(file))
     // Don't treat log files from previous installation as conflicts
-    .filter(file => !isErrorLog(file));
+    .filter((file) => !isErrorLog(file));
 
   if (conflicts.length > 0) {
     console.log(
@@ -411,7 +397,7 @@ function isSafeToCreateProjectIn(root, name) {
   }
 
   // Remove any log files from a previous installation.
-  fs.readdirSync(root).forEach(file => {
+  fs.readdirSync(root).forEach((file) => {
     if (isErrorLog(file)) {
       fs.removeSync(path.join(root, file));
     }
@@ -458,7 +444,7 @@ function checkThatNpmCanReadCwd() {
   // "; cwd = C:\path\to\current\dir" (unquoted)
   // I couldn't find an easier way to get it.
   const prefix = '; cwd = ';
-  const line = lines.find(line => line.startsWith(prefix));
+  const line = lines.find((line) => line.startsWith(prefix));
   if (typeof line !== 'string') {
     // Fail gracefully. They could remove it.
     return true;
@@ -470,26 +456,26 @@ function checkThatNpmCanReadCwd() {
   console.error(
     chalk.red(
       `Could not start an npm process in the right directory.\n\n` +
-      `The current directory is: ${chalk.bold(cwd)}\n` +
-      `However, a newly started npm process runs in: ${chalk.bold(
-        npmCWD
-      )}\n\n` +
-      `This is probably caused by a misconfigured system terminal shell.`
+        `The current directory is: ${chalk.bold(cwd)}\n` +
+        `However, a newly started npm process runs in: ${chalk.bold(
+          npmCWD
+        )}\n\n` +
+        `This is probably caused by a misconfigured system terminal shell.`
     )
   );
   if (process.platform === 'win32') {
     console.error(
       chalk.red(`On Windows, this can usually be fixed by running:\n\n`) +
-      `  ${chalk.cyan(
-        'reg'
-      )} delete "HKCU\\Software\\Microsoft\\Command Processor" /v AutoRun /f\n` +
-      `  ${chalk.cyan(
-        'reg'
-      )} delete "HKLM\\Software\\Microsoft\\Command Processor" /v AutoRun /f\n\n` +
-      chalk.red(`Try to run the above two lines in the terminal.\n`) +
-      chalk.red(
-        `To learn more about this problem, read: https://blogs.msdn.microsoft.com/oldnewthing/20071121-00/?p=24433/`
-      )
+        `  ${chalk.cyan(
+          'reg'
+        )} delete "HKCU\\Software\\Microsoft\\Command Processor" /v AutoRun /f\n` +
+        `  ${chalk.cyan(
+          'reg'
+        )} delete "HKLM\\Software\\Microsoft\\Command Processor" /v AutoRun /f\n\n` +
+        chalk.red(`Try to run the above two lines in the terminal.\n`) +
+        chalk.red(
+          `To learn more about this problem, read: https://blogs.msdn.microsoft.com/oldnewthing/20071121-00/?p=24433/`
+        )
     );
   }
   return false;
@@ -502,13 +488,13 @@ function checkIfOnline(useYarn) {
     return Promise.resolve(true);
   }
 
-  return new Promise(resolve => {
-    dns.lookup('registry.yarnpkg.com', err => {
+  return new Promise((resolve) => {
+    dns.lookup('registry.yarnpkg.com', (err) => {
       let proxy;
       if (err != null && (proxy = getProxy())) {
         // If a proxy is defined, we likely can't resolve external hostnames.
         // Try to resolve the proxy name as an indication of a connection.
-        dns.lookup(url.parse(proxy).hostname, proxyErr => {
+        dns.lookup(url.parse(proxy).hostname, (proxyErr) => {
           resolve(proxyErr == null);
         });
       } else {
@@ -520,16 +506,25 @@ function checkIfOnline(useYarn) {
 
 async function setUpEverShop(playAround, projectDir) {
   if (playAround) {
-    console.log(boxen(chalk.yellow(
-      `You are installing EverShop in 'playAround' mode.\n` +
-      `You will be provided a MySQL database in our cloud server.\n` +
-      `This data base is only for testing purpose and will be permanently deleted after 7 days. No backup is available.\n` +
-      `Please DO NOT insert any sensitive data into this database.\n` +
-      `You can install your own MySQL database on your local machine and continue to use EverShop.`
-    ), {
-      title: 'Disclaimer', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'yellow'
-    }));
-    // Register a DB 
+    console.log(
+      boxen(
+        chalk.yellow(
+          `You are installing EverShop in 'playAround' mode.\n` +
+            `You will be provided a MySQL database in our cloud server.\n` +
+            `This data base is only for testing purpose and will be permanently deleted after 7 days. No backup is available.\n` +
+            `Please DO NOT insert any sensitive data into this database.\n` +
+            `You can install your own MySQL database on your local machine and continue to use EverShop.`
+        ),
+        {
+          title: 'Disclaimer',
+          titleAlignment: 'center',
+          padding: 1,
+          margin: 1,
+          borderColor: 'yellow'
+        }
+      )
+    );
+    // Register a DB
     const db = await registerMySQLDB();
     // Load the configuration template
     const configuration = loadConfigTemplate(projectDir);
@@ -541,18 +536,17 @@ async function setUpEverShop(playAround, projectDir) {
       database: db.databaseName,
       password: db.databasePassword
     };
-    console.log(
-      `${chalk.green('✔ Create a configuration file')}`
-    );
+    console.log(`${chalk.green('✔ Create a configuration file')}`);
     // Create a configuration file
     await createConfigFile(projectDir, configuration);
 
     process.chdir(projectDir);
     // Create the migration table
-    console.log(
-      `${chalk.green('✔ Create the migration table')}`
-    );
-    const { createMigrationTable } = require(path.resolve(projectDir, 'node_modules/@evershop/evershop/bin/install/createMigrationTable'));
+    console.log(`${chalk.green('✔ Create the migration table')}`);
+    const { createMigrationTable } = require(path.resolve(
+      projectDir,
+      'node_modules/@evershop/evershop/bin/install/createMigrationTable'
+    ));
 
     const pool = mysql.createPool({
       host: 'db.cloud.evershop.io',
@@ -565,17 +559,34 @@ async function setUpEverShop(playAround, projectDir) {
     await createMigrationTable(pool);
 
     // Run the migration
-    console.log(
-      `${chalk.green('✔ Running the database migration')}`
+    console.log(`${chalk.green('✔ Running the database migration')}`);
+    const { migrate } = require(path.resolve(
+      projectDir,
+      'node_modules/@evershop/evershop/bin/install/migrate'
+    ));
+    await migrate(
+      pool,
+      path.resolve(projectDir, 'node_modules/@evershop/evershop/src/modules')
     );
-    const { migrate } = require(path.resolve(projectDir, 'node_modules/@evershop/evershop/bin/install/migrate'));
-    await migrate(pool, path.resolve(projectDir, 'node_modules/@evershop/evershop/src/modules'));
-    console.log(boxen(chalk.green(
-      `Your shop is successfully installed!. Please go to ${projectDir} and run '${chalk.green(`npm run build`)}'` +
-      ` and then run '${chalk.green(`npm run start`)}' to start your EverShop app.`
-    ), {
-      title: 'EverShop', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
-    }));
+    console.log(
+      boxen(
+        chalk.green(
+          `Your shop is successfully installed!. Please go to ${projectDir} and run '${chalk.green(
+            `npm run build`
+          )}'` +
+            ` and then run '${chalk.green(
+              `npm run start`
+            )}' to start your EverShop app.`
+        ),
+        {
+          title: 'EverShop',
+          titleAlignment: 'center',
+          padding: 1,
+          margin: 1,
+          borderColor: 'green'
+        }
+      )
+    );
     console.log();
     process.exit(0);
   } else {
@@ -585,27 +596,37 @@ async function setUpEverShop(playAround, projectDir) {
         cwd: projectDir,
         stdio: 'inherit'
       });
-      child.on('close', code => {
+      child.on('close', (code) => {
         if (code !== 0) {
           reject({
-            command: 'npm run setup',
+            command: 'npm run setup'
           });
           return;
         }
         resolve();
       });
-    }
-    );
+    });
   }
 }
 
 function loadConfigTemplate(projectDir) {
-  return JSON.parse(readFileSync(path.resolve(projectDir, './node_modules/@evershop/evershop/bin/install/templates/config.json'), 'utf-8'));
+  return JSON.parse(
+    readFileSync(
+      path.resolve(
+        projectDir,
+        './node_modules/@evershop/evershop/bin/install/templates/config.json'
+      ),
+      'utf-8'
+    )
+  );
 }
 
 async function createConfigFile(projectDir, data) {
   await mkdir(path.resolve(projectDir, 'config'), { recursive: true });
-  await writeFile(path.resolve(projectDir, 'config', 'default.json'), JSON.stringify(data, null, 4));
+  await writeFile(
+    path.resolve(projectDir, 'config', 'default.json'),
+    JSON.stringify(data, null, 4)
+  );
 }
 
 function checkForLatestVersion() {
@@ -613,10 +634,10 @@ function checkForLatestVersion() {
     https
       .get(
         'https://registry.npmjs.org/-/package/create-evershop-app/dist-tags',
-        res => {
+        (res) => {
           if (res.statusCode === 200) {
             let body = '';
-            res.on('data', data => (body += data));
+            res.on('data', (data) => (body += data));
             res.on('end', () => {
               resolve(JSON.parse(body).latest);
             });
@@ -636,24 +657,21 @@ async function registerMySQLDB() {
 
   return await new Promise((resolve, reject) => {
     https
-      .get(
-        API,
-        res => {
-          if (res.statusCode === 200) {
-            let body = '';
-            res.on('data', data => (body += data));
-            res.on('end', () => {
-              resolve(JSON.parse(body));
-            });
-          } else {
-            let body = '';
-            res.on('data', data => (body += data));
-            res.on('end', () => {
-              reject(JSON.parse(body));
-            });
-          }
+      .get(API, (res) => {
+        if (res.statusCode === 200) {
+          let body = '';
+          res.on('data', (data) => (body += data));
+          res.on('end', () => {
+            resolve(JSON.parse(body));
+          });
+        } else {
+          let body = '';
+          res.on('data', (data) => (body += data));
+          res.on('end', () => {
+            reject(JSON.parse(body));
+          });
         }
-      )
+      })
       .on('error', (err) => {
         reject();
       });

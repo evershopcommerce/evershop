@@ -14,7 +14,8 @@ export function CheckoutSteps({ children, value }) {
     const index = checkoutSteps.findIndex((s) => s.id === step.id);
 
     // check if all previous step is completed
-    if (!checkoutSteps.slice(0, index).every((s) => s.isCompleted === true)) return false;
+    if (!checkoutSteps.slice(0, index).every((s) => s.isCompleted === true))
+      return false;
     if (index === steps.length - 1) return true; // last step
     if (step.isCompleted !== true) return true; // completed step
     return false;
@@ -23,41 +24,54 @@ export function CheckoutSteps({ children, value }) {
   /**
    * Add a step to the checkout steps
    * @param {Object} step { id, title, isCompleted, sortOrder, editable }}
-  */
+   */
   const addStep = (step) => {
-    setSteps((previous) => previous.concat([
-      step
-    ]));
+    setSteps((previous) => previous.concat([step]));
   };
 
   const editStep = (stepId) => {
     const index = steps.findIndex((s) => s.id === stepId);
-    setSteps(steps.map((s, i) => {
-      if (s.id === stepId) {
-        return {
-          ...s, isCompleted: false
-        };
-      } else if (i > index) {
-        return {
-          ...s, isCompleted: false
-        };
-      } else return s;
-    }));
+    setSteps(
+      steps.map((s, i) => {
+        if (s.id === stepId) {
+          return {
+            ...s,
+            isCompleted: false
+          };
+        } else if (i > index) {
+          return {
+            ...s,
+            isCompleted: false
+          };
+        } else return s;
+      })
+    );
   };
 
   const completeStep = (stepId, preview) => {
-    setSteps(steps.map((s) => {
-      if (s.id === stepId) {
-        return {
-          ...s, isCompleted: true, isEditing: false, preview
-        };
-      } else return s;
-    }));
+    setSteps(
+      steps.map((s) => {
+        if (s.id === stepId) {
+          return {
+            ...s,
+            isCompleted: true,
+            isEditing: false,
+            preview
+          };
+        } else return s;
+      })
+    );
   };
 
-  const contextDispatchValue = useMemo(() => ({
-    canStepDisplay, editStep, completeStep, addStep
-  }), [steps]);
+  const contextDispatchValue = useMemo(
+    () => ({
+      canStepDisplay,
+      editStep,
+      completeStep,
+      addStep
+    }),
+    [steps]
+  );
 
   return (
     <Steps.Provider value={steps}>
@@ -73,14 +87,17 @@ CheckoutSteps.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]).isRequired,
-  value: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    isCompleted: PropTypes.bool,
-    sortOrder: PropTypes.number,
-    editable: PropTypes.bool
-  })).isRequired
+  value: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      isCompleted: PropTypes.bool,
+      sortOrder: PropTypes.number,
+      editable: PropTypes.bool
+    })
+  ).isRequired
 };
 
 export const useCheckoutSteps = () => React.useContext(Steps);
-export const useCheckoutStepsDispatch = () => React.useContext(CheckoutStepsDispatch);
+export const useCheckoutStepsDispatch = () =>
+  React.useContext(CheckoutStepsDispatch);

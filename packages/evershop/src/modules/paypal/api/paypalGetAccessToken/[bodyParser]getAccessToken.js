@@ -5,7 +5,11 @@ const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { getConfig } = require('../../../../lib/util/getConfig');
 const { pool } = require('../../../../lib/mysql/connection');
 const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
-const { INVALID_PAYLOAD, OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+const {
+  INVALID_PAYLOAD,
+  OK,
+  INTERNAL_SERVER_ERROR
+} = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -29,8 +33,8 @@ module.exports = async (request, response, delegate, next) => {
   }
 
   const paypalConfig = getConfig('system.paypal', {});
-  let clientId; let
-    clientSecret;
+  let clientId;
+  let clientSecret;
   if (paypalConfig.clientSecret) {
     clientSecret = paypalConfig.clientSecret;
   } else {
@@ -46,19 +50,25 @@ module.exports = async (request, response, delegate, next) => {
   const params = new URLSearchParams({ grant_type: 'client_credentials' });
   // Get paypal access token using Axios
   const paypalAccessToken = await axios.post(
-    `${(await getApiBaseUrl())}/v1/oauth2/token`,
+    `${await getApiBaseUrl()}/v1/oauth2/token`,
     params,
     {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`
+        Authorization: `Basic ${Buffer.from(
+          `${clientId}:${clientSecret}`
+        ).toString('base64')}`
       }
     }
   );
 
   if (paypalAccessToken.data.access_token) {
     // Save paypal access token to app level context
-    setContextValue(request.app, 'paypalAccessToken', paypalAccessToken.data.access_token);
+    setContextValue(
+      request.app,
+      'paypalAccessToken',
+      paypalAccessToken.data.access_token
+    );
     response.status(OK);
     return response.json({
       data: {

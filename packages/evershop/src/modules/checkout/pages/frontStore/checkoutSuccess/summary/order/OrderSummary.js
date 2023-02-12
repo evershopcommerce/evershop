@@ -33,14 +33,16 @@ OrderSummary.propTypes = {
   grandTotal: PropTypes.shape({
     text: PropTypes.string.isRequired
   }),
-  items: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    quantity: PropTypes.number.isRequired,
-    price: PropTypes.shape({
-      text: PropTypes.string.isRequired
-    }).isRequired
-  })).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      quantity: PropTypes.number.isRequired,
+      price: PropTypes.shape({
+        text: PropTypes.string.isRequired
+      }).isRequired
+    })
+  ).isRequired,
   shippingFeeExclTax: PropTypes.shape({
     text: PropTypes.string.isRequired
   }),

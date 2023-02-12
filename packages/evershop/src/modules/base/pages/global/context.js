@@ -1,16 +1,31 @@
 const { pool } = require('../../../../lib/mysql/connection');
-const { setContextValue, hasContextValue } = require('../../../graphql/services/contextHelper');
+const {
+  setContextValue,
+  hasContextValue
+} = require('../../../graphql/services/contextHelper');
 
 module.exports = (request, response) => {
-  response.context = {};// TODO: Fix this
+  response.context = {}; // TODO: Fix this
   /** Some default context value */
   if (!hasContextValue(request, 'pool')) {
     setContextValue(request.app, 'pool', pool);
   }
   setContextValue(request, 'pool', pool);
-  setContextValue(request, 'homeUrl', `${request.protocol}://${request.get('host')}`);
-  setContextValue(request, 'homeUrl', `${request.protocol}://${request.get('host')}`);
-  setContextValue(request, 'currentUrl', `${request.protocol}://${request.get('host')}${request.originalUrl}`);
+  setContextValue(
+    request,
+    'homeUrl',
+    `${request.protocol}://${request.get('host')}`
+  );
+  setContextValue(
+    request,
+    'homeUrl',
+    `${request.protocol}://${request.get('host')}`
+  );
+  setContextValue(
+    request,
+    'currentUrl',
+    `${request.protocol}://${request.get('host')}${request.originalUrl}`
+  );
   setContextValue(request, 'baseUrl', request.baseUrl);
   setContextValue(request, 'body', request.body);
   setContextValue(request, 'cookies', request.cookies);

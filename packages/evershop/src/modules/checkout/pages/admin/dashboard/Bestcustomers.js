@@ -11,7 +11,14 @@ export default function BestCustomers({ listUrl }) {
   return (
     <Card
       title="Best customers"
-      actions={[{ name: 'All customers', onAction: () => { window.location.href = listUrl; } }]}
+      actions={[
+        {
+          name: 'All customers',
+          onAction: () => {
+            window.location.href = listUrl;
+          }
+        }
+      ]}
     >
       <Card.Session>
         <table className="listing">
@@ -24,11 +31,16 @@ export default function BestCustomers({ listUrl }) {
           </thead>
           <tbody>
             {customers.map((c, i) => {
-              const grandTotal = new Intl.NumberFormat('en', { style: 'currency', currency }).format(c.total);
+              const grandTotal = new Intl.NumberFormat('en', {
+                style: 'currency',
+                currency
+              }).format(c.total);
               return (
                 // eslint-disable-next-line react/no-array-index-key
                 <tr key={i}>
-                  <td><a href={c.editUrl || ''}>{c.full_name}</a></td>
+                  <td>
+                    <a href={c.editUrl || ''}>{c.full_name}</a>
+                  </td>
                   <td>{c.orders}</td>
                   <td>{grandTotal}</td>
                 </tr>

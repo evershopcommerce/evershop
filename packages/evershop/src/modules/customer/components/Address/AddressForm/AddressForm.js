@@ -97,14 +97,18 @@ CustomerAddressForm.propTypes = {
     }),
     telephone: PropTypes.string
   }),
-  allowCountries: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string,
-    name: PropTypes.string,
-    provinces: PropTypes.arrayOf(PropTypes.shape({
+  allowCountries: PropTypes.arrayOf(
+    PropTypes.shape({
       code: PropTypes.string,
-      name: PropTypes.string
-    }))
-  })).isRequired,
+      name: PropTypes.string,
+      provinces: PropTypes.arrayOf(
+        PropTypes.shape({
+          code: PropTypes.string,
+          name: PropTypes.string
+        })
+      )
+    })
+  ).isRequired,
   areaId: PropTypes.string,
   formId: PropTypes.string
 };

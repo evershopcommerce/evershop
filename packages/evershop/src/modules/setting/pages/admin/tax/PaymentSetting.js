@@ -6,16 +6,11 @@ export default function PaymentSetting() {
     <div>
       <div className="row">
         <div className="col-3">
-          <Card
-            title="Menu"
-          />
+          <Card title="Menu" />
         </div>
         <div className="col-9">
-          <Card
-            title="Menu"
-          >
+          <Card title="Menu">
             <h1>Payment Setting</h1>
-
           </Card>
         </div>
       </div>

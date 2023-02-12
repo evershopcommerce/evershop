@@ -1,7 +1,11 @@
 /* eslint-disable camelcase */
 const { insert, select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
-const { INVALID_PAYLOAD, OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+const {
+  INVALID_PAYLOAD,
+  OK,
+  INTERNAL_SERVER_ERROR
+} = require('../../../../lib/util/httpStatus');
 const { addressValidator } = require('../../services/addressValidator');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 const { saveCart } = require('../../services/saveCart');
@@ -28,9 +32,7 @@ module.exports = async (request, response, delegate, next) => {
       throw new TypeError('Invalid Address');
     }
     // Save billing address
-    const result = await insert('cart_address')
-      .given(address)
-      .execute(pool);
+    const result = await insert('cart_address').given(address).execute(pool);
 
     // Set address ID to cart
     if (type === 'shipping') {

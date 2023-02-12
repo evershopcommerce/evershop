@@ -30,14 +30,16 @@ export default function Summary({ order }) {
 
 Summary.propTypes = {
   order: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      quantity: PropTypes.number.isRequired,
-      price: PropTypes.shape({
-        text: PropTypes.string.isRequired
-      }).isRequired
-    })).isRequired,
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        quantity: PropTypes.number.isRequired,
+        price: PropTypes.shape({
+          text: PropTypes.string.isRequired
+        }).isRequired
+      })
+    ).isRequired,
     discountAmount: PropTypes.shape({
       text: PropTypes.string.isRequired
     }),

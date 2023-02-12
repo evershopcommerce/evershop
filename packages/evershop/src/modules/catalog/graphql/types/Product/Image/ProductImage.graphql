@@ -13,6 +13,6 @@ type Image {
 }
 
 extend type Product {
-  image: Image,
-  gallery: [Image],
+  image: Image
+  gallery: [Image]
 }

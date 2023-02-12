@@ -12,20 +12,33 @@ export default function FromToColumnHeader({ title, id }) {
 
   const onChange = () => {
     const url = new URL(document.location);
-    if (filterTo.current.value === '' && filterFrom.current.value === '') { url.searchParams.delete(id); } else {
-      const form = DateTime.fromISO(filterFrom.current.value).toFormat('D').toString();
-      const to = DateTime.fromISO(filterTo.current.value).toFormat('D').toString();
+    if (filterTo.current.value === '' && filterFrom.current.value === '') {
+      url.searchParams.delete(id);
+    } else {
+      const form = DateTime.fromISO(filterFrom.current.value)
+        .toFormat('D')
+        .toString();
+      const to = DateTime.fromISO(filterTo.current.value)
+        .toFormat('D')
+        .toString();
       url.searchParams.set(id, `${form}-${to}`);
     }
     window.location.href = url.href;
   };
 
   React.useEffect(() => {
-    const form = DateTime.fromISO(get(context, `grid.currentFilter.${id}.from`, '')).isValid
-      ? DateTime.fromISO(get(context, `grid.currentFilter.${id}.from`, '')).toFormat('yyyy-MM-dd').toString()
+    const form = DateTime.fromISO(
+      get(context, `grid.currentFilter.${id}.from`, '')
+    ).isValid
+      ? DateTime.fromISO(get(context, `grid.currentFilter.${id}.from`, ''))
+          .toFormat('yyyy-MM-dd')
+          .toString()
       : '';
-    const to = DateTime.fromISO(get(context, `grid.currentFilter.${id}.to`, '')).isValid
-      ? DateTime.fromISO(get(context, `grid.currentFilter.${id}.to`, '')).toFormat('yyyy-MM-dd').toString()
+    const to = DateTime.fromISO(get(context, `grid.currentFilter.${id}.to`, ''))
+      .isValid
+      ? DateTime.fromISO(get(context, `grid.currentFilter.${id}.to`, ''))
+          .toFormat('yyyy-MM-dd')
+          .toString()
       : '';
     filterFrom.current.value = form;
     filterTo.current.value = to;
@@ -34,7 +47,9 @@ export default function FromToColumnHeader({ title, id }) {
   return (
     <th>
       <div className="table-header price-header">
-        <div className="title" style={{ marginBottom: '1rem' }}><span>{title}</span></div>
+        <div className="title" style={{ marginBottom: '1rem' }}>
+          <span>{title}</span>
+        </div>
         <div className="flex space-x-1">
           <div style={{ width: '10rem' }}>
             <Date

@@ -8,21 +8,34 @@ const { broadcash } = require('./broadcash');
 const { red } = require('kleur');
 
 function watchMR() {
-  const watcher = chokidar.watch(resolve(CONSTANTS.ROOTPATH, 'extensions/*/controllers/**'), {
-    //ignored: /node_modules[\\/]/,
-    ignoreInitial: true,
-    persistent: true
-  });
-  watcher.add(resolve(CONSTANTS.ROOTPATH, 'extensions/*/apiControllers/**'))
+  const watcher = chokidar.watch(
+    resolve(CONSTANTS.ROOTPATH, 'extensions/*/controllers/**'),
+    {
+      //ignored: /node_modules[\\/]/,
+      ignoreInitial: true,
+      persistent: true
+    }
+  );
+  watcher.add(resolve(CONSTANTS.ROOTPATH, 'extensions/*/apiControllers/**'));
   if (existsSync(resolve(CONSTANTS.ROOTPATH, 'packages'))) {
-    watcher.add(resolve(CONSTANTS.ROOTPATH, 'packages/evershop/src/modules/*/controllers/**'))
-    watcher.add(resolve(CONSTANTS.ROOTPATH, 'packages/evershop/src/modules/*/apiControllers/**'))
+    watcher.add(
+      resolve(
+        CONSTANTS.ROOTPATH,
+        'packages/evershop/src/modules/*/controllers/**'
+      )
+    );
+    watcher.add(
+      resolve(
+        CONSTANTS.ROOTPATH,
+        'packages/evershop/src/modules/*/apiControllers/**'
+      )
+    );
   }
   watcher.on('change', (path) => {
     console.log('Middleware updated', path);
 
     if (!path.endsWith('.js')) {
-      return
+      return;
     }
     delete require.cache[require.resolve(resolve(CONSTANTS.ROOTPATH, path))];
     broadcash();
@@ -30,7 +43,7 @@ function watchMR() {
 
   watcher.on('unlink', (path) => {
     if (!path.endsWith('.js')) {
-      return
+      return;
     }
     console.log('Middleware removed', path);
     Handler.removeMiddleware(resolve(CONSTANTS.ROOTPATH, path));
@@ -39,7 +52,7 @@ function watchMR() {
 
   watcher.on('add', (path) => {
     if (!path.endsWith('.js')) {
-      return
+      return;
     }
     console.log('Middleware added', path);
     try {
@@ -53,7 +66,7 @@ function watchMR() {
   /** Implement routing update*/
   watcher.on('change', (path) => {
     if (!path.endsWith('route')) {
-      return
+      return;
     }
     console.log('Route updated', path);
     updateApp(broadcash);
@@ -61,7 +74,7 @@ function watchMR() {
 
   watcher.on('unlink', (path) => {
     if (!path.endsWith('route')) {
-      return
+      return;
     }
     console.log('Route removed', path);
     broadcash();
@@ -69,7 +82,7 @@ function watchMR() {
 
   watcher.on('add', (path) => {
     if (!path.endsWith('route')) {
-      return
+      return;
     }
     console.log('Route added', path);
     updateApp(broadcash);
@@ -84,7 +97,6 @@ function watchMR() {
     console.log('Dir added', path);
     updateApp(broadcash);
   });
-
 }
 
 module.exports.watchMR = watchMR;

@@ -3,16 +3,17 @@ import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Card } from '../../../../cms/components/admin/Card';
 
-export default function Status({
-  category
-}) {
+export default function Status({ category }) {
   return (
     <Card>
       <Card.Session title="Status">
         <Field
           type="radio"
           name="status"
-          options={[{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }]}
+          options={[
+            { value: 0, text: 'Disabled' },
+            { value: 1, text: 'Enabled' }
+          ]}
           value={category?.status}
         />
       </Card.Session>
@@ -20,7 +21,10 @@ export default function Status({
         <Field
           type="radio"
           name="include_in_nav"
-          options={[{ value: 0, text: 'No' }, { value: 1, text: 'Yes' }]}
+          options={[
+            { value: 0, text: 'No' },
+            { value: 1, text: 'Yes' }
+          ]}
           value={category?.includeInNav}
         />
       </Card.Session>

@@ -6,7 +6,10 @@ const { INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
 
 const storage = multer.diskStorage({
   destination(request, file, cb) {
-    const path = join(CONSTANTS.MEDIAPATH, (request.params[0] || '').replace(/\s/g, '-'));
+    const path = join(
+      CONSTANTS.MEDIAPATH,
+      (request.params[0] || '').replace(/\s/g, '-')
+    );
     mkdirSync(path, { recursive: true });
     cb(null, path);
   },

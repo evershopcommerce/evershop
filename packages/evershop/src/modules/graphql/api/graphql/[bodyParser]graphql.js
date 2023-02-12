@@ -36,7 +36,10 @@ module.exports = async function graphql(request, response, delegate, next) {
         schema = require('../../services/buildSchema');
       }
       const data = await execute({
-        schema, contextValue: getContext(request), document, variableValues: variables
+        schema,
+        contextValue: getContext(request),
+        document,
+        variableValues: variables
       });
       if (data.errors) {
         // Create an Error instance with message and stack trace

@@ -61,9 +61,7 @@ Status.propTypes = {
   status: PropTypes.number.isRequired
 };
 
-export default function General({
-  customer
-}) {
+export default function General({ customer }) {
   return (
     <Card>
       <Area
@@ -71,7 +69,9 @@ export default function General({
         coreComponents={[
           {
             // eslint-disable-next-line react/no-unstable-nested-components
-            component: { default: () => <FullName fullName={customer.fullName} /> },
+            component: {
+              default: () => <FullName fullName={customer.fullName} />
+            },
             sortOrder: 10
           },
           {

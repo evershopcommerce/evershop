@@ -5,7 +5,10 @@ const { v4: uuidv4 } = require('uuid');
 const { camelCase } = require('../../../../lib/util/camelCase');
 const { pool } = require('../../../../lib/mysql/connection');
 const { getTokenCookieId } = require('../../../auth/services/getTokenCookieId');
-const { getContextValue, setContextValue } = require('../../../graphql/services/contextHelper');
+const {
+  getContextValue,
+  setContextValue
+} = require('../../../graphql/services/contextHelper');
 const { INVALID_PAYLOAD, OK } = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
@@ -39,7 +42,10 @@ module.exports = async (request, response, delegate, next) => {
       });
     } else {
       // Get the tokenPayload
-      const currentTokenPayload = getContextValue(request, 'customerTokenPayload');
+      const currentTokenPayload = getContextValue(
+        request,
+        'customerTokenPayload'
+      );
       const JWT_SECRET = uuidv4();
       // Save the JWT_SECRET to the database
       await insertOnUpdate('user_token_secret')
@@ -51,13 +57,16 @@ module.exports = async (request, response, delegate, next) => {
         .execute(pool);
 
       delete customer.password;
-      const newPayload = { ...currentTokenPayload, customer: { ...camelCase(customer) } };
+      const newPayload = {
+        ...currentTokenPayload,
+        customer: { ...camelCase(customer) }
+      };
       const token = sign(newPayload, JWT_SECRET);
       setContextValue(request, 'customerTokenPayload', newPayload);
       // Send a response with the cookie
       response.cookie(getTokenCookieId(), token, {
         httpOnly: true,
-        maxAge: 1.728e+8
+        maxAge: 1.728e8
       });
       response.status(OK);
       response.$body = {

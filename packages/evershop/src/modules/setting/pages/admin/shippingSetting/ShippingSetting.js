@@ -17,9 +17,7 @@ const CountriesQuery = `
   }
 `;
 
-export function AllowCountries({
-  selectedCountries = []
-}) {
+export function AllowCountries({ selectedCountries = [] }) {
   const [result] = useQuery({
     query: CountriesQuery
   });
@@ -43,9 +41,10 @@ export function AllowCountries({
         options={data.countries}
         hideSelectedOptions
         isMulti
-        defaultValue={selectedCountries.map(
-          (c) => ({ value: c, label: (data.countries.find((ctr) => ctr.value === c))?.label })
-        )}
+        defaultValue={selectedCountries.map((c) => ({
+          value: c,
+          label: data.countries.find((ctr) => ctr.value === c)?.label
+        }))}
       />
     </div>
   );
@@ -61,10 +60,7 @@ AllowCountries.defaultProps = {
 
 export default function StoreSetting({
   saveSettingApi,
-  setting: {
-    allowedCountries,
-    weightUnit
-  }
+  setting: { allowedCountries, weightUnit }
 }) {
   return (
     <div className="main-content-inner">
@@ -88,9 +84,7 @@ export default function StoreSetting({
             <Card>
               <Card.Session title="Shipping Details">
                 <div>
-                  <AllowCountries
-                    selectedCountries={allowedCountries}
-                  />
+                  <AllowCountries selectedCountries={allowedCountries} />
                   <Field
                     name="weightUnit"
                     label="Weight Unit"

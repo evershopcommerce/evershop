@@ -21,7 +21,9 @@ Subtotal.defaultProps = {
 };
 
 function Discount({ discountAmount, coupon }) {
-  if (!coupon) { return null; }
+  if (!coupon) {
+    return null;
+  }
   return (
     <div className="flex justify-between gap-3">
       <div>{`Discount(${coupon})`}</div>
@@ -41,14 +43,12 @@ Discount.defaultProps = {
 };
 
 function Summary({
-  checkoutUrl, cart: {
-    totalQty,
-    subTotal,
-    coupon,
-    discountAmount
-  }
+  checkoutUrl,
+  cart: { totalQty, subTotal, coupon, discountAmount }
 }) {
-  if (totalQty === undefined || totalQty <= 0) { return null; }
+  if (totalQty === undefined || totalQty <= 0) {
+    return null;
+  }
   return (
     <div className="summary">
       <div className="grid grid-cols-1 gap-2">
@@ -71,7 +71,13 @@ function Summary({
             },
             {
               // eslint-disable-next-line react/no-unstable-nested-components
-              component: { default: () => <div className="flex justify-between italic text-textSubdued">Taxes and shipping calculated at checkout</div> },
+              component: {
+                default: () => (
+                  <div className="flex justify-between italic text-textSubdued">
+                    Taxes and shipping calculated at checkout
+                  </div>
+                )
+              },
               props: {},
               sortOrder: 30,
               id: 'summaryNote'

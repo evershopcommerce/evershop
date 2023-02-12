@@ -30,15 +30,17 @@ export default function Summary({ cart }) {
 
 Summary.propTypes = {
   cart: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.shape({
-      thumbnail: PropTypes.string,
-      productName: PropTypes.string,
-      variantOptions: PropTypes.string,
-      qty: PropTypes.number,
-      total: PropTypes.shape({
-        text: PropTypes.string
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        thumbnail: PropTypes.string,
+        productName: PropTypes.string,
+        variantOptions: PropTypes.string,
+        qty: PropTypes.number,
+        total: PropTypes.shape({
+          text: PropTypes.string
+        })
       })
-    }))
+    )
   }).isRequired
 };
 

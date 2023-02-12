@@ -21,8 +21,7 @@ function Price({ regular, special }) {
       )}
       {special.value < regular.value && (
         <div>
-          <span className="sale-price">{special.text}</span>
-          {' '}
+          <span className="sale-price">{special.text}</span>{' '}
           <span className="regular-price">{regular.text}</span>
         </div>
       )}

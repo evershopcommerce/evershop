@@ -5,9 +5,7 @@
       "type": "string"
     }
   },
-  "required": [
-    "cart_id"
-  ],
+  "required": ["cart_id"],
   "additionalProperties": true,
   "errorMessage": {
     "properties": {

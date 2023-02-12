@@ -19,7 +19,9 @@ export default function StatusColumnHeader({ title, id, currentFilter = {} }) {
   return (
     <th className="column">
       <div className="table-header status-header">
-        <div className="title" style={{ marginBottom: '1rem' }}><span>{title}</span></div>
+        <div className="title" style={{ marginBottom: '1rem' }}>
+          <span>{title}</span>
+        </div>
         <div className="filter">
           <Select
             onChange={(e) => onChange(e)}
@@ -41,10 +43,7 @@ StatusColumnHeader.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   currentFilter: PropTypes.shape({
-    value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ])
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   })
 };
 

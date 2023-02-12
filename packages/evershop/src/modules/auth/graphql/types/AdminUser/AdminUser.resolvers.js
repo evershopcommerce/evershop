@@ -8,8 +8,7 @@ module.exports = {
       if (!get(userTokenPayload, 'user.isAdmin', false)) {
         return null;
       }
-      const query = select()
-        .from('admin_user');
+      const query = select().from('admin_user');
       query.where('admin_user_id', '=', id);
 
       const user = await query.load(pool);
@@ -44,7 +43,9 @@ module.exports = {
       });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
-      const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
+      const sortOrder = filters.find(
+        (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
+      ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'full_name') {
         query.orderBy('admin_user.`full_name`', sortOrder.value);
         currentFilters.push({
@@ -68,7 +69,7 @@ module.exports = {
       cloneQuery.select('COUNT(admin_user.`admin_user_id`)', 'total');
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = filters.find((f) => f.key === 'limit') || { value: 20 };// TODO: Get from config
+      const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
       currentFilters.push({
         key: 'page',
         operation: '=',
@@ -79,7 +80,10 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value, 10), parseInt(limit.value, 10));
+      query.limit(
+        (page.value - 1) * parseInt(limit.value, 10),
+        parseInt(limit.value, 10)
+      );
       return {
         items: (await query.execute(pool)).map((row) => camelCase(row)),
         total: (await cloneQuery.load(pool)).total,

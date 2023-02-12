@@ -98,9 +98,7 @@ module.exports = {
       0: '0px',
       DEFAULT: '1px'
     },
-    opacity: {
-
-    },
+    opacity: {},
     boxShadow: {
       DEFAULT: '0 0 0 1px rgba(63,63,68,.05),0 1px 3px 0 rgba(63,63,68,.15)'
     }

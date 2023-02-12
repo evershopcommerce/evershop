@@ -49,21 +49,29 @@ module.exports = async (request, response, delegate) => {
             .execute(connection);
         }
       } else if (attr.type === 'multiselect') {
-        await Promise.all(attribute.value.map(() => (async () => {
-          const option = await select()
-            .from('attribute_option')
-            .where('attribute_option_id', '=', parseInt(attribute.value, 10))
-            .load(connection);
-          if (option === null) {
-            return;
-          }
-          await insertOnUpdate('product_attribute_value_index')
-            .prime('option_id', option.attribute_option_id)
-            .prime('product_id', productId)
-            .prime('attribute_id', attr.attribute_id)
-            .prime('option_text', option.option_text)
-            .execute(connection);
-        })()));
+        await Promise.all(
+          attribute.value.map(() =>
+            (async () => {
+              const option = await select()
+                .from('attribute_option')
+                .where(
+                  'attribute_option_id',
+                  '=',
+                  parseInt(attribute.value, 10)
+                )
+                .load(connection);
+              if (option === null) {
+                return;
+              }
+              await insertOnUpdate('product_attribute_value_index')
+                .prime('option_id', option.attribute_option_id)
+                .prime('product_id', productId)
+                .prime('attribute_id', attr.attribute_id)
+                .prime('option_text', option.option_text)
+                .execute(connection);
+            })()
+          )
+        );
       } else if (attr.type === 'select') {
         const option = await select()
           .from('attribute_option')

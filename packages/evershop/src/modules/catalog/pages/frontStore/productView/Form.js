@@ -11,24 +11,32 @@ import Button from '../../../../../lib/components/form/Button';
 import './Form.scss';
 import { useAppDispatch, useAppState } from '../../../../../lib/context/app';
 
-function ToastMessage({
-  thumbnail,
-  name,
-  qty,
-  count,
-  cartUrl,
-  toastId
-}) {
+function ToastMessage({ thumbnail, name, qty, count, cartUrl, toastId }) {
   return (
     <div className="toast-mini-cart">
       <div className="top-head grid grid-cols-2">
-        <div className="self-center">
-          JUST ADDED TO YOUR CART
-        </div>
+        <div className="self-center">JUST ADDED TO YOUR CART</div>
         <div className="self-center close flex justify-end">
-          <a href="#" onClick={(e) => { e.preventDefault(); toast.dismiss(toastId); }}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              toast.dismiss(toastId);
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </a>
         </div>
@@ -48,11 +56,18 @@ function ToastMessage({
         </div>
       </div>
       <a className="add-cart-popup-button" href={cartUrl}>
-        VIEW CART (
-        {count}
-        )
+        VIEW CART ({count})
       </a>
-      <a className="add-cart-popup-continue text-center underline block" href="#" onClick={(e) => { e.preventDefault(); toast.dismiss(toastId); }}>Continue shopping</a>
+      <a
+        className="add-cart-popup-continue text-center underline block"
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          toast.dismiss(toastId);
+        }}
+      >
+        Continue shopping
+      </a>
     </div>
   );
 }
@@ -70,7 +85,15 @@ function AddToCart({ stockAvaibility, loading = false, error }) {
   return (
     <div className="add-to-cart mt-2">
       <div style={{ width: '8rem' }}>
-        <Field type="text" value="1" validationRules={['notEmpty']} className="qty" name="qty" placeholder="Qty" formId="productForm" />
+        <Field
+          type="text"
+          value="1"
+          validationRules={['notEmpty']}
+          className="qty"
+          name="qty"
+          placeholder="Qty"
+          formId="productForm"
+        />
       </div>
       {error && <div className="text-critical mt-1">{error}</div>}
       <div className="mt-1">
@@ -79,12 +102,18 @@ function AddToCart({ stockAvaibility, loading = false, error }) {
             title="ADD TO CART"
             outline
             isLoading={loading}
-            onAction={
-              () => { document.getElementById('productForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
-            }
+            onAction={() => {
+              document
+                .getElementById('productForm')
+                .dispatchEvent(
+                  new Event('submit', { cancelable: true, bubbles: true })
+                );
+            }}
           />
         )}
-        {stockAvaibility === false && <Button title="SOLD OUT" onAction={() => { }} />}
+        {stockAvaibility === false && (
+          <Button title="SOLD OUT" onAction={() => {}} />
+        )}
       </div>
     </div>
   );
@@ -109,19 +138,26 @@ export default function ProductForm({ product, action }) {
 
   const onSuccess = (response) => {
     if (!response.error) {
-      setData(produce(appContext, (draff) => {
-        draff.cart = appContext.cart || {};
-        draff.cart.totalQty = response.data.count;
-        draff.cart.uuid = response.data.cartId;
-      }));
-      setToastId(toast(<ToastMessage
-        thumbnail={response.data.item.thumbnail}
-        name={product.name}
-        qty={1}
-        count={response.data.count}
-        cartUrl="/cart"
-        toastId={toastId}
-      />, { closeButton: false }));
+      setData(
+        produce(appContext, (draff) => {
+          draff.cart = appContext.cart || {};
+          draff.cart.totalQty = response.data.count;
+          draff.cart.uuid = response.data.cartId;
+        })
+      );
+      setToastId(
+        toast(
+          <ToastMessage
+            thumbnail={response.data.item.thumbnail}
+            name={product.name}
+            qty={1}
+            count={response.data.count}
+            cartUrl="/cart"
+            toastId={toastId}
+          />,
+          { closeButton: false }
+        )
+      );
     } else {
       setError(response.message);
     }

@@ -18,13 +18,13 @@ export function Province({
       name={fieldName}
       label="Province"
       placeholder="Province"
-      validationRules={[{
-        rule: 'notEmpty',
-        message: 'Province is required'
-      }]}
-      options={
-        provinces.map((p) => ({ value: p.code, text: p.name }))
-      }
+      validationRules={[
+        {
+          rule: 'notEmpty',
+          message: 'Province is required'
+        }
+      ]}
+      options={provinces.map((p) => ({ value: p.code, text: p.name }))}
     />
   );
 }
@@ -32,14 +32,18 @@ export function Province({
 Province.propTypes = {
   selectedProvince: PropTypes.string,
   selectedCountry: PropTypes.string,
-  allowCountries: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string,
-    name: PropTypes.string,
-    provinces: PropTypes.arrayOf(PropTypes.shape({
+  allowCountries: PropTypes.arrayOf(
+    PropTypes.shape({
       code: PropTypes.string,
-      name: PropTypes.string
-    }))
-  })).isRequired,
+      name: PropTypes.string,
+      provinces: PropTypes.arrayOf(
+        PropTypes.shape({
+          code: PropTypes.string,
+          name: PropTypes.string
+        })
+      )
+    })
+  ).isRequired,
   fieldName: PropTypes.string
 };
 

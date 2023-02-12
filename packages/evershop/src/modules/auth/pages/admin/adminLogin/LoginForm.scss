@@ -33,21 +33,21 @@
       font-weight: 400;
       text-align: center;
     }
-        .form-submit-button {
-          button {
-            width: 100%;
-            padding: 1.2rem 1.6rem
-          }
-        }
-    
-        .form-field-container {
-          label {
-            color: #666
-          }
-        }
-        input[type=text], input[type=password] {
-          padding: 0.8rem 1.2rem
-        }
+    .form-submit-button {
+      button {
+        width: 100%;
+        padding: 1.2rem 1.6rem;
+      }
+    }
+
+    .form-field-container {
+      label {
+        color: #666;
+      }
+    }
+    input[type='text'],
+    input[type='password'] {
+      padding: 0.8rem 1.2rem;
+    }
   }
-  
 }

@@ -4,7 +4,9 @@ import { Province } from './Province';
 import { Field } from '../../../../../lib/components/form/Field';
 
 export function ProvinceAndPostcode({
-  address, allowCountries, selectedCountry
+  address,
+  allowCountries,
+  selectedCountry
 }) {
   return (
     <div className="grid grid-cols-2 gap-1 mt-1">
@@ -23,10 +25,12 @@ export function ProvinceAndPostcode({
           value={address?.postcode}
           label="Postcode"
           placeholder="Postcode"
-          validationRules={[{
-            rule: 'notEmpty',
-            message: 'Postcode is required'
-          }]}
+          validationRules={[
+            {
+              rule: 'notEmpty',
+              message: 'Postcode is required'
+            }
+          ]}
         />
       </div>
     </div>
@@ -40,14 +44,18 @@ ProvinceAndPostcode.propTypes = {
     }),
     postcode: PropTypes.string
   }),
-  allowCountries: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string,
-    name: PropTypes.string,
-    provinces: PropTypes.arrayOf(PropTypes.shape({
+  allowCountries: PropTypes.arrayOf(
+    PropTypes.shape({
       code: PropTypes.string,
-      name: PropTypes.string
-    }))
-  })).isRequired,
+      name: PropTypes.string,
+      provinces: PropTypes.arrayOf(
+        PropTypes.shape({
+          code: PropTypes.string,
+          name: PropTypes.string
+        })
+      )
+    })
+  ).isRequired,
   selectedCountry: PropTypes.string
 };
 

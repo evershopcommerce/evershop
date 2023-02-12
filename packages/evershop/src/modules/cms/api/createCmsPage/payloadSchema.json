@@ -2,25 +2,12 @@
   "type": "object",
   "properties": {
     "status": {
-      "type": [
-        "string",
-        "integer"
-      ],
-      "enum": [
-        "0",
-        "1",
-        0,
-        1
-      ]
+      "type": ["string", "integer"],
+      "enum": ["0", "1", 0, 1]
     },
     "layout": {
       "type": "string",
-      "enum": [
-        "oneColumn",
-        "twoColumnsLeft",
-        "twoColumnsRight",
-        "threeColumns"
-      ]
+      "enum": ["oneColumn", "twoColumnsLeft", "twoColumnsRight", "threeColumns"]
     },
     "name": {
       "type": "string"

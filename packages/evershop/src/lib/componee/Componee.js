@@ -48,16 +48,36 @@ class Componee {
         routes.forEach((route) => {
           if (route.method.length === 1 && route.method[0] === 'GET') {
             componentObjects[key].forEach((c) => {
-              this.addComponent(scope, route.id, c.id, c.areaId, c.source, c.props, c.sortOrder);
+              this.addComponent(
+                scope,
+                route.id,
+                c.id,
+                c.areaId,
+                c.source,
+                c.props,
+                c.sortOrder
+              );
             });
           }
         });
       } else if (/^\*-([a-zA-Z,])+/g.test(key)) {
         const excepts = key.split('-')[1].split(',');
         routes.forEach((route) => {
-          if (route.method.length === 1 && route.method[0] === 'GET' && !excepts.includes(route.id)) {
+          if (
+            route.method.length === 1 &&
+            route.method[0] === 'GET' &&
+            !excepts.includes(route.id)
+          ) {
             componentObjects[key].forEach((c) => {
-              this.addComponent(scope, route.id, c.id, c.areaId, c.source, c.props, c.sortOrder);
+              this.addComponent(
+                scope,
+                route.id,
+                c.id,
+                c.areaId,
+                c.source,
+                c.props,
+                c.sortOrder
+              );
             });
           }
         });
@@ -65,9 +85,21 @@ class Componee {
       } else if (/([a-zA-Z\+])/.test(key)) {
         const list = key.split('+');
         routes.forEach((route) => {
-          if (route.method.length === 1 && route.method[0] === 'GET' && list.includes(route.id)) {
+          if (
+            route.method.length === 1 &&
+            route.method[0] === 'GET' &&
+            list.includes(route.id)
+          ) {
             componentObjects[key].forEach((c) => {
-              this.addComponent(scope, route.id, c.id, c.areaId, c.source, c.props, c.sortOrder);
+              this.addComponent(
+                scope,
+                route.id,
+                c.id,
+                c.areaId,
+                c.source,
+                c.props,
+                c.sortOrder
+              );
             });
           }
         });
@@ -79,9 +111,14 @@ class Componee {
     const modulePath = module.path;
     this.currentModule = module.name;
     this.componentsByModule[modulePath] = {};
-    if (existsSync(path.resolve(modulePath, 'views/frontStore/components.js'))) {
+    if (
+      existsSync(path.resolve(modulePath, 'views/frontStore/components.js'))
+    ) {
       this.currentScope = 'frontStore';
-      const components = require(path.resolve(modulePath, 'views/frontStore/components.js'));
+      const components = require(path.resolve(
+        modulePath,
+        'views/frontStore/components.js'
+      ));
       if (typeof components === 'object' && components !== null) {
         this.addComponents(this.currentScope, components);
         if (isDevelopmentMode()) {
@@ -91,7 +128,10 @@ class Componee {
     }
     if (existsSync(path.resolve(modulePath, 'views/admin/components.js'))) {
       this.currentScope = 'admin';
-      const components = require(path.resolve(modulePath, 'views/admin/components.js'));
+      const components = require(path.resolve(
+        modulePath,
+        'views/admin/components.js'
+      ));
       if (typeof components === 'object' && components !== null) {
         this.addComponents(this.currentScope, components);
         if (isDevelopmentMode()) {
@@ -132,7 +172,8 @@ class Componee {
     };
 
     Object.keys(this.componentsByModule).forEach((modulePath) => {
-      const siteComponents = this.componentsByModule[modulePath].frontStore || {};
+      const siteComponents =
+        this.componentsByModule[modulePath].frontStore || {};
       const adminComponents = this.componentsByModule[modulePath].admin || {};
       this.addComponents('frontStore', siteComponents);
       this.addComponents('admin', adminComponents);
@@ -141,11 +182,17 @@ class Componee {
 
   static updateModuleComponents(module) {
     const modulePath = module.path;
-    if (existsSync(path.resolve(modulePath, 'views/frontStore/components.js'))) {
-      delete require.cache[path.resolve(modulePath, 'views/frontStore/components.js')];
+    if (
+      existsSync(path.resolve(modulePath, 'views/frontStore/components.js'))
+    ) {
+      delete require.cache[
+        path.resolve(modulePath, 'views/frontStore/components.js')
+      ];
     }
     if (existsSync(path.resolve(modulePath, 'views/admin/components.js'))) {
-      delete require.cache[path.resolve(modulePath, 'views/admin/components.js')];
+      delete require.cache[
+        path.resolve(modulePath, 'views/admin/components.js')
+      ];
     }
     this.loadModuleComponents(module);
     this.rebuild();

@@ -30,13 +30,17 @@ export function Results({ keyword, results = [] }) {
 
 Results.propTypes = {
   keyword: PropTypes.string,
-  results: PropTypes.arrayOf(PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.shape({
-      url: PropTypes.string,
-      name: PropTypes.string,
-      description: PropTypes.string
-    }))
-  }))
+  results: PropTypes.arrayOf(
+    PropTypes.shape({
+      items: PropTypes.arrayOf(
+        PropTypes.shape({
+          url: PropTypes.string,
+          name: PropTypes.string,
+          description: PropTypes.string
+        })
+      )
+    })
+  )
 };
 
 Results.defaultProps = {

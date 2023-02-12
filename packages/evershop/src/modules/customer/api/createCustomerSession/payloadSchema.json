@@ -9,8 +9,5 @@
       "type": "string"
     }
   },
-  "required": [
-    "email",
-    "password"
-  ]
+  "required": ["email", "password"]
 }

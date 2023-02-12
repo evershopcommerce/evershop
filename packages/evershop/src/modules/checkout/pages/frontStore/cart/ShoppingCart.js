@@ -13,7 +13,9 @@ function Title({ title }) {
   return (
     <div className="mb-3 text-center shopping-cart-heading">
       <h1 className="shopping-cart-title mb-05">{title}</h1>
-      <a href="/" className="underline">Continue shopping</a>
+      <a href="/" className="underline">
+        Continue shopping
+      </a>
     </div>
   );
 }
@@ -62,10 +64,7 @@ export default function ShoppingCart({ cart, removeUrl }) {
               />
             </div>
           </div>
-          <Area
-            id="shoppingCartBottom"
-            className="cart-page-bottom"
-          />
+          <Area id="shoppingCartBottom" className="cart-page-bottom" />
         </div>
       </div>
     );

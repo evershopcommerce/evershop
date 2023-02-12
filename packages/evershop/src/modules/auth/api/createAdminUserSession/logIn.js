@@ -4,7 +4,9 @@ const { sign } = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const { camelCase } = require('../../../../lib/util/camelCase');
 const { pool } = require('../../../../lib/mysql/connection');
-const { getAdminTokenCookieId } = require('../../services/getAdminTokenCookieId');
+const {
+  getAdminTokenCookieId
+} = require('../../services/getAdminTokenCookieId');
 const { INVALID_PAYLOAD, OK } = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars

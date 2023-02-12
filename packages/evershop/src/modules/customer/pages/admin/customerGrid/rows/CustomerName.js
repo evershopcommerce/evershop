@@ -5,7 +5,9 @@ export default function CustomerNameRow({ url, name }) {
   return (
     <td>
       <div>
-        <a className="hover:underline font-semibold" href={url}>{name}</a>
+        <a className="hover:underline font-semibold" href={url}>
+          {name}
+        </a>
       </div>
     </td>
   );

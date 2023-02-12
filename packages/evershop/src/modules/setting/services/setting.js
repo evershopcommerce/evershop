@@ -5,9 +5,7 @@ let setting;
 
 module.exports.getSetting = async (name, defaultValue) => {
   if (!setting) {
-    setting = await select()
-      .from('setting')
-      .execute(pool);
+    setting = await select().from('setting').execute(pool);
   }
   const row = setting.find((s) => s.name === name);
   if (row) {
@@ -18,7 +16,5 @@ module.exports.getSetting = async (name, defaultValue) => {
 };
 
 module.exports.refreshSetting = async () => {
-  setting = await select()
-    .from('setting')
-    .execute(pool);
+  setting = await select().from('setting').execute(pool);
 };

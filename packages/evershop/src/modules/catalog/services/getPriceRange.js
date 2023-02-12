@@ -8,7 +8,9 @@ module.exports.getPriceRange = async function getPriceRange(categoryId) {
   // Get the list of productIds before applying pagination, sorting...etc
   // Base on this list, we will find all attribute,
   // category and price can be appeared in the filter table
-  const allIds = (await productsQuery.execute(pool)).map((row) => row.product_id);
+  const allIds = (await productsQuery.execute(pool)).map(
+    (row) => row.product_id
+  );
   const priceRange = await select()
     .select('MIN(price)', 'min')
     .select('MAX(price)', 'max')

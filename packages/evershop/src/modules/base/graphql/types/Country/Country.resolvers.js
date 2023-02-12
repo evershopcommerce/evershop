@@ -34,6 +34,7 @@ module.exports = {
         return country;
       }
     },
-    provinces: (country) => provinces.filter((p) => p.countryCode === country.code)
+    provinces: (country) =>
+      provinces.filter((p) => p.countryCode === country.code)
   }
 };

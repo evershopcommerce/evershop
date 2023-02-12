@@ -13,11 +13,14 @@ describe('buildMiddlewareFunction', () => {
 
   it('It should return 500 error when a error occurred', async () => {
     // Visit a url
-    const response = await axios.get(`http://localhost:${port}/errorHandlerTest`, {
-      validateStatus: function (status) {
-        return status >= 200 && status < 600;
-      },
-    });
+    const response = await axios.get(
+      `http://localhost:${port}/errorHandlerTest`,
+      {
+        validateStatus: function (status) {
+          return status >= 200 && status < 600;
+        }
+      }
+    );
     console.log(response.data);
     expect(response.status).toEqual(500);
     expect(response.data.split(/\r\n|\r|\n/).length).toEqual(1);

@@ -5,11 +5,15 @@ import { MultiSelect } from '../../../../../lib/components/form/fields/MultiSele
 import { Select } from '../../../../../lib/components/form/fields/Select';
 
 export default function Options({ options = [] }) {
-  if (options.length === 0) { return null; }
+  if (options.length === 0) {
+    return null;
+  }
 
   return (
     <div className="product-single-options mt-4 mb-4">
-      <div className="product-single-options-title mb-2"><strong>Options</strong></div>
+      <div className="product-single-options-title mb-2">
+        <strong>Options</strong>
+      </div>
       {options.map((o, i) => {
         const values = o.values.map((v) => ({
           value: v.valueId,
@@ -23,7 +27,9 @@ export default function Options({ options = [] }) {
                 key={i}
                 name={`product_custom_options[${o.optionId}][]`}
                 options={values}
-                validation_rules={parseInt(o.isRequired, 10) === 1 ? ['notEmpty'] : []}
+                validation_rules={
+                  parseInt(o.isRequired, 10) === 1 ? ['notEmpty'] : []
+                }
                 formId="product-form"
                 label={o.optionName}
               />
@@ -35,7 +41,9 @@ export default function Options({ options = [] }) {
                 key={i}
                 name={`product_custom_options[${o.optionId}][]`}
                 options={values}
-                validation_rules={parseInt(o.isRequired, 10) === 1 ? ['notEmpty'] : []}
+                validation_rules={
+                  parseInt(o.isRequired, 10) === 1 ? ['notEmpty'] : []
+                }
                 formId="product-form"
                 label={o.optionName}
               />
@@ -47,7 +55,9 @@ export default function Options({ options = [] }) {
                 key={i}
                 name={`product_custom_options[${o.optionId}][]`}
                 options={values}
-                validation_rules={parseInt(o.isRequired, 10) === 1 ? ['notEmpty'] : []}
+                validation_rules={
+                  parseInt(o.isRequired, 10) === 1 ? ['notEmpty'] : []
+                }
                 formId="product-form"
                 label={o.optionName}
               />
@@ -60,12 +70,14 @@ export default function Options({ options = [] }) {
 }
 
 Options.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.shape({
-    optionId: PropTypes.number,
-    isRequired: PropTypes.number,
-    optionName: PropTypes.string,
-    optionType: PropTypes.string
-  })).isRequired
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      optionId: PropTypes.number,
+      isRequired: PropTypes.number,
+      optionName: PropTypes.string,
+      optionType: PropTypes.string
+    })
+  ).isRequired
 };
 
 export const layout = {

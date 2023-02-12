@@ -1,13 +1,20 @@
 const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
-const { setContextValue } = require('../../../../graphql/services/contextHelper');
+const {
+  setContextValue
+} = require('../../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
   try {
     const query = select();
-    query.from('cms_page')
+    query
+      .from('cms_page')
       .leftJoin('cms_page_description')
-      .on('cms_page.`cms_page_id`', '=', 'cms_page_description.`cms_page_description_cms_page_id`');
+      .on(
+        'cms_page.`cms_page_id`',
+        '=',
+        'cms_page_description.`cms_page_description_cms_page_id`'
+      );
 
     query.where('cms_page_description.`url_key`', '=', request.params.url_key);
     const page = await query.load(pool);

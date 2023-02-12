@@ -512,19 +512,31 @@ module.exports.provinces = [
   { code: 'CI-VB', countryCode: 'CI', name: 'Vallee du Bandama' },
   { code: 'CI-WR', countryCode: 'CI', name: 'Woroba' },
   { code: 'CI-ZZ', countryCode: 'CI', name: 'Zanzan' },
-  { code: 'CL-AI', countryCode: 'CL', name: 'Aisen del General Carlos Ibanez del Campo' },
+  {
+    code: 'CL-AI',
+    countryCode: 'CL',
+    name: 'Aisen del General Carlos Ibanez del Campo'
+  },
   { code: 'CL-AN', countryCode: 'CL', name: 'Antofagasta' },
   { code: 'CL-AP', countryCode: 'CL', name: 'Arica y Parinacota' },
   { code: 'CL-AT', countryCode: 'CL', name: 'Atacama' },
   { code: 'CL-BI', countryCode: 'CL', name: 'Biobio' },
   { code: 'CL-CO', countryCode: 'CL', name: 'Coquimbo' },
   { code: 'CL-AR', countryCode: 'CL', name: 'La Araucania' },
-  { code: 'CL-LI', countryCode: 'CL', name: "Libertador General Bernardo O'Higgins" },
+  {
+    code: 'CL-LI',
+    countryCode: 'CL',
+    name: "Libertador General Bernardo O'Higgins"
+  },
   { code: 'CL-LL', countryCode: 'CL', name: 'Los Lagos' },
   { code: 'CL-LR', countryCode: 'CL', name: 'Los Rios' },
   { code: 'CL-MA', countryCode: 'CL', name: 'Magallanes' },
   { code: 'CL-ML', countryCode: 'CL', name: 'Maule' },
-  { code: 'CL-RM', countryCode: 'CL', name: 'Region Metropolitana de Santiago' },
+  {
+    code: 'CL-RM',
+    countryCode: 'CL',
+    name: 'Region Metropolitana de Santiago'
+  },
   { code: 'CL-TA', countryCode: 'CL', name: 'Tarapaca' },
   { code: 'CL-VS', countryCode: 'CL', name: 'Valparaiso' },
   { code: 'CM-AD', countryCode: 'CM', name: 'Adamaoua' },
@@ -594,7 +606,11 @@ module.exports.provinces = [
   { code: 'CO-PUT', countryCode: 'CO', name: 'Putumayo' },
   { code: 'CO-QUI', countryCode: 'CO', name: 'Quindio' },
   { code: 'CO-RIS', countryCode: 'CO', name: 'Risaralda' },
-  { code: 'CO-SAP', countryCode: 'CO', name: 'San Andres, Providencia y Santa Catalina' },
+  {
+    code: 'CO-SAP',
+    countryCode: 'CO',
+    name: 'San Andres, Providencia y Santa Catalina'
+  },
   { code: 'CO-SAN', countryCode: 'CO', name: 'Santander' },
   { code: 'CO-SUC', countryCode: 'CO', name: 'Sucre' },
   { code: 'CO-TOL', countryCode: 'CO', name: 'Tolima' },
@@ -705,7 +721,11 @@ module.exports.provinces = [
   { code: 'DO-03', countryCode: 'DO', name: 'Baoruco' },
   { code: 'DO-04', countryCode: 'DO', name: 'Barahona' },
   { code: 'DO-05', countryCode: 'DO', name: 'Dajabon' },
-  { code: 'DO-01', countryCode: 'DO', name: 'Distrito Nacional (Santo Domingo)' },
+  {
+    code: 'DO-01',
+    countryCode: 'DO',
+    name: 'Distrito Nacional (Santo Domingo)'
+  },
   { code: 'DO-06', countryCode: 'DO', name: 'Duarte' },
   { code: 'DO-08', countryCode: 'DO', name: 'El Seibo' },
   { code: 'DO-07', countryCode: 'DO', name: 'Elias Pina' },
@@ -878,7 +898,11 @@ module.exports.provinces = [
   { code: 'ET-OR', countryCode: 'ET', name: 'Oromiya' },
   { code: 'ET-SO', countryCode: 'ET', name: 'Sumale' },
   { code: 'ET-TI', countryCode: 'ET', name: 'Tigray' },
-  { code: 'ET-SN', countryCode: 'ET', name: 'YeDebub Biheroch Bihereseboch na Hizboch' },
+  {
+    code: 'ET-SN',
+    countryCode: 'ET',
+    name: 'YeDebub Biheroch Bihereseboch na Hizboch'
+  },
   { code: 'FI-02', countryCode: 'FI', name: 'Etela-Karjala' },
   { code: 'FI-03', countryCode: 'FI', name: 'Etela-Pohjanmaa' },
   { code: 'FI-04', countryCode: 'FI', name: 'Etela-Savo' },
@@ -1280,7 +1304,11 @@ module.exports.provinces = [
   { code: 'IR-25', countryCode: 'IR', name: 'Yazd' },
   { code: 'IR-11', countryCode: 'IR', name: 'Zanjan' },
   { code: 'IS-7', countryCode: 'IS', name: 'Austurland' },
-  { code: 'IS-1', countryCode: 'IS', name: 'Hofudborgarsvaedi utan Reykjavikur' },
+  {
+    code: 'IS-1',
+    countryCode: 'IS',
+    name: 'Hofudborgarsvaedi utan Reykjavikur'
+  },
   { code: 'IS-6', countryCode: 'IS', name: 'Nordurland eystra' },
   { code: 'IS-5', countryCode: 'IS', name: 'Nordurland vestra' },
   { code: 'IS-8', countryCode: 'IS', name: 'Sudurland' },
@@ -1726,7 +1754,11 @@ module.exports.provinces = [
   { code: 'MD-ED', countryCode: 'MD', name: 'Edinet' },
   { code: 'MD-FA', countryCode: 'MD', name: 'Falesti' },
   { code: 'MD-FL', countryCode: 'MD', name: 'Floresti' },
-  { code: 'MD-GA', countryCode: 'MD', name: 'Gagauzia, Unitatea teritoriala autonoma' },
+  {
+    code: 'MD-GA',
+    countryCode: 'MD',
+    name: 'Gagauzia, Unitatea teritoriala autonoma'
+  },
   { code: 'MD-GL', countryCode: 'MD', name: 'Glodeni' },
   { code: 'MD-HI', countryCode: 'MD', name: 'Hincesti' },
   { code: 'MD-IA', countryCode: 'MD', name: 'Ialoveni' },
@@ -1740,7 +1772,11 @@ module.exports.provinces = [
   { code: 'MD-SD', countryCode: 'MD', name: 'Soldanesti' },
   { code: 'MD-SO', countryCode: 'MD', name: 'Soroca' },
   { code: 'MD-SV', countryCode: 'MD', name: 'Stefan Voda' },
-  { code: 'MD-SN', countryCode: 'MD', name: 'Stinga Nistrului, unitatea teritoriala din' },
+  {
+    code: 'MD-SN',
+    countryCode: 'MD',
+    name: 'Stinga Nistrului, unitatea teritoriala din'
+  },
   { code: 'MD-ST', countryCode: 'MD', name: 'Straseni' },
   { code: 'MD-TA', countryCode: 'MD', name: 'Taraclia' },
   { code: 'MD-TE', countryCode: 'MD', name: 'Telenesti' },
@@ -2053,7 +2089,11 @@ module.exports.provinces = [
   { code: 'MX-TAB', countryCode: 'MX', name: 'Tabasco' },
   { code: 'MX-TAM', countryCode: 'MX', name: 'Tamaulipas' },
   { code: 'MX-TLA', countryCode: 'MX', name: 'Tlaxcala' },
-  { code: 'MX-VER', countryCode: 'MX', name: 'Veracruz de Ignacio de la Llave' },
+  {
+    code: 'MX-VER',
+    countryCode: 'MX',
+    name: 'Veracruz de Ignacio de la Llave'
+  },
   { code: 'MX-YUC', countryCode: 'MX', name: 'Yucatan' },
   { code: 'MX-ZAC', countryCode: 'MX', name: 'Zacatecas' },
   { code: 'MY-01', countryCode: 'MY', name: 'Johor' },
@@ -2069,7 +2109,11 @@ module.exports.provinces = [
   { code: 'MY-13', countryCode: 'MY', name: 'Sarawak' },
   { code: 'MY-10', countryCode: 'MY', name: 'Selangor' },
   { code: 'MY-11', countryCode: 'MY', name: 'Terengganu' },
-  { code: 'MY-14', countryCode: 'MY', name: 'Wilayah Persekutuan Kuala Lumpur' },
+  {
+    code: 'MY-14',
+    countryCode: 'MY',
+    name: 'Wilayah Persekutuan Kuala Lumpur'
+  },
   { code: 'MY-15', countryCode: 'MY', name: 'Wilayah Persekutuan Labuan' },
   { code: 'MY-16', countryCode: 'MY', name: 'Wilayah Persekutuan Putrajaya' },
   { code: 'MZ-P', countryCode: 'MZ', name: 'Cabo Delgado' },
@@ -2276,7 +2320,11 @@ module.exports.provinces = [
   { code: 'PG-MRL', countryCode: 'PG', name: 'Manus' },
   { code: 'PG-MBA', countryCode: 'PG', name: 'Milne Bay' },
   { code: 'PG-MPL', countryCode: 'PG', name: 'Morobe' },
-  { code: 'PG-NCD', countryCode: 'PG', name: 'National Capital District (Port Moresby)' },
+  {
+    code: 'PG-NCD',
+    countryCode: 'PG',
+    name: 'National Capital District (Port Moresby)'
+  },
   { code: 'PG-NIK', countryCode: 'PG', name: 'New Ireland' },
   { code: 'PG-NPP', countryCode: 'PG', name: 'Northern' },
   { code: 'PG-SHM', countryCode: 'PG', name: 'Southern Highlands' },
@@ -2360,7 +2408,11 @@ module.exports.provinces = [
   { code: 'PH-ZAS', countryCode: 'PH', name: 'Zamboanga del Sur' },
   { code: 'PK-JK', countryCode: 'PK', name: 'Azad Kashmir' },
   { code: 'PK-BA', countryCode: 'PK', name: 'Balochistan' },
-  { code: 'PK-TA', countryCode: 'PK', name: 'Federally Administered Tribal Areas' },
+  {
+    code: 'PK-TA',
+    countryCode: 'PK',
+    name: 'Federally Administered Tribal Areas'
+  },
   { code: 'PK-GB', countryCode: 'PK', name: 'Gilgit-Baltistan' },
   { code: 'PK-IS', countryCode: 'PK', name: 'Islamabad' },
   { code: 'PK-KP', countryCode: 'PK', name: 'Khyber Pakhtunkhwa' },
@@ -2538,17 +2590,29 @@ module.exports.provinces = [
   { code: 'RU-IN', countryCode: 'RU', name: 'Ingushetiya, Respublika' },
   { code: 'RU-IRK', countryCode: 'RU', name: "Irkutskaya oblast'" },
   { code: 'RU-IVA', countryCode: 'RU', name: "Ivanovskaya oblast'" },
-  { code: 'RU-KB', countryCode: 'RU', name: 'Kabardino-Balkarskaya Respublika' },
+  {
+    code: 'RU-KB',
+    countryCode: 'RU',
+    name: 'Kabardino-Balkarskaya Respublika'
+  },
   { code: 'RU-KGD', countryCode: 'RU', name: "Kaliningradskaya oblast'" },
   { code: 'RU-KL', countryCode: 'RU', name: 'Kalmykiya, Respublika' },
   { code: 'RU-KLU', countryCode: 'RU', name: "Kaluzhskaya oblast'" },
   { code: 'RU-KAM', countryCode: 'RU', name: 'Kamchatskiy kray' },
-  { code: 'RU-KC', countryCode: 'RU', name: 'Karachayevo-Cherkesskaya Respublika' },
+  {
+    code: 'RU-KC',
+    countryCode: 'RU',
+    name: 'Karachayevo-Cherkesskaya Respublika'
+  },
   { code: 'RU-KR', countryCode: 'RU', name: 'Kareliya, Respublika' },
   { code: 'RU-KEM', countryCode: 'RU', name: "Kemerovskaya oblast'" },
   { code: 'RU-KHA', countryCode: 'RU', name: 'Khabarovskiy kray' },
   { code: 'RU-KK', countryCode: 'RU', name: 'Khakasiya, Respublika' },
-  { code: 'RU-KHM', countryCode: 'RU', name: 'Khanty-Mansiyskiy avtonomnyy okrug' },
+  {
+    code: 'RU-KHM',
+    countryCode: 'RU',
+    name: 'Khanty-Mansiyskiy avtonomnyy okrug'
+  },
   { code: 'RU-KIR', countryCode: 'RU', name: "Kirovskaya oblast'" },
   { code: 'RU-KO', countryCode: 'RU', name: 'Komi, Respublika' },
   { code: 'RU-KOS', countryCode: 'RU', name: "Kostromskaya oblast'" },
@@ -2599,9 +2663,17 @@ module.exports.provinces = [
   { code: 'RU-VGG', countryCode: 'RU', name: "Volgogradskaya oblast'" },
   { code: 'RU-VLG', countryCode: 'RU', name: "Vologodskaya oblast'" },
   { code: 'RU-VOR', countryCode: 'RU', name: "Voronezhskaya oblast'" },
-  { code: 'RU-YAN', countryCode: 'RU', name: 'Yamalo-Nenetskiy avtonomnyy okrug' },
+  {
+    code: 'RU-YAN',
+    countryCode: 'RU',
+    name: 'Yamalo-Nenetskiy avtonomnyy okrug'
+  },
   { code: 'RU-YAR', countryCode: 'RU', name: "Yaroslavskaya oblast'" },
-  { code: 'RU-YEV', countryCode: 'RU', name: "Yevreyskaya avtonomnaya oblast'" },
+  {
+    code: 'RU-YEV',
+    countryCode: 'RU',
+    name: "Yevreyskaya avtonomnaya oblast'"
+  },
   { code: 'RU-ZAB', countryCode: 'RU', name: "Zabaykal'skiy kray" },
   { code: 'RW-02', countryCode: 'RW', name: 'Est' },
   { code: 'RW-03', countryCode: 'RW', name: 'Nord' },

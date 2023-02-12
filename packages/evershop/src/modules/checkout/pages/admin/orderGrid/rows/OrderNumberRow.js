@@ -6,8 +6,7 @@ export default function OrderNumberRow({ editUrl, name }) {
     <td>
       <div>
         <a className="hover:underline font-semibold" href={editUrl}>
-          #
-          {name}
+          #{name}
         </a>
       </div>
     </td>

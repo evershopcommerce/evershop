@@ -6,6 +6,6 @@ const test = jest.fn((delegates) => {
 function collection(request, response, delegates) {
   test(delegates);
 }
-const myModule = module.exports = collection;
+const myModule = (module.exports = collection);
 
 myModule.test = test;

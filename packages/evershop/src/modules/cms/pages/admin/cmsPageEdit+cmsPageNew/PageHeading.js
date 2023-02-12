@@ -3,7 +3,12 @@ import React from 'react';
 import PageHeading from '../../../components/admin/PageHeading';
 
 export default function PageEditPageHeading({ backUrl, page }) {
-  return <PageHeading backUrl={backUrl} heading={page ? `Editing ${page.name}` : 'Create A New Page'} />;
+  return (
+    <PageHeading
+      backUrl={backUrl}
+      heading={page ? `Editing ${page.name}` : 'Create A New Page'}
+    />
+  );
 }
 
 PageEditPageHeading.propTypes = {

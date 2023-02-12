@@ -10,9 +10,11 @@ module.exports = async (request, response) => {
   const query = select('product_id', 'sku')
     .select('d.`name`', 'name')
     .from('product', 'p');
-  query.leftJoin('product_description', 'd')
+  query
+    .leftJoin('product_description', 'd')
     .on('p.`product_id`', '=', 'd.`product_description_product_id`');
-  query.where('p.sku', 'LIKE', `%${keyword}%`)
+  query
+    .where('p.sku', 'LIKE', `%${keyword}%`)
     .or('d.name', 'LIKE', `%${keyword}%`)
     .or('d.description', 'LIKE', `%${keyword}%`);
   query.limit(0, 20);

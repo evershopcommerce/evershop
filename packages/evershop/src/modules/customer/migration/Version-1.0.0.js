@@ -3,7 +3,9 @@ const { pool } = require('../../../lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = async () => {
-  await execute(pool, `CREATE TABLE \`customer\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`customer\` (
   \`customer_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`status\` smallint(6) NOT NULL DEFAULT 1,
@@ -18,9 +20,12 @@ module.exports = exports = async () => {
   KEY \`FK_CUSTOMER_GROUP\` (\`group_id\`),
   CONSTRAINT \`FK_CUSTOMER_GROUP\` FOREIGN KEY (\`group_id\`) REFERENCES \`customer_group\` (\`customer_group_id\`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer';
-`);
+`
+  );
 
-  await execute(pool, `CREATE TABLE \`customer_address\` (
+  await execute(
+    pool,
+    `CREATE TABLE \`customer_address\` (
   \`customer_address_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
   \`customer_id\` int(10) unsigned NOT NULL,
@@ -39,5 +44,6 @@ module.exports = exports = async () => {
   KEY \`FK_CUSTOMER_ADDRESS_LINK\` (\`customer_id\`),
   CONSTRAINT \`FK_CUSTOMER_ADDRESS_LINK\` FOREIGN KEY (\`customer_id\`) REFERENCES \`customer\` (\`customer_id\`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer address';
-`);
+`
+  );
 };

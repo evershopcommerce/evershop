@@ -11,9 +11,7 @@ export default function Media({ id, product, productImageUploadUrl }) {
     gallery = [image].concat(gallery);
   }
   return (
-    <Card
-      title="Media"
-    >
+    <Card title="Media">
       <Card.Session>
         <ProductMediaManager
           id={id || 'images'}
@@ -28,11 +26,13 @@ export default function Media({ id, product, productImageUploadUrl }) {
 Media.propTypes = {
   id: PropTypes.string.isRequired,
   product: PropTypes.shape({
-    gallery: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired
-    })),
+    gallery: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+        path: PropTypes.string.isRequired
+      })
+    ),
     image: PropTypes.shape({
       id: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,

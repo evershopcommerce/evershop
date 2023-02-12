@@ -9,7 +9,9 @@ export default function PaymentMethods({ getMethodsAPI }) {
   const [selectedMethod, setSelectedMethod] = React.useState(undefined);
 
   React.useEffect(() => {
-    axios.post(getMethodsAPI).then((response) => setMethods(response.data.data.methods));
+    axios
+      .post(getMethodsAPI)
+      .then((response) => setMethods(response.data.data.methods));
   }, []);
 
   return (

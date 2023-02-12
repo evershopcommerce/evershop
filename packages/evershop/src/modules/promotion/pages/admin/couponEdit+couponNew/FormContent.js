@@ -11,48 +11,28 @@ export default function FormContent({ gridUrl }) {
   return (
     <>
       <div className="grid grid-cols-1 gap-2">
-        <Card
-          title="General"
-        >
+        <Card title="General">
           <Card.Session>
-            <Area
-              id="couponEditGeneral"
-              noOuter
-            />
+            <Area id="couponEditGeneral" noOuter />
           </Card.Session>
         </Card>
-        <Card
-          title="Discount Type"
-        >
+        <Card title="Discount Type">
           <Card.Session>
-            <Area
-              id="couponEditDiscountType"
-              noOuter
-            />
+            <Area id="couponEditDiscountType" noOuter />
           </Card.Session>
         </Card>
         <div className="grid grid-cols-3 gap-x-2 grid-flow-row ">
           <div className="col-span-2 grid grid-cols-1 gap-2 auto-rows-max">
             <Card title="Order conditions">
               <Card.Session>
-                <Area
-                  id="couponEditLeft"
-                  noOuter
-                  className="col-8"
-                />
+                <Area id="couponEditLeft" noOuter className="col-8" />
               </Card.Session>
             </Card>
           </div>
           <div className="col-span-1 grid grid-cols-1 gap-2 auto-rows-max">
-            <Card
-              title="Customer conditions"
-            >
+            <Card title="Customer conditions">
               <Card.Session>
-                <Area
-                  id="couponEditRight"
-                  className="col-4"
-                  noOuter
-                />
+                <Area id="couponEditRight" className="col-4" noOuter />
               </Card.Session>
             </Card>
           </div>
@@ -63,23 +43,19 @@ export default function FormContent({ gridUrl }) {
           title="Cancel"
           variant="critical"
           outline
-          onAction={
-            () => {
-              window.location = gridUrl;
-            }
-          }
+          onAction={() => {
+            window.location = gridUrl;
+          }}
         />
         <Button
           title="Save"
-          onAction={
-            () => {
-              document
-                .getElementById('couponForm')
-                .dispatchEvent(
-                  new Event('submit', { cancelable: true, bubbles: true })
-                );
-            }
-          }
+          onAction={() => {
+            document
+              .getElementById('couponForm')
+              .dispatchEvent(
+                new Event('submit', { cancelable: true, bubbles: true })
+              );
+          }}
           isLoading={state === 'submitting'}
         />
       </div>

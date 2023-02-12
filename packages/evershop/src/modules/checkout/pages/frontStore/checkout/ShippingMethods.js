@@ -31,7 +31,10 @@ const QUERY = `
   }
 `;
 
-export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMethodApi } }) {
+export default function ShippingMethods({
+  getMethodsAPI,
+  cart: { addShippingMethodApi }
+}) {
   const formContext = useFormContext();
   const { completeStep } = useCheckoutStepsDispatch();
   const [loading, setLoading] = React.useState(false);
@@ -45,28 +48,34 @@ export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMeth
       const { fields } = formContext;
       let check = !!fields.length;
       fields.forEach((e) => {
-        if (['address[country]', 'address[province]', 'address[postcode]'].includes(e.name) && !e.value) {
+        if (
+          [
+            'address[country]',
+            'address[province]',
+            'address[postcode]'
+          ].includes(e.name) &&
+          !e.value
+        ) {
           check = false;
         }
       });
 
       if (check === true) {
         setAddressProvided(true);
-        axios.get(getMethodsAPI)
-          .then((response) => {
-            setMethods((previous) => {
-              const { methods: shippingMethods } = response.data.data;
-              return shippingMethods.map((m) => {
-                const find = previous.find((p) => p.code === m.code);
-                if (find) {
-                  return { ...find, ...m };
-                } else {
-                  return { ...m, selected: false };
-                }
-              });
+        axios.get(getMethodsAPI).then((response) => {
+          setMethods((previous) => {
+            const { methods: shippingMethods } = response.data.data;
+            return shippingMethods.map((m) => {
+              const find = previous.find((p) => p.code === m.code);
+              if (find) {
+                return { ...find, ...m };
+              } else {
+                return { ...m, selected: false };
+              }
             });
-            setLoading(false);
           });
+          setLoading(false);
+        });
       } else {
         setAddressProvided(false);
       }
@@ -81,18 +90,17 @@ export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMeth
     async function saveMethods() {
       // Get the selected method
       const selectedMethod = methods.find((m) => m.selected === true);
-      const response = await axios.post(
-        addShippingMethodApi,
-        {
-          method_code: selectedMethod.code,
-          method_name: selectedMethod.name
-        }
-      );
+      const response = await axios.post(addShippingMethodApi, {
+        method_code: selectedMethod.code,
+        method_name: selectedMethod.name
+      });
       if (!response.data.error) {
-        const result = await client.query(QUERY, { cartId })
-          .toPromise();
+        const result = await client.query(QUERY, { cartId }).toPromise();
         const address = result.data.cart.shippingAddress;
-        completeStep('shipment', `${address.address1}, ${address.city}, ${address.country.name}`);
+        completeStep(
+          'shipment',
+          `${address.address1}, ${address.city}, ${address.country.name}`
+        );
       }
     }
     if (formContext.state === 'submitSuccess') {
@@ -104,30 +112,49 @@ export default function ShippingMethods({ getMethodsAPI, cart: { addShippingMeth
     <div className="shipping-methods">
       {loading === true && (
         <div className="loading">
-          <svg style={{ background: 'rgb(255, 255, 255, 0)', display: 'block', shapeRendering: 'auto' }} width="2rem" height="2rem" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-            <circle cx="50" cy="50" fill="none" stroke="#f6f6f6" strokeWidth="10" r="43" strokeDasharray="202.63272615654165 69.54424205218055">
-              <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1" />
+          <svg
+            style={{
+              background: 'rgb(255, 255, 255, 0)',
+              display: 'block',
+              shapeRendering: 'auto'
+            }}
+            width="2rem"
+            height="2rem"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="xMidYMid"
+          >
+            <circle
+              cx="50"
+              cy="50"
+              fill="none"
+              stroke="#f6f6f6"
+              strokeWidth="10"
+              r="43"
+              strokeDasharray="202.63272615654165 69.54424205218055"
+            >
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                repeatCount="indefinite"
+                dur="1s"
+                values="0 50 50;360 50 50"
+                keyTimes="0;1"
+              />
             </circle>
           </svg>
         </div>
       )}
       <h4 className="mt-3 mb-1">Shipping Method</h4>
-      {
-        (addressProvided === true && methods.length === 0)
-        && (
-          <div className="text-center p-3 border border-divider rounded text-textSubdued">
-            Sorry, there is no available method for your address
-          </div>
-        )
-      }
-      {
-        (addressProvided === false)
-        && (
-          <div className="text-center p-3 border border-divider rounded text-textSubdued">
-            Please enter a shipping address in order to see shipping quotes
-          </div>
-        )
-      }
+      {addressProvided === true && methods.length === 0 && (
+        <div className="text-center p-3 border border-divider rounded text-textSubdued">
+          Sorry, there is no available method for your address
+        </div>
+      )}
+      {addressProvided === false && (
+        <div className="text-center p-3 border border-divider rounded text-textSubdued">
+          Please enter a shipping address in order to see shipping quotes
+        </div>
+      )}
       {methods.length > 0 && (
         <div className="divide-y border rounded border-divider p-1 mb-2">
           <Field

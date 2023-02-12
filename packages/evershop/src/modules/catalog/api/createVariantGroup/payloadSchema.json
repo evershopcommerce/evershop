@@ -8,15 +8,10 @@
       }
     },
     "attribute_group_id": {
-      "type": [
-        "integer",
-        "string"
-      ],
+      "type": ["integer", "string"],
       "pattern": "^[0-9]+$"
     }
   },
-  "required": [
-    "attribute_codes"
-  ],
+  "required": ["attribute_codes"],
   "additionalProperties": true
 }

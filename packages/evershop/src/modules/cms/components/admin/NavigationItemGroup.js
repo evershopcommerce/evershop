@@ -15,7 +15,11 @@ export default function NavigationItemGroup({
     <li className="root-nav-item nav-item">
       <div className="flex justify-between items-center">
         <div className="root-label flex justify-between items-center">
-          {Icon && <span><Icon /></span>}
+          {Icon && (
+            <span>
+              <Icon />
+            </span>
+          )}
           {!url && <span>{name}</span>}
           {url && <a href={url}>{name}</a>}
         </div>
@@ -45,11 +49,13 @@ export default function NavigationItemGroup({
 NavigationItemGroup.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    Icon: PropTypes.elementType,
-    url: PropTypes.string,
-    title: PropTypes.string.isRequired
-  })),
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      Icon: PropTypes.elementType,
+      url: PropTypes.string,
+      title: PropTypes.string.isRequired
+    })
+  ),
   Icon: PropTypes.elementType,
   url: PropTypes.string
 };

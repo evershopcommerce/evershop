@@ -9,16 +9,19 @@ import { get } from '../../../util/get';
 export default function ActionColumnRow({ areaProps: { row } }) {
   return (
     <td>
-      <div><a href={get(row, 'editUrl', '#')}><i className="fas fa-edit" /></a></div>
+      <div>
+        <a href={get(row, 'editUrl', '#')}>
+          <i className="fas fa-edit" />
+        </a>
+      </div>
       <div>
         {get(row, 'deleteUrl') && (
           <span
             className="text-danger link"
-            onClick={
-              () => {
-                if (window.confirm('Are you sure?')) window.location.href = get(row, 'deleteUrl');
-              }
-            }
+            onClick={() => {
+              if (window.confirm('Are you sure?'))
+                window.location.href = get(row, 'deleteUrl');
+            }}
           >
             <i className="fas fa-trash-alt" />
           </span>

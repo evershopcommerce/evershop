@@ -1,18 +1,13 @@
-const { scanForRoutes } = require("../../scanForRoutes");
+const { scanForRoutes } = require('../../scanForRoutes');
 const path = require('path');
-const { registerAdminRoute } = require("../../registerAdminRoute");
-const { validateRoute } = require("../../validateRoute");
+const { registerAdminRoute } = require('../../registerAdminRoute');
+const { validateRoute } = require('../../validateRoute');
 
 describe('Test validateRoute', () => {
   beforeAll(() => {
     const routes = scanForRoutes(path.resolve(__dirname, 'b'), true, false);
     routes.forEach((route) => {
-      registerAdminRoute(
-        route.id,
-        route.method,
-        route.path,
-        route.isApi
-      );
+      registerAdminRoute(route.id, route.method, route.path, route.isApi);
     });
   });
 

@@ -22,15 +22,17 @@ export function Transactions({ transactions }) {
 }
 
 Transactions.propTypes = {
-  transactions: PropTypes.arrayOf(PropTypes.shape({
-    amount: PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      value: PropTypes.number.isRequired
-    }),
-    createdAt: PropTypes.string.isRequired,
-    transactionType: PropTypes.string.isRequired,
-    paymentAction: PropTypes.string.isRequired
-  }))
+  transactions: PropTypes.arrayOf(
+    PropTypes.shape({
+      amount: PropTypes.shape({
+        text: PropTypes.string.isRequired,
+        value: PropTypes.number.isRequired
+      }),
+      createdAt: PropTypes.string.isRequired,
+      transactionType: PropTypes.string.isRequired,
+      paymentAction: PropTypes.string.isRequired
+    })
+  )
 };
 
 Transactions.defaultProps = {

@@ -10,7 +10,10 @@ export function renderHtml(js, css, contextData) {
       <ServerHtml
         js={js}
         css={css}
-        appContext={`var eContext = ${inspect(contextData, { depth: 10, maxArrayLength: null })}`}
+        appContext={`var eContext = ${inspect(contextData, {
+          depth: 10,
+          maxArrayLength: null
+        })}`}
       />
     </AppProvider>
   );

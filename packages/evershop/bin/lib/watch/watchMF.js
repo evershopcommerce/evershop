@@ -1,11 +1,12 @@
 const { normalize, basename } = require('path');
-const { CONSTANTS } = require("../../../src/lib/helpers");
+const { CONSTANTS } = require('../../../src/lib/helpers');
 const { Handler } = require('../../../src/lib/middleware/Handler');
 const { broadcash } = require('./broadcash');
 
 module.exports.watchMF = function (event, path) {
   // Check if path include graphql/types
-  if (!path.includes(normalize('pages/admin')) &&
+  if (
+    !path.includes(normalize('pages/admin')) &&
     !path.includes(normalize('pages/frontStore')) &&
     !path.includes(normalize('pages/global')) &&
     !path.includes(normalize('api/'))
@@ -28,10 +29,10 @@ module.exports.watchMF = function (event, path) {
   if (event === 'add') {
     Handler.addMiddlewareFromPath(path);
   }
-  console.log('broadcashing')
+  console.log('broadcashing');
   try {
     broadcash();
   } catch (e) {
     console.log(red(`Hot Reload Error: ${e.message}`));
   }
-}
+};

@@ -17,11 +17,13 @@ function Actions({ customers = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
 
   const updateCustomers = async (status) => {
-    const promises = customers.filter(
-      (customer) => selectedIds.includes(customer.uuid)
-    ).map((customer) => axios.patch(customer.updateApi, {
-      status
-    }));
+    const promises = customers
+      .filter((customer) => selectedIds.includes(customer.uuid))
+      .map((customer) =>
+        axios.patch(customer.updateApi, {
+          status
+        })
+      );
     await Promise.all(promises);
     // Refresh the page
     window.location.reload();
@@ -76,16 +78,25 @@ function Actions({ customers = [], selectedIds = [] }) {
 
   return (
     <tr>
-      {selectedIds.length === 0 && (null)}
+      {selectedIds.length === 0 && null}
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
             <a href="#" className="font-semibold pt-075 pb-075 pl-15 pr-15">
-              {selectedIds.length}
-              {' '}
-              selected
+              {selectedIds.length} selected
             </a>
-            {actions.map((action) => <a href="#" onClick={(e) => { e.preventDefault(); action.onAction(); }} className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"><span>{action.name}</span></a>)}
+            {actions.map((action) => (
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  action.onAction();
+                }}
+                className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"
+              >
+                <span>{action.name}</span>
+              </a>
+            ))}
           </div>
         </td>
       )}
@@ -95,27 +106,21 @@ function Actions({ customers = [], selectedIds = [] }) {
 
 Actions.propTypes = {
   selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  customers: PropTypes.arrayOf(PropTypes.shape({
-    uuid: PropTypes.string.isRequired,
-    updateApi: PropTypes.string.isRequired
-  })).isRequired
+  customers: PropTypes.arrayOf(
+    PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      updateApi: PropTypes.string.isRequired
+    })
+  ).isRequired
 };
 
 export default function CustomerGrid({
-  customers: {
-    items: customers,
-    total,
-    currentFilters = []
-  }
+  customers: { items: customers, total, currentFilters = [] }
 }) {
-  const page = currentFilters.find(
-    (filter) => filter.key === 'page'
-  )
+  const page = currentFilters.find((filter) => filter.key === 'page')
     ? currentFilters.find((filter) => filter.key === 'page').value
     : 1;
-  const limit = currentFilters.find(
-    (filter) => filter.key === 'limit'
-  )
+  const limit = currentFilters.find((filter) => filter.key === 'limit')
     ? currentFilters.find((filter) => filter.key === 'limit').value
     : 20;
   const [selectedRows, setSelectedRows] = useState([]);
@@ -126,39 +131,75 @@ export default function CustomerGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(customers.map((c) => c.uuid));
-                else setSelectedRows([]);
-              }}
+              <Checkbox
+                onChange={(e) => {
+                  if (e.target.checked)
+                    setSelectedRows(customers.map((c) => c.uuid));
+                  else setSelectedRows([]);
+                }}
               />
             </th>
             <Area
               id="customerGridHeader"
               noOuter
-              coreComponents={
-                [
-                  {
-                    // eslint-disable-next-line react/no-unstable-nested-components
-                    component: { default: () => <BasicColumnHeader title="Full Name" id="full_name" currentFilters={currentFilters} /> },
-                    sortOrder: 10
+              coreComponents={[
+                {
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  component: {
+                    default: () => (
+                      <BasicColumnHeader
+                        title="Full Name"
+                        id="full_name"
+                        currentFilters={currentFilters}
+                      />
+                    )
                   },
-                  {
-                    // eslint-disable-next-line react/no-unstable-nested-components
-                    component: { default: () => <BasicColumnHeader title="Email" id="email" currentFilters={currentFilters} /> },
-                    sortOrder: 15
+                  sortOrder: 10
+                },
+                {
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  component: {
+                    default: () => (
+                      <BasicColumnHeader
+                        title="Email"
+                        id="email"
+                        currentFilters={currentFilters}
+                      />
+                    )
                   },
-                  {
-                    // eslint-disable-next-line react/no-unstable-nested-components
-                    component: { default: () => <DropdownColumnHeader title="Status" id="status" currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
-                    sortOrder: 20
+                  sortOrder: 15
+                },
+                {
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  component: {
+                    default: () => (
+                      <DropdownColumnHeader
+                        title="Status"
+                        id="status"
+                        currentFilters={currentFilters}
+                        options={[
+                          { value: 1, text: 'Enabled' },
+                          { value: 0, text: 'Disabled' }
+                        ]}
+                      />
+                    )
                   },
-                  {
-                    // eslint-disable-next-line react/no-unstable-nested-components
-                    component: { default: () => <BasicColumnHeader title="Created At" id="created_at" currentFilters={currentFilters} /> },
-                    sortOrder: 25
-                  }
-                ]
-              }
+                  sortOrder: 20
+                },
+                {
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  component: {
+                    default: () => (
+                      <BasicColumnHeader
+                        title="Created At"
+                        id="created_at"
+                        currentFilters={currentFilters}
+                      />
+                    )
+                  },
+                  sortOrder: 25
+                }
+              ]}
             />
           </tr>
         </thead>
@@ -177,7 +218,9 @@ export default function CustomerGrid({
                     if (e.target.checked) {
                       setSelectedRows(selectedRows.concat([c.uuid]));
                     } else {
-                      setSelectedRows(selectedRows.filter((row) => row !== c.uuid));
+                      setSelectedRows(
+                        selectedRows.filter((row) => row !== c.uuid)
+                      );
                     }
                   }}
                 />
@@ -191,22 +234,40 @@ export default function CustomerGrid({
                 coreComponents={[
                   {
                     // eslint-disable-next-line react/no-unstable-nested-components
-                    component: { default: () => <CustomerNameRow id="name" name={c.fullName} url={c.editUrl} /> },
+                    component: {
+                      default: () => (
+                        <CustomerNameRow
+                          id="name"
+                          name={c.fullName}
+                          url={c.editUrl}
+                        />
+                      )
+                    },
                     sortOrder: 10
                   },
                   {
                     // eslint-disable-next-line react/no-unstable-nested-components
-                    component: { default: ({ areaProps }) => <BasicRow id="email" areaProps={areaProps} /> },
+                    component: {
+                      default: ({ areaProps }) => (
+                        <BasicRow id="email" areaProps={areaProps} />
+                      )
+                    },
                     sortOrder: 15
                   },
                   {
                     // eslint-disable-next-line react/no-unstable-nested-components
-                    component: { default: ({ areaProps }) => <StatusRow id="status" areaProps={areaProps} /> },
+                    component: {
+                      default: ({ areaProps }) => (
+                        <StatusRow id="status" areaProps={areaProps} />
+                      )
+                    },
                     sortOrder: 20
                   },
                   {
                     // eslint-disable-next-line react/no-unstable-nested-components
-                    component: { default: () => <CreateAt time={c.createdAt.text} /> },
+                    component: {
+                      default: () => <CreateAt time={c.createdAt.text} />
+                    },
                     sortOrder: 25
                   }
                 ]}
@@ -215,8 +276,11 @@ export default function CustomerGrid({
           ))}
         </tbody>
       </table>
-      {customers.length === 0
-        && <div className="flex w-full justify-center">There is no customer to display</div>}
+      {customers.length === 0 && (
+        <div className="flex w-full justify-center">
+          There is no customer to display
+        </div>
+      )}
       <Pagination total={total} limit={limit} page={page} />
     </Card>
   );
@@ -224,25 +288,29 @@ export default function CustomerGrid({
 
 CustomerGrid.propTypes = {
   customers: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.shape({
-      customerId: PropTypes.number.isRequired,
-      uuid: PropTypes.string.isRequired,
-      fullName: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      status: PropTypes.number.isRequired,
-      createdAt: PropTypes.shape({
-        value: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired
-      }).isRequired,
-      editUrl: PropTypes.string.isRequired,
-      updateApi: PropTypes.string.isRequired
-    })).isRequired,
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        customerId: PropTypes.number.isRequired,
+        uuid: PropTypes.string.isRequired,
+        fullName: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        status: PropTypes.number.isRequired,
+        createdAt: PropTypes.shape({
+          value: PropTypes.string.isRequired,
+          text: PropTypes.string.isRequired
+        }).isRequired,
+        editUrl: PropTypes.string.isRequired,
+        updateApi: PropTypes.string.isRequired
+      })
+    ).isRequired,
     total: PropTypes.number.isRequired,
-    currentFilters: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      operation: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
-    })).isRequired
+    currentFilters: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        operation: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired
+      })
+    ).isRequired
   }).isRequired
 };
 

@@ -2,7 +2,9 @@ const { select } = require('@evershop/mysql-query-builder');
 const { default: axios } = require('axios');
 const { pool } = require('../../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { getContextValue } = require('../../../../graphql/services/contextHelper');
+const {
+  getContextValue
+} = require('../../../../graphql/services/contextHelper');
 const { getSetting } = require('../../../../setting/services/setting');
 
 module.exports = async (request, response, delegate, next) => {
@@ -11,9 +13,9 @@ module.exports = async (request, response, delegate, next) => {
   if (paypalToken) {
     // eslint-disable-next-line camelcase
     const { order_id } = request.params;
-    const query = select()
-      .from('order');
-    query.where('uuid', '=', order_id)
+    const query = select().from('order');
+    query
+      .where('uuid', '=', order_id)
       .and('integration_order_id', '=', paypalToken)
       .and('payment_method', '=', 'paypal')
       .and('payment_status', '=', 'pending');
@@ -24,9 +26,16 @@ module.exports = async (request, response, delegate, next) => {
     } else {
       try {
         // Call API using Axios to capture/authorize the payment
-        const paymentIntent = await getSetting('paypalPaymentIntent', 'CAPTURE');
+        const paymentIntent = await getSetting(
+          'paypalPaymentIntent',
+          'CAPTURE'
+        );
         const responseData = await axios.post(
-          `${getContextValue(request, 'homeUrl')}${buildUrl(paymentIntent === 'CAPTURE' ? 'paypalCapturePayment' : 'paypalAuthorizePayment')}`,
+          `${getContextValue(request, 'homeUrl')}${buildUrl(
+            paymentIntent === 'CAPTURE'
+              ? 'paypalCapturePayment'
+              : 'paypalAuthorizePayment'
+          )}`,
           {
             // eslint-disable-next-line camelcase
             order_id

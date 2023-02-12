@@ -4,8 +4,8 @@ const { getRouteFromPath } = require('./getRouteFromPath');
 
 module.exports.parseFromFile = (path) => {
   const name = basename(path);
-  let m = {}; let
-    id;
+  let m = {};
+  let id;
   if (/^(\[)[a-zA-Z1-9.,]+(\])[a-zA-Z1-9]+.js$/.test(name)) {
     // eslint-disable-next-line no-useless-escape
     const split = name.split(/[\[\]]+/);
@@ -26,7 +26,9 @@ module.exports.parseFromFile = (path) => {
       before: split[1].split(',').filter((a) => a.trim() !== ''),
       path
     };
-  } else if (/^(\[)[a-zA-Z1-9,]+(\])[a-zA-Z1-9]+(\[)[a-zA-Z1-9,]+(\]).js$/.test(name)) {
+  } else if (
+    /^(\[)[a-zA-Z1-9,]+(\])[a-zA-Z1-9]+(\[)[a-zA-Z1-9,]+(\]).js$/.test(name)
+  ) {
     // eslint-disable-next-line no-useless-escape
     const split = name.split(/[\[\]]+/);
     id = split[2].trim();
@@ -50,12 +52,12 @@ module.exports.parseFromFile = (path) => {
   const route = getRouteFromPath(path);
   if (route.region === 'api') {
     if (m.id !== 'context' && m.id !== 'apiErrorHandler') {
-      m.before = !m.before ? (['apiResponse']) : m.before;
-      m.after = !m.after ? (['payloadValidate']) : m.after;
+      m.before = !m.before ? ['apiResponse'] : m.before;
+      m.after = !m.after ? ['payloadValidate'] : m.after;
     }
   } else if (m.id !== 'context' && m.id !== 'errorHandler') {
-    m.before = !m.before ? (['buildQuery']) : m.before;
-    m.after = !m.after ? (['auth']) : m.after;
+    m.before = !m.before ? ['buildQuery'] : m.before;
+    m.after = !m.after ? ['auth'] : m.after;
   }
 
   // Check if routeId is an array of routeIds or a single routeId

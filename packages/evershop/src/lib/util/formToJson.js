@@ -37,16 +37,15 @@ function update(data, keys, value) {
 }
 
 exports.serializeForm = function serializeForm(formDataEntries) {
-  return Array.from(formDataEntries)
-    .reduce((data, [field, value]) => {
-      // eslint-disable-next-line no-useless-escape,no-unused-vars
-      let [_, prefix, keys] = field.match(/^([^\[]+)((?:\[[^\]]*\])*)/);
+  return Array.from(formDataEntries).reduce((data, [field, value]) => {
+    // eslint-disable-next-line no-useless-escape,no-unused-vars
+    let [_, prefix, keys] = field.match(/^([^\[]+)((?:\[[^\]]*\])*)/);
 
-      if (keys) {
-        keys = Array.from(keys.matchAll(/\[([^\]]*)\]/g), (m) => m[1]);
-        value = update(data[prefix], keys, value);
-      }
-      data[prefix] = value;
-      return data;
-    }, {});
+    if (keys) {
+      keys = Array.from(keys.matchAll(/\[([^\]]*)\]/g), (m) => m[1]);
+      value = update(data[prefix], keys, value);
+    }
+    data[prefix] = value;
+    return data;
+  }, {});
 };

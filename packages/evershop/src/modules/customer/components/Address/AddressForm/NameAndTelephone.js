@@ -12,10 +12,12 @@ export function NameAndTelephone({ address }) {
           value={address?.fullName}
           label="Full name"
           placeholder="Full Name"
-          validationRules={[{
-            rule: 'notEmpty',
-            message: 'Full name is required'
-          }]}
+          validationRules={[
+            {
+              rule: 'notEmpty',
+              message: 'Full name is required'
+            }
+          ]}
         />
       </div>
       <div>
@@ -25,10 +27,12 @@ export function NameAndTelephone({ address }) {
           value={address?.telephone}
           label="Telephone"
           placeholder="Telephone"
-          validationRules={[{
-            rule: 'notEmpty',
-            message: 'Telephone is required'
-          }]}
+          validationRules={[
+            {
+              rule: 'notEmpty',
+              message: 'Telephone is required'
+            }
+          ]}
         />
       </div>
     </div>

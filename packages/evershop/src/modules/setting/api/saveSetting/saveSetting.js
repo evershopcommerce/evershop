@@ -1,6 +1,9 @@
 const { insertOnUpdate } = require('@evershop/mysql-query-builder');
 const { pool, getConnection } = require('../../../../lib/mysql/connection');
-const { OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+const {
+  OK,
+  INTERNAL_SERVER_ERROR
+} = require('../../../../lib/util/httpStatus');
 const { refreshSetting } = require('../../services/setting');
 
 module.exports = async (request, response) => {

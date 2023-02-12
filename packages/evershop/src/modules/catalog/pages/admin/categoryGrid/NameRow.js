@@ -5,7 +5,9 @@ export default function NameRow({ id, editUrl, areaProps: { row } }) {
   return (
     <td>
       <div>
-        <a className="hover:underline font-semibold" href={row[editUrl]}>{row[id]}</a>
+        <a className="hover:underline font-semibold" href={row[editUrl]}>
+          {row[id]}
+        </a>
       </div>
     </td>
   );

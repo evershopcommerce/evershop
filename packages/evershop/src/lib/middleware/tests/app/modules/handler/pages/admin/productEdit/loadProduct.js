@@ -6,4 +6,4 @@ module.exports = jest.fn(async (request, response, delegates, next) => {
   } catch (e) {
     next(e);
   }
-})
+});

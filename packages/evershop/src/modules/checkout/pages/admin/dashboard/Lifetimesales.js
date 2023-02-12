@@ -1,9 +1,7 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
 import React from 'react';
-import {
-  PieChart, Pie, Cell, ResponsiveContainer
-} from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { toast } from 'react-toastify';
 import Dot from '../../../../../lib/components/Dot';
 import { Card } from '../../../../cms/components/admin/Card';
@@ -14,14 +12,15 @@ const COLORS = ['#aee9d1', '#fed3d1', '#a4e8f2'];
 export default function LifetimeSale({ api }) {
   const [data, setData] = React.useState({});
   const [fetching, setFetching] = React.useState(true);
-  const {
-    orders, total, completed_percentage, cancelled_percentage
-  } = data;
+  const { orders, total, completed_percentage, cancelled_percentage } = data;
 
   const chartData = [
     { name: 'Completed', value: completed_percentage },
     { name: 'Cancelled', value: cancelled_percentage },
-    { name: 'Others', value: 100 - completed_percentage - cancelled_percentage }
+    {
+      name: 'Others',
+      value: 100 - completed_percentage - cancelled_percentage
+    }
   ];
 
   React.useEffect(() => {
@@ -45,9 +44,7 @@ export default function LifetimeSale({ api }) {
 
   if (fetching) {
     return (
-      <Card
-        title="Lifetime Sale"
-      >
+      <Card title="Lifetime Sale">
         <Card.Session>
           <div className="skeleton-wrapper-lifetime">
             <div className="skeleton" />
@@ -70,32 +67,22 @@ export default function LifetimeSale({ api }) {
           <div className="grid grid-cols-1 gap-1">
             <div className="flex space-x-1 items-center">
               <Dot variant="info" />
-              <div className="self-center">
-                {orders}
-                {' '}
-                orders
-              </div>
+              <div className="self-center">{orders} orders</div>
             </div>
             <div className="flex space-x-1 items-center">
               <Dot variant="info" />
-              <div className="self-center">
-                {total}
-                {' '}
-                lifetime sale
-              </div>
+              <div className="self-center">{total} lifetime sale</div>
             </div>
             <div className="flex space-x-1 items-center">
               <Dot variant="success" />
               <div className="self-center">
-                {completed_percentage}
-                % of orders completed
+                {completed_percentage}% of orders completed
               </div>
             </div>
             <div className="flex space-x-1 items-center">
               <Dot variant="critical" />
               <div className="self-center">
-                {cancelled_percentage}
-                % of orders cancelled
+                {cancelled_percentage}% of orders cancelled
               </div>
             </div>
           </div>
@@ -113,7 +100,12 @@ export default function LifetimeSale({ api }) {
                 >
                   {
                     // eslint-disable-next-line react/no-array-index-key
-                    chartData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
+                    chartData.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))
                   }
                 </Pie>
               </PieChart>

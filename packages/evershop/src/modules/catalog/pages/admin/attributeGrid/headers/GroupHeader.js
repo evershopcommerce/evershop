@@ -32,14 +32,18 @@ export default function GroupHeader({ id, currentFilters = [] }) {
   };
 
   React.useEffect(() => {
-    const filter = currentFilters.find((f) => f.key === 'group') || { value: '' };
+    const filter = currentFilters.find((f) => f.key === 'group') || {
+      value: ''
+    };
     setCurrent(filter.value);
   }, []);
 
   return (
     <th className="column">
       <div className="table-header status-header">
-        <div className="title" style={{ marginBottom: '1rem' }}><span>Attribute Group</span></div>
+        <div className="title" style={{ marginBottom: '1rem' }}>
+          <span>Attribute Group</span>
+        </div>
         <div className="filter">
           {fetching && <div>Loading</div>}
           {error && <div>{error.message}</div>}
@@ -59,10 +63,12 @@ export default function GroupHeader({ id, currentFilters = [] }) {
 
 GroupHeader.propTypes = {
   id: PropTypes.string.isRequired,
-  currentFilters: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
-  }))
+  currentFilters: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  )
 };
 
 GroupHeader.defaultProps = {

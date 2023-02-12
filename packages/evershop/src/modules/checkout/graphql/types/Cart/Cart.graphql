@@ -85,7 +85,7 @@ type CartAddress implements Address {
 """
 Represent a Cart Item
 """
-type CartItem implements ShoppingCartItem{
+type CartItem implements ShoppingCartItem {
   cartItemId: ID!
   uuid: String!
   cartId: ID!
@@ -113,7 +113,7 @@ type CartItem implements ShoppingCartItem{
 """
 Represent a Cart
 """
-type Cart implements ShoppingCart{
+type Cart implements ShoppingCart {
   cartId: ID!
   uuid: String!
   items: [CartItem]

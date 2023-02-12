@@ -9,7 +9,9 @@ module.exports = {
       }
     },
     storeDescription: (setting) => {
-      const storeDescription = setting.find((s) => s.name === 'storeDescription');
+      const storeDescription = setting.find(
+        (s) => s.name === 'storeDescription'
+      );
       if (storeDescription) {
         return storeDescription.value;
       } else {
@@ -41,7 +43,9 @@ module.exports = {
       }
     },
     storePhoneNumber: (setting) => {
-      const storePhoneNumber = setting.find((s) => s.name === 'storePhoneNumber');
+      const storePhoneNumber = setting.find(
+        (s) => s.name === 'storePhoneNumber'
+      );
       if (storePhoneNumber) {
         return storePhoneNumber.value;
       } else {

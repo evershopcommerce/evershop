@@ -8,7 +8,8 @@ export default function NavigationItem({ Icon, url, title }) {
     const currentUrl = window.location.href;
     const baseUrl = window.location.origin;
     const check = currentUrl.split(baseUrl + url);
-    if (check.length === 2 && url.indexOf('products/new') === -1) { // TODO: Fix me
+    if (check.length === 2 && url.indexOf('products/new') === -1) {
+      // TODO: Fix me
       if (url.split('/').length === 2) {
         if (check[1] === '' || !/^\/[a-zA-Z1-9]/.test(check[1])) {
           setIsActive(true);

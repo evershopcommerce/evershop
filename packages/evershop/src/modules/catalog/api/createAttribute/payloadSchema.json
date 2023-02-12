@@ -8,55 +8,25 @@
       "type": "string"
     },
     "is_required": {
-      "type": [
-        "integer",
-        "string"
-      ],
-      "enum": [
-        0,
-        1,
-        "0",
-        "1"
-      ]
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
     },
     "display_on_frontend": {
-      "type": [
-        "integer",
-        "string"
-      ],
-      "enum": [
-        0,
-        1,
-        "0",
-        "1"
-      ]
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
     },
     "sort_order": {
-      "type": [
-        "string",
-        "integer"
-      ],
+      "type": ["string", "integer"],
       "pattern": "^[0-9]*$"
     },
     "is_filterable": {
-      "type": [
-        "integer",
-        "string"
-      ],
-      "enum": [
-        0,
-        1,
-        "0",
-        "1"
-      ]
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
     },
     "groups": {
       "type": "array",
       "items": {
-        "type": [
-          "string",
-          "integer"
-        ],
+        "type": ["string", "integer"],
         "pattern": "^[0-9]*$"
       }
     },
@@ -69,16 +39,11 @@
             "type": "string"
           },
           "option_id": {
-            "type": [
-              "string",
-              "integer"
-            ],
+            "type": ["string", "integer"],
             "pattern": "^[1-9][0-9]*$"
           }
         },
-        "required": [
-          "option_text"
-        ]
+        "required": ["option_text"]
       }
     }
   },

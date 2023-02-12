@@ -26,8 +26,12 @@ export function SubmitButton({
     } else if (Object.keys(variantFormErrors).length > 0) {
       setLoading(false);
     } else {
-      const productFormData = new FormData(document.getElementById('productForm'));
-      const variantFormData = new FormData(document.getElementById('variantForm'));
+      const productFormData = new FormData(
+        document.getElementById('productForm')
+      );
+      const variantFormData = new FormData(
+        document.getElementById('variantForm')
+      );
 
       // Merge product and variant form data
       const formData = new FormData();
@@ -44,15 +48,13 @@ export function SubmitButton({
       }
       const productData = serializeForm(formData.entries());
       productData.attributes = productData.attributes || [];
-      productData.attributes = productData.attributes.map(
-        (attribute) => {
-          if (variantFormData.has(attribute.attribute_code)) {
-            // eslint-disable-next-line no-param-reassign
-            attribute.value = variantFormData.get(attribute.attribute_code);
-          }
-          return attribute;
+      productData.attributes = productData.attributes.map((attribute) => {
+        if (variantFormData.has(attribute.attribute_code)) {
+          // eslint-disable-next-line no-param-reassign
+          attribute.value = variantFormData.get(attribute.attribute_code);
         }
-      );
+        return attribute;
+      });
 
       const response = await fetch(createProductApi, {
         method: 'POST',

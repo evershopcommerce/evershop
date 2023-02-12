@@ -1,7 +1,10 @@
 const { commit, rollback, select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
-const { OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+const {
+  OK,
+  INTERNAL_SERVER_ERROR
+} = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -39,10 +42,15 @@ module.exports = async (request, response, delegate, next) => {
     });
   } else {
     await rollback(connection);
-    response.status(response.statusCode !== 200 ? response.statusCode : INTERNAL_SERVER_ERROR);
+    response.status(
+      response.statusCode !== 200 ? response.statusCode : INTERNAL_SERVER_ERROR
+    );
     response.json({
       error: {
-        status: response.statusCode !== 200 ? response.statusCode : INTERNAL_SERVER_ERROR,
+        status:
+          response.statusCode !== 200
+            ? response.statusCode
+            : INTERNAL_SERVER_ERROR,
         message: rejected.reason.message
       }
     });

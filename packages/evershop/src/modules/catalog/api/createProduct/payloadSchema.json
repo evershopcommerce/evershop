@@ -24,83 +24,39 @@
       "type": "string"
     },
     "status": {
-      "type": [
-        "integer",
-        "string"
-      ],
-      "enum": [
-        0,
-        1,
-        "0",
-        "1"
-      ]
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
     },
     "sku": {
       "type": "string"
     },
     "price": {
-      "type": [
-        "string",
-        "number"
-      ],
+      "type": ["string", "number"],
       "pattern": "^\\d+(\\.\\d{1,2})?$"
     },
     "weight": {
-      "type": [
-        "string",
-        "number"
-      ],
+      "type": ["string", "number"],
       "pattern": "^[0-9]+(\\.[0-9]{1,2})?$"
     },
     "qty": {
-      "type": [
-        "string",
-        "number"
-      ],
+      "type": ["string", "number"],
       "pattern": "^[0-9]+$"
     },
     "manage_stock": {
-      "type": [
-        "string",
-        "number"
-      ],
-      "enum": [
-        0,
-        1,
-        "0",
-        "1"
-      ]
+      "type": ["string", "number"],
+      "enum": [0, 1, "0", "1"]
     },
     "stock_availability": {
-      "type": [
-        "string",
-        "number"
-      ],
-      "enum": [
-        0,
-        1,
-        "0",
-        "1"
-      ]
+      "type": ["string", "number"],
+      "enum": [0, 1, "0", "1"]
     },
     "group_id": {
-      "type": [
-        "string",
-        "integer"
-      ],
+      "type": ["string", "integer"],
       "pattern": "^[0-9]+$"
     },
     "visibility": {
-      "type": [
-        "integer",
-        "string"
-      ],
-      "enum": [
-        0,
-        1,
-        "0",
-        "1"
-      ]
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
     },
     "images": {
       "type": "array",
@@ -117,10 +73,7 @@
             "type": "string"
           },
           "value": {
-            "type": [
-              "string",
-              "array"
-            ],
+            "type": ["string", "array"],
             "items": {
               "type": "string"
             }
@@ -131,10 +84,7 @@
     "categories": {
       "type": "array",
       "items": {
-        "type": [
-          "string",
-          "integer"
-        ],
+        "type": ["string", "integer"],
         "pattern": "^[0-9]+$"
       }
     },
@@ -148,22 +98,11 @@
           },
           "option_type": {
             "type": "string",
-            "enum": [
-              "select",
-              "multiselect"
-            ]
+            "enum": ["select", "multiselect"]
           },
           "is_required": {
-            "type": [
-              "string",
-              "integer"
-            ],
-            "enum": [
-              0,
-              1,
-              "0",
-              "1"
-            ],
+            "type": ["string", "integer"],
+            "enum": [0, 1, "0", "1"],
             "default": 0
           },
           "values": {
@@ -175,21 +114,14 @@
                   "type": "string"
                 },
                 "extra_price": {
-                  "type": [
-                    "string",
-                    "number"
-                  ],
+                  "type": ["string", "number"],
                   "pattern": "^\\d+(\\.\\d{1,2})?$"
                 }
               }
             }
           }
         },
-        "required": [
-          "option_name",
-          "option_type",
-          "values"
-        ],
+        "required": ["option_name", "option_type", "values"],
         "additionalProperties": true
       }
     }

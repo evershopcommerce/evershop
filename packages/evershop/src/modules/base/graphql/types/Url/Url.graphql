@@ -7,5 +7,5 @@ input UrlParam {
 }
 
 extend type Query {
-  url (routeId: String! params: [UrlParam]): String!
+  url(routeId: String!, params: [UrlParam]): String!
 }

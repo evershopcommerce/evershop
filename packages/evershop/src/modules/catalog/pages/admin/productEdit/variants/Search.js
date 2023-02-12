@@ -14,11 +14,13 @@ export function Search({ addVariant, variants }) {
     e.persist();
     openAlert({
       heading: 'Search for variant',
-      content: <SearchModal
-        keyword={e.target.value}
-        variants={variants}
-        addVariant={addVariant}
-      />,
+      content: (
+        <SearchModal
+          keyword={e.target.value}
+          variants={variants}
+          addVariant={addVariant}
+        />
+      ),
       primaryAction: {
         title: 'Done',
         onAction: closeAlert,
@@ -29,7 +31,6 @@ export function Search({ addVariant, variants }) {
 
   return (
     <div className="flex justify-between mt-1">
-
       <div className="self-center">
         <div className="autocomplete-search">
           <Input

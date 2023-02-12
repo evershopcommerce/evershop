@@ -3,16 +3,13 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { Form } from '../../../../../lib/components/form/Form';
 import { Field } from '../../../../../lib/components/form/Field';
-import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
+import {
+  useCheckoutSteps,
+  useCheckoutStepsDispatch
+} from '../../../../../lib/context/checkoutSteps';
 import { useCheckout } from '../../../../../lib/context/checkout';
 
-function Edit({
-  customer,
-  addContactInfoApi,
-  email,
-  setEmail,
-  loginUrl
-}) {
+function Edit({ customer, addContactInfoApi, email, setEmail, loginUrl }) {
   const { completeStep } = useCheckoutStepsDispatch();
 
   const onSuccess = (response) => {
@@ -55,9 +52,10 @@ function Edit({
       <h4 className="mb-1 mt-1">Contact information</h4>
       {!customer && (
         <div className="mb-1">
-          <span>Already have an account?</span>
-          {' '}
-          <a className="text-interactive hover:underline" href={loginUrl}>Login</a>
+          <span>Already have an account?</span>{' '}
+          <a className="text-interactive hover:underline" href={loginUrl}>
+            Login
+          </a>
         </div>
       )}
       <Form
@@ -93,10 +91,7 @@ Edit.propTypes = {
 };
 
 export default function ContactInformationStep({
-  cart: {
-    customerEmail,
-    addContactInfoApi
-  },
+  cart: { customerEmail, addContactInfoApi },
   customer,
   loginUrl
 }) {

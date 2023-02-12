@@ -2,4 +2,3 @@ extend type Setting {
   codPaymentStatus: Int
   codDislayName: String
 }
-    

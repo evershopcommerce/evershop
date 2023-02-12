@@ -11,8 +11,7 @@
     height: 45px;
     margin-top: 10px;
     cursor: progress;
-    background:
-      linear-gradient(0.25turn, transparent, #fff, transparent),
+    background: linear-gradient(0.25turn, transparent, #fff, transparent),
       linear-gradient(#eee, #eee);
     background-repeat: no-repeat;
     animation: loading 1.5s infinite;

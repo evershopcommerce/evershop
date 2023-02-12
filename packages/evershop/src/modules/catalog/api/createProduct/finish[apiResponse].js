@@ -1,7 +1,10 @@
 const { commit, rollback, select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
-const { OK, INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+const {
+  OK,
+  INTERNAL_SERVER_ERROR
+} = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -21,10 +24,14 @@ module.exports = async (request, response, delegate, next) => {
     response.status(OK);
 
     // Load the created product
-    const query = select()
-      .from('product');
-    query.leftJoin('product_description')
-      .on('product_description.`product_description_product_id`', '=', 'product.`product_id`');
+    const query = select().from('product');
+    query
+      .leftJoin('product_description')
+      .on(
+        'product_description.`product_description_product_id`',
+        '=',
+        'product.`product_id`'
+      );
 
     const product = await query
       .where('product_id', '=', result.insertId)

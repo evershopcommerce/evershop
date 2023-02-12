@@ -18,11 +18,13 @@ function Actions({ pages = [], selectedIds = [] }) {
 
   const updatePages = async (status) => {
     setIsLoading(true);
-    const promises = pages.filter(
-      (page) => selectedIds.includes(page.uuid)
-    ).map((page) => axios.patch(page.updateApi, {
-      status
-    }));
+    const promises = pages
+      .filter((page) => selectedIds.includes(page.uuid))
+      .map((page) =>
+        axios.patch(page.updateApi, {
+          status
+        })
+      );
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
@@ -31,9 +33,9 @@ function Actions({ pages = [], selectedIds = [] }) {
 
   const deletePages = async () => {
     setIsLoading(true);
-    const promises = pages.filter(
-      (page) => selectedIds.includes(page.uuid)
-    ).map((page) => axios.delete(page.deleteApi));
+    const promises = pages
+      .filter((page) => selectedIds.includes(page.uuid))
+      .map((page) => axios.delete(page.deleteApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
@@ -111,16 +113,25 @@ function Actions({ pages = [], selectedIds = [] }) {
 
   return (
     <tr>
-      {selectedIds.length === 0 && (null)}
+      {selectedIds.length === 0 && null}
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
             <a href="#" className="font-semibold pt-075 pb-075 pl-15 pr-15">
-              {selectedIds.length}
-              {' '}
-              selected
+              {selectedIds.length} selected
             </a>
-            {actions.map((action) => <a href="#" onClick={(e) => { e.preventDefault(); action.onAction(); }} className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"><span>{action.name}</span></a>)}
+            {actions.map((action) => (
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  action.onAction();
+                }}
+                className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"
+              >
+                <span>{action.name}</span>
+              </a>
+            ))}
           </div>
         </td>
       )}
@@ -130,28 +141,22 @@ function Actions({ pages = [], selectedIds = [] }) {
 
 Actions.propTypes = {
   selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  pages: PropTypes.arrayOf(PropTypes.shape({
-    uuid: PropTypes.number.isRequired,
-    updateApi: PropTypes.string.isRequired,
-    deleteApi: PropTypes.string.isRequired
-  })).isRequired
+  pages: PropTypes.arrayOf(
+    PropTypes.shape({
+      uuid: PropTypes.number.isRequired,
+      updateApi: PropTypes.string.isRequired,
+      deleteApi: PropTypes.string.isRequired
+    })
+  ).isRequired
 };
 
 export default function CMSPageGrid({
-  cmsPages: {
-    items: pages,
-    total,
-    currentFilters = []
-  }
+  cmsPages: { items: pages, total, currentFilters = [] }
 }) {
-  const page = currentFilters.find(
-    (filter) => filter.key === 'page'
-  )
+  const page = currentFilters.find((filter) => filter.key === 'page')
     ? currentFilters.find((filter) => filter.key === 'page').value
     : 1;
-  const limit = currentFilters.find(
-    (filter) => filter.key === 'limit'
-  )
+  const limit = currentFilters.find((filter) => filter.key === 'limit')
     ? currentFilters.find((filter) => filter.key === 'limit').value
     : 20;
 
@@ -163,13 +168,14 @@ export default function CMSPageGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedRows(pages.map((p) => p.uuid));
-                } else {
-                  setSelectedRows([]);
-                }
-              }}
+              <Checkbox
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedRows(pages.map((p) => p.uuid));
+                  } else {
+                    setSelectedRows([]);
+                  }
+                }}
               />
             </th>
             <Area
@@ -183,7 +189,9 @@ export default function CMSPageGrid({
                       <BasicColumnHeader
                         title="Name"
                         id="name"
-                        currentFilter={currentFilters.find((f) => f.key === 'name')}
+                        currentFilter={currentFilters.find(
+                          (f) => f.key === 'name'
+                        )}
                       />
                     )
                   },
@@ -195,7 +203,9 @@ export default function CMSPageGrid({
                       <StatusColumnHeader
                         title="Status"
                         id="status"
-                        currentFilter={currentFilters.find((f) => f.key === 'status')}
+                        currentFilter={currentFilters.find(
+                          (f) => f.key === 'status'
+                        )}
                       />
                     )
                   },
@@ -221,7 +231,9 @@ export default function CMSPageGrid({
                     if (e.target.checked) {
                       setSelectedRows(selectedRows.concat([p.uuid]));
                     } else {
-                      setSelectedRows(selectedRows.filter((row) => row !== p.uuid));
+                      setSelectedRows(
+                        selectedRows.filter((row) => row !== p.uuid)
+                      );
                     }
                   }}
                 />
@@ -234,22 +246,14 @@ export default function CMSPageGrid({
                 coreComponents={[
                   {
                     component: {
-                      default: () => (
-                        <PageName
-                          url={p.editUrl}
-                          name={p.name}
-                        />
-                      )
+                      default: () => <PageName url={p.editUrl} name={p.name} />
                     },
                     sortOrder: 10
                   },
                   {
                     component: {
                       default: ({ areaProps }) => (
-                        <StatusRow
-                          id="status"
-                          areaProps={areaProps}
-                        />
+                        <StatusRow id="status" areaProps={areaProps} />
                       )
                     },
                     sortOrder: 20
@@ -260,8 +264,11 @@ export default function CMSPageGrid({
           ))}
         </tbody>
       </table>
-      {pages.length === 0
-        && <div className="flex w-full justify-center">There is no page to display</div>}
+      {pages.length === 0 && (
+        <div className="flex w-full justify-center">
+          There is no page to display
+        </div>
+      )}
       <Pagination total={total} limit={limit} page={page} />
     </Card>
   );
@@ -269,17 +276,21 @@ export default function CMSPageGrid({
 
 CMSPageGrid.propTypes = {
   cmsPages: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.shape({
-      uuid: PropTypes.number.isRequired,
-      updateApi: PropTypes.string.isRequired,
-      deleteApi: PropTypes.string.isRequired
-    })).isRequired,
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        uuid: PropTypes.number.isRequired,
+        updateApi: PropTypes.string.isRequired,
+        deleteApi: PropTypes.string.isRequired
+      })
+    ).isRequired,
     total: PropTypes.number.isRequired,
-    currentFilters: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      operation: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
-    }))
+    currentFilters: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        operation: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired
+      })
+    )
   }).isRequired
 };
 

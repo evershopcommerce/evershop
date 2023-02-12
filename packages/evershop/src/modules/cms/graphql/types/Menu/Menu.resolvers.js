@@ -4,10 +4,9 @@ const { buildUrl } = require('../../../../../lib/router/buildUrl');
 module.exports = {
   Query: {
     menu: async (root, _, { pool }) => {
-      const query = select('name')
-        .select('url_key')
-        .from('category', 'cat');
-      query.leftJoin('category_description', 'des')
+      const query = select('name').select('url_key').from('category', 'cat');
+      query
+        .leftJoin('category_description', 'des')
         .on('cat.`category_id`', '=', 'des.`category_description_category_id`');
       query
         .where('cat.`status`', '=', 1)

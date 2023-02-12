@@ -10,9 +10,7 @@ export default function MainBanner() {
         <div className="text-center md:text-left px-2 ">
           <h2 className="h1 ">
             Discount
-            <span className="text-white">20%</span>
-            {' '}
-            For All Orders Over $2000
+            <span className="text-white">20%</span> For All Orders Over $2000
           </h2>
           <p>
             Use coupon code

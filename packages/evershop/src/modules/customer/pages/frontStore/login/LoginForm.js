@@ -40,7 +40,9 @@ export default function LoginForm({ action, homeUrl, registerUrl }) {
           />
         </Form>
         <div className="text-center mt-1">
-          <a className="text-interactive" href={registerUrl}>Create an account</a>
+          <a className="text-interactive" href={registerUrl}>
+            Create an account
+          </a>
         </div>
       </div>
     </div>

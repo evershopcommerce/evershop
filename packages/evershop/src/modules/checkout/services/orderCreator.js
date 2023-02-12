@@ -1,5 +1,11 @@
 const {
-  commit, getConnection, insert, rollback, select, startTransaction, update
+  commit,
+  getConnection,
+  insert,
+  rollback,
+  select,
+  startTransaction,
+  update
 } = require('@evershop/mysql-query-builder');
 const { v4: uuidv4 } = require('uuid');
 const { pool } = require('../../../lib/mysql/connection');
@@ -92,7 +98,7 @@ exports.createOrder = async function createOrder(cart) {
     // eslint-disable-next-line no-restricted-syntax
     for (const rule of validationServices) {
       // eslint-disable-next-line no-await-in-loop
-      if (await rule.func(cart, validationErrors) === false) {
+      if ((await rule.func(cart, validationErrors)) === false) {
         throw new Error(validationErrors);
       }
     }
@@ -102,7 +108,7 @@ exports.createOrder = async function createOrder(cart) {
       .from('cart_address')
       .where('cart_address_id', '=', cart.getData('shipping_address_id'))
       .load(connection);
-    delete (cartShippingAddress.uuid);
+    delete cartShippingAddress.uuid;
     const shipAddr = await insert('order_address')
       .given(cartShippingAddress)
       .execute(connection);
@@ -111,7 +117,7 @@ exports.createOrder = async function createOrder(cart) {
       .from('cart_address')
       .where('cart_address_id', '=', cart.getData('shipping_address_id'))
       .load(connection);
-    delete (cartBillingAddress.uuid);
+    delete cartBillingAddress.uuid;
     const billAddr = await insert('order_address')
       .given(cartBillingAddress)
       .execute(connection);
@@ -127,7 +133,8 @@ exports.createOrder = async function createOrder(cart) {
       .given({
         ...cart.export(),
         uuid: uuidv4().replace(/-/g, ''),
-        order_number: 10000 + parseInt(previous[0] ? previous[0].order_id : 0, 10) + 1,
+        order_number:
+          10000 + parseInt(previous[0] ? previous[0].order_id : 0, 10) + 1,
         // FIXME: Must be structured
         shipping_address_id: shipAddr.insertId,
         billing_address_id: billAddr.insertId,
@@ -138,22 +145,26 @@ exports.createOrder = async function createOrder(cart) {
 
     // Save order items
     const items = cart.getItems();
-    await Promise.all(items.map(async (item) => {
-      await insert('order_item')
-        .given({
-          ...item.export(),
-          uuid: uuidv4().replace(/-/g, ''),
-          order_item_order_id: order.insertId
-        })
-        .execute(connection);
-    }));
+    await Promise.all(
+      items.map(async (item) => {
+        await insert('order_item')
+          .given({
+            ...item.export(),
+            uuid: uuidv4().replace(/-/g, ''),
+            order_item_order_id: order.insertId
+          })
+          .execute(connection);
+      })
+    );
 
     // Save order activities
-    await insert('order_activity').given({
-      order_activity_order_id: order.insertId,
-      comment: 'Order created',
-      customer_notified: 0 // TODO: check config of SendGrid
-    }).execute(connection);
+    await insert('order_activity')
+      .given({
+        order_activity_order_id: order.insertId,
+        comment: 'Order created',
+        customer_notified: 0 // TODO: check config of SendGrid
+      })
+      .execute(connection);
 
     // Disable the cart
     await update('cart')
@@ -174,12 +185,18 @@ exports.createOrder = async function createOrder(cart) {
   }
 };
 
-exports.addCreateOrderValidationRule = function addCreateOrderValidationRule(id, func) {
-  if (typeof obj !== 'function') { throw new Error('Validator must be a function'); }
+exports.addCreateOrderValidationRule = function addCreateOrderValidationRule(
+  id,
+  func
+) {
+  if (typeof obj !== 'function') {
+    throw new Error('Validator must be a function');
+  }
 
   validationServices.push({ id, func });
 };
 
-exports.removeCreateOrderValidationRule = function removeCreateOrderValidationRule(id) {
-  validationServices = validationServices.filter((r) => r.id !== id);
-};
+exports.removeCreateOrderValidationRule =
+  function removeCreateOrderValidationRule(id) {
+    validationServices = validationServices.filter((r) => r.id !== id);
+  };

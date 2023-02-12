@@ -8,9 +8,7 @@ export const FilterDispatch = React.createContext();
 
 export default function Filter({
   category: {
-    products: {
-      currentFilters
-    },
+    products: { currentFilters },
     availableAttributes,
     priceRange
   }
@@ -44,7 +42,11 @@ export default function Filter({
 
   return (
     <FilterDispatch.Provider value={contextValue}>
-      <div className={`product-filter-tool hidden md:block ${isOpen ? 'opening' : 'closed'}`}>
+      <div
+        className={`product-filter-tool hidden md:block ${
+          isOpen ? 'opening' : 'closed'
+        }`}
+      >
         <div className="filter-heading">
           <span className="font-bold ">SHOP BY</span>
         </div>
@@ -55,15 +57,51 @@ export default function Filter({
           priceRange={priceRange}
           currentFilters={currentFilters}
         />
-        <a className="filter-closer flex md:hidden" href="#" onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen); }}>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+        <a
+          className="filter-closer flex md:hidden"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setIsOpen(!isOpen);
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+            />
           </svg>
         </a>
       </div>
-      <a className="filter-opener flex md:hidden" href="#" onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen); }}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+      <a
+        className="filter-opener flex md:hidden"
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          setIsOpen(!isOpen);
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+          />
         </svg>
       </a>
     </FilterDispatch.Provider>
@@ -73,20 +111,26 @@ export default function Filter({
 Filter.propTypes = {
   category: PropTypes.shape({
     products: PropTypes.shape({
-      currentFilters: PropTypes.arrayOf(PropTypes.shape({
-        key: PropTypes.string,
-        operation: PropTypes.string,
-        value: PropTypes.string
-      }))
+      currentFilters: PropTypes.arrayOf(
+        PropTypes.shape({
+          key: PropTypes.string,
+          operation: PropTypes.string,
+          value: PropTypes.string
+        })
+      )
     }),
-    availableAttributes: PropTypes.arrayOf(PropTypes.shape({
-      attributeCode: PropTypes.string,
-      attributeName: PropTypes.string,
-      options: PropTypes.arrayOf(PropTypes.shape({
-        optionId: PropTypes.number,
-        optionText: PropTypes.string
-      }))
-    })),
+    availableAttributes: PropTypes.arrayOf(
+      PropTypes.shape({
+        attributeCode: PropTypes.string,
+        attributeName: PropTypes.string,
+        options: PropTypes.arrayOf(
+          PropTypes.shape({
+            optionId: PropTypes.number,
+            optionText: PropTypes.string
+          })
+        )
+      })
+    ),
     priceRange: PropTypes.shape({
       min: PropTypes.number,
       max: PropTypes.number

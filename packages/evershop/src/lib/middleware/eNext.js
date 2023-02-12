@@ -1,6 +1,6 @@
 const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
 
-function noop() { }
+function noop() {}
 
 function eNext(request, response, next) {
   return (error) => {

@@ -7,5 +7,8 @@ module.exports = exports = function GraphqlLoader(content) {
 
   const variablesRegex = /export\s+var\s+variables\s*=\s*`([^`]+)`/;
 
-  return content.replace(queryRegex, '').replace(fragmentRegex, '').replace(variablesRegex, '');
+  return content
+    .replace(queryRegex, '')
+    .replace(fragmentRegex, '')
+    .replace(variablesRegex, '');
 };

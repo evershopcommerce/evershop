@@ -14,19 +14,14 @@ export default function StripePayment({
   }
 }) {
   return (
-    <Card
-      title="Stripe Payment"
-    >
+    <Card title="Stripe Payment">
       <Card.Session>
         <div className="grid grid-cols-3 gap-2">
           <div className="col-span-1 items-center flex">
             <h4>Enable?</h4>
           </div>
           <div className="col-span-2">
-            <Toggle
-              name="stripePaymentStatus"
-              value={stripePaymentStatus}
-            />
+            <Toggle name="stripePaymentStatus" value={stripePaymentStatus} />
           </div>
         </div>
       </Card.Session>

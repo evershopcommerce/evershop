@@ -44,70 +44,115 @@ export default function SearchBox({ searchAPI, resourceLinks }) {
       return;
     }
     if (typeTimeout) clearTimeout(typeTimeout);
-    setTypeTimeout(setTimeout(() => {
-      const url = new URL(searchAPI, window.location.origin);
-      url.searchParams.set('keyword', InputRef.current.value);
+    setTypeTimeout(
+      setTimeout(() => {
+        const url = new URL(searchAPI, window.location.origin);
+        url.searchParams.set('keyword', InputRef.current.value);
 
-      fetch(
-        url,
-        {
+        fetch(url, {
           method: 'GET',
           headers: {
             'X-Requested-With': 'XMLHttpRequest'
           }
-        }
-      ).then((response) => {
-        if (!response.headers.get('content-type') || !response.headers.get('content-type').includes('application/json')) { throw new TypeError('Something wrong. Please try again'); }
-
-        return response.json();
-      })
-        .then((response) => {
-          if (get(response, 'success') === true) {
-            setResults(get(response, 'data.payload', []));
-          } else {
-            setResults([]);
-          }
         })
-        .catch(
-          (error) => {
+          .then((response) => {
+            if (
+              !response.headers.get('content-type') ||
+              !response.headers.get('content-type').includes('application/json')
+            ) {
+              throw new TypeError('Something wrong. Please try again');
+            }
+
+            return response.json();
+          })
+          .then((response) => {
+            if (get(response, 'success') === true) {
+              setResults(get(response, 'data.payload', []));
+            } else {
+              setResults([]);
+            }
+          })
+          .catch((error) => {
             toast.error(error.message);
-          }
-        )
-        .finally(() => {
-          // e.target.value = null
-          setLoading(false);
-        });
-    }, 1500));
+          })
+          .finally(() => {
+            // e.target.value = null
+            setLoading(false);
+          });
+      }, 1500)
+    );
   };
 
   return (
     <div className="search-box">
       <Input
-        prefix={(
-          <svg xmlns="http://www.w3.org/2000/svg" style={{ width: '1.8rem', height: '1.8rem' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        prefix={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ width: '1.8rem', height: '1.8rem' }}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
-        )}
+        }
         placeholder="Search"
         ref={InputRef}
         onChange={() => search()}
-        onFocus={() => { setShowResult(true); }}
+        onFocus={() => {
+          setShowResult(true);
+        }}
       />
       {showResult === true && (
         <div className="search-result" ref={clickRef}>
           {loading === true && (
             <div className="loading">
-              <svg style={{ background: 'rgb(255, 255, 255, 0)', display: 'block', shapeRendering: 'auto' }} width="2rem" height="2rem" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                <circle cx="50" cy="50" fill="none" stroke="var(--primary)" strokeWidth="10" r="43" strokeDasharray="202.63272615654165 69.54424205218055">
-                  <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1" />
+              <svg
+                style={{
+                  background: 'rgb(255, 255, 255, 0)',
+                  display: 'block',
+                  shapeRendering: 'auto'
+                }}
+                width="2rem"
+                height="2rem"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="xMidYMid"
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  fill="none"
+                  stroke="var(--primary)"
+                  strokeWidth="10"
+                  r="43"
+                  strokeDasharray="202.63272615654165 69.54424205218055"
+                >
+                  <animateTransform
+                    attributeName="transform"
+                    type="rotate"
+                    repeatCount="indefinite"
+                    dur="1s"
+                    values="0 50 50;360 50 50"
+                    keyTimes="0;1"
+                  />
                 </circle>
               </svg>
             </div>
           )}
-          {(!InputRef.current.value) && <div className="text-center"><span>Search for products, order and other resources</span></div>}
-          {(results.length === 0
-            && InputRef.current.value && loading === false)
-            && (
+          {!InputRef.current.value && (
+            <div className="text-center">
+              <span>Search for products, order and other resources</span>
+            </div>
+          )}
+          {results.length === 0 &&
+            InputRef.current.value &&
+            loading === false && (
               <NoResult
                 keyword={InputRef.current && InputRef.current.value}
                 resourseLinks={resourceLinks}
@@ -126,10 +171,12 @@ export default function SearchBox({ searchAPI, resourceLinks }) {
 }
 
 SearchBox.propTypes = {
-  resourceLinks: PropTypes.arrayOf(PropTypes.shape({
-    url: PropTypes.string,
-    name: PropTypes.string
-  })),
+  resourceLinks: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.string,
+      name: PropTypes.string
+    })
+  ),
   searchAPI: PropTypes.string.isRequired
 };
 

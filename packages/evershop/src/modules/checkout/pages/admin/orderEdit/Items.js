@@ -12,7 +12,9 @@ import './Items.scss';
 import { Card } from '../../../../cms/components/admin/Card';
 
 function ItemOptions({ options = [] }) {
-  if (options.length === 0) { return null; }
+  if (options.length === 0) {
+    return null;
+  }
   const currency = '';
 
   return (
@@ -21,24 +23,19 @@ function ItemOptions({ options = [] }) {
         {options.map((o, i) => (
           <li key={i}>
             <span className="option-name">
-              <strong>
-                {o.option_name}
-                {' '}
-                :
-                {' '}
-              </strong>
+              <strong>{o.option_name} : </strong>
             </span>
             {o.values.map((v, k) => {
-              const formatedExtraPrice = new Intl.NumberFormat('en', { style: 'currency', currency }).format(v.extra_price);
+              const formatedExtraPrice = new Intl.NumberFormat('en', {
+                style: 'currency',
+                currency
+              }).format(v.extra_price);
               return (
                 <span key={k}>
                   <i className="value-text">{v.value_text}</i>
                   <span className="extra-price">
-                    (
-                    {formatedExtraPrice}
-                    )
-                  </span>
-                  {' '}
+                    ({formatedExtraPrice})
+                  </span>{' '}
                 </span>
               );
             })}
@@ -50,13 +47,17 @@ function ItemOptions({ options = [] }) {
 }
 
 ItemOptions.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.shape({
-    option_name: PropTypes.string,
-    values: PropTypes.arrayOf(PropTypes.shape({
-      value_text: PropTypes.string,
-      extra_price: PropTypes.number
-    }))
-  })).isRequired
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      option_name: PropTypes.string,
+      values: PropTypes.arrayOf(
+        PropTypes.shape({
+          value_text: PropTypes.string,
+          extra_price: PropTypes.number
+        })
+      )
+    })
+  ).isRequired
 };
 
 function Thumbnail({ imageUrl, qty }) {
@@ -65,7 +66,20 @@ function Thumbnail({ imageUrl, qty }) {
       <div className="product-thumbnail">
         <div className="thumbnail">
           {imageUrl && <img src={imageUrl} alt="" />}
-          {!imageUrl && <svg style={{ width: '2rem' }} fill="currentcolor" viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path fillRule="evenodd" d="M6 11h8V9H6v2zm0 4h8v-2H6v2zm0-8h4V5H6v2zm6-5H5.5A1.5 1.5 0 0 0 4 3.5v13A1.5 1.5 0 0 0 5.5 18h9a1.5 1.5 0 0 0 1.5-1.5V6l-4-4z" /></svg>}
+          {!imageUrl && (
+            <svg
+              style={{ width: '2rem' }}
+              fill="currentcolor"
+              viewBox="0 0 20 20"
+              focusable="false"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M6 11h8V9H6v2zm0 4h8v-2H6v2zm0-8h4V5H6v2zm6-5H5.5A1.5 1.5 0 0 0 4 3.5v13A1.5 1.5 0 0 0 5.5 18h9a1.5 1.5 0 0 0 1.5-1.5V6l-4-4z"
+              />
+            </svg>
+          )}
         </div>
         <span className="qty">{qty}</span>
       </div>
@@ -87,11 +101,7 @@ function Price({ price, qty }) {
     <td>
       <div className="product-price">
         <span>
-          {price}
-          {' '}
-          x
-          {' '}
-          {qty}
+          {price} x {qty}
         </span>
       </div>
     </td>
@@ -107,7 +117,9 @@ function Name({ name, options = [] }) {
   return (
     <td>
       <div className="product-column">
-        <div><span className="font-semibold">{name}</span></div>
+        <div>
+          <span className="font-semibold">{name}</span>
+        </div>
         <ItemOptions options={options} />
       </div>
     </td>
@@ -116,13 +128,17 @@ function Name({ name, options = [] }) {
 
 Name.propTypes = {
   name: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    option_name: PropTypes.string,
-    values: PropTypes.arrayOf(PropTypes.shape({
-      value_text: PropTypes.string,
-      extra_price: PropTypes.number
-    }))
-  }))
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      option_name: PropTypes.string,
+      values: PropTypes.arrayOf(
+        PropTypes.shape({
+          value_text: PropTypes.string,
+          extra_price: PropTypes.number
+        })
+      )
+    })
+  )
 };
 
 Name.defaultProps = {
@@ -141,62 +157,73 @@ function FullfillButton({ shipment, createShipmentApi }) {
         onAction={() => {
           openAlert({
             heading: 'Fullfill items',
-            content: <div>
-              <Form
-                id="fullfill-items"
-                method="POST"
-                action={createShipmentApi}
-                submitBtn={false}
-                isJSON
-                onSuccess={() => {
-                  // Reload the page
-                  window.location.reload();
-                }}
-                onValidationError={() => {
-                  dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: false } } });
-                }}
-              >
-                <div className="grid grid-cols-2 gap-1">
-                  <div>
-                    <Field
-                      formId="fullfill-items"
-                      type="text"
-                      name="tracking_number"
-                      label="Tracking number"
-                      placeHolder="Tracking number"
-                      value=""
-                      validationRules={['notEmpty']}
-                    />
+            content: (
+              <div>
+                <Form
+                  id="fullfill-items"
+                  method="POST"
+                  action={createShipmentApi}
+                  submitBtn={false}
+                  isJSON
+                  onSuccess={() => {
+                    // Reload the page
+                    window.location.reload();
+                  }}
+                  onValidationError={() => {
+                    dispatchAlert({
+                      type: 'update',
+                      payload: { secondaryAction: { isLoading: false } }
+                    });
+                  }}
+                >
+                  <div className="grid grid-cols-2 gap-1">
+                    <div>
+                      <Field
+                        formId="fullfill-items"
+                        type="text"
+                        name="tracking_number"
+                        label="Tracking number"
+                        placeHolder="Tracking number"
+                        value=""
+                        validationRules={['notEmpty']}
+                      />
+                    </div>
+                    <div>
+                      <Field
+                        formId="fullfill-items"
+                        type="select"
+                        name="carrier_name"
+                        label="Carrier"
+                        value=""
+                        options={[
+                          { value: 'Fedex', text: 'Fedex' },
+                          { value: 'USPS', text: 'USPS' },
+                          { value: 'UPS', text: 'UPS' }
+                        ]} // TODO: List of carrier should be configurable
+                        validationRules={['notEmpty']}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <Field
-                      formId="fullfill-items"
-                      type="select"
-                      name="carrier_name"
-                      label="Carrier"
-                      value=""
-                      options={[
-                        { value: 'Fedex', text: 'Fedex' },
-                        { value: 'USPS', text: 'USPS' },
-                        { value: 'UPS', text: 'UPS' }
-                      ]}// TODO: List of carrier should be configurable
-                      validationRules={['notEmpty']}
-                    />
-                  </div>
-                </div>
-              </Form>
-            </div>,
+                </Form>
+              </div>
+            ),
             primaryAction: {
               title: 'Cancel',
               onAction: closeAlert,
               variant: ''
-
             },
             secondaryAction: {
               title: 'Fullfill',
               onAction: () => {
-                dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-                document.getElementById('fullfill-items').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                dispatchAlert({
+                  type: 'update',
+                  payload: { secondaryAction: { isLoading: true } }
+                });
+                document
+                  .getElementById('fullfill-items')
+                  .dispatchEvent(
+                    new Event('submit', { cancelable: true, bubbles: true })
+                  );
               },
               variant: 'primary',
               isLoading: false
@@ -239,7 +266,9 @@ function TrackingButton({ shipment }) {
     <Button
       title="Track shipment"
       variant="primary"
-      onAction={() => { window.open(url, '_blank').focus(); }}
+      onAction={() => {
+        window.open(url, '_blank').focus();
+      }}
     />
   );
 }
@@ -258,7 +287,6 @@ TrackingButton.defaultProps = {
 function AddTrackingButton({ shipment }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   if (!shipment || shipment.trackingNumber || shipment.carrierName) return null;
-
   else {
     return (
       <Button
@@ -267,62 +295,73 @@ function AddTrackingButton({ shipment }) {
         onAction={() => {
           openAlert({
             heading: 'Add tracking information',
-            content: <div>
-              <Form
-                id="add-tracking-items"
-                method="PATCH"
-                action={shipment.updateShipmentApi}
-                submitBtn={false}
-                isJSON
-                onSuccess={() => {
-                  // eslint-disable-next-line no-restricted-globals
-                  location.reload();
-                }}
-                onValidationError={() => {
-                  dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: false } } });
-                }}
-              >
-                <div className="grid grid-cols-2 gap-1">
-                  <div>
-                    <Field
-                      formId="add-tracking-items"
-                      type="text"
-                      name="tracking_number"
-                      label="Tracking number"
-                      placeHolder="Tracking number"
-                      value=""
-                      validationRules={['notEmpty']}
-                    />
+            content: (
+              <div>
+                <Form
+                  id="add-tracking-items"
+                  method="PATCH"
+                  action={shipment.updateShipmentApi}
+                  submitBtn={false}
+                  isJSON
+                  onSuccess={() => {
+                    // eslint-disable-next-line no-restricted-globals
+                    location.reload();
+                  }}
+                  onValidationError={() => {
+                    dispatchAlert({
+                      type: 'update',
+                      payload: { secondaryAction: { isLoading: false } }
+                    });
+                  }}
+                >
+                  <div className="grid grid-cols-2 gap-1">
+                    <div>
+                      <Field
+                        formId="add-tracking-items"
+                        type="text"
+                        name="tracking_number"
+                        label="Tracking number"
+                        placeHolder="Tracking number"
+                        value=""
+                        validationRules={['notEmpty']}
+                      />
+                    </div>
+                    <div>
+                      <Field
+                        formId="add-tracking-items"
+                        type="select"
+                        name="carrier_name"
+                        label="Carrier"
+                        value=""
+                        options={[
+                          { value: 'Fedex', text: 'Fedex' },
+                          { value: 'USPS', text: 'USPS' },
+                          { value: 'UPS', text: 'UPS' }
+                        ]} // TODO: List of carrier should be configurable
+                        validationRules={['notEmpty']}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <Field
-                      formId="add-tracking-items"
-                      type="select"
-                      name="carrier_name"
-                      label="Carrier"
-                      value=""
-                      options={[
-                        { value: 'Fedex', text: 'Fedex' },
-                        { value: 'USPS', text: 'USPS' },
-                        { value: 'UPS', text: 'UPS' }
-                      ]}// TODO: List of carrier should be configurable
-                      validationRules={['notEmpty']}
-                    />
-                  </div>
-                </div>
-              </Form>
-            </div>,
+                </Form>
+              </div>
+            ),
             primaryAction: {
               title: 'Cancel',
               onAction: closeAlert,
               variant: ''
-
             },
             secondaryAction: {
               title: 'Update tracking',
               onAction: () => {
-                dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-                document.getElementById('add-tracking-items').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                dispatchAlert({
+                  type: 'update',
+                  payload: { secondaryAction: { isLoading: true } }
+                });
+                document
+                  .getElementById('add-tracking-items')
+                  .dispatchEvent(
+                    new Event('submit', { cancelable: true, bubbles: true })
+                  );
               },
               variant: 'primary',
               isLoading: false
@@ -347,20 +386,18 @@ AddTrackingButton.defaultProps = {
 };
 
 export default function Items({
-  order: {
-    items,
-    shipmentStatus,
-    shipment,
-    fullFillApi
-  }
+  order: { items, shipmentStatus, shipment, fullFillApi }
 }) {
   return (
-    <Card title={(
-      <div className="flex space-x-1">
-        <Circle variant={shipmentStatus.badge || 'new'} />
-        <span className="block self-center">{shipmentStatus.name || 'Unknown'}</span>
-      </div>
-    )}
+    <Card
+      title={
+        <div className="flex space-x-1">
+          <Circle variant={shipmentStatus.badge || 'new'} />
+          <span className="block self-center">
+            {shipmentStatus.name || 'Unknown'}
+          </span>
+        </div>
+      }
     >
       <Card.Session>
         <table className="listing order-items">
@@ -393,7 +430,10 @@ export default function Items({
                     },
                     {
                       component: { default: 'td' },
-                      props: { children: <span>{i.total.text}</span>, key: 'total' },
+                      props: {
+                        children: <span>{i.total.text}</span>,
+                        key: 'total'
+                      },
                       sortOrder: 40,
                       id: 'total'
                     }
@@ -417,24 +457,26 @@ export default function Items({
 
 Items.propTypes = {
   order: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string,
-      qty: PropTypes.number,
-      productName: PropTypes.string,
-      thumbnail: PropTypes.string,
-      productPrice: PropTypes.shape({
-        value: PropTypes.number,
-        text: PropTypes.string
-      }),
-      finalPrice: PropTypes.shape({
-        value: PropTypes.number,
-        text: PropTypes.string
-      }),
-      total: PropTypes.shape({
-        value: PropTypes.number,
-        text: PropTypes.string
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        qty: PropTypes.number,
+        productName: PropTypes.string,
+        thumbnail: PropTypes.string,
+        productPrice: PropTypes.shape({
+          value: PropTypes.number,
+          text: PropTypes.string
+        }),
+        finalPrice: PropTypes.shape({
+          value: PropTypes.number,
+          text: PropTypes.string
+        }),
+        total: PropTypes.shape({
+          value: PropTypes.number,
+          text: PropTypes.string
+        })
       })
-    })),
+    ),
     shipmentStatus: PropTypes.shape({
       code: PropTypes.string,
       badge: PropTypes.string,

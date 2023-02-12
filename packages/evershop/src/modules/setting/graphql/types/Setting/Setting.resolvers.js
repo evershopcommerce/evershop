@@ -3,9 +3,7 @@ const { select } = require('@evershop/mysql-query-builder');
 module.exports = {
   Query: {
     setting: async (root, _, { pool }) => {
-      const setting = await select()
-        .from('setting')
-        .execute(pool);
+      const setting = await select().from('setting').execute(pool);
       return setting;
     }
   },

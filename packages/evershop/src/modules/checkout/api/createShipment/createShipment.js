@@ -1,10 +1,19 @@
 /* eslint-disable camelcase */
 const {
-  rollback, insert, commit, select, update, startTransaction
+  rollback,
+  insert,
+  commit,
+  select,
+  update,
+  startTransaction
 } = require('@evershop/mysql-query-builder');
 const config = require('config');
 const { getConnection, pool } = require('../../../../lib/mysql/connection');
-const { OK, INTERNAL_SERVER_ERROR, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
+const {
+  OK,
+  INTERNAL_SERVER_ERROR,
+  INVALID_PAYLOAD
+} = require('../../../../lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, deledate, next) => {
@@ -60,11 +69,13 @@ module.exports = async (request, response, deledate, next) => {
     }
     /* Add an activity log message */
     // TODO: This will be improved. It should be treated as a side effect and move to somewhere else
-    await insert('order_activity').given({
-      order_activity_order_id: order.order_id,
-      comment: 'Order was fullfilled',
-      customer_notified: 0
-    }).execute(connection);
+    await insert('order_activity')
+      .given({
+        order_activity_order_id: order.order_id,
+        comment: 'Order was fullfilled',
+        customer_notified: 0
+      })
+      .execute(connection);
 
     await commit(connection);
 

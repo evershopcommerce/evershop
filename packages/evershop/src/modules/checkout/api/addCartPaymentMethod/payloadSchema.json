@@ -8,10 +8,7 @@
       "type": "string"
     }
   },
-  "required": [
-    "method_code",
-    "method_name"
-  ],
+  "required": ["method_code", "method_name"],
   "additionalProperties": true,
   "errorMessage": {
     "properties": {

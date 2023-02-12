@@ -39,9 +39,10 @@ module.exports.buildFilterFromUrl = (query) => {
     });
 
     const { sortBy } = query;
-    const sortOrder = (query.sortOrder && ['ASC', 'DESC'].includes(query.sortOrder.toUpperCase()))
-      ? query.sortOrder.toUpperCase()
-      : 'ASC';
+    const sortOrder =
+      query.sortOrder && ['ASC', 'DESC'].includes(query.sortOrder.toUpperCase())
+        ? query.sortOrder.toUpperCase()
+        : 'ASC';
 
     if (sortBy) {
       filtersFromUrl.push({
@@ -59,12 +60,16 @@ module.exports.buildFilterFromUrl = (query) => {
       });
     }
     // Paging
-    const page = Number.isNaN(parseInt(query.page, 10)) ? '1' : query.page.toString();
+    const page = Number.isNaN(parseInt(query.page, 10))
+      ? '1'
+      : query.page.toString();
     if (page !== '1') {
       filtersFromUrl.push({ key: 'page', operation: '=', value: page });
     }
     // TODO: Get from config
-    const limit = Number.isNaN(parseInt(query.limit, 10)) ? '20' : query.limit.toString();
+    const limit = Number.isNaN(parseInt(query.limit, 10))
+      ? '20'
+      : query.limit.toString();
     if (limit !== '20') {
       filtersFromUrl.push({ key: 'limit', operation: '=', value: limit });
     }

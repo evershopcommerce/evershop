@@ -4,31 +4,24 @@ import { Field } from '../../../../../lib/components/form/Field';
 import { Toggle } from '../../../../../lib/components/form/fields/Toggle';
 import { Card } from '../../../../cms/components/admin/Card';
 
-export default function PaypalPayment(
-  {
-    setting: {
-      paypalPaymentStatus,
-      paypalDislayName,
-      paypalClientId,
-      paypalClientSecret,
-      paypalEnvironment
-    }
+export default function PaypalPayment({
+  setting: {
+    paypalPaymentStatus,
+    paypalDislayName,
+    paypalClientId,
+    paypalClientSecret,
+    paypalEnvironment
   }
-) {
+}) {
   return (
-    <Card
-      title="Paypal Payment"
-    >
+    <Card title="Paypal Payment">
       <Card.Session>
         <div className="grid grid-cols-3 gap-2">
           <div className="col-span-1 items-center flex">
             <h4>Enable?</h4>
           </div>
           <div className="col-span-2">
-            <Toggle
-              name="paypalPaymentStatus"
-              value={paypalPaymentStatus}
-            />
+            <Toggle name="paypalPaymentStatus" value={paypalPaymentStatus} />
           </div>
         </div>
       </Card.Session>

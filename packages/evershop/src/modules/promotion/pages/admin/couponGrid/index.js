@@ -1,5 +1,9 @@
-const { buildFilterFromUrl } = require('../../../../../lib/util/buildFilterFromUrl');
-const { setContextValue } = require('../../../../graphql/services/contextHelper');
+const {
+  buildFilterFromUrl
+} = require('../../../../../lib/util/buildFilterFromUrl');
+const {
+  setContextValue
+} = require('../../../../graphql/services/contextHelper');
 
 module.exports = (request) => {
   setContextValue(request, 'pageInfo', {

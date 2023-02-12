@@ -7,7 +7,11 @@ import { TextArea } from '../../../../../lib/components/form/fields/Textarea';
 import { Card } from '../../../components/admin/Card';
 
 export default function General({
-  page, browserApi, deleteApi, uploadApi, folderCreateApi
+  page,
+  browserApi,
+  deleteApi,
+  uploadApi,
+  folderCreateApi
 }) {
   const fields = [
     {
@@ -46,7 +50,9 @@ export default function General({
     }
   ].filter((f) => {
     // eslint-disable-next-line no-param-reassign
-    if (get(page, `${f.props.id}`) !== undefined) { f.props.value = get(page, `${f.props.id}`); }
+    if (get(page, `${f.props.id}`) !== undefined) {
+      f.props.value = get(page, `${f.props.id}`);
+    }
     return f;
   });
 

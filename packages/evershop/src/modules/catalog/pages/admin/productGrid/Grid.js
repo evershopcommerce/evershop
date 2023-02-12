@@ -24,11 +24,13 @@ function Actions({ products = [], selectedIds = [] }) {
 
   const updateProducts = async (status) => {
     setIsLoading(true);
-    const promises = products.filter(
-      (product) => selectedIds.includes(product.uuid)
-    ).map((product) => axios.patch(product.updateApi, {
-      status
-    }));
+    const promises = products
+      .filter((product) => selectedIds.includes(product.uuid))
+      .map((product) =>
+        axios.patch(product.updateApi, {
+          status
+        })
+      );
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
@@ -37,9 +39,9 @@ function Actions({ products = [], selectedIds = [] }) {
 
   const deleteProducts = async () => {
     setIsLoading(true);
-    const promises = products.filter(
-      (product) => selectedIds.includes(product.uuid)
-    ).map((product) => axios.delete(product.deleteApi));
+    const promises = products
+      .filter((product) => selectedIds.includes(product.uuid))
+      .map((product) => axios.delete(product.deleteApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
@@ -117,16 +119,25 @@ function Actions({ products = [], selectedIds = [] }) {
 
   return (
     <tr>
-      {selectedIds.length === 0 && (null)}
+      {selectedIds.length === 0 && null}
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
             <a href="#" className="font-semibold pt-075 pb-075 pl-15 pr-15">
-              {selectedIds.length}
-              {' '}
-              selected
+              {selectedIds.length} selected
             </a>
-            {actions.map((action) => <a href="#" onClick={(e) => { e.preventDefault(); action.onAction(); }} className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"><span>{action.name}</span></a>)}
+            {actions.map((action) => (
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  action.onAction();
+                }}
+                className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"
+              >
+                <span>{action.name}</span>
+              </a>
+            ))}
           </div>
         </td>
       )}
@@ -136,29 +147,23 @@ function Actions({ products = [], selectedIds = [] }) {
 
 Actions.propTypes = {
   selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-  products: PropTypes.arrayOf(PropTypes.shape({
-    uuid: PropTypes.number.isRequired,
-    updateApi: PropTypes.string.isRequired,
-    deleteApi: PropTypes.string.isRequired
-  })).isRequired
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      uuid: PropTypes.number.isRequired,
+      updateApi: PropTypes.string.isRequired,
+      deleteApi: PropTypes.string.isRequired
+    })
+  ).isRequired
 };
 
 export default function ProductGrid({
-  products: {
-    items: products,
-    total,
-    currentFilters = []
-  }
+  products: { items: products, total, currentFilters = [] }
 }) {
-  const page = currentFilters.find(
-    (filter) => filter.key === 'page'
-  )
+  const page = currentFilters.find((filter) => filter.key === 'page')
     ? currentFilters.find((filter) => filter.key === 'page').value
     : 1;
 
-  const limit = currentFilters.find(
-    (filter) => filter.key === 'limit'
-  )
+  const limit = currentFilters.find((filter) => filter.key === 'limit')
     ? currentFilters.find((filter) => filter.key === 'limit').value
     : 20;
   const [selectedRows, setSelectedRows] = useState([]);
@@ -169,88 +174,89 @@ export default function ProductGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedRows(products.map((p) => p.uuid));
-                } else {
-                  setSelectedRows([]);
-                }
-              }}
+              <Checkbox
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedRows(products.map((p) => p.uuid));
+                  } else {
+                    setSelectedRows([]);
+                  }
+                }}
               />
             </th>
             <Area
               id="productGridHeader"
               noOuter
-              coreComponents={
-                [
-                  {
-                    component: { default: () => <DummyColumnHeader /> },
-                    sortOrder: 5
+              coreComponents={[
+                {
+                  component: { default: () => <DummyColumnHeader /> },
+                  sortOrder: 5
+                },
+                {
+                  component: {
+                    default: () => (
+                      <BasicColumnHeader
+                        title="Product Name"
+                        id="name"
+                        currentFilters={currentFilters}
+                      />
+                    )
                   },
-                  {
-                    component: {
-                      default: () => (
-                        <BasicColumnHeader
-                          title="Product Name"
-                          id="name"
-                          currentFilters={currentFilters}
-                        />
-                      )
-                    },
-                    sortOrder: 10
+                  sortOrder: 10
+                },
+                {
+                  component: {
+                    default: () => (
+                      <FromToColumnHeader
+                        id="price"
+                        title="Price"
+                        currentFilters={currentFilters}
+                      />
+                    )
                   },
-                  {
-                    component: {
-                      default: () => (
-                        <FromToColumnHeader
-                          id="price"
-                          title="Price"
-                          currentFilters={currentFilters}
-                        />
-                      )
-                    },
-                    sortOrder: 15
+                  sortOrder: 15
+                },
+                {
+                  component: {
+                    default: () => (
+                      <BasicColumnHeader
+                        title="SKU"
+                        id="sku"
+                        currentFilters={currentFilters}
+                      />
+                    )
                   },
-                  {
-                    component: {
-                      default: () => (
-                        <BasicColumnHeader
-                          title="SKU"
-                          id="sku"
-                          currentFilters={currentFilters}
-                        />
-                      )
-                    },
-                    sortOrder: 20
+                  sortOrder: 20
+                },
+                {
+                  component: {
+                    default: () => (
+                      <BasicColumnHeader
+                        title="Qty"
+                        id="qty"
+                        currentFilters={currentFilters}
+                      />
+                    )
                   },
-                  {
-                    component: {
-                      default: () => (
-                        <BasicColumnHeader
-                          title="Qty"
-                          id="qty"
-                          currentFilters={currentFilters}
-                        />
-                      )
-                    },
-                    sortOrder: 25
+                  sortOrder: 25
+                },
+                {
+                  component: {
+                    default: () => (
+                      <DropdownColumnHeader
+                        id="status"
+                        title="Status"
+                        currentFilters={currentFilters}
+                        options={[
+                          { value: 1, text: 'Enabled' },
+                          { value: 0, text: 'Disabled' }
+                        ]}
+                      />
+                    )
                   },
-                  {
-
-                    component: {
-                      default: () => (
-                        <DropdownColumnHeader
-                          id="status"
-                          title="Status"
-                          currentFilters={currentFilters}
-                          options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]}
-                        />
-                      )
-                    },
-                    sortOrder: 30
-                  }
-                ]
-              }
+                  sortOrder: 30
+                }
+              ]}
             />
           </tr>
         </thead>
@@ -269,7 +275,9 @@ export default function ProductGrid({
                     if (e.target.checked) {
                       setSelectedRows(selectedRows.concat([p.uuid]));
                     } else {
-                      setSelectedRows(selectedRows.filter((row) => row !== p.uuid));
+                      setSelectedRows(
+                        selectedRows.filter((row) => row !== p.uuid)
+                      );
                     }
                   }}
                 />
@@ -284,10 +292,7 @@ export default function ProductGrid({
                   {
                     component: {
                       default: () => (
-                        <ThumbnailRow
-                          src={p.image?.thumb}
-                          name={p.name}
-                        />
+                        <ThumbnailRow src={p.image?.thumb} name={p.name} />
                       )
                     },
                     sortOrder: 5
@@ -307,26 +312,34 @@ export default function ProductGrid({
                   {
                     component: {
                       default: ({ areaProps }) => (
-                        <ProductPriceRow
-                          areaProps={areaProps}
-                        />
+                        <ProductPriceRow areaProps={areaProps} />
                       )
                     },
                     sortOrder: 15
                   },
                   {
                     // eslint-disable-next-line react/no-unstable-nested-components
-                    component: { default: ({ areaProps }) => <BasicRow id="sku" areaProps={areaProps} /> },
+                    component: {
+                      default: ({ areaProps }) => (
+                        <BasicRow id="sku" areaProps={areaProps} />
+                      )
+                    },
                     sortOrder: 20
                   },
                   {
                     // eslint-disable-next-line react/no-unstable-nested-components
-                    component: { default: () => <QtyRow qty={p.inventory?.qty} /> },
+                    component: {
+                      default: () => <QtyRow qty={p.inventory?.qty} />
+                    },
                     sortOrder: 25
                   },
                   {
                     // eslint-disable-next-line react/no-unstable-nested-components
-                    component: { default: ({ areaProps }) => <StatusRow id="status" areaProps={areaProps} /> },
+                    component: {
+                      default: ({ areaProps }) => (
+                        <StatusRow id="status" areaProps={areaProps} />
+                      )
+                    },
                     sortOrder: 30
                   }
                 ]}
@@ -335,8 +348,11 @@ export default function ProductGrid({
           ))}
         </tbody>
       </table>
-      {products.length === 0
-        && <div className="flex w-full justify-center">There is no product to display</div>}
+      {products.length === 0 && (
+        <div className="flex w-full justify-center">
+          There is no product to display
+        </div>
+      )}
       <Pagination total={total} limit={limit} page={page} />
     </Card>
   );
@@ -344,34 +360,38 @@ export default function ProductGrid({
 
 ProductGrid.propTypes = {
   products: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.shape({
-      productId: PropTypes.number,
-      uuid: PropTypes.string,
-      name: PropTypes.string,
-      image: PropTypes.shape({
-        thumb: PropTypes.string
-      }),
-      sku: PropTypes.string,
-      status: PropTypes.number,
-      inventory: PropTypes.shape({
-        qty: PropTypes.number
-      }),
-      price: PropTypes.shape({
-        regular: PropTypes.shape({
-          value: PropTypes.number,
-          text: PropTypes.string
-        })
-      }),
-      editUrl: PropTypes.string,
-      updateApi: PropTypes.string,
-      deleteApi: PropTypes.string
-    })),
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        productId: PropTypes.number,
+        uuid: PropTypes.string,
+        name: PropTypes.string,
+        image: PropTypes.shape({
+          thumb: PropTypes.string
+        }),
+        sku: PropTypes.string,
+        status: PropTypes.number,
+        inventory: PropTypes.shape({
+          qty: PropTypes.number
+        }),
+        price: PropTypes.shape({
+          regular: PropTypes.shape({
+            value: PropTypes.number,
+            text: PropTypes.string
+          })
+        }),
+        editUrl: PropTypes.string,
+        updateApi: PropTypes.string,
+        deleteApi: PropTypes.string
+      })
+    ),
     total: PropTypes.number,
-    currentFilters: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.string,
-      operation: PropTypes.string,
-      value: PropTypes.string
-    }))
+    currentFilters: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string,
+        operation: PropTypes.string,
+        value: PropTypes.string
+      })
+    )
   }).isRequired
 };
 

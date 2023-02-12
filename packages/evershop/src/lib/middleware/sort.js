@@ -12,25 +12,21 @@ module.exports = exports = {};
  */
 exports.sortMiddlewares = function sortMiddlewares(middlewares = []) {
   const middlewareFunctions = middlewares.filter((m) => {
-    if (m.before === m.after === null) return true;
+    if ((m.before === m.after) === null) return true;
     const dependencies = (m.before || []).concat(m.after || []);
     let flag = true;
     dependencies.forEach((d) => {
       if (
-        flag === false
-        || middlewares.findIndex(
-          (e) => (
-            e.id === d
-            && (
-              e.scope === 'app'
-              || e.scope === 'admin'
-              || e.scope === 'frontStore'
-              || e.routeId === null
-              || e.routeId === m.scope
-              || e.routeId === m.routeId
-            )
-
-          )
+        flag === false ||
+        middlewares.findIndex(
+          (e) =>
+            e.id === d &&
+            (e.scope === 'app' ||
+              e.scope === 'admin' ||
+              e.scope === 'frontStore' ||
+              e.routeId === null ||
+              e.routeId === m.scope ||
+              e.routeId === m.routeId)
         ) === -1
       ) {
         flag = false;

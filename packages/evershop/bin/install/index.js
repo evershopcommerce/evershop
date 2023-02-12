@@ -17,16 +17,22 @@ function error(message) {
 }
 
 // eslint-disable-next-line func-names
-((async function () {
+(async function () {
   // eslint-disable-next-line no-var
   var db;
   // eslint-disable-next-line no-var
   var adminUser;
 
   // eslint-disable-next-line no-console
-  console.log(boxen(green('Welcome to EverShop - The open-source e-commerce platform'), {
-    title: 'EverShop', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
-  }));
+  console.log(
+    boxen(green('Welcome to EverShop - The open-source e-commerce platform'), {
+      title: 'EverShop',
+      titleAlignment: 'center',
+      padding: 1,
+      margin: 1,
+      borderColor: 'green'
+    })
+  );
 
   const dbQuestions = [
     {
@@ -77,9 +83,16 @@ function error(message) {
   });
   // Validate the database
   try {
-    const result = await execute(pool, `SELECT table_name FROM information_schema.tables WHERE table_schema = '${db.databaseName || 'nodejscart'}'`);
+    const result = await execute(
+      pool,
+      `SELECT table_name FROM information_schema.tables WHERE table_schema = '${
+        db.databaseName || 'nodejscart'
+      }'`
+    );
     if (result.length > 0) {
-      error(`The '${db.databaseName}' database is not empty. Please create a new one`);
+      error(
+        `The '${db.databaseName}' database is not empty. Please create a new one`
+      );
       process.exit(0);
     }
   } catch (e) {
@@ -98,10 +111,12 @@ function error(message) {
       name: 'email',
       message: 'Your administrator user email',
       validate: (value) => {
-        if (!value.match(
-          // eslint-disable-next-line no-useless-escape
-          /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        )) {
+        if (
+          !value.match(
+            // eslint-disable-next-line no-useless-escape
+            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          )
+        ) {
           return 'Invalid email';
         }
         return true;
@@ -144,7 +159,9 @@ function error(message) {
 
   /* Create folders */
   await mkdir(path.resolve(CONSTANTS.ROOTPATH, 'config'), { recursive: true });
-  const configuration = JSON.parse(readFileSync(path.resolve(__dirname, './templates/config.json'), 'utf-8'));
+  const configuration = JSON.parse(
+    readFileSync(path.resolve(__dirname, './templates/config.json'), 'utf-8')
+  );
 
   // Update databse information
   configuration.system.database = {
@@ -156,7 +173,10 @@ function error(message) {
   };
 
   // Create a configuration file
-  await writeFile(path.resolve(CONSTANTS.ROOTPATH, 'config', 'default.json'), JSON.stringify(configuration, null, 4));
+  await writeFile(
+    path.resolve(CONSTANTS.ROOTPATH, 'config', 'default.json'),
+    JSON.stringify(configuration, null, 4)
+  );
 
   // Reload configuration
   delete require.cache[require.resolve('config')];
@@ -187,8 +207,19 @@ function error(message) {
   spinner.succeed(messages.join('\n'));
 
   // eslint-disable-next-line no-console
-  console.log(boxen(green('Installation completed!. Run `npm run build` and `npm run start` to launch your store'), {
-    title: 'EverShop', titleAlignment: 'center', padding: 1, margin: 1, borderColor: 'green'
-  }));
+  console.log(
+    boxen(
+      green(
+        'Installation completed!. Run `npm run build` and `npm run start` to launch your store'
+      ),
+      {
+        title: 'EverShop',
+        titleAlignment: 'center',
+        padding: 1,
+        margin: 1,
+        borderColor: 'green'
+      }
+    )
+  );
   process.exit(0);
-})());
+})();

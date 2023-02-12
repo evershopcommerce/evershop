@@ -32,59 +32,59 @@ export default function ProductList({ products = [], countPerRow = 3 }) {
 
   return (
     <div className={className}>
-      {
-        products.map((p) => (
-          <Area
-            id="productListingItem"
-            className="listing-tem"
-            product={p}
-            key={p.productId}
-            coreComponents={[
-              {
-                component: { default: Thumbnail },
-                props: { url: p.url, imageUrl: get(p, 'image.url'), alt: p.name },
-                sortOrder: 10,
-                id: 'thumbnail'
-              },
-              {
-                component: { default: Name },
-                props: { name: p.name, url: p.url, id: p.productId },
-                sortOrder: 20,
-                id: 'name'
-              },
-              {
-                component: { default: Price },
-                props: { ...p.price },
-                sortOrder: 30,
-                id: 'price'
-              }
-            ]}
-          />
-        ))
-      }
+      {products.map((p) => (
+        <Area
+          id="productListingItem"
+          className="listing-tem"
+          product={p}
+          key={p.productId}
+          coreComponents={[
+            {
+              component: { default: Thumbnail },
+              props: { url: p.url, imageUrl: get(p, 'image.url'), alt: p.name },
+              sortOrder: 10,
+              id: 'thumbnail'
+            },
+            {
+              component: { default: Name },
+              props: { name: p.name, url: p.url, id: p.productId },
+              sortOrder: 20,
+              id: 'name'
+            },
+            {
+              component: { default: Price },
+              props: { ...p.price },
+              sortOrder: 30,
+              id: 'price'
+            }
+          ]}
+        />
+      ))}
     </div>
   );
 }
 
 ProductList.propTypes = {
-  products: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    productId: PropTypes.number,
-    url: PropTypes.string,
-    price: PropTypes.shape({
-      regular: PropTypes.shape({
-        value: PropTypes.number,
-        text: PropTypes.string
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      productId: PropTypes.number,
+      url: PropTypes.string,
+      price: PropTypes.shape({
+        regular: PropTypes.shape({
+          value: PropTypes.number,
+          text: PropTypes.string
+        }),
+        special: PropTypes.shape({
+          value: PropTypes.number,
+          text: PropTypes.string
+        })
       }),
-      special: PropTypes.shape({
-        value: PropTypes.number,
-        text: PropTypes.string
+      image: PropTypes.shape({
+        alt: PropTypes.string,
+        listing: PropTypes.string
       })
-    }),
-    image: PropTypes.shape({
-      alt: PropTypes.string,
-      listing: PropTypes.string
     })
-  })).isRequired,
+  ).isRequired,
   countPerRow: PropTypes.number.isRequired
 };

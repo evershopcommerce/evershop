@@ -1,40 +1,40 @@
 .checkout-steps {
-    form {
-        .form-submit-button {
-            padding-top: 0px;
-            border-top: 0;
-            display: flex;
-            justify-content: end;
-            button.button {
-                padding: 2rem;
-                font-weight: 400;
-            }
-        }
-        label {
-            color: var(--textSubdued);
-        }
+  form {
+    .form-submit-button {
+      padding-top: 0px;
+      border-top: 0;
+      display: flex;
+      justify-content: end;
+      button.button {
+        padding: 2rem;
+        font-weight: 400;
+      }
     }
-    .place-order-button {
-        button {
-            padding: 2rem;
-            font-weight: 400;
-        }
+    label {
+      color: var(--textSubdued);
     }
+  }
+  .place-order-button {
+    button {
+      padding: 2rem;
+      font-weight: 400;
+    }
+  }
 }
 .wrapper {
-    .header {
-        margin-bottom: 0;
-    }
-    .footer {
-        margin-top: 0;
-    }
+  .header {
+    margin-bottom: 0;
+  }
+  .footer {
+    margin-top: 0;
+  }
 }
 .checkout-steps {
-    padding-bottom: 2rem;
+  padding-bottom: 2rem;
 }
 .separator {
-    padding: 0 5px
+  padding: 0 5px;
 }
 .checkout-breadcrumb {
-    font-size: 12px;
+  font-size: 12px;
 }

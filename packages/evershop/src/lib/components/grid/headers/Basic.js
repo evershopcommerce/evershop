@@ -15,14 +15,18 @@ export default function BasicColumnHeader({ title, id, currentFilters = [] }) {
   };
 
   React.useEffect(() => {
-    const filter = currentFilters.find((fillter) => fillter.key === id) || { value: '' };
+    const filter = currentFilters.find((fillter) => fillter.key === id) || {
+      value: ''
+    };
     filterInput.current.value = filter.value;
   }, []);
 
   return (
     <th className="column">
       <div className="table-header id-header">
-        <div className="title" style={{ marginBottom: '1rem' }}><span>{title}</span></div>
+        <div className="title" style={{ marginBottom: '1rem' }}>
+          <span>{title}</span>
+        </div>
         <div className="filter" style={{ width: '15rem' }}>
           <Input
             ref={filterInput}
@@ -38,10 +42,12 @@ export default function BasicColumnHeader({ title, id, currentFilters = [] }) {
 BasicColumnHeader.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  currentFilters: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    value: PropTypes.string
-  }))
+  currentFilters: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      value: PropTypes.string
+    })
+  )
 };
 
 BasicColumnHeader.defaultProps = {

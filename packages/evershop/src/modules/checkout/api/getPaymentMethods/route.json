@@ -1,7 +1,5 @@
 {
-  "methods": [
-    "GET"
-  ],
+  "methods": ["GET"],
   "path": "/paymentMethods",
   "access": "public"
 }

@@ -2,50 +2,77 @@ const { select, node } = require('@evershop/mysql-query-builder');
 const uniqid = require('uniqid');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { camelCase } = require('../../../../../lib/util/camelCase');
-const { getProductsBaseQuery } = require('../../../services/getProductsBaseQuery');
+const {
+  getProductsBaseQuery
+} = require('../../../services/getProductsBaseQuery');
 const { pool } = require('../../../../../lib/mysql/connection');
-const { getFilterableAttributes } = require('../../../services/getFilterableAttributes');
+const {
+  getFilterableAttributes
+} = require('../../../services/getFilterableAttributes');
 
 module.exports = {
   Query: {
     category: async (_, { id }) => {
       const query = select().from('category');
-      query.leftJoin('category_description')
-        .on('category_description.`category_description_category_id`', '=', 'category.`category_id`');
+      query
+        .leftJoin('category_description')
+        .on(
+          'category_description.`category_description_category_id`',
+          '=',
+          'category.`category_id`'
+        );
       query.where('category_id', '=', id);
       const result = await query.load(pool);
       return result ? camelCase(result) : null;
     },
     categories: async (_, { filters = [] }) => {
-      const query = select()
-        .from('category');
-      query.leftJoin('category_description', 'des')
-        .on('des.`category_description_category_id`', '=', 'category.`category_id`');
+      const query = select().from('category');
+      query
+        .leftJoin('category_description', 'des')
+        .on(
+          'des.`category_description_category_id`',
+          '=',
+          'category.`category_id`'
+        );
 
       const currentFilters = [];
       // Name filter
       const nameFilter = filters.find((f) => f.key === 'name');
       if (nameFilter) {
         query.andWhere('des.`name`', 'LIKE', `%${nameFilter.value}%`);
-        currentFilters.push({ key: 'name', operation: '=', value: nameFilter.value });
+        currentFilters.push({
+          key: 'name',
+          operation: '=',
+          value: nameFilter.value
+        });
       }
 
       // Status filter
       const statusFilter = filters.find((f) => f.key === 'status');
       if (statusFilter) {
         query.andWhere('category.`status`', '=', statusFilter.value);
-        currentFilters.push({ key: 'status', operation: '=', value: statusFilter.value });
+        currentFilters.push({
+          key: 'status',
+          operation: '=',
+          value: statusFilter.value
+        });
       }
 
       // includeInNav filter
       const includeInNav = filters.find((f) => f.key === 'includeInNav');
       if (includeInNav) {
         query.andWhere('category.`include_in_nav`', '=', includeInNav.value);
-        currentFilters.push({ key: 'includeInNav', operation: '=', value: includeInNav.value });
+        currentFilters.push({
+          key: 'includeInNav',
+          operation: '=',
+          value: includeInNav.value
+        });
       }
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
-      const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
+      const sortOrder = filters.find(
+        (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
+      ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'name') {
         query.orderBy('des.`name`', sortOrder.value);
         currentFilters.push({
@@ -70,7 +97,7 @@ module.exports = {
       // console.log('total', total);
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = filters.find((f) => f.key === 'limit') || { value: 20 };// TODO: Get from config
+      const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
       currentFilters.push({
         key: 'page',
         operation: '=',
@@ -81,7 +108,10 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value, 10), parseInt(limit.value, 10));
+      query.limit(
+        (page.value - 1) * parseInt(limit.value, 10),
+        parseInt(limit.value, 10)
+      );
       return {
         items: (await query.execute(pool)).map((row) => camelCase(row)),
         total: (await cloneQuery.load(pool)).total,
@@ -89,24 +119,38 @@ module.exports = {
       };
     },
     products: async (_, { filters = [] }) => {
-      const query = select()
-        .from('product');
-      query.leftJoin('product_description', 'des')
-        .on('product.`product_id`', '=', 'des.`product_description_product_id`');
+      const query = select().from('product');
+      query
+        .leftJoin('product_description', 'des')
+        .on(
+          'product.`product_id`',
+          '=',
+          'des.`product_description_product_id`'
+        );
       const currentFilters = [];
       // Price filter
       const priceFilter = filters.find((f) => f.key === 'price');
       if (priceFilter) {
-        const [min, max] = priceFilter.value.split('-').map((v) => parseFloat(v));
+        const [min, max] = priceFilter.value
+          .split('-')
+          .map((v) => parseFloat(v));
         let currentPriceFilter;
         if (Number.isNaN(min) === false) {
           query.andWhere('product.`price`', '>=', min);
-          currentPriceFilter = { key: 'price', operation: '=', value: `${min}` };
+          currentPriceFilter = {
+            key: 'price',
+            operation: '=',
+            value: `${min}`
+          };
         }
 
         if (Number.isNaN(max) === false) {
           query.andWhere('product.`price`', '<=', max);
-          currentPriceFilter = { key: 'price', operation: '=', value: `${currentPriceFilter.value}-${max}` };
+          currentPriceFilter = {
+            key: 'price',
+            operation: '=',
+            value: `${currentPriceFilter.value}-${max}`
+          };
         }
         if (currentPriceFilter) {
           currentFilters.push(currentPriceFilter);
@@ -125,7 +169,11 @@ module.exports = {
 
         if (Number.isNaN(max) === false) {
           query.andWhere('product.`qty`', '<=', max);
-          currentQtyFilter = { key: 'qty', operation: '=', value: `${currentQtyFilter.value}-${max}` };
+          currentQtyFilter = {
+            key: 'qty',
+            operation: '=',
+            value: `${currentQtyFilter.value}-${max}`
+          };
         }
         if (currentQtyFilter) {
           currentFilters.push(currentQtyFilter);
@@ -136,25 +184,39 @@ module.exports = {
       const nameFilter = filters.find((f) => f.key === 'name');
       if (nameFilter) {
         query.andWhere('des.`name`', 'LIKE', `%${nameFilter.value}%`);
-        currentFilters.push({ key: 'name', operation: '=', value: nameFilter.value });
+        currentFilters.push({
+          key: 'name',
+          operation: '=',
+          value: nameFilter.value
+        });
       }
 
       // Sku filter
       const skuFilter = filters.find((f) => f.key === 'sku');
       if (skuFilter) {
         query.andWhere('product.`sku`', 'LIKE', `%${skuFilter.value}%`);
-        currentFilters.push({ key: 'sku', operation: '=', value: skuFilter.value });
+        currentFilters.push({
+          key: 'sku',
+          operation: '=',
+          value: skuFilter.value
+        });
       }
 
       // Status filter
       const statusFilter = filters.find((f) => f.key === 'status');
       if (statusFilter) {
         query.andWhere('product.`status`', '=', statusFilter.value);
-        currentFilters.push({ key: 'status', operation: '=', value: statusFilter.value });
+        currentFilters.push({
+          key: 'status',
+          operation: '=',
+          value: statusFilter.value
+        });
       }
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
-      const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
+      const sortOrder = filters.find(
+        (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
+      ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'price') {
         query.orderBy('product.`price`', sortOrder.value);
         currentFilters.push({
@@ -186,7 +248,7 @@ module.exports = {
       // console.log('total', total);
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = filters.find((f) => f.key === 'limit') || { value: 20 };// TODO: Get from config
+      const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
       currentFilters.push({
         key: 'page',
         operation: '=',
@@ -197,7 +259,10 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value, 10), parseInt(limit.value, 10));
+      query.limit(
+        (page.value - 1) * parseInt(limit.value, 10),
+        parseInt(limit.value, 10)
+      );
       return {
         itemQuery: query,
         totalQuery: cloneQuery,
@@ -214,11 +279,19 @@ module.exports = {
       const maxPrice = filters.find((f) => f.key === 'maxPrice');
       if (minPrice && Number.isNaN(parseFloat(minPrice.value)) === false) {
         query.andWhere('product.`price`', '>=', minPrice.value);
-        currentFilters.push({ key: 'minPrice', operation: '=', value: minPrice.value });
+        currentFilters.push({
+          key: 'minPrice',
+          operation: '=',
+          value: minPrice.value
+        });
       }
       if (maxPrice && Number.isNaN(parseFloat(maxPrice.value)) === false) {
         query.andWhere('product.`price`', '<=', maxPrice.value);
-        currentFilters.push({ key: 'maxPrice', operation: '=', value: maxPrice.value });
+        currentFilters.push({
+          key: 'maxPrice',
+          operation: '=',
+          value: maxPrice.value
+        });
       }
 
       // TODO: Apply category filters
@@ -229,17 +302,21 @@ module.exports = {
         .execute(pool);
       // Attribute filters
       filters.forEach((filter) => {
-        const attribute = filterableAttributes.find((a) => a.attribute_code === filter.key);
+        const attribute = filterableAttributes.find(
+          (a) => a.attribute_code === filter.key
+        );
         if (!attribute) {
           return;
         }
 
-        const values = filter.value.split(',')
+        const values = filter.value
+          .split(',')
           .map((v) => parseInt(v, 10))
           .filter((v) => Number.isNaN(v) === false);
         if (values.length > 0) {
           const alias = uniqid();
-          query.innerJoin('product_attribute_value_index', alias)
+          query
+            .innerJoin('product_attribute_value_index', alias)
             .on(`${alias}.product_id`, '=', 'product.`product_id`')
             .and(`${alias}.attribute_id`, '=', attribute.attribute_id)
             .and(`${alias}.option_id`, 'IN', values);
@@ -252,7 +329,9 @@ module.exports = {
       });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
-      const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
+      const sortOrder = filters.find(
+        (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
+      ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'price') {
         query.orderBy('product.`price`', sortOrder.value);
         currentFilters.push({
@@ -281,27 +360,29 @@ module.exports = {
       // Visibility. For variant group
       const copy = query.clone();
       // Get all group that have at lease 1 item visibile
-      const visibleGroups = (await select('variant_group_id')
-        .from('variant_group')
-        .where('visibility', '=', 1)
-        .execute(pool)).map((v) => v.variant_group_id);
+      const visibleGroups = (
+        await select('variant_group_id')
+          .from('variant_group')
+          .where('visibility', '=', 1)
+          .execute(pool)
+      ).map((v) => v.variant_group_id);
 
       if (visibleGroups) {
         // Get all invisible variants from current query
-        copy.select('SUM(product.`visibility`)', 'sumv')
+        copy
+          .select('SUM(product.`visibility`)', 'sumv')
           .select('product.`product_id`')
           .andWhere('product.`variant_group_id`', 'IN', visibleGroups);
-        copy.groupBy('product.`variant_group_id`')
-          .having('sumv', '=', 0);
+        copy.groupBy('product.`variant_group_id`').having('sumv', '=', 0);
 
-        const invisibleIds = (await copy.execute(pool)).map((v) => v.product_id);
+        const invisibleIds = (await copy.execute(pool)).map(
+          (v) => v.product_id
+        );
         if (invisibleIds.length > 0) {
           const n = node('AND');
-          n.addLeaf('AND', 'product.`product_id`', 'IN', invisibleIds)
-            .addNode(
-              node('OR')
-                .addLeaf('OR', 'product.`visibility`', '=', 1)
-            );
+          n.addLeaf('AND', 'product.`product_id`', 'IN', invisibleIds).addNode(
+            node('OR').addLeaf('OR', 'product.`visibility`', '=', 1)
+          );
           query.getWhere().addNode(n);
         } else {
           query.andWhere('product.`visibility`', '=', 1);
@@ -317,7 +398,7 @@ module.exports = {
       // console.log('total', total);
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = filters.find((f) => f.key === 'limit') || { value: 20 };// TODO: Get from config
+      const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
       currentFilters.push({
         key: 'page',
         operation: '=',
@@ -328,7 +409,10 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value, 10), parseInt(limit.value, 10));
+      query.limit(
+        (page.value - 1) * parseInt(limit.value, 10),
+        parseInt(limit.value, 10)
+      );
       return {
         itemQuery: query,
         totalQuery,
@@ -341,7 +425,8 @@ module.exports = {
     },
     priceRange: async (category) => {
       const query = await getProductsBaseQuery(category.categoryId);
-      query.select('MIN(product.`price`)', 'min')
+      query
+        .select('MIN(product.`price`)', 'min')
         .select('MAX(product.`price`)', 'max');
       const result = await query.load(pool);
       return {
@@ -366,9 +451,8 @@ module.exports = {
     }
   },
   ProductCollection: {
-    items: async ({ itemQuery }) => (
-      await itemQuery.execute(pool)
-    ).map((row) => camelCase(row)),
+    items: async ({ itemQuery }) =>
+      (await itemQuery.execute(pool)).map((row) => camelCase(row)),
     total: async ({ totalQuery }) => {
       const result = await totalQuery.load(pool);
       return result.total;
