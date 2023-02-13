@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Area from '../../../../../lib/components/Area';
 import Pagination from '../../../../../lib/components/grid/Pagination';
@@ -15,6 +15,7 @@ import YesNoRow from '../../../../../lib/components/grid/rows/YesNoRow';
 import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
 import GroupHeader from './headers/GroupHeader';
 import DropdownColumnHeader from '../../../../../lib/components/grid/headers/Dropdown';
+
 
 function Actions({ attributes = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -103,8 +104,18 @@ export default function AttributeGrid({
   const limit = currentFilters.find((filter) => filter.key === 'limit')
     ? currentFilters.find((filter) => filter.key === 'limit').value
     : 20;
-  const [selectedRows, setSelectedRows] = useState([]);
 
+const [url,getUrl] = useState(null);
+
+  const [selectedRows, setSelectedRows] = useState(attributes);
+  useEffect(()=>{
+    const filter = attributes.filter((att) =>  att.attributeName.toLowerCase().includes(url));
+      setSelectedRows(filter);
+  },[url])
+
+  const attributesArray =  selectedRows.length && selectedRows || attributes;
+
+  
   return (
     <Card>
       <table className="listing sticky">
@@ -131,6 +142,7 @@ export default function AttributeGrid({
                         id="name"
                         title="Attribute Name"
                         currentFilters={currentFilters}
+                        getUrl={getUrl}
                       />
                     )
                   },
@@ -200,11 +212,12 @@ export default function AttributeGrid({
         </thead>
         <tbody>
           <Actions
-            attributes={attributes}
+            attributes={selectedRows || attributes}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
           />
-          {attributes.map((a) => (
+          {
+          attributesArray.map((a) => (
             <tr key={a.attributeId}>
               <td>
                 <Checkbox

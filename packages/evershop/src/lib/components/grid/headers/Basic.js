@@ -2,15 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Input } from '../../form/fields/Input';
 
-export default function BasicColumnHeader({ title, id, currentFilters = [] }) {
+// eslint-disable-next-line react/prop-types, no-unused-vars
+export default function BasicColumnHeader({getUrl,title, id, currentFilters = [] }) {
   const filterInput = React.useRef(null);
-
   const onKeyPress = (e) => {
     const url = new URL(document.location);
     if (e.key === 'Enter') {
       if (e.target.value === '') url.searchParams.delete(id);
       else url.searchParams.set(id, e.target.value);
-      window.location.href = url.href;
+      // window.location.href = url.href;
+      getUrl(url.searchParams.get("name"))    
     }
   };
 
