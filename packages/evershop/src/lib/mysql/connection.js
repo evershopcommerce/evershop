@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const mysql = require('mysql');
 const util = require('util');
 const config = require('config');

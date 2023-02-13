@@ -1,7 +1,5 @@
 const path = require('path');
-const {
-  existsSync, rmSync
-} = require('fs');
+const { existsSync, rmSync } = require('fs');
 const { CONSTANTS } = require('../../../src/lib/helpers');
 const { loadModules } = require('../../serve/loadModules');
 const ora = require('ora');
@@ -16,7 +14,9 @@ const { createComponents } = require('../createComponents');
 
 (async () => {
   const start = Date.now();
-  const modules = loadModules(path.resolve(__dirname, '../../../src', 'modules'));
+  const modules = loadModules(
+    path.resolve(__dirname, '../../../src', 'modules')
+  );
   const spinner = ora({
     text: green('Starting server build'),
     spinner: 'dots12'
@@ -49,7 +49,7 @@ const { createComponents } = require('../createComponents');
   const routes = getRoutes();
 
   /** Collect all 'controller' routes */
-  const controllers = routes.filter((r) => (r.isApi === false));
+  const controllers = routes.filter((r) => r.isApi === false);
 
   /** Clean up the build directory */
   if (existsSync(CONSTANTS.BUILDPATH)) {
@@ -68,10 +68,14 @@ const { createComponents } = require('../createComponents');
       if (err) {
         reject(err);
       } else if (stats.hasErrors()) {
-        reject(new Error(stats.toString({
-          errorDetails: true,
-          warnings: true
-        })));
+        reject(
+          new Error(
+            stats.toString({
+              errorDetails: true,
+              warnings: true
+            })
+          )
+        );
       } else {
         resolve(stats);
       }

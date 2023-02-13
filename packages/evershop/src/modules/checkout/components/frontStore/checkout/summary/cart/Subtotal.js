@@ -6,11 +6,7 @@ export function Subtotal({ count, total }) {
     <div className="summary-row">
       <span>Subtotal</span>
       <div>
-        <div>
-          {count}
-          {' '}
-          items
-        </div>
+        <div>{count} items</div>
         <div>{total}</div>
       </div>
     </div>

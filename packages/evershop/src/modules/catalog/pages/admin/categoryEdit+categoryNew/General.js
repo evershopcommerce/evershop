@@ -7,7 +7,11 @@ import { TextArea } from '../../../../../lib/components/form/fields/Textarea';
 import { Card } from '../../../../cms/components/admin/Card';
 
 export default function General({
-  category, browserApi, deleteApi, uploadApi, folderCreateApi
+  category,
+  browserApi,
+  deleteApi,
+  uploadApi,
+  folderCreateApi
 }) {
   const fields = [
     {
@@ -46,14 +50,14 @@ export default function General({
     }
   ].filter((f) => {
     // eslint-disable-next-line no-param-reassign
-    if (get(category, `${f.props.id}`) !== undefined) { f.props.value = get(category, `${f.props.id}`); }
+    if (get(category, `${f.props.id}`) !== undefined) {
+      f.props.value = get(category, `${f.props.id}`);
+    }
     return f;
   });
 
   return (
-    <Card
-      title="General"
-    >
+    <Card title="General">
       <Card.Session>
         <Area id="categoryEditGeneral" coreComponents={fields} />
       </Card.Session>
@@ -65,13 +69,22 @@ General.propTypes = {
   browserApi: PropTypes.string.isRequired,
   deleteApi: PropTypes.string.isRequired,
   folderCreateApi: PropTypes.string.isRequired,
-  uploadApi: PropTypes.string.isRequired
+  uploadApi: PropTypes.string.isRequired,
+  category: PropTypes.shape({
+    name: PropTypes.string,
+    description: PropTypes.string,
+    categoryId: PropTypes.number
+  })
+};
+
+General.defaultProps = {
+  category: {}
 };
 
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

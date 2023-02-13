@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export function Discount({ discount, code }) {
-  if (!discount) { return null; }
+  if (!discount) {
+    return null;
+  }
 
   return (
     <div className="summary-row">

@@ -18,4 +18,4 @@ export default function OrderEdit() {
 export const layout = {
   areaId: 'content',
   sortOrder: 10
-}
+};

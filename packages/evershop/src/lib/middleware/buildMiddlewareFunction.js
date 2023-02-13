@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const { existsSync } = require('fs');
 const { sep } = require('path');
 const { asyncMiddlewareWrapper } = require('./async');
@@ -26,8 +27,10 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(id, path) {
     throw new TypeError(`Middleware ID ${id} is invalid`);
   }
 
-  const isRoutedLevel = !['all', 'global'].includes(path.split(sep).reverse()[1]);
-  // Check if the middleware is an error handler. 
+  const isRoutedLevel = !['all', 'global'].includes(
+    path.split(sep).reverse()[1]
+  );
+  // Check if the middleware is an error handler.
   // TODO: fix me
   if (id === 'errorHandler' || id === 'apiErrorHandler') {
     return (error, request, response, next) => {
@@ -50,9 +53,23 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(id, path) {
         next();
       } else {
         if (func.constructor.name === 'AsyncFunction') {
-          asyncMiddlewareWrapper(id, func, request, response, getDelegates(request), eNext(request, response, next));
+          asyncMiddlewareWrapper(
+            id,
+            func,
+            request,
+            response,
+            getDelegates(request),
+            eNext(request, response, next)
+          );
         } else {
-          syncMiddlewareWrapper(id, func, request, response, getDelegates(request), eNext(request, response, next));
+          syncMiddlewareWrapper(
+            id,
+            func,
+            request,
+            response,
+            getDelegates(request),
+            eNext(request, response, next)
+          );
         }
 
         // If middleware function does not have next function as a parameter

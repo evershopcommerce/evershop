@@ -1,0 +1,4 @@
+{
+  "methods": ["POST"],
+  "path": "/as"
+}

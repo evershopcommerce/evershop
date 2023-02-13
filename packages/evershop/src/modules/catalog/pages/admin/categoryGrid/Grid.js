@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -7,16 +8,27 @@ import Area from '../../../../../lib/components/Area';
 import Pagination from '../../../../../lib/components/grid/Pagination';
 import { useAlertContext } from '../../../../../lib/components/modal/Alert';
 import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
-import formData from '../../../../../lib/util/formData';
 import { Card } from '../../../../cms/components/admin/Card';
 import CategoryNameRow from './rows/CategoryName';
 import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
 import DropdownColumnHeader from '../../../../../lib/components/grid/headers/Dropdown';
 import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
 
-function Actions({ selectedIds = [], deleteCategoriesUrl }) {
-  const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
+function Actions({ categories = [], selectedIds = [] }) {
+  const { openAlert, closeAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
+
+  const deleteCategories = async () => {
+    setIsLoading(true);
+    const promises = categories
+      .filter((category) => selectedIds.includes(category.uuid))
+      .map((category) => axios.delete(category.deleteApi));
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  };
+
   const actions = [
     {
       name: 'Delete',
@@ -32,14 +44,7 @@ function Actions({ selectedIds = [], deleteCategoriesUrl }) {
           secondaryAction: {
             title: 'Delete',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(deleteCategoriesUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await deleteCategories();
             },
             variant: 'critical',
             isLoading
@@ -51,16 +56,26 @@ function Actions({ selectedIds = [], deleteCategoriesUrl }) {
 
   return (
     <tr>
-      {selectedIds.length === 0 && (null)}
+      {selectedIds.length === 0 && null}
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
             <a href="#" className="font-semibold pt-075 pb-075 pl-15 pr-15">
-              {selectedIds.length}
-              {' '}
-              selected
+              {selectedIds.length} selected
             </a>
-            {actions.map((action, index) => <a key={index} href="#" onClick={(e) => { e.preventDefault(); action.onAction(); }} className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"><span>{action.name}</span></a>)}
+            {actions.map((action, index) => (
+              <a
+                key={index}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  action.onAction();
+                }}
+                className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"
+              >
+                <span>{action.name}</span>
+              </a>
+            ))}
           </div>
         </td>
       )}
@@ -69,12 +84,23 @@ function Actions({ selectedIds = [], deleteCategoriesUrl }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      uuid: PropTypes.string.isRequired
+    })
+  ).isRequired
 };
 
-export default function CategoryGrid({ categories: { items: categories, total, currentFilters = [] }, deleteCategoriesUrl }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page')['value'] : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit')['value'] : 20;
+export default function CategoryGrid({
+  categories: { items: categories, total, currentFilters = [] }
+}) {
+  const page = currentFilters.find((filter) => filter.key === 'page')
+    ? currentFilters.find((filter) => filter.key === 'page').value
+    : 1;
+  const limit = currentFilters.find((filter) => filter.key === 'limit')
+    ? currentFilters.find((filter) => filter.key === 'limit').value
+    : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -83,49 +109,85 @@ export default function CategoryGrid({ categories: { items: categories, total, c
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedRows(categories.map((c) => c.categoryId));
-                } else {
-                  setSelectedRows([]);
-                }
-              }}
+              <Checkbox
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedRows(categories.map((c) => c.uuid));
+                  } else {
+                    setSelectedRows([]);
+                  }
+                }}
               />
             </th>
             <Area
               className=""
               id="categoryGridHeader"
               noOuter
-              coreComponents={
-                [
-                  {
-                    component: { default: () => <BasicColumnHeader title="Category Name" id='name' currentFilters={currentFilters} /> },
-                    sortOrder: 10
+              coreComponents={[
+                {
+                  component: {
+                    default: () => (
+                      <BasicColumnHeader
+                        title="Category Name"
+                        id="name"
+                        currentFilters={currentFilters}
+                      />
+                    )
                   },
-                  {
-                    component: { default: () => <DropdownColumnHeader id='status' title='Status' currentFilters={currentFilters} options={[{ value: 1, text: 'Enabled' }, { value: 0, text: 'Disabled' }]} /> },
-                    sortOrder: 20
-                  }
-                ]
-              }
+                  sortOrder: 10
+                },
+                {
+                  component: {
+                    default: () => (
+                      <DropdownColumnHeader
+                        id="status"
+                        title="Status"
+                        currentFilters={currentFilters}
+                        options={[
+                          { value: 1, text: 'Enabled' },
+                          { value: 0, text: 'Disabled' }
+                        ]}
+                      />
+                    )
+                  },
+                  sortOrder: 25
+                },
+                {
+                  component: {
+                    default: () => (
+                      <DropdownColumnHeader
+                        id="includeInNav"
+                        title="Include In Menu"
+                        currentFilters={currentFilters}
+                        options={[
+                          { value: 1, text: 'Yes' },
+                          { value: 0, text: 'No' }
+                        ]}
+                      />
+                    )
+                  },
+                  sortOrder: 30
+                }
+              ]}
             />
           </tr>
         </thead>
         <tbody>
           <Actions
-            ids={categories.map((c) => c.categoryId)}
+            categories={categories}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
-            deleteCategoriesUrl={deleteCategoriesUrl}
           />
           {categories.map((c) => (
             <tr key={c.categoryId}>
               <td style={{ width: '2rem' }}>
                 <Checkbox
-                  isChecked={selectedRows.includes(c.categoryId)}
+                  isChecked={selectedRows.includes(c.uuid)}
                   onChange={(e) => {
-                    if (e.target.checked) setSelectedRows(selectedRows.concat([c.categoryId]));
-                    else setSelectedRows(selectedRows.filter((r) => r !== c.categoryId));
+                    if (e.target.checked)
+                      setSelectedRows(selectedRows.concat([c.uuid]));
+                    else
+                      setSelectedRows(selectedRows.filter((r) => r !== c.uuid));
                   }}
                 />
               </td>
@@ -136,12 +198,32 @@ export default function CategoryGrid({ categories: { items: categories, total, c
                 noOuter
                 coreComponents={[
                   {
-                    component: { default: () => <CategoryNameRow id='name' name={c.name} url={c.editUrl} /> },
+                    component: {
+                      default: () => (
+                        <CategoryNameRow
+                          id="name"
+                          name={c.name}
+                          url={c.editUrl}
+                        />
+                      )
+                    },
                     sortOrder: 10
                   },
                   {
-                    component: { default: ({ areaProps }) => <StatusRow id='status' areaProps={areaProps} /> },
+                    component: {
+                      default: ({ areaProps }) => (
+                        <StatusRow id="status" areaProps={areaProps} />
+                      )
+                    },
                     sortOrder: 25
+                  },
+                  {
+                    component: {
+                      default: ({ areaProps }) => (
+                        <StatusRow id="includeInNav" areaProps={areaProps} />
+                      )
+                    },
+                    sortOrder: 30
                   }
                 ]}
               />
@@ -149,26 +231,56 @@ export default function CategoryGrid({ categories: { items: categories, total, c
           ))}
         </tbody>
       </table>
-      {categories.length === 0
-        && <div className="flex w-full justify-center">There is no category to display</div>}
+      {categories.length === 0 && (
+        <div className="flex w-full justify-center">
+          There is no category to display
+        </div>
+      )}
       <Pagination total={total} limit={limit} page={page} />
     </Card>
   );
 }
 
+CategoryGrid.propTypes = {
+  categories: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        categoryId: PropTypes.number.isRequired,
+        uuid: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        status: PropTypes.number.isRequired,
+        includeInNav: PropTypes.number.isRequired,
+        editUrl: PropTypes.string.isRequired,
+        deleteApi: PropTypes.string.isRequired
+      })
+    ).isRequired,
+    total: PropTypes.number.isRequired,
+    currentFilters: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        operation: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired
+      })
+    )
+  }).isRequired
+};
+
 export const layout = {
   areaId: 'content',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {
     categories (filters: getContextValue("filtersFromUrl")) {
       items {
         categoryId
+        uuid
         name
         status
+        includeInNav
         editUrl
+        deleteApi
       }
       total
       currentFilters {
@@ -177,6 +289,5 @@ export const query = `
         value
       }
     }
-    deleteCategoriesUrl: url(routeId: "categoryBulkDelete")
   }
 `;

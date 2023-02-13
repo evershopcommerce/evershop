@@ -7,7 +7,11 @@ import { TextArea } from '../../../../../lib/components/form/fields/Textarea';
 import { Card } from '../../../components/admin/Card';
 
 export default function General({
-  page, browserApi, deleteApi, uploadApi, folderCreateApi
+  page,
+  browserApi,
+  deleteApi,
+  uploadApi,
+  folderCreateApi
 }) {
   const fields = [
     {
@@ -32,17 +36,6 @@ export default function General({
       sortOrder: 10
     },
     {
-      component: { default: Field },
-      props: {
-        type: 'radio',
-        id: 'status',
-        name: 'status',
-        label: 'Status',
-        options: [{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }]
-      },
-      sortOrder: 20
-    },
-    {
       component: { default: TextArea },
       props: {
         id: 'content',
@@ -57,7 +50,9 @@ export default function General({
     }
   ].filter((f) => {
     // eslint-disable-next-line no-param-reassign
-    if (get(page, `${f.props.id}`) !== undefined) { f.props.value = get(page, `${f.props.id}`); }
+    if (get(page, `${f.props.id}`) !== undefined) {
+      f.props.value = get(page, `${f.props.id}`);
+    }
     return f;
   });
 
@@ -71,16 +66,29 @@ export default function General({
 }
 
 General.propTypes = {
+  page: PropTypes.shape({
+    cmsPageId: PropTypes.number,
+    name: PropTypes.string,
+    content: PropTypes.string
+  }),
   browserApi: PropTypes.string.isRequired,
   deleteApi: PropTypes.string.isRequired,
   folderCreateApi: PropTypes.string.isRequired,
   uploadApi: PropTypes.string.isRequired
 };
 
+General.defaultProps = {
+  page: {
+    cmsPageId: null,
+    name: '',
+    content: ''
+  }
+};
+
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -88,7 +96,6 @@ export const query = `
       cmsPageId
       name
       content
-      status
     }
     browserApi: url(routeId: "fileBrowser", params: [{key: "0", value: ""}])
     deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])

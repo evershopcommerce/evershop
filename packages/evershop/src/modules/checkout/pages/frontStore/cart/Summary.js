@@ -21,7 +21,9 @@ Subtotal.defaultProps = {
 };
 
 function Discount({ discountAmount, coupon }) {
-  if (!coupon) { return null; }
+  if (!coupon) {
+    return null;
+  }
   return (
     <div className="flex justify-between gap-3">
       <div>{`Discount(${coupon})`}</div>
@@ -40,8 +42,13 @@ Discount.defaultProps = {
   coupon: ''
 };
 
-function Summary({ checkoutUrl, cart: { totalQty, subTotal, coupon, discountAmount } }) {
-  if (totalQty === undefined || totalQty <= 0) { return null; }
+function Summary({
+  checkoutUrl,
+  cart: { totalQty, subTotal, coupon, discountAmount }
+}) {
+  if (totalQty === undefined || totalQty <= 0) {
+    return null;
+  }
   return (
     <div className="summary">
       <div className="grid grid-cols-1 gap-2">
@@ -52,19 +59,25 @@ function Summary({ checkoutUrl, cart: { totalQty, subTotal, coupon, discountAmou
           coreComponents={[
             {
               component: { default: Subtotal },
-              props: { subTotal: subTotal },
+              props: { subTotal },
               sortOrder: 10,
               id: 'shoppingCartSubtotal'
             },
             {
               component: { default: Discount },
-              props: { discountAmount: discountAmount, coupon: coupon },
+              props: { discountAmount, coupon },
               sortOrder: 20,
               id: 'shoppingCartDiscount'
             },
             {
               // eslint-disable-next-line react/no-unstable-nested-components
-              component: { default: () => <div className="flex justify-between italic text-textSubdued">Taxes and shipping calculated at checkout</div> },
+              component: {
+                default: () => (
+                  <div className="flex justify-between italic text-textSubdued">
+                    Taxes and shipping calculated at checkout
+                  </div>
+                )
+              },
               props: {},
               sortOrder: 30,
               id: 'summaryNote'
@@ -80,7 +93,19 @@ function Summary({ checkoutUrl, cart: { totalQty, subTotal, coupon, discountAmou
 }
 
 Summary.propTypes = {
-  checkoutUrl: PropTypes.string.isRequired
+  checkoutUrl: PropTypes.string.isRequired,
+  cart: PropTypes.shape({
+    totalQty: PropTypes.number,
+    subTotal: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    }),
+    discountAmount: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    }),
+    coupon: PropTypes.string
+  }).isRequired
 };
 
 export default Summary;
@@ -88,7 +113,7 @@ export default Summary;
 export const layout = {
   areaId: 'shoppingCartRight',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -106,4 +131,4 @@ export const query = `
     }
     checkoutUrl: url(routeId: "checkout")
   }
-`
+`;

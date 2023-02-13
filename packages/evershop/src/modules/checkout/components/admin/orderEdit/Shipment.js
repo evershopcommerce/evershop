@@ -6,10 +6,7 @@ import { Card } from '../../../../cms/components/admin/Card';
 function Status({ status }) {
   return (
     <td>
-      <span className={`badge badge-${status.badge}`}>
-        {' '}
-        {status.name}
-      </span>
+      <span className={`badge badge-${status.badge}`}> {status.name}</span>
     </td>
   );
 }
@@ -50,37 +47,31 @@ Weight.propTypes = {
 function Actions({ status, startShipUrl, completeShipUrl }) {
   const startShipment = (e) => {
     e.preventDefault();
-    fetch(
-      startShipUrl,
-      false,
-      'GET',
-      {},
-      null,
-      () => {
-        // eslint-disable-next-line no-restricted-globals
-        location.reload();
-      }
-    );
+    fetch(startShipUrl, false, 'GET', {}, null, () => {
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
+    });
   };
 
   const completeShipment = (e) => {
     e.preventDefault();
-    fetch(
-      completeShipUrl,
-      false,
-      'GET',
-      {},
-      null,
-      () => {
-        // eslint-disable-next-line no-restricted-globals
-        location.reload();
-      }
-    );
+    fetch(completeShipUrl, false, 'GET', {}, null, () => {
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
+    });
   };
   return (
     <td>
-      {status === 'pending' && <a href="#" onClick={(e) => startShipment(e)}><span>Start shipment</span></a>}
-      {status === 'delivering' && <a href="#" onClick={(e) => completeShipment(e)}><span>Complete shipment</span></a>}
+      {status === 'pending' && (
+        <a href="#" onClick={(e) => startShipment(e)}>
+          <span>Start shipment</span>
+        </a>
+      )}
+      {status === 'delivering' && (
+        <a href="#" onClick={(e) => completeShipment(e)}>
+          <span>Complete shipment</span>
+        </a>
+      )}
     </td>
   );
 }
@@ -91,7 +82,19 @@ Actions.propTypes = {
   status: PropTypes.string.isRequired
 };
 
-export default function Shipment({ order: { orderId, shippingNote, shippingMethod, shippingMethodName, shipmentStatus, totalWeight, grandTotal }, startShipUrl, completeShipUrl }) {
+export default function Shipment({
+  order: {
+    orderId,
+    shippingNote,
+    shippingMethod,
+    shippingMethodName,
+    shipmentStatus,
+    totalWeight,
+    grandTotal
+  },
+  startShipUrl,
+  completeShipUrl
+}) {
   return (
     <Card title="Shipment">
       <Card.Session>
@@ -182,7 +185,11 @@ export default function Shipment({ order: { orderId, shippingNote, shippingMetho
                   },
                   {
                     component: { default: Actions },
-                    props: { status: shipmentStatus, startShipUrl, completeShipUrl },
+                    props: {
+                      status: shipmentStatus,
+                      startShipUrl,
+                      completeShipUrl
+                    },
                     sortOrder: 50,
                     id: 'order_shipment_action'
                   }
@@ -198,7 +205,21 @@ export default function Shipment({ order: { orderId, shippingNote, shippingMetho
 
 Shipment.propTypes = {
   completeShipUrl: PropTypes.string.isRequired,
-  startShipUrl: PropTypes.string.isRequired
+  startShipUrl: PropTypes.string.isRequired,
+  order: PropTypes.shape({
+    orderId: PropTypes.string,
+    shippingNote: PropTypes.string,
+    shippingMethod: PropTypes.string,
+    shippingMethodName: PropTypes.string,
+    shipmentStatus: PropTypes.string,
+    totalWeight: PropTypes.shape({
+      text: PropTypes.string
+    }),
+    grandTotal: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    })
+  }).isRequired
 };
 
 export const layout = `
@@ -219,4 +240,4 @@ export const layout = `
     startShipUrl: url(routeId: )
     completeShipUrl
   }
-`
+`;

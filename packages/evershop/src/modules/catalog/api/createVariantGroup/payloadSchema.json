@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "attribute_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "attribute_group_id": {
+      "type": ["integer", "string"],
+      "pattern": "^[0-9]+$"
+    }
+  },
+  "required": ["attribute_codes"],
+  "additionalProperties": true
+}

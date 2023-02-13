@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": ["string", "integer"],
+      "enum": ["0", "1", 0, 1]
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "password": {
+      "type": "string"
+    },
+    "full_name": {
+      "type": "string"
+    }
+  },
+  "required": ["email", "password", "full_name"],
+  "additionalProperties": true
+}

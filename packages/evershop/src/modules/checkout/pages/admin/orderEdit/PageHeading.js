@@ -1,14 +1,24 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import PageHeading from '../../../../cms/components/admin/PageHeading';
 
 export default function OrderEditPageHeading({ backUrl, order }) {
-  return <PageHeading backUrl={backUrl} heading={`Editing #${order.orderNumber}`} />
+  return (
+    <PageHeading backUrl={backUrl} heading={`Editing #${order.orderNumber}`} />
+  );
 }
+
+OrderEditPageHeading.propTypes = {
+  backUrl: PropTypes.string.isRequired,
+  order: PropTypes.shape({
+    orderNumber: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'content',
   sortOrder: 5
-}
+};
 
 export const query = `
   query Query {
@@ -17,4 +27,4 @@ export const query = `
     }
     backUrl: url(routeId: "orderGrid")
   }
-`
+`;

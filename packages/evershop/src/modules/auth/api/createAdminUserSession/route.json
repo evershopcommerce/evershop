@@ -1,0 +1,7 @@
+{
+  "name": "User authentication",
+  "description": "User authentication",
+  "methods": ["POST"],
+  "path": "/user/sessions",
+  "access": "public"
+}

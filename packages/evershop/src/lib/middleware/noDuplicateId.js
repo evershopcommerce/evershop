@@ -1,4 +1,4 @@
-const { findDublicatedMiddleware } = require("./findDublicatedMiddleware");
+const { findDublicatedMiddleware } = require('./findDublicatedMiddleware');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
@@ -11,10 +11,11 @@ module.exports = exports = {};
  *
  * @return  {boolean}
  */
-exports.noDublicateId = function noDublicateId(registeredMiddlewares, newMiddleware) {
-  if (
-    findDublicatedMiddleware(registeredMiddlewares, newMiddleware) !== -1
-  ) {
+exports.noDublicateId = function noDublicateId(
+  registeredMiddlewares,
+  newMiddleware
+) {
+  if (findDublicatedMiddleware(registeredMiddlewares, newMiddleware) !== -1) {
     return false;
   } else {
     return true;

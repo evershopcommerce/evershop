@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { get } from '../../../../../lib/util/get';
@@ -12,15 +13,21 @@ function Title({ title }) {
   return (
     <div className="mb-3 text-center shopping-cart-heading">
       <h1 className="shopping-cart-title mb-05">{title}</h1>
-      <a href="/" className="underline">Continue shopping</a>
+      <a href="/" className="underline">
+        Continue shopping
+      </a>
     </div>
   );
 }
 
+Title.propTypes = {
+  title: PropTypes.string.isRequired
+};
+
 export default function ShoppingCart({ cart, removeUrl }) {
   const { totalQty = 0, items = [] } = cart || {};
   if (totalQty <= 0) {
-    return <Empty />
+    return <Empty />;
   } else {
     return (
       <div>
@@ -45,7 +52,7 @@ export default function ShoppingCart({ cart, removeUrl }) {
                 coreComponents={[
                   {
                     component: { default: Items },
-                    props: { items: items, cartId: cart.uuid, removeUrl },
+                    props: { items, cartId: cart.uuid, removeUrl },
                     sortOrder: 10,
                     id: 'shoppingCartTitle'
                   }
@@ -57,20 +64,24 @@ export default function ShoppingCart({ cart, removeUrl }) {
               />
             </div>
           </div>
-          <Area
-            id="shoppingCartBottom"
-            className="cart-page-bottom"
-          />
+          <Area id="shoppingCartBottom" className="cart-page-bottom" />
         </div>
       </div>
     );
   }
 }
 
+ShoppingCart.propTypes = {
+  cart: PropTypes.shape({
+    uuid: PropTypes.string.isRequired
+  }).isRequired,
+  removeUrl: PropTypes.string.isRequired
+};
+
 export const layout = {
   areaId: 'content',
   sortOrder: 1
-}
+};
 
 export const query = `
   query Query {
@@ -97,8 +108,8 @@ export const query = `
           value
           text
         }
+        removeApi
       }
     }
-    removeUrl: url(routeId: "removeCartItem")
   }
-`
+`;

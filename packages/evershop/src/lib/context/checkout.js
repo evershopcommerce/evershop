@@ -1,11 +1,17 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { useCheckoutSteps } from './checkoutSteps';
 
 const Checkout = React.createContext();
 
-export function CheckoutProvider({ children, cartId, placeOrderAPI, getPaymentMethodAPI, checkoutSuccessUrl }) {
+export function CheckoutProvider({
+  children,
+  cartId,
+  placeOrderAPI,
+  getPaymentMethodAPI,
+  checkoutSuccessUrl
+}) {
   const steps = useCheckoutSteps();
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [orderPlaced, setOrderPlaced] = useState(false);
@@ -17,39 +23,38 @@ export function CheckoutProvider({ children, cartId, placeOrderAPI, getPaymentMe
       // If order is placed, do nothing
       if (orderPlaced) return;
       // If there is a incompleted step, do nothing
-      if (steps.length < 1 || steps.findIndex((s) => s.isCompleted === false) !== -1) return;
-      const response = await axios.post(
-        placeOrderAPI,
-        { cartId },
-      );
-      if (response.data.success === true) {
+      if (
+        steps.length < 1 ||
+        steps.findIndex((s) => s.isCompleted === false) !== -1
+      )
+        return;
+      const response = await axios.post(placeOrderAPI, { cart_id: cartId });
+      if (!response.data.error) {
         setOrderPlaced(true);
-        setOrderId(response.data.data.orderId);
+        setOrderId(response.data.data.uuid);
         setError(null);
         // let redirectUrl = response.data.data.redirect || checkoutSuccessUrl;
 
         // window.location.href = redirectUrl;
       } else {
-        setError(response.data.message);
+        setError(response.data.error.message);
       }
     };
     placeOrder();
   }, [steps]);
 
   const getPaymentMethods = async () => {
-    const response = await axios.get(
-      `${getPaymentMethodAPI}/${cartId}`,
-    );
+    const response = await axios.get(getPaymentMethodAPI);
 
-    if (response.data.success === true) {
+    if (!response.data.error) {
       setPaymentMethods(response.data.data.methods);
     } else {
       setPaymentMethods([]);
     }
-  }
+  };
 
-  return (
-    <Checkout.Provider value={{
+  const contextValue = useMemo(
+    () => ({
       steps,
       cartId,
       orderPlaced,
@@ -58,17 +63,22 @@ export function CheckoutProvider({ children, cartId, placeOrderAPI, getPaymentMe
       setPaymentMethods,
       getPaymentMethods,
       checkoutSuccessUrl
-    }}>
-      {children}
-    </Checkout.Provider>
+    }),
+    [steps, cartId, orderPlaced, orderId, paymentMethods, checkoutSuccessUrl]
   );
+
+  return <Checkout.Provider value={contextValue}>{children}</Checkout.Provider>;
 }
 
 CheckoutProvider.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]).isRequired
+  ]).isRequired,
+  cartId: PropTypes.string.isRequired,
+  placeOrderAPI: PropTypes.string.isRequired,
+  getPaymentMethodAPI: PropTypes.string.isRequired,
+  checkoutSuccessUrl: PropTypes.string.isRequired
 };
 
 export const useCheckout = () => React.useContext(Checkout);

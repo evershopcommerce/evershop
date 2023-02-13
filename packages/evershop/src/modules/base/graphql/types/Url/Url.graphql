@@ -1,8 +1,11 @@
+"""
+A query parameter for a URL
+"""
 input UrlParam {
   key: String!
   value: String!
 }
 
 extend type Query {
-  url (routeId: String! params: [UrlParam]): String!
+  url(routeId: String!, params: [UrlParam]): String!
 }

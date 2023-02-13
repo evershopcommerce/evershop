@@ -1,0 +1,4 @@
+{
+  "methods": ["GET", "PUT"],
+  "path": "/b/:url_key"
+}

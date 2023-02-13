@@ -2,7 +2,7 @@ import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import './CheckoutSuccess.scss';
 
-export default function CheckoutSuccessPage({ order }) {
+export default function CheckoutSuccessPage() {
   return (
     <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-3">
       <Area id="checkoutSuccessPageLeft" />
@@ -14,5 +14,4 @@ export default function CheckoutSuccessPage({ order }) {
 export const layout = {
   areaId: 'content',
   sortOrder: 10
-}
-
+};

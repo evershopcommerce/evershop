@@ -1,3 +1,6 @@
+"""
+A date field.
+"""
 type Date {
   value: String
   text: String

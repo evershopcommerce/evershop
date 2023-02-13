@@ -1,3 +1,6 @@
+/* eslint-disable no-multi-assign */
+/* eslint-disable no-param-reassign */
+/* eslint-disable prefer-const */
 module.exports = exports = {};
 
 function update(data, keys, value) {
@@ -15,10 +18,10 @@ function update(data, keys, value) {
   }
 
   // Try converting key to a numeric value
-  let index = +key;
-  if (!isNaN(index)) {
+  const index = +key;
+  if (!Number.isNaN(index)) {
     // We have a numeric index, make data a numeric array
-    // This will not work if this is a associative array 
+    // This will not work if this is a associative array
     // with numeric keys
     data = data || [];
     key = index;
@@ -27,22 +30,22 @@ function update(data, keys, value) {
   // If none of the above matched, we have an associative array
   data = data || {};
 
-  let val = update(data[key], keys, value);
+  const val = update(data[key], keys, value);
   data[key] = val;
 
   return data;
 }
 
 exports.serializeForm = function serializeForm(formDataEntries) {
-  return Array.from(formDataEntries)
-    .reduce((data, [field, value]) => {
-      let [_, prefix, keys] = field.match(/^([^\[]+)((?:\[[^\]]*\])*)/);
+  return Array.from(formDataEntries).reduce((data, [field, value]) => {
+    // eslint-disable-next-line no-useless-escape,no-unused-vars
+    let [_, prefix, keys] = field.match(/^([^\[]+)((?:\[[^\]]*\])*)/);
 
-      if (keys) {
-        keys = Array.from(keys.matchAll(/\[([^\]]*)\]/g), m => m[1]);
-        value = update(data[prefix], keys, value);
-      }
-      data[prefix] = value;
-      return data;
-    }, {});
-}
+    if (keys) {
+      keys = Array.from(keys.matchAll(/\[([^\]]*)\]/g), (m) => m[1]);
+      value = update(data[prefix], keys, value);
+    }
+    data[prefix] = value;
+    return data;
+  }, {});
+};

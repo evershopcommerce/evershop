@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Error from './Error';
-import './../Field.scss';
+import '../Field.scss';
 
 function CheckedIcon() {
   return (
     <span className="checkbox-checked">
-      <svg viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="m8.315 13.859-3.182-3.417a.506.506 0 0 1 0-.684l.643-.683a.437.437 0 0 1 .642 0l2.22 2.393 4.942-5.327a.436.436 0 0 1 .643 0l.643.684a.504.504 0 0 1 0 .683l-5.91 6.35a.437.437 0 0 1-.642 0" /></svg>
+      <svg viewBox="0 0 20 20" focusable="false" aria-hidden="true">
+        <path d="m8.315 13.859-3.182-3.417a.506.506 0 0 1 0-.684l.643-.683a.437.437 0 0 1 .642 0l2.22 2.393 4.942-5.327a.436.436 0 0 1 .643 0l.643.684a.504.504 0 0 1 0 .683l-5.91 6.35a.437.437 0 0 1-.642 0" />
+      </svg>
     </span>
   );
 }
@@ -16,7 +18,12 @@ function UnCheckedIcon() {
 }
 
 function Checkbox({
-  name, label, onChange, error, instruction, isChecked = false
+  name,
+  label,
+  onChange,
+  error,
+  instruction,
+  isChecked = false
 }) {
   const [_isChecked, setChecked] = React.useState(isChecked);
 
@@ -46,8 +53,9 @@ function Checkbox({
           <span className="pl-05">{label}</span>
         </label>
       </div>
-      {instruction
-        && <div className="field-instruction mt-sm">{instruction}</div>}
+      {instruction && (
+        <div className="field-instruction mt-sm">{instruction}</div>
+      )}
       <Error error={error} />
     </div>
   );
@@ -59,8 +67,7 @@ Checkbox.propTypes = {
   isChecked: PropTypes.bool,
   label: PropTypes.string,
   name: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  onChange: PropTypes.func.isRequired
 };
 
 Checkbox.defaultProps = {
@@ -68,8 +75,7 @@ Checkbox.defaultProps = {
   instruction: '',
   isChecked: false,
   label: '',
-  name: undefined,
-  value: undefined
+  name: undefined
 };
 
 export { Checkbox };

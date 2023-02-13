@@ -2,12 +2,12 @@ const { existsSync, rmSync, mkdirSync } = require('fs');
 const path = require('path');
 const { Componee } = require('../../src/lib/componee/Componee');
 const { CONSTANTS } = require('../../src/lib/helpers');
+const { loadModuleRoutes } = require('../../src/lib/router/loadModuleRoutes');
 const { getRoutes } = require('../../src/lib/router/Router');
 const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
 const { getEnabledExtensions } = require('../extension');
 const { buildEntry } = require('../lib/buildEntry');
 const { buildTailwind } = require('../lib/buildTailWind');
-const { loadModuleRoutes } = require('../lib/loadModuleRoutes');
 const { getCoreModules } = require('../lib/loadModules');
 const { compile } = require('./complie');
 

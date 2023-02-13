@@ -8,35 +8,47 @@ export function Province({
   allowCountries,
   fieldName = 'province'
 }) {
-  const provinces = selectedCountry ? allowCountries.find(c => c.code === selectedCountry).provinces : [];
+  const provinces = selectedCountry
+    ? allowCountries.find((c) => c.code === selectedCountry).provinces
+    : [];
   return (
     <Field
       type="select"
-      value={provinces.find(p => p.code === selectedProvince)?.code}
+      value={provinces.find((p) => p.code === selectedProvince)?.code}
       name={fieldName}
       label="Province"
       placeholder="Province"
-      validationRules={[{
-        rule: 'notEmpty',
-        message: 'Province is required',
-      }]}
-      options={
-        provinces.map(p => { return { value: p.code, text: p.name } })
-      }
+      validationRules={[
+        {
+          rule: 'notEmpty',
+          message: 'Province is required'
+        }
+      ]}
+      options={provinces.map((p) => ({ value: p.code, text: p.name }))}
     />
   );
 }
 
 Province.propTypes = {
-  formId: PropTypes.string.isRequired,
   selectedProvince: PropTypes.string,
   selectedCountry: PropTypes.string,
-  allowCountries: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string,
-    name: PropTypes.string,
-    provinces: PropTypes.arrayOf(PropTypes.shape({
+  allowCountries: PropTypes.arrayOf(
+    PropTypes.shape({
       code: PropTypes.string,
       name: PropTypes.string,
-    })),
-  })).isRequired
+      provinces: PropTypes.arrayOf(
+        PropTypes.shape({
+          code: PropTypes.string,
+          name: PropTypes.string
+        })
+      )
+    })
+  ).isRequired,
+  fieldName: PropTypes.string
+};
+
+Province.defaultProps = {
+  selectedProvince: '',
+  selectedCountry: '',
+  fieldName: 'province'
 };

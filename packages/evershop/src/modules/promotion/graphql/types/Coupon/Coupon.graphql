@@ -1,5 +1,9 @@
+"""
+Represents a coupon
+"""
 type Coupon {
   couponId: Int
+  uuid: String!
   status: Int!
   description: String!
   discountAmount: Float!
@@ -16,8 +20,13 @@ type Coupon {
   startDate: String
   endDate: String
   editUrl: String!
+  updateApi: String!
+  deleteApi: String!
 }
 
+"""
+Represents a signle product used in the condition of a coupon.
+"""
 type MatchProductFilter {
   key: String!
   operator: String!
@@ -25,17 +34,26 @@ type MatchProductFilter {
   qty: String
 }
 
+"""
+Represents the target products of a coupon.
+"""
 type TargetProducts {
   maxQty: String
   products: [MatchProductFilter]
 }
 
+"""
+Represents the condition of a coupon.
+"""
 type OrderCondition {
   orderTotal: String
   orderQty: String
   requiredProducts: [MatchProductFilter]
 }
 
+"""
+Represents the buy x get y condition of a coupon.
+"""
 type ByXGetY {
   sku: String!
   buyQty: String
@@ -44,12 +62,18 @@ type ByXGetY {
   discount: String
 }
 
+"""
+Represents the user condition of a coupon.
+"""
 type UserCondition {
   groups: [String]
   emails: String
   purchased: String
 }
 
+"""
+Returns a collection of coupons
+"""
 type CouponCollection {
   items: [Coupon]
   currentPage: Int!
@@ -57,7 +81,11 @@ type CouponCollection {
   currentFilters: [Filter]
 }
 
+extend type Cart {
+  applyCouponApi: String!
+}
+
 extend type Query {
-  coupon(id: Int): Coupon,
+  coupon(id: Int): Coupon
   coupons(filters: [FilterInput]): CouponCollection
 }

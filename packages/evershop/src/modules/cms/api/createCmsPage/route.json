@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/pages",
+  "access": "private"
+}

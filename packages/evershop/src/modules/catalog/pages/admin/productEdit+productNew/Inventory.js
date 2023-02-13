@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Card } from '../../../../cms/components/admin/Card';
@@ -5,17 +6,17 @@ import { Card } from '../../../../cms/components/admin/Card';
 export default function Inventory({ product }) {
   const inventory = product?.inventory || {};
   return (
-    <Card
-      title="Inventory"
-      subdued
-    >
+    <Card title="Inventory" subdued>
       <Card.Session>
         <Field
           id="manage_stock"
           name="manage_stock"
           value={inventory.manageStock}
           label="Manage stock?"
-          options={[{ value: 0, text: 'No' }, { value: 1, text: 'Yes' }]}
+          options={[
+            { value: 0, text: 'No' },
+            { value: 1, text: 'Yes' }
+          ]}
           type="radio"
         />
       </Card.Session>
@@ -25,7 +26,10 @@ export default function Inventory({ product }) {
           name="stock_availability"
           value={inventory.stockAvailability}
           label="Stock availability"
-          options={[{ value: 0, text: 'No' }, { value: 1, text: 'Yes' }]}
+          options={[
+            { value: 0, text: 'No' },
+            { value: 1, text: 'Yes' }
+          ]}
           type="radio"
         />
       </Card.Session>
@@ -44,10 +48,30 @@ export default function Inventory({ product }) {
   );
 }
 
+Inventory.propTypes = {
+  product: PropTypes.shape({
+    inventory: PropTypes.shape({
+      qty: PropTypes.number,
+      stockAvailability: PropTypes.number,
+      manageStock: PropTypes.number
+    })
+  })
+};
+
+Inventory.defaultProps = {
+  product: {
+    inventory: {
+      qty: 0,
+      stockAvailability: 0,
+      manageStock: 0
+    }
+  }
+};
+
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 15
-}
+};
 
 export const query = `
   query Query {

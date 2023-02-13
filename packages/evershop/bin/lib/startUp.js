@@ -15,28 +15,12 @@ const server = http.createServer(app);
 
 module.exports.start = async function start(cb) {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
-  // /** Loading front-end components */
-  // modules.forEach((module) => {
-  //   try {
-  //     // Load components
-  //     Componee.loadModuleComponents(module);
-  //   } catch (e) {
-  //     console.log(e);
-  //     process.exit(0);
-  //   }
-  // });
-
-  /** Build the components */
-  // if (isDevelopmentMode()) {
-  //   const routes = getRoutes();
-  //   await createComponents(routes.filter((r) => isBuildRequired(r)), true);
-  // }
 
   /** Migration */
   try {
     for (const module of modules) {
       await migrate(module);
-    };
+    }
   } catch (e) {
     console.log(e);
     process.exit(0);
@@ -46,7 +30,7 @@ module.exports.start = async function start(cb) {
   try {
     for (const module of modules) {
       await loadBootstrapScript(module);
-    };
+    }
   } catch (e) {
     console.log(e);
     process.exit(0);
@@ -63,7 +47,7 @@ module.exports.start = async function start(cb) {
   cb ? server.on('listening', cb) : null;
   server.on('error', onError);
   server.listen(port);
-}
+};
 
 module.exports.updateApp = function updateApp(cb) {
   /** Clean up middleware */
@@ -73,4 +57,4 @@ module.exports.updateApp = function updateApp(cb) {
   server.on('request', newApp);
   app = newApp;
   cb();
-}
+};

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
 class Router {
@@ -6,19 +7,19 @@ class Router {
   }
 
   getFrontStoreRoutes() {
-    return this.routes.filter((r) => r.isAdmin === false)
-  };
+    return this.routes.filter((r) => r.isAdmin === false);
+  }
 
   getAdminRoutes() {
-    return this.routes.filter((r) => r.isAdmin === true)
-  };
+    return this.routes.filter((r) => r.isAdmin === true);
+  }
 
   getRoutes() {
     return this.routes;
   }
 
   addRoute(route) {
-    let r = this.routes.find((r) => r.id === route.id);
+    const r = this.routes.find((rt) => rt.id === route.id);
     if (r !== undefined) {
       Object.assign(r, route);
     } else {

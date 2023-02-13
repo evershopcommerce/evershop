@@ -1,3 +1,6 @@
+"""
+The ProductAttributeIndex object defines the attribute index for a product.
+"""
 type ProductAttributeIndex {
   attributeId: ID!
   optionId: Int

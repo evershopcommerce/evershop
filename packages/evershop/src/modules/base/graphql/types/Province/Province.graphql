@@ -1,3 +1,6 @@
+"""
+The `Province` type represents a province/state.
+"""
 type Province {
   name: String!
   code: String!
@@ -5,5 +8,5 @@ type Province {
 }
 
 extend type Query {
-  provinces (countries: [String]) : [Province]
+  provinces(countries: [String]): [Province]
 }

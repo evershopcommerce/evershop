@@ -1,13 +1,11 @@
 const path = require('path');
-const { CONSTANTS } = require("../helpers");
-const isProductionMode = require("../util/isProductionMode");
-const TerserPlugin = require("terser-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
+const { CONSTANTS } = require('../helpers');
+const isProductionMode = require('../util/isProductionMode');
 const { getEnabledExtensions } = require('../../../bin/extension');
 
-module.exports.createBaseConfig = function createBaseConfig(
-  isServer
-) {
-  const extenions = getEnabledExtensions()
+module.exports.createBaseConfig = function createBaseConfig(isServer) {
+  const extenions = getEnabledExtensions();
   const loaders = [
     {
       test: /\.m?js$/,
@@ -15,19 +13,27 @@ module.exports.createBaseConfig = function createBaseConfig(
         and: [/node_modules/],
         not: [
           /@evershop[\\/]evershop/,
-          // Include all enabled extension; 
-          ...extenions.map(ext => {
-            const regex = new RegExp(ext.resolve.replace(/\\/g, '[\\\\\\]').replace(/\//g, '[\\\\/]'));
+          // Include all enabled extension;
+          ...extenions.map((ext) => {
+            const regex = new RegExp(
+              ext.resolve.replace(/\\/g, '[\\\\\\]').replace(/\//g, '[\\\\/]')
+            );
             return regex;
           })
         ]
       },
       use: [
         {
-          loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/LayoutLoader.js'),
+          loader: path.resolve(
+            CONSTANTS.LIBPATH,
+            'webpack/loaders/LayoutLoader.js'
+          )
         },
         {
-          loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/GraphqlLoader.js'),
+          loader: path.resolve(
+            CONSTANTS.LIBPATH,
+            'webpack/loaders/GraphqlLoader.js'
+          )
         },
         {
           loader: 'babel-loader?cacheDirectory',
@@ -36,12 +42,15 @@ module.exports.createBaseConfig = function createBaseConfig(
             cacheDirectory: true,
             presets: [
               [
-                "@babel/preset-env",
+                '@babel/preset-env',
                 {
-                  "targets": {
-                    "esmodules": true
+                  targets: {
+                    esmodules: true
                   },
-                  "exclude": ["@babel/plugin-transform-regenerator", "@babel/plugin-transform-async-to-generator"]
+                  exclude: [
+                    '@babel/plugin-transform-regenerator',
+                    '@babel/plugin-transform-async-to-generator'
+                  ]
                 }
               ],
               '@babel/preset-react'
@@ -52,35 +61,37 @@ module.exports.createBaseConfig = function createBaseConfig(
     }
   ];
 
-  const output = isServer ? {
-    path: CONSTANTS.BUILDPATH,
-    publicPath: CONSTANTS.BUILDPATH,
-    filename: isServer === true ? '[name]/server/index.js' : '[name]/client/index.js',
-    pathinfo: false
-  } : {
-    path: CONSTANTS.BUILDPATH,
-    publicPath: isProductionMode() ? '/assets/' : '/',
-    pathinfo: false
-  };
+  const output = isServer
+    ? {
+        path: CONSTANTS.BUILDPATH,
+        publicPath: CONSTANTS.BUILDPATH,
+        filename:
+          isServer === true
+            ? '[name]/server/index.js'
+            : '[name]/client/index.js',
+        pathinfo: false
+      }
+    : {
+        path: CONSTANTS.BUILDPATH,
+        publicPath: isProductionMode() ? '/assets/' : '/',
+        pathinfo: false
+      };
 
   if (!isProductionMode()) {
     Object.assign(output, {
-      chunkFilename: (pathData) => {
-        return `${pathData.chunk.renderedHash}/client/${pathData.chunk.runtime}.js`;
-      }
+      chunkFilename: (pathData) =>
+        `${pathData.chunk.renderedHash}/client/${pathData.chunk.runtime}.js`
     });
   } else {
     Object.assign(output, {
-      chunkFilename: (pathData) => {
-        return `chunks/${pathData.chunk.renderedHash}.js`;
-      }
+      chunkFilename: (pathData) => `chunks/${pathData.chunk.renderedHash}.js`
     });
   }
 
   if (isServer) {
     output.libraryTarget = 'commonjs2';
     output.globalObject = 'this';
-  };
+  }
 
   const config = {
     mode: isProductionMode() ? 'production' : 'development',
@@ -88,7 +99,7 @@ module.exports.createBaseConfig = function createBaseConfig(
       rules: loaders
     },
     target: isServer === true ? 'node12.18' : 'web',
-    output: output,
+    output,
     plugins: [],
     cache: { type: 'memory' }
   };
@@ -106,21 +117,21 @@ module.exports.createBaseConfig = function createBaseConfig(
               // into invalid ecma 5 code. This is why the 'compress' and 'output'
               // sections only apply transformations that are ecma 5 safe
               // https://github.com/facebook/create-react-app/pull/4234
-              ecma: 2020,
+              ecma: 2020
             },
             compress: {
               ecma: 5,
-              warnings: false,
+              warnings: false
             },
             mangle: {
-              safari10: true,
+              safari10: true
             },
             output: {
               ecma: 5,
               comments: false,
               // Turned on because emoji and regex is not minified properly using
               // default. See https://github.com/facebook/create-react-app/issues/2488
-              ascii_only: true,
+              ascii_only: true
             }
           }
         })
@@ -129,4 +140,4 @@ module.exports.createBaseConfig = function createBaseConfig(
   }
 
   return config;
-}
+};

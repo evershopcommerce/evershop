@@ -16,7 +16,7 @@ export function Form(props) {
     id,
     action,
     method,
-    isJSON,
+    isJSON = true,
     onStart,
     onComplete,
     onError,
@@ -30,16 +30,19 @@ export function Form(props) {
   const [fields, setFields] = React.useState([]);
   const formRef = React.useRef();
   const [loading, setLoading] = useState(false);
+  const [state, setState] = useState('initialized');
 
   const addField = (name, value, validationRules = []) => {
     setFields((previous) => previous.concat({ name, value, validationRules }));
   };
 
   const updateField = (name, value, validationRules = []) => {
-    setFields((previous) => previous.map((f) => {
-      if (f.name === name) return { name, value, validationRules };
-      else return f;
-    }));
+    setFields((previous) =>
+      previous.map((f) => {
+        if (f.name === name) return { name, value, validationRules };
+        else return f;
+      })
+    );
   };
 
   const removeField = (name) => {
@@ -71,9 +74,7 @@ export function Form(props) {
     });
 
     if (Object.keys(errors).length === 0) {
-      setFields(
-        fields.map((f) => ({ ...f, error: undefined }))
-      );
+      setFields(fields.map((f) => ({ ...f, error: undefined })));
     } else {
       setFields(
         fields.map((f) => {
@@ -88,6 +89,7 @@ export function Form(props) {
 
   const submit = async (e) => {
     e.preventDefault();
+    setState('submitting');
     try {
       PubSub.publishSync(FORM_SUBMIT, { props });
       const errors = validate();
@@ -96,20 +98,26 @@ export function Form(props) {
         const formData = new FormData(document.getElementById(id));
         setLoading(true);
         if (onStart) await onStart();
-        const response = await fetch( // TODO: Replace by Axios
+        const response = await fetch(
+          // TODO: Replace by Axios
           action,
           {
             method,
-            body: isJSON === true ? JSON.stringify(serializeForm(formData.entries())) : formData,
-            headers: Object.assign({
-              'X-Requested-With': 'XMLHttpRequest'
-            },
-              isJSON === true ? { 'Content-Type': 'application/json' } : {}
-            )
+            body:
+              isJSON === true
+                ? JSON.stringify(serializeForm(formData.entries()))
+                : formData,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              ...(isJSON === true ? { 'Content-Type': 'application/json' } : {})
+            }
           }
         );
 
-        if (!response.headers.get('content-type') || !response.headers.get('content-type').includes('application/json')) {
+        if (
+          !response.headers.get('content-type') ||
+          !response.headers.get('content-type').includes('application/json')
+        ) {
           throw new TypeError('Something wrong. Please try again');
         }
 
@@ -122,26 +130,31 @@ export function Form(props) {
         if (onSuccess) {
           await onSuccess(responseJson);
         }
+        setState('submitSuccess');
       } else {
+        setState('validateFailed');
         if (onValidationError) {
           await onValidationError();
         }
         // Get the first field with error
         const firstFieldWithError = Object.keys(errors)[0];
         // Get the first element with the name of the field with error
-        const firstElementWithError = document.getElementsByName(firstFieldWithError)[0];
+        const firstElementWithError =
+          document.getElementsByName(firstFieldWithError)[0];
         // Focus on the first element with error
         if (firstElementWithError) {
           firstElementWithError.focus();
         }
       }
     } catch (error) {
+      setState('submitFailed');
       if (onError) {
         await onError(error);
       }
-      throw error
+      throw error;
     } finally {
       setLoading(false);
+      setState('submitted');
       if (onComplete) {
         await onComplete();
       }
@@ -152,10 +165,15 @@ export function Form(props) {
   return (
     <FormContext.Provider
       value={{
-        fields, addField, updateField, removeField, ...props
+        fields,
+        addField,
+        updateField,
+        removeField,
+        state,
+        ...props
       }}
     >
-      <FormDispatch.Provider value={{ submit }}>
+      <FormDispatch.Provider value={{ submit, validate }}>
         <form
           ref={formRef}
           id={id}
@@ -167,10 +185,14 @@ export function Form(props) {
           {submitBtn === true && (
             <div className="form-submit-button flex border-t border-divider mt-1 pt-1">
               <Button
-                title={(btnText || 'Save')}
-                onAction={
-                  () => { document.getElementById(id).dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
-                }
+                title={btnText || 'Save'}
+                onAction={() => {
+                  document
+                    .getElementById(id)
+                    .dispatchEvent(
+                      new Event('submit', { cancelable: true, bubbles: true })
+                    );
+                }}
                 isLoading={loading}
               />
             </div>
@@ -182,19 +204,21 @@ export function Form(props) {
 }
 
 Form.propTypes = {
-  action: PropTypes.string.isRequired,
+  action: PropTypes.string,
   btnText: PropTypes.string,
-  children: PropTypes.oneOfType(
-    [PropTypes.arrayOf(PropTypes.node), PropTypes.node]
-  ).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired,
   id: PropTypes.string.isRequired,
-  method: PropTypes.string.isRequired,
+  method: PropTypes.string,
   onComplete: PropTypes.func,
   onError: PropTypes.func,
   onStart: PropTypes.func,
   onSuccess: PropTypes.func,
   onValidationError: PropTypes.func,
-  submitBtn: PropTypes.bool
+  submitBtn: PropTypes.bool,
+  isJSON: PropTypes.bool
 };
 
 Form.defaultProps = {
@@ -204,7 +228,10 @@ Form.defaultProps = {
   onStart: undefined,
   onSuccess: undefined,
   onValidationError: undefined,
-  submitBtn: true
+  submitBtn: true,
+  isJSON: true,
+  action: '',
+  method: 'POST'
 };
 
 export const useFormContext = () => React.useContext(FormContext);

@@ -1,0 +1,5 @@
+{
+  "methods": ["DELETE"],
+  "path": "/cart/mine/items/:item_id",
+  "access": "public"
+}

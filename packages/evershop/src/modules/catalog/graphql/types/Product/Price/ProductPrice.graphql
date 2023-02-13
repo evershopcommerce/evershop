@@ -1,4 +1,6 @@
-
+"""
+Represents a price for a product.
+"""
 type ProductPrice {
   regular: Price!
   special: Price!

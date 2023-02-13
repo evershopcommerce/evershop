@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "group_name": {
+      "type": "string"
+    }
+  },
+  "required": ["group_name"],
+  "additionalProperties": true
+}

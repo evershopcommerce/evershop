@@ -1,19 +1,18 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { buildUrl } = require("../../../../../lib/router/buildUrl");
-const { camelCase } = require("../../../../../lib/util/camelCase");
-const { getConfig } = require("../../../../../lib/util/getConfig");
+const { select } = require('@evershop/mysql-query-builder');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { camelCase } = require('../../../../../lib/util/camelCase');
+const { getConfig } = require('../../../../../lib/util/getConfig');
 
 module.exports = {
   Query: {
-    order: async (_, { id }, { pool, tokenPayload }) => {
-      const query = select()
-        .from('order');
-      query.where('uuid', '=', id)
+    order: async (_, { id }, { pool }) => {
+      const query = select().from('order');
+      query.where('uuid', '=', id);
       const order = await query.load(pool);
       if (!order) {
         return null;
       } else {
-        return camelCase(order)
+        return camelCase(order);
       }
     },
     orders: async (_, { filters = [] }, { pool }) => {
@@ -30,26 +29,31 @@ module.exports = {
             value: filter.value
           });
         }
-        // Order Date filter 
+        // Order Date filter
         const createdAtFilter = filters.find((f) => f.key === 'createdAt');
         if (createdAtFilter) {
-          const [min, max] = createdAtFilter.value.split('-').map((v) => parseFloat(v));
+          const [min, max] = createdAtFilter.value
+            .split('-')
+            .map((v) => parseFloat(v));
           let currentCreatedAtFilter;
-          if (isNaN(min) === false) {
+          if (Number.isNaN(min) === false) {
             query.andWhere('order.`created_at`', '>=', min);
             currentCreatedAtFilter = { key: 'createdAt', value: `${min}` };
           }
 
-          if (isNaN(max) === false) {
+          if (Number.isNaN(max) === false) {
             query.andWhere('order.`created_at`', '<=', max);
-            currentCreatedAtFilter = { key: 'createdAt', value: `${currentCreatedAtFilter.value}-${max}` };
+            currentCreatedAtFilter = {
+              key: 'createdAt',
+              value: `${currentCreatedAtFilter.value}-${max}`
+            };
           }
           if (currentCreatedAtFilter) {
             currentFilters.push(currentCreatedAtFilter);
           }
         }
 
-        // Customer email filter 
+        // Customer email filter
         if (filter.key === 'customerEmail') {
           query.andWhere('order.`customer_email`', 'LIKE', `%${filter.value}%`);
           currentFilters.push({
@@ -59,7 +63,7 @@ module.exports = {
           });
         }
 
-        // Shipment status filter 
+        // Shipment status filter
         if (filter.key === 'shipmentStatus') {
           query.andWhere('order.`shipment_status`', '=', filter.value);
           currentFilters.push({
@@ -69,7 +73,7 @@ module.exports = {
           });
         }
 
-        // Payment status filter 
+        // Payment status filter
         if (filter.key === 'paymentStatus') {
           query.andWhere('order.`payment_status`', '=', filter.value);
           currentFilters.push({
@@ -79,28 +83,35 @@ module.exports = {
           });
         }
 
-        // Order Total filter 
+        // Order Total filter
         const totalFilter = filters.find((f) => f.key === 'total');
         if (totalFilter) {
-          const [min, max] = totalFilter.value.split('-').map((v) => parseFloat(v));
+          const [min, max] = totalFilter.value
+            .split('-')
+            .map((v) => parseFloat(v));
           let currentTotalFilter;
-          if (isNaN(min) === false) {
+          if (Number.isNaN(min) === false) {
             query.andWhere('order.`grand_total`', '>=', min);
             currentTotalFilter = { key: 'total', value: `${min}` };
           }
 
-          if (isNaN(max) === false) {
+          if (Number.isNaN(max) === false) {
             query.andWhere('order.`grand_total`', '<=', max);
-            currentTotalFilter = { key: 'total', value: `${currentTotalFilter.value}-${max}` };
+            currentTotalFilter = {
+              key: 'total',
+              value: `${currentTotalFilter.value}-${max}`
+            };
           }
           if (currentTotalFilter) {
             currentFilters.push(currentTotalFilter);
           }
         }
-      })
+      });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
-      const sortOrder = filters.find((f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)) || { value: 'ASC' };
+      const sortOrder = filters.find(
+        (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
+      ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'orderNumber') {
         query.orderBy('`order`.`order_number`', sortOrder.value);
         currentFilters.push({
@@ -109,8 +120,8 @@ module.exports = {
           value: sortBy.value
         });
       } else {
-        query.orderBy('`order`.`order_id`', "DESC");// TODO: Fix 'order' table name should be wrapped in backticks
-      };
+        query.orderBy('`order`.`order_id`', 'DESC'); // TODO: Fix 'order' table name should be wrapped in backticks
+      }
 
       if (sortOrder.key) {
         currentFilters.push({
@@ -124,7 +135,7 @@ module.exports = {
       cloneQuery.select('COUNT(`order`.`order_id`)', 'total');
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = filters.find((f) => f.key === 'limit') || { value: 20 };// TODO: Get from config
+      const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
       currentFilters.push({
         key: 'page',
         operation: '=',
@@ -135,42 +146,64 @@ module.exports = {
         operation: '=',
         value: limit.value
       });
-      query.limit((page.value - 1) * parseInt(limit.value), parseInt(limit.value));
+      query.limit(
+        (page.value - 1) * parseInt(limit.value, 10),
+        parseInt(limit.value, 10)
+      );
       return {
-        items: (await query.execute(pool)).map(row => camelCase(row)),
-        total: (await cloneQuery.load(pool))['total'],
-        currentFilters: currentFilters,
-      }
+        items: (await query.execute(pool)).map((row) => camelCase(row)),
+        total: (await cloneQuery.load(pool)).total,
+        currentFilters
+      };
     },
     shipmentStatusList: () => getConfig('order.shipmentStatus', []),
-    paymentStatusList: () => getConfig('order.paymentStatus', []),
+    paymentStatusList: () => getConfig('order.paymentStatus', [])
   },
   Order: {
-    items: async ({ orderId }, { }, { pool, user }) => {
-      const items = await select().from('order_item').where('order_item_order_id', '=', orderId).execute(pool);
+    items: async ({ orderId }, _, { pool }) => {
+      const items = await select()
+        .from('order_item')
+        .where('order_item_order_id', '=', orderId)
+        .execute(pool);
       return items.map((item) => camelCase(item));
     },
-    shippingAddress: async ({ shippingAddressId }, { }, { pool, user }) => {
-      const address = await select().from('order_address').where('order_address_id', '=', shippingAddressId).load(pool);
+    shippingAddress: async ({ shippingAddressId }, _, { pool }) => {
+      const address = await select()
+        .from('order_address')
+        .where('order_address_id', '=', shippingAddressId)
+        .load(pool);
       return address ? camelCase(address) : null;
     },
-    billingAddress: async ({ billingAddressId }, { }, { pool, user }) => {
-      const address = await select().from('order_address').where('order_address_id', '=', billingAddressId).load(pool);
+    billingAddress: async ({ billingAddressId }, _, { pool }) => {
+      const address = await select()
+        .from('order_address')
+        .where('order_address_id', '=', billingAddressId)
+        .load(pool);
       return address ? camelCase(address) : null;
     },
-    activities: async ({ orderId }, { }, { pool }) => {
-      const query = select()
-        .from('order_activity');
-      query.where('order_activity_order_id', '=', orderId)
+    activities: async ({ orderId }, _, { pool }) => {
+      const query = select().from('order_activity');
+      query.where('order_activity_order_id', '=', orderId);
       query.orderBy('order_activity_id', 'DESC');
       const activities = await query.execute(pool);
-      return activities ? activities.map((activity) => camelCase(activity)) : null;
+      return activities
+        ? activities.map((activity) => camelCase(activity))
+        : null;
     },
-    shipment: async ({ orderId }, { }, { pool }) => {
-      const shipment = await select().from('shipment').where('shipment_order_id', '=', orderId).load(pool);
-      return shipment ? camelCase(shipment) : null;
+    shipment: async ({ orderId, uuid }, _, { pool }) => {
+      const shipment = await select()
+        .from('shipment')
+        .where('shipment_order_id', '=', orderId)
+        .load(pool);
+      return shipment ? { ...camelCase(shipment), orderUuid: uuid } : null;
     },
     editUrl: ({ uuid }) => buildUrl('orderEdit', { id: uuid }),
-    customerUrl: ({ customerId }) => customerId ? buildUrl('customerEdit', { id: customerId }) : null
+    fullFillApi: ({ uuid }) => buildUrl('createShipment', { id: uuid }),
+    customerUrl: ({ customerId }) =>
+      customerId ? buildUrl('customerEdit', { id: customerId }) : null
+  },
+  Shipment: {
+    updateShipmentApi: ({ orderUuid, uuid }) =>
+      buildUrl('updateShipment', { order_id: orderUuid, shipment_id: uuid })
   }
-}
+};

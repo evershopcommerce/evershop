@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Items } from './summary/items/Items';
 import Area from '../../../../../lib/components/Area';
@@ -27,10 +28,44 @@ export default function Summary({ order }) {
   );
 }
 
+Summary.propTypes = {
+  order: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        quantity: PropTypes.number.isRequired,
+        price: PropTypes.shape({
+          text: PropTypes.string.isRequired
+        }).isRequired
+      })
+    ).isRequired,
+    discountAmount: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }),
+    grandTotal: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }),
+    shippingFeeExclTax: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }),
+    shippingMethod: PropTypes.shape({
+      text: PropTypes.string
+    }),
+    subTotal: PropTypes.shape({
+      text: PropTypes.string
+    }),
+    taxAmount: PropTypes.shape({
+      text: PropTypes.string
+    }),
+    coupon: PropTypes.string
+  }).isRequired
+};
+
 export const layout = {
   areaId: 'checkoutSuccessPageRight',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -71,4 +106,4 @@ export const query = `
       }
     }
   }
-`
+`;

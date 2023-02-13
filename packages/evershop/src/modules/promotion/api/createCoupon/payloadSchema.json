@@ -1,0 +1,175 @@
+{
+  "type": "object",
+  "properties": {
+    "coupon": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9]+$"
+    },
+    "status": {
+      "type": ["string", "integer"],
+      "enum": ["0", "1", 0, 1]
+    },
+    "description": {
+      "type": "string"
+    },
+    "discount_amount": {
+      "type": ["string", "number"],
+      "pattern": "^\\d*\\.?\\d*$"
+    },
+    "free_shipping": {
+      "type": ["string", "integer"],
+      "enum": ["0", "1", 0, 1]
+    },
+    "discount_type": {
+      "type": "string"
+    },
+    "target_products": {
+      "type": "object",
+      "properties": {
+        "maxQty": {
+          "type": ["string", "integer"],
+          "pattern": "^[0-9]*$"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "operator": {
+                "type": "string",
+                "enum": ["IN", "NOT IN", "=", "!=", ">", ">=", "<", "<="]
+              },
+              "value": {
+                "type": ["string", "number"],
+                "pattern": "^\\d*\\.?\\d*$"
+              }
+            },
+            "required": ["key", "operator", "value"],
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "condition": {
+      "type": "object",
+      "properties": {
+        "order_total": {
+          "type": ["string", "number"],
+          "pattern": "^\\d*\\.?\\d*$"
+        },
+        "order_qty": {
+          "type": ["string", "integer"],
+          "format": "digits"
+        },
+        "required_products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "operator": {
+                "type": "string",
+                "enum": ["IN", "NOT IN", "=", "!=", ">", ">=", "<", "<="]
+              },
+              "qty": {
+                "type": ["string", "integer"],
+                "pattern": "^[0-9]*$"
+              },
+              "value": {
+                "type": ["string", "number"],
+                "pattern": "^\\d*\\.?\\d*$"
+              }
+            },
+            "required": ["key", "qty", "operator", "value"],
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "user_condition": {
+      "type": "object",
+      "properties": {
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": ["string", "integer"],
+            "pattern": "^[0-9]*$"
+          }
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "purchased": {
+          "type": ["string", "integer"],
+          "pattern": "^\\d*\\.?\\d*$"
+        }
+      },
+      "additionalProperties": true
+    },
+    "max_uses_time_per_coupon": {
+      "type": "string",
+      "pattern": "^[0-9]*$"
+    },
+    "max_uses_time_per_customer": {
+      "type": "string",
+      "pattern": "integer"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "buyx_gety": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "buy_qty": {
+          "type": ["string", "integer"],
+          "pattern": "^[0-9]*$"
+        },
+        "get_qty": {
+          "type": ["string", "integer"],
+          "pattern": "^[0-9]*$"
+        },
+        "max_y": {
+          "type": ["string", "integer"],
+          "pattern": "^[0-9]*$"
+        },
+        "sku": {
+          "type": "string"
+        }
+      },
+      "required": ["buy_qty", "get_qty", "max_y", "sku"],
+      "additionalProperties": true
+    }
+  },
+  "start_date": {
+    "type": "string",
+    "format": "date"
+  },
+  "end_date": {
+    "type": "string",
+    "format": "date"
+  },
+  "required": ["coupon", "status", "discount_amount", "discount_type"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "coupon": "Coupon is invalid",
+      "status": "Status is invalid",
+      "discount_amount": "Discount amount is invalid"
+    }
+  }
+}

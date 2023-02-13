@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/paypal/captureTransactions",
+  "access": "public"
+}

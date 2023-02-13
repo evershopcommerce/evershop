@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/paypal/orders",
+  "access": "public"
+}

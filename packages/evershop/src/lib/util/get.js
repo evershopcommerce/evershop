@@ -11,9 +11,13 @@ function get(obj, path, defaultValue) {
   const pathSplit = path.split('.');
   let current = obj;
   while (pathSplit.length) {
-    if (typeof current !== 'object' || current === null) { return defaultValue; }
+    if (typeof current !== 'object' || current === null) {
+      return defaultValue;
+    }
     const key = pathSplit.shift();
-    if (current[key] === undefined || current[key] === null) { return defaultValue; }
+    if (current[key] === undefined || current[key] === null) {
+      return defaultValue;
+    }
     current = current[key];
   }
   return current;

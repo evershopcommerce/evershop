@@ -2,7 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Select } from '../../form/fields/Select';
 
-export default function DropdownColumnHeader({ title, id, options = [], currentFilters = [] }) {
+export default function DropdownColumnHeader({
+  title,
+  id,
+  options = [],
+  currentFilters = []
+}) {
   const [current, setCurrent] = React.useState('');
 
   const onChange = (e) => {
@@ -13,14 +18,18 @@ export default function DropdownColumnHeader({ title, id, options = [], currentF
   };
 
   React.useEffect(() => {
-    const filter = currentFilters.find((fillter) => fillter.key === id) || { value: 'all' };
+    const filter = currentFilters.find((fillter) => fillter.key === id) || {
+      value: 'all'
+    };
     setCurrent(filter.value || 'all');
   }, []);
 
   return (
     <th className="column">
       <div className="table-header status-header">
-        <div className="title" style={{ marginBottom: '1rem' }}><span>{title}</span></div>
+        <div className="title" style={{ marginBottom: '1rem' }}>
+          <span>{title}</span>
+        </div>
         <div className="filter">
           <Select
             onChange={(e) => onChange(e)}
@@ -36,9 +45,21 @@ export default function DropdownColumnHeader({ title, id, options = [], currentF
 
 DropdownColumnHeader.propTypes = {
   id: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string || PropTypes.number,
-    text: PropTypes.string
-  })).isRequired,
-  title: PropTypes.string.isRequired
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string || PropTypes.number,
+      text: PropTypes.string
+    })
+  ).isRequired,
+  title: PropTypes.string.isRequired,
+  currentFilters: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    })
+  )
+};
+
+DropdownColumnHeader.defaultProps = {
+  currentFilters: []
 };

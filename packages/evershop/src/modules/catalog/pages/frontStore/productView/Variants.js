@@ -1,53 +1,61 @@
 /* eslint-disable no-restricted-syntax */
+import PropTypes from 'prop-types';
 import React from 'react';
 import PubSub from 'pubsub-js';
 import { FORM_VALIDATED } from '../../../../../lib/util/events';
 import './Variants.scss';
+import { useAppDispatch } from '../../../../../lib/context/app';
 
-function isSelected(attributeCode, optionId, currentFilters = {}) {
-  return (
-    currentFilters[attributeCode] !== undefined
-    && parseInt(currentFilters[attributeCode], 10) === parseInt(optionId, 10)
-  );
-}
-
-function isAvailable(attributeCode, optionId, variants, currentFilters = {}) {
-  return true; // TODO: Complete me
-}
-
-export default function Variants({ product: { variantGroup: vs }, pageInfo: { url } }) {
-  const attributes = vs ? vs.variantAttributes : [];
-  const variants = vs ? vs.items : [];
-  const [error, setError] = React.useState(null);
-  const currentProductUrl = url;
-  const getCurrentSelection = () => {
-    const currentSelection = {};
-    const url = new URL(currentProductUrl);
-    const params = new URLSearchParams(url.search);
-    for (const [key, value] of params.entries()) {
-      // Check if the key is a variant attribute
-      if (attributes.find((a) => a.attributeCode === key)) {
-        currentSelection[key] = value;
-      }
+export default function Variants({
+  product: { variantGroup: vs },
+  pageInfo: { url: currentProductUrl }
+}) {
+  const AppContextDispatch = useAppDispatch();
+  const [attributes, setAttributes] = React.useState(() => {
+    if (!vs) {
+      return [];
+    } else {
+      return vs.variantAttributes.map((attribute) => {
+        const url = new URL(currentProductUrl);
+        const params = new URLSearchParams(url.search).entries();
+        const check = Array.from(params).find(
+          ([key, value]) =>
+            key === attribute.attributeCode &&
+            attribute.options.find(
+              (option) => parseInt(option.optionId, 10) === parseInt(value, 10)
+            )
+        );
+        if (check) {
+          return {
+            ...attribute,
+            selected: true,
+            selectedOption: parseInt(check[1], 10)
+          };
+        } else {
+          return { ...attribute, selected: false, selectedOption: null };
+        }
+      });
     }
+  });
+  const attributesRef = React.useRef();
+  attributesRef.current = attributes;
 
-    return currentSelection;
-  }
-  const variantFilters = getCurrentSelection();
+  const [error, setError] = React.useState(null);
 
   const validate = (formId, errors) => {
-    if (formId !== 'productForm') { return true; }
-
-    let flag = true;
-    attributes.forEach((a) => {
-      if (variantFilters[a.attributeCode] === undefined) { flag = false; }
-    });
-    if (flag === false) {
+    if (formId !== 'productForm') {
+      return true;
+    }
+    const currentAttributes = attributesRef.current;
+    if (currentAttributes.find((a) => a.selected === false)) {
       // eslint-disable-next-line no-param-reassign
       errors.variants = 'Missing variant';
       setError('Please select variant option');
       return false;
     } else {
+      // eslint-disable-next-line no-param-reassign
+      delete errors.variants;
+      setError(null);
       return true;
     }
   };
@@ -62,58 +70,115 @@ export default function Variants({ product: { variantGroup: vs }, pageInfo: { ur
     };
   }, []);
 
-  const getUrl = (attributeCode, optionId) => {
-    const url = new URL(currentProductUrl);
-    if (!Object.keys(variantFilters).includes(attributeCode)
-      || parseInt(variantFilters[attributeCode], 10) !== parseInt(optionId, 10)) {
-      url.searchParams.set(attributeCode, optionId);
-    } else {
-      url.searchParams.delete(attributeCode);
-    }
-
-    return url;
+  const onClick = async (attributeCode, optionId) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('ajax', true);
+    url.searchParams.set(attributeCode, optionId);
+    await AppContextDispatch.fetchPageData(url);
+    url.searchParams.delete('ajax');
+    // eslint-disable-next-line no-restricted-globals
+    history.pushState(null, '', url);
+    setAttributes((previous) =>
+      previous.map((a) => {
+        if (a.attributeCode === attributeCode) {
+          return { ...a, selected: true, selectedOption: optionId };
+        }
+        return a;
+      })
+    );
   };
 
   return (
     <div className="variant variant-container grid grid-cols-1 gap-1 mt-2">
       {attributes.map((a, i) => {
         const options = a.options.filter(
-          (v, j, s) => s.findIndex((o) => o.optionId === v.optionId) === j
+          (v, j, s) =>
+            s.findIndex((o) => o.optionId === v.optionId) === j && v.productId
         );
         return (
           <div key={a.attributeCode}>
-            <input name={`variant_options[${i}][attribute_id]`} type="hidden" value={a.attributeId} />
-            <input name={`variant_options[${i}][optionId]`} type="hidden" value={variantFilters[a.attributeCode] ? variantFilters[a.attributeCode] : ''} />
-            <div className="mb-05 text-textSubdued uppercase"><span>{a.attribute_name}</span></div>
+            <input
+              name={`variant_options[${i}][attribute_id]`}
+              type="hidden"
+              value={a.attributeId}
+            />
+            <input
+              name={`variant_options[${i}][optionId]`}
+              type="hidden"
+              value={a.selectedOption}
+            />
+            <div className="mb-05 text-textSubdued uppercase">
+              <span>{a.attribute_name}</span>
+            </div>
             <ul className="variant-option-list flex justify-start">
               {options.map((o) => {
                 let className = 'mr-05';
-                if (isSelected(a.attributeCode, o.optionId, variantFilters)) {
+                if (a.selected && a.selectedOption === o.optionId) {
                   className = 'selected mr-05';
                 }
-                if (isAvailable(a.attributeCode, o.optionId, variants, variantFilters)) {
-                  return (
-                    <li key={o.optionId} className={className}>
-                      <a href={getUrl(a.attributeCode, o.optionId)}>{o.optionText}</a>
-                    </li>
-                  );
-                } else {
-                  return <li key={o.optionId} className="un-available mr-05"><span>{o.optionText}</span></li>;
-                }
+                return (
+                  <li key={o.optionId} className={className}>
+                    <a
+                      href="#"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        await onClick(a.attributeCode, o.optionId);
+                      }}
+                    >
+                      {o.optionText}
+                    </a>
+                  </li>
+                );
               })}
             </ul>
           </div>
         );
       })}
-      {error && <div className="variant-validate error text-critical">{error}</div>}
+      {error && (
+        <div className="variant-validate error text-critical">{error}</div>
+      )}
     </div>
   );
 }
 
+Variants.propTypes = {
+  product: PropTypes.shape({
+    variantGroup: PropTypes.shape({
+      variantAttributes: PropTypes.arrayOf(
+        PropTypes.shape({
+          attributeId: PropTypes.number,
+          attributeCode: PropTypes.string,
+          attributeName: PropTypes.string,
+          options: PropTypes.arrayOf(
+            PropTypes.shape({
+              optionId: PropTypes.number,
+              optionText: PropTypes.string,
+              productId: PropTypes.number
+            })
+          )
+        })
+      ),
+      items: PropTypes.arrayOf(
+        PropTypes.shape({
+          attributes: PropTypes.arrayOf(
+            PropTypes.shape({
+              attributeCode: PropTypes.string,
+              optionId: PropTypes.number
+            })
+          )
+        })
+      )
+    })
+  }).isRequired,
+  pageInfo: PropTypes.shape({
+    url: PropTypes.string
+  }).isRequired
+};
+
 export const layout = {
-  areaId: "productPageMiddleRight",
+  areaId: 'productPageMiddleRight',
   sortOrder: 40
-}
+};
 
 export const query = `
 query Query {
@@ -129,6 +194,7 @@ query Query {
         options {
           optionId
           optionText
+          productId
         }
       }
       items {
@@ -140,4 +206,4 @@ query Query {
     }
   }
 }
-`
+`;

@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "coupon": {
+      "type": "string"
+    }
+  },
+  "required": ["coupon"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "coupon": "Coupon is invalid"
+    }
+  }
+}

@@ -1,13 +1,20 @@
 const { select } = require('@evershop/mysql-query-builder');
 const { pool } = require('../../../../../lib/mysql/connection');
-const { setContextValue } = require('../../../../graphql/services/contextHelper');
+const {
+  setContextValue
+} = require('../../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, stack, next) => {
   try {
     const query = select();
-    query.from('category')
+    query
+      .from('category')
       .leftJoin('category_description')
-      .on('category.`category_id`', '=', 'category_description.`category_description_category_id`');
+      .on(
+        'category.`category_id`',
+        '=',
+        'category_description.`category_description_category_id`'
+      );
 
     query.where('category_description.`url_key`', '=', request.params.url_key);
     const category = await query.load(pool);

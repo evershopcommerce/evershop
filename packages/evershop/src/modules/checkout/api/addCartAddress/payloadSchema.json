@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "properties": {
+    "address": {
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "type": "string"
+        },
+        "telephone": {
+          "type": ["string", "number"]
+        },
+        "address_1": {
+          "type": "string"
+        },
+        "address_2": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "province": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "postcode": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "full_name",
+        "telephone",
+        "address_1",
+        "city",
+        "province",
+        "country",
+        "postcode"
+      ],
+      "additionalProperties": true
+    },
+    "type": {
+      "type": "string",
+      "enum": ["shipping", "billing"]
+    }
+  },
+  "required": ["address", "type"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "cart_id": "Cart id is required",
+      "address": "Address is required",
+      "type": "Address type is required"
+    }
+  }
+}

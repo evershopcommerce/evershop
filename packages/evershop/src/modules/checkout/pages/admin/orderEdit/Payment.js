@@ -29,12 +29,15 @@ export default function OrderSummary({
   }
 }) {
   return (
-    <Card title={(
-      <div className="flex space-x-1">
-        <Circle variant={paymentStatus.badge} />
-        <span className="block self-center">{paymentMethodName || 'Unknown'}</span>
-      </div>
-    )}
+    <Card
+      title={
+        <div className="flex space-x-1">
+          <Circle variant={paymentStatus.badge} />
+          <span className="block self-center">
+            {paymentMethodName || 'Unknown'}
+          </span>
+        </div>
+      }
     >
       <Card.Session>
         <Area
@@ -59,7 +62,7 @@ export default function OrderSummary({
             },
             {
               component: { default: Discount },
-              ps: { code: coupon, discount: discountAmount.text },
+              props: { code: coupon, discount: discountAmount.text },
               sortOrder: 15
             },
             {
@@ -79,18 +82,58 @@ export default function OrderSummary({
       <Card.Session>
         <Transactions transactions={transactions} />
       </Card.Session>
-      <Area
-        id="orderPaymentActions"
-        noOuter={true}
-      />
+      <Area id="orderPaymentActions" noOuter />
     </Card>
   );
 }
 
+OrderSummary.propTypes = {
+  order: PropTypes.shape({
+    orderId: PropTypes.string.isRequired,
+    totalQty: PropTypes.number.isRequired,
+    coupon: PropTypes.string,
+    shippingMethod: PropTypes.string,
+    paymentMethodName: PropTypes.string,
+    taxAmount: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    discountAmount: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    grandTotal: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    subTotal: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    shippingFeeExclTax: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    currency: PropTypes.string.isRequired,
+    paymentStatus: PropTypes.shape({
+      code: PropTypes.string,
+      badge: PropTypes.string,
+      progress: PropTypes.number,
+      name: PropTypes.string
+    }).isRequired,
+    transactions: PropTypes.arrayOf(
+      PropTypes.shape({
+        paymentTransactionId: PropTypes.string.isRequired,
+        amount: PropTypes.shape({
+          text: PropTypes.string.isRequired,
+          value: PropTypes.number.isRequired
+        }).isRequired,
+        paymentAction: PropTypes.string.isRequired,
+        transactionType: PropTypes.string.isRequired
+      })
+    ).isRequired
+  }).isRequired
+};
+
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {
@@ -134,4 +177,4 @@ export const query = `
       }
     }
   }
-`
+`;

@@ -1,13 +1,16 @@
+const { INTERNAL_SERVER_ERROR } = require('../../../../lib/util/httpStatus');
+
 // eslint-disable-next-line no-unused-vars
-module.exports = async (err, request, response, stack, next) => {
-  console.log(err)
+module.exports = async (err, request, response, delegate, next) => {
+  // eslint-disable-next-line no-console
+  console.log(err);
   // Set this flag to make sure this middleware only be executed 1 time
   response.locals.errorHandlerTriggered = true;
   const promises = [];
-  Object.keys(stack).forEach((id) => {
+  Object.keys(delegate).forEach((id) => {
     // Check if middleware is async
-    if (stack[id] instanceof Promise) {
-      promises.push(stack[id]);
+    if (delegate[id] instanceof Promise) {
+      promises.push(delegate[id]);
     }
   });
 
@@ -15,15 +18,16 @@ module.exports = async (err, request, response, stack, next) => {
   await Promise.allSettled(promises);
   // Check if the header is already sent or not.
   if (response.headersSent) {
-    return; //TODO: Write a log message or next(error)?.
-  } else {
-    if (request.currentRoute.isApi === true) {
-      response.status(500).json({
-        success: false,
+    // TODO: Write a log message or next(error)?.
+  } else if (request.currentRoute.isApi === true) {
+    response.status(INTERNAL_SERVER_ERROR).json({
+      data: null,
+      error: {
+        status: INTERNAL_SERVER_ERROR,
         message: err.message
-      });
-    } else {
-      response.status(500).send(err.message);
-    }
+      }
+    });
+  } else {
+    response.status(500).send(err.message);
   }
 };

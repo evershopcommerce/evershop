@@ -1,65 +1,90 @@
 /* eslint-disable no-param-reassign */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Card } from '../../../../cms/components/admin/Card';
 
-const getGroup = (groups = [], groupId) => {
-  return groups.find((group) => parseInt(group.groupId) === parseInt(groupId)) || groups[0];
-};
+const getGroup = (groups = [], groupId = null) =>
+  groups.find(
+    (group) => parseInt(group.groupId, 10) === parseInt(groupId, 10)
+  ) || groups[0];
 
 export default function Attributes({ product, groups }) {
   const attributeIndex = product?.attributeIndex || [];
   const groupId = product?.groupId || undefined;
-  const [currentGroup, setCurrentGroup] = React.useState(getGroup(groups, groupId));
+  const [currentGroup, setCurrentGroup] = React.useState(
+    getGroup(groups, groupId)
+  );
 
   const handleGroupChange = (e) => {
     // Check if product is in a variant group
     if (product?.groupId) {
       // eslint-disable-next-line no-alert
-      alert('You can not change the attribute group of a product that is already in a variant group.');
-      return;
+      alert(
+        'You can not change the attribute group of a product that is already in a variant group.'
+      );
     } else {
       setCurrentGroup(getGroup(groups, e.target.value));
     }
-  }
+  };
 
   return (
     <Card>
-      <Card.Session
-        title="Attribute group"
-        subdued
-      >
+      <Card.Session title="Attribute group" subdued>
         <div>
-          {product?.variantGroupId && <div>
-            <input type='hidden' value={currentGroup.groupId} name={'group_id'} />
-            <div className='border rounded border-divider p-1'><span>{currentGroup.groupName}</span></div>
-            <div className='italic text-textSubdued'>Can not change the attribute group of a product that is already in a variant group.</div>
-          </div>}
-          {!product?.variantGroupId && <Field
-            name="group_id"
-            value={currentGroup.groupId}
-            onChange={(e) => handleGroupChange(e)}
-            options={(() => groups.map(
-              (g) => ({ value: parseInt(g.groupId, 10), text: g.groupName })
-            ))()}
-            type="select"
-          />}
+          {product?.variantGroupId && (
+            <div>
+              <input
+                type="hidden"
+                value={currentGroup.groupId}
+                name="group_id"
+              />
+              <div className="border rounded border-divider p-1">
+                <span>{currentGroup.groupName}</span>
+              </div>
+              <div className="italic text-textSubdued">
+                Can not change the attribute group of a product that is already
+                in a variant group.
+              </div>
+            </div>
+          )}
+          {!product?.variantGroupId && (
+            <Field
+              name="group_id"
+              value={currentGroup.groupId}
+              onChange={(e) => handleGroupChange(e)}
+              options={(() =>
+                groups.map((g) => ({
+                  value: parseInt(g.groupId, 10),
+                  text: g.groupName
+                })))()}
+              type="select"
+            />
+          )}
         </div>
       </Card.Session>
       <Card.Session title="Attributes">
         <table className="table table-auto">
           <tbody>
-            {currentGroup.attributes.map((attribute) => {
-              const valueIndex = attributeIndex.find(idx => idx.attributeId === attribute.attributeId);
-              const valueIndexMulti = attributeIndex.filter(idx => idx.attributeId === attribute.attributeId);
+            {currentGroup.attributes.map((attribute, index) => {
+              const valueIndex = attributeIndex.find(
+                (idx) => idx.attributeId === attribute.attributeId
+              );
+              const valueIndexMulti = attributeIndex.filter(
+                (idx) => idx.attributeId === attribute.attributeId
+              );
               let field = null;
               switch (attribute.type) {
                 case 'text':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex?.optionText}
-                      validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
+                      validationRules={
+                        parseInt(attribute.isRequired, 10) === 1
+                          ? ['notEmpty']
+                          : []
+                      }
                       type="text"
                     />
                   );
@@ -67,9 +92,13 @@ export default function Attributes({ product, groups }) {
                 case 'date':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex?.optionText}
-                      validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
+                      validationRules={
+                        parseInt(attribute.isRequired, 10) === 1
+                          ? ['notEmpty']
+                          : []
+                      }
                       type="date"
                     />
                   );
@@ -77,9 +106,13 @@ export default function Attributes({ product, groups }) {
                 case 'datetime':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex?.optionText}
-                      validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
+                      validationRules={
+                        parseInt(attribute.isRequired, 10) === 1
+                          ? ['notEmpty']
+                          : []
+                      }
                       type="datetime"
                     />
                   );
@@ -87,9 +120,13 @@ export default function Attributes({ product, groups }) {
                 case 'textarea':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex?.optionText}
-                      validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
+                      validationRules={
+                        parseInt(attribute.isRequired, 10) === 1
+                          ? ['notEmpty']
+                          : []
+                      }
                       type="textarea"
                     />
                   );
@@ -97,28 +134,18 @@ export default function Attributes({ product, groups }) {
                 case 'select':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex?.optionId}
-                      options={(() => attribute.options.map(
-                        (o) => ({ value: o.optionId, text: o.optionText })
-                      ))()}
-                      validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
-                      onChange={(e) => {
-                        e.persist();
-                        // setGroup((prev) => ({
-                        //   ...prev,
-                        //   attributes: prev.attributes.map((a) => {
-                        //     // eslint-disable-next-line max-len
-                        //     if (parseInt(a.attribute_id, 10) === parseInt(attribute.attribute_id, 10)) {
-                        //       a.selected_option = e.target.value;
-                        //       // eslint-disable-next-line max-len
-                        //       a.value_text = e.nativeEvent.target[e.nativeEvent.target.selectedIndex].text;
-                        //     }
-
-                        //     return a;
-                        //   })
-                        // }));
-                      }}
+                      options={(() =>
+                        attribute.options.map((o) => ({
+                          value: o.optionId,
+                          text: o.optionText
+                        })))()}
+                      validationRules={
+                        parseInt(attribute.isRequired, 10) === 1
+                          ? ['notEmpty']
+                          : []
+                      }
                       type="select"
                     />
                   );
@@ -126,12 +153,18 @@ export default function Attributes({ product, groups }) {
                 case 'multiselect':
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}][]`}
-                      value={valueIndexMulti.map(i => i.optionId)}
-                      options={(() => attribute.options.map(
-                        (o) => ({ value: o.optionId, text: o.optionText })
-                      ))()}
-                      validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
+                      name={`attributes[${index}][value][]`}
+                      value={valueIndexMulti.map((i) => i.optionId)}
+                      options={(() =>
+                        attribute.options.map((o) => ({
+                          value: o.optionId,
+                          text: o.optionText
+                        })))()}
+                      validationRules={
+                        parseInt(attribute.isRequired, 10) === 1
+                          ? ['notEmpty']
+                          : []
+                      }
                       type="multiselect"
                     />
                   );
@@ -139,19 +172,26 @@ export default function Attributes({ product, groups }) {
                 default:
                   field = (
                     <Field
-                      name={`attributes[${attribute.attributeCode}]`}
+                      name={`attributes[${index}][value]`}
                       value={valueIndex.optionText}
-                      validationRules={parseInt(attribute.isRequired, 10) === 1 ? ['notEmpty'] : []}
+                      validationRules={
+                        parseInt(attribute.isRequired, 10) === 1
+                          ? ['notEmpty']
+                          : []
+                      }
                       type="text"
                     />
                   );
               }
               return (
                 <tr key={attribute.attributeCode}>
+                  <td>{attribute.attributeName}</td>
                   <td>
-                    {attribute.attributeName}
-                  </td>
-                  <td>
+                    <input
+                      type="hidden"
+                      value={attribute.attributeCode}
+                      name={`attributes[${index}][attribute_code]`}
+                    />
                     {field}
                   </td>
                 </tr>
@@ -164,10 +204,50 @@ export default function Attributes({ product, groups }) {
   );
 }
 
+Attributes.propTypes = {
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      groupId: PropTypes.number,
+      groupName: PropTypes.string,
+      attributes: PropTypes.arrayOf(
+        PropTypes.shape({
+          attributeId: PropTypes.number,
+          attributeName: PropTypes.string,
+          attributeCode: PropTypes.string,
+          type: PropTypes.string,
+          isRequired: PropTypes.number,
+          options: PropTypes.arrayOf(
+            PropTypes.shape({
+              optionId: PropTypes.number,
+              optionText: PropTypes.string
+            })
+          )
+        })
+      )
+    })
+  ),
+  product: PropTypes.shape({
+    attributeIndex: PropTypes.arrayOf(
+      PropTypes.shape({
+        attributeId: PropTypes.number,
+        optionId: PropTypes.number,
+        optionText: PropTypes.string
+      })
+    ),
+    groupId: PropTypes.number,
+    variantGroupId: PropTypes.number
+  })
+};
+
+Attributes.defaultProps = {
+  groups: [],
+  product: {}
+};
+
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 30
-}
+};
 
 export const query = `
   query Query {

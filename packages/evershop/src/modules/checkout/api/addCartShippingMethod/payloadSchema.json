@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "method_code": {
+      "type": "string"
+    },
+    "method_name": {
+      "type": "string"
+    }
+  },
+  "required": ["method_code", "method_name"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "cart_id": "Cart id is required",
+      "method_code": "Method code is required",
+      "method_name": "Method name is required"
+    }
+  }
+}

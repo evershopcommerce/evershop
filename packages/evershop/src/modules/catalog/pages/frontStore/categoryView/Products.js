@@ -1,7 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ProductList from '../../../components/product/list/List';
 
-export default function Products({ products: { products: { items } } }) {
+export default function Products({
+  products: {
+    products: { items }
+  }
+}) {
   return (
     <div>
       <ProductList products={items} countPerRow={3} />
@@ -12,8 +17,44 @@ export default function Products({ products: { products: { items } } }) {
   );
 }
 
+Products.propTypes = {
+  products: PropTypes.shape({
+    products: PropTypes.shape({
+      items: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          productId: PropTypes.number,
+          url: PropTypes.string,
+          price: PropTypes.shape({
+            regular: PropTypes.shape({
+              value: PropTypes.float,
+              text: PropTypes.string
+            }),
+            special: PropTypes.shape({
+              value: PropTypes.float,
+              text: PropTypes.string
+            })
+          }),
+          image: PropTypes.shape({
+            alt: PropTypes.string,
+            listing: PropTypes.string
+          })
+        })
+      )
+    })
+  })
+};
+
+Products.defaultProps = {
+  products: {
+    products: {
+      items: []
+    }
+  }
+};
+
 export const layout = {
-  areaId: "rightColumn",
+  areaId: 'rightColumn',
   sortOrder: 25
 };
 

@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/coupons/:id",
+  "access": "private"
+}

@@ -39,4 +39,4 @@ export default function Notification() {
 export const layout = {
   areaId: 'body',
   sortOrder: 10
-}
+};

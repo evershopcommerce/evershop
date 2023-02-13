@@ -1,10 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Error from './Error';
-import './../Field.scss';
+import '../Field.scss';
 
 function TextArea({
-  name, value, label, onChange, error, instruction, placeholder
+  name,
+  value,
+  label,
+  onChange,
+  error,
+  instruction,
+  placeholder
 }) {
   const [_value, setValue] = React.useState(value || '');
 
@@ -32,8 +38,9 @@ function TextArea({
         />
         <div className="field-border" />
       </div>
-      {instruction
-        && <div className="field-instruction mt-sm">{instruction}</div>}
+      {instruction && (
+        <div className="field-instruction mt-sm">{instruction}</div>
+      )}
       <Error error={error} />
     </div>
   );
@@ -45,7 +52,8 @@ TextArea.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.string,
+  placeholder: PropTypes.string
 };
 
 TextArea.defaultProps = {
@@ -53,7 +61,8 @@ TextArea.defaultProps = {
   instruction: undefined,
   label: undefined,
   onChange: undefined,
-  value: undefined
+  value: undefined,
+  placeholder: undefined
 };
 
 export { TextArea };

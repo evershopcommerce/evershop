@@ -9,12 +9,12 @@ module.exports.buildFilterFromUrl = (query) => {
       const filter = query[key];
       if (Array.isArray(filter)) {
         const values = filter
-          .map((v) => parseInt(v))
-          .filter((v) => isNaN(v) === false);
+          .map((v) => parseInt(v, 10))
+          .filter((v) => Number.isNaN(v) === false);
         if (values.length > 0) {
           filtersFromUrl.push({
-            key: key,
-            operation: "IN",
+            key,
+            operation: 'IN',
             value: values.join(',')
           });
         }
@@ -24,22 +24,26 @@ module.exports.buildFilterFromUrl = (query) => {
         const regex = /^%|%$/;
         if (!regex.test(filter)) {
           filtersFromUrl.push({
-            key: key,
-            operation: "=",
+            key,
+            operation: '=',
             value: filter
           });
         } else {
           filtersFromUrl.push({
-            key: key,
-            operation: "LIKE",
+            key,
+            operation: 'LIKE',
             value: filter
           });
         }
       }
     });
 
-    const sortBy = query.sortBy;
-    const sortOrder = (query.sortOrder && ['ASC', 'DESC'].includes(query.sortOrder.toUpperCase())) ? query.sortOrder.toUpperCase() : 'ASC';
+    const { sortBy } = query;
+    const sortOrder =
+      query.sortOrder && ['ASC', 'DESC'].includes(query.sortOrder.toUpperCase())
+        ? query.sortOrder.toUpperCase()
+        : 'ASC';
+
     if (sortBy) {
       filtersFromUrl.push({
         key: 'sortBy',
@@ -56,15 +60,20 @@ module.exports.buildFilterFromUrl = (query) => {
       });
     }
     // Paging
-    const page = isNaN(parseInt(query.page)) ? "1" : query.page.toString();
-    if (page !== "1") {
+    const page = Number.isNaN(parseInt(query.page, 10))
+      ? '1'
+      : query.page.toString();
+    if (page !== '1') {
       filtersFromUrl.push({ key: 'page', operation: '=', value: page });
     }
-    const limit = isNaN(parseInt(query.limit)) ? "20" : query.limit.toString();// TODO: Get from config
-    if (limit !== "20") {
+    // TODO: Get from config
+    const limit = Number.isNaN(parseInt(query.limit, 10))
+      ? '20'
+      : query.limit.toString();
+    if (limit !== '20') {
       filtersFromUrl.push({ key: 'limit', operation: '=', value: limit });
     }
 
-    return filtersFromUrl
+    return filtersFromUrl;
   }
-}
+};

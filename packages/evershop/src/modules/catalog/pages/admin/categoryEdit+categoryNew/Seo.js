@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { get } from '../../../../../lib/util/get';
@@ -43,14 +44,19 @@ export default function Seo({ category }) {
         id: 'metaDescription',
         name: 'meta_description',
         label: 'Meta description',
-        options: [{ value: 0, text: 'Disabled' }, { value: 1, text: 'Enabled' }],
+        options: [
+          { value: 0, text: 'Disabled' },
+          { value: 1, text: 'Enabled' }
+        ],
         type: 'textarea'
       },
       sortOrder: 30
     }
   ].filter((f) => {
     // eslint-disable-next-line no-param-reassign
-    if (get(category, `${f.props.id}`) !== undefined) { f.props.value = get(category, `${f.props.id}`); }
+    if (get(category, `${f.props.id}`) !== undefined) {
+      f.props.value = get(category, `${f.props.id}`);
+    }
     return f;
   });
 
@@ -63,10 +69,28 @@ export default function Seo({ category }) {
   );
 }
 
+Seo.propTypes = {
+  category: PropTypes.shape({
+    metaDescription: PropTypes.string,
+    metaKeywords: PropTypes.string,
+    metaTitle: PropTypes.string,
+    urlKey: PropTypes.string
+  })
+};
+
+Seo.defaultProps = {
+  category: {
+    metaDescription: '',
+    metaKeywords: '',
+    metaTitle: '',
+    urlKey: ''
+  }
+};
+
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 60
-}
+};
 
 export const query = `
   query Query {
@@ -77,4 +101,4 @@ export const query = `
       metaDescription
     }
   }
-`
+`;

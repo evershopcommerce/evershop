@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { Field } from '../../../../../lib/components/form/Field';
@@ -10,28 +10,23 @@ function Setting({ discountAmount, startDate = '', endDate = '' }) {
     <div className="grid grid-cols-3 gap-2 form-field-container">
       <div>
         <Field
-          type='text'
-          name='discount_amount'
+          type="text"
+          name="discount_amount"
           value={discountAmount}
           validationRules={['notEmpty']}
-          label='Discount amount'
+          label="Discount amount"
         />
       </div>
       <div>
         <Field
-          type='date'
+          type="date"
           name="start_date"
           label="Start date"
           value={startDate}
         />
       </div>
       <div>
-        <Field
-          type='date'
-          name="end_date"
-          label="End date"
-          value={endDate}
-        />
+        <Field type="date" name="end_date" label="End date" value={endDate} />
       </div>
     </div>
   );
@@ -41,7 +36,13 @@ Setting.propTypes = {
   discountAmount: PropTypes.number,
   endDate: PropTypes.string,
   startDate: PropTypes.string
-}
+};
+
+Setting.defaultProps = {
+  discountAmount: 0,
+  endDate: '',
+  startDate: ''
+};
 
 export default function General({ coupon = {} }) {
   return (
@@ -96,7 +97,7 @@ export default function General({ coupon = {} }) {
             value: 1,
             type: 'checkbox',
             label: 'Free shipping?',
-            isChecked: get(coupon, 'freeShipping') == 1
+            isChecked: parseInt(get(coupon, 'freeShipping'), 10) === 1
           },
           sortOrder: 50
         }
@@ -105,10 +106,26 @@ export default function General({ coupon = {} }) {
   );
 }
 
+General.propTypes = {
+  coupon: PropTypes.shape({
+    coupon: PropTypes.string,
+    status: PropTypes.number,
+    description: PropTypes.string,
+    discountAmount: PropTypes.number,
+    freeShipping: PropTypes.number,
+    startDate: PropTypes.string,
+    endDate: PropTypes.string
+  })
+};
+
+General.defaultProps = {
+  coupon: {}
+};
+
 export const layout = {
   areaId: 'couponEditGeneral',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "password": {
+      "type": ["string"]
+    }
+  },
+  "required": ["email", "password"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "email": "Email or password is invalid",
+      "password": "Email or password is invalid"
+    }
+  }
+}

@@ -8,8 +8,12 @@
  * @return  {object}             The new object
  */
 function merge(objectOne, objectTwo) {
-  if (typeof objectOne !== 'object' || objectOne === null) { throw new Error('`object` must be an object'); }
-  if (typeof objectTwo !== 'object' || objectTwo === null) { throw new Error('`object` must be an object'); }
+  if (typeof objectOne !== 'object' || objectOne === null) {
+    throw new Error('`object` must be an object');
+  }
+  if (typeof objectTwo !== 'object' || objectTwo === null) {
+    throw new Error('`object` must be an object');
+  }
 
   const result = Object.create({});
 

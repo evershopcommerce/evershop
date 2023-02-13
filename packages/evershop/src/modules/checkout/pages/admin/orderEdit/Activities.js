@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { DateTime } from 'luxon';
 import './Activities.scss';
@@ -19,18 +20,18 @@ export default function Activities({ order: { activities = [] } }) {
           }
         ]
       });
-    } else if (DateTime.fromSQL(element.createdAt.value).startOf("day") === DateTime.fromSQL(current.time).startOf("day")) {
-      current.activities.push(
-        {
-          comment: element.comment,
-          customerNotified: element.customerNotified,
-          time: element.createdAt.time
-        }
-      );
+    } else if (
+      DateTime.fromSQL(element.createdAt.value).startOf('day') ===
+      DateTime.fromSQL(current.time).startOf('day')
+    ) {
+      current.activities.push({
+        comment: element.comment,
+        customerNotified: element.customerNotified,
+        time: element.createdAt.time
+      });
     } else {
       dailyActivities.push({
         date: element.createdAt.value,
-        date: element.createdAt.date,
         activities: [
           {
             comment: element.comment,
@@ -55,7 +56,11 @@ export default function Activities({ order: { activities = [] } }) {
                   <span className="dot" />
                   <div className="comment">
                     <span>{a.comment}</span>
-                    {parseInt(a.customerNotified, 10) === 1 && <span className="customer-notified">Customer was notified</span>}
+                    {parseInt(a.customerNotified, 10) === 1 && (
+                      <span className="customer-notified">
+                        Customer was notified
+                      </span>
+                    )}
                   </div>
                   <span className="time">{a.time}</span>
                 </li>
@@ -68,10 +73,27 @@ export default function Activities({ order: { activities = [] } }) {
   );
 }
 
+Activities.propTypes = {
+  order: PropTypes.shape({
+    activities: PropTypes.arrayOf(
+      PropTypes.shape({
+        comment: PropTypes.string,
+        customerNotified: PropTypes.string,
+        createdAt: PropTypes.shape({
+          value: PropTypes.string,
+          timezone: PropTypes.string,
+          date: PropTypes.string,
+          time: PropTypes.string
+        })
+      })
+    )
+  }).isRequired
+};
+
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 30
-}
+};
 
 export const query = `
   query Query {
@@ -88,4 +110,4 @@ export const query = `
       }
     }
   }
-`
+`;

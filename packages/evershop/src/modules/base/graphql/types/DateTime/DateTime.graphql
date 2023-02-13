@@ -1,3 +1,6 @@
+"""
+A DateTime is a string with a timezone.
+"""
 type DateTime {
   value: String!
   timezone: String!

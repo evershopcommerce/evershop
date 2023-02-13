@@ -2,52 +2,65 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { toast } from 'react-toastify';
 import { Field } from '../../../../../../lib/components/form/Field';
 import { Form } from '../../../../../../lib/components/form/Form';
 import { useAlertContext } from '../../../../../../lib/components/modal/Alert';
 
-export default function GroupRow({ groups, saveAttributeGroupUrl }) {
+export default function GroupRow({ groups }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
 
   const onEdit = (group) => {
     openAlert({
       heading: `Editing ${group.groupName}`,
-      content: <div>
-        <Form
-          id="group-edit"
-          method="POST"
-          action={saveAttributeGroupUrl}
-          submitBtn={false}
-          onSuccess={() => {
-            location.reload();
-          }}
-          isJSON={true}
-        >
-          <Field
-            formId="group-edit"
-            type="text"
-            name="group_name"
-            value={group.groupName}
-          />
-          <Field
-            formId="group-edit"
-            type="hidden"
-            name="group_id"
-            value={group.attributeGroupId}
-          />
-        </Form>
-      </div>,
+      content: (
+        <div>
+          <Form
+            id="groupEdit"
+            method="PATCH"
+            action={group.updateApi}
+            submitBtn={false}
+            onSuccess={(response) => {
+              if (response.error) {
+                toast.error(response.error.message);
+              } else {
+                window.location.reload();
+              }
+            }}
+            isJSON
+          >
+            <Field
+              formId="group-edit"
+              type="text"
+              name="group_name"
+              value={group.groupName}
+            />
+            <Field
+              formId="group-edit"
+              type="hidden"
+              name="group_id"
+              value={group.attributeGroupId}
+            />
+          </Form>
+        </div>
+      ),
       primaryAction: {
         title: 'Cancel',
         onAction: closeAlert,
         variant: 'critical'
-
       },
       secondaryAction: {
         title: 'Save',
         onAction: () => {
-          dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-          document.getElementById('group-edit').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+          dispatchAlert({
+            type: 'update',
+            payload: { secondaryAction: { isLoading: true } }
+          });
+          document
+            .getElementById('groupEdit')
+            .dispatchEvent(
+              new Event('submit', { cancelable: true, bubbles: true })
+            );
         },
         variant: 'primary',
         isLoading: false
@@ -78,9 +91,11 @@ export default function GroupRow({ groups, saveAttributeGroupUrl }) {
 }
 
 GroupRow.propTypes = {
-  groups: PropTypes.arrayOf(PropTypes.shape({
-    attributeGroupId: PropTypes.number,
-    groupName: PropTypes.string
-  })).isRequired,
-  saveAttributeGroupUrl: PropTypes.string.isRequired
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      attributeGroupId: PropTypes.number,
+      updateApi: PropTypes.string,
+      groupName: PropTypes.string
+    })
+  ).isRequired
 };

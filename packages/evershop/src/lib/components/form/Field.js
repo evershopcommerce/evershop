@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import PubSub from 'pubsub-js';
+import isEqual from 'react-fast-compare';
 import { Checkbox } from './fields/Checkbox';
 import { Date } from './fields/Date';
 import { DateTime } from './fields/DateTime';
@@ -17,14 +18,25 @@ import { FORM_FIELD_UPDATED } from '../../util/events';
 import './Field.scss';
 import { Password } from './fields/Password';
 
+const useMemoizeArgs = (args, equalityFunc) => {
+  const ref = React.useRef();
+  const prevArgs = ref.current;
+  const argsAreEqual =
+    prevArgs !== undefined &&
+    args.length === prevArgs.length &&
+    args.every((v, i) => equalityFunc(v, prevArgs[i]));
+
+  React.useEffect(() => {
+    if (!argsAreEqual) {
+      ref.current = args;
+    }
+  });
+
+  return argsAreEqual ? prevArgs : args;
+};
+
 export function Field(props) {
-  const {
-    name,
-    value,
-    validationRules,
-    onChange,
-    type
-  } = props;
+  const { name, value, validationRules, onChange, type } = props;
   const context = useFormContext();
   const [fieldValue, setFieldValue] = React.useState('');
   const field = context.fields.find((f) => f.name === name);
@@ -40,14 +52,14 @@ export function Field(props) {
   React.useEffect(() => {
     setFieldValue(value);
     context.updateField(name, value, validationRules);
-  }, [value]);
+  }, useMemoizeArgs([value], isEqual));
 
   React.useEffect(() => {
     if (field) setFieldValue(field.value);
   }, [field]);
 
   React.useEffect(() => {
-    PubSub.publishSync(FORM_FIELD_UPDATED, { name: name, value: fieldValue });
+    PubSub.publishSync(FORM_FIELD_UPDATED, { name, value: fieldValue });
   }, [fieldValue]);
 
   const onChangeFunc = (newValue) => {

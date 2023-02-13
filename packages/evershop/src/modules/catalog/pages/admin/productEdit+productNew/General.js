@@ -50,7 +50,11 @@ function SKUPriceWeight({ sku, price, weight, setting }) {
 SKUPriceWeight.propTypes = {
   price: PropTypes.number,
   sku: PropTypes.string,
-  weight: PropTypes.number
+  weight: PropTypes.number,
+  setting: PropTypes.shape({
+    storeCurrency: PropTypes.string,
+    weightUnit: PropTypes.string
+  }).isRequired
 };
 
 SKUPriceWeight.defaultProps = {
@@ -60,12 +64,15 @@ SKUPriceWeight.defaultProps = {
 };
 
 export default function General({
-  product, browserApi, deleteApi, uploadApi, folderCreateApi, setting
+  product,
+  browserApi,
+  deleteApi,
+  uploadApi,
+  folderCreateApi,
+  setting
 }) {
   return (
-    <Card
-      title="General"
-    >
+    <Card title="General">
       <Card.Session>
         <Area
           id="productEditGeneral"
@@ -101,7 +108,7 @@ export default function General({
                 sku: product?.sku,
                 price: product?.price.regular,
                 weight: product?.weight,
-                setting: setting
+                setting
               },
               sortOrder: 20,
               id: 'SKUPriceWeight'
@@ -132,13 +139,37 @@ General.propTypes = {
   browserApi: PropTypes.string.isRequired,
   deleteApi: PropTypes.string.isRequired,
   folderCreateApi: PropTypes.string.isRequired,
-  uploadApi: PropTypes.string.isRequired
+  uploadApi: PropTypes.string.isRequired,
+  product: PropTypes.shape({
+    description: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.shape({
+      regular: PropTypes.shape({
+        currency: PropTypes.string,
+        value: PropTypes.number
+      })
+    }),
+    productId: PropTypes.string,
+    sku: PropTypes.string,
+    weight: PropTypes.shape({
+      unit: PropTypes.string,
+      value: PropTypes.number
+    })
+  }),
+  setting: PropTypes.shape({
+    storeCurrency: PropTypes.string,
+    weightUnit: PropTypes.string
+  }).isRequired
+};
+
+General.defaultProps = {
+  product: undefined
 };
 
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

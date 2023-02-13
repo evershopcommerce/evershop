@@ -1,3 +1,6 @@
+"""
+The `Country` type represents a country.
+"""
 type Country {
   name: String!
   code: String!
@@ -5,6 +8,6 @@ type Country {
 }
 
 extend type Query {
-  countries (countries: [String]) : [Country]
-  allowedCountries : [Country]
+  countries(countries: [String]): [Country]
+  allowedCountries: [Country]
 }

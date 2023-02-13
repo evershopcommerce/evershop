@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '../../../../../lib/components/Area';
 import { Card } from '../../../../cms/components/admin/Card';
@@ -12,10 +13,17 @@ export default function CustomerNotes({ order: { shippingNote } }) {
             {
               component: {
                 // eslint-disable-next-line react/no-unstable-nested-components
-                default: () => <div>{shippingNote || <span className="text-border">No notes from customer</span>}</div>
+                default: () => (
+                  <div>
+                    {shippingNote || (
+                      <span className="text-border">
+                        No notes from customer
+                      </span>
+                    )}
+                  </div>
+                )
               },
-              props: {
-              },
+              props: {},
               sortOrder: 10,
               id: 'title'
             }
@@ -27,10 +35,16 @@ export default function CustomerNotes({ order: { shippingNote } }) {
   );
 }
 
+CustomerNotes.propTypes = {
+  order: PropTypes.shape({
+    shippingNote: PropTypes.string
+  }).isRequired
+};
+
 export const layout = {
   areaId: 'rightSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -38,4 +52,4 @@ export const query = `
       shippingNote
     }
   }
-`
+`;

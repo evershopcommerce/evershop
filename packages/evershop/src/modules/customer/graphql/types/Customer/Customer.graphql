@@ -1,3 +1,6 @@
+"""
+Look up a customer by ID
+"""
 type Customer {
   customerId: Int!
   uuid: String!
@@ -7,10 +10,16 @@ type Customer {
   createdAt: Date!
   url: String!
   editUrl: String!
+  logoutApi: String!
+  updateApi: String!
+  deleteApi: String!
   group: CustomerGroup
   orders: [Order]
 }
 
+"""
+Return a collection of customers
+"""
 type CustomerCollection {
   items: [Customer]
   currentPage: Int!
@@ -19,6 +28,6 @@ type CustomerCollection {
 }
 
 extend type Query {
-  customer(id: String): Customer,
+  customer(id: String): Customer
   customers(filters: [FilterInput]): CustomerCollection
 }

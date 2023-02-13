@@ -1,0 +1,42 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": ["string", "integer"],
+      "enum": ["0", "1", 0, 1]
+    },
+    "layout": {
+      "type": "string",
+      "enum": ["oneColumn", "twoColumnsLeft", "twoColumnsRight", "threeColumns"]
+    },
+    "name": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "url_key": {
+      "type": "string"
+    },
+    "meta_title": {
+      "type": "string"
+    },
+    "meta_description": {
+      "type": "string"
+    },
+    "meta_keywords": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "layout",
+    "name",
+    "url_key",
+    "content",
+    "meta_title",
+    "meta_description",
+    "meta_keywords"
+  ],
+  "additionalProperties": true
+}

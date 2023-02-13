@@ -1,16 +1,29 @@
+"""
+Represents a single attribute group
+"""
 type AttributeGroup {
   attributeGroupId: ID!
+  uuid: String!
   groupName: String!
+  updateApi: String!
   attributes: [Attribute]
 }
 
+"""
+Represents a single attribute option
+"""
 type AttributeOption {
   attributeOptionId: ID!
+  uuid: String!
   optionText: String!
 }
 
+"""
+Represents a single attribute
+"""
 type Attribute {
   attributeId: ID!
+  uuid: String!
   attributeCode: String!
   attributeName: String!
   type: String!
@@ -21,8 +34,13 @@ type Attribute {
   options: [AttributeOption]
   groups: [AttributeGroup]
   editUrl: String!
+  updateApi: String!
+  deleteApi: String!
 }
 
+"""
+Represents a collection of attributes
+"""
 type AttributeCollection {
   items: [Attribute]
   currentPage: Int!

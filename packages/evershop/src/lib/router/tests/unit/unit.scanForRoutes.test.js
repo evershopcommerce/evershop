@@ -1,13 +1,17 @@
-const { scanForRoutes } = require("../../scanForRoutes");
+const { scanForRoutes } = require('../../scanForRoutes');
 const path = require('path');
 
 describe('Test scanForRoutes', () => {
   it('It should thrown an exception if path is not valid', () => {
-    expect(() => scanForRoutes(path.resolve(__dirname, 'a/invalidPath'), true, false)).toThrow(Error);
+    expect(() =>
+      scanForRoutes(path.resolve(__dirname, 'a/invalidPath'), true, false)
+    ).toThrow(Error);
   });
 
   it('It should thrown an exception if methods are not valid', () => {
-    expect(() => scanForRoutes(path.resolve(__dirname, 'a/invalidMethod'), true, false)).toThrow(Error);
+    expect(() =>
+      scanForRoutes(path.resolve(__dirname, 'a/invalidMethod'), true, false)
+    ).toThrow(Error);
   });
 
   it('It should return an array of routes', () => {

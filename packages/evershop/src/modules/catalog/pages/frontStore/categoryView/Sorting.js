@@ -1,61 +1,88 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-restricted-globals */
 import React from 'react';
 import { Select } from '../../../../../lib/components/form/fields/Select';
+import { useAppDispatch } from '../../../../../lib/context/app';
+
+// TODO: make this list configurable
+const sortingOptions = [
+  { code: 'price', name: 'Price' },
+  { code: 'name', name: 'Name' }
+];
 
 export default function Sorting() {
-  // TODO: make this list configurable
-  const sortingOptions = [{ code: 'price', name: 'Price' }, { code: 'name', name: 'Name' }];
+  const AppContextDispatch = useAppDispatch();
+  const [sortBy, setSortBy] = React.useState(() => {
+    // Check if this is browser or server
+    if (typeof window !== 'undefined') {
+      const params = new URL(document.location).searchParams;
+      return params.get('sortBy') || 'id';
+    } else {
+      return undefined;
+    }
+  });
 
-  let sortOrder = 'asc', sortBy = 'id';
-  // Check if this is browser or server
-  if (typeof window !== 'undefined') {
-    let params = (new URL(document.location)).searchParams;
-    sortOrder = params.get("sortOrder") || 'asc';
-    sortBy = params.get("sortBy") || 'id';
-  }
+  const [sortOrder, setSortOrder] = React.useState(() => {
+    // Check if this is browser or server
+    if (typeof window !== 'undefined') {
+      const params = new URL(document.location).searchParams;
+      return params.get('sortOrder') || 'asc';
+    } else {
+      return undefined;
+    }
+  });
 
-  const onChangeSort = (e) => {
+  const onChangeSort = async (e) => {
     const currentUrl = window.location.href;
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
     url.searchParams.set('sortBy', e.target.value);
-    window.location.href = url;
+    url.searchParams.append('ajax', true);
+    setSortBy(e.target.value);
+    await AppContextDispatch.fetchPageData(url);
+    url.searchParams.delete('ajax');
+    history.pushState(null, '', url);
   };
 
-  const onChangeDirection = (e) => {
+  const onChangeDirection = async (e) => {
     const currentUrl = window.location.href;
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
-    if (sortOrder.toLowerCase() === 'asc') {
-      url.searchParams.set('sortOrder', 'desc');
-      window.location.href = url;
-    } else {
-      url.searchParams.set('sortOrder', 'asc');
-      window.location.href = url;
-    }
+    const order = sortOrder.toLowerCase() === 'asc' ? 'desc' : 'asc';
+    url.searchParams.set('sortOrder', order);
+    url.searchParams.append('ajax', true);
+    setSortOrder(order);
+    await AppContextDispatch.fetchPageData(url);
+    url.searchParams.delete('ajax');
+    history.pushState(null, '', url);
   };
-
-  if (sortingOptions.length === 0) { return (null); }
 
   return (
     <div className="product-sorting mb-1">
       <div className="product-sorting-inner flex justify-end items-center space-x-05">
-        <div><span>Sort By:</span></div>
+        <div>
+          <span>Sort By:</span>
+        </div>
         <div style={{ width: '160px' }}>
           <Select
             className="form-control"
-            onChange={(e) => onChangeSort(e)}
-            value={sortBy.toLowerCase()}
-            options={[{
-              value: '',
-              text: 'Please select'
-            }]
-              .concat(sortingOptions.map((o) => ({ value: o.code, text: o.name })))}
+            onChange={async (e) => {
+              await onChangeSort(e);
+            }}
+            value={sortBy}
+            options={[
+              {
+                value: '',
+                text: 'Please select'
+              }
+            ].concat(
+              sortingOptions.map((o) => ({ value: o.code, text: o.name }))
+            )}
           />
         </div>
         <div className="sort-direction self-center">
           <a onClick={(e) => onChangeDirection(e)} href="#">
-            {sortOrder.toLowerCase() === 'desc' ? (
+            {sortOrder === 'desc' ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="15"
@@ -96,6 +123,6 @@ export default function Sorting() {
 }
 
 export const layout = {
-  areaId: "rightColumn",
+  areaId: 'rightColumn',
   sortOrder: 15
 };

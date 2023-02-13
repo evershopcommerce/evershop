@@ -1,3 +1,6 @@
+"""
+The `Image` type represents a Product image.
+"""
 type Image {
   id: ID!
   uniqueId: String!
@@ -10,6 +13,6 @@ type Image {
 }
 
 extend type Product {
-  image: Image,
-  gallery: [Image],
+  image: Image
+  gallery: [Image]
 }

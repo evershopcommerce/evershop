@@ -1,59 +1,68 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { toast } from 'react-toastify';
 import { Form } from '../../../../../lib/components/form/Form';
 import { Field } from '../../../../../lib/components/form/Field';
-import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
+import {
+  useCheckoutSteps,
+  useCheckoutStepsDispatch
+} from '../../../../../lib/context/checkoutSteps';
 import { useCheckout } from '../../../../../lib/context/checkout';
-import { toast } from 'react-toastify';
 
-function Edit({ user, setContactInfoUrl, email, setEmail, cartId, loginUrl }) {
+function Edit({ customer, addContactInfoApi, email, setEmail, loginUrl }) {
   const { completeStep } = useCheckoutStepsDispatch();
 
   const onSuccess = (response) => {
-    if (response.success === true) {
+    if (!response.error) {
       setEmail(response.data.email);
       completeStep('contact', response.data.email);
     } else {
-      toast.error(response.message);
+      toast.error(response.error.message);
     }
   };
 
   React.useEffect(() => {
     async function setContactIfLoggedIn() {
-      if (!user) {
+      if (!customer) {
         return;
       }
       // Post fetch to set contact info
-      const response = await fetch(setContactInfoUrl, {
+      const response = await fetch(addContactInfoApi, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          email: user.email,
-          cartId
+          email: customer.email
         })
       });
       const data = await response.json();
-      if (data.success === true) {
-        setEmail(data.data.email);
-        completeStep('contact', data.data.email);
+      if (!data.error) {
+        setEmail(data.email);
+        completeStep('contact', data.email);
+      } else {
+        toast.error(data.error.message);
       }
     }
-    setContactIfLoggedIn()
+    setContactIfLoggedIn();
   }, []);
 
   return (
     <div className="">
-      <h4 className="mb-1 mt-1">{'Contact information'}</h4>
-      {!user && <div className='mb-1'>
-        <span>Already have an account?</span> <a className='text-interactive hover:underline' href={loginUrl}>Login</a>
-      </div>}
+      <h4 className="mb-1 mt-1">Contact information</h4>
+      {!customer && (
+        <div className="mb-1">
+          <span>Already have an account?</span>{' '}
+          <a className="text-interactive hover:underline" href={loginUrl}>
+            Login
+          </a>
+        </div>
+      )}
       <Form
         id="checkout-contact-info-form"
-        action={setContactInfoUrl}
+        action={addContactInfoApi}
         method="POST"
-        isJSON={true}
+        isJSON
         onSuccess={onSuccess}
         submitBtn
         btnText="Continue to shipping"
@@ -66,22 +75,26 @@ function Edit({ user, setContactInfoUrl, email, setEmail, cartId, loginUrl }) {
           placeholder="Email"
           value={email}
         />
-        <Field
-          type="hidden"
-          formId="checkout-contact-info-form"
-          name="cartId"
-          value={cartId}
-        />
       </Form>
     </div>
   );
 }
 
 Edit.propTypes = {
-  setContactInfoUrl: PropTypes.string.isRequired
+  addContactInfoApi: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  loginUrl: PropTypes.string.isRequired,
+  setEmail: PropTypes.func.isRequired,
+  customer: PropTypes.shape({
+    email: PropTypes.string.isRequired
+  }).isRequired
 };
 
-export default function ContactInformationStep({ setContactInfoUrl, cart: { customerEmail }, user, loginUrl }) {
+export default function ContactInformationStep({
+  cart: { customerEmail, addContactInfoApi },
+  customer,
+  loginUrl
+}) {
   const steps = useCheckoutSteps();
   const { cartId } = useCheckout();
   const [email, setEmail] = React.useState(customerEmail);
@@ -94,10 +107,10 @@ export default function ContactInformationStep({ setContactInfoUrl, cart: { cust
       id: 'contact',
       title: 'Contact information',
       previewTitle: 'Contact',
-      isCompleted: customerEmail ? true : false,
-      preview: customerEmail ? customerEmail : '',
+      isCompleted: !!customerEmail,
+      preview: customerEmail || '',
       sortOrder: 5,
-      editable: user ? false : true
+      editable: !customer
     });
   }, []);
 
@@ -105,42 +118,54 @@ export default function ContactInformationStep({ setContactInfoUrl, cart: { cust
     setDisplay(canStepDisplay(step, steps));
   });
 
-  if (step.isCompleted)
-    return null;
+  if (step.isCompleted) return null;
 
   return (
     <div className="checkout-contact checkout-step">
-      {display && <Edit
-        user={user}
-        step={step}
-        cartId={cartId}
-        email={email}
-        setContactInfoUrl={setContactInfoUrl}
-        setEmail={setEmail}
-        loginUrl={loginUrl}
-      />}
+      {display && (
+        <Edit
+          customer={customer}
+          step={step}
+          cartId={cartId}
+          email={email}
+          addContactInfoApi={addContactInfoApi}
+          setEmail={setEmail}
+          loginUrl={loginUrl}
+        />
+      )}
     </div>
   );
 }
 
 ContactInformationStep.propTypes = {
-  setContactInfoUrl: PropTypes.string.isRequired
+  loginUrl: PropTypes.string.isRequired,
+  customer: PropTypes.shape({
+    email: PropTypes.string.isRequired
+  }),
+  cart: PropTypes.shape({
+    customerEmail: PropTypes.string.isRequired,
+    addContactInfoApi: PropTypes.string.isRequired
+  }).isRequired
+};
+
+ContactInformationStep.defaultProps = {
+  customer: null
 };
 
 export const layout = {
   areaId: 'checkoutSteps',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
-    setContactInfoUrl: url(routeId: "checkoutSetContactInfo"),
     cart {
       customerEmail
+      addContactInfoApi
     }
-    user: customer(id: getContextValue("customerId", null)) {
+    customer(id: getContextValue("customerId", null)) {
       email
     }
     loginUrl: url(routeId: "login")
   }
-`
+`;

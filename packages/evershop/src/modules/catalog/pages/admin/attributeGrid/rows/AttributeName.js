@@ -5,7 +5,9 @@ export default function AttributeNameRow({ url, name }) {
   return (
     <td>
       <div>
-        <a className="hover:underline font-semibold" href={url}>{name}</a>
+        <a className="hover:underline font-semibold" href={url}>
+          {name}
+        </a>
       </div>
     </td>
   );
@@ -13,6 +15,5 @@ export default function AttributeNameRow({ url, name }) {
 
 AttributeNameRow.propTypes = {
   name: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired
 };

@@ -16,16 +16,16 @@ module.exports = exports = {};
 exports.scanForMiddlewareFunctions = function scanForMiddlewareFunctions(path) {
   let middlewares = [];
   readdirSync(resolve(path), { withFileTypes: true })
-    .filter((dirent) => dirent.isFile() && /.js$/.test(dirent.name) && !/^[A-Z]/.test(dirent.name[0]))
-    .map((dirent) => {
+    .filter(
+      (dirent) =>
+        dirent.isFile() &&
+        /.js$/.test(dirent.name) &&
+        !/^[A-Z]/.test(dirent.name[0])
+    )
+    .forEach((dirent) => {
       const middlewareFunc = resolve(path, dirent.name);
       middlewares = middlewares.concat(parseFromFile(middlewareFunc));
     });
 
   return middlewares;
 };
-
-// Check if letter is upper case
-function isUpperCase(str) {
-  return str === str.toUpperCase();
-}

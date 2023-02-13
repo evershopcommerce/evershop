@@ -4,21 +4,25 @@ import Meta from '../../../../../lib/components/Meta';
 import Title from '../../../../../lib/components/Title';
 
 export default function SeoMeta({ pageInfo: { title, description } }) {
-  return <>
-    <Title title={title} />
-    <Meta name="description" content={description} />
-  </>
+  return (
+    <>
+      <Title title={title} />
+      <Meta name="description" content={description} />
+    </>
+  );
 }
 
 SeoMeta.propTypes = {
-  description: PropTypes.any,
-  title: PropTypes.any
-}
+  pageInfo: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export const layout = {
-  areaId: "head",
+  areaId: 'head',
   sortOrder: 5
-}
+};
 
 export const query = `
   query query {
@@ -27,4 +31,4 @@ export const query = `
       description
     }
   }
-`
+`;

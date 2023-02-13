@@ -1,0 +1,14 @@
+.loading-bar {
+  background: #058c8c;
+  height: 4px;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  -webkit-transition: width 1.5s;
+  -moz-transition: width 1.5s;
+  -o-transition: width 1.5s;
+  transition: width 1.5s;
+  width: 0%;
+  z-index: 1001;
+}

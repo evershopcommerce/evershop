@@ -2,36 +2,50 @@ const config = require('config');
 const { select } = require('@evershop/mysql-query-builder');
 const fs = require('fs');
 const path = require('path');
+const uniqid = require('uniqid');
+const { v4: uuidv4 } = require('uuid');
 const { pool } = require('../../../../lib/mysql/connection');
 const { CONSTANTS } = require('../../../../lib/helpers');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 /* eslint-disable no-underscore-dangle */
 const { DataObject } = require('./DataObject');
 const { toPrice } = require('../toPrice');
-const uniqid = require('uniqid');
 
 module.exports.Item = class Item extends DataObject {
   static fields = [
     {
       key: 'cart_item_id',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.cart_item_id ?? uniqid();
+        }
+      ]
+    },
+    {
+      key: 'uuid',
+      resolvers: [
+        async function resolver() {
+          return this.dataSource.uuid ?? uuidv4().replace(/-/g, '');
         }
       ]
     },
     {
       key: 'product_id',
       resolvers: [
-        async function () {
-          const query = select()
-            .from('product');
-          query.leftJoin('product_description', 'des')
-            .on('product.`product_id`', '=', 'des.`product_description_product_id`');
-          const product = await query.where('product_id', '=', this.dataSource.product_id)
+        async function resolver() {
+          const query = select().from('product');
+          query
+            .leftJoin('product_description', 'des')
+            .on(
+              'product.`product_id`',
+              '=',
+              'des.`product_description_product_id`'
+            );
+          const product = await query
+            .where('product_id', '=', this.dataSource.product_id)
             .load(pool);
           if (!product || product.status === 0) {
-            this.errors['product_id'] = 'Requested product does not exist';
+            this.errors.product_id = 'Requested product does not exist';
             this.dataSource = { ...this.dataSource, product: {} };
             return null;
           }
@@ -43,7 +57,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_sku',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.product.sku ?? null;
         }
       ],
@@ -52,8 +66,8 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'group_id',
       resolvers: [
-        async function () {
-          return parseInt(this.dataSource.product.group_id) ?? null;
+        async function resolver() {
+          return parseInt(this.dataSource.product.group_id, 10) ?? null;
         }
       ],
       dependencies: ['product_id']
@@ -61,7 +75,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_name',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.product.name ?? null;
         }
       ],
@@ -70,12 +84,21 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'thumbnail',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (this.dataSource.product.image) {
-            const thumb = this.dataSource.product.image.replace(/.([^.]*)$/, '-thumb.$1');
-            return fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb)) ? `/assets${thumb}` : `/assets/theme/frontStore${config.get('catalog.product.image.placeHolder')}`;
+            const thumb = this.dataSource.product.image.replace(
+              /.([^.]*)$/,
+              '-thumb.$1'
+            );
+            return fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb))
+              ? `/assets${thumb}`
+              : `/assets/theme/frontStore${config.get(
+                  'catalog.product.image.placeHolder'
+                )}`;
           } else {
-            return `/assets/theme/frontStore${config.get('catalog.product.image.placeHolder')}`;
+            return `/assets/theme/frontStore${config.get(
+              'catalog.product.image.placeHolder'
+            )}`;
           }
         }
       ],
@@ -84,7 +107,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_weight',
       resolvers: [
-        async function () {
+        async function resolver() {
           return parseFloat(this.dataSource.product.weight) ?? null;
         }
       ],
@@ -93,7 +116,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_price',
       resolvers: [
-        async function () {
+        async function resolver() {
           return toPrice(this.dataSource.product.price);
         }
       ],
@@ -102,7 +125,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_price_incl_tax',
       resolvers: [
-        async function () {
+        async function resolver() {
           return toPrice(this.getData('product_price')); // TODO: Tax will be added in tax module
         }
       ],
@@ -111,18 +134,19 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'qty',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (
-            this.dataSource.product.product_id
-            && this.dataSource.product.manage_stock === 1
-            && this.dataSource.product.qty < 1
+            this.dataSource.product.product_id &&
+            this.dataSource.product.manage_stock === 1 &&
+            this.dataSource.product.qty < 1
           ) {
-            this.errors['qty'] = 'This item is out of stock';
+            this.errors.qty = 'This item is out of stock';
           } else if (
-            this.dataSource.product.product_id
-            && this.dataSource.product.manage_stock === 1
-            && this.dataSource.product.qty < this.dataSource.qty
-          ) this.errors['qty'] = 'We do not have enough stock';
+            this.dataSource.product.product_id &&
+            this.dataSource.product.manage_stock === 1 &&
+            this.dataSource.product.qty < this.dataSource.qty
+          )
+            this.errors.qty = 'We do not have enough stock';
 
           return parseInt(this.dataSource.qty, 10) ?? null;
         }
@@ -132,7 +156,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'final_price',
       resolvers: [
-        async function () {
+        async function resolver() {
           return toPrice(this.getData('product_price')); // TODO This price should include the custom option price
         }
       ],
@@ -141,7 +165,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'final_price_incl_tax',
       resolvers: [
-        async function () {
+        async function resolver() {
           return toPrice(this.getData('final_price'));
         }
       ],
@@ -150,8 +174,11 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'total',
       resolvers: [
-        async function () {
-          return toPrice(this.getData('final_price') * this.getData('qty') + this.getData('tax_amount'));
+        async function resolver() {
+          return toPrice(
+            this.getData('final_price') * this.getData('qty') +
+              this.getData('tax_amount')
+          );
         }
       ],
       dependencies: ['final_price', 'qty', 'tax_amount']
@@ -159,7 +186,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'tax_percent',
       resolvers: [
-        async function () {
+        async function resolver() {
           return 0; // Will be added later
         }
       ]
@@ -167,7 +194,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'tax_amount',
       resolvers: [
-        async function () {
+        async function resolver() {
           return 0; // Will be added later
         }
       ],
@@ -176,7 +203,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'variant_group_id',
       resolvers: [
-        async function () {
+        async function resolver() {
           return this.dataSource.product.variant_group_id ?? null;
         }
       ],
@@ -185,7 +212,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'variant_options',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (this.dataSource.product.variant_group_id) {
             const group = await select('attribute_one')
               .select('attribute_two')
@@ -193,7 +220,11 @@ module.exports.Item = class Item extends DataObject {
               .select('attribute_four')
               .select('attribute_five')
               .from('variant_group')
-              .where('variant_group_id', '=', this.dataSource.product.variant_group_id)
+              .where(
+                'variant_group_id',
+                '=',
+                this.dataSource.product.variant_group_id
+              )
               .load(pool);
             if (!group) return null;
             else {
@@ -203,9 +234,20 @@ module.exports.Item = class Item extends DataObject {
                 .select('o.`option_id`')
                 .select('o.`option_text`')
                 .from('attribute', 'a');
-              query.innerJoin('product_attribute_value_index', 'o').on('a.`attribute_id`', '=', 'o.`attribute_id`');
-              query.where('o.`product_id`', '=', this.dataSource.product.product_id)
-                .and('a.`attribute_id`', 'IN', Object.values(group).filter((v) => v != null));
+              query
+                .innerJoin('product_attribute_value_index', 'o')
+                .on('a.`attribute_id`', '=', 'o.`attribute_id`');
+              query
+                .where(
+                  'o.`product_id`',
+                  '=',
+                  this.dataSource.product.product_id
+                )
+                .and(
+                  'a.`attribute_id`',
+                  'IN',
+                  Object.values(group).filter((v) => v != null)
+                );
 
               return JSON.stringify(await query.execute(pool));
             }
@@ -219,7 +261,7 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'product_custom_options',
       resolvers: [
-        async function () {
+        async function resolver() {
           return null; // TODO: Add custom options
         }
       ],
@@ -228,8 +270,12 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'productUrl',
       resolvers: [
-        async function () {
-          return this.getData('product_id') ? buildUrl('productView', { url_key: this.dataSource.product.url_key }) : null;
+        async function resolver() {
+          return this.getData('product_id')
+            ? buildUrl('productView', {
+                url_key: this.dataSource.product.url_key
+              })
+            : null;
         }
       ],
       dependencies: ['product_id']
@@ -237,15 +283,17 @@ module.exports.Item = class Item extends DataObject {
     {
       key: 'removeUrl',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (this.getData('cart_item_id')) {
-            return buildUrl('removeCartItem');
+            return buildUrl('removeMineCartItem', {
+              item_id: this.getData('uuid')
+            });
           } else {
             return undefined;
           }
         }
       ],
-      dependencies: ['cart_item_id']
+      dependencies: ['cart_item_id', 'uuid']
     }
   ];
 
@@ -256,6 +304,6 @@ module.exports.Item = class Item extends DataObject {
   }
 
   getId() {
-    return this.getData('cart_item_id');
+    return this.getData('uuid');
   }
-}
+};

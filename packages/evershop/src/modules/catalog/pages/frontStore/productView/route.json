@@ -1,0 +1,4 @@
+{
+  "methods": ["GET"],
+  "path": "/product/:url_key"
+}

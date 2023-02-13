@@ -8,10 +8,15 @@ import { Country } from './Country';
 import { ProvinceAndPostcode } from './ProvinceAndPostcode';
 import { NameAndTelephone } from './NameAndTelephone';
 
-export function CustomerAddressForm({ allowCountries, address = {}, formId = 'customerAddressForm', areaId = 'customerAddressForm' }) {
+export function CustomerAddressForm({
+  allowCountries,
+  address = {},
+  formId = 'customerAddressForm',
+  areaId = 'customerAddressForm'
+}) {
   const [selectedCountry, setSelectedCountry] = React.useState(() => {
     const country = address?.country?.code;
-    if (!country || !allowCountries.find(c => c.code === country)) {
+    if (!country || !allowCountries.find((c) => c.code === country)) {
       return null;
     } else {
       return country;
@@ -25,7 +30,7 @@ export function CustomerAddressForm({ allowCountries, address = {}, formId = 'cu
         {
           component: { default: NameAndTelephone },
           props: {
-            address: address
+            address
           },
           sortOrder: 10
         },
@@ -57,9 +62,9 @@ export function CustomerAddressForm({ allowCountries, address = {}, formId = 'cu
         {
           component: { default: Country },
           props: {
-            selectedCountry: selectedCountry,
-            allowCountries: allowCountries,
-            setSelectedCountry: setSelectedCountry,
+            selectedCountry,
+            allowCountries,
+            setSelectedCountry,
             fieldName: 'address[country]'
           },
           sortOrder: 50
@@ -67,10 +72,9 @@ export function CustomerAddressForm({ allowCountries, address = {}, formId = 'cu
         {
           component: { default: ProvinceAndPostcode },
           props: {
-            selectedCountry,
-            address: address,
-            allowCountries: allowCountries,
-            selectedCountry: selectedCountry
+            address,
+            allowCountries,
+            selectedCountry
           },
           sortOrder: 60
         }
@@ -80,14 +84,6 @@ export function CustomerAddressForm({ allowCountries, address = {}, formId = 'cu
 }
 
 CustomerAddressForm.propTypes = {
-  allowCountries: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string,
-    name: PropTypes.string,
-    provinces: PropTypes.arrayOf(PropTypes.shape({
-      code: PropTypes.string,
-      name: PropTypes.string
-    }))
-  })).isRequired,
   address: PropTypes.shape({
     address1: PropTypes.string,
     city: PropTypes.string,
@@ -101,6 +97,24 @@ CustomerAddressForm.propTypes = {
     }),
     telephone: PropTypes.string
   }),
-  formId: PropTypes.string,
-  areaId: PropTypes.string
+  allowCountries: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      name: PropTypes.string,
+      provinces: PropTypes.arrayOf(
+        PropTypes.shape({
+          code: PropTypes.string,
+          name: PropTypes.string
+        })
+      )
+    })
+  ).isRequired,
+  areaId: PropTypes.string,
+  formId: PropTypes.string
+};
+
+CustomerAddressForm.defaultProps = {
+  address: {},
+  areaId: 'customerAddressForm',
+  formId: 'customerAddressForm'
 };

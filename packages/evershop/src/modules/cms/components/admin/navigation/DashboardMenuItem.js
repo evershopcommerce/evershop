@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React from 'react';
-import MenuItem from '../NavigationItem';
 import Icon from '@heroicons/react/solid/esm/HomeIcon';
+import MenuItem from '../NavigationItem';
 
 export default function DashboardMenuItem({ url }) {
   return <MenuItem Icon={Icon} title="Dashboard" url={url} />;
@@ -9,4 +9,4 @@ export default function DashboardMenuItem({ url }) {
 
 DashboardMenuItem.propTypes = {
   url: PropTypes.string.isRequired
-}
+};

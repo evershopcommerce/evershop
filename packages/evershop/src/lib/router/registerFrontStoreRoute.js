@@ -1,5 +1,4 @@
 const { addRoute } = require('./Router');
-const { validateRoute } = require('./validateRoute');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
@@ -12,13 +11,23 @@ module.exports = exports = {};
  * @param   {string}  path    The path of route
  *
  */
-exports.registerFrontStoreRoute = (id, method, path, isApi = false, folder = '') => {
-  //const route = validateRoute(id, method, path);
+exports.registerFrontStoreRoute = (
+  id,
+  method,
+  path,
+  isApi = false,
+  folder = '',
+  payloadSchema = null,
+  access = 'private'
+) => {
+  // const route = validateRoute(id, method, path);
   const route = {
     id: String(id),
     method,
     path,
-  }
+    payloadSchema,
+    access
+  };
   route.isAdmin = false;
   route.isApi = isApi;
   route.folder = folder;

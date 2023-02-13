@@ -1,6 +1,6 @@
-const { select } = require("@evershop/mysql-query-builder");
-const { pool } = require("../../../lib/mysql/connection");
-const { getProductsBaseQuery } = require("./getProductsBaseQuery");
+const { select } = require('@evershop/mysql-query-builder');
+const { pool } = require('../../../lib/mysql/connection');
+const { getProductsBaseQuery } = require('./getProductsBaseQuery');
 
 module.exports.getFilterableAttributes = async (categoryId) => {
   const productsQuery = await getProductsBaseQuery(categoryId);
@@ -8,7 +8,9 @@ module.exports.getFilterableAttributes = async (categoryId) => {
   // Get the list of productIds before applying pagination, sorting...etc
   // Base on this list, we will find all attribute,
   // category and price can be appeared in the filter table
-  const allIds = (await productsQuery.execute(pool)).map((row) => row.product_id);
+  const allIds = (await productsQuery.execute(pool)).map(
+    (row) => row.product_id
+  );
 
   // Filterable attributes
   const query = select('attribute.`attribute_name`', 'attribute_name')
@@ -19,11 +21,17 @@ module.exports.getFilterableAttributes = async (categoryId) => {
     .select('product_attribute_value_index.`option_id`', 'option_id')
     .select('product_attribute_value_index.`option_text`', 'option_text')
     .from('attribute');
-  query.innerJoin('product_attribute_value_index')
-    .on('attribute.`attribute_id`', '=', 'product_attribute_value_index.`attribute_id`');
+  query
+    .innerJoin('product_attribute_value_index')
+    .on(
+      'attribute.`attribute_id`',
+      '=',
+      'product_attribute_value_index.`attribute_id`'
+    );
 
-  query.where('product_attribute_value_index.`product_id`', 'IN', allIds)
-    .and('type', 'IN', ['select', 'multiselect'])
+  query
+    .where('product_attribute_value_index.`product_id`', 'IN', allIds)
+    .and('type', '=', 'select')
     .and('is_filterable', '=', 1);
 
   const attributeData = await query.execute(pool);
@@ -31,7 +39,9 @@ module.exports.getFilterableAttributes = async (categoryId) => {
   const attributes = [];
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < attributeData.length; i++) {
-    const index = attributes.findIndex((a) => a.attributeCode === attributeData[i].attribute_code);
+    const index = attributes.findIndex(
+      (a) => a.attributeCode === attributeData[i].attribute_code
+    );
     if (index === -1) {
       attributes.push({
         attributeName: attributeData[i].attribute_name,
@@ -40,18 +50,19 @@ module.exports.getFilterableAttributes = async (categoryId) => {
         options: [
           {
             optionId: attributeData[i].option_id,
-            optionText: attributeData[i].option_text,
+            optionText: attributeData[i].option_text
           }
         ]
       });
     } else {
       const idx = attributes[index].options.findIndex(
-        (o) => parseInt(o.optionId, 10) === parseInt(attributeData[i].option_id, 10)
+        (o) =>
+          parseInt(o.optionId, 10) === parseInt(attributeData[i].option_id, 10)
       );
       if (idx === -1) {
         attributes[index].options = attributes[index].options.concat({
           optionId: attributeData[i].option_id,
-          optionText: attributeData[i].option_text,
+          optionText: attributeData[i].option_text
         });
       } else {
         // eslint-disable-next-line no-plusplus
@@ -61,4 +72,4 @@ module.exports.getFilterableAttributes = async (categoryId) => {
   }
 
   return attributes;
-}
+};

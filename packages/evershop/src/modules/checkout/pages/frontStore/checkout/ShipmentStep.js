@@ -1,34 +1,37 @@
 /* eslint-disable no-param-reassign */
+import PropTypes from 'prop-types';
 import React from 'react';
-import { useCheckoutSteps, useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
+import {
+  useCheckoutSteps,
+  useCheckoutStepsDispatch
+} from '../../../../../lib/context/checkoutSteps';
 import { StepContent } from '../../../components/frontStore/checkout/shipment/StepContent';
 
-export default function ShipmentStep({ cart: {
-  shippingAddress,
-  shippingMethod,
-  shippingMethodName
-},
-  setShipmentInfoAPI
+export default function ShipmentStep({
+  cart: {
+    shippingAddress,
+    shippingMethod,
+    addShippingMethodApi,
+    addShippingAddressApi
+  }
 }) {
   const steps = useCheckoutSteps();
   const [shipmentInfo, setShipmentInfo] = React.useState({
-    address: shippingAddress,
-    method: {
-      name: shippingMethodName,
-      code: shippingMethod
-    }
-  })
+    address: shippingAddress
+  });
   const step = steps.find((e) => e.id === 'shipment') || {};
   const [display, setDisplay] = React.useState(false);
-  const { canStepDisplay, editStep, addStep } = useCheckoutStepsDispatch();
+  const { canStepDisplay, addStep } = useCheckoutStepsDispatch();
 
   React.useEffect(() => {
     addStep({
       id: 'shipment',
       title: 'Shipment',
       previewTitle: 'Ship To',
-      isCompleted: shippingAddress && shippingMethod ? true : false,
-      preview: shippingAddress ? `${shippingAddress.address1}, ${shippingAddress.city}, ${shippingAddress.country.name}` : '',
+      isCompleted: !!(shippingAddress && shippingMethod),
+      preview: shippingAddress
+        ? `${shippingAddress.address1}, ${shippingAddress.city}, ${shippingAddress.country.name}`
+        : '',
       sortOrder: 10,
       editable: true
     });
@@ -48,16 +51,34 @@ export default function ShipmentStep({ cart: {
         step={step}
         shipmentInfo={shipmentInfo}
         setShipmentInfo={setShipmentInfo}
-        setShipmentInfoAPI={setShipmentInfoAPI}
+        addShippingAddressApi={addShippingAddressApi}
+        addShippingMethodApi={addShippingMethodApi}
       />
     </div>
   );
 }
 
+ShipmentStep.propTypes = {
+  cart: PropTypes.shape({
+    shippingAddress: PropTypes.shape({
+      address1: PropTypes.string,
+      address2: PropTypes.string,
+      city: PropTypes.string,
+      country: PropTypes.shape({
+        name: PropTypes.string
+      })
+    }),
+    shippingMethod: PropTypes.string,
+    shippingMethodName: PropTypes.string,
+    addShippingMethodApi: PropTypes.string,
+    addShippingAddressApi: PropTypes.string
+  }).isRequired
+};
+
 export const layout = {
   areaId: 'checkoutSteps',
   sortOrder: 15
-}
+};
 
 export const query = `
   query Query {
@@ -81,7 +102,8 @@ export const query = `
         address1
         address2
       }
-    },
-    setShipmentInfoAPI: url(routeId: "checkoutSetShipmentInfo")
+      addShippingAddressApi: addAddressApi
+      addShippingMethodApi
+    }
   }
-`
+`;

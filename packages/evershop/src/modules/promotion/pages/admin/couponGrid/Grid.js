@@ -5,7 +5,6 @@ import Area from '../../../../../lib/components/Area';
 import Pagination from '../../../../../lib/components/grid/Pagination';
 import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
 import { useAlertContext } from '../../../../../lib/components/modal/Alert';
-import formData from '../../../../../lib/util/formData';
 import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
 import FromToColumnHeader from '../../../../../lib/components/grid/headers/FromTo';
 import StatusColumnHeader from '../../../../../lib/components/grid/headers/Status';
@@ -14,9 +13,37 @@ import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
 import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
 import { Card } from '../../../../cms/components/admin/Card';
 
-function Actions({ selectedIds = [], enableCouponsUrl, disableCouponUrl, deleteCouponsUrl }) {
-  const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
+function Actions({ coupons = [], selectedIds = [] }) {
+  const { openAlert, closeAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
+
+  const updateCoupons = async (status) => {
+    setIsLoading(true);
+    const promises = coupons
+      .filter((coupon) => selectedIds.includes(coupon.uuid))
+      .map((coupon) =>
+        axios.patch(coupon.updateApi, {
+          status,
+          coupon: coupon.coupon
+        })
+      );
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  };
+
+  const deleteCoupons = async () => {
+    setIsLoading(true);
+    const promises = coupons
+      .filter((coupon) => selectedIds.includes(coupon.uuid))
+      .map((coupon) => axios.delete(coupon.deleteApi));
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  };
+
   const actions = [
     {
       name: 'Disable',
@@ -32,14 +59,7 @@ function Actions({ selectedIds = [], enableCouponsUrl, disableCouponUrl, deleteC
           secondaryAction: {
             title: 'Disable',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(disableCouponUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await updateCoupons(0);
             },
             variant: 'critical',
             isLoading: false
@@ -61,14 +81,7 @@ function Actions({ selectedIds = [], enableCouponsUrl, disableCouponUrl, deleteC
           secondaryAction: {
             title: 'Enable',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(enableCouponsUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await updateCoupons(1);
             },
             variant: 'critical',
             isLoading: false
@@ -90,14 +103,7 @@ function Actions({ selectedIds = [], enableCouponsUrl, disableCouponUrl, deleteC
           secondaryAction: {
             title: 'Delete',
             onAction: async () => {
-              setIsLoading(true);
-              dispatchAlert({ type: 'update', payload: { secondaryAction: { isLoading: true } } });
-              const response = await axios.post(deleteCouponsUrl, formData().append('ids', selectedIds).build());
-              // setIsLoading(false);
-              if (response.data.success === true) {
-                location.reload();
-                // TODO: Should display a message and delay for 1 - 2 second
-              }
+              await deleteCoupons();
             },
             variant: 'critical',
             isLoading
@@ -109,16 +115,25 @@ function Actions({ selectedIds = [], enableCouponsUrl, disableCouponUrl, deleteC
 
   return (
     <tr>
-      {selectedIds.length === 0 && (null)}
+      {selectedIds.length === 0 && null}
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
             <a href="#" className="font-semibold pt-075 pb-075 pl-15 pr-15">
-              {selectedIds.length}
-              {' '}
-              selected
+              {selectedIds.length} selected
             </a>
-            {actions.map((action) => <a href="#" onClick={(e) => { e.preventDefault(); action.onAction(); }} className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"><span>{action.name}</span></a>)}
+            {actions.map((action) => (
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  action.onAction();
+                }}
+                className="font-semibold pt-075 pb-075 pl-15 pr-15 block border-l border-divider self-center"
+              >
+                <span>{action.name}</span>
+              </a>
+            ))}
           </div>
         </td>
       )}
@@ -127,12 +142,26 @@ function Actions({ selectedIds = [], enableCouponsUrl, disableCouponUrl, deleteC
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  coupons: PropTypes.arrayOf(
+    PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      updateApi: PropTypes.string.isRequired,
+      deleteApi: PropTypes.string.isRequired,
+      coupon: PropTypes.string.isRequired
+    })
+  ).isRequired
 };
 
-export default function CouponGrid({ coupons: { items: coupons, total, currentFilters = [] }, disableCouponUrl, enableCouponsUrl, deleteCouponsUrl }) {
-  const page = currentFilters.find((filter) => filter.key === 'page') ? currentFilters.find((filter) => filter.key === 'page')['value'] : 1;
-  const limit = currentFilters.find((filter) => filter.key === 'limit') ? currentFilters.find((filter) => filter.key === 'limit')['value'] : 20;
+export default function CouponGrid({
+  coupons: { items: coupons, total, currentFilters = [] }
+}) {
+  const page = currentFilters.find((filter) => filter.key === 'page')
+    ? currentFilters.find((filter) => filter.key === 'page').value
+    : 1;
+  const limit = currentFilters.find((filter) => filter.key === 'limit')
+    ? currentFilters.find((filter) => filter.key === 'limit').value
+    : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
@@ -141,10 +170,12 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox onChange={(e) => {
-                if (e.target.checked) setSelectedRows(coupons.map((c) => c.couponId));
-                else setSelectedRows([]);
-              }}
+              <Checkbox
+                onChange={(e) => {
+                  if (e.target.checked)
+                    setSelectedRows(coupons.map((c) => c.uuid));
+                  else setSelectedRows([]);
+                }}
               />
             </th>
             <Area
@@ -152,23 +183,78 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
               noOuter
               coreComponents={[
                 {
-                  component: { default: () => <BasicColumnHeader title='Coupon Code' id='coupon' currentFilter={currentFilters.find(f => f.key === 'coupon')} /> },
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  component: {
+                    default: () => (
+                      <BasicColumnHeader
+                        title="Coupon Code"
+                        id="coupon"
+                        currentFilter={currentFilters.find(
+                          (f) => f.key === 'coupon'
+                        )}
+                      />
+                    )
+                  },
                   sortOrder: 10
                 },
                 {
-                  component: { default: () => <FromToColumnHeader title='State Date' id='startDate' currentFilter={currentFilters.find(f => f.key === 'startDate')} /> },
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  component: {
+                    default: () => (
+                      <FromToColumnHeader
+                        title="State Date"
+                        id="startDate"
+                        currentFilter={currentFilters.find(
+                          (f) => f.key === 'startDate'
+                        )}
+                      />
+                    )
+                  },
                   sortOrder: 20
                 },
                 {
-                  component: { default: () => <FromToColumnHeader title='End Date' id='endDate' currentFilter={currentFilters.find(f => f.key === 'endDate')} /> },
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  component: {
+                    default: () => (
+                      <FromToColumnHeader
+                        title="End Date"
+                        id="endDate"
+                        currentFilter={currentFilters.find(
+                          (f) => f.key === 'endDate'
+                        )}
+                      />
+                    )
+                  },
                   sortOrder: 30
                 },
                 {
-                  component: { default: () => <StatusColumnHeader title='Status' id='status' currentFilter={currentFilters.find(f => f.key === 'status')} /> },
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  component: {
+                    default: () => (
+                      <StatusColumnHeader
+                        title="Status"
+                        id="status"
+                        currentFilter={currentFilters.find(
+                          (f) => f.key === 'status'
+                        )}
+                      />
+                    )
+                  },
                   sortOrder: 40
                 },
                 {
-                  component: { default: () => <FromToColumnHeader title='Used Times' id='usedTime' currentFilter={currentFilters.find(f => f.key === 'usedTime')} /> },
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  component: {
+                    default: () => (
+                      <FromToColumnHeader
+                        title="Used Times"
+                        id="usedTime"
+                        currentFilter={currentFilters.find(
+                          (f) => f.key === 'usedTime'
+                        )}
+                      />
+                    )
+                  },
                   sortOrder: 50
                 }
               ]}
@@ -177,23 +263,22 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
         </thead>
         <tbody>
           <Actions
-            ids={coupons.map((c) => c.couponId)}
+            coupons={coupons}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
-            disableCouponUrl={disableCouponUrl}
-            enableCouponsUrl={enableCouponsUrl}
-            deleteCouponsUrl={deleteCouponsUrl}
           />
           {coupons.map((c) => (
             <tr key={c.couponId}>
               <td>
                 <Checkbox
-                  isChecked={selectedRows.includes(c.couponId)}
+                  isChecked={selectedRows.includes(c.uuid)}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([c.couponId]));
+                      setSelectedRows(selectedRows.concat([c.uuid]));
                     } else {
-                      setSelectedRows(selectedRows.filter((row) => row !== c.couponId));
+                      setSelectedRows(
+                        selectedRows.filter((row) => row !== c.uuid)
+                      );
                     }
                   }}
                 />
@@ -206,23 +291,52 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
                 setSelectedRows={setSelectedRows}
                 coreComponents={[
                   {
-                    component: { default: () => <CouponName url={c.editUrl} name={c.coupon} /> },
+                    // eslint-disable-next-line react/no-unstable-nested-components
+                    component: {
+                      default: () => (
+                        <CouponName url={c.editUrl} name={c.coupon} />
+                      )
+                    },
                     sortOrder: 10
                   },
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='startDate' areaProps={areaProps} /> },
+                    // eslint-disable-next-line react/no-unstable-nested-components
+                    component: {
+                      default: ({ areaProps }) => (
+                        <BasicRow id="startDate" areaProps={areaProps} />
+                      )
+                    },
                     sortOrder: 20
                   },
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='endDate' areaProps={areaProps} /> },
+                    // eslint-disable-next-line react/no-unstable-nested-components
+                    component: {
+                      default: ({ areaProps }) => (
+                        <BasicRow id="endDate" areaProps={areaProps} />
+                      )
+                    },
                     sortOrder: 30
                   },
                   {
-                    component: { default: ({ areaProps }) => <StatusRow title='Status' id='status' areaProps={areaProps} /> },
+                    // eslint-disable-next-line react/no-unstable-nested-components
+                    component: {
+                      default: ({ areaProps }) => (
+                        <StatusRow
+                          title="Status"
+                          id="status"
+                          areaProps={areaProps}
+                        />
+                      )
+                    },
                     sortOrder: 40
                   },
                   {
-                    component: { default: ({ areaProps }) => <BasicRow id='usedTime' areaProps={areaProps} /> },
+                    // eslint-disable-next-line react/no-unstable-nested-components
+                    component: {
+                      default: ({ areaProps }) => (
+                        <BasicRow id="usedTime" areaProps={areaProps} />
+                      )
+                    },
                     sortOrder: 50
                   }
                 ]}
@@ -231,29 +345,62 @@ export default function CouponGrid({ coupons: { items: coupons, total, currentFi
           ))}
         </tbody>
       </table>
-      {coupons.length === 0
-        && <div className="flex w-full justify-center">There is no coupon to display</div>}
+      {coupons.length === 0 && (
+        <div className="flex w-full justify-center">
+          There is no coupon to display
+        </div>
+      )}
       <Pagination total={total} limit={limit} page={page} />
     </Card>
   );
 }
 
+CouponGrid.propTypes = {
+  coupons: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        couponId: PropTypes.number.isRequired,
+        uuid: PropTypes.string.isRequired,
+        coupon: PropTypes.string.isRequired,
+        status: PropTypes.string.isRequired,
+        usedTime: PropTypes.number.isRequired,
+        startDate: PropTypes.string.isRequired,
+        endDate: PropTypes.string.isRequired,
+        editUrl: PropTypes.string.isRequired,
+        updateApi: PropTypes.string.isRequired,
+        deleteApi: PropTypes.string.isRequired
+      })
+    ).isRequired,
+    total: PropTypes.number.isRequired,
+    currentFilters: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        operation: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired
+      })
+    ).isRequired
+  }).isRequired
+};
+
 export const layout = {
   areaId: 'content',
   sortOrder: 20
-}
+};
 
 export const query = `
   query Query {
     coupons (filters: getContextValue("filtersFromUrl")) {
       items {
         couponId
+        uuid
         coupon
         status
         usedTime
         startDate
         endDate
         editUrl
+        updateApi
+        deleteApi
       }
       total
       currentFilters {
@@ -262,8 +409,5 @@ export const query = `
         value
       }
     }
-    disableCouponUrl: url(routeId: "couponBulkDisable")
-    enableCouponsUrl: url(routeId: "couponBulkEnable")
-    deleteCouponsUrl: url(routeId: "couponBulkDelete")
   }
 `;

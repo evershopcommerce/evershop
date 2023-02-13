@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "sku": {
+      "type": "string"
+    },
+    "qty": {
+      "type": ["string", "integer"],
+      "pattern": "^[1-9][0-9]*$"
+    }
+  },
+  "required": ["sku", "qty"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "sku": "Sku is required",
+      "qty": "Qty is invalid"
+    }
+  }
+}

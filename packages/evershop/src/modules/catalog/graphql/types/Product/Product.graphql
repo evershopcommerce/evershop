@@ -1,5 +1,9 @@
+"""
+Look up for a Product
+"""
 type Product {
   productId: Int!
+  uuid: String!
   name: String!
   status: Int!
   sku: String!
@@ -16,6 +20,8 @@ type Product {
   categories: [Category]
   url: String
   editUrl: String
+  updateApi: String!
+  deleteApi: String!
 }
 
 extend type Query {

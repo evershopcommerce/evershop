@@ -1,19 +1,24 @@
 const {
-  commit, getConnection, insert, rollback, select, startTransaction, update
+  commit,
+  getConnection,
+  insert,
+  rollback,
+  select,
+  startTransaction,
+  update
 } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../lib/mysql/connection');
-const { Cart } = require('./cart/Cart');
 const { v4: uuidv4 } = require('uuid');
+const { pool } = require('../../../lib/mysql/connection');
 
 /* Default validation rules */
 let validationServices = [
   {
     id: 'checkCartError',
     /**
-     * 
-     * @param {Cart} cart 
-     * @param {*} validationErrors 
-     * @returns 
+     *
+     * @param {Cart} cart
+     * @param {*} validationErrors
+     * @returns
      */
     func: (cart, validationErrors) => {
       if (cart.hasError()) {
@@ -27,10 +32,10 @@ let validationServices = [
   {
     id: 'checkEmpty',
     /**
-     * 
-     * @param {Cart} cart 
-     * @param {*} validationErrors 
-     * @returns 
+     *
+     * @param {Cart} cart
+     * @param {*} validationErrors
+     * @returns
      */
     func: (cart, validationErrors) => {
       const items = cart.getItems();
@@ -45,10 +50,10 @@ let validationServices = [
   {
     id: 'shippingAddress',
     /**
-     * 
-     * @param {Cart} cart 
-     * @param {*} validationErrors 
-     * @returns 
+     *
+     * @param {Cart} cart
+     * @param {*} validationErrors
+     * @returns
      */
     func: (cart, validationErrors) => {
       if (!cart.getData('shipping_address_id')) {
@@ -62,10 +67,10 @@ let validationServices = [
   {
     id: 'shippingMethod',
     /**
-     * 
-     * @param {Cart} cart 
-     * @param {*} validationErrors 
-     * @returns 
+     *
+     * @param {Cart} cart
+     * @param {*} validationErrors
+     * @returns
      */
     func: (cart, validationErrors) => {
       if (!cart.getData('shipping_method')) {
@@ -93,35 +98,43 @@ exports.createOrder = async function createOrder(cart) {
     // eslint-disable-next-line no-restricted-syntax
     for (const rule of validationServices) {
       // eslint-disable-next-line no-await-in-loop
-      if (await rule.func(cart, validationErrors) === false) {
+      if ((await rule.func(cart, validationErrors)) === false) {
         throw new Error(validationErrors);
       }
     }
 
     // Save the shipping address
+    const cartShippingAddress = await select()
+      .from('cart_address')
+      .where('cart_address_id', '=', cart.getData('shipping_address_id'))
+      .load(connection);
+    delete cartShippingAddress.uuid;
     const shipAddr = await insert('order_address')
-      .given(await select()
-        .from('cart_address')
-        .where('cart_address_id', '=', cart.getData('shipping_address_id'))
-        .load(connection))
+      .given(cartShippingAddress)
       .execute(connection);
     // Save the billing address
+    const cartBillingAddress = await select()
+      .from('cart_address')
+      .where('cart_address_id', '=', cart.getData('shipping_address_id'))
+      .load(connection);
+    delete cartBillingAddress.uuid;
     const billAddr = await insert('order_address')
-      .given(await select()
-        .from('cart_address')
-        .where('cart_address_id', '=', cart.getData('billing_address_id') || cart.getData('shipping_address_id'))
-        .load(connection))
+      .given(cartBillingAddress)
       .execute(connection);
     // Save order to DB
     // TODO: Maybe we should allow plugin to prepare order data before created?
-    const previous = await select('order_id').from('order').orderBy('order_id', 'DESC').limit(0, 1)
+    const previous = await select('order_id')
+      .from('order')
+      .orderBy('order_id', 'DESC')
+      .limit(0, 1)
       .execute(pool);
 
     const order = await insert('order')
       .given({
         ...cart.export(),
         uuid: uuidv4().replace(/-/g, ''),
-        order_number: 10000 + parseInt(previous[0] ? previous[0].order_id : 0, 10) + 1,
+        order_number:
+          10000 + parseInt(previous[0] ? previous[0].order_id : 0, 10) + 1,
         // FIXME: Must be structured
         shipping_address_id: shipAddr.insertId,
         billing_address_id: billAddr.insertId,
@@ -132,16 +145,26 @@ exports.createOrder = async function createOrder(cart) {
 
     // Save order items
     const items = cart.getItems();
-    await Promise.all(items.map(async (item) => {
-      await insert('order_item').given({ ...item.export(), order_item_order_id: order.insertId }).execute(connection);
-    }));
+    await Promise.all(
+      items.map(async (item) => {
+        await insert('order_item')
+          .given({
+            ...item.export(),
+            uuid: uuidv4().replace(/-/g, ''),
+            order_item_order_id: order.insertId
+          })
+          .execute(connection);
+      })
+    );
 
     // Save order activities
-    await insert('order_activity').given({
-      order_activity_order_id: order.insertId,
-      comment: 'Order created',
-      customer_notified: 0 // TODO: check config of SendGrid
-    }).execute(connection);
+    await insert('order_activity')
+      .given({
+        order_activity_order_id: order.insertId,
+        comment: 'Order created',
+        customer_notified: 0 // TODO: check config of SendGrid
+      })
+      .execute(connection);
 
     // Disable the cart
     await update('cart')
@@ -162,12 +185,18 @@ exports.createOrder = async function createOrder(cart) {
   }
 };
 
-exports.addCreateOrderValidationRule = function addCreateOrderValidationRule(id, func) {
-  if (typeof obj !== 'function') { throw new Error('Validator must be a function'); }
+exports.addCreateOrderValidationRule = function addCreateOrderValidationRule(
+  id,
+  func
+) {
+  if (typeof obj !== 'function') {
+    throw new Error('Validator must be a function');
+  }
 
   validationServices.push({ id, func });
 };
 
-exports.removeCreateOrderValidationRule = function removeCreateOrderValidationRule(id) {
-  validationServices = validationServices.filter((r) => r.id !== id);
-};
+exports.removeCreateOrderValidationRule =
+  function removeCreateOrderValidationRule(id) {
+    validationServices = validationServices.filter((r) => r.id !== id);
+  };

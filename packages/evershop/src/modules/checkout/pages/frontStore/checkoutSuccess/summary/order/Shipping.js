@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export function Shipping({ method, cost }) {
-  if (!method) { return null; }
+  if (!method) {
+    return null;
+  }
 
   return (
     <div className="summary-row">

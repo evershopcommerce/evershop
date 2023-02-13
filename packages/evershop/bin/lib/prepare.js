@@ -1,4 +1,4 @@
-const { getAdminRoutes } = require("../../src/lib/router/Router");
+const { getAdminRoutes } = require('../../src/lib/router/Router');
 
 module.exports = exports = {};
 
@@ -10,7 +10,7 @@ exports.prepare = function prepare(app, middlewares, routes) {
       app.use(m.middleware);
     } else if (m.routeId === 'admin') {
       adminRoutes.forEach((route) => {
-        if ((route.id !== 'adminStaticAsset') || m.id === 'isAdmin') {
+        if (route.id !== 'adminStaticAsset' || m.id === 'isAdmin') {
           route.method.forEach((method) => {
             switch (method.toUpperCase()) {
               case 'GET':
@@ -65,4 +65,4 @@ exports.prepare = function prepare(app, middlewares, routes) {
       }
     }
   });
-}
+};

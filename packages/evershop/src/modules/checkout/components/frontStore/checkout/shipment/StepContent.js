@@ -3,18 +3,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import produce from 'immer';
 import { toast } from 'react-toastify';
-import { useCheckoutStepsDispatch } from '../../../../../../lib/context/checkoutSteps';
+import { useClient } from 'urql';
 import CustomerAddressForm from '../../../../../customer/components/Address/AddressForm/Index';
 import { Form } from '../../../../../../lib/components/form/Form';
-import { useClient } from 'urql';
 import { useCheckout } from '../../../../../../lib/context/checkout';
-import { Field } from '../../../../../../lib/components/form/Field';
 
 const QUERY = `
   query Query($cartId: String) {
     cart(id: $cartId) {
-      shippingMethod
-      shippingMethodName
       shippingAddress {
         id: cartAddressId
         fullName
@@ -36,8 +32,11 @@ const QUERY = `
   }
 `;
 
-export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmentInfo }) {
-  const { completeStep } = useCheckoutStepsDispatch();
+export function StepContent({
+  addShippingAddressApi,
+  shipmentInfo,
+  setShipmentInfo
+}) {
   const { cartId } = useCheckout();
   const client = useClient();
 
@@ -46,47 +45,69 @@ export function StepContent({ step, setShipmentInfoAPI, shipmentInfo, setShipmen
       <h4 className="mb-1 mt-3">Shipping Address</h4>
       <Form
         method="POST"
-        action={setShipmentInfoAPI}
+        action={addShippingAddressApi}
         id="checkoutShippingAddressForm"
-        isJSON={false}
+        isJSON
         btnText="Continue to payment"
         onSuccess={(response) => {
-          if (response.success === true) {
-            client.query(QUERY, { cartId })
+          if (!response.error) {
+            client
+              .query(QUERY, { cartId })
               .toPromise()
               .then((result) => {
                 const address = result.data.cart.shippingAddress;
-                setShipmentInfo(produce(shipmentInfo, (draff) => {
-                  draff.address = address;
-                  draff.method.code = result.data.cart.shippingMethod;
-                  draff.method.name = result.data.cart.shippingMethodName;
-                }));
-                completeStep('shipment', `${address.address1}, ${address.city}, ${address.country.name}`);
-              })
+                setShipmentInfo(
+                  produce(shipmentInfo, (draff) => {
+                    draff.address = address;
+                  })
+                );
+              });
           } else {
-            toast.error(response.message)
+            toast.error(response.error.message);
           }
         }}
       >
-        <Field
-          name="cartId"
-          type="hidden"
-          value={cartId}
-        />
         <CustomerAddressForm
           areaId="checkoutShippingAddressForm"
           address={shipmentInfo.address}
-          method={shipmentInfo.method}
         />
+        <input type="hidden" name="type" value="shipping" />
       </Form>
     </div>
   );
 }
 
 StepContent.propTypes = {
+  addShippingAddressApi: PropTypes.string.isRequired,
+  setShipmentInfo: PropTypes.func.isRequired,
+  shipmentInfo: PropTypes.shape({
+    address: PropTypes.shape({
+      address1: PropTypes.string,
+      address2: PropTypes.string,
+      city: PropTypes.string,
+      country: PropTypes.shape({
+        code: PropTypes.string,
+        name: PropTypes.string
+      }),
+      fullName: PropTypes.string,
+      id: PropTypes.string,
+      postcode: PropTypes.string,
+      province: PropTypes.shape({
+        code: PropTypes.string,
+        name: PropTypes.string
+      }),
+      telephone: PropTypes.string
+    })
+  }),
   step: PropTypes.shape({
     id: PropTypes.string,
     isCompleted: PropTypes.bool,
     isEditing: PropTypes.bool
   }).isRequired
+};
+
+StepContent.defaultProps = {
+  shipmentInfo: {
+    address: {}
+  }
 };

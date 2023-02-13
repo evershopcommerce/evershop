@@ -1,26 +1,30 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import Select from 'react-select';
 import Area from '../../../../../lib/components/Area';
 import { Field } from '../../../../../lib/components/form/Field';
-import { get } from '../../../../../lib/util/get';
-import Select from 'react-select';
 
 const customStyles = {
-  container: (provided, state) => ({
+  container: (provided) => ({
     ...provided,
-    zIndex: 1000,
+    zIndex: 1000
   })
-}
+};
 
 export default function CustomerCondition({ coupon = {}, groups }) {
   const condition = coupon?.userCondition || {};
   const selectedGroups = (condition.groups || [])
-    .filter((g) => groups.find((group) => parseInt(group.value) === parseInt(g)))
-    .map(g => {
-      const group = groups.find((group) => parseInt(group.value) === parseInt(g));
+    .filter((g) =>
+      groups.find((group) => parseInt(group.value, 10) === parseInt(g, 10))
+    )
+    .map((g) => {
+      const group = groups.find(
+        (e) => parseInt(e.value, 10) === parseInt(g, 10)
+      );
       return {
         value: group.value.toString(),
         label: group.name
-      }
+      };
     });
   return (
     <Area
@@ -28,20 +32,22 @@ export default function CustomerCondition({ coupon = {}, groups }) {
       coreComponents={[
         {
           component: {
-            default: () => <Select
-              name='user_condition[groups][]'
-              options={groups.map(group => ({
-                value: group.value.toString(),
-                label: group.name
-              }))}
-              hideSelectedOptions={true}
-              isMulti={true}
-              defaultValue={selectedGroups}
-              styles={customStyles}
-            />
+            // eslint-disable-next-line react/no-unstable-nested-components
+            default: () => (
+              <Select
+                name="user_condition[groups][]"
+                options={groups.map((group) => ({
+                  value: group.value.toString(),
+                  label: group.name
+                }))}
+                hideSelectedOptions
+                isMulti
+                defaultValue={selectedGroups}
+                styles={customStyles}
+              />
+            )
           },
-          props: {
-          },
+          props: {},
           sortOrder: 10,
           id: 'couponCustomerConditionGroup'
         },
@@ -75,11 +81,31 @@ export default function CustomerCondition({ coupon = {}, groups }) {
   );
 }
 
+CustomerCondition.propTypes = {
+  coupon: PropTypes.shape({
+    userCondition: PropTypes.shape({
+      groups: PropTypes.arrayOf(PropTypes.number),
+      emails: PropTypes.string,
+      purchased: PropTypes.number
+    })
+  }),
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.number,
+      name: PropTypes.string
+    })
+  )
+};
+
+CustomerCondition.defaultProps = {
+  coupon: {},
+  groups: []
+};
 
 export const layout = {
   areaId: 'couponEditRight',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

@@ -1,0 +1,4 @@
+{
+  "methods": ["GET"],
+  "path": "/pages/edit/:id"
+}

@@ -71,44 +71,74 @@ export default function Pagination({ total, limit, page }) {
     <div className="pagination flex px-2">
       <div className="flex justify-between w-full space-x-1 mt-1 mb-1">
         <div className="flex space-x-1">
-          <div className="self-center"><span>Show</span></div>
+          <div className="self-center">
+            <span>Show</span>
+          </div>
           <div className="limit">
             <div className="" style={{ width: '5rem' }}>
               <Input onKeyPress={(e) => onKeyPressLimit(e)} ref={limitInput} />
             </div>
           </div>
-          <div className="self-center"><span>per page</span></div>
+          <div className="self-center">
+            <span>per page</span>
+          </div>
         </div>
         <div className="flex space-x-1">
           {page > 1 && (
             <div className="prev self-center">
               <a href="#" onClick={(e) => onPrev(e)}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </a>
             </div>
           )}
-          <div className="first self-center"><a href="#" onClick={(e) => onFirst(e)}>1</a></div>
+          <div className="first self-center">
+            <a href="#" onClick={(e) => onFirst(e)}>
+              1
+            </a>
+          </div>
           <div className="current" style={{ width: '5rem' }}>
             <Input ref={pageInput} onKeyPress={(e) => onKeyPress(e)} />
           </div>
-          <div className="last self-center"><a href="#" onClick={(e) => onLast(e)}>{Math.ceil(total / limit)}</a></div>
-          {(page * limit) < total && (
+          <div className="last self-center">
+            <a href="#" onClick={(e) => onLast(e)}>
+              {Math.ceil(total / limit)}
+            </a>
+          </div>
+          {page * limit < total && (
             <div className="next self-center">
               <a href="#" onClick={(e) => onNext(e)}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </a>
             </div>
           )}
           <div className="self-center">
-            <span>
-              {total}
-              {' '}
-              records
-            </span>
+            <span>{total} records</span>
           </div>
         </div>
       </div>

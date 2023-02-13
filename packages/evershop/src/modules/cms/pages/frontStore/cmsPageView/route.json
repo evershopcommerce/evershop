@@ -1,0 +1,4 @@
+{
+  "methods": ["GET"],
+  "path": "/page/:url_key"
+}

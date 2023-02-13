@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Input } from '../../../../../lib/components/form/fields/Input';
 import { RequiredProducts } from '../../../components/RequireProducts';
@@ -21,10 +22,31 @@ export default function OrderCondition({ coupon = {} }) {
   );
 }
 
+OrderCondition.propTypes = {
+  coupon: PropTypes.shape({
+    condition: PropTypes.shape({
+      orderTotal: PropTypes.number,
+      orderQty: PropTypes.number,
+      requiredProducts: PropTypes.arrayOf(
+        PropTypes.shape({
+          key: PropTypes.string,
+          operator: PropTypes.string,
+          value: PropTypes.string,
+          qty: PropTypes.string
+        })
+      )
+    })
+  })
+};
+
+OrderCondition.defaultProps = {
+  coupon: {}
+};
+
 export const layout = {
   areaId: 'couponEditLeft',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {

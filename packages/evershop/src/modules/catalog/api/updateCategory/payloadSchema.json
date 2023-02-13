@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "image": {
+      "type": "string"
+    },
+    "meta_title": {
+      "type": "string"
+    },
+    "meta_description": {
+      "type": "string"
+    },
+    "meta_keywords": {
+      "type": "string"
+    },
+    "url_key": {
+      "type": "string"
+    },
+    "status": {
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
+    },
+    "include_in_nav": {
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
+    },
+    "parent_id": {
+      "type": ["string", "integer"],
+      "pattern": "^[0-9]*$"
+    },
+    "position": {
+      "type": ["string", "integer"],
+      "pattern": "^[0-9]*$"
+    }
+  },
+  "additionalProperties": true
+}

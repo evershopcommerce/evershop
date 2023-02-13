@@ -2,12 +2,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import React from 'react';
+import Select from 'react-select';
+import { useQuery } from 'urql';
 import Area from '../../../../../lib/components/Area';
 import { get } from '../../../../../lib/util/get';
 import { Field } from '../../../../../lib/components/form/Field';
 import { Card } from '../../../../cms/components/admin/Card';
-import Select from 'react-select';
-import { useQuery } from 'urql';
 import { Input } from '../../../../../lib/components/form/fields/Input';
 
 const GroupsQuery = `
@@ -17,10 +17,10 @@ const GroupsQuery = `
       label: groupName
     }
   }
-`
-function Groups({ groups, addGroupUrl }) {
+`;
+function Groups({ groups, createGroupApi }) {
   const [result, reexecuteQuery] = useQuery({
-    query: GroupsQuery,
+    query: GroupsQuery
   });
   const newGroup = React.useRef(null);
   const [createGroupError, setCreateGroupError] = React.useState(null);
@@ -28,110 +28,178 @@ function Groups({ groups, addGroupUrl }) {
 
   const createGroup = () => {
     if (!newGroup.current.value) {
-      setCreateGroupError("Group name is required");
-      return
+      setCreateGroupError('Group name is required');
+      return;
     }
-    fetch(addGroupUrl, {
-      method: "POST",
+    fetch(createGroupApi, {
+      method: 'POST',
       headers: {
-        'Content-Type': "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ group_name: newGroup.current.value })
-    }).then(response => response.json())
-      .then((data) => {
-        if (data.success === true) {
+    })
+      .then((response) => response.json())
+      .then((jsonData) => {
+        if (!jsonData.error) {
           newGroup.current.value = '';
           reexecuteQuery({ requestPolicy: 'network-only' });
         } else {
-          setCreateGroupError(data.message)
+          setCreateGroupError(jsonData.error.message);
         }
-      })
-  }
+      });
+  };
 
   if (fetching) return <p>Loading...</p>;
-  if (error) return <p>Oh no... {error.message}</p>;
+  if (error) {
+    return (
+      <p>
+        Oh no...
+        {error.message}
+      </p>
+    );
+  }
 
-  return <div>
-    <div className='mb-1'>Select groups the attribute belongs to</div>
-
-    <div className='grid gap-2 grid-cols-2'>
-      <div>
-        <Select
-          name='groups[]'
-          options={data.attributeGroups}
-          hideSelectedOptions={true}
-          isMulti={true}
-          defaultValue={groups}
-        />
-      </div>
-      <div className='grid gap-2 grid-cols-1'>
+  return (
+    <div>
+      <div className="mb-1">Select groups the attribute belongs to</div>
+      <div className="grid gap-2 grid-cols-2">
         <div>
-          <Input
-            type="text"
-            placeholder={"Create a new group"}
-            ref={newGroup}
-            error={createGroupError}
-            suffix={<a className='text-interactive' href="#" onClick={(e) => { e.preventDefault(); createGroup() }}>
-              <svg width={'1.5rem'} height={"1.5rem"} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </a>}
+          <Select
+            name="groups[]"
+            options={data.attributeGroups}
+            hideSelectedOptions
+            isMulti
+            defaultValue={groups}
           />
+        </div>
+        <div className="grid gap-2 grid-cols-1">
+          <div>
+            <Input
+              type="text"
+              placeholder="Create a new group"
+              ref={newGroup}
+              error={createGroupError}
+              suffix={
+                <a
+                  className="text-interactive"
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    createGroup();
+                  }}
+                >
+                  <svg
+                    width="1.5rem"
+                    height="1.5rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </a>
+              }
+            />
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  );
 }
+
+Groups.propTypes = {
+  createGroupApi: PropTypes.string.isRequired,
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.number,
+      label: PropTypes.string
+    })
+  ).isRequired
+};
 
 function Options({ originOptions = [] }) {
   const [options, setOptions] = React.useState(originOptions);
 
   const addOption = (e) => {
     e.preventDefault();
-    setOptions(options.concat({
-      attributeOptionId: Date.now(),
-      optionText: ''
-    }));
+    setOptions(
+      options.concat({
+        optionId: Date.now(),
+        uuid: Date.now(),
+        optionText: ''
+      })
+    );
   };
 
-  const removeOption = (key, e) => {
+  const removeOption = (uuid, e) => {
     e.preventDefault();
-    const newOptions = options.filter((_, index) => index !== key);
+    const newOptions = options.filter((option) => option.uuid !== uuid);
     setOptions(newOptions);
   };
 
   return (
     <div className="attribute-edit-options">
       {options.map((option, index) => {
-        const { attributeOptionId, optionText } = option;
+        const { uuid, optionId, optionText } = option;
         return (
-          <div key={attributeOptionId} className="flex mb-05 space-x-2">
+          <div key={uuid} className="flex mb-05 space-x-2">
             <div>
               <Field
+                key={uuid}
                 type="text"
-                name={`options[${attributeOptionId}][option_text]`}
+                name={`options[${index}][option_text]`}
                 formId="attribute-edit-form"
                 value={optionText}
                 validationRules={['notEmpty']}
               />
+              <input
+                type="hidden"
+                name={`options[${index}][option_id]`}
+                value={optionId}
+              />
             </div>
-            <div className="self-center"><a href="#" onClick={(e) => removeOption(index, e)} className="text-critical hover:underline">Remove option</a></div>
+            <div className="self-center">
+              <a
+                href="#"
+                onClick={(e) => removeOption(uuid, e)}
+                className="text-critical hover:underline"
+              >
+                Remove option
+              </a>
+            </div>
           </div>
         );
       })}
-      <div className="mt-1"><a href="#" onClick={(e) => addOption(e)} className="text-interactive hover:underline">Add option</a></div>
+      <div className="mt-1">
+        <a
+          href="#"
+          onClick={(e) => addOption(e)}
+          className="text-interactive hover:underline"
+        >
+          Add option
+        </a>
+      </div>
     </div>
   );
 }
 
 Options.propTypes = {
-  originOptions: PropTypes.arrayOf(PropTypes.shape({
-    attributeOptionId: PropTypes.number,
-    optionText: PropTypes.string
-  })).isRequired
+  originOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      optionId: PropTypes.number,
+      optionText: PropTypes.string
+    })
+  ).isRequired
 };
 
-export default function General({ attribute, addGroupUrl }) {
+export default function General({ attribute, createGroupApi }) {
   const [type, setType] = React.useState(attribute?.type);
   const fields = [
     {
@@ -193,9 +261,7 @@ export default function General({ attribute, addGroupUrl }) {
   });
 
   return (
-    <Card
-      title="General"
-    >
+    <Card title="General">
       <Card.Session>
         <Area id="attributeEditGeneral" coreComponents={fields} />
       </Card.Session>
@@ -205,16 +271,47 @@ export default function General({ attribute, addGroupUrl }) {
         </Card.Session>
       )}
       <Card.Session title="Attribute Group">
-        <Groups groups={get(attribute, 'groups', [])} addGroupUrl={addGroupUrl} />
+        <Groups
+          groups={get(attribute, 'groups', [])}
+          createGroupApi={createGroupApi}
+        />
       </Card.Session>
     </Card>
   );
 }
 
+General.propTypes = {
+  attribute: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    attribute_id: PropTypes.number,
+    attribute_name: PropTypes.string,
+    attribute_code: PropTypes.string,
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        optionId: PropTypes.number,
+        optionText: PropTypes.string
+      })
+    ),
+    groups: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.number,
+        label: PropTypes.string
+      })
+    )
+  }),
+  createGroupApi: PropTypes.string.isRequired
+};
+
+General.defaultProps = {
+  attribute: {
+    type: 'text'
+  }
+};
+
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 10
-}
+};
 
 export const query = `
   query Query {
@@ -224,7 +321,8 @@ export const query = `
       attributeCode
       type
       options {
-        attributeOptionId
+        optionId: attributeOptionId
+        uuid
         optionText
       }
       groups {
@@ -232,6 +330,6 @@ export const query = `
         label: groupName
       }
     }
-    addGroupUrl: url(routeId: "attributeGroupSavePost")
+    createGroupApi: url(routeId: "createAttributeGroup")
   }
 `;

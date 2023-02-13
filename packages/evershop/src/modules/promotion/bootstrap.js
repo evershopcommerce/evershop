@@ -1,8 +1,8 @@
-const { Cart } = require("../checkout/services/cart/Cart");
-const { Item } = require("../checkout/services/cart/Item");
-const { toPrice } = require("../checkout/services/toPrice");
-const { Validator } = require("./services/CouponValidator");
-const { DiscountCalculator } = require("./services/DiscountCalculator");
+const { Cart } = require('../checkout/services/cart/Cart');
+const { Item } = require('../checkout/services/cart/Item');
+const { toPrice } = require('../checkout/services/toPrice');
+const { Validator } = require('./services/CouponValidator');
+const { DiscountCalculator } = require('./services/DiscountCalculator');
 
 module.exports = () => {
   /** Adding fields to the Cart object */
@@ -10,11 +10,15 @@ module.exports = () => {
     {
       key: 'coupon',
       resolvers: [
-        async function () {
-          const coupon = this.dataSource['coupon'] ?? this.dataSource['coupon'] ?? null;
+        async function resolver() {
+          const coupon =
+            this.dataSource.coupon ?? this.dataSource.coupon ?? null;
           if (coupon) {
             const validator = new Validator();
-            const check = await validator.validate(this.dataSource['coupon'], this);
+            const check = await validator.validate(
+              this.dataSource.coupon,
+              this
+            );
             if (check === true) {
               return coupon;
             } else {
@@ -30,21 +34,26 @@ module.exports = () => {
     {
       key: 'discount_amount',
       resolvers: [
-        async function () {
+        async function resolver() {
           const coupon = this.getData('coupon');
           if (!coupon) {
             return 0;
           }
           // Start calculate discount amount
-          let calculator = new DiscountCalculator(this);
+          const calculator = new DiscountCalculator(this);
           await calculator.calculate(coupon);
-          let discountAmounts = calculator.getDiscounts();
+          const discountAmounts = calculator.getDiscounts();
           let discountAmount = 0;
+          // eslint-disable-next-line guard-for-in
+          // eslint-disable-next-line no-restricted-syntax
           for (const id in discountAmounts) {
-            // Set discount amount to cart items
-            const item = this.getItem(id);
-            await item.setData('discount_amount', discountAmounts[id]);
-            discountAmount += discountAmounts[id];
+            if (id in discountAmounts) {
+              // Set discount amount to cart items
+              const item = this.getItem(id);
+              // eslint-disable-next-line no-await-in-loop
+              await item.setData('discount_amount', discountAmounts[id]);
+              discountAmount += discountAmounts[id];
+            }
           }
 
           return discountAmount;
@@ -55,13 +64,13 @@ module.exports = () => {
     {
       key: 'grand_total',
       resolvers: [
-        async function (previousValue) {
+        async function resolver(previousValue) {
           return previousValue - this.getData('discount_amount');
         }
       ],
       dependencies: ['discount_amount']
     }
-  ].forEach(field => {
+  ].forEach((field) => {
     Cart.addField(field.key, field.resolvers, field.dependencies);
   });
 
@@ -70,7 +79,7 @@ module.exports = () => {
     {
       key: 'discount_amount',
       resolvers: [
-        async function () {
+        async function resolver() {
           if (this.dataSource.discount_amount) {
             return toPrice(this.dataSource.discount_amount);
           } else {
@@ -82,13 +91,13 @@ module.exports = () => {
     {
       key: 'total',
       resolvers: [
-        async function (previousValue) {
+        async function resolver(previousValue) {
           return previousValue - this.getData('discount_amount');
         }
       ],
       dependencies: ['discount_amount']
     }
-  ].forEach(field => {
+  ].forEach((field) => {
     Item.addField(field.key, field.resolvers, field.dependencies);
   });
-}
+};

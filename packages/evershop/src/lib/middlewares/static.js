@@ -21,11 +21,19 @@ module.exports = exports = (request, response, next) => {
   }
 
   if (existsSync(join(CONSTANTS.ROOTPATH, '.evershop/build', path))) {
-    staticMiddleware(join(CONSTANTS.ROOTPATH, '.evershop/build'))(request, response, next);
+    staticMiddleware(join(CONSTANTS.ROOTPATH, '.evershop/build'))(
+      request,
+      response,
+      next
+    );
   } else if (existsSync(join(CONSTANTS.MEDIAPATH, path))) {
     staticMiddleware(CONSTANTS.MEDIAPATH)(request, response, next);
   } else if (existsSync(join(CONSTANTS.ROOTPATH, 'public', path))) {
-    staticMiddleware(join(CONSTANTS.ROOTPATH, 'public'))(request, response, next);
+    staticMiddleware(join(CONSTANTS.ROOTPATH, 'public'))(
+      request,
+      response,
+      next
+    );
   } else {
     response.status(404).send('Not Found');
   }

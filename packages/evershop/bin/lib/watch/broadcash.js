@@ -3,7 +3,10 @@ const { getRoutes } = require('../../../src/lib/router/Router');
 module.exports.broadcash = function broadcash() {
   const routes = getRoutes();
   routes.forEach((route) => {
-    if (!route.isApi && !['staticAsset', 'adminStaticAsset'].includes(route.id)) {
+    if (
+      !route.isApi &&
+      !['staticAsset', 'adminStaticAsset'].includes(route.id)
+    ) {
       const hotMiddleware = route.hotMiddleware;
       if (hotMiddleware) {
         hotMiddleware.publish({
@@ -11,7 +14,7 @@ module.exports.broadcash = function broadcash() {
         });
       }
     } else {
-      return
+      return;
     }
   });
 };
