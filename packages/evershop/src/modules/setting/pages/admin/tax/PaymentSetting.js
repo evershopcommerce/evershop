@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '../../../../cms/components/admin/Card';
+import { Card } from '@components/admin/cms/Card';
 
 export default function PaymentSetting() {
   return (

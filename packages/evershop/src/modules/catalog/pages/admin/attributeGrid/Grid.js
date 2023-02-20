@@ -3,18 +3,18 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
-import Area from '../../../../../lib/components/Area';
-import Pagination from '../../../../../lib/components/grid/Pagination';
-import { useAlertContext } from '../../../../../lib/components/modal/Alert';
-import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
-import { Card } from '../../../../cms/components/admin/Card';
-import AttributeNameRow from './rows/AttributeName';
-import GroupRow from './rows/GroupRow';
-import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
-import YesNoRow from '../../../../../lib/components/grid/rows/YesNoRow';
-import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
-import GroupHeader from './headers/GroupHeader';
-import DropdownColumnHeader from '../../../../../lib/components/grid/headers/Dropdown';
+import Area from '@components/common/Area';
+import Pagination from '@components/common/grid/Pagination';
+import { useAlertContext } from '@components/common/modal/Alert';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { Card } from '@components/admin/cms/Card';
+import AttributeNameRow from '@components/admin/catalog/attributeGrid/rows/AttributeName';
+import GroupRow from '@components/admin/catalog/attributeGrid/rows/GroupRow';
+import BasicRow from '@components/common/grid/rows/BasicRow';
+import YesNoRow from '@components/common/grid/rows/YesNoRow';
+import BasicColumnHeader from '@components/common/grid/headers/Basic';
+import GroupHeader from '@components/admin/catalog/attributeGrid/headers/GroupHeader';
+import DropdownColumnHeader from '@components/common/grid/headers/Dropdown';
 
 function Actions({ attributes = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import Area from '../../../../../lib/components/Area';
+import Area from '@components/common/Area';
 
 export default function Layout({ account: { logoutApi } }) {
   const logout = async (e) => {

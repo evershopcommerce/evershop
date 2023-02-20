@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Field } from '../../../../../lib/components/form/Field';
-import { Card } from '../../../../cms/components/admin/Card';
+import { Field } from '@components/common/form/Field';
+import { Card } from '@components/admin/cms/Card';
 
 const getGroup = (groups = [], groupId = null) =>
   groups.find(

@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-restricted-globals */
 import React from 'react';
-import { Select } from '../../../../../lib/components/form/fields/Select';
-import { useAppDispatch } from '../../../../../lib/context/app';
+import { Select } from '@components/common/form/fields/Select';
+import { useAppDispatch } from '@components/common/context/app';
 
 // TODO: make this list configurable
 const sortingOptions = [

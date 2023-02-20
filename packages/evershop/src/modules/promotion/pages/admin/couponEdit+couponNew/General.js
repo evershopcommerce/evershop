@@ -1,48 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '../../../../../lib/components/Area';
-import { Field } from '../../../../../lib/components/form/Field';
-import { Toggle } from '../../../../../lib/components/form/fields/Toggle';
-import { get } from '../../../../../lib/util/get';
-
-function Setting({ discountAmount, startDate = '', endDate = '' }) {
-  return (
-    <div className="grid grid-cols-3 gap-2 form-field-container">
-      <div>
-        <Field
-          type="text"
-          name="discount_amount"
-          value={discountAmount}
-          validationRules={['notEmpty']}
-          label="Discount amount"
-        />
-      </div>
-      <div>
-        <Field
-          type="date"
-          name="start_date"
-          label="Start date"
-          value={startDate}
-        />
-      </div>
-      <div>
-        <Field type="date" name="end_date" label="End date" value={endDate} />
-      </div>
-    </div>
-  );
-}
-
-Setting.propTypes = {
-  discountAmount: PropTypes.number,
-  endDate: PropTypes.string,
-  startDate: PropTypes.string
-};
-
-Setting.defaultProps = {
-  discountAmount: 0,
-  endDate: '',
-  startDate: ''
-};
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Toggle } from '@components/common/form/fields/Toggle';
+import { get } from '@evershop/evershop/src/lib/util/get';
+import { Setting } from '@components/admin/promotion/couponEdit/Setting';
 
 export default function General({ coupon = {} }) {
   return (

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import { get } from '../../../../../lib/util/get';
-import Button from '../../../../../lib/components/form/Button';
+import { get } from '@evershop/evershop/src/lib/util/get';
+import Button from '@components/common/form/Button';
 import './Image.scss';
-import { Card } from '../../../../cms/components/admin/Card';
+import { Card } from '@components/admin/cms/Card';
 
 export default function Image({ category, imageUploadUrl }) {
   const [image, setImage] = useState(category?.image);

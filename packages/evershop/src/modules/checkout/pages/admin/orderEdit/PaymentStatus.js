@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Badge from '../../../../../lib/components/Badge';
+import Badge from '@components/common/Badge';
 
 export default function PaymentStatus({ order: { paymentStatus } }) {
   if (paymentStatus) {

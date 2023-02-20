@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '../../../../../lib/components/Area';
-import { get } from '../../../../../lib/util/get';
-import { Field } from '../../../../../lib/components/form/Field';
-import { Card } from '../../../../cms/components/admin/Card';
+import Area from '@components/common/Area';
+import { get } from '@evershop/evershop/src/lib/util/get';
+import { Field } from '@components/common/form/Field';
+import { Card } from '@components/admin/cms/Card';
 
 export default function Seo({ category }) {
   const fields = [

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Dot from '../../../../../../lib/components/Dot';
+import Dot from '@components/common/Dot';
 
 export function NoResult({ keyword, resourseLinks = [] }) {
   return (

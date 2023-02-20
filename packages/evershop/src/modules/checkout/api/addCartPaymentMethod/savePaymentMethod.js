@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+const { logger } = require('@evershop/evershop/src/lib/log/Logger');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
@@ -39,6 +40,7 @@ module.exports = async (request, response, delegate, next) => {
       next();
     }
   } catch (e) {
+    logger.log('error', e.message, e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

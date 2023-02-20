@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ProductList from '../../../components/product/list/List';
 
 export default function FeaturedProducts({ featuredProducts }) {
   return (
@@ -9,7 +8,6 @@ export default function FeaturedProducts({ featuredProducts }) {
         <h3 className="mt-3 mb-3 text-center uppercase h5 tracking-widest">
           Featured collection
         </h3>
-        <ProductList products={featuredProducts} countPerRow={4} />
       </div>
     </div>
   );

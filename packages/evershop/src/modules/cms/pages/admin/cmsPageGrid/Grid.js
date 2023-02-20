@@ -2,15 +2,15 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
-import Pagination from '../../../../../lib/components/grid/Pagination';
-import { useAlertContext } from '../../../../../lib/components/modal/Alert';
-import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
-import { Card } from '../../../components/admin/Card';
-import Area from '../../../../../lib/components/Area';
-import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
-import StatusColumnHeader from '../../../../../lib/components/grid/headers/Status';
-import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
-import PageName from './rows/PageName';
+import Pagination from '@components/common/grid/Pagination';
+import { useAlertContext } from '@components/common/modal/Alert';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { Card } from '@components/admin/cms/Card';
+import Area from '@components/common/Area';
+import BasicColumnHeader from '@components/common/grid/headers/Basic';
+import StatusColumnHeader from '@components/common/grid/headers/Status';
+import StatusRow from '@components/common/grid/rows/StatusRow';
+import PageName from '@components/admin/cms/cmsPageGrid/rows/PageName';
 
 function Actions({ pages = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();

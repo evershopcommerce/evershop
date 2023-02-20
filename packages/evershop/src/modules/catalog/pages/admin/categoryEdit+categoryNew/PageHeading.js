@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import PageHeading from '../../../../cms/components/admin/PageHeading';
+import PageHeading from '@components/admin/cms/PageHeading';
 
 export default function CategoryEditPageHeading({ backUrl, category }) {
   return (

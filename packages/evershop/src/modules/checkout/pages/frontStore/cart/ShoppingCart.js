@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '../../../../../lib/components/Area';
-import { get } from '../../../../../lib/util/get';
-import { useAppState } from '../../../../../lib/context/app';
-import Empty from './Empty';
-import Items from './items/Items';
+import Area from '@components/common/Area';
+import { get } from '@evershop/evershop/src/lib/util/get';
+import { useAppState } from '@components/common/context/app';
+import Items from '@components/frontStore/checkout/cart/items/Items';
+import { Empty } from '@components/frontStore/checkout/cart/Empty';
 
 function Title({ title }) {
   const items = get(useAppState(), 'cart.items', []);

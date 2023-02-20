@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Button from '../../../../../lib/components/form/Button';
-import { AddressSummary } from '../../../../customer/components/Address/AddressSummary';
+import Button from '@components/common/form/Button';
+import { AddressSummary } from '@components/frontStore/customer/address/AddressSummary';
 
 export default function CustomerInfo({
   order: {

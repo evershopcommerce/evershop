@@ -1,5 +1,5 @@
 const chokidar = require('chokidar');
-const { resolve, sep, normalize } = require('path');
+const { resolve } = require('path');
 const { CONSTANTS } = require('../../../src/lib/helpers');
 const { existsSync } = require('fs');
 const { getConfig } = require('../../../src/lib/util/getConfig');

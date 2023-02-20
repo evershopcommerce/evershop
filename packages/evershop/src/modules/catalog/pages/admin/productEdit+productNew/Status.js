@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Select from 'react-select';
 import { useQuery } from 'urql';
-import { Field } from '../../../../../lib/components/form/Field';
-import { Card } from '../../../../cms/components/admin/Card';
+import { Field } from '@components/common/form/Field';
+import { Card } from '@components/admin/cms/Card';
 
 const categoryQuery = `
   query Query {

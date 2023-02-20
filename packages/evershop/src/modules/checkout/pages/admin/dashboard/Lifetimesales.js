@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { toast } from 'react-toastify';
-import Dot from '../../../../../lib/components/Dot';
-import { Card } from '../../../../cms/components/admin/Card';
+import Dot from '@components/common/Dot';
+import { Card } from '@components/admin/cms/Card';
 import './Lifetimesales.scss';
 
 const COLORS = ['#aee9d1', '#fed3d1', '#a4e8f2'];

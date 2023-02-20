@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Meta from '../../../../../lib/components/Meta';
-import Title from '../../../../../lib/components/Title';
+import Meta from '@components/common/Meta';
+import Title from '@components/common/Title';
 
 export default function SeoMeta({ pageInfo: { title, description } }) {
   return (

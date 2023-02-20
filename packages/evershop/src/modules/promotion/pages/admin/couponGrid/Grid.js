@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
-import Area from '../../../../../lib/components/Area';
-import Pagination from '../../../../../lib/components/grid/Pagination';
-import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
-import { useAlertContext } from '../../../../../lib/components/modal/Alert';
-import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
-import FromToColumnHeader from '../../../../../lib/components/grid/headers/FromTo';
-import StatusColumnHeader from '../../../../../lib/components/grid/headers/Status';
-import CouponName from './rows/CouponName';
-import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
-import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
-import { Card } from '../../../../cms/components/admin/Card';
+import Area from '@components/common/Area';
+import Pagination from '@components/common/grid/Pagination';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { useAlertContext } from '@components/common/modal/Alert';
+import BasicColumnHeader from '@components/common/grid/headers/Basic';
+import FromToColumnHeader from '@components/common/grid/headers/FromTo';
+import StatusColumnHeader from '@components/common/grid/headers/Status';
+import CouponName from '@components/admin/promotion/couponGrid/rows/CouponName';
+import BasicRow from '@components/common/grid/rows/BasicRow';
+import StatusRow from '@components/common/grid/rows/StatusRow';
+import { Card } from '@components/admin/cms/Card';
 
 function Actions({ coupons = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Field } from '../../../../../lib/components/form/Field';
-import { Toggle } from '../../../../../lib/components/form/fields/Toggle';
-import { Card } from '../../../../cms/components/admin/Card';
+import { Field } from '@components/common/form/Field';
+import { Toggle } from '@components/common/form/fields/Toggle';
+import { Card } from '@components/admin/cms/Card';
 
 export default function StripePayment({
   setting: {

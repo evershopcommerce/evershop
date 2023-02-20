@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import React from 'react';
-import Area from '../../../../../lib/components/Area';
-import { Methods } from '../../../components/frontStore/checkout/payment/paymentMethods/Methods';
+import Area from '@components/common/Area';
+import { Methods } from '@components/frontStore/checkout/checkout/payment/paymentMethods/Methods';
 
 export default function PaymentMethods({ getMethodsAPI }) {
   const [methods, setMethods] = React.useState([]);

@@ -1,5 +1,5 @@
 import React from 'react';
-import PageHeading from '../../../components/admin/PageHeading';
+import PageHeading from '@components/admin/cms/PageHeading';
 
 export default function PageEditPageHeading() {
   return <PageHeading heading="Dashboard" />;
