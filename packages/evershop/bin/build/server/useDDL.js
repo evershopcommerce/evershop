@@ -139,7 +139,11 @@ webpackVendorPromise.then(async () => {
           buildPath,
           'components.js'
         ),
-        path.resolve(CONSTANTS.LIBPATH, 'components', 'render.js')
+        path.resolve(
+          CONSTANTS.LIBPATH,
+          '../components/common/react/server',
+          'render.js'
+        )
       ];
       const compiler = webpack({
         mode: 'production', // "production" | "development" | "none"

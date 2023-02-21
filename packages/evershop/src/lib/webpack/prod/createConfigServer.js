@@ -16,7 +16,7 @@ module.exports.createConfigServer = function createConfigServer(routes) {
       path.resolve(CONSTANTS.BUILDPATH, subPath, 'server', 'entry.js'),
       path.resolve(
         CONSTANTS.LIBPATH,
-        'components',
+        '../components/common/',
         'react',
         'server',
         'render.js'
