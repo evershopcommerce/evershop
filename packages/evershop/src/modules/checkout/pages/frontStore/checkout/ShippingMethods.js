@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import axios from 'axios';
 import { useClient } from 'urql';
-import { useFormContext } from '../../../../../lib/components/form/Form';
-import { Field } from '../../../../../lib/components/form/Field';
-import { useCheckoutStepsDispatch } from '../../../../../lib/context/checkoutSteps';
-import { useCheckout } from '../../../../../lib/context/checkout';
+import { useFormContext } from '@components/common/form/Form';
+import { Field } from '@components/common/form/Field';
+import { useCheckoutStepsDispatch } from '@components/common/context/checkoutSteps';
+import { useCheckout } from '@components/common/context/checkout';
 
 const QUERY = `
   query Query($cartId: String) {

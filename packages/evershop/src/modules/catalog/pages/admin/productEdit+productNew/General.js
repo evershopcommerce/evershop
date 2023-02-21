@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '../../../../../lib/components/Area';
-import { Field } from '../../../../../lib/components/form/Field';
-import { TextArea } from '../../../../../lib/components/form/fields/Textarea';
-import { Card } from '../../../../cms/components/admin/Card';
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { TextArea } from '@components/common/form/fields/Textarea';
+import { Card } from '@components/admin/cms/Card';
 
 function SKUPriceWeight({ sku, price, weight, setting }) {
   return (

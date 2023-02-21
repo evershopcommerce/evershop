@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { useAppState } from '../../../../../lib/context/app';
-import { Card } from '../../../../cms/components/admin/Card';
+import { useAppState } from '@components/common/context/app';
+import { Card } from '@components/admin/cms/Card';
 import './Bestsellers.scss';
 
 export default function BestSellers({ api, listUrl }) {

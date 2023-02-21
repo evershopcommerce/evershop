@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import Area from '../../../../../lib/components/Area';
-import { Form } from '../../../../../lib/components/form/Form';
-import { get } from '../../../../../lib/util/get';
+import Area from '@components/common/Area';
+import { Form } from '@components/common/form/Form';
+import { get } from '@evershop/evershop/src/lib/util/get';
 
 export default function ProductEditForm({ action }) {
   const id = 'productForm';

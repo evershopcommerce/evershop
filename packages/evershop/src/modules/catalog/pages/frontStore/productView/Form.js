@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import produce from 'immer';
-import Area from '../../../../../lib/components/Area';
-import { Form } from '../../../../../lib/components/form/Form';
-import { Field } from '../../../../../lib/components/form/Field';
-import Button from '../../../../../lib/components/form/Button';
+import Area from '@components/common/Area';
+import { Form } from '../../../../../components/common/form/Form';
+import { Field } from '../../../../../components/common/form/Field';
+import Button from '../../../../../components/common/form/Button';
 import './Form.scss';
-import { useAppDispatch, useAppState } from '../../../../../lib/context/app';
+import {
+  useAppDispatch,
+  useAppState
+} from '../../../../../components/common/context/app';
 
 function ToastMessage({ thumbnail, name, qty, count, cartUrl, toastId }) {
   return (

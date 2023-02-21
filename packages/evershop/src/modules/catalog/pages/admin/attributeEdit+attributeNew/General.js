@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Select from 'react-select';
 import { useQuery } from 'urql';
-import Area from '../../../../../lib/components/Area';
-import { get } from '../../../../../lib/util/get';
-import { Field } from '../../../../../lib/components/form/Field';
-import { Card } from '../../../../cms/components/admin/Card';
-import { Input } from '../../../../../lib/components/form/fields/Input';
+import Area from '@components/common/Area';
+import { get } from '@evershop/evershop/src/lib/util/get';
+import { Field } from '@components/common/form/Field';
+import { Card } from '@components/admin/cms/Card';
+import { Input } from '@components/common/form/fields/Input';
 
 const GroupsQuery = `
   query Query {

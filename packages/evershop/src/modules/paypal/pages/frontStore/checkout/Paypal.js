@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { useCheckout } from '../../../../../lib/context/checkout';
-import PaypalLogo from '../../../components/PaypalLogo';
+import { useCheckout } from '@components/common/context/checkout';
+import PaypalLogo from '@components/frontStore/paypal/PaypalLogo';
 
 export function Paypal({
   getAccessTokenAPI,

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { Field } from '../../../../../lib/components/form/Field';
-import { Form } from '../../../../../lib/components/form/Form';
-import Button from '../../../../../lib/components/form/Button';
-import { useAppDispatch } from '../../../../../lib/context/app';
+import { Field } from '@components/common/form/Field';
+import { Form } from '@components/common/form/Form';
+import Button from '@components/common/form/Button';
+import { useAppDispatch } from '@components/common/context/app';
 
 export default function CouponForm({ cart: { applyCouponApi } }) {
   const AppContextDispatch = useAppDispatch();

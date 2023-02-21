@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { XAxis, YAxis, Tooltip, AreaChart, Area } from 'recharts';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { Card } from '../../../../cms/components/admin/Card';
+import { Card } from '@components/admin/cms/Card';
 import './Statistic.scss';
 
 export default function SaleStatistic({ api }) {

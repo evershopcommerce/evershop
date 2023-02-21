@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Field } from '../../../../../lib/components/form/Field';
-import { Form } from '../../../../../lib/components/form/Form';
+import { Field } from '@components/common/form/Field';
+import { Form } from '@components/common/form/Form';
 import './LoginForm.scss';
 
 export default function LoginForm({ authUrl, dashboardUrl }) {

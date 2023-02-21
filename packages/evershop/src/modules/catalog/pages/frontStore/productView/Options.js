@@ -1,8 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { MultiSelect } from '../../../../../lib/components/form/fields/MultiSelect';
-import { Select } from '../../../../../lib/components/form/fields/Select';
+import { MultiSelect } from '@components/common/form/fields/MultiSelect';
+import { Select } from '@components/common/form/fields/Select';
 
 export default function Options({ options = [] }) {
   if (options.length === 0) {

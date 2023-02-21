@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import Button from '../../../../../lib/components/form/Button';
-import { Card } from '../../../../cms/components/admin/Card';
+import Button from '@components/common/form/Button';
+import { Card } from '@components/admin/cms/Card';
 
 export default function CaptureButton({
   captureAPI,

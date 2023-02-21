@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '../../../components/frontStore/Button';
 import './MainBanner.scss';
 
 export default function MainBanner() {
@@ -16,7 +15,6 @@ export default function MainBanner() {
             Use coupon code
             <span className="font-bold">DISCOUNT20</span>
           </p>
-          <Button url="/category/women" title="SHOP NOW" variant="primary" />
         </div>
       </div>
     </div>

@@ -3,8 +3,8 @@ import React from 'react';
 import {
   useCheckoutSteps,
   useCheckoutStepsDispatch
-} from '../../../../../lib/context/checkoutSteps';
-import { StepContent } from '../../../components/frontStore/checkout/payment/paymentStep/StepContent';
+} from '@components/common/context/checkoutSteps';
+import { StepContent } from '@components/frontStore/checkout/checkout/payment/paymentStep/StepContent';
 
 export default function PaymentStep({ cart }) {
   const steps = useCheckoutSteps();

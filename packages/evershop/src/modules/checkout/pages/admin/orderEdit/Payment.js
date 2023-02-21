@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '../../../../../lib/components/Area';
-import Circle from '../../../../../lib/components/Circle';
-import { Card } from '../../../../cms/components/admin/Card';
+import Area from '@components/common/Area';
+import Circle from '@components/common/Circle';
+import { Card } from '@components/admin/cms/Card';
 import './Payment.scss';
-import { Discount } from './payment/Discount';
-import { Shipping } from './payment/Shipping';
-import { SubTotal } from './payment/SubTotal';
-import { Tax } from './payment/Tax';
-import { Total } from './payment/Total';
-import { Transactions } from './payment/Transactions';
+import { Discount } from '@components/admin/checkout/orderEdit/payment/Discount';
+import { Shipping } from '@components/admin/checkout/orderEdit/payment/Shipping';
+import { SubTotal } from '@components/admin/checkout/orderEdit/payment/SubTotal';
+import { Tax } from '@components/admin/checkout/orderEdit/payment/Tax';
+import { Total } from '@components/admin/checkout/orderEdit/payment/Total';
+import { Transactions } from '@components/admin/checkout/orderEdit/payment/Transactions';
 
 export default function OrderSummary({
   order: {

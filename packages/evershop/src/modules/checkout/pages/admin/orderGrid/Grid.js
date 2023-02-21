@@ -2,21 +2,21 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
-import Area from '../../../../../lib/components/Area';
-import Pagination from '../../../../../lib/components/grid/Pagination';
-import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
-import { useAlertContext } from '../../../../../lib/components/modal/Alert';
-import { Card } from '../../../../cms/components/admin/Card';
-import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
-import FromToColumnHeader from '../../../../../lib/components/grid/headers/FromTo';
-import ShipmentStatusColumnHeader from './headers/ShipmentStatusColumnHeader';
-import PaymentStatusColumnHeader from './headers/PaymentStatusColumnHeader';
-import OrderNumberRow from './rows/OrderNumberRow';
-import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
-import ShipmentStatusRow from './rows/ShipmentStatus';
-import PaymentStatusRow from './rows/PaymentStatus';
-import TotalRow from './rows/TotalRow';
-import CreateAt from '../../../../customer/pages/admin/customerGrid/rows/CreateAt';
+import Area from '@components/common/Area';
+import Pagination from '@components/common/grid/Pagination';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { useAlertContext } from '@components/common/modal/Alert';
+import { Card } from '@components/admin/cms/Card';
+import BasicColumnHeader from '@components/common/grid/headers/Basic';
+import FromToColumnHeader from '@components/common/grid/headers/FromTo';
+import ShipmentStatusColumnHeader from '@components/admin/checkout/orderGrid/headers/ShipmentStatusColumnHeader';
+import PaymentStatusColumnHeader from '@components/admin/checkout/orderGrid/headers/PaymentStatusColumnHeader';
+import OrderNumberRow from '@components/admin/checkout/orderGrid/rows/OrderNumberRow';
+import BasicRow from '@components/common/grid/rows/BasicRow';
+import ShipmentStatusRow from '@components/admin/checkout/orderGrid/rows/ShipmentStatus';
+import PaymentStatusRow from '@components/admin/checkout/orderGrid/rows/PaymentStatus';
+import TotalRow from '@components/admin/checkout/orderGrid/rows/TotalRow';
+import CreateAt from '@components/admin/customer/customerGrid/rows/CreateAt';
 
 function Actions({ orders = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();

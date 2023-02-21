@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import CogIcon from '@heroicons/react/solid/esm/CogIcon';
-import NavigationItemGroup from '../../../../cms/components/admin/NavigationItemGroup';
+import NavigationItemGroup from '@components/admin/cms/NavigationItemGroup';
 
 export default function CmsMenuGroup({ storeSetting }) {
   return (

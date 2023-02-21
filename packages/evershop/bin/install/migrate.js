@@ -2,7 +2,7 @@ const { insertOnUpdate } = require('@evershop/mysql-query-builder');
 const { readdirSync, existsSync } = require('fs');
 const path = require('path');
 const semver = require('semver');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 module.exports.migrate = async function migrate(
   connection,
@@ -78,11 +78,12 @@ module.exports.migrate = async function migrate(
     }
   }
 
+  const salt = bcrypt.genSaltSync(10);
   await insertOnUpdate('admin_user')
     .given({
       status: 1,
       email: adminUser?.email || 'demo@demo.com',
-      password: await bcrypt.hash(adminUser?.password || '123456', 10),
+      password: bcrypt.hashSync(adminUser?.password || '123456', salt),
       full_name: adminUser?.fullName || 'Admin'
     })
     .execute(connection);

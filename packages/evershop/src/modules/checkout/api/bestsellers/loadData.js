@@ -18,6 +18,7 @@ module.exports = async (request, response, delegate, next) => {
     .on('product.`product_id`', '=', 'order_item.`product_id`');
   query
     .select('product.`product_id`', 'product_id')
+    .select('product.`uuid`', 'uuid')
     .select('order_item.`product_id`')
     .select('image')
     .select('name')
@@ -32,7 +33,7 @@ module.exports = async (request, response, delegate, next) => {
     results.map((p) => {
       const product = {
         ...p,
-        editUrl: buildUrl('productEdit', { id: parseInt(p.product_id, 10) })
+        editUrl: buildUrl('productEdit', { id: p.uuid })
       };
       if (p.image) {
         product.imageUrl = buildUrl('adminStaticAsset', [p.image]);

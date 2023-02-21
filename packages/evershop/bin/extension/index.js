@@ -34,6 +34,9 @@ function loadExtensions() {
     }
   });
 
+  // Sort the extensions by priority, smaller number means higher priority
+  extensions.sort((a, b) => a.priority - b.priority);
+
   return extensions;
 }
 

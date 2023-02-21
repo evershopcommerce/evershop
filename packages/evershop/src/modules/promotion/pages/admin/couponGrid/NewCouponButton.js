@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Button from '../../../../../lib/components/form/Button';
+import Button from '@components/common/form/Button';
 
 export default function NewCouponButton({ newCouponUrl }) {
   return <Button url={newCouponUrl} title="New Coupon" />;

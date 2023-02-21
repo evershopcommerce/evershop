@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Input } from '../../../../../lib/components/form/fields/Input';
-import { get } from '../../../../../lib/util/get';
+import { Input } from '@components/common/form/fields/Input';
+import { get } from '@evershop/evershop/src/lib/util/get';
 import { NoResult } from './search/NoResult';
 import { Results } from './search/Results';
 import './SearchBox.scss';

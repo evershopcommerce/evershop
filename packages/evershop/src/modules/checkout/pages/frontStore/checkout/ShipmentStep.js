@@ -4,8 +4,8 @@ import React from 'react';
 import {
   useCheckoutSteps,
   useCheckoutStepsDispatch
-} from '../../../../../lib/context/checkoutSteps';
-import { StepContent } from '../../../components/frontStore/checkout/shipment/StepContent';
+} from '@components/common/context/checkoutSteps';
+import { StepContent } from '@components/frontStore/checkout/checkout/shipment/StepContent';
 
 export default function ShipmentStep({
   cart: {

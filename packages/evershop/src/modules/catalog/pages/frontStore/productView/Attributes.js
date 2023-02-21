@@ -33,4 +33,5 @@ Attributes.propTypes = {
     })
   ).isRequired
 };
+
 export default Attributes;

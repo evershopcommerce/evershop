@@ -1,6 +1,5 @@
 const { existsSync, rmSync, mkdirSync } = require('fs');
 const path = require('path');
-const { Componee } = require('../../src/lib/componee/Componee');
 const { CONSTANTS } = require('../../src/lib/helpers');
 const { loadModuleRoutes } = require('../../src/lib/router/loadModuleRoutes');
 const { getRoutes } = require('../../src/lib/router/Router');
@@ -19,17 +18,6 @@ modules.forEach((module) => {
   try {
     // Load routes
     loadModuleRoutes(module.path);
-  } catch (e) {
-    console.log(e);
-    process.exit(0);
-  }
-});
-
-/** Loading components */
-modules.forEach((module) => {
-  try {
-    // Load components
-    Componee.loadModuleComponents(module);
   } catch (e) {
     console.log(e);
     process.exit(0);

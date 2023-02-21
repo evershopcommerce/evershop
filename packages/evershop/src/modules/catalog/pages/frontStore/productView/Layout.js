@@ -1,5 +1,5 @@
 import React from 'react';
-import Area from '../../../../../lib/components/Area';
+import Area from '@components/common/Area';
 
 export default function ProductPageLayout() {
   return (

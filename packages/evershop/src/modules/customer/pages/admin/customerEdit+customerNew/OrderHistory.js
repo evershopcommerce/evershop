@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Card } from '../../../../cms/components/admin/Card';
+import { Card } from '@components/admin/cms/Card';
 
 export default function OrderHistory({ customer: { orders = [] } }) {
   return (

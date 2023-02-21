@@ -12,7 +12,7 @@ module.exports.createConfigClient = function createConfigClient(route) {
 
   const loaders = config.module.rules;
   loaders.unshift({
-    test: /components[\\/]react[\\/]client[\\/]Index\.js$/i,
+    test: /common[\\/]react[\\/]client[\\/]Index\.js$/i,
     // resourceQuery: new RegExp(`Asadasdas`, "i"),
     use: [
       {
@@ -82,9 +82,13 @@ module.exports.createConfigClient = function createConfigClient(route) {
     const entry = {};
     entry[route.id] = [
       ...getComponentsByRoute(route),
-      path.resolve(CONSTANTS.LIBPATH, 'components/react/client/Index.js'),
+      path.resolve(
+        CONSTANTS.MOLDULESPATH,
+        '../components/common/react/client/Index.js'
+      ),
       `webpack-hot-middleware/client?path=/eHot/${route.id}&reload=true&overlay=true`
     ];
+
     return entry;
   };
   config.watchOptions = {

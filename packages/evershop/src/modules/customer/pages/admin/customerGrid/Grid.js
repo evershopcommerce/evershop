@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
-import Area from '../../../../../lib/components/Area';
-import Pagination from '../../../../../lib/components/grid/Pagination';
-import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
-import { useAlertContext } from '../../../../../lib/components/modal/Alert';
-import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
-import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
-import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
-import DropdownColumnHeader from '../../../../../lib/components/grid/headers/Dropdown';
-import { Card } from '../../../../cms/components/admin/Card';
-import CustomerNameRow from './rows/CustomerName';
-import CreateAt from './rows/CreateAt';
+import Area from '@components/common/Area';
+import Pagination from '@components/common/grid/Pagination';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { useAlertContext } from '@components/common/modal/Alert';
+import StatusRow from '@components/common/grid/rows/StatusRow';
+import BasicRow from '@components/common/grid/rows/BasicRow';
+import BasicColumnHeader from '@components/common/grid/headers/Basic';
+import DropdownColumnHeader from '@components/common/grid/headers/Dropdown';
+import { Card } from '@components/admin/cms/Card';
+import CustomerNameRow from '@components/admin/customer/customerGrid/rows/CustomerName';
+import CreateAt from '@components/admin/customer/customerGrid/rows/CreateAt';
 
 function Actions({ customers = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();

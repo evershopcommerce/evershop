@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Input } from '../../../../../lib/components/form/fields/Input';
-import { RequiredProducts } from '../../../components/RequireProducts';
+import { Input } from '@components/common/form/fields/Input';
+import { RequiredProducts } from '@components/admin/promotion/couponEdit/RequireProducts';
 
 export default function OrderCondition({ coupon = {} }) {
   const condition = coupon?.condition || {};

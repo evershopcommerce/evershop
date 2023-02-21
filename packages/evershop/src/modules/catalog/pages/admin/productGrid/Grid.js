@@ -2,21 +2,21 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
-import Area from '../../../../../lib/components/Area';
-import Pagination from '../../../../../lib/components/grid/Pagination';
-import { Checkbox } from '../../../../../lib/components/form/fields/Checkbox';
-import { useAlertContext } from '../../../../../lib/components/modal/Alert';
-import ProductNameRow from './rows/ProductName';
-import StatusRow from '../../../../../lib/components/grid/rows/StatusRow';
-import ProductPriceRow from './rows/PriceRow';
-import BasicRow from '../../../../../lib/components/grid/rows/BasicRow';
-import ThumbnailRow from './rows/ThumbnailRow';
-import BasicColumnHeader from '../../../../../lib/components/grid/headers/Basic';
-import FromToColumnHeader from '../../../../../lib/components/grid/headers/FromTo';
-import DropdownColumnHeader from '../../../../../lib/components/grid/headers/Dropdown';
-import { Card } from '../../../../cms/components/admin/Card';
-import DummyColumnHeader from '../../../../../lib/components/grid/headers/Dummy';
-import QtyRow from './rows/QtyRow';
+import Area from '@components/common/Area';
+import Pagination from '@components/common/grid/Pagination';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { useAlertContext } from '@components/common/modal/Alert';
+import ProductNameRow from '@components/admin/catalog/productGrid/rows/ProductName';
+import StatusRow from '@components/common/grid/rows/StatusRow';
+import ProductPriceRow from '@components/admin/catalog/productGrid/rows/PriceRow';
+import BasicRow from '@components/common/grid/rows/BasicRow';
+import ThumbnailRow from '@components/admin/catalog/productGrid/rows/ThumbnailRow';
+import BasicColumnHeader from '@components/common/grid/headers/Basic';
+import FromToColumnHeader from '@components/common/grid/headers/FromTo';
+import DropdownColumnHeader from '@components/common/grid/headers/Dropdown';
+import { Card } from '@components/admin/cms/Card';
+import DummyColumnHeader from '@components/common/grid/headers/Dummy';
+import QtyRow from '@components/admin/catalog/productGrid/rows/QtyRow';
 
 function Actions({ products = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();

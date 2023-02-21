@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Order from './components/Order';
+import Order from '@components/frontStore/customer/detail/Order';
 
 export default function OrderHistory({ customer: { orders = [] } }) {
   return (

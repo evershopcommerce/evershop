@@ -1,5 +1,5 @@
 const { select, insertOnUpdate } = require('@evershop/mysql-query-builder');
-const { compare } = require('bcrypt');
+const { compareSync } = require('bcryptjs');
 const { sign } = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const { camelCase } = require('../../../../lib/util/camelCase');
@@ -30,7 +30,7 @@ module.exports = async (request, response, delegate, next) => {
     });
   } else {
     const { password: hash } = customer;
-    const result = await compare(password, hash);
+    const result = compareSync(password, hash);
 
     if (!result) {
       response.status(INVALID_PAYLOAD);

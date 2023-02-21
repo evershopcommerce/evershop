@@ -1,11 +1,16 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
 const { CONSTANTS } = require('../helpers');
 const isProductionMode = require('../util/isProductionMode');
 const { getEnabledExtensions } = require('../../../bin/extension');
+const { getConfig } = require('../util/getConfig');
 
 module.exports.createBaseConfig = function createBaseConfig(isServer) {
   const extenions = getEnabledExtensions();
+  const coreModules = getCoreModules();
+  const theme = getConfig('system.theme', null);
+
   const loaders = [
     {
       test: /\.m?js$/,
@@ -102,6 +107,37 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
     output,
     plugins: [],
     cache: { type: 'memory' }
+  };
+
+  // Resolve aliases
+  const alias = {};
+  if (theme) {
+    alias['@components'] = [
+      path.resolve(CONSTANTS.THEMEPATH, theme, 'components')
+    ];
+  } else {
+    alias['@components'] = [];
+  }
+
+  // Resolve alias for extensions
+  extenions.forEach((ext) => {
+    alias['@components'].push(path.resolve(ext.resolve, 'components'));
+  });
+  alias['@components'].push(path.resolve(__dirname, '../../components'));
+
+  // Resolve alias for core components
+  alias['@components-origin'] = path.resolve(__dirname, '../../components');
+
+  // Resolve alias for core module pages
+  coreModules.forEach((mod) => {
+    alias[`@default-theme/${mod.name.toLowerCase()}`] = path.resolve(
+      mod.path,
+      'pages'
+    );
+  });
+
+  config.resolve = {
+    alias
   };
 
   config.optimization = {};

@@ -1,5 +1,5 @@
 const { update, select } = require('@evershop/mysql-query-builder');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { getConnection } = require('../../../../lib/mysql/connection');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
 const {
@@ -31,7 +31,8 @@ module.exports = async (request, response, delegate, next) => {
     // Check if password is set
     if (request.body.password) {
       // Hash the password
-      request.body.password = await bcrypt.hash(request.body.password, 10);
+      const salt = bcrypt.genSaltSync(10);
+      request.body.password = bcrypt.hashSync(request.body.password, salt);
     }
 
     await update('customer')

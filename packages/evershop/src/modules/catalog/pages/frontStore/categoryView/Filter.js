@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import Area from '../../../../../lib/components/Area';
-import { useAppDispatch } from '../../../../../lib/context/app';
+import Area from '@components/common/Area';
+import { useAppDispatch } from '@components/common/context/app';
 import './Filter.scss';
+import { PriceFilter } from '@components/frontStore/catalog/categoryView/filter/PriceFilter';
+import { AttributeFilter } from '@components/frontStore/catalog/categoryView/filter/AttributeFilter';
 
 export const FilterDispatch = React.createContext();
 
@@ -11,7 +13,8 @@ export default function Filter({
     products: { currentFilters },
     availableAttributes,
     priceRange
-  }
+  },
+  setting
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const AppContextDispatch = useAppDispatch();
@@ -56,6 +59,18 @@ export default function Filter({
           availableAttributes={availableAttributes}
           priceRange={priceRange}
           currentFilters={currentFilters}
+          coreComponents={[
+            {
+              component: { default: PriceFilter },
+              props: { priceRange, currentFilters, updateFilter, setting },
+              sortOrder: 10
+            },
+            {
+              component: { default: AttributeFilter },
+              props: { availableAttributes, currentFilters, updateFilter },
+              sortOrder: 20
+            }
+          ]}
         />
         <a
           className="filter-closer flex md:hidden"
@@ -165,6 +180,10 @@ query Query {
       min
       max
     }
+  }
+  setting {
+    storeLanguage
+    storeCurrency
   }
 }`;
 

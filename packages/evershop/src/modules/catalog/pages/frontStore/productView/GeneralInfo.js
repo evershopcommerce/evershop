@@ -1,58 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '../../../../../lib/components/Area';
+import Area from '@components/common/Area';
 import './GeneralInfo.scss';
-
-function Name({ name }) {
-  return <h1 className="product-single-name">{name}</h1>;
-}
-
-Name.propTypes = {
-  name: PropTypes.string.isRequired
-};
-
-function Price({ regular, special }) {
-  return (
-    <h4 className="product-single-price">
-      {special.value === regular.value && (
-        <div>
-          <span className="sale-price">{regular.text}</span>
-        </div>
-      )}
-      {special.value < regular.value && (
-        <div>
-          <span className="sale-price">{special.text}</span>{' '}
-          <span className="regular-price">{regular.text}</span>
-        </div>
-      )}
-    </h4>
-  );
-}
-
-Price.propTypes = {
-  regular: PropTypes.shape({
-    value: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired
-  }).isRequired,
-  special: PropTypes.shape({
-    value: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired
-  }).isRequired
-};
-
-function Sku({ sku }) {
-  return (
-    <div className="product-single-sku text-textSubdued">
-      <span>Sku</span>
-      <span>: </span>
-      {sku}
-    </div>
-  );
-}
-
-Sku.propTypes = {
-  sku: PropTypes.string.isRequired
-};
+import { Name } from '@components/frontStore/catalog/product/single/Name';
+import { Price } from '@components/frontStore/catalog/product/single/Price';
+import { Sku } from '@components/frontStore/catalog/product/single/Sku';
 
 export default function GeneralInfo({ product }) {
   return (

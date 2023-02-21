@@ -3,10 +3,10 @@ import React from 'react';
 import { useQuery } from 'urql';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
-import { Field } from '../../../../../lib/components/form/Field';
-import { Form } from '../../../../../lib/components/form/Form';
-import { Card } from '../../../../cms/components/admin/Card';
-import SettingMenu from '../../../components/SettingMenu';
+import { Field } from '@components/common/form/Field';
+import { Form } from '@components/common/form/Form';
+import { Card } from '@components/admin/cms/Card';
+import SettingMenu from '@components/admin/setting/SettingMenu';
 
 const CountriesQuery = `
   query Country($countries: [String]) {
