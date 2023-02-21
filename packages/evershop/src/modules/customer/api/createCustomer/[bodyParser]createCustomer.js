@@ -1,5 +1,5 @@
 const { insert, select } = require('@evershop/mysql-query-builder');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { pool } = require('../../../../lib/mysql/connection');
 const {
   OK,
@@ -14,7 +14,8 @@ module.exports = async (request, response, delegate, next) => {
   const { email, full_name, password } = body;
   try {
     // Hash the password
-    const hash = await bcrypt.hash(password, 10);
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
     await insert('customer')
       .given({
         email,
