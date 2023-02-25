@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function Shipping({ method, cost }) {
   if (!method) {
@@ -8,7 +9,7 @@ export function Shipping({ method, cost }) {
 
   return (
     <div className="summary-row">
-      <span>Shipping</span>
+      <span>{_('Shipping')}</span>
       <div>
         <div>{method}</div>
         <div>{cost}</div>

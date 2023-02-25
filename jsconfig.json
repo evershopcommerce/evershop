@@ -13,6 +13,9 @@
       "@default-theme/cms/*" : [
         "./packages/evershop/src/modules/cms/pages/*"
       ],
+      "@evershop/evershop/*" : [
+        "./packages/evershop/*"
+      ]
     }
   }
 }

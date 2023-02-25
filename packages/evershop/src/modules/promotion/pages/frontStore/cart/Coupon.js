@@ -5,6 +5,7 @@ import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
 import Button from '@components/common/form/Button';
 import { useAppDispatch } from '@components/common/context/app';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function CouponForm({ cart: { applyCouponApi } }) {
   const AppContextDispatch = useAppDispatch();
@@ -32,14 +33,18 @@ export default function CouponForm({ cart: { applyCouponApi } }) {
         }}
         id="couponForm"
       >
-        <p style={{ fontWeight: 600 }}>Promotion code?</p>
+        <p style={{ fontWeight: 600 }}>{_('Promotion code?')}</p>
         <div className="grid grid-cols-3 gap-2" style={{ width: '300px' }}>
           <div className="col-span-2">
-            <Field type="text" name="coupon" placeholder="Enter coupon code" />
+            <Field
+              type="text"
+              name="coupon"
+              placeholder={_('Enter coupon code')}
+            />
           </div>
           <div className="col-span-1">
             <Button
-              title="Apply"
+              title={_('Apply')}
               onAction={() => {
                 document
                   .getElementById('couponForm')

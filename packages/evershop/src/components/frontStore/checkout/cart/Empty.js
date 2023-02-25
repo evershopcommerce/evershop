@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppState } from '@components/common/context/app';
 import Button from '@components/common/form/Button';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 const { get } = require('@evershop/evershop/src/lib/util/get');
 
@@ -13,7 +14,7 @@ export function Empty() {
     <div className="empty-shopping-cart w-100" style={{ marginTop: '150px' }}>
       <div>
         <div className="text-center">
-          <h2>Shopping cart</h2>
+          <h2>{_('Shopping cart')}</h2>
         </div>
         <div className="mt-2 text-center">
           <span>Your cart is empty!</span>

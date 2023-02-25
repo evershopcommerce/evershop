@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function Subtotal({ count, total }) {
   return (
     <div className="summary-row">
-      <span>Subtotal</span>
+      <span>{_('Sub total')}</span>
       <div>
-        <div>{count} items</div>
+        <div>{_('${count} items', { count })}</div>
         <div>{total}</div>
       </div>
     </div>

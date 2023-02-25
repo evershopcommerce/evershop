@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Province } from '@components/frontStore/customer/address/addressForm/Province';
 import { Field } from '@components/common/form/Field';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function ProvinceAndPostcode({
   address,
@@ -23,12 +24,12 @@ export function ProvinceAndPostcode({
           type="text"
           name="address[postcode]"
           value={address?.postcode}
-          label="Postcode"
-          placeholder="Postcode"
+          label={_('Postcode')}
+          placeholder={_('Postcode')}
           validationRules={[
             {
               rule: 'notEmpty',
-              message: 'Postcode is required'
+              message: _('Postcode is required')
             }
           ]}
         />

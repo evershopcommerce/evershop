@@ -3,6 +3,7 @@ import React from 'react';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
 import './RegisterForm.scss';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {
   const [error, setError] = React.useState(null);
@@ -12,7 +13,7 @@ export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {
   return (
     <div className="register-form flex justify-center items-center">
       <div className="register-form-inner">
-        <h1 className="text-center">Create A New Account</h1>
+        <h1 className="text-center">{_('Create A New Account')}</h1>
         {error && <div className="text-critical mb-1">{error}</div>}
         <Form
           id="loginForm"
@@ -48,13 +49,13 @@ export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {
           <Field
             name="full_name"
             type="text"
-            placeholder="Full Name"
+            placeholder={_('Full Name')}
             validationRules={['notEmpty']}
           />
           <Field
             name="email"
             type="text"
-            placeholder="Email"
+            placeholder={_('Email')}
             validationRules={['notEmpty', 'email']}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -63,7 +64,7 @@ export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {
           <Field
             name="password"
             type="password"
-            placeholder="Password"
+            placeholder={_('Password')}
             validationRules={['notEmpty']}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -72,10 +73,10 @@ export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {
         </Form>
         <div className="text-center mt-1">
           <span>
-            Already have an account?
+            {_('Already have an account?')}
             <a className="text-interactive" href={loginUrl}>
               {' '}
-              Login{' '}
+              {_('Login')}{' '}
             </a>
           </span>
         </div>

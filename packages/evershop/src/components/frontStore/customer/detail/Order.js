@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -36,7 +37,7 @@ export default function Order({ order }) {
                   {item.productName}
                 </div>
                 <div className="order-item-sku italic">
-                  Sku: #{item.productSku}
+                  {_('Sku')}: #{item.productSku}
                 </div>
                 <div className="order-item-qty" style={{ fontSize: '0.9em' }}>
                   {item.qty} x {item.productPrice.text}
@@ -48,13 +49,14 @@ export default function Order({ order }) {
         <div className="order-total col-span-1">
           <div className="order-header">
             <div className="order-number">
-              <span className="font-bold">Order: #{order.orderNumber}</span>
+              <span className="font-bold">
+                {_('Order')}: #{order.orderNumber}
+              </span>
               <span className="italic pl-1">{order.createdAt.text}</span>
             </div>
           </div>
           <div className="order-total-value font-bold">
-            Total:
-            {order.grandTotal.text}
+            {_('Total')}:{order.grandTotal.text}
           </div>
         </div>
       </div>

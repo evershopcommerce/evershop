@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Error from '@components/common/form/fields/Error';
 import '../Field.scss';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 const Select = React.forwardRef((props, ref) => {
   const {
@@ -42,7 +43,7 @@ const Select = React.forwardRef((props, ref) => {
           ref={ref}
         >
           <option value="" disabled>
-            Please select
+            {_('Please select')}
           </option>
           {options &&
             options.map(

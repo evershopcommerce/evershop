@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Order from '@components/frontStore/customer/detail/Order';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function OrderHistory({ customer: { orders = [] } }) {
   return (
     <div className="order-history divide-y">
       {orders.length === 0 && (
         <div className="order-history-empty">
-          You haven&apos;t placed any orders yet.
+          {_('You have not placed any orders yet')}
         </div>
       )}
       {orders.map((order) => (

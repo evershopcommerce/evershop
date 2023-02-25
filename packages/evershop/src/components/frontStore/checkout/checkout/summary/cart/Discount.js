@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function Discount({ discount, code }) {
   if (!discount) {
@@ -8,7 +9,7 @@ export function Discount({ discount, code }) {
 
   return (
     <div className="summary-row">
-      <span>Discount</span>
+      <span>{_('Discount')}</span>
       <div>
         <div>{code}</div>
         <div>{discount}</div>

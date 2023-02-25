@@ -5,6 +5,7 @@ import PubSub from 'pubsub-js';
 import { FORM_VALIDATED } from '@evershop/evershop/src/lib/util/events';
 import './Variants.scss';
 import { useAppDispatch } from '@components/common/context/app';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function Variants({
   product: { variantGroup: vs },
@@ -50,7 +51,7 @@ export default function Variants({
     if (currentAttributes.find((a) => a.selected === false)) {
       // eslint-disable-next-line no-param-reassign
       errors.variants = 'Missing variant';
-      setError('Please select variant option');
+      setError(_('Please select variant options'));
       return false;
     } else {
       // eslint-disable-next-line no-param-reassign
