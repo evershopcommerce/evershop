@@ -6,6 +6,7 @@ import { useFormContext } from '@components/common/form/Form';
 import { Field } from '@components/common/form/Field';
 import { useCheckoutStepsDispatch } from '@components/common/context/checkoutSteps';
 import { useCheckout } from '@components/common/context/checkout';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 const QUERY = `
   query Query($cartId: String) {
@@ -144,15 +145,15 @@ export default function ShippingMethods({
           </svg>
         </div>
       )}
-      <h4 className="mt-3 mb-1">Shipping Method</h4>
+      <h4 className="mt-3 mb-1">{_('Shipping Method')}</h4>
       {addressProvided === true && methods.length === 0 && (
         <div className="text-center p-3 border border-divider rounded text-textSubdued">
-          Sorry, there is no available method for your address
+          {_('Sorry, there is no available method for your address')}
         </div>
       )}
       {addressProvided === false && (
         <div className="text-center p-3 border border-divider rounded text-textSubdued">
-          Please enter a shipping address in order to see shipping quotes
+          {_('Please enter a shipping address in order to see shipping quotes')}
         </div>
       )}
       {methods.length > 0 && (

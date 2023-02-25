@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from '@components/common/form/Field';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function Country({
   allowCountries,
@@ -17,14 +18,14 @@ export function Country({
       <Field
         type="select"
         value={selectedCountry}
-        label="Country"
+        label={_('Country')}
         name={fieldName}
-        placeholder="Country"
+        placeholder={_('Country')}
         onChange={onChange}
         validationRules={[
           {
             rule: 'notEmpty',
-            message: 'Country is required'
+            message: _('Country is required')
           }
         ]}
         options={allowCountries.map((c) => ({ value: c.code, text: c.name }))}

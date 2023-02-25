@@ -6,6 +6,7 @@ import {
   useCheckoutStepsDispatch
 } from '@components/common/context/checkoutSteps';
 import { StepContent } from '@components/frontStore/checkout/checkout/shipment/StepContent';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function ShipmentStep({
   cart: {
@@ -26,8 +27,8 @@ export default function ShipmentStep({
   React.useEffect(() => {
     addStep({
       id: 'shipment',
-      title: 'Shipment',
-      previewTitle: 'Ship To',
+      title: _('Shipment'),
+      previewTitle: _('Ship to'),
       isCompleted: !!(shippingAddress && shippingMethod),
       preview: shippingAddress
         ? `${shippingAddress.address1}, ${shippingAddress.city}, ${shippingAddress.country.name}`

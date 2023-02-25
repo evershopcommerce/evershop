@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Button from '@components/common/form/Button';
 import { AddressSummary } from '@components/frontStore/customer/address/AddressSummary';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function CustomerInfo({
   order: {
@@ -35,24 +36,28 @@ export default function CustomerInfo({
         </div>
         <div className="self-center">
           <span style={{ fontSize: '1.6rem', fontWeight: '300' }}>
-            Order #{orderNumber}
+            {_('Order #${orderNumber}', { orderNumber })}
           </span>
           <div>
-            {`Thank you ${customerFullName || billingAddress?.fullName}!`}
+            {_('Thank you ${name}!', {
+              name: customerFullName || billingAddress?.fullName
+            })}
           </div>
         </div>
       </h3>
 
       <div className="customer-info mt-3 mb-2">
-        <div className="heading font-bold mb-2">Customer information</div>
+        <div className="heading font-bold mb-2">
+          {_('Customer information')}
+        </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
             <div className="mb-2">
-              <div className="mb-075">Contact information</div>
+              <div className="mb-075">{_('Contact information')}</div>
               <div className="text-textSubdued">{customerEmail}</div>
             </div>
             <div>
-              <div className="mb-075">Shipping Address</div>
+              <div className="mb-075">{_('Shipping Address')}</div>
               <div className="text-textSubdued">
                 <AddressSummary address={shippingAddress} />
               </div>
@@ -60,11 +65,11 @@ export default function CustomerInfo({
           </div>
           <div>
             <div className="mb-2">
-              <div className="mb-075">Payment Method</div>
+              <div className="mb-075">{_('Payment Method')}</div>
               <div className="text-textSubdued">{paymentMethodName}</div>
             </div>
             <div>
-              <div className="mb-075">Billing Address</div>
+              <div className="mb-075">{_('Billing Address')}</div>
               <div className="text-textSubdued">
                 <AddressSummary address={billingAddress} />
               </div>
@@ -72,7 +77,7 @@ export default function CustomerInfo({
           </div>
         </div>
       </div>
-      <Button url="/" title="CONTINUE SHOPPING" />
+      <Button url="/" title={_('CONTINUE SHOPPING')} />
     </div>
   );
 }

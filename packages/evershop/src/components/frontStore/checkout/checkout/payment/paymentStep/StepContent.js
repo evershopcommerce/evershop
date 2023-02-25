@@ -10,6 +10,7 @@ import { BillingAddress } from '@components/frontStore/checkout/checkout/payment
 import { useCheckout } from '@components/common/context/checkout';
 import { Field } from '@components/common/form/Field';
 import Button from '@components/common/form/Button';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 const QUERY = `
   query Query($cartId: String) {
@@ -97,7 +98,7 @@ export function StepContent({
         submitBtn={false}
         isJSON
       >
-        <h4 className="mb-1 mt-3">Billing Address</h4>
+        <h4 className="mb-1 mt-3">{_('Billing Address')}</h4>
         <BillingAddress
           useShippingAddress={useShippingAddress}
           setUseShippingAddress={setUseShippingAddress}
@@ -120,7 +121,7 @@ export function StepContent({
           </div>
         )}
 
-        <h4 className="mb-1 mt-3">Payment Method</h4>
+        <h4 className="mb-1 mt-3">{_('Payment Method')}</h4>
         {paymentMethods && paymentMethods.length > 0 && (
           <>
             <div className="divide-y border rounded border-divider px-2 mb-2">
@@ -142,7 +143,7 @@ export function StepContent({
               validationRules={[
                 {
                   rule: 'notEmpty',
-                  message: 'Please select a payment method'
+                  message: _('Please select a payment method')
                 }
               ]}
             />
@@ -156,7 +157,7 @@ export function StepContent({
         )}
         {paymentMethods.length === 0 && (
           <div className="alert alert-warning">
-            No payment methods available
+            {_('No payment method available')}
           </div>
         )}
         <div className="form-submit-button">
@@ -169,7 +170,7 @@ export function StepContent({
                   new Event('submit', { cancelable: true, bubbles: true })
                 );
             }}
-            title="Place Order"
+            title={_('Place Order')}
             isLoading={loading}
           />
         </div>

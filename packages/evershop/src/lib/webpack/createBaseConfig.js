@@ -5,6 +5,7 @@ const { CONSTANTS } = require('../helpers');
 const isProductionMode = require('../util/isProductionMode');
 const { getEnabledExtensions } = require('../../../bin/extension');
 const { getConfig } = require('../util/getConfig');
+const { loadCsvTranslationFiles } = require('./loaders/loadTranslationFromCsv');
 
 module.exports.createBaseConfig = function createBaseConfig(isServer) {
   const extenions = getEnabledExtensions();
@@ -60,6 +61,15 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
               ],
               '@babel/preset-react'
             ]
+          }
+        },
+        {
+          loader: path.resolve(
+            CONSTANTS.LIBPATH,
+            'webpack/loaders/TranslationLoader.js'
+          ),
+          options: {
+            getTranslateData: async () => await loadCsvTranslationFiles()
           }
         }
       ]

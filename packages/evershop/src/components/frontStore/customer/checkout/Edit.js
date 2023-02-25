@@ -3,11 +3,8 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { Form } from '@components/common/form/Form';
 import { Field } from '@components/common/form/Field';
-import {
-  useCheckoutSteps,
-  useCheckoutStepsDispatch
-} from '@components/common/context/checkoutSteps';
-import { useCheckout } from '@components/common/context/checkout';
+import { useCheckoutStepsDispatch } from '@components/common/context/checkoutSteps';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function Edit({
   customer,
@@ -55,12 +52,12 @@ export function Edit({
 
   return (
     <div className="">
-      <h4 className="mb-1 mt-1">Contact information</h4>
+      <h4 className="mb-1 mt-1">{_('Contact information')}</h4>
       {!customer && (
         <div className="mb-1">
-          <span>Already have an account?</span>{' '}
+          <span>{_('Already have an account?')}</span>{' '}
           <a className="text-interactive hover:underline" href={loginUrl}>
-            Login
+            {_('Login')}
           </a>
         </div>
       )}
@@ -71,14 +68,14 @@ export function Edit({
         isJSON
         onSuccess={onSuccess}
         submitBtn
-        btnText="Continue to shipping"
+        btnText={_('Continue to shipping')}
       >
         <Field
           type="text"
           formId="checkout-contact-info-form"
           name="email"
           validationRules={['notEmpty', 'email']}
-          placeholder="Email"
+          placeholder={_('Email')}
           value={email}
         />
       </Form>

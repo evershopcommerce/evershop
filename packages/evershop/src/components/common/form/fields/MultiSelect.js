@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Error from '@components/common/form/fields/Error';
 import '../Field.scss';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 const MultiSelect = React.forwardRef((props, ref) => {
   const {
@@ -33,7 +34,7 @@ const MultiSelect = React.forwardRef((props, ref) => {
           multiple
         >
           <option value="" disabled>
-            Please select
+            {_('Please select')}
           </option>
           {options &&
             options.map(

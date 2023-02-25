@@ -3,6 +3,7 @@
 import React from 'react';
 import { Select } from '@components/common/form/fields/Select';
 import { useAppDispatch } from '@components/common/context/app';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 // TODO: make this list configurable
 const sortingOptions = [
@@ -61,7 +62,7 @@ export default function Sorting() {
     <div className="product-sorting mb-1">
       <div className="product-sorting-inner flex justify-end items-center space-x-05">
         <div>
-          <span>Sort By:</span>
+          <span>{_('Sort By')}:</span>
         </div>
         <div style={{ width: '160px' }}>
           <Select
@@ -73,7 +74,7 @@ export default function Sorting() {
             options={[
               {
                 value: '',
-                text: 'Please select'
+                text: _('Please select')
               }
             ].concat(
               sortingOptions.map((o) => ({ value: o.code, text: o.name }))

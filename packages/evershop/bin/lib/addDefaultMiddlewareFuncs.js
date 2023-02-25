@@ -7,6 +7,7 @@ const {
 const isDevelopmentMode = require('../../src/lib/util/isDevelopmentMode');
 const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
 const publicStatic = require('../../src/lib/middlewares/publicStatic');
+const themePublicStatic = require('../../src/lib/middlewares/themePublicStatic');
 
 module.exports = exports = {};
 
@@ -16,6 +17,8 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
 ) {
   // Add public static middleware
   app.use(publicStatic);
+  // Add theme public static middleware
+  app.use(themePublicStatic);
 
   routes.forEach((r) => {
     const currentRouteMiddleware = (request, response, next) => {

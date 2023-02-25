@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from '@components/common/form/Field';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function Province({
   selectedCountry,
@@ -16,12 +17,12 @@ export function Province({
       type="select"
       value={provinces.find((p) => p.code === selectedProvince)?.code}
       name={fieldName}
-      label="Province"
-      placeholder="Province"
+      label={_('Province')}
+      placeholder={_('Province')}
       validationRules={[
         {
           rule: 'notEmpty',
-          message: 'Province is required'
+          message: _('Province is required')
         }
       ]}
       options={provinces.map((p) => ({ value: p.code, text: p.name }))}

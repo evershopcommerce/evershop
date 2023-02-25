@@ -7,6 +7,7 @@ import Area from '@components/common/Area';
 import { Country } from '@components/frontStore/customer/address/addressForm/Country';
 import { ProvinceAndPostcode } from '@components/frontStore/customer/address/addressForm/ProvinceAndPostcode';
 import { NameAndTelephone } from '@components/frontStore/customer/address/addressForm/NameAndTelephone';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function CustomerAddressForm({
   allowCountries,
@@ -41,8 +42,8 @@ export function CustomerAddressForm({
             name: 'address[address_1]',
             value: address?.address1,
             formId,
-            label: 'Address',
-            placeholder: 'Address',
+            label: _('Address'),
+            placeholder: _('Address'),
             validationRules: ['notEmpty']
           },
           sortOrder: 20
@@ -53,8 +54,8 @@ export function CustomerAddressForm({
             type: 'text',
             name: 'address[city]',
             value: address?.city,
-            label: 'City',
-            placeholder: 'City',
+            label: _('City'),
+            placeholder: _('City'),
             validationRules: []
           },
           sortOrder: 40

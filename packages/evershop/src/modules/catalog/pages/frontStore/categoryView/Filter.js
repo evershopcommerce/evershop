@@ -5,6 +5,7 @@ import { useAppDispatch } from '@components/common/context/app';
 import './Filter.scss';
 import { PriceFilter } from '@components/frontStore/catalog/categoryView/filter/PriceFilter';
 import { AttributeFilter } from '@components/frontStore/catalog/categoryView/filter/AttributeFilter';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export const FilterDispatch = React.createContext();
 
@@ -51,7 +52,7 @@ export default function Filter({
         }`}
       >
         <div className="filter-heading">
-          <span className="font-bold ">SHOP BY</span>
+          <span className="font-bold ">{_('SHOP BY')}</span>
         </div>
         <Area
           id="productFilter"

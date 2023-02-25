@@ -57,6 +57,14 @@ export default function BestSellers({ api, listUrl }) {
         <Card.Session>
           <table className="listing bestsellers">
             <tbody>
+              {products.length === 0 && (
+                <tr>
+                  <td align="left">
+                    Look like you just started. No bestsellers yet.
+                  </td>
+                  <td> </td>
+                </tr>
+              )}
               {products.map((p, i) => {
                 const formatedPrice = new Intl.NumberFormat('en', {
                   style: 'currency',

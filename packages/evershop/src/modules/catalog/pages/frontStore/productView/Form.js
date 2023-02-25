@@ -13,12 +13,13 @@ import {
   useAppDispatch,
   useAppState
 } from '../../../../../components/common/context/app';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 function ToastMessage({ thumbnail, name, qty, count, cartUrl, toastId }) {
   return (
     <div className="toast-mini-cart">
       <div className="top-head grid grid-cols-2">
-        <div className="self-center">JUST ADDED TO YOUR CART</div>
+        <div className="self-center">{_('JUST ADDED TO YOUR CART')}</div>
         <div className="self-center close flex justify-end">
           <a
             href="#"
@@ -59,7 +60,7 @@ function ToastMessage({ thumbnail, name, qty, count, cartUrl, toastId }) {
         </div>
       </div>
       <a className="add-cart-popup-button" href={cartUrl}>
-        VIEW CART ({count})
+        {_('VIEW CART (${count})', { count })}
       </a>
       <a
         className="add-cart-popup-continue text-center underline block"
@@ -69,7 +70,7 @@ function ToastMessage({ thumbnail, name, qty, count, cartUrl, toastId }) {
           toast.dismiss(toastId);
         }}
       >
-        Continue shopping
+        {_('Continue Shopping')}
       </a>
     </div>
   );
@@ -102,7 +103,7 @@ function AddToCart({ stockAvaibility, loading = false, error }) {
       <div className="mt-1">
         {stockAvaibility === true && (
           <Button
-            title="ADD TO CART"
+            title={_('ADD TO CART')}
             outline
             isLoading={loading}
             onAction={() => {

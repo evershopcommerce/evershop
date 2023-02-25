@@ -5,6 +5,7 @@ import { ItemOptions } from './ItemOptions';
 import { ItemVariantOptions } from './ItemVariantOptions';
 import './Items.scss';
 import { useAppDispatch } from '@components/common/context/app';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 function Items({ items }) {
   const AppContextDispatch = useAppDispatch();
@@ -34,16 +35,16 @@ function Items({ items }) {
         <thead>
           <tr>
             <td>
-              <span>Product</span>
+              <span>{_('Product')}</span>
             </td>
             <td>
-              <span>Price</span>
+              <span>{_('Price')}</span>
             </td>
             <td className="hidden md:table-cell">
-              <span>Quantity</span>
+              <span>{_('Quantity')}</span>
             </td>
             <td className="hidden md:table-cell">
-              <span>Total</span>
+              <span>{_('Total')}</span>
             </td>
           </tr>
         </thead>
@@ -109,7 +110,7 @@ function Items({ items }) {
                         href="#"
                         className="text-textSubdued underline"
                       >
-                        <span>Remove</span>
+                        <span>{_('Remove')}</span>
                       </a>
                     </div>
                   </div>
@@ -130,7 +131,7 @@ function Items({ items }) {
                   </div>
                 )}
                 <div className="md:hidden mt-05">
-                  <span>Qty</span>
+                  <span>{_('Qty')}</span>
                   <span>{item.qty}</span>
                 </div>
               </td>

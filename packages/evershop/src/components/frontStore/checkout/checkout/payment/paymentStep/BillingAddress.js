@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '@components/common/form/Field';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function BillingAddress({ useShippingAddress, setUseShippingAddress }) {
   return (
@@ -16,7 +17,7 @@ export function BillingAddress({ useShippingAddress, setUseShippingAddress }) {
             setUseShippingAddress(false);
           }
         }}
-        label="My billing address is same as shipping address"
+        label={_('My billing address is same as shipping address')}
         isChecked={useShippingAddress === true}
       />
     </div>

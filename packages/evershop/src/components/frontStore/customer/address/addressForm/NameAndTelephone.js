@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from '@components/common/form/Field';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function NameAndTelephone({ address }) {
   return (
@@ -10,12 +11,12 @@ export function NameAndTelephone({ address }) {
           type="text"
           name="address[full_name]"
           value={address?.fullName}
-          label="Full name"
-          placeholder="Full Name"
+          label={_('Full name')}
+          placeholder={_('Full name')}
           validationRules={[
             {
               rule: 'notEmpty',
-              message: 'Full name is required'
+              message: _('Full name is required')
             }
           ]}
         />
@@ -25,12 +26,12 @@ export function NameAndTelephone({ address }) {
           type="text"
           name="address[telephone]"
           value={address?.telephone}
-          label="Telephone"
-          placeholder="Telephone"
+          label={_('Telephone')}
+          placeholder={_('Telephone')}
           validationRules={[
             {
               rule: 'notEmpty',
-              message: 'Telephone is required'
+              message: _('Telephone is required')
             }
           ]}
         />

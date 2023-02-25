@@ -7,6 +7,7 @@ import { useClient } from 'urql';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index';
 import { Form } from '@components/common/form/Form';
 import { useCheckout } from '@components/common/context/checkout';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 const QUERY = `
   query Query($cartId: String) {
@@ -42,13 +43,13 @@ export function StepContent({
 
   return (
     <div>
-      <h4 className="mb-1 mt-3">Shipping Address</h4>
+      <h4 className="mb-1 mt-3">{_('Shipping Address')}</h4>
       <Form
         method="POST"
         action={addShippingAddressApi}
         id="checkoutShippingAddressForm"
         isJSON
-        btnText="Continue to payment"
+        btnText={_('Continue to payment')}
         onSuccess={(response) => {
           if (!response.error) {
             client
