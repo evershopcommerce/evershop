@@ -27,7 +27,7 @@ module.exports = {
       query.groupBy('product.`product_id`');
       query.orderBy('soldQty', 'desc');
       query.limit(0, 4);
-
+      console.log('11111111');
       const products = await query.execute(pool);
       return products.map((product) => camelCase(product));
     }
