@@ -36,7 +36,7 @@
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
-    "@evershop/mysql-query-builder": "^1.3.7",
+    "@evershop/mysql-query-builder": "^1.3.8",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/merge": "^8.3.5",
     "@graphql-tools/schema": "^9.0.3",

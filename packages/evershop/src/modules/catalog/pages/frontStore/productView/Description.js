@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function Description({ description }) {
+export default function Description({ product: { description } }) {
   return (
     <div className="mt-2 md:mt-3">
       <div
@@ -16,3 +16,15 @@ export default function Description({ description }) {
 Description.propTypes = {
   description: PropTypes.string.isRequired
 };
+
+export const layout = {
+  areaId: 'productPageMiddleRight',
+  sortOrder: 50
+};
+
+export const query = `
+  query Query {
+    product (id: getContextValue('productId')) {
+      description
+    }
+  }`;

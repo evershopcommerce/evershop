@@ -64,8 +64,6 @@ module.exports = async (request, response, stack, next) => {
           const vsQuery = select()
             .from('product', 'p')
             .select('p.`product_id`')
-            .select('a.`attribute_id`')
-            .select('a.`option_id`')
             .select('COUNT(p.`product_id`)', 'count');
           vsQuery
             .innerJoin('product_attribute_value_index', 'a')

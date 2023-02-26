@@ -371,13 +371,15 @@ module.exports = {
         // Get all invisible variants from current query
         copy
           .select('SUM(product.`visibility`)', 'sumv')
-          .select('product.`product_id`')
+          .select('ANY_VALUE(product.`product_id`)', 'product_id')
           .andWhere('product.`variant_group_id`', 'IN', visibleGroups);
-        copy.groupBy('product.`variant_group_id`').having('sumv', '=', 0);
-
+        copy.groupBy('product.`variant_group_id`');
+        copy.orderBy('product.`variant_group_id`', 'ASC');
+        copy.having('sumv', '=', 0);
         const invisibleIds = (await copy.execute(pool)).map(
           (v) => v.product_id
         );
+
         if (invisibleIds.length > 0) {
           const n = node('AND');
           n.addLeaf('AND', 'product.`product_id`', 'IN', invisibleIds).addNode(
