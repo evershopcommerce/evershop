@@ -8,7 +8,7 @@ const boxen = require('boxen');
 const mysql = require('mysql');
 const { execute } = require('@evershop/mysql-query-builder');
 const { prompt } = require('enquirer');
-const { CONSTANTS } = require('../../src/lib/helpers');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { migrate } = require('./migrate');
 const { createMigrationTable } = require('./createMigrationTable');
 

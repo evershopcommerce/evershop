@@ -2,17 +2,17 @@ const path = require('path');
 const { existsSync, rmdirSync } = require('fs');
 const { writeFile, mkdir } = require('fs').promises;
 const { inspect } = require('util');
-const { CONSTANTS } = require('../../../src/lib/helpers');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { loadModules } = require('../../serve/loadModules');
 const ora = require('ora');
 const { red, green } = require('kleur');
 const boxen = require('boxen');
 const { loadModuleRoutes } = require('../../serve/loadModuleRoutes');
 const { loadModuleComponents } = require('../../serve/loadModuleComponents');
-const { getRoutes } = require('../../../src/lib/router/routes');
+const { getRoutes } = require('@evershop/evershop/src/lib/router/routes');
 const {
   getComponentsByRoute
-} = require('../../../src/lib/componee/getComponentByRoute');
+} = require('@evershop/evershop/src/lib/componee/getComponentByRoute');
 const webpack = require('webpack');
 
 const modules = loadModules(path.resolve(__dirname, '../../../src', 'modules'));
@@ -66,7 +66,7 @@ const start = Date.now();
 // Run building vendor first
 const {
   createVendorConfig
-} = require('../../../src/lib/webpack/configProvider');
+} = require('@evershop/evershop/src/lib/webpack/configProvider');
 const vendorComplier = webpack(createVendorConfig(webpack));
 const webpackVendorPromise = new Promise((resolve, reject) => {
   vendorComplier.run((err, stats) => {

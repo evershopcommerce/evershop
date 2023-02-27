@@ -8,7 +8,7 @@ const {
   update
 } = require('@evershop/mysql-query-builder');
 const { v4: uuidv4 } = require('uuid');
-const { pool } = require('../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 
 /* Default validation rules */
 let validationServices = [

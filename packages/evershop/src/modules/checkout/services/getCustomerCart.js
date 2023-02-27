@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const { Cart } = require('./cart/Cart');
 
 module.exports = exports;

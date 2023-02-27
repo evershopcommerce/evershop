@@ -2,7 +2,7 @@
 const isEqualWith = require('lodash/isEqualWith');
 const { select, del } = require('@evershop/mysql-query-builder');
 const { v4: uuidv4 } = require('uuid');
-const { pool } = require('../../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const { DataObject } = require('./DataObject');
 const { Item } = require('./Item');
 const { toPrice } = require('../toPrice');

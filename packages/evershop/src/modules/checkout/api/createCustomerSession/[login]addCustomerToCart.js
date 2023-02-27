@@ -1,5 +1,5 @@
 const { select, update } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const { getContextValue } = require('../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {

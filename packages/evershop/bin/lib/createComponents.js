@@ -1,11 +1,11 @@
 const { mkdir, writeFile } = require('fs').promises;
 const path = require('path');
 const { inspect } = require('util');
-const { Componee } = require('../../src/lib/componee/Componee');
-const isProductionMode = require('../../src/lib/util/isProductionMode');
+const { Componee } = require('@evershop/evershop/src/lib/componee/Componee');
+const isProductionMode = require('@evershop/evershop/src/lib/util/isProductionMode');
 const {
   getRouteBuildPath
-} = require('../../src/lib/webpack/getRouteBuildPath');
+} = require('@evershop/evershop/src/lib/webpack/getRouteBuildPath');
 
 module.exports.createComponents = async function createComponents(
   routes,

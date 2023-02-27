@@ -1,4 +1,4 @@
-const { start } = require('../lib/startUp');
+const { start } = require('@evershop/evershop/bin/lib/startUp');
 
 (async () => {
   await start();

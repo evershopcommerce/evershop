@@ -7,7 +7,10 @@ const {
   rollback,
   select
 } = require('@evershop/mysql-query-builder');
-const { pool, getConnection } = require('../../../lib/mysql/connection');
+const {
+  pool,
+  getConnection
+} = require('@evershop/evershop/src/lib/mysql/connection');
 
 module.exports = exports;
 

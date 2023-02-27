@@ -6,12 +6,12 @@ const {
 } = require('../../../../graphql/services/contextHelper');
 const { getTokenSecret } = require('../../../services/getTokenSecret');
 const { generateToken } = require('../../../services/generateToken');
-const { get } = require('../../../../../lib/util/get');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { get } = require('@evershop/evershop/src/lib/util/get');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
   getAdminTokenCookieId
 } = require('../../../services/getAdminTokenCookieId');
-const { pool } = require('../../../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 
 module.exports = async (request, response, delegate, next) => {
   const cookieId = getAdminTokenCookieId();

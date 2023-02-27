@@ -1,4 +1,4 @@
-const { getConfig } = require('../../../lib/util/getConfig');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};

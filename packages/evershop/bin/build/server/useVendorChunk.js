@@ -1,15 +1,17 @@
 const path = require('path');
 const { existsSync, rmSync } = require('fs');
-const { CONSTANTS } = require('../../../src/lib/helpers');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { loadModules } = require('../../serve/loadModules');
 const ora = require('ora');
 const { red, green } = require('kleur');
 const boxen = require('boxen');
 const { loadModuleRoutes } = require('../../serve/loadModuleRoutes');
 const { loadModuleComponents } = require('../../serve/loadModuleComponents');
-const { getRoutes } = require('../../../src/lib/router/routes');
+const { getRoutes } = require('@evershop/evershop/src/lib/router/routes');
 const webpack = require('webpack');
-const { createConfig } = require('../../../src/lib/webpack/createConfig');
+const {
+  createConfig
+} = require('@evershop/evershop/src/lib/webpack/createConfig');
 const { createComponents } = require('../createComponents');
 
 (async () => {

@@ -7,8 +7,10 @@ const {
   rollback,
   select
 } = require('@evershop/mysql-query-builder');
-const { getConnection } = require('../../../../lib/mysql/connection');
-const { getConfig } = require('../../../../lib/util/getConfig');
+const {
+  getConnection
+} = require('@evershop/evershop/src/lib/mysql/connection');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { getSetting } = require('../../../setting/services/setting');
 
 // eslint-disable-next-line no-unused-vars

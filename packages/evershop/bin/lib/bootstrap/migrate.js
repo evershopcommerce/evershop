@@ -1,7 +1,7 @@
 const path = require('path');
 const semver = require('semver');
 const { insertOnUpdate, select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const { existsSync, readdirSync } = require('fs');
 
 async function getCurrentInstalledVersion(module) {

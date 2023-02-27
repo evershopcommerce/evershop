@@ -1,4 +1,4 @@
-const { pool } = require('../../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const {
   setContextValue,
   hasContextValue

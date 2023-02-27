@@ -2,14 +2,17 @@ const { select, insertOnUpdate } = require('@evershop/mysql-query-builder');
 const { compareSync } = require('bcryptjs');
 const { sign } = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
-const { camelCase } = require('../../../../lib/util/camelCase');
-const { pool } = require('../../../../lib/mysql/connection');
+const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const { getTokenCookieId } = require('../../../auth/services/getTokenCookieId');
 const {
   getContextValue,
   setContextValue
 } = require('../../../graphql/services/contextHelper');
-const { INVALID_PAYLOAD, OK } = require('../../../../lib/util/httpStatus');
+const {
+  INVALID_PAYLOAD,
+  OK
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {

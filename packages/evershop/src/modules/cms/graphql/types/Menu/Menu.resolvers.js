@@ -1,5 +1,5 @@
 const { select } = require('@evershop/mysql-query-builder');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 
 module.exports = {
   Query: {

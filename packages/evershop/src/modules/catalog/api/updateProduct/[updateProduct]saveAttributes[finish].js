@@ -9,7 +9,7 @@ const {
   insertOnUpdate,
   del
 } = require('@evershop/mysql-query-builder');
-const { get } = require('../../../../lib/util/get');
+const { get } = require('@evershop/evershop/src/lib/util/get');
 
 module.exports = async (request, response, delegate) => {
   const productId = await delegate.updateProduct;

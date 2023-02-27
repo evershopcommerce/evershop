@@ -4,9 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const uniqid = require('uniqid');
 const { v4: uuidv4 } = require('uuid');
-const { pool } = require('../../../../lib/mysql/connection');
-const { CONSTANTS } = require('../../../../lib/helpers');
-const { buildUrl } = require('../../../../lib/router/buildUrl');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 /* eslint-disable no-underscore-dangle */
 const { DataObject } = require('./DataObject');
 const { toPrice } = require('../toPrice');

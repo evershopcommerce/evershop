@@ -1,6 +1,6 @@
 const { select } = require('@evershop/mysql-query-builder');
 const dayjs = require('dayjs');
-const { pool } = require('../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const { getCartTotalBeforeDiscount } = require('./getCartTotalBeforeDiscount');
 
 exports.Validator = class Validator {

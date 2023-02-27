@@ -1,6 +1,6 @@
-const { contries } = require('../../../../../lib/locale/countries');
+const { contries } = require('@evershop/evershop/src/lib/locale/countries');
 const { getSetting } = require('../../../../setting/services/setting');
-const { provinces } = require('../../../../../lib/locale/provinces');
+const { provinces } = require('@evershop/evershop/src/lib/locale/provinces');
 
 module.exports = {
   Query: {

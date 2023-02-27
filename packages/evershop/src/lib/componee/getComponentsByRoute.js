@@ -1,6 +1,6 @@
 const { resolve } = require('path');
 const { getEnabledExtensions } = require('../../../bin/extension');
-const { getCoreModules } = require('../../../bin/lib/loadModules');
+const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
 const { scanRouteComponents } = require('./scanForComponents');
 const { getConfig } = require('../util/getConfig');
 const { CONSTANTS } = require('../helpers');

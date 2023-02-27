@@ -1,6 +1,6 @@
 const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../../lib/mysql/connection');
-const { camelCase } = require('../../../../../lib/util/camelCase');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 
 module.exports = {
   Query: {

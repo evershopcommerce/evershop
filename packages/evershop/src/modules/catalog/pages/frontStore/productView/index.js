@@ -1,7 +1,7 @@
 const { select, node } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../../lib/mysql/connection');
-const { get } = require('../../../../../lib/util/get');
-const { getConfig } = require('../../../../../lib/util/getConfig');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { get } = require('@evershop/evershop/src/lib/util/get');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');

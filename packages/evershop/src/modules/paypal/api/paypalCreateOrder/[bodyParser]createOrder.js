@@ -4,14 +4,14 @@ const { select, update } = require('@evershop/mysql-query-builder');
 const { getContextValue } = require('../../../graphql/services/contextHelper');
 const { getSetting } = require('../../../setting/services/setting');
 const { toPrice } = require('../../../checkout/services/toPrice');
-const { buildUrl } = require('../../../../lib/router/buildUrl');
-const { pool } = require('../../../../lib/mysql/connection');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 const {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
-} = require('../../../../lib/util/httpStatus');
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {

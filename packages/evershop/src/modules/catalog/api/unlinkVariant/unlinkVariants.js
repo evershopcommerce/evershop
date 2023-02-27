@@ -1,9 +1,11 @@
 const { update } = require('@evershop/mysql-query-builder');
-const { getConnection } = require('../../../../lib/mysql/connection');
+const {
+  getConnection
+} = require('@evershop/evershop/src/lib/mysql/connection');
 const {
   INTERNAL_SERVER_ERROR,
   OK
-} = require('../../../../lib/util/httpStatus');
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {

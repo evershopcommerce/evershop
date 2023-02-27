@@ -1,4 +1,4 @@
-const { getRoutes } = require('../../../src/lib/router/Router');
+const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
 
 module.exports.broadcash = function broadcash() {
   const routes = getRoutes();

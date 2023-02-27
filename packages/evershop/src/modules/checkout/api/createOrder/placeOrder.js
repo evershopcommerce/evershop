@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
-const { buildUrl } = require('../../../../lib/router/buildUrl');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR
-} = require('../../../../lib/util/httpStatus');
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 const { createOrder } = require('../../services/orderCreator');
 

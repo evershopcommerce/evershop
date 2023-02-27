@@ -4,12 +4,14 @@ const path = require('path');
 const { inspect } = require('util');
 const {
   getComponentsByRoute
-} = require('../../src/lib/componee/getComponentsByRoute');
-const { CONSTANTS } = require('../../src/lib/helpers');
+} = require('@evershop/evershop/src/lib/componee/getComponentsByRoute');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const {
   getRouteBuildPath
-} = require('../../src/lib/webpack/getRouteBuildPath');
-const { parseGraphql } = require('../../src/lib/webpack/util/parseGraphql');
+} = require('@evershop/evershop/src/lib/webpack/getRouteBuildPath');
+const {
+  parseGraphql
+} = require('@evershop/evershop/src/lib/webpack/util/parseGraphql');
 const JSON5 = require('json5');
 /**
  * Only pass the page routes, not api routes

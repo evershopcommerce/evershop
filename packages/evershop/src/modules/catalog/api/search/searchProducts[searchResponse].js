@@ -1,7 +1,7 @@
 const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
-const { buildUrl } = require('../../../../lib/router/buildUrl');
-const { assign } = require('../../../../lib/util/assign');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { assign } = require('@evershop/evershop/src/lib/util/assign');
 
 module.exports = async (request, response) => {
   const { keyword } = request.query;

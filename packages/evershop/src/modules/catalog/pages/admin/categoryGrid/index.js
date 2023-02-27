@@ -1,6 +1,6 @@
 const {
   buildFilterFromUrl
-} = require('../../../../../lib/util/buildFilterFromUrl');
+} = require('@evershop/evershop/src/lib/util/buildFilterFromUrl');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');
