@@ -1,13 +1,13 @@
 const path = require('path');
 const JSON5 = require('json5');
 const { readFileSync } = require('fs');
-const isDevelopmentMode = require('../../../../lib/util/isDevelopmentMode');
-const isProductionMode = require('../../../../lib/util/isProductionMode');
+const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
+const isProductionMode = require('@evershop/evershop/src/lib/util/isProductionMode');
 const {
   getRouteBuildPath
-} = require('../../../../lib/webpack/getRouteBuildPath');
-const { CONSTANTS } = require('../../../../lib/helpers');
-const { getRoutes } = require('../../../../lib/router/Router');
+} = require('@evershop/evershop/src/lib/webpack/getRouteBuildPath');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
 // eslint-disable-next-line no-unused-vars
 const { getContextValue } = require('../../services/contextHelper');
 

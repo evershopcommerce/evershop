@@ -1,7 +1,7 @@
 const {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR
-} = require('../../../../lib/util/httpStatus');
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 const { getContextValue } = require('../../../graphql/services/contextHelper');
 const removeItem = require('../removeCartItem/removeItem');
 

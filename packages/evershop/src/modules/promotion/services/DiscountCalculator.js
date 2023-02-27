@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../lib/mysql/connection');
-const { getConfig } = require('../../../lib/util/getConfig');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { toPrice } = require('../../checkout/services/toPrice');
 const { getCartTotalBeforeDiscount } = require('./getCartTotalBeforeDiscount');
 

@@ -1,11 +1,11 @@
 const { insert, select } = require('@evershop/mysql-query-builder');
 const bcrypt = require('bcryptjs');
-const { pool } = require('../../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR
-} = require('../../../../lib/util/httpStatus');
-const { buildUrl } = require('../../../../lib/router/buildUrl');
+} = require('@evershop/evershop/src/lib/util/httpStatus');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {

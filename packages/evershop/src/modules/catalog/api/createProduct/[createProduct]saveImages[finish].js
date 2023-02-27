@@ -3,8 +3,8 @@ const sharp = require('sharp');
 const config = require('config');
 const path = require('path');
 const { existsSync } = require('fs');
-const { get } = require('../../../../lib/util/get');
-const { CONSTANTS } = require('../../../../lib/helpers');
+const { get } = require('@evershop/evershop/src/lib/util/get');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 
 module.exports = async (request, response, deledate) => {
   let gallery = get(request, 'body.images', []);

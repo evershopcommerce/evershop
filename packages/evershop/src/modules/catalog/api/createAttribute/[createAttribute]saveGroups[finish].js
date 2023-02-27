@@ -2,7 +2,7 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-restricted-syntax */
 const { insertOnUpdate, select } = require('@evershop/mysql-query-builder');
-const { get } = require('../../../../lib/util/get');
+const { get } = require('@evershop/evershop/src/lib/util/get');
 
 module.exports = async (request, response, delegate) => {
   const attribute = await delegate.createAttribute;

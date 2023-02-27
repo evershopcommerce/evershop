@@ -1,6 +1,8 @@
 const { update, select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
-const { INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const {
+  INVALID_PAYLOAD
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 module.exports = async (request, response, delegate) => {
   const connection = await delegate.getConnection;

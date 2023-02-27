@@ -1,11 +1,11 @@
 const { select, node } = require('@evershop/mysql-query-builder');
 const uniqid = require('uniqid');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { camelCase } = require('../../../../../lib/util/camelCase');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const {
   getProductsBaseQuery
 } = require('../../../services/getProductsBaseQuery');
-const { pool } = require('../../../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const {
   getFilterableAttributes
 } = require('../../../services/getFilterableAttributes');

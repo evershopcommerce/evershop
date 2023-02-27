@@ -1,6 +1,6 @@
 const { select, update } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../../lib/mysql/connection');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 
 module.exports = async (request, response) => {
   // When the user cancelled the payment from PayPal

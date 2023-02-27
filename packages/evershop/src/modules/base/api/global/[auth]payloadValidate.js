@@ -1,6 +1,8 @@
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
-const { INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
+const {
+  INVALID_PAYLOAD
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 module.exports = (request, response, delegate, next) => {
   // Get the current route

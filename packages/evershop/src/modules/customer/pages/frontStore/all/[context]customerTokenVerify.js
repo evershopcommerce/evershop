@@ -4,9 +4,9 @@ const { select } = require('@evershop/mysql-query-builder');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');
-const { get } = require('../../../../../lib/util/get');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { pool } = require('../../../../../lib/mysql/connection');
+const { get } = require('@evershop/evershop/src/lib/util/get');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const { getTokenSecret } = require('../../../../auth/services/getTokenSecret');
 const { generateToken } = require('../../../../auth/services/generateToken');
 const {

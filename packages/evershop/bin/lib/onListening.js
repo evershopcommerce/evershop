@@ -1,6 +1,6 @@
 const boxen = require('boxen');
 const { red, green } = require('kleur');
-const isDevelopmentMode = require('../../src/lib/util/isDevelopmentMode');
+const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
 const normalizePort = require('./normalizePort');
 const port = normalizePort();
 /**

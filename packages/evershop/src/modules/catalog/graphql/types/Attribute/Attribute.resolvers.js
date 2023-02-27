@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 const { select } = require('@evershop/mysql-query-builder');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { camelCase } = require('../../../../../lib/util/camelCase');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 
 module.exports = {
   Query: {

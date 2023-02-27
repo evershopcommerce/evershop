@@ -1,7 +1,10 @@
 const { join } = require('path');
 const { existsSync, unlinkSync, lstatSync } = require('fs');
-const { CONSTANTS } = require('../../../../lib/helpers');
-const { INVALID_PAYLOAD, OK } = require('../../../../lib/util/httpStatus');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const {
+  INVALID_PAYLOAD,
+  OK
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (request, response, delegate, next) => {

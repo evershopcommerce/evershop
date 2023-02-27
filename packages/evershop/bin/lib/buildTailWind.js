@@ -3,13 +3,15 @@ const { mkdir, writeFile } = require('fs').promises;
 const path = require('path');
 const {
   getComponentsByRoute
-} = require('../../src/lib/componee/getComponentsByRoute');
-const { CONSTANTS } = require('../../src/lib/helpers');
+} = require('@evershop/evershop/src/lib/componee/getComponentsByRoute');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const {
   getRouteBuildPath
-} = require('../../src/lib/webpack/getRouteBuildPath');
+} = require('@evershop/evershop/src/lib/webpack/getRouteBuildPath');
 const dependencyTree = require('dependency-tree');
-const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
+const {
+  isBuildRequired
+} = require('@evershop/evershop/src/lib/webpack/isBuildRequired');
 const postcss = require('postcss');
 const tailwindcss = require('tailwindcss');
 const autoprefixer = require('autoprefixer');

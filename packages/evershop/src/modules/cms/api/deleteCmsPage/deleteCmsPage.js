@@ -1,10 +1,10 @@
 const { select, del } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} = require('../../../../lib/util/httpStatus');
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {

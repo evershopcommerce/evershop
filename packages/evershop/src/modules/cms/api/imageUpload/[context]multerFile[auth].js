@@ -1,8 +1,10 @@
 const { mkdirSync } = require('fs');
 const { join } = require('path');
 const multer = require('multer');
-const { CONSTANTS } = require('../../../../lib/helpers');
-const { INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const {
+  INVALID_PAYLOAD
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 const storage = multer.diskStorage({
   destination(request, file, cb) {

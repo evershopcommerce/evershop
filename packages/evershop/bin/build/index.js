@@ -1,13 +1,16 @@
 const { existsSync, rmSync, mkdirSync } = require('fs');
 const path = require('path');
-const { CONSTANTS } = require('../../src/lib/helpers');
-const { loadModuleRoutes } = require('../../src/lib/router/loadModuleRoutes');
-const { getRoutes } = require('../../src/lib/router/Router');
-const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const {
+  loadModuleRoutes
+} = require('@evershop/evershop/src/lib/router/loadModuleRoutes');
+const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
+const {
+  isBuildRequired
+} = require('@evershop/evershop/src/lib/webpack/isBuildRequired');
 const { getEnabledExtensions } = require('../extension');
-const { buildEntry } = require('../lib/buildEntry');
-const { buildTailwind } = require('../lib/buildTailWind');
-const { getCoreModules } = require('../lib/loadModules');
+const { buildEntry } = require('@evershop/evershop/bin/lib/buildEntry');
+const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
 const { compile } = require('./complie');
 
 /* Loading modules and initilize routes, components */

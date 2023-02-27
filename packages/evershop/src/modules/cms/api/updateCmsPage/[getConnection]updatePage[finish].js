@@ -1,5 +1,7 @@
 const { update, select } = require('@evershop/mysql-query-builder');
-const { INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
+const {
+  INVALID_PAYLOAD
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 module.exports = async (request, response, delegate) => {
   const data = request.body;

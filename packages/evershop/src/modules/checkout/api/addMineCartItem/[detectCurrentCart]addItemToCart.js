@@ -9,8 +9,8 @@ const {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
-} = require('../../../../lib/util/httpStatus');
-const { pool } = require('../../../../lib/mysql/connection');
+} = require('@evershop/evershop/src/lib/util/httpStatus');
+const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 const { createNewCart } = require('../../services/createNewCart');
 
 module.exports = async (request, response, delegate, next) => {

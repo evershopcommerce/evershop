@@ -1,8 +1,8 @@
 const chokidar = require('chokidar');
 const { existsSync } = require('fs');
 const { resolve } = require('path');
-const { CONSTANTS } = require('../../../src/lib/helpers');
-const { Handler } = require('../../../src/lib/middleware/Handler');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
 const { updateApp } = require('../startUp');
 const { broadcash } = require('./broadcash');
 const { red } = require('kleur');
