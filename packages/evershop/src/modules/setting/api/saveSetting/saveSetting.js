@@ -9,7 +9,8 @@ const {
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { refreshSetting } = require('../../services/setting');
 
-module.exports = async (request, response) => {
+// eslint-disable-next-line no-unused-vars
+module.exports = async (request, response, delegate, next) => {
   const { body } = request;
   const connection = await getConnection();
   try {
