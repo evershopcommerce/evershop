@@ -5,7 +5,7 @@ const path = require('path');
 const { red, green } = require('kleur');
 const ora = require('ora');
 const boxen = require('boxen');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const { execute } = require('@evershop/mysql-query-builder');
 const { prompt } = require('enquirer');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
@@ -79,7 +79,10 @@ function error(message) {
     password: db.databasePassword,
     database: db.databaseName,
     dateStrings: true,
-    connectionLimit: 10
+    connectionLimit: 10,
+    ssl: {
+      rejectUnauthorized: false
+    }
   });
   // Validate the database
   try {

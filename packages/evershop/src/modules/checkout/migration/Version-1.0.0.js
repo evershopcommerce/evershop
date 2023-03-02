@@ -1,10 +1,9 @@
 const { execute } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
-module.exports = exports = async () => {
+module.exports = exports = async (connection) => {
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`cart\` (
   \`cart_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -40,7 +39,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`cart_address\` (
   \`cart_address_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -58,7 +57,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`cart_item\` (
   \`cart_item_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -92,7 +91,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`order\` (
   \`order_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -132,7 +131,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`order_activity\` (
   \`order_activity_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`order_activity_order_id\` int(10) unsigned NOT NULL,
@@ -148,7 +147,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`order_address\` (
   \`order_address_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -166,7 +165,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`order_item\` (
   \`order_item_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -200,7 +199,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`payment_transaction\` (
   \`payment_transaction_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -220,7 +219,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`shipment\` (
   \`shipment_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),

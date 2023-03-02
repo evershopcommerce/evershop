@@ -1,10 +1,9 @@
 const { execute } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
-module.exports = exports = async () => {
+module.exports = exports = async (connection) => {
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`customer\` (
   \`customer_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -24,7 +23,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`customer_address\` (
   \`customer_address_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),

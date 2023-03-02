@@ -1,22 +1,21 @@
 const { execute } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
-module.exports = exports = async () => {
+module.exports = exports = async (connection) => {
   await execute(
-    pool,
+    connection,
     'ALTER TABLE setting ADD COLUMN uuid varchar(36) NOT NULL DEFAULT "" AFTER setting_id'
   );
   await execute(
-    pool,
+    connection,
     "UPDATE setting SET uuid = replace(uuid(),'-','') WHERE uuid = ''"
   );
   await execute(
-    pool,
+    connection,
     "ALTER TABLE setting MODIFY uuid varchar(36) NOT NULL DEFAULT (replace(uuid(),'-',''))"
   );
   await execute(
-    pool,
+    connection,
     'ALTER TABLE setting ADD UNIQUE KEY `SETTING_UUID` (`uuid`)'
   );
 };

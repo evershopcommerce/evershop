@@ -1,11 +1,10 @@
 const { execute } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
-module.exports = exports = async () => {
-  await execute(pool, 'DROP TABLE IF EXISTS `setting`');
+module.exports = exports = async (connection) => {
+  await execute(connection, 'DROP TABLE IF EXISTS `setting`');
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`setting\` (
   \`setting_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`name\` varchar(255) NOT NULL,

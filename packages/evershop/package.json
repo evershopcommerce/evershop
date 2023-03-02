@@ -81,7 +81,7 @@
     "luxon": "^2.0.2",
     "mini-css-extract-plugin": "^2.6.1",
     "multer": "^1.4.2",
-    "mysql": "^2.18.1",
+    "mysql2": "^3.1.2",
     "npm": "^8.18.0",
     "ora": "^5.4.1",
     "postcss": "^8.4.18",

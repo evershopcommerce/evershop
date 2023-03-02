@@ -1,10 +1,9 @@
 const { execute, insert } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
-module.exports = exports = async () => {
+module.exports = exports = async (connection) => {
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`attribute\` (
   \`attribute_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`attribute_code\` varchar(255) NOT NULL,
@@ -28,7 +27,7 @@ module.exports = exports = async () => {
       display_on_frontend: 1,
       is_filterable: 1
     })
-    .execute(pool);
+    .execute(connection);
 
   const size = await insert('attribute')
     .given({
@@ -39,10 +38,10 @@ module.exports = exports = async () => {
       display_on_frontend: 1,
       is_filterable: 1
     })
-    .execute(pool);
+    .execute(connection);
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`attribute_option\` (
   \`attribute_option_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`attribute_id\` int(10) unsigned NOT NULL,
@@ -61,7 +60,7 @@ module.exports = exports = async () => {
       attribute_code: 'color',
       option_text: 'White'
     })
-    .execute(pool);
+    .execute(connection);
 
   await insert('attribute_option')
     .given({
@@ -69,7 +68,7 @@ module.exports = exports = async () => {
       attribute_code: 'color',
       option_text: 'Black'
     })
-    .execute(pool);
+    .execute(connection);
 
   await insert('attribute_option')
     .given({
@@ -77,7 +76,7 @@ module.exports = exports = async () => {
       attribute_code: 'color',
       option_text: 'Yellow'
     })
-    .execute(pool);
+    .execute(connection);
 
   await insert('attribute_option')
     .given({
@@ -85,7 +84,7 @@ module.exports = exports = async () => {
       attribute_code: 'size',
       option_text: 'XXL'
     })
-    .execute(pool);
+    .execute(connection);
 
   await insert('attribute_option')
     .given({
@@ -93,7 +92,7 @@ module.exports = exports = async () => {
       attribute_code: 'size',
       option_text: 'XL'
     })
-    .execute(pool);
+    .execute(connection);
 
   await insert('attribute_option')
     .given({
@@ -101,10 +100,10 @@ module.exports = exports = async () => {
       attribute_code: 'size',
       option_text: 'SM'
     })
-    .execute(pool);
+    .execute(connection);
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`attribute_group\` (
   \`attribute_group_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`group_name\` text NOT NULL,
@@ -116,10 +115,10 @@ module.exports = exports = async () => {
 
   const defaultGroup = await insert('attribute_group')
     .given({ group_name: 'Default' })
-    .execute(pool);
+    .execute(connection);
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`attribute_group_link\` (
   \`attribute_group_link_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`attribute_id\` int(10) unsigned NOT NULL,
@@ -134,13 +133,13 @@ module.exports = exports = async () => {
 
   await insert('attribute_group_link')
     .given({ group_id: defaultGroup.insertId, attribute_id: color.insertId })
-    .execute(pool);
+    .execute(connection);
   await insert('attribute_group_link')
     .given({ group_id: defaultGroup.insertId, attribute_id: size.insertId })
-    .execute(pool);
+    .execute(connection);
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`variant_group\` (
   \`variant_group_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`attribute_group_id\` int(10) unsigned NOT NULL,
@@ -168,7 +167,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`customer_group\` (
   \`customer_group_id\` int(10) unsigned NOT NULL,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -184,12 +183,12 @@ module.exports = exports = async () => {
 
   // Add default customer group
   await execute(
-    pool,
+    connection,
     "INSERT INTO `customer_group` ( `customer_group_id`, `group_name` ) VALUES (1, 'Default') ON DUPLICATE KEY UPDATE group_name='Default'"
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`product\` (
   \`product_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -217,7 +216,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`product_attribute_value_index\` (
   \`product_attribute_value_index_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`product_id\` int(10) unsigned NOT NULL,
@@ -235,7 +234,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`product_custom_option\` (
   \`product_custom_option_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`product_custom_option_product_id\` int(10) unsigned NOT NULL,
@@ -250,7 +249,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`product_custom_option_value\` (
   \`product_custom_option_value_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`option_id\` int(10) unsigned NOT NULL,
@@ -264,7 +263,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`product_description\` (
   \`product_description_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`product_description_product_id\` int(10) unsigned NOT NULL,
@@ -282,7 +281,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`product_image\` (
   \`product_image_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`product_image_product_id\` int(10) unsigned NOT NULL,
@@ -294,7 +293,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`product_price\` (
   \`product_price_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`product_price_product_id\` int(10) unsigned NOT NULL,
@@ -315,7 +314,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`category\` (
   \`category_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -330,7 +329,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`product_category\` (
   \`product_category_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`category_id\` int(10) unsigned NOT NULL,
@@ -344,7 +343,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`category_description\` (
   \`category_description_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`category_description_category_id\` int(10) unsigned NOT NULL,
@@ -365,7 +364,7 @@ module.exports = exports = async () => {
   /* CREATE SOME TRIGGERS */
 
   await execute(
-    pool,
+    connection,
     `CREATE TRIGGER \`TRIGGER_REMOVE_ATTRIBUTE_FROM_GROUP\` AFTER DELETE ON \`attribute_group_link\` FOR EACH ROW BEGIN
                 
                         DELETE FROM \`product_attribute_value_index\` WHERE product_attribute_value_index.attribute_id = OLD.attribute_id AND product_attribute_value_index.product_id IN (SELECT product.product_id FROM product WHERE product.group_id = OLD.group_id);
@@ -375,14 +374,14 @@ module.exports = exports = async () => {
                     END`
   );
   await execute(
-    pool,
+    connection,
     `CREATE TRIGGER \`TRIGGER_ATTRIBUTE_OPTION_UPDATE\` AFTER UPDATE ON \`attribute_option\` FOR EACH ROW UPDATE \`product_attribute_value_index\` SET \`product_attribute_value_index\`.\`option_text\` = NEW.option_text
                         
                         WHERE \`product_attribute_value_index\`.option_id = NEW.attribute_option_id AND \`product_attribute_value_index\`.attribute_id = NEW.attribute_id`
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TRIGGER \`TRIGGER_AFTER_DELETE_ATTRIBUTE_OPTION\` AFTER DELETE ON \`attribute_option\` FOR EACH ROW BEGIN
                     
                         DELETE FROM \`product_attribute_value_index\` WHERE \`product_attribute_value_index\`.option_id = OLD.attribute_option_id AND \`product_attribute_value_index\`.\`attribute_id\` = OLD.attribute_id;
@@ -391,7 +390,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TRIGGER \`TRIGGER_AFTER_INSERT_PRODUCT\` AFTER INSERT ON \`product\` FOR EACH ROW BEGIN
                     
                         UPDATE \`variant_group\` SET visibility = (SELECT MAX(visibility) FROM \`product\` WHERE \`product\`.\`variant_group_id\` = new.variant_group_id AND \`product\`.\`status\` = 1 GROUP BY \`product\`.\`variant_group_id\`) WHERE \`variant_group\`.\`variant_group_id\` = new.variant_group_id;
@@ -400,7 +399,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TRIGGER \`TRIGGER_PRODUCT_AFTER_UPDATE\` AFTER UPDATE ON \`product\` FOR EACH ROW BEGIN
 
                         DELETE FROM \`product_attribute_value_index\`
