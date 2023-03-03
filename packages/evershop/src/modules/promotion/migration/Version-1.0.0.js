@@ -1,10 +1,9 @@
 const { execute } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
 
 // eslint-disable-next-line no-multi-assign
-module.exports = exports = async () => {
+module.exports = exports = async (connection) => {
   await execute(
-    pool,
+    connection,
     `CREATE TABLE \`coupon\` (
   \`coupon_id\` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
@@ -31,7 +30,7 @@ module.exports = exports = async () => {
   );
 
   await execute(
-    pool,
+    connection,
     `CREATE TRIGGER \`TRIGGER_UPDATE_COUPON_USED_TIME_AFTER_CREATE_ORDER\` AFTER INSERT ON \`order\` FOR EACH ROW BEGIN
                   
           UPDATE \`coupon\` SET \`coupon\`.used_time = \`coupon\`.used_time + 1 WHERE \`coupon\`.coupon = NEW.coupon;

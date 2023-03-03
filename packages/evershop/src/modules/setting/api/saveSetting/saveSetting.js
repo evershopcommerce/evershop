@@ -1,6 +1,9 @@
-const { insertOnUpdate } = require('@evershop/mysql-query-builder');
 const {
-  pool,
+  insertOnUpdate,
+  commit,
+  rollback
+} = require('@evershop/mysql-query-builder');
+const {
   getConnection
 } = require('@evershop/evershop/src/lib/mysql/connection');
 const {
@@ -9,7 +12,8 @@ const {
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { refreshSetting } = require('../../services/setting');
 
-module.exports = async (request, response) => {
+// eslint-disable-next-line no-unused-vars
+module.exports = async (request, response, delegate, next) => {
   const { body } = request;
   const connection = await getConnection();
   try {
@@ -26,7 +30,7 @@ module.exports = async (request, response) => {
               value: JSON.stringify(value),
               is_json: 1
             })
-            .execute(pool)
+            .execute(connection)
         );
       } else {
         promises.push(
@@ -36,12 +40,12 @@ module.exports = async (request, response) => {
               value,
               is_json: 0
             })
-            .execute(pool)
+            .execute(connection)
         );
       }
     });
     await Promise.all(promises);
-    await connection.commit();
+    await commit(connection);
     // Refresh the setting
     await refreshSetting();
     response.status(OK);
@@ -49,7 +53,7 @@ module.exports = async (request, response) => {
       data: {}
     });
   } catch (error) {
-    await connection.rollback();
+    await rollback(connection);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

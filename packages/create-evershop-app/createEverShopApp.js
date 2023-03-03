@@ -13,7 +13,7 @@ const semver = require('semver');
 const spawn = require('cross-spawn');
 const url = require('url');
 const validateProjectName = require('validate-npm-package-name');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const packageJson = require('./package.json');
 const { readFileSync } = require('fs');
 const { writeFile, mkdir } = require('fs/promises');
@@ -553,7 +553,10 @@ async function setUpEverShop(playAround, projectDir) {
       port: 3306,
       user: db.databaseUser,
       database: db.databaseName,
-      password: db.databasePassword
+      password: db.databasePassword,
+      ssl: {
+        rejectUnauthorized: false
+      }
     });
 
     await createMigrationTable(pool);
