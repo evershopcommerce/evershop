@@ -199,8 +199,15 @@ module.exports = {
     },
     editUrl: ({ uuid }) => buildUrl('orderEdit', { id: uuid }),
     fullFillApi: ({ uuid }) => buildUrl('createShipment', { id: uuid }),
-    customerUrl: ({ customerId }) =>
-      customerId ? buildUrl('customerEdit', { id: customerId }) : null
+    customerUrl: async ({ customerId }, _, { pool }) => {
+      const customer = await select()
+        .from('customer')
+        .where('customer_id', '=', customerId)
+        .load(pool);
+      return customer
+        ? buildUrl('customerEdit', { id: customer['uuid'] })
+        : null;
+    }
   },
   Shipment: {
     updateShipmentApi: ({ orderUuid, uuid }) =>
