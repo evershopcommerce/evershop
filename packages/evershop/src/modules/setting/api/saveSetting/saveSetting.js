@@ -1,6 +1,9 @@
-const { insertOnUpdate } = require('@evershop/mysql-query-builder');
 const {
-  pool,
+  insertOnUpdate,
+  commit,
+  rollback
+} = require('@evershop/mysql-query-builder');
+const {
   getConnection
 } = require('@evershop/evershop/src/lib/mysql/connection');
 const {
@@ -27,7 +30,7 @@ module.exports = async (request, response, delegate, next) => {
               value: JSON.stringify(value),
               is_json: 1
             })
-            .execute(pool)
+            .execute(connection)
         );
       } else {
         promises.push(
@@ -37,12 +40,12 @@ module.exports = async (request, response, delegate, next) => {
               value,
               is_json: 0
             })
-            .execute(pool)
+            .execute(connection)
         );
       }
     });
     await Promise.all(promises);
-    await connection.commit();
+    await commit(connection);
     // Refresh the setting
     await refreshSetting();
     response.status(OK);
@@ -50,7 +53,7 @@ module.exports = async (request, response, delegate, next) => {
       data: {}
     });
   } catch (error) {
-    await connection.rollback();
+    await rollback(connection);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {
