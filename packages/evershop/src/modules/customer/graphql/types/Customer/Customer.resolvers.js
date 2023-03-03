@@ -38,6 +38,14 @@ module.exports = {
             value: filter.value
           });
         }
+        if (filter.key === 'email') {
+          query.andWhere('customer.`email`', 'LIKE', `%${filter.value}%`);
+          currentFilters.push({
+            key: 'email',
+            operation: '=',
+            value: filter.value
+          });
+        }
       });
 
       const sortBy = filters.find((f) => f.key === 'sortBy');
