@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ProductList from '@components/frontStore/catalog/product/list/List';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function Products({
   products: {
@@ -11,7 +12,7 @@ export default function Products({
     <div>
       <ProductList products={items} countPerRow={3} />
       <span className="product-count italic block mt-2">
-        {`${items.length} products`}
+        {_('${count} products', { count: items.length })}
       </span>
     </div>
   );

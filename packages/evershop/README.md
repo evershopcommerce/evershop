@@ -25,7 +25,6 @@
 EverShop is a GraphQL Based and React ecommerce platform with essential commerce features. Built with React, modular and fully customizable.
 
 ## Features
-
 - Catalog management
   - Product management
   - Category management
@@ -57,8 +56,8 @@ Explore our demo store.
 </p>
 <b>Demo user:</b>
 
-Email: demo@gmail.com<br/> Password: 123456
-
+Email: demo@gmail.com<br/>
+Password: 123456
 <p align="center">
 <img alt="EverShop Store Demo" width="950" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-product-detail.png"/>
 </p>
@@ -82,6 +81,8 @@ npx create-evershop-app my-app --playAround
 
 - [Theme development](https://evershop.io/docs/development/theme/theme-overview).
 
+
+
 ## Support
 
 If you like my work, feel free to:
@@ -90,7 +91,6 @@ If you like my work, feel free to:
 - [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)][tweet] about EverShop. Please accept my gratitude.
 
 [tweet]: https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fevershopcommerce%2Fevershop&text=Awesome%20React%20Ecommerce%20Project&hashtags=react,ecommerce,expressjs,graphql
-
 ### Ask a question about EverShop
 
 You can ask questions, and participate in discussions about EverShop-related topics in the EverShop Discord channel.
@@ -101,11 +101,13 @@ You can ask questions, and participate in discussions about EverShop-related top
 
 If you see an error message or run into an issue, please [create bug report](https://github.com/evershopcommerce/evershop/issues/new). This effort is valued and it will help all EverShop users.
 
+
 ### Submit a feature request
 
 If you have an idea, or you're missing a capability that would make development easier and more robust, please [Submit feature request](https://github.com/evershopcommerce/evershop/issues/new).
 
-If a similar feature request already exists, don't forget to leave a "+1". If you add some more information such as your thoughts and vision about the feature, your comments will be embraced warmly :)
+If a similar feature request already exists, don't forget to leave a "+1".
+If you add some more information such as your thoughts and vision about the feature, your comments will be embraced warmly :)
 
 ## Contributing
 

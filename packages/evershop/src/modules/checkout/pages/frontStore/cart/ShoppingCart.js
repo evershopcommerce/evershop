@@ -15,7 +15,7 @@ function Title({ title }) {
     <div className="mb-3 text-center shopping-cart-heading">
       <h1 className="shopping-cart-title mb-05">{title}</h1>
       <a href="/" className="underline">
-        {_('Continue shopping')}
+        {_('Continue Shopping')}
       </a>
     </div>
   );
