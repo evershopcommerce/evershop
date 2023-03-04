@@ -7,7 +7,7 @@ import { useAppDispatch, useAppState } from '@components/common/context/app';
 export function HotReload({ hot }) {
   const [isRefreshing, setIsRefreshing] = React.useState(false);
   const appContext = useAppState();
-  const appDispatch = useAppDispatch();
+  const { setData } = useAppDispatch();
 
   React.useEffect(() => {
     hot.subscribe(async (event) => {
@@ -22,7 +22,7 @@ export function HotReload({ hot }) {
           }
         });
         if (response.status < 300) {
-          appDispatch(
+          setData(
             produce(appContext, (draff) => {
               // eslint-disable-next-line no-param-reassign
               draff = response.data.eContext;

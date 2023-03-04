@@ -34,7 +34,7 @@ const upload = multer({ storage, fileFilter });
 module.exports = (request, response, delegate, next) => {
   const path = request.params[0] || '';
   // eslint-disable-next-line no-useless-escape
-  if (!path || !/^[a-z0-9\/]+$/i.test(path)) {
+  if (path && !/^[a-z0-9\/]+$/i.test(path)) {
     response.status(INVALID_PAYLOAD).json({
       error: {
         status: INVALID_PAYLOAD,

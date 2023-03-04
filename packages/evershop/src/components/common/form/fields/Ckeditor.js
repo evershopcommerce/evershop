@@ -3,10 +3,9 @@
 /* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { TextArea } from '@components/common/form/fields/Textarea';
 import Button from '@components/common/form/Button';
 import { Input } from '@components/common/form/fields/Input';
-import '../Field.scss';
+import './Ckeditor.scss';
 
 function File({ file, select }) {
   const className = file.isSelected === true ? 'selected' : '';
@@ -110,14 +109,23 @@ function FileBrowser({
     const path = currentPath.map((f) => f.name);
     path.push(folder.trim());
     setLoading(true);
-    fetch(folderCreateApi + path.join('/'), {
-      method: 'GET'
+    fetch(folderCreateApi, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ path: path.join('/') }),
+      credentials: 'same-origin'
     })
       .then((res) => res.json())
       .then((response) => {
-        if (response.success === true)
+        console.log(response);
+        if (!response.error) {
+          console.log(response.data.name);
           setFolders(folders.concat(response.data.name));
-        else setError(response.message);
+        } else {
+          setError(response.error.message);
+        }
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
@@ -142,10 +150,10 @@ function FileBrowser({
       })
         .then((res) => res.json())
         .then((response) => {
-          if (response.success === true) {
+          if (!response.error) {
             setCurrentPath(currentPath.map((f) => f));
           } else {
-            setError(response.message);
+            setError(response.error.message);
           }
         })
         .catch((err) => setError(err.message))
@@ -161,7 +169,8 @@ function FileBrowser({
 
     if (file === null) setError('No file selected');
     else {
-      editor.insertHtml(`<img src='${file.url}'/>`);
+      //editor.insertHtml(`<img src='${file.url}'/>`);
+      editor.execute('insertImage', { source: file.url });
       setFileBrowser(false);
     }
   };
@@ -184,9 +193,11 @@ function FileBrowser({
     })
       .then((res) => res.json())
       .then((response) => {
-        if (response.success === true)
+        if (!response.error) {
           setCurrentPath(currentPath.map((f) => f));
-        else setError(response.message);
+        } else {
+          setError(response.error.message);
+        }
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
@@ -200,10 +211,12 @@ function FileBrowser({
     })
       .then((res) => res.json())
       .then((response) => {
-        if (response.success === true) {
+        if (!response.error) {
           setFolders(response.data.folders);
           setFiles(response.data.files);
-        } else setError(response.message);
+        } else {
+          setError(response.error.message);
+        }
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
@@ -387,62 +400,78 @@ FileBrowser.propTypes = {
   uploadApi: PropTypes.string.isRequired
 };
 
-export default function Ckeditor(props) {
-  const { name, label } = props;
-
+export default function CkeditorField({
+  name,
+  value,
+  label,
+  browserApi,
+  deleteApi,
+  uploadApi,
+  folderCreateApi
+}) {
+  const editorRef = React.useRef();
+  const [editorLoaded, setEditorLoaded] = React.useState(false);
   const [fileBrowser, setFileBrowser] = React.useState(false);
   const [editor, setEditor] = React.useState(null);
+  const { CKEditor, ClassicEditor } = editorRef.current || {};
+  // React.useEffect(() => {
+  //   // eslint-disable-next-line no-undef
+  //   setEditor(
+  //     CKEditor.replace(name, {
+  //       toolbarGroups: [
+  //         {
+  //           name: 'basicstyles',
+  //           groups: ['basicstyles']
+  //         },
+  //         {
+  //           name: 'links',
+  //           groups: ['links']
+  //         },
+  //         {
+  //           name: 'paragraph',
+  //           groups: ['list', 'blocks']
+  //         },
+  //         {
+  //           name: 'document',
+  //           groups: ['mode']
+  //         },
+  //         {
+  //           name: 'insert',
+  //           groups: ['insert']
+  //         },
+  //         {
+  //           name: 'styles',
+  //           groups: ['styles']
+  //         },
+  //         {
+  //           name: 'about',
+  //           groups: ['about']
+  //         }
+  //       ],
+  //       // Remove the redundant buttons from toolbar groups defined above.
+  //       removeButtons:
+  //         'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,PasteFromWord'
+  //     })
+  //   );
+  //   // eslint-disable-next-line no-undef
+  //   CKEditor.instances[name].on('change', () => {
+  //     // eslint-disable-next-line no-undef
+  //     CKEditor.instances[name].updateElement();
+  //   });
+  // }, []);
 
   React.useEffect(() => {
-    // eslint-disable-next-line no-undef
-    setEditor(
-      CKEDITOR.replace(name, {
-        toolbarGroups: [
-          {
-            name: 'basicstyles',
-            groups: ['basicstyles']
-          },
-          {
-            name: 'links',
-            groups: ['links']
-          },
-          {
-            name: 'paragraph',
-            groups: ['list', 'blocks']
-          },
-          {
-            name: 'document',
-            groups: ['mode']
-          },
-          {
-            name: 'insert',
-            groups: ['insert']
-          },
-          {
-            name: 'styles',
-            groups: ['styles']
-          },
-          {
-            name: 'about',
-            groups: ['about']
-          }
-        ],
-        // Remove the redundant buttons from toolbar groups defined above.
-        removeButtons:
-          'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,PasteFromWord'
-      })
-    );
-    // eslint-disable-next-line no-undef
-    CKEDITOR.instances[name].on('change', () => {
-      // eslint-disable-next-line no-undef
-      CKEDITOR.instances[name].updateElement();
-    });
+    editorRef.current = {
+      CKEditor: require('@ckeditor/ckeditor5-react').CKEditor, //Added .CKEditor
+      ClassicEditor: require('@ckeditor/ckeditor5-build-classic')
+    };
+    setEditorLoaded(true);
   }, []);
 
   return (
     <div className="ckeditor">
-      <label htmlFor="description">{label}</label>
-      <div className="image-icon">
+      <label htmlFor="description mt-1">{label}</label>
+      <div className="image-icon mt-1 mb-1">
         <a
           href="#"
           onClick={(e) => {
@@ -456,6 +485,7 @@ export default function Ckeditor(props) {
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            className="hover:fill-primary"
           >
             <path
               strokeLinecap="round"
@@ -472,23 +502,63 @@ export default function Ckeditor(props) {
           </svg>
         </a>
       </div>
-      <TextArea {...props} />
+      <div className="hidden">
+        <textarea name={name}>{value}</textarea>
+      </div>
+      {editorLoaded && (
+        <CKEditor
+          config={{
+            toolbar: [
+              'heading',
+              '|',
+              'bold',
+              'italic',
+              'link',
+              'bulletedList',
+              'numberedList',
+              'blockQuote',
+              'insertTable',
+              'codeBlock'
+            ]
+          }}
+          editor={ClassicEditor}
+          data={value}
+          onReady={(editor) => {
+            setEditor(editor);
+          }}
+          onChange={(event, editor) => {
+            const data = editor.getData();
+            // eslint-disable-next-line no-undef
+            // Set data to the textarea with the name of the editor
+            // CKEditor.instances[name].setData(data);
+            document.getElementsByName(name)[0].value = data;
+          }}
+        />
+      )}
       {fileBrowser === true && (
         <FileBrowser
-          {...props}
           editor={editor}
           setFileBrowser={setFileBrowser}
+          browserApi={browserApi}
+          deleteApi={deleteApi}
+          uploadApi={uploadApi}
+          folderCreateApi={folderCreateApi}
         />
       )}
     </div>
   );
 }
 
-Ckeditor.propTypes = {
+CkeditorField.propTypes = {
   label: PropTypes.string,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  browserApi: PropTypes.string.isRequired,
+  deleteApi: PropTypes.string.isRequired,
+  uploadApi: PropTypes.string.isRequired,
+  folderCreateApi: PropTypes.string.isRequired
 };
 
-Ckeditor.defaultProps = {
+CkeditorField.defaultProps = {
   label: ''
 };
