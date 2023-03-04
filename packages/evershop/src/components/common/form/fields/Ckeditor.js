@@ -119,9 +119,7 @@ function FileBrowser({
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
         if (!response.error) {
-          console.log(response.data.name);
           setFolders(folders.concat(response.data.name));
         } else {
           setError(response.error.message);
@@ -171,6 +169,7 @@ function FileBrowser({
     else {
       //editor.insertHtml(`<img src='${file.url}'/>`);
       editor.execute('insertImage', { source: file.url });
+      editor.fire('change');
       setFileBrowser(false);
     }
   };
@@ -414,51 +413,7 @@ export default function CkeditorField({
   const [fileBrowser, setFileBrowser] = React.useState(false);
   const [editor, setEditor] = React.useState(null);
   const { CKEditor, ClassicEditor } = editorRef.current || {};
-  // React.useEffect(() => {
-  //   // eslint-disable-next-line no-undef
-  //   setEditor(
-  //     CKEditor.replace(name, {
-  //       toolbarGroups: [
-  //         {
-  //           name: 'basicstyles',
-  //           groups: ['basicstyles']
-  //         },
-  //         {
-  //           name: 'links',
-  //           groups: ['links']
-  //         },
-  //         {
-  //           name: 'paragraph',
-  //           groups: ['list', 'blocks']
-  //         },
-  //         {
-  //           name: 'document',
-  //           groups: ['mode']
-  //         },
-  //         {
-  //           name: 'insert',
-  //           groups: ['insert']
-  //         },
-  //         {
-  //           name: 'styles',
-  //           groups: ['styles']
-  //         },
-  //         {
-  //           name: 'about',
-  //           groups: ['about']
-  //         }
-  //       ],
-  //       // Remove the redundant buttons from toolbar groups defined above.
-  //       removeButtons:
-  //         'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,PasteFromWord'
-  //     })
-  //   );
-  //   // eslint-disable-next-line no-undef
-  //   CKEditor.instances[name].on('change', () => {
-  //     // eslint-disable-next-line no-undef
-  //     CKEditor.instances[name].updateElement();
-  //   });
-  // }, []);
+  const [editorData, setEditorData] = React.useState(value);
 
   React.useEffect(() => {
     editorRef.current = {
@@ -502,9 +457,7 @@ export default function CkeditorField({
           </svg>
         </a>
       </div>
-      <div className="hidden">
-        <textarea name={name}>{value}</textarea>
-      </div>
+      <input type={'hidden'} name={name} value={editorData} />
       {editorLoaded && (
         <CKEditor
           config={{
@@ -531,7 +484,7 @@ export default function CkeditorField({
             // eslint-disable-next-line no-undef
             // Set data to the textarea with the name of the editor
             // CKEditor.instances[name].setData(data);
-            document.getElementsByName(name)[0].value = data;
+            setEditorData(data);
           }}
         />
       )}

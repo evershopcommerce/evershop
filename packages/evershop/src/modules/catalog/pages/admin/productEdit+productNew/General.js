@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
-import { TextArea } from '@components/common/form/fields/Textarea';
 import { Card } from '@components/admin/cms/Card';
+import CkeditorField from '@components/common/form/fields/Ckeditor';
 
 function SKUPriceWeight({ sku, price, weight, setting }) {
   return (
@@ -114,7 +114,7 @@ export default function General({
               id: 'SKUPriceWeight'
             },
             {
-              component: { default: TextArea },
+              component: { default: CkeditorField },
               props: {
                 id: 'description',
                 name: 'description',
