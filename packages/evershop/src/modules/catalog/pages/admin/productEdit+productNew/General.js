@@ -195,7 +195,7 @@ export const query = `
     }
     browserApi: url(routeId: "fileBrowser", params: [{key: "0", value: ""}])
     deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
-    uploadApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
-    folderCreateApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
+    uploadApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
+    folderCreateApi: url(routeId: "folderCreate")
   }
 `;
