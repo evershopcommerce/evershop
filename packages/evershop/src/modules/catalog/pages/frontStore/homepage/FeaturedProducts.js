@@ -51,7 +51,7 @@ export const layout = {
 
 export const query = `
   query query {
-    featuredProducts {
+    featuredProducts (limit: 3) {
       productId
       name
       price {

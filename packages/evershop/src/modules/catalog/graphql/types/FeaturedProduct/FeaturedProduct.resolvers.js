@@ -3,7 +3,7 @@ const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 
 module.exports = {
   Query: {
-    featuredProducts: async (root, _, { pool }) => {
+    featuredProducts: async (root, { limit = 4 }, { pool }) => {
       const query = select('product.`product_id`')
         .select('product.`sku`')
         .select('product.`price`')
@@ -26,7 +26,7 @@ module.exports = {
       query.andWhere('product.`visibility`', '=', 1);
       query.groupBy('product.`product_id`');
       query.orderBy('soldQty', 'desc');
-      query.limit(0, 4);
+      query.limit(0, parseInt(limit, 10));
       const products = await query.execute(pool);
       return products.map((product) => camelCase(product));
     }
