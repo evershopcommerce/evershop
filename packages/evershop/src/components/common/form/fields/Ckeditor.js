@@ -426,7 +426,7 @@ export default function CkeditorField({
   return (
     <div className="ckeditor">
       <label htmlFor="description mt-1">{label}</label>
-      <div className="image-icon mt-1 mb-1">
+      <div className="image-icon mt-1">
         <a
           href="#"
           onClick={(e) => {
