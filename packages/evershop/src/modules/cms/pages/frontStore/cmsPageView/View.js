@@ -1,12 +1,13 @@
 /* eslint-disable react/no-danger */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { CKEditor } from '@components/common/CKEditor';
 
 export default function Page({ page }) {
   return (
     <div className="page-width">
       <h1 className="text-center mb-3">{page.name}</h1>
-      <div dangerouslySetInnerHTML={{ __html: page.content }} />
+      <CKEditor content={page.content} />
     </div>
   );
 }

@@ -26,7 +26,7 @@ module.exports = (request, response, delegate, next) => {
             .replace(resolve(CONSTANTS.MEDIAPATH), '')
             .split('\\')
             .join('/'),
-          url: buildUrl('adminStaticAsset', [
+          url: buildUrl('staticAsset', [
             f.path
               .replace(resolve(CONSTANTS.MEDIAPATH), '')
               .split('\\')

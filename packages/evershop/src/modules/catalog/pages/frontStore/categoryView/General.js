@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './General.scss';
+import { CKEditor } from '@components/common/CKEditor';
 
 export default function CategoryInfo({
   category: { name, description, image }
@@ -18,10 +19,9 @@ export default function CategoryInfo({
       >
         <div className="text-left text-white">
           <h1 className="category-name mt-25">{name}</h1>
-          <div
-            className="category-description"
-            dangerouslySetInnerHTML={{ __html: description }}
-          />
+          <div className="category-description">
+            <CKEditor content={description} />
+          </div>
         </div>
       </div>
     </div>

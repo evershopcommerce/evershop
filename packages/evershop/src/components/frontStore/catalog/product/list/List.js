@@ -5,12 +5,13 @@ import { Thumbnail } from '@components/frontStore/catalog/product/list/item/Thum
 import { Price } from '@components/frontStore/catalog/product/list/item/Price';
 import Area from '@components/common/Area';
 import { get } from '@evershop/evershop/src/lib/util/get';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function ProductList({ products = [], countPerRow = 3 }) {
   if (products.length === 0) {
     return (
       <div className="product-list">
-        <div className="text-center">There is no product to display</div>
+        <div className="text-center">{_('There is no product to display')}</div>
       </div>
     );
   }

@@ -31,7 +31,7 @@ module.exports = (request, response, delegate, next) => {
         })
           .filter((dirent) => dirent.isFile())
           .map((f) => ({
-            url: buildUrl('adminStaticAsset', [`${path}/${f.name}`]),
+            url: buildUrl('staticAsset', [`${path}/${f.name}`]),
             name: f.name
           }))
       }

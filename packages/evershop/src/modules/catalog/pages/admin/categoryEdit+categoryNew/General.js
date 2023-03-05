@@ -3,8 +3,8 @@ import React from 'react';
 import Area from '@components/common/Area';
 import { get } from '@evershop/evershop/src/lib/util/get';
 import { Field } from '@components/common/form/Field';
-import { TextArea } from '@components/common/form/fields/Textarea';
 import { Card } from '@components/admin/cms/Card';
+import CkeditorField from '@components/common/form/fields/Ckeditor';
 
 export default function General({
   category,
@@ -36,7 +36,7 @@ export default function General({
       sortOrder: 10
     },
     {
-      component: { default: TextArea },
+      component: { default: CkeditorField },
       props: {
         id: 'description',
         name: 'description',
@@ -96,7 +96,7 @@ export const query = `
     }
     browserApi: url(routeId: "fileBrowser", params: [{key: "0", value: ""}])
     deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
-    uploadApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
-    folderCreateApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
+    uploadApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
+    folderCreateApi: url(routeId: "folderCreate")
   }
 `;

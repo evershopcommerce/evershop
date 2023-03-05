@@ -17,14 +17,14 @@ export function Empty() {
           <h2>{_('Shopping cart')}</h2>
         </div>
         <div className="mt-2 text-center">
-          <span>Your cart is empty!</span>
+          <span>{_('Your cart is empty!')}</span>
         </div>
         <div className="flex justify-center mt-2">
           <Button
             url="/"
             title={
               <span className="flex space-x-1">
-                <span className="self-center">CONTINUE SHOPPING</span>{' '}
+                <span className="self-center">{_('CONTINUE SHOPPING')}</span>{' '}
                 <svg
                   className="self-center"
                   style={{ width: '2.5rem', height: '2.5rem' }}
