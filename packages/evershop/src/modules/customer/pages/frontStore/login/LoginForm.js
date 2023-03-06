@@ -4,6 +4,7 @@ import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
 import './LoginForm.scss';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import Button from '@components/common/form/Button';
 
 export default function LoginForm({ action, homeUrl, registerUrl }) {
   const [error, setError] = React.useState(null);
@@ -26,6 +27,7 @@ export default function LoginForm({ action, homeUrl, registerUrl }) {
             }
           }}
           btnText={_('SIGN IN')}
+          submitBtn={false}
         >
           <Field
             name="email"
@@ -39,6 +41,19 @@ export default function LoginForm({ action, homeUrl, registerUrl }) {
             placeholder={_('Password')}
             validationRules={['notEmpty']}
           />
+          <div className="form-submit-button flex border-t border-divider mt-1 pt-1">
+            <Button
+              title="SIGN IN"
+              type="submit"
+              onAction={() => {
+                document
+                  .getElementById('loginForm')
+                  .dispatchEvent(
+                    new Event('submit', { cancelable: true, bubbles: true })
+                  );
+              }}
+            />
+          </div>
         </Form>
         <div className="text-center mt-1">
           <a className="text-interactive" href={registerUrl}>
