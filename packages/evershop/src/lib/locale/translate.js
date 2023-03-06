@@ -4,8 +4,7 @@ module.exports._ = function _(text, values) {
     return text;
   }
   const template = `${text}`;
-  return template.replace(
-    /\${(.*?)}/g,
-    (match, key) => values[key.trim()] || match
+  return template.replace(/\${(.*?)}/g, (match, key) =>
+    values[key.trim()] !== undefined ? values[key.trim()] : match
   );
 };
