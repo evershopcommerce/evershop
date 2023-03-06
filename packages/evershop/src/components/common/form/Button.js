@@ -8,7 +8,8 @@ function Button({
   variant = 'primary',
   onAction,
   url = undefined,
-  isLoading = false
+  isLoading = false,
+  type = 'button'
 }) {
   const className = ['button', variant];
   if (outline === true) className.push('outline');
@@ -22,7 +23,7 @@ function Button({
   if (!url) {
     return (
       <button
-        type="button"
+        type={type}
         onClick={(e) => {
           onActionFunc(e);
         }}
@@ -78,7 +79,8 @@ Button.propTypes = {
   outline: PropTypes.bool,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   url: PropTypes.string,
-  variant: PropTypes.string
+  variant: PropTypes.string,
+  type: PropTypes.string
 };
 
 Button.defaultProps = {
@@ -86,7 +88,8 @@ Button.defaultProps = {
   onAction: undefined,
   outline: false,
   url: undefined,
-  variant: 'primary'
+  variant: 'primary',
+  type: 'button'
 };
 
 export default Button;

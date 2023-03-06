@@ -8,7 +8,7 @@ import {
   FORM_VALIDATED
 } from '@evershop/evershop/src/lib/util/events';
 import { serializeForm } from '@evershop/evershop/src/lib/util/formToJson';
-import Button from './Button';
+import Button from '@components/common/form/Button';
 import { validator } from './validator';
 
 export const FormContext = React.createContext();

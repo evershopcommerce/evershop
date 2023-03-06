@@ -3,6 +3,7 @@ import React from 'react';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
 import './LoginForm.scss';
+import Button from '@components/common/form/Button';
 
 export default function LoginForm({ authUrl, dashboardUrl }) {
   const [error, setError] = React.useState(null);
@@ -32,7 +33,7 @@ export default function LoginForm({ authUrl, dashboardUrl }) {
         id="adminLoginForm"
         isJSON
         onSuccess={onSuccess}
-        btnText="Login"
+        submitBtn={false}
       >
         <Field
           name="email"
@@ -48,6 +49,19 @@ export default function LoginForm({ authUrl, dashboardUrl }) {
           placeholder="Password"
           validationRules={['notEmpty']}
         />
+        <div className="form-submit-button flex border-t border-divider mt-1 pt-1">
+          <Button
+            title="Login"
+            type="submit"
+            onAction={() => {
+              document
+                .getElementById('adminLoginForm')
+                .dispatchEvent(
+                  new Event('submit', { cancelable: true, bubbles: true })
+                );
+            }}
+          />
+        </div>
       </Form>
     </div>
   );
