@@ -72,7 +72,8 @@ function error(message) {
   } catch (e) {
     process.exit(0);
   }
-  const pool = mysql.createPool({
+
+  let pool = mysql.createPool({
     host: db.databaseHost,
     port: db.databasePort,
     user: db.databaseUser,
@@ -84,12 +85,33 @@ function error(message) {
       rejectUnauthorized: false
     }
   });
+
+  // Test the secure connection
+  try {
+    await execute(pool, `SELECT 1`);
+  } catch (e) {
+    if (e.message.includes('Server does not support secure connnection')) {
+      pool = mysql.createPool({
+        host: db.databaseHost,
+        port: db.databasePort,
+        user: db.databaseUser,
+        password: db.databasePassword,
+        database: db.databaseName,
+        dateStrings: true,
+        connectionLimit: 10
+      });
+    } else {
+      error(e.message);
+      process.exit(0);
+    }
+  }
+
   // Validate the database
   try {
     const result = await execute(
       pool,
       `SELECT table_name FROM information_schema.tables WHERE table_schema = '${
-        db.databaseName || 'nodejscart'
+        db.databaseName || 'evershop'
       }'`
     );
     if (result.length > 0) {
