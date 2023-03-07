@@ -11,7 +11,8 @@ const connectionSetting = {
   password: getConfig('system.database.password'),
   database: getConfig('system.database.database'),
   dateStrings: true,
-  connectionLimit: 30
+  connectionLimit: 30,
+  decimalNumbers: true
 };
 
 // Support SSL
