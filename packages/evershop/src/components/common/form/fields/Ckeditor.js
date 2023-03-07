@@ -129,8 +129,7 @@ function FileBrowser({
       .finally(() => setLoading(false));
   };
 
-  const deleteFile = (e) => {
-    e.preventDefault();
+  const deleteFile = () => {
     let file = null;
     files.forEach((f) => {
       if (f.isSelected === true) {
@@ -144,7 +143,7 @@ function FileBrowser({
       path.push(file.name);
       setLoading(true);
       fetch(deleteApi + path.join('/'), {
-        method: 'POST'
+        method: 'DELETE'
       })
         .then((res) => res.json())
         .then((response) => {
@@ -350,7 +349,7 @@ function FileBrowser({
                   variant="critical"
                   outline
                   title="Delete image"
-                  onAction={(e) => deleteFile(e)}
+                  onAction={() => deleteFile()}
                 />
                 <Button
                   variant="primary"
@@ -417,7 +416,7 @@ export default function CkeditorField({
 
   React.useEffect(() => {
     editorRef.current = {
-      CKEditor: require('@ckeditor/ckeditor5-react').CKEditor, //Added .CKEditor
+      CKEditor: require('@ckeditor/ckeditor5-react').CKEditor,
       ClassicEditor: require('@ckeditor/ckeditor5-build-classic')
     };
     setEditorLoaded(true);
