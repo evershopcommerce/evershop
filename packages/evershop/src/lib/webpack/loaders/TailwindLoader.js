@@ -10,6 +10,7 @@ const { CONSTANTS } = require('../../helpers');
 /* eslint-disable no-multi-assign */
 /* eslint-disable global-require */
 module.exports = exports = function TailwindLoader(c) {
+  this.cacheable(false);
   if (this.mode === 'production') {
     if (this.resourcePath.includes('tailwind.scss')) {
       return `/*beginTailwind*/${c}/*endTailwind*/`;
