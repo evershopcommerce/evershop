@@ -13,7 +13,6 @@ module.exports.createConfigClient = function createConfigClient(route) {
   const loaders = config.module.rules;
   loaders.unshift({
     test: /common[\\/]react[\\/]client[\\/]Index\.js$/i,
-    // resourceQuery: new RegExp(`Asadasdas`, "i"),
     use: [
       {
         loader: path.resolve(
@@ -80,8 +79,7 @@ module.exports.createConfigClient = function createConfigClient(route) {
   };
   config.watchOptions = {
     aggregateTimeout: 300,
-    poll: 1000,
-    ignored: /node_modules/
+    poll: 1000
   };
 
   return config;

@@ -6,6 +6,7 @@ const { CONSTANTS } = require('../../helpers');
 /* eslint-disable no-multi-assign */
 /* eslint-disable global-require */
 module.exports = exports = function areaLoader(c) {
+  this.cacheable(false);
   const components = this.getOptions().getComponents();
   const { routeId } = this.getOptions();
   const areas = {};
