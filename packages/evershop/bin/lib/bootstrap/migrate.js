@@ -44,7 +44,7 @@ module.exports.migrate = async function migrate(module) {
       module.path,
       'migration',
       `Version-${version}.js`
-    ))();
+    ))(pool);
     // eslint-disable-next-line no-await-in-loop
     await insertOnUpdate('migration')
       .given({
