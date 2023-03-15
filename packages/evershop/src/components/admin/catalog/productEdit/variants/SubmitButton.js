@@ -69,28 +69,28 @@ export function SubmitButton({
         toast.error(responseJson.error.message);
         setLoading(false);
       } else {
-        const responses = await Promise.all([
-          fetch(addVariantItemApi, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              product_id: responseJson.data.uuid
-            })
-          }),
-          fetch(addVariantItemApi, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              product_id: productId
-            })
+        const responseMain = await fetch(addVariantItemApi, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            product_id: responseJson.data.uuid
           })
-        ]);
-        const resJson = await Promise.all(responses.map((res) => res.json()));
-        const errorRes = resJson.find((res) => res.error);
+        });
+        const responseMainJson = await responseMain.json();
+        const responseVariant = await fetch(addVariantItemApi, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            product_id: productId
+          })
+        });
+        const responseVariantJson = await responseVariant.json();
+
+        const errorRes = responseMainJson.error || responseVariantJson.error;
         if (errorRes) {
           toast.error(errorRes.error.message);
           setLoading(false);
