@@ -165,10 +165,7 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
               // https://github.com/facebook/create-react-app/pull/4234
               ecma: 2020
             },
-            compress: {
-              ecma: 5,
-              warnings: false
-            },
+            compress: false,
             mangle: {
               safari10: true
             },
