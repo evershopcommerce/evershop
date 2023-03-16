@@ -12,6 +12,9 @@
 
 <p align="center">
   <img src="https://github.com/nodeonline/nodejscart/actions/workflows/build.yml/badge.svg" alt="Github Action">
+  <a href="https://twitter.com/evershopjs">
+    <img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/evershopjs?style=social">
+  </a>
   <a href="https://discord.gg/GSzt7dt7RM">
     <img src="https://img.shields.io/discord/757179260417867879?label=discord" alt="Discord">
   </a>
