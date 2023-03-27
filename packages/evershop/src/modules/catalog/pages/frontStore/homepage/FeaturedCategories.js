@@ -19,6 +19,7 @@ FeaturedCategories.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       description: PropTypes.string,
+      urlKey: PropTypes.string,
       categoryId: PropTypes.number,
       image: PropTypes.shape({
         alt: PropTypes.string,
@@ -36,6 +37,7 @@ export const query = `
           featuredCategories(limit: 3) {
           name
           description
+          urlKey
           image {
           url
         }
