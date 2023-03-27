@@ -61,7 +61,7 @@ export default function CategoryList({ categories = [], countPerRow = 3 }) {
             },
             {
               component: { default: Button },
-              props: { url: c.url, variant: 'primary', title: c.name },
+              props: { url: c.urlKey, variant: 'primary', title: c.name },
               sortOrder: 30,
               id: 'price'
             }
