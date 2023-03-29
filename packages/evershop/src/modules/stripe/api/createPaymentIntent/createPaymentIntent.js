@@ -1,7 +1,7 @@
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const smallestUnit = require('zero-decimal-currencies');
 const stripePayment = require('stripe');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getSetting } = require('../../../setting/services/setting');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const {

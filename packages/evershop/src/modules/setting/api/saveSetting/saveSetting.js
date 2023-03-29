@@ -2,10 +2,10 @@ const {
   insertOnUpdate,
   commit,
   rollback
-} = require('@evershop/mysql-query-builder');
+} = require('@evershop/postgres-query-builder');
 const {
   getConnection
-} = require('@evershop/evershop/src/lib/mysql/connection');
+} = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR
@@ -24,23 +24,23 @@ module.exports = async (request, response, delegate, next) => {
       // Check if the value is a object or array
       if (typeof value === 'object') {
         promises.push(
-          insertOnUpdate('setting')
+          insertOnUpdate('setting', ['name'])
             .given({
               name: key,
               value: JSON.stringify(value),
               is_json: 1
             })
-            .execute(connection)
+            .execute(connection, false)
         );
       } else {
         promises.push(
-          insertOnUpdate('setting')
+          insertOnUpdate('setting', ['name'])
             .given({
               name: key,
               value,
               is_json: 0
             })
-            .execute(connection)
+            .execute(connection, false)
         );
       }
     });

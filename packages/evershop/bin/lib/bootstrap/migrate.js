@@ -1,7 +1,17 @@
 const path = require('path');
 const semver = require('semver');
-const { insertOnUpdate, select } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { red } = require('kleur');
+const {
+  insertOnUpdate,
+  select,
+  startTransaction,
+  commit,
+  rollback
+} = require('@evershop/postgres-query-builder');
+const {
+  pool,
+  getConnection
+} = require('@evershop/evershop/src/lib/postgres/connection');
 const { existsSync, readdirSync } = require('fs');
 
 async function getCurrentInstalledVersion(module) {
@@ -37,21 +47,32 @@ module.exports.migrate = async function migrate(module) {
     if (semver.lte(version, currentInstalledVersion)) {
       continue;
     }
+    const connection = await getConnection();
+    await startTransaction(connection);
     // eslint-disable-next-line no-await-in-loop
     // eslint-disable-next-line global-require
     /** We expect the migration script to provide a function as a default export */
-    await require(path.resolve(
-      module.path,
-      'migration',
-      `Version-${version}.js`
-    ))(pool);
-    // eslint-disable-next-line no-await-in-loop
-    await insertOnUpdate('migration')
-      .given({
-        module: module.name,
-        version,
-        status: 1
-      })
-      .execute(pool);
+    try {
+      await require(path.resolve(
+        module.path,
+        'migration',
+        `Version-${version}.js`
+      ))(connection);
+      // eslint-disable-next-line no-await-in-loop
+      await insertOnUpdate('migration')
+        .given({
+          module: module.name,
+          version
+        })
+        .execute(connection, false);
+      await commit(connection);
+    } catch (e) {
+      await rollback(connection);
+      console.log(
+        red(`Migration failed for ${module.name}, version ${version}\n`),
+        e
+      );
+      process.exit(0);
+    }
   }
 };

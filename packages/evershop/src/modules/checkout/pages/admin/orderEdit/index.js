@@ -1,5 +1,5 @@
-const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { select } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');
@@ -8,7 +8,7 @@ module.exports = async (request, response, delegate, next) => {
   try {
     const query = select();
     query.from('order');
-    query.andWhere('order.`uuid`', '=', request.params.id);
+    query.andWhere('order.uuid', '=', request.params.id);
     const order = await query.load(pool);
 
     if (order === null) {

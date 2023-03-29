@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-restricted-syntax */
-const { insertOnUpdate, select } = require('@evershop/mysql-query-builder');
+const { insertOnUpdate, select } = require('@evershop/postgres-query-builder');
 const { get } = require('@evershop/evershop/src/lib/util/get');
 
 module.exports = async (request, response, delegate) => {
@@ -21,7 +21,7 @@ module.exports = async (request, response, delegate) => {
       .where('attribute_group_id', '=', groups[index])
       .load(connection, false);
     if (group) {
-      await insertOnUpdate('attribute_group_link')
+      await insertOnUpdate('attribute_group_link', ['attribute_id', 'group_id'])
         .given({ attribute_id: attributeId, group_id: groups[index] })
         .execute(connection);
     }

@@ -83,7 +83,7 @@ export function RequiredProducts({ requiredProducts }) {
                             // eslint-disable-next-line react/no-unstable-nested-components
                             component: {
                               default: () => (
-                                <option value="category">Category ID</option>
+                                <option value="category">Category</option>
                               )
                             },
                             props: {},

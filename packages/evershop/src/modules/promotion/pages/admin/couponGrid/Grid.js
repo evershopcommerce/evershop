@@ -12,6 +12,7 @@ import CouponName from '@components/admin/promotion/couponGrid/rows/CouponName';
 import BasicRow from '@components/common/grid/rows/BasicRow';
 import StatusRow from '@components/common/grid/rows/StatusRow';
 import { Card } from '@components/admin/cms/Card';
+import TextRow from '@components/common/grid/rows/TextRow';
 
 function Actions({ coupons = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -302,18 +303,14 @@ export default function CouponGrid({
                   {
                     // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
-                      default: ({ areaProps }) => (
-                        <BasicRow id="startDate" areaProps={areaProps} />
-                      )
+                      default: () => <TextRow text={c.startDate?.text} />
                     },
                     sortOrder: 20
                   },
                   {
                     // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
-                      default: ({ areaProps }) => (
-                        <BasicRow id="endDate" areaProps={areaProps} />
-                      )
+                      default: () => <TextRow text={c.endDate?.text} />
                     },
                     sortOrder: 30
                   },
@@ -364,8 +361,12 @@ CouponGrid.propTypes = {
         coupon: PropTypes.string.isRequired,
         status: PropTypes.string.isRequired,
         usedTime: PropTypes.number.isRequired,
-        startDate: PropTypes.string.isRequired,
-        endDate: PropTypes.string.isRequired,
+        startDate: PropTypes.shape({
+          text: PropTypes.string.isRequired
+        }).isRequired,
+        endDate: PropTypes.shape({
+          text: PropTypes.string.isRequired
+        }).isRequired,
         editUrl: PropTypes.string.isRequired,
         updateApi: PropTypes.string.isRequired,
         deleteApi: PropTypes.string.isRequired
@@ -396,8 +397,12 @@ export const query = `
         coupon
         status
         usedTime
-        startDate
-        endDate
+        startDate {
+          text
+        }
+        endDate {
+          text
+        }
         editUrl
         updateApi
         deleteApi

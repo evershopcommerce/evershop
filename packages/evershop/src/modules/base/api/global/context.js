@@ -1,4 +1,4 @@
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   setContextValue,
   hasContextValue

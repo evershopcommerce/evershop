@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-const { del, select } = require('@evershop/mysql-query-builder');
+const { del, select } = require('@evershop/postgres-query-builder');
 const {
   getConnection
-} = require('@evershop/evershop/src/lib/mysql/connection');
+} = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR,

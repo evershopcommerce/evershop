@@ -1,48 +1,93 @@
-const { execute } = require('@evershop/mysql-query-builder');
+const { execute } = require('@evershop/postgres-query-builder');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = async (connection) => {
   await execute(
     connection,
-    `CREATE TABLE \`customer\` (
-  \`customer_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
-  \`status\` smallint(6) NOT NULL DEFAULT 1,
-  \`group_id\` int(10) unsigned DEFAULT NULL,
-  \`email\` char(255) NOT NULL,
-  \`password\` char(255) NOT NULL,
-  \`full_name\` char(255) DEFAULT NULL,
-  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
-  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (\`customer_id\`),
-  UNIQUE KEY \`EMAIL_UNIQUE\` (\`email\`),
-  KEY \`FK_CUSTOMER_GROUP\` (\`group_id\`),
-  CONSTRAINT \`FK_CUSTOMER_GROUP\` FOREIGN KEY (\`group_id\`) REFERENCES \`customer_group\` (\`customer_group_id\`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer';
-`
+    `CREATE TABLE "customer_group" (
+  "customer_group_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "group_name" varchar NOT NULL,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+)`
+  );
+
+  // Add default customer group
+  await execute(
+    connection,
+    "INSERT INTO customer_group ( group_name ) VALUES ('Default')"
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`customer_address\` (
-  \`customer_address_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
-  \`customer_id\` int(10) unsigned NOT NULL,
-  \`full_name\` varchar(255) DEFAULT NULL,
-  \`telephone\` varchar(255) DEFAULT NULL,
-  \`address_1\` varchar(255) DEFAULT NULL,
-  \`address_2\` varchar(255) DEFAULT NULL,
-  \`postcode\` varchar(255) DEFAULT NULL,
-  \`city\` varchar(255) DEFAULT NULL,
-  \`province\` varchar(255) DEFAULT NULL,
-  \`country\` varchar(255) NOT NULL,
-  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
-  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  \`is_default\` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (\`customer_address_id\`),
-  KEY \`FK_CUSTOMER_ADDRESS_LINK\` (\`customer_id\`),
-  CONSTRAINT \`FK_CUSTOMER_ADDRESS_LINK\` FOREIGN KEY (\`customer_id\`) REFERENCES \`customer\` (\`customer_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer address';
-`
+    `CREATE TABLE "customer" (
+  "customer_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "status" smallint NOT NULL DEFAULT 1,
+  "group_id" INT DEFAULT 1,
+  "email" varchar NOT NULL,
+  "password" varchar NOT NULL,
+  "full_name" varchar DEFAULT NULL,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "EMAIL_UNIQUE" UNIQUE ("email"),
+  CONSTRAINT "CUSTOMER_UUID_UNIQUE" UNIQUE ("uuid"),
+  CONSTRAINT "FK_CUSTOMER_GROUP" FOREIGN KEY ("group_id") REFERENCES "customer_group" ("customer_group_id") ON DELETE SET NULL
+)`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_CUSTOMER_GROUP" ON "customer" ("group_id")`
+  );
+
+  await execute(
+    connection,
+    `CREATE TABLE "customer_address" (
+  "customer_address_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "customer_id" INT NOT NULL,
+  "full_name" varchar DEFAULT NULL,
+  "telephone" varchar DEFAULT NULL,
+  "address_1" varchar DEFAULT NULL,
+  "address_2" varchar DEFAULT NULL,
+  "postcode" varchar DEFAULT NULL,
+  "city" varchar DEFAULT NULL,
+  "province" varchar DEFAULT NULL,
+  "country" varchar NOT NULL,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "is_default" smallint DEFAULT NULL,
+  CONSTRAINT "CUSTOMER_ADDRESS_UUID_UNIQUE" UNIQUE ("uuid"),
+  CONSTRAINT "FK_CUSTOMER_ADDRESS" FOREIGN KEY ("customer_id") REFERENCES "customer" ("customer_id") ON DELETE CASCADE
+)`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_CUSTOMER_ADDRESS" ON "customer_address" ("customer_id")`
+  );
+
+  // Prevent deleting a default customer group
+  await execute(
+    connection,
+    `CREATE OR REPLACE FUNCTION prevent_delete_default_customer_group()
+        RETURNS TRIGGER
+        LANGUAGE PLPGSQL
+        AS
+      $$
+      BEGIN
+        IF OLD.customer_group_id = 1 THEN
+          RAISE EXCEPTION 'Cannot delete default customer group';
+        END IF;
+        RETURN OLD;
+      END;
+      $$`
+  );
+  await execute(
+    connection,
+    `CREATE TRIGGER "PREVENT_DELETING_THE_DEFAULT_CUSTOMER_GROUP"
+        BEFORE DELETE ON customer_group
+        FOR EACH ROW
+        EXECUTE PROCEDURE prevent_delete_default_customer_group();`
   );
 };

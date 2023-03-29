@@ -1,9 +1,9 @@
-const { select, insertOnUpdate } = require('@evershop/mysql-query-builder');
+const { select, insertOnUpdate } = require('@evershop/postgres-query-builder');
 const { compareSync } = require('bcryptjs');
 const { sign } = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getTokenCookieId } = require('../../../auth/services/getTokenCookieId');
 const {
   getContextValue,
@@ -51,7 +51,7 @@ module.exports = async (request, response, delegate, next) => {
       );
       const JWT_SECRET = uuidv4();
       // Save the JWT_SECRET to the database
-      await insertOnUpdate('user_token_secret')
+      await insertOnUpdate('user_token_secret', ['sid'])
         .given({
           user_id: customer.uuid,
           sid: currentTokenPayload.sid,

@@ -1,36 +1,34 @@
-const { execute } = require('@evershop/mysql-query-builder');
+const { execute } = require('@evershop/postgres-query-builder');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = async (connection) => {
-  await execute(connection, 'DROP TABLE IF EXISTS `admin_user`');
   await execute(
     connection,
-    `CREATE TABLE \`admin_user\` (
-  \`admin_user_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
-  \`status\` smallint(5) unsigned NOT NULL,
-  \`email\` varchar(255) NOT NULL,
-  \`password\` varchar(255) NOT NULL,
-  \`full_name\` varchar(255) DEFAULT NULL,
-  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
-  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (\`admin_user_id\`),
-  UNIQUE KEY \`EMAIL_UNIQUE\` (\`email\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Admin user';
-`
+    `CREATE TABLE "admin_user" (
+  "admin_user_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "status" boolean NOT NULL DEFAULT TRUE,
+  "email" varchar NOT NULL,
+  "password" varchar NOT NULL,
+  "full_name" varchar DEFAULT NULL,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "ADMIN_USER_EMAIL_UNIQUE" UNIQUE ("email"),
+  CONSTRAINT "ADMIN_USER_UUID_UNIQUE" UNIQUE ("uuid")
+);`
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`user_token_secret\` (
-  \`user_token_secret_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`user_id\` varchar(255) NOT NULL,
-  \`secret\` varchar(255) NOT NULL,
-  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
-  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (\`user_token_secret_id\`),
-  UNIQUE KEY \`USER_TOKEN_USER_ID\` (\`user_id\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='User token secret';
-`
+    `CREATE TABLE "user_token_secret" (
+  "user_token_secret_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "sid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "user_id" varchar NOT NULL,
+  "secret" varchar NOT NULL,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "USER_TOKEN_SID_UNIQUE" UNIQUE ("sid"),
+  CONSTRAINT "USER_TOKEN_SECRET_UNIQUE" UNIQUE ("secret")
+);`
   );
 };

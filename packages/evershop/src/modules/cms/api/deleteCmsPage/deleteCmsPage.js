@@ -1,5 +1,5 @@
-const { select, del } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { select, del } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
@@ -13,9 +13,9 @@ module.exports = async (request, response, delegate, next) => {
     query
       .leftJoin('cms_page_description')
       .on(
-        'cms_page_description.`cms_page_description_cms_page_id`',
+        'cms_page_description.cms_page_description_cms_page_id',
         '=',
-        'cms_page.`cms_page_id`'
+        'cms_page.cms_page_id'
       );
 
     const page = await query.where('uuid', '=', request.params.id).load(pool);

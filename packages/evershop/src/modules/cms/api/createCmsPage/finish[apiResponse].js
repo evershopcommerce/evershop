@@ -1,5 +1,9 @@
-const { commit, rollback, select } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const {
+  commit,
+  rollback,
+  select
+} = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
   OK,
@@ -26,9 +30,9 @@ module.exports = async (request, response, delegate, next) => {
     query
       .leftJoin('cms_page_description')
       .on(
-        'cms_page_description.`cms_page_description_cms_page_id`',
+        'cms_page_description.cms_page_description_cms_page_id',
         '=',
-        'cms_page.`cms_page_id`'
+        'cms_page.cms_page_id'
       );
 
     const page = await query

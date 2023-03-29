@@ -1,8 +1,8 @@
-const { update, select } = require('@evershop/mysql-query-builder');
+const { update, select } = require('@evershop/postgres-query-builder');
 const bcrypt = require('bcryptjs');
 const {
   getConnection
-} = require('@evershop/evershop/src/lib/mysql/connection');
+} = require('@evershop/evershop/src/lib/postgres/connection');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
   OK,

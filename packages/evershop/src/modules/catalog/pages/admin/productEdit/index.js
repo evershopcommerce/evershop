@@ -1,5 +1,5 @@
-const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { select } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');
@@ -8,13 +8,13 @@ module.exports = async (request, response, delegate, next) => {
   try {
     const query = select();
     query.from('product');
-    query.andWhere('product.`uuid`', '=', request.params.id);
+    query.andWhere('product.uuid', '=', request.params.id);
     query
       .leftJoin('product_description')
       .on(
-        'product_description.`product_description_product_id`',
+        'product_description.product_description_product_id',
         '=',
-        'product.`product_id`'
+        'product.product_id'
       );
     const product = await query.load(pool);
 

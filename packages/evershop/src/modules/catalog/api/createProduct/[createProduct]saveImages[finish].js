@@ -1,4 +1,4 @@
-const { insert, update } = require('@evershop/mysql-query-builder');
+const { insert, update } = require('@evershop/postgres-query-builder');
 const sharp = require('sharp');
 const config = require('config');
 const path = require('path');

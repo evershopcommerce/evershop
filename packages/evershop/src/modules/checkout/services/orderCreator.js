@@ -6,9 +6,9 @@ const {
   select,
   startTransaction,
   update
-} = require('@evershop/mysql-query-builder');
+} = require('@evershop/postgres-query-builder');
 const { v4: uuidv4 } = require('uuid');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 
 /* Default validation rules */
 let validationServices = [

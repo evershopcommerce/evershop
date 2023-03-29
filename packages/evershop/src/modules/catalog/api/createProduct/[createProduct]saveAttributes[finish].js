@@ -8,7 +8,7 @@ const {
   update,
   insertOnUpdate,
   del
-} = require('@evershop/mysql-query-builder');
+} = require('@evershop/postgres-query-builder');
 const { get } = require('@evershop/evershop/src/lib/util/get');
 
 module.exports = async (request, response, delegate) => {
@@ -66,7 +66,11 @@ module.exports = async (request, response, delegate) => {
               if (option === null) {
                 return;
               }
-              await insertOnUpdate('product_attribute_value_index')
+              await insertOnUpdate('product_attribute_value_index', [
+                'product_id',
+                'attribute_id',
+                'option_id'
+              ])
                 .prime('option_id', option.attribute_option_id)
                 .prime('product_id', productId)
                 .prime('attribute_id', attr.attribute_id)
@@ -90,14 +94,22 @@ module.exports = async (request, response, delegate) => {
           .and('product_id', '=', productId)
           .execute(connection);
         // Insert new option
-        await insertOnUpdate('product_attribute_value_index')
+        await insertOnUpdate('product_attribute_value_index', [
+          'product_id',
+          'attribute_id',
+          'option_id'
+        ])
           .prime('option_id', option.attribute_option_id)
           .prime('product_id', productId)
           .prime('attribute_id', attr.attribute_id)
           .prime('option_text', option.option_text)
           .execute(connection);
       } else {
-        await insertOnUpdate('product_attribute_value_index')
+        await insertOnUpdate('product_attribute_value_index', [
+          'product_id',
+          'attribute_id',
+          'option_id'
+        ])
           .prime('option_text', attribute.value)
           .execute(connection);
       }

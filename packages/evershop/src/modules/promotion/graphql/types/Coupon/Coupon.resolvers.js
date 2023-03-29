@@ -1,4 +1,4 @@
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 
@@ -8,7 +8,7 @@ module.exports = {
       const query = select().from('coupon');
       query.where('coupon_id', '=', id);
       // if (admin !== true) {
-      //   query.where('cms_page.`status`', '=', 1);
+      //   query.where('cms_page.status', '=', 1);
       // }
 
       const coupon = await query.load(pool);
@@ -21,7 +21,7 @@ module.exports = {
       // Attribute filters
       filters.forEach((filter) => {
         if (filter.key === 'coupon') {
-          query.andWhere('coupon.`coupon`', 'LIKE', `%${filter.value}%`);
+          query.andWhere('coupon.coupon', 'LIKE', `%${filter.value}%`);
           currentFilters.push({
             key: 'coupon',
             operation: '=',
@@ -29,7 +29,7 @@ module.exports = {
           });
         }
         if (filter.key === 'status') {
-          query.andWhere('coupon.`status`', '=', filter.value);
+          query.andWhere('coupon.status', '=', filter.value);
           currentFilters.push({
             key: 'status',
             operation: '=',
@@ -44,12 +44,12 @@ module.exports = {
             .map((v) => parseFloat(v));
           let currentStartDateFilter;
           if (Number.isNaN(min) === false) {
-            query.andWhere('coupon.`start_date`', '>=', min);
+            query.andWhere('coupon.start_date', '>=', min);
             currentStartDateFilter = { key: 'startDate', value: `${min}` };
           }
 
           if (Number.isNaN(max) === false) {
-            query.andWhere('coupon.`start_date`', '<=', max);
+            query.andWhere('coupon.start_date', '<=', max);
             currentStartDateFilter = {
               key: 'startDate',
               value: `${currentStartDateFilter.value}-${max}`
@@ -65,12 +65,12 @@ module.exports = {
           const [min, max] = endDate.value.split('-').map((v) => parseFloat(v));
           let currentEndtDateFilter;
           if (Number.isNaN(min) === false) {
-            query.andWhere('coupon.`end_date`', '>=', min);
+            query.andWhere('coupon.end_date', '>=', min);
             currentEndtDateFilter = { key: 'endDate', value: `${min}` };
           }
 
           if (Number.isNaN(max) === false) {
-            query.andWhere('coupon.`end_date`', '<=', max);
+            query.andWhere('coupon.end_date', '<=', max);
             currentEndtDateFilter = {
               key: 'endDate',
               value: `${currentEndtDateFilter.value}-${max}`
@@ -89,12 +89,12 @@ module.exports = {
             .map((v) => parseFloat(v));
           let currentUsedTimeFilter;
           if (Number.isNaN(min) === false) {
-            query.andWhere('coupon.`used_time`', '>=', min);
+            query.andWhere('coupon.used_time', '>=', min);
             currentUsedTimeFilter = { key: 'usedTime', value: `${min}` };
           }
 
           if (Number.isNaN(max) === false) {
-            query.andWhere('coupon.`used_time`', '<=', max);
+            query.andWhere('coupon.used_time', '<=', max);
             currentUsedTimeFilter = {
               key: 'usedTime',
               value: `${currentUsedTimeFilter.value}-${max}`
@@ -111,14 +111,14 @@ module.exports = {
         (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
       ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'coupon') {
-        query.orderBy('coupon.`coupon`', sortOrder.value);
+        query.orderBy('coupon.coupon', sortOrder.value);
         currentFilters.push({
           key: 'sortBy',
           operation: '=',
           value: sortBy.value
         });
       } else {
-        query.orderBy('coupon.`coupon_id`', 'DESC');
+        query.orderBy('coupon.coupon_id', 'DESC');
       }
 
       if (sortOrder.key) {
@@ -130,7 +130,8 @@ module.exports = {
       }
       // Clone the main query for getting total right before doing the paging
       const cloneQuery = query.clone();
-      cloneQuery.select('COUNT(coupon.`coupon_id`)', 'total');
+      cloneQuery.select('COUNT(coupon.coupon_id)', 'total');
+      cloneQuery.removeOrderBy();
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
       const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config

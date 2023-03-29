@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const mysql = require('mysql2');
+const { Pool } = require('pg');
 const util = require('util');
 const fs = require('fs');
 const { getConfig } = require('../util/getConfig');
@@ -10,9 +10,9 @@ const connectionSetting = {
   user: getConfig('system.database.user'),
   password: getConfig('system.database.password'),
   database: getConfig('system.database.database'),
-  dateStrings: true,
-  connectionLimit: 30,
-  decimalNumbers: true
+  max: 30,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000
 };
 
 // Support SSL
@@ -40,11 +40,11 @@ if (getConfig('system.database.ssl.key')) {
   connectionSetting.ssl.rejectUnauthorized = false;
 }
 
-const pool = mysql.createPool(connectionSetting);
+const pool = new Pool(connectionSetting);
 
 async function getConnection() {
   // eslint-disable-next-line no-return-await
-  return await util.promisify(pool.getConnection).bind(pool)();
+  return await pool.connect();
 }
 
 // eslint-disable-next-line no-multi-assign

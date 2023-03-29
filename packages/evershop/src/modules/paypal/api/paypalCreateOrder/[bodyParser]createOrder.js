@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 const { default: axios } = require('axios');
-const { select, update } = require('@evershop/mysql-query-builder');
+const { select, update } = require('@evershop/postgres-query-builder');
 const { getContextValue } = require('../../../graphql/services/contextHelper');
 const { getSetting } = require('../../../setting/services/setting');
 const { toPrice } = require('../../../checkout/services/toPrice');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 const {
   INVALID_PAYLOAD,
@@ -48,7 +48,7 @@ module.exports = async (request, response, stack, next) => {
             quantity: item.qty,
             unit_amount: {
               currency_code: order.currency,
-              value: item.final_price
+              value: toPrice(item.final_price)
             }
           })),
           amount: {
@@ -89,7 +89,8 @@ module.exports = async (request, response, stack, next) => {
         brand_name: await getSetting('storeName', 'Evershop')
       }
     };
-
+    console.log(orderData.purchase_units[0].items);
+    console.log(orderData.purchase_units[0].amount);
     const shippingAddress = await select()
       .from('order_address')
       .where('order_address_id', '=', order.shipping_address_id)
@@ -139,6 +140,7 @@ module.exports = async (request, response, stack, next) => {
         }
       };
     }
+    console.log(orderData);
     // Call PayPal API to create order using axios
     const { data } = await axios.post(
       `${await getApiBaseUrl()}/v2/checkout/orders`,

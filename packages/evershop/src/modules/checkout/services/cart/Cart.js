@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 const isEqualWith = require('lodash/isEqualWith');
-const { select, del } = require('@evershop/mysql-query-builder');
+const { select, del } = require('@evershop/postgres-query-builder');
 const { v4: uuidv4 } = require('uuid');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { DataObject } = require('./DataObject');
 const { Item } = require('./Item');
 const { toPrice } = require('../toPrice');

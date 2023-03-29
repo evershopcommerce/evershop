@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-const { insert, select } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { insert, select } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   INVALID_PAYLOAD,
   OK,

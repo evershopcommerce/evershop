@@ -1,7 +1,7 @@
-const { update } = require('@evershop/mysql-query-builder');
+const { update } = require('@evershop/postgres-query-builder');
 const {
   getConnection
-} = require('@evershop/evershop/src/lib/mysql/connection');
+} = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   INTERNAL_SERVER_ERROR,
   OK

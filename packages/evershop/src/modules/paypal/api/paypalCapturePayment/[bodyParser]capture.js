@@ -1,6 +1,6 @@
-const { select, update, insert } = require('@evershop/mysql-query-builder');
+const { select, update, insert } = require('@evershop/postgres-query-builder');
 const { default: axios } = require('axios');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getContextValue } = require('../../../graphql/services/contextHelper');
 const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 const {

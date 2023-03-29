@@ -1,5 +1,5 @@
-const { select, node } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { select, node } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { get } = require('@evershop/evershop/src/lib/util/get');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const {
@@ -13,16 +13,12 @@ module.exports = async (request, response, stack, next) => {
       .from('product')
       .leftJoin('product_description')
       .on(
-        'product.`product_id`',
+        'product.product_id',
         '=',
-        'product_description.`product_description_product_id`'
+        'product_description.product_description_product_id'
       );
     query.where('status', '=', 1);
-    query.andWhere(
-      'product_description.`url_key`',
-      '=',
-      request.params.url_key
-    );
+    query.andWhere('product_description.url_key', '=', request.params.url_key);
     const product = await query.load(pool);
 
     if (product === null) {
@@ -63,22 +59,22 @@ module.exports = async (request, response, stack, next) => {
         if (attributes.length > 0) {
           const vsQuery = select()
             .from('product', 'p')
-            .select('p.`product_id`')
-            .select('COUNT(p.`product_id`)', 'count');
+            .select('p.product_id')
+            .select('COUNT(p.product_id)', 'count');
           vsQuery
             .innerJoin('product_attribute_value_index', 'a')
-            .on('p.product_id', '=', 'a.`product_id`');
+            .on('p.product_id', '=', 'a.product_id');
           vsQuery
             .where('p.variant_group_id', '=', product.variant_group_id)
             .and('p.status', '=', 1);
 
           if (getConfig('catalog.showOutOfStockProduct') === false) {
             vsQuery
-              .andWhere('p.manage_stock', '=', '0')
+              .andWhere('p.manage_stock', '=', false)
               .addNode(
                 node('OR')
                   .addLeaf('AND', 'p.qty', '>', 0)
-                  .addLeaf('AND', 'p.stock_availability', '=', 1)
+                  .addLeaf('AND', 'p.stock_availability', '=', true)
               );
           }
           vsQuery
@@ -92,8 +88,8 @@ module.exports = async (request, response, stack, next) => {
               'IN',
               attributes.map((a) => queries[a.attribute_code])
             );
-          vsQuery.groupBy('p.`product_id`');
-          vsQuery.having('count', '>=', attributes.length);
+          vsQuery.groupBy('p.product_id');
+          vsQuery.having('COUNT(p.product_id)', '>=', attributes.length);
           const variants = await vsQuery.execute(pool);
 
           if (variants.length > 0) {
@@ -102,9 +98,9 @@ module.exports = async (request, response, stack, next) => {
               .from('product')
               .leftJoin('product_description')
               .on(
-                'product.`product_id`',
+                'product.product_id',
                 '=',
-                'product_description.`product_description_product_id`'
+                'product_description.product_description_product_id'
               );
             variantQuery.where('product_id', '=', variants[0].product_id);
             const pv = await variantQuery.load(pool);

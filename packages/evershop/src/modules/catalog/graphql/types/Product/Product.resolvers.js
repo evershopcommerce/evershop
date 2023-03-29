@@ -1,4 +1,4 @@
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 
@@ -9,9 +9,9 @@ module.exports = {
       query
         .leftJoin('category_description', 'des')
         .on(
-          'des.`category_description_category_id`',
+          'des.category_description_category_id',
           '=',
-          'category.`category_id`'
+          'category.category_id'
         );
       return (
         await query
@@ -39,9 +39,9 @@ module.exports = {
       query
         .leftJoin('product_description')
         .on(
-          'product_description.`product_description_product_id`',
+          'product_description.product_description_product_id',
           '=',
-          'product.`product_id`'
+          'product.product_id'
         );
       query.where('product_id', '=', id);
       const result = await query.load(pool);
