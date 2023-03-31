@@ -5,7 +5,6 @@ const {
 
 module.exports.buildClient = async function buildClient(routes) {
   const config = createConfigClient(routes);
-  console.log('client', config);
   const compiler = webpack(config);
 
   return new Promise((resolve, reject) => {

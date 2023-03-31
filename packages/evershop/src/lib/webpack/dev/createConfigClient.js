@@ -12,7 +12,7 @@ module.exports.createConfigClient = function createConfigClient(route) {
 
   const loaders = config.module.rules;
   loaders.unshift({
-    test: /common[\\/]react[\\/]client[\\/]Index\.js$/i,
+    test: /common[\\/]react[\\/]client[\\/]Index\.jsx$/i,
     use: [
       {
         loader: path.resolve(
@@ -70,7 +70,7 @@ module.exports.createConfigClient = function createConfigClient(route) {
       ...getComponentsByRoute(route),
       path.resolve(
         CONSTANTS.MOLDULESPATH,
-        '../components/common/react/client/Index.js'
+        '../components/common/react/client/Index.jsx'
       ),
       `webpack-hot-middleware/client?path=/eHot/${route.id}&reload=true&overlay=true`
     ];

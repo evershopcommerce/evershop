@@ -82,7 +82,7 @@ module.exports.buildEntry = async function buildEntry(
         await mkdir(path.resolve(subPath, 'client'), { recursive: true });
       }
       await writeFile(
-        path.resolve(subPath, 'client', 'entry.js'),
+        path.resolve(subPath, 'client', 'entry.jsx'),
         contentClient
       );
 
@@ -106,7 +106,7 @@ module.exports.buildEntry = async function buildEntry(
           await mkdir(path.resolve(subPath, 'server'), { recursive: true });
         }
         await writeFile(
-          path.resolve(subPath, 'server', 'entry.js'),
+          path.resolve(subPath, 'server', 'entry.jsx'),
           contentServer
         );
         await writeFile(
