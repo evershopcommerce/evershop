@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const { logger } = require('@evershop/evershop/src/lib/log/Logger');
+const { logger } = require('@evershop/evershop/src/lib/log/logger');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
