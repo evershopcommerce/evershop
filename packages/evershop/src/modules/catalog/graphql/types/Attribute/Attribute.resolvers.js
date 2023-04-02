@@ -37,13 +37,13 @@ module.exports = {
       const nameFilter = filters.find((f) => f.key === 'name');
       if (nameFilter) {
         query.andWhere(
-          'attribute.attribute_name',
-          nameFilter.operation,
-          nameFilter.value
+          'attribute.`attribute_name`',
+          'LIKE',
+          `%${nameFilter.value}%`
         );
         currentFilters.push({
           key: 'name',
-          operation: nameFilter.operation,
+          operation: '=',
           value: nameFilter.value
         });
       }
