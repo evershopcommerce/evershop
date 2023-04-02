@@ -409,9 +409,13 @@ module.exports = exports = async (connection) => {
     `CREATE TABLE "collection" (
   "collection_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
   "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "name" varchar NOT NULL,
+  "description" text DEFAULT NULL,
+  "code" varchar NOT NULL,
   "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-   CONSTRAINT "COLLECTION_UUID_UNIQUE" UNIQUE ("uuid")
+  CONSTRAINT "COLLECTION_CODE_UNIQUE" UNIQUE ("code"),
+  CONSTRAINT "COLLECTION_UUID_UNIQUE" UNIQUE ("uuid")
 )`
   );
 
@@ -433,25 +437,6 @@ module.exports = exports = async (connection) => {
   await execute(
     connection,
     `CREATE INDEX "FK_PRODUCT_COLLECTION_LINK" ON "product_collection" ("product_id")`
-  );
-
-  await execute(
-    connection,
-    `CREATE TABLE "collection_description" (
-  "collection_description_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
-  "collection_description_collection_id" INT NOT NULL,
-  "name" varchar NOT NULL,
-  "description" text DEFAULT NULL,
-  "image" varchar DEFAULT NULL,
-  "code" varchar NOT NULL,
-  CONSTRAINT "COLLECTION_ID_UNIQUE" UNIQUE ("collection_description_collection_id"),
-  CONSTRAINT "COLLECTION_CODE_UNIQUE" UNIQUE ("code"),
-  CONSTRAINT "FK_COLLECTION_DESCRIPTION" FOREIGN KEY ("collection_description_collection_id") REFERENCES "collection" ("collection_id") ON DELETE CASCADE
-)`
-  );
-  await execute(
-    connection,
-    `CREATE INDEX "FK_COLLECTION_DESCRIPTION" ON "collection_description" ("collection_description_collection_id")`
   );
 
   /* CREATE SOME TRIGGERS */

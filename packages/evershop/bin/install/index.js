@@ -6,7 +6,12 @@ const { red, green } = require('kleur');
 const ora = require('ora');
 const boxen = require('boxen');
 const { Pool } = require('pg');
-const { execute } = require('@evershop/postgres-query-builder');
+const {
+  execute,
+  startTransaction,
+  commit,
+  rollback
+} = require('@evershop/postgres-query-builder');
 const { prompt } = require('enquirer');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { migrate } = require('./migrate');
@@ -221,9 +226,12 @@ async function install() {
   messages.push(green('Setting up a database'));
   spinner.text = messages.join('\n');
 
+  const connection = await pool.connect();
+  startTransaction(connection);
   try {
-    await createMigrationTable(pool);
+    await createMigrationTable(connection);
   } catch (e) {
+    rollback(connection);
     error(e);
     process.exit(0);
   }
@@ -279,7 +287,14 @@ async function install() {
     }
   ];
 
-  await migrate(pool, modules, adminUser);
+  try {
+    await migrate(connection, modules, adminUser);
+    commit(connection);
+  } catch (e) {
+    rollback(connection);
+    error(e);
+    process.exit(0);
+  }
   messages.pop();
   messages.push(green('✔ Setup database'));
   messages.push(green('✔ Create admin user'));

@@ -26,4 +26,5 @@ type Product {
 
 extend type Query {
   product(id: ID): Product
+  searchProducts(query: String, page: Int): ProductCollection
 }

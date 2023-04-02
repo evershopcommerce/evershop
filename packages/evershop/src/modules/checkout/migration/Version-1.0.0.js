@@ -246,4 +246,25 @@ module.exports = exports = async (connection) => {
     connection,
     `CREATE INDEX "FK_ORDER_SHIPMENT" ON "shipment" ("shipment_order_id")`
   );
+
+  // Reduce product stock when order is placed if product manage stock is true
+  await execute(
+    connection,
+    `CREATE OR REPLACE FUNCTION reduce_product_stock_when_order_placed()
+        RETURNS TRIGGER 
+        LANGUAGE PLPGSQL
+        AS
+      $$
+      BEGIN
+        UPDATE product SET qty = qty - NEW.qty WHERE product_id = NEW.product_id AND manage_stock = TRUE;
+        RETURN NEW;
+      END
+      $$;`
+  );
+  await execute(
+    connection,
+    `CREATE TRIGGER "TRIGGER_AFTER_INSERT_ORDER_ITEM" AFTER INSERT ON "order_item" FOR EACH ROW
+    EXECUTE PROCEDURE reduce_product_stock_when_order_placed();
+    `
+  );
 };

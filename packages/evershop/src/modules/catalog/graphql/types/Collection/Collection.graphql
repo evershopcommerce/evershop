@@ -1,0 +1,35 @@
+"""
+The `Collection` type represents a category object.
+"""
+type Collection {
+  collectionId: Int!
+  uuid: String!
+  name: String!
+  description: String
+  code: String!
+  products(filters: [FilterInput]): ProductCollection
+  editUrl: String
+  addProductUrl: String
+  updateApi: String!
+  deleteApi: String!
+}
+
+"""
+Returns a collection of categories.
+"""
+type CollectionCollection {
+  items: [Collection]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Product {
+  collections: [Collection],
+  removeFromCollectionUrl: String
+}
+
+extend type Query {
+  collections(filters: [FilterInput]): CollectionCollection
+  collection(code: String): Collection
+}

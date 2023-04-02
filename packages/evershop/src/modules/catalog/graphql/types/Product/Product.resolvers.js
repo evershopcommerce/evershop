@@ -50,6 +50,33 @@ module.exports = {
       } else {
         return camelCase(result);
       }
+    },
+    searchProducts: async (_, { query = '', page = 1 }, { user }) => {
+      // This is a simple search, we will search in name and sku.
+      // This is only for admin
+      if (!user) {
+        return [];
+      }
+      const productsQuery = select().from('product');
+      productsQuery
+        .leftJoin('product_description', 'des')
+        .on('product.product_id', '=', 'des.product_description_product_id');
+
+      if (query) {
+        productsQuery.where('des.name', 'LIKE', `%${query}%`);
+        productsQuery.orWhere('product.sku', 'LIKE', `%${query}%`);
+      }
+      // Clone the main query for getting total right before doing the paging
+      const cloneQuery = productsQuery.clone();
+      cloneQuery.select('COUNT(product.product_id)', 'total');
+      cloneQuery.removeOrderBy();
+      // Paging
+      productsQuery.limit((page - 1) * 20, 20);
+      return {
+        itemQuery: productsQuery,
+        totalQuery: cloneQuery,
+        currentFilters: []
+      };
     }
   }
 };
