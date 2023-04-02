@@ -73,9 +73,9 @@ module.exports = exports = function TailwindLoader(c) {
 
   mergedTailwindConfig.content = [
     // All file in extensions folder and name is capitalized
-    join(CONSTANTS.ROOTPATH, 'extensions', '**', '[A-Z]*.js'),
+    join(CONSTANTS.ROOTPATH, 'extensions', '**', '[A-Z]*.jsx'),
     // All file in packages/evershop/src and name is capitalized
-    join(CONSTANTS.ROOTPATH, 'packages', 'evershop', 'src', '**', '[A-Z]*.js'),
+    join(CONSTANTS.ROOTPATH, 'packages', 'evershop', 'src', '**', '[A-Z]*.jsx'),
     // All file in node_modules/@evershop/evershop/src and name is capitalized
     join(
       CONSTANTS.ROOTPATH,
@@ -84,10 +84,10 @@ module.exports = exports = function TailwindLoader(c) {
       'evershop',
       'src',
       '**',
-      '[A-Z]*.js'
+      '[A-Z]*.jsx'
     ),
     // All file in themes folder and name is capitalized
-    join(CONSTANTS.ROOTPATH, 'themes', '**', '[A-Z]*.js')
+    join(CONSTANTS.ROOTPATH, 'themes', '**', '[A-Z]*.jsx')
   ];
   // Postcss with tailwind plugin
   try {

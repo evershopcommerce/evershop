@@ -1,4 +1,4 @@
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { get } = require('@evershop/evershop/src/lib/util/get');
@@ -23,7 +23,7 @@ module.exports = {
       // Attribute filters
       filters.forEach((filter) => {
         if (filter.key === 'full_name') {
-          query.andWhere('customer.`full_name`', 'LIKE', `%${filter.value}%`);
+          query.andWhere('customer.full_name', 'LIKE', `%${filter.value}%`);
           currentFilters.push({
             key: 'full_name',
             operation: '=',
@@ -31,7 +31,7 @@ module.exports = {
           });
         }
         if (filter.key === 'status') {
-          query.andWhere('customer.`status`', '=', filter.value);
+          query.andWhere('customer.status', '=', filter.value);
           currentFilters.push({
             key: 'status',
             operation: '=',
@@ -39,7 +39,7 @@ module.exports = {
           });
         }
         if (filter.key === 'email') {
-          query.andWhere('customer.`email`', 'LIKE', `%${filter.value}%`);
+          query.andWhere('customer.email', 'LIKE', `%${filter.value}%`);
           currentFilters.push({
             key: 'email',
             operation: '=',
@@ -53,14 +53,14 @@ module.exports = {
         (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
       ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'full_name') {
-        query.orderBy('customer.`full_name`', sortOrder.value);
+        query.orderBy('customer.full_name', sortOrder.value);
         currentFilters.push({
           key: 'sortBy',
           operation: '=',
           value: sortBy.value
         });
       } else {
-        query.orderBy('customer.`customer_id`', 'DESC');
+        query.orderBy('customer.customer_id', 'DESC');
       }
 
       if (sortOrder.key) {
@@ -72,7 +72,8 @@ module.exports = {
       }
       // Clone the main query for getting total right before doing the paging
       const cloneQuery = query.clone();
-      cloneQuery.select('COUNT(customer.`customer_id`)', 'total');
+      cloneQuery.select('COUNT(customer.customer_id)', 'total');
+      cloneQuery.removeOrderBy();
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
       const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
@@ -106,14 +107,14 @@ module.exports = {
     group: async ({ groupId }, _, { pool }) => {
       const group = await select()
         .from('customer_group')
-        .where('customer_group.`customer_group_id`', '=', groupId)
+        .where('customer_group.customer_group_id', '=', groupId)
         .load(pool);
       return group ? camelCase(group) : null;
     },
     orders: async ({ customerId }, _, { pool }) => {
       const orders = await select()
         .from('order')
-        .where('order.`customer_id`', '=', customerId)
+        .where('order.customer_id', '=', customerId)
         .execute(pool);
       return orders.map((row) => camelCase(row));
     }

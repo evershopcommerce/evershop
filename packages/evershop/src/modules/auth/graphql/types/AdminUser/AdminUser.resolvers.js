@@ -1,4 +1,4 @@
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { get } = require('@evershop/evershop/src/lib/util/get');
 
@@ -25,7 +25,7 @@ module.exports = {
       // Attribute filters
       filters.forEach((filter) => {
         if (filter.key === 'full_name') {
-          query.andWhere('admin_user.`full_name`', 'LIKE', `%${filter.value}%`);
+          query.andWhere('admin_user.full_name', 'LIKE', `%${filter.value}%`);
           currentFilters.push({
             key: 'full_name',
             operation: '=',
@@ -33,7 +33,7 @@ module.exports = {
           });
         }
         if (filter.key === 'status') {
-          query.andWhere('admin_user.`status`', '=', filter.value);
+          query.andWhere('admin_user.status', '=', filter.value);
           currentFilters.push({
             key: 'status',
             operation: '=',
@@ -47,14 +47,14 @@ module.exports = {
         (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
       ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'full_name') {
-        query.orderBy('admin_user.`full_name`', sortOrder.value);
+        query.orderBy('admin_user.full_name', sortOrder.value);
         currentFilters.push({
           key: 'sortBy',
           operation: '=',
           value: sortBy.value
         });
       } else {
-        query.orderBy('admin_user.`admin_user_id`', 'DESC');
+        query.orderBy('admin_user.admin_user_id', 'DESC');
       }
 
       if (sortOrder.key) {
@@ -66,7 +66,8 @@ module.exports = {
       }
       // Clone the main query for getting total right before doing the paging
       const cloneQuery = query.clone();
-      cloneQuery.select('COUNT(admin_user.`admin_user_id`)', 'total');
+      cloneQuery.select('COUNT(admin_user.admin_user_id)', 'total');
+      cloneQuery.removeOrderBy();
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
       const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config

@@ -1,10 +1,10 @@
 const config = require('config');
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const fs = require('fs');
 const path = require('path');
 const uniqid = require('uniqid');
 const { v4: uuidv4 } = require('uuid');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 /* eslint-disable no-underscore-dangle */
@@ -25,7 +25,7 @@ module.exports.Item = class Item extends DataObject {
       key: 'uuid',
       resolvers: [
         async function resolver() {
-          return this.dataSource.uuid ?? uuidv4().replace(/-/g, '');
+          return this.dataSource.uuid ?? uuidv4();
         }
       ]
     },
@@ -37,9 +37,9 @@ module.exports.Item = class Item extends DataObject {
           query
             .leftJoin('product_description', 'des')
             .on(
-              'product.`product_id`',
+              'product.product_id`',
               '=',
-              'des.`product_description_product_id`'
+              'des.product_description_product_id'
             );
           const product = await query
             .where('product_id', '=', this.dataSource.product_id)
@@ -228,23 +228,19 @@ module.exports.Item = class Item extends DataObject {
               .load(pool);
             if (!group) return null;
             else {
-              const query = select('a.`attribute_code`')
-                .select('a.`attribute_name`')
-                .select('a.`attribute_id`')
-                .select('o.`option_id`')
-                .select('o.`option_text`')
+              const query = select('a.attribute_code')
+                .select('a.attribute_name')
+                .select('a.attribute_id')
+                .select('o.option_id')
+                .select('o.option_text')
                 .from('attribute', 'a');
               query
                 .innerJoin('product_attribute_value_index', 'o')
-                .on('a.`attribute_id`', '=', 'o.`attribute_id`');
+                .on('a.attribute_id', '=', 'o.attribute_id');
               query
-                .where(
-                  'o.`product_id`',
-                  '=',
-                  this.dataSource.product.product_id
-                )
+                .where('o.product_id', '=', this.dataSource.product.product_id)
                 .and(
-                  'a.`attribute_id`',
+                  'a.attribute_id',
                   'IN',
                   Object.values(group).filter((v) => v != null)
                 );

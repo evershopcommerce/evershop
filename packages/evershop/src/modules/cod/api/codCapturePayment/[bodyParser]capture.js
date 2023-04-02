@@ -1,5 +1,5 @@
-const { select, update, insert } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { select, update, insert } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   INVALID_PAYLOAD,
   OK

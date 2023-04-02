@@ -1,7 +1,8 @@
-const { select } = require('@evershop/mysql-query-builder');
-const dayjs = require('dayjs');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { select } = require('@evershop/postgres-query-builder');
+const { DateTime } = require('luxon');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getCartTotalBeforeDiscount } = require('./getCartTotalBeforeDiscount');
+const { getSetting } = require('../../setting/services/setting');
 
 exports.Validator = class Validator {
   static validateFunctions = {};
@@ -33,7 +34,7 @@ exports.Validator = class Validator {
    */
   #defaultValidator() {
     this.constructor.addValidator('general', (coupon) => {
-      if (parseInt(coupon.status, 10) !== 1) {
+      if (coupon.status !== true) {
         return false;
       }
       const discountAmount = parseFloat(coupon.discount_amount);
@@ -43,16 +44,21 @@ exports.Validator = class Validator {
       ) {
         return false;
       }
-      const today = dayjs().format('YYYY-MM-DD').toString();
-      if (
-        (coupon.start_date && coupon.start_date > today) ||
-        (coupon.end_date && coupon.end_date < today)
-      ) {
+      const today = DateTime.local().setZone('UTC');
+      const startDate = coupon.start_date
+        ? DateTime.fromJSDate(coupon.start_date, { zone: 'UTC' })
+        : today.minus({ days: 1 });
+      const endDate = coupon.end_date
+        ? DateTime.fromJSDate(coupon.end_date, { zone: 'UTC' })
+        : today.plus({ days: 1 });
+
+      if (startDate < today && endDate > today) {
+        return true;
+      } else {
         return false;
       }
-
-      return true;
     });
+
     this.constructor.addValidator('timeUsed', async (coupon, cart) => {
       if (
         coupon.max_uses_time_per_coupon &&
@@ -82,6 +88,7 @@ exports.Validator = class Validator {
 
       return true;
     });
+
     this.constructor.addValidator('customerGroup', (coupon, cart) => {
       const conditions = JSON.parse(coupon.condition);
       const userConditions = JSON.parse(coupon.user_condition);
@@ -91,9 +98,9 @@ exports.Validator = class Validator {
           return false;
         }
       }
-
       return true;
     });
+
     this.constructor.addValidator('subTotal', (coupon, cart) => {
       const conditions = JSON.parse(coupon.condition);
       const minimumSubTotal = !Number.isNaN(parseFloat(conditions.order_total))
@@ -105,9 +112,9 @@ exports.Validator = class Validator {
       ) {
         return false;
       }
-
       return true;
     });
+
     this.constructor.addValidator('minimumQty', (coupon, cart) => {
       const conditions = JSON.parse(coupon.condition);
       const minimumQty = !Number.isNaN(parseInt(conditions.order_qty, 10))
@@ -116,9 +123,9 @@ exports.Validator = class Validator {
       if (minimumQty && cart.getData('total_qty') < minimumQty) {
         return false;
       }
-
       return true;
     });
+
     this.constructor.addValidator(
       'requiredProductByCategory',
       async (coupon, cart) => {
@@ -192,10 +199,10 @@ exports.Validator = class Validator {
             flag = false;
           }
         }
-
         return flag;
       }
     );
+
     this.constructor.addValidator(
       'requiredProductByAttributeGroup',
       async (coupon, cart) => {
@@ -245,7 +252,6 @@ exports.Validator = class Validator {
             flag = false;
           }
         }
-
         return flag;
       }
     );

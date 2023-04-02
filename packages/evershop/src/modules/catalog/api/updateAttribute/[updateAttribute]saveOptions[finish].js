@@ -6,7 +6,7 @@ const {
   del,
   select,
   update
-} = require('@evershop/mysql-query-builder');
+} = require('@evershop/postgres-query-builder');
 const { get } = require('@evershop/evershop/src/lib/util/get');
 
 module.exports = async (request, response, delegate) => {

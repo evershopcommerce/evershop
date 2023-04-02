@@ -8,13 +8,13 @@ module.exports = {
       const timeZone = await getSetting('storeTimeZone', 'UTC');
       return timeZone;
     },
-    text: async (value, { format = 'LLL dd yyyy' }) => {
-      if (!DateTime.fromSQL(value).isValid) {
+    text: async (value, { format = 'yyyy-LL-dd' }) => {
+      if (!DateTime.fromJSDate(value).isValid) {
         return null;
       }
       const timeZone = await getSetting('storeTimeZone', 'UTC');
       const language = await getSetting('storeLanguage', 'en');
-      const date = DateTime.fromSQL(value, { zone: timeZone })
+      const date = DateTime.fromJSDate(value, { zone: timeZone })
         .setLocale(language)
         .setZone(timeZone)
         .toFormat(format);

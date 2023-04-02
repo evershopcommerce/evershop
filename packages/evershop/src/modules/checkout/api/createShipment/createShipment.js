@@ -6,12 +6,12 @@ const {
   select,
   update,
   startTransaction
-} = require('@evershop/mysql-query-builder');
+} = require('@evershop/postgres-query-builder');
 const config = require('config');
 const {
   getConnection,
   pool
-} = require('@evershop/evershop/src/lib/mysql/connection');
+} = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR,

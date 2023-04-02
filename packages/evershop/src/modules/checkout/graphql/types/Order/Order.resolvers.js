@@ -1,4 +1,4 @@
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
@@ -22,7 +22,7 @@ module.exports = {
       // Attribute filters
       filters.forEach((filter) => {
         if (filter.key === 'orderNumber') {
-          query.andWhere('order.`order_number`', 'LIKE', `%${filter.value}%`);
+          query.andWhere('order.order_number', 'LIKE', `%${filter.value}%`);
           currentFilters.push({
             key: 'orderNumber',
             operation: '=',
@@ -37,12 +37,12 @@ module.exports = {
             .map((v) => parseFloat(v));
           let currentCreatedAtFilter;
           if (Number.isNaN(min) === false) {
-            query.andWhere('order.`created_at`', '>=', min);
+            query.andWhere('order.created_at', '>=', min);
             currentCreatedAtFilter = { key: 'createdAt', value: `${min}` };
           }
 
           if (Number.isNaN(max) === false) {
-            query.andWhere('order.`created_at`', '<=', max);
+            query.andWhere('order.created_at', '<=', max);
             currentCreatedAtFilter = {
               key: 'createdAt',
               value: `${currentCreatedAtFilter.value}-${max}`
@@ -55,7 +55,7 @@ module.exports = {
 
         // Customer email filter
         if (filter.key === 'customerEmail') {
-          query.andWhere('order.`customer_email`', 'LIKE', `%${filter.value}%`);
+          query.andWhere('order.customer_email', 'LIKE', `%${filter.value}%`);
           currentFilters.push({
             key: 'customerEmail',
             operation: '=',
@@ -65,7 +65,7 @@ module.exports = {
 
         // Shipment status filter
         if (filter.key === 'shipmentStatus') {
-          query.andWhere('order.`shipment_status`', '=', filter.value);
+          query.andWhere('order.shipment_status', '=', filter.value);
           currentFilters.push({
             key: 'shipmentStatus',
             operation: '=',
@@ -75,7 +75,7 @@ module.exports = {
 
         // Payment status filter
         if (filter.key === 'paymentStatus') {
-          query.andWhere('order.`payment_status`', '=', filter.value);
+          query.andWhere('order.payment_status', '=', filter.value);
           currentFilters.push({
             key: 'paymentStatus',
             operation: '=',
@@ -91,12 +91,12 @@ module.exports = {
             .map((v) => parseFloat(v));
           let currentTotalFilter;
           if (Number.isNaN(min) === false) {
-            query.andWhere('order.`grand_total`', '>=', min);
+            query.andWhere('order.grand_total', '>=', min);
             currentTotalFilter = { key: 'total', value: `${min}` };
           }
 
           if (Number.isNaN(max) === false) {
-            query.andWhere('order.`grand_total`', '<=', max);
+            query.andWhere('order.grand_total', '<=', max);
             currentTotalFilter = {
               key: 'total',
               value: `${currentTotalFilter.value}-${max}`
@@ -113,14 +113,14 @@ module.exports = {
         (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
       ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'orderNumber') {
-        query.orderBy('`order`.`order_number`', sortOrder.value);
+        query.orderBy('order.order_number', sortOrder.value);
         currentFilters.push({
           key: 'sortBy',
           operation: '=',
           value: sortBy.value
         });
       } else {
-        query.orderBy('`order`.`order_id`', 'DESC'); // TODO: Fix 'order' table name should be wrapped in backticks
+        query.orderBy('order.order_id', 'DESC'); // TODO: Fix 'order' table name should be wrapped in backticks
       }
 
       if (sortOrder.key) {
@@ -132,7 +132,8 @@ module.exports = {
       }
       // Clone the main query for getting total right before doing the paging
       const cloneQuery = query.clone();
-      cloneQuery.select('COUNT(`order`.`order_id`)', 'total');
+      cloneQuery.select('COUNT("order".order_id)', 'total');
+      cloneQuery.removeOrderBy();
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
       const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config

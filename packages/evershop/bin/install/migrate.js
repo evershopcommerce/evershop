@@ -1,4 +1,4 @@
-const { insertOnUpdate } = require('@evershop/mysql-query-builder');
+const { insertOnUpdate } = require('@evershop/postgres-query-builder');
 const { readdirSync, existsSync } = require('fs');
 const path = require('path');
 const semver = require('semver');
@@ -6,19 +6,19 @@ const bcrypt = require('bcryptjs');
 
 module.exports.migrate = async function migrate(
   connection,
-  modulePath,
+  modules,
   adminUser
 ) {
-  const modules = readdirSync(path.resolve(modulePath), { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name);
+  // const modules = readdirSync(path.resolve(modulePath), { withFileTypes: true })
+  //   .filter((dirent) => dirent.isDirectory())
+  //   .map((dirent) => dirent.name);
 
   // eslint-disable-next-line no-restricted-syntax
   for (const module of modules) {
     try {
-      if (existsSync(path.resolve(modulePath, module, 'migration'))) {
+      if (existsSync(path.resolve(module.resolve, 'migration'))) {
         const migrations = readdirSync(
-          path.resolve(modulePath, module, 'migration'),
+          path.resolve(module.resolve, 'migration'),
           { withFileTypes: true }
         )
           .filter(
@@ -36,40 +36,36 @@ module.exports.migrate = async function migrate(
             // eslint-disable-next-line no-await-in-loop
             // eslint-disable-next-line global-require
             await require(path.resolve(
-              modulePath,
-              module,
+              module.resolve,
               'migration',
               `Version-${version}.js`
             ))(connection);
             // eslint-disable-next-line no-await-in-loop
-            await insertOnUpdate('migration')
+            await insertOnUpdate('migration', ['module'])
               .given({
-                module,
-                version,
-                status: 1
+                module: module.name,
+                version
               })
               .execute(connection);
           } catch (e) {
-            console.error(e.message);
+            console.error(e);
             process.exit(0);
           }
         }
 
         if (migrations.length === 0) {
-          await insertOnUpdate('migration')
+          await insertOnUpdate('migration', ['module'])
             .given({
-              module,
-              version: '1.0.0',
-              status: 1
+              module: module.name,
+              version: '1.0.0'
             })
             .execute(connection);
         }
       } else {
-        await insertOnUpdate('migration')
+        await insertOnUpdate('migration', ['module'])
           .given({
-            module,
-            version: '1.0.0',
-            status: 1
+            module: module.name,
+            version: '1.0.0'
           })
           .execute(connection);
       }
@@ -79,7 +75,7 @@ module.exports.migrate = async function migrate(
   }
 
   const salt = bcrypt.genSaltSync(10);
-  await insertOnUpdate('admin_user')
+  await insertOnUpdate('admin_user', ['email'])
     .given({
       status: 1,
       email: adminUser?.email || 'demo@demo.com',

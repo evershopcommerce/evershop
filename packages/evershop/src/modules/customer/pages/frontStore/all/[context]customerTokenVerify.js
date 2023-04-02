@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');
 const { get } = require('@evershop/evershop/src/lib/util/get');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getTokenSecret } = require('../../../../auth/services/getTokenSecret');
 const { generateToken } = require('../../../../auth/services/generateToken');
 const {

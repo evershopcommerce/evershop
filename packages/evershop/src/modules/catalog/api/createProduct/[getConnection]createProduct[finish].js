@@ -1,4 +1,4 @@
-const { insert } = require('@evershop/mysql-query-builder');
+const { insert } = require('@evershop/postgres-query-builder');
 
 module.exports = async (request, response, delegate) => {
   const connection = await delegate.getConnection;
@@ -8,7 +8,7 @@ module.exports = async (request, response, delegate) => {
 
   await insert('product_description')
     .given(request.body)
-    .prime('product_description_product_id', result.insertId)
+    .prime('product_description_product_id', result.product_id)
     .execute(connection);
 
   return result;

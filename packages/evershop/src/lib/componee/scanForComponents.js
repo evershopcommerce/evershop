@@ -10,7 +10,7 @@ function scanForComponents(path) {
     .filter(
       (dirent) =>
         dirent.isFile() &&
-        /.js$/.test(dirent.name) &&
+        /.jsx$/.test(dirent.name) &&
         /^[A-Z]/.test(dirent.name[0])
     )
     .map((dirent) => resolve(path, dirent.name));

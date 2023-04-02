@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');
@@ -11,7 +11,7 @@ const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
   getAdminTokenCookieId
 } = require('../../../services/getAdminTokenCookieId');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 
 module.exports = async (request, response, delegate, next) => {
   const cookieId = getAdminTokenCookieId();

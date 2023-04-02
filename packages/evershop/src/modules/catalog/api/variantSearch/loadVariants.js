@@ -1,5 +1,5 @@
-const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { select } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { OK } = require('@evershop/evershop/src/lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
@@ -11,24 +11,20 @@ module.exports = async (request, response, stack, next) => {
     .select('status')
     .select('price')
     .select('qty')
-    .select('product.`image`')
-    .select('product_image.`image`', 'gallery')
+    .select('product.image')
+    .select('product_image.image', 'gallery')
     .from('product');
 
   query
     .leftJoin('product_image')
-    .on(
-      'product.`product_id`',
-      '=',
-      'product_image.`product_image_product_id`'
-    );
+    .on('product.product_id', '=', 'product_image.product_image_product_id');
 
   query
     .leftJoin('product_description')
     .on(
-      'product.`product_id`',
+      'product.product_id',
       '=',
-      'product_description.`product_description_product_id`'
+      'product_description.product_description_product_id'
     );
 
   // Only return item that not assigned to any group

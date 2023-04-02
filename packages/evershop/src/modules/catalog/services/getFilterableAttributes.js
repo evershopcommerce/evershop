@@ -1,10 +1,10 @@
-const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { select } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getProductsBaseQuery } = require('./getProductsBaseQuery');
 
 module.exports.getFilterableAttributes = async (categoryId) => {
   const productsQuery = await getProductsBaseQuery(categoryId);
-  productsQuery.select('product.`product_id`');
+  productsQuery.select('product.product_id');
   // Get the list of productIds before applying pagination, sorting...etc
   // Base on this list, we will find all attribute,
   // category and price can be appeared in the filter table
@@ -13,24 +13,24 @@ module.exports.getFilterableAttributes = async (categoryId) => {
   );
 
   // Filterable attributes
-  const query = select('attribute.`attribute_name`', 'attribute_name')
-    .select('attribute.`type`', 'type')
-    .select('attribute.`is_filterable`', 'is_filterable')
-    .select('product_attribute_value_index.`attribute_id`', 'attribute_id')
-    .select('attribute.`attribute_code`', 'attribute_code')
-    .select('product_attribute_value_index.`option_id`', 'option_id')
-    .select('product_attribute_value_index.`option_text`', 'option_text')
+  const query = select('attribute.attribute_name', 'attribute_name')
+    .select('attribute.type', 'type')
+    .select('attribute.is_filterable', 'is_filterable')
+    .select('product_attribute_value_index.attribute_id', 'attribute_id')
+    .select('attribute.attribute_code', 'attribute_code')
+    .select('product_attribute_value_index.option_id', 'option_id')
+    .select('product_attribute_value_index.option_text', 'option_text')
     .from('attribute');
   query
     .innerJoin('product_attribute_value_index')
     .on(
-      'attribute.`attribute_id`',
+      'attribute.attribute_id',
       '=',
-      'product_attribute_value_index.`attribute_id`'
+      'product_attribute_value_index.attribute_id'
     );
 
   query
-    .where('product_attribute_value_index.`product_id`', 'IN', allIds)
+    .where('product_attribute_value_index.product_id', 'IN', allIds)
     .and('type', '=', 'select')
     .and('is_filterable', '=', 1);
 

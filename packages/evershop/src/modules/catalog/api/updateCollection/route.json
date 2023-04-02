@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/collections/:id",
+  "access": "private"
+}

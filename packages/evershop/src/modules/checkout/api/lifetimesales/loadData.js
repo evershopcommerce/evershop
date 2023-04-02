@@ -1,5 +1,5 @@
-const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { select } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getSetting } = require('../../../setting/services/setting');
 
 // eslint-disable-next-line no-unused-vars

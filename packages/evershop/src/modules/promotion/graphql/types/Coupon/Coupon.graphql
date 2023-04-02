@@ -17,8 +17,8 @@ type Coupon {
   buyxGety: [ByXGetY]
   maxUsesTimePerCoupon: Int
   maxUsesTimePerCustomer: Int
-  startDate: String
-  endDate: String
+  startDate: DateTime
+  endDate: DateTime
   editUrl: String!
   updateApi: String!
   deleteApi: String!

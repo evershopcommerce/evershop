@@ -1,9 +1,9 @@
 const { default: axios } = require('axios');
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const { getSetting } = require('../../../setting/services/setting');
 const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 const {
   INVALID_PAYLOAD,

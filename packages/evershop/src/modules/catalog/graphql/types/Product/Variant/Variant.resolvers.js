@@ -1,4 +1,4 @@
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const uniqid = require('uniqid');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
@@ -25,26 +25,26 @@ module.exports = {
         const query = select();
         query
           .from('product')
-          .select('product.`product_id`')
-          .select('attribute.`attribute_id`')
-          .select('attribute.`attribute_code`')
-          .select('attribute.`attribute_name`')
-          .select('product_attribute_value_index.`option_id`')
-          .select('product_attribute_value_index.`option_text`');
+          .select('product.product_id')
+          .select('attribute.attribute_id')
+          .select('attribute.attribute_code')
+          .select('attribute.attribute_name')
+          .select('product_attribute_value_index.option_id')
+          .select('product_attribute_value_index.option_text');
 
         query
           .innerJoin('product_attribute_value_index')
           .on(
-            'product.`product_id`',
+            'product.product_id',
             '=',
-            'product_attribute_value_index.`product_id`'
+            'product_attribute_value_index.product_id'
           );
         query
           .innerJoin('attribute')
           .on(
-            'product_attribute_value_index.`attribute_id`',
+            'product_attribute_value_index.attribute_id',
             '=',
-            'attribute.`attribute_id`'
+            'attribute.attribute_id'
           );
 
         query.where('variant_group_id', '=', variantGroupId).and(
@@ -164,9 +164,9 @@ module.exports = {
       query
         .leftJoin('product_description')
         .on(
-          'product_description.`product_description_product_id`',
+          'product_description.product_description_product_id',
           '=',
-          'product.`product_id`'
+          'product.product_id'
         );
       query.where('product_id', '=', productId);
       const result = await query.load(pool);

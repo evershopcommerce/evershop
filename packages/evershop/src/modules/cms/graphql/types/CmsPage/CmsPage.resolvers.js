@@ -1,4 +1,4 @@
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 
@@ -9,9 +9,9 @@ module.exports = {
       query
         .leftJoin('cms_page_description')
         .on(
-          'cms_page.`cms_page_id`',
+          'cms_page.cms_page_id',
           '=',
-          'cms_page_description.`cms_page_description_cms_page_id`'
+          'cms_page_description.cms_page_description_cms_page_id'
         );
       query.where('cms_page_id', '=', id);
 
@@ -23,9 +23,9 @@ module.exports = {
       query
         .leftJoin('cms_page_description')
         .on(
-          'cms_page.`cms_page_id`',
+          'cms_page.cms_page_id',
           '=',
-          'cms_page_description.`cms_page_description_cms_page_id`'
+          'cms_page_description.cms_page_description_cms_page_id'
         );
       const currentFilters = [];
 
@@ -33,7 +33,7 @@ module.exports = {
       filters.forEach((filter) => {
         if (filter.key === 'name') {
           query.andWhere(
-            'cms_page_description.`name`',
+            'cms_page_description.name',
             'LIKE',
             `%${filter.value}%`
           );
@@ -44,7 +44,7 @@ module.exports = {
           });
         }
         if (filter.key === 'status') {
-          query.andWhere('cms_page.`status`', '=', filter.value);
+          query.andWhere('cms_page.status', '=', filter.value);
           currentFilters.push({
             key: 'status',
             operation: '=',
@@ -59,14 +59,14 @@ module.exports = {
       ) || { value: 'ASC' };
 
       if (sortBy && sortBy.value === 'name') {
-        query.orderBy('cms_page_description.`name`', sortOrder.value);
+        query.orderBy('cms_page_description.name', sortOrder.value);
         currentFilters.push({
           key: 'sortBy',
           operation: '=',
           value: sortBy.value
         });
       } else {
-        query.orderBy('cms_page.`cms_page_id`', 'DESC');
+        query.orderBy('cms_page.cms_page_id', 'DESC');
       }
 
       if (sortOrder.key) {
@@ -78,7 +78,8 @@ module.exports = {
       }
       // Clone the main query for getting total right before doing the paging
       const cloneQuery = query.clone();
-      cloneQuery.select('COUNT(cms_page.`cms_page_id`)', 'total');
+      cloneQuery.select('COUNT(cms_page.cms_page_id)', 'total');
+      cloneQuery.removeOrderBy();
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
       const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config

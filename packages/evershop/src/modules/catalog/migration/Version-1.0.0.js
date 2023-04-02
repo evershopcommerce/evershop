@@ -1,21 +1,22 @@
-const { execute, insert } = require('@evershop/mysql-query-builder');
+const { execute, insert } = require('@evershop/postgres-query-builder');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = async (connection) => {
   await execute(
     connection,
-    `CREATE TABLE \`attribute\` (
-  \`attribute_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`attribute_code\` varchar(255) NOT NULL,
-  \`attribute_name\` varchar(255) NOT NULL,
-  \`type\` varchar(11) NOT NULL,
-  \`is_required\` smallint(5) unsigned NOT NULL DEFAULT 0,
-  \`display_on_frontend\` smallint(5) unsigned NOT NULL DEFAULT 0,
-  \`sort_order\` int(10) unsigned NOT NULL DEFAULT 0,
-  \`is_filterable\` smallint(2) unsigned NOT NULL DEFAULT 0,
-  PRIMARY KEY (\`attribute_id\`),
-  UNIQUE KEY \`UNIQUE_ATTRIBUTE_CODE\` (\`attribute_code\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute'`
+    `CREATE TABLE "attribute" (
+  "attribute_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "attribute_code" varchar NOT NULL,
+  "attribute_name" varchar NOT NULL,
+  "type" varchar NOT NULL,
+  "is_required" boolean NOT NULL DEFAULT FALSE,
+  "display_on_frontend" boolean NOT NULL DEFAULT FALSE,
+  "sort_order" INT NOT NULL DEFAULT 0,
+  "is_filterable" boolean NOT NULL DEFAULT FALSE,
+  CONSTRAINT "ATTRIBUTE_CODE_UNIQUE" UNIQUE ("attribute_code"),
+  CONSTRAINT "ATTRIBUTE_CODE_UUID_UNIQUE" UNIQUE ("uuid")
+)`
   );
 
   const color = await insert('attribute')
@@ -28,7 +29,6 @@ module.exports = exports = async (connection) => {
       is_filterable: 1
     })
     .execute(connection);
-
   const size = await insert('attribute')
     .given({
       attribute_code: 'size',
@@ -39,19 +39,22 @@ module.exports = exports = async (connection) => {
       is_filterable: 1
     })
     .execute(connection);
+  await execute(
+    connection,
+    `CREATE TABLE "attribute_option" (
+  "attribute_option_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "attribute_id" INT NOT NULL,
+  "attribute_code" varchar NOT NULL,
+  "option_text" varchar NOT NULL,
+  CONSTRAINT "ATTRIBUTE_OPTION_UUID_UNIQUE" UNIQUE ("uuid"),
+  CONSTRAINT "FK_ATTRIBUTE_OPTION" FOREIGN KEY ("attribute_id") REFERENCES "attribute" ("attribute_id") ON DELETE CASCADE
+)`
+  );
 
   await execute(
     connection,
-    `CREATE TABLE \`attribute_option\` (
-  \`attribute_option_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`attribute_id\` int(10) unsigned NOT NULL,
-  \`attribute_code\` varchar(255) NOT NULL,
-  \`option_text\` varchar(255) NOT NULL,
-  PRIMARY KEY (\`attribute_option_id\`),
-  KEY \`FK_ATTRIBUTE_OPTION\` (\`attribute_id\`),
-  CONSTRAINT \`FK_ATTRIBUTE_OPTION\` FOREIGN KEY (\`attribute_id\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute option';
-`
+    `CREATE INDEX "FK_ATTRIBUTE_OPTION" ON "attribute_option" ("attribute_id")`
   );
 
   await insert('attribute_option')
@@ -104,13 +107,14 @@ module.exports = exports = async (connection) => {
 
   await execute(
     connection,
-    `CREATE TABLE \`attribute_group\` (
-  \`attribute_group_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`group_name\` text NOT NULL,
-  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
-  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (\`attribute_group_id\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute group'`
+    `CREATE TABLE "attribute_group" (
+  "attribute_group_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "group_name" text NOT NULL,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "ATTRIBUTE_GROUP_UUID_UNIQUE" UNIQUE ("uuid")
+)`
   );
 
   const defaultGroup = await insert('attribute_group')
@@ -119,299 +123,505 @@ module.exports = exports = async (connection) => {
 
   await execute(
     connection,
-    `CREATE TABLE \`attribute_group_link\` (
-  \`attribute_group_link_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`attribute_id\` int(10) unsigned NOT NULL,
-  \`group_id\` int(10) unsigned NOT NULL,
-  PRIMARY KEY (\`attribute_group_link_id\`),
-  UNIQUE KEY \`UNIQUE_ATTRIBUE_GROUP\` (\`attribute_id\`,\`group_id\`),
-  KEY \`FK_GROUP_LINK\` (\`group_id\`),
-  CONSTRAINT \`FK_ATTRIBUTE_LINK\` FOREIGN KEY (\`attribute_id\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT \`FK_GROUP_LINK\` FOREIGN KEY (\`group_id\`) REFERENCES \`attribute_group\` (\`attribute_group_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Attribute and group linking table'`
+    `CREATE TABLE "attribute_group_link" (
+  "attribute_group_link_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "attribute_id" INT NOT NULL,
+  "group_id" INT NOT NULL,
+  CONSTRAINT "ATTRIBUTE_GROUP_LINK_UNIQUE" UNIQUE ("attribute_id","group_id"),
+  CONSTRAINT "FK_ATTRIBUTE_LINK" FOREIGN KEY ("attribute_id") REFERENCES "attribute" ("attribute_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "FK_GROUP_LINK" FOREIGN KEY ("group_id") REFERENCES "attribute_group" ("attribute_group_id") ON DELETE CASCADE
+)`
+  );
+
+  await execute(
+    connection,
+    `CREATE INDEX "FK_GROUP_LINK" ON "attribute_group_link" ("group_id")`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_ATTRIBUTE_LINK" ON "attribute_group_link" ("attribute_id")`
   );
 
   await insert('attribute_group_link')
-    .given({ group_id: defaultGroup.insertId, attribute_id: color.insertId })
+    .given({
+      group_id: defaultGroup.insertId,
+      attribute_id: color.insertId
+    })
     .execute(connection);
   await insert('attribute_group_link')
-    .given({ group_id: defaultGroup.insertId, attribute_id: size.insertId })
+    .given({
+      group_id: defaultGroup.insertId,
+      attribute_id: size.insertId
+    })
     .execute(connection);
 
   await execute(
     connection,
-    `CREATE TABLE \`variant_group\` (
-  \`variant_group_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`attribute_group_id\` int(10) unsigned NOT NULL,
-  \`attribute_one\` int(10) unsigned DEFAULT NULL,
-  \`attribute_two\` int(10) unsigned DEFAULT NULL,
-  \`attribute_three\` int(10) unsigned DEFAULT NULL,
-  \`attribute_four\` int(10) unsigned DEFAULT NULL,
-  \`attribute_five\` int(10) unsigned DEFAULT NULL,
-  \`visibility\` int(2) unsigned NOT NULL DEFAULT 0,
-  PRIMARY KEY (\`variant_group_id\`),
-  KEY \`FK_ATTRIBUTE_VARIANT_ONE\` (\`attribute_one\`),
-  KEY \`FK_ATTRIBUTE_VARIANT_TWO\` (\`attribute_two\`),
-  KEY \`FK_ATTRIBUTE_VARIANT_THREE\` (\`attribute_three\`),
-  KEY \`FK_ATTRIBUTE_VARIANT_FOUR\` (\`attribute_four\`),
-  KEY \`FK_ATTRIBUTE_VARIANT_FIVE\` (\`attribute_five\`),
-  KEY \`FK_ATTRIBUTE_GROUP_VARIANT\` (\`attribute_group_id\`),
-  CONSTRAINT \`FK_ATTRIBUTE_GROUP_VARIANT\` FOREIGN KEY (\`attribute_group_id\`) REFERENCES \`attribute_group\` (\`attribute_group_id\`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT \`FK_ATTRIBUTE_VARIANT_FIVE\` FOREIGN KEY (\`attribute_five\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT \`FK_ATTRIBUTE_VARIANT_FOUR\` FOREIGN KEY (\`attribute_four\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT \`FK_ATTRIBUTE_VARIANT_ONE\` FOREIGN KEY (\`attribute_one\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT \`FK_ATTRIBUTE_VARIANT_THREE\` FOREIGN KEY (\`attribute_three\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT \`FK_ATTRIBUTE_VARIANT_TWO\` FOREIGN KEY (\`attribute_two\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-`
+    `CREATE TABLE "variant_group" (
+  "variant_group_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "attribute_group_id" INT NOT NULL,
+  "attribute_one" INT DEFAULT NULL,
+  "attribute_two" INT DEFAULT NULL,
+  "attribute_three" INT DEFAULT NULL,
+  "attribute_four" INT DEFAULT NULL,
+  "attribute_five" INT DEFAULT NULL,
+  "visibility" boolean NOT NULL DEFAULT FALSE,
+  CONSTRAINT "VARIANT_GROUP_UUID_UNIQUE" UNIQUE ("uuid"),
+  CONSTRAINT "FK_ATTRIBUTE_GROUP_VARIANT" FOREIGN KEY ("attribute_group_id") REFERENCES "attribute_group" ("attribute_group_id") ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT "FK_ATTRIBUTE_VARIANT_FIVE" FOREIGN KEY ("attribute_five") REFERENCES "attribute" ("attribute_id") ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT "FK_ATTRIBUTE_VARIANT_FOUR" FOREIGN KEY ("attribute_four") REFERENCES "attribute" ("attribute_id") ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT "FK_ATTRIBUTE_VARIANT_ONE" FOREIGN KEY ("attribute_one") REFERENCES "attribute" ("attribute_id") ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT "FK_ATTRIBUTE_VARIANT_THREE" FOREIGN KEY ("attribute_three") REFERENCES "attribute" ("attribute_id") ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT "FK_ATTRIBUTE_VARIANT_TWO" FOREIGN KEY ("attribute_two") REFERENCES "attribute" ("attribute_id") ON DELETE CASCADE ON UPDATE NO ACTION
+)`
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`customer_group\` (
-  \`customer_group_id\` int(10) unsigned NOT NULL,
-  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
-  \`group_name\` char(255) NOT NULL,
-  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
-  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  \`row_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (\`customer_group_id\`),
-  KEY \`row_id\` (\`row_id\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer group';
-`
+    `CREATE INDEX "FK_ATTRIBUTE_VARIANT_ONE" ON "variant_group" ("attribute_one")`
   );
-
-  // Add default customer group
   await execute(
     connection,
-    "INSERT INTO `customer_group` ( `customer_group_id`, `group_name` ) VALUES (1, 'Default') ON DUPLICATE KEY UPDATE group_name='Default'"
+    `CREATE INDEX "FK_ATTRIBUTE_VARIANT_TWO" ON "variant_group" ("attribute_two")`
   );
-
   await execute(
     connection,
-    `CREATE TABLE \`product\` (
-  \`product_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
-  \`variant_group_id\` int(10) unsigned DEFAULT NULL,
-  \`visibility\` smallint(2) DEFAULT NULL,
-  \`group_id\` int(10) unsigned DEFAULT NULL,
-  \`image\` varchar(255) DEFAULT NULL,
-  \`sku\` varchar(255) NOT NULL,
-  \`price\` decimal(12,4) NOT NULL,
-  \`qty\` int(10) unsigned NOT NULL,
-  \`weight\` decimal(12,4) DEFAULT NULL,
-  \`manage_stock\` tinyint(1) unsigned NOT NULL,
-  \`stock_availability\` tinyint(1) unsigned NOT NULL,
-  \`tax_class\` smallint(6) DEFAULT NULL,
-  \`status\` tinyint(1) unsigned NOT NULL,
-  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
-  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (\`product_id\`),
-  UNIQUE KEY \`UNIQUE_SKU\` (\`sku\`),
-  KEY \`FK_PRODUCT_ATTRIBUTE_GROUP\` (\`group_id\`),
-  KEY \`FK_PRODUCT_VARIANT_GROUP\` (\`variant_group_id\`),
-  CONSTRAINT \`FK_PRODUCT_ATTRIBUTE_GROUP\` FOREIGN KEY (\`group_id\`) REFERENCES \`attribute_group\` (\`attribute_group_id\`) ON DELETE SET NULL,
-  CONSTRAINT \`FK_PRODUCT_VARIANT_GROUP\` FOREIGN KEY (\`variant_group_id\`) REFERENCES \`variant_group\` (\`variant_group_id\`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product'`
+    `CREATE INDEX "FK_ATTRIBUTE_VARIANT_THREE" ON "variant_group" ("attribute_three")`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_ATTRIBUTE_VARIANT_FOUR" ON "variant_group" ("attribute_four")`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_ATTRIBUTE_VARIANT_FIVE" ON "variant_group" ("attribute_five")`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_ATTRIBUTE_GROUP_VARIANT" ON "variant_group" ("attribute_group_id")`
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`product_attribute_value_index\` (
-  \`product_attribute_value_index_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`product_id\` int(10) unsigned NOT NULL,
-  \`attribute_id\` int(10) unsigned NOT NULL,
-  \`option_id\` int(10) unsigned DEFAULT NULL,
-  \`option_text\` text DEFAULT NULL,
-  PRIMARY KEY (\`product_attribute_value_index_id\`),
-  UNIQUE KEY \`UNIQUE_OPTION_VALUE\` (\`product_id\`,\`attribute_id\`,\`option_id\`),
-  KEY \`FK_ATTRIBUTE_VALUE_LINK\` (\`attribute_id\`),
-  KEY \`FK_ATTRIBUTE_OPTION_VALUE_LINK\` (\`option_id\`),
-  CONSTRAINT \`FK_ATTRIBUTE_OPTION_VALUE_LINK\` FOREIGN KEY (\`option_id\`) REFERENCES \`attribute_option\` (\`attribute_option_id\`) ON DELETE CASCADE,
-  CONSTRAINT \`FK_ATTRIBUTE_VALUE_LINK\` FOREIGN KEY (\`attribute_id\`) REFERENCES \`attribute\` (\`attribute_id\`) ON DELETE CASCADE,
-  CONSTRAINT \`FK_PRODUCT_ATTRIBUTE_LINK\` FOREIGN KEY (\`product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product attribute value index'`
+    `CREATE TABLE "product" (
+  "product_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "type" varchar NOT NULL DEFAULT 'simple',
+  "variant_group_id" INT DEFAULT NULL,
+  "visibility" boolean NOT NULL DEFAULT TRUE,
+  "group_id" INT DEFAULT 1,
+  "image" varchar DEFAULT NULL,
+  "sku" varchar NOT NULL,
+  "price" decimal(12,4) NOT NULL,
+  "qty" INT NOT NULL,
+  "weight" decimal(12,4) DEFAULT NULL,
+  "manage_stock" boolean NOT NULL,
+  "stock_availability" boolean NOT NULL,
+  "tax_class" smallint DEFAULT NULL,
+  "status" boolean NOT NULL DEFAULT FALSE,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "PRODUCT_UUID_UNIQUE" UNIQUE ("uuid"),
+  CONSTRAINT "PRODUCT_SKU_UNIQUE" UNIQUE ("sku"),
+  CONSTRAINT "UNSIGNED_PRICE" CHECK(price >= 0),
+  CONSTRAINT "UNSIGNED_WEIGHT" CHECK(weight >= 0),
+  CONSTRAINT "FK_PRODUCT_ATTRIBUTE_GROUP" FOREIGN KEY ("group_id") REFERENCES "attribute_group" ("attribute_group_id") ON DELETE SET NULL,
+  CONSTRAINT "FK_PRODUCT_VARIANT_GROUP" FOREIGN KEY ("variant_group_id") REFERENCES "variant_group" ("variant_group_id") ON DELETE SET NULL
+)`
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`product_custom_option\` (
-  \`product_custom_option_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`product_custom_option_product_id\` int(10) unsigned NOT NULL,
-  \`option_name\` varchar(255) NOT NULL,
-  \`option_type\` varchar(255) NOT NULL,
-  \`is_required\` int(5) NOT NULL DEFAULT 0,
-  \`sort_order\` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (\`product_custom_option_id\`),
-  KEY \`FK_PRODUCT_CUSTOM_OPTION\` (\`product_custom_option_product_id\`),
-  CONSTRAINT \`FK_PRODUCT_CUSTOM_OPTION\` FOREIGN KEY (\`product_custom_option_product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product custom option'`
+    `CREATE INDEX "FK_PRODUCT_ATTRIBUTE_GROUP" ON "product" ("group_id")`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_PRODUCT_VARIANT_GROUP" ON "product" ("variant_group_id")`
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`product_custom_option_value\` (
-  \`product_custom_option_value_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`option_id\` int(10) unsigned NOT NULL,
-  \`extra_price\` decimal(12,4) DEFAULT NULL,
-  \`sort_order\` int(10) unsigned DEFAULT NULL,
-  \`value\` varchar(225) NOT NULL,
-  PRIMARY KEY (\`product_custom_option_value_id\`),
-  KEY \`FK_CUSTOM_OPTION_VALUE\` (\`option_id\`),
-  CONSTRAINT \`FK_CUSTOM_OPTION_VALUE\` FOREIGN KEY (\`option_id\`) REFERENCES \`product_custom_option\` (\`product_custom_option_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product option value'`
+    `CREATE TABLE "product_attribute_value_index" (
+  "product_attribute_value_index_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "product_id" INT NOT NULL,
+  "attribute_id" INT NOT NULL,
+  "option_id" INT DEFAULT NULL,
+  "option_text" text DEFAULT NULL,
+  CONSTRAINT "PRODUCT_ATTRIBUTE_VALUE_UUID_UNIQUE" UNIQUE ("uuid"),
+  CONSTRAINT "OPTION_VALUE_UNIQUE" UNIQUE ("product_id","attribute_id","option_id"),
+  CONSTRAINT "FK_ATTRIBUTE_OPTION_VALUE_LINK" FOREIGN KEY ("option_id") REFERENCES "attribute_option" ("attribute_option_id") ON DELETE CASCADE,
+  CONSTRAINT "FK_ATTRIBUTE_VALUE_LINK" FOREIGN KEY ("attribute_id") REFERENCES "attribute" ("attribute_id") ON DELETE CASCADE,
+  CONSTRAINT "FK_PRODUCT_ATTRIBUTE_LINK" FOREIGN KEY ("product_id") REFERENCES "product" ("product_id") ON DELETE CASCADE
+)`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_ATTRIBUTE_VALUE_LINK" ON "product_attribute_value_index" ("attribute_id")`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_ATTRIBUTE_OPTION_VALUE_LINK" ON "product_attribute_value_index" ("option_id")`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_PRODUCT_ATTRIBUTE_LINK" ON "product_attribute_value_index" ("product_id")`
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`product_description\` (
-  \`product_description_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`product_description_product_id\` int(10) unsigned NOT NULL,
-  \`name\` text NOT NULL,
-  \`description\` longtext DEFAULT NULL,
-  \`short_description\` longtext DEFAULT NULL,
-  \`url_key\` varchar(255) NOT NULL,
-  \`meta_title\` text DEFAULT NULL,
-  \`meta_description\` longtext DEFAULT NULL,
-  \`meta_keywords\` text DEFAULT NULL,
-  PRIMARY KEY (\`product_description_id\`),
-  UNIQUE KEY \`PRODUCT_ID_UNIQUE\` (\`product_description_product_id\`),
-  CONSTRAINT \`FK_PRODUCT_DESCRIPTION\` FOREIGN KEY (\`product_description_product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product description'`
+    `CREATE TABLE "product_custom_option" (
+  "product_custom_option_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "product_custom_option_product_id" INT NOT NULL,
+  "option_name" varchar NOT NULL,
+  "option_type" varchar NOT NULL,
+  "is_required" boolean NOT NULL DEFAULT FALSE,
+  "sort_order" INT DEFAULT NULL,
+  CONSTRAINT "PRODUCT_CUSTOM_OPTION_UUID_UNIQUE" UNIQUE ("uuid"),
+  CONSTRAINT "FK_PRODUCT_CUSTOM_OPTION" FOREIGN KEY ("product_custom_option_product_id") REFERENCES "product" ("product_id") ON DELETE CASCADE
+)`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_PRODUCT_CUSTOM_OPTION" ON "product_custom_option" ("product_custom_option_product_id")`
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`product_image\` (
-  \`product_image_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`product_image_product_id\` int(10) unsigned NOT NULL,
-  \`image\` varchar(225) NOT NULL,
-  PRIMARY KEY (\`product_image_id\`),
-  KEY \`FK_PRODUCT_IMAGE_LINK\` (\`product_image_product_id\`),
-  CONSTRAINT \`FK_PRODUCT_IMAGE_LINK\` FOREIGN KEY (\`product_image_product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product image'`
+    `CREATE TABLE "product_custom_option_value" (
+  "product_custom_option_value_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "option_id" INT NOT NULL,
+  "extra_price" decimal(12,4) DEFAULT NULL,
+  "sort_order" INT DEFAULT NULL,
+  "value" varchar NOT NULL,
+  CONSTRAINT "PRODUCT_CUSTOM_OPTION_VALUE_UUID_UNIQUE" UNIQUE ("uuid"),
+  CONSTRAINT "FK_CUSTOM_OPTION_VALUE" FOREIGN KEY ("option_id") REFERENCES "product_custom_option" ("product_custom_option_id") ON DELETE CASCADE
+)`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_CUSTOM_OPTION_VALUE" ON "product_custom_option_value" ("option_id")`
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`product_price\` (
-  \`product_price_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`product_price_product_id\` int(10) unsigned NOT NULL,
-  \`tier_price\` decimal(12,4) NOT NULL,
-  \`customer_group_id\` int(10) unsigned NOT NULL DEFAULT 0,
-  \`qty\` int(10) unsigned NOT NULL DEFAULT 0,
-  \`active_from\` datetime DEFAULT NULL,
-  \`active_to\` datetime DEFAULT NULL,
-  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
-  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (\`product_price_id\`),
-  UNIQUE KEY \`UNIQUE_CUSTOMER_PRODUCT_PRICE_QTY\` (\`product_price_product_id\`,\`customer_group_id\`,\`qty\`),
-  KEY \`FK_PRICE_PRODUCT\` (\`product_price_product_id\`),
-  KEY \`FK_PRICE_CUSTOMER_GROUP\` (\`customer_group_id\`),
-  CONSTRAINT \`FK_PRICE_CUSTOMER_GROUP\` FOREIGN KEY (\`customer_group_id\`) REFERENCES \`customer_group\` (\`customer_group_id\`) ON DELETE CASCADE,
-  CONSTRAINT \`FK_PRICE_PRODUCT\` FOREIGN KEY (\`product_price_product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product advanced price'`
+    `CREATE TABLE "product_description" (
+  "product_description_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "product_description_product_id" INT NOT NULL,
+  "name" varchar NOT NULL,
+  "description" text DEFAULT NULL,
+  "short_description" text DEFAULT NULL,
+  "url_key" varchar NOT NULL,
+  "meta_title" text DEFAULT NULL,
+  "meta_description" text DEFAULT NULL,
+  "meta_keywords" text DEFAULT NULL,
+  CONSTRAINT "PRODUCT_ID_UNIQUE" UNIQUE ("product_description_product_id"),
+  CONSTRAINT "PRODUCT_URL_KEY_UNIQUE" UNIQUE ("url_key"),
+  CONSTRAINT "FK_PRODUCT_DESCRIPTION" FOREIGN KEY ("product_description_product_id") REFERENCES "product" ("product_id") ON DELETE CASCADE
+)`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_PRODUCT_DESCRIPTION" ON "product_description" ("product_description_product_id")`
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`category\` (
-  \`category_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`uuid\` varchar(255) DEFAULT (replace(uuid(),'-','')),
-  \`status\` smallint(6) NOT NULL,
-  \`parent_id\` int(10) unsigned DEFAULT NULL,
-  \`include_in_nav\` smallint(5) unsigned NOT NULL,
-  \`position\` smallint(5) unsigned DEFAULT NULL,
-  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
-  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (\`category_id\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Category'`
+    `CREATE TABLE "product_image" (
+  "product_image_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "product_image_product_id" INT NOT NULL,
+  "image" varchar NOT NULL,
+  CONSTRAINT "PRODUCT_IMAGE_UUID_UNIQUE" UNIQUE ("uuid"),
+  CONSTRAINT "FK_PRODUCT_IMAGE_LINK" FOREIGN KEY ("product_image_product_id") REFERENCES "product" ("product_id") ON DELETE CASCADE
+)`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_PRODUCT_IMAGE_LINK" ON "product_image" ("product_image_product_id")`
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`product_category\` (
-  \`product_category_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`category_id\` int(10) unsigned NOT NULL,
-  \`product_id\` int(10) unsigned NOT NULL,
-  PRIMARY KEY (\`product_category_id\`),
-  UNIQUE KEY \`PRODUCT_CATEGORY_UNIQUE\` (\`category_id\`,\`product_id\`),
-  KEY \`FK_PRODUCT_CATEGORY_LINK\` (\`product_id\`),
-  CONSTRAINT \`FK_CATEGORY_PRODUCT_LINK\` FOREIGN KEY (\`category_id\`) REFERENCES \`category\` (\`category_id\`) ON DELETE CASCADE,
-  CONSTRAINT \`FK_PRODUCT_CATEGORY_LINK\` FOREIGN KEY (\`product_id\`) REFERENCES \`product\` (\`product_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product and category link'`
+    `CREATE TABLE "category" (
+  "category_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "status" boolean NOT NULL,
+  "parent_id" INT DEFAULT NULL,
+  "include_in_nav" boolean NOT NULL,
+  "position" smallint DEFAULT NULL,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+   CONSTRAINT "CATEGORY_UUID_UNIQUE" UNIQUE ("uuid")
+)`
   );
 
   await execute(
     connection,
-    `CREATE TABLE \`category_description\` (
-  \`category_description_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  \`category_description_category_id\` int(10) unsigned NOT NULL,
-  \`name\` text NOT NULL,
-  \`short_description\` text DEFAULT NULL,
-  \`description\` longtext DEFAULT NULL,
-  \`image\` varchar(255) DEFAULT NULL,
-  \`meta_title\` text DEFAULT NULL,
-  \`meta_keywords\` text DEFAULT NULL,
-  \`meta_description\` longtext DEFAULT NULL,
-  \`url_key\` char(255) NOT NULL,
-  PRIMARY KEY (\`category_description_id\`),
-  UNIQUE KEY \`CATEGORY_ID_UNIQUE\` (\`category_description_category_id\`),
-  CONSTRAINT \`FK_CATEGORY_DESCRIPTION\` FOREIGN KEY (\`category_description_category_id\`) REFERENCES \`category\` (\`category_id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Category description'`
+    `CREATE TABLE "product_category" (
+  "product_category_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "category_id" INT NOT NULL,
+  "product_id" INT NOT NULL,
+  CONSTRAINT "PRODUCT_CATEGORY_UNIQUE" UNIQUE ("category_id","product_id"),
+  CONSTRAINT "FK_CATEGORY_PRODUCT_LINK" FOREIGN KEY ("category_id") REFERENCES "category" ("category_id") ON DELETE CASCADE,
+  CONSTRAINT "FK_PRODUCT_CATEGORY_LINK" FOREIGN KEY ("product_id") REFERENCES "product" ("product_id") ON DELETE CASCADE
+)`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_CATEGORY_PRODUCT_LINK" ON "product_category" ("category_id")`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_PRODUCT_CATEGORY_LINK" ON "product_category" ("product_id")`
+  );
+
+  await execute(
+    connection,
+    `CREATE TABLE "category_description" (
+  "category_description_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "category_description_category_id" INT NOT NULL,
+  "name" varchar NOT NULL,
+  "short_description" text DEFAULT NULL,
+  "description" text DEFAULT NULL,
+  "image" varchar DEFAULT NULL,
+  "meta_title" text DEFAULT NULL,
+  "meta_keywords" text DEFAULT NULL,
+  "meta_description" text DEFAULT NULL,
+  "url_key" varchar NOT NULL,
+  CONSTRAINT "CATEGORY_ID_UNIQUE" UNIQUE ("category_description_category_id"),
+  CONSTRAINT "CATEGORY_URL_KEY_UNIQUE" UNIQUE ("url_key"),
+  CONSTRAINT "FK_CATEGORY_DESCRIPTION" FOREIGN KEY ("category_description_category_id") REFERENCES "category" ("category_id") ON DELETE CASCADE
+)`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_CATEGORY_DESCRIPTION" ON "category_description" ("category_description_category_id")`
+  );
+
+  // COLLECTION
+
+  await execute(
+    connection,
+    `CREATE TABLE "collection" (
+  "collection_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "name" varchar NOT NULL,
+  "description" text DEFAULT NULL,
+  "code" varchar NOT NULL,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "COLLECTION_CODE_UNIQUE" UNIQUE ("code"),
+  CONSTRAINT "COLLECTION_UUID_UNIQUE" UNIQUE ("uuid")
+)`
+  );
+
+  await execute(
+    connection,
+    `CREATE TABLE "product_collection" (
+  "product_collection_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "collection_id" INT NOT NULL,
+  "product_id" INT NOT NULL,
+  CONSTRAINT "PRODUCT_COLLECTION_UNIQUE" UNIQUE ("collection_id","product_id"),
+  CONSTRAINT "FK_COLLECTION_PRODUCT_LINK" FOREIGN KEY ("collection_id") REFERENCES "collection" ("collection_id") ON DELETE CASCADE,
+  CONSTRAINT "FK_PRODUCT_COLLECTION_LINK" FOREIGN KEY ("product_id") REFERENCES "product" ("product_id") ON DELETE CASCADE
+)`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_COLLECTION_PRODUCT_LINK" ON "product_collection" ("collection_id")`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_PRODUCT_COLLECTION_LINK" ON "product_collection" ("product_id")`
   );
 
   /* CREATE SOME TRIGGERS */
-
+  // Prevent deleting a default attribute group
   await execute(
     connection,
-    `CREATE TRIGGER \`TRIGGER_REMOVE_ATTRIBUTE_FROM_GROUP\` AFTER DELETE ON \`attribute_group_link\` FOR EACH ROW BEGIN
-                
-                        DELETE FROM \`product_attribute_value_index\` WHERE product_attribute_value_index.attribute_id = OLD.attribute_id AND product_attribute_value_index.product_id IN (SELECT product.product_id FROM product WHERE product.group_id = OLD.group_id);
-                
-                        DELETE FROM \`variant_group\` WHERE \`variant_group\`.\`attribute_group_id\` = OLD.group_id AND (\`variant_group\`.\`attribute_one\` = OLD.attribute_id OR \`variant_group\`.\`attribute_two\` = OLD.attribute_id OR \`variant_group\`.\`attribute_three\` = OLD.attribute_id OR \`variant_group\`.\`attribute_four\` = OLD.attribute_id OR \`variant_group\`.\`attribute_five\` = OLD.attribute_id);
-                    
-                    END`
+    `CREATE OR REPLACE FUNCTION prevent_delete_default_attribute_group()
+        RETURNS TRIGGER
+        LANGUAGE PLPGSQL
+        AS
+      $$
+      BEGIN
+        IF OLD.attribute_group_id = 1 THEN
+          RAISE EXCEPTION 'Cannot delete default attribute group';
+        END IF;
+        RETURN OLD;
+      END;
+      $$`
   );
   await execute(
     connection,
-    `CREATE TRIGGER \`TRIGGER_ATTRIBUTE_OPTION_UPDATE\` AFTER UPDATE ON \`attribute_option\` FOR EACH ROW UPDATE \`product_attribute_value_index\` SET \`product_attribute_value_index\`.\`option_text\` = NEW.option_text
-                        
-                        WHERE \`product_attribute_value_index\`.option_id = NEW.attribute_option_id AND \`product_attribute_value_index\`.attribute_id = NEW.attribute_id`
+    `CREATE TRIGGER "PREVENT_DELETING_THE_DEFAULT_ATTRIBUTE_GROUP"
+        BEFORE DELETE ON attribute_group
+        FOR EACH ROW
+        EXECUTE PROCEDURE prevent_delete_default_attribute_group();`
   );
 
+  // Prevent changing product attribute group if product has variants
   await execute(
     connection,
-    `CREATE TRIGGER \`TRIGGER_AFTER_DELETE_ATTRIBUTE_OPTION\` AFTER DELETE ON \`attribute_option\` FOR EACH ROW BEGIN
-                    
-                        DELETE FROM \`product_attribute_value_index\` WHERE \`product_attribute_value_index\`.option_id = OLD.attribute_option_id AND \`product_attribute_value_index\`.\`attribute_id\` = OLD.attribute_id;
-                    
-                    END`
+    `CREATE OR REPLACE FUNCTION prevent_change_attribute_group()
+        RETURNS TRIGGER
+        LANGUAGE PLPGSQL
+        AS
+      $$
+      BEGIN
+        IF OLD.group_id != NEW.group_id AND OLD.variant_group_id IS NOT NULL THEN
+          RAISE EXCEPTION 'Cannot change attribute group of product with variants';
+        END IF;
+        RETURN NEW;
+      END;
+      $$`
+  );
+  await execute(
+    connection,
+    `CREATE TRIGGER "PREVENT_CHANGING_ATTRIBUTE_GROUP_OF_PRODUCT_WITH_VARIANTS"
+        BEFORE UPDATE ON product
+        FOR EACH ROW
+        EXECUTE PROCEDURE prevent_change_attribute_group();`
   );
 
+  //  Delete product attribute value and variant group when attribute is removed from group
   await execute(
     connection,
-    `CREATE TRIGGER \`TRIGGER_AFTER_INSERT_PRODUCT\` AFTER INSERT ON \`product\` FOR EACH ROW BEGIN
-                    
-                        UPDATE \`variant_group\` SET visibility = (SELECT MAX(visibility) FROM \`product\` WHERE \`product\`.\`variant_group_id\` = new.variant_group_id AND \`product\`.\`status\` = 1 GROUP BY \`product\`.\`variant_group_id\`) WHERE \`variant_group\`.\`variant_group_id\` = new.variant_group_id;
-                    
-                    END`
+    `CREATE OR REPLACE FUNCTION remove_attribute_from_group()
+        RETURNS TRIGGER 
+        LANGUAGE PLPGSQL
+        AS
+      $$
+      BEGIN
+        DELETE FROM product_attribute_value_index WHERE product_attribute_value_index.attribute_id = OLD.attribute_id AND product_attribute_value_index.product_id IN (SELECT product.product_id FROM product WHERE product.group_id = OLD.group_id);
+        DELETE FROM variant_group WHERE variant_group.attribute_group_id = OLD.group_id AND (variant_group.attribute_one = OLD.attribute_id OR variant_group.attribute_two = OLD.attribute_id OR variant_group.attribute_three = OLD.attribute_id OR variant_group.attribute_four = OLD.attribute_id OR variant_group.attribute_five = OLD.attribute_id);
+        RETURN OLD;
+      END;
+      $$;`
+  );
+  await execute(
+    connection,
+    `CREATE TRIGGER "TRIGGER_AFTER_REMOVE_ATTRIBUTE_FROM_GROUP" AFTER DELETE ON "attribute_group_link"
+     FOR EACH ROW 
+     EXECUTE PROCEDURE remove_attribute_from_group();
+    `
   );
 
+  //  Update product attribute value option text when option is updated
   await execute(
     connection,
-    `CREATE TRIGGER \`TRIGGER_PRODUCT_AFTER_UPDATE\` AFTER UPDATE ON \`product\` FOR EACH ROW BEGIN
+    `CREATE OR REPLACE FUNCTION update_product_attribute_option_value_text()
+        RETURNS TRIGGER 
+        LANGUAGE PLPGSQL
+        AS
+      $$
+      BEGIN
+        UPDATE "product_attribute_value_index" SET "product_attribute_value_index"."option_text" = NEW.option_text
+        WHERE "product_attribute_value_index".option_id = NEW.attribute_option_id AND "product_attribute_value_index".attribute_id = NEW.attribute_id;
+        RETURN NEW;
+      END;
+      $$;`
+  );
+  await execute(
+    connection,
+    `CREATE TRIGGER "TRIGGER_AFTER_ATTRIBUTE_OPTION_UPDATE" AFTER UPDATE ON "attribute_option" FOR EACH ROW
+    EXECUTE PROCEDURE update_product_attribute_option_value_text();
+    `
+  );
 
-                        DELETE FROM \`product_attribute_value_index\`
+  //  Delete product attribute value index after option is deleted
+  await execute(
+    connection,
+    `CREATE OR REPLACE FUNCTION delete_product_attribute_value_index()
+        RETURNS TRIGGER 
+        LANGUAGE PLPGSQL
+        AS
+      $$
+      BEGIN
+        DELETE FROM "product_attribute_value_index" WHERE "product_attribute_value_index".option_id = OLD.attribute_option_id AND "product_attribute_value_index"."attribute_id" = OLD.attribute_id;
+        RETURN OLD;
+      END;
+      $$;`
+  );
+  await execute(
+    connection,
+    `CREATE TRIGGER "TRIGGER_AFTER_DELETE_ATTRIBUTE_OPTION" AFTER DELETE ON "attribute_option" FOR EACH ROW
+    EXECUTE PROCEDURE delete_product_attribute_value_index();
+    `
+  );
 
-                        WHERE \`product_attribute_value_index\`.\`product_id\` = New.product_id 
+  // Update variant group visibility after new product is added
+  await execute(
+    connection,
+    `CREATE OR REPLACE FUNCTION update_variant_group_visibility()
+        RETURNS TRIGGER 
+        LANGUAGE PLPGSQL
+        AS
+      $$
+      BEGIN
+        UPDATE "variant_group" SET visibility = (SELECT bool_or(visibility) FROM "product" WHERE "product"."variant_group_id" = NEW.variant_group_id AND "product"."status" = TRUE) WHERE "variant_group"."variant_group_id" = NEW.variant_group_id;
+        RETURN NEW;
+      END;
+      $$;`
+  );
+  await execute(
+    connection,
+    `CREATE CONSTRAINT TRIGGER "TRIGGER_AFTER_INSERT_PRODUCT" AFTER INSERT ON "product" 
+    DEFERRABLE INITIALLY DEFERRED
+    FOR EACH ROW
+    EXECUTE PROCEDURE update_variant_group_visibility();`
+  );
 
-                        AND \`product_attribute_value_index\`.\`attribute_id\` NOT IN (SELECT \`attribute_group_link\`.\`attribute_id\` FROM \`attribute_group_link\` WHERE \`attribute_group_link\`.\`group_id\` = NEW.group_id);
+  // Update product attribute index, variant group visibility and product visibility after product is updated
+  await execute(
+    connection,
+    `CREATE OR REPLACE FUNCTION update_attribute_index_and_variant_group_visibility()
+        RETURNS TRIGGER 
+        LANGUAGE PLPGSQL
+        AS
+      $$
+      BEGIN
+        DELETE FROM "product_attribute_value_index"
+        WHERE "product_attribute_value_index"."product_id" = NEW.product_id 
+        AND "product_attribute_value_index"."attribute_id" NOT IN (SELECT "attribute_group_link"."attribute_id" FROM "attribute_group_link" WHERE "attribute_group_link"."group_id" = NEW.group_id);
+        UPDATE "variant_group" SET visibility = (SELECT bool_or(visibility) FROM "product" WHERE "product"."variant_group_id" = NEW.variant_group_id AND "product"."status" = TRUE GROUP BY "product"."variant_group_id") WHERE "variant_group"."variant_group_id" = NEW.variant_group_id;
+        RETURN NEW;
+      END;
+      $$;`
+  );
+  await execute(
+    connection,
+    `CREATE CONSTRAINT TRIGGER "TRIGGER_PRODUCT_AFTER_UPDATE" AFTER UPDATE ON "product"
+    DEFERRABLE INITIALLY DEFERRED
+    FOR EACH ROW
+    EXECUTE PROCEDURE update_attribute_index_and_variant_group_visibility();
+    `
+  );
 
-                        UPDATE \`variant_group\` SET visibility = (SELECT MAX(visibility) FROM \`product\` WHERE \`product\`.\`variant_group_id\` = NEW.variant_group_id AND \`product\`.\`status\` = 1 GROUP BY \`product\`.\`variant_group_id\`) WHERE \`variant_group\`.\`variant_group_id\` = NEW.variant_group_id;
-
-                        UPDATE \`variant_group\` SET visibility = (SELECT MAX(visibility) FROM \`product\` WHERE \`product\`.\`variant_group_id\` = OLD.variant_group_id AND \`product\`.\`status\` = 1 GROUP BY \`product\`.\`variant_group_id\`) WHERE \`variant_group\`.\`variant_group_id\` = OLD.variant_group_id;
-
-                    END`
+  // Delete variant group when attribute type is changed from select to something else
+  await execute(
+    connection,
+    `CREATE OR REPLACE FUNCTION delete_variant_group_after_attribute_type_changed()
+        RETURNS TRIGGER 
+        LANGUAGE PLPGSQL
+        AS
+      $$
+      BEGIN
+        IF (OLD.type = 'select' AND NEW.type <> 'select') THEN
+          DELETE FROM "variant_group" WHERE ("variant_group".attribute_one = OLD.attribute_id OR "variant_group".attribute_two = OLD.attribute_id OR "variant_group".attribute_three = OLD.attribute_id OR "variant_group".attribute_four = OLD.attribute_id OR "variant_group".attribute_five = OLD.attribute_id);
+        END IF;
+        RETURN NEW;
+      END
+      $$;`
+  );
+  await execute(
+    connection,
+    `CREATE TRIGGER "TRIGGER_AFTER_UPDATE_ATTRIBUTE" AFTER UPDATE ON "attribute" FOR EACH ROW
+    EXECUTE PROCEDURE delete_variant_group_after_attribute_type_changed();
+    `
   );
 };

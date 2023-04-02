@@ -13,13 +13,13 @@ module.exports.createConfigServer = function createConfigServer(routes) {
     }
     const subPath = getRouteBuildSubPath(route);
     entry[subPath] = [
-      path.resolve(CONSTANTS.BUILDPATH, subPath, 'server', 'entry.js'),
+      path.resolve(CONSTANTS.BUILDPATH, subPath, 'server', 'entry.jsx'),
       path.resolve(
         CONSTANTS.LIBPATH,
         '../components/common/',
         'react',
         'server',
-        'render.js'
+        'render.jsx'
       )
     ];
   });

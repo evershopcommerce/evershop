@@ -6,7 +6,7 @@ const {
   insertOnUpdate,
   select,
   del
-} = require('@evershop/mysql-query-builder');
+} = require('@evershop/postgres-query-builder');
 const { get } = require('@evershop/evershop/src/lib/util/get');
 
 module.exports = async (request, response, delegate) => {
@@ -51,7 +51,7 @@ async function saveProductCategories(productId, categories, connection) {
       .load(connection, false);
 
     if (category) {
-      await insertOnUpdate('product_category')
+      await insertOnUpdate('product_category', ['product_id', 'category_id'])
         .given({ product_id: productId, category_id: categories[i] })
         .execute(connection, false);
     }

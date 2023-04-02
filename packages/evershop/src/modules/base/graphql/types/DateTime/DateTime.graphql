@@ -2,7 +2,7 @@
 A DateTime is a string with a timezone.
 """
 type DateTime {
-  value: String!
-  timezone: String!
-  text(format: String): String!
+  value: String
+  timezone: String
+  text(format: String): String
 }

@@ -14,7 +14,7 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
 
   const loaders = [
     {
-      test: /\.m?js$/,
+      test: /\.jsx$/,
       exclude: {
         and: [/node_modules/],
         not: [
@@ -147,7 +147,8 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
   });
 
   config.resolve = {
-    alias
+    alias,
+    extensions: ['.js', '.jsx', '.json', '.wasm']
   };
 
   config.optimization = {};

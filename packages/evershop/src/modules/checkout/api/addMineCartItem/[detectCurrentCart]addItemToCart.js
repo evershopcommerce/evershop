@@ -1,4 +1,4 @@
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const {
   setContextValue,
   getContextValue
@@ -10,7 +10,7 @@ const {
   INTERNAL_SERVER_ERROR,
   OK
 } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { pool } = require('@evershop/evershop/src/lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { createNewCart } = require('../../services/createNewCart');
 
 module.exports = async (request, response, delegate, next) => {

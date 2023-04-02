@@ -5,19 +5,31 @@ const path = require('path');
 const { red, green } = require('kleur');
 const ora = require('ora');
 const boxen = require('boxen');
-const mysql = require('mysql2');
-const { execute } = require('@evershop/mysql-query-builder');
+const { Pool } = require('pg');
+const {
+  execute,
+  startTransaction,
+  commit,
+  rollback
+} = require('@evershop/postgres-query-builder');
 const { prompt } = require('enquirer');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { migrate } = require('./migrate');
 const { createMigrationTable } = require('./createMigrationTable');
 
-function error(message) {
-  console.log(`\n❌ ${red(message)}`);
+function error(e) {
+  // Check if e is a string message
+  if (typeof e === 'string') {
+    // eslint-disable-next-line no-console
+    console.log(`\n❌ ${red(e)}\n`);
+    return;
+  } else {
+    // eslint-disable-next-line no-console
+    console.log(`\n❌ ${red(e.message)}\n${e.stack}`);
+  }
 }
 
-// eslint-disable-next-line func-names
-(async function () {
+async function install() {
   // eslint-disable-next-line no-var
   var db;
   // eslint-disable-next-line no-var
@@ -44,8 +56,8 @@ function error(message) {
     {
       type: 'input',
       name: 'databasePort',
-      message: 'MySql Database Port (3306)',
-      initial: 3306
+      message: 'MySql Database Port (5432)',
+      initial: 5432
     },
     {
       type: 'input',
@@ -56,13 +68,13 @@ function error(message) {
     {
       type: 'input',
       name: 'databaseUser',
-      message: 'MySql Database User (root)',
-      initial: 'root'
+      message: 'MySql Database User (postgres)',
+      initial: 'postgres'
     },
     {
       type: 'input',
       name: 'databasePassword',
-      message: 'MySql Database Password (<empty>)',
+      message: 'PostgreSQL Database Password (<empty>)',
       initial: ''
     }
   ];
@@ -73,14 +85,15 @@ function error(message) {
     process.exit(0);
   }
 
-  let pool = mysql.createPool({
+  let pool = new Pool({
     host: db.databaseHost,
     port: db.databasePort,
     user: db.databaseUser,
     password: db.databasePassword,
     database: db.databaseName,
-    dateStrings: true,
-    connectionLimit: 10,
+    max: 30,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
     ssl: {
       rejectUnauthorized: false
     }
@@ -88,10 +101,10 @@ function error(message) {
 
   // Test the secure connection
   try {
-    await execute(pool, `SELECT 1`);
+    await pool.query(`SELECT 1`);
   } catch (e) {
-    if (e.message.includes('Server does not support secure connnection')) {
-      pool = mysql.createPool({
+    if (e.message.includes('does not support SSL')) {
+      pool = new Pool({
         host: db.databaseHost,
         port: db.databasePort,
         user: db.databaseUser,
@@ -101,22 +114,17 @@ function error(message) {
         connectionLimit: 10
       });
     } else {
-      error(e.message);
+      error(e);
       process.exit(0);
     }
   }
 
-  // Validate the database
+  // Check postgres database version
   try {
-    const result = await execute(
-      pool,
-      `SELECT table_name FROM information_schema.tables WHERE table_schema = '${
-        db.databaseName || 'evershop'
-      }'`
-    );
-    if (result.length > 0) {
+    const { rows } = await execute(pool, `SHOW SERVER_VERSION;`);
+    if (rows[0].server_version < '13.0') {
       error(
-        `The '${db.databaseName}' database is not empty. Please create a new one`
+        `Your database server version(${rows[0].server_version}) is not supported. Please upgrade to PostgreSQL version 13.0 or higher`
       );
       process.exit(0);
     }
@@ -218,14 +226,75 @@ function error(message) {
   messages.push(green('Setting up a database'));
   spinner.text = messages.join('\n');
 
+  const connection = await pool.connect();
+  startTransaction(connection);
   try {
-    await createMigrationTable(pool);
+    await createMigrationTable(connection);
   } catch (e) {
+    rollback(connection);
     error(e);
     process.exit(0);
   }
 
-  await migrate(pool, path.resolve(__dirname, '../../src/modules'), adminUser);
+  const modules = [
+    {
+      name: 'auth',
+      resolve: path.resolve(__dirname, '../../src/modules/auth')
+    },
+    {
+      name: 'base',
+      resolve: path.resolve(__dirname, '../../src/modules/base')
+    },
+    {
+      name: 'catalog',
+      resolve: path.resolve(__dirname, '../../src/modules/catalog')
+    },
+    {
+      name: 'checkout',
+      resolve: path.resolve(__dirname, '../../src/modules/checkout')
+    },
+    {
+      name: 'cms',
+      resolve: path.resolve(__dirname, '../../src/modules/cms')
+    },
+    {
+      name: 'cod',
+      resolve: path.resolve(__dirname, '../../src/modules/cod')
+    },
+    {
+      name: 'customer',
+      resolve: path.resolve(__dirname, '../../src/modules/customer')
+    },
+    {
+      name: 'graphql',
+      resolve: path.resolve(__dirname, '../../src/modules/graphql')
+    },
+    {
+      name: 'paypal',
+      resolve: path.resolve(__dirname, '../../src/modules/paypal')
+    },
+    {
+      name: 'promotion',
+      resolve: path.resolve(__dirname, '../../src/modules/promotion')
+    },
+    {
+      name: 'setting',
+      resolve: path.resolve(__dirname, '../../src/modules/setting')
+    },
+    {
+      name: 'stripe',
+      resolve: path.resolve(__dirname, '../../src/modules/stripe')
+    }
+  ];
+
+  try {
+    await migrate(connection, modules, adminUser);
+    commit(connection);
+  } catch (e) {
+    rollback(connection);
+    error(e);
+    process.exit(0);
+  }
   messages.pop();
   messages.push(green('✔ Setup database'));
   messages.push(green('✔ Create admin user'));
@@ -247,4 +316,14 @@ function error(message) {
     )
   );
   process.exit(0);
+}
+
+// eslint-disable-next-line func-names
+(async () => {
+  try {
+    await install();
+  } catch (e) {
+    error(e);
+    process.exit(0);
+  }
 })();

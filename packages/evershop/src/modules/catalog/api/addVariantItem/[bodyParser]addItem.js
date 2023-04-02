@@ -4,12 +4,12 @@ const {
   startTransaction,
   commit,
   rollback
-} = require('@evershop/mysql-query-builder');
+} = require('@evershop/postgres-query-builder');
 const uniqid = require('uniqid');
 const {
   pool,
   getConnection
-} = require('@evershop/evershop/src/lib/mysql/connection');
+} = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
@@ -78,18 +78,18 @@ module.exports = async (request, response, delegate, next) => {
     query
       .innerJoin('attribute')
       .on(
-        'attribute.`attribute_id`',
+        'attribute.attribute_id',
         '=',
-        'product_attribute_value_index.`attribute_id`'
+        'product_attribute_value_index.attribute_id'
       );
     query
       .where(
-        'product_attribute_value_index.`product_id`',
+        'product_attribute_value_index.product_id',
         '=',
         product.product_id
       )
       .and(
-        'product_attribute_value_index.`attribute_id`',
+        'product_attribute_value_index.attribute_id',
         'in',
         variantAttributeIds
       );
