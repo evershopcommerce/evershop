@@ -59,7 +59,7 @@ module.exports.migrate = async function migrate(module) {
         `Version-${version}.js`
       ))(connection);
       // eslint-disable-next-line no-await-in-loop
-      await insertOnUpdate('migration')
+      await insertOnUpdate('migration', ['module'])
         .given({
           module: module.name,
           version
