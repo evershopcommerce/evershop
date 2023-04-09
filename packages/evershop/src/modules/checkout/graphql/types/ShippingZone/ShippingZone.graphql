@@ -1,0 +1,37 @@
+"""
+Represents a shipping method.
+"""
+type ShippingMethodByZone {
+  shipping_method_id: Int!
+  uuid: String!
+  name: String!
+  cost: Float
+  is_enabled: Boolean!
+  calculate_api: String
+  condition_type: String
+  max_weight: Float
+  min_weight: Float
+  max_price: Float
+  min_price: Float
+  updateApi: String!
+}
+
+"""
+Represents a shipping zone.
+"""
+type ShippingZone {
+  shipping_zone_id: Int!
+  uuid: String!
+  name: String!
+  country: Country!
+  provinces: [Province]
+  methods: [ShippingMethodByZone]
+  updateApi: String!
+  addMethodApi: String!
+  removeMethodApi: String!
+}
+
+extend type Query {
+  shippingZones: [ShippingZone]
+  shippingZone(id: String!): ShippingZone
+}

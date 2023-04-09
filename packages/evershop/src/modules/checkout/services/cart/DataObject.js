@@ -142,6 +142,7 @@ module.exports.DataObject = class DataObject {
     // Run the full build
     await this.build();
     const result = this.data[key];
+    console.log('result', result, value);
     if (!isEqualWith(result, value)) {
       throw new Error(`Field resolvers returned different value - ${key}`);
     } else {

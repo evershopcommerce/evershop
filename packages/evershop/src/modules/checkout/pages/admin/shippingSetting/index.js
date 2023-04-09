@@ -4,7 +4,7 @@ const {
 
 module.exports = (request) => {
   setContextValue(request, 'pageInfo', {
-    title: 'Store Setting',
-    description: 'Store Setting'
+    title: 'Shipping Setting',
+    description: 'Shipping Setting'
   });
 };

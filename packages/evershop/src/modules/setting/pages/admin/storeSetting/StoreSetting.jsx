@@ -232,7 +232,8 @@ export default function StoreSetting({
     storeAddress,
     storeCity,
     storeProvince,
-    storePostalCode
+    storePostalCode,
+    weightUnit
   }
 }) {
   const [selectedCountry, setSelectedCountry] = React.useState(() => {
@@ -279,12 +280,23 @@ export default function StoreSetting({
                   value={storeDescription}
                   type="textarea"
                 />
+                <Timezone selectedTimeZone={storeTimeZone} />
                 <div className="grid grid-cols-2 gap-2 mt-2">
                   <div>
                     <Currency selectedCurrency={storeCurrency} />
                   </div>
                   <div>
-                    <Timezone selectedTimeZone={storeTimeZone} />
+                    <Field
+                      name="weightUnit"
+                      label="Weight Unit"
+                      placeholder="Weight Unit"
+                      type="select"
+                      value={weightUnit}
+                      options={[
+                        { value: 'kg', text: 'kg' },
+                        { value: 'lb', text: 'lb' }
+                      ]}
+                    />
                   </div>
                 </div>
               </Card.Session>
@@ -386,6 +398,7 @@ export const query = `
       storeName
       storeDescription
       storeCurrency
+      weightUnit
       storeTimeZone
       storePhoneNumber
       storeEmail

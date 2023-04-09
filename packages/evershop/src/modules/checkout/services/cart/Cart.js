@@ -7,9 +7,21 @@ const { DataObject } = require('./DataObject');
 const { Item } = require('./Item');
 const { toPrice } = require('../toPrice');
 const { getSetting } = require('../../../setting/services/setting');
+const { default: axios } = require('axios');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
-
+const shippingMethodFake = {
+  shipping_method_id: '1',
+  name: 'Free Shipping',
+  cost: null,
+  calculate_api: 'http://localhost:3000/api/tablerate/calculate',
+  max_weight: null,
+  max_price: null,
+  min_weight: null,
+  min_price: null,
+  status: 1
+};
 exports.Cart = class Cart extends DataObject {
   static fields = [
     {
@@ -135,10 +147,12 @@ exports.Cart = class Cart extends DataObject {
       key: 'grand_total',
       resolvers: [
         async function resolver() {
-          return this.getData('sub_total');
+          return (
+            this.getData('sub_total') + this.getData('shipping_fee_excl_tax')
+          );
         }
       ],
-      dependencies: ['sub_total']
+      dependencies: ['sub_total', 'shipping_fee_excl_tax']
     },
     {
       key: 'shipping_address_id',
@@ -175,18 +189,57 @@ exports.Cart = class Cart extends DataObject {
       key: 'shipping_method',
       resolvers: [
         async function resolver() {
-          // TODO: This field should be handled by each of shipping method
-          return this.dataSource.shipping_method;
+          // This field should be handled by each of shipping method
+          // By default, EverShop supports free shipping and flat rate shipping method
+          // Load shipping method from database
+          // const shippingMethod = await select()
+          //   .from('shipping_method')
+          //   .where('shipping_method_id', '=', this.dataSource.shipping_method)
+          //   .load(pool);
+          const shippingMethod = shippingMethodFake;
+          if (!shippingMethod) {
+            return null;
+          } else {
+            // Validate shipping method using max weight and max price, min weight and min price
+            const { max_weight, max_price, min_weight, min_price } =
+              shippingMethod;
+            const total_weight = this.getData('total_weight');
+            const sub_total = this.getData('sub_total');
+            if (
+              (max_weight && total_weight > max_weight) ||
+              (max_price && sub_total > max_price) ||
+              (min_weight && total_weight < min_weight) ||
+              (min_price && sub_total < min_price)
+            ) {
+              this.errors.shipping_method = 'Shipping method is not valid';
+              return null;
+            } else {
+              return shippingMethod.shipping_method_id;
+            }
+          }
         }
       ],
-      dependencies: ['shipping_address_id']
+      dependencies: [
+        'shipping_address_id',
+        'sub_total',
+        'total_weight',
+        'total_qty'
+      ]
     },
     {
       key: 'shipping_method_name',
       resolvers: [
         async function resolver() {
-          // TODO: This field should be handled by each of shipping method
-          return this.dataSource.shipping_method_name;
+          if (!this.getData('shipping_method')) {
+            return null;
+          } else {
+            // const shippingMethod = await select()
+            //   .from('shipping_method')
+            //   .where('shipping_method_id', '=', this.getData('shipping_method'))
+            //   .load(pool);
+            const shippingMethod = shippingMethodFake;
+            return shippingMethod.name;
+          }
         }
       ],
       dependencies: ['shipping_method']
@@ -195,7 +248,42 @@ exports.Cart = class Cart extends DataObject {
       key: 'shipping_fee_excl_tax',
       resolvers: [
         async function resolver() {
-          return 0; // TODO: This field should be handled by each of shipping method
+          if (!this.getData('shipping_method')) {
+            return 0;
+          } else {
+            // const shippingMethod = await select()
+            //   .from('shipping_method')
+            //   .where('shipping_method_id', '=', this.getData('shipping_method'))
+            //   .load(pool);
+            const shippingMethod = shippingMethodFake;
+            // Check if the method is flat rate
+            if (shippingMethod.cost !== null) {
+              return shippingMethod.cost;
+            } else {
+              if (shippingMethod.calculate_api) {
+                // Call the API of the shipping method to calculate the shipping fee. This is an internal API
+                // use axios to call the API
+                // Ignore http status error
+
+                const response = await axios.post(
+                  shippingMethod.calculate_api,
+                  {
+                    cart_id: this.getData('cart_id')
+                  }
+                );
+                if (!response.data.error) {
+                  return response.data.data.cost;
+                } else {
+                  this.errors.shipping_fee_excl_tax = 'response.data.message';
+                  return null;
+                }
+              } else {
+                this.errors.shipping_fee_excl_tax =
+                  'Could not calculate shipping fee';
+                return null;
+              }
+            }
+          }
         }
       ],
       dependencies: ['shipping_method']
@@ -204,10 +292,10 @@ exports.Cart = class Cart extends DataObject {
       key: 'shipping_fee_incl_tax',
       resolvers: [
         async function resolver() {
-          return 0; // TODO: This field should be handled by each of shipping method
+          return this.getData('shipping_fee_excl_tax'); // TODO: This field should be handled by each of shipping method
         }
       ],
-      dependencies: ['shipping_method']
+      dependencies: ['shipping_fee_excl_tax']
     },
     {
       key: 'billing_address_id',

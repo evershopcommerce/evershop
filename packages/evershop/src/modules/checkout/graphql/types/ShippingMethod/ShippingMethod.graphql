@@ -1,0 +1,12 @@
+"""
+Represents a shipping method.
+"""
+type ShippingMethod {
+  shippingMethodId: Int!
+  uuid: String!
+  name: String!
+}
+
+extend type Query {
+  shippingMethods: [ShippingMethod]
+}

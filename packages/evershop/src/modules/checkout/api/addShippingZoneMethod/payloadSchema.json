@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "properties": {
+    "method_id": {
+      "type": "string"
+    },
+    "cost": {
+      "type": ["string", "number"],
+      "pattern": "^\\d+(\\.\\d{1,2})?$"
+    },
+    "is_enabled": {
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
+    },
+    "calculate_api": {
+      "type": "string"
+    },
+    "condition_type": {
+      "type": "string",
+      "enum": ["weight", "price", "none"]
+    },
+    "min_weight": {
+      "type": ["string", "number"],
+      "pattern": "^\\d+(\\.\\d{1,2})?$"
+    },
+    "max_weight": {
+      "type": ["string", "number"],
+      "pattern": "^\\d+(\\.\\d{1,2})?$"
+    },
+    "min_price": {
+      "type": ["string", "number"],
+      "pattern": "^\\d+(\\.\\d{1,2})?$"
+    },
+    "max_price": {
+      "type": ["string", "number"],
+      "pattern": "^\\d+(\\.\\d{1,2})?$"
+    }
+  },
+  "additionalProperties": true,
+  "required": [
+    "method_id",
+    "condition_type"
+  ]
+}

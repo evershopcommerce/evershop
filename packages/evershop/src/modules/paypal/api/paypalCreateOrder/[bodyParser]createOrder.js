@@ -89,8 +89,6 @@ module.exports = async (request, response, stack, next) => {
         brand_name: await getSetting('storeName', 'Evershop')
       }
     };
-    console.log(orderData.purchase_units[0].items);
-    console.log(orderData.purchase_units[0].amount);
     const shippingAddress = await select()
       .from('order_address')
       .where('order_address_id', '=', order.shipping_address_id)
