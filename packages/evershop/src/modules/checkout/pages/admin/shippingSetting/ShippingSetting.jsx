@@ -36,9 +36,19 @@ const ZonesQuery = `
         code
       }
       methods {
+        methodId
         uuid
         name
-        cost
+        cost {
+          text
+          value
+        }
+        isEnabled
+        conditionType
+        calculateApi
+        max
+        min
+        updateApi
       }
       updateApi
       addMethodApi
@@ -83,7 +93,7 @@ export default function ShippingSetting({ createShippingZoneApi }) {
               getZones={reexecuteQuery}
             />
             <Card.Session>
-              <div className="items-center flex justify-center">
+              <div>
                 <Button
                   title="Create new shipping zone"
                   variant="primary"

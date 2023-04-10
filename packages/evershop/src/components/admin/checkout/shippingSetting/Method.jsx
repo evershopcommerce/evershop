@@ -9,23 +9,33 @@ Method.propTypes = {};
 function Method({ method, getZones }) {
   const modal = useModal();
   return (
-    <Card.Session>
-      <div>
-        <div className="flex justify-start gap-2">
-          <div>{method.name}</div>
-          <div>{method.is_enabled ? 'Enabled' : 'Disabled'}</div>
-        </div>
-        <a
-          href="#"
-          className="text-interactive"
-          onClick={(e) => {
-            e.preventDefault();
-            modal.openModal();
-          }}
-        >
-          + Add Method
-        </a>
-      </div>
+    <>
+      <>
+        <td className="border-none py-1">{method.name}</td>
+        <td className="border-none py-1">
+          {method.isEnabled ? 'Enabled' : 'Disabled'}
+        </td>
+        <td className="border-none py-1">{method.cost?.text}</td>
+        <td className="border-none py-1">
+          {method.conditionType
+            ? `${method.min || 0} <= ${method.conditionType} <= ${
+                method.max || '∞'
+              }`
+            : 'None'}
+        </td>
+        <td className="border-none py-1">
+          <a
+            href="#"
+            className="text-interactive"
+            onClick={(e) => {
+              e.preventDefault();
+              modal.openModal();
+            }}
+          >
+            Edit
+          </a>
+        </td>
+      </>
       {modal.state.showing && (
         <div className={modal.className} onAnimationEnd={modal.onAnimationEnd}>
           <div
@@ -44,7 +54,7 @@ function Method({ method, getZones }) {
           </div>
         </div>
       )}
-    </Card.Session>
+    </>
   );
 }
 

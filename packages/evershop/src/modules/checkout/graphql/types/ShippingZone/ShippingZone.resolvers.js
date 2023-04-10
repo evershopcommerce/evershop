@@ -22,7 +22,7 @@ module.exports = {
     }
   },
   ShippingZone: {
-    methods: async (parent, _, { user }) => {
+    methods: async (parent) => {
       const query = select().from('shipping_zone_method');
       query
         .innerJoin('shipping_method')
@@ -51,6 +51,19 @@ module.exports = {
     },
     removeMethodApi: async ({ uuid }) => {
       return buildUrl('removeShippingZoneMethod', { id: uuid });
+    }
+  },
+  ShippingMethodByZone: {
+    updateApi: async ({ uuid, zoneId }) => {
+      const zone = await select()
+        .from('shipping_zone')
+        .where('shipping_zone_id', '=', zoneId)
+        .load(pool);
+
+      return buildUrl('updateShippingZoneMethod', {
+        zone_id: zone.uuid,
+        method_id: uuid
+      });
     }
   }
 };

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card } from '@components/admin/cms/Card';
 import MapIcon from '@heroicons/react/solid/esm/LocationMarkerIcon';
-import RateIcon from '@heroicons/react/solid/esm/CurrencyDollarIcon';
 import { useModal } from '@components/common/modal/useModal';
 import ZoneForm from './ZoneForm';
 import { Methods } from './Methods';
@@ -12,26 +11,31 @@ Zone.propTypes = {};
 function Zone({ zone, countries, getZones }) {
   const modal = useModal();
   return (
-    <Card.Session>
-      <div className="flex justify-between">
-        <span>{zone.name}</span>
-        <a
-          href="#"
-          className="text-interactive"
-          onClick={(e) => {
-            e.preventDefault();
-            modal.openModal();
-          }}
-        >
-          Edit Zone
-        </a>
-      </div>
+    <Card.Session
+      title={
+        <div className="flex justify-between items-center gap-2">
+          <div>{zone.name}</div>
+          <div>
+            <a
+              href="#"
+              className="text-interactive"
+              onClick={(e) => {
+                e.preventDefault();
+                modal.openModal();
+              }}
+            >
+              Edit Zone
+            </a>
+          </div>
+        </div>
+      }
+    >
       <div className="divide-y border rounded border-divider">
         <div className="flex justify-start items-center border-divider mt-2">
-          <div className="p-3">
+          <div className="p-2">
             <MapIcon width={25} height={25} fill="#008060" />
           </div>
-          <div>
+          <div className="flex-grow px-1">
             <div>
               <b>{zone.country.name}</b>
             </div>
@@ -45,10 +49,7 @@ function Zone({ zone, countries, getZones }) {
           </div>
         </div>
         <div className="flex justify-start items-center border-divider mt-2">
-          <div className="p-3">
-            <RateIcon width={25} height={25} fill="#008060" />
-          </div>
-          <div>
+          <div className="flex-grow px-1">
             <Methods
               methods={zone.methods}
               getZones={getZones}

@@ -19,19 +19,11 @@
       "type": "string",
       "enum": ["weight", "price", "none"]
     },
-    "min_weight": {
+    "min": {
       "type": ["string", "number"],
       "pattern": "^\\d+(\\.\\d{1,2})?$"
     },
-    "max_weight": {
-      "type": ["string", "number"],
-      "pattern": "^\\d+(\\.\\d{1,2})?$"
-    },
-    "min_price": {
-      "type": ["string", "number"],
-      "pattern": "^\\d+(\\.\\d{1,2})?$"
-    },
-    "max_price": {
+    "max": {
       "type": ["string", "number"],
       "pattern": "^\\d+(\\.\\d{1,2})?$"
     }

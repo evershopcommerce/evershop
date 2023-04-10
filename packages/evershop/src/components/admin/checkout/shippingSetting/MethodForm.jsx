@@ -22,7 +22,7 @@ const MethodsQuery = `
 `;
 
 function Condition({ method }) {
-  const [type, setType] = React.useState(method?.condition_type || 'price');
+  const [type, setType] = React.useState(method?.conditionType || 'price');
   return (
     <div>
       <div className="mb-1">
@@ -40,45 +40,37 @@ function Condition({ method }) {
         <div className="grid grid-cols-2 gap-2">
           <div>
             <Field
-              name="min_price"
-              label="Minimum order price"
-              placeholder="Minimum order price"
+              name="min"
+              label={
+                method.conditionType === 'price'
+                  ? 'Minimum order price'
+                  : 'Minimum order weight'
+              }
+              placeholder={
+                method.conditionType === 'price'
+                  ? 'Minimum order price'
+                  : 'Minimum order weight'
+              }
               type="text"
-              defaultValue={method?.min_price}
+              value={method?.min}
               validationRules={['notEmpty']}
             />
           </div>
           <div>
             <Field
-              name="max_price"
-              label="Maximum order price"
-              placeholder="Maximum order price"
+              name="max"
+              label={
+                method.conditionType === 'price'
+                  ? 'Maximum order price'
+                  : 'Maximum order weight'
+              }
+              placeholder={
+                method.conditionType === 'price'
+                  ? 'Maximum order price'
+                  : 'Maximum order weight'
+              }
               type="text"
-              defaultValue={method?.max_price}
-              validationRules={['notEmpty']}
-            />
-          </div>
-        </div>
-      )}
-      {type === 'weight' && (
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <Field
-              name="min_weight"
-              label="Minimum order weight"
-              placeholder="Minimum order weight"
-              type="text"
-              defaultValue={method?.min_weight}
-              validationRules={['notEmpty']}
-            />
-          </div>
-          <div>
-            <Field
-              name="max_weight"
-              label="Maximum order weight"
-              placeholder="Maximum order weight"
-              type="text"
-              defaultValue={method?.max_weight}
+              value={method?.max}
               validationRules={['notEmpty']}
             />
           </div>
@@ -96,13 +88,13 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
   const [shippingMethod, setMethod] = React.useState(
     method
       ? {
-          value: method.method_id,
+          value: method.methodId,
           label: method.name
         }
       : null
   );
   const [hasCondition, setHasCondition] = React.useState(
-    method?.condition_type ? true : false
+    method?.conditionType ? true : false
   );
 
   const [result, reexecuteQuery] = useQuery({
@@ -186,7 +178,7 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
               type="text"
               placeholder="Shipping cost"
               validationRules={['notEmpty']}
-              value={method?.cost}
+              value={method?.cost?.value}
             />
           )}
           {type === 'calculated' && (

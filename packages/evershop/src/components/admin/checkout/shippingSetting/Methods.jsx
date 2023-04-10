@@ -7,20 +7,37 @@ import MethodForm from './MethodForm';
 export function Methods({ getZones, methods, addMethodApi }) {
   const modal = useModal();
   return (
-    <>
-      {methods.map((method) => {
-        return <Method method={method} getZones={getZones} />;
-      })}
-      <a
-        href="#"
-        className="text-interactive"
-        onClick={(e) => {
-          e.preventDefault();
-          modal.openModal();
-        }}
-      >
-        + Add Method
-      </a>
+    <div className="my-2">
+      <table className="border-collapse divide-y">
+        <thead>
+          <tr>
+            <th className="border-none">Method</th>
+            <th className="border-none">Status</th>
+            <th className="border-none">Cost</th>
+            <th className="border-none">Condition</th>
+            <th className="border-none">Action</th>
+          </tr>
+        </thead>
+        {methods.map((method) => {
+          return (
+            <tr key={method.methodId} className="border-divider py-2">
+              <Method method={method} getZones={getZones} />
+            </tr>
+          );
+        })}
+      </table>
+      <div className="mt-1">
+        <a
+          href="#"
+          className="text-interactive"
+          onClick={(e) => {
+            e.preventDefault();
+            modal.openModal();
+          }}
+        >
+          + Add Method
+        </a>
+      </div>
       {modal.state.showing && (
         <div className={modal.className} onAnimationEnd={modal.onAnimationEnd}>
           <div
@@ -38,7 +55,7 @@ export function Methods({ getZones, methods, addMethodApi }) {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

@@ -2,17 +2,16 @@
 Represents a shipping method.
 """
 type ShippingMethodByZone {
-  shipping_method_id: Int!
+  methodId: Int!
+  zoneId: Int!
   uuid: String!
   name: String!
-  cost: Float
-  is_enabled: Boolean!
-  calculate_api: String
-  condition_type: String
-  max_weight: Float
-  min_weight: Float
-  max_price: Float
-  min_price: Float
+  cost: Price
+  isEnabled: Boolean!
+  calculateApi: String
+  conditionType: String
+  max: Float
+  min: Float
   updateApi: String!
 }
 
