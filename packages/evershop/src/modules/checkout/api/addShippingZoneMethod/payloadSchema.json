@@ -9,8 +9,12 @@
       "pattern": "^\\d+(\\.\\d{1,2})?$"
     },
     "is_enabled": {
-      "type": ["integer", "string"],
-      "enum": [0, 1, "0", "1"]
+      "type": ["integer", "string", "boolean"],
+      "enum": [0, 1, "0", "1", true, false]
+    },
+    "calculation_type": {
+      "type": "string",
+      "enum": ["flat_rate", "api"]
     },
     "calculate_api": {
       "type": "string"

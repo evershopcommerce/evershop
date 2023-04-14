@@ -12,14 +12,14 @@ function CartSummary({
   grandTotal,
   discountAmount,
   taxAmount,
+  shippingMethodName,
   shippingFeeExclTax,
-  shippingMethod,
   coupon
 }) {
   return (
     <div className="checkout-summary-block">
       <Subtotal count={totalQty} total={subTotal.text} />
-      <Shipping method={shippingMethod} cost={shippingFeeExclTax.text} />
+      <Shipping method={shippingMethodName} cost={shippingFeeExclTax.text} />
       <Tax taxClass="" amount={taxAmount.text} />
       <Discount code={coupon} discount={discountAmount.text} />
       <Total total={grandTotal.text} />

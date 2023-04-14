@@ -1,3 +1,5 @@
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+
 module.exports = {
   Setting: {
     storeName: (setting) => {
@@ -18,21 +20,11 @@ module.exports = {
         return 'An Amazing EverShop Store';
       }
     },
-    storeLanguage: (setting) => {
-      const storeLanguage = setting.find((s) => s.name === 'storeLanguage');
-      if (storeLanguage) {
-        return storeLanguage.value;
-      } else {
-        return 'en';
-      }
+    storeLanguage: () => {
+      return getConfig('shop.language', 'en');
     },
-    storeCurrency: (setting) => {
-      const storeCurrency = setting.find((s) => s.name === 'storeCurrency');
-      if (storeCurrency) {
-        return storeCurrency.value;
-      } else {
-        return 'USD';
-      }
+    storeCurrency: () => {
+      return getConfig('shop.currency', 'USD');
     },
     storeTimeZone: (setting) => {
       const storeTimeZone = setting.find((s) => s.name === 'storeTimeZone');

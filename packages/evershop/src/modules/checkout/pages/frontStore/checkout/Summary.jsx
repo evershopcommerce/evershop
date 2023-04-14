@@ -40,7 +40,25 @@ Summary.propTypes = {
           text: PropTypes.string
         })
       })
-    )
+    ),
+    totalQty: PropTypes.number,
+    subTotal: PropTypes.shape({
+      text: PropTypes.string
+    }),
+    grandTotal: PropTypes.shape({
+      text: PropTypes.string
+    }),
+    discountAmount: PropTypes.shape({
+      text: PropTypes.string
+    }),
+    taxAmount: PropTypes.shape({
+      text: PropTypes.string
+    }),
+    shippingFeeExclTax: PropTypes.shape({
+      text: PropTypes.string
+    }),
+    shippingMethodName: PropTypes.string,
+    coupon: PropTypes.string
   }).isRequired
 };
 
@@ -73,7 +91,10 @@ export const query = `
         value
         text
       }
-      shippingMethod
+      shippingMethodName
+      shippingFeeExclTax {
+        text
+      }
       coupon
       items {
         thumbnail

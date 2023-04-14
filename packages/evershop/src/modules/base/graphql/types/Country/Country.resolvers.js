@@ -1,6 +1,7 @@
 const { contries } = require('@evershop/evershop/src/lib/locale/countries');
-const { getSetting } = require('../../../../setting/services/setting');
 const { provinces } = require('@evershop/evershop/src/lib/locale/provinces');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { select } = require('@evershop/postgres-query-builder');
 
 module.exports = {
   Query: {
@@ -13,9 +14,12 @@ module.exports = {
       }
     },
     allowedCountries: async () => {
-      const allowedCountries = await getSetting('allowedCountries', '["US"]');
-      const list = JSON.parse(allowedCountries);
-      return contries.filter((c) => list.includes(c.code));
+      const allowedCountries = await select('country')
+        .from('shipping_zone')
+        .execute(pool);
+      return contries.filter((c) =>
+        allowedCountries.find((p) => p.country === c.code)
+      );
     }
   },
   Country: {

@@ -14,6 +14,16 @@ module.exports = exports = async (connection) => {
 `
   );
 
+  // Add foreign key from table cart (shipping_zone_id) to table shipping_zone (shipping_zone_id)
+  await execute(
+    connection,
+    `ALTER TABLE "cart" ADD CONSTRAINT "FK_CART_SHIPPING_ZONE" FOREIGN KEY ("shipping_zone_id") REFERENCES "shipping_zone" ("shipping_zone_id") ON DELETE SET NULL`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_CART_SHIPPING_ZONE" ON "cart" ("shipping_zone_id")`
+  );
+
   await execute(
     connection,
     `CREATE TABLE "shipping_zone_province" (

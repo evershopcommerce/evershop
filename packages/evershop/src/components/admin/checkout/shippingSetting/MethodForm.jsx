@@ -82,7 +82,7 @@ function Condition({ method }) {
 
 function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
   const [type, setType] = React.useState(
-    method?.calculate_api ? 'calculated' : 'flat_rate'
+    method?.calculateApi ? 'api' : 'flat_rate'
   );
   const [isLoading, setIsLoading] = React.useState(false);
   const [shippingMethod, setMethod] = React.useState(
@@ -157,16 +157,16 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
             value={shippingMethod?.value}
             validationRules={['notEmpty']}
           />
-          <Toggle name="is_enabled" label="Status" value={1} />
+          <Toggle name="is_enabled" label="Status" value={method?.isEnabled} />
         </Card.Session>
         <Card.Session title="Setup shipping cost">
           <Radio
-            name="type"
+            name="calculation_type"
             options={[
               { text: 'Flat rate', value: 'flat_rate' },
-              { text: 'Calculated', value: 'calculated' }
+              { text: 'API calculate', value: 'api' }
             ]}
-            defaultValue={method?.calculate_api ? 'calculated' : 'flat_rate'}
+            defaultValue={method?.calculateApi ? 'api' : 'flat_rate'}
             value={type}
             onChange={(value) => {
               setType(value);
@@ -181,13 +181,13 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
               value={method?.cost?.value}
             />
           )}
-          {type === 'calculated' && (
+          {type === 'api' && (
             <Field
               name="calculate_api"
               type="text"
               placeholder="Calculate API endpoint"
               validationRules={['notEmpty']}
-              value={method?.calculate_api}
+              value={method?.calculateApi}
               instruction="This API will be called to calculate shipping cost. It supposed to return a number."
             />
           )}

@@ -19,5 +19,11 @@ exports.buildUrl = (routeId, params = {}) => {
   }
 
   const toPath = compile(route.path);
+  try {
+    const url = toPath(params);
+    return url;
+  } catch (e) {
+    throw new Error(`Could not build url for route ${routeId}. ${e.message}`);
+  }
   return toPath(params);
 };

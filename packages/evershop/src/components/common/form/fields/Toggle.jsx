@@ -42,31 +42,34 @@ Disabled.propTypes = {
   onClick: PropTypes.func.isRequired
 };
 
+const isBool = (value) => typeof value === 'boolean';
+const isEnable = (value) => (isBool(value) ? value : parseInt(value, 10) === 1);
+const getValue = (value) => (isBool(value) ? value : parseInt(value, 10));
+const getOppositeValue = (value) =>
+  isBool(value) ? !value : value === 1 ? 0 : 1;
+
 function Toggle({ name, value, label, onChange, error, instruction }) {
-  const [_value, setValue] = React.useState(parseInt(value, 10) === 1 ? 1 : 0);
+  const [_value, setValue] = React.useState(getValue(value));
 
   React.useEffect(() => {
-    setValue(parseInt(value, 10) === 1 ? 1 : 0);
+    setValue(getValue(value));
   }, [value]);
 
   const onChangeFunc = () => {
-    const newVal = _value === 1 ? 0 : 1;
-    setValue(newVal);
+    setValue(getOppositeValue(_value));
 
-    if (onChange) onChange.call(window, newVal);
+    if (onChange) {
+      onChange.call(window, newVal);
+    }
   };
 
   return (
     <div className={`form-field-container ${error ? 'has-error' : null}`}>
       {label && <label htmlFor={name}>{label}</label>}
-      <input type="hidden" value={_value} name={name} />
+      <input type="hidden" value={+getValue(_value)} name={name} />
       <div className="field-wrapper flex flex-grow">
-        {parseInt(_value, 10) === 1 && (
-          <Enabled onClick={() => onChangeFunc()} />
-        )}
-        {parseInt(_value, 10) === 0 && (
-          <Disabled onClick={() => onChangeFunc()} />
-        )}
+        {isEnable(_value) && <Enabled onClick={() => onChangeFunc()} />}
+        {!isEnable(_value) && <Disabled onClick={() => onChangeFunc()} />}
       </div>
       {instruction && (
         <div className="field-instruction mt-sm">{instruction}</div>
@@ -82,7 +85,11 @@ Toggle.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]).isRequired
 };
 
 Toggle.defaultProps = {

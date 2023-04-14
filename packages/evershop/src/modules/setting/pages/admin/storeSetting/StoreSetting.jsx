@@ -281,24 +281,6 @@ export default function StoreSetting({
                   type="textarea"
                 />
                 <Timezone selectedTimeZone={storeTimeZone} />
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  <div>
-                    <Currency selectedCurrency={storeCurrency} />
-                  </div>
-                  <div>
-                    <Field
-                      name="weightUnit"
-                      label="Weight Unit"
-                      placeholder="Weight Unit"
-                      type="select"
-                      value={weightUnit}
-                      options={[
-                        { value: 'kg', text: 'kg' },
-                        { value: 'lb', text: 'lb' }
-                      ]}
-                    />
-                  </div>
-                </div>
               </Card.Session>
               <Card.Session title="Contact Information">
                 <div className="grid grid-cols-2 gap-2 mt-2">
@@ -374,7 +356,6 @@ StoreSetting.propTypes = {
   setting: PropTypes.shape({
     storeName: PropTypes.string,
     storeDescription: PropTypes.string,
-    storeCurrency: PropTypes.string,
     storeTimeZone: PropTypes.string,
     storePhoneNumber: PropTypes.string,
     storeEmail: PropTypes.string,
@@ -397,8 +378,6 @@ export const query = `
     setting {
       storeName
       storeDescription
-      storeCurrency
-      weightUnit
       storeTimeZone
       storePhoneNumber
       storeEmail

@@ -1,4 +1,9 @@
 {
+  "shop" : {
+    "currency": "USD",
+    "language": "en",
+    "weightUnit": "kg"
+  },
   "catalog": {
     "product": {
       "image": {
