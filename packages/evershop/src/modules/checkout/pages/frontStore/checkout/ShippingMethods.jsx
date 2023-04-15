@@ -48,35 +48,35 @@ export default function ShippingMethods({
     const timeout = setTimeout(() => {
       const { fields } = formContext;
       let check = !!fields.length;
-      fields.forEach((e) => {
-        if (
-          [
-            'address[country]',
-            'address[province]',
-            'address[postcode]'
-          ].includes(e.name) &&
-          !e.value
-        ) {
-          check = false;
-        }
-      });
+      const country = fields.find((f) => f.name === 'address[country]')?.value;
+      const province = fields.find(
+        (f) => f.name === 'address[province]'
+      )?.value;
+      const postcode = fields.find(
+        (f) => f.name === 'address[postcode]'
+      )?.value;
+      if (!country || !province || !postcode) {
+        check = false;
+      }
 
       if (check === true) {
         setAddressProvided(true);
-        axios.get(getMethodsAPI).then((response) => {
-          setMethods((previous) => {
-            const { methods: shippingMethods } = response.data.data;
-            return shippingMethods.map((m) => {
-              const find = previous.find((p) => p.code === m.code);
-              if (find) {
-                return { ...find, ...m };
-              } else {
-                return { ...m, selected: false };
-              }
+        axios
+          .get(`${getMethodsAPI}?country=${country}&province=${province}`)
+          .then((response) => {
+            setMethods((previous) => {
+              const { methods: shippingMethods } = response.data.data;
+              return shippingMethods.map((m) => {
+                const find = previous.find((p) => p.code === m.code);
+                if (find) {
+                  return { ...find, ...m };
+                } else {
+                  return { ...m, selected: false };
+                }
+              });
             });
+            setLoading(false);
           });
-          setLoading(false);
-        });
       } else {
         setAddressProvided(false);
       }
@@ -164,7 +164,7 @@ export default function ShippingMethods({
             validationRules={['notEmpty']}
             options={methods.map((m) => ({
               value: m.code,
-              text: m.name
+              text: `${m.name} - ${m.cost}`
             }))}
             onChange={(value) => {
               // Update methods with selected flag
@@ -197,7 +197,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    getMethodsAPI: url(routeId: "getShippingMethods")
+    getMethodsAPI: url(routeId: "getShippingMethods", params: [{ key: "cart_id", value: getContextValue('cart_id') }])
     cart {
       addShippingMethodApi
     }

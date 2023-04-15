@@ -61,7 +61,7 @@ module.exports = async (request, response, stack, next) => {
               },
               shipping: {
                 currency_code: order.currency,
-                value: toPrice(order.shipping_fee)
+                value: toPrice(order.shipping_fee_incl_tax)
               },
               tax_total: {
                 currency_code: order.currency,
@@ -89,8 +89,6 @@ module.exports = async (request, response, stack, next) => {
         brand_name: await getSetting('storeName', 'Evershop')
       }
     };
-    console.log(orderData.purchase_units[0].items);
-    console.log(orderData.purchase_units[0].amount);
     const shippingAddress = await select()
       .from('order_address')
       .where('order_address_id', '=', order.shipping_address_id)

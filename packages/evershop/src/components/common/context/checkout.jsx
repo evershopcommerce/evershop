@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { useCheckoutSteps } from '@components/common/context/checkoutSteps';
+import { useAppDispatch } from '@components/common/context/app';
 
 const Checkout = React.createContext();
 
@@ -12,22 +13,37 @@ export function CheckoutProvider({
   getPaymentMethodAPI,
   checkoutSuccessUrl
 }) {
+  const AppContextDispatch = useAppDispatch();
   const steps = useCheckoutSteps();
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState();
   const [, setError] = useState(null);
 
+  // Call api to current url when steps change
+  useEffect(() => {
+    const reload = async () => {
+      const url = new URL(window.location.href, window.location.origin);
+      url.searchParams.append('ajax', true);
+      await AppContextDispatch.fetchPageData(url);
+      url.searchParams.delete('ajax');
+    };
+    reload();
+  }, [steps]);
+
   useEffect(() => {
     const placeOrder = async () => {
       // If order is placed, do nothing
-      if (orderPlaced) return;
+      if (orderPlaced) {
+        return;
+      }
       // If there is a incompleted step, do nothing
       if (
         steps.length < 1 ||
         steps.findIndex((s) => s.isCompleted === false) !== -1
-      )
+      ) {
         return;
+      }
       const response = await axios.post(placeOrderAPI, { cart_id: cartId });
       if (!response.data.error) {
         setOrderPlaced(true);

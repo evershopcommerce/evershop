@@ -26,6 +26,7 @@ module.exports = exports = async (connection) => {
   "grand_total" decimal(12,4) NOT NULL,
   "shipping_method" varchar DEFAULT NULL,
   "shipping_method_name" varchar DEFAULT NULL,
+  "shipping_zone_id" INT DEFAULT NULL,
   "shipping_address_id" INT DEFAULT NULL,
   "payment_method" varchar DEFAULT NULL,
   "payment_method_name" varchar DEFAULT NULL,

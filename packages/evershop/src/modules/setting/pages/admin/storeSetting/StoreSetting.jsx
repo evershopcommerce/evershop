@@ -232,7 +232,8 @@ export default function StoreSetting({
     storeAddress,
     storeCity,
     storeProvince,
-    storePostalCode
+    storePostalCode,
+    weightUnit
   }
 }) {
   const [selectedCountry, setSelectedCountry] = React.useState(() => {
@@ -279,14 +280,7 @@ export default function StoreSetting({
                   value={storeDescription}
                   type="textarea"
                 />
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  <div>
-                    <Currency selectedCurrency={storeCurrency} />
-                  </div>
-                  <div>
-                    <Timezone selectedTimeZone={storeTimeZone} />
-                  </div>
-                </div>
+                <Timezone selectedTimeZone={storeTimeZone} />
               </Card.Session>
               <Card.Session title="Contact Information">
                 <div className="grid grid-cols-2 gap-2 mt-2">
@@ -362,7 +356,6 @@ StoreSetting.propTypes = {
   setting: PropTypes.shape({
     storeName: PropTypes.string,
     storeDescription: PropTypes.string,
-    storeCurrency: PropTypes.string,
     storeTimeZone: PropTypes.string,
     storePhoneNumber: PropTypes.string,
     storeEmail: PropTypes.string,
@@ -385,7 +378,6 @@ export const query = `
     setting {
       storeName
       storeDescription
-      storeCurrency
       storeTimeZone
       storePhoneNumber
       storeEmail

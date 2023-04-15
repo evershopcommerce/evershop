@@ -9,7 +9,7 @@ import { Total } from '@components/frontStore/checkout/success/summary/order/Tot
 function OrderSummary({
   items,
   subTotal,
-  shippingMethod,
+  shippingMethodName,
   shippingFeeExclTax,
   taxAmount,
   discountAmount,
@@ -18,7 +18,7 @@ function OrderSummary({
   return (
     <div className="checkout-summary-block">
       <Subtotal count={items.length} total={subTotal.text} />
-      <Shipping method={shippingMethod} cost={shippingFeeExclTax.text} />
+      <Shipping method={shippingMethodName} cost={shippingFeeExclTax.text} />
       <Tax taxClass="" amount={taxAmount.text} />
       <Discount code="" amount={discountAmount.text} />
       <Total total={grandTotal.text} />
@@ -46,9 +46,7 @@ OrderSummary.propTypes = {
   shippingFeeExclTax: PropTypes.shape({
     text: PropTypes.string.isRequired
   }),
-  shippingMethod: PropTypes.shape({
-    text: PropTypes.string
-  }),
+  shippingMethodName: PropTypes.string,
   subTotal: PropTypes.shape({
     text: PropTypes.string
   }),
@@ -67,9 +65,7 @@ OrderSummary.defaultProps = {
   shippingFeeExclTax: {
     text: '0.00'
   },
-  shippingMethod: {
-    text: 'Free Shipping'
-  },
+  shippingMethodName: 'Free Shipping',
   subTotal: {
     text: '0.00'
   },

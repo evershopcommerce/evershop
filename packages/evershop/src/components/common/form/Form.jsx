@@ -140,7 +140,7 @@ export function Form(props) {
         if (onSuccess) {
           await onSuccess(responseJson);
         }
-        setState('submitSuccess');
+        setState('submitSuccess'); // This indicates that the form has been submitted successfully. It does not mean that the business logic is successful.
       } else {
         setState('validateFailed');
         if (onValidationError) {

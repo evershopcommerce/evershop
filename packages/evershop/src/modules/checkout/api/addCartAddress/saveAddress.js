@@ -36,6 +36,35 @@ module.exports = async (request, response, delegate, next) => {
 
     // Set address ID to cart
     if (type === 'shipping') {
+      // Find the shipping zone
+      const shippingZoneQuery = select().from('shipping_zone');
+      shippingZoneQuery
+        .leftJoin('shipping_zone_province')
+        .on(
+          'shipping_zone_province.zone_id',
+          '=',
+          'shipping_zone.shipping_zone_id'
+        );
+      shippingZoneQuery.where('shipping_zone.country', '=', address.country);
+
+      const shippingZoneProvinces = await shippingZoneQuery.execute(pool);
+      let zone = shippingZoneProvinces.find(
+        (p) => p.province === address.province || p.province === null
+      );
+
+      if (!zone) {
+        await cart.setData('shipping_address_id', null);
+        await saveCart(cart);
+        response.status(INVALID_PAYLOAD);
+        return response.json({
+          error: {
+            status: INVALID_PAYLOAD,
+            message: 'We do not ship to this address'
+          }
+        });
+      }
+
+      await cart.setData('shipping_zone_id', parseInt(zone.zone_id, 10));
       await cart.setData('shipping_address_id', parseInt(result.insertId, 10));
     } else {
       await cart.setData('billing_address_id', parseInt(result.insertId, 10));

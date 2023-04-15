@@ -15,7 +15,7 @@ export default function OrderSummary({
   order: {
     orderId,
     coupon,
-    shippingMethod,
+    shippingMethodName,
     paymentMethodName,
     totalQty,
     taxAmount,
@@ -57,7 +57,10 @@ export default function OrderSummary({
             },
             {
               component: { default: Shipping },
-              props: { method: shippingMethod, cost: shippingFeeExclTax.text },
+              props: {
+                method: shippingMethodName,
+                cost: shippingFeeExclTax.text
+              },
               sortOrder: 10
             },
             {
@@ -103,6 +106,7 @@ OrderSummary.propTypes = {
     grandTotal: PropTypes.shape({
       text: PropTypes.string.isRequired
     }).isRequired,
+    shippingMethodName: PropTypes.string,
     subTotal: PropTypes.shape({
       text: PropTypes.string.isRequired
     }).isRequired,
@@ -141,7 +145,7 @@ export const query = `
       orderId
       totalQty
       coupon
-      shippingMethod
+      shippingMethodName
       paymentMethod
       paymentMethodName
       taxAmount {

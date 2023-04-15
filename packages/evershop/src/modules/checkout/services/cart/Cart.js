@@ -7,6 +7,8 @@ const { DataObject } = require('./DataObject');
 const { Item } = require('./Item');
 const { toPrice } = require('../toPrice');
 const { getSetting } = require('../../../setting/services/setting');
+const { default: axios } = require('axios');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
@@ -135,19 +137,88 @@ exports.Cart = class Cart extends DataObject {
       key: 'grand_total',
       resolvers: [
         async function resolver() {
-          return this.getData('sub_total');
+          return (
+            this.getData('sub_total') + this.getData('shipping_fee_excl_tax')
+          );
         }
       ],
-      dependencies: ['sub_total']
+      dependencies: ['sub_total', 'shipping_fee_excl_tax']
+    },
+    {
+      key: 'shipping_zone_id',
+      resolvers: [
+        async function resolver() {
+          if (!this.dataSource.shipping_zone_id) {
+            return null;
+          } else {
+            const zone = await select()
+              .from('shipping_zone')
+              .where('shipping_zone_id', '=', this.dataSource.shipping_zone_id)
+              .load(pool);
+            if (!zone) {
+              return null;
+            } else {
+              return zone.shipping_zone_id;
+            }
+          }
+        }
+      ],
+      dependencies: ['cart_id']
     },
     {
       key: 'shipping_address_id',
       resolvers: [
         async function resolver() {
-          return this.dataSource.shipping_address_id;
+          if (
+            !this.dataSource.shipping_address_id ||
+            !this.getData('shipping_zone_id')
+          ) {
+            return null;
+          } else {
+            // validate country and province with shipping zone
+            const shippingAddress = await select()
+              .from('cart_address')
+              .where(
+                'cart_address_id',
+                '=',
+                this.dataSource.shipping_address_id
+              )
+              .load(pool);
+            if (!shippingAddress) {
+              return null;
+            }
+            const shippingZoneQuery = select().from('shipping_zone');
+            shippingZoneQuery
+              .leftJoin('shipping_zone_province')
+              .on(
+                'shipping_zone_province.zone_id',
+                '=',
+                'shipping_zone.shipping_zone_id'
+              );
+            shippingZoneQuery.where(
+              'shipping_zone.country',
+              '=',
+              shippingAddress.country
+            );
+
+            const shippingZoneProvinces = await shippingZoneQuery.execute(pool);
+            if (shippingZoneProvinces.length === 0) {
+              return null;
+            } else {
+              const check = shippingZoneProvinces.find(
+                (p) =>
+                  p.province === shippingAddress.province || p.province === null
+              );
+              if (!check) {
+                return null;
+              } else {
+                return shippingAddress.cart_address_id;
+              }
+            }
+          }
         }
       ],
-      dependencies: ['cart_id']
+      dependencies: ['cart_id', 'shipping_zone_id']
     },
     {
       key: 'shippingAddress',
@@ -175,18 +246,84 @@ exports.Cart = class Cart extends DataObject {
       key: 'shipping_method',
       resolvers: [
         async function resolver() {
-          // TODO: This field should be handled by each of shipping method
-          return this.dataSource.shipping_method;
+          if (!this.dataSource.shipping_method) {
+            return null;
+          }
+          if (!this.getData('shipping_address_id')) {
+            return null;
+          }
+          // By default, EverShop supports free shipping and flat rate shipping method
+          // Load shipping method from database
+          const shippingMethodQuery = select().from('shipping_method');
+          shippingMethodQuery
+            .innerJoin('shipping_zone_method')
+            .on(
+              'shipping_method.shipping_method_id',
+              '=',
+              'shipping_zone_method.method_id'
+            );
+          shippingMethodQuery
+            .where('uuid', '=', this.dataSource.shipping_method)
+            .and(
+              'shipping_zone_method.zone_id',
+              '=',
+              this.getData('shipping_zone_id')
+            );
+          const shippingMethod = await shippingMethodQuery.load(pool);
+          if (!shippingMethod) {
+            return null;
+          } else {
+            // Validate shipping method using max weight and max price, min weight and min price
+            const { max, min } = shippingMethod;
+            const total_weight = this.getData('total_weight');
+            const sub_total = this.getData('sub_total');
+            let flag = false;
+
+            if (shippingMethod.condition_type === 'weight') {
+              if (
+                total_weight >= toPrice(min) &&
+                total_weight <= toPrice(max)
+              ) {
+                flag = true;
+              }
+            }
+            if (shippingMethod.condition_type === 'price') {
+              if (sub_total >= toPrice(min) && sub_total <= toPrice(max)) {
+                flag = true;
+              }
+            }
+            if (shippingMethod.condition_type === null) {
+              flag = true;
+            }
+            if (flag === false) {
+              this.errors.shipping_method = 'Shipping method is not valid';
+              return null;
+            } else {
+              return shippingMethod.uuid;
+            }
+          }
         }
       ],
-      dependencies: ['shipping_address_id']
+      dependencies: [
+        'shipping_address_id',
+        'sub_total',
+        'total_weight',
+        'total_qty'
+      ]
     },
     {
       key: 'shipping_method_name',
       resolvers: [
         async function resolver() {
-          // TODO: This field should be handled by each of shipping method
-          return this.dataSource.shipping_method_name;
+          if (!this.getData('shipping_method')) {
+            return null;
+          } else {
+            const shippingMethod = await select()
+              .from('shipping_method')
+              .where('uuid', '=', this.getData('shipping_method'))
+              .load(pool);
+            return shippingMethod.name;
+          }
         }
       ],
       dependencies: ['shipping_method']
@@ -195,7 +332,66 @@ exports.Cart = class Cart extends DataObject {
       key: 'shipping_fee_excl_tax',
       resolvers: [
         async function resolver() {
-          return 0; // TODO: This field should be handled by each of shipping method
+          if (!this.getData('shipping_method')) {
+            return 0;
+          } else {
+            // Check if the coupon is free shipping
+            const coupon = await select()
+              .from('coupon')
+              .where('coupon.coupon', '=', this.getData('coupon'))
+              .load(pool);
+            if (coupon && coupon.free_shipping) {
+              return 0;
+            }
+            const shippingMethodQuery = select().from('shipping_method');
+            shippingMethodQuery
+              .innerJoin('shipping_zone_method')
+              .on(
+                'shipping_method.shipping_method_id',
+                '=',
+                'shipping_zone_method.method_id'
+              );
+            shippingMethodQuery
+              .where('uuid', '=', this.dataSource.shipping_method)
+              .and(
+                'shipping_zone_method.zone_id',
+                '=',
+                this.getData('shipping_zone_id')
+              );
+            const shippingMethod = await shippingMethodQuery.load(pool);
+            // Check if the method is flat rate
+            if (shippingMethod.cost !== null) {
+              return toPrice(shippingMethod.cost);
+            } else {
+              if (shippingMethod.calculate_api) {
+                // Call the API of the shipping method to calculate the shipping fee. This is an internal API
+                // use axios to call the API
+                // Ignore http status error
+                let api = 'http://localhost:3000';
+                try {
+                  api += buildUrl(shippingMethod.calculate_api, {
+                    cart_id: this.getData('uuid'),
+                    method_id: shippingMethod.uuid
+                  });
+                } catch (e) {
+                  throw new Error(
+                    `Your shipping calculate API ${shippingMethod.calculate_api} is invalid`
+                  );
+                }
+                const response = await axios.get(api);
+                if (response.status < 400) {
+                  return toPrice(response.data.data.cost);
+                } else {
+                  this.errors.shipping_fee_excl_tax = 'response.data.message';
+                  return 0;
+                }
+              } else {
+                this.errors.shipping_fee_excl_tax =
+                  'Could not calculate shipping fee';
+                return 0;
+              }
+            }
+          }
         }
       ],
       dependencies: ['shipping_method']
@@ -204,10 +400,10 @@ exports.Cart = class Cart extends DataObject {
       key: 'shipping_fee_incl_tax',
       resolvers: [
         async function resolver() {
-          return 0; // TODO: This field should be handled by each of shipping method
+          return this.getData('shipping_fee_excl_tax'); // TODO: Add tax calculation for shipping fee
         }
       ],
-      dependencies: ['shipping_method']
+      dependencies: ['shipping_fee_excl_tax']
     },
     {
       key: 'billing_address_id',

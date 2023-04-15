@@ -18,11 +18,6 @@ module.exports = (request, response) => {
   );
   setContextValue(
     request,
-    'homeUrl',
-    `${request.protocol}://${request.get('host')}`
-  );
-  setContextValue(
-    request,
     'currentUrl',
     `${request.protocol}://${request.get('host')}${request.originalUrl}`
   );

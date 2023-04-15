@@ -1,0 +1,5 @@
+{
+  "methods": ["GET"],
+  "path": "/tablerate/calculate/:cart_id/:method_id",
+  "access": "public"
+}

@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/shippingZones/:id/methods",
+  "access": "private"
+}

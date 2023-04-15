@@ -3,7 +3,7 @@ const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
-exports.toPrice = function toPrice(value) {
+exports.toPrice = function toPrice(value, forDisplay = false) {
   let price = parseFloat(value || 0);
   if (Number.isNaN(price)) {
     throw new Error('Price is not a number');
@@ -26,5 +26,14 @@ exports.toPrice = function toPrice(value) {
       break;
   }
 
-  return price;
+  if (!forDisplay) {
+    return price;
+  } else {
+    const currency = getConfig('shop.currency', 'USD');
+    const language = getConfig('shop.language', 'en');
+    return new Intl.NumberFormat(language, {
+      style: 'currency',
+      currency
+    }).format(price);
+  }
 };
