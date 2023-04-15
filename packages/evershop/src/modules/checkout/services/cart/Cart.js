@@ -335,6 +335,14 @@ exports.Cart = class Cart extends DataObject {
           if (!this.getData('shipping_method')) {
             return 0;
           } else {
+            // Check if the coupon is free shipping
+            const coupon = await select()
+              .from('coupon')
+              .where('coupon.coupon', '=', this.getData('coupon'))
+              .load(pool);
+            if (coupon && coupon.free_shipping) {
+              return 0;
+            }
             const shippingMethodQuery = select().from('shipping_method');
             shippingMethodQuery
               .innerJoin('shipping_zone_method')

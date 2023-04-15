@@ -61,7 +61,7 @@ module.exports = async (request, response, stack, next) => {
               },
               shipping: {
                 currency_code: order.currency,
-                value: toPrice(order.shipping_fee)
+                value: toPrice(order.shipping_fee_incl_tax)
               },
               tax_total: {
                 currency_code: order.currency,

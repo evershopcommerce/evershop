@@ -21,7 +21,9 @@ module.exports.DataObject = class DataObject {
   prepareFields() {
     // eslint-disable-next-line no-shadow
     const fields = this.constructor.fields.filter((f) => {
-      if (!f.dependencies) return true;
+      if (!f.dependencies) {
+        return true;
+      }
       const { dependencies } = f;
       let flag = true;
       // Field will be removed if it's dependency missing
