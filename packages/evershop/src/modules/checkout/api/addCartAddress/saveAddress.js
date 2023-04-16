@@ -51,7 +51,6 @@ module.exports = async (request, response, delegate, next) => {
       let zone = shippingZoneProvinces.find(
         (p) => p.province === address.province || p.province === null
       );
-
       if (!zone) {
         await cart.setData('shipping_address_id', null);
         await saveCart(cart);
@@ -64,7 +63,10 @@ module.exports = async (request, response, delegate, next) => {
         });
       }
 
-      await cart.setData('shipping_zone_id', parseInt(zone.zone_id, 10));
+      await cart.setData(
+        'shipping_zone_id',
+        parseInt(zone.shipping_zone_id, 10)
+      );
       await cart.setData('shipping_address_id', parseInt(result.insertId, 10));
     } else {
       await cart.setData('billing_address_id', parseInt(result.insertId, 10));

@@ -1,9 +1,11 @@
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getProductsBaseQuery } = require('./getProductsBaseQuery');
+const {
+  getProductsByCategoryBaseQuery
+} = require('./getProductsByCategoryBaseQuery');
 
 module.exports.getPriceRange = async function getPriceRange(categoryId) {
-  const productsQuery = await getProductsBaseQuery(categoryId);
+  const productsQuery = await getProductsByCategoryBaseQuery(categoryId);
   productsQuery.select('product.product_id');
   // Get the list of productIds before applying pagination, sorting...etc
   // Base on this list, we will find all attribute,

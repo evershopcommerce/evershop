@@ -3,18 +3,18 @@ const { Pool } = require("pg");
 
 // MySQL database configuration
 const mysqlConfig = {
-  host: "",
-  user: "",
-  password: "",
-  database: "",
+  host: "localhost",
+  user: "root",
+  password: "123456",
+  database: "demo20230416",
 };
 
 // PostgreSQL database configuration
 const pgConfig = {
-  host: "",
-  user: "",
-  password: "",
-  database: "",
+  host: "localhost",
+  user: "postgres",
+  password: "123456",
+  database: "evershop20230416",
   port: 5432,
 };
 
@@ -70,15 +70,17 @@ async function copyData(mysqlConn, pgClient, table) {
       return;
     }
 
+    const outdatedColumns = ["uuid", "row_id", "attribute_six", "attribute_sevent",  "attribute_eight",  "attribute_nine",  "attribute_ten" ];
+
     // Inserting the data into the PostgreSQL database for each table
     const placeholders = new Array(
-      Object.keys(rows[0]).filter((col) => col !== "uuid").length
+      Object.keys(rows[0]).filter((col) => !outdatedColumns.includes(col)).length
     )
       .fill("")
       .map((_, index) => `$${index + 1}`)
       .join(",");
     const pgQuery = `INSERT INTO "${table}" (${Object.keys(rows[0])
-      .filter((col) => col !== "uuid")
+      .filter((col) => !outdatedColumns.includes(col))
       .join(",")}) OVERRIDING SYSTEM VALUE VALUES (${placeholders})`;
     // If the table is product_description, we need to make the url_key unique
     if (table === "product_description") {
@@ -99,8 +101,7 @@ async function copyData(mysqlConn, pgClient, table) {
 
         const updateData = Object.assign({}, row);
         delete updateData[Object.keys(row)[0]];
-        delete updateData["uuid"];
-        delete updateData["row_id"];
+        outdatedColumns.forEach((col) => delete updateData[col]);
         const updateQuery = `UPDATE "${table}" SET ${Object.keys(updateData)
           .map((col, index) => `${col} = $${index + 1}`)
           .join(",")} WHERE ${Object.keys(row)[0]} = ${
@@ -110,8 +111,7 @@ async function copyData(mysqlConn, pgClient, table) {
       } else {
         // Transforming the data into a PostgreSQL-compatible format
         const newRow = Object.assign({}, row);
-        delete newRow["uuid"];
-        delete newRow["row_id"];
+        outdatedColumns.forEach((col) => delete newRow[col]);
         const data = Object.values(newRow);
         await pgClient.query(pgQuery, data);
       }
@@ -152,6 +152,9 @@ async function copyData(mysqlConn, pgClient, table) {
   try {
     // Start postgresql transaction
     await client.query("BEGIN");
+
+    // Delete data form attributes table
+    await client.query("DELETE FROM attribute");
     // Fetch data from mysql table
     for (const table of tables) {
       await copyData(mysqlConn, client, table);

@@ -63,6 +63,7 @@ module.exports = async (request, response, delegate, next) => {
         response.redirect(buildUrl('adminLogin'));
       } else {
         setContextValue(request, 'userTokenPayload', decoded);
+        setContextValue(request, 'user', { ...decoded.user, roles: '*' });
         setContextValue(request, 'sid', decoded.sid);
         next();
       }

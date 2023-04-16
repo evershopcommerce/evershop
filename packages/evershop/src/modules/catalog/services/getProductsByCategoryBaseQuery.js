@@ -1,7 +1,8 @@
-const { select } = require('@evershop/postgres-query-builder');
+const { select, node } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
-module.exports.getProductsBaseQuery = async (categoryId) => {
+module.exports.getProductsByCategoryBaseQuery = async (categoryId) => {
   const query = select().from('product');
   query
     .leftJoin('product_description')
@@ -21,6 +22,14 @@ module.exports.getProductsBaseQuery = async (categoryId) => {
     ).map((row) => row.product_id)
   );
   query.andWhere('product.status', '=', 1);
-
+  if (getConfig('catalog.showOutOfStockProduct', false) === false) {
+    query
+      .andWhere('product.manage_stock', '=', false)
+      .addNode(
+        node('OR')
+          .addLeaf('AND', 'product.qty', '>', 0)
+          .addLeaf('AND', 'product.stock_availability', '=', true)
+      );
+  }
   return query;
 };

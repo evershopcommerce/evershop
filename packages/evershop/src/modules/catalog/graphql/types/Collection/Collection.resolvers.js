@@ -2,6 +2,7 @@ const { select, node } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 module.exports = {
   Query: {
@@ -105,6 +106,15 @@ module.exports = {
       );
       if (!user) {
         query.andWhere('product.status', '=', 1);
+        if (getConfig('catalog.showOutOfStockProduct', false) === false) {
+          query
+            .andWhere('product.manage_stock', '=', false)
+            .addNode(
+              node('OR')
+                .addLeaf('AND', 'product.qty', '>', 0)
+                .addLeaf('AND', 'product.stock_availability', '=', true)
+            );
+        }
       }
       const currentFilters = [];
       const sortBy = filters.find((f) => f.key === 'sortBy');
