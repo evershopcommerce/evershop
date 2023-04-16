@@ -3,12 +3,13 @@ const uniqid = require('uniqid');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const {
-  getProductsBaseQuery
-} = require('../../../services/getProductsBaseQuery');
+  getProductsByCategoryBaseQuery
+} = require('../../../services/getProductsByCategoryBaseQuery');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   getFilterableAttributes
 } = require('../../../services/getFilterableAttributes');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 module.exports = {
   Query: {
@@ -117,11 +118,23 @@ module.exports = {
         currentFilters
       };
     },
-    products: async (_, { filters = [] }) => {
+    products: async (_, { filters = [] }, { user }) => {
       const query = select().from('product');
       query
         .leftJoin('product_description', 'des')
         .on('product.product_id', '=', 'des.product_description_product_id');
+      if (!user) {
+        query.andWhere('product.status', '=', 1);
+        if (getConfig('catalog.showOutOfStockProduct', false) === false) {
+          query
+            .andWhere('product.manage_stock', '=', false)
+            .addNode(
+              node('OR')
+                .addLeaf('AND', 'product.qty', '>', 0)
+                .addLeaf('AND', 'product.stock_availability', '=', true)
+            );
+        }
+      }
       const currentFilters = [];
       // Price filter
       const priceFilter = filters.find((f) => f.key === 'price');
@@ -266,7 +279,7 @@ module.exports = {
   },
   Category: {
     products: async (category, { filters = [] }) => {
-      const query = await getProductsBaseQuery(category.categoryId);
+      const query = await getProductsByCategoryBaseQuery(category.categoryId);
       const currentFilters = [];
       // Price filter
       const minPrice = filters.find((f) => f.key === 'minPrice');
@@ -420,7 +433,7 @@ module.exports = {
       return results;
     },
     priceRange: async (category) => {
-      const query = await getProductsBaseQuery(category.categoryId);
+      const query = await getProductsByCategoryBaseQuery(category.categoryId);
       query
         .select('MIN(product.price)', 'min')
         .select('MAX(product.price)', 'max');
