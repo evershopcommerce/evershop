@@ -49,7 +49,11 @@ module.exports = async (request, response, deledate, next) => {
       .execute(connection);
 
     const zoneId = zone.updatedId;
-    if (!provinces || !provinces.length) {
+    if (
+      !provinces ||
+      !provinces.length ||
+      (provinces.length === 1 && provinces[0] === '')
+    ) {
       // Delete all provinces
       await del('shipping_zone_province')
         .where('zone_id', '=', zoneId)
