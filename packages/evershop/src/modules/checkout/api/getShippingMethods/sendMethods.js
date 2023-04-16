@@ -43,7 +43,7 @@ module.exports = async (request, response, delegate, next) => {
 
     const zoneQuery = select().from('shipping_zone');
     zoneQuery
-      .leftJoin('shipping_zone_province')
+      .innerJoin('shipping_zone_province')
       .on(
         'shipping_zone_province.zone_id',
         '=',
@@ -52,7 +52,7 @@ module.exports = async (request, response, delegate, next) => {
     zoneQuery
       .where('shipping_zone_province.province', '=', province)
       .or('shipping_zone_province.province', 'IS NULL', null);
-    zoneQuery.where('shipping_zone.country', '=', country);
+    zoneQuery.andWhere('shipping_zone.country', '=', country);
 
     const zone = await zoneQuery.load(pool);
     if (!zone) {

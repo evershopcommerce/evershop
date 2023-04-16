@@ -138,7 +138,6 @@ module.exports = async (request, response, stack, next) => {
         }
       };
     }
-    console.log(orderData);
     // Call PayPal API to create order using axios
     const { data } = await axios.post(
       `${await getApiBaseUrl()}/v2/checkout/orders`,
