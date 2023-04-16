@@ -1,3 +1,0 @@
-extend type Query {
-  featuredCategory: [Category]
-}
