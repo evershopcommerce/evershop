@@ -4,6 +4,7 @@ import { useQuery } from 'urql';
 import { Card } from '@components/admin/cms/Card';
 import { CreateVariant } from '@components/admin/catalog/productEdit/variants/CreateVariant';
 import { Variant } from './Variant';
+import Spinner from '@components/common/Spinner';
 
 export const VariantQuery = `
 query Query($productId: ID!) {
@@ -79,12 +80,8 @@ export function Variants({
   const { data, fetching, error } = result;
   if (fetching) {
     return (
-      <div className="skeleton-wrapper-variants">
-        <div className="skeleton" />
-        <div className="skeleton" />
-        <div className="skeleton" />
-        <div className="skeleton" />
-        <div className="skeleton" />
+      <div className="p-3 flex justify-center items-center border rounded border-divider">
+        <Spinner width={30} height={30} />
       </div>
     );
   }

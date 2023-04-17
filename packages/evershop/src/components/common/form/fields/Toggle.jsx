@@ -44,7 +44,8 @@ Disabled.propTypes = {
 
 const isBool = (value) => typeof value === 'boolean';
 const isEnable = (value) => (isBool(value) ? value : parseInt(value, 10) === 1);
-const getValue = (value) => (isBool(value) ? value : parseInt(value, 10));
+const getValue = (value) =>
+  isBool(value) ? value : value ? parseInt(value, 10) : 0;
 const getOppositeValue = (value) =>
   isBool(value) ? !value : value === 1 ? 0 : 1;
 
