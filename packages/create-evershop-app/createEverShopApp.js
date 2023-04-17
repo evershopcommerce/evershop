@@ -13,7 +13,6 @@ const semver = require('semver');
 const spawn = require('cross-spawn');
 const url = require('url');
 const validateProjectName = require('validate-npm-package-name');
-const mysql = require('mysql2');
 const packageJson = require('./package.json');
 const { readFileSync } = require('fs');
 const { writeFile, mkdir } = require('fs/promises');
@@ -34,10 +33,6 @@ function init() {
     })
     .option('--verbose', 'Print additional logs')
     .option('--info', 'Print environment debug info')
-    .option(
-      '--playAround',
-      'Install EverShop in playaround mode(No MySQL database required)'
-    )
     .on('--help', () => {
       console.log(
         `    Only ${chalk.green('<project-directory>')} is required.`
@@ -107,12 +102,12 @@ function init() {
       } else {
         const useYarn = isUsingYarn();
 
-        createApp(projectName, options.verbose, useYarn, options.playAround);
+        createApp(projectName, options.verbose, useYarn);
       }
     });
 }
 
-function createApp(name, verbose, useYarn, playAround = false) {
+function createApp(name, verbose, useYarn) {
   const root = path.resolve(name);
   const appName = path.basename(root);
 
@@ -161,7 +156,7 @@ function createApp(name, verbose, useYarn, playAround = false) {
     }
   }
 
-  run(root, appName, verbose, originalDirectory, useYarn, playAround);
+  run(root, appName, verbose, originalDirectory, useYarn);
 }
 
 function install(root, useYarn, dependencies, verbose, isOnline) {
@@ -218,7 +213,7 @@ function install(root, useYarn, dependencies, verbose, isOnline) {
   });
 }
 
-function run(root, appName, verbose, originalDirectory, useYarn, playAround) {
+function run(root, appName, verbose, originalDirectory, useYarn) {
   console.log(`Installing ${chalk.cyan('@evershop/evershop')}`);
   checkIfOnline(useYarn)
     .then((isOnline) => ({
@@ -228,7 +223,7 @@ function run(root, appName, verbose, originalDirectory, useYarn, playAround) {
       const allDependencies = ['@evershop/evershop'];
       return install(root, useYarn, allDependencies, verbose, isOnline).then(
         async () => {
-          await setUpEverShop(playAround, root);
+          await setUpEverShop(root);
         }
       );
     })
@@ -504,112 +499,23 @@ function checkIfOnline(useYarn) {
   });
 }
 
-async function setUpEverShop(playAround, projectDir) {
-  if (playAround) {
-    console.log(
-      boxen(
-        chalk.yellow(
-          `You are installing EverShop in 'playAround' mode.\n` +
-            `You will be provided a MySQL database in our cloud server.\n` +
-            `This data base is only for testing purpose and will be permanently deleted after 7 days. No backup is available.\n` +
-            `Please DO NOT insert any sensitive data into this database.\n` +
-            `You can install your own MySQL database on your local machine and continue to use EverShop.`
-        ),
-        {
-          title: 'Disclaimer',
-          titleAlignment: 'center',
-          padding: 1,
-          margin: 1,
-          borderColor: 'yellow'
-        }
-      )
-    );
-    // Register a DB
-    const db = await registerMySQLDB();
-    // Load the configuration template
-    const configuration = loadConfigTemplate(projectDir);
-    // Update databse information
-    configuration.system.database = {
-      host: 'db.cloud.evershop.io',
-      port: 3306,
-      user: db.databaseUser,
-      database: db.databaseName,
-      password: db.databasePassword
-    };
-    console.log(`${chalk.green('✔ Create a configuration file')}`);
-    // Create a configuration file
-    await createConfigFile(projectDir, configuration);
-
-    process.chdir(projectDir);
-    // Create the migration table
-    console.log(`${chalk.green('✔ Create the migration table')}`);
-    const { createMigrationTable } = require(path.resolve(
-      projectDir,
-      'node_modules/@evershop/evershop/bin/install/createMigrationTable'
-    ));
-
-    const pool = mysql.createPool({
-      host: 'db.cloud.evershop.io',
-      port: 3306,
-      user: db.databaseUser,
-      database: db.databaseName,
-      password: db.databasePassword,
-      ssl: {
-        rejectUnauthorized: false
+async function setUpEverShop(projectDir) {
+  // Use spawn to run 'npm run setup' command from the project directory
+  await new Promise((resolve, reject) => {
+    const child = spawn('npm', ['run', 'setup'], {
+      cwd: projectDir,
+      stdio: 'inherit'
+    });
+    child.on('close', (code) => {
+      if (code !== 0) {
+        reject({
+          command: 'npm run setup'
+        });
+        return;
       }
+      resolve();
     });
-
-    await createMigrationTable(pool);
-
-    // Run the migration
-    console.log(`${chalk.green('✔ Running the database migration')}`);
-    const { migrate } = require(path.resolve(
-      projectDir,
-      'node_modules/@evershop/evershop/bin/install/migrate'
-    ));
-    await migrate(
-      pool,
-      path.resolve(projectDir, 'node_modules/@evershop/evershop/src/modules')
-    );
-    console.log(
-      boxen(
-        chalk.green(
-          `Your shop is successfully installed!. Please go to ${projectDir} and run '${chalk.green(
-            `npm run build`
-          )}'` +
-            ` and then run '${chalk.green(
-              `npm run start`
-            )}' to start your EverShop app.`
-        ),
-        {
-          title: 'EverShop',
-          titleAlignment: 'center',
-          padding: 1,
-          margin: 1,
-          borderColor: 'green'
-        }
-      )
-    );
-    console.log();
-    process.exit(0);
-  } else {
-    // Use spawn to run 'npm run setup' command from the project directory
-    await new Promise((resolve, reject) => {
-      const child = spawn('npm', ['run', 'setup'], {
-        cwd: projectDir,
-        stdio: 'inherit'
-      });
-      child.on('close', (code) => {
-        if (code !== 0) {
-          reject({
-            command: 'npm run setup'
-          });
-          return;
-        }
-        resolve();
-      });
-    });
-  }
+  });
 }
 
 function loadConfigTemplate(projectDir) {
