@@ -150,41 +150,6 @@ module.exports = {
         });
       }
 
-      // Visibility. For variant group
-      const copy = query.clone();
-      // Get all group that have at lease 1 item visibile
-      const visibleGroups = (
-        await select('variant_group_id')
-          .from('variant_group')
-          .where('visibility', '=', 't')
-          .execute(pool)
-      ).map((v) => v.variant_group_id);
-
-      if (visibleGroups) {
-        // Get all invisible variants from current query
-        copy
-          .select('bool_or(product.visibility)', 'sumv')
-          .select('max(product.product_id)', 'product_id')
-          .andWhere('product.variant_group_id', 'IN', visibleGroups);
-        copy.groupBy('product.variant_group_id');
-        copy.orderBy('product.variant_group_id', 'ASC');
-        copy.having('bool_or(product.visibility)', '=', false);
-        const invisibleIds = (await copy.execute(pool)).map(
-          (v) => v.product_id
-        );
-        if (invisibleIds.length > 0) {
-          const n = node('AND');
-          n.addLeaf('AND', 'product.product_id', 'IN', invisibleIds).addNode(
-            node('OR').addLeaf('OR', 'product.visibility', '=', true)
-          );
-          query.getWhere().addNode(n);
-        } else {
-          query.andWhere('product.visibility', '=', true);
-        }
-      } else {
-        query.andWhere('product.visibility', '=', true);
-      }
-
       // Clone the main query for getting total right before doing the paging
       const totalQuery = query.clone();
       totalQuery.select('COUNT(product.product_id)', 'total');
