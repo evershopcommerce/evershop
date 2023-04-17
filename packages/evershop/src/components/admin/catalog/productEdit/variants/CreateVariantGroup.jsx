@@ -4,6 +4,7 @@ import { useQuery } from 'urql';
 import { toast } from 'react-toastify';
 import { Field } from '@components/common/form/Field';
 import { useFormContext } from '@components/common/form/Form';
+import Spinner from '@components/common/Spinner';
 
 const AttributesQuery = `
   query Query($filters: [FilterInput]) {
@@ -77,7 +78,14 @@ export function CreateVariantGroup({ createVariantGroupApi, setGroup }) {
   });
 
   const { data, fetching, error } = result;
-  if (fetching) return <p>Loading...</p>;
+  if (fetching) {
+    return (
+      <div className="p-3 flex justify-center items-center border rounded border-divider">
+        <Spinner width={30} height={30} />
+      </div>
+    );
+  }
+
   if (error) {
     return (
       <p>
