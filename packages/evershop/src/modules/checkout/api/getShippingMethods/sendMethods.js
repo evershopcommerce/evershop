@@ -43,7 +43,7 @@ module.exports = async (request, response, delegate, next) => {
 
     const zoneQuery = select().from('shipping_zone');
     zoneQuery
-      .innerJoin('shipping_zone_province')
+      .leftJoin('shipping_zone_province')
       .on(
         'shipping_zone_province.zone_id',
         '=',

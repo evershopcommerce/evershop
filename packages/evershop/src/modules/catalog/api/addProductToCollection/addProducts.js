@@ -27,7 +27,7 @@ module.exports = async (request, response, delegate, next) => {
       .load(connection);
     if (!collection) {
       response.status(INVALID_PAYLOAD);
-      response.json({
+      return response.json({
         success: false,
         message: 'Collection does not exists'
       });
@@ -40,7 +40,7 @@ module.exports = async (request, response, delegate, next) => {
       .load(connection);
     if (!product) {
       response.status(INVALID_PAYLOAD);
-      response.json({
+      return response.json({
         success: false,
         message: 'Product does not exists'
       });
@@ -53,7 +53,7 @@ module.exports = async (request, response, delegate, next) => {
       .load(connection);
     if (productCollection) {
       response.status(OK);
-      response.json({
+      return response.json({
         success: true,
         message: 'Product is assigned to the collection'
       });
@@ -68,7 +68,7 @@ module.exports = async (request, response, delegate, next) => {
       .execute(connection);
     await commit(connection);
     response.status(OK);
-    response.json({
+    return response.json({
       success: true,
       data: {
         product_id: product.product_id,
@@ -77,8 +77,9 @@ module.exports = async (request, response, delegate, next) => {
     });
   } catch (e) {
     await rollback(connection);
+    console.error(e);
     response.status(INTERNAL_SERVER_ERROR);
-    response.json({
+    return response.json({
       success: false,
       message: e.message
     });

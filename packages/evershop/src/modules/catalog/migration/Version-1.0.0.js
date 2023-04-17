@@ -520,7 +520,7 @@ module.exports = exports = async (connection) => {
         AS
       $$
       BEGIN
-        UPDATE "product_attribute_value_index" SET "product_attribute_value_index"."option_text" = NEW.option_text
+        UPDATE "product_attribute_value_index" SET "option_text" = NEW.option_text
         WHERE "product_attribute_value_index".option_id = NEW.attribute_option_id AND "product_attribute_value_index".attribute_id = NEW.attribute_id;
         RETURN NEW;
       END;
