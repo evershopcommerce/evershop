@@ -6,23 +6,18 @@
   right: 0;
   display: flex;
   justify-content: center;
-  z-index: 50;
-  padding-top: 55px;
+  z-index: 150;
   background-color: rgba(17, 18, 19, 0.3);
   -webkit-animation-duration: 0.25s;
   animation-duration: 0.25s;
   .modal-wrapper {
-    height: 100%;
+    max-height: calc(100vh - 4rem);
     .modal {
-      height: 80vh;
-      .card {
-        max-height: 100%;
-        .card-session-content {
-          max-height: calc(80vh - 160px);
-          overflow-y: auto;
-          overflow-x: hidden;
-        }
-      }
+      max-height: calc(100vh - 4rem);
+    }
+    .modal-content {
+      max-height: calc(100vh - 18rem);
+      overflow-y: auto;
     }
   }
   &.fadeIn {

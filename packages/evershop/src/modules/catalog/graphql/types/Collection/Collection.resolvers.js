@@ -104,6 +104,7 @@ module.exports = {
         '=',
         collection.collectionId
       );
+
       if (!user) {
         query.andWhere('product.status', '=', 1);
         if (getConfig('catalog.showOutOfStockProduct', false) === false) {
@@ -117,6 +118,20 @@ module.exports = {
         }
       }
       const currentFilters = [];
+      // Name filter
+      const nameFilter = filters.find((f) => f.key === 'name');
+      if (nameFilter) {
+        query.andWhere(
+          'product_description.name',
+          'LIKE',
+          `%${nameFilter.value}%`
+        );
+        currentFilters.push({
+          key: 'name',
+          operation: '=',
+          value: nameFilter.value
+        });
+      }
       const sortBy = filters.find((f) => f.key === 'sortBy');
       const sortOrder = filters.find(
         (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
@@ -156,7 +171,7 @@ module.exports = {
       totalQuery.removeOrderBy();
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
+      const limit = filters.find((f) => f.key === 'limit') || { value: 20 };
       currentFilters.push({
         key: 'page',
         operation: '=',

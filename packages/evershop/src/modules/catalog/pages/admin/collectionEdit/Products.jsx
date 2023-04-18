@@ -5,13 +5,16 @@ import { Card } from '@components/admin/cms/Card';
 import { useModal } from '@components/common/modal/useModal';
 import './Products.scss';
 import AddProducts from '@components/admin/catalog/collection/collectionEdit/AddProducts';
+import Spinner from '@components/common/Spinner';
+import Button from '@components/common/form/Button';
 
 const ProductsQuery = `
-  query Query ($code: String!, $page: String!) {
+  query Query ($code: String!, $page: String!, $name: String!) {
     collection (code: $code) {
-      products (filters: [{key: "page", operation: "=", value: $page}]) {
+      products (filters: [{key: "page", operation: "=", value: $page},{key: "limit", operation: "=", value: "10"}, {key: "name", operation: "=", value: $name}]) {
         items {
           productId
+          uuid
           name
           sku
           price {
@@ -25,6 +28,7 @@ const ProductsQuery = `
           editUrl
           removeFromCollectionUrl
         }
+        total
       }
     }
   }
@@ -33,14 +37,21 @@ const ProductsQuery = `
 export default function Products({
   collection: { collectionId, code, addProductApi }
 }) {
+  const [name, setName] = React.useState('');
   const [page, setPage] = React.useState(1);
+  const [removing, setRemoving] = React.useState([]);
   const modal = useModal();
 
   // Run query again when page changes
   const [result, reexecuteQuery] = useQuery({
     query: ProductsQuery,
-    variables: { code: code, page: page.toString() }
+    variables: { code: code, page: page.toString(), name: name },
+    pause: true
   });
+
+  React.useEffect(() => {
+    reexecuteQuery({ requestPolicy: 'network-only' });
+  }, []);
 
   const closeModal = () => {
     // Reexecute query to update products
@@ -48,7 +59,8 @@ export default function Products({
     modal.closeModal();
   };
 
-  const removeProduct = async (api) => {
+  const removeProduct = async (api, uuid) => {
+    setRemoving([...removing, uuid]);
     await fetch(api, {
       method: 'DELETE',
       headers: {
@@ -59,6 +71,14 @@ export default function Products({
     setPage(1);
     reexecuteQuery({ requestPolicy: 'network-only' });
   };
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      reexecuteQuery({ requestPolicy: 'network-only' });
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [name]);
 
   React.useEffect(() => {
     if (result.fetching) {
@@ -76,19 +96,7 @@ export default function Products({
       </p>
     );
   }
-  if (fetching) {
-    return (
-      <Card title="Products">
-        <div className="skeleton-wrapper-collection-products">
-          <div className="skeleton" />
-          <div className="skeleton" />
-          <div className="skeleton" />
-          <div className="skeleton" />
-          <div className="skeleton" />
-        </div>
-      </Card>
-    );
-  } else {
+  if (data || fetching) {
     return (
       <Card
         title="Products"
@@ -123,71 +131,126 @@ export default function Products({
         )}
         <Card.Session>
           <div>
-            {data.collection.products.items.length === 0 && (
-              <div>This collection has no product.</div>
-            )}
-            <div className="divide-y">
-              {data.collection.products.items.map((p, i) => {
-                return (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <div
-                    key={i}
-                    className="grid grid-cols-6 gap-2 py-1 border-divider"
-                  >
-                    <div className="grid-thumbnail text-border border border-divider p-075 rounded flex justify-center col-span-1">
-                      {p.image?.url && (
-                        <img
-                          className="self-center"
-                          src={p.image?.url}
-                          alt=""
-                        />
-                      )}
-                      {!p.image?.url && (
-                        <svg
-                          className="self-center"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="2rem"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                          />
-                        </svg>
-                      )}
-                    </div>
-                    <div className="col-span-4">
-                      <a
-                        href={p.editUrl || ''}
-                        className="font-semibold hover:underline"
-                      >
-                        {p.name}
-                      </a>
-                    </div>
-                    <div className="col-span-1">
-                      <a
-                        href="#"
-                        className="button button-primary"
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          await removeProduct(p.removeFromCollectionUrl);
-                        }}
-                      >
-                        Remove
-                      </a>
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="border rounded border-divider mb-2">
+              <input
+                type="text"
+                value={name}
+                placeholder="Search products"
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
+            {data && (
+              <>
+                {data.collection.products.items.length === 0 && (
+                  <div>No product to display.</div>
+                )}
+                <div className="flex justify-between">
+                  <div>
+                    <i>Total: {data.collection.products.total} items</i>
+                  </div>
+                  <div>
+                    {data.collection.products.total > 10 && (
+                      <div className="flex justify-between">
+                        {page > 1 && (
+                          <a
+                            className="text-interactive"
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setPage(page - 1);
+                            }}
+                          >
+                            Previous
+                          </a>
+                        )}
+                        {page < data.collection.products.total / 10 && (
+                          <a
+                            className="text-interactive"
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setPage(page + 1);
+                            }}
+                          >
+                            Next
+                          </a>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="divide-y">
+                  {data.collection.products.items.map((p, i) => {
+                    return (
+                      // eslint-disable-next-line react/no-array-index-key
+                      <div
+                        key={p.uuid}
+                        className="grid grid-cols-6 gap-2 py-1 border-divider"
+                      >
+                        <div className="grid-thumbnail text-border border border-divider p-075 rounded flex justify-center col-span-1">
+                          {p.image?.url && (
+                            <img
+                              className="self-center"
+                              src={p.image?.url}
+                              alt=""
+                            />
+                          )}
+                          {!p.image?.url && (
+                            <svg
+                              className="self-center"
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="2rem"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                              />
+                            </svg>
+                          )}
+                        </div>
+                        <div className="col-span-4">
+                          <a
+                            href={p.editUrl || ''}
+                            className="font-semibold hover:underline"
+                          >
+                            {p.name}
+                          </a>
+                        </div>
+                        <div className="col-span-1">
+                          <Button
+                            variant="secondary"
+                            onAction={async () => {
+                              await removeProduct(
+                                p.removeFromCollectionUrl,
+                                p.uuid
+                              );
+                            }}
+                            isLoading={removing.includes(p.uuid)}
+                            title="Remove"
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+            {fetching && (
+              <div className="p-3 border border-divider rounded flex justify-center items-center">
+                <Spinner width={25} height={25} />
+              </div>
+            )}
           </div>
         </Card.Session>
       </Card>
     );
+  } else {
+    return null;
   }
 }
 

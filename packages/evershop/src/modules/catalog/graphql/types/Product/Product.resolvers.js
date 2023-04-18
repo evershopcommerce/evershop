@@ -51,7 +51,11 @@ module.exports = {
         return camelCase(result);
       }
     },
-    searchProducts: async (_, { query = '', page = 1 }, { user }) => {
+    searchProducts: async (
+      _,
+      { query = '', page = 1, limit = 20 },
+      { user }
+    ) => {
       // This is a simple search, we will search in name and sku.
       // This is only for admin
       if (!user) {
@@ -71,7 +75,7 @@ module.exports = {
       cloneQuery.select('COUNT(product.product_id)', 'total');
       cloneQuery.removeOrderBy();
       // Paging
-      productsQuery.limit((page - 1) * 20, 20);
+      productsQuery.limit((page - 1) * limit, limit);
       return {
         itemQuery: productsQuery,
         totalQuery: cloneQuery,
