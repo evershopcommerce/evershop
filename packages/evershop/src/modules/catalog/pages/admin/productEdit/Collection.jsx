@@ -17,6 +17,9 @@ export default function Collections({ product: { collections } }) {
             </div>
           );
         })}
+        {collections.length === 0 && (
+          <div className="text-gray-500">No collections</div>
+        )}
       </Card.Session>
     </Card>
   );
