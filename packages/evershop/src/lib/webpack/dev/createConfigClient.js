@@ -54,6 +54,21 @@ module.exports.createConfigClient = function createConfigClient(route) {
     ]
   });
 
+  loaders.push({
+    test: /Client\.jsx$/,
+    use: [
+      {
+        loader: path.resolve(
+          CONSTANTS.LIBPATH,
+          'webpack/loaders/GraphQLAPILoader.js'
+        ),
+        options: {
+          isAdmin: route.isAdmin
+        }
+      }
+    ]
+  });
+
   const { plugins } = config;
   plugins.push(new GraphqlPlugin(route));
   plugins.push(new webpack.ProgressPlugin());

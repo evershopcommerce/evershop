@@ -1,0 +1,5 @@
+{
+  "methods": ["GET", "POST"],
+  "path": "/admin/graphql",
+  "access": "private"
+}

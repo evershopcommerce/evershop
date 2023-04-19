@@ -150,7 +150,7 @@ export default function Products({
                   </div>
                   <div>
                     {data.collection.products.total > 10 && (
-                      <div className="flex justify-between">
+                      <div className="flex justify-between gap-1">
                         {page > 1 && (
                           <a
                             className="text-interactive"

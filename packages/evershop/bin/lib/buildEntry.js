@@ -65,7 +65,9 @@ module.exports.buildEntry = async function buildEntry(
       import React from 'react';
       import ReactDOM from 'react-dom';
       import Area from '@evershop/evershop/src/components/common/Area';
-      import Hydrate from '@evershop/evershop/src/components/common/react/client/Hydrate';
+      import Hydrate from '@evershop/evershop/src/components/common/react/client/${
+        route.isAdmin ? 'HydrateAdmin' : 'HydrateFrontStore'
+      }';
       `;
       contentClient += '\r\n';
       contentClient += `Area.defaultProps.components = ${inspect(areas, {

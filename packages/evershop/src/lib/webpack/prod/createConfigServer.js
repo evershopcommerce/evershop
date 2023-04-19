@@ -34,7 +34,7 @@ module.exports.createConfigServer = function createConfigServer(routes) {
       {
         loader: path.resolve(
           CONSTANTS.LIBPATH,
-          'webpack/loaders/styleLoader.js'
+          'webpack/loaders/StyleLoader.js'
         )
       }
     ]
