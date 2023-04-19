@@ -1,0 +1,48 @@
+.collection-products {
+  td,
+  th {
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+      text-align: right;
+    }
+  }
+  tr {
+    &:first-child {
+      td {
+        border-top: 0;
+      }
+    }
+    &:last-child {
+      td {
+        border-bottom: 0;
+      }
+    }
+  }
+}
+.skeleton-wrapper-collection-products {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  .skeleton:empty {
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    cursor: progress;
+    background: linear-gradient(0.25turn, transparent, #fff, transparent),
+      linear-gradient(#eee, #eee);
+    background-repeat: no-repeat;
+    animation: loading 1.5s infinite;
+  }
+
+  @keyframes loading {
+    to {
+      background-position: 315px 0, 0 0, 0 190px, 50px 195px;
+    }
+  }
+}

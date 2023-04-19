@@ -41,7 +41,6 @@
   &.outline.critical {
     background-color: transparent;
     box-shadow: none;
-    border: 1px solid;
     border-color: var(--critical);
     color: var(--critical);
     &:hover {

@@ -186,9 +186,20 @@ module.exports = {
         (page.value - 1) * parseInt(limit.value, 10),
         parseInt(limit.value, 10)
       );
+      const items = (await query.execute(pool)).map((row) =>
+        camelCase({
+          ...row,
+          removeFromCollectionUrl: buildUrl('removeProductFromCollection', {
+            collection_id: collection.uuid,
+            product_id: row.uuid
+          })
+        })
+      );
+      const result = await totalQuery.load(pool);
+      const total = result.total;
       return {
-        itemQuery: query,
-        totalQuery,
+        items,
+        total,
         currentFilters
       };
     },
@@ -213,23 +224,6 @@ module.exports = {
         );
       query.where('product_id', '=', product.productId);
       return (await query.execute(pool)).map((row) => camelCase(row));
-    },
-    removeFromCollectionUrl: async (product) => {
-      const collection = await select()
-        .from('collection')
-        .where('collection_id', '=', product.collectionId)
-        .load(pool);
-      if (!collection) {
-        return null;
-      }
-      if (product.uuid) {
-        return buildUrl('removeProductFromCollection', {
-          collection_id: collection.uuid,
-          product_id: product.uuid
-        });
-      } else {
-        return null;
-      }
     }
   }
 };

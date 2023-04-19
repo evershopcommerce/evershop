@@ -16,20 +16,20 @@ const {
 } = require('@evershop/postgres-query-builder');
 
 module.exports = async (request, response, delegate, next) => {
-  const { collection_id, product_id } = request.params;
+  const { category_id, product_id } = request.params;
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    // Check if the collection is exists
-    const collection = await select()
-      .from('collection')
-      .where('uuid', '=', collection_id)
+    // Check if the category is exists
+    const category = await select()
+      .from('category')
+      .where('uuid', '=', category_id)
       .load(connection);
-    if (!collection) {
+    if (!category) {
       response.status(INVALID_PAYLOAD);
       response.json({
         success: false,
-        message: 'Collection does not exists'
+        message: 'Category does not exists'
       });
     }
 
@@ -46,9 +46,9 @@ module.exports = async (request, response, delegate, next) => {
       });
     }
 
-    // Remove the product from the collection
-    await del('product_collection')
-      .where('collection_id', '=', collection['collection_id'])
+    // Remove the product from the category
+    await del('product_category')
+      .where('category_id', '=', category['category_id'])
       .and('product_id', '=', product['product_id'])
       .execute(connection);
     await commit(connection);
@@ -57,7 +57,7 @@ module.exports = async (request, response, delegate, next) => {
       success: true,
       data: {
         product_id,
-        collection_id
+        category_id
       }
     });
   } catch (e) {

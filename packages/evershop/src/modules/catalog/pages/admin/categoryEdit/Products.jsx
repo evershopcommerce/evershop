@@ -8,9 +8,9 @@ import AddProducts from '@components/admin/catalog/collection/collectionEdit/Add
 import Spinner from '@components/common/Spinner';
 
 const ProductsQuery = `
-  query Query ($code: String!, $page: String!, $name: String!) {
-    collection (code: $code) {
-      products (filters: [{key: "page", operation: "=", value: $page},{key: "limit", operation: "=", value: "10"}, {key: "name", operation: "=", value: $name}]) {
+  query Query ($id: Int, $page: String!, $name: String!) {
+    category (id: $id) {
+      products (filters: [{key: "page", operation: "=", value: $page}, {key: "limit", operation: "=", value: "10"}, {key: "name", operation: "=", value: $name}]) {
         items {
           productId
           uuid
@@ -25,7 +25,7 @@ const ProductsQuery = `
             url: thumb
           }
           editUrl
-          removeFromCollectionUrl
+          removeFromCategoryUrl
         }
         total
       }
@@ -34,7 +34,7 @@ const ProductsQuery = `
 `;
 
 export default function Products({
-  collection: { collectionId, code, addProductApi }
+  category: { categoryId, code, addProductApi }
 }) {
   const [name, setName] = React.useState('');
   const [page, setPage] = React.useState(1);
@@ -44,7 +44,7 @@ export default function Products({
   // Run query again when page changes
   const [result, reexecuteQuery] = useQuery({
     query: ProductsQuery,
-    variables: { code: code, page: page.toString(), name: name },
+    variables: { id: parseInt(categoryId), page: page.toString(), name: name },
     pause: true
   });
 
@@ -120,7 +120,6 @@ export default function Products({
             >
               <div className="modal">
                 <AddProducts
-                  collectionId={collectionId}
                   addProductApi={addProductApi}
                   closeModal={closeModal}
                 />
@@ -140,15 +139,15 @@ export default function Products({
             </div>
             {data && (
               <>
-                {data.collection.products.items.length === 0 && (
+                {data.category.products.items.length === 0 && (
                   <div>No product to display.</div>
                 )}
                 <div className="flex justify-between">
                   <div>
-                    <i>{data.collection.products.total} items</i>
+                    <i>{data.category.products.total} items</i>
                   </div>
                   <div>
-                    {data.collection.products.total > 10 && (
+                    {data.category.products.total > 10 && (
                       <div className="flex justify-between gap-1">
                         {page > 1 && (
                           <a
@@ -162,7 +161,7 @@ export default function Products({
                             Previous
                           </a>
                         )}
-                        {page < data.collection.products.total / 10 && (
+                        {page < data.category.products.total / 10 && (
                           <a
                             className="text-interactive"
                             href="#"
@@ -179,7 +178,7 @@ export default function Products({
                   </div>
                 </div>
                 <div className="divide-y">
-                  {data.collection.products.items.map((p, i) => {
+                  {data.category.products.items.map((p, i) => {
                     return (
                       // eslint-disable-next-line react/no-array-index-key
                       <div
@@ -261,15 +260,14 @@ Products.propTypes = {
 };
 
 export const layout = {
-  areaId: 'collectionFormInner',
-  sortOrder: 20
+  areaId: 'leftSide',
+  sortOrder: 15
 };
 
 export const query = `
   query Query {
-    collection(code: getContextValue("collectionCode", null)) {
-      collectionId
-      code
+    category(id: getContextValue("categoryId", null)) {
+      categoryId
       addProductApi: addProductUrl
     }
   }

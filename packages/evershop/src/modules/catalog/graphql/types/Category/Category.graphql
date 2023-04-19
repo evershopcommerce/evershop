@@ -20,6 +20,7 @@ type Category {
   deleteApi: String!
   availableAttributes: [FilterAttribute]
   priceRange: PriceRange
+  addProductUrl: String
 }
 
 """
@@ -89,6 +90,11 @@ type ProductCollection {
 type PriceRange {
   min: Float!
   max: Float!
+}
+
+extend type Product {
+  collections: [Collection],
+  removeFromCategoryUrl: String
 }
 
 extend type Query {

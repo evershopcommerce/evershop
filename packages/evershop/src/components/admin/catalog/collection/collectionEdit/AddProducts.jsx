@@ -28,9 +28,9 @@ const SearchQuery = `
   }
 `;
 
-function AddProducts({ addProductApi, collectionId, closeModal }) {
+function AddProducts({ addProductApi, assignedItems, closeModal }) {
   const [inputValue, setInputValue] = React.useState('');
-  const [addedProducts, setAddedProducts] = React.useState([]);
+  const [addedProducts, setAddedProducts] = React.useState(assignedItems || []);
 
   const [result, reexecuteQuery] = useQuery({
     query: SearchQuery,
@@ -108,16 +108,16 @@ function AddProducts({ addProductApi, collectionId, closeModal }) {
                   {data.products.items.map((product) => (
                     <div
                       key={product.uuid}
-                      className="grid grid-cols-6 gap-2 py-2 border-divider"
+                      className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
                     >
                       <div className="col-span-1">
                         <img src={product.image?.url} alt={product.name} />
                       </div>
-                      <div className="col-span-4">
+                      <div className="col-span-5">
                         <h3>{product.name}</h3>
                         <p>{product.sku}</p>
                       </div>
-                      <div className="col-span-1">
+                      <div className="col-span-2 text-right">
                         {!addedProducts.includes(product.uuid) && (
                           <button
                             className="button secondary"

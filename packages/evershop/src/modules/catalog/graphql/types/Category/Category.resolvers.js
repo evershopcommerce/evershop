@@ -250,9 +250,9 @@ module.exports = {
         });
       }
       // Clone the main query for getting total right before doing the paging
-      const cloneQuery = query.clone();
-      cloneQuery.select('COUNT(product.product_id)', 'total');
-      cloneQuery.removeOrderBy();
+      const totalQuery = query.clone();
+      totalQuery.select('COUNT(product.product_id)', 'total');
+      totalQuery.removeOrderBy();
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
       const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
@@ -270,15 +270,18 @@ module.exports = {
         (page.value - 1) * parseInt(limit.value, 10),
         parseInt(limit.value, 10)
       );
+      const items = (await query.execute(pool)).map((row) => camelCase(row));
+      const result = await totalQuery.load(pool);
+      const total = result.total;
       return {
-        itemQuery: query,
-        totalQuery: cloneQuery,
+        items,
+        total,
         currentFilters
       };
     }
   },
   Category: {
-    products: async (category, { filters = [] }) => {
+    products: async (category, { filters = [] }, { user }) => {
       const query = await getProductsByCategoryBaseQuery(category.categoryId);
       const currentFilters = [];
       // Price filter
@@ -298,6 +301,21 @@ module.exports = {
           key: 'maxPrice',
           operation: '=',
           value: maxPrice.value
+        });
+      }
+
+      // Name filter
+      const nameFilter = filters.find((f) => f.key === 'name');
+      if (nameFilter) {
+        query.andWhere(
+          'product_description.name',
+          'LIKE',
+          `%${nameFilter.value}%`
+        );
+        currentFilters.push({
+          key: 'name',
+          operation: '=',
+          value: nameFilter.value
         });
       }
 
@@ -364,39 +382,41 @@ module.exports = {
         });
       }
 
-      // Visibility. For variant group
-      const copy = query.clone();
-      // Get all group that have at lease 1 item visibile
-      const visibleGroups = (
-        await select('variant_group_id')
-          .from('variant_group')
-          .where('visibility', '=', 't')
-          .execute(pool)
-      ).map((v) => v.variant_group_id);
+      if (!user) {
+        // Visibility. For variant group
+        const copy = query.clone();
+        // Get all group that have at lease 1 item visibile
+        const visibleGroups = (
+          await select('variant_group_id')
+            .from('variant_group')
+            .where('visibility', '=', 't')
+            .execute(pool)
+        ).map((v) => v.variant_group_id);
 
-      if (visibleGroups) {
-        // Get all invisible variants from current query
-        copy
-          .select('bool_or(product.visibility)', 'sumv')
-          .select('max(product.product_id)', 'product_id')
-          .andWhere('product.variant_group_id', 'IN', visibleGroups);
-        copy.groupBy('product.variant_group_id');
-        copy.orderBy('product.variant_group_id', 'ASC');
-        copy.having('bool_or(product.visibility)', '=', 'f');
-        const invisibleIds = (await copy.execute(pool)).map(
-          (v) => v.product_id
-        );
-        if (invisibleIds.length > 0) {
-          const n = node('AND');
-          n.addLeaf('AND', 'product.product_id', 'IN', invisibleIds).addNode(
-            node('OR').addLeaf('OR', 'product.visibility', '=', 't')
+        if (visibleGroups) {
+          // Get all invisible variants from current query
+          copy
+            .select('bool_or(product.visibility)', 'sumv')
+            .select('max(product.product_id)', 'product_id')
+            .andWhere('product.variant_group_id', 'IN', visibleGroups);
+          copy.groupBy('product.variant_group_id');
+          copy.orderBy('product.variant_group_id', 'ASC');
+          copy.having('bool_or(product.visibility)', '=', 'f');
+          const invisibleIds = (await copy.execute(pool)).map(
+            (v) => v.product_id
           );
-          query.getWhere().addNode(n);
+          if (invisibleIds.length > 0) {
+            const n = node('AND');
+            n.addLeaf('AND', 'product.product_id', 'IN', invisibleIds).addNode(
+              node('OR').addLeaf('OR', 'product.visibility', '=', 't')
+            );
+            query.getWhere().addNode(n);
+          } else {
+            query.andWhere('product.visibility', '=', 't');
+          }
         } else {
           query.andWhere('product.visibility', '=', 't');
         }
-      } else {
-        query.andWhere('product.visibility', '=', 't');
       }
 
       // Clone the main query for getting total right before doing the paging
@@ -422,9 +442,22 @@ module.exports = {
         (page.value - 1) * parseInt(limit.value, 10),
         parseInt(limit.value, 10)
       );
+
+      const items = (await query.execute(pool)).map((row) =>
+        camelCase({
+          ...row,
+          removeFromCategoryUrl: buildUrl('removeProductFromCategory', {
+            category_id: category.uuid,
+            product_id: row.uuid
+          })
+        })
+      );
+
+      const result = await totalQuery.load(pool);
+      const total = result.total;
       return {
-        itemQuery: query,
-        totalQuery,
+        items,
+        total,
         currentFilters
       };
     },
@@ -447,6 +480,8 @@ module.exports = {
     editUrl: (category) => buildUrl('categoryEdit', { id: category.uuid }),
     updateApi: (category) => buildUrl('updateCategory', { id: category.uuid }),
     deleteApi: (category) => buildUrl('deleteCategory', { id: category.uuid }),
+    addProductUrl: (category) =>
+      buildUrl('addProductToCategory', { category_id: category.uuid }),
     image: (category) => {
       const { image } = category;
       if (!image) {
@@ -457,14 +492,6 @@ module.exports = {
           url: `/assets${image}`
         };
       }
-    }
-  },
-  ProductCollection: {
-    items: async ({ itemQuery }) =>
-      (await itemQuery.execute(pool)).map((row) => camelCase(row)),
-    total: async ({ totalQuery }) => {
-      const result = await totalQuery.load(pool);
-      return result.total;
     }
   }
 };

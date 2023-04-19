@@ -1,6 +1,7 @@
 const { select } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 
 module.exports = {
   Product: {
@@ -71,15 +72,20 @@ module.exports = {
         productsQuery.orWhere('product.sku', 'LIKE', `%${query}%`);
       }
       // Clone the main query for getting total right before doing the paging
-      const cloneQuery = productsQuery.clone();
-      cloneQuery.select('COUNT(product.product_id)', 'total');
-      cloneQuery.removeOrderBy();
+      const totalQuery = productsQuery.clone();
+      totalQuery.select('COUNT(product.product_id)', 'total');
+      totalQuery.removeOrderBy();
       // Paging
       productsQuery.limit((page - 1) * limit, limit);
+      const items = (await productsQuery.execute(pool)).map((row) =>
+        camelCase(row)
+      );
+
+      const result = await totalQuery.load(pool);
+      const total = result.total;
       return {
-        itemQuery: productsQuery,
-        totalQuery: cloneQuery,
-        currentFilters: []
+        items,
+        total
       };
     }
   }
