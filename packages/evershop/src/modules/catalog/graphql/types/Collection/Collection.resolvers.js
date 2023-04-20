@@ -171,7 +171,7 @@ module.exports = {
       totalQuery.removeOrderBy();
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = filters.find((f) => f.key === 'limit') || { value: 20 };
+      const limit = filters.find((f) => f.key === 'limit') || { value: 10 };
       currentFilters.push({
         key: 'page',
         operation: '=',

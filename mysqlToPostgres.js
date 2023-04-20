@@ -6,7 +6,7 @@ const mysqlConfig = {
   host: "localhost",
   user: "root",
   password: "123456",
-  database: "demo20230416",
+  database: "evershop",
 };
 
 // PostgreSQL database configuration
@@ -14,7 +14,7 @@ const pgConfig = {
   host: "localhost",
   user: "postgres",
   password: "123456",
-  database: "evershop20230416",
+  database: "evershop",
   port: 5432,
 };
 
