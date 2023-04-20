@@ -165,6 +165,10 @@ module.exports = {
         });
       }
 
+      if (!user) {
+        query.andWhere('product.visibility', '=', 't');
+      }
+
       // Clone the main query for getting total right before doing the paging
       const totalQuery = query.clone();
       totalQuery.select('COUNT(product.product_id)', 'total');

@@ -3,41 +3,50 @@ import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function FeaturedProducts({ featuredProducts }) {
+export default function FeaturedProducts({ collection }) {
+  if (!collection) {
+    return null;
+  }
   return (
     <div className="pt-3">
       <div className="page-width">
         <h3 className="mt-3 mb-3 text-center uppercase h5 tracking-widest">
-          {_('Featured collection')}
+          {collection.name}
         </h3>
-        <ProductList products={featuredProducts} countPerRow={4} />
+        <ProductList products={collection.products.items} countPerRow={4} />
       </div>
     </div>
   );
 }
 
 FeaturedProducts.propTypes = {
-  featuredProducts: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      productId: PropTypes.number,
-      url: PropTypes.string,
-      price: PropTypes.shape({
-        regular: PropTypes.shape({
-          value: PropTypes.float,
-          text: PropTypes.string
-        }),
-        special: PropTypes.shape({
-          value: PropTypes.float,
-          text: PropTypes.string
+  collection: PropTypes.shape({
+    collectionId: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    products: PropTypes.shape({
+      items: PropTypes.arrayOf(
+        PropTypes.shape({
+          productId: PropTypes.number.isRequired,
+          name: PropTypes.string.isRequired,
+          price: PropTypes.shape({
+            regular: PropTypes.shape({
+              value: PropTypes.number.isRequired,
+              text: PropTypes.string.isRequired
+            }).isRequired,
+            special: PropTypes.shape({
+              value: PropTypes.number.isRequired,
+              text: PropTypes.string.isRequired
+            }).isRequired
+          }).isRequired,
+          image: PropTypes.shape({
+            alt: PropTypes.string.isRequired,
+            url: PropTypes.string.isRequired
+          }).isRequired,
+          url: PropTypes.string.isRequired
         })
-      }),
-      image: PropTypes.shape({
-        alt: PropTypes.string,
-        listing: PropTypes.string
-      })
-    })
-  )
+      ).isRequired
+    }).isRequired
+  }).isRequired
 };
 
 FeaturedProducts.defaultProps = {
@@ -51,24 +60,30 @@ export const layout = {
 
 export const query = `
   query query {
-    featuredProducts (limit: 3) {
-      productId
+    collection (code: "homepage") {
+      collectionId
       name
-      price {
-        regular {
-          value
-          text
-        }
-        special {
-          value
-          text
+      products (filters: [{key: "limit", operation: "=", value: "4"}]) {
+        items {
+          productId
+          name
+          price {
+            regular {
+              value
+              text
+            }
+            special {
+              value
+              text
+            }
+            }
+          image {
+            alt
+            url: listing
+          }
+          url
         }
       }
-      image {
-        alt
-        url: listing
-      }
-      url
     }
   }
 `;
