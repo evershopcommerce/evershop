@@ -90,4 +90,28 @@ module.exports = exports = async (connection) => {
         FOR EACH ROW
         EXECUTE PROCEDURE prevent_delete_default_customer_group();`
   );
+
+  // Create trigger before insert customer, set default group_id to 1
+  await execute(
+    connection,
+    `CREATE OR REPLACE FUNCTION set_default_customer_group()
+        RETURNS TRIGGER
+        LANGUAGE PLPGSQL
+        AS
+      $$
+      BEGIN
+        IF NEW.group_id IS NULL THEN
+          NEW.group_id = 1;
+        END IF;
+        RETURN NEW;
+      END;
+      $$`
+  );
+  await execute(
+    connection,
+    `CREATE TRIGGER "SET_DEFAULT_CUSTOMER_GROUP"
+        BEFORE INSERT ON customer
+        FOR EACH ROW
+        EXECUTE PROCEDURE set_default_customer_group();`
+  );
 };

@@ -11,25 +11,25 @@ const {
   startTransaction,
   rollback,
   commit,
-  select,
-  del
+  select
 } = require('@evershop/postgres-query-builder');
 
 module.exports = async (request, response, delegate, next) => {
-  const { collection_id, product_id } = request.params;
+  const { category_id } = request.params;
+  const { product_id } = request.body;
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    // Check if the collection is exists
-    const collection = await select()
-      .from('collection')
-      .where('uuid', '=', collection_id)
+    // Check if the category is exists
+    const category = await select()
+      .from('category')
+      .where('uuid', '=', category_id)
       .load(connection);
-    if (!collection) {
+    if (!category) {
       response.status(INVALID_PAYLOAD);
-      response.json({
+      return response.json({
         success: false,
-        message: 'Collection does not exists'
+        message: 'Category does not exists'
       });
     }
 
@@ -40,30 +40,46 @@ module.exports = async (request, response, delegate, next) => {
       .load(connection);
     if (!product) {
       response.status(INVALID_PAYLOAD);
-      response.json({
+      return response.json({
         success: false,
         message: 'Product does not exists'
       });
     }
+    // Check if the product is already assigned to the category
+    const productCategory = await select()
+      .from('product_category')
+      .where('category_id', '=', category.category_id)
+      .and('product_id', '=', product.product_id)
+      .load(connection);
+    if (productCategory) {
+      response.status(OK);
+      return response.json({
+        success: true,
+        message: 'Product is assigned to the category'
+      });
+    }
 
-    // Remove the product from the collection
-    await del('product_collection')
-      .where('collection_id', '=', collection['collection_id'])
-      .and('product_id', '=', product['product_id'])
+    // Assign the product to the category
+    await insert('product_category')
+      .given({
+        category_id: category.category_id,
+        product_id: product.product_id
+      })
       .execute(connection);
     await commit(connection);
     response.status(OK);
-    response.json({
+    return response.json({
       success: true,
       data: {
-        product_id,
-        collection_id
+        product_id: product.product_id,
+        category_id: category.category_id
       }
     });
   } catch (e) {
     await rollback(connection);
+    console.error(e);
     response.status(INTERNAL_SERVER_ERROR);
-    response.json({
+    return response.json({
       success: false,
       message: e.message
     });

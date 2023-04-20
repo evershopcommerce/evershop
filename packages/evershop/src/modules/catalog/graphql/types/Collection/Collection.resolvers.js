@@ -104,6 +104,7 @@ module.exports = {
         '=',
         collection.collectionId
       );
+
       if (!user) {
         query.andWhere('product.status', '=', 1);
         if (getConfig('catalog.showOutOfStockProduct', false) === false) {
@@ -117,6 +118,20 @@ module.exports = {
         }
       }
       const currentFilters = [];
+      // Name filter
+      const nameFilter = filters.find((f) => f.key === 'name');
+      if (nameFilter) {
+        query.andWhere(
+          'product_description.name',
+          'LIKE',
+          `%${nameFilter.value}%`
+        );
+        currentFilters.push({
+          key: 'name',
+          operation: '=',
+          value: nameFilter.value
+        });
+      }
       const sortBy = filters.find((f) => f.key === 'sortBy');
       const sortOrder = filters.find(
         (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
@@ -156,7 +171,7 @@ module.exports = {
       totalQuery.removeOrderBy();
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
+      const limit = filters.find((f) => f.key === 'limit') || { value: 10 };
       currentFilters.push({
         key: 'page',
         operation: '=',
@@ -171,9 +186,20 @@ module.exports = {
         (page.value - 1) * parseInt(limit.value, 10),
         parseInt(limit.value, 10)
       );
+      const items = (await query.execute(pool)).map((row) =>
+        camelCase({
+          ...row,
+          removeFromCollectionUrl: buildUrl('removeProductFromCollection', {
+            collection_id: collection.uuid,
+            product_id: row.uuid
+          })
+        })
+      );
+      const result = await totalQuery.load(pool);
+      const total = result.total;
       return {
-        itemQuery: query,
-        totalQuery,
+        items,
+        total,
         currentFilters
       };
     },
@@ -198,23 +224,6 @@ module.exports = {
         );
       query.where('product_id', '=', product.productId);
       return (await query.execute(pool)).map((row) => camelCase(row));
-    },
-    removeFromCollectionUrl: async (product) => {
-      const collection = await select()
-        .from('collection')
-        .where('collection_id', '=', product.collectionId)
-        .load(pool);
-      if (!collection) {
-        return null;
-      }
-      if (product.uuid) {
-        return buildUrl('removeProductFromCollection', {
-          collection_id: collection.uuid,
-          product_id: product.uuid
-        });
-      } else {
-        return null;
-      }
     }
   }
 };

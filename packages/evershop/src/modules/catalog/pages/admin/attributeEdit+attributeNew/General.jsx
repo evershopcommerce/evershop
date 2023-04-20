@@ -131,8 +131,8 @@ function Options({ originOptions = [] }) {
     e.preventDefault();
     setOptions(
       options.concat({
-        optionId: Date.now(),
-        uuid: Date.now(),
+        optionId: Math.floor(Math.random() * (9000000 - 1000000)) + 1000000,
+        uuid: Math.floor(Math.random() * (9000000 - 1000000)) + 1000000,
         optionText: ''
       })
     );

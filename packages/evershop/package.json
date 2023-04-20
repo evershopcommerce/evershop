@@ -1,6 +1,6 @@
 {
   "name": "@evershop/evershop",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "description": "The React Ecommerce platform. Built with React and MySQL. Open-source and free. Fast and customizable.",
   "files": [
     "bin",
@@ -38,7 +38,7 @@
     "@babel/preset-react": "^7.16.0",
     "@ckeditor/ckeditor5-build-classic": "^36.0.1",
     "@ckeditor/ckeditor5-react": "^5.1.0",
-    "@evershop/postgres-query-builder": "^1.0.0",
+    "@evershop/postgres-query-builder": "^1.0.2",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/merge": "^8.3.5",
     "@graphql-tools/schema": "^9.0.3",
