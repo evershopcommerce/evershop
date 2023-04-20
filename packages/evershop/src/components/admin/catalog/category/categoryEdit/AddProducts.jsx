@@ -14,8 +14,8 @@ const SearchQuery = `
         productId
         uuid
         sku
-        collections {
-          collectionId
+        categories {
+          categoryId
         }
         name
         price {
@@ -32,7 +32,7 @@ const SearchQuery = `
   }
 `;
 
-function AddProducts({ addProductApi, collectionId, closeModal }) {
+function AddProducts({ addProductApi, categoryId, closeModal }) {
   const [inputValue, setInputValue] = React.useState('');
   const [addedProducts, setAddedProducts] = React.useState([]);
 
@@ -124,8 +124,8 @@ function AddProducts({ addProductApi, collectionId, closeModal }) {
                       <div className="col-span-2 text-right">
                         {!(
                           addedProducts.includes(product.uuid) ||
-                          product.collections.find(
-                            (c) => c.collectionId === collectionId
+                          product.categories.find(
+                            (c) => c.categoryId === categoryId
                           )
                         ) && (
                           <button
@@ -139,8 +139,8 @@ function AddProducts({ addProductApi, collectionId, closeModal }) {
                           </button>
                         )}
                         {(addedProducts.includes(product.uuid) ||
-                          product.collections.find(
-                            (c) => c.collectionId === collectionId
+                          product.categories.find(
+                            (c) => c.categoryId === categoryId
                           )) && (
                           <span className="button primary">
                             <CheckIcon width={20} height={20} />
@@ -166,7 +166,7 @@ function AddProducts({ addProductApi, collectionId, closeModal }) {
 
 AddProducts.propTypes = {
   addProductApi: PropTypes.string.isRequired,
-  collectionId: PropTypes.number.isRequired,
+  categoryId: PropTypes.number.isRequired,
   closeModal: PropTypes.func.isRequired
 };
 

@@ -4,7 +4,7 @@ import { useQuery } from 'urql';
 import { Card } from '@components/admin/cms/Card';
 import { useModal } from '@components/common/modal/useModal';
 import './Products.scss';
-import AddProducts from '@components/admin/catalog/collection/collectionEdit/AddProducts';
+import AddProducts from '@components/admin/catalog/category/categoryEdit/AddProducts';
 import Spinner from '@components/common/Spinner';
 
 const ProductsQuery = `
@@ -120,6 +120,7 @@ export default function Products({
             >
               <div className="modal">
                 <AddProducts
+                  categoryId={categoryId}
                   addProductApi={addProductApi}
                   closeModal={closeModal}
                 />
