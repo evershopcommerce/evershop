@@ -44,7 +44,7 @@
     "@graphql-tools/schema": "^9.0.3",
     "@hapi/topo": "^5.0.0",
     "@heroicons/react": "^1.0.5",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@shopify/draggable": "^1.0.0-beta.8",
     "@stripe/react-stripe-js": "^1.5.0",
     "@stripe/stripe-js": "^1.18.0",
