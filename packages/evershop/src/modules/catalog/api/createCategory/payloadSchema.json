@@ -5,7 +5,8 @@
       "type": "string"
     },
     "description": {
-      "type": "string"
+      "type": "string",
+      "skipEscape": true
     },
     "image": {
       "type": "string"

@@ -13,6 +13,7 @@ import CategoryNameRow from '@components/admin/catalog/categoryGrid/rows/Categor
 import BasicColumnHeader from '@components/common/grid/headers/Basic';
 import DropdownColumnHeader from '@components/common/grid/headers/Dropdown';
 import StatusRow from '@components/common/grid/rows/StatusRow';
+import YesNoRow from '@components/common/grid/rows/YesNoRow';
 
 function Actions({ categories = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -220,7 +221,7 @@ export default function CategoryGrid({
                   {
                     component: {
                       default: ({ areaProps }) => (
-                        <StatusRow id="includeInNav" areaProps={areaProps} />
+                        <YesNoRow id="includeInNav" areaProps={areaProps} />
                       )
                     },
                     sortOrder: 30

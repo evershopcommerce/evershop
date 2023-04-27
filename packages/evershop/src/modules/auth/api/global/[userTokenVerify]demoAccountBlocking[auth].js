@@ -3,7 +3,7 @@ const { UNAUTHORIZED } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { getContextValue } = require('../../../graphql/services/contextHelper');
 
 module.exports = (request, response, delegate, next) => {
-  if (request.method === 'GET') {
+  if (request.method === 'GET' || request.currentRoute?.id === 'adminGraphql') {
     next();
   } else {
     const userTokenPayload = getContextValue(request, 'userTokenPayload');
