@@ -5,7 +5,8 @@
       "type": "string"
     },
     "description": {
-      "type": "string"
+      "type": "string",
+      "skipEscape": true
     },
     "short_description": {
       "type": "string"
@@ -18,7 +19,8 @@
       "type": "string"
     },
     "meta_description": {
-      "type": "string"
+      "type": "string",
+      "skipEscape": true
     },
     "meta_keywords": {
       "type": "string"
