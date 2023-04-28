@@ -116,8 +116,8 @@ export const query = `
         purchased
       }
     }
-    groups: attributeGroups {
-      value: attributeGroupId
+    groups: customerGroups {
+      value: customerGroupId
       name: groupName
     }
   }
