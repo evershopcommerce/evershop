@@ -1,5 +1,6 @@
 const cookieParser = require('cookie-parser');
 const webpack = require('webpack');
+const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 const middleware = require('webpack-dev-middleware');
 const {
   createConfigClient
@@ -17,6 +18,25 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
   app,
   routes
 ) {
+  app.use((request, response, next) => {
+    response.debugMiddlewares = [];
+    next();
+    response.on('finish', function () {
+      // Console log the debug middlewares
+      let message = `[${request.method}] ${request.originalUrl}\n`;
+      response.debugMiddlewares.forEach((m) => {
+        message += `-> Middleware ${m.id} - ${m.time} ms\n`;
+      });
+      // Skip logging if the request is for static files
+      if (
+        request.currentRoute?.id === 'staticAsset' ||
+        request.currentRoute?.id === 'adminStaticAsset'
+      ) {
+        return;
+      }
+      debug('info', message);
+    });
+  });
   // Add public static middleware
   app.use(publicStatic);
   // Add theme public static middleware
