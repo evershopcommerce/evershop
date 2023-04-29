@@ -13,6 +13,7 @@
     "prepublishOnly": "node prepublish.js",
     "prepack": "node prepublish.js",
     "dev": "evershop dev",
+    "dev:debug": "evershop dev --debug",
     "build": "evershop build",
     "start": "evershop start",
     "test": "jest"
