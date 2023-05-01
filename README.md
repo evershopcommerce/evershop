@@ -23,6 +23,10 @@
   </a>
 </p>
 
+<p align="center">
+<img alt="EverShop" width="950" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/banner.png"/>
+</p>
+
 ## Introduction
 
 EverShop is a GraphQL Based and React ecommerce platform with essential commerce features. Built with React, modular and fully customizable.
