@@ -13,7 +13,8 @@
       "type": "string"
     },
     "content": {
-      "type": "string"
+      "type": "string",
+      "skipEscape": true
     },
     "url_key": {
       "type": "string"

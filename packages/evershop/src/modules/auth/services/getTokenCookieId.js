@@ -1,3 +1,3 @@
-const { getConfig } = require('../../../lib/util/getConfig');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 module.exports.getTokenCookieId = () => getConfig('jwt.cookieId', 'token');

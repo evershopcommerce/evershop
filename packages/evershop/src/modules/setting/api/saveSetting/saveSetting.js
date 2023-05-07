@@ -1,12 +1,19 @@
-const { insertOnUpdate } = require('@evershop/mysql-query-builder');
-const { pool, getConnection } = require('../../../../lib/mysql/connection');
+const {
+  insertOnUpdate,
+  commit,
+  rollback
+} = require('@evershop/postgres-query-builder');
+const {
+  getConnection
+} = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR
-} = require('../../../../lib/util/httpStatus');
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 const { refreshSetting } = require('../../services/setting');
 
-module.exports = async (request, response) => {
+// eslint-disable-next-line no-unused-vars
+module.exports = async (request, response, delegate, next) => {
   const { body } = request;
   const connection = await getConnection();
   try {
@@ -17,28 +24,28 @@ module.exports = async (request, response) => {
       // Check if the value is a object or array
       if (typeof value === 'object') {
         promises.push(
-          insertOnUpdate('setting')
+          insertOnUpdate('setting', ['name'])
             .given({
               name: key,
               value: JSON.stringify(value),
               is_json: 1
             })
-            .execute(pool)
+            .execute(connection, false)
         );
       } else {
         promises.push(
-          insertOnUpdate('setting')
+          insertOnUpdate('setting', ['name'])
             .given({
               name: key,
               value,
               is_json: 0
             })
-            .execute(pool)
+            .execute(connection, false)
         );
       }
     });
     await Promise.all(promises);
-    await connection.commit();
+    await commit(connection);
     // Refresh the setting
     await refreshSetting();
     response.status(OK);
@@ -46,7 +53,7 @@ module.exports = async (request, response) => {
       data: {}
     });
   } catch (error) {
-    await connection.rollback();
+    await rollback(connection);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

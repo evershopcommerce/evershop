@@ -1,14 +1,20 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
 const { CONSTANTS } = require('../helpers');
 const isProductionMode = require('../util/isProductionMode');
 const { getEnabledExtensions } = require('../../../bin/extension');
+const { getConfig } = require('../util/getConfig');
+const { loadCsvTranslationFiles } = require('./loaders/loadTranslationFromCsv');
 
 module.exports.createBaseConfig = function createBaseConfig(isServer) {
   const extenions = getEnabledExtensions();
+  const coreModules = getCoreModules();
+  const theme = getConfig('system.theme', null);
+
   const loaders = [
     {
-      test: /\.m?js$/,
+      test: /\.jsx$/,
       exclude: {
         and: [/node_modules/],
         not: [
@@ -55,6 +61,15 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
               ],
               '@babel/preset-react'
             ]
+          }
+        },
+        {
+          loader: path.resolve(
+            CONSTANTS.LIBPATH,
+            'webpack/loaders/TranslationLoader.js'
+          ),
+          options: {
+            getTranslateData: async () => await loadCsvTranslationFiles()
           }
         }
       ]
@@ -104,6 +119,38 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
     cache: { type: 'memory' }
   };
 
+  // Resolve aliases
+  const alias = {};
+  if (theme) {
+    alias['@components'] = [
+      path.resolve(CONSTANTS.THEMEPATH, theme, 'components')
+    ];
+  } else {
+    alias['@components'] = [];
+  }
+
+  // Resolve alias for extensions
+  extenions.forEach((ext) => {
+    alias['@components'].push(path.resolve(ext.resolve, 'components'));
+  });
+  alias['@components'].push(path.resolve(__dirname, '../../components'));
+
+  // Resolve alias for core components
+  alias['@components-origin'] = path.resolve(__dirname, '../../components');
+
+  // Resolve alias for core module pages
+  coreModules.forEach((mod) => {
+    alias[`@default-theme/${mod.name.toLowerCase()}`] = path.resolve(
+      mod.path,
+      'pages'
+    );
+  });
+
+  config.resolve = {
+    alias,
+    extensions: ['.js', '.jsx', '.json', '.wasm']
+  };
+
   config.optimization = {};
   if (isProductionMode()) {
     config.optimization = Object.assign(config.optimization, {
@@ -119,10 +166,7 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
               // https://github.com/facebook/create-react-app/pull/4234
               ecma: 2020
             },
-            compress: {
-              ecma: 5,
-              warnings: false
-            },
+            compress: false,
             mangle: {
               safari10: true
             },

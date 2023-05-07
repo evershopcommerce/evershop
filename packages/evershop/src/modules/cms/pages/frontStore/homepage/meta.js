@@ -1,4 +1,4 @@
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');

@@ -1,10 +1,14 @@
-const { commit, rollback, select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../lib/mysql/connection');
-const { buildUrl } = require('../../../../lib/router/buildUrl');
+const {
+  commit,
+  rollback,
+  select
+} = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
   OK,
   INTERNAL_SERVER_ERROR
-} = require('../../../../lib/util/httpStatus');
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -26,9 +30,9 @@ module.exports = async (request, response, delegate, next) => {
     query
       .leftJoin('cms_page_description')
       .on(
-        'cms_page_description.`cms_page_description_cms_page_id`',
+        'cms_page_description.cms_page_description_cms_page_id',
         '=',
-        'cms_page.`cms_page_id`'
+        'cms_page.cms_page_id'
       );
 
     const page = await query

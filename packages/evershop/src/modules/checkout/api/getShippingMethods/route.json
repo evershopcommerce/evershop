@@ -1,5 +1,5 @@
 {
   "methods": ["GET"],
-  "path": "/shippingMethods",
+  "path": "/shippingMethods/:cart_id",
   "access": "public"
 }

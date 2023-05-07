@@ -1,0 +1,84 @@
+.modal-overlay {
+  position: fixed;
+  top: 100%;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 150;
+  background-color: rgba(17, 18, 19, 0.3);
+  -webkit-animation-duration: 0.25s;
+  animation-duration: 0.25s;
+  .modal-wrapper {
+    max-height: calc(100vh - 4rem);
+    .modal {
+      max-height: calc(100vh - 4rem);
+    }
+    .modal-content {
+      max-height: calc(100vh - 18rem);
+      overflow-y: auto;
+    }
+  }
+  &.fadeIn {
+    top: 0;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+  }
+  &.fadeOut {
+    top: 100%;
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+  }
+  .modal {
+    min-width: 50rem;
+    max-width: 50%;
+    position: relative;
+    .modal-close-button {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+    }
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    top: 100%;
+    opacity: 0;
+  }
+  100% {
+    top: 0%;
+    opacity: 100;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    top: 100%;
+    opacity: 0;
+  }
+  100% {
+    top: 0%;
+    opacity: 100;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 100;
+    top: 0%;
+  }
+  100% {
+    opacity: 0;
+    top: 100%;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 100;
+    top: 0%;
+  }
+  100% {
+    opacity: 0;
+    top: 100%;
+  }
+}

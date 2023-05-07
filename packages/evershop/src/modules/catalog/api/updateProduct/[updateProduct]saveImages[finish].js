@@ -1,10 +1,10 @@
-const { insert, del, update } = require('@evershop/mysql-query-builder');
+const { insert, del, update } = require('@evershop/postgres-query-builder');
 const sharp = require('sharp');
 const config = require('config');
 const path = require('path');
 const { existsSync } = require('fs');
-const { get } = require('../../../../lib/util/get');
-const { CONSTANTS } = require('../../../../lib/helpers');
+const { get } = require('@evershop/evershop/src/lib/util/get');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 
 module.exports = async (request, response, delegate) => {
   let gallery = get(request, 'body.images', []);

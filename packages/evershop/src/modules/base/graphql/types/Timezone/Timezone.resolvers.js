@@ -1,4 +1,4 @@
-const { timezones } = require('../../../../../lib/locale/timezones');
+const { timezones } = require('@evershop/evershop/src/lib/locale/timezones');
 
 module.exports = {
   Query: {

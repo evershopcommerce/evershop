@@ -5,8 +5,8 @@ const {
   del,
   select,
   update
-} = require('@evershop/mysql-query-builder');
-const { merge } = require('../../../../lib/util/merge');
+} = require('@evershop/postgres-query-builder');
+const { merge } = require('@evershop/evershop/src/lib/util/merge');
 
 async function saveOptionValues(optionId, values, connection) {
   if (!values || values === 0) {

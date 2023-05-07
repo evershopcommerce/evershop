@@ -1,3 +1,5 @@
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+
 module.exports = {
   Setting: {
     allowedCountries: (setting) => {
@@ -10,13 +12,8 @@ module.exports = {
         return ['US'];
       }
     },
-    weightUnit: (setting) => {
-      const weightUnit = setting.find((s) => s.name === 'weightUnit');
-      if (weightUnit) {
-        return weightUnit.value;
-      } else {
-        return 'kg';
-      }
+    weightUnit: () => {
+      return getConfig('shop.weightUnit', 'kg');
     }
   }
 };

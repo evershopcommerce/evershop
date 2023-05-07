@@ -1,11 +1,11 @@
-const { insert, select } = require('@evershop/mysql-query-builder');
-const bcrypt = require('bcrypt');
-const { pool } = require('../../../../lib/mysql/connection');
+const { insert, select } = require('@evershop/postgres-query-builder');
+const bcrypt = require('bcryptjs');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR
-} = require('../../../../lib/util/httpStatus');
-const { buildUrl } = require('../../../../lib/router/buildUrl');
+} = require('@evershop/evershop/src/lib/util/httpStatus');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -14,7 +14,8 @@ module.exports = async (request, response, delegate, next) => {
   const { email, full_name, password } = body;
   try {
     // Hash the password
-    const hash = await bcrypt.hash(password, 10);
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
     await insert('customer')
       .given({
         email,

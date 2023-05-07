@@ -1,4 +1,5 @@
-const logger = require('../log/logger');
+const logger = require('@evershop/evershop/src/lib/log/logger');
+const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 const { setDelegate } = require('./delegate');
 
 // eslint-disable-next-line no-multi-assign
@@ -12,15 +13,26 @@ exports.syncMiddlewareWrapper = function syncMiddlewareWrapper(
   delegates,
   next
 ) {
-  logger.log('info', `Executing middleware ${id}`); // TODO: Should use debug instead of logging
-
+  const startTime = process.hrtime();
   try {
     let delegate;
     // If the middleware function has the next function as a parameter
     if (middlewareFunc.length === 4) {
-      delegate = middlewareFunc(request, response, delegates, next);
+      delegate = middlewareFunc(request, response, delegates, () => {
+        const endTime = process.hrtime(startTime);
+        response.debugMiddlewares.push({
+          id,
+          time: endTime[1] / 1000000
+        });
+        next();
+      });
     } else {
       delegate = middlewareFunc(request, response, delegates);
+      const endTime = process.hrtime(startTime);
+      response.debugMiddlewares.push({
+        id,
+        time: endTime[1] / 1000000
+      });
     }
     setDelegate(id, delegate, request);
   } catch (e) {
@@ -29,6 +41,7 @@ exports.syncMiddlewareWrapper = function syncMiddlewareWrapper(
       message: e.message,
       stack: e.stack
     });
+    debug('critical', `Exception in middleware ${id}`);
 
     // Call error handler middleware if it is not called yet
     next(e);

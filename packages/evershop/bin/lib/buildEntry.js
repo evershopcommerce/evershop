@@ -2,15 +2,16 @@ const fs = require('fs');
 const { mkdir, writeFile } = require('fs').promises;
 const path = require('path');
 const { inspect } = require('util');
-const { Componee } = require('../../src/lib/componee/Componee');
 const {
   getComponentsByRoute
-} = require('../../src/lib/componee/getComponentsByRoute');
-const { CONSTANTS } = require('../../src/lib/helpers');
+} = require('@evershop/evershop/src/lib/componee/getComponentsByRoute');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const {
   getRouteBuildPath
-} = require('../../src/lib/webpack/getRouteBuildPath');
-const { parseGraphql } = require('../../src/lib/webpack/util/parseGraphql');
+} = require('@evershop/evershop/src/lib/webpack/getRouteBuildPath');
+const {
+  parseGraphql
+} = require('@evershop/evershop/src/lib/webpack/util/parseGraphql');
 const JSON5 = require('json5');
 /**
  * Only pass the page routes, not api routes
@@ -63,8 +64,10 @@ module.exports.buildEntry = async function buildEntry(
       let contentClient = `
       import React from 'react';
       import ReactDOM from 'react-dom';
-      import Area from '@evershop/evershop/src/lib/components/Area';
-      import Hydrate from '@evershop/evershop/src/lib/components/react/client/Hydrate';
+      import Area from '@evershop/evershop/src/components/common/Area';
+      import Hydrate from '@evershop/evershop/src/components/common/react/client/${
+        route.isAdmin ? 'HydrateAdmin' : 'HydrateFrontStore'
+      }';
       `;
       contentClient += '\r\n';
       contentClient += `Area.defaultProps.components = ${inspect(areas, {
@@ -81,7 +84,7 @@ module.exports.buildEntry = async function buildEntry(
         await mkdir(path.resolve(subPath, 'client'), { recursive: true });
       }
       await writeFile(
-        path.resolve(subPath, 'client', 'entry.js'),
+        path.resolve(subPath, 'client', 'entry.jsx'),
         contentClient
       );
 
@@ -93,7 +96,7 @@ module.exports.buildEntry = async function buildEntry(
         contentServer += '\r\n';
         contentServer += `import ReactDOM from 'react-dom'; `;
         contentServer += '\r\n';
-        contentServer += `import Area from '@evershop/evershop/src/lib/components/Area';`;
+        contentServer += `import Area from '@evershop/evershop/src/components/common/Area';`;
         contentServer += '\r\n';
         contentServer += `Area.defaultProps.components = ${inspect(areas, {
           depth: 5
@@ -105,7 +108,7 @@ module.exports.buildEntry = async function buildEntry(
           await mkdir(path.resolve(subPath, 'server'), { recursive: true });
         }
         await writeFile(
-          path.resolve(subPath, 'server', 'entry.js'),
+          path.resolve(subPath, 'server', 'entry.jsx'),
           contentServer
         );
         await writeFile(

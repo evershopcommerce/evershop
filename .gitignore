@@ -15,3 +15,5 @@ npm-debug.log
 coverage
 cypress
 /config
+.prettierignore
+.prettierrc

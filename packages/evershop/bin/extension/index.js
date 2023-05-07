@@ -1,8 +1,8 @@
 const { existsSync } = require('fs');
 const { resolve } = require('path');
-const { CONSTANTS } = require('../../src/lib/helpers');
-const { getConfig } = require('../../src/lib/util/getConfig');
-const { getCoreModules } = require('../lib/loadModules');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
 
 var extensions = [];
 
@@ -33,6 +33,9 @@ function loadExtensions() {
       );
     }
   });
+
+  // Sort the extensions by priority, smaller number means higher priority
+  extensions.sort((a, b) => a.priority - b.priority);
 
   return extensions;
 }

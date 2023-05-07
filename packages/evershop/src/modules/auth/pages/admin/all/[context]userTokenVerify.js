@@ -1,17 +1,17 @@
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');
 const { getTokenSecret } = require('../../../services/getTokenSecret');
 const { generateToken } = require('../../../services/generateToken');
-const { get } = require('../../../../../lib/util/get');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { get } = require('@evershop/evershop/src/lib/util/get');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
   getAdminTokenCookieId
 } = require('../../../services/getAdminTokenCookieId');
-const { pool } = require('../../../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 
 module.exports = async (request, response, delegate, next) => {
   const cookieId = getAdminTokenCookieId();
@@ -63,6 +63,7 @@ module.exports = async (request, response, delegate, next) => {
         response.redirect(buildUrl('adminLogin'));
       } else {
         setContextValue(request, 'userTokenPayload', decoded);
+        setContextValue(request, 'user', { ...decoded.user, roles: '*' });
         setContextValue(request, 'sid', decoded.sid);
         next();
       }

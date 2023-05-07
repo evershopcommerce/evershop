@@ -12,8 +12,7 @@ module.exports.createConfigClient = function createConfigClient(route) {
 
   const loaders = config.module.rules;
   loaders.unshift({
-    test: /components[\\/]react[\\/]client[\\/]Index\.js$/i,
-    // resourceQuery: new RegExp(`Asadasdas`, "i"),
+    test: /common[\\/]react[\\/]client[\\/]Index\.jsx$/i,
     use: [
       {
         loader: path.resolve(
@@ -56,14 +55,16 @@ module.exports.createConfigClient = function createConfigClient(route) {
   });
 
   loaders.push({
-    test: /\.graphql$/i,
+    test: /Client\.jsx$/,
     use: [
       {
         loader: path.resolve(
           CONSTANTS.LIBPATH,
-          'webpack/loaders/TestAmitFile.js'
+          'webpack/loaders/GraphQLAPILoader.js'
         ),
-        options: {}
+        options: {
+          isAdmin: route.isAdmin
+        }
       }
     ]
   });
@@ -82,15 +83,18 @@ module.exports.createConfigClient = function createConfigClient(route) {
     const entry = {};
     entry[route.id] = [
       ...getComponentsByRoute(route),
-      path.resolve(CONSTANTS.LIBPATH, 'components/react/client/Index.js'),
+      path.resolve(
+        CONSTANTS.MOLDULESPATH,
+        '../components/common/react/client/Index.jsx'
+      ),
       `webpack-hot-middleware/client?path=/eHot/${route.id}&reload=true&overlay=true`
     ];
+
     return entry;
   };
   config.watchOptions = {
     aggregateTimeout: 300,
-    poll: 1000,
-    ignored: /node_modules/
+    poll: 1000
   };
 
   return config;

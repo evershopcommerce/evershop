@@ -1,6 +1,6 @@
-const { select } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../../../lib/mysql/connection');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { select } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');

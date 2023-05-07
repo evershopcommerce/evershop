@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const uniqid = require('uniqid');
-const { CONSTANTS } = require('../../../../../../lib/helpers');
-const { getConfig } = require('../../../../../../lib/util/getConfig');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 function getUrls(image) {
   const thumbVersion = image.replace(/.([^.]*)$/, '-thumb.$1');

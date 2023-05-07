@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": [
+        "./themes/friday/components/*",
+        "./extensions/productComment/components/*",
+        "./packages/evershop/src/components/*"
+      ],
+      "@components-origin/*": [
+        "./packages/evershop/src/components/*"
+      ],
+      "@default-theme/cms/*" : [
+        "./packages/evershop/src/modules/cms/pages/*"
+      ],
+      "@evershop/evershop/*" : [
+        "./packages/evershop/*"
+      ]
+    }
+  }
+}

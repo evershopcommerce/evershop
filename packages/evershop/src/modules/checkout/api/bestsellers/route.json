@@ -1,5 +1,5 @@
 {
   "methods": ["GET"],
-  "path": "/lifetimesales",
+  "path": "/bestsellers",
   "access": "private"
 }

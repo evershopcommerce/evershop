@@ -1,4 +1,4 @@
-const { insert } = require('@evershop/mysql-query-builder');
+const { insert } = require('@evershop/postgres-query-builder');
 
 module.exports = async (request, response, delegate) => {
   const data = request.body;

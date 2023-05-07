@@ -2,12 +2,16 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable global-require */
 const express = require('express');
-const { getModuleMiddlewares } = require('../../src/lib/middleware');
-const { getRoutes } = require('../../src/lib/router/Router');
+const {
+  getModuleMiddlewares
+} = require('@evershop/evershop/src/lib/middleware');
+const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
 const { getCoreModules } = require('./loadModules');
 const { addDefaultMiddlewareFuncs } = require('./addDefaultMiddlewareFuncs');
-const { loadModuleRoutes } = require('../../src/lib/router/loadModuleRoutes');
-const { Handler } = require('../../src/lib/middleware/Handler');
+const {
+  loadModuleRoutes
+} = require('@evershop/evershop/src/lib/router/loadModuleRoutes');
+const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
 const { getEnabledExtensions } = require('../extension');
 
 module.exports.createApp = () => {

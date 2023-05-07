@@ -1,10 +1,14 @@
 const chokidar = require('chokidar');
 const { resolve, sep, normalize } = require('path');
-const { CONSTANTS } = require('../../../src/lib/helpers');
-const { Componee } = require('../../../src/lib/componee/Componee');
-const { createComponents } = require('../../lib/createComponents');
-const { getRoutes } = require('../../../src/lib/router/Router');
-const { isBuildRequired } = require('../../../src/lib/webpack/isBuildRequired');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const { Componee } = require('@evershop/evershop/src/lib/componee/Componee');
+const {
+  createComponents
+} = require('@evershop/evershop/bin/lib/createComponents');
+const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
+const {
+  isBuildRequired
+} = require('@evershop/evershop/src/lib/webpack/isBuildRequired');
 
 function watchComponents() {
   chokidar

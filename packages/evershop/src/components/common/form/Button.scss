@@ -1,0 +1,66 @@
+.button {
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(186, 191, 195, 1);
+  border-radius: 3px;
+  padding: 0.7rem 1.6rem;
+  font-weight: 600;
+  color: inherit;
+  background-color: white;
+  border-top-color: rgba(201, 204, 207, 1);
+  border-bottom-color: rgba(186, 191, 196, 1);
+  &:hover {
+    text-decoration: none;
+    background-color: rgba(201, 204, 207, 0.05);
+  }
+  &.primary {
+    background-color: var(--primary);
+    border: 0;
+    color: white;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    &:hover {
+      background-color: #006e52;
+    }
+  }
+  &.critical {
+    background-color: var(--critical);
+    border: 0;
+    color: white;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    &:hover {
+      background-color: #bc2200;
+    }
+  }
+  &.outline.interactive {
+    border-color: var(--interactive);
+    color: var(--interactive);
+    &:hover {
+      background-color: #e6eef9;
+    }
+  }
+  &.outline.critical {
+    background-color: transparent;
+    box-shadow: none;
+    border-color: var(--critical);
+    color: var(--critical);
+    &:hover {
+      background-color: #fff4f4;
+    }
+  }
+  &.loading {
+    background-color: var(--divider);
+    &:hover {
+      background-color: var(--divider);
+    }
+    span {
+      opacity: 0;
+    }
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -1rem;
+      margin-left: -1rem;
+    }
+  }
+}

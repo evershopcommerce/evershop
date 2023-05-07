@@ -6,8 +6,8 @@ const {
   del,
   select,
   update
-} = require('@evershop/mysql-query-builder');
-const { get } = require('../../../../lib/util/get');
+} = require('@evershop/postgres-query-builder');
+const { get } = require('@evershop/evershop/src/lib/util/get');
 
 module.exports = async (request, response, delegate) => {
   const attribute = await delegate.updateAttribute;

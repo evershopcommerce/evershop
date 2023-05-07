@@ -69,6 +69,11 @@ module.exports = () => {
         }
       ],
       dependencies: ['discount_amount']
+    },
+    {
+      key: 'shipping_fee_excl_tax', // This is to make sure the shipping fee is calculated after the coupon validation
+      resolvers: [],
+      dependencies: ['coupon']
     }
   ].forEach((field) => {
     Cart.addField(field.key, field.resolvers, field.dependencies);

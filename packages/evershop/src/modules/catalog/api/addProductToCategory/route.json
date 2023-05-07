@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/categories/:category_id/products",
+  "access": "private"
+}

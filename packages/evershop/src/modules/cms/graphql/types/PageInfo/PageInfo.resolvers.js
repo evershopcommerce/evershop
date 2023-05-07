@@ -1,4 +1,4 @@
-const { get } = require('../../../../../lib/util/get');
+const { get } = require('@evershop/evershop/src/lib/util/get');
 
 module.exports = {
   Query: {

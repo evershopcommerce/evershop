@@ -1,100 +1,87 @@
-const { execute } = require('@evershop/mysql-query-builder');
-const { pool } = require('../../../lib/mysql/connection');
+const { execute } = require('@evershop/postgres-query-builder');
 
 // eslint-disable-next-line no-multi-assign
-module.exports = exports = async () => {
+module.exports = exports = async (connection) => {
   await execute(
-    pool,
-    "ALTER TABLE cart MODIFY uuid varchar(36) NOT NULL DEFAULT (replace(uuid(),'-',''))"
-  );
-  await execute(pool, 'ALTER TABLE cart ADD UNIQUE KEY `CART_UUID` (`uuid`)');
-
-  await execute(
-    pool,
-    "ALTER TABLE cart_address MODIFY uuid varchar(36) NOT NULL DEFAULT (replace(uuid(),'-',''))"
-  );
-  await execute(
-    pool,
-    'ALTER TABLE cart_address ADD UNIQUE KEY `CART_ADDRESS_UUID` (`uuid`)'
+    connection,
+    `CREATE TABLE "shipping_zone" (
+  "shipping_zone_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "name" varchar NOT NULL,
+  "country" varchar NOT NULL,
+  CONSTRAINT "SHIPPING_ZONE_UUID_UNIQUE" UNIQUE ("uuid")
+)
+`
   );
 
+  // Add foreign key from table cart (shipping_zone_id) to table shipping_zone (shipping_zone_id)
   await execute(
-    pool,
-    "ALTER TABLE cart_item MODIFY uuid varchar(36) NOT NULL DEFAULT (replace(uuid(),'-',''))"
+    connection,
+    `ALTER TABLE "cart" ADD CONSTRAINT "FK_CART_SHIPPING_ZONE" FOREIGN KEY ("shipping_zone_id") REFERENCES "shipping_zone" ("shipping_zone_id") ON DELETE SET NULL`
   );
   await execute(
-    pool,
-    'ALTER TABLE cart_item ADD UNIQUE KEY `CART_ITEM_UUID` (`uuid`)'
-  );
-
-  await execute(
-    pool,
-    "ALTER TABLE `order` MODIFY uuid varchar(36) NOT NULL DEFAULT (replace(uuid(),'-',''))"
-  );
-  await execute(
-    pool,
-    'ALTER TABLE `order` ADD UNIQUE KEY `ORDER_UUID` (`uuid`)'
+    connection,
+    `CREATE INDEX "FK_CART_SHIPPING_ZONE" ON "cart" ("shipping_zone_id")`
   );
 
   await execute(
-    pool,
-    'ALTER TABLE order_activity ADD COLUMN uuid varchar(36) NOT NULL DEFAULT "" AFTER order_activity_id'
-  );
-  await execute(
-    pool,
-    "UPDATE order_activity SET uuid = replace(uuid(),'-','') WHERE uuid = ''"
-  );
-  await execute(
-    pool,
-    "ALTER TABLE order_activity MODIFY uuid varchar(36) NOT NULL DEFAULT (replace(uuid(),'-',''))"
-  );
-  await execute(
-    pool,
-    'ALTER TABLE order_activity ADD UNIQUE KEY `ORDER_ACTIVITY_UUID` (`uuid`)'
+    connection,
+    `CREATE TABLE "shipping_zone_province" (
+  "shipping_zone_province_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "zone_id" INT NOT NULL,
+  "province" varchar NOT NULL,
+  CONSTRAINT "SHIPPING_ZONE_PROVINCE_UUID_UNIQUE" UNIQUE ("uuid"),
+  CONSTRAINT "SHIPPING_ZONE_PROVINCE_PROVINCE_UNIQUE" UNIQUE ("province"),
+  CONSTRAINT "FK_SHIPPING_ZONE_PROVINCE" FOREIGN KEY ("zone_id") REFERENCES "shipping_zone" ("shipping_zone_id") ON DELETE CASCADE
+)
+`
   );
 
   await execute(
-    pool,
-    "ALTER TABLE order_address MODIFY uuid varchar(36) NOT NULL DEFAULT (replace(uuid(),'-',''))"
-  );
-  await execute(pool, "UPDATE order_address SET uuid = replace(uuid(),'-','')");
-  await execute(
-    pool,
-    'ALTER TABLE order_address ADD UNIQUE KEY `ORDER_ADDRESS_UUID` (`uuid`)'
+    connection,
+    `CREATE INDEX "FK_SHIPPING_ZONE_PROVINCE" ON "shipping_zone_province" ("zone_id")`
   );
 
   await execute(
-    pool,
-    "ALTER TABLE order_item MODIFY uuid varchar(36) NOT NULL DEFAULT (replace(uuid(),'-',''))"
-  );
-  await execute(
-    pool,
-    'ALTER TABLE order_item ADD UNIQUE KEY `ORDER_ITEM_UUID` (`uuid`)'
-  );
-
-  await execute(
-    pool,
-    "ALTER TABLE payment_transaction MODIFY uuid varchar(36) NOT NULL DEFAULT (replace(uuid(),'-',''))"
-  );
-  await execute(
-    pool,
-    'ALTER TABLE payment_transaction ADD UNIQUE KEY `PAYMENT_TRANSACTION_UUID` (`uuid`)'
-  );
-  await execute(
-    pool,
-    'ALTER TABLE payment_transaction ADD KEY `FK_PAYMENT_TRANSACTION_ORDER` (`payment_transaction_order_id`)'
+    connection,
+    `CREATE TABLE "shipping_method" (
+  "shipping_method_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+  "name" varchar NOT NULL,
+  CONSTRAINT "SHIPPING_METHOD_UUID_UNIQUE" UNIQUE ("uuid"),
+  CONSTRAINT "SHIPPING_METHOD_NAME_UNIQUE" UNIQUE ("name")
+)
+`
   );
 
   await execute(
-    pool,
-    "ALTER TABLE shipment MODIFY uuid varchar(36) NOT NULL DEFAULT (replace(uuid(),'-',''))"
-  );
-  await execute(
-    pool,
-    'ALTER TABLE shipment ADD UNIQUE KEY `SHIPMENT_UUID` (`uuid`)'
+    connection,
+    `CREATE TABLE "shipping_zone_method" (
+  "shipping_zone_method_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  "method_id" INT NOT NULL,
+  "zone_id" INT NOT NULL,
+  "is_enabled" boolean NOT NULL DEFAULT TRUE,
+  "cost" decimal(12,4) DEFAULT NULL,
+  "calculate_api" varchar DEFAULT NULL,
+  "condition_type" varchar DEFAULT NULL,
+  "max" decimal(12,4) DEFAULT NULL,
+  "min" decimal(12,4) DEFAULT NULL,
+  CONSTRAINT "METHOD_ZONE_UNIQUE" UNIQUE ("zone_id", "method_id"),
+  CONSTRAINT "CONDITION_TYPE_MUST_BE_PRICE_OR_WEIGHT" CHECK (condition_type IS NULL OR condition_type IN ('price', 'weight')),
+  CONSTRAINT "CALCULATE API MUST BE PROVIDE IF COST IS NULL" CHECK (cost IS NOT NULL OR calculate_api IS NOT NULL),
+  CONSTRAINT "FK_ZONE_METHOD" FOREIGN KEY ("zone_id") REFERENCES "shipping_zone" ("shipping_zone_id") ON DELETE CASCADE,
+  CONSTRAINT "FK_METHOD_ZONE" FOREIGN KEY ("method_id") REFERENCES "shipping_method" ("shipping_method_id") ON DELETE CASCADE
+)
+`
   );
 
-  // Delete a foreign key constraint from order item table
-  await execute(pool, 'ALTER TABLE `order_item` DROP FOREIGN KEY `FK_PRODUCT`');
-  await execute(pool, 'ALTER TABLE `order_item` DROP INDEX `FK_PRODUCT`');
+  await execute(
+    connection,
+    `CREATE INDEX "FK_ZONE_METHOD" ON "shipping_zone_method" ("zone_id")`
+  );
+  await execute(
+    connection,
+    `CREATE INDEX "FK_METHOD_ZONE" ON "shipping_zone_method" ("method_id")`
+  );
 };

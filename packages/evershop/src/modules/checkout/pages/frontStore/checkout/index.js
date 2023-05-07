@@ -1,4 +1,4 @@
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
   setContextValue,
   getContextValue
@@ -22,6 +22,7 @@ module.exports = async (request, response, delegate, next) => {
       title: 'Checkout',
       description: 'Checkout'
     });
+    setContextValue(request, 'cart_id', cart.getData('uuid'));
     next();
   }
 };

@@ -1,15 +1,15 @@
 const { default: axios } = require('axios');
-const { select } = require('@evershop/mysql-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const { getSetting } = require('../../../setting/services/setting');
 const { setContextValue } = require('../../../graphql/services/contextHelper');
-const { getConfig } = require('../../../../lib/util/getConfig');
-const { pool } = require('../../../../lib/mysql/connection');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 const {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
-} = require('../../../../lib/util/httpStatus');
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {

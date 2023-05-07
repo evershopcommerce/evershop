@@ -1,15 +1,18 @@
-const { select, insertOnUpdate } = require('@evershop/mysql-query-builder');
-const { compare } = require('bcrypt');
+const { select, insertOnUpdate } = require('@evershop/postgres-query-builder');
+const { compareSync } = require('bcryptjs');
 const { sign } = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
-const { camelCase } = require('../../../../lib/util/camelCase');
-const { pool } = require('../../../../lib/mysql/connection');
+const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getTokenCookieId } = require('../../../auth/services/getTokenCookieId');
 const {
   getContextValue,
   setContextValue
 } = require('../../../graphql/services/contextHelper');
-const { INVALID_PAYLOAD, OK } = require('../../../../lib/util/httpStatus');
+const {
+  INVALID_PAYLOAD,
+  OK
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -30,7 +33,7 @@ module.exports = async (request, response, delegate, next) => {
     });
   } else {
     const { password: hash } = customer;
-    const result = await compare(password, hash);
+    const result = compareSync(password, hash);
 
     if (!result) {
       response.status(INVALID_PAYLOAD);
@@ -48,7 +51,7 @@ module.exports = async (request, response, delegate, next) => {
       );
       const JWT_SECRET = uuidv4();
       // Save the JWT_SECRET to the database
-      await insertOnUpdate('user_token_secret')
+      await insertOnUpdate('user_token_secret', ['sid'])
         .given({
           user_id: customer.uuid,
           sid: currentTokenPayload.sid,

@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-const { select } = require('@evershop/mysql-query-builder');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { camelCase } = require('../../../../../lib/util/camelCase');
+const { select } = require('@evershop/postgres-query-builder');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 
 module.exports = {
   Query: {
@@ -37,13 +37,13 @@ module.exports = {
       const nameFilter = filters.find((f) => f.key === 'name');
       if (nameFilter) {
         query.andWhere(
-          'attribute.`attribute_name`',
-          nameFilter.operation,
-          nameFilter.value
+          'attribute.attribute_name',
+          'LIKE',
+          `%${nameFilter.value}%`
         );
         currentFilters.push({
           key: 'name',
-          operation: nameFilter.operation,
+          operation: '=',
           value: nameFilter.value
         });
       }
@@ -52,7 +52,7 @@ module.exports = {
       const codeFilter = filters.find((f) => f.key === 'code');
       if (codeFilter) {
         query.andWhere(
-          'attribute.`attribute_code`',
+          'attribute.attribute_code',
           codeFilter.operation,
           codeFilter.value
         );
@@ -72,7 +72,7 @@ module.exports = {
           .execute(pool);
 
         query.andWhere(
-          'attribute.`attribute_id`',
+          'attribute.attribute_id',
           'IN',
           attributes.map((a) => a.attribute_id)
         );
@@ -87,7 +87,7 @@ module.exports = {
       const typeFilter = filters.find((f) => f.key === 'type');
       if (typeFilter) {
         query.andWhere(
-          'attribute.`type`',
+          'attribute.type',
           typeFilter.operation,
           typeFilter.value
         );
@@ -102,7 +102,7 @@ module.exports = {
       const isRequiredFilter = filters.find((f) => f.key === 'isRequired');
       if (isRequiredFilter) {
         query.andWhere(
-          'attribute.`is_required`',
+          'attribute.is_required',
           isRequiredFilter.operation,
           isRequiredFilter.value
         );
@@ -117,7 +117,7 @@ module.exports = {
       const isFilterableFilter = filters.find((f) => f.key === 'isFilterable');
       if (isFilterableFilter) {
         query.andWhere(
-          'attribute.`is_filterable`',
+          'attribute.is_filterable',
           isFilterableFilter.operation,
           isFilterableFilter.value
         );
@@ -133,14 +133,14 @@ module.exports = {
         (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
       ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'name') {
-        query.orderBy('des.`name`', sortOrder.value);
+        query.orderBy('des.name', sortOrder.value);
         currentFilters.push({
           key: 'sortBy',
           operation: '=',
           value: sortBy.value
         });
       } else {
-        query.orderBy('attribute.`attribute_id`', 'DESC');
+        query.orderBy('attribute.attribute_id', 'DESC');
       }
       if (sortOrder.key) {
         currentFilters.push({
@@ -151,9 +151,8 @@ module.exports = {
       }
       // Clone the main query for getting total right before doing the paging
       const cloneQuery = query.clone();
-      cloneQuery.select('COUNT(attribute.`attribute_id`)', 'total');
-      // const total = await cloneQuery.load(pool);
-      // console.log('total', total);
+      cloneQuery.select('COUNT(attribute.attribute_id)', 'total');
+      cloneQuery.removeOrderBy();
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
       const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config

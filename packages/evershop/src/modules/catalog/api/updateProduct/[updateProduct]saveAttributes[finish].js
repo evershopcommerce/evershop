@@ -8,14 +8,72 @@ const {
   update,
   insertOnUpdate,
   del
-} = require('@evershop/mysql-query-builder');
-const { get } = require('../../../../lib/util/get');
+} = require('@evershop/postgres-query-builder');
+const { get } = require('@evershop/evershop/src/lib/util/get');
 
 module.exports = async (request, response, delegate) => {
   const productId = await delegate.updateProduct;
   const connection = await delegate.getConnection;
   const attributes = get(request, 'body.attributes', []);
 
+  // Get the variant if any
+  const product = await select()
+    .from('product')
+    .where('uuid', '=', request.params.id)
+    .load(connection);
+  if (!product['variant_group_id']) {
+    await saveProductAttributes(productId, attributes, connection);
+  } else {
+    const promises = [saveProductAttributes(productId, attributes, connection)];
+
+    const variantGroup = await select(
+      'attribute_one',
+      'attribute_two',
+      'attribute_three',
+      'attribute_four',
+      'attribute_five'
+    )
+      .from('variant_group')
+      .where('variant_group_id', '=', product['variant_group_id'])
+      .load(connection);
+
+    // Get all the variant attributes
+    const variantAttributes = await select()
+      .from('attribute')
+      .where(
+        'attribute_id',
+        'IN',
+        Object.values(variantGroup).filter((v) => v !== null)
+      )
+      .execute(connection);
+
+    // Remove the attributes that are variant attributes
+    const filteredAttributes = attributes.filter((attr) => {
+      return variantAttributes.every(
+        (v) => v.attribute_code !== attr.attribute_code
+      );
+    });
+
+    const variants = await select()
+      .from('product')
+      .where('variant_group_id', '=', product['variant_group_id'])
+      .and('product_id', '!=', productId)
+      .execute(connection);
+
+    for (let i = 0; i < variants.length; i += 1) {
+      promises.push(
+        saveProductAttributes(
+          variants[i]['product_id'],
+          filteredAttributes,
+          connection
+        )
+      );
+    }
+    await Promise.all(promises);
+  }
+};
+
+async function saveProductAttributes(productId, attributes, connection) {
   for (let i = 0; i < attributes.length; i += 1) {
     const attribute = attributes[i];
     if (attribute.value) {
@@ -63,7 +121,11 @@ module.exports = async (request, response, delegate) => {
               if (option === null) {
                 return;
               }
-              await insertOnUpdate('product_attribute_value_index')
+              await insertOnUpdate('product_attribute_value_index', [
+                'product_id',
+                'attribute_id',
+                'option_id'
+              ])
                 .prime('option_id', option.attribute_option_id)
                 .prime('product_id', productId)
                 .prime('attribute_id', attr.attribute_id)
@@ -87,17 +149,25 @@ module.exports = async (request, response, delegate) => {
           .and('product_id', '=', productId)
           .execute(connection);
         // Insert new option
-        await insertOnUpdate('product_attribute_value_index')
+        await insertOnUpdate('product_attribute_value_index', [
+          'product_id',
+          'attribute_id',
+          'option_id'
+        ])
           .prime('option_id', option.attribute_option_id)
           .prime('product_id', productId)
           .prime('attribute_id', attr.attribute_id)
           .prime('option_text', option.option_text)
           .execute(connection);
       } else {
-        await insertOnUpdate('product_attribute_value_index')
+        await insertOnUpdate('product_attribute_value_index', [
+          'product_id',
+          'attribute_id',
+          'option_id'
+        ])
           .prime('option_text', attribute.value)
           .execute(connection);
       }
     }
   }
-};
+}

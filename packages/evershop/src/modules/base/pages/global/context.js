@@ -1,4 +1,4 @@
-const { pool } = require('../../../../lib/mysql/connection');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   setContextValue,
   hasContextValue
@@ -11,11 +11,6 @@ module.exports = (request, response) => {
     setContextValue(request.app, 'pool', pool);
   }
   setContextValue(request, 'pool', pool);
-  setContextValue(
-    request,
-    'homeUrl',
-    `${request.protocol}://${request.get('host')}`
-  );
   setContextValue(
     request,
     'homeUrl',

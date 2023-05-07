@@ -6,9 +6,11 @@ const {
   commit,
   rollback,
   select
-} = require('@evershop/mysql-query-builder');
-const { getConnection } = require('../../../../lib/mysql/connection');
-const { getConfig } = require('../../../../lib/util/getConfig');
+} = require('@evershop/postgres-query-builder');
+const {
+  getConnection
+} = require('@evershop/evershop/src/lib/postgres/connection');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { getSetting } = require('../../../setting/services/setting');
 
 // eslint-disable-next-line no-unused-vars

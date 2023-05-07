@@ -1,5 +1,5 @@
-const { select } = require('@evershop/mysql-query-builder');
-const { camelCase } = require('../../../../../../lib/util/camelCase');
+const { select } = require('@evershop/postgres-query-builder');
+const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 
 module.exports = {
   Product: {

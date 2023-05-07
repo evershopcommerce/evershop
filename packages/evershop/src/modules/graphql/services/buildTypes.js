@@ -1,7 +1,7 @@
 const path = require('path');
 const { loadFilesSync } = require('@graphql-tools/load-files');
 const { mergeTypeDefs } = require('@graphql-tools/merge');
-const { CONSTANTS } = require('../../../lib/helpers');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { getEnabledExtensions } = require('../../../../bin/extension');
 
 module.exports.buildTypeDefs = function buildTypeDefs() {

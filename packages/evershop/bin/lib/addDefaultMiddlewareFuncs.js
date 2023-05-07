@@ -1,12 +1,16 @@
 const cookieParser = require('cookie-parser');
 const webpack = require('webpack');
+const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 const middleware = require('webpack-dev-middleware');
 const {
   createConfigClient
-} = require('../../src/lib/webpack/dev/createConfigClient');
-const isDevelopmentMode = require('../../src/lib/util/isDevelopmentMode');
-const { isBuildRequired } = require('../../src/lib/webpack/isBuildRequired');
-const publicStatic = require('../../src/lib/middlewares/publicStatic');
+} = require('@evershop/evershop/src/lib/webpack/dev/createConfigClient');
+const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
+const {
+  isBuildRequired
+} = require('@evershop/evershop/src/lib/webpack/isBuildRequired');
+const publicStatic = require('@evershop/evershop/src/lib/middlewares/publicStatic');
+const themePublicStatic = require('@evershop/evershop/src/lib/middlewares/themePublicStatic');
 
 module.exports = exports = {};
 
@@ -14,8 +18,29 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
   app,
   routes
 ) {
+  app.use((request, response, next) => {
+    response.debugMiddlewares = [];
+    next();
+    response.on('finish', function () {
+      // Console log the debug middlewares
+      let message = `[${request.method}] ${request.originalUrl}\n`;
+      response.debugMiddlewares.forEach((m) => {
+        message += `-> Middleware ${m.id} - ${m.time} ms\n`;
+      });
+      // Skip logging if the request is for static files
+      if (
+        request.currentRoute?.id === 'staticAsset' ||
+        request.currentRoute?.id === 'adminStaticAsset'
+      ) {
+        return;
+      }
+      debug('info', message);
+    });
+  });
   // Add public static middleware
   app.use(publicStatic);
+  // Add theme public static middleware
+  app.use(themePublicStatic);
 
   routes.forEach((r) => {
     const currentRouteMiddleware = (request, response, next) => {

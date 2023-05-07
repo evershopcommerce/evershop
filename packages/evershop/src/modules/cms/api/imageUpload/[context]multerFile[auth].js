@@ -1,8 +1,10 @@
 const { mkdirSync } = require('fs');
 const { join } = require('path');
 const multer = require('multer');
-const { CONSTANTS } = require('../../../../lib/helpers');
-const { INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
+const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const {
+  INVALID_PAYLOAD
+} = require('@evershop/evershop/src/lib/util/httpStatus');
 
 const storage = multer.diskStorage({
   destination(request, file, cb) {
@@ -32,7 +34,7 @@ const upload = multer({ storage, fileFilter });
 module.exports = (request, response, delegate, next) => {
   const path = request.params[0] || '';
   // eslint-disable-next-line no-useless-escape
-  if (!path || !/^[a-z0-9\/]+$/i.test(path)) {
+  if (path && !/^[a-z0-9\/]+$/i.test(path)) {
     response.status(INVALID_PAYLOAD).json({
       error: {
         status: INVALID_PAYLOAD,
