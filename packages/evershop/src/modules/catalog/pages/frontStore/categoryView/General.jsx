@@ -13,7 +13,10 @@ export default function CategoryInfo({
         className="p-4 mb-1 md:mb-2"
         style={
           image
-            ? { background: `url(${image.url}) no-repeat center center` }
+            ? {
+                background: `url(${image.url}) no-repeat center center`,
+                backgroundSize: 'cover'
+              }
             : { background: '#685f58' }
         }
       >
