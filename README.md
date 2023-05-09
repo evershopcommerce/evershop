@@ -79,7 +79,7 @@ Password: 123456
 You can get started with EverShop in minutes by running the following command:
 
 ```bash
-npx create-evershop-app my-app --playAround
+npx create-evershop-app my-app
 ```
 
 - [Installation guide](https://evershop.io/docs/development/getting-started/installation-guide).
