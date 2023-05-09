@@ -8,6 +8,8 @@ const { getCoreModules } = require('./loadModules');
 const { migrate } = require('./bootstrap/migrate');
 const { loadBootstrapScript } = require('./bootstrap/bootstrap');
 const { getEnabledExtensions } = require('../extension');
+const spawn = require('cross-spawn');
+const path = require('path');
 
 var app = createApp();
 /** Create a http server */
@@ -47,6 +49,19 @@ module.exports.start = async function start(cb) {
   cb ? server.on('listening', cb) : null;
   server.on('error', onError);
   server.listen(port);
+
+  // Spawn the child process to manage events
+  const child = spawn(
+    'node',
+    [path.resolve(__dirname, '../../src/lib/event/event-manager.js')],
+    {
+      stdio: 'inherit'
+    }
+  );
+  child.on('error', (err) => {
+    console.error(`Error spawning event processor: ${err}`);
+  });
+  child.unref();
 };
 
 module.exports.updateApp = function updateApp(cb) {
