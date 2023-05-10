@@ -8,7 +8,7 @@ module.exports.watchPage = function (event, path) {
     touch(
       resolve(
         CONSTANTS.MOLDULESPATH,
-        '../components/common/react/client/Index.js'
+        '../components/common/react/client/Index.jsx'
       )
     );
   }
