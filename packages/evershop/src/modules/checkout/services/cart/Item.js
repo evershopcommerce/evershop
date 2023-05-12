@@ -137,17 +137,16 @@ module.exports.Item = class Item extends DataObject {
         async function resolver() {
           if (
             this.dataSource.product.product_id &&
-            this.dataSource.product.manage_stock === 1 &&
+            this.dataSource.product.manage_stock === true &&
             this.dataSource.product.qty < 1
           ) {
             this.errors.qty = 'This item is out of stock';
           } else if (
             this.dataSource.product.product_id &&
-            this.dataSource.product.manage_stock === 1 &&
+            this.dataSource.product.manage_stock === true &&
             this.dataSource.product.qty < this.dataSource.qty
           )
             this.errors.qty = 'We do not have enough stock';
-
           return parseInt(this.dataSource.qty, 10) ?? null;
         }
       ],
