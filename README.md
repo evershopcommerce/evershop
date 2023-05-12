@@ -31,49 +31,6 @@
 
 EverShop is a GraphQL Based and React ecommerce platform with essential commerce features. Built with React, modular and fully customizable.
 
-## Features
-- Catalog management
-  - Product management
-  - Category management
-  - Attribute and attribute group
-  - Variant management
-  - Custom options
-  - Product layered navigation
-- Order management
-- Customer management
-  - Customer group
-  - Customer address
-  - Login, register and my account
-- Advanced coupon management
-- Online payment methods
-  - Stripe
-  - Paypal
-
-## Demo
-
-Explore our demo store.
-
-<p align="center">
-<img alt="EverShop Admin Demo" width="950" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-backend-demo.png"/>
-</p>
-<p align="center">
-  <a href="https://demo.evershop.io/admin" target="_blank">
-    <img alt="evershop-backend-demo" height="35" alt="EverShop Admin Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-admin-demo.png"/>
-  </a>
-</p>
-<b>Demo user:</b>
-
-Email: demo@gmail.com<br/>
-Password: 123456
-<p align="center">
-<img alt="EverShop Store Demo" width="950" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-product-detail.png"/>
-</p>
-<p align="center">
-  <a href="https://demo.evershop.io/" target="_blank">
-    <img alt="evershop-store-demo" height="35" alt="EverShop Store Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-store-front-demo.png"/>
-  </a>
-</p>
-
 ## Quick Start
 
 You can get started with EverShop in minutes by running the following command:
@@ -82,6 +39,8 @@ You can get started with EverShop in minutes by running the following command:
 npx create-evershop-app my-app
 ```
 
+## Documentation
+
 - [Installation guide](https://evershop.io/docs/development/getting-started/installation-guide).
 
 - [Extension development](https://evershop.io/docs/development/module/create-your-first-extension).
@@ -89,6 +48,25 @@ npx create-evershop-app my-app
 - [Theme development](https://evershop.io/docs/development/theme/theme-overview).
 
 
+## Demo
+
+Explore our demo store.
+
+<p align="left">
+  <a href="https://demo.evershop.io/admin" target="_blank">
+    <img alt="evershop-backend-demo" height="35" alt="EverShop Admin Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-admin-demo.png"/>
+  </a>
+</p>
+<b>Demo user:</b>
+
+Email: demo@gmail.com<br/>
+Password: 123456
+
+<p align="left">
+  <a href="https://demo.evershop.io/" target="_blank">
+    <img alt="evershop-store-demo" height="35" alt="EverShop Store Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-store-front-demo.png"/>
+  </a>
+</p>
 
 ## Support
 
