@@ -1,14 +1,12 @@
 /* eslint-disable global-require */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable prefer-destructuring */
-const fs = require('fs');
-const { join } = require('path');
 const postcss = require('postcss');
 const tailwindcss = require('tailwindcss');
 const autoprefixer = require('autoprefixer');
 const CleanCSS = require('clean-css');
 const { Compilation, sources } = require('webpack');
-const { CONSTANTS } = require('../../helpers');
+const { getTailwindConfig } = require('../util/getTailwindConfig');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
@@ -46,46 +44,7 @@ exports.Tailwindcss = class Tailwindcss {
               }
             });
             if (cssAsset && jsAsset) {
-              // Use PostCss to parse tailwind.css with tailwind config
-              const defaultTailwindConfig = this.route.isAdmin
-                ? // eslint-disable-next-line import/no-extraneous-dependencies
-                  // eslint-disable-next-line import/extensions
-                  require('@evershop/evershop/src/modules/cms/services/tailwind.admin.config.js')
-                : // eslint-disable-next-line import/no-extraneous-dependencies
-                  // eslint-disable-next-line import/extensions
-                  require('@evershop/evershop/src/modules/cms/services/tailwind.frontStore.config.js');
-
-              let tailwindConfig = {};
-              if (this.route.isAdmin) {
-                if (
-                  fs.existsSync(
-                    join(CONSTANTS.ROOTPATH, 'tailwind.admin.config.js')
-                  )
-                ) {
-                  // eslint-disable-next-line import/extensions
-                  tailwindConfig = require(join(
-                    CONSTANTS.ROOTPATH,
-                    'tailwind.admin.config.js'
-                  ));
-                }
-              } else if (
-                fs.existsSync(
-                  join(CONSTANTS.ROOTPATH, 'tailwind.frontStore.config.js')
-                )
-              ) {
-                // eslint-disable-next-line import/extensions
-                tailwindConfig = require(join(
-                  CONSTANTS.ROOTPATH,
-                  'tailwind.frontStore.config.js'
-                ));
-              }
-              // Merge defaultTailwindConfig with tailwindConfigJs
-              const mergedTailwindConfig = Object.assign(
-                defaultTailwindConfig,
-                tailwindConfig
-              );
-              // get list of modules that are used in the webpack build
-
+              const mergedTailwindConfig = getTailwindConfig(this.route);
               mergedTailwindConfig.content = [
                 {
                   raw: jsAsset[1].source()
