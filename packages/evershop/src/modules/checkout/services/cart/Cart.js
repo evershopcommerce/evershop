@@ -467,7 +467,7 @@ exports.Cart = class Cart extends DataObject {
                 // If this is just new added item, add it to the list
                 if (
                   !/^\d+$/.test(item.getData('cart_item_id')) &&
-                  item.error === undefined
+                  Object.keys(item.errors).length === 0
                 ) {
                   items.push(item);
                 } else if (/^\d+$/.test(item.getData('cart_item_id'))) {
@@ -544,8 +544,9 @@ exports.Cart = class Cart extends DataObject {
   async addItem(data) {
     const item = new Item(data);
     await item.build();
-    if (item.error) {
-      throw new Error(item.error);
+    if (Object.keys(item.errors).length > 0) {
+      // Get the first error from the item.errors object
+      throw new Error(Object.values(item.errors)[0]);
     } else {
       let items = this.getItems();
       let duplicateItem;
@@ -562,8 +563,8 @@ exports.Cart = class Cart extends DataObject {
             'qty',
             item.getData('qty') + items[i].getData('qty')
           );
-          if (items[i].error) {
-            throw new Error(items[i].error);
+          if (Object.keys(items[i].errors).length > 0) {
+            throw new Error(Object.values(items[i].errors)[0]);
           }
           duplicateItem = items[i];
         }

@@ -160,7 +160,7 @@ export default function ProductForm({ product, action }) {
         )
       );
     } else {
-      setError(response.message);
+      setError(response.error.message);
     }
   };
 
