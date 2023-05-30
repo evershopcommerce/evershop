@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string"
+    },
+    "user_name": {
+      "type": "string"
+    },
+    "comment": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "product_id",
+    "user_name",
+    "comment"
+  ],
+  "additionalProperties": true
+}

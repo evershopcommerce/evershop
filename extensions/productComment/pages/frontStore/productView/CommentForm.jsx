@@ -9,14 +9,14 @@ export default function ComponentForm({ action, product }) {
     if (response.success) {
       window.location.reload();
     } else {
-      setError(response.message);
+      setError(response.error.message);
     }
   }
 
   return (
     <div className='product-comment-form'>
       <h3>Your comment</h3>
-      {error && <div className='error'>{error}</div>}
+      {error && <div className='error text-critical'>{error}</div>}
       <Form
         id="comment-form"
         action={action}
