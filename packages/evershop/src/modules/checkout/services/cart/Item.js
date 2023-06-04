@@ -140,10 +140,15 @@ module.exports.Item = class Item extends DataObject {
       key: 'product_price_incl_tax',
       resolvers: [
         async function resolver() {
-          return toPrice(this.getData('product_price')); // TODO: Tax will be added in tax module
+          const taxAmount = calculateTaxAmount(
+            this.getData('tax_percent'),
+            this.getData('product_price'),
+            1
+          );
+          return toPrice(this.getData('product_price')) + taxAmount;
         }
       ],
-      dependencies: ['product_price']
+      dependencies: ['product_price', 'tax_percent']
     },
     {
       key: 'qty',
@@ -179,10 +184,15 @@ module.exports.Item = class Item extends DataObject {
       key: 'final_price_incl_tax',
       resolvers: [
         async function resolver() {
-          return toPrice(this.getData('final_price'));
+          const taxAmount = calculateTaxAmount(
+            this.getData('tax_percent'),
+            this.getData('final_price'),
+            1
+          );
+          return toPrice(this.getData('final_price')) + taxAmount;
         }
       ],
-      dependencies: ['final_price', 'tax_amount']
+      dependencies: ['final_price', 'tax_percent']
     },
     {
       key: 'total',
