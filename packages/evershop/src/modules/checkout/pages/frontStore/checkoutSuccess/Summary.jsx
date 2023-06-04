@@ -46,7 +46,7 @@ Summary.propTypes = {
     grandTotal: PropTypes.shape({
       text: PropTypes.string.isRequired
     }),
-    shippingFeeExclTax: PropTypes.shape({
+    shippingFeeInclTax: PropTypes.shape({
       text: PropTypes.string.isRequired
     }),
     shippingMethodName: PropTypes.string,
@@ -75,7 +75,7 @@ export const query = `
       }
       coupon
       shippingMethodName
-      shippingFeeExclTax {
+      shippingFeeInclTax {
         value
         text
       }

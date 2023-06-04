@@ -44,6 +44,11 @@
       "type": ["string", "number"],
       "pattern": "^[0-9]+$"
     },
+    "tax_class": {
+      "type": ["string", "number"],
+      "pattern": "^[0-9]+$",
+      "default": null
+    },
     "manage_stock": {
       "type": ["string", "number"],
       "enum": [0, 1, "0", "1"]

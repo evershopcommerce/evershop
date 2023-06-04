@@ -22,7 +22,7 @@ export default function OrderSummary({
     discountAmount,
     grandTotal,
     subTotal,
-    shippingFeeExclTax,
+    shippingFeeInclTax,
     currency,
     paymentStatus,
     transactions
@@ -59,7 +59,7 @@ export default function OrderSummary({
               component: { default: Shipping },
               props: {
                 method: shippingMethodName,
-                cost: shippingFeeExclTax.text
+                cost: shippingFeeInclTax.text
               },
               sortOrder: 10
             },
@@ -110,7 +110,7 @@ OrderSummary.propTypes = {
     subTotal: PropTypes.shape({
       text: PropTypes.string.isRequired
     }).isRequired,
-    shippingFeeExclTax: PropTypes.shape({
+    shippingFeeInclTax: PropTypes.shape({
       text: PropTypes.string.isRequired
     }).isRequired,
     currency: PropTypes.string.isRequired,
@@ -160,7 +160,7 @@ export const query = `
       subTotal {
         text(currency: getContextValue("orderCurrency"))
       }
-      shippingFeeExclTax {
+      shippingFeeInclTax {
         text(currency: getContextValue("orderCurrency"))
       }
       currency

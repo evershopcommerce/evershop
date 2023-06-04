@@ -19,7 +19,7 @@ const rules = {
   },
   notEmpty: {
     handler(value) {
-      return value && value.length !== 0;
+      return value !== null && value !== undefined && value.length !== 0;
     },
     errorMessage: 'This field can not be empty'
   },

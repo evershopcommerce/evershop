@@ -10,7 +10,7 @@ function OrderSummary({
   items,
   subTotal,
   shippingMethodName,
-  shippingFeeExclTax,
+  shippingFeeInclTax,
   taxAmount,
   discountAmount,
   grandTotal
@@ -18,7 +18,7 @@ function OrderSummary({
   return (
     <div className="checkout-summary-block">
       <Subtotal count={items.length} total={subTotal.text} />
-      <Shipping method={shippingMethodName} cost={shippingFeeExclTax.text} />
+      <Shipping method={shippingMethodName} cost={shippingFeeInclTax.text} />
       <Tax taxClass="" amount={taxAmount.text} />
       <Discount code="" amount={discountAmount.text} />
       <Total total={grandTotal.text} />
@@ -43,7 +43,7 @@ OrderSummary.propTypes = {
       }).isRequired
     })
   ).isRequired,
-  shippingFeeExclTax: PropTypes.shape({
+  shippingFeeInclTax: PropTypes.shape({
     text: PropTypes.string.isRequired
   }),
   shippingMethodName: PropTypes.string,
@@ -62,7 +62,7 @@ OrderSummary.defaultProps = {
   grandTotal: {
     text: '0.00'
   },
-  shippingFeeExclTax: {
+  shippingFeeInclTax: {
     text: '0.00'
   },
   shippingMethodName: 'Free Shipping',

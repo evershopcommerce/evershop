@@ -1,0 +1,5 @@
+{
+  "methods": ["DELETE"],
+  "path": "/tax/rates/:id",
+  "access": "private"
+}
