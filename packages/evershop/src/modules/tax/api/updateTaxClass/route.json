@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/tax/classes/:id",
+  "access": "private"
+}

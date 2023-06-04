@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "provnice": {
+      "type": "string"
+    },
+    "postcode": {
+      "type": "string"
+    },
+    "rate": {
+      "type": ["string", "number"],
+      "pattern": "^\\d+(\\.\\d{1,2})?$"
+    },
+    "is_compound": {
+      "type": ["string", "number"],
+      "enum": [0, 1, "0", "1"]
+    },
+    "priority": {
+      "type": ["string", "number"],
+      "pattern": "^[0-9]+$"
+    }
+  },
+  "additionalProperties": true,
+  "required": [
+    "name",
+    "rate"
+  ]
+}

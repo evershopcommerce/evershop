@@ -1,0 +1,33 @@
+"""
+Represents a tax rate.
+"""
+type TaxRate {
+  taxRateId: Int!
+  taxClassId: Int!
+  uuid: String!
+  name: String!
+  rate: Float!
+  isCompound: Boolean!
+  country: String!
+  province: String!
+  postcode: String!
+  priority: Int!
+  updateApi: String!
+  deleteApi: String!
+}
+
+"""
+Represents a tax class.
+"""
+type TaxClass {
+  taxClassId: Int!
+  uuid: String!
+  name: String!
+  rates: [TaxRate]
+  addRateApi: String!
+}
+
+extend type Query {
+  taxClasses: [TaxClass]
+  taxClass(id: String!): TaxClass
+}

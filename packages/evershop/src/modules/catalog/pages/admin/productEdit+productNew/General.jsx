@@ -69,7 +69,8 @@ export default function General({
   deleteApi,
   uploadApi,
   folderCreateApi,
-  setting
+  setting,
+  taxClasses
 }) {
   return (
     <Card title="General">
@@ -114,6 +115,19 @@ export default function General({
               id: 'SKUPriceWeight'
             },
             {
+              component: { default: Field },
+              props: {
+                id: 'tax_class',
+                name: 'tax_class',
+                value: product?.taxClass || null,
+                type: 'select',
+                label: 'Tax class',
+                options: [{ value: '', text: 'None' }, ...taxClasses]
+              },
+              sortOrder: 25,
+              id: 'tax_class'
+            },
+            {
               component: { default: CkeditorField },
               props: {
                 id: 'description',
@@ -150,6 +164,7 @@ General.propTypes = {
       })
     }),
     productId: PropTypes.string,
+    taxClass: PropTypes.number,
     sku: PropTypes.string,
     weight: PropTypes.shape({
       unit: PropTypes.string,
@@ -178,6 +193,7 @@ export const query = `
       name
       description
       sku
+      taxClass
       price {
         regular {
           value
@@ -197,5 +213,9 @@ export const query = `
     deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
     uploadApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
     folderCreateApi: url(routeId: "folderCreate")
+    taxClasses {
+      value: taxClassId
+      text: name
+    }
   }
 `;

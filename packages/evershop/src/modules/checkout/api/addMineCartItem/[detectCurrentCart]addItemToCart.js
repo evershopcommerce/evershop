@@ -51,6 +51,7 @@ module.exports = async (request, response, delegate, next) => {
 
     // If everything is fine, add the product to the cart
     const item = await cart.addItem({
+      cart_id: cart.getData('cart_id'),
       product_id: product.product_id,
       qty: parseInt(qty, 10)
     });

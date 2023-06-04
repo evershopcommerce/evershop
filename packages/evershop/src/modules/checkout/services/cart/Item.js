@@ -10,6 +10,12 @@ const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 /* eslint-disable no-underscore-dangle */
 const { DataObject } = require('./DataObject');
 const { toPrice } = require('../toPrice');
+const { getSetting } = require('../../../setting/services/setting');
+const { getTaxPercent } = require('../../../tax/services/getTaxPercent');
+const { getTaxRates } = require('../../../tax/services/getTaxRates');
+const {
+  calculateTaxAmount
+} = require('../../../tax/services/calculateTaxAmount');
 
 module.exports.Item = class Item extends DataObject {
   static fields = [
@@ -26,6 +32,14 @@ module.exports.Item = class Item extends DataObject {
       resolvers: [
         async function resolver() {
           return this.dataSource.uuid ?? uuidv4();
+        }
+      ]
+    },
+    {
+      key: 'cart_id',
+      resolvers: [
+        async function resolver() {
+          return this.dataSource.cart_id;
         }
       ]
     },
@@ -183,21 +197,95 @@ module.exports.Item = class Item extends DataObject {
       dependencies: ['final_price', 'qty', 'tax_amount']
     },
     {
+      key: 'tax_class_id',
+      resolvers: [
+        async function resolver() {
+          return this.dataSource.product.tax_class ?? null;
+        }
+      ],
+      dependencies: ['product_id']
+    },
+    {
       key: 'tax_percent',
       resolvers: [
         async function resolver() {
-          return 0; // Will be added later
+          if (!this.getData('tax_class_id')) {
+            return 0;
+          } else if (!this.getData('cart_id')) {
+            return 0;
+          } else {
+            const taxClass = await select()
+              .from('tax_class')
+              .where('tax_class_id', '=', this.getData('tax_class_id'))
+              .load(pool);
+            if (!taxClass) {
+              return 0;
+            } else {
+              const baseCalculationAddress = await getSetting(
+                'baseCalculationAddress',
+                'shippingAddress'
+              );
+              if (baseCalculationAddress === 'storeAddress') {
+                const percentage = getTaxPercent(
+                  await getTaxRates(
+                    this.getData('tax_class_id'),
+                    await getSetting('storeCountry', null),
+                    await getSetting('storeProvince', null),
+                    await getSetting('storePostalCode', null)
+                  )
+                );
+                return percentage;
+              } else {
+                const cart = await select()
+                  .from('cart')
+                  .where('cart_id', '=', this.getData('cart_id'))
+                  .load(pool);
+
+                const addressId =
+                  baseCalculationAddress === 'billingAddress'
+                    ? cart['billing_address_id']
+                    : cart['shipping_address_id'];
+
+                if (!addressId) {
+                  return 0;
+                } else {
+                  const address = await select()
+                    .from('cart_address')
+                    .where('cart_address_id', '=', addressId)
+                    .load(pool);
+                  if (!address) {
+                    return 0;
+                  } else {
+                    const percentage = getTaxPercent(
+                      await getTaxRates(
+                        this.getData('tax_class_id'),
+                        address.country,
+                        address.province,
+                        address.postcode
+                      )
+                    );
+                    return percentage;
+                  }
+                }
+              }
+            }
+          }
         }
-      ]
+      ],
+      dependencies: ['cart_id', 'tax_class_id']
     },
     {
       key: 'tax_amount',
       resolvers: [
         async function resolver() {
-          return 0; // Will be added later
+          return calculateTaxAmount(
+            this.getData('tax_percent'),
+            this.getData('final_price'),
+            this.getData('qty')
+          );
         }
       ],
-      dependencies: []
+      dependencies: ['tax_percent', 'final_price', 'qty']
     },
     {
       key: 'variant_group_id',

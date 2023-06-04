@@ -9,6 +9,11 @@ const { toPrice } = require('../toPrice');
 const { getSetting } = require('../../../setting/services/setting');
 const { default: axios } = require('axios');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { getTaxPercent } = require('../../../tax/services/getTaxPercent');
+const { getTaxRates } = require('../../../tax/services/getTaxRates');
+const {
+  calculateTaxAmount
+} = require('../../../tax/services/calculateTaxAmount');
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
@@ -114,10 +119,16 @@ exports.Cart = class Cart extends DataObject {
       key: 'tax_amount',
       resolvers: [
         async function resolver() {
-          return 0; // Will be added later
+          // Sum all tax amount from items
+          let taxAmount = 0;
+          const items = this.getItems();
+          items.forEach((i) => {
+            taxAmount += i.getData('tax_amount');
+          });
+          return taxAmount;
         }
       ],
-      dependencies: []
+      dependencies: ['items']
     },
     {
       key: 'sub_total',
@@ -138,11 +149,13 @@ exports.Cart = class Cart extends DataObject {
       resolvers: [
         async function resolver() {
           return (
-            this.getData('sub_total') + this.getData('shipping_fee_excl_tax')
+            this.getData('sub_total') +
+            this.getData('shipping_fee_incl_tax') +
+            this.getData('tax_amount')
           );
         }
       ],
-      dependencies: ['sub_total', 'shipping_fee_excl_tax']
+      dependencies: ['sub_total', 'shipping_fee_incl_tax']
     },
     {
       key: 'shipping_zone_id',
@@ -400,10 +413,74 @@ exports.Cart = class Cart extends DataObject {
       key: 'shipping_fee_incl_tax',
       resolvers: [
         async function resolver() {
-          return this.getData('shipping_fee_excl_tax'); // TODO: Add tax calculation for shipping fee
+          let shippingTaxClass = await getSetting(
+            'defaultShippingTaxClassId',
+            ''
+          );
+
+          // -1: Protional allocation based on the items
+          // 0: Highest tax rate based on the items
+          if (shippingTaxClass === '') {
+            return this.getData('shipping_fee_excl_tax');
+          } else {
+            shippingTaxClass = parseInt(shippingTaxClass, 10);
+            if (shippingTaxClass > 0) {
+              const taxClass = await select()
+                .from('tax_class')
+                .where('tax_class_id', '=', shippingTaxClass)
+                .load(pool);
+
+              if (!taxClass) {
+                return this.getData('shipping_fee_excl_tax');
+              } else {
+                const shippingAddress = this.getData('shippingAddress');
+                const percentage = getTaxPercent(
+                  await getTaxRates(
+                    shippingTaxClass,
+                    shippingAddress['country'],
+                    shippingAddress['province'],
+                    shippingAddress['postcode']
+                  )
+                );
+
+                const taxAmount = calculateTaxAmount(
+                  percentage,
+                  this.getData('shipping_fee_excl_tax'),
+                  1
+                );
+                return this.getData('shipping_fee_excl_tax') + taxAmount;
+              }
+            } else {
+              const items = this.getItems();
+              let percentage = 0;
+              if (shippingTaxClass === 0) {
+                // Highest tax rate
+                items.forEach((item) => {
+                  if (item.getData('tax_percent') > percentage) {
+                    percentage = item.getData('tax_percent');
+                  }
+                });
+              } else {
+                items.forEach((item) => {
+                  // Protional allocation
+                  const itemTotal =
+                    item.getData('final_price') * item.getData('qty');
+                  percentage +=
+                    (itemTotal / this.getData('sub_total')) *
+                    item.getData('tax_percent');
+                });
+              }
+              const taxAmount = calculateTaxAmount(
+                percentage,
+                this.getData('shipping_fee_excl_tax'),
+                1
+              );
+              return this.getData('shipping_fee_excl_tax') + taxAmount;
+            }
+          }
         }
       ],
-      dependencies: ['shipping_fee_excl_tax']
+      dependencies: ['shippingAddress', 'shipping_fee_excl_tax', 'sub_total']
     },
     {
       key: 'billing_address_id',
