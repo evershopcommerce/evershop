@@ -122,7 +122,9 @@ export default function General({
                 value: product?.taxClass || null,
                 type: 'select',
                 label: 'Tax class',
-                options: [{ value: '', text: 'None' }, ...taxClasses]
+                options: [...taxClasses],
+                placeholder: 'None',
+                disableDefaultOption: false
               },
               sortOrder: 25,
               id: 'tax_class'
