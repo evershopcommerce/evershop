@@ -27,7 +27,8 @@ export function Form(props) {
     onValidationError,
     children,
     submitBtn = true,
-    btnText
+    btnText,
+    dataFilter
   } = props;
 
   const [fields, setFields] = React.useState([]);
@@ -115,7 +116,7 @@ export function Form(props) {
             method,
             body:
               isJSON === true
-                ? JSON.stringify(serializeForm(formData.entries()))
+                ? JSON.stringify(serializeForm(formData.entries(), dataFilter))
                 : formData,
             headers: {
               'X-Requested-With': 'XMLHttpRequest',

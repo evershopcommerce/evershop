@@ -44,9 +44,8 @@
       "pattern": "^[0-9]+$"
     },
     "tax_class": {
-      "type": ["string", "number"],
-      "pattern": "^[0-9]+$",
-      "default": null
+      "type": ["string", "number", "null"],
+      "pattern": "^(\\d+|)$"
     },
     "manage_stock": {
       "type": ["string", "number"],

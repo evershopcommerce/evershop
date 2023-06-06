@@ -36,8 +36,8 @@ function update(data, keys, value) {
   return data;
 }
 
-exports.serializeForm = function serializeForm(formDataEntries) {
-  return Array.from(formDataEntries).reduce((data, [field, value]) => {
+exports.serializeForm = function serializeForm(formDataEntries, dataFilter) {
+  const data = Array.from(formDataEntries).reduce((data, [field, value]) => {
     // eslint-disable-next-line no-useless-escape,no-unused-vars
     let [_, prefix, keys] = field.match(/^([^\[]+)((?:\[[^\]]*\])*)/);
 
@@ -48,4 +48,11 @@ exports.serializeForm = function serializeForm(formDataEntries) {
     data[prefix] = value;
     return data;
   }, {});
+
+  // Check if dataFilter is a function
+  if (typeof dataFilter === 'function') {
+    return dataFilter(data);
+  } else {
+    return data;
+  }
 };

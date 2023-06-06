@@ -11,6 +11,12 @@ export default function ProductNewForm({ action }) {
     <Form
       method="POST"
       action={action}
+      dataFilter={(formData) => {
+        if (formData.tax_class === '') {
+          formData.tax_class = null;
+        }
+        return formData;
+      }}
       onError={() => {
         toast.error('Something wrong. Please reload the page!');
       }}

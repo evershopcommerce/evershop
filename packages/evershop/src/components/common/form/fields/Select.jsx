@@ -8,6 +8,7 @@ const Select = React.forwardRef((props, ref) => {
   const {
     name,
     placeholder,
+    disableDefaultOption = true,
     value,
     label,
     onChange,
@@ -42,8 +43,8 @@ const Select = React.forwardRef((props, ref) => {
           }}
           ref={ref}
         >
-          <option value="" disabled>
-            {_('Please select')}
+          <option value="" disabled={disableDefaultOption}>
+            {placeholder || 'Please select'}
           </option>
           {options &&
             options.map(
