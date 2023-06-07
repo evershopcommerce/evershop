@@ -165,7 +165,11 @@ module.exports.DataObject = class DataObject {
     this.constructor.fields.forEach((f) => {
       data[f.key] = this.data[f.key];
     });
-
+    if (this.hasError()) {
+      data.errors = Object.values(this.errors);
+    } else {
+      data.errors = [];
+    }
     return data;
   }
 

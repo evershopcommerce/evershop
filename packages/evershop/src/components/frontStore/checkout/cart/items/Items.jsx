@@ -86,15 +86,11 @@ function Items({ items }) {
                     >
                       {item.productName}
                     </a>
-                    {
-                      // TODO: item errors
-                      // eslint-disable-next-line react/no-array-index-key
-                      [].map((e, i) => (
-                        <div className="text-critical" key={i}>
-                          {e.message}
-                        </div>
-                      ))
-                    }
+                    {item.errors.map((e, i) => (
+                      <div className="text-critical" key={i}>
+                        {e}
+                      </div>
+                    ))}
                     <ItemOptions
                       options={JSON.parse(item.productCustomOptions || '[]')}
                     />

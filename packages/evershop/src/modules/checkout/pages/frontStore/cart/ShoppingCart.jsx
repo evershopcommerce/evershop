@@ -110,6 +110,7 @@ export const query = `
           text
         }
         removeApi
+        errors
       }
     }
   }
