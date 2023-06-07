@@ -108,6 +108,7 @@ type CartItem implements ShoppingCartItem {
   variantOptions: String
   productCustomOptions: String
   productUrl: String!
+  errors: [String!]
 }
 
 """
