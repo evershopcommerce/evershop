@@ -288,14 +288,20 @@ module.exports.Item = class Item extends DataObject {
       key: 'tax_amount',
       resolvers: [
         async function resolver() {
+          const discountAmount = this.getData('discount_amount');
+          const finalPrice = this.getData('final_price');
+
+          // The discount amount is total (all quantity), we need to Get the final price after discount per unit
+          const finalPricePerUnit =
+            finalPrice - discountAmount / this.getData('qty');
           return calculateTaxAmount(
             this.getData('tax_percent'),
-            this.getData('final_price'),
+            finalPricePerUnit,
             this.getData('qty')
           );
         }
       ],
-      dependencies: ['tax_percent', 'final_price', 'qty']
+      dependencies: ['tax_percent', 'final_price', 'qty', 'discount_amount']
     },
     {
       key: 'variant_group_id',

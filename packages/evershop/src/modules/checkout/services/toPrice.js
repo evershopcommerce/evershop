@@ -9,7 +9,7 @@ exports.toPrice = function toPrice(value, forDisplay = false) {
     throw new Error('Price is not a number');
   }
   const rounding = getConfig('pricing.rounding', 'round');
-  const precision = getConfig('pricing.precision', '2');
+  const precision = getConfig('pricing.precision', 2);
   const precisionFix = parseInt(`1${'0'.repeat(precision)}`, 10);
   switch (rounding) {
     case 'up':
@@ -25,7 +25,6 @@ exports.toPrice = function toPrice(value, forDisplay = false) {
       price = Math.round(price * precisionFix) / precisionFix;
       break;
   }
-
   if (!forDisplay) {
     return price;
   } else {
