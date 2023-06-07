@@ -13,27 +13,42 @@ module.exports.calculateTaxAmount = function calculateTaxAmount(
   // Calculate the total price before tax
   const totalPrice = price * quantity;
 
-  // Calculate the tax amount
-  let taxAmount = (totalPrice * taxPercentage) / 100;
-
-  // Apply rounding based on the rounding option
   if (roundingLevel === 'unit') {
-    taxAmount = taxAmount / quantity;
-  }
-
-  // Apply precision fix
-  taxAmount =
-    Math.round(taxAmount * Math.pow(10, precisionFix)) /
-    Math.pow(10, precisionFix);
-
-  // Apply rounding method
-  if (rounding === 'up') {
-    taxAmount = Math.ceil(taxAmount);
-  } else if (rounding === 'down') {
-    taxAmount = Math.floor(taxAmount);
+    // Calculate the tax amount
+    let taxAmountUnit = (price * taxPercentage) / 100,
+      taxAmount = 0;
+    switch (rounding) {
+      case 'up':
+        taxAmount = Math.ceil(taxAmountUnit * precisionFix) / precisionFix;
+        break;
+      case 'down':
+        taxAmount = Math.floor(taxAmountUnit * precisionFix) / precisionFix;
+        break;
+      case 'round':
+        taxAmount = Math.round(taxAmountUnit * precisionFix) / precisionFix;
+        break;
+      default:
+        taxAmount = Math.round(taxAmountUnit * precisionFix) / precisionFix;
+        break;
+    }
+    return taxAmount * quantity;
   } else {
-    taxAmount = Math.round(taxAmount);
+    // Calculate the tax amount
+    let taxAmount = (totalPrice * taxPercentage) / 100;
+    switch (rounding) {
+      case 'up':
+        taxAmount = Math.ceil(taxAmount * precisionFix) / precisionFix;
+        break;
+      case 'down':
+        taxAmount = Math.floor(taxAmount * precisionFix) / precisionFix;
+        break;
+      case 'round':
+        taxAmount = Math.round(taxAmount * precisionFix) / precisionFix;
+        break;
+      default:
+        taxAmount = Math.round(taxAmount * precisionFix) / precisionFix;
+        break;
+    }
+    return taxAmount;
   }
-
-  return taxAmount;
 };

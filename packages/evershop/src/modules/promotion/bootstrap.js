@@ -37,6 +37,12 @@ module.exports = () => {
         async function resolver() {
           const coupon = this.getData('coupon');
           if (!coupon) {
+            const items = this.getItems();
+            // eslint-disable-next-line no-restricted-syntax
+            for (const item of items) {
+              // eslint-disable-next-line no-await-in-loop
+              await item.setData('discount_amount', 0);
+            }
             return 0;
           }
           // Start calculate discount amount
