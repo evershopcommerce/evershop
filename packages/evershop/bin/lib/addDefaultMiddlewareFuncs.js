@@ -1,4 +1,5 @@
 const cookieParser = require('cookie-parser');
+const pathToRegexp = require('path-to-regexp');
 const webpack = require('webpack');
 const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 const middleware = require('webpack-dev-middleware');
@@ -11,6 +12,8 @@ const {
 } = require('@evershop/evershop/src/lib/webpack/isBuildRequired');
 const publicStatic = require('@evershop/evershop/src/lib/middlewares/publicStatic');
 const themePublicStatic = require('@evershop/evershop/src/lib/middlewares/themePublicStatic');
+const { select } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 
 module.exports = exports = {};
 
@@ -83,10 +86,8 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
         next();
       }
     });
-
     // Cookie parser
     app.use(cookieParser());
-
     // TODO:Termporary comment this code, Because some API requires body raw data. Like Stripe
     // if (r.isApi) {
     //   app.all(r.path, bodyParser.json({ inflate: false }));
@@ -97,6 +98,54 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
     // eslint-disable-next-line no-param-reassign
     // eslint-disable-next-line no-underscore-dangle
     r.__BUILDREQUIRED__ = true;
+  });
+
+  app.use(async (request, response, next) => {
+    // Get the request path, remove '/' from both ends, remove the . from the string
+    const path = request.originalUrl
+      .split('?')[0]
+      .replace(/^\/|\/$/g, '')
+      .replace(/\./g, '');
+    console.log(path);
+    // If the current route is already set, or the path contains .hot-update.json, .hot-update.js skip this middleware
+    if (request.currentRoute || path.includes('.hot-update')) {
+      return next();
+    }
+    // Look up for the category path from the category_path table
+
+    // Find the matched rewrite rule base on the request path
+    const rewriteRule = await select()
+      .from('url_rewrite')
+      .where('request_path', '=', path)
+      .load(pool);
+
+    if (rewriteRule) {
+      // Find the route
+      const route = routes.find((r) => {
+        const regexp = pathToRegexp(r.path);
+        const match = regexp.exec(rewriteRule.target_path);
+        if (match) {
+          request.locals = request.locals || {};
+          request.locals.customParams = {};
+          const keys = [];
+          pathToRegexp(r.path, keys);
+          keys.forEach((key, index) => {
+            request.locals.customParams[key.name] = match[index + 1];
+          });
+          return true;
+        }
+        return false;
+      });
+      // Get the current http method
+      const method = request.method.toUpperCase();
+      // Check if the route supports the current http method
+      if (route && route.method.includes(method)) {
+        request.currentRoute = route;
+      }
+      return next();
+    } else {
+      return next();
+    }
   });
 
   if (isDevelopmentMode()) {

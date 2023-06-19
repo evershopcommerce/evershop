@@ -200,13 +200,7 @@ export default function CategoryGrid({
                 coreComponents={[
                   {
                     component: {
-                      default: () => (
-                        <CategoryNameRow
-                          id="name"
-                          name={c.name}
-                          url={c.editUrl}
-                        />
-                      )
+                      default: () => <CategoryNameRow id="name" category={c} />
                     },
                     sortOrder: 10
                   },
@@ -252,7 +246,12 @@ CategoryGrid.propTypes = {
         status: PropTypes.number.isRequired,
         includeInNav: PropTypes.number.isRequired,
         editUrl: PropTypes.string.isRequired,
-        deleteApi: PropTypes.string.isRequired
+        deleteApi: PropTypes.string.isRequired,
+        path: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string.isRequired
+          })
+        )
       })
     ).isRequired,
     total: PropTypes.number.isRequired,
@@ -282,6 +281,9 @@ export const query = `
         includeInNav
         editUrl
         deleteApi
+        path {
+          name
+        }
       }
       total
       currentFilters {

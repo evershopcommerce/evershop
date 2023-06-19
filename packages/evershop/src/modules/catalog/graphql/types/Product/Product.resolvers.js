@@ -5,7 +5,7 @@ const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 
 module.exports = {
   Product: {
-    categories: async (product, _, { pool }) => {
+    category: async (product, _, { pool }) => {
       const query = select().from('category');
       query
         .leftJoin('category_description', 'des')
@@ -14,22 +14,27 @@ module.exports = {
           '=',
           'category.category_id'
         );
-      return (
-        await query
-          .where(
-            'category_id',
-            'IN',
-            (
-              await select('category_id')
-                .from('product_category')
-                .where('product_id', '=', product.productId)
-                .execute(pool)
-            ).map((row) => row.category_id)
-          )
-          .execute(pool)
-      ).map((row) => camelCase(row));
+      query.where('category_id', '=', product.categoryId);
+      const result = await query.load(pool);
+      if (!result) {
+        return null;
+      } else {
+        return camelCase(result);
+      }
     },
-    url: (product) => buildUrl('productView', { url_key: product.urlKey }),
+    url: async (product, _, { pool }) => {
+      // Get the url rewrite for this product
+      const urlRewrite = await select()
+        .from('url_rewrite')
+        .where('entity_uuid', '=', product.uuid)
+        .and('entity_type', '=', 'product')
+        .load(pool);
+      if (!urlRewrite) {
+        return buildUrl('productView', { uuid: product.uuid });
+      } else {
+        return urlRewrite.requestPath;
+      }
+    },
     editUrl: (product) => buildUrl('productEdit', { id: product.uuid }),
     updateApi: (product) => buildUrl('updateProduct', { id: product.uuid }),
     deleteApi: (product) => buildUrl('deleteProduct', { id: product.uuid })
@@ -44,7 +49,10 @@ module.exports = {
           '=',
           'product.product_id'
         );
-      query.where('product_id', '=', id);
+      query
+        .innerJoin('product_inventory')
+        .on('product_inventory.product_id', '=', 'product.product_id');
+      query.where('product.product_id', '=', id);
       const result = await query.load(pool);
       if (!result) {
         return null;

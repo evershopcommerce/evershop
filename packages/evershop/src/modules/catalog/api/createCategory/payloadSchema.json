@@ -32,7 +32,7 @@
       "enum": [0, 1, "0", "1"]
     },
     "parent_id": {
-      "type": ["string", "integer"],
+      "type": ["string", "integer", "null"],
       "pattern": "^[0-9]*$"
     },
     "position": {
@@ -44,7 +44,6 @@
     "name",
     "description",
     "status",
-    "url_key",
     "meta_title",
     "meta_description"
   ],

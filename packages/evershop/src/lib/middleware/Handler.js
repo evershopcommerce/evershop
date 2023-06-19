@@ -91,6 +91,11 @@ class Handler {
 
   static middleware() {
     return (request, response, next) => {
+      request.params = Object.assign(
+        {},
+        request.locals?.customParams || {},
+        request.params
+      );
       const { currentRoute } = request;
       let middlewares;
       if (!currentRoute) {
@@ -98,7 +103,6 @@ class Handler {
       } else {
         middlewares = this.getMiddlewareByRoute(currentRoute);
       }
-
       const goodHandlers = middlewares.filter((m) => m.middleware.length === 3);
       const errorHandlers = middlewares.filter(
         (m) => m.middleware.length === 4

@@ -1,4 +1,4 @@
-const { select, node } = require('@evershop/postgres-query-builder');
+const { select, node, execute } = require('@evershop/postgres-query-builder');
 const uniqid = require('uniqid');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
@@ -37,6 +37,22 @@ module.exports = {
         );
 
       const currentFilters = [];
+      // Parent filter
+      const parentFilter = filters.find((f) => f.key === 'parent');
+      console.log('parentFilter', parentFilter);
+      if (parentFilter) {
+        if (parentFilter.value === null) {
+          query.andWhere('category.parent_id', 'IS NULL', null);
+        } else {
+          query.andWhere('category.parent_id', '=', parentFilter.value);
+        }
+        currentFilters.push({
+          key: 'parent',
+          operation: '=',
+          value: parentFilter.value
+        });
+      }
+
       // Name filter
       const nameFilter = filters.find((f) => f.key === 'name');
       if (nameFilter) {
@@ -121,17 +137,25 @@ module.exports = {
     products: async (_, { filters = [] }, { user }) => {
       const query = select().from('product');
       query
+        .innerJoin('product_inventory')
+        .on('product_inventory.product_id', '=', 'product.product_id');
+      query
         .leftJoin('product_description', 'des')
         .on('product.product_id', '=', 'des.product_description_product_id');
       if (!user) {
         query.andWhere('product.status', '=', 1);
         if (getConfig('catalog.showOutOfStockProduct', false) === false) {
           query
-            .andWhere('product.manage_stock', '=', false)
+            .andWhere('product_inventory.manage_stock', '=', false)
             .addNode(
               node('OR')
-                .addLeaf('AND', 'product.qty', '>', 0)
-                .addLeaf('AND', 'product.stock_availability', '=', true)
+                .addLeaf('AND', 'product_inventory.qty', '>', 0)
+                .addLeaf(
+                  'AND',
+                  'product_inventory.stock_availability',
+                  '=',
+                  true
+                )
             );
         }
       }
@@ -171,12 +195,12 @@ module.exports = {
         const [min, max] = qtyFilter.value.split('-').map((v) => parseFloat(v));
         let currentQtyFilter;
         if (Number.isNaN(min) === false) {
-          query.andWhere('product.qty', '>=', min);
+          query.andWhere('product_inventory.qty', '>=', min);
           currentQtyFilter = { key: 'qty', operation: '=', value: `${min}` };
         }
 
         if (Number.isNaN(max) === false) {
-          query.andWhere('product.qty', '<=', max);
+          query.andWhere('product_inventory.qty', '<=', max);
           currentQtyFilter = {
             key: 'qty',
             operation: '=',
@@ -282,7 +306,10 @@ module.exports = {
   },
   Category: {
     products: async (category, { filters = [] }, { user }) => {
-      const query = await getProductsByCategoryBaseQuery(category.categoryId);
+      const query = await getProductsByCategoryBaseQuery(
+        category.categoryId,
+        user ? false : true
+      );
       const currentFilters = [];
       // Price filter
       const minPrice = filters.find((f) => f.key === 'minPrice');
@@ -476,7 +503,19 @@ module.exports = {
         max: result.max || 0
       };
     },
-    url: (category) => buildUrl('categoryView', { url_key: category.urlKey }),
+    url: async (category, _, { pool }) => {
+      // Get the url rewrite for this category
+      const urlRewrite = await select()
+        .from('url_rewrite')
+        .where('entity_uuid', '=', category.uuid)
+        .and('entity_type', '=', 'category')
+        .load(pool);
+      if (!urlRewrite) {
+        return buildUrl('categoryView', { uuid: category.uuid });
+      } else {
+        return urlRewrite.requestPath;
+      }
+    },
     editUrl: (category) => buildUrl('categoryEdit', { id: category.uuid }),
     updateApi: (category) => buildUrl('updateCategory', { id: category.uuid }),
     deleteApi: (category) => buildUrl('deleteCategory', { id: category.uuid }),
@@ -492,6 +531,66 @@ module.exports = {
           url: `/assets${image}`
         };
       }
+    },
+    children: async (category) => {
+      const query = select().from('category');
+      query
+        .leftJoin('category_description', 'des')
+        .on(
+          'des.category_description_category_id',
+          '=',
+          'category.category_id'
+        );
+      query.where('category.parent_id', '=', category.categoryId);
+      query.orderBy('category.sort_order', 'ASC');
+      const results = await query.execute(pool);
+      return results.map((row) => camelCase(row));
+    },
+    path: async (category, _, { pool }) => {
+      const query = await execute(
+        pool,
+        `WITH RECURSIVE category_path AS (
+          SELECT category_id, parent_id, 1 AS level
+          FROM category
+          WHERE category_id = ${category.categoryId}
+          UNION ALL
+          SELECT c.category_id, c.parent_id, cp.level + 1
+          FROM category c
+          INNER JOIN category_path cp ON cp.parent_id = c.category_id
+        )
+        SELECT category_id FROM category_path ORDER BY level DESC`
+      );
+      const categories = query.rows;
+      // Loop the categories and load the category description
+      return Promise.all(
+        categories.map(async (c) => {
+          const query = select().from('category');
+          query
+            .leftJoin('category_description', 'des')
+            .on(
+              'des.category_description_category_id',
+              '=',
+              'category.category_id'
+            );
+          query.where('category.category_id', '=', c.category_id);
+          return camelCase(await query.load(pool));
+        })
+      );
+    },
+    parent: async (category, _, { pool }) => {
+      if (!category.parentId) {
+        return null;
+      }
+      const query = select().from('category');
+      query
+        .leftJoin('category_description', 'des')
+        .on(
+          'des.category_description_category_id',
+          '=',
+          'category.category_id'
+        );
+      query.where('category.category_id', '=', category.parentId);
+      return camelCase(await query.load(pool));
     }
   }
 };

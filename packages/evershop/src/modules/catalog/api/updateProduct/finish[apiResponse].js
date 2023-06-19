@@ -50,7 +50,7 @@ module.exports = async (request, response, delegate, next) => {
           },
           {
             rel: 'view',
-            href: buildUrl('productView', { url_key: product.url_key }),
+            href: buildUrl('productView', { uuid: product.uuid }),
             action: 'GET',
             types: ['text/xml']
           },

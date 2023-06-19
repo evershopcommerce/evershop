@@ -86,6 +86,6 @@ module.exports.createApp = () => {
       }
     });
   });
-
+  app.use(Handler.middleware());
   return app;
 };

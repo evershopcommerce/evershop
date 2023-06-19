@@ -14,6 +14,9 @@ type Category {
   metaKeywords: String
   image: CategoryImage
   products(filters: [FilterInput]): ProductCollection
+  children: [Category]
+  parent: Category
+  path: [Category]
   url: String
   editUrl: String
   updateApi: String!
@@ -37,7 +40,7 @@ The `FilterInput` type represents a filter input object.
 input FilterInput {
   key: String!
   operation: String!
-  value: String!
+  value: String
 }
 
 """

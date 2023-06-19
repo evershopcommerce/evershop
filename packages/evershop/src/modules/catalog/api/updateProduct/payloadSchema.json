@@ -86,12 +86,9 @@
         }
       }
     },
-    "categories": {
-      "type": "array",
-      "items": {
-        "type": ["string", "integer"],
-        "pattern": "^[0-9]+$"
-      }
+    "category": {
+      "type": ["string", "number", "null"],
+      "pattern": "^[0-9]+$"
     },
     "options": {
       "type": "array",

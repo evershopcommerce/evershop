@@ -1,74 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Select from 'react-select';
-import { useQuery } from 'urql';
 import { Field } from '@components/common/form/Field';
 import { Card } from '@components/admin/cms/Card';
-
-const categoryQuery = `
-  query Query {
-    categories {
-      items {
-        value: categoryId,
-        label: name
-      }
-    }
-  }
-`;
-
-export function Category({ product }) {
-  const [categories, setCategories] = React.useState(
-    product ? product.categories : []
-  );
-  const [result] = useQuery({
-    query: categoryQuery
-  });
-  const { data, fetching, error } = result;
-
-  if (fetching) return <p>Loading...</p>;
-  if (error) {
-    return (
-      <p>
-        Oh no...
-        {error.message}
-      </p>
-    );
-  }
-
-  return (
-    <div>
-      <div className="mb-1">Category</div>
-      <Select
-        name="categories[]"
-        options={data.categories.items}
-        hideSelectedOptions
-        isMulti
-        defaultValue={categories}
-        onChange={(value) => setCategories(value.map((item) => item.value))}
-      />
-      {categories.length === 0 && (
-        <input type="hidden" name="categories[0]" value="0" />
-      )}
-    </div>
-  );
-}
-
-Category.propTypes = {
-  product: PropTypes.shape({
-    categories: PropTypes.arrayOf(
-      PropTypes.shape({
-        value: PropTypes.number.isRequired,
-        label: PropTypes.string.isRequired
-      })
-    )
-  })
-};
-
-Category.defaultProps = {
-  product: {
-    categories: []
-  }
-};
 
 export default function Status({ product }) {
   return (
@@ -99,9 +32,6 @@ export default function Status({ product }) {
           type="radio"
         />
       </Card.Session>
-      <Card.Session>
-        <Category product={product} />
-      </Card.Session>
     </Card>
   );
 }
@@ -130,7 +60,7 @@ export const query = `
     product(id: getContextValue("productId", null)) {
       status
       visibility
-      categories {
+      category {
         value: categoryId
         label: name
       }

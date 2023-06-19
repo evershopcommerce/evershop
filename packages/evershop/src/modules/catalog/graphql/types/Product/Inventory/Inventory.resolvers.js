@@ -7,7 +7,5 @@ module.exports = {
         (parseInt(product.qty, 10) > 0 && product.stockAvailability === true) ||
         product.manageStock === false
     })
-    // TODO: if an extension want to add more fields to inventory, How to extend this resolver?
-    // Use eventDispatcher?
   }
 };

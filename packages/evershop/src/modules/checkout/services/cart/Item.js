@@ -55,6 +55,10 @@ module.exports.Item = class Item extends DataObject {
               '=',
               'des.product_description_product_id'
             );
+          query
+            .innerJoin('product_inventory')
+            .on('product_inventory.product_id', '=', 'product.product_id');
+
           const product = await query
             .where('product_id', '=', this.dataSource.product_id)
             .load(pool);

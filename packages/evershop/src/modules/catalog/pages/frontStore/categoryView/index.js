@@ -16,7 +16,7 @@ module.exports = async (request, response, stack, next) => {
         'category_description.category_description_category_id'
       );
 
-    query.where('category_description.url_key', '=', request.params.url_key);
+    query.where('category.uuid', '=', request.params.uuid);
     const category = await query.load(pool);
     if (category === null) {
       response.status(404);

@@ -1,4 +1,4 @@
-const { select, insert } = require('@evershop/postgres-query-builder');
+const { insert } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 
 module.exports.emit = async function emit(name, data) {

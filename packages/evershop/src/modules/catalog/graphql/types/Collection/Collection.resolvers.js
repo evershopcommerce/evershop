@@ -93,6 +93,9 @@ module.exports = {
         .leftJoin('product')
         .on('product.product_id', '=', 'product_collection.product_id');
       query
+        .innerJoin('product_inventory')
+        .on('product_inventory.product_id', '=', 'product.product_id');
+      query
         .leftJoin('product_description')
         .on(
           'product_description.product_description_product_id',
@@ -109,11 +112,16 @@ module.exports = {
         query.andWhere('product.status', '=', 1);
         if (getConfig('catalog.showOutOfStockProduct', false) === false) {
           query
-            .andWhere('product.manage_stock', '=', false)
+            .andWhere('product_inventory.manage_stock', '=', false)
             .addNode(
               node('OR')
-                .addLeaf('AND', 'product.qty', '>', 0)
-                .addLeaf('AND', 'product.stock_availability', '=', true)
+                .addLeaf('AND', 'product_inventory.qty', '>', 0)
+                .addLeaf(
+                  'AND',
+                  'product_inventory.stock_availability',
+                  '=',
+                  true
+                )
             );
         }
       }
