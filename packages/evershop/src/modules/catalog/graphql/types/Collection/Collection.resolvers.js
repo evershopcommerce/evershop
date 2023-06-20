@@ -94,7 +94,11 @@ module.exports = {
         .on('product.product_id', '=', 'product_collection.product_id');
       query
         .innerJoin('product_inventory')
-        .on('product_inventory.product_id', '=', 'product.product_id');
+        .on(
+          'product_inventory.product_inventory_product_id',
+          '=',
+          'product.product_id'
+        );
       query
         .leftJoin('product_description')
         .on(

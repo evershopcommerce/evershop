@@ -32,7 +32,7 @@ module.exports = {
       if (!urlRewrite) {
         return buildUrl('productView', { uuid: product.uuid });
       } else {
-        return urlRewrite.requestPath;
+        return urlRewrite.request_path;
       }
     },
     editUrl: (product) => buildUrl('productEdit', { id: product.uuid }),
@@ -51,7 +51,11 @@ module.exports = {
         );
       query
         .innerJoin('product_inventory')
-        .on('product_inventory.product_id', '=', 'product.product_id');
+        .on(
+          'product_inventory.product_inventory_product_id',
+          '=',
+          'product.product_id'
+        );
       query.where('product.product_id', '=', id);
       const result = await query.load(pool);
       if (!result) {

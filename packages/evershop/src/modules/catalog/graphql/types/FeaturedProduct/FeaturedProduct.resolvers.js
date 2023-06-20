@@ -15,7 +15,7 @@ module.exports = {
         .select('SUM(cart_item.qty)', 'soldQty')
         .from('product');
       query
-        .innerJoin('product_description')
+        .leftJoin('product_description')
         .on(
           'product.product_id',
           '=',
@@ -23,7 +23,11 @@ module.exports = {
         );
       query
         .innerJoin('product_inventory')
-        .on('product.product_id', '=', 'product_inventory.product_id');
+        .on(
+          'product.product_id',
+          '=',
+          'product_inventory.product_inventory_product_id'
+        );
       query
         .leftJoin('cart_item')
         .on('cart_item.product_id', '=', 'product.product_id');

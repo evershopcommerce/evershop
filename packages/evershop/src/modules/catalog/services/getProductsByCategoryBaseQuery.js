@@ -16,7 +16,11 @@ module.exports.getProductsByCategoryBaseQuery = async (
     );
   query
     .innerJoin('product_inventory')
-    .on('product_inventory.product_id', '=', 'product.product_id');
+    .on(
+      'product_inventory.product_inventory_product_id',
+      '=',
+      'product.product_id'
+    );
 
   if (!fromSubCategories) {
     query.where('product.category_id', '=', categoryId);

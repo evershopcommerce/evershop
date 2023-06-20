@@ -73,7 +73,7 @@ module.exports = exports = async (connection) => {
       "language" varchar NOT NULL DEFAULT 'en',
       "request_path" varchar NOT NULL,
       "target_path" varchar NOT NULL,
-      "entity_uuid" varchar NOT NULL,
+      "entity_uuid" UUID DEFAULT NULL,
       "entity_type" varchar DEFAULT NULL,
       CONSTRAINT "URL_REWRITE_PATH_UNIQUE" UNIQUE ("language", "entity_uuid")
     )`
@@ -210,7 +210,7 @@ module.exports = exports = async (connection) => {
     connection,
     `CREATE TABLE product_inventory (
       "product_inventory_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
-      "product_id" INT NOT NULL,
+      "product_inventory_product_id" INT NOT NULL,
       "qty" INT NOT NULL DEFAULT 0,
       "manage_stock" BOOLEAN NOT NULL DEFAULT false,
       "stock_availability" BOOLEAN NOT NULL DEFAULT false,

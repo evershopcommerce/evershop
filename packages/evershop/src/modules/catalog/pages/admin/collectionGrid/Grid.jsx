@@ -9,9 +9,8 @@ import Pagination from '@components/common/grid/Pagination';
 import { useAlertContext } from '@components/common/modal/Alert';
 import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Card } from '@components/admin/cms/Card';
-import CategoryNameRow from '@components/admin/catalog/categoryGrid/rows/CategoryName';
+import CollectionNameRow from '@components/admin/catalog/collectionGrid/rows/CollectionNameRow';
 import BasicColumnHeader from '@components/common/grid/headers/Basic';
-import StatusRow from '@components/common/grid/rows/StatusRow';
 import TextRow from '@components/common/grid/rows/TextRow';
 import DummyColumnHeader from '@components/common/grid/headers/Dummy';
 
@@ -105,97 +104,34 @@ export default function CollectionGrid({
   const [selectedRows, setSelectedRows] = useState([]);
 
   return (
-    <div className='w-2/3' style={{margin: '0 auto'}}>
+    <div className="w-2/3" style={{ margin: '0 auto' }}>
       <Card>
-      <table className="listing sticky">
-        <thead>
-          <tr>
-            <th className="align-bottom">
-              <Checkbox
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedRows(collections.map((c) => c.uuid));
-                  } else {
-                    setSelectedRows([]);
-                  }
-                }}
-              />
-            </th>
-            <Area
-              className=""
-              id="collectionGridHeader"
-              noOuter
-              coreComponents={[
-                {
-                  component: {
-                    default: () => (
-                      <DummyColumnHeader
-                        title="ID"
-                        id="collectionId"
-                        currentFilters={currentFilters}
-                      />
-                    )
-                  },
-                  sortOrder: 5
-                },
-                {
-                  component: {
-                    default: () => (
-                      <BasicColumnHeader
-                        title="Collection Name"
-                        id="name"
-                        currentFilters={currentFilters}
-                      />
-                    )
-                  },
-                  sortOrder: 10
-                },
-                {
-                  component: {
-                    default: () => (
-                      <BasicColumnHeader
-                        title="Code"
-                        id="code"
-                        currentFilters={currentFilters}
-                      />
-                    )
-                  },
-                  sortOrder: 15
-                }
-              ]}
-            />
-          </tr>
-        </thead>
-        <tbody>
-          <Actions
-            collections={collections}
-            selectedIds={selectedRows}
-            setSelectedRows={setSelectedRows}
-          />
-          {collections.map((c) => (
-            <tr key={c.collectionId}>
-              <td style={{ width: '2rem' }}>
+        <table className="listing sticky">
+          <thead>
+            <tr>
+              <th className="align-bottom">
                 <Checkbox
-                  isChecked={selectedRows.includes(c.uuid)}
                   onChange={(e) => {
-                    if (e.target.checked)
-                      setSelectedRows(selectedRows.concat([c.uuid]));
-                    else
-                      setSelectedRows(selectedRows.filter((r) => r !== c.uuid));
+                    if (e.target.checked) {
+                      setSelectedRows(collections.map((c) => c.uuid));
+                    } else {
+                      setSelectedRows([]);
+                    }
                   }}
                 />
-              </td>
+              </th>
               <Area
                 className=""
-                id="collectionGridRow"
-                row={c}
+                id="collectionGridHeader"
                 noOuter
                 coreComponents={[
                   {
                     component: {
                       default: () => (
-                        <TextRow
-                          text={c.collectionId}
+                        <DummyColumnHeader
+                          title="ID"
+                          id="collectionId"
+                          currentFilters={currentFilters}
                         />
                       )
                     },
@@ -204,10 +140,10 @@ export default function CollectionGrid({
                   {
                     component: {
                       default: () => (
-                        <CategoryNameRow
+                        <BasicColumnHeader
+                          title="Collection Name"
                           id="name"
-                          name={c.name}
-                          url={c.editUrl}
+                          currentFilters={currentFilters}
                         />
                       )
                     },
@@ -216,8 +152,10 @@ export default function CollectionGrid({
                   {
                     component: {
                       default: () => (
-                        <TextRow
-                          text={c.code}
+                        <BasicColumnHeader
+                          title="Code"
+                          id="code"
+                          currentFilters={currentFilters}
                         />
                       )
                     },
@@ -226,16 +164,71 @@ export default function CollectionGrid({
                 ]}
               />
             </tr>
-          ))}
-        </tbody>
-      </table>
-      {collections.length === 0 && (
-        <div className="flex w-full justify-center">
-          There is no collections to display
-        </div>
-      )}
-      <Pagination total={total} limit={limit} page={page} />
-    </Card>
+          </thead>
+          <tbody>
+            <Actions
+              collections={collections}
+              selectedIds={selectedRows}
+              setSelectedRows={setSelectedRows}
+            />
+            {collections.map((c) => (
+              <tr key={c.collectionId}>
+                <td style={{ width: '2rem' }}>
+                  <Checkbox
+                    isChecked={selectedRows.includes(c.uuid)}
+                    onChange={(e) => {
+                      if (e.target.checked)
+                        setSelectedRows(selectedRows.concat([c.uuid]));
+                      else
+                        setSelectedRows(
+                          selectedRows.filter((r) => r !== c.uuid)
+                        );
+                    }}
+                  />
+                </td>
+                <Area
+                  className=""
+                  id="collectionGridRow"
+                  row={c}
+                  noOuter
+                  coreComponents={[
+                    {
+                      component: {
+                        default: () => <TextRow text={c.collectionId} />
+                      },
+                      sortOrder: 5
+                    },
+                    {
+                      component: {
+                        default: () => (
+                          <CollectionNameRow
+                            id="name"
+                            name={c.name}
+                            url={c.editUrl}
+                          />
+                        )
+                      },
+                      sortOrder: 10
+                    },
+                    {
+                      component: {
+                        default: () => <TextRow text={c.code} />
+                      },
+                      sortOrder: 15
+                    }
+                  ]}
+                />
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {collections.length === 0 && (
+          <div className="flex w-full justify-center">
+            There is no collections to display
+          </div>
+        )}
+        <Pagination total={total} limit={limit} page={page} />
+      </Card>
     </div>
   );
 }

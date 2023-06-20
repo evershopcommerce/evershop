@@ -106,7 +106,6 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
       .split('?')[0]
       .replace(/^\/|\/$/g, '')
       .replace(/\./g, '');
-    console.log(path);
     // If the current route is already set, or the path contains .hot-update.json, .hot-update.js skip this middleware
     if (request.currentRoute || path.includes('.hot-update')) {
       return next();
@@ -116,9 +115,8 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
     // Find the matched rewrite rule base on the request path
     const rewriteRule = await select()
       .from('url_rewrite')
-      .where('request_path', '=', path)
+      .where('request_path', '=', `/${path}`)
       .load(pool);
-
     if (rewriteRule) {
       // Find the route
       const route = routes.find((r) => {

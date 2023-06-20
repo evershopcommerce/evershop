@@ -138,7 +138,11 @@ module.exports = {
       const query = select().from('product');
       query
         .innerJoin('product_inventory')
-        .on('product_inventory.product_id', '=', 'product.product_id');
+        .on(
+          'product_inventory.product_inventory_product_id',
+          '=',
+          'product.product_id'
+        );
       query
         .leftJoin('product_description', 'des')
         .on('product.product_id', '=', 'des.product_description_product_id');
@@ -513,7 +517,7 @@ module.exports = {
       if (!urlRewrite) {
         return buildUrl('categoryView', { uuid: category.uuid });
       } else {
-        return urlRewrite.requestPath;
+        return urlRewrite.request_path;
       }
     },
     editUrl: (category) => buildUrl('categoryEdit', { id: category.uuid }),

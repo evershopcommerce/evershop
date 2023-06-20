@@ -3,13 +3,12 @@ const addFormats = require('ajv-formats');
 const {
   INVALID_PAYLOAD
 } = require('@evershop/evershop/src/lib/util/httpStatus');
-const secret = require('@evershop/evershop/src/modules/base/services/secret');
 const markSkipEscape = require('../../services/markSkipEscape');
 
 // Initialize the ajv instance
 const ajv = new Ajv({
   strict: false,
-  useDefaults: true
+  useDefaults: 'empty'
 });
 
 // Add the formats

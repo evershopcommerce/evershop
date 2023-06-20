@@ -57,7 +57,11 @@ module.exports.Item = class Item extends DataObject {
             );
           query
             .innerJoin('product_inventory')
-            .on('product_inventory.product_id', '=', 'product.product_id');
+            .on(
+              'product_inventory.product_inventory_product_id',
+              '=',
+              'product.product_id'
+            );
 
           const product = await query
             .where('product_id', '=', this.dataSource.product_id)
@@ -374,11 +378,21 @@ module.exports.Item = class Item extends DataObject {
       key: 'productUrl',
       resolvers: [
         async function resolver() {
-          return this.getData('product_id')
-            ? buildUrl('productView', {
-                url_key: this.dataSource.product.url_key
-              })
-            : null;
+          if (!this.getData('product_id')) {
+            return null;
+          }
+          const urlRewrite = await select()
+            .from('url_rewrite')
+            .where('entity_uuid', '=', this.dataSource.product.uuid)
+            .and('entity_type', '=', 'product')
+            .load(pool);
+          if (!urlRewrite) {
+            return buildUrl('productView', {
+              uuid: this.dataSource.product.uuid
+            });
+          } else {
+            return urlRewrite.request_path;
+          }
         }
       ],
       dependencies: ['product_id']

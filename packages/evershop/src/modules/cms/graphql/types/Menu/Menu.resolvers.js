@@ -4,10 +4,18 @@ const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 module.exports = {
   Query: {
     menu: async (root, _, { pool }) => {
-      const query = select('name').select('url_key').from('category', 'cat');
+      const query = select('name')
+        .select('uuid')
+        .select('request_path')
+        .select('url_key')
+        .from('category', 'cat');
       query
         .leftJoin('category_description', 'des')
         .on('cat.category_id', '=', 'des.category_description_category_id');
+      query
+        .leftJoin('url_rewrite', 'url')
+        .on('url.entity_uuid', '=', 'cat.uuid')
+        .and('url.entity_type', '=', 'category');
       query
         .where('cat.status', '=', 1)
         .and('cat.include_in_nav', '=', 1)
@@ -16,7 +24,7 @@ module.exports = {
 
       const items = (await query.execute(pool)).map((i) => ({
         name: i.name,
-        url: buildUrl('categoryView', { url_key: i.url_key })
+        url: i.request_path || buildUrl('categoryView', { uuid: i.uuid })
       }));
 
       return { items };
