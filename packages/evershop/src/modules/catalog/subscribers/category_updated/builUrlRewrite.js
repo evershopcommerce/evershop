@@ -20,7 +20,6 @@ module.exports = async function buildUrlReWrite(data) {
     ) SELECT * FROM parent_categories`
     );
     const parentCategories = parentCategoriesQuery.rows;
-    console.log(parentCategories);
     // Build the url rewrite base on the category path, join the category_description table to get the url_key
     let path = '';
     for (let i = 0; i < parentCategories.length; i += 1) {
@@ -31,8 +30,6 @@ module.exports = async function buildUrlReWrite(data) {
         .load(pool);
       path = `/${urlKey.url_key}` + path;
     }
-
-    console.log('path', path);
 
     // Save the current path
     const currentPath = await select('request_path')

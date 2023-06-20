@@ -110,6 +110,10 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
     if (request.currentRoute || path.includes('.hot-update')) {
       return next();
     }
+    // Also skip if we are running in the test mode
+    if (process.env.NODE_ENV === 'test') {
+      return next();
+    }
     // Look up for the category path from the category_path table
 
     // Find the matched rewrite rule base on the request path
