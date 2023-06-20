@@ -49,7 +49,7 @@ exports.scanForRoutes = (path, isAdmin, isApi) => {
         if (existsSync(join(path, r, 'route.json'))) {
           // import route.json
           const routeJson = require(join(path, r, 'route.json'));
-          const methods = routeJson?.methods || [];
+          const methods = routeJson?.methods.map((m) => m.toUpperCase()) || [];
           let routePath = routeJson?.path;
           if (
             validateRoute(methods, routePath, join(path, r, 'route')) === true

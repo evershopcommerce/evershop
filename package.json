@@ -22,6 +22,7 @@
     "setup": "evershop install",
     "build": "evershop build",
     "start": "evershop start",
+    "start:debug": "evershop start --debug",
     "test": "jest --workspace=@evershop/evershop",
     "cypress": "cypress run"
   },

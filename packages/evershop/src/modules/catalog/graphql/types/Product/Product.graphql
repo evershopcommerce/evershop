@@ -17,7 +17,7 @@ type Product {
   variantGroupId: ID
   visibility: Int
   groupId: ID
-  categories: [Category]
+  category: Category
   url: String
   editUrl: String
   updateApi: String!

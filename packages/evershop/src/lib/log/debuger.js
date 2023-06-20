@@ -7,9 +7,6 @@ const levels = {
 
 // Define logger function
 function debug(level, message) {
-  if (process.env.NODE_ENV === 'production') {
-    return; // Do not log in production mode
-  }
   if (!process.argv.includes('--debug')) {
     return; // Do not output message to console or file
   }

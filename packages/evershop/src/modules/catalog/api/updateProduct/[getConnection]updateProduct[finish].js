@@ -34,6 +34,12 @@ module.exports = async (request, response, delegate) => {
         .and('product_id', '<>', product.product_id)
         .execute(connection);
     }
+
+    // Update product inventory
+    await update('product_inventory')
+      .given(request.body)
+      .where('product_inventory_product_id', '=', product.product_id)
+      .execute(connection);
   } catch (e) {
     if (!e.message.includes('No data was provided')) {
       throw e;

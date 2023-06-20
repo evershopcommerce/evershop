@@ -1,10 +1,19 @@
 """
+Represents a breadcrumb information.
+"""
+type Breadcrumb {
+  url: String!
+  title: String!
+}
+
+"""
 Represents a page information.
 """
 type PageInfo {
   url: String!
   title: String!
-  description: String!
+  description: String!,
+  breadcrumbs: [Breadcrumb!]
 }
 
 extend type Query {

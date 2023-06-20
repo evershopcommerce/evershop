@@ -4,6 +4,7 @@ import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
 import { Card } from '@components/admin/cms/Card';
 import CkeditorField from '@components/common/form/fields/Ckeditor';
+import CategoryTree from '@components/admin/catalog/productEdit/category/CategoryTree';
 
 function SKUPriceWeight({ sku, price, weight, setting }) {
   return (
@@ -63,6 +64,88 @@ SKUPriceWeight.defaultProps = {
   weight: undefined
 };
 
+function Category({ product }) {
+  const [selecting, setSelecting] = React.useState(false);
+  const [category, setCategory] = React.useState(
+    product ? product.category : null
+  );
+
+  return (
+    <div className="mt-15 relative">
+      <div className="mb-1">Category</div>
+      {category && (
+        <div className="border rounded border-[#c9cccf] mb-1 p-1">
+          {category.path.map((item, index) => (
+            <span key={item.name} className="text-gray-500">
+              {item.name}
+              {index < category.path.length - 1 && ' > '}
+            </span>
+          ))}
+          <span className="text-interactive pl-2">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setSelecting(true);
+              }}
+            >
+              Change
+            </a>
+          </span>
+        </div>
+      )}
+      {!selecting && !category && (
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setSelecting(!selecting);
+          }}
+          className="text-interactive"
+        >
+          {'Select category'}
+        </a>
+      )}
+      {selecting && (
+        <div className="absolute top-5 left-0 right-0 bg-[#eff2f5] z-50 border rounded border-[#c9cccf] p-[10px]">
+          <CategoryTree
+            selectedCategory={category}
+            setSelectedCategory={(category) => {
+              setCategory(category);
+              setSelecting(false);
+            }}
+          />
+        </div>
+      )}
+      <input
+        type="hidden"
+        name="category_id"
+        value={category?.categoryId || null}
+      />
+    </div>
+  );
+}
+
+Category.propTypes = {
+  product: PropTypes.shape({
+    category: PropTypes.shape({
+      categoryId: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      path: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string.isRequired
+        })
+      ).isRequired
+    })
+  })
+};
+
+Category.defaultProps = {
+  product: {
+    category: {}
+  }
+};
+
 export default function General({
   product,
   browserApi,
@@ -113,6 +196,14 @@ export default function General({
               },
               sortOrder: 20,
               id: 'SKUPriceWeight'
+            },
+            {
+              component: { default: Category },
+              props: {
+                product
+              },
+              sortOrder: 22,
+              id: 'category'
             },
             {
               component: { default: Field },
@@ -205,6 +296,12 @@ export const query = `
       weight {
         value
         unit
+      }
+      category {
+        categoryId
+        path {
+          name
+        }
       }
     }
     setting {
