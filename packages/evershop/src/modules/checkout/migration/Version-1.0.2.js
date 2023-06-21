@@ -11,7 +11,7 @@ module.exports = exports = async (connection) => {
         AS
       $$
       BEGIN
-        UPDATE product_inventory SET qty = qty - NEW.qty WHERE product_id = NEW.product_id AND manage_stock = TRUE;
+        UPDATE product_inventory SET qty = qty - NEW.qty WHERE product_inventory_product_id = NEW.product_id AND manage_stock = TRUE;
         RETURN NEW;
       END
       $$;`
