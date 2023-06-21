@@ -7,7 +7,6 @@ const {
 } = require('../../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
-  console.log(request.params);
   try {
     const query = select();
     query

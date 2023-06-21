@@ -39,7 +39,6 @@ module.exports = {
       const currentFilters = [];
       // Parent filter
       const parentFilter = filters.find((f) => f.key === 'parent');
-      console.log('parentFilter', parentFilter);
       if (parentFilter) {
         if (parentFilter.value === null) {
           query.andWhere('category.parent_id', 'IS NULL', null);

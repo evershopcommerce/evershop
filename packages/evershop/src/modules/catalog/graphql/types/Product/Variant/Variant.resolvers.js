@@ -168,6 +168,13 @@ module.exports = {
           '=',
           'product.product_id'
         );
+      query
+        .innerJoin('product_inventory')
+        .on(
+          'product_inventory.product_inventory_product_id',
+          '=',
+          'product.product_id'
+        );
       query.where('product_id', '=', productId);
       const result = await query.load(pool);
       if (!result) {

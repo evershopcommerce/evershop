@@ -60,10 +60,12 @@ module.exports = async function buildUrlReWrite(data) {
     );
 
     // Replace the url rewrite rule for all the sub categories and products. Search for the url rewrite rule by entity_uuid and entity_type
-    await execute(
-      pool,
-      `UPDATE url_rewrite SET request_path = REPLACE(request_path, '${currentPath.request_path}', '${path}') WHERE entity_type IN ('category', 'product')`
-    );
+    if (currentPath) {
+      await execute(
+        pool,
+        `UPDATE url_rewrite SET request_path = REPLACE(request_path, '${currentPath.request_path}', '${path}') WHERE entity_type IN ('category', 'product')`
+      );
+    }
   } catch (error) {
     console.log(error);
   }

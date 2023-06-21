@@ -112,11 +112,9 @@ export default function TaxSetting({
                       name="defaultShippingTaxClassId"
                       label="Shipping tax class"
                       value={setting.defaultShippingTaxClassId}
+                      placeholder="None"
+                      disableDefaultOption={false}
                       options={[
-                        {
-                          value: '',
-                          text: 'None'
-                        },
                         {
                           value: -1,
                           text: 'Proportional allocation based on cart items'
