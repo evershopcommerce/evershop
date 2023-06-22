@@ -1,4 +1,9 @@
-const { select, node, execute } = require('@evershop/postgres-query-builder');
+const {
+  select,
+  node,
+  execute,
+  value
+} = require('@evershop/postgres-query-builder');
 const uniqid = require('uniqid');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
@@ -373,8 +378,8 @@ module.exports = {
           query
             .innerJoin('product_attribute_value_index', alias)
             .on(`${alias}.product_id`, '=', 'product.product_id')
-            .and(`${alias}.attribute_id`, '=', attribute.attribute_id)
-            .and(`${alias}.option_id`, 'IN', values);
+            .and(`${alias}.attribute_id`, '=', value(attribute.attribute_id))
+            .and(`${alias}.option_id`, 'IN', value(values));
         }
         currentFilters.push({
           key: filter.key,

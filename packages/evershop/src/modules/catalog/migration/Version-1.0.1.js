@@ -33,4 +33,10 @@ module.exports = exports = async (connection) => {
     EXECUTE PROCEDURE update_attribute_index_and_variant_group_visibility();
     `
   );
+
+  // Drop column uuid from product_attribute_value_index
+  await execute(
+    connection,
+    `ALTER TABLE product_attribute_value_index DROP COLUMN uuid;`
+  );
 };

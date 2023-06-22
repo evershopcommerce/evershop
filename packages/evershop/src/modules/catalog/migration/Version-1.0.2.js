@@ -38,7 +38,7 @@ module.exports = exports = async (connection) => {
         NEW.url_key = url_key;
       ELSE
         IF (NEW.url_key ~ '[/\#\\]') THEN
-          RAISE EXCEPTION 'Invalid url_key', NEW.url_key;
+          RAISE EXCEPTION 'Invalid url_key: %', NEW.url_key;
         END IF;
       END IF;
       RETURN NEW;

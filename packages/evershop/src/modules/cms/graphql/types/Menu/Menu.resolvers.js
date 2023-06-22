@@ -1,4 +1,4 @@
-const { select } = require('@evershop/postgres-query-builder');
+const { select, value } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
       query
         .leftJoin('url_rewrite', 'url')
         .on('url.entity_uuid', '=', 'cat.uuid')
-        .and('url.entity_type', '=', 'category');
+        .and('url.entity_type', '=', value('category'));
       query
         .where('cat.status', '=', 1)
         .and('cat.include_in_nav', '=', 1)

@@ -39,7 +39,7 @@
     "@babel/preset-react": "^7.16.0",
     "@ckeditor/ckeditor5-build-classic": "^36.0.1",
     "@ckeditor/ckeditor5-react": "^5.1.0",
-    "@evershop/postgres-query-builder": "^1.0.2",
+    "@evershop/postgres-query-builder": "^1.0.3",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/merge": "^8.3.5",
     "@graphql-tools/schema": "^9.0.3",

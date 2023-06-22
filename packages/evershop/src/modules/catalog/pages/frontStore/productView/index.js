@@ -17,8 +17,8 @@ module.exports = async (request, response, delegate, next) => {
         '=',
         'product_description.product_description_product_id'
       );
-    query.where('status', '=', 1);
-    query.andWhere('product.uuid', '=', request.params.uuid);
+    query.where('product.uuid', '=', request.params.uuid);
+    query.andWhere('status', '=', 1);
     const product = await query.load(pool);
 
     if (product === null) {

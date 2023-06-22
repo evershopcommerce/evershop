@@ -1,5 +1,10 @@
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { execute, select, insert } = require('@evershop/postgres-query-builder');
+const {
+  execute,
+  select,
+  insert,
+  insertOnUpdate
+} = require('@evershop/postgres-query-builder');
 
 module.exports = async function buildUrlReWrite(data) {
   const categoryId = data.category_id;
@@ -29,7 +34,7 @@ module.exports = async function buildUrlReWrite(data) {
       path = `/${urlKey.url_key}` + path;
     }
     // Insert the url rewrite rule to the url_rewrite table
-    await insert('url_rewrite')
+    await insertOnUpdate('url_rewrite', ['entity_uuid', 'language'])
       .given({
         entity_type: 'category',
         entity_uuid: categoryUuid,
