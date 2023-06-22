@@ -32,8 +32,9 @@
       "enum": [0, 1, "0", "1"]
     },
     "parent_id": {
-      "type": ["string", "integer", "null"],
-      "pattern": "^[0-9]*$"
+      "type": ["string", "number", "null"],
+      "pattern": "^[0-9]+$",
+      "default": null
     },
     "position": {
       "type": ["string", "integer"],
