@@ -10,6 +10,16 @@ module.exports = async function buildUrlReWrite(data) {
   const categoryId = data.category_id;
   const categoryUuid = data.uuid;
 
+  // Load the category
+  const category = await select()
+    .from('category')
+    .where('category_id', '=', categoryId)
+    .load(pool);
+
+  if (!category) {
+    return;
+  }
+
   // Load the parent categories
   const query = await execute(
     pool,

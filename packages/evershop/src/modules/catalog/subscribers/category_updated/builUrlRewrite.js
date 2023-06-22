@@ -9,6 +9,16 @@ module.exports = async function buildUrlReWrite(data) {
   try {
     const categoryUUid = data.uuid;
     const categoryId = data.category_id;
+    // Load the category
+    const category = await select()
+      .from('category')
+      .where('category_id', '=', categoryId)
+      .load(pool);
+
+    if (!category) {
+      return;
+    }
+
     // Load the parent categories
     const parentCategoriesQuery = await execute(
       pool,
@@ -30,7 +40,6 @@ module.exports = async function buildUrlReWrite(data) {
         .load(pool);
       path = `/${urlKey.url_key}` + path;
     }
-
     // Save the current path
     const currentPath = await select('request_path')
       .from('url_rewrite')
@@ -48,22 +57,11 @@ module.exports = async function buildUrlReWrite(data) {
       })
       .execute(pool);
 
-    // Get all sub categories of the current category recursively
-    const subCategoriesQuery = await execute(
-      pool,
-      `WITH RECURSIVE sub_categories AS (
-      SELECT * FROM category WHERE category_id = ${categoryId}
-      UNION
-      SELECT c.* FROM category c
-      INNER JOIN sub_categories sc ON c.parent_id = sc.category_id
-    ) SELECT * FROM sub_categories WHERE category_id != ${categoryId}`
-    );
-
     // Replace the url rewrite rule for all the sub categories and products. Search for the url rewrite rule by entity_uuid and entity_type
     if (currentPath) {
       await execute(
         pool,
-        `UPDATE url_rewrite SET request_path = REPLACE(request_path, '${currentPath.request_path}', '${path}') WHERE entity_type IN ('category', 'product')`
+        `UPDATE url_rewrite SET request_path = REPLACE(request_path, '${currentPath.request_path}', '${path}') WHERE entity_type IN ('category', 'product') AND entity_uuid != '${categoryUUid}'`
       );
     }
   } catch (error) {
