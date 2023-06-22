@@ -10,6 +10,10 @@ module.exports = async function buildUrlReWrite(data) {
     .where('product_description_product_id', '=', productId)
     .load(pool);
 
+  if (!productDescription) {
+    return;
+  }
+
   // Update the url rewrite for the product itself
   await insertOnUpdate('url_rewrite', ['entity_uuid', 'language'])
     .given({

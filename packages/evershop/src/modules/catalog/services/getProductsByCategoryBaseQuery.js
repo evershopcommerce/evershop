@@ -43,7 +43,7 @@ module.exports.getProductsByCategoryBaseQuery = async (
 
   if (getConfig('catalog.showOutOfStockProduct', false) === false) {
     query
-      .andWhere('product.manage_stock', '=', false)
+      .andWhere('product_inventory.manage_stock', '=', false)
       .addNode(
         node('OR')
           .addLeaf('AND', 'product_inventory.qty', '>', 0)
