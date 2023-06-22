@@ -14,6 +14,9 @@ const publicStatic = require('@evershop/evershop/src/lib/middlewares/publicStati
 const themePublicStatic = require('@evershop/evershop/src/lib/middlewares/themePublicStatic');
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const {
+  setContextValue
+} = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
 
 module.exports = exports = {};
 
@@ -101,11 +104,8 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
   });
 
   app.use(async (request, response, next) => {
-    // Get the request path, remove '/' from both ends, remove the . from the string
-    const path = request.originalUrl
-      .split('?')[0]
-      .replace(/^\/|\/$/g, '')
-      .replace(/\./g, '');
+    // Get the request path, remove '/' from both ends
+    const path = request.originalUrl.split('?')[0].replace(/^\/|\/$/g, '');
     // If the current route is already set, or the path contains .hot-update.json, .hot-update.js skip this middleware
     if (request.currentRoute || path.includes('.hot-update')) {
       return next();
@@ -114,13 +114,13 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
     if (process.env.NODE_ENV === 'test') {
       return next();
     }
-    // Look up for the category path from the category_path table
 
     // Find the matched rewrite rule base on the request path
     const rewriteRule = await select()
       .from('url_rewrite')
       .where('request_path', '=', `/${path}`)
       .load(pool);
+
     if (rewriteRule) {
       // Find the route
       const route = routes.find((r) => {
@@ -276,6 +276,10 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
     if (!request.currentRoute) {
       response.status(404);
       request.currentRoute = routes.find((r) => r.id === 'notFound');
+      setContextValue(request, 'pageInfo', {
+        title: 'Not found',
+        description: 'Not found'
+      });
       next();
     } else {
       next();
