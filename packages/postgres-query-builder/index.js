@@ -44,10 +44,10 @@ class Select {
 class Leaf {
   constructor(link, field, operator, value, node) {
     this._binding = [];
-    // Check if the value is a column or a function
-    if (isValueASQL(value)) {
-      this._value = value;
+    if (value.isSQL === true) {
+      this._value = value.value;
     } else {
+      value = value.value;
       if (
         operator.toUpperCase() === 'IN' ||
         operator.toUpperCase() === 'NOT IN'
@@ -111,7 +111,8 @@ class Leaf {
 }
 
 class Node {
-  constructor(query) {
+  constructor(query, defaultValueTreatment = 'value') {
+    this._defaultValueTreatment = defaultValueTreatment;
     this._tree = [];
     this._link = undefined;
     this._parent = undefined;
@@ -119,7 +120,21 @@ class Node {
   }
 
   addLeaf(link, field, operator, value) {
-    this._tree.push(new Leaf(link, field, operator, value, this));
+    // check if value is an object, not null and not an array
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      this._tree.push(new Leaf(link, field, operator, value, this));
+    } else {
+      this._tree.push(
+        new Leaf(
+          link,
+          field,
+          operator,
+          { value: value, isSQL: this._defaultValueTreatment === 'sql' },
+          this
+        )
+      );
+    }
+
     // Return this for chaining
     return this;
   }
@@ -185,7 +200,9 @@ class Node {
   }
 
   render() {
-    if (this._tree.length === 0) return '';
+    if (this._tree.length === 0) {
+      return '';
+    }
     let statement = `${this._link} (`;
     this._tree.forEach((element, index) => {
       if (index === 0) {
@@ -234,7 +251,7 @@ class Join {
       type,
       table,
       alias: alias || table,
-      on: new Node(this._query)
+      on: new Node(this._query, 'sql')
     });
 
     return this;
@@ -308,8 +325,11 @@ class Where extends Node {
     let cp = new Where(query);
     cp._link = this._link;
     cp._tree = this._tree.map((t) => {
-      if (t.constructor === Leaf) return t.clone(cp);
-      else return t.clone(query, cp);
+      if (t.constructor === Leaf) {
+        return t.clone(cp);
+      } else {
+        return t.clone(query, cp);
+      }
     });
     return cp;
   }
@@ -330,8 +350,11 @@ class Having extends Node {
   clone(query) {
     let cp = new this.constructor(query);
     cp._tree = this._tree.map((t) => {
-      if (t.constructor === Leaf) return t.clone(cp);
-      else return t.clone(query, cp);
+      if (t.constructor === Leaf) {
+        return t.clone(cp);
+      } else {
+        return t.clone(query, cp);
+      }
     });
     return cp;
   }
@@ -574,7 +597,6 @@ class SelectQuery extends Query {
         binding.push(this._binding[key]);
       }
     }
-    //console.log(sql, binding);
     try {
       let { rows } = await connection.query({ text: sql, values: binding });
       if (releaseConnection) {
@@ -931,7 +953,9 @@ module.exports = {
   commit,
   rollback,
   release,
-  execute
+  execute,
+  sql,
+  value
 };
 
 function select() {
@@ -1009,4 +1033,18 @@ function release(connection) {
 
 async function execute(connection, query) {
   return await connection.query(query);
+}
+
+function sql(value) {
+  return {
+    value: value,
+    isSQL: true
+  };
+}
+
+function value(val) {
+  return {
+    value: val,
+    isSQL: false
+  };
 }
