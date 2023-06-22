@@ -37,7 +37,7 @@ module.exports = exports = async (connection) => {
         url_key = url_key || '-' || (SELECT floor(random() * 1000000)::text);
         NEW.url_key = url_key;
       ELSE
-        IF (NEW.url_key ~ '[/\#\\]') THEN
+        IF (NEW.url_key ~ '[/\\#]') THEN
           RAISE EXCEPTION 'Invalid url_key: %', NEW.url_key;
         END IF;
       END IF;
@@ -49,7 +49,7 @@ module.exports = exports = async (connection) => {
   // Create a trigger to build the url_key from the name if the url_key is not provided
   await execute(
     connection,
-    `CREATE TRIGGER BUILD_CATEGORY_URL_KEY_TRIGGER
+    `CREATE TRIGGER "BUILD_CATEGORY_URL_KEY_TRIGGER"
     BEFORE INSERT OR UPDATE ON category_description
     FOR EACH ROW
     EXECUTE PROCEDURE build_url_key();`
@@ -58,10 +58,9 @@ module.exports = exports = async (connection) => {
   // Create a trigger to build the url_key from the name if the url_key is not provided
   await execute(
     connection,
-    `CREATE TRIGGER BUILD_PRODUCT_URL_KEY_TRIGGER
+    `CREATE TRIGGER "BUILD_PRODUCT_URL_KEY_TRIGGER"
     BEFORE INSERT OR UPDATE ON product_description
     FOR EACH ROW
-    WHEN (NEW.url_key IS NULL)
     EXECUTE PROCEDURE build_url_key();`
   );
 
