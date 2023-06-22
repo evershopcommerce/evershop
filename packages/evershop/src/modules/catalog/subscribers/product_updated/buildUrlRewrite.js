@@ -20,16 +20,15 @@ module.exports = async function buildUrlReWrite(data) {
     })
     .execute(pool);
 
-  if (!categoryId) {
-    return;
-  }
-
   // Load the category
   const category = await select()
     .from('category')
     .where('category_id', '=', categoryId)
     .load(pool);
 
+  if (!category) {
+    return;
+  }
   // Get the url_rewrite for the category
   const categoryUrlRewrite = await select()
     .from('url_rewrite')
