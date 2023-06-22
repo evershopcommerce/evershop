@@ -16,6 +16,9 @@ module.exports = async (request, response, delegate) => {
   const connection = await delegate.getConnection;
   const categoryId = get(request, 'body.category_id');
 
+  if (categoryId === undefined) {
+    return productId;
+  }
   // Get the variant if any
   const product = await select()
     .from('product')
