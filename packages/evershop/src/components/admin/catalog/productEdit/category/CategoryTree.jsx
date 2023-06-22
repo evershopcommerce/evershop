@@ -41,7 +41,7 @@ function CategoryTree({ selectedCategory, setSelectedCategory }) {
       </p>
     );
   }
-  if (!data.categories.items.length === 0) {
+  if (data.categories.items.length === 0) {
     return <div>There is no category</div>;
   }
 
