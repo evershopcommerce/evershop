@@ -17,6 +17,13 @@ module.exports = async (request, response, delegate, next) => {
         '=',
         'product_description.product_description_product_id'
       );
+    query
+      .innerJoin('product_inventory')
+      .on(
+        'product.product_id',
+        '=',
+        'product_inventory.product_inventory_product_id'
+      );
     query.where('product.uuid', '=', request.params.uuid);
     query.andWhere('status', '=', 1);
     const product = await query.load(pool);
@@ -61,6 +68,14 @@ module.exports = async (request, response, delegate, next) => {
             .from('product', 'p')
             .select('p.product_id')
             .select('COUNT(p.product_id)', 'count');
+
+          vsQuery
+            .innerJoin('product_inventory')
+            .on(
+              'p.product_id',
+              '=',
+              'product_inventory.product_inventory_product_id'
+            );
           vsQuery
             .innerJoin('product_attribute_value_index', 'a')
             .on('p.product_id', '=', 'a.product_id');
@@ -70,11 +85,16 @@ module.exports = async (request, response, delegate, next) => {
 
           if (getConfig('catalog.showOutOfStockProduct') === false) {
             vsQuery
-              .andWhere('p.manage_stock', '=', false)
+              .andWhere('product_inventory.manage_stock', '=', false)
               .addNode(
                 node('OR')
-                  .addLeaf('AND', 'p.qty', '>', 0)
-                  .addLeaf('AND', 'p.stock_availability', '=', true)
+                  .addLeaf('AND', 'product_inventory.qty', '>', 0)
+                  .addLeaf(
+                    'AND',
+                    'product_inventory.stock_availability',
+                    '=',
+                    true
+                  )
               );
           }
           vsQuery
@@ -101,6 +121,13 @@ module.exports = async (request, response, delegate, next) => {
                 'product.product_id',
                 '=',
                 'product_description.product_description_product_id'
+              );
+            variantQuery
+              .innerJoin('product_inventory')
+              .on(
+                'product.product_id',
+                '=',
+                'product_inventory.product_inventory_product_id'
               );
             variantQuery.where('product_id', '=', variants[0].product_id);
             const pv = await variantQuery.load(pool);
