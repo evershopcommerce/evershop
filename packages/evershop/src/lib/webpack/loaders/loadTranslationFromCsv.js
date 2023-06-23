@@ -27,7 +27,7 @@ async function readCsvFile(filePath) {
 module.exports.loadCsvTranslationFiles =
   async function loadCsvTranslationFiles() {
     try {
-      const language = getConfig('system.language', 'en');
+      const language = getConfig('shop.language', 'en');
       const folderPath = path.resolve(
         CONSTANTS.ROOTPATH,
         'translations',
