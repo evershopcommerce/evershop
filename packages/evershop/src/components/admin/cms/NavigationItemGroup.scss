@@ -1,9 +1,7 @@
 .nav-item {
   // Open, close transition
-  transition: all 0.9s ease-in-out;
   &.closed {
     // Close transition
-    transition: all 0.9s ease-in-out;
     // Hide the children
     .item-group {
       display: none;
