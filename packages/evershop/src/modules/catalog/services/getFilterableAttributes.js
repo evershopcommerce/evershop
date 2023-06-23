@@ -5,7 +5,7 @@ const {
 } = require('./getProductsByCategoryBaseQuery');
 
 module.exports.getFilterableAttributes = async (categoryId) => {
-  const productsQuery = await getProductsByCategoryBaseQuery(categoryId);
+  const productsQuery = await getProductsByCategoryBaseQuery(categoryId, true);
   productsQuery.select('product.product_id');
   // Get the list of productIds before applying pagination, sorting...etc
   // Base on this list, we will find all attribute,
