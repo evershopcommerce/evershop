@@ -499,7 +499,10 @@ module.exports = {
       return results;
     },
     priceRange: async (category) => {
-      const query = await getProductsByCategoryBaseQuery(category.categoryId);
+      const query = await getProductsByCategoryBaseQuery(
+        category.categoryId,
+        true
+      );
       query
         .select('MIN(product.price)', 'min')
         .select('MAX(product.price)', 'max');
