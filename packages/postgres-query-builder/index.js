@@ -609,6 +609,9 @@ class SelectQuery extends Query {
         return await super.execute(connection, releaseConnection);
       } else if (e.code.toLowerCase() === '22p02') {
         // In case of invalid input type, we consider it as empty result
+        if (releaseConnection) {
+          release(connection);
+        }
         return [];
       } else {
         if (releaseConnection) {
@@ -1017,6 +1020,7 @@ async function commit(connection) {
 
 async function rollback(connection) {
   await connection.query('ROLLBACK');
+  connection.INTRANSACTION = false;
   connection.release();
 }
 
