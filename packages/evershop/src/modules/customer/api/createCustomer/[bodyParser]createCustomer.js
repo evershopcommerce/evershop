@@ -16,6 +16,24 @@ module.exports = async (request, response, delegate, next) => {
     // Hash the password
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
+
+    // Check if email is already used
+    const existingCustomer = await select()
+      .from('customer')
+      .where('email', '=', email)
+      .load(pool);
+
+    if (existingCustomer) {
+      response.status(INVALID_PAYLOAD);
+      response.json({
+        error: {
+          status: INVALID_PAYLOAD,
+          message: 'Email is already used'
+        }
+      });
+      return;
+    }
+
     await insert('customer')
       .given({
         email,
@@ -32,7 +50,8 @@ module.exports = async (request, response, delegate, next) => {
       .where('email', '=', email)
       .load(pool);
 
-    response.status(OK).json({
+    response.status(OK);
+    response.$body = {
       data: {
         ...customer,
         links: [
@@ -50,7 +69,8 @@ module.exports = async (request, response, delegate, next) => {
           }
         ]
       }
-    });
+    };
+    next();
   } catch (e) {
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
