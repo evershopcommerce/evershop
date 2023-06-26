@@ -599,9 +599,6 @@ class SelectQuery extends Query {
     }
     try {
       let { rows } = await connection.query({ text: sql, values: binding });
-      if (releaseConnection) {
-        release(connection);
-      }
       return rows;
     } catch (e) {
       if (e.code === '42703') {
@@ -609,15 +606,13 @@ class SelectQuery extends Query {
         return await super.execute(connection, releaseConnection);
       } else if (e.code.toLowerCase() === '22p02') {
         // In case of invalid input type, we consider it as empty result
-        if (releaseConnection) {
-          release(connection);
-        }
         return [];
       } else {
-        if (releaseConnection) {
-          release(connection);
-        }
         throw e;
+      }
+    } finally {
+      if (releaseConnection) {
+        release(connection);
       }
     }
   }
