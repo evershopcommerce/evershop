@@ -1,7 +1,7 @@
 class Factory {
   static processors = {};
   static values = {};
-  static raws = {};
+  static raws = [];
 
   static async create(name, value) {
     // If the value is already created, throw an error
