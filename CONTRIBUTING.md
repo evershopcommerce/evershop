@@ -31,9 +31,9 @@ To develop locally:
    ```
    npm install
    ```
-4. Create a MySQL database:
+4. Create a Postgres database:
    ```
-   // EverShop use MySQL for database storeage
+   // EverShop use Postgres for database storage
    ```
 5. Run installation command to create a database schema:
    ```
@@ -77,10 +77,10 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
   - What EverShop version you are using
   - What NodeJs version you are using
   - What OS system you are using
-  - What MySQL version you are using
+  - What Postgres version you are using
 - Steps to reproduce
   - Be specific!
-  - Give sample code if you canwith a 
+  - Give sample code if you can
 - What you expected would happen
 - What actually happens
 - Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)

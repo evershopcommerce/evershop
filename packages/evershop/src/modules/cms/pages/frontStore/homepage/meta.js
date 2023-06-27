@@ -9,7 +9,7 @@ module.exports = async (request, response, delegate, next) => {
     title: await getSetting('storeName', 'EverShop'),
     description: await getSetting(
       'storeDescription',
-      'An e-commerce platform with Node and MySQL'
+      'An e-commerce platform with Node and Postgres'
     ),
     url: buildUrl('homepage')
   });
