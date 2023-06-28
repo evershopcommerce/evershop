@@ -31,7 +31,6 @@ describe('buildMiddlewareFunction', () => {
         return status >= 200 && status < 500;
       }
     });
-    console.log(response.data);
     expect(response.status).toEqual(404);
   });
 

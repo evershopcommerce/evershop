@@ -18,7 +18,6 @@ describe('test API middleware', () => {
         return status >= 200 && status < 600;
       }
     });
-    console.log('response', response);
     const createA = require('../app/modules/api/api/createA/index');
     const afterIndex = require('../app/modules/authcopy/api/createA/[index]afterIndex');
     const createAGlobal = require('../app/modules/api/api/global/apiGlobal');

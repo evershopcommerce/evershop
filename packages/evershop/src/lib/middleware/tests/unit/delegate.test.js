@@ -20,6 +20,7 @@ describe('buildMiddlewareFunction', () => {
 
     const test =
       require('../app/modules/delegate/pages/frontStore/delegateTest/collection').test;
+    console.log(test.mock.results);
     const delegates = test.mock.results[0].value;
     expect(delegates['returnOne']).toEqual(1);
     expect(delegates['returnTwo']).toEqual(undefined);
