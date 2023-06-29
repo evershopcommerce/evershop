@@ -82,8 +82,8 @@
   "system": {
     "database": {
       "host": "localhost",
-      "port": 3306,
-      "database": "nodejscart",
+      "port": 5432,
+      "database": "evershop",
       "user": "admin",
       "password": "123456"
     }

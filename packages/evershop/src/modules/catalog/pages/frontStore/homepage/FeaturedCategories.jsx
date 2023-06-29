@@ -17,7 +17,7 @@ export default function FeaturedCategories() {
               + antimicrobial linings, and more.
             </p>
           </div>
-          <Button url="/category/kids" title="Shop kids" variant="primary" />
+          <Button url="/kids" title="Shop kids" variant="primary" />
         </div>
         <div>
           <div>
@@ -31,7 +31,7 @@ export default function FeaturedCategories() {
               + antimicrobial linings, and more.
             </p>
           </div>
-          <Button url="/category/women" title="Shop women" variant="primary" />
+          <Button url="/women" title="Shop women" variant="primary" />
         </div>
         <div>
           <div>
@@ -45,7 +45,7 @@ export default function FeaturedCategories() {
               + antimicrobial linings, and more.
             </p>
           </div>
-          <Button url="/category/men" title="Shop men" variant="primary" />
+          <Button url="/men" title="Shop men" variant="primary" />
         </div>
       </div>
     </div>

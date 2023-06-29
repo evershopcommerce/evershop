@@ -21,7 +21,6 @@ describe('buildMiddlewareFunction', () => {
         }
       }
     );
-    console.log(response.data);
     expect(response.status).toEqual(500);
     expect(response.data.split(/\r\n|\r|\n/).length).toEqual(1);
   });

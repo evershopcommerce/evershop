@@ -6,6 +6,8 @@ const {
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { createValue } = require('@evershop/evershop/src/lib/util/factory');
+const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -16,6 +18,26 @@ module.exports = async (request, response, delegate, next) => {
     // Hash the password
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
+
+    // Check if email is already used
+    const existingCustomer = await select()
+      .from('customer')
+      .where('email', '=', email)
+      .load(pool);
+
+    if (existingCustomer) {
+      response.status(INVALID_PAYLOAD);
+      response.json({
+        error: {
+          status: INVALID_PAYLOAD,
+          message: 'Email is already used'
+        }
+      });
+      return;
+    }
+
+    // Create a value for status using factory
+    const status = await createValue('customerInitialStatus', 1);
     await insert('customer')
       .given({
         email,
@@ -23,7 +45,7 @@ module.exports = async (request, response, delegate, next) => {
         full_name,
         password: hash,
         group_id: 1,
-        status: 1
+        status: status
       })
       .execute(pool);
 
@@ -32,7 +54,8 @@ module.exports = async (request, response, delegate, next) => {
       .where('email', '=', email)
       .load(pool);
 
-    response.status(OK).json({
+    response.status(OK);
+    response.$body = {
       data: {
         ...customer,
         links: [
@@ -50,8 +73,10 @@ module.exports = async (request, response, delegate, next) => {
           }
         ]
       }
-    });
+    };
+    next();
   } catch (e) {
+    debug('critical', e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

@@ -599,9 +599,6 @@ class SelectQuery extends Query {
     }
     try {
       let { rows } = await connection.query({ text: sql, values: binding });
-      if (releaseConnection) {
-        release(connection);
-      }
       return rows;
     } catch (e) {
       if (e.code === '42703') {
@@ -611,10 +608,11 @@ class SelectQuery extends Query {
         // In case of invalid input type, we consider it as empty result
         return [];
       } else {
-        if (releaseConnection) {
-          release(connection);
-        }
         throw e;
+      }
+    } finally {
+      if (releaseConnection) {
+        release(connection);
       }
     }
   }
@@ -1017,6 +1015,7 @@ async function commit(connection) {
 
 async function rollback(connection) {
   await connection.query('ROLLBACK');
+  connection.INTRANSACTION = false;
   connection.release();
 }
 

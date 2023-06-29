@@ -52,7 +52,7 @@ module.exports = async (request, response, delegate, next) => {
       .load(connection);
 
     response.status(OK);
-    response.json({
+    response.$body = {
       data: {
         ...updatedCustomer,
         links: [
@@ -70,7 +70,8 @@ module.exports = async (request, response, delegate, next) => {
           }
         ]
       }
-    });
+    };
+    next();
   } catch (e) {
     response.status(INTERNAL_SERVER_ERROR);
     response.json({

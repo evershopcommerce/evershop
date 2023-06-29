@@ -561,32 +561,6 @@ function checkForLatestVersion() {
   });
 }
 
-async function registerMySQLDB() {
-  const API = 'https://db.cloud.evershop.io/register';
-
-  return await new Promise((resolve, reject) => {
-    https
-      .get(API, (res) => {
-        if (res.statusCode === 200) {
-          let body = '';
-          res.on('data', (data) => (body += data));
-          res.on('end', () => {
-            resolve(JSON.parse(body));
-          });
-        } else {
-          let body = '';
-          res.on('data', (data) => (body += data));
-          res.on('end', () => {
-            reject(JSON.parse(body));
-          });
-        }
-      })
-      .on('error', (err) => {
-        reject();
-      });
-  });
-}
-
 module.exports = {
   init
 };

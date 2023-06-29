@@ -88,9 +88,10 @@ module.exports = async (request, response, deledate, next) => {
       .load(pool);
 
     response.status(OK);
-    response.json({
+    response.$body = {
       data: shipmentData
-    });
+    };
+    next();
   } catch (e) {
     await rollback(connection);
     response.status(INTERNAL_SERVER_ERROR);
