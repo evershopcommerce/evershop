@@ -25,7 +25,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Background (please complete the following information):**
  - NodeJS Version
- - MySQL Version
+ - Postgres Version
  - EverShop Version
  - OS: [e.g. Window, Ubuntu, Mac-OS]
  - Browser [e.g. Chrome, Safari]
