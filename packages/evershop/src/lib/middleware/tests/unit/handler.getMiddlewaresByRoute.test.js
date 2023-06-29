@@ -1,5 +1,5 @@
 const { Handler } = require('../../Handler');
-const { app } = require('../app/app');
+require('../app/app');
 
 describe('test getMiddlewaresByRoute', () => {
   const productMiddleweres = Handler.getMiddlewareByRoute({
