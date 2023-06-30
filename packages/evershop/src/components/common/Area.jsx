@@ -1,9 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/destructuring-assignment */
+import { useAppState } from '@components/common/context/app';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '@components/common/context/app';
 
+const getAreaComponents = ({id, coreComponents, components}) => {
+  const areaCoreComponents = coreComponents || [];
+  const cs = components[id] ? areaCoreComponents.concat(Object.values(components[id])) : areaCoreComponents;
+
+  return cs.sort((obj1, obj2) => obj1.sortOrder - obj2.sortOrder);
+}
 function Area(props) {
   const {
     id,
@@ -15,57 +21,55 @@ function Area(props) {
     components
   } = props;
 
-  const areaComponents = (() => {
-    const areaCoreComponents = coreComponents || [];
-    const cs =
-      components[id] === undefined
-        ? areaCoreComponents
-        : areaCoreComponents.concat(Object.values(components[id]));
-
-    return cs.sort((obj1, obj2) => obj1.sortOrder - obj2.sortOrder);
-  })();
+  const areaComponents = getAreaComponents({id, coreComponents, components});
 
   // eslint-disable-next-line no-nested-ternary
-  const WrapperComponent =
-    noOuter !== true
-      ? wrapper !== undefined
-        ? wrapper
-        : 'div'
-      : React.Fragment;
+  const WrapperComponent = noOuter ? React.Fragment : wrapper ?? 'div';
 
-  let areaWrapperProps = {};
-  if (noOuter === true) {
+  let areaWrapperProps;
+  if (noOuter) {
     areaWrapperProps = {};
-  } else if (typeof wrapperProps === 'object' && wrapperProps !== null) {
-    areaWrapperProps = { className: className || '', ...wrapperProps };
+  } else if (wrapperProps && typeof wrapperProps === 'object') {
+    areaWrapperProps = {
+      className: className || '', 
+      ...wrapperProps 
+    };
   } else {
     areaWrapperProps = { className: className || '' };
   }
 
-  const context = useAppState();
+  const {propsMap, graphqlResponse: propsData} = useAppState();
 
   return (
     <WrapperComponent {...areaWrapperProps}>
-      {areaComponents.map((w, index) => {
-        const C = w.component.default;
-        // eslint-disable-next-line no-shadow
-        const { id } = w;
-        const { propsMap } = context;
-        const propsData = context.graphqlResponse;
-        const propKeys = propsMap[id] || [];
+      {areaComponents.map((comp) => {
+        const {
+          component,
+          id: compId,
+          props: compProps
+        } = comp ?? {};
+
+        const {
+          default: Component
+        } = component ?? {};
+
+        const propKeys = propsMap[compId] || [];
+
         const componentProps = propKeys.reduce((acc, map) => {
           const { origin, alias } = map;
           acc[origin] = propsData[alias];
           return acc;
         }, {});
-        if (w.props) {
-          Object.assign(componentProps, w.props);
-        }
-        // eslint-disable-next-line react/no-array-index-key
-        if (typeof C === 'string') return <C key={index} {...componentProps} />;
 
-        // eslint-disable-next-line react/no-array-index-key
-        return <C key={index} areaProps={props} {...componentProps} />;
+        if (compProps) {
+          Object.assign(componentProps, compProps);
+        }
+
+        return <Component 
+          {...componentProps} 
+          areaProps={typeof C === 'string' ? undefined :  props} 
+          key={`component-${compId}`} 
+        />;
       })}
     </WrapperComponent>
   );
@@ -85,8 +89,7 @@ Area.propTypes = {
   id: PropTypes.string.isRequired,
   noOuter: PropTypes.bool,
   wrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-  // eslint-disable-next-line react/forbid-prop-types
-  wrapperProps: PropTypes.object,
+  wrapperProps: PropTypes.shape({}),
   components: PropTypes.shape({}).isRequired
 };
 
