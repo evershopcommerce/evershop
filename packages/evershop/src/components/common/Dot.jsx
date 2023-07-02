@@ -1,19 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { VARIANTS, isValidVariant } from '../../const/common';
 import './Dot.scss';
 
-export default function Dot({ size = '1rem', variant = 'primary' }) {
-  const dotVariant = [
-    'default',
-    'success',
-    'info',
-    'attention',
-    'critical',
-    'warning',
-    'new'
-  ].includes(variant)
-    ? `${variant}`
-    : 'default';
+export default function Dot({ size, variant}) {
+  const dotVariant = isValidVariant(variant)
   return (
     <span
       className={`${dotVariant} dot`}
@@ -24,17 +15,10 @@ export default function Dot({ size = '1rem', variant = 'primary' }) {
 
 Dot.propTypes = {
   size: PropTypes.string,
-  variant: PropTypes.oneOf([
-    'default',
-    'success',
-    'info',
-    'attention',
-    'critical',
-    'warning',
-    'new'
-  ]).isRequired
+  variant: PropTypes.oneOf(VARIANTS)
 };
 
 Dot.defaultProps = {
-  size: '1rem'
+  size: '1rem',
+  variant: 'primary'
 };
