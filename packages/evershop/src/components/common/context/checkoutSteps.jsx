@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import React, { useMemo, useState } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 
-const Steps = React.createContext();
-const CheckoutStepsDispatch = React.createContext();
+const Steps = createContext();
+const CheckoutStepsDispatch = createContext();
 
 export function CheckoutSteps({ children, value }) {
   const [steps, setSteps] = useState(value);
@@ -13,12 +13,13 @@ export function CheckoutSteps({ children, value }) {
     );
     const index = checkoutSteps.findIndex((s) => s.id === step.id);
 
+    let toRet = false;
+
     // check if all previous step is completed
-    if (!checkoutSteps.slice(0, index).every((s) => s.isCompleted === true))
-      return false;
-    if (index === steps.length - 1) return true; // last step
-    if (step.isCompleted !== true) return true; // completed step
-    return false;
+    if (!checkoutSteps?.slice(0, index).every((s) => !!s?.isCompleted)) toRet = false;
+    if (index === steps.length - 1 || !step.isCompleted) toRet = true // last step or completed step
+
+    return toRet;
   };
 
   /**
@@ -30,36 +31,15 @@ export function CheckoutSteps({ children, value }) {
   };
 
   const editStep = (stepId) => {
-    const index = steps.findIndex((s) => s.id === stepId);
+    const index = steps?.findIndex((step) => step.id === stepId);
     setSteps(
-      steps.map((s, i) => {
-        if (s.id === stepId) {
-          return {
-            ...s,
-            isCompleted: false
-          };
-        } else if (i > index) {
-          return {
-            ...s,
-            isCompleted: false
-          };
-        } else return s;
-      })
+      steps.map((step, i) => step.id === stepId || i > index ? {...step, isCompleted: false} : step)
     );
   };
 
   const completeStep = (stepId, preview) => {
     setSteps(
-      steps.map((s) => {
-        if (s.id === stepId) {
-          return {
-            ...s,
-            isCompleted: true,
-            isEditing: false,
-            preview
-          };
-        } else return s;
-      })
+      steps.map((step) => step.id === stepId ? {...step, isCompleted: true, isEditing: false, preview} : step)
     );
   };
 
