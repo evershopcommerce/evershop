@@ -1,30 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { PROGRESSES, VARIANTS, isValidProgress, isValidVariant } from '../../const/common';
 import './Badge.scss';
-
-const VARIANTS = [
-  'attention',
-  'critical',
-  'default',
-  'info',
-  'new',
-  'success',
-  'warning'
-];
-
-const PROGRESSES = [
-  'complete',
-  'incomplete',
-  'partiallycomplete'
-];
 
 export default function Badge({
   progress,
   title,
   variant
 }) {
-  const badgeVariant = VARIANTS.indexOf(variant) !== -1 ? variant : 'default';
-  const badgeProgress = PROGRESSES.indexOf(variant) !== -1 ? progress : 'default';
+  const badgeVariant = isValidVariant(variant);
+  const badgeProgress = isValidProgress(progress);
   
   return (
     <span className={`${badgeVariant} badge`}>
