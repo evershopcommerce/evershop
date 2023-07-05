@@ -1,19 +1,19 @@
 const { DateTime } = require('luxon');
-const { getSetting } = require('../../../../setting/services/setting');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 module.exports = {
   DateTime: {
     value: (dateTime) => dateTime,
     timezone: async () => {
-      const timeZone = await getSetting('storeTimeZone', 'UTC');
+      const timeZone = getConfig('shop.timezone', 'UTC');
       return timeZone;
     },
     text: async (value, { format = 'yyyy-LL-dd' }) => {
       if (!DateTime.fromJSDate(value).isValid) {
         return null;
       }
-      const timeZone = await getSetting('storeTimeZone', 'UTC');
-      const language = await getSetting('storeLanguage', 'en');
+      const timeZone = getConfig('shop.timezone', 'UTC');
+      const language = getConfig('shop.language', 'en');
       const date = DateTime.fromJSDate(value, { zone: timeZone })
         .setLocale(language)
         .setZone(timeZone)

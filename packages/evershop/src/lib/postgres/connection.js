@@ -42,6 +42,12 @@ if (getConfig('system.database.ssl.key')) {
 
 const pool = new Pool(connectionSetting);
 
+// Set the timezone
+pool.on('connect', (client) => {
+  const timeZone = getConfig('shop.timezone', 'UTC');
+  client.query(`SET TIMEZONE TO "${timeZone}";`);
+});
+
 async function getConnection() {
   // eslint-disable-next-line no-return-await
   return await pool.connect();
