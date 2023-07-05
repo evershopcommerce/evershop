@@ -3,11 +3,13 @@ const bcrypt = require('bcryptjs');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   OK,
-  INTERNAL_SERVER_ERROR
+  INTERNAL_SERVER_ERROR,
+  INVALID_PAYLOAD
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { createValue } = require('@evershop/evershop/src/lib/util/factory');
 const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { emit } = require('@evershop/evershop/src/lib/event/emitter');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -53,6 +55,12 @@ module.exports = async (request, response, delegate, next) => {
       .from('customer')
       .where('email', '=', email)
       .load(pool);
+
+    // If status = 1, Emit event customer_registered
+    // In case of status = 0, the custom extension will need to emit the event
+    if (status === 1) {
+      await emit('customer_registered', { ...customer });
+    }
 
     response.status(OK);
     response.$body = {

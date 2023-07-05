@@ -2,7 +2,8 @@
   "shop" : {
     "currency": "USD",
     "language": "en",
-    "weightUnit": "kg"
+    "weightUnit": "kg",
+    "timezone": "UTC"
   },
   "catalog": {
     "product": {

@@ -12,9 +12,10 @@ const {
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { getSetting } = require('../../../setting/services/setting');
+const { emit } = require('@evershop/evershop/src/lib/event/emitter');
 
 // eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, stack, next) => {
+module.exports = async (request, response, delegate, next) => {
   const sig = request.headers['stripe-signature'];
 
   let event;
@@ -75,10 +76,12 @@ module.exports = async (request, response, stack, next) => {
         await insert('order_activity')
           .given({
             order_activity_order_id: order.order_id,
-            comment: `Customer paid by using credit card. Transaction ID: ${paymentIntent.id}`,
-            customer_notified: 0
+            comment: `Customer paid by using credit card. Transaction ID: ${paymentIntent.id}`
           })
           .execute(connection);
+
+        // Emit event to add order placed event
+        await emit('order_placed', { ...order });
         break;
       }
       case 'payment_method.attached': {
