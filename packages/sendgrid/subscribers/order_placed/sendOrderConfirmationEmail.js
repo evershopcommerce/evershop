@@ -3,6 +3,8 @@ const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const sgMail = require('@sendgrid/mail');
 const { select } = require('@evershop/postgres-query-builder');
 const { createValue } = require('@evershop/evershop/src/lib/util/factory');
+const { contries } = require('@evershop/evershop/src/lib/locale/countries');
+const { provinces } = require('@evershop/evershop/src/lib/locale/provinces');
 
 module.exports = async function sendOrderConfirmationEmail(data) {
   try {
@@ -48,10 +50,26 @@ module.exports = async function sendOrderConfirmationEmail(data) {
       .where('order_address_id', '=', order.shipping_address_id)
       .load(pool);
 
+    emailData.shipping_address.country_name =
+      contries.find((c) => c.code === emailData.shipping_address.country)
+        ?.name || '';
+
+    emailData.shipping_address.province_name =
+      provinces.find((p) => p.code === emailData.shipping_address.province)
+        ?.name || '';
+
     emailData.billing_address = await select()
       .from('order_address')
       .where('order_address_id', '=', order.billing_address_id)
       .load(pool);
+
+    emailData.billing_address.country_name =
+      contries.find((c) => c.code === emailData.billing_address.country)
+        ?.name || '';
+
+    emailData.billing_address.province_name =
+      provinces.find((p) => p.code === emailData.billing_address.province)
+        ?.name || '';
 
     // Send the email
     const msg = {
