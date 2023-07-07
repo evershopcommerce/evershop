@@ -7,7 +7,6 @@ const {
   update,
   startTransaction
 } = require('@evershop/postgres-query-builder');
-const config = require('config');
 const {
   getConnection,
   pool
@@ -17,6 +16,7 @@ const {
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, deledate, next) => {
@@ -63,7 +63,7 @@ module.exports = async (request, response, deledate, next) => {
       })
       .execute(connection);
     /* Update Shipment status to fullfilled */
-    const shipmentStatus = config.get('order.shipmentStatus');
+    const shipmentStatus = getConfig('checkout.order.shipmentStatus', []);
     if (shipmentStatus.find((s) => s.code === 'fullfilled')) {
       await update('order')
         .given({ shipment_status: 'fullfilled' })
