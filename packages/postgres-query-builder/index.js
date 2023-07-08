@@ -607,7 +607,7 @@ class SelectQuery extends Query {
     } catch (e) {
       if (e.code === '42703') {
         this.removeOrderBy();
-        return await super.execute(connection, releaseConnection);
+        return await super.execute(connection, false);
       } else if (e.code.toLowerCase() === '22p02') {
         // In case of invalid input type, we consider it as empty result
         return [];
