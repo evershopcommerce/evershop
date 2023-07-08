@@ -354,7 +354,23 @@ module.exports = {
         });
       }
 
-      // TODO: Apply category filters
+      // Apply category filters
+      const categoryFilter = filters.find((f) => f.key === 'cat');
+      if (categoryFilter) {
+        const values = categoryFilter.value
+          .split(',')
+          .map((v) => parseInt(v, 10))
+          .filter((v) => Number.isNaN(v) === false);
+        query.andWhere('product.category_id', 'IN', values);
+
+        currentFilters.push({
+          key: 'cat',
+          operation: '=',
+          value: values.join(',')
+        });
+      }
+
+      // Attribute filter
       const filterableAttributes = await select()
         .from('attribute')
         .where('type', '=', 'select')
@@ -551,7 +567,6 @@ module.exports = {
           'category.category_id'
         );
       query.where('category.parent_id', '=', category.categoryId);
-      query.orderBy('category.sort_order', 'ASC');
       const results = await query.execute(pool);
       return results.map((row) => camelCase(row));
     },

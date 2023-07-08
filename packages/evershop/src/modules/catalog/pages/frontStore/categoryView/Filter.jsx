@@ -5,6 +5,7 @@ import { useAppDispatch } from '@components/common/context/app';
 import './Filter.scss';
 import { PriceFilter } from '@components/frontStore/catalog/categoryView/filter/PriceFilter';
 import { AttributeFilter } from '@components/frontStore/catalog/categoryView/filter/AttributeFilter';
+import { CategoryFilter } from '@components/frontStore/catalog/categoryView/filter/CategoryFilter';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export const FilterDispatch = React.createContext();
@@ -13,7 +14,8 @@ export default function Filter({
   category: {
     products: { currentFilters },
     availableAttributes,
-    priceRange
+    priceRange,
+    children
   },
   setting
 }) {
@@ -65,6 +67,16 @@ export default function Filter({
               component: { default: PriceFilter },
               props: { priceRange, currentFilters, updateFilter, setting },
               sortOrder: 10
+            },
+            {
+              component: { default: CategoryFilter },
+              props: {
+                currentFilters,
+                updateFilter,
+                setting,
+                categories: children
+              },
+              sortOrder: 15
             },
             {
               component: { default: AttributeFilter },
@@ -180,6 +192,11 @@ query Query {
     priceRange {
       min
       max
+    }
+    children {
+      categoryId,
+      name
+      uuid
     }
   }
   setting {
