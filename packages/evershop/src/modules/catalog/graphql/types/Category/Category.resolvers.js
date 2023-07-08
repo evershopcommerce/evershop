@@ -374,7 +374,7 @@ module.exports = {
           .map((v) => parseInt(v, 10))
           .filter((v) => Number.isNaN(v) === false);
         if (values.length > 0) {
-          const alias = uniqid();
+          const alias = `attribute_${uniqid()}`;
           query
             .innerJoin('product_attribute_value_index', alias)
             .on(`${alias}.product_id`, '=', 'product.product_id')

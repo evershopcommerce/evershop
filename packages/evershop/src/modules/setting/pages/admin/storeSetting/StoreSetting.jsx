@@ -149,39 +149,6 @@ Country.defaultProps = {
   fieldName: 'storeCountry'
 };
 
-function Timezone({ selectedTimeZone, fieldName = 'storeTimeZone' }) {
-  const [result] = useQuery({
-    query: TimezonesQuery
-  });
-  const { data, fetching, error } = result;
-
-  if (fetching) return <p>Loading...</p>;
-  if (error) {
-    return (
-      <p>
-        Oh no...
-        {error.message}
-      </p>
-    );
-  }
-
-  return (
-    <Field
-      type="select"
-      value={selectedTimeZone}
-      name={fieldName}
-      label="TimeZone"
-      placeholder="TimeZone"
-      options={data.timezones.map((t) => ({ value: t.code, text: t.name }))}
-    />
-  );
-}
-
-Timezone.propTypes = {
-  fieldName: PropTypes.string.isRequired,
-  selectedTimeZone: PropTypes.string.isRequired
-};
-
 function Currency({ selectedCurrency, fieldName = 'storeCurrency' }) {
   const [result] = useQuery({
     query: CurrencyQuery
@@ -224,16 +191,13 @@ export default function StoreSetting({
   setting: {
     storeName,
     storeDescription,
-    storeCurrency,
-    storeTimeZone,
     storePhoneNumber,
     storeEmail,
     storeCountry,
     storeAddress,
     storeCity,
     storeProvince,
-    storePostalCode,
-    weightUnit
+    storePostalCode
   }
 }) {
   const [selectedCountry, setSelectedCountry] = React.useState(() => {
@@ -280,7 +244,6 @@ export default function StoreSetting({
                   value={storeDescription}
                   type="textarea"
                 />
-                <Timezone selectedTimeZone={storeTimeZone} />
               </Card.Session>
               <Card.Session title="Contact Information">
                 <div className="grid grid-cols-2 gap-2 mt-2">

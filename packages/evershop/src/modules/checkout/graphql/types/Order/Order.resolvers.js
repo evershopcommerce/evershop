@@ -157,8 +157,8 @@ module.exports = {
         currentFilters
       };
     },
-    shipmentStatusList: () => getConfig('order.shipmentStatus', []),
-    paymentStatusList: () => getConfig('order.paymentStatus', [])
+    shipmentStatusList: () => getConfig('checkout.order.shipmentStatus', []),
+    paymentStatusList: () => getConfig('checkout.order.paymentStatus', [])
   },
   Order: {
     items: async ({ orderId }, _, { pool }) => {

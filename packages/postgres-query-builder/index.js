@@ -16,7 +16,9 @@ class Select {
     } else {
       f += `"${field}"`;
     }
-    if (alias) f += ` AS "${alias}"`;
+    if (alias) {
+      f += ` AS "${alias}"`;
+    }
 
     this._fields.push(f);
     return this;
@@ -275,7 +277,9 @@ class Join {
 
     let stm = '';
     this._joins.forEach((join) => {
-      stm += `${join.type} ${join.table} AS ${join.alias} ${join.on.render()} `;
+      stm += `${join.type} "${join.table}" AS "${
+        join.alias
+      }" ${join.on.render()} `;
       Object.assign(this._query._binding, join.on.getBinding());
     });
     return stm;

@@ -37,7 +37,7 @@ module.exports.start = async function start(cb) {
     console.log(e);
     process.exit(0);
   }
-
+  process.env.ALLOW_CONFIG_MUTATIONS = false;
   /**
    * Get port from environment and store in Express.
    */

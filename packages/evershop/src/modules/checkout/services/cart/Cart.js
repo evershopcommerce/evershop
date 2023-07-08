@@ -414,6 +414,9 @@ exports.Cart = class Cart extends DataObject {
       key: 'shipping_fee_incl_tax',
       resolvers: [
         async function resolver() {
+          if (this.getData('shipping_fee_excl_tax') === 0) {
+            return 0;
+          }
           let shippingTaxClass = await getSetting(
             'defaultShippingTaxClassId',
             ''
@@ -481,7 +484,7 @@ exports.Cart = class Cart extends DataObject {
           }
         }
       ],
-      dependencies: ['shippingAddress', 'shipping_fee_excl_tax', 'sub_total']
+      dependencies: ['shipping_fee_excl_tax', 'sub_total']
     },
     {
       key: 'billing_address_id',

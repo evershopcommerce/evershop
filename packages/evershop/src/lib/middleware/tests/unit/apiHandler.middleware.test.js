@@ -1,4 +1,3 @@
-const { Handler } = require('../../Handler');
 const { app, bootstrap, close } = require('../app/app');
 const axios = require('axios').default;
 const http = require('http');
@@ -13,7 +12,7 @@ describe('test API middleware', () => {
   });
 
   it('It should execute the valid middleware functions', async () => {
-    const response = await axios.post(`http://localhost:${port}/api/as`, {
+    await axios.post(`http://localhost:${port}/api/as`, {
       validateStatus: function (status) {
         return status >= 200 && status < 600;
       }

@@ -78,7 +78,7 @@ module.exports = async (request, response, delegate, next) => {
         .given({
           order_activity_order_id: order.order_id,
           comment: `Customer paid using PayPal. Transaction ID: ${responseData.data.purchase_units[0].payments.captures[0].id}`,
-          customer_notified: 0 // TODO: check config of SendGrid
+          customer_notified: 0
         })
         .execute(pool);
 

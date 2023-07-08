@@ -6,6 +6,7 @@ const {
   getContextValue
 } = require('../../../../graphql/services/contextHelper');
 const { getSetting } = require('../../../../setting/services/setting');
+const { emit } = require('@evershop/evershop/src/lib/event/emitter');
 
 module.exports = async (request, response, delegate, next) => {
   // Get paypal token from query string
@@ -51,6 +52,8 @@ module.exports = async (request, response, delegate, next) => {
         if (responseData.data.error) {
           throw new Error(responseData.data.error.message);
         }
+        // Emit event to add order placed event
+        await emit('order_placed', { ...order });
         // Redirect to order success page
         // eslint-disable-next-line camelcase
         response.redirect(302, `${buildUrl('checkoutSuccess')}/${order_id}`);

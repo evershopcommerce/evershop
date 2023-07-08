@@ -1,4 +1,3 @@
-const { Handler } = require('../../Handler');
 const { app, bootstrap, close } = require('../app/app');
 const axios = require('axios').default;
 const http = require('http');
@@ -13,7 +12,7 @@ describe('test middleware', () => {
   });
 
   it('It should execute the good middleware functions', async () => {
-    const response = await axios.get(`http://localhost:${port}/middleware`, {
+    await axios.get(`http://localhost:${port}/middleware`, {
       validateStatus: function (status) {
         return status >= 200 && status <= 500;
       }

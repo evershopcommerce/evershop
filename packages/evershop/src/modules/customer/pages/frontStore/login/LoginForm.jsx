@@ -6,7 +6,12 @@ import './LoginForm.scss';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import Button from '@components/common/form/Button';
 
-export default function LoginForm({ action, homeUrl, registerUrl }) {
+export default function LoginForm({
+  action,
+  homeUrl,
+  registerUrl,
+  forgotPasswordUrl
+}) {
   const [error, setError] = React.useState(null);
 
   return (
@@ -56,10 +61,11 @@ export default function LoginForm({ action, homeUrl, registerUrl }) {
               />
             </div>
           </Form>
-          <div className="text-center mt-1">
+          <div className="text-center mt-1 gap-2 flex justify-center">
             <a className="text-interactive" href={registerUrl}>
               {_('Create an account')}
             </a>
+            <a href={forgotPasswordUrl}>{_('Forgot your password?')}</a>
           </div>
         </div>
       </div>
@@ -83,5 +89,6 @@ export const query = `
     homeUrl: url(routeId: "homepage")
     action: url(routeId: "createCustomerSession")
     registerUrl: url(routeId: "register")
+    forgotPasswordUrl: url(routeId: "resetPasswordPage")
   }
 `;

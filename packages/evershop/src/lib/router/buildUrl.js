@@ -25,5 +25,4 @@ exports.buildUrl = (routeId, params = {}) => {
   } catch (e) {
     throw new Error(`Could not build url for route ${routeId}. ${e.message}`);
   }
-  return toPath(params);
 };
