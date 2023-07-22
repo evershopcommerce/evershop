@@ -8,8 +8,8 @@ import { useQuery } from 'urql';
 import CheckIcon from '@heroicons/react/outline/CheckIcon';
 
 const SearchQuery = `
-  query Query ($query: String) {
-    products: searchProducts(query: $query) {
+  query Query ($filters: [FilterInput!]) {
+    products(filters: $filters) {
       items {
         productId
         uuid
@@ -38,7 +38,11 @@ function AddProducts({ addProductApi, collectionId, closeModal }) {
 
   const [result, reexecuteQuery] = useQuery({
     query: SearchQuery,
-    variables: { query: inputValue },
+    variables: {
+      filters: inputValue
+        ? [{ key: 'keyword', operation: '=', value: inputValue }]
+        : []
+    },
     pause: true
   });
 

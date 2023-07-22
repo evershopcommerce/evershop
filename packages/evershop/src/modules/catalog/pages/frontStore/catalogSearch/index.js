@@ -1,0 +1,18 @@
+const { get } = require('@evershop/evershop/src/lib/util/get');
+const {
+  setContextValue
+} = require('../../../../graphql/services/contextHelper');
+
+module.exports = (request, response, delegate, next) => {
+  // Get the keyword from the request query
+  const keyword = get(request, 'query.keyword');
+  if (!keyword) {
+    // Redirect to the home page if no keyword is not provided
+    return response.redirect('/');
+  }
+  setContextValue(request, 'pageInfo', {
+    title: `Search results for "${keyword}"`,
+    description: `Search results for "${keyword}"`
+  });
+  next();
+};

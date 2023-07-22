@@ -80,16 +80,6 @@ type CategoryCollection {
   currentFilters: [Filter]
 }
 
-"""
-Returns a collection of products.
-"""
-type ProductCollection {
-  items: [Product]
-  currentPage: Int!
-  total: Int!
-  currentFilters: [Filter]
-}
-
 type PriceRange {
   min: Float!
   max: Float!
@@ -103,5 +93,4 @@ extend type Product {
 extend type Query {
   categories(filters: [FilterInput]): CategoryCollection
   category(id: Int): Category
-  products(filters: [FilterInput]): ProductCollection
 }

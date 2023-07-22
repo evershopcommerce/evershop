@@ -8,9 +8,9 @@ import AddProducts from '@components/admin/catalog/category/categoryEdit/AddProd
 import Spinner from '@components/common/Spinner';
 
 const ProductsQuery = `
-  query Query ($id: Int, $page: String!, $name: String!) {
+  query Query ($id: Int, $filters: [FilterInput!]) {
     category (id: $id) {
-      products (filters: [{key: "page", operation: "=", value: $page}, {key: "limit", operation: "=", value: "10"}, {key: "name", operation: "=", value: $name}]) {
+      products (filters: $filters) {
         items {
           productId
           uuid
@@ -33,10 +33,8 @@ const ProductsQuery = `
   }
 `;
 
-export default function Products({
-  category: { categoryId, code, addProductApi }
-}) {
-  const [name, setName] = React.useState('');
+export default function Products({ category: { categoryId, addProductApi } }) {
+  const [keyword, setKeyword] = React.useState('');
   const [page, setPage] = React.useState(1);
   const [removing, setRemoving] = React.useState([]);
   const modal = useModal();
@@ -44,7 +42,19 @@ export default function Products({
   // Run query again when page changes
   const [result, reexecuteQuery] = useQuery({
     query: ProductsQuery,
-    variables: { id: parseInt(categoryId), page: page.toString(), name: name },
+    variables: {
+      id: parseInt(categoryId),
+      filters: !keyword
+        ? [
+            { key: 'page', operation: '=', value: page.toString() },
+            { key: 'limit', operation: '=', value: '10' }
+          ]
+        : [
+            { key: 'page', operation: '=', value: page.toString() },
+            { key: 'limit', operation: '=', value: '10' },
+            { key: 'keyword', operation: '=', value: keyword }
+          ]
+    },
     pause: true
   });
 
@@ -77,7 +87,7 @@ export default function Products({
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [name]);
+  }, [keyword]);
 
   React.useEffect(() => {
     if (result.fetching) {
@@ -133,9 +143,9 @@ export default function Products({
             <div className="border rounded border-divider mb-2">
               <input
                 type="text"
-                value={name}
+                value={keyword}
                 placeholder="Search products"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setKeyword(e.target.value)}
               />
             </div>
             {data && (

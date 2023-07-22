@@ -7,11 +7,11 @@ const {
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const {
-  insert,
   startTransaction,
   rollback,
   commit,
-  select
+  select,
+  update
 } = require('@evershop/postgres-query-builder');
 
 module.exports = async (request, response, delegate, next) => {
@@ -47,7 +47,7 @@ module.exports = async (request, response, delegate, next) => {
     }
     // Check if the product is already assigned to the category
     const productCategory = await select()
-      .from('product_category')
+      .from('product')
       .where('category_id', '=', category.category_id)
       .and('product_id', '=', product.product_id)
       .load(connection);
@@ -60,11 +60,11 @@ module.exports = async (request, response, delegate, next) => {
     }
 
     // Assign the product to the category
-    await insert('product_category')
+    await update('product')
       .given({
-        category_id: category.category_id,
-        product_id: product.product_id
+        category_id: category.category_id
       })
+      .where('product_id', '=', product.product_id)
       .execute(connection);
     await commit(connection);
     response.status(OK);
