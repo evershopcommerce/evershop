@@ -80,7 +80,7 @@ export default function BestSellers({ api, listUrl }) {
                       >
                         {p.imageUrl && (
                           <img
-                            className="self-center"
+                            className="object-cover"
                             src={p.imageUrl}
                             alt=""
                           />
@@ -113,7 +113,7 @@ export default function BestSellers({ api, listUrl }) {
                       </a>
                     </td>
                     <td>{formatedPrice}</td>
-                    <td>{p.qty} solded</td>
+                    <td>{p.qty} sold</td>
                   </tr>
                 );
               })}
