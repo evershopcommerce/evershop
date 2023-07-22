@@ -1,6 +1,6 @@
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getSetting } = require('../../../setting/services/setting');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async function lifetimeSales(
@@ -35,8 +35,8 @@ module.exports = async function lifetimeSales(
       cancelled += 1;
     }
   });
-  const currency = await getSetting('storeCurrency', 'USD');
-  const language = await getSetting('storeLanguage', 'en');
+  const currency = await getConfig('shop.currency', 'USD');
+  const language = await getConfig('shop.language', 'en');
   const formatedTotal = new Intl.NumberFormat(language, {
     style: 'currency',
     currency
