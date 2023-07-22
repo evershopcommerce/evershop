@@ -31,7 +31,7 @@ export default function SaleStatistic({ api }) {
 
   if (fetching) {
     return (
-      <Card title="Sale Statistic">
+      <Card title="Sale Statistics">
         <div className="skeleton-wrapper-statistic">
           <div className="skeleton" />
         </div>
@@ -40,7 +40,7 @@ export default function SaleStatistic({ api }) {
   } else {
     return (
       <Card
-        title="Sale Statistic"
+        title="Sale Statistics"
         actions={[
           {
             name: 'Daily',
