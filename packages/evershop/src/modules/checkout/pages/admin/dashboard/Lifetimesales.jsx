@@ -44,7 +44,7 @@ export default function LifetimeSale({ api }) {
 
   if (fetching) {
     return (
-      <Card title="Lifetime Sale">
+      <Card title="Lifetime Sales">
         <Card.Session>
           <div className="skeleton-wrapper-lifetime">
             <div className="skeleton" />
@@ -62,7 +62,7 @@ export default function LifetimeSale({ api }) {
     );
   } else {
     return (
-      <Card title="Lifetime Sale">
+      <Card title="Lifetime Sales">
         <Card.Session>
           <div className="grid grid-cols-1 gap-1">
             <div className="flex space-x-1 items-center">
