@@ -46,11 +46,12 @@ FeaturedProducts.propTypes = {
         })
       ).isRequired
     }).isRequired
-  }).isRequired
+  })
 };
 
 FeaturedProducts.defaultProps = {
-  featuredProducts: []
+  featuredProducts: [],
+  collection: {}
 };
 
 export const layout = {

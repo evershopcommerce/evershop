@@ -75,8 +75,13 @@ export default function ShoppingCart({ cart, removeUrl }) {
 ShoppingCart.propTypes = {
   cart: PropTypes.shape({
     uuid: PropTypes.string.isRequired
-  }).isRequired,
-  removeUrl: PropTypes.string.isRequired
+  }),
+  removeUrl: PropTypes.string
+};
+
+ShoppingCart.defaultProps = {
+  cart: {},
+  removeUrl: ''
 };
 
 export const layout = {
