@@ -236,7 +236,7 @@ export default function Products({ category: { categoryId, addProductApi } }) {
                             onClick={async (e) => {
                               e.preventDefault();
                               await removeProduct(
-                                p.removeFromCollectionUrl,
+                                p.removeFromCategoryUrl,
                                 p.uuid
                               );
                             }}

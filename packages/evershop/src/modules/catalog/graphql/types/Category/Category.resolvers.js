@@ -249,5 +249,21 @@ module.exports = {
       query.where('category.category_id', '=', category.parentId);
       return camelCase(await query.load(pool));
     }
+  },
+  Product: {
+    removeFromCategoryUrl: async (product) => {
+      if (!product.categoryId) {
+        return null;
+      } else {
+        const category = await select()
+          .from('category')
+          .where('category_id', '=', product.categoryId)
+          .load(pool);
+        return buildUrl('removeProductFromCategory', {
+          category_id: category.uuid,
+          product_id: product.uuid
+        });
+      }
+    }
   }
 };

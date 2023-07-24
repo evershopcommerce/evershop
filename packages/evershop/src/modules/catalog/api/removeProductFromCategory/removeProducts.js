@@ -7,12 +7,11 @@ const {
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const {
-  insert,
   startTransaction,
   rollback,
   commit,
   select,
-  del
+  update
 } = require('@evershop/postgres-query-builder');
 
 module.exports = async (request, response, delegate, next) => {
@@ -25,6 +24,7 @@ module.exports = async (request, response, delegate, next) => {
       .from('category')
       .where('uuid', '=', category_id)
       .load(connection);
+
     if (!category) {
       response.status(INVALID_PAYLOAD);
       response.json({
@@ -38,6 +38,7 @@ module.exports = async (request, response, delegate, next) => {
       .from('product')
       .where('uuid', '=', product_id)
       .load(connection);
+
     if (!product) {
       response.status(INVALID_PAYLOAD);
       response.json({
@@ -47,10 +48,13 @@ module.exports = async (request, response, delegate, next) => {
     }
 
     // Remove the product from the category
-    await del('product_category')
-      .where('category_id', '=', category['category_id'])
-      .and('product_id', '=', product['product_id'])
+    await update('product')
+      .given({
+        category_id: null
+      })
+      .where('product_id', '=', product['product_id'])
       .execute(connection);
+
     await commit(connection);
     response.status(OK);
     response.json({
