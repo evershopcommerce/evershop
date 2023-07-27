@@ -1,0 +1,12 @@
+"""
+The `Carrier` type defines the shipping carrier.
+"""
+type Carrier {
+  name: String!
+  code: String!
+  trackingUrl: String
+}
+
+extend type Query {
+  carriers: [Carrier]
+}

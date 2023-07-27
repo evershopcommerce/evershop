@@ -9,6 +9,7 @@ const {
 } = require('@evershop/postgres-query-builder');
 const { v4: uuidv4 } = require('uuid');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 /* Default validation rules */
 let validationServices = [
@@ -91,7 +92,8 @@ module.exports = exports = {};
 exports.createOrder = async function createOrder(cart) {
   // Start creating order
   const connection = await getConnection(pool);
-
+  const shipmentStatusList = getConfig('oms.order.shipmentStatus', {});
+  const paymentStatusList = getConfig('oms.order.paymentStatus', {});
   try {
     await startTransaction(connection);
 
@@ -122,12 +124,27 @@ exports.createOrder = async function createOrder(cart) {
       .given(cartBillingAddress)
       .execute(connection);
     // Save order to DB
-    // TODO: Maybe we should allow plugin to prepare order data before created?
     const previous = await select('order_id')
       .from('order')
       .orderBy('order_id', 'DESC')
       .limit(0, 1)
       .execute(pool);
+
+    // Get the default shipment status
+    // Loop the shipmentStatusList object and find the one has isDefault = true
+    let defaultShipmentStatus = null;
+    Object.keys(shipmentStatusList).forEach((key) => {
+      if (shipmentStatusList[key].isDefault) {
+        defaultShipmentStatus = key;
+      }
+    });
+
+    let defaultPaymentStatus = null;
+    Object.keys(paymentStatusList).forEach((key) => {
+      if (paymentStatusList[key].isDefault) {
+        defaultPaymentStatus = key;
+      }
+    });
 
     const order = await insert('order')
       .given({
@@ -138,8 +155,8 @@ exports.createOrder = async function createOrder(cart) {
         // FIXME: Must be structured
         shipping_address_id: shipAddr.insertId,
         billing_address_id: billAddr.insertId,
-        payment_status: 'pending',
-        shipment_status: 'unfullfilled' // TODO: Payment and shipment status should be provided by the method
+        payment_status: defaultPaymentStatus,
+        shipment_status: defaultShipmentStatus
       })
       .execute(connection);
 
