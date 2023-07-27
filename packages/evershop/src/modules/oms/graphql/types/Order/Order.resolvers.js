@@ -211,25 +211,31 @@ module.exports = {
     },
     shipmentStatus: ({ shipmentStatus }) => {
       const statusList = getConfig('oms.order.shipmentStatus', {});
-      return (
-        statusList[shipmentStatus] || {
-          name: 'Unknown',
-          code: shipmentStatus,
-          badge: 'default',
-          progress: 'incomplete'
-        }
-      );
+      const status = statusList[shipmentStatus] || {
+        name: 'Unknown',
+        code: shipmentStatus,
+        badge: 'default',
+        progress: 'incomplete'
+      };
+
+      return {
+        ...status,
+        code: shipmentStatus
+      };
     },
     paymentStatus: ({ paymentStatus }) => {
       const statusList = getConfig('oms.order.paymentStatus', {});
-      return (
-        statusList[paymentStatus] || {
-          name: 'Unknown',
-          code: paymentStatus,
-          badge: 'default',
-          progress: 'incomplete'
-        }
-      );
+      const status = statusList[paymentStatus] || {
+        name: 'Unknown',
+        code: paymentStatus,
+        badge: 'default',
+        progress: 'incomplete'
+      };
+
+      return {
+        ...status,
+        code: paymentStatus
+      };
     }
   },
   Shipment: {

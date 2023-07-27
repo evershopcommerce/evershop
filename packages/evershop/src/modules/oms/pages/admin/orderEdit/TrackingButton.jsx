@@ -50,7 +50,7 @@ TrackingButton.propTypes = {
 
 export const layout = {
   areaId: 'order_actions',
-  sortOrder: 10
+  sortOrder: 15
 };
 
 export const query = `

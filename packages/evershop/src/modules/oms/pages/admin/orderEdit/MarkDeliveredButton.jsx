@@ -8,16 +8,17 @@ import { toast } from 'react-toastify';
 export default function MarkDeliveredButton({
   order: {
     orderId,
-    shipmentStatus: { code }
+    shipmentStatus: { code },
+    shipment
   },
   markDeliveredApi
 }) {
-  if (code === 'delivered') {
+  if (!shipment || code === 'delivered') {
     return null;
   } else {
     return (
       <Button
-        title="Mark delivered"
+        title="Mark Delivered"
         variant="primary"
         onAction={async () => {
           // Call the updateShipmentApi with the status set to "delivered" using fetch post request, include credentials
@@ -48,6 +49,9 @@ MarkDeliveredButton.propTypes = {
     orderId: PropTypes.string,
     shipmentStatus: PropTypes.shape({
       code: PropTypes.string
+    }).isRequired,
+    shipment: PropTypes.shape({
+      shipmentId: PropTypes.number
     }).isRequired
   }).isRequired
 };
@@ -63,6 +67,9 @@ export const query = `
       orderId
       shipmentStatus {
         code
+      }
+      shipment {
+        shipmentId
       }
     },
     markDeliveredApi: url(routeId: "markDelivered")

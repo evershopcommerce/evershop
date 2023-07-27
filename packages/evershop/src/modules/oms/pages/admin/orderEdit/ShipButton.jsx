@@ -18,11 +18,11 @@ export default function ShipButton({
   } else {
     return (
       <Button
-        title="Ship items"
+        title="Ship Items"
         variant="primary"
         onAction={() => {
           openAlert({
-            heading: 'Ship items',
+            heading: 'Ship Items',
             content: (
               <div>
                 <Form

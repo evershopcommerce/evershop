@@ -68,7 +68,7 @@ export default function Items({ order: { items, shipmentStatus } }) {
         </table>
       </Card.Session>
       <Card.Session>
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-1">
           <Area id="order_actions" noOuter />
         </div>
       </Card.Session>

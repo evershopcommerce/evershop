@@ -9,20 +9,20 @@ import { Field } from '@components/common/form/Field';
 
 export default function AddTrackingButton({ order: { shipment }, carriers }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
-  if (!shipment || (shipment.trackingNumber && shipment.carrier)) {
+  if (!shipment) {
     return null;
   } else {
     return (
       <Button
-        title="Add tracking info"
+        title="Edit Tracking Info"
         variant="primary"
         onAction={() => {
           openAlert({
-            heading: 'Add tracking information',
+            heading: 'Edit Tracking Information',
             content: (
               <div>
                 <Form
-                  id="add-tracking-items"
+                  id="edit-tracking-info"
                   method="PATCH"
                   action={shipment.updateShipmentApi}
                   submitBtn={false}
@@ -41,7 +41,7 @@ export default function AddTrackingButton({ order: { shipment }, carriers }) {
                   <div className="grid grid-cols-2 gap-1">
                     <div>
                       <Field
-                        formId="add-tracking-items"
+                        formId="edit-tracking-info"
                         type="text"
                         name="tracking_number"
                         label="Tracking number"
@@ -52,7 +52,7 @@ export default function AddTrackingButton({ order: { shipment }, carriers }) {
                     </div>
                     <div>
                       <Field
-                        formId="add-tracking-items"
+                        formId="edit-tracking-info"
                         type="select"
                         name="carrier"
                         label="Carrier"
@@ -78,7 +78,7 @@ export default function AddTrackingButton({ order: { shipment }, carriers }) {
                   payload: { secondaryAction: { isLoading: true } }
                 });
                 document
-                  .getElementById('add-tracking-items')
+                  .getElementById('edit-tracking-info')
                   .dispatchEvent(
                     new Event('submit', { cancelable: true, bubbles: true })
                   );
@@ -111,7 +111,7 @@ AddTrackingButton.propTypes = {
 
 export const layout = {
   areaId: 'order_actions',
-  sortOrder: 10
+  sortOrder: 5
 };
 
 export const query = `
