@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/deliveries",
+  "access": "private"
+}

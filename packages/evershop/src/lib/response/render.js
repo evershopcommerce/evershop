@@ -1,10 +1,11 @@
 /* eslint-disable global-require */
 const path = require('path');
-const { inspect } = require('util');
 const { getRoutes } = require('../router/Router');
 const { get } = require('../util/get');
 const isProductionMode = require('../util/isProductionMode');
 const { getRouteBuildPath } = require('../webpack/getRouteBuildPath');
+const { getConfig } = require('../util/getConfig');
+const jsesc = require('jsesc');
 
 function normalizeAssets(assets) {
   if (typeof assets === 'object' && !Array.isArray(assets) && assets !== null) {
@@ -16,6 +17,7 @@ function normalizeAssets(assets) {
 
 function renderDevelopment(request, response) {
   const route = request.locals.webpackMatchedRoute;
+  const language = getConfig('shop.language', 'en');
   if (!route) {
     // In testing mode, we do not have devMiddleware
     response.send(`
@@ -37,6 +39,10 @@ function renderDevelopment(request, response) {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     propsMap: get(response, 'locals.propsMap', {})
   };
+  const safeContextValue = jsesc(contextValue, {
+    json: true,
+    isScriptContext: true
+  });
   const { stats } = devMiddleware.context;
   // let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
   const { assetsByChunkName } = stats.toJson();
@@ -44,13 +50,11 @@ function renderDevelopment(request, response) {
   const notFoundFile = request.currentRoute?.isAdmin
     ? 'adminNotFound.js'
     : 'notFound.js';
+  const langCode = request.currentRoute?.isAdmin ? 'en' : language;
   response.send(`
-            <!doctype html><html>
+            <!doctype html><html lang="${langCode}">
                 <head>
-                  <script>var eContext = ${inspect(contextValue, {
-                    depth: 10,
-                    maxArrayLength: null
-                  })}</script>
+                  <script>var eContext = ${safeContextValue}</script>
                 </head>
                 <body>
                 <div id="app" className="bg-background"></div>
@@ -70,12 +74,14 @@ function renderDevelopment(request, response) {
 
 function renderProduction(request, response) {
   const routes = getRoutes();
+  const language = getConfig('shop.language', 'en');
   const frontNotFound = routes.find((route) => route.id === 'notFound');
   const adminNotFound = routes.find((route) => route.id === 'adminNotFound');
   const notFound = request.currentRoute?.isAdmin
     ? adminNotFound
     : frontNotFound;
   const route = response.statusCode === 404 ? notFound : request.currentRoute;
+  const langCode = route.isAdmin === true ? 'en' : language;
   const { renderHtml } = require(path.resolve(
     getRouteBuildPath(route),
     'server',
@@ -90,7 +96,11 @@ function renderProduction(request, response) {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     propsMap: get(response, 'locals.propsMap', {})
   };
-  const source = renderHtml(assets.js, assets.css, contextValue);
+  const safeContextValue = jsesc(contextValue, {
+    json: true,
+    isScriptContext: true
+  });
+  const source = renderHtml(assets.js, assets.css, safeContextValue, langCode);
   response.send(source);
 }
 

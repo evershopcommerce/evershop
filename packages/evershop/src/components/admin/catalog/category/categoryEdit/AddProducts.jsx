@@ -8,13 +8,13 @@ import { useQuery } from 'urql';
 import CheckIcon from '@heroicons/react/outline/CheckIcon';
 
 const SearchQuery = `
-  query Query ($query: String) {
-    products: searchProducts(query: $query) {
+  query Query ($filters: [FilterInput!]) {
+    products(filters: $filters) {
       items {
         productId
         uuid
         sku
-        categories {
+        category {
           categoryId
         }
         name
@@ -38,7 +38,11 @@ function AddProducts({ addProductApi, categoryId, closeModal }) {
 
   const [result, reexecuteQuery] = useQuery({
     query: SearchQuery,
-    variables: { query: inputValue },
+    variables: {
+      filters: inputValue
+        ? [{ key: 'keyword', operation: '=', value: inputValue }]
+        : []
+    },
     pause: true
   });
 
@@ -124,9 +128,8 @@ function AddProducts({ addProductApi, categoryId, closeModal }) {
                       <div className="col-span-2 text-right">
                         {!(
                           addedProducts.includes(product.uuid) ||
-                          product.categories.find(
-                            (c) => c.categoryId === categoryId
-                          )
+                          parseInt(product.category?.categoryId) ===
+                            parseInt(categoryId, 10)
                         ) && (
                           <button
                             className="button secondary"
@@ -139,9 +142,8 @@ function AddProducts({ addProductApi, categoryId, closeModal }) {
                           </button>
                         )}
                         {(addedProducts.includes(product.uuid) ||
-                          product.categories.find(
-                            (c) => c.categoryId === categoryId
-                          )) && (
+                          parseInt(product.category?.categoryId) ===
+                            parseInt(categoryId, 10)) && (
                           <span className="button primary">
                             <CheckIcon width={20} height={20} />
                           </span>

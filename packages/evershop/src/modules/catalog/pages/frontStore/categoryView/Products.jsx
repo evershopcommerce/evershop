@@ -60,9 +60,9 @@ export const layout = {
 };
 
 export const query = `
-  query Query {
+  query Query($filters: [FilterInput]) {
     products: category(id: getContextValue('categoryId')) {
-      products(filters: getContextValue('filtersFromUrl')) {
+      products(filters: $filters) {
         items {
           ...Product
         }
@@ -92,3 +92,8 @@ export const fragments = `
     url
   }
 `;
+
+export const variables = `
+{
+  filters: getContextValue('filtersFromUrl')
+}`;

@@ -8,9 +8,9 @@ import AddProducts from '@components/admin/catalog/collection/collectionEdit/Add
 import Spinner from '@components/common/Spinner';
 
 const ProductsQuery = `
-  query Query ($code: String!, $page: String!, $name: String!) {
+  query Query ($code: String!, $filters: [FilterInput!]) {
     collection (code: $code) {
-      products (filters: [{key: "page", operation: "=", value: $page},{key: "limit", operation: "=", value: "10"}, {key: "name", operation: "=", value: $name}]) {
+      products (filters: $filters) {
         items {
           productId
           uuid
@@ -36,7 +36,7 @@ const ProductsQuery = `
 export default function Products({
   collection: { collectionId, code, addProductApi }
 }) {
-  const [name, setName] = React.useState('');
+  const [keyword, setKeyword] = React.useState('');
   const [page, setPage] = React.useState(1);
   const [removing, setRemoving] = React.useState([]);
   const modal = useModal();
@@ -44,7 +44,19 @@ export default function Products({
   // Run query again when page changes
   const [result, reexecuteQuery] = useQuery({
     query: ProductsQuery,
-    variables: { code: code, page: page.toString(), name: name },
+    variables: {
+      code: code,
+      filters: !keyword
+        ? [
+            { key: 'page', operation: '=', value: page.toString() },
+            { key: 'limit', operation: '=', value: '10' }
+          ]
+        : [
+            { key: 'page', operation: '=', value: page.toString() },
+            { key: 'limit', operation: '=', value: '10' },
+            { key: 'keyword', operation: '=', value: keyword }
+          ]
+    },
     pause: true
   });
 
@@ -77,7 +89,7 @@ export default function Products({
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [name]);
+  }, [keyword]);
 
   React.useEffect(() => {
     if (result.fetching) {
@@ -133,9 +145,9 @@ export default function Products({
             <div className="border rounded border-divider mb-2">
               <input
                 type="text"
-                value={name}
+                value={keyword}
                 placeholder="Search products"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setKeyword(e.target.value)}
               />
             </div>
             {data && (

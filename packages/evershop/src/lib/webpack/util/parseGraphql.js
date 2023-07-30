@@ -2,6 +2,7 @@ const fs = require('fs');
 const uniqid = require('uniqid');
 const { CONSTANTS } = require('../../helpers');
 const { parseGraphqlByFile } = require('./parseGraphqlByFile');
+const JSON5 = require('json5');
 
 module.exports.parseGraphql = function parseGraphql(modules) {
   let inUsedFragments = [];
@@ -26,7 +27,7 @@ module.exports.parseGraphql = function parseGraphql(modules) {
     fragmentStr += `\n${moduleGraphqlData.fragments.source}`;
     Object.assign(
       variables.values,
-      JSON.parse(moduleGraphqlData.variables.source)
+      JSON5.parse(moduleGraphqlData.variables.source)
     );
     variables.defs = variables.defs.concat(
       moduleGraphqlData.variables.definitions
@@ -81,7 +82,7 @@ module.exports.parseGraphql = function parseGraphql(modules) {
   return {
     query: queryStr,
     fragments: fragmentStr,
-    variables: JSON.stringify(variables),
+    variables: JSON5.stringify(variables),
     propsMap
   };
 };

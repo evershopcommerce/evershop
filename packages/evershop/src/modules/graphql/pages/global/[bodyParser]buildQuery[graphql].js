@@ -73,15 +73,33 @@ module.exports = (request, response) => {
       return value;
     });
     try {
-      const json = JSON.parse(query);
+      const json = JSON5.parse(query);
       // Get all variables definition and build the operation name
-      const variables = JSON.parse(json.variables);
+      const variables = JSON5.parse(json.variables);
       let operation = 'query Query';
       if (variables.defs.length > 0) {
         const variablesString = variables.defs
-          .map((variable) => `$${variable.name}: ${variable.type}`)
+          .map((variable) => `$${variable.alias}: ${variable.type}`)
           .join(', ');
         operation += `(${variablesString})`;
+
+        // Now we need loop through all variables value (variables.values) object and Use regex to replace "getContextValue_'base64 encoded string'" from the query to the actual function
+        Object.keys(variables.values).forEach((key) => {
+          const value = variables.values[key];
+          if (typeof value === 'string') {
+            // A regext matching "getContextValue_'base64 encoded string'"
+            const regex = /getContextValue_([a-zA-Z0-9+/=]+)/g;
+            // Check if the value is a string and contains the getContextValue_ string
+            const match = value.match(regex);
+            if (match) {
+              // Replace the getContextValue_ string with the actual function
+              const base64 = match[0].replace(regex, (match, p1) => p1);
+              const decoded = Buffer.from(base64, 'base64').toString('ascii');
+              const actualValue = eval(`getContextValue(request, ${decoded})`);
+              variables.values[key] = actualValue;
+            }
+          }
+        });
       }
       request.body.graphqlQuery = `${operation} { ${json.query} } ${json.fragments}`;
       request.body.graphqlVariables = variables.values;

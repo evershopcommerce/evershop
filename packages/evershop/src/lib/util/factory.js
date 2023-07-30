@@ -11,6 +11,8 @@ class Factory {
       );
     }
 
+    this.values[name] = true;
+
     if (!this.processors[name]) {
       return value;
     }

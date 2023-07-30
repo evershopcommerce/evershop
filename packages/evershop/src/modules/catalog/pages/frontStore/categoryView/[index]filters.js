@@ -37,6 +37,15 @@ module.exports = async (request, response, delegate, next) => {
       });
     }
 
+    // Category filter
+    const categoryFilter = Object.keys(query).find((key) => key === 'cat');
+    if (categoryFilter) {
+      filtersFromUrl.push({
+        key: 'cat',
+        operation: '=',
+        value: `${query[categoryFilter]}`
+      });
+    }
     // Attribute filters
     Object.keys(query).forEach((key) => {
       const filter = query[key];

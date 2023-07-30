@@ -1,0 +1,40 @@
+.search-box {
+  align-self: center;
+  position: relative;
+  .field-wrapper {
+    background-color: #f1f2f3;
+    border-radius: 3px;
+  }
+  .field-border {
+    border-color: #f1f2f3 !important;
+  }
+  .field-prefix {
+    padding-left: 0.85rem;
+  }
+  .search-input-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    .search-input {
+      background-color: white;
+      padding: 5rem;
+      display: flex;
+      justify-content: center;
+      .form-field-container {
+        width: 80%;
+      }
+      .close-icon {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        font-size: 2rem;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+"""
+Retrieve an Order Address.
+"""
+type OrderAddress implements Address {
+  orderAddressId: Int!
+  uuid: String!
+  fullName: String!
+  postcode: String!
+  telephone: String!
+  country: Country!
+  province: Province!
+  city: String!
+  address1: String!
+  address2: String
+}
+
+"""
+Retrieve an Order Item.
+"""
+type OrdertItem implements ShoppingCartItem {
+  orderItemId: ID!
+  uuid: String!
+  orderId: ID!
+  productId: ID!
+  productSku: String!
+  productName: String
+  thumbnail: String
+  productWeight: Weight!
+  productPrice: Price!
+  productPriceInclTax: Price!
+  qty: Int!
+  finalPrice: Price!
+  finalPriceInclTax: Price!
+  taxPercent: Float!
+  taxAmount: Price!
+  discountAmount: Price!
+  total: Price!
+  variantGroupId: Int
+  variantOptions: String
+  productCustomOptions: String
+  productUrl: String!
+}
+
+"""
+Retrieve an Order.
+"""
+type Order implements ShoppingCart {
+  orderId: ID!
+  uuid: String!
+  orderNumber: String!
+  items: [OrdertItem]
+  shippingAddress: OrderAddress
+  billingAddress: OrderAddress
+  currency: String!
+  customerId: Int
+  customerUrl: String
+  customerGroupId: Int
+  customerEmail: String
+  customerFullName: String
+  userIp: String
+  userId: String
+  status: Int!
+  coupon: String
+  shippingFeeExclTax: Price!
+  shippingFeeInclTax: Price!
+  discountAmount: Price!
+  subTotal: Price!
+  totalQty: Int!
+  totalWeight: Weight!
+  taxAmount: Price!
+  grandTotal: Price!
+  shippingMethod: String
+  shippingMethodName: String
+  shipmentStatus: ShipmentStatus
+  paymentMethod: String
+  paymentMethodName: String
+  paymentStatus: PaymentStatus
+  shippingNote: String
+  createdAt: Date!
+  updatedAt: String!
+  editUrl: String!
+  createShipmentApi: String!
+  activities: [Activity]
+  shipment: Shipment
+}
+
+"""
+Retrieve an Order Activity.
+"""
+type Activity {
+  orderActivityId: Int!
+  comment: String
+  customerNotified: Int!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+Retrieve an Order Shipment.
+"""
+type Shipment {
+  shipmentId: Int!
+  uuid: String!
+  carrier: String
+  trackingNumber: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+  updateShipmentApi: String!
+}
+
+"""
+Retrieve an list of order.
+"""
+type OrderCollection {
+  items: [Order]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  order(id: String!): Order
+  orders(filters: [FilterInput]): OrderCollection
+}

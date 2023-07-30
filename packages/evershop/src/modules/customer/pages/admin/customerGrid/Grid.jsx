@@ -320,8 +320,8 @@ export const layout = {
 };
 
 export const query = `
-  query Query {
-    customers (filters: getContextValue("filtersFromUrl")) {
+  query Query($filters: [FilterInput]) {
+    customers (filters: $filters) {
       items {
         customerId
         uuid
@@ -344,3 +344,8 @@ export const query = `
     }
   }
 `;
+
+export const variables = `
+{
+  filters: getContextValue('filtersFromUrl')
+}`;

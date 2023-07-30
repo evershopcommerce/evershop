@@ -401,8 +401,8 @@ export const layout = {
 };
 
 export const query = `
-  query Query {
-    products (filters: getContextValue("filtersFromUrl")) {
+  query Query($filters: [FilterInput]) {
+    products (filters: $filters) {
       items {
         productId
         uuid
@@ -434,3 +434,8 @@ export const query = `
     }
   }
 `;
+
+export const variables = `
+{
+  filters: getContextValue('filtersFromUrl')
+}`;

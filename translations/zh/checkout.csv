@@ -1,0 +1,46 @@
+Total, 全部的
+Order, 订单
+Sku, SKU
+Continue to shipping, 继续运输
+Continue shopping, 继续购物
+Continue Shopping, 继续购物
+CONTINUE SHOPPING, 继续购物
+Shopping cart, 购物车
+Product, 产品
+Price, 价格
+Quantity, 数量
+Remove, 删除
+Qty, 数量
+Sub total, 小计
+Discount(${coupon}), 折扣(${coupon})
+Order summary, 订单摘要
+Taxes and shipping calculated at checkout, 税费和运费在结账时计算
+CHECKOUT, 结账
+Change, 更改
+Payment Method, 付款方式
+Shipping Method, 运输方式
+No payment methods available, 没有可用的付款方式
+Place Order, 下订单
+My billing address is same as shipping address, 我的账单地址与送货地址相同
+${count} items, ${count} 件商品
+Discount, 折扣
+Shipping, 运费
+No tax, 没有税
+Tax, 税
+Sorry, there is no available method for your address, 抱歉，您的地址没有可用的方法
+Please enter a shipping address in order to see shipping quotes, 请输入送货地址以查看送货报价
+Continue to payment, 继续付款
+No payment method available, 没有可用的付款方式
+Ship to, 发货至
+Shipment, 装运
+Thank you ${name}!, 谢谢 ${name}!
+Contact information, 联系信息
+Order #${orderNumber}, 订单 #${orderNumber}
+ADD TO CART, 添加到购物车
+Please select variant options, 请选择变体选项
+VIEW CART (${count}), 查看购物车 (${count})
+JUST ADDED TO YOUR CART, 刚刚添加到您的购物车
+Promotion code?, 促销代码？
+Enter coupon code, 输入优惠券代码
+Apply, 应用
+Your cart is empty!, 您的购物车是空的！
