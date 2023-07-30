@@ -300,8 +300,8 @@ export const layout = {
 };
 
 export const query = `
-  query Query {
-    cmsPages (filters: getContextValue("filtersFromUrl")) {
+  query Query($filters: [FilterInput]) {
+    cmsPages (filters: $filters) {
       items {
         cmsPageId
         uuid
@@ -322,3 +322,8 @@ export const query = `
     }
   }
 `;
+
+export const variables = `
+{
+  filters: getContextValue('filtersFromUrl')
+}`;

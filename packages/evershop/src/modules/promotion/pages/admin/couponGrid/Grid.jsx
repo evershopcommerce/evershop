@@ -389,8 +389,8 @@ export const layout = {
 };
 
 export const query = `
-  query Query {
-    coupons (filters: getContextValue("filtersFromUrl")) {
+  query Query($filters: [FilterInput]) {
+    coupons (filters: $filters) {
       items {
         couponId
         uuid
@@ -416,3 +416,8 @@ export const query = `
     }
   }
 `;
+
+export const variables = `
+{
+  filters: getContextValue('filtersFromUrl')
+}`;

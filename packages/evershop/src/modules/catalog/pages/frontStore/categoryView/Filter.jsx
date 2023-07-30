@@ -172,9 +172,9 @@ export const layout = {
 };
 
 export const query = `
-query Query {
+query Query($filters: [FilterInput]) {
   category (id: getContextValue('categoryId')) {
-    products (filters: getContextValue('filtersFromUrl')) {
+    products (filters: $filters) {
       currentFilters {
         key
         operation
@@ -206,3 +206,7 @@ query Query {
 }`;
 
 export const useFilterDispatch = () => React.useContext(FilterDispatch);
+export const variables = `
+{
+  filters: getContextValue('filtersFromUrl')
+}`;
