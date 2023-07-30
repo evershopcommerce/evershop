@@ -52,8 +52,8 @@ export const layout = {
 };
 
 export const query = `
-  query Query {
-    products(filters: getContextValue('filtersFromUrl')) {
+  query Query($filtersFromUrl: [FilterInput]) {
+    products(filters: $filtersFromUrl) {
       items {
         ...Product
       }
@@ -82,3 +82,7 @@ export const fragments = `
     url
   }
 `;
+
+export const variables = `{
+  filtersFromUrl: getContextValue("filtersFromUrl")
+}`;

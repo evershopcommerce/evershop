@@ -1,6 +1,6 @@
 const {
   setContextValue
-} = require('../../../../graphql/services/contextHelper');
+} = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
 
 module.exports = (request, response, delegate, next) => {
   const { query } = request;
@@ -44,7 +44,13 @@ module.exports = (request, response, delegate, next) => {
       filtersFromUrl.push({ key: 'limit', operation: '=', value: limit });
     }
 
+    // Remove html tags
     const keyword = query.keyword;
+    setContextValue(request, 'pageInfo', {
+      title: `Search results for "${keyword}"`,
+      description: `Search results for "${keyword}"`
+    });
+
     filtersFromUrl.push({
       key: 'keyword',
       operation: '=',

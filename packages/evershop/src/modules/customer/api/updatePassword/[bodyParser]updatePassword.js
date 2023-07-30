@@ -23,7 +23,6 @@ module.exports = async (request, response, delegate, next) => {
 
     // Hash the token
     const hash = crypto.createHash('sha256').update(token).digest('hex');
-    console.log(hash);
     // Hash the password using bcryptjs
     const salt = bcrypt.genSaltSync(10);
     const passwordHash = bcrypt.hashSync(password, salt);

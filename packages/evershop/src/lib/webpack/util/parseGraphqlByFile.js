@@ -2,6 +2,7 @@ const fs = require('fs');
 const { parse } = require('graphql');
 const uniqid = require('uniqid');
 const { print } = require('graphql/language/printer');
+const JSON5 = require('json5');
 
 // This function should return an object { query, fragments, variables }.
 module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
@@ -199,7 +200,7 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
 
     try {
       // Json parse the variables body
-      const variablesJson = JSON.parse(variablesBody);
+      const variablesJson = JSON5.parse(variablesBody);
       // Replace all variable in graphql query
       Object.keys(variablesJson).forEach((variableName) => {
         const variable = variables.find((v) => v.origin === variableName);
@@ -208,7 +209,7 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
           delete variablesJson[variableName];
         }
       });
-      result.variables.source = JSON.stringify(variablesJson);
+      result.variables.source = JSON5.stringify(variablesJson);
       result.variables.definitions = variables;
     } catch (e) {
       throw new Error(`Invalid variables in ${module}`);

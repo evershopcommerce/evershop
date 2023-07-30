@@ -1,11 +1,11 @@
 /* eslint-disable global-require */
 const path = require('path');
-const { inspect } = require('util');
 const { getRoutes } = require('../router/Router');
 const { get } = require('../util/get');
 const isProductionMode = require('../util/isProductionMode');
 const { getRouteBuildPath } = require('../webpack/getRouteBuildPath');
 const { getConfig } = require('../util/getConfig');
+const jsesc = require('jsesc');
 
 function normalizeAssets(assets) {
   if (typeof assets === 'object' && !Array.isArray(assets) && assets !== null) {
@@ -39,6 +39,10 @@ function renderDevelopment(request, response) {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     propsMap: get(response, 'locals.propsMap', {})
   };
+  const safeContextValue = jsesc(contextValue, {
+    json: true,
+    isScriptContext: true
+  });
   const { stats } = devMiddleware.context;
   // let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
   const { assetsByChunkName } = stats.toJson();
@@ -50,10 +54,7 @@ function renderDevelopment(request, response) {
   response.send(`
             <!doctype html><html lang="${langCode}">
                 <head>
-                  <script>var eContext = ${inspect(contextValue, {
-                    depth: 10,
-                    maxArrayLength: null
-                  })}</script>
+                  <script>var eContext = ${safeContextValue}</script>
                 </head>
                 <body>
                 <div id="app" className="bg-background"></div>
@@ -95,7 +96,11 @@ function renderProduction(request, response) {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     propsMap: get(response, 'locals.propsMap', {})
   };
-  const source = renderHtml(assets.js, assets.css, contextValue, langCode);
+  const safeContextValue = jsesc(contextValue, {
+    json: true,
+    isScriptContext: true
+  });
+  const source = renderHtml(assets.js, assets.css, safeContextValue, langCode);
   response.send(source);
 }
 

@@ -36,8 +36,8 @@ export const layout = {
 };
 
 export const query = `
-  query Query {
-    products(filters: getContextValue('filtersFromUrl')) {
+  query Query($filtersFromUrl: [FilterInput]) {
+    products(filters: $filtersFromUrl) {
         total
         currentFilters {
           key
@@ -46,3 +46,7 @@ export const query = `
         }
       }
   }`;
+
+export const variables = `{
+  filtersFromUrl: getContextValue("filtersFromUrl")
+}`;
