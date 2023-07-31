@@ -134,13 +134,7 @@ exports.DiscountCalculator = class DiscountCalculator {
         let discountAmount = toPrice(parseFloat(coupon.discount_amount) || 0);
         const discounts = {};
         const items = cart.getItems();
-        const productIds = items.map((item) => item.getData('product_id'));
 
-        // Load the category of each item
-        const categories = await select()
-          .from('product_category')
-          .where('product_id', 'IN', productIds)
-          .execute(pool);
         items.forEach((item) => {
           // Check if the item is in the target products
           let flag = true;
@@ -169,26 +163,21 @@ exports.DiscountCalculator = class DiscountCalculator {
 
             // Check category
             if (key === 'category') {
+              const productCategoryId = item.getData('category_id');
               // If key is category, we only support IN and NOT IN operator
               if (!['IN', 'NOT IN'].includes(operator)) {
                 flag = false;
                 return false;
               }
-              if (categories.length === 0) {
-                flag = false;
-                return false;
-              }
 
-              const values = value
+              const requiredCategoryIds = value
                 .split(',')
                 .map((id) => parseInt(id.trim(), 10));
-              const e = categories.find(
-                (c) =>
-                  values.includes(c.category_id) &&
-                  parseInt(c.product_id, 10) ===
-                    parseInt(item.getData('product_id'), 10)
-              );
-              flag = operator === 'IN' ? e !== undefined : e === undefined;
+              if (operator === 'IN') {
+                flag = requiredCategoryIds.includes(productCategoryId);
+              } else {
+                flag = !requiredCategoryIds.includes(productCategoryId);
+              }
             }
             // Check price
             if (key === 'price') {

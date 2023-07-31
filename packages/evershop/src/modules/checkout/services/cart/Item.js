@@ -95,6 +95,15 @@ module.exports.Item = class Item extends DataObject {
       dependencies: ['product_id']
     },
     {
+      key: 'category_id',
+      resolvers: [
+        async function resolver() {
+          return parseInt(this.dataSource.product.category_id, 10) ?? null;
+        }
+      ],
+      dependencies: ['product_id']
+    },
+    {
       key: 'product_name',
       resolvers: [
         async function resolver() {
