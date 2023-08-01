@@ -189,9 +189,7 @@ export default function CMSPageGrid({
                       <BasicColumnHeader
                         title="Name"
                         id="name"
-                        currentFilter={currentFilters.find(
-                          (f) => f.key === 'name'
-                        )}
+                        currentFilters={currentFilters}
                       />
                     )
                   },

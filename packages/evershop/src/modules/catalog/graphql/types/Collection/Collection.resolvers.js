@@ -6,6 +6,12 @@ const { ProductCollection } = require('../../../services/ProductCollection');
 const {
   getProductsByCollectionBaseQuery
 } = require('../../../services/getProductsByCollectionBaseQuery');
+const {
+  getCollectionsBaseQuery
+} = require('../../../services/getCollectionsBaseQuery');
+const {
+  CollectionCollection
+} = require('../../../services/CollectionCollection');
 
 module.exports = {
   Query: {
@@ -16,77 +22,10 @@ module.exports = {
       return result ? camelCase(result) : null;
     },
     collections: async (_, { filters = [] }) => {
-      const query = select().from('collection');
-      const currentFilters = [];
-      // Name filter
-      const nameFilter = filters.find((f) => f.key === 'name');
-      if (nameFilter) {
-        query.andWhere('collection.name', 'LIKE', `%${nameFilter.value}%`);
-        currentFilters.push({
-          key: 'name',
-          operation: '=',
-          value: nameFilter.value
-        });
-      }
-
-      // Code filter
-      const codeFilter = filters.find((f) => f.key === 'code');
-      if (codeFilter) {
-        query.andWhere('collection.code', 'LIKE', `%${codeFilter.value}%`);
-        currentFilters.push({
-          key: 'code',
-          operation: '=',
-          value: codeFilter.value
-        });
-      }
-
-      const sortBy = filters.find((f) => f.key === 'sortBy');
-      const sortOrder = filters.find(
-        (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
-      ) || { value: 'ASC' };
-      if (sortBy && sortBy.value === 'name') {
-        query.orderBy('collection.name', sortOrder.value);
-        currentFilters.push({
-          key: 'sortBy',
-          operation: '=',
-          value: sortBy.value
-        });
-      } else {
-        query.orderBy('collection.collection_id', 'DESC');
-      }
-      if (sortOrder.key) {
-        currentFilters.push({
-          key: 'sortOrder',
-          operation: '=',
-          value: sortOrder.value
-        });
-      }
-      // Clone the main query for getting total right before doing the paging
-      const cloneQuery = query.clone();
-      cloneQuery.removeOrderBy();
-      cloneQuery.select('COUNT(collection.collection_id)', 'total');
-      // Paging
-      const page = filters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
-      currentFilters.push({
-        key: 'page',
-        operation: '=',
-        value: page.value
-      });
-      currentFilters.push({
-        key: 'limit',
-        operation: '=',
-        value: limit.value
-      });
-      query.limit(
-        (page.value - 1) * parseInt(limit.value, 10),
-        parseInt(limit.value, 10)
-      );
-      return {
-        items: (await query.execute(pool)).map((row) => camelCase(row)),
-        total: (await cloneQuery.load(pool)).total,
-        currentFilters
-      };
+      const query = getCollectionsBaseQuery();
+      const root = new CollectionCollection(query);
+      await root.init({}, { filters });
+      return root;
     }
   },
   Collection: {
@@ -107,9 +46,9 @@ module.exports = {
   },
   Product: {
     collections: async (product, _, { pool }) => {
-      const query = select().from('product_collection');
+      const query = getCollectionsBaseQuery();
       query
-        .leftJoin('collection')
+        .leftJoin('product_collection')
         .on(
           'collection.collection_id',
           '=',

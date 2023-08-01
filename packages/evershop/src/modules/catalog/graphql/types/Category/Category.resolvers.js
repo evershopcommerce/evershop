@@ -9,6 +9,10 @@ const {
   getFilterableAttributes
 } = require('../../../services/getFilterableAttributes');
 const { ProductCollection } = require('../../../services/ProductCollection');
+const {
+  getCategoriesBaseQuery
+} = require('../../../services/getCategoriesBaseQuery');
+const { CategoryCollection } = require('../../../services/CategoryCollection');
 
 module.exports = {
   Query: {
@@ -25,112 +29,11 @@ module.exports = {
       const result = await query.load(pool);
       return result ? camelCase(result) : null;
     },
-    categories: async (_, { filters = [] }) => {
-      const query = select().from('category');
-      query
-        .leftJoin('category_description', 'des')
-        .on(
-          'des.category_description_category_id',
-          '=',
-          'category.category_id'
-        );
-
-      const currentFilters = [];
-      // Parent filter
-      const parentFilter = filters.find((f) => f.key === 'parent');
-      if (parentFilter) {
-        if (parentFilter.value === null) {
-          query.andWhere('category.parent_id', 'IS NULL', null);
-        } else {
-          query.andWhere('category.parent_id', '=', parentFilter.value);
-        }
-        currentFilters.push({
-          key: 'parent',
-          operation: '=',
-          value: parentFilter.value
-        });
-      }
-
-      // Name filter
-      const nameFilter = filters.find((f) => f.key === 'name');
-      if (nameFilter) {
-        query.andWhere('des.name', 'LIKE', `%${nameFilter.value}%`);
-        currentFilters.push({
-          key: 'name',
-          operation: '=',
-          value: nameFilter.value
-        });
-      }
-
-      // Status filter
-      const statusFilter = filters.find((f) => f.key === 'status');
-      if (statusFilter) {
-        query.andWhere('category.status', '=', statusFilter.value);
-        currentFilters.push({
-          key: 'status',
-          operation: '=',
-          value: statusFilter.value
-        });
-      }
-
-      // includeInNav filter
-      const includeInNav = filters.find((f) => f.key === 'includeInNav');
-      if (includeInNav) {
-        query.andWhere('category.include_in_nav', '=', includeInNav.value);
-        currentFilters.push({
-          key: 'includeInNav',
-          operation: '=',
-          value: includeInNav.value
-        });
-      }
-
-      const sortBy = filters.find((f) => f.key === 'sortBy');
-      const sortOrder = filters.find(
-        (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
-      ) || { value: 'ASC' };
-      if (sortBy && sortBy.value === 'name') {
-        query.orderBy('des.name', sortOrder.value);
-        currentFilters.push({
-          key: 'sortBy',
-          operation: '=',
-          value: sortBy.value
-        });
-      } else {
-        query.orderBy('category.category_id', 'DESC');
-      }
-      if (sortOrder.key) {
-        currentFilters.push({
-          key: 'sortOrder',
-          operation: '=',
-          value: sortOrder.value
-        });
-      }
-      // Clone the main query for getting total right before doing the paging
-      const cloneQuery = query.clone();
-      cloneQuery.removeOrderBy();
-      cloneQuery.select('COUNT(category.category_id)', 'total');
-      // Paging
-      const page = filters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
-      currentFilters.push({
-        key: 'page',
-        operation: '=',
-        value: page.value
-      });
-      currentFilters.push({
-        key: 'limit',
-        operation: '=',
-        value: limit.value
-      });
-      query.limit(
-        (page.value - 1) * parseInt(limit.value, 10),
-        parseInt(limit.value, 10)
-      );
-      return {
-        items: (await query.execute(pool)).map((row) => camelCase(row)),
-        total: (await cloneQuery.load(pool)).total,
-        currentFilters
-      };
+    categories: async (_, { filters = [] }, { user }) => {
+      const query = getCategoriesBaseQuery();
+      const root = new CategoryCollection(query);
+      await root.init({}, { filters }, { user });
+      return root;
     }
   },
   Category: {

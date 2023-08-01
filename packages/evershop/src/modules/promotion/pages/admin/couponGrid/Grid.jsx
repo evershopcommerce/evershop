@@ -190,9 +190,7 @@ export default function CouponGrid({
                       <BasicColumnHeader
                         title="Coupon Code"
                         id="coupon"
-                        currentFilter={currentFilters.find(
-                          (f) => f.key === 'coupon'
-                        )}
+                        currentFilters={currentFilters}
                       />
                     )
                   },
