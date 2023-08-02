@@ -2,7 +2,6 @@ const {
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { createValue } = require('@evershop/evershop/src/lib/util/factory');
 const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 const {
   getContextValue
@@ -49,15 +48,12 @@ module.exports = async (request, response, delegate, next) => {
     const msg = {
       name: 'Reset Password',
       to: email,
-      subject: await createValue(
-        'sendGridResetPasswordEmailSubject',
-        'Reset Password'
-      ),
+      subject: resetPassword.subject || 'Reset Password',
       from: from,
       templateId: resetPassword.templateId,
-      dynamicTemplateData: await createValue('sendGridResetPasswordEmailData', {
+      dynamicTemplateData: {
         reset_password_url: resetPasswordUrl
-      })
+      }
     };
     await sgMail.send(msg);
     next();

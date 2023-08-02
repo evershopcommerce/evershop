@@ -2,7 +2,6 @@ const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const sgMail = require('@sendgrid/mail');
 const { select } = require('@evershop/postgres-query-builder');
-const { createValue } = require('@evershop/evershop/src/lib/util/factory');
 
 module.exports = async function sendOrderConfirmationEmail(data) {
   try {
@@ -46,19 +45,13 @@ module.exports = async function sendOrderConfirmationEmail(data) {
     // Send the email
     const msg = {
       to: customer.email,
-      subject: await createValue(
-        'sendGridWelcomeEmailSubject',
-        'Welcome to Evershop'
-      ),
+      subject: customerRegistered.subject || `Welcome to Evershop`,
       from: from,
       templateId: customerRegistered.templateId,
-      dynamicTemplateData: await createValue(
-        'sendGridCustomerWelcomeEmailData',
-        {
-          ...customer,
-          home_url: getConfig('shop.homeUrl', '')
-        }
-      )
+      dynamicTemplateData: {
+        ...customer,
+        home_url: getConfig('shop.homeUrl', '')
+      }
     };
 
     await sgMail.send(msg);
