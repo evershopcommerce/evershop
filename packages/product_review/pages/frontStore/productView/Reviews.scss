@@ -1,0 +1,23 @@
+
+.review__list  {
+  margin-bottom: 20px;
+  li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    :last-child {
+      border-bottom: 0;
+    }
+  }
+  .user-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .comment{
+    font-style: italic;
+  }
+}
+
+.rating__stars {
+  display: flex;
+  justify-self: start;
+}

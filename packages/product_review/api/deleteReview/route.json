@@ -1,0 +1,7 @@
+{
+  "methods": [
+    "DELETE"
+  ],
+  "path": "/product/reviews/:id",
+  "access": "private"
+}

@@ -1,0 +1,7 @@
+{
+  "methods": [
+    "PATCH"
+  ],
+  "path": "/reviews/pending/:id",
+  "access": "private"
+}

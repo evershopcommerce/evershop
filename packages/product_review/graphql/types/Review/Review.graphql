@@ -1,0 +1,35 @@
+
+"""
+Represents a product review.
+"""
+type Review {
+  reviewId: Int!
+  uuid: String!
+  rating: Float!
+  customerName: String
+  approved: Boolean
+  comment: String
+  createdAt: String
+  approveApi: String!
+  unApproveApi: String!
+  deleteApi: String!
+  product: Product!
+}
+
+extend type Product {
+  reviews: [Review]
+}
+
+"""
+Returns a collection of reviews.
+"""
+type ReviewCollection {
+  items: [Review]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  reviews(filters: [FilterInput]): ReviewCollection
+}

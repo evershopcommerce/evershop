@@ -8,30 +8,40 @@ import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Card } from '@components/admin/cms/Card';
 import Area from '@components/common/Area';
 import BasicColumnHeader from '@components/common/grid/headers/Basic';
-import StatusColumnHeader from '@components/common/grid/headers/Status';
-import StatusRow from '@components/common/grid/rows/StatusRow';
-import PageName from '@components/admin/cms/cmsPageGrid/rows/PageName';
+import BasicRow from '@components/common/grid/rows/BasicRow';
+import IsApprovedRow from './row/IsApprovedRow';
+import IsApprovedHeader from './header/IsApprovedHeader';
+import RatingRow from './row/RatingRow';
+import CommentRow from './row/CommentRow';
+import ProductRow from './row/ProductRow';
 
-function Actions({ pages = [], selectedIds = [] }) {
+function Actions({ reviews = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
 
-  const updatePages = async (status) => {
+  const approveReviews = async () => {
     setIsLoading(true);
-    const promises = pages
-      .filter((page) => selectedIds.includes(page.uuid))
-      .map((page) =>
-        axios.patch(page.updateApi, {
-          status
-        })
-      );
+    const promises = reviews
+      .filter((review) => selectedIds.includes(review.uuid))
+      .map((review) => axios.patch(review.approveApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
     window.location.reload();
   };
 
-  const deletePages = async () => {
+  const unApproveReviews = async () => {
+    setIsLoading(true);
+    const promises = reviews
+      .filter((review) => selectedIds.includes(review.uuid))
+      .map((review) => axios.patch(review.unApproveApi));
+    await Promise.all(promises);
+    setIsLoading(false);
+    // Refresh the page
+    window.location.reload();
+  };
+
+  const deleteReviews = async () => {
     setIsLoading(true);
     const promises = pages
       .filter((page) => selectedIds.includes(page.uuid))
@@ -44,10 +54,10 @@ function Actions({ pages = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Disable',
+      name: 'Unapprove',
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} pages`,
+          heading: `Unapprove ${selectedIds.length} reviews`,
           content: 'Are you sure?',
           primaryAction: {
             title: 'Cancel',
@@ -55,9 +65,9 @@ function Actions({ pages = [], selectedIds = [] }) {
             variant: 'primary'
           },
           secondaryAction: {
-            title: 'Disable',
+            title: 'Unapprove',
             onAction: async () => {
-              await updatePages(0);
+              await unApproveReviews();
             },
             variant: 'critical',
             isLoading: false
@@ -66,10 +76,10 @@ function Actions({ pages = [], selectedIds = [] }) {
       }
     },
     {
-      name: 'Enable',
+      name: 'Approve',
       onAction: () => {
         openAlert({
-          heading: `Enable ${selectedIds.length} pages`,
+          heading: `Approve ${selectedIds.length} pages`,
           content: 'Are you sure?',
           primaryAction: {
             title: 'Cancel',
@@ -77,9 +87,9 @@ function Actions({ pages = [], selectedIds = [] }) {
             variant: 'primary'
           },
           secondaryAction: {
-            title: 'Enable',
+            title: 'Approve',
             onAction: async () => {
-              await updatePages(1);
+              await approveReviews();
             },
             variant: 'critical',
             isLoading: false
@@ -91,7 +101,7 @@ function Actions({ pages = [], selectedIds = [] }) {
       name: 'Delete',
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} pages`,
+          heading: `Delete ${selectedIds.length} reviews`,
           content: <div>Can&apos;t be undone</div>,
           primaryAction: {
             title: 'Cancel',
@@ -101,7 +111,7 @@ function Actions({ pages = [], selectedIds = [] }) {
           secondaryAction: {
             title: 'Delete',
             onAction: async () => {
-              await deletePages();
+              await deleteReviews();
             },
             variant: 'critical',
             isLoading
@@ -141,7 +151,7 @@ function Actions({ pages = [], selectedIds = [] }) {
 
 Actions.propTypes = {
   selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  pages: PropTypes.arrayOf(
+  reviews: PropTypes.arrayOf(
     PropTypes.shape({
       uuid: PropTypes.number.isRequired,
       updateApi: PropTypes.string.isRequired,
@@ -150,8 +160,8 @@ Actions.propTypes = {
   ).isRequired
 };
 
-export default function CMSPageGrid({
-  cmsPages: { items: pages, total, currentFilters = [] }
+export default function ReviewGrid({
+  reviews: { items: reviews, total, currentFilters = [] }
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
     ? currentFilters.find((filter) => filter.key === 'page').value
@@ -171,7 +181,7 @@ export default function CMSPageGrid({
               <Checkbox
                 onChange={(e) => {
                   if (e.target.checked) {
-                    setSelectedRows(pages.map((p) => p.uuid));
+                    setSelectedRows(reviews.map((r) => r.uuid));
                   } else {
                     setSelectedRows([]);
                   }
@@ -180,15 +190,39 @@ export default function CMSPageGrid({
             </th>
             <Area
               className=""
-              id="pageGridHeader"
+              id="reviewGridHeader"
               noOuter
               coreComponents={[
                 {
                   component: {
                     default: () => (
                       <BasicColumnHeader
-                        title="Name"
-                        id="name"
+                        title="Product"
+                        id="product"
+                        currentFilters={currentFilters}
+                      />
+                    )
+                  },
+                  sortOrder: 2
+                },
+                {
+                  component: {
+                    default: () => (
+                      <BasicColumnHeader
+                        title="Customer Name"
+                        id="customer_name"
+                        currentFilters={currentFilters}
+                      />
+                    )
+                  },
+                  sortOrder: 5
+                },
+                {
+                  component: {
+                    default: () => (
+                      <BasicColumnHeader
+                        title="Comment"
+                        id="comment"
                         currentFilters={currentFilters}
                       />
                     )
@@ -198,11 +232,23 @@ export default function CMSPageGrid({
                 {
                   component: {
                     default: () => (
-                      <StatusColumnHeader
-                        title="Status"
-                        id="status"
+                      <BasicColumnHeader
+                        title="Rating"
+                        id="rating"
+                        currentFilters={currentFilters}
+                      />
+                    )
+                  },
+                  sortOrder: 15
+                },
+                {
+                  component: {
+                    default: () => (
+                      <IsApprovedHeader
+                        title="Is Approved?"
+                        id="approved"
                         currentFilter={currentFilters.find(
-                          (f) => f.key === 'status'
+                          (f) => f.key === 'approved'
                         )}
                       />
                     )
@@ -215,22 +261,22 @@ export default function CMSPageGrid({
         </thead>
         <tbody>
           <Actions
-            pages={pages}
+            reviews={reviews}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
           />
-          {pages.map((p, i) => (
+          {reviews.map((r, i) => (
             // eslint-disable-next-line react/no-array-index-key
             <tr key={i}>
               <td style={{ width: '2rem' }}>
                 <Checkbox
-                  isChecked={selectedRows.includes(p.uuid)}
+                  isChecked={selectedRows.includes(r.uuid)}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([p.uuid]));
+                      setSelectedRows(selectedRows.concat([r.uuid]));
                     } else {
                       setSelectedRows(
-                        selectedRows.filter((row) => row !== p.uuid)
+                        selectedRows.filter((row) => row !== r.uuid)
                       );
                     }
                   }}
@@ -238,21 +284,39 @@ export default function CMSPageGrid({
               </td>
               <Area
                 className=""
-                id="pageGridRow"
-                row={p}
+                id="reviewGridRow"
+                row={r}
                 noOuter
                 coreComponents={[
                   {
                     component: {
-                      default: () => <PageName url={p.editUrl} name={p.name} />
+                      default: () => <ProductRow product={r.product} />
+                    },
+                    sortOrder: 5
+                  },
+                  {
+                    component: {
+                      default: ({ areaProps }) => (
+                        <BasicRow areaProps={areaProps} id="customerName" />
+                      )
+                    },
+                    sortOrder: 5
+                  },
+                  {
+                    component: {
+                      default: () => <CommentRow comment={r.comment} />
                     },
                     sortOrder: 10
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <StatusRow id="status" areaProps={areaProps} />
-                      )
+                      default: () => <RatingRow rating={r.rating} />
+                    },
+                    sortOrder: 15
+                  },
+                  {
+                    component: {
+                      default: () => <IsApprovedRow approved={r.approved} />
                     },
                     sortOrder: 20
                   }
@@ -262,9 +326,9 @@ export default function CMSPageGrid({
           ))}
         </tbody>
       </table>
-      {pages.length === 0 && (
+      {reviews.length === 0 && (
         <div className="flex w-full justify-center">
-          There is no page to display
+          There is no review to display
         </div>
       )}
       <Pagination total={total} limit={limit} page={page} />
@@ -272,15 +336,19 @@ export default function CMSPageGrid({
   );
 }
 
-CMSPageGrid.propTypes = {
-  cmsPages: PropTypes.shape({
+ReviewGrid.propTypes = {
+  reviews: PropTypes.shape({
     items: PropTypes.arrayOf(
       PropTypes.shape({
-        uuid: PropTypes.number.isRequired,
-        updateApi: PropTypes.string.isRequired,
+        uuid: PropTypes.string.isRequired,
+        rating: PropTypes.number.isRequired,
+        approved: PropTypes.bool.isRequired,
+        comment: PropTypes.string.isRequired,
+        approveApi: PropTypes.string.isRequired,
+        unApproveApi: PropTypes.string.isRequired,
         deleteApi: PropTypes.string.isRequired
       })
-    ).isRequired,
+    ),
     total: PropTypes.number.isRequired,
     currentFilters: PropTypes.arrayOf(
       PropTypes.shape({
@@ -299,17 +367,21 @@ export const layout = {
 
 export const query = `
   query Query($filters: [FilterInput]) {
-    cmsPages (filters: $filters) {
+    reviews (filters: $filters) {
       items {
-        cmsPageId
+        reviewId
         uuid
-        name
-        status
-        content
-        layout
-        editUrl
-        updateApi
+        rating
+        customerName
+        approved
+        comment
+        approveApi
+        unApproveApi
         deleteApi
+        product {
+          name
+          editUrl
+        }
       }
       total
       currentFilters {

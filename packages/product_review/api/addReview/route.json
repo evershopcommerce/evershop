@@ -1,0 +1,7 @@
+{
+  "methods": [
+    "POST"
+  ],
+  "path": "/reviews",
+  "access": "public"
+}
