@@ -1,0 +1,88 @@
+"""
+Represents a link html tag.
+"""
+type Link {
+  href: String!
+  text: String!
+  title: String
+  rel: String
+  target: String
+  type: String
+  media: String
+  hrefLang: String
+  sizes: String
+  as: String
+  crossOrigin: String
+  referrerPolicy: String
+  integrity: String
+}
+
+"""
+Represents a meta html tag.
+"""
+type Meta {
+  name: String
+  content: String
+  charSet: String
+  property: String
+  itemProp: String
+  itemType: String
+  itemID: String
+  httpEquiv: String
+  lang: String
+}
+
+"""
+Represents a script html tag.
+"""
+type Script {
+  src: String
+  type: String
+  async: String
+  defer: String
+  crossOrigin: String
+  integrity: String
+  noModule: String
+  nonce: String
+}
+
+"""
+Represents a base html tag.
+"""
+type Base {
+  href: String
+  target: String
+}
+
+"""
+Represents a logo.
+"""
+type Logo {
+  src: String
+  alt: String
+  width: String
+  height: String
+}
+
+"""
+Represents a nav head tag.
+"""
+type HeadTag {
+  links: [Link]
+  metas: [Meta]
+  scripts: [Script]
+  base: Base
+}
+
+"""
+Represents a base theme config.
+"""
+type ThemeConfig {
+  logo: Logo
+  headTags: HeadTag
+  copyRight: String
+}
+
+extend type Query {
+  themeConfig: ThemeConfig
+}
