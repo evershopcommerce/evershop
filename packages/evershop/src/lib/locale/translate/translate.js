@@ -9,7 +9,7 @@ var csvData = undefined;
  */
 module.exports.translate = function translate(enText, values = {}) {
   const translatedText =
-    csvData[enText] !== undefined ? csvData[enText] : enText;
+    csvData && csvData[enText] !== undefined ? csvData[enText] : enText;
   // Check if the data is null, undefined or empty object
   if (!values || Object.keys(values).length === 0) {
     return translatedText;
