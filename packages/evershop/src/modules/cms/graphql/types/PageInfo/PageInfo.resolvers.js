@@ -1,3 +1,6 @@
+const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
 const { get } = require('@evershop/evershop/src/lib/util/get');
 const { select } = require('@evershop/postgres-query-builder');
 
@@ -30,7 +33,7 @@ module.exports = {
       if (!rewriteRule) {
         return [
           {
-            title: 'Home',
+            title: translate('Home'),
             url: '/'
           },
           {
@@ -46,7 +49,7 @@ module.exports = {
         // Build the breadrumbs
         const breadcrumbs = [
           {
-            title: 'Home',
+            title: translate('Home'),
             url: '/'
           }
         ];

@@ -1,4 +1,7 @@
 const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
+const {
   setContextValue
 } = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
 
@@ -47,8 +50,8 @@ module.exports = (request, response, delegate, next) => {
     // Remove html tags
     const keyword = query.keyword;
     setContextValue(request, 'pageInfo', {
-      title: `Search results for "${keyword}"`,
-      description: `Search results for "${keyword}"`
+      title: translate('Search results for "${keyword}"', { keyword }),
+      description: translate('Search results for "${keyword}"', { keyword })
     });
 
     filtersFromUrl.push({
