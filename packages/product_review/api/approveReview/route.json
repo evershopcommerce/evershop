@@ -1,0 +1,7 @@
+{
+  "methods": [
+    "PATCH"
+  ],
+  "path": "/reviews/approved/:id",
+  "access": "private"
+}

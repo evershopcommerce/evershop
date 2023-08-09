@@ -231,7 +231,7 @@ export default function ProductGrid({
                 {
                   component: {
                     default: () => (
-                      <BasicColumnHeader
+                      <FromToColumnHeader
                         title="Qty"
                         id="qty"
                         currentFilters={currentFilters}

@@ -141,7 +141,6 @@ exports.Validator = class Validator {
         if (requiredProducts.length === 0) {
           return true;
         }
-        let categories;
         for (let index = 0; index < requiredProducts.length; index += 1) {
           const condition = requiredProducts[index];
           const { operator } = condition;
@@ -153,39 +152,22 @@ exports.Validator = class Validator {
             // eslint-disable-next-line no-continue
             continue;
           } else if (['IN', 'NOT IN'].includes(operator)) {
-            const productIds = items.map((item) => item.getData('product_id'));
-            // Load the categories of all item
-            if (!categories) {
-              // eslint-disable-next-line no-await-in-loop
-              categories = await select()
-                .from('product_category')
-                .where('product_id', 'IN', productIds)
-                .execute(pool);
-            }
-            value = value.split(',').map((v) => parseInt(v.trim(), 10));
+            const requiredCategoryIds = value
+              .split(',')
+              .map((v) => parseInt(v.trim(), 10));
             if (operator === 'IN') {
               // eslint-disable-next-line no-loop-func
               items.forEach((item) => {
-                const productId = item.getData('product_id');
-                const categoryIds = categories.filter(
-                  (category) =>
-                    parseInt(category.product_id, 10) === productId &&
-                    value.includes(parseInt(category.category_id, 10))
-                );
-                if (categoryIds.length > 0) {
+                const categoryId = item.getData('category_id');
+                if (requiredCategoryIds.includes(categoryId)) {
                   qty += item.getData('qty');
                 }
               });
             } else {
               // eslint-disable-next-line no-loop-func
               items.forEach((item) => {
-                const productId = item.getData('product_id');
-                const categoryIds = categories.filter(
-                  (category) =>
-                    parseInt(category.product_id, 10) === productId &&
-                    value.includes(parseInt(category.category_id, 10))
-                );
-                if (categoryIds.length === 0) {
+                const categoryId = item.getData('category_id');
+                if (!requiredCategoryIds.includes(categoryId)) {
                   qty += item.getData('qty');
                 }
               });

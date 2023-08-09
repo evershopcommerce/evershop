@@ -1,0 +1,10 @@
+{
+  "name": "@evershop/product_review",
+  "version": "1.0.0",
+  "description": "An Evershop extension for product review",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "The Nguyen(https://evershop.io/)",
+  "license": "GNU GENERAL PUBLIC LICENSE 3.0"
+}

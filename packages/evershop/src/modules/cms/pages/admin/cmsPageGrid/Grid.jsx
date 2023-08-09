@@ -47,7 +47,7 @@ function Actions({ pages = [], selectedIds = [] }) {
       name: 'Disable',
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} products`,
+          heading: `Disable ${selectedIds.length} pages`,
           content: 'Are you sure?',
           primaryAction: {
             title: 'Cancel',
@@ -189,9 +189,7 @@ export default function CMSPageGrid({
                       <BasicColumnHeader
                         title="Name"
                         id="name"
-                        currentFilter={currentFilters.find(
-                          (f) => f.key === 'name'
-                        )}
+                        currentFilters={currentFilters}
                       />
                     )
                   },

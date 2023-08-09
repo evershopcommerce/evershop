@@ -17,6 +17,9 @@ const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   setContextValue
 } = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
+const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
 
 module.exports = exports = {};
 
@@ -277,8 +280,8 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
       response.status(404);
       request.currentRoute = routes.find((r) => r.id === 'notFound');
       setContextValue(request, 'pageInfo', {
-        title: 'Not found',
-        description: 'Not found'
+        title: translate('Not found'),
+        description: translate('Not found')
       });
       next();
     } else {

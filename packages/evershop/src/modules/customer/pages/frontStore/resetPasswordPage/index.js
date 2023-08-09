@@ -3,6 +3,9 @@ const {
   getContextValue,
   setContextValue
 } = require('../../../../graphql/services/contextHelper');
+const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
 
 module.exports = (request, response, delegate, next) => {
   // Check if the user is logged in
@@ -12,8 +15,8 @@ module.exports = (request, response, delegate, next) => {
     response.redirect(buildUrl('homepage'));
   } else {
     setContextValue(request, 'pageInfo', {
-      title: 'Reset password',
-      description: 'Reset password'
+      title: translate('Reset password'),
+      description: translate('Reset password')
     });
     next();
   }

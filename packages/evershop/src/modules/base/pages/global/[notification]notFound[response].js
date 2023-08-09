@@ -1,3 +1,6 @@
+const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
 const { setContextValue } = require('../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
@@ -5,8 +8,8 @@ module.exports = async (request, response, delegate, next) => {
     next();
   } else {
     setContextValue(request, 'pageInfo', {
-      title: 'Not found',
-      description: 'Page not found'
+      title: translate('Not found'),
+      description: translate('Page not found')
     });
     next();
   }

@@ -3,3 +3,4 @@ SHOP BY, 按类别购买
 Sort By, 按类别排序
 There is no product to display, 没有产品可显示
 ${count} products, ${count} 个产品
+Search results for "${keyword}", 搜索结果为 “${keyword}”

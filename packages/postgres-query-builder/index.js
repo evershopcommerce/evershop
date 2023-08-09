@@ -11,7 +11,7 @@ class Select {
   select(field, alias) {
     // Resolve field name
     let f = '';
-    if (isValueASQL(field)) {
+    if (isValueASQL(field) || field === '*') {
       f += `${field}`;
     } else {
       f += `"${field}"`;
@@ -998,6 +998,7 @@ function select() {
   let select = new SelectQuery();
   let args = [...arguments];
   if (args[0] === '*') {
+    select.select('*');
     return select;
   }
   args.forEach((arg) => {

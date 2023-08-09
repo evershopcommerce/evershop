@@ -6,7 +6,18 @@ export default function Meta(props) {
   const attributes = Object.keys(props)
     .filter(
       (key) =>
-        ['charSet', 'name', 'content', 'httpEquiv'].includes(key) && props[key]
+        [
+          'charset',
+          'name',
+          'content',
+          'httpEquiv',
+          'property',
+          'itemProp',
+          'itemType',
+          'itemId',
+          'lang',
+          'scheme'
+        ].includes(key) && props[key]
     )
     .reduce((obj, key) => {
       // eslint-disable-next-line no-param-reassign

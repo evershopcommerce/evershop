@@ -7,7 +7,6 @@ const {
   INVALID_PAYLOAD
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { createValue } = require('@evershop/evershop/src/lib/util/factory');
 const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 const { emit } = require('@evershop/evershop/src/lib/event/emitter');
 
@@ -38,8 +37,7 @@ module.exports = async (request, response, delegate, next) => {
       return;
     }
 
-    // Create a value for status using factory
-    const status = await createValue('customerInitialStatus', 1);
+    const status = 1;
     await insert('customer')
       .given({
         email,
