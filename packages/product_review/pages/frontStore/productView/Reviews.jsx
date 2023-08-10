@@ -5,7 +5,7 @@ import Rating from '../../../../product_review/components/Rating';
 
 export default function Reviews({ product: { reviews = [] } }) {
   return (
-    <div id="product__reviews p-1">
+    <div id="product__reviews" className="mt-2">
       <h3>{_('Customer Reviews')}</h3>
       <ul className="review__list">
         {reviews.length === 0 && (
