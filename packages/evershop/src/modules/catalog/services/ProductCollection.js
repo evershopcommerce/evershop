@@ -177,7 +177,7 @@ class ProductCollection {
       (f) =>
         f.key === 'sortOrder' &&
         ['ASC', 'DESC', 'asc', 'desc'].includes(f.value)
-    ) || { value: 'ASC' };
+    ) || { value: 'DESC' };
     if (sortBy && sortBy.value === 'price') {
       this.baseQuery.orderBy('product.price', sortOrder.value);
       currentFilters.push({

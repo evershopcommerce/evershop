@@ -40,8 +40,10 @@ class CMSPageCollection {
 
     const sortBy = filters.find((f) => f.key === 'sortBy');
     const sortOrder = filters.find(
-      (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
-    ) || { value: 'ASC' };
+      (f) =>
+        f.key === 'sortOrder' &&
+        ['ASC', 'DESC', 'asc', 'desc'].includes(f.value)
+    ) || { value: 'DESC' };
 
     if (sortBy && sortBy.value === 'name') {
       this.baseQuery.orderBy('cms_page_description.name', sortOrder.value);
