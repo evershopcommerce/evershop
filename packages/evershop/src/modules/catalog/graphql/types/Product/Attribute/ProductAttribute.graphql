@@ -3,6 +3,8 @@ The ProductAttributeIndex object defines the attribute index for a product.
 """
 type ProductAttributeIndex {
   attributeId: ID!
+  attributeName: String!
+  attributeCode: String!
   optionId: Int
   optionText: String
 }
