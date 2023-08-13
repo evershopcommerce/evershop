@@ -10,7 +10,7 @@ const { saveCart } = require('../../services/saveCart');
 module.exports = async (request, response, delegate, next) => {
   try {
     const { cart_id } = request.params;
-    const { method_code, method_name } = request.body;
+    const { method_code } = request.body;
     // Check if cart exists
     const cart = await getCartByUUID(cart_id);
     if (!cart) {
@@ -23,7 +23,6 @@ module.exports = async (request, response, delegate, next) => {
     } else {
       // Save payment method
       await cart.setData('shipping_method', method_code);
-      await cart.setData('shipping_method_name', method_name);
 
       // Save the cart
       await saveCart(cart);
@@ -31,8 +30,7 @@ module.exports = async (request, response, delegate, next) => {
       response.$body = {
         data: {
           method: {
-            code: method_code,
-            name: method_name
+            code: method_code
           }
         }
       };
