@@ -17,7 +17,7 @@ const {
 module.exports = async (request, response, deledate, next) => {
   const connection = await getConnection();
   await startTransaction(connection);
-  const { name, country, provinces } = request.body;
+  const { name, country, provinces = [] } = request.body;
   try {
     const zone = await insert('shipping_zone')
       .given({

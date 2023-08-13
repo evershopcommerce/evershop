@@ -36,46 +36,36 @@ function Condition({ method }) {
           value={type}
         />
       </div>
-      {type === 'price' && (
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <Field
-              name="min"
-              label={
-                method.conditionType === 'price'
-                  ? 'Minimum order price'
-                  : 'Minimum order weight'
-              }
-              placeholder={
-                method.conditionType === 'price'
-                  ? 'Minimum order price'
-                  : 'Minimum order weight'
-              }
-              type="text"
-              value={method?.min}
-              validationRules={['notEmpty']}
-            />
-          </div>
-          <div>
-            <Field
-              name="max"
-              label={
-                method.conditionType === 'price'
-                  ? 'Maximum order price'
-                  : 'Maximum order weight'
-              }
-              placeholder={
-                method.conditionType === 'price'
-                  ? 'Maximum order price'
-                  : 'Maximum order weight'
-              }
-              type="text"
-              value={method?.max}
-              validationRules={['notEmpty']}
-            />
-          </div>
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <Field
+            name="min"
+            label={
+              type === 'price' ? 'Minimum order price' : 'Minimum order weight'
+            }
+            placeholder={
+              type === 'price' ? 'Minimum order price' : 'Minimum order weight'
+            }
+            type="text"
+            value={method?.min}
+            validationRules={['notEmpty']}
+          />
         </div>
-      )}
+        <div>
+          <Field
+            name="max"
+            label={
+              type === 'price' ? 'Maximum order price' : 'Maximum order weight'
+            }
+            placeholder={
+              type === 'price' ? 'Maximum order price' : 'Maximum order weight'
+            }
+            type="text"
+            value={method?.max}
+            validationRules={['notEmpty']}
+          />
+        </div>
+      </div>
     </div>
   );
 }
