@@ -2,12 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 function Attributes({ product: { attributes } }) {
+  if (!attributes.length) {
+    return null;
+  }
   return (
     <div className="specification">
       <ul className="list-disc list-inside">
         {attributes.map((attribute) => (
           <li key={attribute.attributeCode}>
-            <strong>{attribute.attributeName} : </strong>{' '}
+            <strong>{attribute.attributeName}: </strong>{' '}
             <span>{attribute.optionText}</span>
           </li>
         ))}
