@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useQuery } from 'urql';
 import { Input } from '@components/common/form/fields/Input';
-import { get } from '@evershop/evershop/src/lib/util/get';
 import { NoResult } from './search/NoResult';
 import { Results } from './search/Results';
 import './SearchBox.scss';
+import Spinner from '@components/common/Spinner';
 
 const useClickOutside = (ref, callback) => {
   const handleClick = (e) => {
@@ -21,12 +21,42 @@ const useClickOutside = (ref, callback) => {
   });
 };
 
-export default function SearchBox({ searchAPI, resourceLinks }) {
-  const InputRef = useRef();
+const SearchQuery = `
+  query Query ($filters: [FilterInput]) {
+    customers(filters: $filters) {
+      items {
+        customerId
+        uuid
+        fullName
+        email
+        url: editUrl
+      }
+    }
+    products(filters: $filters) {
+      items {
+        productId
+        uuid
+        sku
+        name
+        url: editUrl
+      }
+    }
+    orders(filters: $filters) {
+      items {
+        orderId
+        uuid
+        orderNumber
+        url: editUrl
+      }
+    }
+  }
+`;
+
+export default function SearchBox({ resourceLinks }) {
+  const [keyword, setKeyword] = React.useState('');
   const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState([]);
-  const [typeTimeout, setTypeTimeout] = React.useState(null);
+  const InputRef = useRef();
 
   const clickRef = React.useRef();
   const onClickOutside = () => {
@@ -36,52 +66,33 @@ export default function SearchBox({ searchAPI, resourceLinks }) {
   };
   useClickOutside(clickRef, onClickOutside);
 
-  const search = () => {
+  const [result, reexecuteQuery] = useQuery({
+    query: SearchQuery,
+    variables: {
+      filters: keyword
+        ? [{ key: 'keyword', operation: '=', value: keyword }]
+        : []
+    },
+    pause: true
+  });
+  const { data, fetching } = result;
+
+  React.useEffect(() => {
     setLoading(true);
-    if (!InputRef.current.value) {
-      setResults([]);
-      setLoading(false);
-      return;
+    if (keyword) {
+      setShowResult(true);
+    } else {
+      setShowResult(false);
     }
-    if (typeTimeout) clearTimeout(typeTimeout);
-    setTypeTimeout(
-      setTimeout(() => {
-        const url = new URL(searchAPI, window.location.origin);
-        url.searchParams.set('keyword', InputRef.current.value);
+    const timer = setTimeout(() => {
+      if (keyword) {
+        reexecuteQuery({ requestPolicy: 'network-only' });
+        setLoading(false);
+      }
+    }, 1500);
 
-        fetch(url, {
-          method: 'GET',
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        })
-          .then((response) => {
-            if (
-              !response.headers.get('content-type') ||
-              !response.headers.get('content-type').includes('application/json')
-            ) {
-              throw new TypeError('Something wrong. Please try again');
-            }
-
-            return response.json();
-          })
-          .then((response) => {
-            if (get(response, 'success') === true) {
-              setResults(get(response, 'data.payload', []));
-            } else {
-              setResults([]);
-            }
-          })
-          .catch((error) => {
-            toast.error(error.message);
-          })
-          .finally(() => {
-            // e.target.value = null
-            setLoading(false);
-          });
-      }, 1500)
-    );
-  };
+    return () => clearTimeout(timer);
+  }, [keyword]);
 
   return (
     <div className="search-box">
@@ -104,66 +115,35 @@ export default function SearchBox({ searchAPI, resourceLinks }) {
         }
         placeholder="Search"
         ref={InputRef}
-        onChange={() => search()}
-        onFocus={() => {
-          setShowResult(true);
-        }}
+        onChange={(e) => setKeyword(e.target.value)}
       />
-      {showResult === true && (
+      {showResult && (
         <div className="search-result" ref={clickRef}>
-          {loading === true && (
-            <div className="loading">
-              <svg
-                style={{
-                  background: 'rgb(255, 255, 255, 0)',
-                  display: 'block',
-                  shapeRendering: 'auto'
-                }}
-                width="2rem"
-                height="2rem"
-                viewBox="0 0 100 100"
-                preserveAspectRatio="xMidYMid"
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  fill="none"
-                  stroke="var(--primary)"
-                  strokeWidth="10"
-                  r="43"
-                  strokeDasharray="202.63272615654165 69.54424205218055"
-                >
-                  <animateTransform
-                    attributeName="transform"
-                    type="rotate"
-                    repeatCount="indefinite"
-                    dur="1s"
-                    values="0 50 50;360 50 50"
-                    keyTimes="0;1"
-                  />
-                </circle>
-              </svg>
+          {(loading || fetching) && (
+            <div className="p-3 flex justify-center items-center">
+              <Spinner width={25} height={25} />
             </div>
           )}
-          {!InputRef.current.value && (
+          {!keyword && (
             <div className="text-center">
               <span>Search for products, order and other resources</span>
             </div>
           )}
-          {results.length === 0 &&
-            InputRef.current.value &&
-            loading === false && (
-              <NoResult
-                keyword={InputRef.current && InputRef.current.value}
-                resourseLinks={resourceLinks}
-              />
+          {data?.products.items.length === 0 &&
+            data?.customers.items.length === 0 &&
+            data?.orders.items.length === 0 &&
+            keyword &&
+            !loading && (
+              <NoResult keyword={keyword} resourseLinks={resourceLinks} />
             )}
-          {results.length > 0 && (
-            <Results
-              keyword={InputRef.current && InputRef.current.value}
-              results={results}
-            />
-          )}
+          {data &&
+            !loading &&
+            !fetching &&
+            (data?.products.items.length > 0 ||
+              data?.customers.items.length > 0 ||
+              data?.orders.items.length > 0) && (
+              <Results keyword={keyword} results={data} />
+            )}
         </div>
       )}
     </div>
@@ -176,8 +156,7 @@ SearchBox.propTypes = {
       url: PropTypes.string,
       name: PropTypes.string
     })
-  ),
-  searchAPI: PropTypes.string.isRequired
+  )
 };
 
 SearchBox.defaultProps = {
@@ -188,9 +167,3 @@ export const layout = {
   areaId: 'header',
   sortOrder: 20
 };
-
-export const query = `
-  query Query {
-    searchAPI: url(routeId: "search")
-  }
-`;

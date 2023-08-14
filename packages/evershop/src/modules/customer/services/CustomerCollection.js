@@ -39,6 +39,19 @@ class CustomerCollection {
       });
     }
 
+    // Keyword search
+    const keywordFilter = filters.find((f) => f.key === 'keyword');
+    if (keywordFilter) {
+      this.baseQuery
+        .andWhere('customer.full_name', 'ILIKE', `%${keywordFilter.value}%`)
+        .or('customer.email', 'ILIKE', `%${keywordFilter.value}%`);
+      currentFilters.push({
+        key: 'keyword',
+        operation: '=',
+        value: keywordFilter.value
+      });
+    }
+
     // Status filter
     const statusFilter = filters.find((f) => f.key === 'status');
     if (statusFilter) {
@@ -52,8 +65,10 @@ class CustomerCollection {
 
     const sortBy = filters.find((f) => f.key === 'sortBy');
     const sortOrder = filters.find(
-      (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
-    ) || { value: 'ASC' };
+      (f) =>
+        f.key === 'sortOrder' &&
+        ['ASC', 'DESC', 'asc', 'desc'].includes(f.value)
+    ) || { value: 'DESC' };
 
     if (sortBy && sortBy.value === 'full_name') {
       this.baseQuery.orderBy('customer.full_name', sortOrder.value);
