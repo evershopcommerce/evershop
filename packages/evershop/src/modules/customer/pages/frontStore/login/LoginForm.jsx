@@ -5,6 +5,7 @@ import { Form } from '@components/common/form/Form';
 import './LoginForm.scss';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import Button from '@components/common/form/Button';
+import Area from '@components/common/Area';
 
 export default function LoginForm({
   action,
@@ -35,31 +36,52 @@ export default function LoginForm({
             btnText={_('SIGN IN')}
             submitBtn={false}
           >
-            <Field
-              name="email"
-              type="text"
-              placeholder={_('Email')}
-              validationRules={['notEmpty', 'email']}
+            <Area
+              id="loginFormInner"
+              coreComponents={[
+                {
+                  component: { default: Field },
+                  props: {
+                    name: 'email',
+                    type: 'text',
+                    placeholder: _('Email'),
+                    validationRules: ['notEmpty', 'email']
+                  },
+                  sortOrder: 10
+                },
+                {
+                  component: { default: Field },
+                  props: {
+                    name: 'password',
+                    type: 'password',
+                    placeholder: _('Password'),
+                    validationRules: ['notEmpty']
+                  },
+                  sortOrder: 20
+                },
+                {
+                  component: {
+                    default: () => (
+                      <div className="form-submit-button flex border-t border-divider mt-1 pt-1">
+                        <Button
+                          title="SIGN IN"
+                          type="submit"
+                          onAction={() => {
+                            document.getElementById('loginForm').dispatchEvent(
+                              new Event('submit', {
+                                cancelable: true,
+                                bubbles: true
+                              })
+                            );
+                          }}
+                        />
+                      </div>
+                    )
+                  },
+                  sortOrder: 30
+                }
+              ]}
             />
-            <Field
-              name="password"
-              type="password"
-              placeholder={_('Password')}
-              validationRules={['notEmpty']}
-            />
-            <div className="form-submit-button flex border-t border-divider mt-1 pt-1">
-              <Button
-                title="SIGN IN"
-                type="submit"
-                onAction={() => {
-                  document
-                    .getElementById('loginForm')
-                    .dispatchEvent(
-                      new Event('submit', { cancelable: true, bubbles: true })
-                    );
-                }}
-              />
-            </div>
           </Form>
           <div className="text-center mt-1 gap-2 flex justify-center">
             <a className="text-interactive" href={registerUrl}>
