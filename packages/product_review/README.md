@@ -1,25 +1,42 @@
-# EverShop product comment extension
+# Product review extension for EverShop
 
-This is the source code for the EverShop extension development guide: [EverShop product comment extension](https://evershop.io/docs/development/module/create-first-extension).
+This extension allows customer to review and rate products.
 
-## Installation
+> **Note**: This extension requires EverShop version 1.0.0-rc.6 or higher.
+
+## Installation guide
+
+### Step 1: Install the extension using npm:
 
 ```bash
-npm install @evershop/productcomment
+npm install @evershop/product_review
+
 ```
 
-Add the extension to your `config/default.json` file:
+### Step 2: Enable the extension
+
+Edit the `config/default.json` file in the root directory of your EverShop installation and add the following line to the `extensions` section:
 
 ```json
 {
+  ...,
   "system": {
-        "extensions": [
-            {
-                "name": "productcomment",
-                "resolve": "node_modules/@evershop/productcomment",
-                "enabled": true
-            }
-        ]
-    }
+    ...,
+    "extensions": [
+      ...,
+      {
+        "name": "product_review",
+        "resolve": "node_modules/@evershop/product_review",
+        "enabled": true,
+        "priority": 10
+      }
+    ]
+  }
 }
+```
+
+### Step 3: Run the build command
+
+```bash
+npm run build
 ```

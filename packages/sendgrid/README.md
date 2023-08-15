@@ -2,14 +2,16 @@
 
 A SendGrid extension for EverShop. This extension is used to send email to customers.
 
+> **Note**: This extension requires EverShop version 1.0.0-rc.6 or higher.
+
 ## Installation
 
-## Install the extension package
+### Step 1: Install the extension package
 
 ```javascript
 npm install @evershop/sendgrid
 ```
-## Register the extension by adding it to the config file
+### Step 2: Register the extension by adding it to the config file
 
 ```javascript
 // config/default.json
@@ -30,9 +32,7 @@ npm install @evershop/sendgrid
 }
 ```
 
-This extension requires EverShop core version `1.0.0-rc.6` or higher.
-
-## Configuration
+### Step 3: Configure the extension
 
 ```javascript
 // config/config.json
@@ -168,7 +168,7 @@ Below is the data you can use in your email template
 
 ```json
 {
-  "reset_password_url": "https://demo.evershop.io/reset-password?token=jhwko43ij5owkdlskfldsf"
+  "reset_password_url": "https://demo.evershop.io/reset-password?token=3NedZnEvEMCuLU1x1IHT684B"
 }
 ```
 
