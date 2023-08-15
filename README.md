@@ -59,7 +59,7 @@ Explore our demo store.
 </p>
 <b>Demo user:</b>
 
-Email: demo@gmail.com<br/>
+Email: demo@evershop.io<br/>
 Password: 123456
 
 <p align="left">
