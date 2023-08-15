@@ -29,7 +29,7 @@ module.exports.createConfigServer = function createConfigServer(routes) {
 
   const loaders = config.module.rules;
   loaders.push({
-    test: /\.scss$/i,
+    test: /\.(css|scss)$/i,
     use: [
       {
         loader: path.resolve(

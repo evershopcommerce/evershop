@@ -402,8 +402,65 @@ module.exports = exports = async (connection) => {
     `CREATE INDEX "FK_CATEGORY_DESCRIPTION" ON "category_description" ("category_description_category_id")`
   );
 
-  // COLLECTION
+  // Create 3 default categories, Kids, Men, Women
+  const kids = await insert('category')
+    .given({
+      status: 1,
+      include_in_nav: 1
+    })
+    .execute(connection);
 
+  await insert('category_description')
+    .given({
+      category_description_category_id: kids.insertId,
+      name: 'Kids',
+      url_key: 'kids',
+      meta_title: 'Kids',
+      meta_description: 'Kids',
+      meta_keywords: 'Kids',
+      description: 'Kids'
+    })
+    .execute(connection);
+
+  const women = await insert('category')
+    .given({
+      status: 1,
+      include_in_nav: 1
+    })
+    .execute(connection);
+
+  await insert('category_description')
+    .given({
+      category_description_category_id: women.insertId,
+      name: 'Women',
+      url_key: 'women',
+      meta_title: 'Women',
+      meta_description: 'Women',
+      meta_keywords: 'Women',
+      description: 'Women'
+    })
+    .execute(connection);
+
+  const men = await insert('category')
+    .given({
+      status: 1,
+      include_in_nav: 1
+    })
+    .execute(connection);
+
+  await insert('category_description')
+    .given({
+      category_description_category_id: men.insertId,
+      name: 'Men',
+      url_key: 'men',
+      meta_title: 'Men',
+      meta_description: 'Men',
+      meta_keywords: 'Men',
+      description: 'Men'
+    })
+    .execute(connection);
+
+  // COLLECTION
   await execute(
     connection,
     `CREATE TABLE "collection" (

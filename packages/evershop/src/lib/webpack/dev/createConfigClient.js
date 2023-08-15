@@ -28,7 +28,7 @@ module.exports.createConfigClient = function createConfigClient(route) {
   });
 
   loaders.push({
-    test: /\.scss$/i,
+    test: /\.(css|scss)$/i,
     use: [
       {
         loader: 'style-loader',
