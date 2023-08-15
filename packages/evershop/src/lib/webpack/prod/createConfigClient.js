@@ -48,7 +48,7 @@ module.exports.createConfigClient = function createConfigClient(routes) {
 
   const loaders = config.module.rules;
   loaders.push({
-    test: /\.scss$/i,
+    test: /\.(css|scss)$/i,
     use: [
       MiniCssExtractPlugin.loader,
       {
