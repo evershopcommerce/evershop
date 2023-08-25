@@ -29,9 +29,14 @@ module.exports = async function graphql(request, response, delegate, next) {
             // eslint-disable-next-line global-require
             schema = require('../../services/buildSchema');
           }
+          const context = getContext(request);
+          // Add current user to context
+          context.user = request.locals.user;
+          // Add current customer to context
+          context.customer = request.locals.customer;
           const data = await execute({
             schema,
-            contextValue: getContext(request),
+            contextValue: context,
             document,
             variableValues: graphqlVariables
           });

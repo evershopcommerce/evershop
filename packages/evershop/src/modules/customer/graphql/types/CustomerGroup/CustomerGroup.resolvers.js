@@ -4,8 +4,8 @@ const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 
 module.exports = {
   Query: {
-    customerGroup: async (root, { id }, { pool, userTokenPayload }) => {
-      if (!userTokenPayload?.user?.uuid) {
+    customerGroup: async (root, { id }, { pool, user }) => {
+      if (!user) {
         return null;
       }
       const group = await select()
@@ -15,8 +15,8 @@ module.exports = {
 
       return group ? camelCase(group) : null;
     },
-    customerGroups: async (root, _, { pool, userTokenPayload }) => {
-      if (!userTokenPayload?.user?.uuid) {
+    customerGroups: async (root, _, { pool, user }) => {
+      if (!user) {
         return [];
       }
       const groups = await select().from('customer_group').execute(pool);

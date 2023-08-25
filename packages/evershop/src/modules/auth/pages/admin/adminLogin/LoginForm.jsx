@@ -79,7 +79,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    authUrl: url(routeId: "createAdminUserSession")
+    authUrl: url(routeId: "adminLoginJson")
     dashboardUrl: url(routeId: "dashboard")
   }
 `;

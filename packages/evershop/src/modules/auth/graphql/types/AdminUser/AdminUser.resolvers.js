@@ -1,22 +1,24 @@
 const { select } = require('@evershop/postgres-query-builder');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { get } = require('@evershop/evershop/src/lib/util/get');
 
 module.exports = {
   Query: {
-    adminUser: async (root, { id }, { pool, userTokenPayload }) => {
-      if (!get(userTokenPayload, 'user.isAdmin', false)) {
+    adminUser: async (root, { id }, { pool, user }) => {
+      if (!user) {
         return null;
       }
       const query = select().from('admin_user');
       query.where('admin_user_id', '=', id);
 
-      const user = await query.load(pool);
+      const adminUser = await query.load(pool);
+      return adminUser ? camelCase(adminUser) : null;
+    },
+    currentAdminUser: (root, args, { pool, user }) => {
       return user ? camelCase(user) : null;
     },
-    adminUsers: async (_, { filters = [] }, { pool, userTokenPayload }) => {
+    adminUsers: async (_, { filters = [] }, { pool, user }) => {
       // This field is for admin only
-      if (!get(userTokenPayload, 'user.isAdmin', false)) {
+      if (!user) {
         return [];
       }
       const query = select().from('admin_user');

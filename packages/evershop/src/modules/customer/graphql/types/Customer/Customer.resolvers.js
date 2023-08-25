@@ -15,6 +15,9 @@ module.exports = {
       const customer = await query.load(pool);
       return customer ? camelCase(customer) : null;
     },
+    currentCustomer: async (root, args, { customer }) => {
+      return customer ? camelCase(customer) : null;
+    },
     customers: async (_, { filters = [] }, { user }) => {
       // This field is for admin only
       if (!user) {

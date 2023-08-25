@@ -109,7 +109,7 @@ export const layout = {
 export const query = `
   query Query {
     homeUrl: url(routeId: "homepage")
-    action: url(routeId: "createCustomerSession")
+    action: url(routeId: "customerLoginJson")
     registerUrl: url(routeId: "register")
     forgotPasswordUrl: url(routeId: "resetPasswordPage")
   }

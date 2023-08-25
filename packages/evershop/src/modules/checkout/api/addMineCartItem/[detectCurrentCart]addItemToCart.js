@@ -12,6 +12,9 @@ const {
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { createNewCart } = require('../../services/createNewCart');
+const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
 
 module.exports = async (request, response, delegate, next) => {
   try {
@@ -19,12 +22,8 @@ module.exports = async (request, response, delegate, next) => {
     let cart;
     if (!cartId) {
       // Create a new cart
-      const customerTokenPayload = getContextValue(
-        request,
-        'customerTokenPayload',
-        {}
-      );
-      cart = await createNewCart(customerTokenPayload);
+      const { sessionID, customer } = request.locals;
+      cart = await createNewCart(sessionID, customer || {});
       cartId = cart.getData('uuid');
     } else {
       cart = await getCartByUUID(cartId); // Cart object
@@ -43,7 +42,7 @@ module.exports = async (request, response, delegate, next) => {
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: 'Product not found'
+          message: translate('Product not found')
         }
       });
       return;

@@ -1,4 +1,6 @@
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const sessionStorage = require('connect-pg-simple');
 const pathToRegexp = require('path-to-regexp');
 const webpack = require('webpack');
 const { debug } = require('@evershop/evershop/src/lib/log/debuger');
@@ -20,6 +22,17 @@ const {
 const {
   translate
 } = require('@evershop/evershop/src/lib/locale/translate/translate');
+const isProductionMode = require('@evershop/evershop/src/lib/util/isProductionMode');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const {
+  getAdminSessionCookieName
+} = require('@evershop/evershop/src/modules/auth/services/getAdminSessionCookieName');
+const {
+  getFrontStoreSessionCookieName
+} = require('@evershop/evershop/src/modules/auth/services/getFrontStoreSessionCookieName');
+const {
+  getCookieSecret
+} = require('@evershop/evershop/src/modules/auth/services/getCookieSecret');
 
 module.exports = exports = {};
 
@@ -50,6 +63,52 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
   app.use(publicStatic);
   // Add theme public static middleware
   app.use(themePublicStatic);
+
+  // Express session
+  const cookieSecret = getCookieSecret();
+  const sess = {
+    store:
+      process.env.NODE_ENV === 'test'
+        ? undefined
+        : new (sessionStorage(session))({
+            pool: pool
+          }),
+    secret: cookieSecret,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000
+    },
+    resave: getConfig('system.session.resave', false),
+    saveUninitialized: true
+  };
+
+  if (isProductionMode()) {
+    app.set('trust proxy', 1);
+    sess.cookie.secure = false;
+  }
+
+  const adminSessionMiddleware = session({
+    ...sess,
+    name: getAdminSessionCookieName()
+  });
+
+  const frontStoreSessionMiddleware = session({
+    ...sess,
+    name: getFrontStoreSessionCookieName()
+  });
+
+  const sessionMiddleware = (request, response, next) => {
+    const currentRoute = request.currentRoute;
+    if (currentRoute?.isApi) {
+      // We don't need session for api routes. Restful api should be stateless
+      next();
+    } else {
+      if (currentRoute?.isAdmin) {
+        adminSessionMiddleware(request, response, next);
+      } else {
+        frontStoreSessionMiddleware(request, response, next);
+      }
+    }
+  };
 
   routes.forEach((r) => {
     const currentRouteMiddleware = (request, response, next) => {
@@ -92,19 +151,13 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
         next();
       }
     });
-    // Cookie parser
-    app.use(cookieParser());
-    // TODO:Termporary comment this code, Because some API requires body raw data. Like Stripe
-    // if (r.isApi) {
-    //   app.all(r.path, bodyParser.json({ inflate: false }));
-    //   app.all(r.path, bodyParser.urlencoded({ extended: true }));
-    // }
 
-    // eslint-disable-next-line no-underscore-dangle
-    // eslint-disable-next-line no-param-reassign
-    // eslint-disable-next-line no-underscore-dangle
+    // Cookie parser
+    app.use(cookieParser(cookieSecret));
     r.__BUILDREQUIRED__ = true;
   });
+
+  app.use(sessionMiddleware);
 
   app.use(async (request, response, next) => {
     // Get the request path, remove '/' from both ends

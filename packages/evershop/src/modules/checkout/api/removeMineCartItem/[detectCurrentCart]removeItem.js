@@ -3,24 +3,36 @@ const {
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { getContextValue } = require('../../../graphql/services/contextHelper');
-const removeItem = require('../removeCartItem/removeItem');
+const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
+const { saveCart } = require('../../services/saveCart');
 
 module.exports = async (request, response, delegate, next) => {
   try {
     const cartId = getContextValue(request, 'cartId');
+    const { item_id } = request.params;
     if (!cartId) {
       response.status(INVALID_PAYLOAD);
       response.json({
         error: {
-          message: 'Invalid cart',
+          message: translate('Invalid cart'),
           status: INVALID_PAYLOAD
         }
       });
       return;
     }
 
-    request.params.cart_id = cartId;
-    await removeItem(request, response, delegate, next);
+    const cart = await getCartByUUID(cartId);
+    const item = await cart.removeItem(item_id);
+    await saveCart(cart);
+    response.status(OK);
+    response.$body = {
+      data: {
+        item: item.export()
+      }
+    };
+    next();
   } catch (error) {
     response.status(INTERNAL_SERVER_ERROR);
     response.json({

@@ -48,12 +48,12 @@ module.exports = {
         return null;
       }
     },
-    paypalClientSecret: (setting, _, { userTokenPayload }) => {
+    paypalClientSecret: (setting, _, { user }) => {
       const paypalConfig = getConfig('system.paypal', {});
       if (paypalConfig.clientSecret) {
         return '*******************************';
       }
-      if (userTokenPayload && userTokenPayload?.user?.uuid) {
+      if (user) {
         const paypalClientSecret = setting.find(
           (s) => s.name === 'paypalClientSecret'
         );
@@ -66,12 +66,12 @@ module.exports = {
         return null;
       }
     },
-    paypalWebhookSecret: (setting, _, { userTokenPayload }) => {
+    paypalWebhookSecret: (setting, _, { user }) => {
       const paypalConfig = getConfig('system.paypal', {});
       if (paypalConfig.webhookSecret) {
         return '*******************************';
       }
-      if (userTokenPayload && userTokenPayload?.user?.uuid) {
+      if (user) {
         const paypalWebhookSecret = setting.find(
           (s) => s.name === 'paypalWebhookSecret'
         );

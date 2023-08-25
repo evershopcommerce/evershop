@@ -1,0 +1,7 @@
+{
+  "name": "Admin User Login",
+  "description": "Admin User Login",
+  "methods": ["POST"],
+  "path": "/user/login",
+  "access": "public"
+}

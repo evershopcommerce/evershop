@@ -5,7 +5,7 @@ const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 
 module.exports = {
   Product: {
-    variantGroup: async (product, _, { pool, userTokenPayload }) => {
+    variantGroup: async (product, _, { pool, user }) => {
       const { variantGroupId } = product;
       if (!variantGroupId) {
         return null;
@@ -52,14 +52,14 @@ module.exports = {
           'IN',
           Object.values(group).filter((v) => Number.isInteger(v))
         );
-        if (!userTokenPayload?.user?.uuid) {
+        if (!user) {
           query.andWhere('status', '=', 1);
         }
         const vs = await query.execute(pool);
         // Filter the vs array, make sure that each product has all the attributes
         // that are in the variant group.
         let filteredVs;
-        if (!userTokenPayload?.user?.uuid) {
+        if (!user) {
           filteredVs = vs.filter((v) => {
             const attributes = Object.values(group).filter((attr) =>
               Number.isInteger(attr)

@@ -4,14 +4,13 @@ const { Cart } = require('./cart/Cart');
 module.exports = exports;
 
 /**
- * This function return a Cart object by customerTokenPayload. Do not use this function directly.
+ * This function return a Cart object by the session ID and the customer object
  * Use CartFactory.getCart() instead.
- * @param {*} tokenPayLoad : The payload of the jwt token
+ * @param {string} sid : The session ID
+ * @param {Object} customer : The customer object
  * @returns {Promise<Cart>}
  */
-exports.createNewCart = async (customerTokenPayload = {}) => {
-  const customer = customerTokenPayload?.customer || {};
-  const sid = customerTokenPayload?.sid || null;
+exports.createNewCart = async (sid, customer = {}) => {
   // Extract the customer info
   const {
     customerId: customer_id,
