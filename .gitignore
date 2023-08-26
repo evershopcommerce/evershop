@@ -16,3 +16,4 @@ cypress
 /config
 .prettierignore
 .prettierrc
+mysqlToPostgres.js

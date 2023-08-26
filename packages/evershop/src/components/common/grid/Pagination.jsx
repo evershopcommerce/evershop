@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Input } from '@components/common/form/fields/Input';
+import ChevronDoubleLeftIcon from '@heroicons/react/outline/ChevronDoubleLeftIcon';
+import ChevronDoubleRightIcon from '@heroicons/react/outline/ChevronDoubleRightIcon';
 import './Pagination.scss';
+import { Select } from '@components/common/form/fields/Select';
 
 export default function Pagination({ total, limit, page }) {
-  const pageInput = React.useRef(null);
   const limitInput = React.useRef(null);
 
   React.useEffect(() => {
-    pageInput.current.value = page;
     limitInput.current.value = limit;
   }, []);
 
   const onKeyPress = (e) => {
-    if (e.which !== 13) return;
     e.preventDefault();
     let pageNumber = parseInt(e.target.value, 10);
     if (page < 1) pageNumber = 1;
@@ -25,7 +25,7 @@ export default function Pagination({ total, limit, page }) {
 
   const onPrev = (e) => {
     e.preventDefault();
-    const prev = page - 1;
+    const prev = parseInt(page) - 1;
     if (page === 1) return;
     const url = new URL(document.location);
     url.searchParams.set('page', prev);
@@ -34,7 +34,7 @@ export default function Pagination({ total, limit, page }) {
 
   const onNext = (e) => {
     e.preventDefault();
-    const next = page + 1;
+    const next = parseInt(page) + 1;
     if (page * limit >= total) return;
     const url = new URL(document.location);
     url.searchParams.set('page', next);
@@ -85,57 +85,74 @@ export default function Pagination({ total, limit, page }) {
         </div>
         <div className="flex space-x-1">
           {page > 1 && (
-            <div className="prev self-center">
-              <a href="#" onClick={(e) => onPrev(e)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-              </a>
-            </div>
+            <>
+              <div className="first self-center">
+                <a href="#" onClick={(e) => onFirst(e)}>
+                  <ChevronDoubleLeftIcon width={20} height={20} />
+                </a>
+              </div>
+              <div className="prev self-center">
+                <a href="#" onClick={(e) => onPrev(e)}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </>
           )}
-          <div className="first self-center">
-            <a href="#" onClick={(e) => onFirst(e)}>
-              1
-            </a>
-          </div>
           <div className="current" style={{ width: '5rem' }}>
-            <Input ref={pageInput} onKeyPress={(e) => onKeyPress(e)} />
-          </div>
-          <div className="last self-center">
-            <a href="#" onClick={(e) => onLast(e)}>
-              {Math.ceil(total / limit)}
-            </a>
+            <Select
+              placeholder={page}
+              onChange={(e) => {
+                onKeyPress(e);
+              }}
+              // List all possible page
+              options={Array.from(
+                { length: Math.ceil(total / limit) },
+                (_, i) => i + 1
+              ).map((item) => ({
+                value: item,
+                text: item
+              }))}
+            />
           </div>
           {page * limit < total && (
-            <div className="next self-center">
-              <a href="#" onClick={(e) => onNext(e)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </a>
-            </div>
+            <>
+              <div className="next self-center">
+                <a href="#" onClick={(e) => onNext(e)}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </a>
+              </div>
+              <div className="last self-center">
+                <a href="#" onClick={(e) => onLast(e)}>
+                  <ChevronDoubleRightIcon width={20} height={20} />
+                </a>
+              </div>
+            </>
           )}
           <div className="self-center">
             <span>{total} records</span>
