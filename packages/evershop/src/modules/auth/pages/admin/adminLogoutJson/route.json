@@ -1,5 +1,4 @@
 {
   "methods": ["GET", "POST"],
-  "path": "/user/logout",
-  "access": "public"
+  "path": "/user/logout"
 }
