@@ -7,6 +7,7 @@ const {
   translate
 } = require('@evershop/evershop/src/lib/locale/translate/translate');
 const { saveCart } = require('../../services/saveCart');
+const { getCartByUUID } = require('../../services/getCartByUUID');
 
 module.exports = async (request, response, delegate, next) => {
   try {
