@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "jsx": "react",
     "paths": {
       "@components/*": [
         "./themes/friday/components/*",
@@ -10,10 +11,10 @@
       "@components-origin/*": [
         "./packages/evershop/src/components/*"
       ],
-      "@default-theme/cms/*" : [
+      "@default-theme/cms/*": [
         "./packages/evershop/src/modules/cms/pages/*"
       ],
-      "@evershop/evershop/*" : [
+      "@evershop/evershop/*": [
         "./packages/evershop/*"
       ]
     }

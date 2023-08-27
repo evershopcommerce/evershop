@@ -1,5 +1,4 @@
 import ProductList from '@components/frontStore/catalog/product/list/List';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -17,6 +16,10 @@ export default function FeaturedProducts({ collection }) {
       </div>
     </div>
   );
+}
+
+FeaturedProducts.defaultProps = {
+  collection: {}
 }
 
 FeaturedProducts.propTypes = {
@@ -46,11 +49,7 @@ FeaturedProducts.propTypes = {
         })
       ).isRequired
     }).isRequired
-  }).isRequired
-};
-
-FeaturedProducts.defaultProps = {
-  featuredProducts: []
+  })
 };
 
 export const layout = {
