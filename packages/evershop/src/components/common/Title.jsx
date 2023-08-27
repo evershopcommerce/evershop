@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function Title({ title }) {
-  return typeof title === 'string' ? <title>{title}</title> : null;
+  return <title>{title}</title>;
 }
 
 Title.propTypes = {
