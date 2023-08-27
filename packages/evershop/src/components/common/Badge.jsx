@@ -1,33 +1,51 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { PROGRESSES, VARIANTS, isValidProgress, isValidVariant } from '../../const/common';
 import './Badge.scss';
 
 export default function Badge({
-  progress,
   title,
-  variant
+  variant = 'default',
+  progress = 'default'
 }) {
-  const badgeVariant = isValidVariant(variant);
-  const badgeProgress = isValidProgress(progress);
-  
+  const badgeVariant = [
+    'default',
+    'success',
+    'info',
+    'attention',
+    'critical',
+    'warning',
+    'new'
+  ].includes(variant)
+    ? `${variant}`
+    : 'default';
+  const badgeProgress = [
+    'incomplete',
+    'complete',
+    'partiallycomplete'
+  ].includes(progress)
+    ? `${progress}`
+    : 'default';
   return (
     <span className={`${badgeVariant} badge`}>
       <span className={`${badgeProgress} progress rounded-100`}>
-        {progress === 'partiallycomplete' ? <span /> : null}
+        {progress === 'partiallycomplete' && <span />}
       </span>
       <span className="self-center title">{title}</span>
     </span>
   );
 }
 
-Badge.defaultProps = {
-  progress: 'default',
-  variant: 'default'
-}
-
 Badge.propTypes = {
-  progress: PropTypes.oneOf([PROGRESSES]),
+  progress: PropTypes.oneOf(['incomplete', 'complete', 'partiallycomplete'])
+    .isRequired,
   title: PropTypes.string.isRequired,
-  variant: PropTypes.oneOf(VARIANTS)
+  variant: PropTypes.oneOf([
+    'default',
+    'success',
+    'info',
+    'attention',
+    'critical',
+    'warning',
+    'new'
+  ]).isRequired
 };

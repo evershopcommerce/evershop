@@ -1,17 +1,16 @@
 /* eslint-disable consistent-return */
+import React from 'react';
 import { useAppState } from '@components/common/context/app';
-import React, { useEffect, useRef, useState } from 'react';
 import './LoadingBar.scss';
 
 const LoadingBar = function LoadingBar() {
   const { fetching } = useAppState();
-  const [width, setWidth] = useState(0);
-  const widthRef = useRef(0);
+  const [width, setWidth] = React.useState(0);
+  const widthRef = React.useRef(0);
 
-  useEffect(() => {
+  React.useEffect(() => {
     widthRef.current = width;
-
-    if (fetching) {
+    if (fetching === true) {
       // Random number between 1 and 3
       const step = Math.random() * (3 - 1) + 1;
       // Random number between 85 and 95
@@ -26,14 +25,14 @@ const LoadingBar = function LoadingBar() {
     } else if (widthRef.current !== 0) {
       setWidth(100);
     }
-  }, []);
+  });
 
   return (
     <div
       className="loading-bar"
       style={{
         width: `${width}%`,
-        display: fetching ? 'block' : 'none'
+        display: fetching === true ? 'block' : 'none'
       }}
     />
   );
