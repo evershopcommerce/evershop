@@ -4,11 +4,11 @@ import { toast } from 'react-toastify';
 import Area from '@components/common/Area';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
-export default function Layout({ account: { logoutApi } }) {
+export default function Layout({ logoutUrl }) {
   const logout = async (e) => {
     e.preventDefault();
-    const respone = await fetch(logoutApi, {
-      method: 'DELETE'
+    const respone = await fetch(logoutUrl, {
+      method: 'GET'
     });
     const data = await respone.json();
     if (data.error) {
@@ -42,9 +42,7 @@ export default function Layout({ account: { logoutApi } }) {
 }
 
 Layout.propTypes = {
-  account: PropTypes.shape({
-    logoutApi: PropTypes.string.isRequired
-  }).isRequired
+  logoutUrl: PropTypes.string.isRequired
 };
 
 export const layout = {
@@ -54,8 +52,6 @@ export const layout = {
 
 export const query = `
   query Query {
-    account: customer(id: getContextValue("customerId", null)) {
-      logoutApi
-    }
+    logoutUrl: url(routeId: "customerLogoutJson")
   }
 `;

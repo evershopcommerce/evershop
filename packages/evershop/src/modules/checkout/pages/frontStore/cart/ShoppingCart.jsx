@@ -86,7 +86,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    cart(id: getContextValue('cartId', null)) {
+    cart {
       totalQty
       uuid
       items {

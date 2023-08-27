@@ -40,4 +40,5 @@ module.exports = (request, response) => {
   setContextValue(request, 'stale', request.stale);
   setContextValue(request, 'subdomains', request.subdomains);
   setContextValue(request, 'xhr', request.xhr);
+  setContextValue(request, 'sid', request.sessionID);
 };

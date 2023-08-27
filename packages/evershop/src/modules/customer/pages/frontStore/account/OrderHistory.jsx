@@ -67,7 +67,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    customer (id: getContextValue("customerId", null)) {
+    customer: currentCustomer {
       orders {
         orderId
         orderNumber

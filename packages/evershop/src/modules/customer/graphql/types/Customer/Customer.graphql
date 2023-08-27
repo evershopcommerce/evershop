@@ -29,5 +29,6 @@ type CustomerCollection {
 
 extend type Query {
   customer(id: String): Customer
+  currentCustomer: Customer
   customers(filters: [FilterInput]): CustomerCollection
 }

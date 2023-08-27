@@ -23,6 +23,16 @@ module.exports = exports = async (connection) => {
     EXECUTE PROCEDURE add_product_inventory_updated_event();`
   );
 
+  // Check if a default collection called "Featured Products" already exists
+  const featuredProductsExists = await execute(
+    connection,
+    `SELECT EXISTS (SELECT 1 FROM collection WHERE code = 'homepage');`
+  );
+
+  if (featuredProductsExists.rows[0].exists) {
+    return;
+  }
+
   // Create a default collection called "Featured Products"
   const featuredProducts = await insert('collection')
     .given({

@@ -1,0 +1,4 @@
+{
+  "methods": ["GET", "POST"],
+  "path": "/user/logout"
+}

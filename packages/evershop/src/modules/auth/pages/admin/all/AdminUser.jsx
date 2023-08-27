@@ -13,7 +13,7 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
 
   const logout = async () => {
     const response = await fetch(logoutUrl, {
-      method: 'DELETE',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
@@ -79,12 +79,12 @@ export const layout = {
 
 export const query = `
   query Query {
-    adminUser(id: getContextValue("userId", null)) {
+    adminUser: currentAdminUser {
       adminUserId
       fullName
       email
     },
-    logoutUrl: url(routeId: "deleteAdminUserSession", params: [{ key: "id", value: getContextValue('sid') }]),
+    logoutUrl: url(routeId: "adminLogoutJson"),
     loginPage: url(routeId: "adminLogin")
   }
 `;

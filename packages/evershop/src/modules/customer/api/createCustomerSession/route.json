@@ -1,5 +1,0 @@
-{
-  "methods": ["POST"],
-  "path": "/customers/sessions",
-  "access": "public"
-}

@@ -2,9 +2,6 @@ const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const {
-  getTokenCookieId
-} = require('@evershop/evershop/src/modules/auth/services/getTokenCookieId');
-const {
   getGoogleAuthToken
 } = require('@evershop/google_login/services/getGoogleAuthToken');
 const {
@@ -63,15 +60,19 @@ module.exports = async (request, response, delegate, next) => {
         .execute(pool);
     }
     // Login the customer
-    const token = await request.login(customer.uuid);
-    // Send a response with the token cookie
-    response.cookie(getTokenCookieId(), token, {
-      httpOnly: true,
-      maxAge: 1.728e8
+    request.session.customerID = customer.customer_id;
+    // Delete the password field
+    delete customer.password;
+    // Save the customer in the request
+    request.locals.customer = customer;
+    request.session.save((error) => {
+      if (error) {
+        debug('critical', error);
+        response.redirect(failureUrl);
+      } else {
+        response.redirect(successUrl);
+      }
     });
-
-    // redirect to home page
-    response.redirect(successUrl);
   } catch (error) {
     debug('critical', error);
     response.redirect(failureUrl);

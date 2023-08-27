@@ -40,12 +40,12 @@ module.exports = {
         return null;
       }
     },
-    stripeSecretKey: (setting, _, { userTokenPayload }) => {
+    stripeSecretKey: (setting, _, { user }) => {
       const stripeConfig = getConfig('system.stripe', {});
       if (stripeConfig.secretKey) {
         return '*******************************';
       }
-      if (userTokenPayload && userTokenPayload?.user?.uuid) {
+      if (user) {
         const stripeSecretKey = setting.find(
           (s) => s.name === 'stripeSecretKey'
         );
@@ -58,12 +58,12 @@ module.exports = {
         return null;
       }
     },
-    stripeEndpointSecret: (setting, _, { userTokenPayload }) => {
+    stripeEndpointSecret: (setting, _, { user }) => {
       const stripeConfig = getConfig('system.stripe', {});
       if (stripeConfig.endpointSecret) {
         return '*******************************';
       }
-      if (userTokenPayload && userTokenPayload?.user?.uuid) {
+      if (user) {
         const stripeEndpointSecret = setting.find(
           (s) => s.name === 'stripeEndpointSecret'
         );

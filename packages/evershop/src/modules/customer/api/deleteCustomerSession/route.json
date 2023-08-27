@@ -1,5 +1,0 @@
-{
-  "methods": ["DELETE"],
-  "path": "/customers/sessions/:id",
-  "access": "public"
-}

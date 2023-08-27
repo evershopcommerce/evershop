@@ -34,12 +34,12 @@ export const layout = {
 
 export const query = `
   query Query {
-    customer(id: getContextValue("customerId", null)) {
+    customer: currentCustomer {
       uuid
       fullName
       email
     }
     accountUrl: url(routeId: "account")
-    loginUrl: url(routeId: "login")
+    loginUrl: url(routeId: "customerLoginJson")
   }
 `;

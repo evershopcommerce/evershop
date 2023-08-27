@@ -1,17 +1,8 @@
 const { request } = require('express');
 const { Cart } = require('../checkout/services/cart/Cart');
-const { v4: uuidv4 } = require('uuid');
-const {
-  getTokenCookieId
-} = require('@evershop/evershop/src/modules/auth/services/getTokenCookieId');
-const {
-  setContextValue,
-  getContextValue
-} = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
-const { sign } = require('jsonwebtoken');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select, insertOnUpdate } = require('@evershop/postgres-query-builder');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
+const { select } = require('@evershop/postgres-query-builder');
+const { compareSync } = require('bcryptjs');
 
 module.exports = () => {
   Cart.addField('customer_id', function resolver() {
@@ -30,41 +21,47 @@ module.exports = () => {
     return this.dataSource?.customer_full_name ?? null;
   });
 
-  request.login = async function login(customerId) {
+  /**
+   * This function will login the customer with email and password
+   * @param {*} email
+   * @param {*} password
+   * @param {*} callback
+   */
+  request.loginCustomerWithEmail = async function loginCustomerWithEmail(
+    email,
+    password,
+    callback
+  ) {
     const customer = await select()
       .from('customer')
-      .where('uuid', '=', customerId)
+      .where('email', '=', email)
+      .and('status', '=', 1)
       .load(pool);
 
-    const JWT_SECRET = uuidv4();
-    const sid = uuidv4();
-    // Save the JWT_SECRET to the database
-    await insertOnUpdate('user_token_secret', ['sid'])
-      .given({
-        user_id: customer.uuid,
-        sid: sid,
-        secret: JWT_SECRET
-      })
-      .execute(pool);
+    const result = compareSync(password, customer ? customer.password : '');
+    if (!customer || !result) {
+      throw new Error('Invalid email or password');
+    }
+    this.session.customerID = customer.customer_id;
+    // Delete the password field
     delete customer.password;
-    const payload = {
-      sid: sid,
-      customer: { ...camelCase(customer) }
-    };
-    const token = sign(payload, JWT_SECRET);
-    setContextValue(this, 'customerTokenPayload', payload);
-    setContextValue(this, 'sid', sid);
-    return token;
-    // Send a response with the cookie
-    response.cookie(getTokenCookieId(), token, {
-      httpOnly: true,
-      maxAge: 1.728e8
-    });
+    // Save the customer in the request
+    this.locals.customer = customer;
+    this.session.save(callback);
+  };
+
+  request.logoutCustomer = function logoutCustomer(callback) {
+    this.session.customerID = undefined;
+    this.locals.customer = undefined;
+
+    this.session.save(callback);
   };
 
   request.isCustomerLoggedIn = function isCustomerLoggedIn() {
-    const customerTokenPayload = getContextValue(this, 'customerTokenPayload');
+    return !!this.session?.customerID;
+  };
 
-    return customerTokenPayload?.customer?.customerId ? true : false;
+  request.getCurrentCustomer = function getCurrentCustomer() {
+    return this.locals?.customer;
   };
 };
