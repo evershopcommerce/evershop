@@ -1,3 +1,4 @@
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { execute, select } = require('@evershop/postgres-query-builder');
 
@@ -25,7 +26,7 @@ module.exports = async function deleteUrlReWrite(data) {
         `DELETE FROM url_rewrite WHERE request_path LIKE '${urlRewrite.request_path}/%' AND entity_type IN ('category', 'product')`
       );
     }
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    error(err);
   }
 };

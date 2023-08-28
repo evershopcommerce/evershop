@@ -1,11 +1,14 @@
 const { Handler } = require('./Handler');
-const { noDublicateId } = require('./noDuplicateId');
+const { findDublicatedMiddleware } = require('./findDublicatedMiddleware');
 
 module.exports.addMiddleware = function addMiddleware(middleware) {
-  if (noDublicateId(Handler.middlewares, middleware)) {
+  const index = findDublicatedMiddleware(Handler.middlewares, middleware);
+  if (index === -1) {
     Handler.addMiddleware(middleware);
   } else {
-    // eslint-disable-next-line no-console
-    console.error(`Duplicate middleware id: ${middleware.id}`);
+    const addedMiddleware = Handler.middlewares[index];
+    throw new Error(
+      `Found two middleware with the same id: ${middleware.path} and ${addedMiddleware.path}`
+    );
   }
 };

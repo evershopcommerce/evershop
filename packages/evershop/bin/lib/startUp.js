@@ -10,6 +10,7 @@ const { loadBootstrapScript } = require('./bootstrap/bootstrap');
 const { getEnabledExtensions } = require('../extension');
 const spawn = require('cross-spawn');
 const path = require('path');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 
 var app = createApp();
 /** Create a http server */
@@ -24,7 +25,7 @@ module.exports.start = async function start(cb) {
       await migrate(module);
     }
   } catch (e) {
-    console.log(e);
+    error(e);
     process.exit(0);
   }
 
@@ -34,7 +35,7 @@ module.exports.start = async function start(cb) {
       await loadBootstrapScript(module);
     }
   } catch (e) {
-    console.log(e);
+    error(e);
     process.exit(0);
   }
   process.env.ALLOW_CONFIG_MUTATIONS = false;
@@ -59,7 +60,7 @@ module.exports.start = async function start(cb) {
     }
   );
   child.on('error', (err) => {
-    console.error(`Error spawning event processor: ${err}`);
+    error(`Error spawning event processor: ${err}`);
   });
   child.unref();
 };

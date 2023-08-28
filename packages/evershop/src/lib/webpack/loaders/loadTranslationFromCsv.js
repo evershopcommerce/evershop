@@ -3,6 +3,7 @@ const { getConfig } = require('../../util/getConfig');
 const path = require('path');
 const { CONSTANTS } = require('../../helpers');
 const { readCsvFile } = require('../../util/readCsvFile');
+const { error } = require('../../log/debuger');
 
 module.exports.loadCsvTranslationFiles =
   async function loadCsvTranslationFiles() {
@@ -37,6 +38,6 @@ module.exports.loadCsvTranslationFiles =
 
       return results;
     } catch (err) {
-      console.error(err);
+      error(err);
     }
   };

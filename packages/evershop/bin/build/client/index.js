@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const {
   createConfigClient
 } = require('@evershop/evershop/src/lib/webpack/prod/createConfigClient');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 
 module.exports.buildClient = async function buildClient(routes) {
   const config = createConfigClient(routes);
@@ -10,7 +11,7 @@ module.exports.buildClient = async function buildClient(routes) {
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err || stats.hasErrors()) {
-        console.log(
+        error(
           stats.toString({
             errorDetails: true,
             warnings: true

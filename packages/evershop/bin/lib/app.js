@@ -13,6 +13,7 @@ const {
 } = require('@evershop/evershop/src/lib/router/loadModuleRoutes');
 const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
 const { getEnabledExtensions } = require('../extension');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 
 module.exports.createApp = () => {
   /** Create express app */
@@ -30,7 +31,7 @@ module.exports.createApp = () => {
       // Load routes
       loadModuleRoutes(module.path);
     } catch (e) {
-      console.log(e);
+      error(e);
       process.exit(0);
     }
   });
@@ -44,7 +45,7 @@ module.exports.createApp = () => {
       // Load routes
       loadModuleRoutes(extension.resolve);
     } catch (e) {
-      console.log(e);
+      error(e);
       process.exit(0);
     }
   });

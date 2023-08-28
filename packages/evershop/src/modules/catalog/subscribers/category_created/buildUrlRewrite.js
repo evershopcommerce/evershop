@@ -1,8 +1,8 @@
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   execute,
   select,
-  insert,
   insertOnUpdate
 } = require('@evershop/postgres-query-builder');
 
@@ -52,7 +52,7 @@ module.exports = async function buildUrlReWrite(data) {
         target_path: `/category/${categoryUuid}`
       })
       .execute(pool);
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    error(err);
   }
 };

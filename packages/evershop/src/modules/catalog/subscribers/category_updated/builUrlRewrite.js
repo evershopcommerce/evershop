@@ -1,3 +1,4 @@
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   execute,
@@ -64,7 +65,7 @@ module.exports = async function buildUrlReWrite(data) {
         `UPDATE url_rewrite SET request_path = REPLACE(request_path, '${currentPath.request_path}', '${path}') WHERE entity_type IN ('category', 'product') AND entity_uuid != '${categoryUUid}'`
       );
     }
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    error(err);
   }
 };

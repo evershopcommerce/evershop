@@ -12,6 +12,7 @@ const { getEnabledExtensions } = require('../extension');
 const { buildEntry } = require('@evershop/evershop/bin/lib/buildEntry');
 const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
 const { compile } = require('./complie');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 
 /* Loading modules and initilize routes, components */
 const modules = [...getCoreModules(), ...getEnabledExtensions()];
@@ -22,7 +23,7 @@ modules.forEach((module) => {
     // Load routes
     loadModuleRoutes(module.path);
   } catch (e) {
-    console.log(e);
+    error(e);
     process.exit(0);
   }
 });

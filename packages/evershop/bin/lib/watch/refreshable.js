@@ -11,7 +11,6 @@ function refreshable() {
   });
   watcher.add('./packages/evershop/src/lib/util/*');
   watcher.on('all', (event, path) => {
-    console.log(event);
     delete require.cache[require.resolve(resolve(CONSTANTS.ROOTPATH, path))];
     broadcash();
   });

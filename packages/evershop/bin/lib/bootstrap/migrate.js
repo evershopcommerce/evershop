@@ -1,6 +1,5 @@
 const path = require('path');
 const semver = require('semver');
-const { red } = require('kleur');
 const {
   insertOnUpdate,
   select,
@@ -13,6 +12,7 @@ const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { existsSync, readdirSync } = require('fs');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 
 async function getCurrentInstalledVersion(module) {
   /** Check for current installed version */
@@ -68,10 +68,8 @@ module.exports.migrate = async function migrate(module) {
       await commit(connection);
     } catch (e) {
       await rollback(connection);
-      console.log(
-        red(`Migration failed for ${module.name}, version ${version}\n`),
-        e
-      );
+      error(`Migration failed for ${module.name}, version ${version}\n`);
+      error(e);
       process.exit(0);
     }
   }

@@ -14,7 +14,7 @@ const {
   getComponentsByRoute
 } = require('@evershop/evershop/src/lib/componee/getComponentByRoute');
 const webpack = require('webpack');
-
+const { info } = require('@evershop/evershop/src/lib/log/debuger');
 const modules = loadModules(path.resolve(__dirname, '../../../src', 'modules'));
 
 const spinner = ora({
@@ -67,6 +67,7 @@ const start = Date.now();
 const {
   createVendorConfig
 } = require('@evershop/evershop/src/lib/webpack/configProvider');
+
 const vendorComplier = webpack(createVendorConfig(webpack));
 const webpackVendorPromise = new Promise((resolve, reject) => {
   vendorComplier.run((err, stats) => {
@@ -265,7 +266,7 @@ webpackVendorPromise.then(async () => {
           })
       );
       const end = Date.now();
-      console.log(`Execution time: ${end - start} ms`);
+      info(`Execution time: ${end - start} ms`);
 
       process.exit(0);
     })

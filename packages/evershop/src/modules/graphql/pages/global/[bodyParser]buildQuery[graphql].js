@@ -10,6 +10,7 @@ const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
 // eslint-disable-next-line no-unused-vars
 const { getContextValue } = require('../../services/contextHelper');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 
 module.exports = (request, response) => {
   let query;
@@ -104,9 +105,8 @@ module.exports = (request, response) => {
       request.body.graphqlQuery = `${operation} { ${json.query} } ${json.fragments}`;
       request.body.graphqlVariables = variables.values;
       request.body.propsMap = json.propsMap;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+    } catch (e) {
+      error(e);
       throw error;
     }
   }

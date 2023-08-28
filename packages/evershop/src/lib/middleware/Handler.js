@@ -5,6 +5,7 @@ const { sortMiddlewares } = require('./sort');
 const { parseFromFile } = require('./parseFromFile');
 const { noDublicateId } = require('./noDuplicateId');
 const { getRoutes } = require('../router/Router');
+const { error } = require('../log/debuger');
 
 class Handler {
   static middlewares = [];
@@ -82,8 +83,7 @@ class Handler {
         if (noDublicateId(this.middlewares, middleware)) {
           this.addMiddleware(middleware);
         } else {
-          // eslint-disable-next-line no-console
-          console.error(`Duplicate middleware id: ${middleware.id}`);
+          error(`Duplicate middleware id: ${middleware.id}`);
         }
       });
     }
@@ -119,14 +119,12 @@ class Handler {
           // Call the error handler middleware if it is not called yet
           if (!isErrorHandlerTriggered(response)) {
             currentError += 1;
-            // console.log(errorHandlers[currentError]);
             const middlewareFunc = errorHandlers[currentError].middleware;
             // eslint-disable-next-line prefer-rest-params
             middlewareFunc(arguments[0], request, response, eNext);
           }
         } else {
           currentGood += 1;
-          // console.log(goodHandlers[currentGood]);
           const middlewareFunc = goodHandlers[currentGood].middleware;
           middlewareFunc(request, response, eNext);
         }

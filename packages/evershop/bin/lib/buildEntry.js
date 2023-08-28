@@ -13,6 +13,7 @@ const {
   parseGraphql
 } = require('@evershop/evershop/src/lib/webpack/util/parseGraphql');
 const JSON5 = require('json5');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 /**
  * Only pass the page routes, not api routes
  */
@@ -55,8 +56,8 @@ module.exports.buildEntry = async function buildEntry(
               component: `---require('${module}')---`
             };
           } catch (e) {
-            console.log(`Error parsing layout from ${module}`);
-            console.log(e);
+            error(`Error parsing layout from ${module}`);
+            error(e);
           }
         }
       });

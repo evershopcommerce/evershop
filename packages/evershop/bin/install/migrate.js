@@ -3,6 +3,7 @@ const { readdirSync, existsSync } = require('fs');
 const path = require('path');
 const semver = require('semver');
 const bcrypt = require('bcryptjs');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 
 module.exports.migrate = async function migrate(
   connection,
@@ -48,7 +49,7 @@ module.exports.migrate = async function migrate(
               })
               .execute(connection);
           } catch (e) {
-            console.error(e);
+            error(e);
             process.exit(0);
           }
         }

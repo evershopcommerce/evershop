@@ -1,3 +1,4 @@
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
@@ -77,7 +78,7 @@ module.exports = async (request, response, delegate, next) => {
     });
   } catch (e) {
     await rollback(connection);
-    console.error(e);
+    error(e);
     response.status(INTERNAL_SERVER_ERROR);
     return response.json({
       success: false,

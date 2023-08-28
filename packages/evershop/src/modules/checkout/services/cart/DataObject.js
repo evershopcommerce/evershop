@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const isEqualWith = require('lodash/isEqualWith');
 const Topo = require('@hapi/topo');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 
 module.exports.DataObject = class DataObject {
   // This is an array of objects: {key, resolver, dependencies}
@@ -109,7 +110,7 @@ module.exports.DataObject = class DataObject {
       this.isBuilding = false;
       this.isCommited = false;
     } catch (e) {
-      console.log(e);
+      error(e);
       this.errors.buildingError = e.message;
       this.isBuilding = false;
       // Rollback the changes
