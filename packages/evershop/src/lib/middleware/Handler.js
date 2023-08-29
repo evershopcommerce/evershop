@@ -10,6 +10,8 @@ const { error } = require('../log/debuger');
 class Handler {
   static middlewares = [];
 
+  static sortedMiddlewarePerRoute = {};
+
   constructor(routeId) {
     this.routeId = routeId;
   }
@@ -27,6 +29,10 @@ class Handler {
   }
 
   static getMiddlewareByRoute(route) {
+    const routeId = route.id;
+    if (this.sortedMiddlewarePerRoute[routeId]) {
+      return this.sortedMiddlewarePerRoute[routeId];
+    }
     const region = route.isApi ? 'api' : 'pages';
     let middlewares = this.middlewares.filter(
       (m) =>
@@ -60,6 +66,7 @@ class Handler {
         }
       });
     }
+    this.sortedMiddlewarePerRoute[routeId] = middlewares;
 
     return middlewares;
   }
