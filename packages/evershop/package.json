@@ -67,7 +67,6 @@
     "csv-parser": "^3.0.0",
     "dayjs": "^1.10.6",
     "debug": "^4.3.2",
-    "dependency-tree": "^8.1.2",
     "enquirer": "^2.3.6",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
