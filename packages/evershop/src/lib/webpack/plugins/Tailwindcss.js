@@ -57,6 +57,9 @@ exports.Tailwindcss = class Tailwindcss {
               );
               if (tailwind) {
                 tailwind = tailwind[1];
+              } else {
+                /** Tailwindcss is removed by theme */
+                return;
               }
               // Postcss await
               const tailWindCss = new CleanCSS().minify(
