@@ -40,6 +40,6 @@ export const query = `
       email
     }
     accountUrl: url(routeId: "account")
-    loginUrl: url(routeId: "customerLoginJson")
+    loginUrl: url(routeId: "login")
   }
 `;
