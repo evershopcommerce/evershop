@@ -6,9 +6,7 @@ module.exports = async (request, response, delegate, next) => {
   try {
     const { sessionID } = request;
     const customer = request.getCurrentCustomer();
-    if (!customer) {
-      next();
-    } else {
+    if (customer) {
       // Check if there is any cart with the same sid
       const cart = await select()
         .from('cart')
