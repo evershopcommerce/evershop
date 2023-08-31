@@ -7,14 +7,12 @@ module.exports.broadcash = function broadcash() {
       !route.isApi &&
       !['staticAsset', 'adminStaticAsset'].includes(route.id)
     ) {
-      const hotMiddleware = route.hotMiddleware;
+      const { hotMiddleware } = route;
       if (hotMiddleware) {
         hotMiddleware.publish({
           action: 'serverReloaded'
         });
       }
-    } else {
-      return;
     }
   });
 };

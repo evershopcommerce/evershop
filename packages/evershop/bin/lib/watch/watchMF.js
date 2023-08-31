@@ -1,7 +1,7 @@
 const { normalize, basename } = require('path');
 const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
-const { broadcash } = require('./broadcash');
 const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { broadcash } = require('./broadcash');
 
 module.exports.watchMF = function (event, path) {
   // Check if path include graphql/types

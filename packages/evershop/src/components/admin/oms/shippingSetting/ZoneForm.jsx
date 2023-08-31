@@ -138,4 +138,9 @@ ZoneForm.propTypes = {
   })
 };
 
+ZoneForm.defaultProps = {
+  method: 'POST',
+  zone: null
+};
+
 export default ZoneForm;

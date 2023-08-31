@@ -76,7 +76,7 @@ module.exports = {
         .where('customer_id', '=', customerId)
         .load(pool);
       return customer
-        ? buildUrl('customerEdit', { id: customer['uuid'] })
+        ? buildUrl('customerEdit', { id: customer.uuid })
         : null;
     },
     shipmentStatus: ({ shipmentStatus }) => {

@@ -1,12 +1,11 @@
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
-  setContextValue,
-  getContextValue
-} = require('../../../../graphql/services/contextHelper');
-const { getCurrentCart } = require('../../../services/getCurrentCart');
-const {
   translate
 } = require('@evershop/evershop/src/lib/locale/translate/translate');
+const {
+  setContextValue
+} = require('../../../../graphql/services/contextHelper');
+const { getCurrentCart } = require('../../../services/getCurrentCart');
 
 module.exports = async (request, response, delegate, next) => {
   const cart = await getCurrentCart(request.sessionID);

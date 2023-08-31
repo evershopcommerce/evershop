@@ -270,8 +270,8 @@ module.exports.Item = class Item extends DataObject {
 
                 const addressId =
                   baseCalculationAddress === 'billingAddress'
-                    ? cart['billing_address_id']
-                    : cart['shipping_address_id'];
+                    ? cart.billing_address_id
+                    : cart.shipping_address_id;
 
                 if (!addressId) {
                   return 0;

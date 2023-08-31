@@ -25,7 +25,7 @@ export default function Pagination({ total, limit, page }) {
 
   const onPrev = (e) => {
     e.preventDefault();
-    const prev = parseInt(page) - 1;
+    const prev = parseInt(page, 10) - 1;
     if (page === 1) return;
     const url = new URL(document.location);
     url.searchParams.set('page', prev);
@@ -34,7 +34,7 @@ export default function Pagination({ total, limit, page }) {
 
   const onNext = (e) => {
     e.preventDefault();
-    const next = parseInt(page) + 1;
+    const next = parseInt(page, 10) + 1;
     if (page * limit >= total) return;
     const url = new URL(document.location);
     url.searchParams.set('page', next);

@@ -10,8 +10,9 @@ const {
 const { select, insert } = require('@evershop/postgres-query-builder');
 const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 
+/* eslint-disable-next-line no-unused-vars */
 module.exports = async (request, response, delegate, next) => {
-  const code = request.query.code;
+  const {code} = request.query;
   const client_id = getConfig('google_login.client_id');
   const client_secret = getConfig('google_login.client_secret');
   const homeUrl = getConfig('shop.homeUrl', 'http://localhost:3000');

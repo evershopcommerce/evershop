@@ -4,12 +4,10 @@ module.exports = {
   Query: {
     carriers: () => {
       const carriers = getConfig('oms.carriers', {});
-      return Object.keys(carriers).map((key) => {
-        return {
+      return Object.keys(carriers).map((key) => ({
           ...carriers[key],
           code: key
-        };
-      });
+        }));
     }
   }
 };

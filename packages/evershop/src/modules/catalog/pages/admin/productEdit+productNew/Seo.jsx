@@ -52,9 +52,9 @@ export default function SEO({ product }) {
       },
       sortOrder: 30
     }
-  ].filter((f) => {
-    // eslint-disable-next-line no-param-reassign
+  ].map((f) => {
     if (get(product, `${f.props.id}`) !== undefined) {
+      // eslint-disable-next-line no-param-reassign
       f.props.value = get(product, `${f.props.id}`);
     }
     return f;

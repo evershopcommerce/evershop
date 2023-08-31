@@ -98,11 +98,11 @@ class Handler {
 
   static middleware() {
     return (request, response, next) => {
-      request.params = Object.assign(
-        {},
-        request.locals?.customParams || {},
-        request.params
-      );
+      request.params = {
+        
+        ...request.locals?.customParams || {},
+        ...request.params
+      };
       const { currentRoute } = request;
       let middlewares;
       if (!currentRoute) {

@@ -48,7 +48,7 @@ module.exports = (request, response, delegate, next) => {
     }
 
     // Remove html tags
-    const keyword = query.keyword;
+    const {keyword} = query;
     setContextValue(request, 'pageInfo', {
       title: translate('Search results for "${keyword}"', { keyword }),
       description: translate('Search results for "${keyword}"', { keyword })

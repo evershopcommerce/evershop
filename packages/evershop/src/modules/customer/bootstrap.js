@@ -1,8 +1,8 @@
 const { request } = require('express');
-const { Cart } = require('../checkout/services/cart/Cart');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { select } = require('@evershop/postgres-query-builder');
 const { compareSync } = require('bcryptjs');
+const { Cart } = require('../checkout/services/cart/Cart');
 
 module.exports = () => {
   Cart.addField('customer_id', function resolver() {

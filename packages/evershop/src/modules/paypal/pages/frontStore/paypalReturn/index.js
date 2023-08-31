@@ -2,11 +2,11 @@ const { select } = require('@evershop/postgres-query-builder');
 const { default: axios } = require('axios');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { emit } = require('@evershop/evershop/src/lib/event/emitter');
 const {
   getContextValue
 } = require('../../../../graphql/services/contextHelper');
 const { getSetting } = require('../../../../setting/services/setting');
-const { emit } = require('@evershop/evershop/src/lib/event/emitter');
 
 module.exports = async (request, response, delegate, next) => {
   // Get paypal token from query string

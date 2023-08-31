@@ -23,7 +23,7 @@ async function getCurrentInstalledVersion(module) {
   if (!check) {
     return '0.0.1';
   } else {
-    return check['version'];
+    return check.version;
   }
 }
 
@@ -42,6 +42,7 @@ module.exports.migrate = async function migrate(module) {
     .map((dirent) => dirent.name.replace('Version-', '').replace('.js', ''))
     .sort((first, second) => semver.lt(first, second));
   const currentInstalledVersion = await getCurrentInstalledVersion(module.name);
+  // eslint-disable-next-line no-restricted-syntax
   for (const version of migrations) {
     /** If the version is lower or equal the installed version, ignore it */
     if (semver.lte(version, currentInstalledVersion)) {

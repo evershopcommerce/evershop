@@ -48,7 +48,7 @@ module.exports = async (request, response, delegate, next) => {
       shippingZoneQuery.where('shipping_zone.country', '=', address.country);
 
       const shippingZoneProvinces = await shippingZoneQuery.execute(pool);
-      let zone = shippingZoneProvinces.find(
+      const zone = shippingZoneProvinces.find(
         (p) => p.province === address.province || p.province === null
       );
       if (!zone) {

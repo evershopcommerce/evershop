@@ -15,6 +15,7 @@ const {
   select
 } = require('@evershop/postgres-query-builder');
 
+// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { collection_id } = request.params;
   const { product_id } = request.body;

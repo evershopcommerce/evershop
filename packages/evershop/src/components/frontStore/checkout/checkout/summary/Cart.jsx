@@ -38,7 +38,7 @@ CartSummary.propTypes = {
   shippingFeeInclTax: PropTypes.shape({
     text: PropTypes.string.isRequired
   }),
-  shippingMethod: PropTypes.string,
+  shippingMethodName: PropTypes.string,
   subTotal: PropTypes.shape({
     text: PropTypes.string.isRequired
   }),
@@ -59,7 +59,7 @@ CartSummary.defaultProps = {
   shippingFeeInclTax: {
     text: ''
   },
-  shippingMethod: '',
+  shippingMethodName: '',
   subTotal: {
     text: ''
   },

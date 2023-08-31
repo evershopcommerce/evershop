@@ -3,7 +3,7 @@ const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { select } = require('@evershop/postgres-query-builder');
 
 module.exports = async (request, response, delegate, next) => {
-  const userID = request.session.userID;
+  const { userID } = request.session;
   // Load the user from the database
   const user = await select()
     .from('admin_user')
@@ -22,7 +22,7 @@ module.exports = async (request, response, delegate, next) => {
       ) {
         next();
       } else {
-        return response.redirect(buildUrl('adminLogin'));
+        response.redirect(buildUrl('adminLogin'));
       }
     });
   } else {

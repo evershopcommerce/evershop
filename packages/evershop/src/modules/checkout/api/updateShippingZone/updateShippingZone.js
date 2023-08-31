@@ -59,15 +59,13 @@ module.exports = async (request, response, deledate, next) => {
         .where('zone_id', '=', zoneId)
         .execute(connection);
     } else {
-      const provincePromises = provinces.map((province) => {
-        return insertOnUpdate('shipping_zone_province', ['province'])
+      const provincePromises = provinces.map((province) => insertOnUpdate('shipping_zone_province', ['province'])
           .given({
             zone_id: zoneId,
             province
           })
           .where('zone_id', '=', zoneId)
-          .execute(connection);
-      });
+          .execute(connection));
       await Promise.all(provincePromises);
       // Delete all provinces that are not in the list
       await del('shipping_zone_province')

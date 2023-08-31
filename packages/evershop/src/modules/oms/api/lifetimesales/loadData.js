@@ -2,7 +2,7 @@ const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
-// eslint-disable-next-line no-unused-vars
+/* eslint-disable no-unused-vars */
 module.exports = async function lifetimeSales(
   request,
   response,

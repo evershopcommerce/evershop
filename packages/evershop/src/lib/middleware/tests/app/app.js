@@ -9,9 +9,9 @@ const express = require('express');
 const {
   loadModuleRoutes
 } = require('@evershop/evershop/src/lib/router/loadModuleRoutes');
+const { once } = require('events');
 const { getModuleMiddlewares } = require('../..');
 const { getRoutes } = require('../../../router/Router');
-const { once } = require('events');
 const { Handler } = require('../../Handler');
 const { error } = require('../../../log/debuger');
 
@@ -74,7 +74,7 @@ const routes = getRoutes();
 // Adding default middlewares
 addDefaultMiddlewareFuncs(app, routes);
 
-/** Hack for 'no route' case*/
+/** Hack for 'no route' case */
 routes.push({
   id: 'noRoute',
   path: '/*'

@@ -18,16 +18,8 @@ const {
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, deledate, next) => {
   const { id } = request.params;
-  let {
-    method_id,
-    cost,
-    is_enabled,
-    calculation_type,
-    calculate_api,
-    condition_type,
-    max,
-    min
-  } = request.body;
+  let { cost, calculate_api, condition_type, max, min } = request.body;
+  const { method_id, is_enabled, calculation_type } = request.body;
   // Make sure cost or calculate_api is provided
   if (
     (request.body.cost === undefined || request.body.cost === null) &&

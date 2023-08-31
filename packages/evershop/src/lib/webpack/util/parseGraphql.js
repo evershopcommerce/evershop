@@ -1,8 +1,8 @@
 const fs = require('fs');
 const uniqid = require('uniqid');
+const JSON5 = require('json5');
 const { CONSTANTS } = require('../../helpers');
 const { parseGraphqlByFile } = require('./parseGraphqlByFile');
-const JSON5 = require('json5');
 
 module.exports.parseGraphql = function parseGraphql(modules) {
   let inUsedFragments = [];

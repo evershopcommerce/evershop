@@ -1,6 +1,9 @@
+/* eslint-disable no-param-reassign */
 class Factory {
   static processors = {};
+
   static values = {};
+
   static raws = [];
 
   static async create(name, value) {
@@ -22,14 +25,12 @@ class Factory {
     }
 
     // Sort the processors by priority
-    this.processors[name].sort((a, b) => {
-      return a.priority - b.priority;
-    });
+    this.processors[name].sort((a, b) => a.priority - b.priority);
 
     const processors = this.processors[name];
     // Call the list of processors, returned value will be passed to the next processor. Start with the value
-    for (let i = 0; i < processors.length; i++) {
-      const callback = processors[i].callback;
+    for (let i = 0; i < processors.length; i += 1) {
+      const { callback } = processors[i];
       value = await callback(value);
     }
 
@@ -46,7 +47,10 @@ class Factory {
     }
 
     // Throw error if callback is not a function or async function
-    if (typeof callback !== 'function' && typeof callback !== 'asyncfunction') {
+    if (
+      typeof callback !== 'function' &&
+      callback.constructor.name !== 'AsyncFunction'
+    ) {
       throw new Error('Callback must be a function');
     }
 

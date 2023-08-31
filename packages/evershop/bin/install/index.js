@@ -14,9 +14,9 @@ const {
 } = require('@evershop/postgres-query-builder');
 const { prompt } = require('enquirer');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const { error, success } = require('@evershop/evershop/src/lib/log/debuger');
 const { migrate } = require('./migrate');
 const { createMigrationTable } = require('./createMigrationTable');
-const { error, success } = require('@evershop/evershop/src/lib/log/debuger');
 
 async function install() {
   // eslint-disable-next-line no-var

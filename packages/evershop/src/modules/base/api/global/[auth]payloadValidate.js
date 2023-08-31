@@ -19,8 +19,8 @@ ajv.addFormat('digits', /^[0-9]*$/);
 ajv.addKeyword({
   keyword: 'skipEscape',
   modifying: true,
-  compile: function (sch, parentSchema) {
-    return function (data, t) {
+  compile(sch, parentSchema) {
+    return (data, t) => {
       if (parentSchema.type === 'string' && sch === true) {
         // Mark the data as skip escape
         markSkipEscape(t.rootData, t.instancePath);

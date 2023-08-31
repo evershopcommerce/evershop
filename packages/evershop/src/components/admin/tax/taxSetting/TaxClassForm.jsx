@@ -10,7 +10,7 @@ function TaxClassForm({ saveTaxClassApi, closeModal, getTaxClasses }) {
     <Card title="Create a tax class">
       <Form
         id="createTaxClass"
-        method={'POST'}
+        method="POST"
         action={saveTaxClassApi}
         submitBtn={false}
         onSuccess={async () => {
@@ -24,7 +24,7 @@ function TaxClassForm({ saveTaxClassApi, closeModal, getTaxClasses }) {
             type="text"
             placeholder="Enter tax class name"
             validationRules={['notEmpty']}
-            value={''}
+            value=""
           />
         </Card.Session>
         <Card.Session>

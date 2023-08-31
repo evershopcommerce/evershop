@@ -4,7 +4,6 @@ import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
 import './LoginForm.scss';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
-import Button from '@components/common/form/Button';
 import Area from '@components/common/Area';
 
 export default function LoginForm({
@@ -58,27 +57,6 @@ export default function LoginForm({
                     validationRules: ['notEmpty']
                   },
                   sortOrder: 20
-                },
-                {
-                  component: {
-                    default: () => (
-                      <div className="form-submit-button flex border-t border-divider mt-1 pt-1">
-                        <Button
-                          title="SIGN IN"
-                          type="submit"
-                          onAction={() => {
-                            document.getElementById('loginForm').dispatchEvent(
-                              new Event('submit', {
-                                cancelable: true,
-                                bubbles: true
-                              })
-                            );
-                          }}
-                        />
-                      </div>
-                    )
-                  },
-                  sortOrder: 30
                 }
               ]}
             />
@@ -98,7 +76,8 @@ export default function LoginForm({
 LoginForm.propTypes = {
   action: PropTypes.string.isRequired,
   homeUrl: PropTypes.string.isRequired,
-  registerUrl: PropTypes.string.isRequired
+  registerUrl: PropTypes.string.isRequired,
+  forgotPasswordUrl: PropTypes.string.isRequired
 };
 
 export const layout = {

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, global-require */
 const path = require('path');
 const { resolveAlias } = require('../../resolveAlias');
 

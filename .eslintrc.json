@@ -16,10 +16,8 @@
     "ecmaVersion": "latest"
   },
   "plugins": [
-    "react"
-  ],
-  "ignorePatterns": [
-    "**/tests/**/*.js"
+    "react",
+    "import"
   ],
   "rules": {
     "comma-dangle": [
@@ -30,13 +28,42 @@
       1,
       {
         "extensions": [
-          ".js"
+          ".jsx"
         ]
       }
     ],
     "import/no-dynamic-require": 0,
     "no-else-return": "off",
     "import/prefer-default-export": 0,
-    "jsx-a11y/anchor-is-valid": 0
-  }
+    "jsx-a11y/anchor-is-valid": 0,
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off",
+    "camelcase": "off",
+    "no-multi-assign": "off",
+    "no-template-curly-in-string": "off",
+    "react/no-array-index-key": "off",
+    "react/no-unstable-nested-components": "off",
+    "no-continue": "off",
+    "no-await-in-loop": "off",
+    "no-use-before-define" : "off",
+    "global-require": "off",
+    "import/extensions": "off",
+    "no-shadow": "off",
+    "no-lonely-if": "warn"
+  },
+  "ignorePatterns": [
+    "/node_modules/",
+    "**/*test.js",
+    "**/tests/**",
+    "**/create-evershop-app/**",
+    "/.evershop/**",
+    "/.vscode/**",
+    "/.git/**",
+    "/.idea/**",
+    "/extensions/**",
+    "/public/**",
+    "/themes/**",
+    "/media/**",
+    "/mysqlToPostgres.js"
+  ]
 }

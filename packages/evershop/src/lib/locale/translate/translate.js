@@ -2,7 +2,7 @@ const {
   loadCsvTranslationFiles
 } = require('../../webpack/loaders/loadTranslationFromCsv');
 
-var csvData = undefined;
+let csvData;
 
 /**
  * This function is used to translate the text form server side, like from middleware. For templating use the _ function
@@ -25,7 +25,6 @@ module.exports.loadCsv = async function loadCsv() {
   // Only load the csv files once
   if (csvData === undefined) {
     csvData = await loadCsvTranslationFiles();
-  } else {
-    return;
   }
+  
 };

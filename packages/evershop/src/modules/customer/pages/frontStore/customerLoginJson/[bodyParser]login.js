@@ -16,10 +16,10 @@ module.exports = async (request, response, delegate, next) => {
     await request.loginCustomerWithEmail(email, password, (error) => {
       if (error) {
         response.status(INTERNAL_SERVER_ERROR);
-        return response.json({
+        response.json({
           error: {
             status: INTERNAL_SERVER_ERROR,
-            message: message
+            message
           }
         });
       } else {
@@ -37,7 +37,7 @@ module.exports = async (request, response, delegate, next) => {
     response.json({
       error: {
         status: INVALID_PAYLOAD,
-        message: message
+        message
       }
     });
   }

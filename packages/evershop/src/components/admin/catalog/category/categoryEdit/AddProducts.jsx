@@ -102,57 +102,58 @@ function AddProducts({ addProductApi, categoryId, closeModal }) {
               </div>
             )}
             {!fetching && data && (
-              <>
-                <div className="divide-y">
-                  {data.products.items.length === 0 && (
-                    <div className="p-3 border border-divider rounded flex justify-center items-center">
-                      {inputValue ? (
-                        <p>No products found for query "{inputValue}"</p>
-                      ) : (
-                        <p>You have no products to display</p>
+              <div className="divide-y">
+                {data.products.items.length === 0 && (
+                  <div className="p-3 border border-divider rounded flex justify-center items-center">
+                    {inputValue ? (
+                      <p>
+                        No products found for query &quot;{inputValue}&rdquo;
+                      </p>
+                    ) : (
+                      <p>You have no products to display</p>
+                    )}
+                  </div>
+                )}
+                {data.products.items.map((product) => (
+                  <div
+                    key={product.uuid}
+                    className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
+                  >
+                    <div className="col-span-1">
+                      <img src={product.image?.url} alt={product.name} />
+                    </div>
+                    <div className="col-span-5">
+                      <h3>{product.name}</h3>
+                      <p>{product.sku}</p>
+                    </div>
+                    <div className="col-span-2 text-right">
+                      {!(
+                        addedProducts.includes(product.uuid) ||
+                        parseInt(product.category?.categoryId, 10) ===
+                          parseInt(categoryId, 10)
+                      ) && (
+                        <button
+                          type="button"
+                          className="button secondary"
+                          onClick={async (e) => {
+                            e.preventDefault();
+                            await addProduct(product.uuid);
+                          }}
+                        >
+                          Add
+                        </button>
+                      )}
+                      {(addedProducts.includes(product.uuid) ||
+                        parseInt(product.category?.categoryId, 10) ===
+                          parseInt(categoryId, 10)) && (
+                        <span className="button primary">
+                          <CheckIcon width={20} height={20} />
+                        </span>
                       )}
                     </div>
-                  )}
-                  {data.products.items.map((product) => (
-                    <div
-                      key={product.uuid}
-                      className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
-                    >
-                      <div className="col-span-1">
-                        <img src={product.image?.url} alt={product.name} />
-                      </div>
-                      <div className="col-span-5">
-                        <h3>{product.name}</h3>
-                        <p>{product.sku}</p>
-                      </div>
-                      <div className="col-span-2 text-right">
-                        {!(
-                          addedProducts.includes(product.uuid) ||
-                          parseInt(product.category?.categoryId) ===
-                            parseInt(categoryId, 10)
-                        ) && (
-                          <button
-                            className="button secondary"
-                            onClick={async (e) => {
-                              e.preventDefault();
-                              await addProduct(product.uuid);
-                            }}
-                          >
-                            Add
-                          </button>
-                        )}
-                        {(addedProducts.includes(product.uuid) ||
-                          parseInt(product.category?.categoryId) ===
-                            parseInt(categoryId, 10)) && (
-                          <span className="button primary">
-                            <CheckIcon width={20} height={20} />
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </Card.Session>

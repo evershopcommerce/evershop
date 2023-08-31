@@ -51,7 +51,7 @@ module.exports.buildEntry = async function buildEntry(
             ).toString('base64');
             areas[layout.areaId] = areas[layout.areaId] || {};
             areas[layout.areaId][id] = {
-              id: id,
+              id,
               sortOrder: layout.sortOrder,
               component: `---require('${module}')---`
             };
@@ -90,7 +90,7 @@ module.exports.buildEntry = async function buildEntry(
       );
 
       if (!clientOnly) {
-        /** Build query*/
+        /** Build query */
         const query = `${JSON.stringify(parseGraphql(components))}`;
 
         let contentServer = `import React from 'react'; `;

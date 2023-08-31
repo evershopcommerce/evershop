@@ -3,15 +3,15 @@ const { existsSync } = require('fs');
 const { resolve } = require('path');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
+const { info, error } = require('@evershop/evershop/src/lib/log/debuger');
 const { updateApp } = require('../startUp');
 const { broadcash } = require('./broadcash');
-const { info, error } = require('@evershop/evershop/src/lib/log/debuger');
 
 function watchMR() {
   const watcher = chokidar.watch(
     resolve(CONSTANTS.ROOTPATH, 'extensions/*/controllers/**'),
     {
-      //ignored: /node_modules[\\/]/,
+      // ignored: /node_modules[\\/]/,
       ignoreInitial: true,
       persistent: true
     }
@@ -63,7 +63,7 @@ function watchMR() {
     }
   });
 
-  /** Implement routing update*/
+  /** Implement routing update */
   watcher.on('change', (path) => {
     if (!path.endsWith('route')) {
       return;

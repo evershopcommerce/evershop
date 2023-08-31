@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const { Pool } = require('pg');
-const util = require('util');
 const fs = require('fs');
 const { getConfig } = require('../util/getConfig');
 

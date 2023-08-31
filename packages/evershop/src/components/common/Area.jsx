@@ -25,13 +25,14 @@ function Area(props) {
     return cs.sort((obj1, obj2) => obj1.sortOrder - obj2.sortOrder);
   })();
 
-  // eslint-disable-next-line no-nested-ternary
-  const WrapperComponent =
-    noOuter !== true
-      ? wrapper !== undefined
-        ? wrapper
-        : 'div'
-      : React.Fragment;
+  let WrapperComponent = React.Fragment;
+  if (noOuter !== true) {
+    if (wrapper !== undefined) {
+      WrapperComponent = wrapper;
+    } else {
+      WrapperComponent = 'div';
+    }
+  }
 
   let areaWrapperProps = {};
   if (noOuter === true) {

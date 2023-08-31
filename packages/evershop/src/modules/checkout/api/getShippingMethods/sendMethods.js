@@ -66,7 +66,7 @@ module.exports = async (request, response, delegate, next) => {
       return;
     }
 
-    let methodsQuery = select().from('shipping_method');
+    const methodsQuery = select().from('shipping_method');
     methodsQuery
       .leftJoin('shipping_zone_method')
       .on(
@@ -88,12 +88,13 @@ module.exports = async (request, response, delegate, next) => {
           toPrice(method.min) <= cart.sub_total &&
           cart.sub_total <= toPrice(method.max)
         );
-      }
-      if (method.condition_type === 'weight') {
+      } else if (method.condition_type === 'weight') {
         return (
           toPrice(method.min) <= cart.total_weight &&
           cart.total_weight <= toPrice(method.max)
         );
+      } else {
+        return false;
       }
     });
 
@@ -113,16 +114,16 @@ module.exports = async (request, response, delegate, next) => {
               `Your shipping calculate API ${method.calculate_api} is invalid`
             );
           }
-          const response = await axios.get(api);
+          const jsonResponse = await axios.get(api);
           // Detect if the API returns an error base on the http status
-          if (response.status >= 400) {
+          if (jsonResponse.status >= 400) {
             throw new Error(
               `Error calculating shipping cost for method ${method.name}`
             );
           }
           return {
             ...method,
-            cost: toPrice(response.data.data.cost, true)
+            cost: toPrice(jsonResponse.data.data.cost, true)
           };
         } else {
           return {

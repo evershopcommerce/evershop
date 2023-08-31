@@ -3,18 +3,16 @@ const { existsSync, rmdirSync } = require('fs');
 const { writeFile, mkdir } = require('fs').promises;
 const { inspect } = require('util');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { loadModules } = require('../../serve/loadModules');
 const ora = require('ora');
 const { red, green } = require('kleur');
 const boxen = require('boxen');
-const { loadModuleRoutes } = require('../../serve/loadModuleRoutes');
-const { loadModuleComponents } = require('../../serve/loadModuleComponents');
 const { getRoutes } = require('@evershop/evershop/src/lib/router/routes');
 const {
   getComponentsByRoute
 } = require('@evershop/evershop/src/lib/componee/getComponentByRoute');
 const webpack = require('webpack');
 const { info } = require('@evershop/evershop/src/lib/log/debuger');
+
 const modules = loadModules(path.resolve(__dirname, '../../../src', 'modules'));
 
 const spinner = ora({
@@ -67,6 +65,9 @@ const start = Date.now();
 const {
   createVendorConfig
 } = require('@evershop/evershop/src/lib/webpack/configProvider');
+const { loadModuleComponents } = require('../../serve/loadModuleComponents');
+const { loadModuleRoutes } = require('../../serve/loadModuleRoutes');
+const { loadModules } = require('../../serve/loadModules');
 
 const vendorComplier = webpack(createVendorConfig(webpack));
 const webpackVendorPromise = new Promise((resolve, reject) => {
@@ -90,6 +91,7 @@ const webpackVendorPromise = new Promise((resolve, reject) => {
 
 webpackVendorPromise.then(async () => {
   controllers.forEach((route) => {
+    // eslint-disable-next-line func-names
     const buildFunc = async function () {
       const components = getComponentsByRoute(route.id);
 
@@ -152,7 +154,7 @@ webpackVendorPromise.then(async () => {
           rules: [
             {
               test: /\/views|components|context\/(.*).js?$/,
-              //test: /\.js?$/,
+              // test: /\.js?$/,
               exclude: /(bower_components)/,
               use: {
                 loader: 'babel-loader?cacheDirectory',

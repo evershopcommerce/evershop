@@ -26,15 +26,6 @@ const CountriesQuery = `
   }
 `;
 
-const TimezonesQuery = `
-  query Timezones {
-    timezones {
-      code
-      name
-    }
-  }
-`;
-
 const CurrencyQuery = `
   query Currencies {
     currencies {

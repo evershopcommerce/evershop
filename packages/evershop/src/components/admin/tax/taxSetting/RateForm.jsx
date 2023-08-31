@@ -20,35 +20,9 @@ const MethodsQuery = `
 `;
 
 function MethodForm({ saveRateApi, closeModal, getTaxClasses, rate }) {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [shippingMethod, setMethod] = React.useState(
-    rate
-      ? {
-          value: rate.methodId,
-          label: rate.name
-        }
-      : null
-  );
-
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: MethodsQuery
   });
-
-  const handleCreate = async (inputValue) => {
-    setIsLoading(true);
-    await fetch(result.data.createShippingMethodApi, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        name: inputValue
-      })
-    });
-    reexecuteQuery({ requestPolicy: 'network-only' });
-    setIsLoading(false);
-  };
 
   if (result.fetching) {
     return (
@@ -141,7 +115,7 @@ function MethodForm({ saveRateApi, closeModal, getTaxClasses, rate }) {
                 value={rate?.isCompound}
               />
             </div>
-            <div></div>
+            <div />
           </div>
           <div className="grid grid-cols-2 gap-2 mt-2">
             <div>
@@ -154,7 +128,7 @@ function MethodForm({ saveRateApi, closeModal, getTaxClasses, rate }) {
                 value={rate?.priority}
               />
             </div>
-            <div></div>
+            <div />
           </div>
         </Card.Session>
         <Card.Session>
@@ -180,14 +154,22 @@ function MethodForm({ saveRateApi, closeModal, getTaxClasses, rate }) {
 }
 
 MethodForm.propTypes = {
-  saveMethodApi: PropTypes.string.isRequired,
+  saveRateApi: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
-  getZones: PropTypes.func.isRequired,
-  method: PropTypes.shape({
+  getTaxClasses: PropTypes.func.isRequired,
+  rate: PropTypes.shape({
     name: PropTypes.string,
-    cost: PropTypes.string,
-    calculate_api: PropTypes.string
+    rate: PropTypes.string,
+    country: PropTypes.string,
+    province: PropTypes.string,
+    postcode: PropTypes.string,
+    isCompound: PropTypes.bool,
+    priority: PropTypes.string
   })
+};
+
+MethodForm.defaultProps = {
+  rate: null
 };
 
 export default MethodForm;

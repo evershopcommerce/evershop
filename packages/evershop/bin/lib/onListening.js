@@ -1,6 +1,7 @@
 const boxen = require('boxen');
-const normalizePort = require('./normalizePort');
 const { success } = require('@evershop/evershop/src/lib/log/debuger');
+const normalizePort = require('./normalizePort');
+
 const port = normalizePort();
 /**
  * Event listener for HTTP server "listening" event.

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CategoryItem from './CategoryItem';
 import { useQuery } from 'urql';
 import Spinner from '@components/common/Spinner';
+import CategoryItem from './CategoryItem';
 import './CategoryTree.scss';
 
 CategoryTree.propTypes = {};
@@ -48,19 +48,45 @@ function CategoryTree({ selectedCategory, setSelectedCategory }) {
   return (
     <div>
       <ul className="category-tree">
-        {data.categories.items.map((category) => {
-          return (
-            <CategoryItem
-              key={category.value}
-              category={category}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-            />
-          );
-        })}
+        {data.categories.items.map((category) => (
+          <CategoryItem
+            key={category.value}
+            category={category}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
+        ))}
       </ul>
     </div>
   );
 }
+
+CategoryTree.propTypes = {
+  selectedCategory: PropTypes.shape({
+    categoryId: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    path: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired
+      })
+    ),
+    children: PropTypes.arrayOf(
+      PropTypes.shape({
+        categoryId: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        path: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string.isRequired
+          })
+        )
+      })
+    )
+  }),
+  setSelectedCategory: PropTypes.func.isRequired
+};
+
+CategoryTree.defaultProps = {
+  selectedCategory: {}
+};
 
 export default CategoryTree;

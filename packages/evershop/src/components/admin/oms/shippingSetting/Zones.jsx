@@ -5,9 +5,7 @@ import Zone from './Zone';
 export function Zones({ countries, getZones, zones }) {
   return (
     <>
-      {zones.map((zone) => {
-        return <Zone zone={zone} getZones={getZones} countries={countries} />;
-      })}
+      {zones.map((zone) => <Zone zone={zone} getZones={getZones} countries={countries} />)}
     </>
   );
 }

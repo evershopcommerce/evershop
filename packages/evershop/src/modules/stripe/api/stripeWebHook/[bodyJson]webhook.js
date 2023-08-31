@@ -11,9 +11,9 @@ const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getSetting } = require('../../../setting/services/setting');
 const { emit } = require('@evershop/evershop/src/lib/event/emitter');
 const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { getSetting } = require('../../../setting/services/setting');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {

@@ -1,22 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-Breadcrumb.propTypes = {
-  pageInfo: PropTypes.shape({
-    breadcrumbs: PropTypes.arrayOf(
-      PropTypes.shape({
-        title: PropTypes.string,
-        url: PropTypes.string
-      })
-    )
-  })
-};
-
 function Breadcrumb({ pageInfo: { breadcrumbs } }) {
   return breadcrumbs.length ? (
     <div className="page-width my-2">
-      {breadcrumbs.map((breadcrumb, index) => {
-        return index === breadcrumbs.length - 1 ? (
+      {breadcrumbs.map((breadcrumb, index) =>
+        index === breadcrumbs.length - 1 ? (
           <span key={index}>{breadcrumb.title}</span>
         ) : (
           <span key={index}>
@@ -25,11 +14,22 @@ function Breadcrumb({ pageInfo: { breadcrumbs } }) {
             </a>
             <span>{' / '}</span>
           </span>
-        );
-      })}
+        )
+      )}
     </div>
   ) : null;
 }
+
+Breadcrumb.propTypes = {
+  pageInfo: PropTypes.shape({
+    breadcrumbs: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        url: PropTypes.string
+      })
+    )
+  }).isRequired
+};
 
 export const query = `
   query query {

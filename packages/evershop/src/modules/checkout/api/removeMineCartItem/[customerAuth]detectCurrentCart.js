@@ -1,3 +1,3 @@
-const detectCurrentCartMiddleware = require('../../api/addMineCartItem/[customerAuth]detectCurrentCart');
+const detectCurrentCartMiddleware = require("../addMineCartItem/[customerAuth]detectCurrentCart");
 
 module.exports = detectCurrentCartMiddleware;

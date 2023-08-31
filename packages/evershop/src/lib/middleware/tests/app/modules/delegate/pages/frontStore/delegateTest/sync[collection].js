@@ -1,4 +1,5 @@
 const jest = require('jest-mock');
+
 module.exports = jest.fn((request, response, delegates) => {
-  let a = 1;
+  const a = 1;
 });

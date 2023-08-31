@@ -2,7 +2,6 @@ const { select } = require('@evershop/postgres-query-builder');
 const { DateTime } = require('luxon');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getCartTotalBeforeDiscount } = require('./getCartTotalBeforeDiscount');
-const { getSetting } = require('../../setting/services/setting');
 
 exports.Validator = class Validator {
   static validateFunctions = {};
@@ -144,7 +143,7 @@ exports.Validator = class Validator {
         for (let index = 0; index < requiredProducts.length; index += 1) {
           const condition = requiredProducts[index];
           const { operator } = condition;
-          let { value } = condition;
+          const { value } = condition;
           const minQty = parseInt(condition.qty, 10) || 1;
           let qty = 0;
           // Continue to next item if key is not category

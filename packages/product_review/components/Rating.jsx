@@ -8,20 +8,11 @@ function Rating({ rating }) {
     <div>
       <div className="rating__stars">
         {[...Array(5)].map((_, i) => (
-          <a
-            className=""
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              rate(i + 1);
-            }}
-          >
-            <StartIcon
-              width={20}
-              height={20}
-              fill={rating > i ? '#ff5501' : '#989898'}
-            />
-          </a>
+          <StartIcon
+            width={20}
+            height={20}
+            fill={rating > i ? '#ff5501' : '#989898'}
+          />
         ))}
       </div>
     </div>

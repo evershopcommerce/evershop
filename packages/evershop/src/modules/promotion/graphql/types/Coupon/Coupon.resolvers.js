@@ -18,7 +18,7 @@ module.exports = {
       const coupon = await query.load(pool);
       return coupon ? camelCase(coupon) : null;
     },
-    coupons: async (_, { filters = [] }, { pool, user }) => {
+    coupons: async (_, { filters = [] }, { user }) => {
       // This field is for admin only
       if (!user) {
         return [];

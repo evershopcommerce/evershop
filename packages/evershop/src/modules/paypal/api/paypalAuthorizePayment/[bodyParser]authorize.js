@@ -1,13 +1,13 @@
 const { select, update, insert } = require('@evershop/postgres-query-builder');
 const { default: axios } = require('axios');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getContextValue } = require('../../../graphql/services/contextHelper');
-const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 const {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { getContextValue } = require('../../../graphql/services/contextHelper');
+const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response) => {

@@ -103,15 +103,15 @@ function Category({ product }) {
           }}
           className="text-interactive"
         >
-          {'Select category'}
+          Select category
         </a>
       )}
       {selecting && (
         <div className="absolute top-5 left-0 right-0 bg-[#eff2f5] z-50 border rounded border-[#c9cccf] p-[10px]">
           <CategoryTree
             selectedCategory={category}
-            setSelectedCategory={(category) => {
-              setCategory(category);
+            setSelectedCategory={(cat) => {
+              setCategory(cat);
               setSelecting(false);
             }}
           />
@@ -267,7 +267,13 @@ General.propTypes = {
   setting: PropTypes.shape({
     storeCurrency: PropTypes.string,
     weightUnit: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  taxClasses: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    })
+  ).isRequired
 };
 
 General.defaultProps = {

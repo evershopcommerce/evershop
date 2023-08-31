@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, global-require */
 const { Handler } = require('../../Handler');
 require('../app/app');
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const sessionStorage = require('connect-pg-simple');
@@ -43,7 +44,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
   app.use((request, response, next) => {
     response.debugMiddlewares = [];
     next();
-    response.on('finish', function () {
+    response.on('finish', () => {
       // Console log the debug middlewares
       let message = `[${request.method}] ${request.originalUrl}\n`;
       response.debugMiddlewares.forEach((m) => {
@@ -71,7 +72,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
       process.env.NODE_ENV === 'test'
         ? undefined
         : new (sessionStorage(session))({
-            pool: pool
+            pool
           }),
     secret: cookieSecret,
     cookie: {
@@ -97,18 +98,40 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
   });
 
   const sessionMiddleware = (request, response, next) => {
-    const currentRoute = request.currentRoute;
+    const { currentRoute } = request;
     if (currentRoute?.isApi) {
       // We don't need session for api routes. Restful api should be stateless
       next();
+    } else if (currentRoute?.isAdmin) {
+      adminSessionMiddleware(request, response, next);
     } else {
-      if (currentRoute?.isAdmin) {
-        adminSessionMiddleware(request, response, next);
-      } else {
-        frontStoreSessionMiddleware(request, response, next);
-      }
+      frontStoreSessionMiddleware(request, response, next);
     }
   };
+
+  function findRoute(request) {
+    if (request.currentRoute) {
+      return request.currentRoute;
+    } else {
+      const path = request.originalUrl.split('?')[0];
+      if (
+        path.endsWith('.js') ||
+        path.endsWith('.css') ||
+        path.endsWith('.json')
+      ) {
+        const id = path.split('/').pop().split('.')[0];
+        return (
+          routes.find((r) => r.id === id) ||
+          routes.find((r) => r.id === 'notFound')
+        );
+      } else if (path.includes('/eHot/')) {
+        const id = path.split('/').pop();
+        return routes.find((r) => r.id === id);
+      } else {
+        return routes.find((r) => r.id === 'notFound');
+      }
+    }
+  }
 
   routes.forEach((r) => {
     const currentRouteMiddleware = (request, response, next) => {
@@ -154,6 +177,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
 
     // Cookie parser
     app.use(cookieParser(cookieSecret));
+    // eslint-disable-next-line no-underscore-dangle
     r.__BUILDREQUIRED__ = true;
   });
 
@@ -210,34 +234,8 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
     routes.forEach((route) => {
       if (isBuildRequired(route)) {
         route.webpackCompiler = webpack(createConfigClient(route));
-      } else {
-        return;
       }
     });
-
-    function findRoute(request) {
-      if (request.currentRoute) {
-        return request.currentRoute;
-      } else {
-        const path = request.originalUrl.split('?')[0];
-        if (
-          path.endsWith('.js') ||
-          path.endsWith('.css') ||
-          path.endsWith('.json')
-        ) {
-          const id = path.split('/').pop().split('.')[0];
-          return (
-            routes.find((r) => r.id === id) ||
-            routes.find((r) => r.id === 'notFound')
-          );
-        } else if (path.includes('/eHot/')) {
-          const id = path.split('/').pop();
-          return routes.find((r) => r.id === id);
-        } else {
-          return routes.find((r) => r.id === 'notFound');
-        }
-      }
-    }
 
     app.use((request, response, next) => {
       const route = findRoute(request);
@@ -246,7 +244,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
       if (!isBuildRequired(route)) {
         next();
       } else {
-        const webpackCompiler = route.webpackCompiler;
+        const { webpackCompiler } = route;
         let middlewareFunc;
         if (!route.webpackMiddleware) {
           middlewareFunc = route.webpackMiddleware = middleware(
@@ -257,9 +255,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
               stats: 'none'
             }
           );
-          middlewareFunc.context.logger.info = (message) => {
-            return;
-          };
+          middlewareFunc.context.logger.info = () => {};
         } else {
           middlewareFunc = route.webpackMiddleware;
         }
@@ -276,9 +272,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
               stats: 'none'
             }
           );
-          notFoundMiddlewareFunc.context.logger.info = (message) => {
-            return;
-          };
+          notFoundMiddlewareFunc.context.logger.info = () => {};
         } else {
           notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware;
         }
@@ -294,9 +288,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
               publicPath: '/',
               stats: 'none'
             });
-          adminNotFoundMiddlewareFunc.context.logger.info = (message) => {
-            return;
-          };
+          adminNotFoundMiddlewareFunc.context.logger.info = () => {};
         } else {
           adminNotFoundMiddlewareFunc = adminNotFoundRoute.webpackMiddleware;
         }
@@ -311,7 +303,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
 
     routes.forEach((route) => {
       if (isBuildRequired(route)) {
-        const webpackCompiler = route.webpackCompiler;
+        const { webpackCompiler } = route;
         const hotMiddleware = route.hotMiddleware
           ? route.hotMiddleware
           : require('webpack-hot-middleware')(webpackCompiler, {
@@ -321,8 +313,6 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
           route.hotMiddleware = hotMiddleware;
         }
         app.use(hotMiddleware);
-      } else {
-        return;
       }
     });
   }

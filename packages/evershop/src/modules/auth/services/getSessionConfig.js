@@ -6,7 +6,7 @@ const session = require('express-session');
 module.exports.getSessionConfig = (cookieSecret) => {
   const sess = {
     store: new (sessionStorage(session))({
-      pool: pool
+      pool
     }),
     secret: cookieSecret,
     cookie: {

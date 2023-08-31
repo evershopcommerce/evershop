@@ -5,15 +5,13 @@ import TaxClass from './TaxClass';
 export function TaxClasses({ countries, getTaxClasses, classes }) {
   return (
     <>
-      {classes.map((taxClass) => {
-        return (
+      {classes.map((taxClass) => (
           <TaxClass
             taxClass={taxClass}
             getTaxClasses={getTaxClasses}
             countries={countries}
           />
-        );
-      })}
+        ))}
     </>
   );
 }

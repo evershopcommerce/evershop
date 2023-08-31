@@ -8,7 +8,7 @@ function debug(level, message) {
   let logMessage = ``;
   let textMessage = `${message}`;
   // If message is an exception object, include the stack trace
-  if (typeof message === Error) {
+  if (message instanceof Error) {
     textMessage = `${message.message}\n${message.stack}`;
   }
   // Switch color based on level
@@ -45,7 +45,6 @@ function error(e) {
   if (typeof e === 'string') {
     // eslint-disable-next-line no-console
     console.log(`\n❌ ${red(e)}\n`);
-    return;
   } else if (e instanceof Error) {
     // eslint-disable-next-line no-console
     console.log(`\n❌ ${red(e.stack)}`);

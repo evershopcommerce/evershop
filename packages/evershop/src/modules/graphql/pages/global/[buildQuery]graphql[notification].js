@@ -1,9 +1,9 @@
 const { execute } = require('graphql');
 const { parse } = require('graphql');
 const { validate } = require('graphql/validation');
+const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
 let schema = require('../../services/buildSchema');
 const { getContext } = require('../../services/contextHelper');
-const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
 
 module.exports = async function graphql(request, response, delegate, next) {
   // TODO: Should we wait for previous async middlewares?

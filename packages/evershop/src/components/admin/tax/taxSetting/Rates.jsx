@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Rate from './Rate';
 import { useModal } from '@components/common/modal/useModal';
+import Rate from './Rate';
 import RateForm from './RateForm';
 
 export function Rates({ getTaxClasses, rates, addRateApi }) {
@@ -18,13 +18,11 @@ export function Rates({ getTaxClasses, rates, addRateApi }) {
             <th className="border-none">Action</th>
           </tr>
         </thead>
-        {rates.map((rate) => {
-          return (
+        {rates.map((rate) => (
             <tr key={rate.uuid} className="border-divider py-2">
               <Rate rate={rate} getTaxClasses={getTaxClasses} />
             </tr>
-          );
-        })}
+          ))}
       </table>
       <div className="mt-1">
         <a

@@ -1,12 +1,12 @@
 const sessionStorage = require('connect-pg-simple');
 const util = require('util');
 const { UNAUTHORIZED } = require('@evershop/evershop/src/lib/util/httpStatus');
-const {
-  getAdminSessionCookieName
-} = require('../../services/getAdminSessionCookieName');
 const { select } = require('@evershop/postgres-query-builder');
 const session = require('express-session');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const {
+  getAdminSessionCookieName
+} = require('../../services/getAdminSessionCookieName');
 
 /**
  * This is the session based authentication middleware.
@@ -32,7 +32,7 @@ module.exports = async (request, response, delegate, next) => {
       const sessionID = cookies[adminSessionCookieName];
       if (sessionID) {
         const storage = new (sessionStorage(session))({
-          pool: pool
+          pool
         });
         // Load the session using session storage
         const getSession = util.promisify(storage.get).bind(storage);

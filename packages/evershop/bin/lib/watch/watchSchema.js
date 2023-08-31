@@ -1,7 +1,7 @@
 const { normalize, resolve } = require('path');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const { info } = require('@evershop/evershop/src/lib/log/debuger');
 const { broadcash } = require('./broadcash');
-const { info } = require('console');
 
 module.exports.watchSchema = function (event, path) {
   // Check if path include graphql/types
@@ -12,7 +12,7 @@ module.exports.watchSchema = function (event, path) {
     info(`Updating ${path}`);
     delete require.cache[require.resolve(path)];
   }
-  info('cleaning require cache');
+  info('Cleaning require cache');
   // Delete buildSchema.js cache
   delete require.cache[
     require.resolve(

@@ -166,7 +166,7 @@ function FileBrowser({
 
     if (file === null) setError('No file selected');
     else {
-      //editor.insertHtml(`<img src='${file.url}'/>`);
+      // editor.insertHtml(`<img src='${file.url}'/>`);
       editor.execute('insertImage', { source: file.url });
       editor.fire('change');
       setFileBrowser(false);
@@ -456,7 +456,7 @@ export default function CkeditorField({
           </svg>
         </a>
       </div>
-      <input type={'hidden'} name={name} value={editorData} />
+      <input type="hidden" name={name} value={editorData} />
       {editorLoaded && (
         <CKEditor
           config={{

@@ -28,6 +28,7 @@ module.exports = async (err, request, response, delegate, next) => {
     } else {
       status = response.statusCode;
     }
+    console.log(err);
     response.json({
       error: {
         status,

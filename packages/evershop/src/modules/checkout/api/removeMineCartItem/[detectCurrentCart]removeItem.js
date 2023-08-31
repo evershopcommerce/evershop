@@ -1,11 +1,12 @@
 const {
   INVALID_PAYLOAD,
-  INTERNAL_SERVER_ERROR
+  INTERNAL_SERVER_ERROR,
+  OK
 } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getContextValue } = require('../../../graphql/services/contextHelper');
 const {
   translate
 } = require('@evershop/evershop/src/lib/locale/translate/translate');
+const { getContextValue } = require('../../../graphql/services/contextHelper');
 const { saveCart } = require('../../services/saveCart');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 

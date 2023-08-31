@@ -7,16 +7,14 @@ export default function Collections({ product: { collections } }) {
   return (
     <Card title="Collections" subdued>
       <Card.Session>
-        {collections.map((collection) => {
-          return (
+        {collections.map((collection) => (
             <div className="flex justify-start gap-1 items-center align-middle">
               <CollectionIcon width={16} height={16} fill="#2c6ecb" />
               <a href={collection.editUrl} className="hover:underline">
                 <span>{collection.name}</span>
               </a>
             </div>
-          );
-        })}
+          ))}
         {collections.length === 0 && (
           <div className="text-gray-500">No collections</div>
         )}

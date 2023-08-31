@@ -6,14 +6,14 @@ const {
   getModuleMiddlewares
 } = require('@evershop/evershop/src/lib/middleware');
 const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
-const { getCoreModules } = require('./loadModules');
-const { addDefaultMiddlewareFuncs } = require('./addDefaultMiddlewareFuncs');
 const {
   loadModuleRoutes
 } = require('@evershop/evershop/src/lib/router/loadModuleRoutes');
 const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
-const { getEnabledExtensions } = require('../extension');
 const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { getCoreModules } = require('./loadModules');
+const { addDefaultMiddlewareFuncs } = require('./addDefaultMiddlewareFuncs');
+const { getEnabledExtensions } = require('../extension');
 
 module.exports.createApp = () => {
   /** Create express app */
@@ -55,7 +55,7 @@ module.exports.createApp = () => {
   // Adding default middlewares
   addDefaultMiddlewareFuncs(app, routes);
 
-  /** Hack for 'no route' case*/
+  /** Hack for 'no route' case */
   routes.push({
     id: 'noRoute',
     path: '/*',
@@ -63,7 +63,7 @@ module.exports.createApp = () => {
   });
 
   routes.forEach((route) => {
-    //app.all(route.path, Handler.middleware());
+    // app.all(route.path, Handler.middleware());
     route.method.forEach((method) => {
       switch (method.toUpperCase()) {
         case 'GET':

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Provider } from 'urql';
 import { AppProvider } from '@components/common/context/app';
 import { Alert } from '@components/common/modal/Alert';
@@ -15,3 +16,10 @@ export default function Hydrate({ client }) {
     </Provider>
   );
 }
+
+Hydrate.propTypes = {
+  client: PropTypes.shape({
+    executeQuery: PropTypes.func.isRequired,
+    executeMutation: PropTypes.func.isRequired
+  }).isRequired
+};

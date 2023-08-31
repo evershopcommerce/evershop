@@ -10,7 +10,7 @@ exports.fieldResolve = function fieldResolve(fieldName) {
     return fieldName;
   }
   // replace all regex
-  let tokens = fieldName
+  const tokens = fieldName
     .replace(/'|"|`/g, '')
     .split('.')
     .filter((token) => token !== '');

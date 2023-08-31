@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Method from './Method';
 import { useModal } from '@components/common/modal/useModal';
+import Method from './Method';
 import MethodForm from './MethodForm';
 
 export function Methods({ getZones, methods, addMethodApi }) {
@@ -18,13 +18,11 @@ export function Methods({ getZones, methods, addMethodApi }) {
             <th className="border-none">Action</th>
           </tr>
         </thead>
-        {methods.map((method) => {
-          return (
-            <tr key={method.methodId} className="border-divider py-2">
-              <Method method={method} getZones={getZones} />
-            </tr>
-          );
-        })}
+        {methods.map((method) => (
+          <tr key={method.methodId} className="border-divider py-2">
+            <Method method={method} getZones={getZones} />
+          </tr>
+        ))}
       </table>
       <div className="mt-1">
         <a
@@ -67,5 +65,6 @@ Methods.propTypes = {
       cost: PropTypes.string.isRequired
     })
   ).isRequired,
-  getZones: PropTypes.func.isRequired
+  getZones: PropTypes.func.isRequired,
+  addMethodApi: PropTypes.string.isRequired
 };

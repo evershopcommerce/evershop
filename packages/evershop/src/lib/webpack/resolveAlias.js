@@ -12,6 +12,7 @@ function getAllFilesInFolder(folderPath) {
   const contents = fs.readdirSync(folderPath);
 
   // Loop through each item in the folder
+  // eslint-disable-next-line no-restricted-syntax
   for (const item of contents) {
     const itemPath = path.join(folderPath, item);
 

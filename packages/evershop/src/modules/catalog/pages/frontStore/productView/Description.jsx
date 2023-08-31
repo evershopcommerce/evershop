@@ -14,7 +14,9 @@ export default function Description({ product: { description } }) {
 }
 
 Description.propTypes = {
-  description: PropTypes.string.isRequired
+  product: PropTypes.shape({
+    description: PropTypes.string
+  }).isRequired
 };
 
 export const layout = {

@@ -6,40 +6,6 @@ import { useModal } from '@components/common/modal/useModal';
 import ZoneForm from './ZoneForm';
 import { Methods } from './Methods';
 
-Zone.propTypes = {
-  zone: PropTypes.shape({
-    name: PropTypes.string,
-    country: PropTypes.shape({
-      name: PropTypes.string
-    }),
-    provinces: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string
-      })
-    ),
-    methods: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string
-      })
-    ),
-    addMethodApi: PropTypes.string,
-    updateApi: PropTypes.string
-  }).isRequired,
-  countries: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      code: PropTypes.string,
-      provinces: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string,
-          code: PropTypes.string
-        })
-      )
-    })
-  ).isRequired,
-  getZones: PropTypes.func.isRequired
-};
-
 function Zone({ zone, countries, getZones }) {
   const modal = useModal();
   return (
@@ -113,5 +79,39 @@ function Zone({ zone, countries, getZones }) {
     </Card.Session>
   );
 }
+
+Zone.propTypes = {
+  zone: PropTypes.shape({
+    name: PropTypes.string,
+    country: PropTypes.shape({
+      name: PropTypes.string
+    }),
+    provinces: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string
+      })
+    ),
+    methods: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string
+      })
+    ),
+    addMethodApi: PropTypes.string,
+    updateApi: PropTypes.string
+  }).isRequired,
+  countries: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      code: PropTypes.string,
+      provinces: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          code: PropTypes.string
+        })
+      )
+    })
+  ).isRequired,
+  getZones: PropTypes.func.isRequired
+};
 
 export default Zone;
