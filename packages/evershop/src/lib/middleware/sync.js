@@ -16,23 +16,21 @@ exports.syncMiddlewareWrapper = function syncMiddlewareWrapper(
   const startTime = process.hrtime();
   try {
     let delegate;
+    const debuging = {
+      id
+    };
+    response.debugMiddlewares.push(debuging);
     // If the middleware function has the next function as a parameter
     if (middlewareFunc.length === 4) {
       delegate = middlewareFunc(request, response, delegates, (error) => {
         const endTime = process.hrtime(startTime);
-        response.debugMiddlewares.push({
-          id,
-          time: endTime[1] / 1000000
-        });
+        debuging.time = endTime[1] / 1000000;
         next(error);
       });
     } else {
       delegate = middlewareFunc(request, response, delegates);
       const endTime = process.hrtime(startTime);
-      response.debugMiddlewares.push({
-        id,
-        time: endTime[1] / 1000000
-      });
+      debuging.time = endTime[1] / 1000000;
     }
     setDelegate(id, delegate, request);
   } catch (e) {

@@ -48,7 +48,9 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
       // Console log the debug middlewares
       let message = `[${request.method}] ${request.originalUrl}\n`;
       response.debugMiddlewares.forEach((m) => {
-        message += `-> Middleware ${m.id} - ${m.time} ms\n`;
+        message += m.time
+          ? `-> Middleware ${m.id} - ${m.time} ms\n`
+          : `-> Middleware ${m.id}\n`;
       });
       // Skip logging if the request is for static files
       if (
