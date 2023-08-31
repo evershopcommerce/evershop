@@ -48,7 +48,6 @@ module.exports = (request, response, delegate, next) => {
     if (valid) {
       next();
     } else {
-      console.log(validate.errors);
       response.status(INVALID_PAYLOAD);
       response.json({
         error: {
