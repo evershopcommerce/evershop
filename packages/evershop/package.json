@@ -50,6 +50,7 @@
     "@stripe/react-stripe-js": "^1.5.0",
     "@stripe/stripe-js": "^1.18.0",
     "ajv": "^8.12.0",
+    "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
     "autoprefixer": "^10.4.13",
     "axios": "^0.21.1",

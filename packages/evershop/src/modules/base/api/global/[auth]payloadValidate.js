@@ -1,4 +1,5 @@
 const Ajv = require('ajv');
+const ajvErrors = require('ajv-errors');
 const addFormats = require('ajv-formats');
 const {
   INVALID_PAYLOAD
@@ -8,7 +9,8 @@ const markSkipEscape = require('../../services/markSkipEscape');
 // Initialize the ajv instance
 const ajv = new Ajv({
   strict: false,
-  useDefaults: 'empty'
+  useDefaults: 'empty',
+  allErrors: true
 });
 
 // Add the formats
@@ -31,6 +33,7 @@ ajv.addKeyword({
     };
   }
 });
+ajvErrors(ajv);
 
 module.exports = (request, response, delegate, next) => {
   // Get the current route
@@ -45,15 +48,12 @@ module.exports = (request, response, delegate, next) => {
     if (valid) {
       next();
     } else {
+      console.log(validate.errors);
       response.status(INVALID_PAYLOAD);
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: `${
-            validate.errors[0].instancePath === ''
-              ? 'Request data'
-              : validate.errors[0].instancePath
-          } ${validate.errors[0].message}`
+          message: validate.errors[0].message
         }
       });
     }
