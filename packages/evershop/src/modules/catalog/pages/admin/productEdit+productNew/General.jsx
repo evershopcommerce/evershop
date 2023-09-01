@@ -91,6 +91,16 @@ function Category({ product }) {
             >
               Change
             </a>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setCategory(null);
+              }}
+              className="text-critical ml-2"
+            >
+              Unassign
+            </a>
           </span>
         </div>
       )}
@@ -120,7 +130,7 @@ function Category({ product }) {
       <input
         type="hidden"
         name="category_id"
-        value={category?.categoryId || null}
+        value={category?.categoryId || ''}
       />
     </div>
   );
