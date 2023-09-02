@@ -10,7 +10,8 @@ module.exports = async function assignVariantsToCategory(data) {
       const variants = await select()
         .from('product')
         .where('variant_group_id', '=', variantGroupId)
-        .and('category_id', '!=', categoryId)
+        .andWhere('category_id', '<>', categoryId)
+        .or('category_id', categoryId ? 'IS NULL' : 'IS NOT NULL', null)
         .execute(pool);
       if (variants.length > 0) {
         await update('product')
