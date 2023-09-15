@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import PubSub from 'pubsub-js';
 import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
-import CategoryConditionSelector from './CategoryConditionSelector';
+import { Input } from '@components/common/form/fields/Input';
+import { FORM_FIELD_UPDATED } from '@evershop/evershop/src/lib/util/events';
+import CategoryConditionSelector from '@components/admin/promotion/couponEdit/CategoryConditionSelector';
 import CollectionConditionSelector from './CollectionConditionSelector';
 import SkuConditionSelector from './SkuConditionSelector';
 import AttributeGroupConditionSelector from './AttributeGroupConditionSelector';
@@ -10,9 +12,9 @@ import PriceConditionSelector from './PriceConditionSelector';
 import { compareKeyList } from './CompareKeyList';
 import { compareOperatorList } from './CompareOperatorList';
 
-export function RequiredProducts({ requiredProducts }) {
+function Products({ targetProducts, maxQty }) {
   const [products, setProducts] = React.useState(() =>
-    requiredProducts.map((p) => ({ ...p, editable: false }))
+    targetProducts.map((p) => ({ ...p, editable: false }))
   );
 
   const addProduct = (e) => {
@@ -62,11 +64,17 @@ export function RequiredProducts({ requiredProducts }) {
   };
 
   return (
-    <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
-      <div>
-        <span>Order must contains product matched bellow conditions(All)</span>
+    <div>
+      <div className="mb-1 mt-1">
+        <div className="flex justify-start items-center mb-3">
+          <div>Maximum</div>
+          <div style={{ width: '70px', padding: '0 1rem' }}>
+            <Input name="target_products[maxQty]" value={maxQty} />
+          </div>
+          <div>quantity of products are matched bellow conditions(All)</div>
+        </div>
       </div>
-      <table className="table table-auto" style={{ marginTop: 0 }}>
+      <table className="table table-bordered" style={{ marginTop: 0 }}>
         <thead>
           <tr>
             <th>
@@ -77,9 +85,6 @@ export function RequiredProducts({ requiredProducts }) {
             </th>
             <th>
               <span>Value</span>
-            </th>
-            <th>
-              <span>Minimum quantity</span>
             </th>
             <th> </th>
           </tr>
@@ -93,7 +98,7 @@ export function RequiredProducts({ requiredProducts }) {
                   <div className="field-wrapper">
                     {p.editable ? (
                       <select
-                        name={`condition[required_products][${i}][key]`}
+                        name={`target_products[products][${i}][key]`}
                         className="form-control"
                         value={p.key}
                         onChange={(e) => updateProduct(e, 'key', i)}
@@ -115,7 +120,7 @@ export function RequiredProducts({ requiredProducts }) {
                       <>
                         <input
                           type="hidden"
-                          name={`condition[required_products][${i}][key]`}
+                          name={`target_products[products][${i}][key]`}
                           readOnly
                           value={p.key}
                         />
@@ -149,7 +154,7 @@ export function RequiredProducts({ requiredProducts }) {
                   <div className="field-wrapper">
                     {p.editable ? (
                       <select
-                        name={`condition[required_products][${i}][operator]`}
+                        name={`target_products[products][${i}][operator]`}
                         className="form-control"
                         value={p.operator}
                         onChange={(e) => updateProduct(e, 'operator', i)}
@@ -177,7 +182,7 @@ export function RequiredProducts({ requiredProducts }) {
                       <>
                         <input
                           type="hidden"
-                          name={`condition[required_products][${i}][operator]`}
+                          name={`target_products[products][${i}][operator]`}
                           readOnly
                           value={p.operator}
                         />
@@ -211,7 +216,7 @@ export function RequiredProducts({ requiredProducts }) {
                 {typeof p.value === 'string' && (
                   <input
                     type="hidden"
-                    name={`condition[required_products][${i}][value]`}
+                    name={`target_products[products][${i}][value]`}
                     value={p.value}
                   />
                 )}
@@ -221,7 +226,7 @@ export function RequiredProducts({ requiredProducts }) {
                       <input
                         key={j}
                         type="hidden"
-                        name={`condition[required_products][${i}][value][]`}
+                        name={`target_products[products][${i}][value][]`}
                         value={v}
                       />
                     ))}
@@ -356,18 +361,6 @@ export function RequiredProducts({ requiredProducts }) {
                 />
               </td>
               <td>
-                <div style={{ width: '60px' }}>
-                  <Field
-                    type="text"
-                    name={`condition[required_products][${i}][qty]`}
-                    formId="coupon-edit-form"
-                    value={p.qty}
-                    validationRules={['notEmpty']}
-                    placeholder="Enter the quantity"
-                  />
-                </div>
-              </td>
-              <td>
                 <a
                   href="#"
                   className="text-critical"
@@ -413,7 +406,7 @@ export function RequiredProducts({ requiredProducts }) {
           </svg>
         </div>
         <div className="pl-1">
-          <a href="#" onClick={(e) => addProduct(e)}>
+          <a href="#" onClick={(e) => addProduct(e)} className="">
             <span>Add product</span>
           </a>
         </div>
@@ -422,8 +415,70 @@ export function RequiredProducts({ requiredProducts }) {
   );
 }
 
-RequiredProducts.propTypes = {
-  requiredProducts: PropTypes.arrayOf(
+Products.propTypes = {
+  maxQty: PropTypes.string,
+  targetProducts: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      operator: PropTypes.string,
+      value: PropTypes.string,
+      qty: PropTypes.string
+    })
+  )
+};
+
+Products.defaultProps = {
+  maxQty: '',
+  targetProducts: []
+};
+
+export function TargetProducts({ products, maxQty, discountType }) {
+  const [active, setActive] = React.useState(() => {
+    if (
+      discountType === 'fixed_discount_to_specific_products' ||
+      discountType === 'percentage_discount_to_specific_products'
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  React.useEffect(() => {
+    const token = PubSub.subscribe(FORM_FIELD_UPDATED, (message, data) => {
+      if (data.name === 'discount_type') {
+        if (
+          data.value === 'fixed_discount_to_specific_products' ||
+          data.value === 'percentage_discount_to_specific_products'
+        ) {
+          setActive(true);
+        } else {
+          setActive(false);
+        }
+      }
+    });
+
+    return function cleanup() {
+      PubSub.unsubscribe(token);
+    };
+  }, []);
+
+  if (!active) {
+    return null;
+  } else {
+    return (
+      <div>
+        <h2 className="card-title">Target products</h2>
+        <Products targetProducts={products} maxQty={maxQty} />
+      </div>
+    );
+  }
+}
+
+TargetProducts.propTypes = {
+  discountType: PropTypes.string,
+  maxQty: PropTypes.string,
+  products: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string,
       operator: PropTypes.string,
@@ -438,6 +493,8 @@ RequiredProducts.propTypes = {
   )
 };
 
-RequiredProducts.defaultProps = {
-  requiredProducts: []
+TargetProducts.defaultProps = {
+  discountType: '',
+  maxQty: '',
+  products: []
 };

@@ -301,14 +301,16 @@ export default function CouponGrid({
                   {
                     // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
-                      default: () => <TextRow text={c.startDate?.text} />
+                      default: () => (
+                        <TextRow text={c.startDate?.text || '--'} />
+                      )
                     },
                     sortOrder: 20
                   },
                   {
                     // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
-                      default: () => <TextRow text={c.endDate?.text} />
+                      default: () => <TextRow text={c.endDate?.text || '--'} />
                     },
                     sortOrder: 30
                   },

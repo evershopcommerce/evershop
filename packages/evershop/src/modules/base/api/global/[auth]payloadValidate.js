@@ -15,7 +15,7 @@ const ajv = new Ajv({
 
 // Add the formats
 addFormats(ajv);
-ajv.addFormat('digits', /^[0-9]*$/);
+ajv.addFormat('digit', /^[0-9]*$/);
 
 // Define a custom keyword
 ajv.addKeyword({

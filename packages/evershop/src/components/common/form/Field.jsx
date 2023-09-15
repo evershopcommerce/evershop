@@ -39,7 +39,7 @@ export function Field(props) {
   const { name, value, validationRules, onChange, type } = props;
   const context = useFormContext();
   const [fieldValue, setFieldValue] = React.useState('');
-  const field = context.fields.find((f) => f.name === name);
+  const field = context.fields.find((f) => f.name && f.name === name);
 
   React.useEffect(() => {
     context.addField(name, value, validationRules || []);

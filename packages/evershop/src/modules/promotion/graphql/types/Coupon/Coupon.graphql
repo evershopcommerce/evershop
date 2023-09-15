@@ -1,3 +1,5 @@
+scalar JSON
+
 """
 Represents a coupon
 """
@@ -30,7 +32,7 @@ Represents a signle product used in the condition of a coupon.
 type MatchProductFilter {
   key: String!
   operator: String!
-  value: String!
+  value: JSON
   qty: String
 }
 

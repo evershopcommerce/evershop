@@ -1,3 +1,4 @@
+const { GraphQLJSON } = require('graphql-type-json');
 const { select } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
@@ -7,6 +8,7 @@ const {
 const { CouponCollection } = require('../../../services/CouponCollection');
 
 module.exports = {
+  JSON: GraphQLJSON,
   Query: {
     coupon: async (root, { id }, { pool }) => {
       const query = select().from('coupon');

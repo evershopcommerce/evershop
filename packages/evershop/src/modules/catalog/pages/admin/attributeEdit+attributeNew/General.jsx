@@ -13,8 +13,10 @@ import { Input } from '@components/common/form/fields/Input';
 const GroupsQuery = `
   query Query {
     attributeGroups {
-      value: attributeGroupId
-      label: groupName
+      items {
+        value: attributeGroupId
+        label: groupName
+      }
     }
   }
 `;
@@ -66,7 +68,7 @@ function Groups({ groups, createGroupApi }) {
         <div>
           <Select
             name="groups[]"
-            options={data.attributeGroups}
+            options={data.attributeGroups.items}
             hideSelectedOptions
             isMulti
             defaultValue={groups}

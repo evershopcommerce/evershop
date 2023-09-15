@@ -63,7 +63,7 @@ module.exports = {
         });
       }
 
-      // Code filter
+      // Attribute group filter
       const groupFilter = filters.find((f) => f.key === 'group');
       if (groupFilter) {
         const attributes = await select()
@@ -133,7 +133,7 @@ module.exports = {
         (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
       ) || { value: 'ASC' };
       if (sortBy && sortBy.value === 'name') {
-        query.orderBy('des.name', sortOrder.value);
+        query.orderBy('attribute.attribute_name', sortOrder.value);
         currentFilters.push({
           key: 'sortBy',
           operation: '=',
@@ -151,7 +151,7 @@ module.exports = {
       }
       // Clone the main query for getting total right before doing the paging
       const cloneQuery = query.clone();
-      cloneQuery.select('COUNT(attribute.attribute_id)', 'total');
+      cloneQuery.select('COUNT(*)', 'total');
       cloneQuery.removeOrderBy();
       // Paging
       const page = filters.find((f) => f.key === 'page') || { value: 1 };
@@ -176,12 +176,89 @@ module.exports = {
         currentFilters
       };
     },
-    attributeGroups: async (root, _, { pool }) => {
+    attributeGroups: async (
+      _,
+      { filters: requestedFilters = [] },
+      { pool }
+    ) => {
       const query = select().from('attribute_group');
-      const results = await query
-        .execute(pool)
-        .then((rs) => rs.map((r) => camelCase(r)));
-      return results;
+
+      const currentFilters = [];
+
+      const filters = requestedFilters.map((filter) => {
+        if (filter.operation.toUpperCase() === 'LIKE') {
+          filter.valueRaw = filter.value.replace(/^%/, '').replace(/%$/, '');
+        } else {
+          filter.valueRaw = filter.value;
+        }
+        if (filter.operation.toUpperCase() === 'IN') {
+          filter.value = filter.value.split(',');
+        }
+        return filter;
+      });
+
+      // Name filter
+      const nameFilter = filters.find((f) => f.key === 'name');
+      if (nameFilter) {
+        query.andWhere(
+          'attribute_group.group_name',
+          'LIKE',
+          `%${nameFilter.value}%`
+        );
+        currentFilters.push({
+          key: 'name',
+          operation: '=',
+          value: nameFilter.value
+        });
+      }
+
+      const sortBy = filters.find((f) => f.key === 'sortBy');
+      const sortOrder = filters.find(
+        (f) => f.key === 'sortOrder' && ['ASC', 'DESC'].includes(f.value)
+      ) || { value: 'ASC' };
+      if (sortBy && sortBy.value === 'name') {
+        query.orderBy('attribute_group.group_name', sortOrder.value);
+        currentFilters.push({
+          key: 'sortBy',
+          operation: '=',
+          value: sortBy.value
+        });
+      } else {
+        query.orderBy('attribute_group.attribute_group_id', 'DESC');
+      }
+      if (sortOrder.key) {
+        currentFilters.push({
+          key: 'sortOrder',
+          operation: '=',
+          value: sortOrder.value
+        });
+      }
+      // Clone the main query for getting total right before doing the paging
+      const cloneQuery = query.clone();
+      cloneQuery.select('COUNT(*)', 'total');
+      cloneQuery.removeOrderBy();
+      // Paging
+      const page = filters.find((f) => f.key === 'page') || { value: 1 };
+      const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from config
+      currentFilters.push({
+        key: 'page',
+        operation: '=',
+        value: page.value
+      });
+      currentFilters.push({
+        key: 'limit',
+        operation: '=',
+        value: limit.value
+      });
+      query.limit(
+        (page.value - 1) * parseInt(limit.value, 10),
+        parseInt(limit.value, 10)
+      );
+      return {
+        items: (await query.execute(pool)).map((row) => camelCase(row)),
+        total: (await cloneQuery.load(pool)).total,
+        currentFilters
+      };
     }
   },
   AttributeGroup: {

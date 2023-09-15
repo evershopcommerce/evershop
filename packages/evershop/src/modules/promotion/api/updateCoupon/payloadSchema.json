@@ -43,8 +43,20 @@
                 "enum": ["IN", "NOT IN", "=", "!=", ">", ">=", "<", "<="]
               },
               "value": {
-                "type": ["string", "number"],
-                "pattern": "^\\d*\\.?\\d*$"
+                "anyOf" : [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": ["string", "number", "boolean", "null", "array", "object"]
+                      }
+                    }
+                ]
               }
             },
             "required": ["key", "operator", "value"],
@@ -81,8 +93,20 @@
                 "pattern": "^[0-9]*$"
               },
               "value": {
-                "type": ["string", "number"],
-                "pattern": "^\\d*\\.?\\d*$"
+                "anyOf" : [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": ["string", "number", "boolean", "null", "array", "object"]
+                      }
+                    }
+                ]
               }
             },
             "required": ["key", "qty", "operator", "value"],
@@ -121,12 +145,20 @@
       "pattern": "integer"
     },
     "start_date": {
-      "type": "string",
-      "format": "date"
+      "anyOf": [
+        { "type": "string", "format": "date" },
+        { "type": "string", "maxLength": 0 },
+        { "type": "null" }
+      ],
+      "default": null
     },
     "end_date": {
-      "type": "string",
-      "format": "date"
+      "anyOf": [
+        { "type": "string", "format": "date" },
+        { "type": "string", "maxLength": 0 },
+        { "type": "null" }
+      ],
+      "default": null
     }
   },
   "buyx_gety": {
@@ -153,14 +185,6 @@
       "required": ["buy_qty", "get_qty", "max_y", "sku"],
       "additionalProperties": true
     }
-  },
-  "start_date": {
-    "type": "string",
-    "format": "date"
-  },
-  "end_date": {
-    "type": "string",
-    "format": "date"
   },
   "required": ["coupon"],
   "additionalProperties": true,

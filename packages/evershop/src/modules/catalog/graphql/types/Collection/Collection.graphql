@@ -2,7 +2,7 @@
 The `Collection` type represents a category object.
 """
 type Collection {
-  collectionId: Int!
+  collectionId: ID!
   uuid: String!
   name: String!
   description: String

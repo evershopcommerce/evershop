@@ -74,6 +74,7 @@
     "flatpickr": "^4.6.9",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
+    "graphql-type-json": "^0.3.2",
     "html-entities": "^2.3.3",
     "html-webpack-harddisk-plugin": "^2.0.0",
     "html-webpack-plugin": "^5.5.0",

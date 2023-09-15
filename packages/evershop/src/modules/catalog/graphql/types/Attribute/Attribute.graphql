@@ -48,8 +48,18 @@ type AttributeCollection {
   currentFilters: [Filter]
 }
 
+"""
+Represents a collection of attribute groups
+"""
+type AttributeGroupCollection {
+  items: [AttributeGroup]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
 extend type Query {
   attribute(id: Int): Attribute
   attributes(filters: [FilterInput]): AttributeCollection
-  attributeGroups: [AttributeGroup]!
+  attributeGroups(filters: [FilterInput]): AttributeGroupCollection
 }
