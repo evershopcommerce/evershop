@@ -4,7 +4,7 @@ import { useModal } from '@components/common/modal/useModal';
 import CategorySelector from '@components/admin/promotion/couponEdit/CategorySelector';
 
 export default function CategoryConditionSelector({ condition, setCondition }) {
-  const categories = condition.value ? condition.value : [];
+  const categories = Array.isArray(condition.value) ? condition.value : [];
   const [selectedIDs, setSelectedIDs] = React.useState(categories);
   const modal = useModal();
 

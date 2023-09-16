@@ -8,7 +8,7 @@ export default function SkuConditionSelector({
   setCondition,
   isMulti
 }) {
-  const skus = condition.value;
+  const skus = Array.isArray(condition.value) ? condition.value : [];
   const [selectedSKUs, setSelectedSKUs] = React.useState(skus || []);
   const modal = useModal();
 

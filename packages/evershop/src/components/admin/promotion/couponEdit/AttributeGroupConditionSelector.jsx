@@ -7,7 +7,7 @@ export default function AttributeGroupConditionSelector({
   condition,
   setCondition
 }) {
-  const groups = condition.value ? condition.value : [];
+  const groups = Array.isArray(condition.value) ? condition.value : [];
   const [selectedIDs, setSelectedIDs] = React.useState(groups);
   const modal = useModal();
 

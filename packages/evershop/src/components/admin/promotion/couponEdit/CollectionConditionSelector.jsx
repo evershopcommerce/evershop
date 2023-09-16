@@ -7,7 +7,7 @@ export default function CollectionConditionSelector({
   condition,
   setCondition
 }) {
-  const collections = condition.value ? condition.value : [];
+  const collections = Array.isArray(condition.value) ? condition.value : [];
   const [selectedIDs, setSelectedIDs] = React.useState(collections);
   const modal = useModal();
 
