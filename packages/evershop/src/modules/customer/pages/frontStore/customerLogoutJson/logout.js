@@ -9,7 +9,7 @@ module.exports = (request, response, delegate, next) => {
     request.logoutCustomer((error) => {
       if (error) {
         response.status(INTERNAL_SERVER_ERROR);
-        return response.json({
+        response.json({
           error: {
             status: INTERNAL_SERVER_ERROR,
             message: error.message
@@ -28,7 +28,7 @@ module.exports = (request, response, delegate, next) => {
     response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,
-        message: error.message
+        message: e.message
       }
     });
   }

@@ -27,16 +27,14 @@ module.exports = async (request, response, deledate, next) => {
       .execute(connection);
 
     const zoneId = zone.insertId;
-    const provincePromises = provinces.map((province) => {
-      if (province) {
-        return insert('shipping_zone_province')
+    const provincePromises = provinces
+      .filter((p) => !!p)
+      .map((province) => insert('shipping_zone_province')
           .given({
             zone_id: zoneId,
             province
           })
-          .execute(connection);
-      }
-    });
+          .execute(connection));
     await Promise.all(provincePromises);
     await commit(connection);
 

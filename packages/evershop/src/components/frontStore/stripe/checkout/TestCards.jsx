@@ -1,5 +1,6 @@
-import Button from '@components/common/form/Button';
 import React from 'react';
+import PropTypes from 'prop-types';
+import Button from '@components/common/form/Button';
 
 function TestCards({ showTestCard, testSuccess, testFailure }) {
   return (
@@ -85,5 +86,11 @@ function TestCards({ showTestCard, testSuccess, testFailure }) {
     </div>
   );
 }
+
+TestCards.propTypes = {
+  showTestCard: PropTypes.string.isRequired,
+  testSuccess: PropTypes.func.isRequired,
+  testFailure: PropTypes.func.isRequired
+};
 
 export default TestCards;

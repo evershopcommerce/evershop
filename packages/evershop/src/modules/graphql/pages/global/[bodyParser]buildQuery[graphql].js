@@ -8,6 +8,7 @@ const {
 } = require('@evershop/evershop/src/lib/webpack/getRouteBuildPath');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 // eslint-disable-next-line no-unused-vars
 const { getContextValue } = require('../../services/contextHelper');
 
@@ -88,13 +89,17 @@ module.exports = (request, response) => {
           const value = variables.values[key];
           if (typeof value === 'string') {
             // A regext matching "getContextValue_'base64 encoded string'"
-            const regex = /getContextValue_([a-zA-Z0-9+/=]+)/g;
+            const variableRegex = /getContextValue_([a-zA-Z0-9+/=]+)/g;
             // Check if the value is a string and contains the getContextValue_ string
-            const match = value.match(regex);
-            if (match) {
+            const variableMatch = value.match(variableRegex);
+            if (variableMatch) {
               // Replace the getContextValue_ string with the actual function
-              const base64 = match[0].replace(regex, (match, p1) => p1);
+              const base64 = variableMatch[0].replace(
+                variableRegex,
+                (match, p1) => p1
+              );
               const decoded = Buffer.from(base64, 'base64').toString('ascii');
+              // eslint-disable-next-line no-eval
               const actualValue = eval(`getContextValue(request, ${decoded})`);
               variables.values[key] = actualValue;
             }
@@ -104,9 +109,8 @@ module.exports = (request, response) => {
       request.body.graphqlQuery = `${operation} { ${json.query} } ${json.fragments}`;
       request.body.graphqlVariables = variables.values;
       request.body.propsMap = json.propsMap;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+    } catch (e) {
+      error(e);
       throw error;
     }
   }

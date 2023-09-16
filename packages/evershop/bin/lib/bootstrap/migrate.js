@@ -1,6 +1,5 @@
 const path = require('path');
 const semver = require('semver');
-const { red } = require('kleur');
 const {
   insertOnUpdate,
   select,
@@ -13,6 +12,7 @@ const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { existsSync, readdirSync } = require('fs');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 
 async function getCurrentInstalledVersion(module) {
   /** Check for current installed version */
@@ -23,7 +23,7 @@ async function getCurrentInstalledVersion(module) {
   if (!check) {
     return '0.0.1';
   } else {
-    return check['version'];
+    return check.version;
   }
 }
 
@@ -42,6 +42,7 @@ module.exports.migrate = async function migrate(module) {
     .map((dirent) => dirent.name.replace('Version-', '').replace('.js', ''))
     .sort((first, second) => semver.lt(first, second));
   const currentInstalledVersion = await getCurrentInstalledVersion(module.name);
+  // eslint-disable-next-line no-restricted-syntax
   for (const version of migrations) {
     /** If the version is lower or equal the installed version, ignore it */
     if (semver.lte(version, currentInstalledVersion)) {
@@ -68,10 +69,8 @@ module.exports.migrate = async function migrate(module) {
       await commit(connection);
     } catch (e) {
       await rollback(connection);
-      console.log(
-        red(`Migration failed for ${module.name}, version ${version}\n`),
-        e
-      );
+      error(`Migration failed for ${module.name}, version ${version}\n`);
+      error(e);
       process.exit(0);
     }
   }

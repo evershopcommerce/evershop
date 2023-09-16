@@ -69,7 +69,10 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
             'webpack/loaders/TranslationLoader.js'
           ),
           options: {
-            getTranslateData: async () => await loadCsvTranslationFiles()
+            getTranslateData: async () => {
+              const result = await loadCsvTranslationFiles();
+              return result;
+            }
           }
         }
       ]

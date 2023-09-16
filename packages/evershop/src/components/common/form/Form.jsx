@@ -229,7 +229,8 @@ Form.propTypes = {
   onSuccess: PropTypes.func,
   onValidationError: PropTypes.func,
   submitBtn: PropTypes.bool,
-  isJSON: PropTypes.bool
+  isJSON: PropTypes.bool,
+  dataFilter: PropTypes.func
 };
 
 Form.defaultProps = {
@@ -242,7 +243,8 @@ Form.defaultProps = {
   submitBtn: true,
   isJSON: true,
   action: '',
-  method: 'POST'
+  method: 'POST',
+  dataFilter: undefined
 };
 
 export const useFormContext = () => React.useContext(FormContext);

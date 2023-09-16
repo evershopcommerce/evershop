@@ -1,10 +1,10 @@
 const { execute } = require('graphql');
 const { validate } = require('graphql/validation');
 const { parse } = require('graphql');
-let schema = require('../../services/buildSchema');
 const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
-const { getContext } = require('../../services/contextHelper');
 const { OK } = require('@evershop/evershop/src/lib/util/httpStatus');
+let schema = require('../../services/buildSchema');
+const { getContext } = require('../../services/contextHelper');
 
 module.exports = async function graphql(request, response, delegate, next) {
   const { body } = request;

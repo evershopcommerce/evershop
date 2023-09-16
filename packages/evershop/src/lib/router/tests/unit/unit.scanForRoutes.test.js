@@ -1,5 +1,6 @@
-const { scanForRoutes } = require('../../scanForRoutes');
+/* eslint-disable no-undef, global-require */
 const path = require('path');
+const { scanForRoutes } = require('../../scanForRoutes');
 
 describe('Test scanForRoutes', () => {
   it('It should thrown an exception if path is not valid', () => {

@@ -49,7 +49,7 @@ module.exports = async (request, response, delegate, next) => {
       name: 'Reset Password',
       to: email,
       subject: resetPassword.subject || 'Reset Password',
-      from: from,
+      from,
       templateId: resetPassword.templateId,
       dynamicTemplateData: {
         reset_password_url: resetPasswordUrl

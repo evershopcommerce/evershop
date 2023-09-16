@@ -6,7 +6,7 @@ import './ResetPasswordForm.scss';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import Button from '@components/common/form/Button';
 
-const Success = () => {
+function Success() {
   return (
     <div className="flex justify-center items-center">
       <div className="reset-password-form flex justify-center items-center">
@@ -20,9 +20,9 @@ const Success = () => {
       </div>
     </div>
   );
-};
+}
 
-const ResetForm = ({ action, onSuccess }) => {
+function ResetForm({ action, onSuccess }) {
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
@@ -77,6 +77,11 @@ const ResetForm = ({ action, onSuccess }) => {
       </div>
     </div>
   );
+}
+
+ResetForm.propTypes = {
+  action: PropTypes.string.isRequired,
+  onSuccess: PropTypes.func.isRequired
 };
 
 export default function ResetPasswordForm({ action }) {

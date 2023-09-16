@@ -7,6 +7,6 @@ module.exports.getGoogleUserInfo = async (access_token, id_token) => {
       Authorization: `Bearer ${id_token}`
     }
   });
-  const data = response.data;
+  const { data } = response;
   return data;
 };

@@ -6,8 +6,10 @@ import { Select } from '@components/common/form/fields/Select';
 const GroupsQuery = `
   query {
     groups: attributeGroups {
-      value: attributeGroupId
-      text: groupName
+      items {
+        value: attributeGroupId
+        text: groupName
+      }
     }
   }
 `;
@@ -52,7 +54,9 @@ export default function GroupHeader({ id, currentFilters = [] }) {
               onChange={(e) => onChange(e)}
               className="form-control"
               value={current}
-              options={[{ value: 'all', text: 'All' }].concat(data.groups)}
+              options={[{ value: 'all', text: 'All' }].concat(
+                data.groups.items
+              )}
             />
           )}
         </div>

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const secret = require('@evershop/evershop/src/modules/base/services/secret');
 
 function escapeHtmlTags(str) {
@@ -6,13 +7,14 @@ function escapeHtmlTags(str) {
     '<': '&lt;',
     '>': '&gt;'
   };
-  return str.replace(regex, (match) => {
-    return match.replace(/[<>&"']/g, (char) => replacements[char] || char);
-  });
+  return str.replace(regex, (match) =>
+    match.replace(/[<>&"']/g, (char) => replacements[char] || char)
+  );
 }
 
 module.exports = function escapePayload(obj) {
-  for (let prop in obj) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const prop in obj) {
     if (typeof obj[prop] === 'string') {
       // Check if we found the secret string at the end of value
       if (obj[prop].endsWith(secret)) {

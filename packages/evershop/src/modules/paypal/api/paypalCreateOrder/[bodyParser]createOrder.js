@@ -1,17 +1,17 @@
 /* eslint-disable camelcase */
 const { default: axios } = require('axios');
 const { select, update } = require('@evershop/postgres-query-builder');
-const { getContextValue } = require('../../../graphql/services/contextHelper');
-const { getSetting } = require('../../../setting/services/setting');
-const { toPrice } = require('../../../checkout/services/toPrice');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 const {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { getContextValue } = require('../../../graphql/services/contextHelper');
+const { getSetting } = require('../../../setting/services/setting');
+const { toPrice } = require('../../../checkout/services/toPrice');
+const { getApiBaseUrl } = require('../../services/getApiBaseUrl');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {

@@ -100,6 +100,17 @@ CategoryItem.propTypes = {
       PropTypes.shape({
         name: PropTypes.string.isRequired
       })
+    ),
+    children: PropTypes.arrayOf(
+      PropTypes.shape({
+        categoryId: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        path: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string.isRequired
+          })
+        )
+      })
     )
   }),
   selectedCategory: PropTypes.shape({
@@ -112,6 +123,11 @@ CategoryItem.propTypes = {
     )
   }),
   setSelectedCategory: PropTypes.func.isRequired
+};
+
+CategoryItem.defaultProps = {
+  category: {},
+  selectedCategory: {}
 };
 
 export default CategoryItem;

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, global-require */
 const { assign } = require('../../assign');
 
 describe('assign', () => {

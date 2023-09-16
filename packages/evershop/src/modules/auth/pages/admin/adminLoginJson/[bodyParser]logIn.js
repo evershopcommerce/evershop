@@ -1,4 +1,7 @@
 const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
+const {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
@@ -7,15 +10,16 @@ const {
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   try {
+    const message = translate('Invalid email or password');
     const { body } = request;
     const { email, password } = body;
     await request.loginUserWithEmail(email, password, (error) => {
       if (error) {
         response.status(INTERNAL_SERVER_ERROR);
-        return response.json({
+        response.json({
           error: {
             status: INTERNAL_SERVER_ERROR,
-            message: message
+            message
           }
         });
       } else {
@@ -29,7 +33,7 @@ module.exports = async (request, response, delegate, next) => {
       }
     });
   } catch (error) {
-    return response.status(INVALID_PAYLOAD).json({
+    response.status(INVALID_PAYLOAD).json({
       error: {
         message: error.message,
         status: INVALID_PAYLOAD

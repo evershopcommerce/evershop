@@ -1,4 +1,5 @@
 const Ajv = require('ajv');
+const ajvErrors = require('ajv-errors');
 const addFormats = require('ajv-formats');
 const {
   INVALID_PAYLOAD
@@ -8,19 +9,20 @@ const markSkipEscape = require('../../services/markSkipEscape');
 // Initialize the ajv instance
 const ajv = new Ajv({
   strict: false,
-  useDefaults: 'empty'
+  useDefaults: 'empty',
+  allErrors: true
 });
 
 // Add the formats
 addFormats(ajv);
-ajv.addFormat('digits', /^[0-9]*$/);
+ajv.addFormat('digit', /^[0-9]*$/);
 
 // Define a custom keyword
 ajv.addKeyword({
   keyword: 'skipEscape',
   modifying: true,
-  compile: function (sch, parentSchema) {
-    return function (data, t) {
+  compile(sch, parentSchema) {
+    return (data, t) => {
       if (parentSchema.type === 'string' && sch === true) {
         // Mark the data as skip escape
         markSkipEscape(t.rootData, t.instancePath);
@@ -31,6 +33,7 @@ ajv.addKeyword({
     };
   }
 });
+ajvErrors(ajv);
 
 module.exports = (request, response, delegate, next) => {
   // Get the current route
@@ -49,11 +52,7 @@ module.exports = (request, response, delegate, next) => {
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: `${
-            validate.errors[0].instancePath === ''
-              ? 'Request data'
-              : validate.errors[0].instancePath
-          } ${validate.errors[0].message}`
+          message: validate.errors[0].message
         }
       });
     }

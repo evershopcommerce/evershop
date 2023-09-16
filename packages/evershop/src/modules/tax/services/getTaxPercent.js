@@ -2,11 +2,11 @@ module.exports.getTaxPercent = function getTaxPercent(rates) {
   let taxPercent = 0;
 
   rates.forEach((rate) => {
-    let _rate = rate['rate'] / 100;
-    if (rate['is_compound'] == true) {
-      taxPercent = taxPercent + _rate + taxPercent * _rate;
+    const taxRate = rate.rate / 100;
+    if (rate.is_compound === true) {
+      taxPercent = taxPercent + taxRate + taxPercent * taxRate;
     } else {
-      taxPercent = taxPercent + _rate;
+      taxPercent += taxRate;
     }
   });
 

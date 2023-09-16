@@ -5,9 +5,12 @@ const { sortMiddlewares } = require('./sort');
 const { parseFromFile } = require('./parseFromFile');
 const { noDublicateId } = require('./noDuplicateId');
 const { getRoutes } = require('../router/Router');
+const { error } = require('../log/debuger');
 
 class Handler {
   static middlewares = [];
+
+  static sortedMiddlewarePerRoute = {};
 
   constructor(routeId) {
     this.routeId = routeId;
@@ -26,6 +29,10 @@ class Handler {
   }
 
   static getMiddlewareByRoute(route) {
+    const routeId = route.id;
+    if (this.sortedMiddlewarePerRoute[routeId]) {
+      return this.sortedMiddlewarePerRoute[routeId];
+    }
     const region = route.isApi ? 'api' : 'pages';
     let middlewares = this.middlewares.filter(
       (m) =>
@@ -59,6 +66,7 @@ class Handler {
         }
       });
     }
+    this.sortedMiddlewarePerRoute[routeId] = middlewares;
 
     return middlewares;
   }
@@ -82,8 +90,7 @@ class Handler {
         if (noDublicateId(this.middlewares, middleware)) {
           this.addMiddleware(middleware);
         } else {
-          // eslint-disable-next-line no-console
-          console.error(`Duplicate middleware id: ${middleware.id}`);
+          error(`Duplicate middleware id: ${middleware.id}`);
         }
       });
     }
@@ -91,11 +98,11 @@ class Handler {
 
   static middleware() {
     return (request, response, next) => {
-      request.params = Object.assign(
-        {},
-        request.locals?.customParams || {},
-        request.params
-      );
+      request.params = {
+        
+        ...request.locals?.customParams || {},
+        ...request.params
+      };
       const { currentRoute } = request;
       let middlewares;
       if (!currentRoute) {
@@ -119,14 +126,12 @@ class Handler {
           // Call the error handler middleware if it is not called yet
           if (!isErrorHandlerTriggered(response)) {
             currentError += 1;
-            // console.log(errorHandlers[currentError]);
             const middlewareFunc = errorHandlers[currentError].middleware;
             // eslint-disable-next-line prefer-rest-params
             middlewareFunc(arguments[0], request, response, eNext);
           }
         } else {
           currentGood += 1;
-          // console.log(goodHandlers[currentGood]);
           const middlewareFunc = goodHandlers[currentGood].middleware;
           middlewareFunc(request, response, eNext);
         }

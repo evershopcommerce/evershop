@@ -53,7 +53,8 @@ MarkDeliveredButton.propTypes = {
     shipment: PropTypes.shape({
       shipmentId: PropTypes.number
     }).isRequired
-  }).isRequired
+  }).isRequired,
+  markDeliveredApi: PropTypes.string.isRequired
 };
 
 export const layout = {

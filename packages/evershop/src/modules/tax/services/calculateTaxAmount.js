@@ -15,8 +15,8 @@ module.exports.calculateTaxAmount = function calculateTaxAmount(
 
   if (roundingLevel === 'unit') {
     // Calculate the tax amount
-    let taxAmountUnit = (price * taxPercentage) / 100,
-      taxAmount = 0;
+    const taxAmountUnit = (price * taxPercentage) / 100;
+    let taxAmount = 0;
     switch (rounding) {
       case 'up':
         taxAmount = Math.ceil(taxAmountUnit * precisionFix) / precisionFix;

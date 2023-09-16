@@ -9,8 +9,8 @@ export default function SearchInfo() {
   React.useEffect(() => {
     // Get the key from the URL
     const url = new URL(window.location.href);
-    const key = url.searchParams.get('keyword');
-    setKey(key);
+    const keyParam = url.searchParams.get('keyword');
+    setKey(keyParam);
   });
 
   return (

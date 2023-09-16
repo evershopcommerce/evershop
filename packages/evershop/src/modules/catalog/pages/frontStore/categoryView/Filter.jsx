@@ -162,7 +162,18 @@ Filter.propTypes = {
     priceRange: PropTypes.shape({
       min: PropTypes.number,
       max: PropTypes.number
-    })
+    }),
+    children: PropTypes.arrayOf(
+      PropTypes.shape({
+        categoryId: PropTypes.number,
+        name: PropTypes.string,
+        uuid: PropTypes.string
+      })
+    )
+  }).isRequired,
+  setting: PropTypes.shape({
+    storeLanguage: PropTypes.string,
+    storeCurrency: PropTypes.string
   }).isRequired
 };
 

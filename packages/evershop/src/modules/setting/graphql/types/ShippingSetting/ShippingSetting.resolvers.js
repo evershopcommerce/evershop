@@ -12,8 +12,6 @@ module.exports = {
         return ['US'];
       }
     },
-    weightUnit: () => {
-      return getConfig('shop.weightUnit', 'kg');
-    }
+    weightUnit: () => getConfig('shop.weightUnit', 'kg')
   }
 };

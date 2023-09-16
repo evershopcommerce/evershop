@@ -1,7 +1,7 @@
 const escapePayload = require('../../services/escapePayload');
 
 module.exports = (request, response, delegate, next) => {
-  //return next();
+  // return next();
   if (request.method === 'GET') {
     next();
   } else {

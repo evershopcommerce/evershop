@@ -70,6 +70,18 @@ function Condition({ method }) {
   );
 }
 
+Condition.propTypes = {
+  method: PropTypes.shape({
+    conditionType: PropTypes.string,
+    min: PropTypes.string,
+    max: PropTypes.string
+  })
+};
+
+Condition.defaultProps = {
+  method: null
+};
+
 function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
   const [type, setType] = React.useState(
     method?.calculateApi ? 'api' : 'flat_rate'
@@ -84,7 +96,7 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
       : null
   );
   const [hasCondition, setHasCondition] = React.useState(
-    method?.conditionType ? true : false
+    !!method?.conditionType
   );
 
   const [result, reexecuteQuery] = useQuery({
@@ -186,13 +198,13 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
             className="text-interactive"
             onClick={(e) => {
               e.preventDefault();
-              hasCondition ? setHasCondition(false) : setHasCondition(true);
+              setHasCondition(!hasCondition);
             }}
           >
             {hasCondition ? 'Remove condition' : 'Add condition'}
           </a>
           {!hasCondition && (
-            <input name="condition_type" type="hidden" value={'none'} />
+            <input name="condition_type" type="hidden" value="none" />
           )}
           {hasCondition && <Condition method={method} />}
         </Card.Session>
@@ -223,10 +235,21 @@ MethodForm.propTypes = {
   closeModal: PropTypes.func.isRequired,
   getZones: PropTypes.func.isRequired,
   method: PropTypes.shape({
+    methodId: PropTypes.string,
     name: PropTypes.string,
-    cost: PropTypes.string,
-    calculate_api: PropTypes.string
+    isEnabled: PropTypes.bool,
+    calculateApi: PropTypes.string,
+    cost: PropTypes.shape({
+      value: PropTypes.string
+    }),
+    conditionType: PropTypes.string,
+    min: PropTypes.string,
+    max: PropTypes.string
   })
+};
+
+MethodForm.defaultProps = {
+  method: null
 };
 
 export default MethodForm;

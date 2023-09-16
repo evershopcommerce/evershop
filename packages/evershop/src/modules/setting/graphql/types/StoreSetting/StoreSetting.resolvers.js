@@ -20,12 +20,8 @@ module.exports = {
         return 'An Amazing EverShop Store';
       }
     },
-    storeLanguage: () => {
-      return getConfig('shop.language', 'en');
-    },
-    storeCurrency: () => {
-      return getConfig('shop.currency', 'USD');
-    },
+    storeLanguage: () => getConfig('shop.language', 'en'),
+    storeCurrency: () => getConfig('shop.currency', 'USD'),
     storeTimeZone: (setting) => {
       const storeTimeZone = setting.find((s) => s.name === 'storeTimeZone');
       if (storeTimeZone) {

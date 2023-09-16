@@ -35,15 +35,9 @@ module.exports = {
     }
   },
   Review: {
-    approveApi: async ({ uuid }) => {
-      return buildUrl('approveReview', { id: uuid });
-    },
-    deleteApi: async ({ uuid }) => {
-      return buildUrl('deleteReview', { id: uuid });
-    },
-    unApproveApi: async ({ uuid }) => {
-      return buildUrl('unApproveReview', { id: uuid });
-    },
+    approveApi: async ({ uuid }) => buildUrl('approveReview', { id: uuid }),
+    deleteApi: async ({ uuid }) => buildUrl('deleteReview', { id: uuid }),
+    unApproveApi: async ({ uuid }) => buildUrl('unApproveReview', { id: uuid }),
     product: async ({ productId }, _, { pool }) => {
       const productQuery = select().from('product');
       productQuery

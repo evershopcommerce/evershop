@@ -3,7 +3,6 @@ import React from 'react';
 import Area from '@components/common/Area';
 import { get } from '@evershop/evershop/src/lib/util/get';
 import { Field } from '@components/common/form/Field';
-import { TextArea } from '@components/common/form/fields/Textarea';
 import { Card } from '@components/admin/cms/Card';
 import CkeditorField from '@components/common/form/fields/Ckeditor';
 
@@ -49,9 +48,9 @@ export default function General({
       },
       sortOrder: 30
     }
-  ].filter((f) => {
-    // eslint-disable-next-line no-param-reassign
+  ].map((f) => {
     if (get(page, `${f.props.id}`) !== undefined) {
+      // eslint-disable-next-line no-param-reassign
       f.props.value = get(page, `${f.props.id}`);
     }
     return f;

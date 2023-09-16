@@ -14,25 +14,23 @@ exports.asyncMiddlewareWrapper = async function asyncMiddlewareWrapper(
   next
 ) {
   const startTime = process.hrtime();
+  const debuging = {
+    id
+  };
+  response.debugMiddlewares.push(debuging);
   try {
     // If the middleware function has the next function as a parameter
     let delegate;
     if (middlewareFunc.length === 4) {
       delegate = middlewareFunc(request, response, delegates, (error) => {
         const endTime = process.hrtime(startTime);
-        response.debugMiddlewares.push({
-          id,
-          time: endTime[1] / 1000000
-        });
+        debuging.time = endTime[1] / 1000000;
         next(error);
       });
     } else {
       delegate = middlewareFunc(request, response, delegates);
       const endTime = process.hrtime(startTime);
-      response.debugMiddlewares.push({
-        id,
-        time: endTime[1] / 1000000
-      });
+      debuging.time = endTime[1] / 1000000;
     }
     setDelegate(id, delegate, request);
     await delegate;

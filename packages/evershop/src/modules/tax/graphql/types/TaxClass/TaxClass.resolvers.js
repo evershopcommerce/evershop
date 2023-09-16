@@ -28,16 +28,11 @@ module.exports = {
       const rates = await query.execute(pool);
       return rates.map((row) => camelCase(row));
     },
-    addRateApi: async ({ uuid }) => {
-      return buildUrl('createTaxRate', { class_id: uuid });
-    }
+    addRateApi: async ({ uuid }) =>
+      buildUrl('createTaxRate', { class_id: uuid })
   },
   TaxRate: {
-    updateApi: async ({ uuid }) => {
-      return buildUrl('updateTaxRate', { id: uuid });
-    },
-    deleteApi: async ({ uuid }) => {
-      return buildUrl('deleteTaxRate', { id: uuid });
-    }
+    updateApi: async ({ uuid }) => buildUrl('updateTaxRate', { id: uuid }),
+    deleteApi: async ({ uuid }) => buildUrl('deleteTaxRate', { id: uuid })
   }
 };

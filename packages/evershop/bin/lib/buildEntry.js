@@ -13,6 +13,7 @@ const {
   parseGraphql
 } = require('@evershop/evershop/src/lib/webpack/util/parseGraphql');
 const JSON5 = require('json5');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 /**
  * Only pass the page routes, not api routes
  */
@@ -50,13 +51,13 @@ module.exports.buildEntry = async function buildEntry(
             ).toString('base64');
             areas[layout.areaId] = areas[layout.areaId] || {};
             areas[layout.areaId][id] = {
-              id: id,
+              id,
               sortOrder: layout.sortOrder,
               component: `---require('${module}')---`
             };
           } catch (e) {
-            console.log(`Error parsing layout from ${module}`);
-            console.log(e);
+            error(`Error parsing layout from ${module}`);
+            error(e);
           }
         }
       });
@@ -89,7 +90,7 @@ module.exports.buildEntry = async function buildEntry(
       );
 
       if (!clientOnly) {
-        /** Build query*/
+        /** Build query */
         const query = `${JSON.stringify(parseGraphql(components))}`;
 
         let contentServer = `import React from 'react'; `;

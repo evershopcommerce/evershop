@@ -124,12 +124,10 @@ export default function TaxSetting({
                           text: 'Higest tax rate based on cart items'
                         }
                       ].concat(
-                        taxClassesQueryData.data.taxClasses.map((taxClass) => {
-                          return {
+                        taxClassesQueryData.data.taxClasses.map((taxClass) => ({
                             value: taxClass.taxClassId,
                             text: taxClass.name
-                          };
-                        }) || []
+                          })) || []
                       )}
                     />
                   </div>

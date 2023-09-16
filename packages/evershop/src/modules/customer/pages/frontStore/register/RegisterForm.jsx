@@ -17,7 +17,7 @@ export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {
           <h1 className="text-center">{_('Create A New Account')}</h1>
           {error && <div className="text-critical mb-1">{error}</div>}
           <Form
-            id="loginForm"
+            id="registerForm"
             action={action}
             isJSON
             method="POST"
@@ -45,7 +45,7 @@ export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {
                 setError(response.error.message);
               }
             }}
-            btnText="SIGN UP"
+            btnText={_('SIGN UP')}
           >
             <Field
               name="full_name"
@@ -103,7 +103,7 @@ export const query = `
   query Query {
     homeUrl: url(routeId: "homepage")
     action: url(routeId: "createCustomer")
-    loginApi: url(routeId: "createCustomerSession")
+    loginApi: url(routeId: "customerLoginJson")
     loginUrl: url(routeId: "login")
   }
 `;

@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Reviews.scss';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
-import Rating from '../../../../product_review/components/Rating';
+import Rating from '../../../components/Rating';
 
 export default function Reviews({ product: { reviews = [] } }) {
   return (
@@ -32,6 +33,19 @@ export default function Reviews({ product: { reviews = [] } }) {
     </div>
   );
 }
+
+Reviews.propTypes = {
+  product: PropTypes.shape({
+    reviews: PropTypes.arrayOf(
+      PropTypes.shape({
+        rating: PropTypes.number.isRequired,
+        comment: PropTypes.string.isRequired,
+        customerName: PropTypes.string.isRequired,
+        createdAt: PropTypes.string.isRequired
+      })
+    )
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'productPageMiddleLeft',

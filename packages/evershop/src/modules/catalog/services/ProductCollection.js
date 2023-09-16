@@ -103,12 +103,35 @@ class ProductCollection {
     // Sku filter
     const skuFilter = filters.find((f) => f.key === 'sku');
     if (skuFilter) {
-      this.baseQuery.andWhere('product.sku', 'ILIKE', `%${skuFilter.value}%`);
-      currentFilters.push({
-        key: 'sku',
-        operation: '=',
-        value: skuFilter.value
-      });
+      // Support like, equal and IN
+      if (['LIKE', 'like'].includes(skuFilter.operation)) {
+        this.baseQuery.andWhere('product.sku', 'ILIKE', `%${skuFilter.value}%`);
+        currentFilters.push({
+          key: 'sku',
+          operation: 'like',
+          value: skuFilter.value
+        });
+      } else if (['IN', 'in'].includes(skuFilter.operation)) {
+        const values = skuFilter.value
+          .split(',')
+          .map((v) => v.trim())
+          .filter((v) => v.length > 0);
+        if (values.length > 0) {
+          this.baseQuery.andWhere('product.sku', 'IN', values);
+          currentFilters.push({
+            key: 'sku',
+            operation: 'in',
+            value: values.join(',')
+          });
+        }
+      } else {
+        this.baseQuery.andWhere('product.sku', '=', skuFilter.value);
+        currentFilters.push({
+          key: 'sku',
+          operation: '=',
+          value: skuFilter.value
+        });
+      }
     }
 
     // Status filter

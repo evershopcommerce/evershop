@@ -2,6 +2,7 @@ const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const sgMail = require('@sendgrid/mail');
 const { select } = require('@evershop/postgres-query-builder');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 
 module.exports = async function sendOrderConfirmationEmail(data) {
   try {
@@ -46,7 +47,7 @@ module.exports = async function sendOrderConfirmationEmail(data) {
     const msg = {
       to: customer.email,
       subject: customerRegistered.subject || `Welcome to Evershop`,
-      from: from,
+      from,
       templateId: customerRegistered.templateId,
       dynamicTemplateData: {
         ...customer,
@@ -55,7 +56,7 @@ module.exports = async function sendOrderConfirmationEmail(data) {
     };
 
     await sgMail.send(msg);
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    error(e);
   }
 };

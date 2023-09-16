@@ -1,3 +1,4 @@
+/* eslint-disable */
 const uniqid = require('uniqid');
 const { toString } = require('./toString');
 const { fieldResolve } = require('./fieldResolve');

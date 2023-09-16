@@ -1,7 +1,7 @@
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { select } = require('@evershop/postgres-query-builder');
-const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { UNAUTHORIZED } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { setContextValue } = require('../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
   /**
@@ -12,7 +12,7 @@ module.exports = async (request, response, delegate, next) => {
   const { sessionID } = request.locals;
   if (!sessionID) {
     response.status(UNAUTHORIZED);
-    return response.json({
+    response.json({
       error: {
         status: UNAUTHORIZED,
         message: 'Unauthorized'

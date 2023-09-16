@@ -14,6 +14,7 @@ const {
   del
 } = require('@evershop/postgres-query-builder');
 
+// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { collection_id, product_id } = request.params;
   const connection = await getConnection();
@@ -49,8 +50,8 @@ module.exports = async (request, response, delegate, next) => {
 
     // Remove the product from the collection
     await del('product_collection')
-      .where('collection_id', '=', collection['collection_id'])
-      .and('product_id', '=', product['product_id'])
+      .where('collection_id', '=', collection.collection_id)
+      .and('product_id', '=', product.product_id)
       .execute(connection);
     await commit(connection);
     response.status(OK);

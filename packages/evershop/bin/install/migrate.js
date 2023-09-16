@@ -3,65 +3,51 @@ const { readdirSync, existsSync } = require('fs');
 const path = require('path');
 const semver = require('semver');
 const bcrypt = require('bcryptjs');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 
 module.exports.migrate = async function migrate(
   connection,
   modules,
   adminUser
 ) {
-  // const modules = readdirSync(path.resolve(modulePath), { withFileTypes: true })
-  //   .filter((dirent) => dirent.isDirectory())
-  //   .map((dirent) => dirent.name);
-
   // eslint-disable-next-line no-restricted-syntax
   for (const module of modules) {
-    try {
-      if (existsSync(path.resolve(module.resolve, 'migration'))) {
-        const migrations = readdirSync(
-          path.resolve(module.resolve, 'migration'),
-          { withFileTypes: true }
+    if (existsSync(path.resolve(module.resolve, 'migration'))) {
+      const migrations = readdirSync(
+        path.resolve(module.resolve, 'migration'),
+        { withFileTypes: true }
+      )
+        .filter(
+          (dirent) =>
+            dirent.isFile() &&
+            dirent.name.match(/^Version-+([1-9].[0-9].[0-9])+.js$/)
         )
-          .filter(
-            (dirent) =>
-              dirent.isFile() &&
-              dirent.name.match(/^Version-+([1-9].[0-9].[0-9])+.js$/)
-          )
-          .map((dirent) =>
-            dirent.name.replace('Version-', '').replace('.js', '')
-          )
-          .sort((first, second) => semver.lt(first, second));
-        // eslint-disable-next-line no-restricted-syntax
-        for (const version of migrations) {
-          try {
-            // eslint-disable-next-line no-await-in-loop
-            // eslint-disable-next-line global-require
-            await require(path.resolve(
-              module.resolve,
-              'migration',
-              `Version-${version}.js`
-            ))(connection);
-            // eslint-disable-next-line no-await-in-loop
-            await insertOnUpdate('migration', ['module'])
-              .given({
-                module: module.name,
-                version
-              })
-              .execute(connection);
-          } catch (e) {
-            console.error(e);
-            process.exit(0);
-          }
-        }
-
-        if (migrations.length === 0) {
+        .map((dirent) => dirent.name.replace('Version-', '').replace('.js', ''))
+        .sort((first, second) => semver.lt(first, second));
+      // eslint-disable-next-line no-restricted-syntax
+      for (const version of migrations) {
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          // eslint-disable-next-line global-require
+          await require(path.resolve(
+            module.resolve,
+            'migration',
+            `Version-${version}.js`
+          ))(connection);
+          // eslint-disable-next-line no-await-in-loop
           await insertOnUpdate('migration', ['module'])
             .given({
               module: module.name,
-              version: '1.0.0'
+              version
             })
             .execute(connection);
+        } catch (e) {
+          error(e);
+          process.exit(0);
         }
-      } else {
+      }
+
+      if (migrations.length === 0) {
         await insertOnUpdate('migration', ['module'])
           .given({
             module: module.name,
@@ -69,8 +55,13 @@ module.exports.migrate = async function migrate(
           })
           .execute(connection);
       }
-    } catch (e) {
-      throw e;
+    } else {
+      await insertOnUpdate('migration', ['module'])
+        .given({
+          module: module.name,
+          version: '1.0.0'
+        })
+        .execute(connection);
     }
   }
 

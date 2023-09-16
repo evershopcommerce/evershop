@@ -8,10 +8,11 @@ const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
 const {
   isBuildRequired
 } = require('@evershop/evershop/src/lib/webpack/isBuildRequired');
-const { getEnabledExtensions } = require('../extension');
 const { buildEntry } = require('@evershop/evershop/bin/lib/buildEntry');
 const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 const { compile } = require('./complie');
+const { getEnabledExtensions } = require('../extension');
 
 /* Loading modules and initilize routes, components */
 const modules = [...getCoreModules(), ...getEnabledExtensions()];
@@ -22,7 +23,7 @@ modules.forEach((module) => {
     // Load routes
     loadModuleRoutes(module.path);
   } catch (e) {
-    console.log(e);
+    error(e);
     process.exit(0);
   }
 });

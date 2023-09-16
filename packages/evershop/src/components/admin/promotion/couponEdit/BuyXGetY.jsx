@@ -3,6 +3,68 @@ import React from 'react';
 import PubSub from 'pubsub-js';
 import { Field } from '@components/common/form/Field';
 import { FORM_FIELD_UPDATED } from '@evershop/evershop/src/lib/util/events';
+import { useModal } from '@components/common/modal/useModal';
+import ProductSkuSelector from './ProductSkuSelector';
+
+function SkuSelector({ product, updateProduct }) {
+  const modal = useModal();
+  const closeModal = () => {
+    modal.closeModal();
+  };
+
+  return (
+    <div>
+      <a
+        href="#"
+        className="text-interactive hover:underline"
+        onClick={(e) => {
+          e.preventDefault();
+          modal.openModal();
+        }}
+      >
+        {product.sku ? (
+          <span className="italic">&lsquo;{product.sku}&rsquo;</span>
+        ) : (
+          <span>Choose SKU</span>
+        )}
+      </a>
+      {modal.state.showing && (
+        <div className={modal.className} onAnimationEnd={modal.onAnimationEnd}>
+          <div
+            className="modal-wrapper flex self-center justify-center items-center"
+            tabIndex={-1}
+            role="dialog"
+          >
+            <div className="modal">
+              <ProductSkuSelector
+                selectedSKUs={[product.sku]}
+                onSelect={(sku) => {
+                  updateProduct({
+                    ...product,
+                    sku
+                  });
+                }}
+                onUnSelect={() => {}}
+                closeModal={closeModal}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+SkuSelector.propTypes = {
+  product: PropTypes.shape({
+    sku: PropTypes.string,
+    buyQty: PropTypes.string,
+    getQty: PropTypes.string,
+    maxY: PropTypes.string,
+    discount: PropTypes.string
+  }).isRequired,
+  updateProduct: PropTypes.func.isRequired
+};
 
 export function BuyXGetY({ requireProducts, discountType }) {
   const [products, setProducts] = React.useState(requireProducts);
@@ -79,8 +141,22 @@ export function BuyXGetY({ requireProducts, discountType }) {
             {products.map((p, i) => (
               <tr key={p.sku}>
                 <td>
+                  <SkuSelector
+                    product={p}
+                    updateProduct={(product) => {
+                      setProducts(
+                        products.map((p, index) => {
+                          if (index === i) {
+                            return product;
+                          } else {
+                            return p;
+                          }
+                        })
+                      );
+                    }}
+                  />
                   <Field
-                    type="text"
+                    type="hidden"
                     name={`buyx_gety[${i}][sku]`}
                     value={p.sku}
                     validationRules={['notEmpty']}
@@ -92,6 +168,7 @@ export function BuyXGetY({ requireProducts, discountType }) {
                     name={`buyx_gety[${i}][buy_qty]`}
                     value={p.buyQty}
                     validationRules={['notEmpty', 'number']}
+                    placeholder="Buy qty"
                   />
                 </td>
                 <td>
@@ -100,6 +177,7 @@ export function BuyXGetY({ requireProducts, discountType }) {
                     name={`buyx_gety[${i}][get_qty]`}
                     value={p.getQty}
                     validationRules={['notEmpty', 'number']}
+                    placeholder="Get qty"
                   />
                 </td>
                 <td>
@@ -108,6 +186,7 @@ export function BuyXGetY({ requireProducts, discountType }) {
                     name={`buyx_gety[${i}][max_y]`}
                     value={p.maxY}
                     validationRules={['notEmpty', 'number']}
+                    placeholder="Max of Y"
                   />
                 </td>
                 <td>
@@ -116,6 +195,8 @@ export function BuyXGetY({ requireProducts, discountType }) {
                     name={`buyx_gety[${i}][discount]`}
                     value={p.discount}
                     validationRules={['notEmpty']}
+                    placeholder="Discount percent"
+                    suffix="%"
                   />
                 </td>
                 <td>

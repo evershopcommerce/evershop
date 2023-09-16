@@ -44,10 +44,16 @@ Disabled.propTypes = {
 
 const isBool = (value) => typeof value === 'boolean';
 const isEnable = (value) => (isBool(value) ? value : parseInt(value, 10) === 1);
-const getValue = (value) =>
-  isBool(value) ? value : value ? parseInt(value, 10) : 0;
-const getOppositeValue = (value) =>
-  isBool(value) ? !value : value === 1 ? 0 : 1;
+const getValue = (value) => (isBool(value) ? value : parseInt(value, 10) || 0);
+const getOppositeValue = (value) => {
+  if (isBool(value)) {
+    return !value;
+  }
+  if (value === 1) {
+    return 0;
+  }
+  return 1;
+};
 
 function Toggle({ name, value, label, onChange, error, instruction }) {
   const [_value, setValue] = React.useState(getValue(value));
@@ -57,7 +63,8 @@ function Toggle({ name, value, label, onChange, error, instruction }) {
   }, [value]);
 
   const onChangeFunc = () => {
-    setValue(getOppositeValue(_value));
+    const newVal = getOppositeValue(_value);
+    setValue(newVal);
 
     if (onChange) {
       onChange.call(window, newVal);

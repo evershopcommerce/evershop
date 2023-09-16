@@ -1,8 +1,9 @@
 const fs = require('fs');
-const { getConfig } = require('../../util/getConfig');
 const path = require('path');
+const { getConfig } = require('../../util/getConfig');
 const { CONSTANTS } = require('../../helpers');
 const { readCsvFile } = require('../../util/readCsvFile');
+const { error } = require('../../log/debuger');
 
 module.exports.loadCsvTranslationFiles =
   async function loadCsvTranslationFiles() {
@@ -29,7 +30,10 @@ module.exports.loadCsvTranslationFiles =
       });
 
       const fileDataList = await Promise.all(filePromises);
+
+      // eslint-disable-next-line no-restricted-syntax
       for (const fileData of fileDataList) {
+        // eslint-disable-next-line no-restricted-syntax
         for (const [key, value] of Object.entries(fileData)) {
           results[key] = value;
         }
@@ -37,6 +41,7 @@ module.exports.loadCsvTranslationFiles =
 
       return results;
     } catch (err) {
-      console.error(err);
+      error(err);
+      return {};
     }
   };

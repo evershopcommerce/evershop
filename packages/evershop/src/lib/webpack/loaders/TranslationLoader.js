@@ -9,6 +9,7 @@ module.exports = exports = async function TranslationLoader(c) {
   let result = c;
   // Loop through each function call and get the template string
   let match;
+  // eslint-disable-next-line no-cond-assign
   while ((match = regex.exec(c)) !== null) {
     let template = match.groups.arg1;
     // Remove the quote from the start and end of the template string

@@ -21,7 +21,7 @@ module.exports = async (request, response, delegate) => {
     .from('product')
     .where('uuid', '=', request.params.id)
     .load(connection);
-  if (!product['variant_group_id']) {
+  if (!product.variant_group_id) {
     await saveProductAttributes(productId, attributes, connection);
   } else {
     const promises = [saveProductAttributes(productId, attributes, connection)];
@@ -34,7 +34,7 @@ module.exports = async (request, response, delegate) => {
       'attribute_five'
     )
       .from('variant_group')
-      .where('variant_group_id', '=', product['variant_group_id'])
+      .where('variant_group_id', '=', product.variant_group_id)
       .load(connection);
 
     // Get all the variant attributes
@@ -48,22 +48,20 @@ module.exports = async (request, response, delegate) => {
       .execute(connection);
 
     // Remove the attributes that are variant attributes
-    const filteredAttributes = attributes.filter((attr) => {
-      return variantAttributes.every(
-        (v) => v.attribute_code !== attr.attribute_code
-      );
-    });
+    const filteredAttributes = attributes.filter((attr) =>
+      variantAttributes.every((v) => v.attribute_code !== attr.attribute_code)
+    );
 
     const variants = await select()
       .from('product')
-      .where('variant_group_id', '=', product['variant_group_id'])
+      .where('variant_group_id', '=', product.variant_group_id)
       .and('product_id', '!=', productId)
       .execute(connection);
 
     for (let i = 0; i < variants.length; i += 1) {
       promises.push(
         saveProductAttributes(
-          variants[i]['product_id'],
+          variants[i].product_id,
           filteredAttributes,
           connection
         )

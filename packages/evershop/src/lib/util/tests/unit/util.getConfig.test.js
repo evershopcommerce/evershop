@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, global-require */
 const { getConfig } = require('../../getConfig');
 
 describe('Test until getConfig', () => {

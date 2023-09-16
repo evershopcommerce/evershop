@@ -2,6 +2,7 @@ const fs = require('fs');
 const { inspect } = require('util');
 const JSON5 = require('json5');
 const { CONSTANTS } = require('../../helpers');
+const { error } = require('../../log/debuger');
 
 /* eslint-disable no-multi-assign */
 /* eslint-disable global-require */
@@ -37,10 +38,8 @@ module.exports = exports = function AreaLoader(c) {
           component: `---require('${module}')---`
         };
       } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(`Error parsing layout from ${module}`);
-        // eslint-disable-next-line no-console
-        console.log(e);
+        error(`Error parsing layout from ${module}`);
+        error(e);
       }
     }
   });

@@ -21,8 +21,8 @@ function Actions({ collections = [], selectedIds = [] }) {
   const deleteCategories = async () => {
     setIsLoading(true);
     const promises = collections
-      .filter((collections) => selectedIds.includes(collections.uuid))
-      .map((collections) => axios.delete(collections.deleteApi));
+      .filter((c) => selectedIds.includes(c.uuid))
+      .map((col) => axios.delete(col.deleteApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page

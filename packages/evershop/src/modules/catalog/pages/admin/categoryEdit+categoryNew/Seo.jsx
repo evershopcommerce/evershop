@@ -52,9 +52,9 @@ export default function Seo({ category }) {
       },
       sortOrder: 30
     }
-  ].filter((f) => {
-    // eslint-disable-next-line no-param-reassign
+  ].map((f) => {
     if (get(category, `${f.props.id}`) !== undefined) {
+      // eslint-disable-next-line no-param-reassign
       f.props.value = get(category, `${f.props.id}`);
     }
     return f;

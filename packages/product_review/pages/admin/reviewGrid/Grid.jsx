@@ -43,9 +43,9 @@ function Actions({ reviews = [], selectedIds = [] }) {
 
   const deleteReviews = async () => {
     setIsLoading(true);
-    const promises = pages
-      .filter((page) => selectedIds.includes(page.uuid))
-      .map((page) => axios.delete(page.deleteApi));
+    const promises = reviews
+      .filter((review) => selectedIds.includes(review.uuid))
+      .map((review) => axios.delete(review.deleteApi));
     await Promise.all(promises);
     setIsLoading(false);
     // Refresh the page
@@ -79,7 +79,7 @@ function Actions({ reviews = [], selectedIds = [] }) {
       name: 'Approve',
       onAction: () => {
         openAlert({
-          heading: `Approve ${selectedIds.length} pages`,
+          heading: `Approve ${selectedIds.length} reviews`,
           content: 'Are you sure?',
           primaryAction: {
             title: 'Cancel',

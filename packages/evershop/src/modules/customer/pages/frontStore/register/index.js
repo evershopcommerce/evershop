@@ -1,11 +1,11 @@
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
+const {
   getContextValue,
   setContextValue
 } = require('../../../../graphql/services/contextHelper');
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
 
 module.exports = (request, response, delegate, next) => {
   // Check if the user is logged in

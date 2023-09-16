@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, global-require */
 const { app, bootstrap, close } = require('../app/app');
 const axios = require('axios').default;
 const http = require('http');
@@ -13,7 +14,7 @@ describe('test middleware', () => {
 
   it('It should execute the good middleware functions', async () => {
     await axios.get(`http://localhost:${port}/middleware`, {
-      validateStatus: function (status) {
+      validateStatus(status) {
         return status >= 200 && status <= 500;
       }
     });

@@ -18,7 +18,8 @@ export default function General({ coupon = {} }) {
             value: get(coupon, 'coupon'),
             validationRules: ['notEmpty'],
             type: 'text',
-            label: 'Coupon code'
+            label: 'Coupon code',
+            placeholder: 'Enter coupon code'
           },
           sortOrder: 10
         },
@@ -29,7 +30,8 @@ export default function General({ coupon = {} }) {
             value: get(coupon, 'description'),
             type: 'textarea',
             label: 'Description',
-            validationRules: ['notEmpty']
+            validationRules: ['notEmpty'],
+            placeholder: 'Enter description'
           },
           sortOrder: 20
         },
@@ -48,7 +50,7 @@ export default function General({ coupon = {} }) {
           props: {
             startDate: get(coupon, 'startDate.text', ''),
             endDate: get(coupon, 'endDate.text', ''),
-            discountAmount: get(coupon, 'discountAmount')
+            discountAmount: get(coupon, 'discountAmount', '')
           },
           sortOrder: 40
         },

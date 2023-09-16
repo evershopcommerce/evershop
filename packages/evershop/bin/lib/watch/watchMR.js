@@ -3,15 +3,15 @@ const { existsSync } = require('fs');
 const { resolve } = require('path');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
+const { info, error } = require('@evershop/evershop/src/lib/log/debuger');
 const { updateApp } = require('../startUp');
 const { broadcash } = require('./broadcash');
-const { red } = require('kleur');
 
 function watchMR() {
   const watcher = chokidar.watch(
     resolve(CONSTANTS.ROOTPATH, 'extensions/*/controllers/**'),
     {
-      //ignored: /node_modules[\\/]/,
+      // ignored: /node_modules[\\/]/,
       ignoreInitial: true,
       persistent: true
     }
@@ -32,7 +32,7 @@ function watchMR() {
     );
   }
   watcher.on('change', (path) => {
-    console.log('Middleware updated', path);
+    info(`Middleware updated ${path}`);
 
     if (!path.endsWith('.js')) {
       return;
@@ -45,7 +45,7 @@ function watchMR() {
     if (!path.endsWith('.js')) {
       return;
     }
-    console.log('Middleware removed', path);
+    info(`Middleware removed ${path}`);
     Handler.removeMiddleware(resolve(CONSTANTS.ROOTPATH, path));
     broadcash();
   });
@@ -54,21 +54,21 @@ function watchMR() {
     if (!path.endsWith('.js')) {
       return;
     }
-    console.log('Middleware added', path);
+    info(`Middleware added ${path}`);
     try {
       Handler.addMiddlewareFromPath(resolve(CONSTANTS.ROOTPATH, path));
       broadcash();
     } catch (e) {
-      console.log(red(`Hot Reload Error: ${e.message}`));
+      error(`Hot Reload Error: ${e.message}`);
     }
   });
 
-  /** Implement routing update*/
+  /** Implement routing update */
   watcher.on('change', (path) => {
     if (!path.endsWith('route')) {
       return;
     }
-    console.log('Route updated', path);
+    info(`Route updated ${path}`);
     updateApp(broadcash);
   });
 
@@ -76,7 +76,7 @@ function watchMR() {
     if (!path.endsWith('route')) {
       return;
     }
-    console.log('Route removed', path);
+    info(`Route removed ${path}`);
     broadcash();
   });
 
@@ -84,17 +84,17 @@ function watchMR() {
     if (!path.endsWith('route')) {
       return;
     }
-    console.log('Route added', path);
+    info(`Route added ${path}`);
     updateApp(broadcash);
   });
 
   watcher.on('unlinkDir', (path) => {
-    console.log('Dir removed', path);
+    info(`Dir removed ${path}`);
     broadcash();
   });
 
   watcher.on('addDir', (path) => {
-    console.log('Dir added', path);
+    info(`Dir added ${path}`);
     updateApp(broadcash);
   });
 }

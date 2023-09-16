@@ -7,6 +7,7 @@ const autoprefixer = require('autoprefixer');
 const CleanCSS = require('clean-css');
 const { Compilation, sources } = require('webpack');
 const { getTailwindConfig } = require('../util/getTailwindConfig');
+const { error } = require('../../log/debuger');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
@@ -56,6 +57,9 @@ exports.Tailwindcss = class Tailwindcss {
               );
               if (tailwind) {
                 tailwind = tailwind[1];
+              } else {
+                /** Tailwindcss is removed by theme */
+                return;
               }
               // Postcss await
               const tailWindCss = new CleanCSS().minify(
@@ -83,8 +87,7 @@ exports.Tailwindcss = class Tailwindcss {
               );
             }
           } catch (e) {
-            // eslint-disable-next-line no-console
-            console.log(e);
+            error(e);
           }
         }
       );

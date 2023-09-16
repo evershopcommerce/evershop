@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
+import { useAppDispatch } from '@components/common/context/app';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import { ItemOptions } from './ItemOptions';
 import { ItemVariantOptions } from './ItemVariantOptions';
 import './Items.scss';
-import { useAppDispatch } from '@components/common/context/app';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 function Items({ items }) {
   const AppContextDispatch = useAppDispatch();

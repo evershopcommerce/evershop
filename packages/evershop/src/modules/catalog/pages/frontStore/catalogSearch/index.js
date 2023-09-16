@@ -5,8 +5,8 @@ module.exports = (request, response, delegate, next) => {
   const keyword = get(request, 'query.keyword');
   if (!keyword) {
     // Redirect to the home page if no keyword is not provided
-    return response.redirect('/');
+    response.redirect('/');
+  } else {
+    next();
   }
-
-  next();
 };

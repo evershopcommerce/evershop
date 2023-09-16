@@ -11,8 +11,9 @@ const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getSetting } = require('../../../setting/services/setting');
 const { emit } = require('@evershop/evershop/src/lib/event/emitter');
+const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { getSetting } = require('../../../setting/services/setting');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -85,14 +86,12 @@ module.exports = async (request, response, delegate, next) => {
         break;
       }
       case 'payment_method.attached': {
-        // eslint-disable-next-line no-console
-        console.log('PaymentMethod was attached to a Customer!');
+        debug('PaymentMethod was attached to a Customer!');
         break;
       }
       // ... handle other event types
       default: {
-        // eslint-disable-next-line no-console
-        console.log(`Unhandled event type ${event.type}`);
+        debug(`Unhandled event type ${event.type}`);
       }
     }
     await commit(connection);

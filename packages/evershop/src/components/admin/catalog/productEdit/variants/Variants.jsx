@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useQuery } from 'urql';
 import { Card } from '@components/admin/cms/Card';
 import { CreateVariant } from '@components/admin/catalog/productEdit/variants/CreateVariant';
-import { Variant } from './Variant';
 import Spinner from '@components/common/Spinner';
+import { Variant } from './Variant';
 
 export const VariantQuery = `
 query Query($productId: ID!) {

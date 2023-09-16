@@ -6,7 +6,7 @@ import './UpdatePasswordForm.scss';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import Button from '@components/common/form/Button';
 
-const Success = () => {
+function Success() {
   return (
     <div className="flex justify-center items-center">
       <div className="update-password-form flex justify-center items-center">
@@ -20,17 +20,17 @@ const Success = () => {
       </div>
     </div>
   );
-};
+}
 
-const UpdateForm = ({ action, onSuccess }) => {
+function UpdateForm({ action, onSuccess }) {
   const [error, setError] = React.useState(null);
   const [token, setToken] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    setToken(token);
+    const tokenParam = urlParams.get('token');
+    setToken(tokenParam);
   }, []);
 
   return (
@@ -85,6 +85,11 @@ const UpdateForm = ({ action, onSuccess }) => {
       </div>
     </div>
   );
+}
+
+UpdateForm.propTypes = {
+  action: PropTypes.string.isRequired,
+  onSuccess: PropTypes.func.isRequired
 };
 
 export default function UpdatePasswordForm({ action }) {

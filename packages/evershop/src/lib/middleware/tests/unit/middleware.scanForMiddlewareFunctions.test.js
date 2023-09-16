@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, global-require */
 const { noDublicateId } = require('../../noDuplicateId');
 
 describe('Test scanForMiddlewareFunctions function', () => {

@@ -3,8 +3,9 @@ const { resolve } = require('path');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
+const { warning } = require('@evershop/evershop/src/lib/log/debuger');
 
-var extensions = [];
+let extensions = [];
 
 function loadExtensions() {
   const coreModules = getCoreModules();
@@ -28,7 +29,7 @@ function loadExtensions() {
         path: resolve(CONSTANTS.ROOTPATH, extension.resolve)
       });
     } else {
-      console.log(
+      warning(
         `Extension ${extension.name} is either disabled or the path is not existed.`
       );
     }

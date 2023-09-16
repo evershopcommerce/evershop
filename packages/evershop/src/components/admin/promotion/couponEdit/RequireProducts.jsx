@@ -2,9 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
+import CategoryConditionSelector from './CategoryConditionSelector';
+import CollectionConditionSelector from './CollectionConditionSelector';
+import SkuConditionSelector from './SkuConditionSelector';
+import AttributeGroupConditionSelector from './AttributeGroupConditionSelector';
+import PriceConditionSelector from './PriceConditionSelector';
+import { compareKeyList } from './CompareKeyList';
+import { compareOperatorList } from './CompareOperatorList';
 
 export function RequiredProducts({ requiredProducts }) {
-  const [products, setProducts] = React.useState(requiredProducts);
+  const [products, setProducts] = React.useState(() =>
+    requiredProducts.map((p) => ({ ...p, editable: false }))
+  );
 
   const addProduct = (e) => {
     e.persist();
@@ -14,7 +23,8 @@ export function RequiredProducts({ requiredProducts }) {
         key: 'category',
         operator: '',
         value: '',
-        qty: ''
+        qty: '',
+        editable: true
       })
     );
   };
@@ -31,7 +41,19 @@ export function RequiredProducts({ requiredProducts }) {
     e.preventDefault();
     const newProducts = products.map((p, i) => {
       if (i === index) {
-        return { ...p, [key]: e.target.value };
+        if (key === 'key' && e.target.value === p.key) {
+          return {
+            ...p,
+            [key]: e.target.value,
+            operator: '',
+            value: ''
+          };
+        } else {
+          return {
+            ...p,
+            [key]: e.target.value
+          };
+        }
       } else {
         return p;
       }
@@ -69,63 +91,44 @@ export function RequiredProducts({ requiredProducts }) {
               <td>
                 <div className="form-field-container dropdown">
                   <div className="field-wrapper">
-                    <select
-                      name={`condition[required_products][${i}][key]`}
-                      className="form-field"
-                      value={p.key}
-                      onChange={(e) => updateProduct(e, 'key', i)}
-                    >
-                      <Area
-                        id="couponRequiredProductKeyList"
-                        noOuter
-                        coreComponents={[
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
+                    {p.editable ? (
+                      <select
+                        name={`condition[required_products][${i}][key]`}
+                        className="form-control"
+                        value={p.key}
+                        onChange={(e) => updateProduct(e, 'key', i)}
+                        disabled={!p.editable}
+                      >
+                        <Area
+                          id="couponTargetProductKey"
+                          noOuter
+                          coreComponents={compareKeyList.map((c, index) => ({
                             component: {
-                              default: () => (
-                                <option value="category">Category</option>
-                              )
+                              default: <option value={c.key}>{c.label}</option>
                             },
                             props: {},
-                            sortOrder: 10,
-                            id: 'requiredProductKeyCategory'
-                          },
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
-                            component: {
-                              default: () => (
-                                <option value="attribute_group">
-                                  Attribute Group
-                                </option>
-                              )
-                            },
-                            props: {},
-                            sortOrder: 20,
-                            id: 'requiredProductKeyAttributeGroup'
-                          },
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
-                            component: {
-                              default: () => (
-                                <option value="price">Price</option>
-                              )
-                            },
-                            props: {},
-                            sortOrder: 30,
-                            id: 'requiredProductKeyPrice'
-                          },
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
-                            component: {
-                              default: () => <option value="sku">Sku</option>
-                            },
-                            props: {},
-                            sortOrder: 40,
-                            id: 'requiredProductKeySku'
+                            sortOrder: 10 * index
+                          }))}
+                        />
+                      </select>
+                    ) : (
+                      <>
+                        <input
+                          type="hidden"
+                          name={`condition[required_products][${i}][key]`}
+                          readOnly
+                          value={p.key}
+                        />
+                        <input
+                          type="text"
+                          readOnly
+                          value={
+                            compareKeyList.find((c) => c.key === p.key)
+                              ?.label || 'Unknown'
                           }
-                        ]}
-                      />
-                    </select>
+                        />
+                      </>
+                    )}
                     <div className="field-border" />
                     <div className="field-suffix">
                       <svg
@@ -144,119 +147,51 @@ export function RequiredProducts({ requiredProducts }) {
               <td>
                 <div className="form-field-container dropdown">
                   <div className="field-wrapper">
-                    <select
-                      name={`condition[required_products][${i}][operator]`}
-                      className="form-field"
-                      value={p.operator}
-                      onChange={(e) => updateProduct(e, 'operator', i)}
-                    >
-                      <Area
-                        id="couponRequiredProductOperatorList"
-                        noOuter
-                        coreComponents={[
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
-                            component: {
-                              default: ({ compareKey }) =>
-                                ['price'].includes(compareKey) ? (
-                                  <option value="=">Equal</option>
-                                ) : null
-                            },
-                            props: { compareKey: p.key },
-                            sortOrder: 10,
-                            id: 'couponRequiredProductOperatorEqual'
-                          },
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
-                            component: {
-                              default: ({ compareKey }) =>
-                                ['price'].includes(compareKey) ? (
-                                  <option value="!=">Not equal</option>
-                                ) : null
-                            },
-                            props: { compareKey: p.key },
-                            sortOrder: 15,
-                            id: 'couponRequiredProductOperatorNotEqual'
-                          },
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
-                            component: {
-                              default: ({ compareKey }) =>
-                                ['price'].includes(compareKey) ? (
-                                  <option value=">">Greater</option>
-                                ) : null
-                            },
-                            props: { compareKey: p.key },
-                            sortOrder: 20,
-                            id: 'couponRequiredProductOperatorGreater'
-                          },
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
-                            component: {
-                              default: ({ compareKey }) =>
-                                ['price'].includes(compareKey) ? (
-                                  <option value=">=">Greater or equal</option>
-                                ) : null
-                            },
-                            props: { compareKey: p.key },
-                            sortOrder: 25,
-                            id: 'couponRequiredProductOperatorGreaterOrEqual'
-                          },
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
-                            component: {
-                              default: ({ compareKey }) =>
-                                ['price'].includes(compareKey) ? (
-                                  <option value="<">Smaller</option>
-                                ) : null
-                            },
-                            props: { compareKey: p.key },
-                            sortOrder: 30,
-                            id: 'couponRequiredProductOperatorSmaller'
-                          },
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
-                            component: {
-                              default: ({ compareKey }) =>
-                                ['price'].includes(compareKey) ? (
-                                  <option value="<=">Equal or smaller</option>
-                                ) : null
-                            },
-                            props: { compareKey: p.key },
-                            sortOrder: 35,
-                            id: 'couponRequiredProductOperatorEqualOrSmaller'
-                          },
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
-                            component: {
-                              default: ({ compareKey }) =>
-                                ['category', 'attribute_group', 'sku'].includes(
-                                  compareKey
-                                ) ? (
-                                  <option value="IN">In</option>
-                                ) : null
-                            },
-                            props: { compareKey: p.key },
-                            sortOrder: 40,
-                            id: 'couponRequiredProductOperatorIn'
-                          },
-                          {
-                            // eslint-disable-next-line react/no-unstable-nested-components
-                            component: {
-                              default: ({ compareKey }) =>
-                                ['category', 'attribute_group', 'sku'].includes(
-                                  compareKey
-                                ) ? (
-                                  <option value="NOT IN">Not in</option>
-                                ) : null
-                            },
-                            props: { compareKey: p.key },
-                            sortOrder: 45,
-                            id: 'couponRequiredProductOperatorNotIn'
+                    {p.editable ? (
+                      <select
+                        name={`condition[required_products][${i}][operator]`}
+                        className="form-control"
+                        value={p.operator}
+                        onChange={(e) => updateProduct(e, 'operator', i)}
+                      >
+                        <Area
+                          id="couponTargetProductOperator"
+                          noOuter
+                          coreComponents={compareOperatorList.map(
+                            (c, index) => ({
+                              component: {
+                                default: c.allowKeys.includes(p.key) ? (
+                                  <option value={c.key}>{c.label}</option>
+                                ) : (
+                                  // eslint-disable-next-line react/jsx-no-useless-fragment
+                                  <>{null}</>
+                                )
+                              },
+                              props: {},
+                              sortOrder: 10 * index
+                            })
+                          )}
+                        />
+                      </select>
+                    ) : (
+                      <>
+                        <input
+                          type="hidden"
+                          name={`condition[required_products][${i}][operator]`}
+                          readOnly
+                          value={p.operator}
+                        />
+                        <input
+                          type="text"
+                          readOnly
+                          value={
+                            compareOperatorList.find(
+                              (c) => c.key === p.operator
+                            )?.label || 'Unknown'
                           }
-                        ]}
-                      />
-                    </select>
+                        />
+                      </>
+                    )}
                     <div className="field-border" />
                     <div className="field-suffix">
                       <svg
@@ -273,22 +208,164 @@ export function RequiredProducts({ requiredProducts }) {
                 </div>
               </td>
               <td>
-                <Field
-                  type="text"
-                  name={`condition[required_products][${i}][value]`}
-                  formId="coupon-edit-form"
-                  value={p.value}
-                  validationRules={['notEmpty']}
+                {typeof p.value === 'string' && (
+                  <input
+                    type="hidden"
+                    name={`condition[required_products][${i}][value]`}
+                    value={p.value}
+                  />
+                )}
+                {Array.isArray(p.value) && (
+                  <>
+                    {p.value.map((v, j) => (
+                      <input
+                        key={j}
+                        type="hidden"
+                        name={`condition[required_products][${i}][value][]`}
+                        value={v}
+                      />
+                    ))}
+                  </>
+                )}
+                <Area
+                  id="couponProductConditionValue"
+                  noOuter
+                  coreComponents={[
+                    {
+                      component: {
+                        default: (
+                          <CategoryConditionSelector
+                            condition={p}
+                            setCondition={(condition) => {
+                              const newProducts = products.map((p, index) => {
+                                if (index === i) {
+                                  return condition;
+                                } else {
+                                  return p;
+                                }
+                              });
+                              setProducts(newProducts);
+                            }}
+                          />
+                        )
+                      },
+                      props: {},
+                      sortOrder: 10
+                    },
+                    {
+                      component: {
+                        default: (
+                          <CollectionConditionSelector
+                            condition={p}
+                            setCondition={(condition) => {
+                              const newProducts = products.map((p, index) => {
+                                if (index === i) {
+                                  return condition;
+                                } else {
+                                  return p;
+                                }
+                              });
+                              setProducts(newProducts);
+                            }}
+                          />
+                        )
+                      },
+                      props: {},
+                      sortOrder: 10
+                    },
+                    {
+                      component: {
+                        default: (
+                          <SkuConditionSelector
+                            condition={p}
+                            setCondition={(condition) => {
+                              const newProducts = products.map((p, index) => {
+                                if (index === i) {
+                                  return condition;
+                                } else {
+                                  return p;
+                                }
+                              });
+                              setProducts(newProducts);
+                            }}
+                          />
+                        )
+                      },
+                      props: {},
+                      sortOrder: 10
+                    },
+                    {
+                      component: {
+                        default: (
+                          <AttributeGroupConditionSelector
+                            condition={p}
+                            setCondition={(condition) => {
+                              const newProducts = products.map((p, index) => {
+                                if (index === i) {
+                                  return condition;
+                                } else {
+                                  return p;
+                                }
+                              });
+                              setProducts(newProducts);
+                            }}
+                          />
+                        )
+                      },
+                      props: {},
+                      sortOrder: 10
+                    },
+                    {
+                      component: {
+                        default: (
+                          <PriceConditionSelector
+                            condition={p}
+                            setCondition={(condition) => {
+                              const newProducts = products.map((p, index) => {
+                                if (index === i) {
+                                  return condition;
+                                } else {
+                                  return p;
+                                }
+                              });
+                              setProducts(newProducts);
+                            }}
+                          />
+                        )
+                      },
+                      props: {},
+                      sortOrder: 10
+                    }
+                  ]}
+                  condition={{
+                    key: p.key,
+                    operator: p.operator,
+                    value: p.value,
+                    index: i
+                  }}
+                  setCondition={(condition) => {
+                    const newProducts = products.map((p, index) => {
+                      if (index === i) {
+                        return condition;
+                      } else {
+                        return p;
+                      }
+                    });
+                    setProducts(newProducts);
+                  }}
                 />
               </td>
               <td>
-                <Field
-                  type="text"
-                  name={`condition[required_products][${i}][qty]`}
-                  formId="coupon-edit-form"
-                  value={p.qty}
-                  validationRules={['notEmpty']}
-                />
+                <div style={{ width: '60px' }}>
+                  <Field
+                    type="text"
+                    name={`condition[required_products][${i}][qty]`}
+                    formId="coupon-edit-form"
+                    value={p.qty}
+                    validationRules={['notEmpty']}
+                    placeholder="Enter the quantity"
+                  />
+                </div>
               </td>
               <td>
                 <a
@@ -350,7 +427,12 @@ RequiredProducts.propTypes = {
     PropTypes.shape({
       key: PropTypes.string,
       operator: PropTypes.string,
-      value: PropTypes.string,
+      value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.arrayOf(PropTypes.number)
+      ]),
       qty: PropTypes.string
     })
   )

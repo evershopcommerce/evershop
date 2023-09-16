@@ -25,18 +25,9 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
       queryRegex,
       (match, p1, p2) => p1 || p2
     );
-    // Replace 'getContextValue("key")'
-    // or getContextValue('key')
-    // or 'getContextValue("key", defaultValue)'
-    // or 'getContextValue('x', defaultValue)'
-    // to 'getContextValue_`base64 encoded of key and defaultValue`'`)'
-    // to avoid conflict with graphql-tag
     queryBody = queryBody.replace(
       /getContextValue\(([^)]+)\)/g,
       (match, p1) => {
-        // const args = p1.split(',').map((arg) => arg.trim());
-        // const key = args[0].replace(/['"]/g, '');
-        // const defaultValue = args[1] ? args[1].replace(/['"]/g, '') : undefined;
         const base64 = Buffer.from(p1).toString('base64');
         return `"getContextValue_${base64}"`;
       }
@@ -181,18 +172,9 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
       variablesRegex,
       (match, p1) => p1
     );
-    // Replace 'getContextValue("key")' or getContextValue('key')
-    // or 'getContextValue("key", defaultValue)'
-    // or 'getContextValue('x', defaultValue)'
-    // to 'getContextValue_`base64 encoded of key and defaultValue`'`)'
-    // to avoid conflict with graphql-tag
     variablesBody = variablesBody.replace(
       /getContextValue\(([^)]+)\)/g,
       (match, p1) => {
-        // const args = p1.split(',').map((arg) => arg.trim());
-        // const key = args[0].replace(/['"]/g, '');
-        // const defaultValue = args[1] ? args[1].replace(/['"]/g, '') : undefined;
-        // console.log('defaultValue', defaultValue);
         const base64 = Buffer.from(p1).toString('base64');
         return `"getContextValue_${base64}"`;
       }

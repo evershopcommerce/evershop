@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, global-require */
 const { buildMiddlewareFunction } = require('../../buildMiddlewareFunction');
 
 require('@babel/register')({
@@ -18,7 +19,7 @@ expect.extend({
 
     if (expected == String) {
       return {
-        pass: typeof received == 'string' || received instanceof String,
+        pass: typeof received === 'string' || received instanceof String,
         message: () =>
           `expected null or instance of ${this.utils.printExpected(
             expected
@@ -28,7 +29,7 @@ expect.extend({
 
     if (expected == Number) {
       return {
-        pass: typeof received == 'number' || received instanceof Number,
+        pass: typeof received === 'number' || received instanceof Number,
         message: () =>
           `expected null or instance of ${this.utils.printExpected(
             expected
@@ -38,7 +39,7 @@ expect.extend({
 
     if (expected == Function) {
       return {
-        pass: typeof received == 'function' || received instanceof Function,
+        pass: typeof received === 'function' || received instanceof Function,
         message: () =>
           `expected null or instance of ${this.utils.printExpected(
             expected
@@ -48,7 +49,7 @@ expect.extend({
 
     if (expected == Object) {
       return {
-        pass: received !== null && typeof received == 'object',
+        pass: received !== null && typeof received === 'object',
         message: () =>
           `expected null or instance of ${this.utils.printExpected(
             expected
@@ -58,7 +59,7 @@ expect.extend({
 
     if (expected == Boolean) {
       return {
-        pass: typeof received == 'boolean',
+        pass: typeof received === 'boolean',
         message: () =>
           `expected null or instance of ${this.utils.printExpected(
             expected
@@ -68,9 +69,9 @@ expect.extend({
 
     /* jshint -W122 */
     /* global Symbol */
-    if (typeof Symbol != 'undefined' && this.expectedObject == Symbol) {
+    if (typeof Symbol !== 'undefined' && this.expectedObject == Symbol) {
       return {
-        pass: typeof received == 'symbol',
+        pass: typeof received === 'symbol',
         message: () =>
           `expected null or instance of ${this.utils.printExpected(
             expected

@@ -25,13 +25,14 @@ function Area(props) {
     return cs.sort((obj1, obj2) => obj1.sortOrder - obj2.sortOrder);
   })();
 
-  // eslint-disable-next-line no-nested-ternary
-  const WrapperComponent =
-    noOuter !== true
-      ? wrapper !== undefined
-        ? wrapper
-        : 'div'
-      : React.Fragment;
+  let WrapperComponent = React.Fragment;
+  if (noOuter !== true) {
+    if (wrapper !== undefined) {
+      WrapperComponent = wrapper;
+    } else {
+      WrapperComponent = 'div';
+    }
+  }
 
   let areaWrapperProps = {};
   if (noOuter === true) {
@@ -61,8 +62,15 @@ function Area(props) {
         if (w.props) {
           Object.assign(componentProps, w.props);
         }
-        // eslint-disable-next-line react/no-array-index-key
-        if (typeof C === 'string') return <C key={index} {...componentProps} />;
+        // Check if C is a React component
+        if (React.isValidElement(C)) {
+          return C;
+        }
+
+        if (typeof C === 'string') {
+          // eslint-disable-next-line react/no-array-index-key
+          return <C key={index} {...componentProps} />;
+        }
 
         // eslint-disable-next-line react/no-array-index-key
         return <C key={index} areaProps={props} {...componentProps} />;

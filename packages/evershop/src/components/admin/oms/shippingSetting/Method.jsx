@@ -1,8 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useModal } from '@components/common/modal/useModal';
 import MethodForm from './MethodForm';
-
-Method.propTypes = {};
 
 function Method({ method, getZones }) {
   const modal = useModal();
@@ -55,5 +54,20 @@ function Method({ method, getZones }) {
     </>
   );
 }
+
+Method.propTypes = {
+  method: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    isEnabled: PropTypes.bool.isRequired,
+    cost: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }),
+    conditionType: PropTypes.string.isRequired,
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+    updateApi: PropTypes.string.isRequired
+  }).isRequired,
+  getZones: PropTypes.func.isRequired
+};
 
 export default Method;

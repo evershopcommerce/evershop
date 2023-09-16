@@ -1,3 +1,4 @@
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
@@ -14,6 +15,7 @@ const {
   select
 } = require('@evershop/postgres-query-builder');
 
+// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { collection_id } = request.params;
   const { product_id } = request.body;
@@ -77,7 +79,7 @@ module.exports = async (request, response, delegate, next) => {
     });
   } catch (e) {
     await rollback(connection);
-    console.error(e);
+    error(e);
     response.status(INTERNAL_SERVER_ERROR);
     return response.json({
       success: false,

@@ -57,4 +57,8 @@ Modal.propTypes = {
   })
 };
 
+Modal.defaultProps = {
+  primaryAction: null
+};
+
 export default Modal;

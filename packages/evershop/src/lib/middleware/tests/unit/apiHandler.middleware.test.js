@@ -1,6 +1,7 @@
-const { app, bootstrap, close } = require('../app/app');
-const axios = require('axios').default;
+/* eslint-disable no-undef, global-require */
 const http = require('http');
+const axios = require('axios').default;
+const { app, bootstrap, close } = require('../app/app');
 
 jest.setTimeout(80000);
 describe('test API middleware', () => {
@@ -12,11 +13,15 @@ describe('test API middleware', () => {
   });
 
   it('It should execute the valid middleware functions', async () => {
-    await axios.post(`http://localhost:${port}/api/as`, {
-      validateStatus: function (status) {
-        return status >= 200 && status < 600;
-      }
-    });
+    try {
+      await axios.post(`http://localhost:${port}/api/as`, {
+        validateStatus(status) {
+          return status >= 200 && status < 600;
+        }
+      });
+    } catch (e) {
+      console.log(e.response.data);
+    }
     const createA = require('../app/modules/api/api/createA/index');
     const afterIndex = require('../app/modules/authcopy/api/createA/[index]afterIndex');
     const createAGlobal = require('../app/modules/api/api/global/apiGlobal');

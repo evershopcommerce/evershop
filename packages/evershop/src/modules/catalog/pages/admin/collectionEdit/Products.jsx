@@ -45,7 +45,7 @@ export default function Products({
   const [result, reexecuteQuery] = useQuery({
     query: ProductsQuery,
     variables: {
-      code: code,
+      code,
       filters: !keyword
         ? [
             { key: 'page', operation: '=', value: page.toString() },
@@ -191,65 +191,63 @@ export default function Products({
                   </div>
                 </div>
                 <div className="divide-y">
-                  {data.collection.products.items.map((p, i) => {
-                    return (
-                      // eslint-disable-next-line react/no-array-index-key
-                      <div
-                        key={p.uuid}
-                        className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
-                      >
-                        <div className="grid-thumbnail text-border border border-divider p-075 rounded flex justify-center col-span-1">
-                          {p.image?.url && (
-                            <img
-                              className="self-center"
-                              src={p.image?.url}
-                              alt=""
+                  {data.collection.products.items.map((p) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <div
+                      key={p.uuid}
+                      className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
+                    >
+                      <div className="grid-thumbnail text-border border border-divider p-075 rounded flex justify-center col-span-1">
+                        {p.image?.url && (
+                          <img
+                            className="self-center"
+                            src={p.image?.url}
+                            alt=""
+                          />
+                        )}
+                        {!p.image?.url && (
+                          <svg
+                            className="self-center"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="2rem"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                             />
-                          )}
-                          {!p.image?.url && (
-                            <svg
-                              className="self-center"
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="2rem"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                              />
-                            </svg>
-                          )}
-                        </div>
-                        <div className="col-span-5">
-                          <a
-                            href={p.editUrl || ''}
-                            className="font-semibold hover:underline"
-                          >
-                            {p.name}
-                          </a>
-                        </div>
-                        <div className="col-span-2 text-right">
-                          <a
-                            href="#"
-                            onClick={async (e) => {
-                              e.preventDefault();
-                              await removeProduct(
-                                p.removeFromCollectionUrl,
-                                p.uuid
-                              );
-                            }}
-                            className="text-critical hover:first-letter:"
-                          >
-                            Remove
-                          </a>
-                        </div>
+                          </svg>
+                        )}
                       </div>
-                    );
-                  })}
+                      <div className="col-span-5">
+                        <a
+                          href={p.editUrl || ''}
+                          className="font-semibold hover:underline"
+                        >
+                          {p.name}
+                        </a>
+                      </div>
+                      <div className="col-span-2 text-right">
+                        <a
+                          href="#"
+                          onClick={async (e) => {
+                            e.preventDefault();
+                            await removeProduct(
+                              p.removeFromCollectionUrl,
+                              p.uuid
+                            );
+                          }}
+                          className="text-critical hover:first-letter:"
+                        >
+                          Remove
+                        </a>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </>
             )}
@@ -268,8 +266,11 @@ export default function Products({
 }
 
 Products.propTypes = {
-  api: PropTypes.string.isRequired,
-  listUrl: PropTypes.string.isRequired
+  collection: PropTypes.shape({
+    collectionId: PropTypes.number,
+    code: PropTypes.string,
+    addProductApi: PropTypes.string
+  }).isRequired
 };
 
 export const layout = {

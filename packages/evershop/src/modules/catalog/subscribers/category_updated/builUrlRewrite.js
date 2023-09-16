@@ -1,3 +1,4 @@
+const { error } = require('@evershop/evershop/src/lib/log/debuger');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   execute,
@@ -33,12 +34,12 @@ module.exports = async function buildUrlReWrite(data) {
     // Build the url rewrite base on the category path, join the category_description table to get the url_key
     let path = '';
     for (let i = 0; i < parentCategories.length; i += 1) {
-      const category = parentCategories[i];
+      const cat = parentCategories[i];
       const urlKey = await select('url_key')
         .from('category_description')
-        .where('category_description_category_id', '=', category.category_id)
+        .where('category_description_category_id', '=', cat.category_id)
         .load(pool);
-      path = `/${urlKey.url_key}` + path;
+      path = `/${urlKey.url_key}${path}`;
     }
     // Save the current path
     const currentPath = await select('request_path')
@@ -64,7 +65,7 @@ module.exports = async function buildUrlReWrite(data) {
         `UPDATE url_rewrite SET request_path = REPLACE(request_path, '${currentPath.request_path}', '${path}') WHERE entity_type IN ('category', 'product') AND entity_uuid != '${categoryUUid}'`
       );
     }
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    error(err);
   }
 };

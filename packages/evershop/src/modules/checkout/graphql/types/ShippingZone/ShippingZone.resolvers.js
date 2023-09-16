@@ -36,22 +36,18 @@ module.exports = {
       const methods = await query.execute(pool);
       return methods.map((row) => camelCase(row));
     },
-    provinces: async ({ shippingZoneId }, _, { user }) => {
+    provinces: async ({ shippingZoneId }) => {
       const provinces = await select('province')
         .from('shipping_zone_province')
         .where('zone_id', '=', shippingZoneId)
         .execute(pool);
       return provinces.map((row) => row.province);
     },
-    updateApi: async ({ uuid }) => {
-      return buildUrl('updateShippingZone', { id: uuid });
-    },
-    addMethodApi: async ({ uuid }) => {
-      return buildUrl('addShippingZoneMethod', { id: uuid });
-    },
-    removeMethodApi: async ({ uuid }) => {
-      return buildUrl('removeShippingZoneMethod', { id: uuid });
-    }
+    updateApi: async ({ uuid }) => buildUrl('updateShippingZone', { id: uuid }),
+    addMethodApi: async ({ uuid }) =>
+      buildUrl('addShippingZoneMethod', { id: uuid }),
+    removeMethodApi: async ({ uuid }) =>
+      buildUrl('removeShippingZoneMethod', { id: uuid })
   },
   ShippingMethodByZone: {
     updateApi: async ({ uuid, zoneId }) => {

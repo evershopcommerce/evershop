@@ -1,7 +1,6 @@
 const { select } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { ProductCollection } = require('../../../services/ProductCollection');
 const {
   getProductsByCollectionBaseQuery
@@ -15,7 +14,7 @@ const {
 
 module.exports = {
   Query: {
-    collection: async (_, { code }) => {
+    collection: async (_, { code }, { pool }) => {
       const query = select().from('collection');
       query.where('code', '=', code);
       const result = await query.load(pool);
@@ -57,7 +56,7 @@ module.exports = {
       query.where('product_id', '=', product.productId);
       return (await query.execute(pool)).map((row) => camelCase(row));
     },
-    removeFromCollectionUrl: async (product) => {
+    removeFromCollectionUrl: async (product, _, { pool }) => {
       if (!product.collectionId) {
         return null;
       } else {

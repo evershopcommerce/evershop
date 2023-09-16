@@ -1,5 +1,6 @@
-const { scanForRoutes } = require('../../scanForRoutes');
+/* eslint-disable no-undef, global-require */
 const path = require('path');
+const { scanForRoutes } = require('../../scanForRoutes');
 const { registerAdminRoute } = require('../../registerAdminRoute');
 const { validateRoute } = require('../../validateRoute');
 
@@ -16,7 +17,7 @@ describe('Test validateRoute', () => {
   });
 
   it('It should return a route object if id is valid', () => {
-    let route = validateRoute('newRoute', ['GET'], '/');
+    const route = validateRoute('newRoute', ['GET'], '/');
     expect(route.id).toBeTruthy();
     expect(route.method).toBeTruthy();
     expect(route.path).toBeTruthy();

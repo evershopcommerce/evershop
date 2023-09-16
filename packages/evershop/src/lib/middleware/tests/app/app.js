@@ -9,10 +9,11 @@ const express = require('express');
 const {
   loadModuleRoutes
 } = require('@evershop/evershop/src/lib/router/loadModuleRoutes');
+const { once } = require('events');
 const { getModuleMiddlewares } = require('../..');
 const { getRoutes } = require('../../../router/Router');
-const { once } = require('events');
 const { Handler } = require('../../Handler');
+const { error } = require('../../../log/debuger');
 
 /** Create express app */
 const app = express();
@@ -61,7 +62,7 @@ modules.forEach((module) => {
     // Load routes
     loadModuleRoutes(module.path);
   } catch (e) {
-    console.log(e);
+    error(e);
     process.exit(0);
   }
 });
@@ -73,7 +74,7 @@ const routes = getRoutes();
 // Adding default middlewares
 addDefaultMiddlewareFuncs(app, routes);
 
-/** Hack for 'no route' case*/
+/** Hack for 'no route' case */
 routes.push({
   id: 'noRoute',
   path: '/*'
@@ -93,7 +94,3 @@ module.exports = {
     server.close(done);
   }
 };
-
-// server.listen(0, () => {
-//   console.log(server.address().port);
-// });

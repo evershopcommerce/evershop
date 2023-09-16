@@ -14,7 +14,7 @@ function getFileRecursive(dir, files) {
   });
 }
 
-let files = [];
+const files = [];
 
 getFileRecursive(path.resolve(__dirname, './bin/serve'), files);
 

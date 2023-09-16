@@ -14,6 +14,7 @@ const {
   update
 } = require('@evershop/postgres-query-builder');
 
+// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { category_id, product_id } = request.params;
   const connection = await getConnection();
@@ -52,7 +53,7 @@ module.exports = async (request, response, delegate, next) => {
       .given({
         category_id: null
       })
-      .where('product_id', '=', product['product_id'])
+      .where('product_id', '=', product.product_id)
       .execute(connection);
 
     await commit(connection);

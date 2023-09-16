@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -40,7 +41,66 @@ HeadTags.propTypes = {
   pageInfo: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  themeConfig: PropTypes.shape({
+    headTags: PropTypes.shape({
+      metas: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          content: PropTypes.string,
+          charSet: PropTypes.string,
+          httpEquiv: PropTypes.string,
+          property: PropTypes.string,
+          itemProp: PropTypes.string,
+          itemType: PropTypes.string,
+          itemID: PropTypes.string,
+          lang: PropTypes.string
+        })
+      ),
+      links: PropTypes.arrayOf(
+        PropTypes.shape({
+          rel: PropTypes.string,
+          href: PropTypes.string,
+          sizes: PropTypes.string,
+          type: PropTypes.string,
+          hrefLang: PropTypes.string,
+          media: PropTypes.string,
+          title: PropTypes.string,
+          as: PropTypes.string,
+          crossOrigin: PropTypes.string,
+          integrity: PropTypes.string,
+          referrerPolicy: PropTypes.string
+        })
+      ),
+      scripts: PropTypes.arrayOf(
+        PropTypes.shape({
+          src: PropTypes.string,
+          type: PropTypes.string,
+          async: PropTypes.bool,
+          defer: PropTypes.bool,
+          crossOrigin: PropTypes.string,
+          integrity: PropTypes.string,
+          noModule: PropTypes.bool,
+          nonce: PropTypes.string
+        })
+      ),
+      base: PropTypes.shape({
+        href: PropTypes.string,
+        target: PropTypes.string
+      })
+    })
+  })
+};
+
+HeadTags.defaultProps = {
+  themeConfig: {
+    headTags: {
+      metas: [],
+      links: [],
+      scripts: [],
+      base: undefined
+    }
+  }
 };
 
 export const layout = {

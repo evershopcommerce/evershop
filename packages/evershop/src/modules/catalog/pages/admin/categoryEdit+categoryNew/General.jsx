@@ -44,7 +44,7 @@ function ParentCategory({ currentId, parent }) {
           }}
           className="text-interactive"
         >
-          {'Select category'}
+          Select category
         </a>
       )}
       {selecting && (
@@ -139,9 +139,9 @@ export default function General({
       },
       sortOrder: 30
     }
-  ].filter((f) => {
-    // eslint-disable-next-line no-param-reassign
+  ].map((f) => {
     if (get(category, `${f.props.id}`) !== undefined) {
+      // eslint-disable-next-line no-param-reassign
       f.props.value = get(category, `${f.props.id}`);
     }
     return f;
@@ -164,7 +164,16 @@ General.propTypes = {
   category: PropTypes.shape({
     name: PropTypes.string,
     description: PropTypes.string,
-    categoryId: PropTypes.number
+    categoryId: PropTypes.number,
+    parent: PropTypes.shape({
+      categoryId: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      path: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string.isRequired
+        })
+      ).isRequired
+    })
   })
 };
 

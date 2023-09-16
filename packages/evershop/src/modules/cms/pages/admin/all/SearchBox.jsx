@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { useQuery } from 'urql';
 import { Input } from '@components/common/form/fields/Input';
+import Spinner from '@components/common/Spinner';
 import { NoResult } from './search/NoResult';
 import { Results } from './search/Results';
 import './SearchBox.scss';
-import Spinner from '@components/common/Spinner';
 
 const useClickOutside = (ref, callback) => {
   const handleClick = (e) => {

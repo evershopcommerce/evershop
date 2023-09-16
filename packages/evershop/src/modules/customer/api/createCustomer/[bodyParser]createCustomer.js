@@ -45,7 +45,7 @@ module.exports = async (request, response, delegate, next) => {
         full_name,
         password: hash,
         group_id: 1,
-        status: status
+        status
       })
       .execute(pool);
 

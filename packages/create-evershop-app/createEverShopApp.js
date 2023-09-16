@@ -1,11 +1,9 @@
-'use strict';
-
+/* eslint-disable no-console */
 const https = require('https');
 const chalk = require('chalk');
 const commander = require('commander');
 const dns = require('dns');
-const boxen = require('boxen');
-const execSync = require('child_process').execSync;
+const { execSync } = require('child_process');
 const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
@@ -13,9 +11,9 @@ const semver = require('semver');
 const spawn = require('cross-spawn');
 const url = require('url');
 const validateProjectName = require('validate-npm-package-name');
-const packageJson = require('./package.json');
 const { readFileSync } = require('fs');
 const { writeFile, mkdir } = require('fs/promises');
+const packageJson = require('./package.json');
 
 function isUsingYarn() {
   return (process.env.npm_config_user_agent || '').indexOf('yarn') === 0;
@@ -281,8 +279,8 @@ function checkNpmVersion() {
     // ignore
   }
   return {
-    hasMinNpm: hasMinNpm,
-    npmVersion: npmVersion
+    hasMinNpm,
+    npmVersion
   };
 }
 
@@ -354,9 +352,8 @@ function isSafeToCreateProjectIn(root, name) {
     'yarn-error.log',
     'yarn-debug.log'
   ];
-  const isErrorLog = (file) => {
-    return errorLogFilePatterns.some((pattern) => file.startsWith(pattern));
-  };
+  const isErrorLog = (file) =>
+    errorLogFilePatterns.some((pattern) => file.startsWith(pattern));
 
   const conflicts = fs
     .readdirSync(root)
@@ -406,11 +403,11 @@ function getProxy() {
   } else {
     try {
       // Trying to read https-proxy from .npmrc
-      let httpsProxy = execSync('npm config get https-proxy').toString().trim();
+      const httpsProxy = execSync('npm config get https-proxy')
+        .toString()
+        .trim();
       return httpsProxy !== 'null' ? httpsProxy : undefined;
-    } catch (e) {
-      return;
-    }
+    } catch (e) {}
   }
 }
 
@@ -460,17 +457,18 @@ function checkThatNpmCanReadCwd() {
   );
   if (process.platform === 'win32') {
     console.error(
-      chalk.red(`On Windows, this can usually be fixed by running:\n\n`) +
+      `${chalk.red(
+        `On Windows, this can usually be fixed by running:\n\n`
+      )}  ${chalk.cyan(
+        'reg'
+      )} delete "HKCU\\Software\\Microsoft\\Command Processor" /v AutoRun /f\n` +
         `  ${chalk.cyan(
           'reg'
-        )} delete "HKCU\\Software\\Microsoft\\Command Processor" /v AutoRun /f\n` +
-        `  ${chalk.cyan(
-          'reg'
-        )} delete "HKLM\\Software\\Microsoft\\Command Processor" /v AutoRun /f\n\n` +
-        chalk.red(`Try to run the above two lines in the terminal.\n`) +
-        chalk.red(
+        )} delete "HKLM\\Software\\Microsoft\\Command Processor" /v AutoRun /f\n\n${chalk.red(
+          `Try to run the above two lines in the terminal.\n`
+        )}${chalk.red(
           `To learn more about this problem, read: https://blogs.msdn.microsoft.com/oldnewthing/20071121-00/?p=24433/`
-        )
+        )}`
     );
   }
   return false;

@@ -10,11 +10,13 @@ export default function OrderCondition({ coupon = {} }) {
       <Input
         name="condition[order_total]"
         label="Minimum purchase amount"
+        placeholder="Enter minimum purchase amount"
         value={condition.orderTotal || null}
       />
       <Input
         name="condition[order_qty]"
         label="Minimum purchase qty"
+        placeholder="Enter minimum purchase qty"
         value={condition.orderQty || null}
       />
       <RequiredProducts requiredProducts={condition.requiredProducts || []} />

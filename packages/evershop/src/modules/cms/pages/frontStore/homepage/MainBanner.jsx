@@ -18,7 +18,7 @@ export default function MainBanner() {
             <span className="font-bold">DISCOUNT20</span>
           </p>
           <p>{_('Use coupon ${coupon}', { coupon: 'DISCOUNT20' })}</p>
-          <p></p>
+          <p />
         </div>
       </div>
     </div>

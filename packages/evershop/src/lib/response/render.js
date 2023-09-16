@@ -1,11 +1,11 @@
 /* eslint-disable global-require */
 const path = require('path');
+const jsesc = require('jsesc');
 const { getRoutes } = require('../router/Router');
 const { get } = require('../util/get');
 const isProductionMode = require('../util/isProductionMode');
 const { getRouteBuildPath } = require('../webpack/getRouteBuildPath');
 const { getConfig } = require('../util/getConfig');
-const jsesc = require('jsesc');
 
 function normalizeAssets(assets) {
   if (typeof assets === 'object' && !Array.isArray(assets) && assets !== null) {

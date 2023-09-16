@@ -11,7 +11,8 @@ const {
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   OK,
-  INTERNAL_SERVER_ERROR
+  INTERNAL_SERVER_ERROR,
+  INVALID_PAYLOAD
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 
 // eslint-disable-next-line no-unused-vars
@@ -19,15 +20,8 @@ module.exports = async (request, response, deledate, next) => {
   const { method_id, zone_id } = request.params;
   const connection = await getConnection();
   await startTransaction(connection);
-  let {
-    cost,
-    calculation_type,
-    condition_type,
-    is_enabled,
-    calculate_api,
-    min,
-    max
-  } = request.body;
+  let { cost, condition_type, calculate_api, min, max } = request.body;
+  const { is_enabled, calculation_type } = request.body;
   try {
     // Load the shipping zone
     const shippingZone = await select()

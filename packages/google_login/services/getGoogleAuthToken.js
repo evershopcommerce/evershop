@@ -14,7 +14,7 @@ module.exports.getGoogleAuthToken = async (
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   });
-  const data = response.data;
+  const { data } = response;
 
   return data;
 };

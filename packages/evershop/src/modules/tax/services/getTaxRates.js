@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { select } = require('@evershop/postgres-query-builder');
 

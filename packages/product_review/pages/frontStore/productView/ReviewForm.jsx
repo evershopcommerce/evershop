@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form } from '@components/common/form/Form';
 import { Field } from '@components/common/form/Field';
 import StartIcon from '@heroicons/react/solid/esm/StarIcon';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function ReviewForm({ action, product }) {
   const [error, setError] = React.useState(null);
@@ -16,37 +18,37 @@ export default function ReviewForm({ action, product }) {
     }
   };
 
-  const rate = (rate) => {
-    setRating(rate);
+  const rate = (score) => {
+    setRating(score);
   };
 
   return (
     <div className="product-comment-form">
       {isSubmitted && (
         <div className="success text-success">
-          Your review has been submitted successfully
+          {_('Your review has been submitted successfully!')}
         </div>
       )}
       {!isSubmitted && (
         <>
-          <h3>Your comment</h3>
+          <h3>{_('Your comment')}</h3>
           {error && <div className="error text-critical">{error}</div>}
           <Form
             id="comment-form"
             action={action}
             method="POST"
             onSuccess={onSuccess}
-            isJSON={true}
+            isJSON
             btnText="Submit review"
           >
-            <label htmlFor="rating">Your Rating</label>
+            <label htmlFor="rating">{_('Your Rating')}</label>
             <div className="rating__stars">
-              {[...Array(5)].map((_, i) => (
+              {[...Array(5)].map((e, i) => (
                 <a
                   className=""
                   href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={(element) => {
+                    element.preventDefault();
                     rate(i + 1);
                   }}
                 >
@@ -83,6 +85,13 @@ export default function ReviewForm({ action, product }) {
     </div>
   );
 }
+
+ReviewForm.propTypes = {
+  action: PropTypes.string.isRequired,
+  product: PropTypes.shape({
+    productId: PropTypes.number.isRequired
+  }).isRequired
+};
 
 export const layout = {
   areaId: 'productPageMiddleLeft',

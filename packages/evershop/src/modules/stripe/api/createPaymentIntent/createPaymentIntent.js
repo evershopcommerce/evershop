@@ -2,12 +2,12 @@ const { select } = require('@evershop/postgres-query-builder');
 const smallestUnit = require('zero-decimal-currencies');
 const stripePayment = require('stripe');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getSetting } = require('../../../setting/services/setting');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const {
   OK,
   INVALID_PAYLOAD
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { getSetting } = require('../../../setting/services/setting');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {

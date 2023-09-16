@@ -4,7 +4,6 @@ const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const {
   getProductsByCategoryBaseQuery
 } = require('../../../services/getProductsByCategoryBaseQuery');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   getFilterableAttributes
 } = require('../../../services/getFilterableAttributes');
@@ -16,7 +15,7 @@ const { CategoryCollection } = require('../../../services/CategoryCollection');
 
 module.exports = {
   Query: {
-    category: async (_, { id }) => {
+    category: async (_, { id }, { pool }) => {
       const query = select().from('category');
       query
         .leftJoin('category_description')
@@ -40,7 +39,7 @@ module.exports = {
     products: async (category, { filters = [] }, { user }) => {
       const query = await getProductsByCategoryBaseQuery(
         category.categoryId,
-        user ? false : true
+        !user
       );
       const root = new ProductCollection(query);
       await root.init(category, { filters }, { user });
@@ -50,7 +49,7 @@ module.exports = {
       const results = await getFilterableAttributes(category.categoryId);
       return results;
     },
-    priceRange: async (category) => {
+    priceRange: async (category, _, { pool }) => {
       const query = await getProductsByCategoryBaseQuery(
         category.categoryId,
         true
@@ -93,7 +92,7 @@ module.exports = {
         };
       }
     },
-    children: async (category) => {
+    children: async (category, _, { pool }) => {
       const query = select().from('category');
       query
         .leftJoin('category_description', 'des')
@@ -154,7 +153,7 @@ module.exports = {
     }
   },
   Product: {
-    removeFromCategoryUrl: async (product) => {
+    removeFromCategoryUrl: async (product, _, { pool }) => {
       if (!product.categoryId) {
         return null;
       } else {

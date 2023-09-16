@@ -1,6 +1,7 @@
-const { app, bootstrap, close } = require('../app/app');
-const axios = require('axios').default;
+/* eslint-disable no-undef, global-require */
 const http = require('http');
+const axios = require('axios').default;
+const { app, bootstrap, close } = require('../app/app');
 
 jest.setTimeout(80000);
 describe('buildMiddlewareFunction', () => {
@@ -16,7 +17,7 @@ describe('buildMiddlewareFunction', () => {
     const response = await axios.get(
       `http://localhost:${port}/noexistedroute`,
       {
-        validateStatus: function (status) {
+        validateStatus(status) {
           return status >= 200 && status < 500;
         }
       }
@@ -27,7 +28,7 @@ describe('buildMiddlewareFunction', () => {
   it('It should return 404 page when middleware sets status to 404', async () => {
     // Visit a url
     const response = await axios.get(`http://localhost:${port}/product/404`, {
-      validateStatus: function (status) {
+      validateStatus(status) {
         return status >= 200 && status < 500;
       }
     });

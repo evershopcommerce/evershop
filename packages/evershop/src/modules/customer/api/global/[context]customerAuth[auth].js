@@ -30,7 +30,7 @@ module.exports = async (request, response, delegate, next) => {
       const sessionID = cookies[storeFrontSessionCookieName];
       if (sessionID) {
         const storage = new (sessionStorage(session))({
-          pool: pool
+          pool
         });
         // Load the session using session storage
         const getSession = util.promisify(storage.get).bind(storage);

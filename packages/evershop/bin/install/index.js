@@ -2,7 +2,7 @@
 const { readFileSync } = require('fs');
 const { writeFile, mkdir } = require('fs').promises;
 const path = require('path');
-const { red, green } = require('kleur');
+const { green } = require('kleur');
 const ora = require('ora');
 const boxen = require('boxen');
 const { Pool } = require('pg');
@@ -14,20 +14,9 @@ const {
 } = require('@evershop/postgres-query-builder');
 const { prompt } = require('enquirer');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const { error, success } = require('@evershop/evershop/src/lib/log/debuger');
 const { migrate } = require('./migrate');
 const { createMigrationTable } = require('./createMigrationTable');
-
-function error(e) {
-  // Check if e is a string message
-  if (typeof e === 'string') {
-    // eslint-disable-next-line no-console
-    console.log(`\n❌ ${red(e)}\n`);
-    return;
-  } else {
-    // eslint-disable-next-line no-console
-    console.log(`\n❌ ${red(e.message)}\n${e.stack}`);
-  }
-}
 
 async function install() {
   // eslint-disable-next-line no-var
@@ -35,8 +24,7 @@ async function install() {
   // eslint-disable-next-line no-var
   var adminUser;
 
-  // eslint-disable-next-line no-console
-  console.log(
+  success(
     boxen(green('Welcome to EverShop - The open-source e-commerce platform'), {
       title: 'EverShop',
       titleAlignment: 'center',
@@ -300,8 +288,7 @@ async function install() {
   messages.push(green('✔ Create admin user'));
   spinner.succeed(messages.join('\n'));
 
-  // eslint-disable-next-line no-console
-  console.log(
+  success(
     boxen(
       green(
         'Installation completed!. Run `npm run build` and `npm run start` to launch your store'

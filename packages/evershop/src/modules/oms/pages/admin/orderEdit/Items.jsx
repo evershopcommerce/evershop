@@ -111,13 +111,7 @@ Items.propTypes = {
       updateShipmentApi: PropTypes.string
     }),
     createShipmentApi: PropTypes.string.isRequired
-  }).isRequired,
-  carriers: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string
-    })
-  ).isRequired
+  }).isRequired
 };
 
 export const layout = {

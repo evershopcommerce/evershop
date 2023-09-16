@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import PropTypes from 'prop-types';
 import React from 'react';
 import './Button.scss';

@@ -70,7 +70,8 @@ Rate.propTypes = {
     country: PropTypes.string,
     province: PropTypes.string,
     postcode: PropTypes.string,
-    updateApi: PropTypes.string
+    updateApi: PropTypes.string,
+    deleteApi: PropTypes.string
   }).isRequired,
   getTaxClasses: PropTypes.func.isRequired
 };
