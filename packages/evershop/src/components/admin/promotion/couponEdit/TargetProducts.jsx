@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import PubSub from 'pubsub-js';
 import Area from '@components/common/Area';
-import { Input } from '@components/common/form/fields/Input';
 import { FORM_FIELD_UPDATED } from '@evershop/evershop/src/lib/util/events';
 import CategoryConditionSelector from '@components/admin/promotion/couponEdit/CategoryConditionSelector';
+import { Field } from '@components/common/form/Field';
 import CollectionConditionSelector from './CollectionConditionSelector';
 import SkuConditionSelector from './SkuConditionSelector';
 import AttributeGroupConditionSelector from './AttributeGroupConditionSelector';
@@ -69,7 +69,12 @@ function Products({ targetProducts, maxQty }) {
         <div className="flex justify-start items-center mb-3">
           <div>Maximum</div>
           <div style={{ width: '70px', padding: '0 1rem' }}>
-            <Input name="target_products[maxQty]" value={maxQty} />
+            <Field
+              name="target_products[maxQty]"
+              value={maxQty}
+              placeholder="10"
+              validationRules={['notEmpty', 'number']}
+            />
           </div>
           <div>quantity of products are matched bellow conditions(All)</div>
         </div>

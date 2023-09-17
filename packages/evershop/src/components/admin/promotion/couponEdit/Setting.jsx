@@ -10,7 +10,7 @@ export function Setting({ discountAmount, startDate, endDate }) {
           type="text"
           name="discount_amount"
           value={discountAmount}
-          place
+          placeholder="Discount amount"
           validationRules={['notEmpty']}
           label="Discount amount"
         />

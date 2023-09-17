@@ -89,8 +89,8 @@ exports.Validator = class Validator {
     });
 
     this.constructor.addValidator('customerGroup', (coupon, cart) => {
-      const conditions = JSON.parse(coupon.condition);
-      const userConditions = JSON.parse(coupon.user_condition);
+      const conditions = coupon.condition;
+      const userConditions = coupon.user_condition;
       if (userConditions.group && !userConditions.customer_group.includes(0)) {
         const customerGroupId = cart.getData('customer_group_id');
         if (!conditions.customer_group.includes(customerGroupId)) {
@@ -101,7 +101,7 @@ exports.Validator = class Validator {
     });
 
     this.constructor.addValidator('subTotal', (coupon, cart) => {
-      const conditions = JSON.parse(coupon.condition);
+      const conditions = coupon.condition;
       const minimumSubTotal = !Number.isNaN(parseFloat(conditions.order_total))
         ? parseFloat(conditions.order_total)
         : null;
@@ -115,7 +115,7 @@ exports.Validator = class Validator {
     });
 
     this.constructor.addValidator('minimumQty', (coupon, cart) => {
-      const conditions = JSON.parse(coupon.condition);
+      const conditions = coupon.condition;
       const minimumQty = !Number.isNaN(parseInt(conditions.order_qty, 10))
         ? parseInt(conditions.order_qty, 10)
         : null;
@@ -130,12 +130,7 @@ exports.Validator = class Validator {
       async (coupon, cart) => {
         let flag = true;
         const items = cart.getItems();
-        let conditions;
-        try {
-          conditions = JSON.parse(coupon.condition);
-        } catch (e) {
-          return false;
-        }
+        const conditions = coupon.condition;
         const requiredProducts = conditions.required_products || [];
         if (requiredProducts.length === 0) {
           return true;
@@ -192,12 +187,7 @@ exports.Validator = class Validator {
       async (coupon, cart) => {
         let flag = true;
         const items = cart.getItems();
-        let conditions;
-        try {
-          conditions = JSON.parse(coupon.condition);
-        } catch (e) {
-          return false;
-        }
+        const conditions = coupon.condition;
         const requiredProducts = conditions.required_products || [];
         if (requiredProducts.length === 0) {
           return true;
@@ -279,12 +269,8 @@ exports.Validator = class Validator {
       async (coupon, cart) => {
         let flag = true;
         const items = cart.getItems();
-        let conditions;
-        try {
-          conditions = JSON.parse(coupon.condition);
-        } catch (e) {
-          return false;
-        }
+        const conditions = coupon.condition;
+
         const requiredProducts = conditions.required_products || [];
         if (requiredProducts.length === 0) {
           return true;
@@ -299,8 +285,11 @@ exports.Validator = class Validator {
           if (condition.key !== 'attribute_group') {
             // eslint-disable-next-line no-continue
             continue;
-          } else if (['IN', 'NOT IN'].includes(operator)) {
-            value = value.split(',').map((v) => parseInt(v.trim(), 10));
+          } else if (
+            ['IN', 'NOT IN'].includes(operator) &&
+            Array.isArray(value)
+          ) {
+            value = value.map((v) => parseInt(v.trim(), 10));
             if (operator === 'IN') {
               items.forEach((item) => {
                 if (value.includes(item.getData('group_id'))) {
@@ -332,12 +321,7 @@ exports.Validator = class Validator {
       async (coupon, cart) => {
         let flag = true;
         const items = cart.getItems();
-        let conditions;
-        try {
-          conditions = JSON.parse(coupon.condition);
-        } catch (e) {
-          return false;
-        }
+        const conditions = coupon.condition;
         const requiredProducts = conditions.required_products || [];
         if (requiredProducts.length === 0) {
           return true;
@@ -384,12 +368,7 @@ exports.Validator = class Validator {
       async (coupon, cart) => {
         let flag = true;
         const items = cart.getItems();
-        let conditions;
-        try {
-          conditions = JSON.parse(coupon.condition);
-        } catch (e) {
-          return false;
-        }
+        const conditions = coupon.condition;
         const requiredProducts = conditions.required_products || [];
         if (requiredProducts.length === 0) {
           return true;
@@ -404,8 +383,11 @@ exports.Validator = class Validator {
           if (condition.key !== 'sku') {
             // eslint-disable-next-line no-continue
             continue;
-          } else if (['IN', 'NOT IN'].includes(operator)) {
-            value = value.split(',').map((v) => v.trim());
+          } else if (
+            ['IN', 'NOT IN'].includes(operator) &&
+            Array.isArray(value)
+          ) {
+            value = value.map((v) => v.trim());
             if (operator === 'IN') {
               items.forEach((item) => {
                 if (value.includes(item.getData('product_sku'))) {
@@ -434,7 +416,7 @@ exports.Validator = class Validator {
     );
     this.constructor.addValidator('customerGroup', async () => true);
     this.constructor.addValidator('customerEmail', async (coupon, cart) => {
-      const conditions = JSON.parse(coupon.user_condition);
+      const conditions = coupon.user_condition;
       const allowEmails = conditions.emails || [];
 
       // No email means all emails
@@ -456,7 +438,7 @@ exports.Validator = class Validator {
     this.constructor.addValidator(
       'customerPurchasesAmount',
       async (coupon, cart) => {
-        const conditions = JSON.parse(coupon.user_condition);
+        const conditions = coupon.user_condition;
         const purchasedAmount = parseFloat(conditions.purchased.trim()) || null;
 
         // Null means no condition
