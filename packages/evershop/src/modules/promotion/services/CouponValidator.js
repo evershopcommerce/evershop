@@ -130,7 +130,7 @@ exports.Validator = class Validator {
       async (coupon, cart) => {
         let flag = true;
         const items = cart.getItems();
-        let conditions = coupon.condition;
+        const conditions = coupon.condition;
         const requiredProducts = conditions.required_products || [];
         if (requiredProducts.length === 0) {
           return true;
@@ -187,7 +187,7 @@ exports.Validator = class Validator {
       async (coupon, cart) => {
         let flag = true;
         const items = cart.getItems();
-        let conditions = coupon.condition;
+        const conditions = coupon.condition;
         const requiredProducts = conditions.required_products || [];
         if (requiredProducts.length === 0) {
           return true;
@@ -269,7 +269,7 @@ exports.Validator = class Validator {
       async (coupon, cart) => {
         let flag = true;
         const items = cart.getItems();
-        let conditions = coupon.condition;
+        const conditions = coupon.condition;
 
         const requiredProducts = conditions.required_products || [];
         if (requiredProducts.length === 0) {
@@ -321,7 +321,7 @@ exports.Validator = class Validator {
       async (coupon, cart) => {
         let flag = true;
         const items = cart.getItems();
-        let conditions = coupon.condition;
+        const conditions = coupon.condition;
         const requiredProducts = conditions.required_products || [];
         if (requiredProducts.length === 0) {
           return true;
@@ -368,7 +368,7 @@ exports.Validator = class Validator {
       async (coupon, cart) => {
         let flag = true;
         const items = cart.getItems();
-        let conditions = coupon.condition;
+        const conditions = coupon.condition;
         const requiredProducts = conditions.required_products || [];
         if (requiredProducts.length === 0) {
           return true;
