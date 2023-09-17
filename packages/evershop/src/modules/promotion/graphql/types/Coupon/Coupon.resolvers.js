@@ -36,48 +36,28 @@ module.exports = {
       if (!targetProducts) {
         return null;
       } else {
-        try {
-          const result = JSON.parse(targetProducts);
-          return camelCase(result);
-        } catch (e) {
-          throw new Error('Invalid JSON in coupon targetProducts');
-        }
+        return camelCase(targetProducts);
       }
     },
     condition: ({ condition }) => {
       if (!condition) {
         return null;
       } else {
-        try {
-          const result = JSON.parse(condition);
-          return camelCase(result);
-        } catch (e) {
-          throw new Error('Invalid JSON in coupon condition');
-        }
+        return camelCase(condition);
       }
     },
     userCondition: ({ userCondition }) => {
       if (!userCondition) {
         return null;
       } else {
-        try {
-          const result = JSON.parse(userCondition);
-          return camelCase(result);
-        } catch (e) {
-          throw new Error('Invalid JSON in coupon userCondition');
-        }
+        return camelCase(userCondition);
       }
     },
     buyxGety: ({ buyxGety }) => {
       if (!buyxGety) {
         return [];
       } else {
-        try {
-          const results = JSON.parse(buyxGety);
-          return results.map((result) => camelCase(result));
-        } catch (e) {
-          throw new Error('Invalid JSON in coupon buyxGety');
-        }
+        return buyxGety.map((item) => camelCase(item));
       }
     },
     editUrl: ({ uuid }) => buildUrl('couponEdit', { id: uuid }),

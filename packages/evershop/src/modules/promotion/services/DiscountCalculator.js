@@ -119,12 +119,7 @@ exports.DiscountCalculator = class DiscountCalculator {
         ) {
           return false;
         }
-        let targetConfig;
-        try {
-          targetConfig = JSON.parse(coupon.target_products);
-        } catch (e) {
-          return false;
-        }
+        let targetConfig = coupon.target_products;
 
         const maxQty = parseInt(targetConfig.maxQty, 10) || 0;
         if (maxQty <= 0) {
@@ -295,12 +290,7 @@ exports.DiscountCalculator = class DiscountCalculator {
         if (coupon.discount_type !== 'buy_x_get_y') {
           return true;
         }
-        let configs;
-        try {
-          configs = JSON.parse(coupon.buyx_gety);
-        } catch (e) {
-          return false;
-        }
+        let configs = coupon.buyx_gety;
         const items = cart.getItems();
         configs.forEach((row) => {
           const sku = row.sku ?? null;
