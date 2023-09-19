@@ -87,13 +87,11 @@ module.exports = async (request, response, delegate, next) => {
       });
     }
 
-    if (sortOrder !== 'ASC') {
-      filtersFromUrl.push({
-        key: 'sortOrder',
-        operation: '=',
-        value: sortOrder
-      });
-    }
+    filtersFromUrl.push({
+      key: 'sortOrder',
+      operation: '=',
+      value: sortOrder
+    });
     // Paging
     const page = Number.isNaN(parseInt(query.page, 10))
       ? '1'

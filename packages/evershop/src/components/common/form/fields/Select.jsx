@@ -8,7 +8,7 @@ const Select = React.forwardRef((props, ref) => {
   const {
     name,
     placeholder,
-    disableDefaultOption = true,
+    disableDefaultOption,
     value,
     label,
     onChange,
@@ -103,7 +103,7 @@ Select.defaultProps = {
   placeholder: undefined,
   name: undefined,
   value: undefined,
-  disableDefaultOption: false
+  disableDefaultOption: true
 };
 
 export { Select };

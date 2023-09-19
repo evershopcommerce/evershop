@@ -32,7 +32,11 @@ export default function Sorting() {
     const currentUrl = window.location.href;
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
-    url.searchParams.set('sortBy', e.target.value);
+    if (e.target.value === '') {
+      url.searchParams.delete('sortBy');
+    } else {
+      url.searchParams.set('sortBy', e.target.value);
+    }
     url.searchParams.append('ajax', true);
     setSortBy(e.target.value);
     await AppContextDispatch.fetchPageData(url);
@@ -66,12 +70,9 @@ export default function Sorting() {
               await onChangeSort(e);
             }}
             value={sortBy}
-            options={[
-              {
-                value: '',
-                text: _('Please select')
-              }
-            ].concat(options.map((o) => ({ value: o.code, text: o.name })))}
+            options={options.map((o) => ({ value: o.code, text: o.name }))}
+            disableDefaultOption={false}
+            placeholder={_('Default')}
           />
         </div>
         <div className="sort-direction self-center">
