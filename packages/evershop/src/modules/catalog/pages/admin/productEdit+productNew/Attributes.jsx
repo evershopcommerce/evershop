@@ -9,22 +9,22 @@ const getGroup = (groups = [], groupId = null) =>
     (group) => parseInt(group.groupId, 10) === parseInt(groupId, 10)
   ) || groups[0];
 
-export default function Attributes({ product, groups }) {
+export default function Attributes({ product, groups: { items } }) {
   const attributeIndex = product?.attributeIndex || [];
   const groupId = product?.groupId || undefined;
   const [currentGroup, setCurrentGroup] = React.useState(
-    getGroup(groups, groupId)
+    getGroup(items, groupId)
   );
 
   const handleGroupChange = (e) => {
     // Check if product is in a variant group
-    if (product?.groupId) {
+    if (product?.variantGroupId) {
       // eslint-disable-next-line no-alert
       alert(
         'You can not change the attribute group of a product that is already in a variant group.'
       );
     } else {
-      setCurrentGroup(getGroup(groups, e.target.value));
+      setCurrentGroup(getGroup(items, e.target.value));
     }
   };
 
@@ -54,7 +54,7 @@ export default function Attributes({ product, groups }) {
               value={currentGroup.groupId}
               onChange={(e) => handleGroupChange(e)}
               options={(() =>
-                groups.map((g) => ({
+                items.map((g) => ({
                   value: parseInt(g.groupId, 10),
                   text: g.groupName
                 })))()}
@@ -205,27 +205,29 @@ export default function Attributes({ product, groups }) {
 }
 
 Attributes.propTypes = {
-  groups: PropTypes.arrayOf(
-    PropTypes.shape({
-      groupId: PropTypes.number,
-      groupName: PropTypes.string,
-      attributes: PropTypes.arrayOf(
-        PropTypes.shape({
-          attributeId: PropTypes.number,
-          attributeName: PropTypes.string,
-          attributeCode: PropTypes.string,
-          type: PropTypes.string,
-          isRequired: PropTypes.number,
-          options: PropTypes.arrayOf(
-            PropTypes.shape({
-              optionId: PropTypes.number,
-              optionText: PropTypes.string
-            })
-          )
-        })
-      )
-    })
-  ),
+  groups: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        groupId: PropTypes.number,
+        groupName: PropTypes.string,
+        attributes: PropTypes.arrayOf(
+          PropTypes.shape({
+            attributeId: PropTypes.number,
+            attributeName: PropTypes.string,
+            attributeCode: PropTypes.string,
+            type: PropTypes.string,
+            isRequired: PropTypes.number,
+            options: PropTypes.arrayOf(
+              PropTypes.shape({
+                optionId: PropTypes.number,
+                optionText: PropTypes.string
+              })
+            )
+          })
+        )
+      })
+    )
+  }),
   product: PropTypes.shape({
     attributeIndex: PropTypes.arrayOf(
       PropTypes.shape({
@@ -261,17 +263,19 @@ export const query = `
       }
     },
     groups: attributeGroups {
-      groupId: attributeGroupId
-      groupName
-      attributes {
-        attributeId
-        attributeName
-        attributeCode
-        type
-        isRequired
-        options {
-          optionId: attributeOptionId
-          optionText
+      items {
+        groupId: attributeGroupId
+        groupName
+        attributes {
+          attributeId
+          attributeName
+          attributeCode
+          type
+          isRequired
+          options {
+            optionId: attributeOptionId
+            optionText
+          }
         }
       }
     }
