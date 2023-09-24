@@ -5,7 +5,7 @@ module.exports.createMigrationTable = async function createMigrationTable(
 ) {
   await execute(
     connection,
-    `CREATE TABLE "migration" (
+    `CREATE TABLE IF NOT EXISTS "migration"  (
         "migration_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
         "module" varchar NOT NULL,
         "version" varchar NOT NULL,

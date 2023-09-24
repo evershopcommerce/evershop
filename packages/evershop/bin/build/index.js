@@ -13,7 +13,7 @@ const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
 const { error } = require('@evershop/evershop/src/lib/log/debuger');
 const { compile } = require('./complie');
 const { getEnabledExtensions } = require('../extension');
-
+require('dotenv').config();
 /* Loading modules and initilize routes, components */
 const modules = [...getCoreModules(), ...getEnabledExtensions()];
 

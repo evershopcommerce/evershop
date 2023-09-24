@@ -8,18 +8,18 @@ const {
   rollback
 } = require('@evershop/postgres-query-builder');
 const {
-  pool,
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { existsSync, readdirSync } = require('fs');
 const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { createMigrationTable } = require('../../install/createMigrationTable');
 
-async function getCurrentInstalledVersion(module) {
+async function getCurrentInstalledVersion(module, connection) {
   /** Check for current installed version */
   const check = await select()
     .from('migration')
     .where('module', '=', module)
-    .load(pool);
+    .load(connection);
   if (!check) {
     return '0.0.1';
   } else {
@@ -27,7 +27,8 @@ async function getCurrentInstalledVersion(module) {
   }
 }
 
-module.exports.migrate = async function migrate(module) {
+async function migrateModule(module, connection) {
+  /** Check if the module has migration folder, if not ignore it */
   if (!existsSync(path.resolve(module.path, 'migration'))) {
     return;
   }
@@ -41,15 +42,17 @@ module.exports.migrate = async function migrate(module) {
     )
     .map((dirent) => dirent.name.replace('Version-', '').replace('.js', ''))
     .sort((first, second) => semver.lt(first, second));
-  const currentInstalledVersion = await getCurrentInstalledVersion(module.name);
+  const currentInstalledVersion = await getCurrentInstalledVersion(
+    module.name,
+    connection
+  );
   // eslint-disable-next-line no-restricted-syntax
   for (const version of migrations) {
     /** If the version is lower or equal the installed version, ignore it */
     if (semver.lte(version, currentInstalledVersion)) {
       continue;
     }
-    const connection = await getConnection();
-    await startTransaction(connection);
+
     // eslint-disable-next-line no-await-in-loop
     // eslint-disable-next-line global-require
     /** We expect the migration script to provide a function as a default export */
@@ -66,12 +69,28 @@ module.exports.migrate = async function migrate(module) {
           version
         })
         .execute(connection, false);
-      await commit(connection);
     } catch (e) {
-      await rollback(connection);
-      error(`Migration failed for ${module.name}, version ${version}\n`);
-      error(e);
-      process.exit(0);
+      throw new Error(
+        `Migration failed for module ${module.name}, version ${version}\n${e}`
+      );
     }
+  }
+}
+
+module.exports.migrate = async function migrate(modules) {
+  const connection = await getConnection();
+  await startTransaction(connection);
+  try {
+    // Create a migration table if not exists. This is for the first time installation
+    await createMigrationTable(connection);
+    // eslint-disable-next-line no-restricted-syntax
+    for (const module of modules) {
+      await migrateModule(module, connection);
+    }
+    await commit(connection);
+  } catch (e) {
+    await rollback(connection);
+    error(e);
+    process.exit(0);
   }
 };

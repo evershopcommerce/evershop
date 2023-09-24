@@ -628,7 +628,7 @@ module.exports = exports = async (connection) => {
   await execute(
     connection,
     `CREATE CONSTRAINT TRIGGER "TRIGGER_AFTER_INSERT_PRODUCT" AFTER INSERT ON "product" 
-    DEFERRABLE INITIALLY DEFERRED
+    DEFERRABLE INITIALLY IMMEDIATE
     FOR EACH ROW
     EXECUTE PROCEDURE update_variant_group_visibility();`
   );
