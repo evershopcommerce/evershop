@@ -17,7 +17,7 @@ const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { error, success } = require('@evershop/evershop/src/lib/log/debuger');
 const {
   hasPassword
-} = require('@evershop/evershop/src/modules/auth/services/hashPassword');
+} = require('@evershop/evershop/src/lib/util/passwordHelper');
 const { migrate } = require('../lib/bootstrap/migrate');
 const { getCoreModules } = require('../lib/loadModules');
 

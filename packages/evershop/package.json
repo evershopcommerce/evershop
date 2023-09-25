@@ -16,6 +16,8 @@
     "dev:debug": "evershop dev --debug",
     "build": "evershop build",
     "start": "evershop start",
+    "user:create": "evershop user:create",
+    "user:changePassword": "evershop user:changePassword",
     "test": "jest"
   },
   "author": "The Nguyen (https://evershop.io)",

@@ -1,8 +1,8 @@
 const { request } = require('express');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { select } = require('@evershop/postgres-query-builder');
-const { compareSync } = require('bcryptjs');
 const { Cart } = require('../checkout/services/cart/Cart');
+const { comparePassword } = require('../../lib/util/passwordHelper');
 
 module.exports = () => {
   Cart.addField('customer_id', function resolver() {
@@ -38,7 +38,7 @@ module.exports = () => {
       .and('status', '=', 1)
       .load(pool);
 
-    const result = compareSync(password, customer ? customer.password : '');
+    const result = comparePassword(password, customer ? customer.password : '');
     if (!customer || !result) {
       throw new Error('Invalid email or password');
     }

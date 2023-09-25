@@ -5,3 +5,7 @@ module.exports.hashPassword = async function hashPassword(password) {
   const hash = bcrypt.hashSync(password, salt);
   return hash;
 };
+
+module.exports.comparePassword = function comparePassword(password, hash) {
+  return bcrypt.compareSync(password, hash);
+};

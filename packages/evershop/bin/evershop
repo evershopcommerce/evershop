@@ -25,6 +25,10 @@ try {
     require('./start');
   } else if (command === 'install') {
     require('./install');
+  } else if (command === 'user:create') {
+    require('./user/create');
+  } else if (command === 'user:changePassword') {
+    require('./user/changePassword');
   } else {
     throw new Error('Invalid command');
   }
