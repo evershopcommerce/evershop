@@ -11,7 +11,7 @@ function isValidPassword(password) {
   return password.length >= 8;
 }
 
-const argv = yargs
+const {argv} = yargs
   .option('email', {
     alias: 'e',
     description: 'User email',
@@ -36,7 +36,7 @@ const argv = yargs
     }
     return true;
   })
-  .help().argv;
+  .help();
 
 async function updatePassword() {
   const { email, password } = argv;

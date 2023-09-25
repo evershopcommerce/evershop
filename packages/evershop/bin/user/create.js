@@ -15,7 +15,7 @@ function isValidPassword(password) {
   return password.length >= 8;
 }
 
-const argv = yargs
+const {argv} = yargs
   .option('name', {
     alias: 'n',
     description: 'Admin user full name',
@@ -52,7 +52,7 @@ const argv = yargs
     }
     return true;
   })
-  .help().argv;
+  .help();
 
 async function createAdminUser() {
   const { name: full_name, email, password } = argv;

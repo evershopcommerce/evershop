@@ -45,6 +45,11 @@ const coreModules = [
     path: path.resolve(__dirname, '../../src/modules/graphql')
   },
   {
+    name: 'oms',
+    resolve: path.resolve(__dirname, '../../src/modules/oms'),
+    path: path.resolve(__dirname, '../../src/modules/oms')
+  },
+  {
     name: 'paypal',
     resolve: path.resolve(__dirname, '../../src/modules/paypal'),
     path: path.resolve(__dirname, '../../src/modules/paypal')
