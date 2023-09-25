@@ -1,5 +1,4 @@
 const { update, select } = require('@evershop/postgres-query-builder');
-const bcrypt = require('bcryptjs');
 const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
@@ -9,6 +8,9 @@ const {
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const {
+  hashPassword
+} = require('@evershop/evershop/src/lib/util/passwordHelper');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -33,8 +35,7 @@ module.exports = async (request, response, delegate, next) => {
     // Check if password is set
     if (request.body.password) {
       // Hash the password
-      const salt = bcrypt.genSaltSync(10);
-      request.body.password = bcrypt.hashSync(request.body.password, salt);
+      request.body.password = hashPassword(request.body.password);
     }
 
     await update('customer')

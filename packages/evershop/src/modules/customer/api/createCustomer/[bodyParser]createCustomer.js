@@ -1,5 +1,4 @@
 const { insert, select } = require('@evershop/postgres-query-builder');
-const bcrypt = require('bcryptjs');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   OK,
@@ -9,6 +8,9 @@ const {
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 const { emit } = require('@evershop/evershop/src/lib/event/emitter');
+const {
+  hashPassword
+} = require('@evershop/evershop/src/lib/util/passwordHelper');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -17,8 +19,7 @@ module.exports = async (request, response, delegate, next) => {
   const { email, full_name, password } = body;
   try {
     // Hash the password
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(password, salt);
+    const hashedPassword = hashPassword(password);
 
     // Check if email is already used
     const existingCustomer = await select()
@@ -43,7 +44,7 @@ module.exports = async (request, response, delegate, next) => {
         email,
         // eslint-disable-next-line camelcase
         full_name,
-        password: hash,
+        password: hashedPassword,
         group_id: 1,
         status
       })

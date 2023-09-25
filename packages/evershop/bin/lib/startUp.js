@@ -21,10 +21,7 @@ module.exports.start = async function start(cb) {
 
   /** Migration */
   try {
-    // eslint-disable-next-line no-restricted-syntax
-    for (const module of modules) {
-      await migrate(module);
-    }
+    await migrate(modules);
   } catch (e) {
     error(e);
     process.exit(0);
