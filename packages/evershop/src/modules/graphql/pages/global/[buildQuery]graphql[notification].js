@@ -2,8 +2,12 @@ const { execute } = require('graphql');
 const { parse } = require('graphql');
 const { validate } = require('graphql/validation');
 const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
+const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 let schema = require('../../services/buildSchema');
 const { getContext } = require('../../services/contextHelper');
+const {
+  graphqlErrorMessageFormat
+} = require('../../services/graphqlErrorMessageFormat');
 
 module.exports = async function graphql(request, response, delegate, next) {
   // TODO: Should we wait for previous async middlewares?
@@ -23,6 +27,15 @@ module.exports = async function graphql(request, response, delegate, next) {
         // Validate the query
         const validationErrors = validate(schema, document);
         if (validationErrors.length > 0) {
+          const formatedErrorMessage = graphqlErrorMessageFormat(
+            graphqlQuery,
+            validationErrors[0].locations[0].line,
+            validationErrors[0].locations[0].column
+          );
+          debug(
+            'critical',
+            `GraphQL validation error: ${formatedErrorMessage}`
+          );
           next(validationErrors[0]);
         } else {
           if (isDevelopmentMode()) {
