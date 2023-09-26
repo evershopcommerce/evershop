@@ -69,6 +69,7 @@ ProductList.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
+      sku: PropTypes.string,
       productId: PropTypes.number,
       url: PropTypes.string,
       price: PropTypes.shape({
