@@ -1,43 +1,45 @@
 const { green, red, blue, yellow, white } = require('kleur');
+const isDevelopmentMode = require('../util/isDevelopmentMode');
 
 // Define logger function
 function debug(level, message) {
-  if (!process.argv.includes('--debug')) {
+  if (isDevelopmentMode() || process.argv.includes('--debug')) {
+    let logMessage = ``;
+    let textMessage = `${message}`;
+    // If message is an exception object, include the stack trace
+    if (message instanceof Error) {
+      textMessage = `${message.message}\n${message.stack}`;
+    }
+    // Switch color based on level
+    switch (level) {
+      case 'critical':
+        logMessage += red(`[debug] ❌ ${textMessage}`);
+        break;
+      case 'warning':
+        logMessage += yellow(`[debug] ⚠️ ${textMessage}`);
+        break;
+      case 'info':
+        logMessage += blue(`[debug] ℹ️ ${textMessage}`);
+        break;
+      case 'success':
+        logMessage += green(`[debug] ✅ ${textMessage}`);
+        break;
+      default:
+        logMessage += white(`[debug] - ${textMessage}`);
+        break;
+    }
+
+    // If message is added to a group, store it in the group
+    if (this.group && Array.isArray(this.group.messages)) {
+      this.group.messages.push(logMessage);
+      return; // Do not output message to console or file
+    }
+
+    // eslint-disable-next-line no-console
+    console.log(logMessage);
+  } else {
     return; // Do not output message to console or file
   }
-  let logMessage = ``;
-  let textMessage = `${message}`;
-  // If message is an exception object, include the stack trace
-  if (message instanceof Error) {
-    textMessage = `${message.message}\n${message.stack}`;
-  }
-  // Switch color based on level
-  switch (level) {
-    case 'critical':
-      logMessage += red(`[debug] ❌ ${textMessage}`);
-      break;
-    case 'warning':
-      logMessage += yellow(`[debug] ⚠️ ${textMessage}`);
-      break;
-    case 'info':
-      logMessage += blue(`[debug] ℹ️ ${textMessage}`);
-      break;
-    case 'success':
-      logMessage += green(`[debug] ✅ ${textMessage}`);
-      break;
-    default:
-      logMessage += white(`[debug] - ${textMessage}`);
-      break;
-  }
-
-  // If message is added to a group, store it in the group
-  if (this.group && Array.isArray(this.group.messages)) {
-    this.group.messages.push(logMessage);
-    return; // Do not output message to console or file
-  }
-
-  // eslint-disable-next-line no-console
-  console.log(logMessage);
 }
 
 function error(e) {
