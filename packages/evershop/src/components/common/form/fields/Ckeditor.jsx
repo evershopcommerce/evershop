@@ -120,7 +120,9 @@ function FileBrowser({
       .then((res) => res.json())
       .then((response) => {
         if (!response.error) {
-          setFolders(folders.concat(response.data.name));
+          // Get the first level folder, incase of recursive folder creation
+          const recursiveFolders = folder.split('/');
+          setFolders([...new Set(folders.concat(recursiveFolders[0]))]);
         } else {
           setError(response.error.message);
         }
