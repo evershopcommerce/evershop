@@ -165,11 +165,6 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
         new TerserPlugin({
           terserOptions: {
             parse: {
-              // We want uglify-js to parse ecma 8 code. However, we don't want it
-              // to apply any minification steps that turns valid ecma 5 code
-              // into invalid ecma 5 code. This is why the 'compress' and 'output'
-              // sections only apply transformations that are ecma 5 safe
-              // https://github.com/facebook/create-react-app/pull/4234
               ecma: 2020
             },
             compress: false,
@@ -179,8 +174,6 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
             output: {
               ecma: 5,
               comments: false,
-              // Turned on because emoji and regex is not minified properly using
-              // default. See https://github.com/facebook/create-react-app/issues/2488
               ascii_only: true
             }
           }
