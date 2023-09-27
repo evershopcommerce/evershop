@@ -9,6 +9,19 @@ const {
 // eslint-disable-next-line no-unused-vars
 module.exports = (request, response, delegate, next) => {
   const path = request.params[0] || '';
+  // Validate the path to avoid Relative Path Traversal attack
+  if (
+    // eslint-disable-next-line no-useless-escape
+    /^(?!(\/|\.{2,}\/))[a-zA-Z0-9_\-/]*\.[a-zA-Z0-9_\-]+$/.test(path) === false
+  ) {
+    response.status(INVALID_PAYLOAD).json({
+      error: {
+        status: INVALID_PAYLOAD,
+        message: 'Invalid path'
+      }
+    });
+    return;
+  }
   if (!existsSync(join(CONSTANTS.MEDIAPATH, path))) {
     response.status(INVALID_PAYLOAD).json({
       error: {

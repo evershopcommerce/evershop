@@ -18,7 +18,6 @@
   ],
   "scripts": {
     "dev": "evershop dev",
-    "dev:debug": "evershop dev --debug",
     "setup": "evershop install",
     "build": "evershop build",
     "start": "evershop start",

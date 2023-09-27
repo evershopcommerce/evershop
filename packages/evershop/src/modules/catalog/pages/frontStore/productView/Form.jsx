@@ -50,10 +50,7 @@ function ToastMessage({ thumbnail, name, qty, count, cartUrl, toastId }) {
           <div className="name">
             <span className="font-bold">{name}</span>
           </div>
-          <div>
-            Qty:
-            {qty}
-          </div>
+          <div>{_('QTY: ${qty}', { qty })}</div>
         </div>
       </div>
       <a className="add-cart-popup-button" href={cartUrl}>
@@ -92,7 +89,7 @@ function AddToCart({ stockAvaibility, loading = false, error }) {
           validationRules={['notEmpty']}
           className="qty"
           name="qty"
-          placeholder="Qty"
+          placeholder={_('Qty')}
           formId="productForm"
         />
       </div>
@@ -113,7 +110,7 @@ function AddToCart({ stockAvaibility, loading = false, error }) {
           />
         )}
         {stockAvaibility === false && (
-          <Button title="SOLD OUT" onAction={() => {}} />
+          <Button title={_('SOLD OUT')} onAction={() => {}} />
         )}
       </div>
     </div>
@@ -151,7 +148,7 @@ export default function ProductForm({ product, action }) {
           <ToastMessage
             thumbnail={response.data.item.thumbnail}
             name={product.name}
-            qty={1}
+            qty={response.data.item.qty}
             count={response.data.count}
             cartUrl="/cart"
             toastId={toastId}

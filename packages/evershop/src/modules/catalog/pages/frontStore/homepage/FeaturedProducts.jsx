@@ -26,6 +26,7 @@ FeaturedProducts.propTypes = {
       items: PropTypes.arrayOf(
         PropTypes.shape({
           productId: PropTypes.number.isRequired,
+          sku: PropTypes.string.isRequired,
           name: PropTypes.string.isRequired,
           price: PropTypes.shape({
             regular: PropTypes.shape({
@@ -62,6 +63,7 @@ export const query = `
         items {
           productId
           name
+          sku
           price {
             regular {
               value

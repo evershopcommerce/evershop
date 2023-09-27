@@ -83,7 +83,7 @@ module.exports = async (request, response, delegate, next) => {
       filtersFromUrl.push({
         key: 'sortBy',
         operation: '=',
-        value: sortBy
+        value: sortBy.toString()
       });
     }
 

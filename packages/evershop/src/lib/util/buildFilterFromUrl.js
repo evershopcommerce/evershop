@@ -48,7 +48,7 @@ module.exports.buildFilterFromUrl = (query) => {
       filtersFromUrl.push({
         key: 'sortBy',
         operation: '=',
-        value: sortBy
+        value: sortBy.toString()
       });
     }
 

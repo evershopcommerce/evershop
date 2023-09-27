@@ -1,3 +1,4 @@
+const { encode } = require('html-entities');
 const {
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
@@ -30,6 +31,6 @@ module.exports = async (err, request, response, delegate, next) => {
       }
     });
   } else {
-    response.status(500).send(err.message);
+    response.status(500).send(encode(err.message));
   }
 };
