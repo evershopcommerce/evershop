@@ -111,11 +111,11 @@ export default function Variants({
             <div className="mb-05 text-textSubdued uppercase">
               <span>{a.attribute_name}</span>
             </div>
-            <ul className="variant-option-list flex justify-start">
+            <ul className="variant-option-list flex justify-start gap-05 flex-wrap">
               {options.map((o) => {
-                let className = 'mr-05';
+                className = ''
                 if (a.selected && a.selectedOption === o.optionId) {
-                  className = 'selected mr-05';
+                  className = 'selected';
                 }
                 return (
                   <li key={o.optionId} className={className}>
