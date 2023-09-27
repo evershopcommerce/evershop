@@ -155,9 +155,12 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
   };
 
   config.optimization = {};
+
+  // Check if the flag --skip-minify is set
+  const skipMinify = process.argv.includes('--skip-minify');
   if (isProductionMode()) {
     config.optimization = Object.assign(config.optimization, {
-      minimize: true,
+      minimize: !skipMinify,
       minimizer: [
         new TerserPlugin({
           terserOptions: {
