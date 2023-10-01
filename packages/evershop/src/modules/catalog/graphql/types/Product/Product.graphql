@@ -1,5 +1,5 @@
 """
-Look up for a Product
+Represents a product.
 """
 type Product {
   productId: Int!
@@ -17,11 +17,7 @@ type Product {
   variantGroupId: ID
   visibility: Int
   groupId: ID
-  category: Category
   url: String
-  editUrl: String
-  updateApi: String!
-  deleteApi: String!
 }
 
 """

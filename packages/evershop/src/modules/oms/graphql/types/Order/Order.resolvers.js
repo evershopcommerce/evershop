@@ -1,31 +1,18 @@
 const { select } = require('@evershop/postgres-query-builder');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getOrdersBaseQuery } = require('../../../services/getOrdersBaseQuery');
-const { OrderCollection } = require('../../../services/OrderCollection');
 
 module.exports = {
   Query: {
-    order: async (_, { id }, { pool }) => {
+    order: async (_, { uuid }, { pool }) => {
       const query = select().from('order');
-      query.where('uuid', '=', id);
+      query.where('uuid', '=', uuid);
       const order = await query.load(pool);
       if (!order) {
         return null;
       } else {
         return camelCase(order);
       }
-    },
-    orders: async (_, { filters = [] }, { user }) => {
-      // This field is for admin only
-      if (!user) {
-        return [];
-      }
-      const query = getOrdersBaseQuery();
-      const root = new OrderCollection(query);
-      await root.init({}, { filters });
-      return root;
     },
     shipmentStatusList: () => getConfig('oms.order.shipmentStatus', {}),
     paymentStatusList: () => getConfig('oms.order.paymentStatus', {})
@@ -68,17 +55,6 @@ module.exports = {
         .load(pool);
       return shipment ? { ...camelCase(shipment), orderUuid: uuid } : null;
     },
-    editUrl: ({ uuid }) => buildUrl('orderEdit', { id: uuid }),
-    createShipmentApi: ({ uuid }) => buildUrl('createShipment', { id: uuid }),
-    customerUrl: async ({ customerId }, _, { pool }) => {
-      const customer = await select()
-        .from('customer')
-        .where('customer_id', '=', customerId)
-        .load(pool);
-      return customer
-        ? buildUrl('customerEdit', { id: customer.uuid })
-        : null;
-    },
     shipmentStatus: ({ shipmentStatus }) => {
       const statusList = getConfig('oms.order.shipmentStatus', {});
       const status = statusList[shipmentStatus] || {
@@ -108,8 +84,13 @@ module.exports = {
       };
     }
   },
-  Shipment: {
-    updateShipmentApi: ({ orderUuid, uuid }) =>
-      buildUrl('updateShipment', { order_id: orderUuid, shipment_id: uuid })
+  Customer: {
+    orders: async ({ customerId }, _, { pool }) => {
+      const orders = await select()
+        .from('order')
+        .where('order.customer_id', '=', customerId)
+        .execute(pool);
+      return orders.map((row) => camelCase(row));
+    }
   }
 };

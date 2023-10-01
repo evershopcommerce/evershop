@@ -1,0 +1,20 @@
+extend type CustomerGroup {
+  editUrl: String!
+  customers: [Customer]
+}
+
+"""
+Represents a collection of customer groups
+"""
+type CustomerGroupCollection {
+  items: [CustomerGroup]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+
+extend type Query {
+  customerGroup: CustomerGroup
+  customerGroups: CustomerGroupCollection
+}

@@ -4,11 +4,8 @@ Represents a customer group.
 type CustomerGroup {
   customerGroupId: Int!
   groupName: String!
-  editUrl: String!
-  customers: [Customer]
 }
 
-extend type Query {
-  customerGroup: CustomerGroup
-  customerGroups: [CustomerGroup]
+extend type Customer {
+  group: CustomerGroup
 }

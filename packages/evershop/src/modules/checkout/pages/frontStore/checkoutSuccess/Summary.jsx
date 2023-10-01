@@ -67,7 +67,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    order (id: getContextValue('orderId')) {
+    order (uuid: getContextValue('orderId')) {
       orderNumber
       discountAmount {
         value

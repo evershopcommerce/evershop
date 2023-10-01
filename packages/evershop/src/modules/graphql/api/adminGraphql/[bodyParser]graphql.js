@@ -1,3 +1,5 @@
-const graphqlMiddleware = require('@evershop/evershop/src/modules/graphql/api/graphql/[bodyParser]graphql');
+const schema = require('../../services/buildSchema');
+const { graphqlMiddleware } = require('../../services/graphqlMiddleware');
 
-module.exports = graphqlMiddleware;
+const middleware = graphqlMiddleware(schema);
+module.exports = middleware;

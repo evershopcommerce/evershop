@@ -10,7 +10,7 @@ import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function ContactInformationStep({
   cart: { customerEmail, addContactInfoApi },
-  customer,
+  currentCustomer,
   loginUrl
 }) {
   const steps = useCheckoutSteps();
@@ -28,7 +28,7 @@ export default function ContactInformationStep({
       isCompleted: !!customerEmail,
       preview: customerEmail || '',
       sortOrder: 5,
-      editable: !customer
+      editable: !currentCustomer
     });
   }, []);
 
@@ -42,7 +42,7 @@ export default function ContactInformationStep({
     <div className="checkout-contact checkout-step">
       {display && (
         <Edit
-          customer={customer}
+          customer={currentCustomer}
           step={step}
           cartId={cartId}
           email={email}
@@ -57,7 +57,7 @@ export default function ContactInformationStep({
 
 ContactInformationStep.propTypes = {
   loginUrl: PropTypes.string.isRequired,
-  customer: PropTypes.shape({
+  currentCustomer: PropTypes.shape({
     email: PropTypes.string.isRequired
   }),
   cart: PropTypes.shape({
@@ -67,7 +67,7 @@ ContactInformationStep.propTypes = {
 };
 
 ContactInformationStep.defaultProps = {
-  customer: null
+  currentCustomer: null
 };
 
 export const layout = {
@@ -81,7 +81,7 @@ export const query = `
       customerEmail
       addContactInfoApi
     }
-    customer(id: getContextValue("customerId", null)) {
+    currentCustomer {
       email
     }
     loginUrl: url(routeId: "login")

@@ -11,14 +11,19 @@ const customStyles = {
   })
 };
 
-export default function CustomerCondition({ coupon = {}, groups }) {
+export default function CustomerCondition({
+  coupon = {},
+  groups: { items: customerGroups }
+}) {
   const condition = coupon?.userCondition || {};
   const selectedGroups = (condition.groups || [])
     .filter((g) =>
-      groups.find((group) => parseInt(group.value, 10) === parseInt(g, 10))
+      customerGroups.find(
+        (group) => parseInt(group.value, 10) === parseInt(g, 10)
+      )
     )
     .map((g) => {
-      const group = groups.find(
+      const group = customerGroups.find(
         (e) => parseInt(e.value, 10) === parseInt(g, 10)
       );
       return {
@@ -36,7 +41,7 @@ export default function CustomerCondition({ coupon = {}, groups }) {
             default: (
               <Select
                 name="user_condition[groups][]"
-                options={groups.map((group) => ({
+                options={customerGroups.map((group) => ({
                   value: group.value.toString(),
                   label: group.name
                 }))}
@@ -108,17 +113,21 @@ CustomerCondition.propTypes = {
       purchased: PropTypes.number
     })
   }),
-  groups: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.number,
-      name: PropTypes.string
-    })
-  )
+  groups: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.number,
+        name: PropTypes.string
+      })
+    )
+  })
 };
 
 CustomerCondition.defaultProps = {
   coupon: {},
-  groups: []
+  groups: {
+    items: []
+  }
 };
 
 export const layout = {
@@ -136,8 +145,10 @@ export const query = `
       }
     }
     groups: customerGroups {
-      value: customerGroupId
-      name: groupName
+      items {
+        value: customerGroupId
+        name: groupName
+      }
     }
   }
 `;

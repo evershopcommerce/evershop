@@ -1,0 +1,10 @@
+extend type Collection {
+  editUrl: String
+  addProductUrl: String
+  updateApi: String!
+  deleteApi: String!
+}
+
+extend type Product {
+  removeFromCollectionUrl: String
+}

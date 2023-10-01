@@ -5,22 +5,9 @@ const {
   getProductsBaseQuery
 } = require('../../../services/getProductsBaseQuery');
 const { ProductCollection } = require('../../../services/ProductCollection');
-const {
-  getCategoriesBaseQuery
-} = require('../../../services/getCategoriesBaseQuery');
 
 module.exports = {
   Product: {
-    category: async (product, _, { pool }) => {
-      const query = getCategoriesBaseQuery();
-      query.where('category_id', '=', product.categoryId);
-      const result = await query.load(pool);
-      if (!result) {
-        return null;
-      } else {
-        return camelCase(result);
-      }
-    },
     url: async (product, _, { pool }) => {
       // Get the url rewrite for this product
       const urlRewrite = await select()
@@ -33,10 +20,7 @@ module.exports = {
       } else {
         return urlRewrite.request_path;
       }
-    },
-    editUrl: (product) => buildUrl('productEdit', { id: product.uuid }),
-    updateApi: (product) => buildUrl('updateProduct', { id: product.uuid }),
-    deleteApi: (product) => buildUrl('deleteProduct', { id: product.uuid })
+    }
   },
   Query: {
     product: async (_, { id }, { pool }) => {

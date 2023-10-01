@@ -1,0 +1,20 @@
+extend type Customer {
+  editUrl: String!
+  updateApi: String!
+  deleteApi: String!
+}
+
+"""
+Return a collection of customers
+"""
+type CustomerCollection {
+  items: [Customer]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  customer(id: String): Customer
+  customers(filters: [FilterInput]): CustomerCollection
+}

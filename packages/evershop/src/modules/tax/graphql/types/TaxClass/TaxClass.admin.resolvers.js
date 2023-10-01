@@ -2,16 +2,15 @@ const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { TaxClassCollection } = require('../../../services/TaxClassCollection');
 
 module.exports = {
   Query: {
-    taxClasses: async () => {
-      const taxClasses = await select()
-        .from('tax_class')
-        .orderBy('tax_class_id', 'DESC')
-        .execute(pool);
-      // Parse the provinces field into an array
-      return taxClasses.map((row) => camelCase(row));
+    taxClasses: async (_, { filters }) => {
+      const query = select().from('tax_class');
+      const root = new TaxClassCollection(query);
+      await root.init({}, { filters });
+      return root;
     },
     taxClass: async (_, { id }) => {
       const taxClass = await select()

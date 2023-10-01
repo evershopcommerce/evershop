@@ -18,12 +18,8 @@ type Category {
   parent: Category
   path: [Category]
   url: String
-  editUrl: String
-  updateApi: String!
-  deleteApi: String!
   availableAttributes: [FilterAttribute]
   priceRange: PriceRange
-  addProductUrl: String
 }
 
 """
@@ -86,8 +82,7 @@ type PriceRange {
 }
 
 extend type Product {
-  collections: [Collection],
-  removeFromCategoryUrl: String
+  category: Category,
 }
 
 extend type Query {

@@ -1,5 +1,5 @@
 """
-The `Collection` type represents a category object.
+The `Collection` type represents a product collection.
 """
 type Collection {
   collectionId: ID!
@@ -8,14 +8,10 @@ type Collection {
   description: String
   code: String!
   products(filters: [FilterInput]): ProductCollection
-  editUrl: String
-  addProductUrl: String
-  updateApi: String!
-  deleteApi: String!
 }
 
 """
-Returns a collection of categories.
+Returns a collection of product collection.
 """
 type CollectionCollection {
   items: [Collection]
@@ -26,7 +22,6 @@ type CollectionCollection {
 
 extend type Product {
   collections: [Collection],
-  removeFromCollectionUrl: String
 }
 
 extend type Query {

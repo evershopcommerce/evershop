@@ -1,5 +1,5 @@
 """
-The `PaymentStatus` type defines the status of a payment.
+Represents a payment status.
 """
 type PaymentStatus {
   name: String
@@ -9,7 +9,7 @@ type PaymentStatus {
 }
 
 """
-The `ShipmentStatus` type defines the status of a shipment.
+Represents a shipment status.
 """
 type ShipmentStatus {
   name: String

@@ -1,5 +1,5 @@
 """
-Look up a customer by ID
+Represents a customer
 """
 type Customer {
   customerId: Int!
@@ -8,27 +8,8 @@ type Customer {
   email: String!
   fullName: String!
   createdAt: Date!
-  url: String!
-  editUrl: String!
-  logoutApi: String!
-  updateApi: String!
-  deleteApi: String!
-  group: CustomerGroup
-  orders: [Order]
-}
-
-"""
-Return a collection of customers
-"""
-type CustomerCollection {
-  items: [Customer]
-  currentPage: Int!
-  total: Int!
-  currentFilters: [Filter]
 }
 
 extend type Query {
-  customer(id: String): Customer
   currentCustomer: Customer
-  customers(filters: [FilterInput]): CustomerCollection
 }

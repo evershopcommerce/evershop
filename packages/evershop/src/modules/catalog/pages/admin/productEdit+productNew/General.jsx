@@ -163,7 +163,7 @@ export default function General({
   uploadApi,
   folderCreateApi,
   setting,
-  taxClasses
+  productTaxClasses: { items: taxClasses }
 }) {
   return (
     <Card title="General">
@@ -278,16 +278,21 @@ General.propTypes = {
     storeCurrency: PropTypes.string,
     weightUnit: PropTypes.string
   }).isRequired,
-  taxClasses: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.number,
-      text: PropTypes.string
-    })
-  ).isRequired
+  productTaxClasses: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.number,
+        text: PropTypes.string
+      })
+    )
+  })
 };
 
 General.defaultProps = {
-  product: undefined
+  product: undefined,
+  productTaxClasses: {
+    items: []
+  }
 };
 
 export const layout = {
@@ -328,9 +333,11 @@ export const query = `
     deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
     uploadApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
     folderCreateApi: url(routeId: "folderCreate")
-    taxClasses {
-      value: taxClassId
-      text: name
+    productTaxClasses: taxClasses {
+      items {
+        value: taxClassId
+        text: name
+      }
     }
   }
 `;
