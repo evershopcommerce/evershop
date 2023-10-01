@@ -44,6 +44,9 @@ module.exports = async (request, response, delegate, next) => {
       metadata: {
         // eslint-disable-next-line camelcase
         orderId: order_id
+      },
+      automatic_payment_methods: {
+        enabled: true,
       }
     });
 
