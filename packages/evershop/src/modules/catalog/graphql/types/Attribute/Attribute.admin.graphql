@@ -1,0 +1,42 @@
+"""
+Represents a single attribute group
+"""
+type AttributeGroup {
+  attributeGroupId: ID!
+  uuid: String!
+  groupName: String!
+  updateApi: String!
+  attributes: [Attribute]
+}
+
+extend type Attribute {
+  groups: [AttributeGroup]
+  editUrl: String!
+  updateApi: String!
+  deleteApi: String!
+}
+
+"""
+Represents a collection of attributes
+"""
+type AttributeCollection {
+  items: [Attribute]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+"""
+Represents a collection of attribute groups
+"""
+type AttributeGroupCollection {
+  items: [AttributeGroup]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  attributes(filters: [FilterInput]): AttributeCollection
+  attributeGroups(filters: [FilterInput]): AttributeGroupCollection
+}

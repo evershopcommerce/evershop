@@ -27,7 +27,17 @@ type TaxClass {
   addRateApi: String!
 }
 
+"""
+Returns a collection of tax classes.
+"""
+type TaxClassCollection {
+  items: [TaxClass]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
 extend type Query {
-  taxClasses: [TaxClass]
+  taxClasses: TaxClassCollection
   taxClass(id: String!): TaxClass
 }

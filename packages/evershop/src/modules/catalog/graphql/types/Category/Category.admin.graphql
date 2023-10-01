@@ -1,0 +1,10 @@
+extend type Category {
+  editUrl: String
+  updateApi: String!
+  deleteApi: String!
+  addProductUrl: String
+}
+
+extend type Product {
+  removeFromCategoryUrl: String
+}

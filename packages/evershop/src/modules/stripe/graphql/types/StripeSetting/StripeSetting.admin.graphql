@@ -1,0 +1,4 @@
+extend type Setting {
+  stripeSecretKey: String
+  stripeEndpointSecret: String
+}

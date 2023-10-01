@@ -28,23 +28,25 @@ const CountriesQuery = `
 const TaxClassesQuery = `
   query TaxClasses {
     taxClasses {
-      taxClassId
-      uuid
-      name
-      rates {
-        taxRateId
+      items {
+        taxClassId
         uuid
         name
-        rate
-        isCompound
-        country
-        province
-        postcode
-        priority
-        updateApi
-        deleteApi
+        rates {
+          taxRateId
+          uuid
+          name
+          rate
+          isCompound
+          country
+          province
+          postcode
+          priority
+          updateApi
+          deleteApi
+        }
+        addRateApi
       }
-      addRateApi
     }
   }
 `;
@@ -124,10 +126,12 @@ export default function TaxSetting({
                           text: 'Higest tax rate based on cart items'
                         }
                       ].concat(
-                        taxClassesQueryData.data.taxClasses.map((taxClass) => ({
+                        taxClassesQueryData.data.taxClasses.items.map(
+                          (taxClass) => ({
                             value: taxClass.taxClassId,
                             text: taxClass.name
-                          })) || []
+                          })
+                        ) || []
                       )}
                     />
                   </div>
@@ -159,7 +163,7 @@ export default function TaxSetting({
           </Card>
           <Card title="Tax classes">
             <TaxClasses
-              classes={taxClassesQueryData.data.taxClasses}
+              classes={taxClassesQueryData.data.taxClasses.items}
               countries={countriesQueryData.data.countries}
               getTaxClasses={reexecuteQuery}
             />

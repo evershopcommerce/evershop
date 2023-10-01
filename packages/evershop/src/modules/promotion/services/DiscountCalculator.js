@@ -40,6 +40,8 @@ exports.DiscountCalculator = class DiscountCalculator {
               (cartDiscountAmount * precisionFix -
                 distributedAmount * precisionFix) /
               precisionFix;
+            // Fix for rounding error
+            sharedDiscount = parseFloat(sharedDiscount.toFixed(precision));
           } else {
             const rowTotal = item.getData('final_price') * item.getData('qty');
             sharedDiscount = toPrice(
@@ -87,6 +89,8 @@ exports.DiscountCalculator = class DiscountCalculator {
               (cartDiscountAmount * precisionFix -
                 distributedAmount * precisionFix) /
               precisionFix;
+            // Fix for rounding error
+            sharedDiscount = parseFloat(sharedDiscount.toFixed(precision));
           } else {
             const rowTotal = item.getData('final_price') * item.getData('qty');
             sharedDiscount = toPrice(

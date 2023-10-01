@@ -1,5 +1,5 @@
 """
-Retrieve an Order Address.
+Represents an Order Address.
 """
 type OrderAddress implements Address {
   orderAddressId: Int!
@@ -15,7 +15,7 @@ type OrderAddress implements Address {
 }
 
 """
-Retrieve an Order Item.
+Represents an Order Item.
 """
 type OrdertItem implements ShoppingCartItem {
   orderItemId: ID!
@@ -42,7 +42,7 @@ type OrdertItem implements ShoppingCartItem {
 }
 
 """
-Retrieve an Order.
+Represents an Order.
 """
 type Order implements ShoppingCart {
   orderId: ID!
@@ -53,7 +53,6 @@ type Order implements ShoppingCart {
   billingAddress: OrderAddress
   currency: String!
   customerId: Int
-  customerUrl: String
   customerGroupId: Int
   customerEmail: String
   customerFullName: String
@@ -78,14 +77,12 @@ type Order implements ShoppingCart {
   shippingNote: String
   createdAt: Date!
   updatedAt: String!
-  editUrl: String!
-  createShipmentApi: String!
   activities: [Activity]
   shipment: Shipment
 }
 
 """
-Retrieve an Order Activity.
+Represents an Order Activity.
 """
 type Activity {
   orderActivityId: Int!
@@ -96,7 +93,7 @@ type Activity {
 }
 
 """
-Retrieve an Order Shipment.
+Represents a Shipment.
 """
 type Shipment {
   shipmentId: Int!
@@ -105,7 +102,6 @@ type Shipment {
   trackingNumber: String
   createdAt: DateTime!
   updatedAt: DateTime
-  updateShipmentApi: String!
 }
 
 """
@@ -118,7 +114,10 @@ type OrderCollection {
   currentFilters: [Filter]
 }
 
+extend type Customer {
+  orders: [Order]
+}
+
 extend type Query {
-  order(id: String!): Order
-  orders(filters: [FilterInput]): OrderCollection
+  order(uuid: String!): Order
 }

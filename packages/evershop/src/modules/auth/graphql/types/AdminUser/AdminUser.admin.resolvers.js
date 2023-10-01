@@ -3,10 +3,7 @@ const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 
 module.exports = {
   Query: {
-    adminUser: async (root, { id }, { pool, user }) => {
-      if (!user) {
-        return null;
-      }
+    adminUser: async (root, { id }, { pool }) => {
       const query = select().from('admin_user');
       query.where('admin_user_id', '=', id);
 
@@ -14,11 +11,7 @@ module.exports = {
       return adminUser ? camelCase(adminUser) : null;
     },
     currentAdminUser: (root, args, { user }) => (user ? camelCase(user) : null),
-    adminUsers: async (_, { filters = [] }, { pool, user }) => {
-      // This field is for admin only
-      if (!user) {
-        return [];
-      }
+    adminUsers: async (_, { filters = [] }, { pool }) => {
       const query = select().from('admin_user');
       const currentFilters = [];
 

@@ -22,7 +22,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    order(id: getContextValue("orderId", null)) {
+    order(uuid: getContextValue("orderId", null)) {
       orderNumber
     }
     backUrl: url(routeId: "orderGrid")

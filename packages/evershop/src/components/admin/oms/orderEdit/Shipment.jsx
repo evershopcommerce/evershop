@@ -224,7 +224,7 @@ Shipment.propTypes = {
 
 export const layout = `
   query Query {
-    order(id: getContextValue("orderId")) {
+    order(uuid: getContextValue("orderId")) {
       orderId
       shippingNote
       shippingMethod
