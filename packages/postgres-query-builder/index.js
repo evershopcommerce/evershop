@@ -644,8 +644,22 @@ class SelectQuery extends Query {
         this.removeOrderBy();
         return await super.execute(connection, false);
       } else if (e.code.toLowerCase() === '22p02') {
-        // In case of invalid input type, we consider it as empty result
-        return [];
+        const countField = this._select._fields.find((f) =>
+          /COUNT\s*\(/i.test(f)
+        );
+        if (countField) {
+          let alias = countField.match(/(?<=as\s)(.*)/i);
+          if (alias) {
+            alias = alias[0].trim();
+            // Remove the single quote and double quote if any
+            alias = alias.replace(/'/g, '').replace(/"/g, '');
+          } else {
+            alias = 'count';
+          }
+          return [{ [alias]: 0 }];
+        } else {
+          return [];
+        }
       } else {
         throw e;
       }
