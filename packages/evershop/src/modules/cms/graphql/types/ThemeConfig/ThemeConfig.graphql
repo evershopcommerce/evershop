@@ -38,8 +38,8 @@ Represents a script html tag.
 type Script {
   src: String
   type: String
-  async: String
-  defer: String
+  async: Boolean
+  defer: Boolean
   crossOrigin: String
   integrity: String
   noModule: String
