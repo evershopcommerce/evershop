@@ -63,7 +63,7 @@
   box-sizing: border-box;
   margin-bottom: 1rem;
   padding: 8px;
-  border-radius: 1px;
+  border-radius: 5px;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: justify;
@@ -86,7 +86,8 @@
   background: #3498db;
 }
 .Toastify__toast--success {
-  background: #07bc0c;
+  background: var(--success);
+  color: #fff
 }
 .Toastify__toast--warning {
   background: #f1c40f;
