@@ -103,6 +103,7 @@ type CartItem implements ShoppingCartItem {
   taxPercent: Float!
   taxAmount: Price!
   discountAmount: Price!
+  subTotal: Price!
   total: Price!
   variantGroupId: Int
   variantOptions: String
@@ -133,6 +134,7 @@ type Cart implements ShoppingCart {
   shippingFeeInclTax: Price!
   discountAmount: Price!
   subTotal: Price!
+  subTotalInclTax: Price!
   totalQty: Int!
   totalWeight: Weight!
   taxAmount: Price!

@@ -5,7 +5,10 @@ import { CartSummary } from '@components/frontStore/checkout/checkout/summary/Ca
 import Area from '@components/common/Area';
 import './Summary.scss';
 
-export default function Summary({ cart }) {
+export default function Summary({
+  cart,
+  setting: { displayCheckoutPriceIncludeTax }
+}) {
   return (
     <Area
       id="checkoutSummary"
@@ -13,13 +16,13 @@ export default function Summary({ cart }) {
       coreComponents={[
         {
           component: { default: Items },
-          props: { items: cart.items },
+          props: { items: cart.items, displayCheckoutPriceIncludeTax },
           sortOrder: 20,
           id: 'checkoutOrderSummaryItems'
         },
         {
           component: { default: CartSummary },
-          props: { ...cart },
+          props: { ...cart, displayCheckoutPriceIncludeTax },
           sortOrder: 30,
           id: 'checkoutOrderSummaryCart'
         }
@@ -38,11 +41,17 @@ Summary.propTypes = {
         qty: PropTypes.number,
         total: PropTypes.shape({
           text: PropTypes.string
+        }),
+        subTotal: PropTypes.shape({
+          text: PropTypes.string
         })
       })
     ),
     totalQty: PropTypes.number,
     subTotal: PropTypes.shape({
+      text: PropTypes.string
+    }),
+    subTotalInclTax: PropTypes.shape({
       text: PropTypes.string
     }),
     grandTotal: PropTypes.shape({
@@ -59,6 +68,9 @@ Summary.propTypes = {
     }),
     shippingMethodName: PropTypes.string,
     coupon: PropTypes.string
+  }).isRequired,
+  setting: PropTypes.shape({
+    displayCheckoutPriceIncludeTax: PropTypes.bool
   }).isRequired
 };
 
@@ -72,6 +84,10 @@ export const query = `
     cart {
       totalQty
       subTotal {
+        value
+        text
+      }
+      subTotalInclTax {
         value
         text
       }
@@ -103,7 +119,14 @@ export const query = `
           value
           text
         }
+        subTotal {
+          value
+          text
+        }
       }
+    }
+    setting {
+      displayCheckoutPriceIncludeTax
     }
   }
 `;

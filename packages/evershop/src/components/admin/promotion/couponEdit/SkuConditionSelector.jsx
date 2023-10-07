@@ -68,7 +68,7 @@ export default function SkuConditionSelector({
               <ProductSkuSelector
                 onSelect={onSelect}
                 onUnSelect={onUnSelect}
-                selectedSKUs={selectedSKUs}
+                selectedChecker={({ sku }) => selectedSKUs.includes(sku)}
                 closeModal={closeModal}
               />
             </div>

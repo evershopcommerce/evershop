@@ -3,6 +3,8 @@ import React from 'react';
 import Area from '@components/common/Area';
 import Button from '@components/common/form/Button';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { Tax } from '@components/frontStore/checkout/checkout/summary/cart/Tax';
+import { Total } from '@components/frontStore/checkout/checkout/summary/cart/Total';
 
 function Subtotal({ subTotal }) {
   return (
@@ -45,7 +47,16 @@ Discount.defaultProps = {
 
 function Summary({
   checkoutUrl,
-  cart: { totalQty, subTotal, coupon, discountAmount }
+  cart: {
+    totalQty,
+    subTotal,
+    subTotalInclTax,
+    taxAmount,
+    grandTotal,
+    coupon,
+    discountAmount
+  },
+  setting: { displayCheckoutPriceIncludeTax }
 }) {
   if (totalQty === undefined || totalQty <= 0) {
     return null;
@@ -60,7 +71,11 @@ function Summary({
           coreComponents={[
             {
               component: { default: Subtotal },
-              props: { subTotal },
+              props: {
+                subTotal: displayCheckoutPriceIncludeTax
+                  ? subTotalInclTax
+                  : subTotal
+              },
               sortOrder: 10,
               id: 'shoppingCartSubtotal'
             },
@@ -73,15 +88,26 @@ function Summary({
             {
               // eslint-disable-next-line react/no-unstable-nested-components
               component: {
-                default: () => (
-                  <div className="flex justify-between italic text-textSubdued">
-                    {_('Taxes and shipping calculated at checkout')}
-                  </div>
-                )
+                default: displayCheckoutPriceIncludeTax ? () => null : Tax
               },
-              props: {},
+              props: {
+                amount: taxAmount.text
+              },
               sortOrder: 30,
-              id: 'summaryNote'
+              id: 'tax'
+            },
+            {
+              // eslint-disable-next-line react/no-unstable-nested-components
+              component: {
+                default: Total
+              },
+              props: {
+                total: grandTotal.text,
+                taxAmount: taxAmount.text,
+                displayCheckoutPriceIncludeTax
+              },
+              sortOrder: 30,
+              id: 'tax'
             }
           ]}
         />
@@ -101,11 +127,26 @@ Summary.propTypes = {
       value: PropTypes.number,
       text: PropTypes.string
     }),
+    subTotalInclTax: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    }),
+    taxAmount: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    }),
     discountAmount: PropTypes.shape({
       value: PropTypes.number,
       text: PropTypes.string
     }),
-    coupon: PropTypes.string
+    coupon: PropTypes.string,
+    grandTotal: PropTypes.shape({
+      value: PropTypes.number,
+      text: PropTypes.string
+    })
+  }).isRequired,
+  setting: PropTypes.shape({
+    displayCheckoutPriceIncludeTax: PropTypes.bool
   }).isRequired
 };
 
@@ -124,11 +165,26 @@ export const query = `
         value
         text
       }
+      grandTotal {
+        value
+        text
+      }
+      subTotalInclTax {
+        value
+        text
+      }
+      taxAmount {
+        value
+        text
+      }
       discountAmount {
         value
         text
       }
       coupon
+    }
+    setting {
+      displayCheckoutPriceIncludeTax
     }
     checkoutUrl: url(routeId: "checkout")
   }

@@ -33,13 +33,13 @@ const SearchQuery = `
 function ProductSkuSelector({
   onSelect,
   onUnSelect,
-  selectedSKUs,
+  selectedChecker,
   closeModal
 }) {
   const limit = 10;
   const [inputValue, setInputValue] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
   const [page, setPage] = React.useState(1);
-  // const [selectedProducts, setSelectedProducts] = React.useState(selectedSKUs);
 
   const [result, reexecuteQuery] = useQuery({
     query: SearchQuery,
@@ -58,19 +58,17 @@ function ProductSkuSelector({
     pause: true
   });
 
-  const selectProduct = async (sku) => {
+  const selectProduct = async (sku, uuid, productId) => {
     try {
-      await onSelect(sku);
-      // setSelectedProducts([...selectedProducts, sku]);
+      await onSelect(sku, uuid, productId);
     } catch (e) {
       toast.error(e.message);
     }
   };
 
-  const unSelectProduct = async (sku) => {
+  const unSelectProduct = async (sku, uuid, productId) => {
     try {
-      await onUnSelect(sku);
-      // setSelectedProducts(selectedProducts.filter((e) => e !== sku));
+      await onUnSelect(sku, uuid, productId);
     } catch (e) {
       toast.error(e.message);
     }
@@ -82,6 +80,7 @@ function ProductSkuSelector({
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
+      setLoading(false);
       if (inputValue !== null) {
         reexecuteQuery({ requestPolicy: 'network-only' });
       }
@@ -115,15 +114,18 @@ function ProductSkuSelector({
                 type="text"
                 value={inputValue}
                 placeholder="Search products"
-                onChange={(e) => setInputValue(e.target.value)}
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  setLoading(true);
+                }}
               />
             </div>
-            {fetching && (
+            {(fetching || loading) && (
               <div className="p-3 border border-divider rounded flex justify-center items-center">
                 <Spinner width={25} height={25} />
               </div>
             )}
-            {!fetching && data && (
+            {!fetching && data && !loading && (
               <div className="divide-y">
                 {data.products.items.length === 0 && (
                   <div className="p-3 border border-divider rounded flex justify-center items-center">
@@ -149,25 +151,33 @@ function ProductSkuSelector({
                       <p>{product.sku}</p>
                     </div>
                     <div className="col-span-2 text-right">
-                      {!selectedSKUs.includes(product.sku) && (
+                      {!selectedChecker(product) && (
                         <button
                           type="button"
                           className="button secondary"
                           onClick={async (e) => {
                             e.preventDefault();
-                            await selectProduct(product.sku);
+                            await selectProduct(
+                              product.sku,
+                              product.uuid,
+                              product.productId
+                            );
                           }}
                         >
                           Select
                         </button>
                       )}
-                      {selectedSKUs.includes(product.sku) && (
+                      {selectedChecker(product) && (
                         <a
                           className="button primary"
                           href="#"
                           onClick={(e) => {
                             e.preventDefault();
-                            unSelectProduct(product.sku);
+                            unSelectProduct(
+                              product.sku,
+                              product.uuid,
+                              product.productId
+                            );
                           }}
                         >
                           <CheckIcon width={20} height={20} />
@@ -200,12 +210,8 @@ function ProductSkuSelector({
 ProductSkuSelector.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onUnSelect: PropTypes.func.isRequired,
-  selectedSKUs: PropTypes.arrayOf(PropTypes.string),
+  selectedChecker: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired
-};
-
-ProductSkuSelector.defaultProps = {
-  selectedSKUs: []
 };
 
 export default ProductSkuSelector;

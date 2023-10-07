@@ -212,6 +212,15 @@ module.exports.Item = class Item extends DataObject {
       dependencies: ['final_price', 'tax_percent']
     },
     {
+      key: 'sub_total',
+      resolvers: [
+        async function resolver() {
+          return toPrice(this.getData('final_price') * this.getData('qty'));
+        }
+      ],
+      dependencies: ['final_price', 'qty']
+    },
+    {
       key: 'total',
       resolvers: [
         async function resolver() {

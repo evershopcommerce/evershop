@@ -2,7 +2,6 @@ const { execute } = require('graphql');
 const { validate } = require('graphql/validation');
 const { parse } = require('graphql');
 const { OK } = require('@evershop/evershop/src/lib/util/httpStatus');
-const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
 const { getContext } = require('./contextHelper');
 
 module.exports.graphqlMiddleware = (schema) =>
@@ -31,10 +30,6 @@ module.exports.graphqlMiddleware = (schema) =>
       if (validationErrors.length > 0) {
         next(new Error(validationErrors[0].message));
       } else {
-        if (isDevelopmentMode()) {
-          // eslint-disable-next-line global-require, no-param-reassign
-          schema = require('../../services/buildSchema');
-        }
         const data = await execute({
           schema,
           contextValue: getContext(request),

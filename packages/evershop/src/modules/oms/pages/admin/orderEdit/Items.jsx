@@ -54,11 +54,11 @@ export default function Items({ order: { items, shipmentStatus } }) {
                     {
                       component: { default: 'td' },
                       props: {
-                        children: <span>{i.total.text}</span>,
-                        key: 'total'
+                        children: <span>{i.subTotal.text}</span>,
+                        key: 'subTotal'
                       },
                       sortOrder: 40,
-                      id: 'total'
+                      id: 'subTotal'
                     }
                   ]}
                 />
@@ -93,6 +93,10 @@ Items.propTypes = {
           text: PropTypes.string
         }),
         total: PropTypes.shape({
+          value: PropTypes.number,
+          text: PropTypes.string
+        }),
+        subTotal: PropTypes.shape({
           value: PropTypes.number,
           text: PropTypes.string
         })
@@ -149,6 +153,10 @@ export const query = `
           text
         }
         total {
+          value
+          text
+        }
+        subTotal {
           value
           text
         }

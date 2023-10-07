@@ -16,7 +16,7 @@ const { prompt } = require('enquirer');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { error, success } = require('@evershop/evershop/src/lib/log/debuger');
 const {
-  hasPassword
+  hashPassword
 } = require('@evershop/evershop/src/lib/util/passwordHelper');
 const { migrate } = require('../lib/bootstrap/migrate');
 const { getCoreModules } = require('../lib/loadModules');
@@ -235,7 +235,7 @@ DB_PASSWORD=${db.databasePassword}
     await migrate(getCoreModules());
 
     // Create the admin user
-    const passwordHash = hasPassword(adminUser.password || '123456');
+    const passwordHash = hashPassword(adminUser.password || '123456');
     await insertOnUpdate('admin_user', ['email'])
       .given({
         status: 1,

@@ -3,7 +3,7 @@ import React from 'react';
 import { ItemVariantOptions } from '@components/frontStore/checkout/cart/items/ItemVariantOptions';
 import './Items.scss';
 
-function Items({ items }) {
+function Items({ items, displayCheckoutPriceIncludeTax }) {
   return (
     <div id="summary-items">
       <table className="listing items-table">
@@ -46,7 +46,11 @@ function Items({ items }) {
                 </div>
               </td>
               <td>
-                <span>{item.total.text}</span>
+                <span>
+                  {displayCheckoutPriceIncludeTax
+                    ? item.total.text
+                    : item.subTotal.text}
+                </span>
               </td>
             </tr>
           ))}
@@ -68,7 +72,8 @@ Items.propTypes = {
       }).isRequired,
       variantOptions: PropTypes.string
     })
-  ).isRequired
+  ).isRequired,
+  displayCheckoutPriceIncludeTax: PropTypes.bool.isRequired
 };
 
 export { Items };
