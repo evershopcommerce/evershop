@@ -4,7 +4,7 @@ import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function Tax({ amount }) {
   return (
-    <div className="summary-row">
+    <div className="summary-row flex justify-between">
       <span>{_('Tax')}</span>
       <div>
         <div />

@@ -6,7 +6,9 @@ module.exports = () => {
     tax: {
       rounding: 'round',
       precision: 2,
-      round_level: 'unit'
+      round_level: 'total',
+      display_catalog_price_including_tax: true,
+      display_checkout_price_including_tax: true
     }
   };
   config.util.setModuleDefaults('pricing', pricingConfig);

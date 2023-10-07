@@ -9,19 +9,32 @@ import { Total } from '@components/frontStore/checkout/success/summary/order/Tot
 function OrderSummary({
   items,
   subTotal,
+  subTotalInclTax,
   shippingMethodName,
   shippingFeeInclTax,
   taxAmount,
   discountAmount,
-  grandTotal
+  grandTotal,
+  displayCheckoutPriceIncludeTax
 }) {
   return (
     <div className="checkout-summary-block">
-      <Subtotal count={items.length} total={subTotal.text} />
+      <Subtotal
+        count={items.length}
+        total={
+          displayCheckoutPriceIncludeTax ? subTotalInclTax.text : subTotal.text
+        }
+      />
       <Shipping method={shippingMethodName} cost={shippingFeeInclTax.text} />
-      <Tax taxClass="" amount={taxAmount.text} />
+      {!displayCheckoutPriceIncludeTax && (
+        <Tax taxClass="" amount={taxAmount.text} />
+      )}
       <Discount code="" amount={discountAmount.text} />
-      <Total total={grandTotal.text} />
+      <Total
+        total={grandTotal.text}
+        displayCheckoutPriceIncludeTax={displayCheckoutPriceIncludeTax}
+        taxAmount={taxAmount.text}
+      />
     </div>
   );
 }
@@ -50,9 +63,13 @@ OrderSummary.propTypes = {
   subTotal: PropTypes.shape({
     text: PropTypes.string
   }),
+  subTotalInclTax: PropTypes.shape({
+    text: PropTypes.string
+  }),
   taxAmount: PropTypes.shape({
     text: PropTypes.string
-  })
+  }),
+  displayCheckoutPriceIncludeTax: PropTypes.bool.isRequired
 };
 
 OrderSummary.defaultProps = {
@@ -67,6 +84,9 @@ OrderSummary.defaultProps = {
   },
   shippingMethodName: 'Free Shipping',
   subTotal: {
+    text: '0.00'
+  },
+  subTotalInclTax: {
     text: '0.00'
   },
   taxAmount: {
