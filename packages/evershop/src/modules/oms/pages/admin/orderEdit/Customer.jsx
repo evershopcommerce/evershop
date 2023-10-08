@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Card } from '@components/admin/cms/Card';
+import { AddressSummary } from '@components/common/customer/address/AddressSummary';
 
-export default function OrderInfo({
+export default function Customer({
   order: {
     shippingAddress,
     billingAddress,
@@ -35,44 +36,16 @@ export default function OrderInfo({
         </div>
       </Card.Session>
       <Card.Session title="Shipping Address">
-        <div>
-          <span>{shippingAddress.fullName}</span>
-        </div>
-        <div>
-          <span>{shippingAddress.address1}</span>
-        </div>
-        <div>
-          <span>{`${shippingAddress.postcode}, ${shippingAddress.city}`}</span>
-        </div>
-        <div>
-          <span>{`${shippingAddress.province.name}, ${shippingAddress.country.name}`}</span>
-        </div>
-        <div>
-          <span>{shippingAddress.telephone}</span>
-        </div>
+        <AddressSummary address={shippingAddress} />
       </Card.Session>
       <Card.Session title="Billing address">
-        <div>
-          <span>{billingAddress.fullName}</span>
-        </div>
-        <div>
-          <span>{billingAddress.address1}</span>
-        </div>
-        <div>
-          <span>{`${billingAddress.postcode}, ${billingAddress.city}`}</span>
-        </div>
-        <div>
-          <span>{`${billingAddress.province.name}, ${billingAddress.country.name}`}</span>
-        </div>
-        <div>
-          <span>{billingAddress.telephone}</span>
-        </div>
+        <AddressSummary address={billingAddress} />
       </Card.Session>
     </Card>
   );
 }
 
-OrderInfo.propTypes = {
+Customer.propTypes = {
   order: PropTypes.shape({
     customerFullName: PropTypes.string.isRequired,
     customerEmail: PropTypes.string.isRequired,
@@ -124,6 +97,8 @@ export const query = `
       shippingAddress {
         fullName
         city
+        address1
+        address2
         postcode
         telephone
         province {
@@ -138,6 +113,8 @@ export const query = `
       billingAddress {
         fullName
         city
+        address1
+        address2
         postcode
         telephone
         province {

@@ -146,6 +146,17 @@ exports.Cart = class Cart extends DataObject {
       dependencies: ['items']
     },
     {
+      key: 'sub_total_incl_tax',
+      resolvers: [
+        async function resolver() {
+          return toPrice(
+            this.getData('sub_total') + this.getData('tax_amount')
+          );
+        }
+      ],
+      dependencies: ['sub_total', 'tax_amount']
+    },
+    {
       key: 'grand_total',
       resolvers: [
         async function resolver() {
@@ -377,32 +388,32 @@ exports.Cart = class Cart extends DataObject {
             if (shippingMethod.cost !== null) {
               return toPrice(shippingMethod.cost);
             } else if (shippingMethod.calculate_api) {
-                // Call the API of the shipping method to calculate the shipping fee. This is an internal API
-                // use axios to call the API
-                // Ignore http status error
-                let api = 'http://localhost:3000';
-                try {
-                  api += buildUrl(shippingMethod.calculate_api, {
-                    cart_id: this.getData('uuid'),
-                    method_id: shippingMethod.uuid
-                  });
-                } catch (e) {
-                  throw new Error(
-                    `Your shipping calculate API ${shippingMethod.calculate_api} is invalid`
-                  );
-                }
-                const response = await axios.get(api);
-                if (response.status < 400) {
-                  return toPrice(response.data.data.cost);
-                } else {
-                  this.errors.shipping_fee_excl_tax = 'response.data.message';
-                  return 0;
-                }
+              // Call the API of the shipping method to calculate the shipping fee. This is an internal API
+              // use axios to call the API
+              // Ignore http status error
+              let api = 'http://localhost:3000';
+              try {
+                api += buildUrl(shippingMethod.calculate_api, {
+                  cart_id: this.getData('uuid'),
+                  method_id: shippingMethod.uuid
+                });
+              } catch (e) {
+                throw new Error(
+                  `Your shipping calculate API ${shippingMethod.calculate_api} is invalid`
+                );
+              }
+              const response = await axios.get(api);
+              if (response.status < 400) {
+                return toPrice(response.data.data.cost);
               } else {
-                this.errors.shipping_fee_excl_tax =
-                  'Could not calculate shipping fee';
+                this.errors.shipping_fee_excl_tax = 'response.data.message';
                 return 0;
               }
+            } else {
+              this.errors.shipping_fee_excl_tax =
+                'Could not calculate shipping fee';
+              return 0;
+            }
           }
         }
       ],

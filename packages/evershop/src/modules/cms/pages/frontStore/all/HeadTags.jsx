@@ -5,7 +5,7 @@ import React from 'react';
 export default function HeadTags({
   pageInfo: { title, description },
   themeConfig: {
-    headTags: { metas = [], links = [], scripts = [], base = undefined }
+    headTags: { metas, links, scripts, base }
   }
 }) {
   React.useEffect(() => {
@@ -31,6 +31,9 @@ export default function HeadTags({
       ))}
       {links.map((link, index) => (
         <link key={index} {...link} />
+      ))}
+      {scripts.map((script, index) => (
+        <script key={index} {...script} />
       ))}
       {base && <base {...base} />}
     </>

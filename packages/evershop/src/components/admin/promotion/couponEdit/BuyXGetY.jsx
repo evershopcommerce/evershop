@@ -37,7 +37,7 @@ function SkuSelector({ product, updateProduct }) {
           >
             <div className="modal">
               <ProductSkuSelector
-                selectedSKUs={[product.sku]}
+                selectedChecker={({ sku }) => sku === product.sku}
                 onSelect={(sku) => {
                   updateProduct({
                     ...product,

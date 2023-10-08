@@ -1,0 +1,4 @@
+extend type Setting {
+  displayCatalogPriceIncludeTax: Boolean
+  displayCheckoutPriceIncludeTax: Boolean
+}

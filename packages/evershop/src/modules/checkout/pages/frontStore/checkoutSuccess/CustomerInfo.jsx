@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Button from '@components/common/form/Button';
-import { AddressSummary } from '@components/frontStore/customer/address/AddressSummary';
+import { AddressSummary } from '@components/common/customer/address/AddressSummary';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function CustomerInfo({
@@ -16,7 +16,7 @@ export default function CustomerInfo({
 }) {
   return (
     <div className="checkout-success-customer-info">
-      <h3 className="thank-you flex justify-start space-x-1">
+      <h3 className="thank-you flex justify-start space-x-2">
         <div className="check flex justify-center self-center text-interactive">
           <svg
             style={{ width: '3rem', height: '3rem' }}
@@ -47,29 +47,37 @@ export default function CustomerInfo({
       </h3>
 
       <div className="customer-info mt-3 mb-2">
-        <div className="heading font-bold mb-2">
-          {_('Customer information')}
-        </div>
         <div className="grid grid-cols-2 gap-3">
-          <div>
+          <div className="grid grid-cols-1 gap-3">
             <div className="mb-2">
-              <div className="mb-075">{_('Contact information')}</div>
+              <div className="mb-075">
+                <h3>{_('Contact information')}</h3>
+              </div>
+              <div className="text-textSubdued">
+                {customerFullName || billingAddress?.fullName}
+              </div>
               <div className="text-textSubdued">{customerEmail}</div>
             </div>
             <div>
-              <div className="mb-075">{_('Shipping Address')}</div>
+              <div className="mb-075">
+                <h3>{_('Shipping Address')}</h3>
+              </div>
               <div className="text-textSubdued">
                 <AddressSummary address={shippingAddress} />
               </div>
             </div>
           </div>
-          <div>
+          <div className="grid grid-cols-1 gap-3">
             <div className="mb-2">
-              <div className="mb-075">{_('Payment Method')}</div>
+              <div className="mb-075">
+                <h3>{_('Payment Method')}</h3>
+              </div>
               <div className="text-textSubdued">{paymentMethodName}</div>
             </div>
             <div>
-              <div className="mb-075">{_('Billing Address')}</div>
+              <div className="mb-075">
+                <h3>{_('Billing Address')}</h3>
+              </div>
               <div className="text-textSubdued">
                 <AddressSummary address={billingAddress} />
               </div>

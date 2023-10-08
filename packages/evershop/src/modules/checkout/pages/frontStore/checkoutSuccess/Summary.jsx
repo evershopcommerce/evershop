@@ -5,7 +5,10 @@ import Area from '@components/common/Area';
 import { OrderSummary } from '@components/frontStore/checkout/success/summary/order/OrderSummary';
 import './Summary.scss';
 
-export default function Summary({ order }) {
+export default function Summary({
+  order,
+  setting: { displayCheckoutPriceIncludeTax }
+}) {
   return (
     <Area
       id="checkoutSuccessSummary"
@@ -13,13 +16,13 @@ export default function Summary({ order }) {
       coreComponents={[
         {
           component: { default: Items },
-          props: { items: order.items },
+          props: { items: order.items, displayCheckoutPriceIncludeTax },
           sortOrder: 20,
           id: 'checkoutSuccessOrderSummaryItems'
         },
         {
           component: { default: OrderSummary },
-          props: { ...order },
+          props: { ...order, displayCheckoutPriceIncludeTax },
           sortOrder: 30,
           id: 'checkoutSuccessOrderSummary'
         }
@@ -37,6 +40,14 @@ Summary.propTypes = {
         quantity: PropTypes.number.isRequired,
         price: PropTypes.shape({
           text: PropTypes.string.isRequired
+        }).isRequired,
+        thumbnail: PropTypes.string.isRequired,
+        variantOptions: PropTypes.string.isRequired,
+        total: PropTypes.shape({
+          text: PropTypes.string.isRequired
+        }).isRequired,
+        subTotal: PropTypes.shape({
+          text: PropTypes.string.isRequired
         }).isRequired
       })
     ).isRequired,
@@ -53,10 +64,16 @@ Summary.propTypes = {
     subTotal: PropTypes.shape({
       text: PropTypes.string
     }),
+    subTotalInclTax: PropTypes.shape({
+      text: PropTypes.string
+    }),
     taxAmount: PropTypes.shape({
       text: PropTypes.string
     }),
     coupon: PropTypes.string
+  }).isRequired,
+  setting: PropTypes.shape({
+    displayCheckoutPriceIncludeTax: PropTypes.bool
   }).isRequired
 };
 
@@ -87,6 +104,10 @@ export const query = `
         value
         text
       }
+      subTotalInclTax {
+        value
+        text
+      }
       grandTotal {
         value
         text
@@ -101,7 +122,14 @@ export const query = `
           value
           text
         }
+        subTotal {
+          value
+          text
+        }
       }
+    }
+    setting {
+      displayCheckoutPriceIncludeTax
     }
   }
 `;

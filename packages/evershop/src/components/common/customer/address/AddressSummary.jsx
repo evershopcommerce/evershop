@@ -8,7 +8,7 @@ export function AddressSummary({ address }) {
   return (
     <Area
       id="addressSummary"
-      className="address-summary"
+      className="address__summary"
       coreComponents={[
         {
           component: {
