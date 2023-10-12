@@ -5,47 +5,56 @@ const { getConfig } = require('../util/getConfig');
 
 // Use env for the database connection, maintain the backward compatibility
 const connectionSetting = {
-  host: process.env.DATABASE_HOST || getConfig('system.database.host'),
-  port: process.env.DATABASE_PORT || getConfig('system.database.port'),
-  user: process.env.DATABASE_USER || getConfig('system.database.user'),
-  password:
-    process.env.DATABASE_PASSWORD || getConfig('system.database.password'),
-  database: process.env.DATABASE_NAME || getConfig('system.database.database'),
-  max: 30,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000
+  host: getConfig('system.database.host', process.env.DB_HOST),
+  port: getConfig('system.database.port', process.env.DB_PORT),
+  user: getConfig('system.database.user', process.env.DB_USER),
+  password: getConfig('system.database.password', process.env.DB_PASSWORD),
+  database: getConfig('system.database.database', process.env.DB_NAME),
+  max: 20
 };
 
 // Support SSL
-const sslCA =
-  process.env.DATABASE_SSL_CA || getConfig('system.database.ssl.ca');
-
-if (sslCA) {
-  connectionSetting.ssl = connectionSetting.ssl || {};
-  connectionSetting.ssl.ca = fs.readFileSync(sslCA);
-  connectionSetting.ssl.rejectUnauthorized = false;
-}
-
-const sslCERT =
-  process.env.DATABASE_SSL_CERT || getConfig('system.database.ssl.cert');
-
-if (sslCERT) {
-  connectionSetting.ssl = connectionSetting.ssl || {};
-  connectionSetting.ssl.cert = fs.readFileSync(sslCERT);
-  connectionSetting.ssl.rejectUnauthorized = false;
-}
-
-const sslKEY =
-  process.env.DATABASE_SSL_KEY || getConfig('system.database.ssl.key');
-
-if (sslKEY) {
-  connectionSetting.ssl = connectionSetting.ssl || {};
-  connectionSetting.ssl.key = fs.readFileSync(sslKEY);
-  connectionSetting.ssl.rejectUnauthorized = false;
+const sslMode = getConfig('system.database.ssl_mode', process.env.DB_SSLMODE);
+switch (sslMode) {
+  case 'disable': {
+    connectionSetting.ssl = false;
+    break;
+  }
+  case 'require':
+  case 'prefer':
+  case 'verify-ca':
+  case 'verify-full': {
+    const ssl = {
+      rejectUnauthorized: true
+    };
+    const ca = process.env.DB_SSLROOTCERT;
+    if (ca) {
+      ssl.ca = fs.readFileSync(ca).toString();
+    }
+    const cert = process.env.DB_SSLCERT;
+    if (cert) {
+      ssl.cert = fs.readFileSync(cert).toString();
+    }
+    const key = process.env.DB_SSLKEY;
+    if (key) {
+      ssl.key = fs.readFileSync(key).toString();
+    }
+    connectionSetting.ssl = ssl;
+    break;
+  }
+  case 'no-verify': {
+    connectionSetting.ssl = {
+      rejectUnauthorized: false
+    };
+    break;
+  }
+  default: {
+    connectionSetting.ssl = false;
+    break;
+  }
 }
 
 const pool = new Pool(connectionSetting);
-
 // Set the timezone
 pool.on('connect', (client) => {
   const timeZone = getConfig('shop.timezone', 'UTC');

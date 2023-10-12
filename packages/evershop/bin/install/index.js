@@ -18,8 +18,6 @@ const { error, success } = require('@evershop/evershop/src/lib/log/debuger');
 const {
   hashPassword
 } = require('@evershop/evershop/src/lib/util/passwordHelper');
-const { migrate } = require('../lib/bootstrap/migrate');
-const { getCoreModules } = require('../lib/loadModules');
 
 // The installation command will create a .env file in the root directory of the project.
 // If you are using docker, do not run this command. Instead, you should set the environment variables in the docker-compose.yml file and run `npm run start`
@@ -91,34 +89,29 @@ async function install() {
     process.exit(0);
   }
 
-  let pool = new Pool({
+  const baseDBSetting = {
     host: db.databaseHost,
     port: db.databasePort,
     user: db.databaseUser,
     password: db.databasePassword,
     database: db.databaseName,
-    max: 30,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
-    ssl: {
-      rejectUnauthorized: false
-    }
-  });
+    max: 10,
+    idleTimeoutMillis: 30000
+  };
+
+  // We will try with SSL option enabled first
+  let pool = new Pool({ ...baseDBSetting, ssl: true });
+  let sslMode;
 
   // Test the secure connection
   try {
     await pool.query(`SELECT 1`);
+    sslMode = 'require';
   } catch (e) {
     if (e.message.includes('does not support SSL')) {
-      pool = new Pool({
-        host: db.databaseHost,
-        port: db.databasePort,
-        user: db.databaseUser,
-        password: db.databasePassword,
-        database: db.databaseName,
-        dateStrings: true,
-        connectionLimit: 10
-      });
+      // If the database does not support SSL, we will try to connect without SSL
+      pool = new Pool({ ...baseDBSetting, ssl: false });
+      sslMode = 'disable';
     } else {
       error(e);
       process.exit(0);
@@ -205,17 +198,14 @@ async function install() {
   /** Create the .env file at the root folder with the database connection */
   await writeFile(
     path.resolve(CONSTANTS.ROOTPATH, '.env'),
-    `DB_HOST=${db.databaseHost}
-DB_PORT=${db.databasePort}
-DB_NAME=${db.databaseName}
-DB_USER=${db.databaseUser}
-DB_PASSWORD=${db.databasePassword}
+    `DB_HOST="${db.databaseHost}"
+DB_PORT="${db.databasePort}"
+DB_NAME="${db.databaseName}"
+DB_USER="${db.databaseUser}"
+DB_PASSWORD="${db.databasePassword}"
+DB_SSLMODE="${sslMode}"
 `
   );
-
-  // Reload configuration
-  delete require.cache[require.resolve('dotenv')];
-  require('dotenv').config();
 
   messages.pop();
   messages.push(green('✔ Created .env file'));
@@ -224,6 +214,9 @@ DB_PASSWORD=${db.databasePassword}
   // Create `media` folder
   await mkdir(path.resolve(CONSTANTS.ROOTPATH, 'media'), { recursive: true });
 
+  // Create `public` folder
+  await mkdir(path.resolve(CONSTANTS.ROOTPATH, 'public'), { recursive: true });
+
   // Start install database
   messages.push(green('Setting up a database'));
   spinner.text = messages.join('\n');
@@ -231,11 +224,23 @@ DB_PASSWORD=${db.databasePassword}
   const connection = await pool.connect();
   await startTransaction(connection);
   try {
-    // Run the migration
-    await migrate(getCoreModules());
-
     // Create the admin user
     const passwordHash = hashPassword(adminUser.password || '123456');
+    await execute(
+      connection,
+      `CREATE TABLE IF NOT EXISTS "admin_user" (
+        "admin_user_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+        "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
+        "status" boolean NOT NULL DEFAULT TRUE,
+        "email" varchar NOT NULL,
+        "password" varchar NOT NULL,
+        "full_name" varchar DEFAULT NULL,
+        "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "ADMIN_USER_EMAIL_UNIQUE" UNIQUE ("email"),
+        CONSTRAINT "ADMIN_USER_UUID_UNIQUE" UNIQUE ("uuid")
+      );`
+    );
     await insertOnUpdate('admin_user', ['email'])
       .given({
         status: 1,
