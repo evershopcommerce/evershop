@@ -1,8 +1,10 @@
 const { request } = require('express');
+const config = require('config');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { select } = require('@evershop/postgres-query-builder');
 const { Cart } = require('../checkout/services/cart/Cart');
 const { comparePassword } = require('../../lib/util/passwordHelper');
+const { translate } = require('../../lib/locale/translate/translate');
 
 module.exports = () => {
   Cart.addField('customer_id', function resolver() {
@@ -64,4 +66,55 @@ module.exports = () => {
   request.getCurrentCustomer = function getCurrentCustomer() {
     return this.locals?.customer;
   };
+
+  // Customer configuration
+  const customerConfig = {
+    addressSchema: {
+      type: 'object',
+      properties: {
+        full_name: {
+          type: 'string'
+        },
+        telephone: {
+          type: ['string', 'number']
+        },
+        address_1: {
+          type: 'string'
+        },
+        address_2: {
+          type: 'string'
+        },
+        city: {
+          type: 'string'
+        },
+        province: {
+          type: 'string'
+        },
+        country: {
+          type: 'string',
+          pattern: '^[A-Z]{2}$'
+        },
+        postcode: {
+          type: ['string', 'number']
+        }
+      },
+      required: [
+        'full_name',
+        'telephone',
+        'address_1',
+        'city',
+        'country',
+        'postcode'
+      ],
+      errorMessage: {
+        properties: {
+          full_name: translate('Full name is required'),
+          telephone: translate('Telephone is missing or invalid'),
+          country: translate('Country is missing or invalid')
+        }
+      },
+      additionalProperties: true
+    }
+  };
+  config.util.setModuleDefaults('customer', customerConfig);
 };

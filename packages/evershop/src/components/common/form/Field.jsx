@@ -38,7 +38,7 @@ const useMemoizeArgs = (args, equalityFunc) => {
 export function Field(props) {
   const { name, value, validationRules, onChange, type } = props;
   const context = useFormContext();
-  const [fieldValue, setFieldValue] = React.useState('');
+  const [fieldValue, setFieldValue] = React.useState(value);
   const field = context.fields.find((f) => f.name && f.name === name);
 
   React.useEffect(() => {
@@ -51,11 +51,16 @@ export function Field(props) {
 
   React.useEffect(() => {
     setFieldValue(value);
+    if (!field) {
+      return;
+    }
     context.updateField(name, value, validationRules);
   }, useMemoizeArgs([value], isEqual));
 
   React.useEffect(() => {
-    if (field) setFieldValue(field.value);
+    if (field) {
+      setFieldValue(field.value);
+    }
   }, [field]);
 
   React.useEffect(() => {

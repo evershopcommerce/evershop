@@ -7,18 +7,18 @@ import { _ } from '@evershop/evershop/src/lib/locale/translate';
 export function ProvinceAndPostcode({
   address,
   allowCountries,
-  selectedCountry
+  selectedCountry,
+  getErrorMessage,
+  isFieldRequired
 }) {
   return (
     <div className="grid grid-cols-2 gap-1 mt-1">
-      <div>
-        <Province
-          allowCountries={allowCountries}
-          selectedCountry={selectedCountry}
-          selectedProvince={address?.province?.code}
-          fieldName="address[province]"
-        />
-      </div>
+      <Province
+        allowCountries={allowCountries}
+        selectedCountry={selectedCountry}
+        selectedProvince={address?.province?.code}
+        fieldName="address[province]"
+      />
       <div>
         <Field
           type="text"
@@ -26,12 +26,19 @@ export function ProvinceAndPostcode({
           value={address?.postcode}
           label={_('Postcode')}
           placeholder={_('Postcode')}
-          validationRules={[
-            {
-              rule: 'notEmpty',
-              message: _('Postcode is required')
-            }
-          ]}
+          validationRules={
+            isFieldRequired('postcode')
+              ? [
+                  {
+                    rule: 'notEmpty',
+                    message: getErrorMessage(
+                      'postcode',
+                      _('Postcode is required')
+                    )
+                  }
+                ]
+              : []
+          }
         />
       </div>
     </div>
@@ -57,7 +64,9 @@ ProvinceAndPostcode.propTypes = {
       )
     })
   ).isRequired,
-  selectedCountry: PropTypes.string
+  selectedCountry: PropTypes.string,
+  getErrorMessage: PropTypes.func.isRequired,
+  isFieldRequired: PropTypes.func.isRequired
 };
 
 ProvinceAndPostcode.defaultProps = {

@@ -4,7 +4,7 @@ const { execute } = require('@evershop/postgres-query-builder');
 module.exports = exports = async (connection) => {
   await execute(
     connection,
-    `CREATE TABLE "admin_user" (
+    `CREATE TABLE IF NOT EXISTS "admin_user" (
   "admin_user_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
   "uuid" UUID NOT NULL DEFAULT gen_random_uuid (),
   "status" boolean NOT NULL DEFAULT TRUE,

@@ -34,7 +34,8 @@ const QUERY = `
 
 export default function ShippingMethods({
   getMethodsAPI,
-  cart: { addShippingMethodApi }
+  cart: { addShippingMethodApi },
+  allowedCountries
 }) {
   const formContext = useFormContext();
   const { completeStep } = useCheckoutStepsDispatch();
@@ -48,21 +49,34 @@ export default function ShippingMethods({
     const timeout = setTimeout(() => {
       const { fields } = formContext;
       let check = !!fields.length;
-      const country = fields.find((f) => f.name === 'address[country]')?.value;
-      const province = fields.find(
-        (f) => f.name === 'address[province]'
-      )?.value;
-      const postcode = fields.find(
-        (f) => f.name === 'address[postcode]'
-      )?.value;
-      if (!country || !province || !postcode) {
+      const country = fields.find((f) => f.name === 'address[country]');
+      const province = fields.find((f) => f.name === 'address[province]');
+      // Check = false if either country or province is required and not filled
+      if (country && !country.value) {
         check = false;
+      }
+      // If selected country has provinces, check if province is filled
+      const selectedCountry = allowedCountries.find(
+        (c) => c.code === country?.value
+      );
+      if (selectedCountry && selectedCountry.provinces) {
+        if (province && !province.value) {
+          check = false;
+          setAddressProvided(false);
+          setMethods([]);
+        }
+      } else {
+        check = true;
       }
 
       if (check === true) {
         setAddressProvided(true);
         axios
-          .get(`${getMethodsAPI}?country=${country}&province=${province}`)
+          .get(
+            `${getMethodsAPI}?country=${country.value}&province=${
+              province?.value || ''
+            }`
+          )
           .then((response) => {
             setMethods((previous) => {
               const { methods: shippingMethods } = response.data.data;
@@ -187,7 +201,19 @@ ShippingMethods.propTypes = {
   getMethodsAPI: PropTypes.string.isRequired,
   cart: PropTypes.shape({
     addShippingMethodApi: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  allowedCountries: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      name: PropTypes.string,
+      provinces: PropTypes.arrayOf(
+        PropTypes.shape({
+          code: PropTypes.string,
+          name: PropTypes.string
+        })
+      )
+    })
+  ).isRequired
 };
 
 export const layout = {
@@ -200,6 +226,14 @@ export const query = `
     getMethodsAPI: url(routeId: "getShippingMethods", params: [{ key: "cart_id", value: getContextValue('cart_id') }])
     cart {
       addShippingMethodApi
+    }
+    allowedCountries  {
+      code
+      name
+      provinces {
+        name
+        code
+      }
     }
   }
 `;

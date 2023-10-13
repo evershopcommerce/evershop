@@ -56,19 +56,24 @@ function Province({
       </p>
     );
   }
-
+  const provinces = data.provinces.filter(
+    (p) => p.countryCode === selectedCountry
+  );
+  if (!provinces.length) {
+    return null;
+  }
   return (
-    <Field
-      type="select"
-      value={selectedProvince}
-      name={fieldName}
-      label="Province"
-      placeholder="Province"
-      validationRules={['notEmpty']}
-      options={data.provinces
-        .filter((p) => p.countryCode === selectedCountry)
-        .map((p) => ({ value: p.code, text: p.name }))}
-    />
+    <div>
+      <Field
+        type="select"
+        value={selectedProvince}
+        name={fieldName}
+        label="Province"
+        placeholder="Province"
+        validationRules={['notEmpty']}
+        options={provinces.map((p) => ({ value: p.code, text: p.name }))}
+      />
+    </div>
   );
 }
 
@@ -280,12 +285,10 @@ export default function StoreSetting({
                       type="text"
                     />
                   </div>
-                  <div>
-                    <Province
-                      selectedProvince={storeProvince}
-                      selectedCountry={selectedCountry}
-                    />
-                  </div>
+                  <Province
+                    selectedProvince={storeProvince}
+                    selectedCountry={selectedCountry}
+                  />
                   <div>
                     <Field
                       name="storePostalCode"

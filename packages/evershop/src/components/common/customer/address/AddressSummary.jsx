@@ -39,7 +39,10 @@ export function AddressSummary({ address }) {
             default: ({ city, province, postcode, country }) => (
               <div className="city-province-postcode">
                 <div>{`${postcode}, ${city}`}</div>
-                <div>{`${province.name}, ${country.name}`}</div>
+                <div>
+                  {province && <span>{province.name}, </span>}{' '}
+                  <span>{country.name}</span>
+                </div>
               </div>
             )
           },

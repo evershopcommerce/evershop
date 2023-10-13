@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { Field } from '@components/common/form/Field';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
-export function NameAndTelephone({ address }) {
+export function NameAndTelephone({
+  address,
+  getErrorMessage,
+  isFieldRequired
+}) {
   return (
     <div className="grid grid-cols-2 gap-1">
       <div>
@@ -13,12 +17,19 @@ export function NameAndTelephone({ address }) {
           value={address?.fullName}
           label={_('Full name')}
           placeholder={_('Full name')}
-          validationRules={[
-            {
-              rule: 'notEmpty',
-              message: _('Full name is required')
-            }
-          ]}
+          validationRules={
+            isFieldRequired('full_name')
+              ? [
+                  {
+                    rule: 'notEmpty',
+                    message: getErrorMessage(
+                      'full_name',
+                      _('Full name is required')
+                    )
+                  }
+                ]
+              : []
+          }
         />
       </div>
       <div>
@@ -28,12 +39,19 @@ export function NameAndTelephone({ address }) {
           value={address?.telephone}
           label={_('Telephone')}
           placeholder={_('Telephone')}
-          validationRules={[
-            {
-              rule: 'notEmpty',
-              message: _('Telephone is required')
-            }
-          ]}
+          validationRules={
+            isFieldRequired('telephone')
+              ? [
+                  {
+                    rule: 'notEmpty',
+                    message: getErrorMessage(
+                      'telephone',
+                      _('Telephone is required')
+                    )
+                  }
+                ]
+              : []
+          }
         />
       </div>
     </div>
@@ -44,7 +62,9 @@ NameAndTelephone.propTypes = {
   address: PropTypes.shape({
     fullName: PropTypes.string,
     telephone: PropTypes.string
-  })
+  }),
+  getErrorMessage: PropTypes.func.isRequired,
+  isFieldRequired: PropTypes.func.isRequired
 };
 
 NameAndTelephone.defaultProps = {

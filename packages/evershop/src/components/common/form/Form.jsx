@@ -37,14 +37,16 @@ export function Form(props) {
   const [state, setState] = useState('initialized');
 
   const addField = (name, value, validationRules = []) => {
-    setFields((previous) => previous.concat({ name, value, validationRules }));
+    setFields((previous) =>
+      previous.concat({ name, value, validationRules, updated: false })
+    );
   };
 
   const updateField = (name, value, validationRules = []) => {
     setFields((previous) =>
       previous.map((f) => {
         if (f.name === name) {
-          return { name, value, validationRules };
+          return { name, value, validationRules, updated: true };
         } else {
           return f;
         }
