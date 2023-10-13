@@ -123,13 +123,9 @@ module.exports.Item = class Item extends DataObject {
             );
             return fs.existsSync(path.join(CONSTANTS.MEDIAPATH, thumb))
               ? `/assets${thumb}`
-              : `/assets/theme/frontStore${config.get(
-                  'catalog.product.image.placeHolder'
-                )}`;
+              : null;
           } else {
-            return `/assets/theme/frontStore${config.get(
-              'catalog.product.image.placeHolder'
-            )}`;
+            return null;
           }
         }
       ],

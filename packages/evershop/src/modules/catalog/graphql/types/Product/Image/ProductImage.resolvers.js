@@ -3,7 +3,6 @@ const path = require('path');
 const { select } = require('@evershop/postgres-query-builder');
 const uniqid = require('uniqid');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 function getUrls(image) {
   const thumbVersion = image.replace(/.([^.]*)$/, '-thumb.$1');

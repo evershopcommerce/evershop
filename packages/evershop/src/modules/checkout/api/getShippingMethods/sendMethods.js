@@ -7,9 +7,6 @@ const {
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { default: axios } = require('axios');
 const { select } = require('@evershop/postgres-query-builder');
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
 const { toPrice } = require('../../services/toPrice');
 
 // eslint-disable-next-line no-unused-vars
