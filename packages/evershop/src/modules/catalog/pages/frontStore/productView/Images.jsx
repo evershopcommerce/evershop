@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/no-array-index-key */
-import NoThumbnail from '@components/frontStore/catalog/product/single/NoThumbnail';
+import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
@@ -20,7 +20,7 @@ function Current({ image }) {
       {image && (
         <img src={image.single} alt={image.alt} className="self-center" />
       )}
-      {!image && <NoThumbnail width={250} height={250} />}
+      {!image && <ProductNoThumbnail width={250} height={250} />}
     </div>
   );
 }
