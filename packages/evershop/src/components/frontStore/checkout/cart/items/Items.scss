@@ -35,6 +35,11 @@
       }
     }
     .product-info {
+	  .product-image {
+		  background: rgb(246, 246, 246);
+		  min-height: 100px;
+		  min-width: 100px;
+	  }
       @media screen and (max-width: 767px) {
         img {
           max-width: 5rem;
