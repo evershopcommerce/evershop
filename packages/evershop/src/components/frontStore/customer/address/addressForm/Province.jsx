@@ -12,21 +12,27 @@ export function Province({
   const provinces = selectedCountry
     ? allowCountries.find((c) => c.code === selectedCountry).provinces
     : [];
+
+  if (!provinces.length) {
+    return null;
+  }
   return (
-    <Field
-      type="select"
-      value={provinces.find((p) => p.code === selectedProvince)?.code}
-      name={fieldName}
-      label={_('Province')}
-      placeholder={_('Province')}
-      validationRules={[
-        {
-          rule: 'notEmpty',
-          message: _('Province is required')
-        }
-      ]}
-      options={provinces.map((p) => ({ value: p.code, text: p.name }))}
-    />
+    <div>
+      <Field
+        type="select"
+        value={provinces.find((p) => p.code === selectedProvince)?.code}
+        name={fieldName}
+        label={_('Province')}
+        placeholder={_('Province')}
+        validationRules={[
+          {
+            rule: 'notEmpty',
+            message: _('Province is required')
+          }
+        ]}
+        options={provinces.map((p) => ({ value: p.code, text: p.name }))}
+      />
+    </div>
   );
 }
 

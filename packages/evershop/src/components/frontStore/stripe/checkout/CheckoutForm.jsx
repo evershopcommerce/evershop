@@ -120,7 +120,7 @@ export default function CheckoutForm({ stripePublishableKey }) {
             address: {
               line1: billingAddress.address1,
               country: billingAddress.country.code,
-              state: billingAddress.province.code,
+              state: billingAddress.province?.code,
               postal_code: billingAddress.postcode,
               city: billingAddress.city
             }

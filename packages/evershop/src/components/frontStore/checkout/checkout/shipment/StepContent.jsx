@@ -36,7 +36,8 @@ const QUERY = `
 export function StepContent({
   addShippingAddressApi,
   shipmentInfo,
-  setShipmentInfo
+  setShipmentInfo,
+  customerAddressSchema
 }) {
   const { cartId } = useCheckout();
   const client = useClient();
@@ -71,6 +72,7 @@ export function StepContent({
         <CustomerAddressForm
           areaId="checkoutShippingAddressForm"
           address={shipmentInfo.address}
+          customerAddressSchema={customerAddressSchema}
         />
         <input type="hidden" name="type" value="shipping" />
       </Form>
@@ -104,7 +106,8 @@ StepContent.propTypes = {
     id: PropTypes.string,
     isCompleted: PropTypes.bool,
     isEditing: PropTypes.bool
-  }).isRequired
+  }).isRequired,
+  customerAddressSchema: PropTypes.string.isRequired
 };
 
 StepContent.defaultProps = {

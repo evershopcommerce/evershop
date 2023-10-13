@@ -7,6 +7,9 @@ const {
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { default: axios } = require('axios');
 const { select } = require('@evershop/postgres-query-builder');
+const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
 const { toPrice } = require('../../services/toPrice');
 
 // eslint-disable-next-line no-unused-vars
@@ -30,12 +33,12 @@ module.exports = async (request, response, delegate, next) => {
       return;
     }
 
-    if (!country || !province) {
+    if (!country) {
       response.status(INVALID_PAYLOAD);
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: 'Shipping country and province are required'
+          message: 'Shipping country is required'
         }
       });
       return;
@@ -49,18 +52,22 @@ module.exports = async (request, response, delegate, next) => {
         '=',
         'shipping_zone.shipping_zone_id'
       );
-    zoneQuery
-      .where('shipping_zone_province.province', '=', province)
-      .or('shipping_zone_province.province', 'IS NULL', null);
+    if (province) {
+      zoneQuery
+        .where('shipping_zone_province.province', '=', province)
+        .or('shipping_zone_province.province', 'IS NULL', null);
+    } else {
+      zoneQuery.where('shipping_zone_province.province', 'IS NULL', null);
+    }
+
     zoneQuery.andWhere('shipping_zone.country', '=', country);
 
     const zone = await zoneQuery.load(pool);
     if (!zone) {
-      response.status(INVALID_PAYLOAD);
+      response.status(200);
       response.json({
-        error: {
-          status: INVALID_PAYLOAD,
-          message: `No shipping zone available for ${country} - ${province}`
+        data: {
+          methods: []
         }
       });
       return;

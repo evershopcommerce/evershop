@@ -6,9 +6,11 @@ const {
   OK,
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { addressValidator } = require('../../services/addressValidator');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 const { saveCart } = require('../../services/saveCart');
+const {
+  validateAddress
+} = require('../../../customer/services/addressValidator');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -28,9 +30,7 @@ module.exports = async (request, response, delegate, next) => {
     }
     // Use shipping address as a billing address
     // Validate address
-    if (!addressValidator(address)) {
-      throw new TypeError('Invalid Address');
-    }
+    validateAddress(address);
     // Save billing address
     const result = await insert('cart_address').given(address).execute(pool);
 
