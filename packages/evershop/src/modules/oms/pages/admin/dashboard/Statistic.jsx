@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { XAxis, YAxis, Tooltip, AreaChart, Area } from 'recharts';
+import { XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { Card } from '@components/admin/cms/Card';
@@ -58,36 +58,35 @@ export default function SaleStatistic({ api }) {
       >
         <Card.Session>
           {data.length === 0 ? null : (
-            <AreaChart
-              width={580}
-              height={300}
-              data={data}
-              margin={{
-                top: 5,
-                right: 0,
-                left: -25,
-                bottom: 5
-              }}
-              id="asdasd"
-            >
-              <XAxis dataKey="time" />
-              <YAxis />
-              <Tooltip />
-              <Area
-                type="monotone"
-                dataKey="value"
-                stackId="1"
-                stroke="#8884d8"
-                fill="#8884d8"
-              />
-              <Area
-                type="monotone"
-                dataKey="count"
-                stackId="1"
-                stroke="#82ca9d"
-                fill="#82ca9d"
-              />
-            </AreaChart>
+		    <ResponsiveContainer width="100%" height={300}>
+				<AreaChart
+				  data={data}
+				  margin={{
+					top: 5,
+					right: 0,
+					left: -25,
+					bottom: 5
+				  }}
+				>
+				  <XAxis dataKey="time" />
+				  <YAxis />
+				  <Tooltip />
+				  <Area
+					type="monotone"
+					dataKey="value"
+					stackId="1"
+					stroke="#8884d8"
+					fill="#8884d8"
+				  />
+				  <Area
+					type="monotone"
+					dataKey="count"
+					stackId="1"
+					stroke="#82ca9d"
+					fill="#82ca9d"
+				  />
+				</AreaChart>
+			</ResponsiveContainer>
           )}
         </Card.Session>
       </Card>

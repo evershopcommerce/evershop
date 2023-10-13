@@ -51,7 +51,7 @@ function Items({ items, displayCheckoutPriceIncludeTax }) {
                       <img src={item.thumbnail} alt={item.productName} />
                     )}
                     {!item.thumbnail && (
-                      <ProductNoThumbnail width={100} height={100} />
+                      <ProductNoThumbnail width={45} height={45} />
                     )}
                   </div>
                   <span className="qty">{item.qty}</span>

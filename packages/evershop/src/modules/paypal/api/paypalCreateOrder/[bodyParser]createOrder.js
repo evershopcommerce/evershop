@@ -107,7 +107,7 @@ module.exports = async (request, response, stack, next) => {
         address.admin_area_1 = shippingAddress.province.split('-').pop();
       }
       orderData.purchase_units[0].shipping = {
-        address: address
+        address
       };
     } else {
       // This is digital order, no shipping address
@@ -141,7 +141,7 @@ module.exports = async (request, response, stack, next) => {
         address.admin_area_1 = billingAddress.province.split('-').pop();
       }
       orderData.purchase_units[0].billing = {
-        address: address
+        address
       };
     }
     // Call PayPal API to create order using axios
