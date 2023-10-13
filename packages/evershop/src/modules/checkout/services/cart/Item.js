@@ -1,4 +1,3 @@
-const config = require('config');
 const { select } = require('@evershop/postgres-query-builder');
 const fs = require('fs');
 const path = require('path');
