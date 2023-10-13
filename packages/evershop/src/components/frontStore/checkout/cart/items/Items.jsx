@@ -3,10 +3,10 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '@components/common/context/app';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 import { ItemOptions } from './ItemOptions';
 import { ItemVariantOptions } from './ItemVariantOptions';
 import './Items.scss';
-import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 
 function Items({ items, setting: { displayCheckoutPriceIncludeTax } }) {
   const AppContextDispatch = useAppDispatch();
