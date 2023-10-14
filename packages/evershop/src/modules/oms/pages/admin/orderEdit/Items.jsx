@@ -41,7 +41,12 @@ export default function Items({ order: { items, shipmentStatus } }) {
                     },
                     {
                       component: { default: Name },
-                      props: { name: i.productName, options: [] }, // TODO: Implement custom options
+                      props: {
+                        name: i.productName,
+                        productSku: i.productSku,
+                        productUrl: i.productUrl,
+                        variantOptions: JSON.parse(i.variantOptions || '[]')
+                      }, // TODO: Implement custom options
                       sortOrder: 20,
                       id: 'productName'
                     },
@@ -83,11 +88,14 @@ Items.propTypes = {
         id: PropTypes.string,
         qty: PropTypes.number,
         productName: PropTypes.string,
+        productSku: PropTypes.string,
+        productUrl: PropTypes.string,
         thumbnail: PropTypes.string,
         productPrice: PropTypes.shape({
           value: PropTypes.number,
           text: PropTypes.string
         }),
+        variantOptions: PropTypes.string,
         finalPrice: PropTypes.shape({
           value: PropTypes.number,
           text: PropTypes.string
@@ -143,7 +151,10 @@ export const query = `
         id: orderItemId
         qty
         productName
+        productSku
+        productUrl
         thumbnail
+        variantOptions
         productPrice {
           value
           text

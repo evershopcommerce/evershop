@@ -2,16 +2,22 @@
 /* eslint-disable react/jsx-closing-tag-location */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ItemOptions } from '@components/admin/oms/orderEdit/items/ItemOptions';
+import { ItemVariantOptions } from '@components/admin/oms/orderEdit/items/ItemVariantOptions';
 
-export function Name({ name, options = [] }) {
+export function Name({ name, productSku, productUrl, variantOptions = [] }) {
   return (
     <td>
       <div className="product-column">
         <div>
-          <span className="font-semibold">{name}</span>
+          <span className="font-semibold">
+            <a href={productUrl}>{name}</a>
+          </span>
         </div>
-        <ItemOptions options={options} />
+        <div className="text-sm text-gray-500">
+          <span className="font-semibold">SKU: </span>
+          <span>{productSku}</span>
+        </div>
+        <ItemVariantOptions options={variantOptions} />
       </div>
     </td>
   );
@@ -19,7 +25,9 @@ export function Name({ name, options = [] }) {
 
 Name.propTypes = {
   name: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(
+  productSku: PropTypes.string.isRequired,
+  productUrl: PropTypes.string.isRequired,
+  variantOptions: PropTypes.arrayOf(
     PropTypes.shape({
       option_name: PropTypes.string,
       values: PropTypes.arrayOf(
@@ -33,5 +41,5 @@ Name.propTypes = {
 };
 
 Name.defaultProps = {
-  options: undefined
+  variantOptions: []
 };
