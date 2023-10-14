@@ -1,6 +1,7 @@
 const { select } = require('@evershop/postgres-query-builder');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 
 module.exports = {
   Query: {
@@ -91,6 +92,15 @@ module.exports = {
         .where('order.customer_id', '=', customerId)
         .execute(pool);
       return orders.map((row) => camelCase(row));
+    }
+  },
+  OrderItem: {
+    productUrl: async ({ productId }, _, { pool }) => {
+      const product = await select()
+        .from('product')
+        .where('product_id', '=', productId)
+        .load(pool);
+      return product ? buildUrl('productEdit', { id: product.uuid }) : null;
     }
   }
 };
