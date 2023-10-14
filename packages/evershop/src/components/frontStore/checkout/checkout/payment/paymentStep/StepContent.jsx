@@ -62,7 +62,7 @@ export function StepContent({
       }
     } else {
       setLoading(false);
-      toast.error(response.message);
+      toast.error(response.error.message);
     }
   };
 
