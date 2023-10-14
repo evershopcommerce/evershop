@@ -113,7 +113,7 @@ export default function Variants({
             </div>
             <ul className="variant-option-list flex justify-start gap-05 flex-wrap">
               {options.map((o) => {
-                className = ''
+                let className = '';
                 if (a.selected && a.selectedOption === o.optionId) {
                   className = 'selected';
                 }
