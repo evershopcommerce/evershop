@@ -3,7 +3,7 @@ const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { loadSubscribers } = require('./loadSubscribers');
 const { callSubscribers } = require('./callSubscibers');
 
-const loadEventInterval = 5000;
+const loadEventInterval = 10000;
 const syncEventInterval = 2000;
 const maxEvents = 10;
 let events = [];

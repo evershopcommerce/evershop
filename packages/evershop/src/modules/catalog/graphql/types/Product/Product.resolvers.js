@@ -24,21 +24,7 @@ module.exports = {
   },
   Query: {
     product: async (_, { id }, { pool }) => {
-      const query = select().from('product');
-      query
-        .leftJoin('product_description')
-        .on(
-          'product_description.product_description_product_id',
-          '=',
-          'product.product_id'
-        );
-      query
-        .innerJoin('product_inventory')
-        .on(
-          'product_inventory.product_inventory_product_id',
-          '=',
-          'product.product_id'
-        );
+      const query = getProductsBaseQuery();
       query.where('product.product_id', '=', id);
       const result = await query.load(pool);
       if (!result) {

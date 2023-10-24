@@ -236,7 +236,7 @@ export default function ProductMediaManager({
           key={image.id}
           type="hidden"
           name={`${id}[]`}
-          value={image.path}
+          value={image.url}
         />
       ))}
     </div>

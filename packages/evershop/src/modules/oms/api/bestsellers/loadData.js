@@ -20,7 +20,6 @@ module.exports = async (request, response, delegate, next) => {
     .select('product.product_id', 'product_id')
     .select('product.uuid', 'uuid')
     .select('order_item.product_id')
-    .select('image')
     .select('name')
     .select('price')
     .select('SUM(order_item.qty)', 'qty')

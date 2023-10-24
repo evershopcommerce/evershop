@@ -3,9 +3,9 @@ The `Image` type represents a Product image.
 """
 type Image {
   id: ID!
-  uniqueId: String!
+  uuid: String!
   alt: String
-  path: String
+  url: String
   listing: String
   single: String
   thumb: String
