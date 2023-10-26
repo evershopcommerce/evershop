@@ -1,23 +1,15 @@
 const { v4: uuidv4 } = require('uuid');
 const { select } = require('@evershop/postgres-query-builder');
 
-function getVariants(image) {
-  const variant = image.variant || {};
-  return {
-    thumb: variant.thumb || null,
-    single: variant.single || null,
-    listing: variant.listing || null
-  };
-}
-
 module.exports = {
   Product: {
     image: async (product) => {
-      const mainImage = product.image || '';
-      const variants = getVariants(mainImage);
+      const mainImage = product.originImage;
       return mainImage
         ? {
-            ...variants,
+            thumb: product.thumbImage || null,
+            single: product.singleImage || null,
+            listing: product.listingImage || null,
             alt: product.name,
             url: mainImage,
             uuid: uuidv4(),
@@ -31,17 +23,16 @@ module.exports = {
         .where('product_image_product_id', '=', product.productId)
         .and('is_main', '=', false)
         .execute(pool);
-      return gallery.map((image) => {
-        const variants = getVariants(image);
-        return {
+      return gallery.map((image) => ({
           id: image.product_image_id,
-          ...variants,
           alt: product.name,
-          url: image.image,
+          url: image.origin_image,
           uuid: uuidv4(),
-          origin: image.image
-        };
-      });
+          origin: image.origin_image,
+          thumb: image.thumb_image,
+          single: image.single_image,
+          listing: image.listing_image
+        }));
     }
   }
 };
