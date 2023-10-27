@@ -8,7 +8,7 @@ module.exports = exports = async (connection) => {
     `ALTER TABLE product_image RENAME COLUMN image TO origin_image`
   );
 
-  // Add  columns 'thumb', 'listing', 'single', 'is_main' to the product_image table if not exist
+  // Add  columns 'thumb_image', 'listing_image', 'single_image', 'is_main' to the product_image table if not exist
   await execute(
     connection,
     `ALTER TABLE product_image
@@ -21,26 +21,7 @@ module.exports = exports = async (connection) => {
   // Drop the uuid column from the product_image table
   await execute(connection, `ALTER TABLE product_image DROP COLUMN uuid`);
 
-  // Build the image variants base on the main image, we have 3 variants: thumb, listing, single. We can build the variant json object by taking the
-  // main image and replace the file name with the variant name before the extension. For example: main image is /assets/images/1.jpg, we can build the
-  // variant json object like this: { thumb: '/assets/images/1-thumb.jpg', listing: '/assets/images/1-listing.jpg', single: '/assets/images/1-single.jpg' }
-  // Becarefull with the replacement because '.' can be a part of the name, not just the extension. For example: /assets/images/1.1.jpg. Make sure we
-  // only replace the last '.' in the string.
-
-  // Update the variant column in the product_image table with the variant json object
-
-  // await execute(
-  //   connection,
-  //   `UPDATE product_image
-  //     SET variant = jsonb_build_object(
-  //       'thumb', CONCAT(SUBSTRING(image, 1, LENGTH(image) - LENGTH(SPLIT_PART(REVERSE(image), '.', 1)) - 1), '-thumb.', SPLIT_PART(REVERSE(image), '.', 1)),
-  //       'listing', CONCAT(SUBSTRING(image, 1, LENGTH(image) - LENGTH(SPLIT_PART(REVERSE(image), '.', 1)) - 1), '-listing.', SPLIT_PART(REVERSE(image), '.', 1)),
-  //       'single', CONCAT(SUBSTRING(image, 1, LENGTH(image) - LENGTH(SPLIT_PART(REVERSE(image), '.', 1)) - 1), '-single.', SPLIT_PART(REVERSE(image), '.', 1))
-  //     )
-  //     WHERE is_main = true`
-  // );
-
-  // Create a trigger to add an event to the event table when a product image is created and type is 'origin'
+  // Create a trigger to add an event to the event table when a product image is created
   await execute(
     connection,
     `CREATE OR REPLACE FUNCTION product_image_insert_trigger()
@@ -53,13 +34,26 @@ module.exports = exports = async (connection) => {
       $$ LANGUAGE plpgsql;`
   );
 
-  // Create a trigger to add an event to the event table when a product image is created and type is 'origin'
   await execute(
     connection,
     `CREATE TRIGGER "PRODUCT_IMAGE_ADDED"
       AFTER INSERT ON product_image
       FOR EACH ROW
       EXECUTE PROCEDURE product_image_insert_trigger();`
+  );
+
+  // Update all the column origin_image in the product_image table to add the '/assets' prefix
+  await execute(
+    connection,
+    `UPDATE product_image SET origin_image = CONCAT('/assets', origin_image)`
+  );
+
+  // Add event to the event table for all the product images
+  await execute(
+    connection,
+    `INSERT INTO event (name, data)
+      SELECT 'product_image_added', row_to_json(product_image)
+      FROM product_image`
   );
 
   await execute(
@@ -69,6 +63,7 @@ module.exports = exports = async (connection) => {
       FROM product
       WHERE image IS NOT NULL`
   );
+
   // Drop the image column from product table
   await execute(connection, `ALTER TABLE product DROP COLUMN image`);
 };
