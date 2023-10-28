@@ -1,9 +1,9 @@
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const {
   setContextValue,
   hasContextValue
 } = require('../../../graphql/services/contextHelper');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 module.exports = (request, response) => {
   response.context = {}; // TODO: Fix this
