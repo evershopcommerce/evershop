@@ -3,6 +3,7 @@ const isEqualWith = require('lodash/isEqualWith');
 const { select, del } = require('@evershop/postgres-query-builder');
 const { v4: uuidv4 } = require('uuid');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const normalizePort = require('@evershop/evershop/bin/lib/normalizePort');
 const { default: axios } = require('axios');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
@@ -391,7 +392,8 @@ exports.Cart = class Cart extends DataObject {
               // Call the API of the shipping method to calculate the shipping fee. This is an internal API
               // use axios to call the API
               // Ignore http status error
-              let api = 'http://localhost:3000';
+              const port = normalizePort();
+              let api = `http://localhost:${port}`;
               try {
                 api += buildUrl(shippingMethod.calculate_api, {
                   cart_id: this.getData('uuid'),

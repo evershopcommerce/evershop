@@ -17,5 +17,10 @@ module.exports.getProductsBaseQuery = () => {
       'product.product_id'
     );
 
+  query
+    .leftJoin('product_image')
+    .on('product_image.product_image_product_id', '=', 'product.product_id')
+    .and('product_image.is_main', '=', true);
+
   return query;
 };

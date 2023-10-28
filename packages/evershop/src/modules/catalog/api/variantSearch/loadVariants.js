@@ -12,7 +12,7 @@ module.exports = async (request, response, stack, next) => {
     .select('price')
     .select('qty')
     .select('product.image')
-    .select('product_image.image', 'gallery')
+    .select('product_image.origin_image', 'gallery')
     .from('product');
 
   query
@@ -47,7 +47,7 @@ module.exports = async (request, response, stack, next) => {
       variants.push({
         ...variant,
         image: {
-          url: variant.image
+          url: variant.origin_image
         },
         images: [
           variant.image ? { url: variant.image, path: variant.image } : null,

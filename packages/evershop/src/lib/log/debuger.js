@@ -38,7 +38,7 @@ function debug(level, message) {
     // eslint-disable-next-line no-console
     console.log(logMessage);
   } else {
-     // Do not output message to console or file
+    // Do not output message to console or file
   }
 }
 

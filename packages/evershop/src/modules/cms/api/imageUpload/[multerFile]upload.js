@@ -5,10 +5,13 @@ const {
   INVALID_PAYLOAD,
   OK
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (request, response, delegate, next) => {
-  if (!request.files || request.files.length === 0) {
+  if (getConfig('file_storage') !== 'local') {
+    next();
+  } else if (!request.files || request.files.length === 0) {
     response.status(INVALID_PAYLOAD).json({
       error: {
         status: INVALID_PAYLOAD,
@@ -31,6 +34,7 @@ module.exports = (request, response, delegate, next) => {
               .replace(resolve(CONSTANTS.MEDIAPATH), '')
               .split('\\')
               .join('/')
+              .replace(/^\//, '')
           ])
         }))
       }

@@ -6,6 +6,7 @@ import React from 'react';
 import Button from '@components/common/form/Button';
 import { Input } from '@components/common/form/fields/Input';
 import './Ckeditor.scss';
+import Spinner from '@components/common/Spinner';
 
 function File({ file, select }) {
   const className = file.isSelected === true ? 'selected' : '';
@@ -225,13 +226,8 @@ function FileBrowser({
   return (
     <div className="file-browser">
       {loading === true && (
-        <div className="loading">
-          <div className="lds-ring">
-            <div />
-            <div />
-            <div />
-            <div />
-          </div>
+        <div className="fixed top-0 left-0 bottom-0 right-0 flex justify-center">
+          <Spinner width={30} height={30} className="absolute-center" />
         </div>
       )}
       <div className="content">

@@ -1,14 +1,20 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
 const { UNAUTHORIZED } = require('@evershop/evershop/src/lib/util/httpStatus');
 
 module.exports = (request, response, delegate, next) => {
-  if (request.method === 'GET' || request.currentRoute?.id === 'adminGraphql') {
+  const { currentRoute } = request;
+  if (
+    request.method === 'GET' ||
+    currentRoute?.id === 'adminGraphql' ||
+    currentRoute?.access === 'public'
+  ) {
     next();
   } else {
     const user = request.getCurrentUser();
     const currentUserEmail = user?.email;
-    const demoUserEmail = getConfig('system.demoUser');
-    if (demoUserEmail && currentUserEmail === demoUserEmail) {
+    const demoUserEmails = getEnv('DEMO_USER_EMAILS', '').split(',');
+
+    if (demoUserEmails && demoUserEmails.includes(currentUserEmail)) {
       response.status(UNAUTHORIZED).json({
         error: {
           status: UNAUTHORIZED,

@@ -8,9 +8,13 @@ import uniqid from 'uniqid';
 import { toast } from 'react-toastify';
 import { get } from '@evershop/evershop/src/lib/util/get';
 import './ProductMediaManager.scss';
+import Spinner from '@components/common/Spinner';
 
 function Upload({ addImage, productImageUploadUrl }) {
+  const [uploading, setUploading] = React.useState(false);
+
   const onChange = (e) => {
+    setUploading(true);
     e.persist();
     const formData = new FormData();
     for (let i = 0; i < e.target.files.length; i += 1) {
@@ -55,6 +59,7 @@ function Upload({ addImage, productImageUploadUrl }) {
       })
       .finally(() => {
         e.target.value = null;
+        setUploading(false);
       });
   };
 
@@ -63,19 +68,23 @@ function Upload({ addImage, productImageUploadUrl }) {
     <div className="uploader grid-item">
       <div className="uploader-icon">
         <label htmlFor={id}>
-          <svg
-            style={{ width: '30px', height: '30px' }}
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z"
-              clipRule="evenodd"
-            />
-          </svg>
+          {uploading ? (
+            <Spinner width={25} height={25} />
+          ) : (
+            <svg
+              style={{ width: '30px', height: '30px' }}
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z"
+                clipRule="evenodd"
+              />
+            </svg>
+          )}
         </label>
       </div>
       <div className="invisible">
@@ -236,7 +245,7 @@ export default function ProductMediaManager({
           key={image.id}
           type="hidden"
           name={`${id}[]`}
-          value={image.path}
+          value={image.url}
         />
       ))}
     </div>

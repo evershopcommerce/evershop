@@ -29,14 +29,12 @@ Media.propTypes = {
     gallery: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-        path: PropTypes.string.isRequired
+        url: PropTypes.string.isRequired
       })
     ),
     image: PropTypes.shape({
       id: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired
+      url: PropTypes.string.isRequired
     })
   }),
   productImageUploadUrl: PropTypes.string.isRequired
@@ -55,14 +53,12 @@ export const query = `
   query Query {
     product(id: getContextValue("productId", null)) {
       image {
-        id: uniqueId
-        url: origin
-        path
+        id: uuid
+        url
       }
       gallery {
-        id: uniqueId
-        url: origin
-        path
+        id: uuid
+        url
       }
     }
     productImageUploadUrl: url(routeId: "imageUpload", params: [{key: "0", value: ""}])

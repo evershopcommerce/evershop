@@ -1,5 +1,6 @@
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const normalizePort = require('@evershop/evershop/bin/lib/normalizePort');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
@@ -107,7 +108,8 @@ module.exports = async (request, response, delegate, next) => {
       methods.map(async (method) => {
         if (method.calculate_api) {
           // This API is internal. It must be public
-          let api = 'http://localhost:3000';
+          const port = normalizePort();
+          let api = `http://localhost:${port}`;
           try {
             api += buildUrl(method.calculate_api, {
               cart_id,

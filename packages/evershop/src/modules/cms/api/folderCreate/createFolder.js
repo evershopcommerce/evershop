@@ -5,34 +5,30 @@ const {
   INVALID_PAYLOAD,
   OK
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (request, response, delegate, next) => {
-  const { path } = request.body || '';
-  // Validate the path to avoid Relative Path Traversal attack
-  if (/^(?!\/|.*\/{2,})[a-zA-Z0-9_\-/]+$/.test(path) === false) {
-    response.status(INVALID_PAYLOAD).json({
-      error: {
-        status: INVALID_PAYLOAD,
-        message: 'Invalid path'
-      }
-    });
-    return;
-  }
-  if (existsSync(join(CONSTANTS.MEDIAPATH, path))) {
-    response.status(INVALID_PAYLOAD).json({
-      error: {
-        status: INVALID_PAYLOAD,
-        message: 'Folder already existed'
-      }
-    });
+  if (getConfig('file_storage') !== 'local') {
+    next();
   } else {
-    mkdirSync(join(CONSTANTS.MEDIAPATH, path), { recursive: true });
-    response.status(OK).json({
-      data: {
-        path,
-        name: basename(join(CONSTANTS.MEDIAPATH, path))
-      }
-    });
+    const { path } = request.body || '';
+    const targetPath = join(CONSTANTS.MEDIAPATH, path);
+    if (existsSync(targetPath)) {
+      response.status(INVALID_PAYLOAD).json({
+        error: {
+          status: INVALID_PAYLOAD,
+          message: 'Folder already existed'
+        }
+      });
+    } else {
+      mkdirSync(targetPath, { recursive: true });
+      response.status(OK).json({
+        data: {
+          path,
+          name: basename(targetPath)
+        }
+      });
+    }
   }
 };
