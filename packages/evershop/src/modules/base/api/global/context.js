@@ -3,6 +3,7 @@ const {
   setContextValue,
   hasContextValue
 } = require('../../../graphql/services/contextHelper');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 module.exports = (request, response) => {
   response.context = {};
@@ -10,16 +11,12 @@ module.exports = (request, response) => {
   if (!hasContextValue(request, 'pool')) {
     setContextValue(request.app, 'pool', pool);
   }
-  setContextValue(
-    request.app,
-    'homeUrl',
+  const homeUrl = getConfig(
+    'shop.homeUrl',
     `${request.protocol}://${request.get('host')}`
   );
-  setContextValue(
-    request,
-    'currentUrl',
-    `${request.protocol}://${request.get('host')}${request.originalUrl}`
-  );
+  setContextValue(request.app, 'homeUrl', homeUrl);
+  setContextValue(request, 'currentUrl', `${homeUrl}${request.originalUrl}`);
   setContextValue(request, 'baseUrl', request.baseUrl);
   setContextValue(request, 'body', request.body);
   setContextValue(request, 'cookies', request.cookies);
