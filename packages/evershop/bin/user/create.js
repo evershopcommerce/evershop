@@ -15,7 +15,7 @@ function isValidPassword(password) {
   return password.length >= 8;
 }
 
-const {argv} = yargs
+const { argv } = yargs
   .option('name', {
     alias: 'n',
     description: 'Admin user full name',
@@ -48,7 +48,9 @@ const {argv} = yargs
   })
   .check((argv) => {
     if (!isValidPassword(argv.password)) {
-      throw new Error('Invalid password');
+      throw new Error(
+        'Invalid password. Password must be at least 8 characters long'
+      );
     }
     return true;
   })
