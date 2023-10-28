@@ -34,15 +34,17 @@ module.exports = () => {
     password,
     callback
   ) {
+    // Escape the email to prevent SQL injection
+    const customerEmail = email.replace(/%/g, '\\%');
     const customer = await select()
       .from('customer')
-      .where('email', '=', email)
+      .where('email', 'ILIKE', customerEmail)
       .and('status', '=', 1)
       .load(pool);
 
     const result = comparePassword(password, customer ? customer.password : '');
     if (!customer || !result) {
-      throw new Error('Invalid email or password');
+      throw new Error(translate('Invalid email or password'));
     }
     this.session.customerID = customer.customer_id;
     // Delete the password field
