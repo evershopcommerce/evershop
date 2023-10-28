@@ -56,7 +56,7 @@ module.exports = async (request, response, delegate, next) => {
         // Create payment transaction
         await insert('payment_transaction')
           .given({
-            amount: paymentIntent.amount,
+            amount: parseFloat((paymentIntent.amount/100).toFixed(4)),
             payment_transaction_order_id: order.order_id,
             transaction_id: paymentIntent.id,
             transaction_type: 'online',
