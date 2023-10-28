@@ -6,6 +6,7 @@ const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   getAdminSessionCookieName
 } = require('../../services/getAdminSessionCookieName');
+const { setContextValue } = require('../../../graphql/services/contextHelper');
 
 /**
  * This is the session based authentication middleware.
@@ -45,6 +46,7 @@ module.exports = async (request, response, delegate, next) => {
             // Delete the password field
             delete currentAdminUser.password;
             request.locals.user = currentAdminUser;
+            setContextValue(request, 'user', currentAdminUser);
           }
         }
       }
