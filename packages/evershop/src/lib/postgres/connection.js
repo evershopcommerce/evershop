@@ -5,16 +5,16 @@ const { getConfig } = require('../util/getConfig');
 
 // Use env for the database connection, maintain the backward compatibility
 const connectionSetting = {
-  host: getConfig('system.database.host', process.env.DB_HOST),
-  port: getConfig('system.database.port', process.env.DB_PORT),
-  user: getConfig('system.database.user', process.env.DB_USER),
-  password: getConfig('system.database.password', process.env.DB_PASSWORD),
-  database: getConfig('system.database.database', process.env.DB_NAME),
+  host: process.env.DB_HOST || getConfig('system.database.host'),
+  port: process.env.DB_PORT || getConfig('system.database.port'),
+  user: process.env.DB_USER || getConfig('system.database.user'),
+  password: process.env.DB_PASSWORD || getConfig('system.database.password'),
+  database: process.env.DB_NAME || getConfig('system.database.database'),
   max: 20
 };
 
 // Support SSL
-const sslMode = getConfig('system.database.ssl_mode', process.env.DB_SSLMODE);
+const sslMode = process.env.DB_SSLMODE || getConfig('system.database.ssl_mode');
 switch (sslMode) {
   case 'disable': {
     connectionSetting.ssl = false;

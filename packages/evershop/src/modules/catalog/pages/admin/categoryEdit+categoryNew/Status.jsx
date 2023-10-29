@@ -14,7 +14,7 @@ export default function Status({ category }) {
             { value: 0, text: 'Disabled' },
             { value: 1, text: 'Enabled' }
           ]}
-          value={category?.status}
+          value={category?.status === undefined ? 1 : category.status}
         />
       </Card.Session>
       <Card.Session title="Include In Store Menu">
@@ -25,7 +25,9 @@ export default function Status({ category }) {
             { value: 0, text: 'No' },
             { value: 1, text: 'Yes' }
           ]}
-          value={category?.includeInNav}
+          value={
+            category?.includeInNav === undefined ? 1 : category.includeInNav
+          }
         />
       </Card.Session>
     </Card>

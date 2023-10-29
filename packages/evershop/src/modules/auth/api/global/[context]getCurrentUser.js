@@ -1,12 +1,12 @@
 const sessionStorage = require('connect-pg-simple');
 const util = require('util');
-const { UNAUTHORIZED } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { select } = require('@evershop/postgres-query-builder');
 const session = require('express-session');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   getAdminSessionCookieName
 } = require('../../services/getAdminSessionCookieName');
+const { setContextValue } = require('../../../graphql/services/contextHelper');
 
 /**
  * This is the session based authentication middleware.
@@ -18,9 +18,6 @@ const {
  * @returns
  */
 module.exports = async (request, response, delegate, next) => {
-  // Get the current route
-  const { currentRoute } = request;
-
   // Check if the user is authenticated, if yes we assume previous authentication middleware has set the user in the context
   let currentAdminUser = request.getCurrentUser();
   if (!currentAdminUser) {
@@ -49,6 +46,7 @@ module.exports = async (request, response, delegate, next) => {
             // Delete the password field
             delete currentAdminUser.password;
             request.locals.user = currentAdminUser;
+            setContextValue(request, 'user', currentAdminUser);
           }
         }
       }
@@ -56,41 +54,5 @@ module.exports = async (request, response, delegate, next) => {
       // Do nothing, the user is not logged in
     }
   }
-
-  // If the current route is public, continue to the next middleware
-  // Missing access property means private
-  if (currentRoute?.access === 'public') {
-    next();
-    return;
-  }
-
-  if (!currentAdminUser?.uuid) {
-    // Response with 401 status code
-    response.status(UNAUTHORIZED);
-    response.json({
-      error: {
-        status: UNAUTHORIZED,
-        message: 'Unauthorized'
-      }
-    });
-  } else {
-    // Get user roles
-    let userRoles = currentAdminUser.roles || '*';
-    if (userRoles === '*') {
-      next();
-    } else {
-      userRoles = userRoles.split(',');
-      if (userRoles.includes(currentRoute.id)) {
-        next();
-      } else {
-        response.status(UNAUTHORIZED);
-        response.json({
-          error: {
-            status: UNAUTHORIZED,
-            message: 'Unauthorized'
-          }
-        });
-      }
-    }
-  }
+  next();
 };

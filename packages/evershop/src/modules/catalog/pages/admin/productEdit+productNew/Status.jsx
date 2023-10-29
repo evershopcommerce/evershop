@@ -10,7 +10,7 @@ export default function Status({ product }) {
         <Field
           id="status"
           name="status"
-          value={product?.status}
+          value={product?.status === undefined ? 1 : product.status}
           label="Status"
           options={[
             { value: 0, text: 'Disabled' },
@@ -23,7 +23,7 @@ export default function Status({ product }) {
         <Field
           id="visibility"
           name="visibility"
-          value={product?.visibility}
+          value={product?.visibility === undefined ? 1 : product.visibility}
           label="Visibility"
           options={[
             { value: 0, text: 'Not visible' },
