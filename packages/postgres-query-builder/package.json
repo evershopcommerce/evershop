@@ -26,8 +26,8 @@
   },
   "homepage": "https://github.com/evershopcommerce/evershop/tree/main/packages/postgres-query-builder",
   "dependencies": {
-    "pg": "^8.10.0",
-    "uniqid": "^5.3.0"
+    "pg": "^8.11.3",
+    "uniqid": "^5.4.0"
   },
   "engines": {
     "node": ">= 12.0.0"

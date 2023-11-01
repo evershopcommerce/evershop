@@ -20,12 +20,12 @@
   },
   "homepage": "https://github.com/evershopcommerce/evershop#readme",
   "dependencies": {
-    "boxen": "^5.1.2",
-    "chalk": "^4.1.2",
-    "commander": "^9.4.1",
+    "boxen": "^7.1.1",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
     "cross-spawn": "^7.0.3",
-    "fs-extra": "^10.0.0",
-    "semver": "^7.3.8",
-    "validate-npm-package-name": "^4.0.0"
+    "fs-extra": "^11.1.1",
+    "semver": "^7.5.4",
+    "validate-npm-package-name": "^5.0.0"
   }
 }
