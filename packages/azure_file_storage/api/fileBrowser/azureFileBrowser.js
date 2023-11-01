@@ -74,7 +74,7 @@ module.exports = async (request, response, delegate, next) => {
       response.json({
         error: {
           status: INTERNAL_SERVER_ERROR,
-          message: 'Error uploading images to Azure Blob Storage'
+          message: 'Error listing files from Azure Blob Storage'
         }
       });
     }

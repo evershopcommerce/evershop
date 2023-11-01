@@ -2,6 +2,9 @@ const { select } = require('@evershop/postgres-query-builder');
 const uniqid = require('uniqid');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
+const {
+  getProductsBaseQuery
+} = require('../../../../services/getProductsBaseQuery');
 
 module.exports = {
   Product: {
@@ -160,21 +163,7 @@ module.exports = {
   },
   Variant: {
     product: async ({ productId }, _, { pool }) => {
-      const query = select().from('product');
-      query
-        .leftJoin('product_description')
-        .on(
-          'product_description.product_description_product_id',
-          '=',
-          'product.product_id'
-        );
-      query
-        .innerJoin('product_inventory')
-        .on(
-          'product_inventory.product_inventory_product_id',
-          '=',
-          'product.product_id'
-        );
+      const query = getProductsBaseQuery();
       query.where('product_id', '=', productId);
       const result = await query.load(pool);
       if (!result) {
