@@ -10,7 +10,9 @@ export default function CategoryInfo({
   return (
     <div className="page-width">
       <div className="mb-1 md:mb-2 category__general">
-        <img src={image.url} alt={name} className="category__image" />
+        {image && (
+          <img src={image.url} alt={name} className="category__image" />
+        )}
         <div className="category__info">
           <div>
             <h1 className="category__name">{name}</h1>

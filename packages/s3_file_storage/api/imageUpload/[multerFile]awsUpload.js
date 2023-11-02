@@ -24,8 +24,8 @@ module.exports = async (request, response, delegate, next) => {
     // eslint-disable-next-line no-restricted-syntax
     for (const imageFile of imageFiles) {
       const fileName = requestedPath
-        ? `${requestedPath}/${imageFile.originalname}`
-        : imageFile.originalname;
+        ? `${requestedPath}/${imageFile.filename}`
+        : imageFile.filename;
       const fileContent = imageFile.buffer;
       const params = {
         Bucket: bucketName,
@@ -41,12 +41,12 @@ module.exports = async (request, response, delegate, next) => {
       const uploadResults = await Promise.all(uploadPromises);
       uploadResults.forEach((result, index) => {
         uploadedFiles.push({
-          name: imageFiles[index].originalname,
-          path: path.join(requestedPath, imageFiles[index].originalname),
+          name: imageFiles[index].filename,
+          path: path.join(requestedPath, imageFiles[index].filename),
           size: imageFiles[index].size,
           url: `https://${bucketName}.s3.amazonaws.com/${path.join(
             requestedPath,
-            encodeURIComponent(imageFiles[index].originalname)
+            imageFiles[index].filename
           )}`
         });
       });
