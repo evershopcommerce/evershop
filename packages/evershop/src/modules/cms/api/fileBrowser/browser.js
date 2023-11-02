@@ -10,7 +10,7 @@ const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (request, response, delegate, next) => {
-  if (getConfig('file_storage') !== 'local') {
+  if (getConfig('system.file_storage') !== 'local') {
     next();
   } else {
     const path = request.params[0] || '';

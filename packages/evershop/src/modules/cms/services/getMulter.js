@@ -44,8 +44,7 @@ const diskStorage = multer.diskStorage({
 });
 
 module.exports.getMulter = () => {
-  const storageProvider = getConfig('file_storage', 'local');
-
+  const storageProvider = getConfig('system.file_storage', 'local');
   if (storageProvider === 'local') {
     return multer({ storage: diskStorage, fileFilter });
   } else {

@@ -52,7 +52,10 @@ Edit the `config/default.json` file in the root directory of your EverShop insta
 ```json
 {
   ...,
-  "file_storage": "s3"
+  "system": {
+    ...,
+    "file_storage": "s3"
+  }
 }
 ```
 

@@ -8,7 +8,7 @@ const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 
 module.exports = async function localGenerateProductImageVariant(data) {
-  if (getConfig('file_storage') === 'local') {
+  if (getConfig('system.file_storage') === 'local') {
     try {
       const imagePath = data.origin_image.replace('/assets', '');
       const mediaPath = path.join(CONSTANTS.MEDIAPATH, imagePath);
