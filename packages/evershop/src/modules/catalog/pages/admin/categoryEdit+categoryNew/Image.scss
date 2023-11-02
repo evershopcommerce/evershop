@@ -37,3 +37,15 @@
     max-height: 100%;
   }
 }
+
+.category__image__loading{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  svg {
+    width: 25px;
+    height: 25px;
+  }
+}

@@ -41,14 +41,12 @@ query Query($productId: ID!) {
           editUrl
           updateApi
           image {
-            uniqueId
-            url: thumb
-            path
+            uuid
+            url
           }
           gallery {
-            uniqueId
-            url: origin
-            path
+            uuid
+            url
           }
         }
       }

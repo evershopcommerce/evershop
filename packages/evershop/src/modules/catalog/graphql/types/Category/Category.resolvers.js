@@ -77,13 +77,13 @@ module.exports = {
       }
     },
     image: (category) => {
-      const { image } = category;
+      const { image, name } = category;
       if (!image) {
         return null;
       } else {
         return {
-          path: image,
-          url: `/assets${image}`
+          alt: name,
+          url: image
         };
       }
     },

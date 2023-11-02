@@ -38,8 +38,8 @@ module.exports = async (request, response, delegate, next) => {
       for (const imageFile of imageFiles) {
         // Create a block blob client object that points to the blob where the image will be uploaded
         const path = requestedPath
-          ? `${requestedPath}/${imageFile.originalname}`
-          : `${imageFile.originalname}`;
+          ? `${requestedPath}/${imageFile.filename}`
+          : `${imageFile.filename}`;
         const blobClient = containerClient.getBlockBlobClient(path);
 
         // Upload the image file to the blob

@@ -9,9 +9,11 @@ module.exports = () => {
     password,
     callback
   ) {
+    // Escape the email to prevent SQL injection
+    const userEmail = email.replace(/%/g, '\\%');
     const user = await select()
       .from('admin_user')
-      .where('email', '=', email)
+      .where('email', 'ILIKE', userEmail)
       .and('status', '=', 1)
       .load(pool);
     const result = comparePassword(password, user ? user.password : '');

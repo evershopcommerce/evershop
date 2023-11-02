@@ -33,7 +33,7 @@ async function resizeAndUploadImage(
 
   // Resize the image
   const resizedImageBuffer = await sharp(originalImageBuffer)
-    .resize({ width, height })
+    .resize({ width, height, fit: 'inside' })
     .toBuffer();
 
   // Upload the resized image

@@ -17,4 +17,7 @@ module.exports = () => {
     copyRight: `© 2022 Evershop. All Rights Reserved.`
   };
   config.util.setModuleDefaults('themeConfig', themeConfig);
+  config.util.setModuleDefaults('system', {
+    file_storage: 'local'
+  });
 };

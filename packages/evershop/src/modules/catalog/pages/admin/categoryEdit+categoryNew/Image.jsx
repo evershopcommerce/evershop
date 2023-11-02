@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -73,83 +74,85 @@ export default function Image({ category, imageUploadUrl }) {
       }
     >
       <Card.Session>
-        {!image && (
-          <label
-            htmlFor="categoryImageUpload"
-            className="flex flex-col justify-center image-uploader"
-          >
-            {loading === true && (
-              <div className="loading flex justify-center">
-                <div className="self-center">
-                  <svg
-                    style={{ display: 'block', shapeRendering: 'auto' }}
-                    viewBox="0 0 100 100"
-                    preserveAspectRatio="xMidYMid"
-                  >
-                    <circle
-                      cx="50"
-                      cy="50"
-                      fill="none"
-                      stroke="var(--primary)"
-                      strokeWidth="10"
-                      r="43"
-                      strokeDasharray="202.63272615654165 69.54424205218055"
-                    >
-                      <animateTransform
-                        attributeName="transform"
-                        type="rotate"
-                        repeatCount="indefinite"
-                        dur="1s"
-                        values="0 50 50;360 50 50"
-                        keyTimes="0;1"
-                      />
-                    </circle>
-                  </svg>
-                </div>
+        <div className="relative">
+          {!image && (
+            <label
+              htmlFor="categoryImageUpload"
+              className="flex flex-col justify-center image-uploader"
+            >
+              <div className="uploader-icon flex justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </div>
-            )}
-            <div className="uploader-icon flex justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
-                  clipRule="evenodd"
+              <div className="flex justify-center">
+                <Button
+                  title="Add image"
+                  variant="default"
+                  onAction={() => ref.current.click()}
                 />
-              </svg>
+              </div>
+              <div className="flex justify-center mt-1">
+                <span style={{ color: '#6d7175', fontSize: '1.2rem' }}>
+                  click to upload an image
+                </span>
+              </div>
+            </label>
+          )}
+          {image && (
+            <div className="category-image">
+              <img src={image.url} alt={' '} />
             </div>
-            <div className="flex justify-center">
-              <Button
-                title="Add image"
-                variant="default"
-                onAction={() => ref.current.click()}
-              />
-            </div>
-            <div className="flex justify-center mt-1">
-              <span style={{ color: '#6d7175', fontSize: '1.2rem' }}>
-                click to upload an image
-              </span>
-            </div>
-          </label>
-        )}
-        {image && (
-          <div className="category-image">
-            <img src={image.url} alt={' '} />
+          )}
+          {image && <input type="hidden" value={image.url} name="image" />}
+          {!image && <input type="hidden" value="" name="image" />}
+          <div className="invisible" style={{ width: '1px', height: '1px' }}>
+            <input
+              id="categoryImageUpload"
+              type="file"
+              onChange={onChange}
+              ref={ref}
+            />
           </div>
-        )}
-        {image && <input type="hidden" value={image.path} name="image" />}
-        {!image && <input type="hidden" value="" name="image" />}
-        <div className="invisible" style={{ width: '1px', height: '1px' }}>
-          <input
-            id="categoryImageUpload"
-            type="file"
-            onChange={onChange}
-            ref={ref}
-          />
+          {loading === true && (
+            <div className="category__image__loading flex justify-center">
+              <div className="self-center">
+                <svg
+                  style={{ display: 'block', shapeRendering: 'auto' }}
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="xMidYMid"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    fill="none"
+                    stroke="var(--primary)"
+                    strokeWidth="10"
+                    r="43"
+                    strokeDasharray="202.63272615654165 69.54424205218055"
+                  >
+                    <animateTransform
+                      attributeName="transform"
+                      type="rotate"
+                      repeatCount="indefinite"
+                      dur="1s"
+                      values="0 50 50;360 50 50"
+                      keyTimes="0;1"
+                    />
+                  </circle>
+                </svg>
+              </div>
+            </div>
+          )}
         </div>
       </Card.Session>
     </Card>
@@ -159,7 +162,6 @@ export default function Image({ category, imageUploadUrl }) {
 Image.propTypes = {
   category: PropTypes.shape({
     image: PropTypes.shape({
-      path: PropTypes.string,
       url: PropTypes.string
     })
   }),
@@ -179,7 +181,6 @@ export const query = `
   query Query {
     category(id: getContextValue("categoryId", null)) {
       image {
-        path
         url
       }
     }

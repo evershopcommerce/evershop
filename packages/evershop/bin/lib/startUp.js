@@ -3,6 +3,7 @@ const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
 const spawn = require('cross-spawn');
 const path = require('path');
 const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
 const { createApp } = require('./app');
 const normalizePort = require('./normalizePort');
 const onListening = require('./onListening');
@@ -55,16 +56,20 @@ module.exports.start = async function start(cb) {
   server.listen(port);
 
   // Spawn the child process to manage events
-  const child = spawn(
-    'node',
-    [path.resolve(__dirname, '../../src/lib/event/event-manager.js')],
-    {
-      stdio: 'inherit'
-    }
-  );
+  const args = [
+    path.resolve(__dirname, '../../src/lib/event/event-manager.js')
+  ];
+  if (isDevelopmentMode() || process.argv.includes('--debug')) {
+    args.push('--debug');
+  }
+  const child = spawn('node', args, {
+    stdio: 'inherit'
+  });
+
   child.on('error', (err) => {
     error(`Error spawning event processor: ${err}`);
   });
+
   child.unref();
 };
 
