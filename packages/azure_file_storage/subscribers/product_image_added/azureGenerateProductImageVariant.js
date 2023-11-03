@@ -45,7 +45,7 @@ async function resizeAndUploadImage(
 }
 
 module.exports = async function azureGenerateProductImageVariant(data) {
-  if (getConfig('file_storage') === 'azure') {
+  if (getConfig('system.file_storage') === 'azure') {
     try {
       const containerName = getEnv('AZURE_STORAGE_CONTAINER_NAME', 'images');
       const originalBlobUrl = data.origin_image;

@@ -59,7 +59,7 @@ async function resizeAndUploadImage(
 }
 
 module.exports = async function awsGenerateProductImageVariant(data) {
-  if (getConfig('file_storage') === 's3') {
+  if (getConfig('system.file_storage') === 's3') {
     try {
       const s3Client = new S3Client({ region: getEnv('AWS_REGION') });
       const originalObjectUrl = data.origin_image;
