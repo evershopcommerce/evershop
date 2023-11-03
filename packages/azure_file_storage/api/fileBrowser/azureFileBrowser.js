@@ -42,25 +42,24 @@ module.exports = async (request, response, delegate, next) => {
       for await (const blob of blobs) {
         const blobName = blob.name;
         const blobUrl = `${containerClient.url}/${blobName}`;
-
-        // Get the subfolder or file name within the directory
         const relativePath = blobName.substring(path.length);
-
-        // Check if it's a subfolder or file
         const slashIndex = relativePath.indexOf('/');
         if (slashIndex === -1) {
           // It's a file
-          files.push({
-            name: relativePath,
-            url: blobUrl
-          });
+          if (blob.properties.contentLength) {
+            files.push({
+              name: relativePath,
+              url: blobUrl
+            });
+          }
         } else {
           // It's a subfolder
           const subfolder = relativePath.substring(0, slashIndex);
-          subfolders.add(subfolder);
+          if (subfolder !== '') {
+            subfolders.add(subfolder);
+          }
         }
       }
-      // Send the response with the uploaded image details
       response.status(OK).json({
         data: {
           folders: Array.from(subfolders),
@@ -69,7 +68,6 @@ module.exports = async (request, response, delegate, next) => {
       });
     } catch (error) {
       debug('critical', error);
-      // Return an error response if there was an error uploading the images
       response.status(INTERNAL_SERVER_ERROR);
       response.json({
         error: {
