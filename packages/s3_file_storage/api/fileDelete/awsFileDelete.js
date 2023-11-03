@@ -15,7 +15,7 @@ const s3Client = new S3Client({ region: getEnv('AWS_REGION') });
 const bucketName = getEnv('AWS_BUCKET_NAME');
 
 module.exports = async (request, response, delegate, next) => {
-  if (getConfig('file_storage') !== 's3') {
+  if (getConfig('system.file_storage') !== 's3') {
     next();
   } else {
     try {

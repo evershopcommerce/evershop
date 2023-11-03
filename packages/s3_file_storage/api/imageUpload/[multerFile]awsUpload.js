@@ -13,7 +13,7 @@ const bucketName = getEnv('AWS_BUCKET_NAME');
 
 module.exports = async (request, response, delegate, next) => {
   // If the file storage is not S3, call the next middleware function
-  if (getConfig('file_storage') !== 's3') {
+  if (getConfig('system.file_storage') !== 's3') {
     next();
   } else {
     const imageFiles = request.files;
