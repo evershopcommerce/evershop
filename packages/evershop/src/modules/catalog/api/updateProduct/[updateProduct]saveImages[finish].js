@@ -9,9 +9,15 @@ const { get } = require('@evershop/evershop/src/lib/util/get');
 
 module.exports = async (request, response, delegate) => {
   const gallery = get(request, 'body.images', undefined);
-  if (gallery !== undefined) {
-    const productId = await delegate.updateProduct;
-    const connection = await delegate.getConnection;
+  const productId = await delegate.updateProduct;
+  const connection = await delegate.getConnection;
+  if (Array.isArray(gallery) && gallery.length === 0) {
+    // Delete all images
+    await del('product_image')
+      .where('product_image_product_id', '=', productId)
+      .execute(connection);
+  }
+  if (Array.isArray(gallery) && gallery.length > 0) {
     // eslint-disable-next-line no-useless-catch
     try {
       // Delete all images that not in the gallery anymore

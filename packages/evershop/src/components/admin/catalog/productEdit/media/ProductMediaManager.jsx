@@ -248,7 +248,6 @@ export default function ProductMediaManager({
           value={image.url}
         />
       ))}
-      {images.length === 0 && <input type="hidden" name={`${id}[]`} value="" />}
     </div>
   );
 }
