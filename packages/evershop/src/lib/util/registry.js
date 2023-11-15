@@ -50,7 +50,7 @@ class Registry {
       // Check if value is a promise
       if (typeof value === 'object' && typeof value.then === 'function') {
         throw new Error(
-          `The 'getSync' function does not support async function. Please use 'get' function instead`
+          `The 'getSync' function does not support async processor. Please use 'get' function instead`
         );
       } else if (typeof validator === 'function') {
         return validator(value);
