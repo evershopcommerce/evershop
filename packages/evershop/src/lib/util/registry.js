@@ -89,7 +89,7 @@ class Registry {
       // Validate the value if the validator is provided and it is a function
       const validateResult = validateFunc(value);
       if (validateResult !== true) {
-        throw new Error(`Value ${name} is invalid: ${validateResult}`);
+        throw new Error(`Value ${name} is invalid`);
       }
     }
 
@@ -142,17 +142,32 @@ class Registry {
 const registry = new Registry();
 
 module.exports = {
+  /**
+   * @param {String} name
+   * @param {any} initValue
+   * @param {Object} context
+   * @param {Function} validator
+   */
   async get(name, initValue, context, validator) {
     const val = await registry.get(name, initValue, context, validator);
     return val;
   },
+
+  /**
+   * @param {String} name
+   * @param {any} initValue
+   * @param {Object} context
+   * @param {Function} validator
+   */
   getSync(name, initValue, context, validator) {
     const val = registry.getSync(name, initValue, context, validator);
     return val;
   },
+
   addProcessor(name, callback, priority) {
     return registry.addProcessor(name, callback, priority);
   },
+
   getProcessors(name) {
     return registry.getProcessors(name);
   }

@@ -1,5 +1,4 @@
 const http = require('http');
-const config = require('config');
 const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
 const spawn = require('cross-spawn');
 const path = require('path');
@@ -57,7 +56,6 @@ module.exports.start = async function start(cb) {
   server.listen(port);
 
   // Spawn the child process to manage events
-  const currentConfig = config.util.toObject(config);
   const args = [
     path.resolve(__dirname, '../../src/lib/event/event-manager.js')
   ];
@@ -68,7 +66,7 @@ module.exports.start = async function start(cb) {
     stdio: 'inherit',
     env: {
       ...process.env,
-      NODE_CONFIG: JSON.stringify(currentConfig)
+      ALLOW_CONFIG_MUTATIONS: true
     }
   });
 
