@@ -1,7 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
-const { getEnabledExtensions } = require('@evershop/evershop/bin/extension');
 const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 
 function loadModuleSubscribers(modulePath) {
@@ -40,8 +38,7 @@ function loadModuleSubscribers(modulePath) {
   return subscribers;
 }
 
-module.exports.loadSubscribers = function loadSubscribers() {
-  const modules = [...getCoreModules(), ...getEnabledExtensions()];
+module.exports.loadSubscribers = function loadSubscribers(modules) {
   const subscribers = [];
   /** Loading subscriber  */
   modules.forEach((module) => {

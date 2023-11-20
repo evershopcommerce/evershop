@@ -42,7 +42,7 @@ Edit the `.env` file:
 AWS_ACCESS_KEY_ID="etertsfsdfsdf"
 AWS_SECRET_ACCESS_KEY="sdfsd"
 AWS_REGION="eu-west-1"
-AWS_BUCKET="mybucket"
+AWS_BUCKET_NAME="mybucket"
 ```
 
 ### Step 4: Active the AWS S3 storage

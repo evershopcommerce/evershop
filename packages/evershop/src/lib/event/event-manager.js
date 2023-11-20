@@ -1,30 +1,51 @@
 const { select, del } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { loadSubscribers } = require('./loadSubscribers');
+const {
+  loadBootstrapScript
+} = require('@evershop/evershop/bin/lib/bootstrap/bootstrap');
+const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
+const { getEnabledExtensions } = require('@evershop/evershop/bin/extension');
 const { callSubscribers } = require('./callSubscibers');
+const { loadSubscribers } = require('./loadSubscribers');
+const { error } = require('../log/debuger');
 
 const loadEventInterval = 10000;
 const syncEventInterval = 2000;
 const maxEvents = 10;
 let events = [];
-const subscribers = loadSubscribers();
+// Get the modules from the arguments
+const modules = [...getCoreModules(), ...getEnabledExtensions()];
+const subscribers = loadSubscribers(modules);
 
-setInterval(async () => {
-  // Load events
-  const newEvents = await loadEvents(maxEvents);
-  // Append the new events to the existing events
-  events = [...events, ...newEvents];
-
-  // Keep only the last 20 events
-  events = events.slice(-maxEvents);
-
-  // Call subscribers for each event
-  events.forEach((event) => {
-    if (event.status !== 'done' && event.status !== 'processing') {
-      executeSubscribers(event);
+const init = async () => {
+  /** Loading bootstrap script from modules */
+  try {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const module of modules) {
+      await loadBootstrapScript(module);
     }
-  });
-}, loadEventInterval);
+  } catch (e) {
+    error(e);
+    process.exit(0);
+  }
+  process.env.ALLOW_CONFIG_MUTATIONS = false;
+  setInterval(async () => {
+    // Load events
+    const newEvents = await loadEvents(maxEvents);
+    // Append the new events to the existing events
+    events = [...events, ...newEvents];
+
+    // Keep only the last 20 events
+    events = events.slice(-maxEvents);
+
+    // Call subscribers for each event
+    events.forEach((event) => {
+      if (event.status !== 'done' && event.status !== 'processing') {
+        executeSubscribers(event);
+      }
+    });
+  }, loadEventInterval);
+};
 
 setInterval(async () => {
   // Sync events
@@ -84,3 +105,5 @@ async function executeSubscribers(event) {
   // eslint-disable-next-line no-param-reassign
   event.status = 'done';
 }
+
+init();
