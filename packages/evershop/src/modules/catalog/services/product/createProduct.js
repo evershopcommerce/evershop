@@ -1,22 +1,51 @@
-/* eslint-disable no-loop-func */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
+const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
+const { get, getSync } = require('@evershop/evershop/src/lib/util/registry');
 const {
+  startTransaction,
+  commit,
+  rollback,
   insert,
   select,
   update,
-  insertOnUpdate,
-  del
+  insertOnUpdate
 } = require('@evershop/postgres-query-builder');
-const { get } = require('@evershop/evershop/src/lib/util/get');
+const {
+  getConnection
+} = require('@evershop/evershop/src/lib/postgres/connection');
+const { getAjv } = require('../../../base/services/getAjv');
+const productDataSchema = require('./productDataSchema.json');
 
-module.exports = async (request, response, delegate) => {
-  const result = await delegate.createProduct;
-  const productId = result.insertId;
-  const connection = await delegate.getConnection;
-  const attributes = get(request, 'body.attributes', []);
+function validateProductDataBeforeInsert(data) {
+  const ajv = getAjv();
+  productDataSchema.required = [
+    'name',
+    'url_key',
+    'status',
+    'sku',
+    'qty',
+    'price',
+    'group_id',
+    'visibility'
+  ];
+  const jsonSchema = getSync('productDataJsonSchema', productDataSchema);
+  const validate = ajv.compile(jsonSchema);
+  const valid = validate(data);
+  if (valid) {
+    return data;
+  } else {
+    throw new Error(validate.errors[0].message);
+  }
+}
 
+async function insertProductInventory(inventoryData, productId, connection) {
+  // Save the product inventory
+  await insert('product_inventory')
+    .given(inventoryData)
+    .prime('product_inventory_product_id', productId)
+    .execute(connection);
+}
+
+async function insertProductAttributes(attributes, productId, connection) {
   // Looping attributes array
   for (let i = 0; i < attributes.length; i += 1) {
     const attribute = attributes[i];
@@ -88,11 +117,6 @@ module.exports = async (request, response, delegate) => {
         if (option === false) {
           continue;
         }
-        // Delete old option if any
-        await del('product_attribute_value_index')
-          .where('attribute_id', '=', attr.attribute_id)
-          .and('product_id', '=', productId)
-          .execute(connection);
         // Insert new option
         await insertOnUpdate('product_attribute_value_index', [
           'product_id',
@@ -115,4 +139,78 @@ module.exports = async (request, response, delegate) => {
       }
     }
   }
+}
+
+async function insertProductImages(images, productId, connection) {
+  await Promise.all(
+    images.map((f, index) =>
+      (async () => {
+        await insert('product_image')
+          .given({ origin_image: f, is_main: index === 0 })
+          .prime('product_image_product_id', productId)
+          .execute(connection);
+      })()
+    )
+  );
+}
+
+async function insertProductData(data, connection) {
+  const result = await insert('product').given(data).execute(connection);
+  await insert('product_description')
+    .given(data)
+    .prime('product_description_product_id', result.product_id)
+    .execute(connection);
+
+  return result;
+}
+
+/**
+ * Create product service. This service will create a product with all related data
+ * @param {Object} data
+ */
+async function createProduct(data) {
+  const connection = await getConnection();
+  await startTransaction(connection);
+  try {
+    const productData = await get('productDataBeforeCreate', data);
+
+    // Validate product data
+    validateProductDataBeforeInsert(productData);
+
+    // Insert product data
+    const product = await hookable(insertProductData, { connection })(
+      productData,
+      connection
+    );
+
+    // Insert product inventory
+    await hookable(insertProductInventory, { connection, product })(
+      productData,
+      product.insertId,
+      connection
+    );
+
+    // Insert product attributes
+    await hookable(insertProductAttributes, {
+      connection,
+      product
+    })(productData.attributes || [], product.insertId, connection);
+
+    // Insert product images
+    await hookable(insertProductImages, { connection, product })(
+      productData.images || [],
+      product.insertId,
+      connection
+    );
+    await commit(connection);
+    return product;
+  } catch (e) {
+    await rollback(connection);
+    throw e;
+  }
+}
+
+module.exports = async (data) => {
+  const result = await hookable(createProduct)(data);
+  return result;
 };

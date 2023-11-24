@@ -131,17 +131,5 @@
       }
     }
   },
-  "required": [
-    "name",
-    "meta_title",
-    "url_key",
-    "status",
-    "sku",
-    "qty",
-    "price",
-    "weight",
-    "group_id",
-    "visibility"
-  ],
   "additionalProperties": true
 }

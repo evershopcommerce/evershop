@@ -154,4 +154,44 @@ describe('registry', () => {
       getSync('test7', 1);
     }).toThrow(Error);
   });
+
+  it('It should throw an error if one of the processor throws an error', async () => {
+    const callback1 = jest.fn(async () => {
+      return 1;
+    });
+    const callback2 = jest.fn(async () => {
+      throw new Error('error');
+    });
+    const callback3 = jest.fn(async () => {
+      return 3;
+    });
+    addProcessor('test8', callback1, 2);
+    addProcessor('test8', callback2, 5);
+    addProcessor('test8', callback3, 20);
+    expect(async () => {
+      await get('test8', 1);
+    }).rejects.toThrow(Error);
+    expect(callback3).not.toHaveBeenCalled();
+    expect(callback1).toHaveBeenCalled();
+  });
+
+  it('It should throw an error if one of the processor throws an error', () => {
+    const callback1 = jest.fn(() => {
+      return 1;
+    });
+    const callback2 = jest.fn(() => {
+      throw new Error('error');
+    });
+    const callback3 = jest.fn(() => {
+      return 3;
+    });
+    addProcessor('test9', callback1, 2);
+    addProcessor('test9', callback2, 5);
+    addProcessor('test9', callback3, 20);
+    expect(() => {
+      getSync('test9', 1);
+    }).toThrow(Error);
+    expect(callback3).not.toHaveBeenCalled();
+    expect(callback1).toHaveBeenCalled();
+  });
 });
