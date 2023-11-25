@@ -1,5 +1,8 @@
 const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const { get, getSync } = require('@evershop/evershop/src/lib/util/registry');
+const {
+  getValueSync,
+  getValue
+} = require('@evershop/evershop/src/lib/util/registry');
 const {
   startTransaction,
   commit,
@@ -20,7 +23,10 @@ const productDataSchema = require('./productDataSchema.json');
 function validateProductDataBeforeUpdate(data) {
   const ajv = getAjv();
   productDataSchema.required = ['sku'];
-  const jsonSchema = getSync('updateProductDataJsonSchema', productDataSchema);
+  const jsonSchema = getValueSync(
+    'updateProductDataJsonSchema',
+    productDataSchema
+  );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
   if (valid) {
@@ -297,7 +303,7 @@ async function updateProduct(uuid, data) {
     throw new Error('Requested product does not exist');
   }
   try {
-    const productData = await get('productDataBeforeUpdate', data);
+    const productData = await getValue('productDataBeforeUpdate', data);
 
     // Validate product data
     validateProductDataBeforeUpdate(productData);

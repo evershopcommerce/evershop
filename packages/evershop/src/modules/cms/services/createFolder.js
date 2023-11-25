@@ -3,7 +3,7 @@ const fs = require('fs').promises;
 const { existsSync } = require('fs');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getSync } = require('@evershop/evershop/src/lib/util/registry');
+const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
 
 /**
  * @param {String} destinationPath the destination path
@@ -13,7 +13,7 @@ module.exports.createFolder = async (destinationPath) => {
    * @type {Object} uploader
    * @property {Function} create
    */
-  const folderCreator = getSync(
+  const folderCreator = getValueSync(
     'folderCreator',
     localFolderCreator,
     {

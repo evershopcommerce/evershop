@@ -1,5 +1,8 @@
 const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const { get, getSync } = require('@evershop/evershop/src/lib/util/registry');
+const {
+  getValueSync,
+  getValue
+} = require('@evershop/evershop/src/lib/util/registry');
 const {
   startTransaction,
   commit,
@@ -16,7 +19,7 @@ const categoryDataSchema = require('./categoryDataSchema.json');
 function validateCategoryDataBeforeInsert(data) {
   const ajv = getAjv();
   categoryDataSchema.required = ['name', 'url_key'];
-  const jsonSchema = getSync(
+  const jsonSchema = getValueSync(
     'createCategoryDataJsonSchema',
     categoryDataSchema
   );
@@ -63,7 +66,7 @@ async function createCategory(data) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const categoryData = await get('categoryDataBeforeCreate', data);
+    const categoryData = await getValue('categoryDataBeforeCreate', data);
     // Validate category data
     validateCategoryDataBeforeInsert(categoryData);
 

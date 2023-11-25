@@ -1,5 +1,8 @@
 const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const { get, getSync } = require('@evershop/evershop/src/lib/util/registry');
+const {
+  getValueSync,
+  getValue
+} = require('@evershop/evershop/src/lib/util/registry');
 const {
   startTransaction,
   commit,
@@ -27,7 +30,10 @@ function validateProductDataBeforeInsert(data) {
     'group_id',
     'visibility'
   ];
-  const jsonSchema = getSync('createProductDataJsonSchema', productDataSchema);
+  const jsonSchema = getValueSync(
+    'createProductDataJsonSchema',
+    productDataSchema
+  );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
   if (valid) {
@@ -175,7 +181,7 @@ async function createProduct(data) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const productData = await get('productDataBeforeCreate', data);
+    const productData = await getValue('productDataBeforeCreate', data);
 
     // Validate product data
     validateProductDataBeforeInsert(productData);

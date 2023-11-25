@@ -1,10 +1,15 @@
 /* eslint-disable no-undef, global-require */
-const { get, getSync, addProcessor, getProcessors } = require('../../registry');
+const {
+  getValue,
+  getValueSync,
+  addProcessor,
+  getProcessors
+} = require('../../registry');
 
 describe('registry', () => {
   it('It should return the init value if no processor provided', async () => {
     const initValue = 1;
-    const value = await get('test', initValue);
+    const value = await getValue('test', initValue);
     expect(value).toEqual(initValue);
   });
 
@@ -81,7 +86,7 @@ describe('registry', () => {
     addProcessor('test3', callback1, 10);
     addProcessor('test3', callback2, 5);
     addProcessor('test3', callback3, 20);
-    const value = await get('test3', 1);
+    const value = await getValue('test3', 1);
     expect(value).toEqual(3);
     expect(callback3).toHaveBeenCalled();
     expect(callback2).toHaveBeenCalled();
@@ -101,13 +106,13 @@ describe('registry', () => {
     addProcessor('test4', callback1, 10);
     addProcessor('test4', callback2, 5);
     addProcessor('test4', callback3, 20);
-    const value = await get('test4', 1, { a: 1 });
+    const value = await getValue('test4', 1, { a: 1 });
     expect(value).toEqual(3);
     expect(callback3).toHaveBeenCalled();
     expect(callback2).toHaveBeenCalled();
     expect(callback1).toHaveBeenCalled();
 
-    const value2 = await get('test4', 1, { a: 1 });
+    const value2 = await getValue('test4', 1, { a: 1 });
     expect(value2).toEqual(3);
     expect(callback3).toHaveBeenCalledTimes(1);
     expect(callback2).toHaveBeenCalledTimes(1);
@@ -119,18 +124,18 @@ describe('registry', () => {
       return ++value;
     });
     addProcessor('test5', callback, 10);
-    const value = await get('test5', 1, { a: 1 });
+    const value = await getValue('test5', 1, { a: 1 });
     expect(value).toEqual(2);
     expect(callback).toHaveBeenCalled();
-    const valueAgain = await get('test5', 1, { a: 1 });
+    const valueAgain = await getValue('test5', 1, { a: 1 });
     expect(valueAgain).toEqual(2);
     expect(callback).toHaveBeenCalledTimes(1);
 
-    const value2 = await get('test5', 2, { a: 2 });
+    const value2 = await getValue('test5', 2, { a: 2 });
     expect(value2).toEqual(3);
     expect(callback).toHaveBeenCalledTimes(2);
 
-    const value3 = await get('test5', 1, { a: 1 });
+    const value3 = await getValue('test5', 1, { a: 1 });
     expect(value3).toEqual(2);
     expect(callback).toHaveBeenCalledTimes(3);
   });
@@ -141,17 +146,17 @@ describe('registry', () => {
     });
     addProcessor('test6', callback, 10);
     expect(async () => {
-      await get('test6', 1, {}, (value) => {
+      await getValue('test6', 1, {}, (value) => {
         return value > 3;
       });
     }).rejects.toThrow(Error);
   });
 
-  it('The getSync function should throw if the processor is async', () => {
+  it('The getValueSync function should throw if the processor is async', () => {
     const callback = async () => {};
     addProcessor('test7', callback);
     expect(() => {
-      getSync('test7', 1);
+      getValueSync('test7', 1);
     }).toThrow(Error);
   });
 
@@ -169,7 +174,7 @@ describe('registry', () => {
     addProcessor('test8', callback2, 5);
     addProcessor('test8', callback3, 20);
     expect(async () => {
-      await get('test8', 1);
+      await getValue('test8', 1);
     }).rejects.toThrow(Error);
     expect(callback3).not.toHaveBeenCalled();
     expect(callback1).toHaveBeenCalled();
@@ -189,7 +194,7 @@ describe('registry', () => {
     addProcessor('test9', callback2, 5);
     addProcessor('test9', callback3, 20);
     expect(() => {
-      getSync('test9', 1);
+      getValueSync('test9', 1);
     }).toThrow(Error);
     expect(callback3).not.toHaveBeenCalled();
     expect(callback1).toHaveBeenCalled();
