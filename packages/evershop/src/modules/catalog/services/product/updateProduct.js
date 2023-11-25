@@ -20,7 +20,7 @@ const productDataSchema = require('./productDataSchema.json');
 function validateProductDataBeforeUpdate(data) {
   const ajv = getAjv();
   productDataSchema.required = ['sku'];
-  const jsonSchema = getSync('productDataJsonSchema', productDataSchema);
+  const jsonSchema = getSync('updateProductDataJsonSchema', productDataSchema);
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
   if (valid) {

@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "description": {
+      "type": "string",
+      "skipEscape": true
+    }
+  },
+  "additionalProperties": true
+}

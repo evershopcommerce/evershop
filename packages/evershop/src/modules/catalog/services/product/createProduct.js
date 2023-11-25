@@ -27,7 +27,7 @@ function validateProductDataBeforeInsert(data) {
     'group_id',
     'visibility'
   ];
-  const jsonSchema = getSync('productDataJsonSchema', productDataSchema);
+  const jsonSchema = getSync('createProductDataJsonSchema', productDataSchema);
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
   if (valid) {
@@ -156,12 +156,15 @@ async function insertProductImages(images, productId, connection) {
 
 async function insertProductData(data, connection) {
   const result = await insert('product').given(data).execute(connection);
-  await insert('product_description')
+  const description = await insert('product_description')
     .given(data)
     .prime('product_description_product_id', result.product_id)
     .execute(connection);
 
-  return result;
+  return {
+    ...description,
+    ...result
+  };
 }
 
 /**
