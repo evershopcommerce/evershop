@@ -148,7 +148,7 @@ module.exports = {
    * @param {Object} context
    * @param {Function} validator
    */
-  async get(name, initValue, context, validator) {
+  async getValue(name, initValue, context, validator) {
     const val = await registry.get(name, initValue, context, validator);
     return val;
   },
@@ -159,7 +159,7 @@ module.exports = {
    * @param {Object} context
    * @param {Function} validator
    */
-  getSync(name, initValue, context, validator) {
+  getValueSync(name, initValue, context, validator) {
     const val = registry.getSync(name, initValue, context, validator);
     return val;
   },

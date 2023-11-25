@@ -2,7 +2,7 @@ const { join } = require('path');
 const { existsSync, readdirSync } = require('fs');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getSync } = require('@evershop/evershop/src/lib/util/registry');
+const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 
 /**
@@ -13,7 +13,7 @@ module.exports.browFiles = async (path) => {
    * @type {Object} uploader
    * @property {Function} list
    */
-  const fileBrowser = getSync(
+  const fileBrowser = getValueSync(
     'fileBrowser',
     localFileBrowser,
     {

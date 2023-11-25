@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs').promises;
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getSync } = require('@evershop/evershop/src/lib/util/registry');
+const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 
 /**
@@ -14,7 +14,7 @@ module.exports.uploadFile = async (files, destinationPath) => {
    * @type {Object} uploader
    * @property {Function} upload
    */
-  const fileUploader = getSync(
+  const fileUploader = getValueSync(
     'fileUploader',
     localUploader,
     {
