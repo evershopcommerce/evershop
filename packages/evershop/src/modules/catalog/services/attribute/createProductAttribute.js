@@ -141,12 +141,12 @@ module.exports = async (data, context) => {
     }
     // Merge hook context with context
     Object.assign(hookContext, context);
-    const result = await hookable(createAttribute, hookContext)(
+    const attribute = await hookable(createAttribute, hookContext)(
       data,
       connection
     );
     await commit(connection);
-    return result;
+    return attribute;
   } catch (e) {
     await rollback(connection);
     throw e;

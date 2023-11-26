@@ -18,7 +18,7 @@ const categoryDataSchema = require('./categoryDataSchema.json');
 
 function validateCategoryDataBeforeInsert(data) {
   const ajv = getAjv();
-  categoryDataSchema.required = ['status'];
+  categoryDataSchema.required = [];
   const jsonSchema = getValueSync(
     'updateCategoryDataJsonSchema',
     categoryDataSchema
@@ -33,35 +33,43 @@ function validateCategoryDataBeforeInsert(data) {
 }
 
 async function updateCategoryData(uuid, data, connection) {
-  const category = await select()
-    .from('category')
-    .where('uuid', '=', uuid)
-    .load(connection);
-
+  const query = select().from('category');
+  query
+    .leftJoin('category_description')
+    .on(
+      'category_description.category_description_category_id',
+      '=',
+      'category.category_id'
+    );
+  const category = await query.where('uuid', '=', uuid).load(connection);
   if (!category) {
     throw new Error('Requested category not found');
   }
-  const result = await update('category')
-    .given(data)
-    .where('uuid', '=', uuid)
-    .execute(connection);
 
-  let description = {};
   try {
-    description = await update('category_description')
+    const newCategory = await update('category')
+      .given(data)
+      .where('uuid', '=', uuid)
+      .execute(connection);
+    Object.assign(category, newCategory);
+  } catch (e) {
+    if (!e.message.includes('No data was provided')) {
+      throw e;
+    }
+  }
+  try {
+    const description = await update('category_description')
       .given(data)
       .where('category_description_category_id', '=', category.category_id)
       .execute(connection);
+    Object.assign(category, description);
   } catch (e) {
     if (!e.message.includes('No data was provided')) {
       throw e;
     }
   }
 
-  return {
-    ...result,
-    ...description
-  };
+  return category;
 }
 
 /**

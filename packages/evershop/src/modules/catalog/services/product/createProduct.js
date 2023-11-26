@@ -161,15 +161,15 @@ async function insertProductImages(images, productId, connection) {
 }
 
 async function insertProductData(data, connection) {
-  const result = await insert('product').given(data).execute(connection);
+  const product = await insert('product').given(data).execute(connection);
   const description = await insert('product_description')
     .given(data)
-    .prime('product_description_product_id', result.product_id)
+    .prime('product_description_product_id', product.product_id)
     .execute(connection);
 
   return {
     ...description,
-    ...result
+    ...product
   };
 }
 
@@ -226,9 +226,12 @@ module.exports = async (data, context) => {
     }
     // Merge hook context with context
     Object.assign(hookContext, context);
-    const result = await hookable(createProduct, hookContext)(data, connection);
+    const product = await hookable(createProduct, hookContext)(
+      data,
+      connection
+    );
     await commit(connection);
-    return result;
+    return product;
   } catch (e) {
     await rollback(connection);
     throw e;

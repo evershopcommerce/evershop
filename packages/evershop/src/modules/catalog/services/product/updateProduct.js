@@ -22,7 +22,7 @@ const productDataSchema = require('./productDataSchema.json');
 
 function validateProductDataBeforeUpdate(data) {
   const ajv = getAjv();
-  productDataSchema.required = ['sku'];
+  productDataSchema.required = [];
   const jsonSchema = getValueSync(
     'updateProductDataJsonSchema',
     productDataSchema
@@ -255,16 +255,37 @@ async function updateProductImages(images, productId, connection) {
 }
 
 async function updateProductData(uuid, data, connection) {
-  const product = await update('product')
-    .given(data)
-    .where('uuid', '=', uuid)
-    .execute(connection);
-  let description = {};
+  const query = select().from('product');
+  query
+    .leftJoin('product_description')
+    .on(
+      'product_description.product_description_product_id',
+      '=',
+      'product.product_id'
+    );
+  const product = await query.where('uuid', '=', uuid).load(connection);
+  if (!product) {
+    throw new Error('Requested product not found');
+  }
+
   try {
-    description = await update('product_description')
+    const newProduct = await update('product')
+      .given(data)
+      .where('uuid', '=', uuid)
+      .execute(connection);
+    Object.assign(product, newProduct);
+  } catch (e) {
+    if (!e.message.includes('No data was provided')) {
+      throw e;
+    }
+  }
+
+  try {
+    const description = await update('product_description')
       .given(data)
       .where('product_description_product_id', '=', product.product_id)
       .execute(connection);
+    Object.assign(product, description);
   } catch (e) {
     if (!e.message.includes('No data was provided')) {
       throw e;
@@ -280,10 +301,7 @@ async function updateProductData(uuid, data, connection) {
       .execute(connection);
   }
 
-  return {
-    ...product,
-    ...description
-  };
+  return product;
 }
 
 /**
@@ -355,13 +373,13 @@ module.exports = async (uuid, data, context) => {
     }
     // Merge hook context with context
     Object.assign(hookContext, context);
-    const collection = await hookable(updateProduct, hookContext)(
+    const product = await hookable(updateProduct, hookContext)(
       uuid,
       data,
       connection
     );
     await commit(connection);
-    return collection;
+    return product;
   } catch (e) {
     await rollback(connection);
     throw e;

@@ -13,15 +13,19 @@ const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getAjv } = require('../../../base/services/getAjv');
-const collectionDataSchema = require('./collectionDataSchema.json');
+const pageDataSchema = require('./pageDataSchema.json');
 
-function validateCollectionDataBeforeInsert(data) {
+function validatePageDataBeforeInsert(data) {
   const ajv = getAjv();
-  collectionDataSchema.required = ['name', 'description', 'code'];
-  const jsonSchema = getValueSync(
-    'createCollectionDataJsonSchema',
-    collectionDataSchema
-  );
+  pageDataSchema.required = [
+    'status',
+    'name',
+    'url_key',
+    'content',
+    'meta_title',
+    'layout'
+  ];
+  const jsonSchema = getValueSync('createPageDataJsonSchema', pageDataSchema);
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
   if (valid) {
@@ -31,28 +35,36 @@ function validateCollectionDataBeforeInsert(data) {
   }
 }
 
-async function insertCollectionData(data, connection) {
-  const collection = await insert('collection').given(data).execute(connection);
-  return collection;
+async function insertPageData(data, connection) {
+  const page = await insert('cms_page').given(data).execute(connection);
+  const description = await insert('cms_page_description')
+    .given(data)
+    .prime('cms_page_description_cms_page_id', page.insertId)
+    .execute(connection);
+
+  return {
+    ...description,
+    ...page
+  };
 }
 
 /**
- * Create collection service. This service will create a collection with all related data
+ * Create page service. This service will create a page with all related data
  * @param {Object} data
  * @param {Object} connection
  */
-async function createCollection(data, connection) {
-  const collectionData = await getValue('collectionDataBeforeCreate', data);
-  // Validate collection data
-  validateCollectionDataBeforeInsert(collectionData);
+async function createPage(data, connection) {
+  const pageData = await getValue('pageDataBeforeCreate', data);
+  // Validate page data
+  validatePageDataBeforeInsert(pageData);
 
-  // Insert collection data
-  const collection = await hookable(insertCollectionData, { connection })(
-    collectionData,
+  // Insert page data
+  const page = await hookable(insertPageData, { connection })(
+    pageData,
     connection
   );
 
-  return collection;
+  return page;
 }
 
 module.exports = async (data, context) => {
@@ -68,12 +80,9 @@ module.exports = async (data, context) => {
     }
     // Merge hook context with context
     Object.assign(hookContext, context);
-    const collection = await hookable(createCollection, hookContext)(
-      data,
-      connection
-    );
+    const result = await hookable(createPage, hookContext)(data, connection);
     await commit(connection);
-    return collection;
+    return result;
   } catch (e) {
     await rollback(connection);
     throw e;

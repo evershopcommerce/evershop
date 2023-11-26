@@ -11,27 +11,27 @@ const {
 } = require('@evershop/evershop/src/lib/postgres/connection');
 
 /**
- * Delete category service. This service will delete a category with all related data
+ * Delete page service. This service will delete a page with all related data
  * @param {String} uuid
  * @param {Object} connection
  */
-async function deleteCategory(uuid, connection) {
-  const query = select().from('category');
+async function deletePage(uuid, connection) {
+  const query = select().from('cms_page');
   query
-    .leftJoin('category_description')
+    .leftJoin('cms_page_description')
     .on(
-      'category_description.category_description_category_id',
+      'cms_page_description.page_description_cms_page_id',
       '=',
-      'category.category_id'
+      'cms_page.cms_page_id'
     );
 
-  const category = await query.where('uuid', '=', uuid).load(connection);
+  const page = await query.where('uuid', '=', uuid).load(connection);
 
-  if (!category) {
-    throw new Error('Invalid category id');
+  if (!page) {
+    throw new Error('Invalid page id');
   }
-  await del('category').where('uuid', '=', uuid).execute(connection);
-  return category;
+  await del('cms_page').where('uuid', '=', uuid).execute(connection);
+  return page;
 }
 
 module.exports = async (uuid, context) => {
@@ -47,12 +47,12 @@ module.exports = async (uuid, context) => {
     }
     // Merge hook context with context
     Object.assign(hookContext, context);
-    const category = await hookable(deleteCategory, hookContext)(
+    const collection = await hookable(deletePage, hookContext)(
       uuid,
       connection
     );
     await commit(connection);
-    return category;
+    return collection;
   } catch (e) {
     await rollback(connection);
     throw e;
