@@ -14,14 +14,14 @@ const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getAjv } = require('../../../base/services/getAjv');
-const categoryDataSchema = require('./categoryDataSchema.json');
+const collectionDataSchema = require('./collectionDataSchema.json');
 
-function validateCategoryDataBeforeInsert(data) {
+function validateCollectionDataBeforeInsert(data) {
   const ajv = getAjv();
-  categoryDataSchema.required = ['status'];
+  collectionDataSchema.required = [];
   const jsonSchema = getValueSync(
-    'updateCategoryDataJsonSchema',
-    categoryDataSchema
+    'updateCollectionDataJsonSchema',
+    collectionDataSchema
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
@@ -32,57 +32,50 @@ function validateCategoryDataBeforeInsert(data) {
   }
 }
 
-async function updateCategoryData(uuid, data, connection) {
-  const category = await select()
-    .from('category')
+async function updateCollectionData(uuid, data, connection) {
+  const collection = await select()
+    .from('collection')
     .where('uuid', '=', uuid)
     .load(connection);
 
-  if (!category) {
-    throw new Error('Requested category not found');
+  if (!collection) {
+    throw new Error('Requested collection not found');
   }
-  const result = await update('category')
-    .given(data)
-    .where('uuid', '=', uuid)
-    .execute(connection);
 
-  let description = {};
   try {
-    description = await update('category_description')
+    const result = await update('collection')
       .given(data)
-      .where('category_description_category_id', '=', category.category_id)
+      .where('uuid', '=', uuid)
       .execute(connection);
+
+    return result;
   } catch (e) {
     if (!e.message.includes('No data was provided')) {
       throw e;
+    } else {
+      return collection;
     }
   }
-
-  return {
-    ...result,
-    ...description
-  };
 }
 
 /**
- * Update category service. This service will update a category with all related data
- * @param {String} uuid
+ * Update collection service. This service will update a collection with all related data
  * @param {Object} data
  * @param {Object} connection
  */
-async function updateCategory(uuid, data, connection) {
-  const categoryData = await getValue('categoryDataBeforeUpdate', data);
-  // Validate category data
-  validateCategoryDataBeforeInsert(categoryData);
+async function updateCollection(uuid, data, connection) {
+  const collectionData = await getValue('collectionDataBeforeUpdate', data);
+  // Validate collection data
+  validateCollectionDataBeforeInsert(collectionData);
 
-  // Insert category data
-  const category = await hookable(updateCategoryData, { connection })(
+  // Insert collection data
+  const collection = await hookable(updateCollectionData, { connection })(
     uuid,
-    categoryData,
+    collectionData,
     connection
   );
 
-  return category;
+  return collection;
 }
 
 module.exports = async (uuid, data, context) => {
@@ -98,7 +91,7 @@ module.exports = async (uuid, data, context) => {
     }
     // Merge hook context with context
     Object.assign(hookContext, context);
-    const collection = await hookable(updateCategory, hookContext)(
+    const collection = await hookable(updateCollection, hookContext)(
       uuid,
       data,
       connection

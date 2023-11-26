@@ -1,32 +1,16 @@
-/* eslint-disable no-unused-vars */
-const { del, select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   OK,
-  INTERNAL_SERVER_ERROR,
-  INVALID_PAYLOAD
+  INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const deleteProductAttribute = require('../../services/attribute/deleteProductAttribute');
 
+// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   try {
     const { id } = request.params;
-    const attribute = await select()
-      .from('attribute')
-      .where('uuid', '=', id)
-      .load(pool);
-
-    if (!attribute) {
-      response.status(INVALID_PAYLOAD);
-      response.json({
-        error: {
-          status: INVALID_PAYLOAD,
-          message: 'Invalid attribute id'
-        }
-      });
-      return;
-    }
-    await del('attribute').where('uuid', '=', id).execute(pool);
-
+    const attribute = await deleteProductAttribute(id, {
+      routeId: request.currentRoute.id
+    });
     response.status(OK);
     response.json({
       data: attribute
