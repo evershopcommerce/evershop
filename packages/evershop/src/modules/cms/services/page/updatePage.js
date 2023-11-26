@@ -14,15 +14,12 @@ const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getAjv } = require('../../../base/services/getAjv');
-const collectionDataSchema = require('./collectionDataSchema.json');
+const pageDataSchema = require('./pageDataSchema.json');
 
-function validateCollectionDataBeforeInsert(data) {
+function validatePageDataBeforeInsert(data) {
   const ajv = getAjv();
-  collectionDataSchema.required = [];
-  const jsonSchema = getValueSync(
-    'updateCollectionDataJsonSchema',
-    collectionDataSchema
-  );
+  pageDataSchema.required = ['status'];
+  const jsonSchema = getValueSync('updatePageDataJsonSchema', pageDataSchema);
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
   if (valid) {
@@ -32,50 +29,63 @@ function validateCollectionDataBeforeInsert(data) {
   }
 }
 
-async function updateCollectionData(uuid, data, connection) {
-  const collection = await select()
-    .from('collection')
-    .where('uuid', '=', uuid)
-    .load(connection);
+async function updatePageData(uuid, data, connection) {
+  const query = select().from('cms_page');
+  query
+    .leftJoin('cms_page_description')
+    .on(
+      'cms_page_description.cms_page_description_cms_page_id',
+      '=',
+      'cms_page.cms_page_id'
+    );
+  const page = await query.where('uuid', '=', uuid).load(connection);
 
-  if (!collection) {
-    throw new Error('Requested collection not found');
+  if (!page) {
+    throw new Error('Requested page not found');
   }
+  const newPage = await update('cms_page')
+    .given(data)
+    .where('uuid', '=', uuid)
+    .execute(connection);
 
+  Object.assign(page, newPage);
+  let description = {};
   try {
-    const newCollection = await update('collection')
+    description = await update('cms_page_description')
       .given(data)
-      .where('uuid', '=', uuid)
+      .where('cms_page_description_cms_page_id', '=', page.cms_page_id)
       .execute(connection);
-
-    return newCollection;
   } catch (e) {
     if (!e.message.includes('No data was provided')) {
       throw e;
-    } else {
-      return collection;
     }
   }
+
+  return {
+    ...page,
+    ...description
+  };
 }
 
 /**
- * Update collection service. This service will update a collection with all related data
+ * Update page service. This service will update a page with all related data
+ * @param {String} uuid
  * @param {Object} data
  * @param {Object} connection
  */
-async function updateCollection(uuid, data, connection) {
-  const collectionData = await getValue('collectionDataBeforeUpdate', data);
-  // Validate collection data
-  validateCollectionDataBeforeInsert(collectionData);
+async function updatePage(uuid, data, connection) {
+  const pageData = await getValue('pageDataBeforeUpdate', data);
+  // Validate page data
+  validatePageDataBeforeInsert(pageData);
 
-  // Insert collection data
-  const collection = await hookable(updateCollectionData, { connection })(
+  // Insert page data
+  const page = await hookable(updatePageData, { connection })(
     uuid,
-    collectionData,
+    pageData,
     connection
   );
 
-  return collection;
+  return page;
 }
 
 module.exports = async (uuid, data, context) => {
@@ -91,7 +101,7 @@ module.exports = async (uuid, data, context) => {
     }
     // Merge hook context with context
     Object.assign(hookContext, context);
-    const collection = await hookable(updateCollection, hookContext)(
+    const collection = await hookable(updatePage, hookContext)(
       uuid,
       data,
       connection

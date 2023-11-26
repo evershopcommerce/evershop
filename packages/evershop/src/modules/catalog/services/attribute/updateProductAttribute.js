@@ -147,11 +147,11 @@ async function updateAttributeData(uuid, data, connection) {
     throw new Error('Requested attribute not found');
   }
   try {
-    const result = await update('attribute')
+    const attribute = await update('attribute')
       .given(data)
       .where('uuid', '=', uuid)
       .execute(connection);
-    return result;
+    return attribute;
   } catch (e) {
     if (!e.message.includes('No data was provided')) {
       throw e;

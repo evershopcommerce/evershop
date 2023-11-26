@@ -46,15 +46,15 @@ async function insertCategoryData(data, connection) {
     }
   }
 
-  const result = await insert('category').given(data).execute(connection);
+  const category = await insert('category').given(data).execute(connection);
   const description = await insert('category_description')
     .given(data)
-    .prime('category_description_category_id', result.insertId)
+    .prime('category_description_category_id', category.insertId)
     .execute(connection);
 
   return {
     ...description,
-    ...result
+    ...category
   };
 }
 
@@ -90,12 +90,12 @@ module.exports = async (data, context) => {
     }
     // Merge hook context with context
     Object.assign(hookContext, context);
-    const result = await hookable(createCategory, hookContext)(
+    const category = await hookable(createCategory, hookContext)(
       data,
       connection
     );
     await commit(connection);
-    return result;
+    return category;
   } catch (e) {
     await rollback(connection);
     throw e;
