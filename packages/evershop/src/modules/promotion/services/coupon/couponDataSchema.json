@@ -126,8 +126,9 @@
             "pattern": "^[0-9]*$"
           }
         },
-        "emails": {
-          "type": "string"
+        "email": {
+          "type": "string",
+          "format": "email"
         },
         "purchased": {
           "type": ["string", "integer"],
@@ -186,7 +187,14 @@
       "additionalProperties": true
     }
   },
-  "required": ["coupon"],
+  "start_date": {
+    "type": "string",
+    "format": "date"
+  },
+  "end_date": {
+    "type": "string",
+    "format": "date"
+  },
   "additionalProperties": true,
   "errorMessage": {
     "properties": {

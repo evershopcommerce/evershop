@@ -308,80 +308,71 @@ async function updateProductData(uuid, data, connection) {
  * Update product service. This service will update a product with all related data
  * @param {String} uuid
  * @param {Object} data
- * @param {Object} connection
+ * @param {Object} context
  */
-async function updateProduct(uuid, data, connection) {
-  const currentProduct = await select()
-    .from('product')
-    .where('uuid', '=', uuid)
-    .load(connection);
-
-  if (!currentProduct) {
-    throw new Error('Requested product does not exist');
-  }
-
-  const productData = await getValue('productDataBeforeUpdate', data);
-
-  // Validate product data
-  validateProductDataBeforeUpdate(productData);
-
-  // Insert product data
-  const product = await hookable(updateProductData, { connection })(
-    uuid,
-    productData,
-    connection
-  );
-
-  // Update product inventory
-  await hookable(updateProductInventory, { connection, product })(
-    productData,
-    product.product_id,
-    connection
-  );
-
-  // Update product attributes
-  await hookable(updateProductAttributes, {
-    connection,
-    product
-  })(
-    productData.attributes || [],
-    product.product_id,
-    product.variant_group_id,
-    connection
-  );
-
-  // Insert product images
-  await hookable(updateProductImages, { connection, product })(
-    productData.images || [],
-    product.product_id,
-    connection
-  );
-
-  return product;
-}
-
-module.exports = async (uuid, data, context) => {
+async function updateProduct(uuid, data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const hookContext = {
-      connection
-    };
-    // Make sure the context is either not provided or is an object
-    if (context && typeof context !== 'object') {
-      throw new Error('Context must be an object');
+    const currentProduct = await select()
+      .from('product')
+      .where('uuid', '=', uuid)
+      .load(connection);
+
+    if (!currentProduct) {
+      throw new Error('Requested product does not exist');
     }
-    // Merge hook context with context
-    Object.assign(hookContext, context);
-    const product = await hookable(updateProduct, hookContext)(
-      uuid,
-      data,
+
+    const productData = await getValue('productDataBeforeUpdate', data);
+
+    // Validate product data
+    validateProductDataBeforeUpdate(productData);
+
+    // Insert product data
+    const product = await hookable(updateProductData, {
+      ...context,
+      connection
+    })(uuid, productData, connection);
+
+    // Update product inventory
+    await hookable(updateProductInventory, { ...context, connection, product })(
+      productData,
+      product.product_id,
       connection
     );
+
+    // Update product attributes
+    await hookable(updateProductAttributes, {
+      ...context,
+      connection,
+      product
+    })(
+      productData.attributes || [],
+      product.product_id,
+      product.variant_group_id,
+      connection
+    );
+
+    // Insert product images
+    await hookable(updateProductImages, { ...context, connection, product })(
+      productData.images || [],
+      product.product_id,
+      connection
+    );
+
     await commit(connection);
     return product;
   } catch (e) {
     await rollback(connection);
     throw e;
   }
+}
+
+module.exports = async (uuid, data, context) => {
+  // Make sure the context is either not provided or is an object
+  if (context && typeof context !== 'object') {
+    throw new Error('Context must be an object');
+  }
+  const product = await hookable(updateProduct, context)(uuid, data, context);
+  return product;
 };

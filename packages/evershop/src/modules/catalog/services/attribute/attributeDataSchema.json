@@ -25,10 +25,11 @@
     },
     "groups": {
       "type": "array",
-      "items": {
+      "items": [ {
         "type": ["string", "integer"],
-        "pattern": "^[0-9]*$"
-      }
+        "pattern": "^[1-9][0-9]*$",
+        "default": 100000
+      }]
     },
     "options": {
       "type": "array",

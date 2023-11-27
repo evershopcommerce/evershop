@@ -96,59 +96,55 @@ async function insertAttributeData(data, connection) {
 /**
  * Create attribute service. This service will create a attribute with all related data
  * @param {Object} data
- * @param {Object} connection
+ * @param {Object} context
  */
-async function createAttribute(data, connection) {
-  const attributeData = await getValue('attributeDataBeforeCreate', data);
-  // Validate attribute data
-  validateAttributeDataBeforeInsert(attributeData);
-
-  // Insert attribute data
-  const attribute = await hookable(insertAttributeData, { connection })(
-    attributeData,
-    connection
-  );
-
-  // Save attribute groups
-  await hookable(insertAttributeGroups, { connection })(
-    attribute.insertId,
-    attributeData.groups || [],
-    connection
-  );
-
-  // Save attribute options
-  await hookable(insertAttributeOptions, { connection })(
-    attribute.insertId,
-    attribute.type,
-    attribute.attribute_code,
-    attributeData.options || [],
-    connection
-  );
-
-  return attribute;
-}
-
-module.exports = async (data, context) => {
+async function createAttribute(data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const hookContext = {
+    const attributeData = await getValue('attributeDataBeforeCreate', data);
+    // Validate attribute data
+    validateAttributeDataBeforeInsert(attributeData);
+
+    // Insert attribute data
+    const attribute = await hookable(insertAttributeData, {
+      ...context,
       connection
-    };
-    // Make sure the context is either not provided or is an object
-    if (context && typeof context !== 'object') {
-      throw new Error('Context must be an object');
-    }
-    // Merge hook context with context
-    Object.assign(hookContext, context);
-    const attribute = await hookable(createAttribute, hookContext)(
-      data,
+    })(attributeData, connection);
+
+    // Save attribute groups
+    await hookable(insertAttributeGroups, {
+      ...context,
+      attribute,
+      connection
+    })(attribute.insertId, attributeData.groups || [], connection);
+
+    // Save attribute options
+    await hookable(insertAttributeOptions, {
+      ...context,
+      attribute,
+      connection
+    })(
+      attribute.insertId,
+      attribute.type,
+      attribute.attribute_code,
+      attributeData.options || [],
       connection
     );
+
     await commit(connection);
     return attribute;
   } catch (e) {
     await rollback(connection);
     throw e;
   }
+}
+
+module.exports = async (data, context) => {
+  // Make sure the context is either not provided or is an object
+  if (context && typeof context !== 'object') {
+    throw new Error('Context must be an object');
+  }
+  const attribute = await hookable(createAttribute, context)(data, context);
+  return attribute;
 };

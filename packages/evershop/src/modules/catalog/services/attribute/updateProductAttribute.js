@@ -165,65 +165,63 @@ async function updateAttributeData(uuid, data, connection) {
  * Update attribute service. This service will update a attribute with all related data
  * @param {String} uuid
  * @param {Object} data
- * @param {Object} connection
+ * @param {Object} context
  */
-async function updateAttribute(uuid, data, connection) {
-  const attributeData = await getValue('attributeDataBeforeUpdate', data);
-  // Delete the attribute_code and type from the data object, we do not allow to update these fields
-  delete attributeData.attribute_code;
-  delete attributeData.type;
-
-  // Validate attribute data
-  validateAttributeDataBeforeInsert(attributeData);
-
-  // Insert attribute data
-  const attribute = await hookable(updateAttributeData, { connection })(
-    uuid,
-    attributeData,
-    connection
-  );
-
-  // Save attribute groups
-  await hookable(updateAttributeGroups, { connection })(
-    attribute.attribute_id,
-    attributeData.groups || [],
-    connection
-  );
-
-  // Save attribute options
-  await hookable(updateAttributeOptions, { connection })(
-    attribute.attribute_id,
-    attribute.type,
-    attribute.attribute_code,
-    attributeData.options || [],
-    connection
-  );
-
-  return attribute;
-}
-
-module.exports = async (uuid, data, context) => {
+async function updateAttribute(uuid, data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const hookContext = {
+    const attributeData = await getValue('attributeDataBeforeUpdate', data);
+    // Delete the attribute_code and type from the data object, we do not allow to update these fields
+    delete attributeData.attribute_code;
+    delete attributeData.type;
+
+    // Validate attribute data
+    validateAttributeDataBeforeInsert(attributeData);
+
+    // Insert attribute data
+    const attribute = await hookable(updateAttributeData, {
+      ...context,
       connection
-    };
-    // Make sure the context is either not provided or is an object
-    if (context && typeof context !== 'object') {
-      throw new Error('Context must be an object');
-    }
-    // Merge hook context with context
-    Object.assign(hookContext, context);
-    const collection = await hookable(updateAttribute, hookContext)(
-      uuid,
-      data,
+    })(uuid, attributeData, connection);
+
+    // Save attribute groups
+    await hookable(updateAttributeGroups, {
+      ...context,
+      connection,
+      attribute
+    })(attribute.attribute_id, attributeData.groups || [], connection);
+
+    // Save attribute options
+    await hookable(updateAttributeOptions, {
+      ...context,
+      connection,
+      attribute
+    })(
+      attribute.attribute_id,
+      attribute.type,
+      attribute.attribute_code,
+      attributeData.options || [],
       connection
     );
+
     await commit(connection);
-    return collection;
+    return attribute;
   } catch (e) {
     await rollback(connection);
     throw e;
   }
+}
+
+module.exports = async (uuid, data, context) => {
+  // Make sure the context is either not provided or is an object
+  if (context && typeof context !== 'object') {
+    throw new Error('Context must be an object');
+  }
+  const attribute = await hookable(updateAttribute, context)(
+    uuid,
+    data,
+    context
+  );
+  return attribute;
 };

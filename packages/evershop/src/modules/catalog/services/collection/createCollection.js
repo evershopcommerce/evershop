@@ -39,43 +39,36 @@ async function insertCollectionData(data, connection) {
 /**
  * Create collection service. This service will create a collection with all related data
  * @param {Object} data
- * @param {Object} connection
+ * @param {Object} context
  */
-async function createCollection(data, connection) {
-  const collectionData = await getValue('collectionDataBeforeCreate', data);
-  // Validate collection data
-  validateCollectionDataBeforeInsert(collectionData);
-
-  // Insert collection data
-  const collection = await hookable(insertCollectionData, { connection })(
-    collectionData,
-    connection
-  );
-
-  return collection;
-}
-
-module.exports = async (data, context) => {
+async function createCollection(data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
+  const hookContext = {connection, ...context};
   try {
-    const hookContext = {
-      connection
-    };
-    // Make sure the context is either not provided or is an object
-    if (context && typeof context !== 'object') {
-      throw new Error('Context must be an object');
-    }
-    // Merge hook context with context
-    Object.assign(hookContext, context);
-    const collection = await hookable(createCollection, hookContext)(
-      data,
+    const collectionData = await getValue('collectionDataBeforeCreate', data);
+    // Validate collection data
+    validateCollectionDataBeforeInsert(collectionData);
+
+    // Insert collection data
+    const collection = await hookable(insertCollectionData, hookContext)(
+      collectionData,
       connection
     );
+
     await commit(connection);
     return collection;
   } catch (e) {
     await rollback(connection);
     throw e;
   }
+}
+
+module.exports = async (data, context) => {
+  // Make sure the context is either not provided or is an object
+  if (context && typeof context !== 'object') {
+    throw new Error('Context must be an object');
+  }
+  const collection = await hookable(createCollection)(data, context);
+  return collection;
 };
