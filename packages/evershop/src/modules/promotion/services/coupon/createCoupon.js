@@ -44,40 +44,34 @@ async function insertCouponData(data, connection) {
 /**
  * Create coupon service. This service will create a coupon with all related data
  * @param {Object} data
- * @param {Object} connection
+ * @param {Object} context
  */
-async function createCoupon(data, connection) {
-  const couponData = await getValue('couponDataBeforeCreate', data);
-  // Validate coupon data
-  validateCouponDataBeforeInsert(couponData);
-
-  // Insert coupon data
-  const coupon = await hookable(insertCouponData, { connection })(
-    couponData,
-    connection
-  );
-
-  return coupon;
-}
-
-module.exports = async (data, context) => {
+async function createCoupon(data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const hookContext = {
+    const couponData = await getValue('couponDataBeforeCreate', data);
+    // Validate coupon data
+    validateCouponDataBeforeInsert(couponData);
+
+    // Insert coupon data
+    const coupon = await hookable(insertCouponData, { ...context, connection })(
+      couponData,
       connection
-    };
-    // Make sure the context is either not provided or is an object
-    if (context && typeof context !== 'object') {
-      throw new Error('Context must be an object');
-    }
-    // Merge hook context with context
-    Object.assign(hookContext, context);
-    const coupon = await hookable(createCoupon, hookContext)(data, connection);
+    );
     await commit(connection);
     return coupon;
   } catch (e) {
     await rollback(connection);
     throw e;
   }
+}
+
+module.exports = async (data, context) => {
+  // Make sure the context is either not provided or is an object
+  if (context && typeof context !== 'object') {
+    throw new Error('Context must be an object');
+  }
+  const coupon = await hookable(createCoupon, context)(data, context);
+  return coupon;
 };
