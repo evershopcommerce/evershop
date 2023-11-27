@@ -51,40 +51,35 @@ async function insertPageData(data, connection) {
 /**
  * Create page service. This service will create a page with all related data
  * @param {Object} data
- * @param {Object} connection
+ * @param {Object} context
  */
-async function createPage(data, connection) {
-  const pageData = await getValue('pageDataBeforeCreate', data);
-  // Validate page data
-  validatePageDataBeforeInsert(pageData);
-
-  // Insert page data
-  const page = await hookable(insertPageData, { connection })(
-    pageData,
-    connection
-  );
-
-  return page;
-}
-
-module.exports = async (data, context) => {
+async function createPage(data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const hookContext = {
+    const pageData = await getValue('pageDataBeforeCreate', data);
+    // Validate page data
+    validatePageDataBeforeInsert(pageData);
+
+    // Insert page data
+    const page = await hookable(insertPageData, { ...context, connection })(
+      pageData,
       connection
-    };
-    // Make sure the context is either not provided or is an object
-    if (context && typeof context !== 'object') {
-      throw new Error('Context must be an object');
-    }
-    // Merge hook context with context
-    Object.assign(hookContext, context);
-    const result = await hookable(createPage, hookContext)(data, connection);
+    );
+
     await commit(connection);
-    return result;
+    return page;
   } catch (e) {
     await rollback(connection);
     throw e;
   }
+}
+
+module.exports = async (data, context) => {
+  // Make sure the context is either not provided or is an object
+  if (context && typeof context !== 'object') {
+    throw new Error('Context must be an object');
+  }
+  const page = await hookable(createPage, context)(data, context);
+  return page;
 };
