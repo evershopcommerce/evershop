@@ -1,6 +1,6 @@
 {
   "name": "@evershop/postgres-query-builder",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A PostgreSQL query builder for NodeJS",
   "main": "index.js",
   "repository": {

@@ -640,6 +640,9 @@ class SelectQuery extends Query {
       let { rows } = await connection.query({ text: sql, values: binding });
       return rows;
     } catch (e) {
+      if (connection.INTRANSACTION === true) {
+        throw e;
+      }
       if (e.code === '42703') {
         this.removeOrderBy();
         return await super.execute(connection, false);

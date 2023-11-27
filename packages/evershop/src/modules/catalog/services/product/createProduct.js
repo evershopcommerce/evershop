@@ -176,64 +176,57 @@ async function insertProductData(data, connection) {
 /**
  * Create product service. This service will create a product with all related data
  * @param {Object} data
- * @param {Object} connection
+ * @param {Object} context
  */
-async function createProduct(data, connection) {
-  const productData = await getValue('productDataBeforeCreate', data);
-
-  // Validate product data
-  validateProductDataBeforeInsert(productData);
-
-  // Insert product data
-  const product = await hookable(insertProductData, { connection })(
-    productData,
-    connection
-  );
-
-  // Insert product inventory
-  await hookable(insertProductInventory, { connection, product })(
-    productData,
-    product.insertId,
-    connection
-  );
-
-  // Insert product attributes
-  await hookable(insertProductAttributes, {
-    connection,
-    product
-  })(productData.attributes || [], product.insertId, connection);
-
-  // Insert product images
-  await hookable(insertProductImages, { connection, product })(
-    productData.images || [],
-    product.insertId,
-    connection
-  );
-
-  return product;
-}
-
-module.exports = async (data, context) => {
+async function createProduct(data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const hookContext = {
-      connection
-    };
-    // Make sure the context is either not provided or is an object
-    if (context && typeof context !== 'object') {
-      throw new Error('Context must be an object');
-    }
-    // Merge hook context with context
-    Object.assign(hookContext, context);
-    const product = await hookable(createProduct, hookContext)(
-      data,
+    const productData = await getValue('productDataBeforeCreate', data);
+
+    // Validate product data
+    validateProductDataBeforeInsert(productData);
+
+    // Insert product data
+    const product = await hookable(insertProductData, {
+      connection,
+      ...context
+    })(productData, connection);
+
+    // Insert product inventory
+    await hookable(insertProductInventory, { ...context, connection, product })(
+      productData,
+      product.insertId,
       connection
     );
+
+    // Insert product attributes
+    await hookable(insertProductAttributes, {
+      ...context,
+      connection,
+      product
+    })(productData.attributes || [], product.insertId, connection);
+
+    // Insert product images
+    await hookable(insertProductImages, { ...context, connection, product })(
+      productData.images || [],
+      product.insertId,
+      connection
+    );
+
     await commit(connection);
     return product;
   } catch (e) {
     await rollback(connection);
     throw e;
   }
+}
+
+module.exports = async (data, context) => {
+  // Make sure the context is either not provided or is an object
+  if (context && typeof context !== 'object') {
+    throw new Error('Context must be an object');
+  }
+  const product = await hookable(createProduct, context)(data, context);
+  return product;
 };

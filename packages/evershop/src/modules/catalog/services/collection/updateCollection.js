@@ -60,40 +60,23 @@ async function updateCollectionData(uuid, data, connection) {
 
 /**
  * Update collection service. This service will update a collection with all related data
+ * @param {String} uuid
  * @param {Object} data
- * @param {Object} connection
+ * @param {Object} context
  */
-async function updateCollection(uuid, data, connection) {
-  const collectionData = await getValue('collectionDataBeforeUpdate', data);
-  // Validate collection data
-  validateCollectionDataBeforeInsert(collectionData);
-
-  // Insert collection data
-  const collection = await hookable(updateCollectionData, { connection })(
-    uuid,
-    collectionData,
-    connection
-  );
-
-  return collection;
-}
-
-module.exports = async (uuid, data, context) => {
+async function updateCollection(uuid, data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
+  const hookContext = {connection, ...context};
   try {
-    const hookContext = {
-      connection
-    };
-    // Make sure the context is either not provided or is an object
-    if (context && typeof context !== 'object') {
-      throw new Error('Context must be an object');
-    }
-    // Merge hook context with context
-    Object.assign(hookContext, context);
-    const collection = await hookable(updateCollection, hookContext)(
+    const collectionData = await getValue('collectionDataBeforeUpdate', data);
+    // Validate collection data
+    validateCollectionDataBeforeInsert(collectionData);
+
+    // Insert collection data
+    const collection = await hookable(updateCollectionData, hookContext)(
       uuid,
-      data,
+      collectionData,
       connection
     );
     await commit(connection);
@@ -102,4 +85,18 @@ module.exports = async (uuid, data, context) => {
     await rollback(connection);
     throw e;
   }
+}
+
+module.exports = async (uuid, data, context) => {
+  // Make sure the context is either not provided or is an object
+  if (context && typeof context !== 'object') {
+    throw new Error('Context must be an object');
+  }
+  // Merge hook context with context
+  const collection = await hookable(updateCollection, context)(
+    uuid,
+    data,
+    context
+  );
+  return collection;
 };

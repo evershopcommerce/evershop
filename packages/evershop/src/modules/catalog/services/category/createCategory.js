@@ -61,43 +61,35 @@ async function insertCategoryData(data, connection) {
 /**
  * Create category service. This service will create a category with all related data
  * @param {Object} data
- * @param {Object} connection
+ * @param {Object} context
  */
-async function createCategory(data, connection) {
-  const categoryData = await getValue('categoryDataBeforeCreate', data);
-  // Validate category data
-  validateCategoryDataBeforeInsert(categoryData);
-
-  // Insert category data
-  const category = await hookable(insertCategoryData, { connection })(
-    categoryData,
-    connection
-  );
-
-  return category;
-}
-
-module.exports = async (data, context) => {
+async function createCategory(data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const hookContext = {
-      connection
-    };
-    // Make sure the context is either not provided or is an object
-    if (context && typeof context !== 'object') {
-      throw new Error('Context must be an object');
-    }
-    // Merge hook context with context
-    Object.assign(hookContext, context);
-    const category = await hookable(createCategory, hookContext)(
-      data,
+    const categoryData = await getValue('categoryDataBeforeCreate', data);
+    // Validate category data
+    validateCategoryDataBeforeInsert(categoryData);
+
+    // Insert category data
+    const category = await hookable(insertCategoryData, context)(
+      categoryData,
       connection
     );
+
     await commit(connection);
     return category;
   } catch (e) {
     await rollback(connection);
     throw e;
   }
+}
+
+module.exports = async (data, context) => {
+  // Make sure the context is either not provided or is an object
+  if (context && typeof context !== 'object') {
+    throw new Error('Context must be an object');
+  }
+  const category = await hookable(createCategory, context)(data, context);
+  return category;
 };
