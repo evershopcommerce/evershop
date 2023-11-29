@@ -207,6 +207,7 @@ export function Form(props) {
                     );
                 }}
                 isLoading={loading}
+                type="submit"
               />
             </div>
           )}
