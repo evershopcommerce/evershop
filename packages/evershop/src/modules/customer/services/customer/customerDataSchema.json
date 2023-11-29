@@ -16,6 +16,5 @@
       "type": "string"
     }
   },
-  "required": ["email", "password", "full_name"],
   "additionalProperties": true
 }

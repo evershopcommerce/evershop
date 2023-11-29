@@ -14,14 +14,14 @@ const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getAjv } = require('../../../base/services/getAjv');
-const couponDataSchema = require('./couponDataSchema.json');
+const customerDataSchema = require('./customerDataSchema.json');
 
-function validateCouponDataBeforeInsert(data) {
+function validateCustomerDataBeforeInsert(data) {
   const ajv = getAjv();
-  couponDataSchema.required = [];
+  customerDataSchema.required = [];
   const jsonSchema = getValueSync(
-    'updateCouponDataJsonSchema',
-    couponDataSchema
+    'updateCustomerDataJsonSchema',
+    customerDataSchema
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
@@ -32,54 +32,54 @@ function validateCouponDataBeforeInsert(data) {
   }
 }
 
-async function updateCouponData(uuid, data, connection) {
-  const coupon = await select()
-    .from('coupon')
-    .where('uuid', '=', uuid)
-    .load(connection);
-
-  if (!coupon) {
-    throw new Error('Requested coupon not found');
+async function updateCustomerData(uuid, data, connection) {
+  const query = select().from('customer');
+  const customer = await query.where('uuid', '=', uuid).load(connection);
+  if (!customer) {
+    throw new Error('Requested customer not found');
   }
 
   try {
-    const newCoupon = await update('coupon')
+    const newCustomer = await update('customer')
       .given(data)
       .where('uuid', '=', uuid)
       .execute(connection);
-
-    return newCoupon;
+    Object.assign(customer, newCustomer);
   } catch (e) {
     if (!e.message.includes('No data was provided')) {
       throw e;
-    } else {
-      return coupon;
     }
   }
+
+  // Delete password from customer object
+  delete customer.password;
+  return customer;
 }
 
 /**
- * Update coupon service. This service will update a coupon with all related data
+ * Update customer service. This service will update a customer with all related data
+ * @param {String} uuid
  * @param {Object} data
  * @param {Object} context
  */
-async function updateCoupon(uuid, data, context) {
+async function updateCustomer(uuid, data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const couponData = await getValue('couponDataBeforeUpdate', data);
-    // Validate coupon data
-    validateCouponDataBeforeInsert(couponData);
+    const customerData = await getValue('customerDataBeforeUpdate', data);
+    // Validate customer data
+    validateCustomerDataBeforeInsert(customerData);
 
-    // Insert coupon data
-    const coupon = await hookable(updateCouponData, { ...context, connection })(
-      uuid,
-      couponData,
+    // Do not allow to update password here. Use changePassword service instead
+    delete customerData.password;
+    // Update customer data
+    const customer = await hookable(updateCustomerData, {
+      ...context,
       connection
-    );
+    })(uuid, customerData, connection);
 
     await commit(connection);
-    return coupon;
+    return customer;
   } catch (e) {
     await rollback(connection);
     throw e;
@@ -91,6 +91,6 @@ module.exports = async (uuid, data, context) => {
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');
   }
-  const coupon = await hookable(updateCoupon, context)(uuid, data, context);
-  return coupon;
+  const customer = await hookable(updateCustomer, context)(uuid, data, context);
+  return customer;
 };

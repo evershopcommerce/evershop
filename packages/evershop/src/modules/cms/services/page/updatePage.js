@@ -71,45 +71,36 @@ async function updatePageData(uuid, data, connection) {
  * Update page service. This service will update a page with all related data
  * @param {String} uuid
  * @param {Object} data
- * @param {Object} connection
+ * @param {Object} context
  */
-async function updatePage(uuid, data, connection) {
-  const pageData = await getValue('pageDataBeforeUpdate', data);
-  // Validate page data
-  validatePageDataBeforeInsert(pageData);
-
-  // Insert page data
-  const page = await hookable(updatePageData, { connection })(
-    uuid,
-    pageData,
-    connection
-  );
-
-  return page;
-}
-
-module.exports = async (uuid, data, context) => {
+async function updatePage(uuid, data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const hookContext = {
-      connection
-    };
-    // Make sure the context is either not provided or is an object
-    if (context && typeof context !== 'object') {
-      throw new Error('Context must be an object');
-    }
-    // Merge hook context with context
-    Object.assign(hookContext, context);
-    const collection = await hookable(updatePage, hookContext)(
+    const pageData = await getValue('pageDataBeforeUpdate', data);
+    // Validate page data
+    validatePageDataBeforeInsert(pageData);
+
+    // Insert page data
+    const page = await hookable(updatePageData, { ...context, connection })(
       uuid,
-      data,
+      pageData,
       connection
     );
+
     await commit(connection);
-    return collection;
+    return page;
   } catch (e) {
     await rollback(connection);
     throw e;
   }
+}
+
+module.exports = async (uuid, data, context) => {
+  // Make sure the context is either not provided or is an object
+  if (context && typeof context !== 'object') {
+    throw new Error('Context must be an object');
+  }
+  const page = await hookable(updatePage, context)(uuid, data, context);
+  return page;
 };
