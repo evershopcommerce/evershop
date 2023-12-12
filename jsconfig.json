@@ -5,7 +5,7 @@
       "@components/*": [
         "./themes/friday/components/*",
         "./extensions/productComment/components/*",
-        "./packages/evershop/src/components/*"
+        "./packages/evershop/src/components/*",
       ],
       "@components-origin/*": [
         "./packages/evershop/src/components/*"

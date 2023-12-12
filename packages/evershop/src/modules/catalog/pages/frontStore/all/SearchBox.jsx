@@ -20,6 +20,7 @@ export default function SearchBox({ searchPageUrl }) {
     <div className="search-box">
       <a
         href="#"
+        data-testid="search-icon"
         className="search-icon"
         onClick={(e) => {
           e.preventDefault();

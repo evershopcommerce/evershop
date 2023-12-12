@@ -4,7 +4,7 @@ import Icon from '@heroicons/react/outline/UserIcon';
 
 export default function UserIcon({ customer, accountUrl, loginUrl }) {
   return (
-    <div className="self-center">
+    <div className="user-icon self-center" data-testid="user-icon">
       <a href={customer ? accountUrl : loginUrl}>
         <Icon width={25} height={25} />
       </a>
