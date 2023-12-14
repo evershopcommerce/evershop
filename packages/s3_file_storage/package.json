@@ -19,6 +19,6 @@
     "node": ">= 14.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.438.0"
+    "@aws-sdk/client-s3": "^3.473.0"
   }
 }
