@@ -1,23 +1,12 @@
-const Ajv = require('ajv');
-const ajvErrors = require('ajv-errors');
-const addFormats = require('ajv-formats');
 const {
   INVALID_PAYLOAD
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { getAjv } = require('../../services/getAjv');
 const markSkipEscape = require('../../services/markSkipEscape');
 
 // Initialize the ajv instance
-const ajv = new Ajv({
-  strict: false,
-  useDefaults: 'empty',
-  allErrors: true
-});
-
-// Add the formats
-addFormats(ajv);
-ajv.addFormat('digit', /^[0-9]*$/);
-
-// Define a custom keyword
+const ajv = getAjv();
+// Define a custom keyword for html escape
 ajv.addKeyword({
   keyword: 'skipEscape',
   modifying: true,
@@ -33,8 +22,6 @@ ajv.addKeyword({
     };
   }
 });
-ajvErrors(ajv);
-
 module.exports = (request, response, delegate, next) => {
   // Get the current route
   const { currentRoute } = request;

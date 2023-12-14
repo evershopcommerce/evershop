@@ -4,6 +4,7 @@ import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
 import './RegisterForm.scss';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import Area from '@components/common/Area';
 
 export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {
   const [error, setError] = React.useState(null);
@@ -47,29 +48,55 @@ export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {
             }}
             btnText={_('SIGN UP')}
           >
-            <Field
-              name="full_name"
-              type="text"
-              placeholder={_('Full Name')}
-              validationRules={['notEmpty']}
-            />
-            <Field
-              name="email"
-              type="text"
-              placeholder={_('Email')}
-              validationRules={['notEmpty', 'email']}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-            <Field
-              name="password"
-              type="password"
-              placeholder={_('Password')}
-              validationRules={['notEmpty']}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+            <Area
+              id="customerRegisterForm"
+              coreComponents={[
+                {
+                  component: {
+                    default: (
+                      <Field
+                        name="full_name"
+                        type="text"
+                        placeholder={_('Full Name')}
+                        validationRules={['notEmpty']}
+                      />
+                    )
+                  },
+                  sortOrder: 10
+                },
+                {
+                  component: {
+                    default: (
+                      <Field
+                        name="email"
+                        type="text"
+                        placeholder={_('Email')}
+                        validationRules={['notEmpty', 'email']}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                        }}
+                      />
+                    )
+                  },
+                  sortOrder: 20
+                },
+                {
+                  component: {
+                    default: (
+                      <Field
+                        name="password"
+                        type="password"
+                        placeholder={_('Password')}
+                        validationRules={['notEmpty']}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                        }}
+                      />
+                    )
+                  },
+                  sortOrder: 30
+                }
+              ]}
             />
           </Form>
           <div className="text-center mt-1">

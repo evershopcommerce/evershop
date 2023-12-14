@@ -1,0 +1,135 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "skipEscape": true
+    },
+    "short_description": {
+      "type": "string"
+    },
+    "url_key": {
+      "type": "string",
+      "pattern": "^\\S+$"
+    },
+    "meta_title": {
+      "type": "string"
+    },
+    "meta_description": {
+      "type": "string",
+      "skipEscape": true
+    },
+    "meta_keywords": {
+      "type": "string"
+    },
+    "status": {
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
+    },
+    "sku": {
+      "type": "string"
+    },
+    "price": {
+      "type": ["string", "number"],
+      "pattern": "^\\d+(\\.\\d{1,2})?$"
+    },
+    "weight": {
+      "type": ["string", "number"],
+      "pattern": "^[0-9]+(\\.[0-9]{1,2})?$"
+    },
+    "qty": {
+      "type": ["string", "number"],
+      "pattern": "^[0-9]+$"
+    },
+    "tax_class": {
+      "type": ["string", "number", "null"],
+      "pattern": "^[0-9]+$",
+      "default": null
+    },
+    "manage_stock": {
+      "type": ["string", "number"],
+      "enum": [0, 1, "0", "1"]
+    },
+    "stock_availability": {
+      "type": ["string", "number"],
+      "enum": [0, 1, "0", "1"]
+    },
+    "group_id": {
+      "type": ["string", "integer"],
+      "pattern": "^[0-9]+$"
+    },
+    "visibility": {
+      "type": ["integer", "string"],
+      "enum": [0, 1, "0", "1"]
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "attributes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "attribute_code": {
+            "type": "string"
+          },
+          "value": {
+            "type": ["string", "array"],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "category_id": {
+      "type": ["string", "number", "null"],
+      "pattern": "^[0-9]+$",
+      "default": null
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "option_name": {
+            "type": "string"
+          },
+          "option_type": {
+            "type": "string",
+            "enum": ["select", "multiselect"]
+          },
+          "is_required": {
+            "type": ["string", "integer"],
+            "enum": [0, 1, "0", "1"],
+            "default": 0
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string"
+                },
+                "extra_price": {
+                  "type": ["string", "number"],
+                  "pattern": "^\\d+(\\.\\d{1,2})?$"
+                }
+              }
+            }
+          }
+        },
+        "required": ["option_name", "option_type", "values"],
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

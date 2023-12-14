@@ -63,7 +63,11 @@ module.exports.start = async function start(cb) {
     args.push('--debug');
   }
   const child = spawn('node', args, {
-    stdio: 'inherit'
+    stdio: 'inherit',
+    env: {
+      ...process.env,
+      ALLOW_CONFIG_MUTATIONS: true
+    }
   });
 
   child.on('error', (err) => {

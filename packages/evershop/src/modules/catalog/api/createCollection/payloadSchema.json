@@ -1,20 +1,10 @@
 {
   "type": "object",
   "properties": {
-    "name": {
-      "type": "string"
-    },
     "description": {
-      "type": "string"
-    },
-    "code": {
-      "type": "string"
+      "type": "string",
+      "skipEscape": true
     }
   },
-  "required": [
-    "name",
-    "description",
-    "code"
-  ],
   "additionalProperties": true
 }
