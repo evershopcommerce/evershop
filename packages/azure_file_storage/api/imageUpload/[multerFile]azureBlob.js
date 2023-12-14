@@ -9,7 +9,7 @@ const {
 
 let blobServiceClient;
 let containerName;
-if (getConfig('file_storage') === 'azure') {
+if (getConfig('system.file_storage') === 'azure') {
   blobServiceClient = BlobServiceClient.fromConnectionString(
     getEnv('AZURE_STORAGE_CONNECTION_STRING')
   );
@@ -18,7 +18,7 @@ if (getConfig('file_storage') === 'azure') {
 
 module.exports = async (request, response, delegate, next) => {
   // If the file storage is not Azure, call the next middleware function
-  if (getConfig('file_storage') !== 'azure') {
+  if (getConfig('system.file_storage') !== 'azure') {
     next();
   } else {
     try {
@@ -38,8 +38,8 @@ module.exports = async (request, response, delegate, next) => {
       for (const imageFile of imageFiles) {
         // Create a block blob client object that points to the blob where the image will be uploaded
         const path = requestedPath
-          ? `${requestedPath}/${imageFile.originalname}`
-          : `${imageFile.originalname}`;
+          ? `${requestedPath}/${imageFile.filename}`
+          : `${imageFile.filename}`;
         const blobClient = containerClient.getBlockBlobClient(path);
 
         // Upload the image file to the blob

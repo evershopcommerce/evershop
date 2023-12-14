@@ -9,7 +9,7 @@ const {
 
 let blobServiceClient;
 let containerName;
-if (getConfig('file_storage') === 'azure') {
+if (getConfig('system.file_storage') === 'azure') {
   blobServiceClient = BlobServiceClient.fromConnectionString(
     getEnv('AZURE_STORAGE_CONNECTION_STRING')
   );
@@ -18,7 +18,7 @@ if (getConfig('file_storage') === 'azure') {
 
 module.exports = async (request, response, delegate, next) => {
   // If the file storage is not Azure, call the next middleware function
-  if (getConfig('file_storage') !== 'azure') {
+  if (getConfig('system.file_storage') !== 'azure') {
     next();
   } else {
     try {
@@ -42,25 +42,24 @@ module.exports = async (request, response, delegate, next) => {
       for await (const blob of blobs) {
         const blobName = blob.name;
         const blobUrl = `${containerClient.url}/${blobName}`;
-
-        // Get the subfolder or file name within the directory
         const relativePath = blobName.substring(path.length);
-
-        // Check if it's a subfolder or file
         const slashIndex = relativePath.indexOf('/');
         if (slashIndex === -1) {
           // It's a file
-          files.push({
-            name: relativePath,
-            url: blobUrl
-          });
+          if (blob.properties.contentLength) {
+            files.push({
+              name: relativePath,
+              url: blobUrl
+            });
+          }
         } else {
           // It's a subfolder
           const subfolder = relativePath.substring(0, slashIndex);
-          subfolders.add(subfolder);
+          if (subfolder !== '') {
+            subfolders.add(subfolder);
+          }
         }
       }
-      // Send the response with the uploaded image details
       response.status(OK).json({
         data: {
           folders: Array.from(subfolders),
@@ -69,12 +68,11 @@ module.exports = async (request, response, delegate, next) => {
       });
     } catch (error) {
       debug('critical', error);
-      // Return an error response if there was an error uploading the images
       response.status(INTERNAL_SERVER_ERROR);
       response.json({
         error: {
           status: INTERNAL_SERVER_ERROR,
-          message: 'Error uploading images to Azure Blob Storage'
+          message: 'Error listing files from Azure Blob Storage'
         }
       });
     }

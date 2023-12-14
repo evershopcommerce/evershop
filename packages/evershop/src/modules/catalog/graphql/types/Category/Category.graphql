@@ -26,7 +26,7 @@ type Category {
 The `CategoryImage` type represents a category image object.
 """
 type CategoryImage {
-  path: String!
+  alt: String!
   url: String!
 }
 

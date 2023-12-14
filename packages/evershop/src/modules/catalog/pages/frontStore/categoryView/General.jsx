@@ -9,21 +9,16 @@ export default function CategoryInfo({
 }) {
   return (
     <div className="page-width">
-      <div
-        className="p-4 mb-1 md:mb-2"
-        style={
-          image
-            ? {
-                background: `url(${image.url}) no-repeat center center`,
-                backgroundSize: 'cover'
-              }
-            : { background: '#685f58' }
-        }
-      >
-        <div className="text-left text-white">
-          <h1 className="category-name mt-25">{name}</h1>
-          <div className="category-description">
-            <CKEditor content={description} />
+      <div className="mb-1 md:mb-2 category__general">
+        {image && (
+          <img src={image.url} alt={name} className="category__image" />
+        )}
+        <div className="category__info">
+          <div>
+            <h1 className="category__name">{name}</h1>
+            <div className="category__description">
+              <CKEditor content={description} />
+            </div>
           </div>
         </div>
       </div>
@@ -52,6 +47,7 @@ export const query = `
       name
       description
       image {
+        alt
         url
       }
     }

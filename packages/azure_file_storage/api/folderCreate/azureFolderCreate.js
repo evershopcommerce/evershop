@@ -10,7 +10,7 @@ const {
 
 let blobServiceClient;
 let containerName;
-if (getConfig('file_storage') === 'azure') {
+if (getConfig('system.file_storage') === 'azure') {
   blobServiceClient = BlobServiceClient.fromConnectionString(
     getEnv('AZURE_STORAGE_CONNECTION_STRING')
   );
@@ -19,7 +19,7 @@ if (getConfig('file_storage') === 'azure') {
 
 module.exports = async (request, response, delegate, next) => {
   // If the file storage is not Azure, call the next middleware function
-  if (getConfig('file_storage') !== 'azure') {
+  if (getConfig('system.file_storage') !== 'azure') {
     next();
   } else {
     try {

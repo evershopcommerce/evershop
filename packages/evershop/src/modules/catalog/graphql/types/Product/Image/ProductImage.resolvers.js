@@ -24,15 +24,15 @@ module.exports = {
         .and('is_main', '=', false)
         .execute(pool);
       return gallery.map((image) => ({
-          id: image.product_image_id,
-          alt: product.name,
-          url: image.origin_image,
-          uuid: uuidv4(),
-          origin: image.origin_image,
-          thumb: image.thumb_image,
-          single: image.single_image,
-          listing: image.listing_image
-        }));
+        id: image.product_image_id,
+        alt: product.name,
+        url: image.origin_image,
+        uuid: uuidv4(),
+        origin: image.origin_image,
+        thumb: image.thumb_image,
+        single: image.single_image,
+        listing: image.listing_image
+      }));
     }
   }
 };

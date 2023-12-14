@@ -34,13 +34,7 @@ Current.propTypes = {
 
 export default function Images({ product: { uuid, image, gallery = [] } }) {
   const [current, setCurrent] = React.useState(image);
-  const [thumbs, setThumbs] = React.useState(() => {
-    if (image) {
-      // Add image to beginning of gallery
-      gallery.unshift(image);
-    }
-    return gallery;
-  });
+  const [thumbs, setThumbs] = React.useState(gallery);
 
   React.useEffect(() => {
     setCurrent(image);

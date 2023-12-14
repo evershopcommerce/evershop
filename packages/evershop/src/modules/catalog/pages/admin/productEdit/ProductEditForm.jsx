@@ -16,6 +16,10 @@ export default function ProductEditForm({ action }) {
           // eslint-disable-next-line no-param-reassign
           formData.tax_class = null;
         }
+        if (formData.images === undefined) {
+          // eslint-disable-next-line no-param-reassign
+          formData.images = [];
+        }
         return formData;
       }}
       onError={() => {

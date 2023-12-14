@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { useAppState } from '@components/common/context/app';
 import { Card } from '@components/admin/cms/Card';
 import './Bestsellers.scss';
 
-export default function BestSellers({ api, listUrl }) {
-  const context = useAppState();
-  const currency = context.currency || 'USD';
+export default function BestSellers({ api, listUrl, setting }) {
   const [products, setProducts] = React.useState([]);
   const [fetching, setFetching] = React.useState(true);
 
@@ -66,9 +63,9 @@ export default function BestSellers({ api, listUrl }) {
                 </tr>
               )}
               {products.map((p, i) => {
-                const formatedPrice = new Intl.NumberFormat('en', {
+                const formattedPrice = new Intl.NumberFormat('en', {
                   style: 'currency',
-                  currency
+                  currency: setting.storeCurrency
                 }).format(p.price);
                 return (
                   // eslint-disable-next-line react/no-array-index-key
@@ -112,7 +109,7 @@ export default function BestSellers({ api, listUrl }) {
                         {p.name}
                       </a>
                     </td>
-                    <td>{formatedPrice}</td>
+                    <td>{formattedPrice}</td>
                     <td>{p.qty} sold</td>
                   </tr>
                 );
@@ -126,6 +123,9 @@ export default function BestSellers({ api, listUrl }) {
 }
 
 BestSellers.propTypes = {
+  setting: PropTypes.shape({
+    storeCurrency: PropTypes.string
+  }).isRequired,
   api: PropTypes.string.isRequired,
   listUrl: PropTypes.string.isRequired
 };
@@ -137,6 +137,9 @@ export const layout = {
 
 export const query = `
   query Query {
+    setting {
+      storeCurrency
+    }
     api: url(routeId: "bestsellers")
     listUrl: url(routeId: "productGrid")
   }
