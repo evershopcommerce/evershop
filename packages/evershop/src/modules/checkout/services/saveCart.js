@@ -37,13 +37,13 @@ exports.saveCart = async (cart) => {
     } else {
       if (cart.getData('cart_id')) {
         await update('cart')
-          .given(cart.export())
+          .given(cart.exportData())
           .where('cart_id', '=', cart.getData('cart_id'))
           .execute(connection, false);
         cartId = cart.getData('cart_id');
       } else {
         const c = await insert('cart')
-          .given(cart.export())
+          .given(cart.exportData())
           .execute(connection, false);
         cartId = c.insertId;
       }

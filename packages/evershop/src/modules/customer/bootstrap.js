@@ -2,25 +2,61 @@ const { request } = require('express');
 const config = require('config');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { select } = require('@evershop/postgres-query-builder');
-const { Cart } = require('../checkout/services/cart/Cart');
 const { comparePassword } = require('../../lib/util/passwordHelper');
 const { translate } = require('../../lib/locale/translate/translate');
+const { addProcessor } = require('../../lib/util/registry');
 
 module.exports = () => {
-  Cart.addField('customer_id', function resolver() {
-    return this.dataSource?.customer_id ?? null;
-  });
-
-  Cart.addField('customer_group_id', function resolver() {
-    return this.dataSource?.customer_group_id ?? null;
-  });
-
-  Cart.addField('customer_email', function resolver() {
-    return this.dataSource?.customer_email ?? null;
-  });
-
-  Cart.addField('customer_full_name', function resolver() {
-    return this.dataSource?.customer_full_name ?? null;
+  addProcessor('cartFields', (fields) => {
+    fields.push({
+      key: 'customer_id',
+      resolvers: [
+        async function resolver() {
+          const triggeredField = this.getTriggeredField();
+          const requestedValue = this.getRequestedValue();
+          return triggeredField === 'customer_id'
+            ? requestedValue
+            : this.getData('customer_id');
+        }
+      ]
+    });
+    fields.push({
+      key: 'customer_group_id',
+      resolvers: [
+        async function resolver() {
+          const triggeredField = this.getTriggeredField();
+          const requestedValue = this.getRequestedValue();
+          return triggeredField === 'customer_group_id'
+            ? requestedValue
+            : this.getData('customer_group_id');
+        }
+      ]
+    });
+    fields.push({
+      key: 'customer_email',
+      resolvers: [
+        async function resolver() {
+          const triggeredField = this.getTriggeredField();
+          const requestedValue = this.getRequestedValue();
+          return triggeredField === 'customer_email'
+            ? requestedValue
+            : this.getData('customer_email');
+        }
+      ]
+    });
+    fields.push({
+      key: 'customer_full_name',
+      resolvers: [
+        async function resolver() {
+          const triggeredField = this.getTriggeredField();
+          const requestedValue = this.getRequestedValue();
+          return triggeredField === 'customer_full_name'
+            ? requestedValue
+            : this.getData('customer_full_name');
+        }
+      ]
+    });
+    return fields;
   });
 
   /**

@@ -148,7 +148,7 @@ exports.createOrder = async function createOrder(cart) {
 
     const order = await insert('order')
       .given({
-        ...cart.export(),
+        ...cart.exportData(),
         uuid: uuidv4().replace(/-/g, ''),
         order_number:
           10000 + parseInt(previous[0] ? previous[0].order_id : 0, 10) + 1,

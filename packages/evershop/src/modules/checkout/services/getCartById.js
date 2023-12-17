@@ -1,6 +1,6 @@
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { Cart } = require('./cart/Cart');
+const { getCart } = require('./cart/Cart');
 
 module.exports = exports;
 
@@ -15,10 +15,9 @@ exports.getCartById = async (id) => {
   query.where('cart_id', '=', id);
   const data = await query.load(pool);
   if (!data) {
-    return null;
+    throw new Error('Cart not found');
   } else {
-    const cart = new Cart({ ...data });
-    await cart.build();
+    const cart = await getCart(cart.uuid);
     return cart;
   }
 };
