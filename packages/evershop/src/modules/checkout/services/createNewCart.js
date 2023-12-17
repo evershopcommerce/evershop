@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-const { Cart } = require('./cart/Cart');
+const { createNewCart: create } = require('./cart/Cart');
 
 module.exports = exports;
 
@@ -18,13 +17,12 @@ exports.createNewCart = async (sid, customer = {}) => {
     groupId: customer_group_id,
     fullName: customer_full_name
   } = customer;
-  const cart = new Cart({
+  const cart = await create({
     sid,
     customer_id,
     customer_email,
     customer_group_id,
     customer_full_name
   });
-  await cart.build();
   return cart;
 };

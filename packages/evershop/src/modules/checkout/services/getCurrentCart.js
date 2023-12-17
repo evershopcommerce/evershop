@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { Cart } = require('./cart/Cart');
+const { getCart } = require('./cart/Cart');
 
 module.exports = exports;
 
@@ -19,8 +19,7 @@ exports.getCurrentCart = async (sid) => {
     .load(pool);
 
   if (cartBySid) {
-    const cart = new Cart(cartBySid);
-    await cart.build();
+    const cart = await getCart(cartBySid.uuid);
     return cart;
   } else {
     return null;

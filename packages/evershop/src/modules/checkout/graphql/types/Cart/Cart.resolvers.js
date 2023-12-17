@@ -6,11 +6,11 @@ const { getCartByUUID } = require('../../../services/getCartByUUID');
 module.exports = {
   Query: {
     cart: async (_, { id }, { cartId }) => {
-      const cart = await getCartByUUID(id || cartId);
-      if (!cart) {
+      try {
+        const cart = await getCartByUUID(id || cartId);
+        return camelCase(cart.exportData());
+      } catch (error) {
         return null;
-      } else {
-        return camelCase(cart.export());
       }
     }
   },

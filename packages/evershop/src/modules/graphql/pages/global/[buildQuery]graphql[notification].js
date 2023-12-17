@@ -10,7 +10,7 @@ const {
 } = require('../../services/graphqlErrorMessageFormat');
 
 module.exports = async function graphql(request, response, delegate, next) {
-  const {currentRoute} = request;
+  const { currentRoute } = request;
   const schema =
     currentRoute && currentRoute.isAdmin ? adminSchema : storeFrontSchema;
   // TODO: Should we wait for previous async middlewares?

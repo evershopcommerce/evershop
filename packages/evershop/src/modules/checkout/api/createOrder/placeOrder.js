@@ -26,10 +26,11 @@ module.exports = async (request, response, delegate, next) => {
       });
       return;
     } else if (cart.hasError()) {
+      const errors = cart.getErrors();
       response.status(INVALID_PAYLOAD);
       response.json({
         error: {
-          message: cart.error,
+          message: Object.values(errors)[0],
           status: INVALID_PAYLOAD
         }
       });

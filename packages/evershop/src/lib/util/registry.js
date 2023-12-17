@@ -1,5 +1,7 @@
 const isEqual = require('react-fast-compare');
 
+let locked = false;
+
 class Registry {
   values = {};
 
@@ -99,6 +101,11 @@ class Registry {
   }
 
   addProcessor(name, callback, priority) {
+    if (locked) {
+      throw new Error(
+        'Registry is locked. Consider to use bootstrap file to add processors'
+      );
+    }
     if (typeof priority === 'undefined') {
       // eslint-disable-next-line no-param-reassign
       priority = 10;
@@ -106,6 +113,11 @@ class Registry {
     // Throw error if priority is not a number
     if (typeof priority !== 'number') {
       throw new Error('Priority must be a number');
+    }
+
+    // Throw error if the priority is bigger than 1000
+    if (priority > 1000) {
+      throw new Error('Priority must be smaller than 1000');
     }
 
     // Throw error if callback is not a function or async function
@@ -129,6 +141,17 @@ class Registry {
       priority
     });
     processors.sort((a, b) => a.priority - b.priority);
+  }
+
+  addFinalProcessor(name, callback) {
+    // Check if there is already a final processor base on the priority
+    const processors = this.values[name] ? this.values[name].processors : [];
+    if (processors.find((p) => p.priority === 1000)) {
+      throw new Error(
+        `There is already a final processor for the value ${name}`
+      );
+    }
+    this.addProcessor(name, callback, 1000);
   }
 
   getProcessors(name) {
@@ -168,7 +191,15 @@ module.exports = {
     return registry.addProcessor(name, callback, priority);
   },
 
+  addFinalProcessor(name, callback) {
+    return registry.addFinalProcessor(name, callback);
+  },
+
   getProcessors(name) {
     return registry.getProcessors(name);
+  },
+
+  lockRegistry() {
+    locked = true;
   }
 };

@@ -4,6 +4,8 @@ const spawn = require('cross-spawn');
 const path = require('path');
 const { error } = require('@evershop/evershop/src/lib/log/debuger');
 const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
+const { lockHooks } = require('@evershop/evershop/src/lib/util/hookable');
+const { lockRegistry } = require('@evershop/evershop/src/lib/util/registry');
 const { createApp } = require('./app');
 const normalizePort = require('./normalizePort');
 const onListening = require('./onListening');
@@ -34,6 +36,8 @@ module.exports.start = async function start(cb) {
     for (const module of modules) {
       await loadBootstrapScript(module);
     }
+    lockHooks();
+    lockRegistry();
   } catch (e) {
     error(e);
     process.exit(0);
