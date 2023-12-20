@@ -1,6 +1,7 @@
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { select } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { v4: uuidv4 } = require('uuid');
 const { toPrice } = require('../toPrice');
 const {
   calculateTaxAmount
@@ -24,7 +25,7 @@ module.exports.registerCartItemBaseFields =
         key: 'uuid',
         resolvers: [
           async function resolver() {
-            return this.getId();
+            return this.getData('uuid') ?? uuidv4();
           }
         ]
       },
