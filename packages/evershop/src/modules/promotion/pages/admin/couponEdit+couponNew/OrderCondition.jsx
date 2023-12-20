@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Input } from '@components/common/form/fields/Input';
 import { RequiredProducts } from '@components/admin/promotion/couponEdit/RequireProducts';
+import { Field } from '@components/common/form/Field';
 
 export default function OrderCondition({ coupon = {} }) {
   const condition = coupon?.condition || {};
   return (
     <div>
-      <Input
+      <Field
         name="condition[order_total]"
         label="Minimum purchase amount"
         placeholder="Enter minimum purchase amount"
         value={condition.orderTotal || null}
       />
-      <Input
+      <Field
         name="condition[order_qty]"
         label="Minimum purchase qty"
         placeholder="Enter minimum purchase qty"
