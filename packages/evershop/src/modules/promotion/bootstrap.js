@@ -1,10 +1,17 @@
 const { addProcessor } = require('../../lib/util/registry');
 const { toPrice } = require('../checkout/services/toPrice');
-const { Validator } = require('./services/CouponValidator');
-const { DiscountCalculator } = require('./services/DiscountCalculator');
+const { validateCoupon } = require('./services/couponValidator');
+const { calculateDiscount } = require('./services/discountCalculator');
+const {
+  registerDefaultCalculators
+} = require('./services/registerDefaultCalculators');
+const {
+  registerDefaultValidators
+} = require('./services/registerDefaultValidators');
 
 module.exports = () => {
-  addProcessor('cartFields', (fields) => fields.concat(
+  addProcessor('cartFields', (fields) =>
+    fields.concat(
       /** Adding fields to the Cart object */
       [
         {
@@ -12,8 +19,7 @@ module.exports = () => {
           resolvers: [
             async function resolver(coupon) {
               if (coupon) {
-                const validator = new Validator();
-                const check = await validator.validate(coupon, this);
+                const check = await validateCoupon(this, coupon);
                 if (check === true) {
                   return coupon;
                 } else {
@@ -31,32 +37,22 @@ module.exports = () => {
           resolvers: [
             async function resolver() {
               const coupon = this.getData('coupon');
+              const items = this.getItems();
               if (!coupon) {
-                const items = this.getItems();
-                // eslint-disable-next-line no-restricted-syntax
-                for (const item of items) {
-                  // eslint-disable-next-line no-await-in-loop
-                  await item.setData('discount_amount', 0);
-                }
+                await Promise.all(
+                  items.map(async (item) => {
+                    item.setData('discount_amount', 0);
+                  })
+                );
                 return 0;
               }
               // Start calculate discount amount
-              const calculator = new DiscountCalculator(this);
-              await calculator.calculate(coupon);
-              const discountAmounts = calculator.getDiscounts();
+              await calculateDiscount(this, coupon);
               let discountAmount = 0;
-              // eslint-disable-next-line guard-for-in
               // eslint-disable-next-line no-restricted-syntax
-              for (const id in discountAmounts) {
-                if (id in discountAmounts) {
-                  // Set discount amount to cart items
-                  const item = this.getItem(id);
-                  // eslint-disable-next-line no-await-in-loop
-                  await item.setData('discount_amount', discountAmounts[id]);
-                  discountAmount += discountAmounts[id];
-                }
+              for (const item of items) {
+                discountAmount += item.getData('discount_amount');
               }
-
               return discountAmount;
             }
           ],
@@ -77,11 +73,13 @@ module.exports = () => {
           dependencies: ['coupon']
         }
       ]
-    ));
+    )
+  );
 
   addProcessor(
     'cartItemFields',
-    (fields) => fields.concat(
+    (fields) =>
+      fields.concat(
         /** Adding fields to the Cart Item object */
         [
           {
@@ -111,4 +109,7 @@ module.exports = () => {
       ),
     11
   );
+
+  addProcessor('couponValidatorFunctions', registerDefaultValidators);
+  addProcessor('discountCalculatorFunctions', registerDefaultCalculators);
 };

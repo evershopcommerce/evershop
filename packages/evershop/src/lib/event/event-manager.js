@@ -8,6 +8,8 @@ const { getEnabledExtensions } = require('@evershop/evershop/bin/extension');
 const { callSubscribers } = require('./callSubscibers');
 const { loadSubscribers } = require('./loadSubscribers');
 const { error } = require('../log/debuger');
+const { lockHooks } = require('../util/hookable');
+const { lockRegistry } = require('../util/registry');
 
 const loadEventInterval = 10000;
 const syncEventInterval = 2000;
@@ -24,6 +26,8 @@ const init = async () => {
     for (const module of modules) {
       await loadBootstrapScript(module);
     }
+    lockHooks();
+    lockRegistry();
   } catch (e) {
     error(e);
     process.exit(0);

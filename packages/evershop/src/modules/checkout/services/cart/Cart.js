@@ -1,8 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-classes-per-file */
-const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
+const {
+  getValueSync,
+  getValue
+} = require('@evershop/evershop/src/lib/util/registry');
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { v4: uuidv4 } = require('uuid');
 const { DataObject } = require('./DataObject');
 const {
   getProductsBaseQuery
@@ -59,7 +63,7 @@ class Cart extends DataObject {
   }
 
   async addItem(productID, qty) {
-    const item = await this.#createItem(productID, parseInt(qty, 10));
+    const item = await this.createItem(productID, parseInt(qty, 10));
     if (item.hasError()) {
       // Get the first error from the item.getErrors() object
       throw new Error(Object.values(item.getErrors())[0]);
@@ -105,7 +109,7 @@ class Cart extends DataObject {
     }
   }
 
-  async #createItem(productID, qty) {
+  async createItem(productID, qty) {
     // Make sure the qty is a number and greater than 0
     if (typeof qty !== 'number' || qty <= 0) {
       throw new Error('Invalid quantity');
@@ -198,7 +202,11 @@ module.exports = {
       })
     );
 
-    await cartObject.setData('items', cartItems);
+    const finalItems = await getValue('cartInitialItems', cartItems, {
+      cart: cartObject,
+      unique: uuidv4() // To make sure the value will not be cached
+    });
+    await cartObject.setData('items', finalItems);
     return cartObject;
   }
 };
