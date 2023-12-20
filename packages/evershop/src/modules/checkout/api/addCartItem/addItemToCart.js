@@ -46,10 +46,7 @@ module.exports = async (request, response, delegate, next) => {
     }
 
     // If everything is fine, add the product to the cart
-    const item = await cart.addItem({
-      product_id: product.product_id,
-      qty: parseInt(qty, 10)
-    });
+    const item = await cart.addItem(product.product_id, parseInt(qty, 10));
     await saveCart(cart);
     // Set the new cart id to the context, so next middleware can use it
     setContextValue(request, 'cartId', cart.getData('uuid'));
