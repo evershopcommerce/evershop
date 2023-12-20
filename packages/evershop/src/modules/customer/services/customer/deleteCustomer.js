@@ -23,14 +23,6 @@ async function deleteCustomer(uuid, context) {
   await startTransaction(connection);
   try {
     const query = select().from('customer');
-    query
-      .leftJoin('customer_description')
-      .on(
-        'customer_description.customer_description_customer_id',
-        '=',
-        'customer.customer_id'
-      );
-
     const customer = await query.where('uuid', '=', uuid).load(connection);
 
     if (!customer) {
