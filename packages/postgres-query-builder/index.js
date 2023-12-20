@@ -777,7 +777,7 @@ class UpdateQuery extends Query {
   async execute(connection, releaseConnection = true) {
     const rows = await super.execute(connection, releaseConnection);
     const updatedRow = rows[0];
-    if (this._primaryColumn) {
+    if (this._primaryColumn && updatedRow) {
       updatedRow['updatedId'] = updatedRow[this._primaryColumn];
     }
     return updatedRow;

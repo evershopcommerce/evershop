@@ -74,7 +74,7 @@
         },
         "order_qty": {
           "type": ["string", "integer"],
-          "format": "digits"
+          "pattern": "^[0-9]*$"
         },
         "required_products": {
           "type": "array",
