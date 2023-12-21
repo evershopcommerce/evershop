@@ -9,7 +9,11 @@
       "skipEscape": true
     },
     "code": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^\\S+$",
+      "errorMessage": {
+        "pattern": "Collection ID should not contain spaces"
+      }
     }
   },
   "additionalProperties": true

@@ -2,7 +2,10 @@
   "type": "object",
   "properties": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "errorMessage": {
+        "type": "Name should not be empty"
+      }
     },
     "description": {
       "type": "string",
@@ -13,7 +16,10 @@
     },
     "url_key": {
       "type": "string",
-      "pattern": "^\\S+$"
+      "pattern": "^\\S+$",
+      "errorMessage": {
+        "pattern": "Url key should not contain spaces"
+      }
     },
     "meta_title": {
       "type": "string"
@@ -34,15 +40,24 @@
     },
     "price": {
       "type": ["string", "number"],
-      "pattern": "^\\d+(\\.\\d{1,2})?$"
+      "pattern": "^\\d+(\\.\\d{1,2})?$",
+      "errorMessage": {
+        "pattern": "Price should be a number with maximum 2 decimal places"
+      }
     },
     "weight": {
       "type": ["string", "number"],
-      "pattern": "^[0-9]+(\\.[0-9]{1,2})?$"
+      "pattern": "^[0-9]+(\\.[0-9]{1,2})?$",
+      "errorMessage": {
+        "pattern": "Weight should be a number with maximum 2 decimal places"
+      }
     },
     "qty": {
       "type": ["string", "number"],
-      "pattern": "^[0-9]+$"
+      "pattern": "^[0-9]+$",
+      "errorMessage": {
+        "pattern": "Quantity should be a number"
+      }
     },
     "tax_class": {
       "type": ["string", "number", "null"],

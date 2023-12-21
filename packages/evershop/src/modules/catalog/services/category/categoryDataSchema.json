@@ -21,7 +21,11 @@
       "type": "string"
     },
     "url_key": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^\\S+$",
+      "errorMessage": {
+        "pattern": "Url key should not contain spaces"
+      }
     },
     "status": {
       "type": ["integer", "string"],
@@ -38,7 +42,10 @@
     },
     "position": {
       "type": ["string", "integer"],
-      "pattern": "^[0-9]*$"
+      "pattern": "^[0-9]*$",
+      "errorMessage": {
+        "pattern": "Position should be a number"
+      }
     }
   },
   "required": [
