@@ -101,7 +101,9 @@ class CustomerCollection {
     totalQuery.removeOrderBy();
     // Paging
     const page = filters.find((f) => f.key === 'page') || { value: 1 };
-    const limit = filters.find((f) => f.key === 'limit') || { value: 20 }; // TODO: Get from the config
+    const limit = filters.find((f) => f.key === 'limit' && f.value > 0) || {
+      value: 20
+    }; // TODO: Get from the config
     currentFilters.push({
       key: 'page',
       operation: '=',
