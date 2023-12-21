@@ -17,7 +17,11 @@
       "skipEscape": true
     },
     "url_key": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^\\S+$",
+      "errorMessage": {
+        "pattern": "Url key should not contain spaces"
+      }
     },
     "meta_title": {
       "type": "string"
