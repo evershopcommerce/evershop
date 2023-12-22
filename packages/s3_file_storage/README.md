@@ -1,6 +1,6 @@
 # AWS S3 storage extension for EverShop
 
-This extension allows you to store your EverShop files on AWS S3.
+This extension allows you to store your EverShop files including product images, banners on AWS S3.
 
 > **Note**: This extension requires EverShop version 1.0.0-rc.9 or higher.
 
@@ -39,10 +39,10 @@ Edit the `config/default.json` file in the root directory of your EverShop insta
 Edit the `.env` file:
 
 ```bash
-AWS_ACCESS_KEY_ID="etertsfsdfsdf"
-AWS_SECRET_ACCESS_KEY="sdfsd"
-AWS_REGION="eu-west-1"
-AWS_BUCKET_NAME="mybucket"
+AWS_ACCESS_KEY_ID="<Your access key>"
+AWS_SECRET_ACCESS_KEY="<Your secret access key>"
+AWS_REGION="<Your region>"
+AWS_BUCKET_NAME="<Your bucket name>"
 ```
 
 ### Step 4: Active the AWS S3 storage
