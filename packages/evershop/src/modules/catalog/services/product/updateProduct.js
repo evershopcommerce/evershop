@@ -292,14 +292,10 @@ async function updateProductData(uuid, data, connection) {
     }
   }
 
-  // Update product category and tax class to all products in same variant group
+  // Update tax class to all products in same variant group
   if (product.variant_group_id) {
-    const sharedData = {
-      tax_class: product.tax_class,
-      category_id: product.category_id
-    };
     await update('product')
-      .given(sharedData)
+      .given({ tax_class: data.tax_class })
       .where('variant_group_id', '=', product.variant_group_id)
       .and('product_id', '<>', product.product_id)
       .execute(connection);
