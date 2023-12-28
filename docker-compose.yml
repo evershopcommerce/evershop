@@ -11,7 +11,7 @@ services:
       DB_USER: postgres
       DB_NAME: postgres
     networks:
-      - myevershop
+      - myeveryshop
     depends_on:
       - database
     ports:
