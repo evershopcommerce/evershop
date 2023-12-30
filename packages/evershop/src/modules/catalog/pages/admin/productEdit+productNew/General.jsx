@@ -127,11 +127,9 @@ function Category({ product }) {
           />
         </div>
       )}
-      <input
-        type="hidden"
-        name="category_id"
-        value={category?.categoryId || ''}
-      />
+      {category && (
+        <input type="hidden" name="category_id" value={category?.categoryId} />
+      )}
     </div>
   );
 }

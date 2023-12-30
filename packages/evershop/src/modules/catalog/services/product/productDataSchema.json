@@ -105,8 +105,7 @@
     },
     "category_id": {
       "type": ["string", "number", "null"],
-      "pattern": "^[0-9]+$",
-      "default": null
+      "pattern": "^[0-9]+$"
     },
     "options": {
       "type": "array",

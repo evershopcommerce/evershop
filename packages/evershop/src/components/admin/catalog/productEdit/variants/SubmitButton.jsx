@@ -37,12 +37,17 @@ export function SubmitButton({
       const formData = new FormData();
       // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of productFormData.entries()) {
-        formData.append(key, value);
+        // Do not include 'images[]' key
+        if (key !== 'images[]') {
+          formData.append(key, value);
+        }
       }
       // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of variantFormData.entries()) {
         // If key not include 'attributes'
-        if (key.indexOf('attributes') === -1) {
+        if (key === 'images[]') {
+          formData.append(key, value);
+        } else if (key.indexOf('attributes') === -1) {
           formData.set(key, value);
         }
       }
