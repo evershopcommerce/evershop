@@ -359,7 +359,7 @@ async function updateProduct(uuid, data, context) {
 
     // Insert product images
     await hookable(updateProductImages, { ...context, connection, product })(
-      productData.images || [],
+      productData.images,
       product.product_id,
       connection
     );
