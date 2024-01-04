@@ -1,88 +1,50 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { toast } from 'react-toastify';
 import { Card } from '@components/admin/cms/Card';
 import './Bestsellers.scss';
 
-export default function BestSellers({ api, listUrl, setting }) {
-  const [products, setProducts] = React.useState([]);
-  const [fetching, setFetching] = React.useState(true);
-
-  React.useEffect(() => {
-    if (window !== undefined) {
-      fetch(api, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then((response) => response.json())
-        .then((json) => {
-          setProducts(json);
-          setFetching(false);
-        })
-        .catch((error) => {
-          toast.error(error.message);
-        });
-    }
-  }, []);
-  if (fetching) {
-    return (
-      <Card title="Best Sellers">
-        <div className="skeleton-wrapper-bestsellers">
-          <div className="skeleton" />
-          <div className="skeleton" />
-          <div className="skeleton" />
-          <div className="skeleton" />
-          <div className="skeleton" />
-        </div>
-      </Card>
-    );
-  } else {
-    return (
-      <Card
-        title="Best Sellers"
-        actions={[
-          {
-            name: 'All products',
-            onAction: () => {
-              window.location.href = listUrl;
-            }
+export default function BestSellers({ bestSellers, listUrl }) {
+  return (
+    <Card
+      title="Best Sellers"
+      actions={[
+        {
+          name: 'All products',
+          onAction: () => {
+            window.location.href = listUrl;
           }
-        ]}
-      >
-        <Card.Session>
-          <table className="listing bestsellers">
-            <tbody>
-              {products.length === 0 && (
-                <tr>
-                  <td align="left">
-                    Look like you just started. No bestsellers yet.
-                  </td>
-                  <td> </td>
-                </tr>
-              )}
-              {products.map((p, i) => {
-                const formattedPrice = new Intl.NumberFormat('en', {
-                  style: 'currency',
-                  currency: setting.storeCurrency
-                }).format(p.price);
-                return (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <tr key={i}>
-                    <td>
+        }
+      ]}
+    >
+      <Card.Session>
+        <table className="listing bestsellers">
+          <tbody>
+            {bestSellers.length === 0 && (
+              <tr>
+                <td align="left">
+                  Look like you just started. No bestsellers yet.
+                </td>
+                <td> </td>
+              </tr>
+            )}
+            {bestSellers.map((p, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <tr key={i}>
+                <td>
+                  <div className=" flex justify-left">
+                    <div className="flex justify-start gap-1 items-center">
                       <div
-                        className="grid-thumbnail text-border border border-divider p-075 rounded flex justify-center"
-                        style={{ width: '6rem', height: '6rem' }}
+                        className="grid-thumbnail text-border border border-divider p-075 rounded"
+                        style={{ width: '6rem' }}
                       >
-                        {p.imageUrl && (
+                        {p.image?.thumb && (
                           <img
                             className="object-cover"
-                            src={p.imageUrl}
+                            src={p.image?.thumb}
                             alt=""
                           />
                         )}
-                        {!p.imageUrl && (
+                        {!p.image?.thumb && (
                           <svg
                             className="self-center"
                             xmlns="http://www.w3.org/2000/svg"
@@ -100,33 +62,46 @@ export default function BestSellers({ api, listUrl, setting }) {
                           </svg>
                         )}
                       </div>
-                    </td>
-                    <td>
-                      <a
-                        href={p.editUrl || ''}
-                        className="font-semibold hover:underline"
-                      >
-                        {p.name}
-                      </a>
-                    </td>
-                    <td>{formattedPrice}</td>
-                    <td>{p.qty} sold</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </Card.Session>
-      </Card>
-    );
-  }
+                      <div>
+                        <a
+                          href={p.editUrl || ''}
+                          className="font-semibold hover:underline"
+                        >
+                          {p.name}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td />
+                <td>{p.price.regular.text}</td>
+                <td>{p.soldQty} sold</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Card.Session>
+    </Card>
+  );
 }
 
 BestSellers.propTypes = {
-  setting: PropTypes.shape({
-    storeCurrency: PropTypes.string
-  }).isRequired,
-  api: PropTypes.string.isRequired,
+  bestSellers: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      price: PropTypes.shape({
+        regular: PropTypes.shape({
+          value: PropTypes.number,
+          text: PropTypes.string
+        })
+      }),
+      soldQty: PropTypes.number,
+      image: PropTypes.shape({
+        thumb: PropTypes.string
+      }),
+      editUrl: PropTypes.string
+    })
+  ).isRequired,
   listUrl: PropTypes.string.isRequired
 };
 
@@ -137,10 +112,20 @@ export const layout = {
 
 export const query = `
   query Query {
-    setting {
-      storeCurrency
+    bestSellers {
+      name
+      price {
+        regular {
+          value
+          text
+        }
+      }
+      soldQty
+      image {
+        thumb
+      }
+      editUrl
     }
-    api: url(routeId: "bestsellers")
     listUrl: url(routeId: "productGrid")
   }
 `;

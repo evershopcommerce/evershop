@@ -1,3 +1,7 @@
+extend type Product {
+  soldQty: Int
+}
+
 extend type Query {
   bestSellers: [Product]
 }
