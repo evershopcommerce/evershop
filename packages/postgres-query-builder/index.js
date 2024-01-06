@@ -13,7 +13,13 @@ class Select {
     // Resolve field name
     let f = '';
     if (isValueASQL(field) || field === '*') {
-      f += `${field}`;
+      // If field is an object has property "isSQL" and it's true
+      // or field is a string and it's "*"
+      if (typeof field === 'object' && field.isSQL === true) {
+        f = field.value;
+      } else {
+        f = field;
+      }
     } else {
       f += `"${field}"`;
     }
