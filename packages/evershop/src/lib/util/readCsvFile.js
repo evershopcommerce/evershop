@@ -1,11 +1,13 @@
 const fs = require('fs');
 const csv = require('csv-parser');
+const { getConfig } = require('./getConfig');
 
 async function readCsvFile(filePath) {
   return new Promise((resolve, reject) => {
     const results = {};
+    const languageFileCsvSeparator = getConfig('system.languageFileCsvSeparator', ',');
     fs.createReadStream(filePath)
-      .pipe(csv({ headers: false }))
+      .pipe(csv({ headers: false, separator: languageFileCsvSeparator }))
       .on('data', (data) => {
         // Skip the first row (headers)
         if (!data[0].startsWith('#')) {
