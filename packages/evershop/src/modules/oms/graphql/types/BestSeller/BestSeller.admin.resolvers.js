@@ -29,7 +29,7 @@ module.exports = {
           'product_inventory.product_inventory_id',
           'product_image.product_image_id'
         )
-        .orderBy('qty', 'DESC')
+        .orderBy('soldQty', 'DESC')
         .limit(0, 5);
       const results = await query.execute(pool);
       return results.map((p) => camelCase(p));
