@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useCheckout } from '@components/common/context/checkout';
 import PaypalLogo from '@components/frontStore/paypal/PaypalLogo';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
+
 
 export function Paypal({
   getAccessTokenAPI,
@@ -68,7 +70,7 @@ export function Paypal({
     <div>
       {error && <div className="text-critical mb-1">{error}</div>}
       <div className="p-2 text-center border rounded mt-1 border-divider">
-        You will be redirected to PayPal
+        {_('You will be redirected to PayPal')}
       </div>
     </div>
   );
