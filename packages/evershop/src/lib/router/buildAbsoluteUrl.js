@@ -1,6 +1,7 @@
 const normalizePort = require('@evershop/evershop/bin/lib/normalizePort');
 const { buildUrl } = require('./buildUrl');
 const { getConfig } = require('../util/getConfig');
+
 const port = normalizePort();
 
 // eslint-disable-next-line no-multi-assign
