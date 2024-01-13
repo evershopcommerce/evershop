@@ -16,7 +16,9 @@ services:
       - database
     ports:
       - 3000:3000
-  
+    volumes:
+      - evershop-data:/path/in/evershop/container # replace this with actual path where evershop stores its configuration files inside the container
+
   #The postgres database: 
   database:
     image: postgres:16
@@ -39,3 +41,4 @@ networks:
 
 volumes:
   postgres-data:
+  evershop-data:
