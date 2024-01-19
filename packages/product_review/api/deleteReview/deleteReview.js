@@ -4,7 +4,8 @@ const { del, select } = require('@evershop/postgres-query-builder');
 module.exports = async function graphql(request, response, delegate, next) {
   try {
     const { id } = request.params;
-    const review = await select('product_review')
+    const review = await select()
+      .from('product_review')
       .where('uuid', '=', id)
       .load(pool);
     if (!review) {

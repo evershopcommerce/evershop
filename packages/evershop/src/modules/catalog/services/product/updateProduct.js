@@ -268,12 +268,12 @@ async function updateProductData(uuid, data, connection) {
     throw new Error('Requested product not found');
   }
 
+  let newProduct;
   try {
-    const newProduct = await update('product')
+    newProduct = await update('product')
       .given(data)
       .where('uuid', '=', uuid)
       .execute(connection);
-    Object.assign(product, newProduct);
   } catch (e) {
     if (!e.message.includes('No data was provided')) {
       throw e;
@@ -294,17 +294,22 @@ async function updateProductData(uuid, data, connection) {
 
   // Update product category and tax class to all products in same variant group
   if (product.variant_group_id) {
-    const sharedData = {
-      tax_class: product.tax_class,
-      category_id: product.category_id
-    };
-    await update('product')
-      .given(sharedData)
-      .where('variant_group_id', '=', product.variant_group_id)
-      .and('product_id', '<>', product.product_id)
-      .execute(connection);
+    const sharedData = {};
+    if (newProduct.tax_class !== product.tax_class) {
+      sharedData.tax_class = newProduct.tax_class;
+    }
+    if (newProduct.category_id !== product.category_id) {
+      sharedData.category_id = newProduct.category_id;
+    }
+    if (Object.keys(sharedData).length > 0) {
+      await update('product')
+        .given(sharedData)
+        .where('variant_group_id', '=', product.variant_group_id)
+        .and('product_id', '<>', product.product_id)
+        .execute(connection);
+    }
   }
-
+  Object.assign(product, newProduct);
   return product;
 }
 
