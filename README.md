@@ -91,6 +91,7 @@ You can ask questions, and participate in discussions about EverShop-related top
 If you see an error message or run into an issue, please [create bug report](https://github.com/evershopcommerce/evershop/issues/new). This effort is valued and it will help all EverShop users.
 
 
+
 ### Submit a feature request
 
 If you have an idea, or you're missing a capability that would make development easier and more robust, please [Submit feature request](https://github.com/evershopcommerce/evershop/issues/new).
@@ -98,7 +99,7 @@ If you have an idea, or you're missing a capability that would make development 
 If a similar feature request already exists, don't forget to leave a "+1".
 If you add some more information such as your thoughts and vision about the feature, your comments will be embraced warmly :)
 
-## Contributing
+## Contributing 
 
 EverShop is an open-source project. We are committed to a fully transparent development process and appreciate highly any contributions. Whether you are helping us fix bugs, proposing new features, improving our documentation or spreading the word - we would love to have you as part of the EverShop community.
 
