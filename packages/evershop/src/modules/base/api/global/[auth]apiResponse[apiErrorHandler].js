@@ -19,6 +19,7 @@ module.exports = async (request, response, delegate, next) => {
 
     /** If a rejected middleware called next(error) without throwing an error */
     if (isErrorHandlerTriggered(response)) {
+      // If error handler is triggered, return early
       return;
     } else {
       response.json(response.$body || {});
