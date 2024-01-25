@@ -50,7 +50,7 @@ AZURE_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=myev
 AZURE_STORAGE_CONTAINER_NAME="images"
 ```
 
-### Step 4: Active the AWS S3 storage
+### Step 4: Activate the Azure file storage
 
 Edit the `config/default.json` file in the root directory of your EverShop installation and add the following line to the `file_storage` section:
 
