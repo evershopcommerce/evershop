@@ -45,12 +45,15 @@
     "react/no-unstable-nested-components": "off",
     "no-continue": "off",
     "no-await-in-loop": "off",
-    "no-use-before-define" : "off",
+    "no-use-before-define": "off",
     "global-require": "off",
     "import/extensions": "off",
     "no-shadow": "off",
     "no-lonely-if": "warn",
-    "no-console": "error"
+    "no-console": "error",
+    "jsx-a11y/control-has-associated-label": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "no-empty": ["error", { "allowEmptyCatch": true }]
   },
   "ignorePatterns": [
     "/node_modules/",
