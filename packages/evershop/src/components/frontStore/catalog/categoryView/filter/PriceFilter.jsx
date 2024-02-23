@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './PriceFilter.scss';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export function PriceFilter({
   priceRange: { min: minPrice, max: maxPrice },
@@ -131,7 +132,7 @@ export function PriceFilter({
 
   return (
     <div className="price-filter">
-      <div className="filter-item-title">Price</div>
+      <div className="filter-item-title">{_('Price')}</div>
       <div className="rangeslider">
         <input
           className="min"
