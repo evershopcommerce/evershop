@@ -2,7 +2,6 @@ node_modules
 .env
 ./dist
 .idea/*
-.evershop
 .vscode
 npm-debug.log
 /package-log.json
