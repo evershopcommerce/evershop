@@ -1,14 +1,11 @@
 node_modules
 .env
 ./dist
-/extensions/*
-themes
 .idea/*
 .evershop
 .vscode
 npm-debug.log
 /package-log.json
-/media
 /public
 .DS_Store
 .log

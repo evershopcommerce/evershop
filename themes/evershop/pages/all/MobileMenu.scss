@@ -1,0 +1,36 @@
+.main-menu-mobile {
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+
+  position: relative;
+
+  .menu-icon {
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+
+  .nav {
+    position: absolute;
+    right: -2.2rem;
+    top: 4rem;
+    padding: 2.5rem;
+    width: 100vw;
+    z-index: 1000;
+
+    .nav-item {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+
+      a {
+        font-size: 1.6rem;
+      }
+
+      &:first-child {
+        border-top: 1px solid var(--border);
+      }
+    }
+  }
+}
