@@ -50,7 +50,9 @@ input[type='range'] {
 input[type='range'],
 input[type='range']::-webkit-slider-runnable-track,
 input[type='range']::-webkit-slider-thumb {
+  appearance: none;
   -webkit-appearance: none;
+  -moz-appearance: auto;
   background: none;
 }
 input[type='range']::-webkit-slider-runnable-track {
