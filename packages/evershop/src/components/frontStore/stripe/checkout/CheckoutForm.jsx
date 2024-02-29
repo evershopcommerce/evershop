@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
+import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import React, { useState, useEffect } from 'react';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useQuery } from 'urql';
 import { useCheckout } from '@components/common/context/checkout';
 import './CheckoutForm.scss';
@@ -76,7 +76,7 @@ export default function CheckoutForm({ stripePublishableKey }) {
   const [clientSecret, setClientSecret] = useState('');
   const [showTestCard, setShowTestCard] = useState('success');
   const stripe = useStripe();
-  const elements = useElements();
+  const elms = useElements();
   const { cartId, orderId, orderPlaced, paymentMethods, checkoutSuccessUrl } =
     useCheckout();
 
@@ -88,9 +88,14 @@ export default function CheckoutForm({ stripePublishableKey }) {
     pause: orderPlaced === true
   });
 
-  useEffect(() => {
+  useEffect(async () => {
     // Create PaymentIntent as soon as the order is placed
     if (orderId) {
+      const {error: submitError} = await elms.submit();
+      if (submitError) {
+        return;
+      }
+		
       window
         .fetch('/api/stripe/paymentIntents', {
           method: 'POST',
@@ -110,9 +115,10 @@ export default function CheckoutForm({ stripePublishableKey }) {
     const pay = async () => {
       const billingAddress =
         result.data.cart.billingAddress || result.data.cart.shippingAddress;
-      const payload = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
+      const {error} = await stripe.confirmPayment({
+        elements: elms,
+		clientSecret,
+        payment_method_data: {
           billing_details: {
             name: billingAddress.fullName,
             email: result.data.cart.customerEmail,
@@ -125,16 +131,14 @@ export default function CheckoutForm({ stripePublishableKey }) {
               city: billingAddress.city
             }
           }
-        }
+        },
+		confirmParams: {
+		  return_url: `${checkoutSuccessUrl}/${orderId}`,
+		},
       });
 
-      if (payload.error) {
+      if (error) {
         setError(`Payment failed ${payload.error.message}`);
-      } else {
-        setError(null);
-        setSucceeded(true);
-        // Redirect to checkout success page
-        window.location.href = `${checkoutSuccessUrl}/${orderId}`;
       }
     };
 
@@ -144,7 +148,7 @@ export default function CheckoutForm({ stripePublishableKey }) {
   }, [orderPlaced, clientSecret, result]);
 
   const handleChange = (event) => {
-    // Listen for changes in the CardElement
+    // Listen for changes in the PaymentElement
     // and display any errors as the customer types their card details
     setDisabled(event.empty);
     if (event.complete === true && !event.error) {
@@ -185,7 +189,7 @@ export default function CheckoutForm({ stripePublishableKey }) {
             testFailure={testFailure}
           />
         )}
-        <CardElement
+        <PaymentElement
           id="card-element"
           options={cardStyle}
           onChange={handleChange}

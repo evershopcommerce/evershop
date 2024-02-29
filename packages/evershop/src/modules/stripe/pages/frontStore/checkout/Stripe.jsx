@@ -18,10 +18,19 @@ const stripeLoader = (publishKey) => {
 };
 
 function StripeApp({ stripePublishableKey }) {
+  const options = {
+    mode: 'payment',
+    currency: 'eur',
+    amount: 1337,
+	fields: {
+		billingDetails: 'never',
+	}
+  };
+
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <div className="App">
-      <Elements stripe={stripeLoader(stripePublishableKey)}>
+      <Elements stripe={stripeLoader(stripePublishableKey)} options={options}>
         <CheckoutForm stripePublishableKey={stripePublishableKey} />
       </Elements>
     </div>
