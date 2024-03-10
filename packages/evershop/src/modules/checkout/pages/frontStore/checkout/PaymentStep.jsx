@@ -5,6 +5,7 @@ import {
   useCheckoutStepsDispatch
 } from '@components/common/context/checkoutSteps';
 import { StepContent } from '@components/frontStore/checkout/checkout/payment/paymentStep/StepContent';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function PaymentStep({ cart }) {
   const steps = useCheckoutSteps();
@@ -15,8 +16,8 @@ export default function PaymentStep({ cart }) {
   React.useEffect(() => {
     addStep({
       id: 'payment',
-      title: 'Payment',
-      previewTitle: 'Payment',
+      title: _('Payment'),
+      previewTitle: _('Payment'),
       isCompleted: false,
       sortOrder: 15,
       editable: true
