@@ -29,7 +29,7 @@ Shipping, Доставка
 No tax, Без налога
 Tax, Налог
 Sorry, there is no available method for your address, К сожалению, для вашего адреса нет доступного способа доставки
-Please enter a shipping address in order to see shipping quotes, Пожалуйста, введите адрес доставки, чтобы увидеть стоимость доставки
+Please enter a shipping address in order to see shipping quotes, Пожалуйста, введите адрес, чтобы рассчитать стоимость доставки
 Continue to payment, Перейти к оплате
 No payment method available, Нет доступных способов оплаты
 Ship to, Адрес получателя
@@ -45,18 +45,18 @@ Promotion code?, Есть промокод?
 Enter coupon code, Введите промокод
 Apply, Принять
 Your cart is empty!, Ваша корзина пуста!
-Full name, ФИО
+Full name, Фамилия Имя
 Telephone, Телефон
 Address, Адрес
 City, Город
 Country, Страна
 Postcode, Почтовый индекс
 Inclusive of tax ${taxAmount}, Включая налог ${taxAmount}
-Full name is required, Укажиет ФИО
-Telephone is required, Укажите телефон
-Address is required, Укажите адрес
-City is required, Укажите город
-Country is required, Укажите страну
-Postcode is required, Укажите почтовый индекс
+Full name is required, Фамилия и Имя обязательны для заполнения
+Telephone is required, Телефон обязателен для заполнения
+Address is required, Адрес обязателен для заполнения
+City is required, Город обязателен для заполнения
+Country is required, Страна обязательна для заполнения
+Postcode is required, Почтовый обязателен для заполнения
 Contact, Контакт
 Payment, Оплата

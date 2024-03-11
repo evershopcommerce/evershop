@@ -5,8 +5,8 @@ Password, Пароль
 Forgot your password?, Забыли пароль?
 Create an account, Создать аккаунт
 Register, Зарегистрироваться
-Full Name, ФИО
-Full name, ФИО
+Full Name, Фамилия Имя
+Full name, Фамилия Имя
 SIGN IN, ВОЙТИ
 SIGN UP, ЗАРЕГИСТРИРОВАТЬСЯ
 Order History, История заказов
@@ -20,13 +20,13 @@ City, Город
 Account Information, Информация об аккаунте
 Address, Адрес
 Postcode, Почтовый индекс
-Postcode is required, Укажите почтовый индекс
-Telephone is required, Укажите телефон
+Postcode is required, Почтовый индекс обязателен для заполнения
+Telephone is required, Телефон обязателен для заполнения
 Telephone, Телефон
-Full name is required, Укажиет ФИО
-Country is required, Укажите страну
+Full name is required, Фамилию и Имя обязательны для заполнения
+Country is required, Страна обязательна для заполнения
 Country, Страна
-Province is required, Укажите область
+Province is required, Область обязательна для заполнения
 Province, Область
 Billing Address, Платежный адрес
 Shipping Address, Адрес доставки
