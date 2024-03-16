@@ -151,7 +151,7 @@ export default function ProductForm({ product, action }) {
             qty={response.data.item.qty}
             count={response.data.count}
             cartUrl="/cart"
-            toastId={toastId + "-" + Math.random().toString(36).slice(2)}
+            toastId={`${toastId  }-${  Math.random().toString(36).slice(2)}`}
           />,
           { closeButton: false }
         )
