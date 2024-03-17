@@ -8,6 +8,7 @@ const {
 } = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const sgMail = require('@sendgrid/mail');
+const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -17,7 +18,7 @@ module.exports = async (request, response, delegate, next) => {
     } = response;
 
     // Check if the API key is set
-    const apiKey = getConfig('sendgrid.apiKey', '');
+    const apiKey = getEnv('SENDGRID_API_KEY', '');
     const from = getConfig('sendgrid.from', '');
 
     if (!apiKey || !from) {
