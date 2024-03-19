@@ -68,9 +68,12 @@ export default function Logo({ dashboardUrl }) {
 }
 
 Logo.propTypes = {
-  dashboardUrl: PropTypes.string.isRequired
+  dashboardUrl: PropTypes.string
 };
 
+Logo.defaultProps = {
+  dashboardUrl: ''
+};
 export const layout = {
   areaId: 'header',
   sortOrder: 10
