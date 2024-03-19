@@ -18,6 +18,7 @@ module.exports = async function deleteUrlReWrite(data) {
     );
 
     if (!urlRewrite) {
+      // No urlRewrite found, nothing to delete
       return;
     } else {
       // Delete all the url rewrite rule for the sub categories and products
