@@ -3,11 +3,13 @@ const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const sgMail = require('@sendgrid/mail');
 const { select } = require('@evershop/postgres-query-builder');
 const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
+const { getValue } = require('@evershop/evershop/src/lib/util/registry');
 
 module.exports = async function sendOrderConfirmationEmail(data) {
   try {
     // Check if the API key is set
-    const apiKey = getConfig('sendgrid.apiKey', '');
+    const apiKey = getEnv('SENDGRID_API_KEY', '');
     const from = getConfig('sendgrid.from', '');
 
     if (!apiKey || !from) {
@@ -43,14 +45,19 @@ module.exports = async function sendOrderConfirmationEmail(data) {
     // Remove the password
     delete customer.password;
 
+    const emailDataFinal = await getValue(
+      'sendgrid_customer_welcome_email_data',
+      customer,
+      {}
+    );
     // Send the email
     const msg = {
-      to: customer.email,
+      to: emailDataFinal.email,
       subject: customerRegistered.subject || `Welcome to Evershop`,
       from,
       templateId: customerRegistered.templateId,
       dynamicTemplateData: {
-        ...customer,
+        ...emailDataFinal,
         home_url: getConfig('shop.homeUrl', '')
       }
     };

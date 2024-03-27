@@ -39,7 +39,6 @@ npm install @evershop/sendgrid
 {
   ...,
   "sendgrid": {
-    "apiKey": "<Your sendGrid API Key>",
     "from": "Customer Service <Your email>",
     "fromName": "Evershop",
     "events": {
@@ -58,6 +57,13 @@ npm install @evershop/sendgrid
     }
   }
 }
+```
+
+### Step 4: Add the API key to the environment variables
+
+```javascript
+// .env
+SENDGRID_API_KEY=your_api_key
 ```
 
 This extension now supports 3 events:

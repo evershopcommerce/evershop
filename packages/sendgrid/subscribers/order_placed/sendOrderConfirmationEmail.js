@@ -5,11 +5,13 @@ const { select } = require('@evershop/postgres-query-builder');
 const { contries } = require('@evershop/evershop/src/lib/locale/countries');
 const { provinces } = require('@evershop/evershop/src/lib/locale/provinces');
 const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
+const { getValue } = require('@evershop/evershop/src/lib/util/registry');
 
 module.exports = async function sendOrderConfirmationEmail(data) {
   try {
     // Check if the API key is set
-    const apiKey = getConfig('sendgrid.apiKey', '');
+    const apiKey = getEnv('SENDGRID_API_KEY', '');
     const from = getConfig('sendgrid.from', '');
 
     if (!apiKey || !from) {
@@ -71,13 +73,19 @@ module.exports = async function sendOrderConfirmationEmail(data) {
       provinces.find((p) => p.code === emailData.billing_address.province)
         ?.name || '';
 
+    const finalEmailData = await getValue(
+      'sendgrid_order_confirmation_email_data',
+      emailData,
+      {}
+    );
+
     // Send the email
     const msg = {
       to: order.customer_email,
       subject: orderPlaced.subject || 'Order Confirmation',
       from,
       templateId: orderPlaced.templateId,
-      dynamicTemplateData: emailData
+      dynamicTemplateData: finalEmailData
     };
 
     await sgMail.send(msg);
