@@ -1,6 +1,6 @@
 {
   "name": "evershop",
-  "version": "1.0.0-beta",
+  "version": "1.0.0",
   "description": "A shopping cart platform with Express, React and Postgres",
   "files": [
     "bin",
@@ -8,6 +8,9 @@
     "dist",
     ".babelrc",
     "babel.config.js"
+  ],
+  "workspaces": [
+    "extensions/*"
   ],
   "bin": {
     "evershop": "./bin/evershop"
@@ -20,6 +23,7 @@
     "dev": "evershop dev",
     "setup": "evershop install",
     "build": "evershop build",
+    "dev": "evershop dev",
     "start": "evershop start",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",

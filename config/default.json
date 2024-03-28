@@ -1,0 +1,130 @@
+{
+    "shop": {
+        "currency": "USD",
+        "language": "en",
+        "weightUnit": "kg"
+    },
+    "catalog": {
+        "product": {
+            "image": {
+                "thumbnail": {
+                    "width": 100,
+                    "height": 100
+                },
+                "listing": {
+                    "width": 300,
+                    "height": 300
+                },
+                "single": {
+                    "width": 500,
+                    "height": 500
+                },
+                "placeHolder": "/default/image/placeholder.png"
+            }
+        },
+        "showOutOfStockProduct": false
+    },
+    "checkout": {
+        "allowCountries": [
+            "US",
+            "VN"
+        ],
+        "shippingRate": [
+            {
+                "condition": {},
+                "destimation": [
+                    "*"
+                ],
+                "rate": 10
+            }
+        ]
+    },
+    "order": {
+        "shipmentStatus": [
+            {
+                "name": "Unfullfilled",
+                "code": "unfullfilled",
+                "badge": "warning",
+                "progress": "incomplete"
+            },
+            {
+                "name": "Fullfilled",
+                "code": "fullfilled",
+                "badge": "success",
+                "progress": "complete"
+            }
+        ],
+        "paymentStatus": [
+            {
+                "name": "Pending",
+                "code": "pending",
+                "badge": "default",
+                "progress": "incomplete"
+            },
+            {
+                "name": "Paid",
+                "code": "paid",
+                "badge": "success",
+                "progress": "complete"
+            },
+            {
+                "name": "Refunded",
+                "code": "refunded",
+                "badge": "critical",
+                "progress": "complete"
+            }
+        ]
+    },
+    "customer": {
+        "address": {
+            "full_name": {
+                "type": "text",
+                "title": "Full name",
+                "validarionRules": [
+                    "notEmpty"
+                ]
+            }
+        }
+    },
+    "system": {
+        "theme": "eve",
+        "extensions": [
+            {
+                "name": "AllProductsView",
+                "resolve": "extensions/AllProductsView",
+                "enabled": true,
+                "priority": 1
+            },
+            {
+                "name": "sendGrid",
+                "resolve": "node_modules/@evershop/sendgrid",
+                "enabled": true,
+                "priority": 2
+            },
+            {
+                "name": "google_login",
+                "resolve": "node_modules/@evershop/google_login",
+                "enabled": true,
+                "priority": 3
+            }
+        ]
+    },
+    "sendgrid": {
+        "apiKey": "",
+        "from": "",
+        "events": {
+            "order_placed": {
+                "enabled": true,
+                "templateId": ""
+            },
+            "reset_password": {
+                "enabled": true,
+                "templateId": ""
+            },
+            "customer_registered": {
+                "enabled": true,
+                "templateId": ""
+            }
+        }
+    }
+}
