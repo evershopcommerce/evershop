@@ -1,179 +1,205 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="98" failures="0" errors="0" time="191.888">
-  <testsuite name="Test getRouteFromPath function" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:49" time="6.541" tests="8">
-    <testcase classname="Test getRouteFromPath function Parse app level route" name="Test getRouteFromPath function Parse app level route" time="0.018">
+<testsuites name="jest tests" tests="98" failures="0" errors="0" time="8.156">
+  <testsuite name="test getMiddlewaresByRoute" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:15" time="2.906" tests="6">
+    <testcase classname="test getMiddlewaresByRoute should contains middlewares for product route" name="test getMiddlewaresByRoute should contains middlewares for product route" time="0.003">
     </testcase>
-    <testcase classname="Test getRouteFromPath function Parse admin level route" name="Test getRouteFromPath function Parse admin level route" time="0.002">
+    <testcase classname="test getMiddlewaresByRoute should contains frontStore level middleware" name="test getMiddlewaresByRoute should contains frontStore level middleware" time="0">
     </testcase>
-    <testcase classname="Test getRouteFromPath function Parse frontStore level route" name="Test getRouteFromPath function Parse frontStore level route" time="0.001">
+    <testcase classname="test getMiddlewaresByRoute should contains application level middleware" name="test getMiddlewaresByRoute should contains application level middleware" time="0.001">
     </testcase>
-    <testcase classname="Test getRouteFromPath function Parse admin routed level route" name="Test getRouteFromPath function Parse admin routed level route" time="0.002">
+    <testcase classname="test getMiddlewaresByRoute should contains middlewares for product route" name="test getMiddlewaresByRoute should contains middlewares for product route" time="0.001">
     </testcase>
-    <testcase classname="Test getRouteFromPath function Parse frontStore routed level route" name="Test getRouteFromPath function Parse frontStore routed level route" time="0.003">
+    <testcase classname="test getMiddlewaresByRoute should contains admin level middleware" name="test getMiddlewaresByRoute should contains admin level middleware" time="0">
     </testcase>
-    <testcase classname="Test getRouteFromPath function Parse multi admin routed level route" name="Test getRouteFromPath function Parse multi admin routed level route" time="0.002">
-    </testcase>
-    <testcase classname="Test getRouteFromPath function Parse multi frontStore routed level route" name="Test getRouteFromPath function Parse multi frontStore routed level route" time="0.001">
-    </testcase>
-    <testcase classname="Test getRouteFromPath function Parse invalid path" name="Test getRouteFromPath function Parse invalid path" time="0.042">
+    <testcase classname="test getMiddlewaresByRoute should contains application level middleware" name="test getMiddlewaresByRoute should contains application level middleware" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Test scanForMiddlewareFunctions function" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:49" time="6.54" tests="7">
-    <testcase classname="Test scanForMiddlewareFunctions function It should return false if routed middlewareID is existed" name="Test scanForMiddlewareFunctions function It should return false if routed middlewareID is existed" time="0.012">
+  <testsuite name="test middleware" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:15" time="3.308" tests="2">
+    <testcase classname="test middleware It should execute the good middleware functions" name="test middleware It should execute the good middleware functions" time="0.213">
     </testcase>
-    <testcase classname="Test scanForMiddlewareFunctions function It should return false if admin middlewareID is existed" name="Test scanForMiddlewareFunctions function It should return false if admin middlewareID is existed" time="0.001">
-    </testcase>
-    <testcase classname="Test scanForMiddlewareFunctions function It should return false if frontStore middlewareID is existed" name="Test scanForMiddlewareFunctions function It should return false if frontStore middlewareID is existed" time="0.001">
-    </testcase>
-    <testcase classname="Test scanForMiddlewareFunctions function It should return false if routeId is null" name="Test scanForMiddlewareFunctions function It should return false if routeId is null" time="0.002">
-    </testcase>
-    <testcase classname="Test scanForMiddlewareFunctions function It should return false if routeId is admin" name="Test scanForMiddlewareFunctions function It should return false if routeId is admin" time="0.002">
-    </testcase>
-    <testcase classname="Test scanForMiddlewareFunctions function It should return false if routeId is frontStore" name="Test scanForMiddlewareFunctions function It should return false if routeId is frontStore" time="0.001">
-    </testcase>
-    <testcase classname="Test scanForMiddlewareFunctions function It should return true if routeId is different" name="Test scanForMiddlewareFunctions function It should return true if routeId is different" time="0.002">
+    <testcase classname="test middleware It should not execute the middleware functions after error occurred" name="test middleware It should not execute the middleware functions after error occurred" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="test scanRouteComponents function" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:49" time="6.544" tests="5">
-    <testcase classname="test scanRouteComponents function It should return an object" name="test scanRouteComponents function It should return an object" time="0.025">
+  <testsuite name="buildMiddlewareFunction" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:15" time="3.335" tests="4">
+    <testcase classname="buildMiddlewareFunction It should return 404 page when route is not exist" name="buildMiddlewareFunction It should return 404 page when route is not exist" time="0.293">
     </testcase>
-    <testcase classname="test scanRouteComponents function It should get only `all` component if route does not exist" name="test scanRouteComponents function It should get only `all` component if route does not exist" time="0.009">
+    <testcase classname="buildMiddlewareFunction It should return 404 page when middleware sets status to 404" name="buildMiddlewareFunction It should return 404 page when middleware sets status to 404" time="0.02">
     </testcase>
-    <testcase classname="test scanRouteComponents function It should get the component from extension when the component is dublicated with the one in core module" name="test scanRouteComponents function It should get the component from extension when the component is dublicated with the one in core module" time="0.009">
+    <testcase classname="buildMiddlewareFunction It should bypass the rouded middleware when status is 404" name="buildMiddlewareFunction It should bypass the rouded middleware when status is 404" time="0.002">
     </testcase>
-    <testcase classname="test scanRouteComponents function It should get the component from higher priority extension when the component is dublicated" name="test scanRouteComponents function It should get the component from higher priority extension when the component is dublicated" time="0.023">
-    </testcase>
-    <testcase classname="test scanRouteComponents function It should get the components theme, theme should be higest priority" name="test scanRouteComponents function It should get the components theme, theme should be higest priority" time="0.022">
+    <testcase classname="buildMiddlewareFunction It should not bypass the app level middleware when status is 404" name="buildMiddlewareFunction It should not bypass the app level middleware when status is 404" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="Test noDublicateId function" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:49" time="6.683" tests="9">
-    <testcase classname="Test noDublicateId function It should return false if routed middlewareID is existed" name="Test noDublicateId function It should return false if routed middlewareID is existed" time="0.008">
+  <testsuite name="registry" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:18" time="0.155" tests="13">
+    <testcase classname="registry It should return the init value if no processor provided" name="registry It should return the init value if no processor provided" time="0.001">
     </testcase>
-    <testcase classname="Test noDublicateId function It should return false if admin level middlewareID is existed" name="Test noDublicateId function It should return false if admin level middlewareID is existed" time="0.003">
+    <testcase classname="registry It should add processor to the registry" name="registry It should add processor to the registry" time="0.001">
     </testcase>
-    <testcase classname="Test noDublicateId function It should return false if admin level middlewareID is existed" name="Test noDublicateId function It should return false if admin level middlewareID is existed" time="0.001">
+    <testcase classname="registry It should throw error if priority is not a number" name="registry It should throw error if priority is not a number" time="0.03">
     </testcase>
-    <testcase classname="Test noDublicateId function It should return false if frontStore level middlewareID is existed" name="Test noDublicateId function It should return false if frontStore level middlewareID is existed" time="0.003">
+    <testcase classname="registry It should add processor to the registry with priority" name="registry It should add processor to the registry with priority" time="0.001">
     </testcase>
-    <testcase classname="Test noDublicateId function It should return false if application level middlewareID is existed" name="Test noDublicateId function It should return false if application level middlewareID is existed" time="0.004">
+    <testcase classname="registry It should throw error if callback is not a function" name="registry It should throw error if callback is not a function" time="0.001">
     </testcase>
-    <testcase classname="Test noDublicateId function It should return false if routeId is null" name="Test noDublicateId function It should return false if routeId is null" time="0.002">
+    <testcase classname="registry It should accept async function as callback" name="registry It should accept async function as callback" time="0.001">
     </testcase>
-    <testcase classname="Test noDublicateId function It should return false if routeId is admin" name="Test noDublicateId function It should return false if routeId is admin" time="0.001">
+    <testcase classname="registry It should execute the processor function in order" name="registry It should execute the processor function in order" time="0.005">
     </testcase>
-    <testcase classname="Test noDublicateId function It should return false if routeId is frontStore" name="Test noDublicateId function It should return false if routeId is frontStore" time="0.001">
+    <testcase classname="registry It should skip the processors if the init value and the context are identical" name="registry It should skip the processors if the init value and the context are identical" time="0.003">
     </testcase>
-    <testcase classname="Test noDublicateId function It should return true if routeId is different" name="Test noDublicateId function It should return true if routeId is different" time="0.008">
+    <testcase classname="registry It should overwrite the init value and the context if the init value and the context are not identical" name="registry It should overwrite the init value and the context if the init value and the context are not identical" time="0.007">
     </testcase>
-  </testsuite>
-  <testsuite name="registry" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:49" time="6.973" tests="13">
-    <testcase classname="registry It should return the init value if no processor provided" name="registry It should return the init value if no processor provided" time="0.014">
+    <testcase classname="registry It should throw an error if the value does not pass the validator" name="registry It should throw an error if the value does not pass the validator" time="0.002">
     </testcase>
-    <testcase classname="registry It should add processor to the registry" name="registry It should add processor to the registry" time="0.005">
+    <testcase classname="registry The getValueSync function should throw if the processor is async" name="registry The getValueSync function should throw if the processor is async" time="0.002">
     </testcase>
-    <testcase classname="registry It should throw error if priority is not a number" name="registry It should throw error if priority is not a number" time="0.125">
+    <testcase classname="registry It should throw an error if one of the processor throws an error" name="registry It should throw an error if one of the processor throws an error" time="0.001">
     </testcase>
-    <testcase classname="registry It should add processor to the registry with priority" name="registry It should add processor to the registry with priority" time="0.003">
-    </testcase>
-    <testcase classname="registry It should throw error if callback is not a function" name="registry It should throw error if callback is not a function" time="0.005">
-    </testcase>
-    <testcase classname="registry It should accept async function as callback" name="registry It should accept async function as callback" time="0.002">
-    </testcase>
-    <testcase classname="registry It should execute the processor function in order" name="registry It should execute the processor function in order" time="0.009">
-    </testcase>
-    <testcase classname="registry It should skip the processors if the init value and the context are identical" name="registry It should skip the processors if the init value and the context are identical" time="0.009">
-    </testcase>
-    <testcase classname="registry It should overwrite the init value and the context if the init value and the context are not identical" name="registry It should overwrite the init value and the context if the init value and the context are not identical" time="0.019">
-    </testcase>
-    <testcase classname="registry It should throw an error if the value does not pass the validator" name="registry It should throw an error if the value does not pass the validator" time="0.005">
-    </testcase>
-    <testcase classname="registry The getValueSync function should throw if the processor is async" name="registry The getValueSync function should throw if the processor is async" time="0.003">
-    </testcase>
-    <testcase classname="registry It should throw an error if one of the processor throws an error" name="registry It should throw an error if one of the processor throws an error" time="0.006">
-    </testcase>
-    <testcase classname="registry It should throw an error if one of the processor throws an error" name="registry It should throw an error if one of the processor throws an error" time="0.005">
+    <testcase classname="registry It should throw an error if one of the processor throws an error" name="registry It should throw an error if one of the processor throws an error" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Test validatePath" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:56" time="0.591" tests="2">
-    <testcase classname="Test validatePath It should return true for valid path" name="Test validatePath It should return true for valid path" time="0.004">
+  <testsuite name="test scanRouteComponents function" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:18" time="0.074" tests="5">
+    <testcase classname="test scanRouteComponents function It should return an object" name="test scanRouteComponents function It should return an object" time="0.004">
     </testcase>
-    <testcase classname="Test validatePath It should return false for invalid path" name="Test validatePath It should return false for invalid path" time="0.003">
+    <testcase classname="test scanRouteComponents function It should get only `all` component if route does not exist" name="test scanRouteComponents function It should get only `all` component if route does not exist" time="0.002">
+    </testcase>
+    <testcase classname="test scanRouteComponents function It should get the component from extension when the component is dublicated with the one in core module" name="test scanRouteComponents function It should get the component from extension when the component is dublicated with the one in core module" time="0.003">
+    </testcase>
+    <testcase classname="test scanRouteComponents function It should get the component from higher priority extension when the component is dublicated" name="test scanRouteComponents function It should get the component from higher priority extension when the component is dublicated" time="0.002">
+    </testcase>
+    <testcase classname="test scanRouteComponents function It should get the components theme, theme should be higest priority" name="test scanRouteComponents function It should get the components theme, theme should be higest priority" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="hookBefore" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:49" time="7.754" tests="14">
-    <testcase classname="hookBefore It should add before hook to the registry" name="hookBefore It should add before hook to the registry" time="0.019">
+  <testsuite name="test API middleware" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:18" time="0.535" tests="1">
+    <testcase classname="test API middleware It should execute the valid middleware functions" name="test API middleware It should execute the valid middleware functions" time="0.1">
     </testcase>
-    <testcase classname="hookBefore It should throw error if priority is not a number" name="hookBefore It should throw error if priority is not a number" time="0.077">
+  </testsuite>
+  <testsuite name="hookBefore" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:18" time="1.154" tests="14">
+    <testcase classname="hookBefore It should add before hook to the registry" name="hookBefore It should add before hook to the registry" time="0.002">
+    </testcase>
+    <testcase classname="hookBefore It should throw error if priority is not a number" name="hookBefore It should throw error if priority is not a number" time="0.025">
     </testcase>
     <testcase classname="hookBefore It should add before hook to the registry with priority" name="hookBefore It should add before hook to the registry with priority" time="0.001">
     </testcase>
-    <testcase classname="hookable It should throw error if the original function is not a named function" name="hookable It should throw error if the original function is not a named function" time="0.004">
+    <testcase classname="hookable It should throw error if the original function is not a named function" name="hookable It should throw error if the original function is not a named function" time="0.002">
     </testcase>
-    <testcase classname="hookable It should return a function" name="hookable It should return a function" time="0.004">
+    <testcase classname="hookable It should return a function" name="hookable It should return a function" time="0.001">
     </testcase>
-    <testcase classname="hookable It should call the original function" name="hookable It should call the original function" time="0.071">
+    <testcase classname="hookable It should call the original function" name="hookable It should call the original function" time="0.006">
     </testcase>
-    <testcase classname="hookable It should throw error if one of the callback throws error" name="hookable It should throw error if one of the callback throws error" time="0.007">
+    <testcase classname="hookable It should throw error if one of the callback throws error" name="hookable It should throw error if one of the callback throws error" time="0.001">
     </testcase>
-    <testcase classname="hookable It should throw error if one of the callback throws error" name="hookable It should throw error if one of the callback throws error" time="0.007">
+    <testcase classname="hookable It should throw error if one of the callback throws error" name="hookable It should throw error if one of the callback throws error" time="0.002">
     </testcase>
-    <testcase classname="hookable It should call the before hook in correct order" name="hookable It should call the before hook in correct order" time="0.005">
+    <testcase classname="hookable It should call the before hook in correct order" name="hookable It should call the before hook in correct order" time="0.002">
     </testcase>
-    <testcase classname="hookable It should call the before hook in correct order async" name="hookable It should call the before hook in correct order async" time="0.008">
+    <testcase classname="hookable It should call the before hook in correct order async" name="hookable It should call the before hook in correct order async" time="0.004">
     </testcase>
-    <testcase classname="hookable It should call the before hook in correct order async" name="hookable It should call the before hook in correct order async" time="1.024">
+    <testcase classname="hookable It should call the before hook in correct order async" name="hookable It should call the before hook in correct order async" time="1.015">
     </testcase>
-    <testcase classname="hookable It should call the original function with correct argument" name="hookable It should call the original function with correct argument" time="0.002">
+    <testcase classname="hookable It should call the original function with correct argument" name="hookable It should call the original function with correct argument" time="0.001">
     </testcase>
     <testcase classname="hookable It should call the callback with correct context" name="hookable It should call the callback with correct context" time="0.001">
     </testcase>
     <testcase classname="lockHooks It should throw error if the hook is locked" name="lockHooks It should throw error if the hook is locked" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="resolveAlias" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:56" time="1.734" tests="1">
-    <testcase classname="resolveAlias It should get the components and css file with correct priority" name="resolveAlias It should get the components and css file with correct priority" time="0.024">
+  <testsuite name="buildMiddlewareFunction" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:19" time="0.348" tests="2">
+    <testcase classname="buildMiddlewareFunction It should thrown an exception if id is not valid" name="buildMiddlewareFunction It should thrown an exception if id is not valid" time="0.008">
+    </testcase>
+    <testcase classname="buildMiddlewareFunction It should return a function if id is valid" name="buildMiddlewareFunction It should return a function if id is valid" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="assign" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:57" time="0.767" tests="6">
-    <testcase classname="assign It should assign an object to the main object" name="assign It should assign an object to the main object" time="0.002">
+  <testsuite name="Test getRouteFromPath function" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:19" time="0.075" tests="8">
+    <testcase classname="Test getRouteFromPath function Parse app level route" name="Test getRouteFromPath function Parse app level route" time="0.001">
     </testcase>
-    <testcase classname="assign It should thrown an exception if `object` is not an object or null" name="assign It should thrown an exception if `object` is not an object or null" time="0.009">
+    <testcase classname="Test getRouteFromPath function Parse admin level route" name="Test getRouteFromPath function Parse admin level route" time="0.001">
     </testcase>
-    <testcase classname="assign It should thrown an exception if `object` is not an object or null" name="assign It should thrown an exception if `object` is not an object or null" time="0.032">
+    <testcase classname="Test getRouteFromPath function Parse frontStore level route" name="Test getRouteFromPath function Parse frontStore level route" time="0">
+    </testcase>
+    <testcase classname="Test getRouteFromPath function Parse admin routed level route" name="Test getRouteFromPath function Parse admin routed level route" time="0">
+    </testcase>
+    <testcase classname="Test getRouteFromPath function Parse frontStore routed level route" name="Test getRouteFromPath function Parse frontStore routed level route" time="0">
+    </testcase>
+    <testcase classname="Test getRouteFromPath function Parse multi admin routed level route" name="Test getRouteFromPath function Parse multi admin routed level route" time="0">
+    </testcase>
+    <testcase classname="Test getRouteFromPath function Parse multi frontStore routed level route" name="Test getRouteFromPath function Parse multi frontStore routed level route" time="0.001">
+    </testcase>
+    <testcase classname="Test getRouteFromPath function Parse invalid path" name="Test getRouteFromPath function Parse invalid path" time="0.014">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test until merge" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:20" time="0.073" tests="5">
+    <testcase classname="Test until merge It should thrown an exception if `object` is not an object or null" name="Test until merge It should thrown an exception if `object` is not an object or null" time="0.006">
+    </testcase>
+    <testcase classname="Test until merge It should thrown an exception if `object` is not an object or null" name="Test until merge It should thrown an exception if `object` is not an object or null" time="0.003">
+    </testcase>
+    <testcase classname="Test until merge It should return an object contains all property from 2 provided object" name="Test until merge It should return an object contains all property from 2 provided object" time="0">
+    </testcase>
+    <testcase classname="Test until merge It should not overwrite the value from the first object if it is existed and truthy" name="Test until merge It should not overwrite the value from the first object if it is existed and truthy" time="0">
+    </testcase>
+    <testcase classname="Test until merge It should overwrite the value from the first object if it is not truthy" name="Test until merge It should overwrite the value from the first object if it is not truthy" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="resolveAlias" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:20" time="0.121" tests="1">
+    <testcase classname="resolveAlias It should get the components and css file with correct priority" name="resolveAlias It should get the components and css file with correct priority" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test validatePath" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:20" time="0.086" tests="2">
+    <testcase classname="Test validatePath It should return true for valid path" name="Test validatePath It should return true for valid path" time="0.001">
+    </testcase>
+    <testcase classname="Test validatePath It should return false for invalid path" name="Test validatePath It should return false for invalid path" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="assign" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:20" time="0.106" tests="6">
+    <testcase classname="assign It should assign an object to the main object" name="assign It should assign an object to the main object" time="0.001">
+    </testcase>
+    <testcase classname="assign It should thrown an exception if `object` is not an object or null" name="assign It should thrown an exception if `object` is not an object or null" time="0.01">
+    </testcase>
+    <testcase classname="assign It should thrown an exception if `object` is not an object or null" name="assign It should thrown an exception if `object` is not an object or null" time="0.001">
     </testcase>
     <testcase classname="assign It should thrown an exception if data is not an object or null" name="assign It should thrown an exception if data is not an object or null" time="0.001">
     </testcase>
-    <testcase classname="assign It should thrown an exception if data is not an object or null" name="assign It should thrown an exception if data is not an object or null" time="0.002">
+    <testcase classname="assign It should thrown an exception if data is not an object or null" name="assign It should thrown an exception if data is not an object or null" time="0.001">
     </testcase>
     <testcase classname="assign It should overwrite if the property is already existed" name="assign It should overwrite if the property is already existed" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Test until merge" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:58" time="53.397" tests="5">
-    <testcase classname="Test until merge It should thrown an exception if `object` is not an object or null" name="Test until merge It should thrown an exception if `object` is not an object or null" time="0.009">
-    </testcase>
-    <testcase classname="Test until merge It should thrown an exception if `object` is not an object or null" name="Test until merge It should thrown an exception if `object` is not an object or null" time="0.005">
-    </testcase>
-    <testcase classname="Test until merge It should return an object contains all property from 2 provided object" name="Test until merge It should return an object contains all property from 2 provided object" time="0.001">
-    </testcase>
-    <testcase classname="Test until merge It should not overwrite the value from the first object if it is existed and truthy" name="Test until merge It should not overwrite the value from the first object if it is existed and truthy" time="0">
-    </testcase>
-    <testcase classname="Test until merge It should overwrite the value from the first object if it is not truthy" name="Test until merge It should overwrite the value from the first object if it is not truthy" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="buildMiddlewareFunction" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:49" time="73.242" tests="2">
-    <testcase classname="buildMiddlewareFunction It should thrown an exception if id is not valid" name="buildMiddlewareFunction It should thrown an exception if id is not valid" time="0.016">
-    </testcase>
-    <testcase classname="buildMiddlewareFunction It should return a function if id is valid" name="buildMiddlewareFunction It should return a function if id is valid" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test validateRoute" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:11:02" time="4.32" tests="2">
-    <testcase classname="Test validateRoute It should thrown an exception if route is already existed" name="Test validateRoute It should thrown an exception if route is already existed" time="0.005">
+  <testsuite name="Test validateRoute" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:20" time="0.084" tests="2">
+    <testcase classname="Test validateRoute It should thrown an exception if route is already existed" name="Test validateRoute It should thrown an exception if route is already existed" time="0.006">
     </testcase>
     <testcase classname="Test validateRoute It should return a route object if id is valid" name="Test validateRoute It should return a route object if id is valid" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Test until get" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:11:06" time="1.413" tests="4">
-    <testcase classname="Test until get It should return the value if path is valid" name="Test until get It should return the value if path is valid" time="0.001">
+  <testsuite name="Test noDublicateId function" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:20" time="0.051" tests="9">
+    <testcase classname="Test noDublicateId function It should return false if routed middlewareID is existed" name="Test noDublicateId function It should return false if routed middlewareID is existed" time="0.001">
+    </testcase>
+    <testcase classname="Test noDublicateId function It should return false if admin level middlewareID is existed" name="Test noDublicateId function It should return false if admin level middlewareID is existed" time="0.001">
+    </testcase>
+    <testcase classname="Test noDublicateId function It should return false if admin level middlewareID is existed" name="Test noDublicateId function It should return false if admin level middlewareID is existed" time="0">
+    </testcase>
+    <testcase classname="Test noDublicateId function It should return false if frontStore level middlewareID is existed" name="Test noDublicateId function It should return false if frontStore level middlewareID is existed" time="0">
+    </testcase>
+    <testcase classname="Test noDublicateId function It should return false if application level middlewareID is existed" name="Test noDublicateId function It should return false if application level middlewareID is existed" time="0.001">
+    </testcase>
+    <testcase classname="Test noDublicateId function It should return false if routeId is null" name="Test noDublicateId function It should return false if routeId is null" time="0">
+    </testcase>
+    <testcase classname="Test noDublicateId function It should return false if routeId is admin" name="Test noDublicateId function It should return false if routeId is admin" time="0.001">
+    </testcase>
+    <testcase classname="Test noDublicateId function It should return false if routeId is frontStore" name="Test noDublicateId function It should return false if routeId is frontStore" time="0">
+    </testcase>
+    <testcase classname="Test noDublicateId function It should return true if routeId is different" name="Test noDublicateId function It should return true if routeId is different" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test scanForRoutes" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:20" time="0.062" tests="3">
+    <testcase classname="Test scanForRoutes It should thrown an exception if path is not valid" name="Test scanForRoutes It should thrown an exception if path is not valid" time="0.009">
+    </testcase>
+    <testcase classname="Test scanForRoutes It should thrown an exception if methods are not valid" name="Test scanForRoutes It should thrown an exception if methods are not valid" time="0.003">
+    </testcase>
+    <testcase classname="Test scanForRoutes It should return an array of routes" name="Test scanForRoutes It should return an array of routes" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test until get" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:20" time="0.06" tests="4">
+    <testcase classname="Test until get It should return the value if path is valid" name="Test until get It should return the value if path is valid" time="0.002">
     </testcase>
     <testcase classname="Test until get It should return undefined if the object is not an object" name="Test until get It should return undefined if the object is not an object" time="0.001">
     </testcase>
@@ -182,60 +208,34 @@
     <testcase classname="Test until get It should return default value if the path is not found" name="Test until get It should return default value if the path is not found" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Test scanForRoutes" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:11:08" time="0.68" tests="3">
-    <testcase classname="Test scanForRoutes It should thrown an exception if path is not valid" name="Test scanForRoutes It should thrown an exception if path is not valid" time="0.074">
-    </testcase>
-    <testcase classname="Test scanForRoutes It should thrown an exception if methods are not valid" name="Test scanForRoutes It should thrown an exception if methods are not valid" time="0.216">
-    </testcase>
-    <testcase classname="Test scanForRoutes It should return an array of routes" name="Test scanForRoutes It should return an array of routes" time="0.004">
+  <testsuite name="Test until getConfig" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:20" time="0.05" tests="1">
+    <testcase classname="Test until getConfig It should return the default value if path is invalid" name="Test until getConfig It should return the default value if path is invalid" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Test until getConfig" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:11:09" time="0.822" tests="1">
-    <testcase classname="Test until getConfig It should return the default value if path is invalid" name="Test until getConfig It should return the default value if path is invalid" time="0.005">
+  <testsuite name="Test scanForMiddlewareFunctions function" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:21" time="0.048" tests="7">
+    <testcase classname="Test scanForMiddlewareFunctions function It should return false if routed middlewareID is existed" name="Test scanForMiddlewareFunctions function It should return false if routed middlewareID is existed" time="0.002">
+    </testcase>
+    <testcase classname="Test scanForMiddlewareFunctions function It should return false if admin middlewareID is existed" name="Test scanForMiddlewareFunctions function It should return false if admin middlewareID is existed" time="0.001">
+    </testcase>
+    <testcase classname="Test scanForMiddlewareFunctions function It should return false if frontStore middlewareID is existed" name="Test scanForMiddlewareFunctions function It should return false if frontStore middlewareID is existed" time="0">
+    </testcase>
+    <testcase classname="Test scanForMiddlewareFunctions function It should return false if routeId is null" name="Test scanForMiddlewareFunctions function It should return false if routeId is null" time="0">
+    </testcase>
+    <testcase classname="Test scanForMiddlewareFunctions function It should return false if routeId is admin" name="Test scanForMiddlewareFunctions function It should return false if routeId is admin" time="0.005">
+    </testcase>
+    <testcase classname="Test scanForMiddlewareFunctions function It should return false if routeId is frontStore" name="Test scanForMiddlewareFunctions function It should return false if routeId is frontStore" time="0">
+    </testcase>
+    <testcase classname="Test scanForMiddlewareFunctions function It should return true if routeId is different" name="Test scanForMiddlewareFunctions function It should return true if routeId is different" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="test getMiddlewaresByRoute" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:56" time="138.208" tests="6">
-    <testcase classname="test getMiddlewaresByRoute should contains middlewares for product route" name="test getMiddlewaresByRoute should contains middlewares for product route" time="0.002">
+  <testsuite name="buildMiddlewareFunction" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:18" time="3.892" tests="2">
+    <testcase classname="buildMiddlewareFunction It should return 500 error when a error occurred" name="buildMiddlewareFunction It should return 500 error when a error occurred" time="3.127">
     </testcase>
-    <testcase classname="test getMiddlewaresByRoute should contains frontStore level middleware" name="test getMiddlewaresByRoute should contains frontStore level middleware" time="0">
-    </testcase>
-    <testcase classname="test getMiddlewaresByRoute should contains application level middleware" name="test getMiddlewaresByRoute should contains application level middleware" time="0">
-    </testcase>
-    <testcase classname="test getMiddlewaresByRoute should contains middlewares for product route" name="test getMiddlewaresByRoute should contains middlewares for product route" time="0.001">
-    </testcase>
-    <testcase classname="test getMiddlewaresByRoute should contains admin level middleware" name="test getMiddlewaresByRoute should contains admin level middleware" time="0">
-    </testcase>
-    <testcase classname="test getMiddlewaresByRoute should contains application level middleware" name="test getMiddlewaresByRoute should contains application level middleware" time="0.001">
+    <testcase classname="buildMiddlewareFunction The error handler middleware should be executed only one time per request" name="buildMiddlewareFunction The error handler middleware should be executed only one time per request" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="buildMiddlewareFunction" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:58" time="156.419" tests="2">
-    <testcase classname="buildMiddlewareFunction It should return 500 error when a error occurred" name="buildMiddlewareFunction It should return 500 error when a error occurred" time="18.556">
-    </testcase>
-    <testcase classname="buildMiddlewareFunction The error handler middleware should be executed only one time per request" name="buildMiddlewareFunction The error handler middleware should be executed only one time per request" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="buildMiddlewareFunction" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:10:51" time="103.395" tests="1">
-    <testcase classname="buildMiddlewareFunction Middleware function return desired value" name="buildMiddlewareFunction Middleware function return desired value" time="18.553">
-    </testcase>
-  </testsuite>
-  <testsuite name="test middleware" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:56" time="158.809" tests="2">
-    <testcase classname="test middleware It should execute the good middleware functions" name="test middleware It should execute the good middleware functions" time="18.557">
-    </testcase>
-    <testcase classname="test middleware It should not execute the middleware functions after error occurred" name="test middleware It should not execute the middleware functions after error occurred" time="0.019">
-    </testcase>
-  </testsuite>
-  <testsuite name="buildMiddlewareFunction" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:55" time="170.588" tests="4">
-    <testcase classname="buildMiddlewareFunction It should return 404 page when route is not exist" name="buildMiddlewareFunction It should return 404 page when route is not exist" time="18.555">
-    </testcase>
-    <testcase classname="buildMiddlewareFunction It should return 404 page when middleware sets status to 404" name="buildMiddlewareFunction It should return 404 page when middleware sets status to 404" time="11.572">
-    </testcase>
-    <testcase classname="buildMiddlewareFunction It should bypass the rouded middleware when status is 404" name="buildMiddlewareFunction It should bypass the rouded middleware when status is 404" time="0.002">
-    </testcase>
-    <testcase classname="buildMiddlewareFunction It should not bypass the app level middleware when status is 404" name="buildMiddlewareFunction It should not bypass the app level middleware when status is 404" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="test API middleware" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:09:57" time="170.739" tests="1">
-    <testcase classname="test API middleware It should execute the valid middleware functions" name="test API middleware It should execute the valid middleware functions" time="31.463">
+  <testsuite name="buildMiddlewareFunction" errors="0" failures="0" skipped="0" timestamp="2024-03-27T09:37:19" time="2.41" tests="1">
+    <testcase classname="buildMiddlewareFunction Middleware function return desired value" name="buildMiddlewareFunction Middleware function return desired value" time="1.685">
     </testcase>
   </testsuite>
 </testsuites>
