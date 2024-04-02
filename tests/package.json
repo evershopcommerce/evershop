@@ -1,0 +1,16 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:e2e": "cucumber-js --require cucumber.conf.js --require e2e/stepDefinitions/**/*.js --format @cucumber/pretty-formatter"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^7.3.1",
+    "@cucumber/pretty-formatter": "^1.0.1",
+    "@playwright/test": "^1.42.1",
+    "playwright": "^1.42.1"
+  }
+}
