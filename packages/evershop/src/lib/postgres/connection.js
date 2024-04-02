@@ -1,8 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const { Pool } = require('pg');
 const fs = require('fs');
-const { getConfig } = require('../util/getConfig');
 const dotenv = require('dotenv');
+const { getConfig } = require('../util/getConfig');
+
 dotenv.config();
 
 // Use env for the database connection, maintain the backward compatibility
