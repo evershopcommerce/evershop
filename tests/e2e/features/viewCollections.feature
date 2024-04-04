@@ -1,6 +1,6 @@
   Feature: view collections
     As an admin
-    I want to navigate to collections page from
+    I want to navigate to collections page
     So that I can view all collections
     
     Background: 
@@ -10,6 +10,6 @@
             | prasantgrg777@gmail.com | pSynidexxx.899 | 
 
 
-    Scenario: navigation to orders page
+    Scenario: navigation to collections page
         When user 'admin' navigates to collections page
         Then user 'admin' should view the collections table
