@@ -5,7 +5,7 @@ const { OrdersPage } = require('../pageObjects/ordersPage');
 const ordersPage = new OrdersPage();
 
 When('user {string} navigates to orders page', async function (string) {
-  await ordersPage.clickOrdersBtn();
+  await ordersPage.navigateToOrdersPage();
 });
 
 Then('user {string} should view the orders table', async function (string) {

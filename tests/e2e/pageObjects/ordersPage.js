@@ -7,7 +7,7 @@ class OrdersPage {
     this.tableSelector = "//table[@class='listing sticky']";
   }
 
-  async clickOrdersBtn() {
+  async navigateToOrdersPage() {
     await page.click(this.ordersBtnSelector);
   }
   async checkForTable() {
