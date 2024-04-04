@@ -9,8 +9,8 @@ Feature: admin user login
 
     Scenario: login with valid credentials
         When user 'admin' login with following credentials
-            |   email           | password       |
-            | prasantgrg777.com | pSynidexxx.899 | 
+            |   email                 | password       |
+            | prasantgrg777@gmail.com | pSynidexxx.899 | 
         Then user 'admin' should be navigated to admin panel dashboard
 
 

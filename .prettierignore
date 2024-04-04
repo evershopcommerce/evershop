@@ -1,5 +1,5 @@
 # Ignore everything:
-/*
+# /*
 
 # Except packages:
-!/packages
+!/packages                   
