@@ -1,20 +1,20 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
 const { expect } = require('@playwright/test');
-const { AddCollectionPage } = require('../pageObjects/addCollectionPage');
+const { AddCollectionPage } = require('../pageObjects/AddCollectionPage');
 
-const addCollectionPage = new AddCollectionPage();
+const addCollection = new AddCollectionPage()
 
 When(
   'user {string} creates new collection with following details',
   async function (string, dataTable) {
     const inputData = dataTable.hashes();
-    await addCollectionPage.fillCollectionInputData(inputData);
+    await addCollection.fillCollectionInputData(inputData);
   }
 );
 
 Then(
   'user {string} should be able to add products to the collection',
   async function (string) {
-    await addCollectionPage.checkAddProductBtn();
+    await addCollection.checkAddProductBtn();
   }
 );

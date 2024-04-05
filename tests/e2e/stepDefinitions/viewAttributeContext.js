@@ -1,13 +1,13 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
 const { expect } = require('@playwright/test');
-const { ViewAttributePage } = require('../pageObjects/viewAttributePage');
+const { ViewAttributePage } = require('../pageObjects/ViewAttributePage');
 
-const viewAttributePage = new ViewAttributePage();
+const viewAttribute = new ViewAttributePage();
 
 When('user {string} navigates to attributes page', async function (string) {
-  await viewAttributePage.navigateToAttribute();
+  await viewAttribute.navigateToAttribute();
 });
 
 Then('user {string} should view the attributes table', async function (string) {
-  await viewAttributePage.checkForTable();
+  await viewAttribute.checkForTable();
 });

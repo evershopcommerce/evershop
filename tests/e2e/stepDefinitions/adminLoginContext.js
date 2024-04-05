@@ -1,12 +1,12 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
 const { expect } = require('@playwright/test');
-const { LoginPage } = require('../pageObjects/loginPage');
-const loginPage = new LoginPage();
+const { LoginPage } = require('../pageObjects/LoginPage');
+const login = new LoginPage();
 
 Given(
   'user {string} has navigated to the admin login page',
   async function (string) {
-    await loginPage.navigateToLoginPage();
+    await login.navigateToLoginPage();
     expect(page.url()).toBe('http://localhost:3000/admin/login');
   }
 );
@@ -15,30 +15,30 @@ When(
   'user {string} login with following credentials',
   async function (string, dataTable) {
     const credentials = dataTable.hashes();
-    await loginPage.fillLoginInputFields(credentials);
-    await loginPage.clickLoginBtn();
+    await login.fillLoginInputFields(credentials);
+    await login.clickLoginBtn();
   }
 );
 
 Then(
   'user {string} should be navigated to admin panel dashboard',
   async function (string) {
-    await loginPage.navigateToAdminPanel();
+    await login.navigateToAdminPanel();
     expect(page.url()).toBe('http://localhost:3000/admin');
   }
 );
 
 When('the user login with following credentials', async function (dataTable) {
   const invalidCredentials = dataTable.hashes();
-  await loginPage.fillLoginInputFields(invalidCredentials);
-  await loginPage.clickLoginBtn();
+  await login.fillLoginInputFields(invalidCredentials);
+  await login.clickLoginBtn();
 });
 
 Then('error message {string} should be shown', async function (errorMessage) {
   // await expect(page.locator(loginPage.loginBtnSelector)).toBeVisible();
   let errorMessageSelectors = [
-    loginPage.alertMsgSelector1,
-    loginPage.alertMsgSelector2
+    login.alertMsgSelector1,
+    login.alertMsgSelector2
   ];
 
   for (let selector of errorMessageSelectors) {
