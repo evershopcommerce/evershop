@@ -3,7 +3,7 @@ const {
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const createCustomer = require('../../services/customer/createCustomer');
 
 // eslint-disable-next-line no-unused-vars
@@ -36,7 +36,7 @@ module.exports = async (request, response, delegate, next) => {
     };
     next();
   } catch (e) {
-    debug('critical', e);
+    error(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

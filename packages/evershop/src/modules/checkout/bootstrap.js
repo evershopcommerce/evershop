@@ -1,4 +1,4 @@
-const { error } = require('../../lib/log/debuger');
+const { error } = require('../../lib/log/logger');
 const { addProcessor, addFinalProcessor } = require('../../lib/util/registry');
 const { sortFields } = require('./services/cart/sortFields');
 const {

@@ -8,7 +8,7 @@ const {
 } = require('@evershop/evershop/src/lib/webpack/getRouteBuildPath');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
-const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 // eslint-disable-next-line no-unused-vars
 const { getContextValue } = require('../../services/contextHelper');
 

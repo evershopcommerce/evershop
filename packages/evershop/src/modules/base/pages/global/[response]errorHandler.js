@@ -2,11 +2,11 @@ const { encode } = require('html-entities');
 const {
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (err, request, response, delegate, next) => {
-  debug('critical', err);
+  error(err);
   // Set this flag to make sure this middleware only be executed 1 time
   response.locals.errorHandlerTriggered = true;
   const promises = [];

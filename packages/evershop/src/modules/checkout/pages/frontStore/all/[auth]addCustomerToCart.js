@@ -1,6 +1,6 @@
 const { select, update } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 
 module.exports = async (request, response, delegate, next) => {
   try {
@@ -25,8 +25,8 @@ module.exports = async (request, response, delegate, next) => {
           .execute(pool);
       }
     }
-  } catch (error) {
-    debug('critical', error);
+  } catch (e) {
+    error(e);
   }
   next();
 };

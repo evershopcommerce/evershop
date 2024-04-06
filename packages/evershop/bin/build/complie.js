@@ -5,7 +5,7 @@ const {
 const {
   createConfigServer
 } = require('@evershop/evershop/src/lib/webpack/prod/createConfigServer');
-const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 
 module.exports.compile = async function compile(routes) {
   const config = [createConfigClient(routes), createConfigServer(routes)];

@@ -9,7 +9,7 @@ const {
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
 } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const updatePassword = require('../../services/customer/updatePassword');
 
@@ -72,7 +72,7 @@ module.exports = async (request, response, delegate, next) => {
     response.$body = {};
     next();
   } catch (e) {
-    debug('critical', e);
+    error(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

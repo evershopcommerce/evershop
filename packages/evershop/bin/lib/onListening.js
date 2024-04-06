@@ -1,5 +1,5 @@
 const boxen = require('boxen');
-const { success } = require('@evershop/evershop/src/lib/log/debuger');
+const { success } = require('@evershop/evershop/src/lib/log/logger');
 const normalizePort = require('./normalizePort');
 
 const port = normalizePort();

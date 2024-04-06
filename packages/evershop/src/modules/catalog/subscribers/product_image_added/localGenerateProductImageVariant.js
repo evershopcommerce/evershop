@@ -5,7 +5,7 @@ const sharp = require('sharp');
 const { update } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 
 module.exports = async function localGenerateProductImageVariant(data) {
   if (getConfig('system.file_storage') === 'local') {
@@ -55,8 +55,8 @@ module.exports = async function localGenerateProductImageVariant(data) {
         .where('product_image_product_id', '=', data.product_image_product_id)
         .and('origin_image', '=', data.origin_image)
         .execute(pool);
-    } catch (error) {
-      debug('critical', error);
+    } catch (e) {
+      error(e);
     }
   }
 };

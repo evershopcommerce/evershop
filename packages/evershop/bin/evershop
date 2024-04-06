@@ -2,20 +2,13 @@
 /* eslint-disable global-require */
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
-const { error } = require('../src/lib/log/debuger');
 
 const { argv } = yargs(hideBin(process.argv));
 const command = argv._[0];
-process.on('uncaughtException', function (exception) {
-  error(exception);
-});
-process.on('unhandledRejection', (reason, p) => {
-  error(`Unhandled Rejection: ${reason} at: ${p}`);
-});
 
 try {
   if (command === 'build') {
-    process.env.NODE_ENV = 'production';
+    processs.env.NODE_ENV = 'production';
     require('./build/index');
   } else if (command === 'dev') {
     process.env.NODE_ENV = 'development';
@@ -33,5 +26,13 @@ try {
     throw new Error('Invalid command');
   }
 } catch (e) {
+  const { error } = require('../src/lib/log/logger');
   error(e);
 }
+const { error } = require('../src/lib/log/logger');
+process.on('uncaughtException', function (exception) {
+  error(exception);
+});
+process.on('unhandledRejection', (reason, p) => {
+  error(`Unhandled Rejection: ${reason} at: ${p}`);
+});

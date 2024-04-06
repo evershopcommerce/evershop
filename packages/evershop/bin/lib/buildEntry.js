@@ -13,7 +13,7 @@ const {
   parseGraphql
 } = require('@evershop/evershop/src/lib/webpack/util/parseGraphql');
 const JSON5 = require('json5');
-const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 /**
  * Only pass the page routes, not api routes
  */

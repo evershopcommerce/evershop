@@ -1,4 +1,4 @@
-const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const normalizePort = require('./normalizePort');
 
 const port = normalizePort();

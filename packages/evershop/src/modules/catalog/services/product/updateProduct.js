@@ -16,7 +16,7 @@ const {
 const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const { getAjv } = require('../../../base/services/getAjv');
 const productDataSchema = require('./productDataSchema.json');
 
@@ -248,7 +248,7 @@ async function updateProductImages(images, productId, connection) {
         )
       );
     } catch (e) {
-      debug('critical', e);
+      error(e);
       throw e;
     }
   }

@@ -3,7 +3,7 @@ const { resolve } = require('path');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
-const { warning } = require('@evershop/evershop/src/lib/log/debuger');
+const { warning } = require('@evershop/evershop/src/lib/log/logger');
 
 let extensions = [];
 

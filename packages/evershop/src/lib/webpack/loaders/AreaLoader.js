@@ -2,7 +2,7 @@ const fs = require('fs');
 const { inspect } = require('util');
 const JSON5 = require('json5');
 const { CONSTANTS } = require('../../helpers');
-const { error } = require('../../log/debuger');
+const { error } = require('../../log/logger');
 
 /* eslint-disable no-multi-assign */
 /* eslint-disable global-require */

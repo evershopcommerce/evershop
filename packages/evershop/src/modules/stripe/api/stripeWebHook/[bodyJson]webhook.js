@@ -12,7 +12,7 @@ const {
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { emit } = require('@evershop/evershop/src/lib/event/emitter');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { debug } = require('@evershop/evershop/src/lib/log/logger');
 const { display } = require('zero-decimal-currencies');
 const { getSetting } = require('../../../setting/services/setting');
 
@@ -57,7 +57,9 @@ module.exports = async (request, response, delegate, next) => {
         // Create payment transaction
         await insert('payment_transaction')
           .given({
-            amount: parseFloat(display(paymentIntent.amount, paymentIntent.currency)),
+            amount: parseFloat(
+              display(paymentIntent.amount, paymentIntent.currency)
+            ),
             payment_transaction_order_id: order.order_id,
             transaction_id: paymentIntent.id,
             transaction_type: 'online',

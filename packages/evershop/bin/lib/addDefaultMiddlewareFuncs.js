@@ -4,7 +4,7 @@ const session = require('express-session');
 const sessionStorage = require('connect-pg-simple');
 const pathToRegexp = require('path-to-regexp');
 const webpack = require('webpack');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { debug } = require('@evershop/evershop/src/lib/log/logger');
 const middleware = require('webpack-dev-middleware');
 const {
   createConfigClient
@@ -59,7 +59,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
       ) {
         return;
       }
-      debug('info', message);
+      debug(message);
     });
   });
   // Add public static middleware

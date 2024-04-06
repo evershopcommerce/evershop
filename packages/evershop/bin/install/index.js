@@ -14,7 +14,7 @@ const {
 } = require('@evershop/postgres-query-builder');
 const { prompt } = require('enquirer');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { error, success } = require('@evershop/evershop/src/lib/log/debuger');
+const { error, success } = require('@evershop/evershop/src/lib/log/logger');
 const {
   hashPassword
 } = require('@evershop/evershop/src/lib/util/passwordHelper');
