@@ -1,4 +1,4 @@
-const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { execute, select } = require('@evershop/postgres-query-builder');
 

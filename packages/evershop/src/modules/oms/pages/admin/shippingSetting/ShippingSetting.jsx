@@ -51,6 +51,7 @@ const ZonesQuery = `
         updateApi
       }
       updateApi
+      deleteApi
       addMethodApi
     }
   }

@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 
 function loadModuleSubscribers(modulePath) {
   const subscribers = [];
@@ -46,7 +46,7 @@ module.exports.loadSubscribers = function loadSubscribers(modules) {
       // Load routes
       subscribers.push(...loadModuleSubscribers(module.path));
     } catch (e) {
-      debug('critical', e);
+      error(e);
       process.exit(0);
     }
   });

@@ -5,7 +5,9 @@ import Zone from './Zone';
 export function Zones({ countries, getZones, zones }) {
   return (
     <>
-      {zones.map((zone) => <Zone zone={zone} getZones={getZones} countries={countries} />)}
+      {zones.map((zone) => (
+        <Zone zone={zone} getZones={getZones} countries={countries} />
+      ))}
     </>
   );
 }
@@ -34,7 +36,8 @@ Zones.propTypes = {
           uuid: PropTypes.string.isRequired,
           name: PropTypes.string.isRequired
         })
-      ).isRequired
+      ).isRequired,
+      deleteApi: PropTypes.string.isRequired
     })
   ).isRequired,
   getZones: PropTypes.func.isRequired

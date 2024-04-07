@@ -200,6 +200,12 @@ module.exports = {
   },
 
   lockRegistry() {
+    // Reset the values cache by removing all values from all properties in the registry values
+    Object.keys(registry.values).forEach((key) => {
+      if (Object.prototype.hasOwnProperty.call(registry.values, key)) {
+        delete registry.values[key].value;
+      }
+    });
     locked = true;
   }
 };

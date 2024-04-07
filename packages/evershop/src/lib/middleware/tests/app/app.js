@@ -13,7 +13,7 @@ const { once } = require('events');
 const { getModuleMiddlewares } = require('../..');
 const { getRoutes } = require('../../../router/Router');
 const { Handler } = require('../../Handler');
-const { error } = require('../../../log/debuger');
+const { error } = require('../../../log/logger');
 
 /** Create express app */
 const app = express();

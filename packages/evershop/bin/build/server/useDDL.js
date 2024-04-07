@@ -11,7 +11,7 @@ const {
   getComponentsByRoute
 } = require('@evershop/evershop/src/lib/componee/getComponentByRoute');
 const webpack = require('webpack');
-const { info } = require('@evershop/evershop/src/lib/log/debuger');
+const { info } = require('@evershop/evershop/src/lib/log/logger');
 
 const modules = loadModules(path.resolve(__dirname, '../../../src', 'modules'));
 

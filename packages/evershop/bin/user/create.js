@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { error, success } = require('@evershop/evershop/src/lib/log/debuger');
+const { error, success } = require('@evershop/evershop/src/lib/log/logger');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   hashPassword

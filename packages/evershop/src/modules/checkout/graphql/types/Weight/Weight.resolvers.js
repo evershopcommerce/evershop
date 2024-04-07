@@ -1,20 +1,17 @@
-const { getSetting } = require('../../../../setting/services/setting');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 
 module.exports = {
   Weight: {
-    value: (raw) => parseFloat(raw), // TODO: Format for decimal value?
-    unit: async () => {
-      const unit = await getSetting('weightUnit', 'kg');
+    value: (raw) => parseFloat(raw),
+    unit: () => {
+      const unit = getConfig('shop.weightUnit', 'kg');
       return unit;
     },
-    text: async (raw) => {
-      const weight = parseFloat(raw); // TODO: Format for decimal value?
-      const unit = await getSetting('weightUnit', 'kg');
-      const language = await getSetting('storeLanguage', 'en');
+    text: (raw) => {
+      const weight = parseFloat(raw);
+      const unit = getConfig('shop.weightUnit', 'kg');
       // Localize the weight
-      return new Intl.NumberFormat(language, { style: 'unit', unit }).format(
-        weight
-      );
+      return `${weight} ${unit}`;
     }
   }
 };

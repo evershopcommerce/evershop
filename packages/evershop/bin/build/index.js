@@ -10,7 +10,7 @@ const {
 } = require('@evershop/evershop/src/lib/webpack/isBuildRequired');
 const { buildEntry } = require('@evershop/evershop/bin/lib/buildEntry');
 const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
-const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const { compile } = require('./complie');
 const { getEnabledExtensions } = require('../extension');
 require('dotenv').config();

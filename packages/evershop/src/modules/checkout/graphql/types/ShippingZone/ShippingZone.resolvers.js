@@ -1,4 +1,5 @@
 const { select } = require('@evershop/postgres-query-builder');
+const { contries } = require('@evershop/evershop/src/lib/locale/countries');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
@@ -36,6 +37,18 @@ module.exports = {
       const methods = await query.execute(pool);
       return methods.map((row) => camelCase(row));
     },
+    country: ({ country }) => {
+      if (!country) {
+        return null;
+      } else {
+        const c = contries.find((p) => p.code === country);
+        if (c) {
+          return c;
+        } else {
+          return null;
+        }
+      }
+    },
     provinces: async ({ shippingZoneId }) => {
       const provinces = await select('province')
         .from('shipping_zone_province')
@@ -43,10 +56,10 @@ module.exports = {
         .execute(pool);
       return provinces.map((row) => row.province);
     },
-    updateApi: async ({ uuid }) => buildUrl('updateShippingZone', { id: uuid }),
-    addMethodApi: async ({ uuid }) =>
-      buildUrl('addShippingZoneMethod', { id: uuid }),
-    removeMethodApi: async ({ uuid }) =>
+    updateApi: ({ uuid }) => buildUrl('updateShippingZone', { id: uuid }),
+    deleteApi: ({ uuid }) => buildUrl('deleteShippingZone', { id: uuid }),
+    addMethodApi: ({ uuid }) => buildUrl('addShippingZoneMethod', { id: uuid }),
+    removeMethodApi: ({ uuid }) =>
       buildUrl('removeShippingZoneMethod', { id: uuid })
   },
   ShippingMethodByZone: {

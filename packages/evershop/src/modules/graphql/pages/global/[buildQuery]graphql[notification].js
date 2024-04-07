@@ -1,7 +1,7 @@
 const { execute } = require('graphql');
 const { parse } = require('graphql');
 const { validate } = require('graphql/validation');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { debug } = require('@evershop/evershop/src/lib/log/logger');
 const adminSchema = require('../../services/buildSchema');
 const storeFrontSchema = require('../../services/buildStoreFrontSchema');
 const { getContext } = require('../../services/contextHelper');

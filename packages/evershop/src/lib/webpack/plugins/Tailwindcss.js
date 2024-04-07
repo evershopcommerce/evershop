@@ -7,7 +7,7 @@ const autoprefixer = require('autoprefixer');
 const CleanCSS = require('clean-css');
 const { Compilation, sources } = require('webpack');
 const { getTailwindConfig } = require('../util/getTailwindConfig');
-const { error } = require('../../log/debuger');
+const { error } = require('../../log/logger');
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};

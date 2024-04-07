@@ -5,7 +5,7 @@ const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
 const sharp = require('sharp');
 const { update } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 
 async function resizeAndUploadImage(
   containerName,
@@ -96,8 +96,8 @@ module.exports = async function azureGenerateProductImageVariant(data) {
         .where('product_image_product_id', '=', data.product_image_product_id)
         .and('origin_image', '=', data.origin_image)
         .execute(pool);
-    } catch (error) {
-      debug('critical', error);
+    } catch (e) {
+      error(e);
     }
   }
 };

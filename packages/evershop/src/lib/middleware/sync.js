@@ -1,5 +1,4 @@
 const logger = require('@evershop/evershop/src/lib/log/logger');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
 const { setDelegate } = require('./delegate');
 
 // eslint-disable-next-line no-multi-assign
@@ -35,11 +34,8 @@ exports.syncMiddlewareWrapper = function syncMiddlewareWrapper(
     setDelegate(id, delegate, request);
   } catch (e) {
     // Log the error
-    logger.log('error', `Exception in middleware ${id}`, {
-      message: e.message,
-      stack: e.stack
-    });
-    debug('critical', `Exception in middleware ${id}`);
+    logger.error(`Exception in middleware ${id}`);
+    logger.error(e);
 
     // Call error handler middleware if it is not called yet
     next(e);

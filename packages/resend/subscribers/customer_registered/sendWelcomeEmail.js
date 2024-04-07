@@ -5,7 +5,7 @@ const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { Resend } = require('resend');
 const Handlebars = require('handlebars');
 const { select } = require('@evershop/postgres-query-builder');
-const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
 const { getValue } = require('@evershop/evershop/src/lib/util/registry');
 

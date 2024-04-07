@@ -2,7 +2,7 @@ const http = require('http');
 const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
 const spawn = require('cross-spawn');
 const path = require('path');
-const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
 const { lockHooks } = require('@evershop/evershop/src/lib/util/hookable');
 const { lockRegistry } = require('@evershop/evershop/src/lib/util/registry');
@@ -22,14 +22,6 @@ const server = http.createServer(app);
 module.exports.start = async function start(cb) {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
 
-  /** Migration */
-  try {
-    await migrate(modules);
-  } catch (e) {
-    error(e);
-    process.exit(0);
-  }
-
   /** Loading bootstrap script from modules */
   try {
     // eslint-disable-next-line no-restricted-syntax
@@ -43,6 +35,15 @@ module.exports.start = async function start(cb) {
     process.exit(0);
   }
   process.env.ALLOW_CONFIG_MUTATIONS = false;
+
+  /** Migration */
+  try {
+    await migrate(modules);
+  } catch (e) {
+    error(e);
+    process.exit(0);
+  }
+
   /**
    * Get port from environment and store in Express.
    */

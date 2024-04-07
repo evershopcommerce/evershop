@@ -4,7 +4,7 @@ const {
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const {
   getContextValue
 } = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
@@ -74,7 +74,7 @@ module.exports = async (request, response, delegate, next) => {
     await resend.emails.send(msg);
     next();
   } catch (e) {
-    debug('critical', e);
+    error(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

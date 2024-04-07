@@ -3,7 +3,7 @@ const { existsSync } = require('fs');
 const { resolve } = require('path');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
-const { info, error } = require('@evershop/evershop/src/lib/log/debuger');
+const { info, error } = require('@evershop/evershop/src/lib/log/logger');
 const { updateApp } = require('../startUp');
 const { broadcash } = require('./broadcash');
 

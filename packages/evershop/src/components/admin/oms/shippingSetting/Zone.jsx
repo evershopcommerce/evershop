@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { Card } from '@components/admin/cms/Card';
 import MapIcon from '@heroicons/react/solid/esm/LocationMarkerIcon';
 import { useModal } from '@components/common/modal/useModal';
@@ -13,7 +15,7 @@ function Zone({ zone, countries, getZones }) {
       title={
         <div className="flex justify-between items-center gap-2">
           <div>{zone.name}</div>
-          <div>
+          <div className="flex justify-between gap-2">
             <a
               href="#"
               className="text-interactive"
@@ -23,6 +25,33 @@ function Zone({ zone, countries, getZones }) {
               }}
             >
               Edit Zone
+            </a>
+            <a
+              className="text-critical"
+              href="#"
+              onClick={async (e) => {
+                e.preventDefault();
+                try {
+                  const response = await axios.delete(zone.deleteApi);
+                  if (response.status === 200) {
+                    // Toast success
+                    toast.success('Zone removed successfully');
+                    // Delay for 2 seconds
+                    setTimeout(() => {
+                      // Reload page
+                      window.location.reload();
+                    }, 1500);
+                  } else {
+                    // Toast error
+                    toast.error('Failed to remove zone');
+                  }
+                } catch (error) {
+                  // Toast error
+                  toast.error('Failed to remove zone');
+                }
+              }}
+            >
+              Remove Zone
             </a>
           </div>
         </div>
@@ -35,7 +64,7 @@ function Zone({ zone, countries, getZones }) {
           </div>
           <div className="flex-grow px-1">
             <div>
-              <b>{zone.country.name}</b>
+              <b>{zone.country?.name || 'Worldwide'}</b>
             </div>
             <div>
               {zone.provinces
@@ -97,6 +126,7 @@ Zone.propTypes = {
       })
     ),
     addMethodApi: PropTypes.string,
+    deleteApi: PropTypes.string,
     updateApi: PropTypes.string
   }).isRequired,
   countries: PropTypes.arrayOf(

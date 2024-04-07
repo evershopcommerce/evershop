@@ -4,7 +4,7 @@ const {
   OK,
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { debug } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const crypto = require('crypto');
 
 // eslint-disable-next-line no-unused-vars
@@ -45,7 +45,7 @@ module.exports = async (request, response, delegate, next) => {
     // An extension can add a middleware to this route to send email
     next();
   } catch (e) {
-    debug('critical', e);
+    error(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

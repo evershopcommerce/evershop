@@ -5,7 +5,7 @@ const { sortMiddlewares } = require('./sort');
 const { parseFromFile } = require('./parseFromFile');
 const { noDublicateId } = require('./noDuplicateId');
 const { getRoutes } = require('../router/Router');
-const { error } = require('../log/debuger');
+const { error } = require('../log/logger');
 
 class Handler {
   static middlewares = [];
@@ -99,8 +99,7 @@ class Handler {
   static middleware() {
     return (request, response, next) => {
       request.params = {
-        
-        ...request.locals?.customParams || {},
+        ...(request.locals?.customParams || {}),
         ...request.params
       };
       const { currentRoute } = request;

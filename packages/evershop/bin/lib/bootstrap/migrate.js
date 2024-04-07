@@ -12,7 +12,7 @@ const {
   pool
 } = require('@evershop/evershop/src/lib/postgres/connection');
 const { existsSync, readdirSync } = require('fs');
-const { error } = require('@evershop/evershop/src/lib/log/debuger');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const { createMigrationTable } = require('../../install/createMigrationTable');
 
 async function getCurrentInstalledVersion(module) {
