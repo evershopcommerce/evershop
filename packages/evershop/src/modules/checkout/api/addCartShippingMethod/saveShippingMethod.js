@@ -4,12 +4,12 @@ const {
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
 } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getCartByUUID } = require('../../services/getCartByUUID');
-const { saveCart } = require('../../services/saveCart');
 const { error } = require('@evershop/evershop/src/lib/log/logger');
 const {
   translate
 } = require('@evershop/evershop/src/lib/locale/translate/translate');
+const { getCartByUUID } = require('../../services/getCartByUUID');
+const { saveCart } = require('../../services/saveCart');
 
 module.exports = async (request, response, delegate, next) => {
   try {
