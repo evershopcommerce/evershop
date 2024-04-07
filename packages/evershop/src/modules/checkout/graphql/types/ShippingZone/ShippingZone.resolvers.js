@@ -56,10 +56,10 @@ module.exports = {
         .execute(pool);
       return provinces.map((row) => row.province);
     },
-    updateApi: async ({ uuid }) => buildUrl('updateShippingZone', { id: uuid }),
-    addMethodApi: async ({ uuid }) =>
-      buildUrl('addShippingZoneMethod', { id: uuid }),
-    removeMethodApi: async ({ uuid }) =>
+    updateApi: ({ uuid }) => buildUrl('updateShippingZone', { id: uuid }),
+    deleteApi: ({ uuid }) => buildUrl('deleteShippingZone', { id: uuid }),
+    addMethodApi: ({ uuid }) => buildUrl('addShippingZoneMethod', { id: uuid }),
+    removeMethodApi: ({ uuid }) =>
       buildUrl('removeShippingZoneMethod', { id: uuid })
   },
   ShippingMethodByZone: {
