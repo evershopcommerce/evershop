@@ -35,7 +35,7 @@ function Zone({ zone, countries, getZones }) {
           </div>
           <div className="flex-grow px-1">
             <div>
-              <b>{zone.country.name}</b>
+              <b>{zone.country?.name || 'Worldwide'}</b>
             </div>
             <div>
               {zone.provinces

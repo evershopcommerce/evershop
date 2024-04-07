@@ -1,4 +1,5 @@
 const { select } = require('@evershop/postgres-query-builder');
+const { contries } = require('@evershop/evershop/src/lib/locale/countries');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
@@ -35,6 +36,18 @@ module.exports = {
       query.where('zone_id', '=', parent.shippingZoneId);
       const methods = await query.execute(pool);
       return methods.map((row) => camelCase(row));
+    },
+    country: ({ country }) => {
+      if (!country) {
+        return null;
+      } else {
+        const c = contries.find((p) => p.code === country);
+        if (c) {
+          return c;
+        } else {
+          return null;
+        }
+      }
     },
     provinces: async ({ shippingZoneId }) => {
       const provinces = await select('province')

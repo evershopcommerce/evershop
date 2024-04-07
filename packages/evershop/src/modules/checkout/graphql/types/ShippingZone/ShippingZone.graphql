@@ -22,7 +22,7 @@ type ShippingZone {
   shipping_zone_id: Int!
   uuid: String!
   name: String!
-  country: Country!
+  country: Country
   provinces: [Province]
   methods: [ShippingMethodByZone]
   updateApi: String!
