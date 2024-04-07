@@ -6,6 +6,10 @@ const {
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 const { saveCart } = require('../../services/saveCart');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
+const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
 
 module.exports = async (request, response, delegate, next) => {
   try {
@@ -37,10 +41,11 @@ module.exports = async (request, response, delegate, next) => {
       next();
     }
   } catch (e) {
+    error(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {
-        message: e.message,
+        message: translate('Failed to set shipping method'),
         status: INTERNAL_SERVER_ERROR
       }
     });

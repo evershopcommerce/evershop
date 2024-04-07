@@ -262,6 +262,7 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
             );
           shippingMethodQuery
             .where('uuid', '=', shippingMethod)
+            .and('is_enabled', '=', true)
             .and(
               'shipping_zone_method.zone_id',
               '=',
