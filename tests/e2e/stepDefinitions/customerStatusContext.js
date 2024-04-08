@@ -3,7 +3,6 @@ const { expect } = require('@playwright/test');
 const { CustomerStatusPage } = require('../pageObjects/CustomerStatusPage');
 
 const customerStatusPage = new CustomerStatusPage();
-
 //DISABLE CUSTOMER STATUS
 When(
   'user {string} disables a customer with email {string}',
