@@ -18,4 +18,9 @@
             | Test Attribute2 | test2 | Select      |  1    |
             | Test Attribute3 | test3 | Multiselect |  0    |
             | Test Attribute4 | test4 | Textarea    |  1    |
-        Then user 'admin' should be able to view all attributes
+        Then user 'admin' should be able to view all attributes with name '<name>'
+            |      name       |
+            | Test Attribute1 |
+            | Test Attribute2 | 
+            | Test Attribute3 |
+            | Test Attribute4 |

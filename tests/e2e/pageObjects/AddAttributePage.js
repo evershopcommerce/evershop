@@ -21,10 +21,7 @@ class AddAttributePage {
     this.textareaRadioBtnSelector = "//span[text()='Textarea']";
 
     //Added attributes selector
-    this.newAttributeSelector1 = "//a[text()='Test Attribute1']";
-    this.newAttributeSelector2 = "//a[text()='Test Attribute2']";
-    this.newAttributeSelector3 = "//a[text()='Test Attribute3']";
-    this.newAttributeSelector4 = "//a[text()='Test Attribute4']";
+    this.selector = "//a[text()='%s']";
   }
 
   async gotoAttributesPage() {
@@ -61,12 +58,6 @@ class AddAttributePage {
       await page.click(this.saveBtnSelector);
       await page.goto(this.addNewAttributeUrl);
     }
-  }
-  async checkForAddedAttributes() {
-    await expect(page.locator(this.newAttributeSelector1)).toBeVisible();
-    await expect(page.locator(this.newAttributeSelector2)).toBeVisible();
-    await expect(page.locator(this.newAttributeSelector3)).toBeVisible();
-    await expect(page.locator(this.newAttributeSelector4)).toBeVisible();
   }
 }
 module.exports = { AddAttributePage };
