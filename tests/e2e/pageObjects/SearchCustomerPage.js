@@ -20,8 +20,5 @@ class SearchCustomerPage {
     await page.keyboard.press('Enter');
   }
 
-  async checkForCustomer(selector) {
-    await expect(page.locator(selector)).toBeVisible();
-  }
 }
 module.exports = { SearchCustomerPage };

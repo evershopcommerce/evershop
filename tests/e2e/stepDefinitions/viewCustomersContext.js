@@ -9,5 +9,5 @@ When('user {string} navigates to customers page', async function (string) {
 });
 
 Then('user {string} should view the customers table', async function (string) {
-  await viewCustomerPage.checkForTable();
+  await expect(page.locator(viewCustomerPage.tableSelector)).toBeVisible()
 });

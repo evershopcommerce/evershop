@@ -12,7 +12,10 @@ When(
 );
 
 Then('user with email {string} should be disabled', async function (string) {
-  await customerStatusPage.checkDisabledStatus();
+  await customerStatusPage.disableStatus();
+  await expect(page.locator(customerStatusPage.disableStatusSelector)).toContainText(
+    'Disabled'
+  );
 });
 
 //ENABLE CUSTOMER STATUS
@@ -24,5 +27,8 @@ When(
 );
 
 Then('user with email {string} should be enabled', async function (string) {
-  await customerStatusPage.checkEnabledStatus();
+  await customerStatusPage.enableStatus();
+  await expect(page.locator(customerStatusPage.enabledStatusSelector)).toContainText(
+    'Enabled'
+  );
 });

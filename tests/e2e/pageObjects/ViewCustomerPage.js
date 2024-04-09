@@ -7,13 +7,8 @@ class ViewCustomerPage {
     this.tableSelector = "//table[@class='listing sticky']";
   }
 
-  async navigateToCustomerPage(){
-    await page.click(this.customerBtnSelector)
+  async navigateToCustomerPage() {
+    await page.click(this.customerBtnSelector);
   }
-
-  async checkForTable(){
-    await expect(page.locator(this.tableSelector)).toBeVisible()
-  }
-
 }
 module.exports = { ViewCustomerPage };

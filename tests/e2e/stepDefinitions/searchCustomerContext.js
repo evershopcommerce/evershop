@@ -1,6 +1,7 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
 const { expect } = require('@playwright/test');
 const { SearchCustomerPage } = require('../pageObjects/SearchCustomerPage');
+
 const searchCustomerPage = new SearchCustomerPage();
 
 //Search customer by name
@@ -15,9 +16,7 @@ When(
 Then(
   'user {string} should view the customer with name {string}',
   async function (string, string2) {
-    await searchCustomerPage.checkForCustomer(
-      searchCustomerPage.customerNameSelector1
-    );
+    await expect(page.locator(searchCustomerPage.customerNameSelector1)).toBeVisible();
   }
 );
 
@@ -33,8 +32,6 @@ When(
 Then(
   'user {string} should view the customer with email {string}',
   async function (string, string2) {
-    await searchCustomerPage.checkForCustomer(
-      searchCustomerPage.customerNameSelector2
-    );
+    await expect(page.locator(searchCustomerPage.customerNameSelector2)).toBeVisible();
   }
 );

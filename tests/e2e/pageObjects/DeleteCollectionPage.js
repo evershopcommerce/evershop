@@ -6,6 +6,7 @@ class DeleteCollectionPage {
     this.checkboxSelector = '//tbody/tr/td[1]';
     this.deleteSelector = "//span[text()='Delete']";
     this.criticalDeleteSelector = "//button[@class='button critical']";
+    this.tableSelector = "//table[@class='listing sticky']";
   }
 
   async deleteCollection() {

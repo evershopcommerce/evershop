@@ -18,8 +18,5 @@ class AddCollectionPage {
     await page.fill(this.descInputSelector, inputData[0].description);
     await page.click(this.saveButtonSelector);
   }
-  async checkAddProductBtn() {
-    await expect(page.locator(this.addProductSelector)).toBeVisible();
-  }
 }
 module.exports = { AddCollectionPage };

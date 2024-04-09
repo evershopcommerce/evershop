@@ -28,18 +28,14 @@ class CustomerStatusPage {
     await page.click(this.criticalBtnSelector);
   }
 
-  async checkDisabledStatus() {
+  async disableStatus() {
     await page.click(this.customerSelector1);
-    await expect(page.locator(this.disableStatusSelector)).toContainText(
-      'Disabled'
-    );
+    
   }
 
-  async checkEnabledStatus() {
+  async enableStatus() {
     await page.click(this.customerSelector2);
-    await expect(page.locator(this.enabledStatusSelector)).toContainText(
-      'Enabled'
-    );
+    
   }
 }
 module.exports = { CustomerStatusPage };

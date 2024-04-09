@@ -7,13 +7,8 @@ class ViewAttributePage {
     this.tableSelector = "//table[@class='listing sticky']";
   }
 
-  async navigateToAttribute(){
-    await page.click(this.attributeBtnSelector)
+  async navigateToAttribute() {
+    await page.click(this.attributeBtnSelector);
   }
-
-  async checkForTable(){
-    await expect(page.locator(this.tableSelector)).toBeVisible()
-  }
-
 }
 module.exports = { ViewAttributePage };

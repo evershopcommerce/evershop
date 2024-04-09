@@ -10,8 +10,5 @@ class OrdersPage {
   async navigateToOrdersPage() {
     await page.click(this.ordersBtnSelector);
   }
-  async checkForTable() {
-    await expect(page.locator(this.tableSelector)).toBeVisible();
-  }
 }
 module.exports = { OrdersPage };

@@ -7,13 +7,8 @@ class CollectionPage {
     this.tableSelector = "//table[@class='listing sticky']";
   }
 
-  async navigateToCollections(){
-    await page.click(this.collectionsBtnSelector)
+  async navigateToCollections() {
+    await page.click(this.collectionsBtnSelector);
   }
-
-  async checkForTable(){
-    await expect(page.locator(this.tableSelector)).toBeVisible()
-  }
-
 }
 module.exports = { CollectionPage };
