@@ -10,7 +10,7 @@ When(
     await addAttributePage.addAttributes(dataTable);
   }
 );
-
+//dummy comment to practice CI-CD
 Then(
   'user {string} should be able to view all attributes with name {string}',
   async function (string, name, dataTable) {
