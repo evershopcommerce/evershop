@@ -1,0 +1,57 @@
+name: Project setup
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Set-up PostgreSQL
+        uses: ikalnytskyi/action-setup-postgres@v5
+        with:
+          postgresql version: "14"
+
+      # - name: Set-up PostgreSQL
+      #   run: |
+      #       sudo apt-get update
+      #       sudo apt-get install -y postgresql postgresql-contrib
+      #       sudo service postgresql start
+      #       sudo -u postgres psql -c "CREATE DATABASE evershopDemo;"
+
+      - name: Install dependencies
+        run: npm install
+
+      # create your admin user
+      - name: Create database schema
+        run: |
+          npm run setup
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: evershop
+          DB_USER: postgres
+          DB_PASSWORD: pgAdmin12345
+          ADMIN_EMAIL: example@gmail.com
+          ADMIN_PASSWORD: pSynidexxx.89964
+
+      - name: Start development server
+        run: npm run dev
+
+      - name: Run e2e tests
+        working-directory: tests
+        run: |
+          npm install @playwright/test 
+          npm install playwright
+          npx playwright install chromium
+          npm run test:e2e e2e/features/viewOrders.feature
