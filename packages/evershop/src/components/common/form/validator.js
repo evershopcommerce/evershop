@@ -13,8 +13,12 @@ const rules = {
   },
   number: {
     handler(value) {
-      if (value === null || value === undefined || value === '') return true;
-      return /^-?[0-9]+$/.test(value);
+      if (value === null || value === undefined || value === '') {
+        return true;
+      }
+
+      // Allowing integer and float
+      return !Number.isNaN(value);
     },
     errorMessage: 'Invalid number'
   },

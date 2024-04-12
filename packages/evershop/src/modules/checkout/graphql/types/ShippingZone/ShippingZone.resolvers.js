@@ -74,5 +74,11 @@ module.exports = {
         method_id: uuid
       });
     }
+  },
+  WeightBasedCostItem: {
+    minWeight: ({ min_weight }) => min_weight
+  },
+  PriceBasedCostItem: {
+    minPrice: ({ min_price }) => min_price
   }
 };

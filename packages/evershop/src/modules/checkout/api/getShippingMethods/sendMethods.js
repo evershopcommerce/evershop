@@ -131,6 +131,43 @@ module.exports = async (request, response, delegate, next) => {
             ...method,
             cost: toPrice(jsonResponse.data.data.cost, true)
           };
+        } else if (method.weight_based_cost) {
+          const totalWeight = cart.total_weight;
+          const weightBasedCost = method.weight_based_cost
+            .map(({ min_weight, cost }) => ({
+              min_weight: parseFloat(min_weight),
+              cost: toPrice(cost)
+            }))
+            .sort((a, b) => a.min_weight - b.min_weight);
+
+          let cost = 0;
+          for (let i = 0; i < weightBasedCost.length; i += 1) {
+            if (totalWeight >= weightBasedCost[i].min_weight) {
+              cost = weightBasedCost[i].cost;
+            }
+          }
+          return {
+            ...method,
+            cost: toPrice(cost, true)
+          };
+        } else if (method.price_based_cost) {
+          const subTotal = toPrice(cart.sub_total);
+          const priceBasedCost = method.price_based_cost
+            .map(({ min_price, cost }) => ({
+              min_price: toPrice(min_price),
+              cost: toPrice(cost)
+            }))
+            .sort((a, b) => a.min_price - b.min_price);
+          let cost = 0;
+          for (let i = 0; i < priceBasedCost.length; i += 1) {
+            if (subTotal >= priceBasedCost[i].min_price) {
+              cost = priceBasedCost[i].cost;
+            }
+          }
+          return {
+            ...method,
+            cost: toPrice(cost, true)
+          };
         } else {
           return {
             ...method,

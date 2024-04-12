@@ -47,7 +47,7 @@ export function Field(props) {
     return () => {
       context.removeField(name);
     };
-  }, []);
+  }, [name]);
 
   React.useEffect(() => {
     setFieldValue(value);

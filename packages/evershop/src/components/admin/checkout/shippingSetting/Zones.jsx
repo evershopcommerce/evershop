@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Zone from './Zone';
+import Zone from '@components/admin/checkout/shippingSetting/Zone';
 
 export function Zones({ countries, getZones, zones }) {
   return (
