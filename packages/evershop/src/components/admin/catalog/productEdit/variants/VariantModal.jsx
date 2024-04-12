@@ -28,13 +28,18 @@ export function VariantModal({
         </div>
         <div className="col-span-1">
           <div className="grid grid-cols-2 gap-x-1 border-b border-divider pb-15 mb-15">
-            {variantAttributes.map((a) => (
+            {variantAttributes.map((a, index) => (
               <div key={a.attributeId} className="mt-1 col">
                 <div>
                   <label>{a.attributeName}</label>
                 </div>
+                <input
+                  type="hidden"
+                  name={`attributes[${index}][attribute_code]`}
+                  value={a.attributeCode}
+                />
                 <Field
-                  name={a.attributeCode}
+                  name={`attributes[${index}][value]`}
                   validationRules={['notEmpty']}
                   value={
                     variant?.attributes.find(

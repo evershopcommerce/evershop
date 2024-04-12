@@ -4,7 +4,7 @@ import { useQuery } from 'urql';
 import { Card } from '@components/admin/cms/Card';
 import { CreateVariant } from '@components/admin/catalog/productEdit/variants/CreateVariant';
 import Spinner from '@components/common/Spinner';
-import { Variant } from './Variant';
+import { Variant } from '@components/admin/catalog/productEdit/variants/Variant';
 
 export const VariantQuery = `
 query Query($productId: ID!) {
