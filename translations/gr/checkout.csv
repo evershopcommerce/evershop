@@ -1,0 +1,62 @@
+Total,Σύνολο
+Order,Παραγγελία
+Sku,Κωδικός SKU
+Continue to shipping,Συνέχεια στην αποστολή
+Continue shopping,Συνέχιση αγορών
+Continue Shopping,Συνέχιση Αγορών
+CONTINUE SHOPPING,ΣΥΝΕΧΙΣΕ ΤΙΣ ΑΓΟΡΕΣ
+Shopping cart,Καλάθι Αγορών
+Product,Προϊόν
+Price,Τιμή
+Quantity,Ποσότητα
+Remove,Αφαίρεση
+Qty,Ποσότητα
+Sub total,Μερικό σύνολο
+Discount(${coupon}),Έκπτωση(${coupon})
+Order summary,Περίληψη Παραγγελίας
+Taxes and shipping calculated at checkout,Οι φόροι και τα έξοδα αποστολής υπολογίζονται κατά την ολοκλήρωση της παραγγελίας
+CHECKOUT,ΟΛΟΚΛΗΡΩΣΗ ΠΑΡΑΓΓΕΛΙΑΣ
+Change,Αλλαγή
+Payment Method,Μέθοδος Πληρωμής
+Shipping Address,Διεύθυνση Αποστολής
+Shipping Method,Μέθοδος Αποστολής
+No payment methods available,Δεν υπάρχουν διαθέσιμες μέθοδοι πληρωμής
+Place Order,Ολοκλήρωση Παραγγελίας
+My billing address is same as shipping address,Η διεύθυνση χρέωσης μου είναι ίδια με τη διεύθυνση αποστολής
+${count} items,${count} αντικείμενα
+Discount,Έκπτωση
+Shipping,Αποστολή
+No tax,Χωρίς φόρο
+Tax,Φόρος
+Sorry,Λυπούμαστε
+Please enter a shipping address in order to see shipping quotes,Παρακαλώ εισάγετε μια διεύθυνση αποστολής για να δείτε τα τελικά έξοδα αποστολής
+Continue to payment,Συνέχεια στην πληρωμή
+No payment method available,Δεν υπάρχει διαθέσιμη μέθοδος πληρωμής
+Ship to,Αποστολή προς
+Shipment,Αποστολή
+Thank you ${name}!,Ευχαριστούμε ${name}!
+Contact information,Στοιχεία Επικοινωνίας
+Order #${orderNumber},Παραγγελία #${orderNumber}
+ADD TO CART,ΠΡΟΣΘΗΚΗ ΣΤΟ ΚΑΛΑΘΙ
+Please select variant options,Παρακαλώ επιλέξτε παραλλαγές
+VIEW CART (${count}),ΠΡΟΒΟΛΗ ΚΑΛΑΘΙΟΥ (${count})
+JUST ADDED TO YOUR CART,ΠΡΟΣΤΙΘΕΜΕΝΟ ΣΤΟ ΚΑΛΑΘΙ ΣΑΣ
+Promotion code?,Κωδικός Προώθησης;
+Enter coupon code,Εισαγωγή κωδικού κουπονιού
+Apply,Εφαρμογή
+Your cart is empty!,Το καλάθι αγορών σας είναι άδειο!
+Full name,Ονοματεπώνυμο
+Telephone,Τηλέφωνο
+Address,Διεύθυνση
+City,Πόλη
+Country,Χώρα
+Postcode,Ταχυδρομικός Κώδικας
+Inclusive of tax,Συμπεριλαμβανομένου του φόρου
+Sorry,Λυπούμαστε
+Full name is required,Απαιτείται ονοματεπώνυμο
+Telephone is required,Απαιτείται τηλέφωνο
+Address is required,Απαιτείται διεύθυνση
+City is required,Απαιτείται πόλη
+Country is required,Απαιτείται χώρα
+Postcode is required,Απαιτείται ταχυδρομικός κώδικας
+Contact,Επικοινωνία
