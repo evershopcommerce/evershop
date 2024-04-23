@@ -23,7 +23,6 @@ jobs:
       - name: Setup PostgreSQL
         uses: ikalnytskyi/action-setup-postgres@v5
         with: 
-          postgresql-version: 14
           port: 5432
           database: evershop
           username: postgres
@@ -39,12 +38,16 @@ jobs:
           DB_PORT: 5432
           DB_NAME: evershop
           DB_USER: postgres
-          DB_PASSWORD: pgAdmin12345
-          ADMIN_EMAIL: example@gmail.com
-          ADMIN_PASSWORD: pSynidexxx.899
+          DB_TABLE: admin_user
+          ADMIN_EMAIL: admin@admin.com
+          ADMIN_PASSWORD: a1234578
           SUPPRESS_NO_CONFIG_WARNING: "true"
-        run:  |
-          npm run build
+          PGPASSWORD: pgAdmin12345
+        run: |
+          cd tests
+          ./setupDB.sh
+          cd ..
+          npm run user:create -- --name admin --email $ADMIN_EMAIL --password $ADMIN_PASSWORD 
           npm run dev &
 
       - name: Wait for development server
