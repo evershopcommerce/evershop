@@ -1,6 +1,5 @@
 class LoginPage {
   constructor() {
-    //locators
     this.adminPanelUrl = 'http://localhost:3000/admin';
     this.adminLoginUrl = 'http://localhost:3000/admin/login';
     this.emailSelector = "//input[@name='email']";
@@ -14,12 +13,9 @@ class LoginPage {
   async navigateToLoginPage() {
     await page.goto(this.adminLoginUrl);
   }
-  async fillLoginInputFields(inputData) {
+  async login(inputData) {
     await page.fill(this.emailSelector, inputData[0].email);
     await page.fill(this.passwordSelector, inputData[0].password);
-  }
-
-  async clickLoginBtn() {
     await page.click(this.loginBtnSelector);
   }
 }

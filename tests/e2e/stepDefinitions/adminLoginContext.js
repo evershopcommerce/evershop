@@ -15,8 +15,8 @@ When(
   'user {string} logs in with following credentials',
   async function (string, dataTable) {
     const credentials = dataTable.hashes();
-    await login.fillLoginInputFields(credentials);
-    await login.clickLoginBtn();
+    await login.login(credentials);
+   
   }
 );
 
@@ -35,7 +35,6 @@ When('the user tries to log in with following credentials', async function (data
 });
 
 Then('error message {string} should be shown', async function (errorMessage) {
-  // await expect(page.locator(loginPage.loginBtnSelector)).toBeVisible();
   let errorMessageSelectors = [
     login.alertMsgSelector1,
     login.alertMsgSelector2
@@ -44,10 +43,8 @@ Then('error message {string} should be shown', async function (errorMessage) {
   for (let selector of errorMessageSelectors) {
     try {
       await expect(await page.locator(selector)).toContainText(errorMessage);
-      // If the expectation passes, return immediately
       return;
     } catch (error) {
-      // If the expectation fails, continue to the next error message
       continue;
     }
   }
