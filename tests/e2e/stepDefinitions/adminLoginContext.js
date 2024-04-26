@@ -12,7 +12,7 @@ Given(
 );
 
 When(
-  'user {string} login with following credentials',
+  'user {string} logs in with following credentials',
   async function (string, dataTable) {
     const credentials = dataTable.hashes();
     await login.fillLoginInputFields(credentials);
@@ -28,7 +28,7 @@ Then(
   }
 );
 
-When('the user login with following credentials', async function (dataTable) {
+When('the user tries to log in with following credentials', async function (dataTable) {
   const invalidCredentials = dataTable.hashes();
   await login.fillLoginInputFields(invalidCredentials);
   await login.clickLoginBtn();
