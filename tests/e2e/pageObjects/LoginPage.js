@@ -5,6 +5,7 @@ class LoginPage {
     this.emailSelector = "//input[@name='email']";
     this.passwordSelector = "//input[@name='password']";
     this.loginBtnSelector = "//button[@class='button primary']";
+    this.alertMsgSelector = "//div[text()='%s']"
     this.alertMsgSelector1 = "//div[@class='text-critical py-1']";
     this.alertMsgSelector2 = "//div[@class='pt025 flex']";
     this.dashboardSeletor = "//div[@class='self-center']/h1";

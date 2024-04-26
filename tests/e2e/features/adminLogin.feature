@@ -1,6 +1,6 @@
 Feature: login 
-    As a user
-    I want to be able to log in to the website admin panel
+    As an admin
+    I want to log in to the website admin panel
     So that I can manage my products
 
     Background: 
@@ -9,13 +9,13 @@ Feature: login
 
     Scenario: login with valid credentials
         When user 'admin' logs in with following credentials
-            | emailvv         | password |
+            | email         | password |
             | admin@admin.com | a1234578 | 
         Then user 'admin' should be navigated to admin panel dashboard
 
 
    Scenario Outline: login with invalid credentials
-        When the user tries logs in with following credentials
+        When the user tries to log in with following credentials
             | email   | password   |
             | <email> | <password> |
         Then error message "<errorMessage>" should be shown

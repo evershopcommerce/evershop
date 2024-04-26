@@ -44,7 +44,9 @@ jobs:
           SUPPRESS_NO_CONFIG_WARNING: "true"
           PGPASSWORD: pgAdmin12345
         run: |
+          cd tests
           ./setupDB.sh
+          cd ..
           npm run user:create -- --name admin --email $ADMIN_EMAIL --password $ADMIN_PASSWORD 
           npm run dev &
 
