@@ -38,7 +38,7 @@ jobs:
           DB_PORT: 5432
           DB_NAME: evershop
           DB_USER: postgres
-          DB_TABLE: admin_user
+          DB_TABLE: user_admin
           ADMIN_EMAIL: admin@admin.com
           ADMIN_PASSWORD: a1234578
           SUPPRESS_NO_CONFIG_WARNING: "true"
