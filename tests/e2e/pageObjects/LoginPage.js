@@ -1,14 +1,11 @@
-const config = require('../config.js')
+const config = require('../config.js');
 class LoginPage {
   constructor() {
     this.adminPanelUrl = `${config.baseUrl}/admin`;
-    this.adminLoginUrl = `${config.baseUrl}/admin/login`
+    this.adminLoginUrl = `${config.baseUrl}/admin/login`;
     this.emailSelector = "//input[@name='email']";
     this.passwordSelector = "//input[@name='password']";
     this.loginBtnSelector = "//button[@class='button primary']";
-    this.alertMsgSelector = "//div[text()='%s']"
-    this.alertMsgSelector1 = "//div[@class='text-critical py-1']";
-    this.alertMsgSelector2 = "//div[@class='pt025 flex']";
     this.dashboardSeletor = "//div[@class='self-center']/h1";
   }
 

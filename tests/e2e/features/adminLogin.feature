@@ -9,7 +9,7 @@ Feature: login
 
     Scenario: login with valid credentials
         When user 'admin' logs in with following credentials
-            | email         | password |
+            | email           | password |
             | admin@admin.com | a1234578 | 
         Then user 'admin' should be navigated to admin panel dashboard
 
@@ -26,3 +26,4 @@ Feature: login
             | admin@admin.com  |                | This field can not be empty |
             |                  | pSynidexxx.899 | This field can not be empty |
             |                  |                | This field can not be empty |
+            | admin            | adminadmin123  | Invalid email               |
