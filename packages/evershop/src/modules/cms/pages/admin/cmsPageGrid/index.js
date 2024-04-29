@@ -11,6 +11,5 @@ module.exports = (request, response) => {
     title: 'Cms pages',
     description: 'Cms pages'
   });
-  const { query } = request;
-  setContextValue(request, 'filtersFromUrl', buildFilterFromUrl(query));
+  setContextValue(request, 'filtersFromUrl', buildFilterFromUrl(request));
 };

@@ -5,7 +5,7 @@ export default function DummyColumnHeader({ title }) {
   return (
     <th className="column">
       <div className="table-header id-header">
-        <div className="title">
+        <div className="font-medium uppercase text-xl">
           <span>{title}</span>
         </div>
       </div>

@@ -1,4 +1,9 @@
 const config = require('config');
+const registerDefaultOrderCollectionFilters = require('./services/registerDefaultOrderCollectionFilters');
+const {
+  defaultPaginationFilters
+} = require('../../lib/util/defaultPaginationFilters');
+const { addProcessor } = require('../../lib/util/registry');
 
 module.exports = () => {
   // Default order status and carriers configuration
@@ -57,4 +62,16 @@ module.exports = () => {
     }
   };
   config.util.setModuleDefaults('oms', orderStatusConfig);
+
+  // Reigtering the default filters for attribute collection
+  addProcessor(
+    'orderCollectionFilters',
+    registerDefaultOrderCollectionFilters,
+    1
+  );
+  addProcessor(
+    'orderCollectionFilters',
+    (filters) => [...filters, ...defaultPaginationFilters],
+    2
+  );
 };

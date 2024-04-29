@@ -1,4 +1,20 @@
 """
+Represents a price based cost
+"""
+type PriceBasedCostItem {
+  minPrice: Price!
+  cost: Price!
+}
+
+"""
+Represents a weight based cost
+"""
+type WeightBasedCostItem {
+  minWeight: Price!
+  cost: Price!
+}
+
+"""
 Represents a shipping method.
 """
 type ShippingMethodByZone {
@@ -7,6 +23,8 @@ type ShippingMethodByZone {
   uuid: String!
   name: String!
   cost: Price
+  priceBasedCost: [PriceBasedCostItem]
+  weightBasedCost: [WeightBasedCostItem]
   isEnabled: Boolean!
   calculateApi: String
   conditionType: String

@@ -10,9 +10,11 @@ import { useAlertContext } from '@components/common/modal/Alert';
 import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Card } from '@components/admin/cms/Card';
 import CollectionNameRow from '@components/admin/catalog/collectionGrid/rows/CollectionNameRow';
-import BasicColumnHeader from '@components/common/grid/headers/Basic';
 import TextRow from '@components/common/grid/rows/TextRow';
 import DummyColumnHeader from '@components/common/grid/headers/Dummy';
+import SortableHeader from '@components/common/grid/headers/Sortable';
+import { Form } from '@components/common/form/Form';
+import { Field } from '@components/common/form/Field';
 
 function Actions({ collections = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -106,6 +108,45 @@ export default function CollectionGrid({
   return (
     <div className="w-2/3" style={{ margin: '0 auto' }}>
       <Card>
+        <Card.Session
+          title={
+            <Form submitBtn={false}>
+              <Field
+                type="text"
+                id="name"
+                placeholder="Search"
+                value={currentFilters.find((f) => f.key === 'name')?.value}
+                onKeyPress={(e) => {
+                  // If the user press enter, we should submit the form
+                  if (e.key === 'Enter') {
+                    const url = new URL(document.location);
+                    const name = document.getElementById('name')?.value;
+                    if (name) {
+                      url.searchParams.set('name[operation]', 'like');
+                      url.searchParams.set('name[value]', name);
+                    } else {
+                      url.searchParams.delete('name[operation]');
+                      url.searchParams.delete('name[value]');
+                    }
+                    window.location.href = url;
+                  }
+                }}
+              />
+            </Form>
+          }
+          actions={[
+            {
+              variant: 'interactive',
+              name: 'Clear filter',
+              onAction: () => {
+                // Just get the url and remove all query params
+                const url = new URL(document.location);
+                url.search = '';
+                window.location.href = url.href;
+              }
+            }
+          ]}
+         />
         <table className="listing sticky">
           <thead>
             <tr>
@@ -140,9 +181,9 @@ export default function CollectionGrid({
                   {
                     component: {
                       default: () => (
-                        <BasicColumnHeader
+                        <SortableHeader
                           title="Collection Name"
-                          id="name"
+                          name="name"
                           currentFilters={currentFilters}
                         />
                       )
@@ -152,9 +193,9 @@ export default function CollectionGrid({
                   {
                     component: {
                       default: () => (
-                        <BasicColumnHeader
+                        <SortableHeader
                           title="Code"
-                          id="code"
+                          name="code"
                           currentFilters={currentFilters}
                         />
                       )

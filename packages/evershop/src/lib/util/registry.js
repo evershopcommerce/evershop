@@ -10,7 +10,8 @@ class Registry {
       // If the initValue and the context are identical, return the cached value. Skip the processors
       if (
         isEqual(initValue, this.values[name].initValue) &&
-        isEqual(this.values[name].context, context)
+        isEqual(this.values[name].context, context) &&
+        Object.prototype.hasOwnProperty.call(this.values[name], 'value')
       ) {
         return this.values[name].value;
       }
@@ -65,7 +66,8 @@ class Registry {
       // If the initValue and the context are identical, return the cached value. Skip the processors
       if (
         isEqual(initValue, this.values[name].initValue) &&
-        isEqual(this.values[name].context, context)
+        isEqual(this.values[name].context, context) &&
+        Object.prototype.hasOwnProperty.call(this.values[name], 'value')
       ) {
         return this.values[name].value;
       }
@@ -167,22 +169,52 @@ const registry = new Registry();
 module.exports = {
   /**
    * @param {String} name
-   * @param {any} initValue
+   * @param {any} initialization
    * @param {Object} context
    * @param {Function} validator
    */
-  async getValue(name, initValue, context, validator) {
+  async getValue(name, initialization, context, validator) {
+    let initValue;
+    // Check if the initValue is a function, then add this function to the processors as the first processor
+    if (typeof initialization === 'function') {
+      // Add this function to the processors, add this to the biginning of the processors
+      const processors = this.values[name] ? this.values[name].processors : [];
+      processors.unshift({
+        callback: initialization,
+        priority: 0
+      });
+      this.values[name] = this.values[name] || {};
+      this.values[name].processors = processors;
+    } else {
+      initValue = initialization;
+    }
     const val = await registry.get(name, initValue, context, validator);
     return val;
   },
 
   /**
    * @param {String} name
-   * @param {any} initValue
+   * @param {any} initialization
    * @param {Object} context
    * @param {Function} validator
    */
-  getValueSync(name, initValue, context, validator) {
+  getValueSync(name, initialization, context, validator) {
+    let initValue;
+    // Check if the initValue is a function, then add this function to the processors as the first processor
+    if (typeof initialization === 'function') {
+      // Add this function to the processors, add this to the biginning of the processors
+      const processors = registry.values[name]
+        ? registry.values[name]?.processors
+        : [];
+      processors.unshift({
+        callback: initialization,
+        priority: 0
+      });
+      registry.values[name] = registry.values[name] || {};
+      registry.values[name].processors = processors;
+    } else {
+      initValue = initialization;
+    }
     const val = registry.getSync(name, initValue, context, validator);
     return val;
   },

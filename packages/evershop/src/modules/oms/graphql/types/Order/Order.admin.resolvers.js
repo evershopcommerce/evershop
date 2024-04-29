@@ -8,7 +8,7 @@ module.exports = {
     orders: async (_, { filters = [] }) => {
       const query = getOrdersBaseQuery();
       const root = new OrderCollection(query);
-      await root.init({}, { filters });
+      await root.init(filters);
       return root;
     }
   },

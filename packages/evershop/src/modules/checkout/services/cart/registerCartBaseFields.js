@@ -262,6 +262,7 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
             );
           shippingMethodQuery
             .where('uuid', '=', shippingMethod)
+            .and('is_enabled', '=', true)
             .and(
               'shipping_zone_method.zone_id',
               '=',
@@ -383,6 +384,37 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
                 this.setError('shipping_fee_excl_tax', response.data.message);
                 return 0;
               }
+            } else if (shippingMethod.weight_based_cost) {
+              const totalWeight = this.getData('total_weight');
+              const weightBasedCost = shippingMethod.weight_based_cost
+                .map(({ min_weight, cost }) => ({
+                  min_weight: parseFloat(min_weight),
+                  cost: toPrice(cost)
+                }))
+                .sort((a, b) => a.min_weight - b.min_weight);
+
+              let cost = 0;
+              for (let i = 0; i < weightBasedCost.length; i += 1) {
+                if (totalWeight >= weightBasedCost[i].min_weight) {
+                  cost = weightBasedCost[i].cost;
+                }
+              }
+              return toPrice(cost);
+            } else if (shippingMethod.price_based_cost) {
+              const subTotal = this.getData('sub_total');
+              const priceBasedCost = shippingMethod.price_based_cost
+                .map(({ min_price, cost }) => ({
+                  min_price: toPrice(min_price),
+                  cost: toPrice(cost)
+                }))
+                .sort((a, b) => a.min_price - b.min_price);
+              let cost = 0;
+              for (let i = 0; i < priceBasedCost.length; i += 1) {
+                if (subTotal >= priceBasedCost[i].min_price) {
+                  cost = priceBasedCost[i].cost;
+                }
+              }
+              return toPrice(cost);
             } else {
               this.setError(
                 'shipping_fee_excl_tax',

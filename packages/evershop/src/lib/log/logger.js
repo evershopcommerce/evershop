@@ -5,7 +5,7 @@ const { errors } = winston.format;
 const customColorize = require('./CustomColorize');
 const isDevelopmentMode = require('../util/isDevelopmentMode');
 const { getEnv } = require('../util/getEnv');
-const { getValueSync } = require('../util/registry');
+const { getValueSync, addProcessor } = require('../util/registry');
 
 const isDebugging = isDevelopmentMode() || process.argv.includes('--debug');
 const format = winston.format.combine(
@@ -30,7 +30,7 @@ const format = winston.format.combine(
         icon = '❌'; // Error icon
         break;
       case 'warn':
-        icon = '⚠️'; // Warning icon
+        icon = '⚠️ '; // Warning icon
         break;
       case 'info':
         icon = 'ℹ️'; // Info icon
@@ -108,11 +108,7 @@ const DEFAULT_CONFIG = {
 };
 
 function createLogger() {
-  const config = getValueSync('logger_configuration', DEFAULT_CONFIG, {
-    isDebugging
-  });
-
-  return getValueSync('logger', winston.createLogger(config), { isDebugging });
+  return getValueSync('logger', null, { isDebugging });
 }
 
 // Define logger function
@@ -140,6 +136,17 @@ function success(message) {
   const logger = createLogger();
   logger.info(message);
 }
+
+addProcessor(
+  'logger',
+  () => {
+    const config = getValueSync('logger_configuration', DEFAULT_CONFIG, {
+      isDebugging
+    });
+    return winston.createLogger(config);
+  },
+  0
+);
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {

@@ -7,10 +7,11 @@ import { useAlertContext } from '@components/common/modal/Alert';
 import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Card } from '@components/admin/cms/Card';
 import Area from '@components/common/Area';
-import BasicColumnHeader from '@components/common/grid/headers/Basic';
-import StatusColumnHeader from '@components/common/grid/headers/Status';
 import StatusRow from '@components/common/grid/rows/StatusRow';
 import PageName from '@components/admin/cms/cmsPageGrid/rows/PageName';
+import { Form } from '@components/common/form/Form';
+import { Field } from '@components/common/form/Field';
+import SortableHeader from '@components/common/grid/headers/Sortable';
 
 function Actions({ pages = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -164,6 +165,60 @@ export default function CMSPageGrid({
 
   return (
     <Card>
+      <Card.Session
+        title={
+          <Form submitBtn={false}>
+            <Area
+              id="cmsPageGridFilter"
+              noOuter
+              coreComponents={[
+                {
+                  component: {
+                    default: () => (
+                      <Field
+                        type="text"
+                        id="name"
+                        placeholder="Search"
+                        value={
+                          currentFilters.find((f) => f.key === 'name')?.value
+                        }
+                        onKeyPress={(e) => {
+                          // If the user press enter, we should submit the form
+                          if (e.key === 'Enter') {
+                            const url = new URL(document.location);
+                            const name = document.getElementById('name')?.value;
+                            if (name) {
+                              url.searchParams.set('name[operation]', 'like');
+                              url.searchParams.set('name[value]', name);
+                            } else {
+                              url.searchParams.delete('name[operation]');
+                              url.searchParams.delete('name[value]');
+                            }
+                            window.location.href = url;
+                          }
+                        }}
+                      />
+                    )
+                  },
+                  sortOrder: 10
+                }
+              ]}
+            />
+          </Form>
+        }
+        actions={[
+          {
+            variant: 'interactive',
+            name: 'Clear filter',
+            onAction: () => {
+              // Just get the url and remove all query params
+              const url = new URL(document.location);
+              url.search = '';
+              window.location.href = url.href;
+            }
+          }
+        ]}
+       />
       <table className="listing sticky">
         <thead>
           <tr>
@@ -186,9 +241,9 @@ export default function CMSPageGrid({
                 {
                   component: {
                     default: () => (
-                      <BasicColumnHeader
+                      <SortableHeader
                         title="Name"
-                        id="name"
+                        name="name"
                         currentFilters={currentFilters}
                       />
                     )
@@ -198,12 +253,10 @@ export default function CMSPageGrid({
                 {
                   component: {
                     default: () => (
-                      <StatusColumnHeader
+                      <SortableHeader
                         title="Status"
-                        id="status"
-                        currentFilter={currentFilters.find(
-                          (f) => f.key === 'status'
-                        )}
+                        name="status"
+                        currentFilters={currentFilters}
                       />
                     )
                   },

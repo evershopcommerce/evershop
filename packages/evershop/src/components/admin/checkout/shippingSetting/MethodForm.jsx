@@ -10,6 +10,8 @@ import CreatableSelect from 'react-select/creatable';
 import Spinner from '@components/common/Spinner';
 import { useQuery } from 'urql';
 import { toast } from 'react-toastify';
+import PriceBasedPrice from '@components/admin/checkout/shippingSetting/PriceBasedPrice';
+import WeightBasedPrice from '@components/admin/checkout/shippingSetting/WeightBasedPrice';
 
 const MethodsQuery = `
   query Methods {
@@ -83,9 +85,18 @@ Condition.defaultProps = {
 };
 
 function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
-  const [type, setType] = React.useState(
-    method?.calculateApi ? 'api' : 'flat_rate'
-  );
+  const [type, setType] = React.useState(() => {
+    if (method?.calculateApi) {
+      return 'api';
+    }
+    if (method?.priceBasedCost) {
+      return 'price_based_rate';
+    }
+    if (method?.weightBasedCost) {
+      return 'weight_based_rate';
+    }
+    return 'flat_rate';
+  });
   const [isLoading, setIsLoading] = React.useState(false);
   const [shippingMethod, setMethod] = React.useState(
     method
@@ -138,6 +149,7 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
           if (!response.error) {
             await getZones({ requestPolicy: 'network-only' });
             closeModal();
+            toast.success('Shipping method saved successfully');
           } else {
             toast.error(response.error.message);
           }
@@ -166,6 +178,8 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
             name="calculation_type"
             options={[
               { text: 'Flat rate', value: 'flat_rate' },
+              { text: 'Price based rate', value: 'price_based_rate' },
+              { text: 'Weight based rate', value: 'weight_based_rate' },
               { text: 'API calculate', value: 'api' }
             ]}
             defaultValue={method?.calculateApi ? 'api' : 'flat_rate'}
@@ -182,6 +196,12 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
               validationRules={['notEmpty']}
               value={method?.cost?.value}
             />
+          )}
+          {type === 'price_based_rate' && (
+            <PriceBasedPrice lines={method?.priceBasedCost || []} />
+          )}
+          {type === 'weight_based_rate' && (
+            <WeightBasedPrice lines={method?.weightBasedCost || []} />
           )}
           {type === 'api' && (
             <Field
@@ -242,6 +262,26 @@ MethodForm.propTypes = {
     cost: PropTypes.shape({
       value: PropTypes.string
     }),
+    priceBasedCost: PropTypes.arrayOf(
+      PropTypes.shape({
+        minPrice: PropTypes.shape({
+          value: PropTypes.number
+        }),
+        cost: PropTypes.shape({
+          value: PropTypes.number
+        })
+      })
+    ),
+    weightBasedCost: PropTypes.arrayOf(
+      PropTypes.shape({
+        minWeight: PropTypes.shape({
+          value: PropTypes.number
+        }),
+        cost: PropTypes.shape({
+          value: PropTypes.number
+        })
+      })
+    ),
     conditionType: PropTypes.string,
     min: PropTypes.string,
     max: PropTypes.string

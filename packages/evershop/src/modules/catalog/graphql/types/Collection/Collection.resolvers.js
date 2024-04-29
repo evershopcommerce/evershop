@@ -22,7 +22,7 @@ module.exports = {
     collections: async (_, { filters = [] }) => {
       const query = getCollectionsBaseQuery();
       const root = new CollectionCollection(query);
-      await root.init({}, { filters });
+      await root.init(filters);
       return root;
     }
   },
@@ -30,7 +30,7 @@ module.exports = {
     products: async (collection, { filters = [] }, { user }) => {
       const query = getProductsByCollectionBaseQuery(collection.collectionId);
       const root = new ProductCollection(query);
-      await root.init(collection, { filters }, { user });
+      await root.init(filters, !!user);
       return root;
     }
   },

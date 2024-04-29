@@ -31,7 +31,7 @@ module.exports = {
     categories: async (_, { filters = [] }, { user }) => {
       const query = getCategoriesBaseQuery();
       const root = new CategoryCollection(query);
-      await root.init({}, { filters }, { user });
+      await root.init(filters, !!user);
       return root;
     }
   },

@@ -7,16 +7,15 @@ import Pagination from '@components/common/grid/Pagination';
 import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { useAlertContext } from '@components/common/modal/Alert';
 import { Card } from '@components/admin/cms/Card';
-import BasicColumnHeader from '@components/common/grid/headers/Basic';
-import FromToColumnHeader from '@components/common/grid/headers/FromTo';
-import ShipmentStatusColumnHeader from '@components/admin/oms/orderGrid/headers/ShipmentStatusColumnHeader';
-import PaymentStatusColumnHeader from '@components/admin/oms/orderGrid/headers/PaymentStatusColumnHeader';
 import OrderNumberRow from '@components/admin/oms/orderGrid/rows/OrderNumberRow';
 import BasicRow from '@components/common/grid/rows/BasicRow';
 import ShipmentStatusRow from '@components/admin/oms/orderGrid/rows/ShipmentStatus';
 import PaymentStatusRow from '@components/admin/oms/orderGrid/rows/PaymentStatus';
 import TotalRow from '@components/admin/oms/orderGrid/rows/TotalRow';
 import CreateAt from '@components/admin/customer/customerGrid/rows/CreateAt';
+import { Form } from '@components/common/form/Form';
+import { Field } from '@components/common/form/Field';
+import SortableHeader from '@components/common/grid/headers/Sortable';
 
 function Actions({ orders = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -103,9 +102,7 @@ Actions.propTypes = {
 };
 
 export default function OrderGrid({
-  orders: { items: orders, total, currentFilters = [] },
-  shipmentStatusList,
-  paymentStatusList
+  orders: { items: orders, total, currentFilters = [] }
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
     ? currentFilters.find((filter) => filter.key === 'page').value
@@ -119,6 +116,59 @@ export default function OrderGrid({
 
   return (
     <Card>
+      <Card.Session
+        title={
+          <Form submitBtn={false}>
+            <Area
+              id="orderGridFilter"
+              noOuter
+              coreComponents={[
+                {
+                  component: {
+                    default: () => (
+                      <Field
+                        type="text"
+                        id="keyword"
+                        placeholder="Search"
+                        value={
+                          currentFilters.find((f) => f.key === 'keyword')?.value
+                        }
+                        onKeyPress={(e) => {
+                          // If the user press enter, we should submit the form
+                          if (e.key === 'Enter') {
+                            const url = new URL(document.location);
+                            const keyword =
+                              document.getElementById('keyword')?.value;
+                            if (keyword) {
+                              url.searchParams.set('keyword', keyword);
+                            } else {
+                              url.searchParams.delete('keyword');
+                            }
+                            window.location.href = url;
+                          }
+                        }}
+                      />
+                    )
+                  },
+                  sortOrder: 10
+                }
+              ]}
+            />
+          </Form>
+        }
+        actions={[
+          {
+            variant: 'interactive',
+            name: 'Clear filter',
+            onAction: () => {
+              // Just get the url and remove all query params
+              const url = new URL(document.location);
+              url.search = '';
+              window.location.href = url.href;
+            }
+          }
+        ]}
+      />
       <table className="listing sticky">
         <thead>
           <tr>
@@ -141,9 +191,9 @@ export default function OrderGrid({
                 {
                   component: {
                     default: () => (
-                      <BasicColumnHeader
+                      <SortableHeader
                         title="Order Number"
-                        id="orderNumber"
+                        name="number"
                         currentFilters={currentFilters}
                       />
                     )
@@ -153,9 +203,9 @@ export default function OrderGrid({
                 {
                   component: {
                     default: () => (
-                      <FromToColumnHeader
+                      <SortableHeader
                         title="Date"
-                        id="createdAt"
+                        name="created_at"
                         currentFilters={currentFilters}
                       />
                     )
@@ -165,9 +215,9 @@ export default function OrderGrid({
                 {
                   component: {
                     default: () => (
-                      <BasicColumnHeader
+                      <SortableHeader
                         title="Customer Email"
-                        id="customerEmail"
+                        name="email"
                         currentFilters={currentFilters}
                       />
                     )
@@ -177,10 +227,9 @@ export default function OrderGrid({
                 {
                   component: {
                     default: () => (
-                      <ShipmentStatusColumnHeader
+                      <SortableHeader
                         title="Shipment Status"
-                        id="shipmentStatus"
-                        shipmentStatusList={shipmentStatusList}
+                        name="shipment_status"
                         currentFilters={currentFilters}
                       />
                     )
@@ -190,10 +239,9 @@ export default function OrderGrid({
                 {
                   component: {
                     default: () => (
-                      <PaymentStatusColumnHeader
+                      <SortableHeader
                         title="Payment Status"
-                        id="paymentStatus"
-                        paymentStatusList={paymentStatusList}
+                        name="payment_status"
                         currentFilters={currentFilters}
                       />
                     )
@@ -203,9 +251,9 @@ export default function OrderGrid({
                 {
                   component: {
                     default: () => (
-                      <FromToColumnHeader
+                      <SortableHeader
                         title="Total"
-                        id="grandTotal"
+                        name="total"
                         currentFilters={currentFilters}
                       />
                     )
@@ -308,22 +356,6 @@ export default function OrderGrid({
 }
 
 OrderGrid.propTypes = {
-  paymentStatusList: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      badge: PropTypes.string.isRequired,
-      progress: PropTypes.number.isRequired
-    })
-  ).isRequired,
-  shipmentStatusList: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      badge: PropTypes.string.isRequired,
-      progress: PropTypes.number.isRequired
-    })
-  ).isRequired,
   orders: PropTypes.shape({
     items: PropTypes.arrayOf(
       PropTypes.shape({
@@ -416,18 +448,6 @@ export const query = `
         operation
         value
       }
-    }
-    shipmentStatusList {
-      text: name
-      value: code
-      badge
-      progress
-    }
-    paymentStatusList {
-      text: name
-      value: code
-      badge
-      progress
     }
   }
 `;

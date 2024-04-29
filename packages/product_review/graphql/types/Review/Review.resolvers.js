@@ -30,7 +30,7 @@ module.exports = {
     reviews: async (_, { filters }, { user }) => {
       const query = getReviewsBaseQuery();
       const root = new ReviewCollection(query);
-      await root.init({}, { filters }, { user });
+      await root.init(filters, !!user);
       return root;
     }
   },

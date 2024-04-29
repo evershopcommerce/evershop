@@ -6,11 +6,11 @@ type AttributeGroup {
   uuid: String!
   groupName: String!
   updateApi: String!
-  attributes: [Attribute]
+  attributes: AttributeCollection
 }
 
 extend type Attribute {
-  groups: [AttributeGroup]
+  groups: AttributeGroupCollection
   editUrl: String!
   updateApi: String!
   deleteApi: String!

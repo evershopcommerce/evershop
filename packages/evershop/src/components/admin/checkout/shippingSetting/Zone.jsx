@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 import { Card } from '@components/admin/cms/Card';
 import MapIcon from '@heroicons/react/solid/esm/LocationMarkerIcon';
 import { useModal } from '@components/common/modal/useModal';
-import ZoneForm from './ZoneForm';
-import { Methods } from './Methods';
+import ZoneForm from '@components/admin/checkout/shippingSetting/ZoneForm';
+import { Methods } from '@components/admin/checkout/shippingSetting/Methods';
 
 function Zone({ zone, countries, getZones }) {
   const modal = useModal();

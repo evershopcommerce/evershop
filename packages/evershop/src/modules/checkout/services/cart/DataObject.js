@@ -80,7 +80,7 @@ module.exports.DataObject = class DataObject {
     }
   }
 
-  async setData(key, value) {
+  async setData(key, value, force = false) {
     this.#triggeredField = key;
     this.#requestedValue = value;
     if (this.isBuilding === true) {
@@ -91,7 +91,7 @@ module.exports.DataObject = class DataObject {
       throw new Error(`Field ${key} not existed`);
     }
 
-    if (isEqualWith(this.#data[key], value)) {
+    if (isEqualWith(this.#data[key], value) && !force) {
       return value;
     }
 

@@ -5,9 +5,9 @@ import { Card } from '@components/admin/cms/Card';
 import SettingMenu from '@components/admin/setting/SettingMenu';
 import Button from '@components/common/form/Button';
 import { useModal } from '@components/common/modal/useModal';
-import ZoneForm from '@components/admin/oms/shippingSetting/ZoneForm';
+import ZoneForm from '@components/admin/checkout/shippingSetting/ZoneForm';
 import Spinner from '@components/common/Spinner';
-import { Zones } from '@components/admin/oms/shippingSetting/Zones';
+import { Zones } from '@components/admin/checkout/shippingSetting/Zones';
 
 const CountriesQuery = `
   query Country($countries: [String]) {
@@ -43,6 +43,26 @@ const ZonesQuery = `
           text
           value
         }
+        priceBasedCost {
+          minPrice {
+            value
+            text
+          }
+          cost {
+            value
+            text
+          }
+        }
+        weightBasedCost {
+          minWeight {
+            value
+            text
+          }
+          cost {
+            value
+            text
+          }
+        }
         isEnabled
         conditionType
         calculateApi
@@ -67,14 +87,6 @@ export default function ShippingSetting({ createShippingZoneApi }) {
     query: ZonesQuery
   });
 
-  if (countriesQueryData.fetching || zonesQueryData.fetching) {
-    return (
-      <div className="flex justify-center">
-        <Spinner />
-      </div>
-    );
-  }
-
   return (
     <div className="main-content-inner">
       <div className="grid grid-cols-6 gap-x-2 grid-flow-row ">
@@ -82,27 +94,45 @@ export default function ShippingSetting({ createShippingZoneApi }) {
           <SettingMenu />
         </div>
         <div className="col-span-4">
-          <Card>
+          {countriesQueryData.fetching || zonesQueryData.fetching ? (
             <Card.Session title="Shipping">
-              <div>
-                Choose where you ship and how much you charge for shipping.
+              <div className="flex justify-center p-2">
+                <Spinner width={25} height={25} />
               </div>
             </Card.Session>
-            <Zones
-              zones={zonesQueryData.data.shippingZones}
-              countries={countriesQueryData.data.countries}
-              getZones={reexecuteQuery}
-            />
-            <Card.Session>
-              <div>
-                <Button
-                  title="Create new shipping zone"
-                  variant="primary"
-                  onAction={() => modal.openModal()}
+          ) : (
+            <Card>
+              <Card.Session title="Shipping">
+                <div>
+                  Choose where you ship and how much you charge for shipping.
+                </div>
+              </Card.Session>
+              {zonesQueryData.error ? (
+                <Card.Session>
+                  <div>
+                    <p className="text-critical">
+                      {zonesQueryData.error.message}
+                    </p>
+                  </div>
+                </Card.Session>
+              ) : (
+                <Zones
+                  zones={zonesQueryData.data.shippingZones}
+                  countries={countriesQueryData.data.countries}
+                  getZones={reexecuteQuery}
                 />
-              </div>
-            </Card.Session>
-          </Card>
+              )}
+              <Card.Session>
+                <div>
+                  <Button
+                    title="Create new shipping zone"
+                    variant="primary"
+                    onAction={() => modal.openModal()}
+                  />
+                </div>
+              </Card.Session>
+            </Card>
+          )}
         </div>
       </div>
       {modal.state.showing && (

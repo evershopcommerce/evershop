@@ -20,7 +20,15 @@ module.exports = async (request, response, deledate, next) => {
   const { method_id, zone_id } = request.params;
   const connection = await getConnection();
   await startTransaction(connection);
-  let { cost, condition_type, calculate_api, min, max } = request.body;
+  let {
+    cost,
+    condition_type,
+    calculate_api,
+    price_based_cost,
+    weight_based_cost,
+    min,
+    max
+  } = request.body;
   const { is_enabled, calculation_type } = request.body;
   try {
     // Load the shipping zone
@@ -65,9 +73,13 @@ module.exports = async (request, response, deledate, next) => {
     }
 
     if (calculation_type === 'api') {
-      cost = null;
+      cost = weight_based_cost = price_based_cost = null;
+    } else if (calculation_type === 'price_based_rate') {
+      calculate_api = cost = weight_based_cost = null;
+    } else if (calculation_type === 'weight_based_rate') {
+      calculate_api = cost = price_based_cost = null;
     } else {
-      calculate_api = null;
+      calculate_api = weight_based_cost = price_based_cost = null;
     }
     if (condition_type === 'none') {
       condition_type = null;
@@ -80,6 +92,8 @@ module.exports = async (request, response, deledate, next) => {
         is_enabled,
         calculate_api,
         condition_type,
+        price_based_cost,
+        weight_based_cost,
         max,
         min
       })

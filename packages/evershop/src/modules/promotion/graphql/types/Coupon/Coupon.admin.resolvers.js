@@ -1,5 +1,4 @@
 const { GraphQLJSON } = require('graphql-type-json');
-const { select } = require('@evershop/postgres-query-builder');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const {
@@ -11,12 +10,8 @@ module.exports = {
   JSON: GraphQLJSON,
   Query: {
     coupon: async (root, { id }, { pool }) => {
-      const query = select().from('coupon');
+      const query = getCouponsBaseQuery();
       query.where('coupon_id', '=', id);
-      // if (admin !== true) {
-      //   query.where('cms_page.status', '=', 1);
-      // }
-
       const coupon = await query.load(pool);
       return coupon ? camelCase(coupon) : null;
     },
@@ -27,7 +22,7 @@ module.exports = {
       }
       const query = getCouponsBaseQuery();
       const root = new CouponCollection(query);
-      await root.init({}, { filters });
+      await root.init(filters);
       return root;
     }
   },

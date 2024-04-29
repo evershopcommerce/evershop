@@ -274,7 +274,7 @@ export default function General({ attribute, createGroupApi }) {
       )}
       <Card.Session title="Attribute Group">
         <Groups
-          groups={get(attribute, 'groups', [])}
+          groups={get(attribute, 'groups.items', [])}
           createGroupApi={createGroupApi}
         />
       </Card.Session>
@@ -294,12 +294,14 @@ General.propTypes = {
         optionText: PropTypes.string
       })
     ),
-    groups: PropTypes.arrayOf(
-      PropTypes.shape({
-        value: PropTypes.number,
-        label: PropTypes.string
-      })
-    )
+    groups: {
+      items: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.number,
+          label: PropTypes.string
+        })
+      )
+    }
   }),
   createGroupApi: PropTypes.string.isRequired
 };
@@ -328,8 +330,10 @@ export const query = `
         optionText
       }
       groups {
-        value: attributeGroupId
-        label: groupName
+        items {
+          value: attributeGroupId
+          label: groupName
+        }
       }
     }
     createGroupApi: url(routeId: "createAttributeGroup")
