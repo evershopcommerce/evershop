@@ -23,8 +23,8 @@ Represents a product variant attribute index
 type VariantAttributeIndex {
   attributeId: ID!
   attributeCode: String!
-  optionId: Int!
-  optionText: String!
+  optionId: Int
+  optionText: String
 }
 
 """

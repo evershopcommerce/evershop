@@ -1,3 +1,6 @@
+const {
+  defaultPaginationFilters
+} = require('../../lib/util/defaultPaginationFilters');
 const { addProcessor } = require('../../lib/util/registry');
 const { toPrice } = require('../checkout/services/toPrice');
 const { validateCoupon } = require('./services/couponValidator');
@@ -5,6 +8,7 @@ const { calculateDiscount } = require('./services/discountCalculator');
 const {
   registerDefaultCalculators
 } = require('./services/registerDefaultCalculators');
+const registerDefaultCouponCollectionFilters = require('./services/registerDefaultCouponCollectionFilters');
 const {
   registerDefaultValidators
 } = require('./services/registerDefaultValidators');
@@ -112,4 +116,16 @@ module.exports = () => {
 
   addProcessor('couponValidatorFunctions', registerDefaultValidators);
   addProcessor('discountCalculatorFunctions', registerDefaultCalculators);
+
+  // Reigtering the default filters for attribute collection
+  addProcessor(
+    'couponCollectionFilters',
+    registerDefaultCouponCollectionFilters,
+    1
+  );
+  addProcessor(
+    'couponCollectionFilters',
+    (filters) => [...filters, ...defaultPaginationFilters],
+    2
+  );
 };

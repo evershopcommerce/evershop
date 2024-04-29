@@ -1,0 +1,198 @@
+const uniqid = require('uniqid');
+const {
+  OPERATION_MAP
+} = require('@evershop/evershop/src/lib/util/filterOperationMapp');
+const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
+
+module.exports = async function registerDefaultProductCollectionFilters() {
+  // List of default supported filters
+  const defaultFilters = [
+    {
+      key: 'keyword',
+      operation: ['eq'],
+      callback: (query, operation, value, currentFilters) => {
+        const where = query.getWhere();
+        const bindingKey = `keyword_${uniqid()}`;
+        where.addRaw(
+          'AND',
+          `to_tsvector('simple', product_description.name || ' ' || product_description.description) @@ websearch_to_tsquery('simple', :${bindingKey})`,
+          {
+            [bindingKey]: value
+          }
+        );
+        currentFilters.push({
+          key: 'keyword',
+          operation,
+          value
+        });
+      }
+    },
+    {
+      key: 'minPrice',
+      operation: ['gteq'],
+      callback: (query, operation, value, currentFilters) => {
+        query.andWhere(
+          'product.price',
+          OPERATION_MAP[operation],
+          parseFloat(value) || 0
+        );
+        currentFilters.push({
+          key: 'minPrice',
+          operation,
+          value
+        });
+      }
+    },
+    {
+      key: 'maxPrice',
+      operation: ['lteq'],
+      callback: (query, operation, value, currentFilters) => {
+        query.andWhere(
+          'product.price',
+          OPERATION_MAP[operation],
+          parseFloat(value) || 9999999999
+        );
+        currentFilters.push({
+          key: 'maxPrice',
+          operation,
+          value
+        });
+      }
+    },
+    {
+      key: 'name',
+      operation: ['like'],
+      callback: (query, operation, value, currentFilters) => {
+        query.andWhere(
+          'product_description.name',
+          OPERATION_MAP[operation],
+          `%${value}%`
+        );
+        currentFilters.push({
+          key: 'name',
+          operation,
+          value
+        });
+      }
+    },
+    {
+      key: 'qty',
+      operation: ['eq', 'gteq', 'lteq'],
+      callback: (query, operation, value, currentFilters) => {
+        query.andWhere(
+          'product_inventory.qty',
+          OPERATION_MAP[operation],
+          parseFloat(value) || 0
+        );
+        currentFilters.push({
+          key: 'qty',
+          operation,
+          value
+        });
+      }
+    },
+    {
+      key: 'sku',
+      operation: ['like', 'in'],
+      callback: (query, operation, value, currentFilters) => {
+        query.andWhere(
+          'product.sku',
+          OPERATION_MAP[operation],
+          value.split(',')
+        );
+        currentFilters.push({
+          key: 'sku',
+          operation,
+          value
+        });
+      }
+    },
+    {
+      key: 'status',
+      operation: ['eq'],
+      callback: (query, operation, value, currentFilters) => {
+        query.andWhere('product.status', OPERATION_MAP[operation], value);
+        currentFilters.push({
+          key: 'status',
+          operation,
+          value
+        });
+      }
+    },
+    {
+      key: 'cat',
+      operation: ['eq', 'in', 'nin'],
+      callback: (query, operation, value, currentFilters) => {
+        query.andWhere(
+          'product.category_id',
+          OPERATION_MAP[operation],
+          ['in', 'nin'].includes(operation) ? value.split(',') : value
+        );
+        currentFilters.push({
+          key: 'cat',
+          operation,
+          value
+        });
+      }
+    },
+    {
+      key: 'ob',
+      operation: ['eq'],
+      callback: (query, operation, value, currentFilters) => {
+        const productSortBy = getValueSync(
+          'productCollectionSortBy',
+          {
+            price: (query) => query.orderBy('product.price'),
+            name: (query) => query.orderBy('product_description.name'),
+            qty: (query) => query.orderBy('product_inventory.qty'),
+            status: (query) => query.orderBy('product.status')
+          },
+          {
+            isAdmin
+          }
+        );
+
+        if (productSortBy[value]) {
+          productSortBy[value](query, operation);
+          currentFilters.push({
+            key: 'ob',
+            operation,
+            value
+          });
+        } else {
+          query.orderBy('product.product_id', 'DESC');
+        }
+      }
+    }
+  ];
+
+  const {filterableAttributes} = this;
+  const {isAdmin} = this;
+  // Attribute filters
+  filterableAttributes.forEach((attribute) => {
+    defaultFilters.push({
+      key: attribute.attribute_code,
+      operation: ['in'],
+      callback: (query, operation, value, currentFilters) => {
+        const alias = `attribute_${uniqid()}`;
+        // Split the value by comma and only get the positive integer
+        const values = value
+          .split(',')
+          .map((v) => parseInt(v, 10))
+          .filter((v) => v > 0);
+        query
+          .innerJoin('product_attribute_value_index', alias)
+          .on(`${alias}.product_id`, '=', 'product.product_id')
+          .and(`${alias}.attribute_id`, '=', value(attribute.attribute_id))
+          .and(`${alias}.option_id`, 'IN', values);
+        currentFilters.push({
+          key: attribute.attribute_code,
+          operation,
+          values
+        });
+      }
+    });
+  });
+
+  return defaultFilters;
+};

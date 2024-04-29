@@ -38,7 +38,7 @@ module.exports.graphqlMiddleware = (schema) =>
         });
         if (data.errors) {
           // Create an Error instance with message and stack trace
-          next(new Error(data.errors[0].message));
+          next(data.errors[0]);
         } else {
           response.status(OK).json({
             data: data.data

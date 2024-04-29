@@ -5,7 +5,7 @@ import Dot from '@components/common/Dot';
 export default function StatusRow({ id, areaProps }) {
   return (
     <td>
-      <div className="flex justify-center">
+      <div>
         {parseInt(areaProps.row[id], 10) === 0 && (
           <Dot variant="default" size="1.2rem" />
         )}

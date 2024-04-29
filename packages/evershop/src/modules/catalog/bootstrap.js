@@ -1,4 +1,12 @@
 const config = require('config');
+const { addProcessor } = require('../../lib/util/registry');
+const registerDefaultProductCollectionFilters = require('./services/registerDefaultProductCollectionFilters');
+const registerDefaultCategoryCollectionFilters = require('./services/registerDefaultCategoryCollectionFilters');
+const registerDefaultCollectionCollectionFilters = require('./services/registerDefaultCollectionCollectionFilters');
+const registerDefaultAttributeCollectionFilters = require('./services/registerDefaultAttributeCollectionFilters');
+const {
+  defaultPaginationFilters
+} = require('../../lib/util/defaultPaginationFilters');
 
 module.exports = () => {
   const catalogConfig = {
@@ -30,4 +38,59 @@ module.exports = () => {
   };
   config.util.setModuleDefaults('pricing', pricingConfig);
   // Getting config value like this: config.get('catalog.product.image.thumbnail.width');
+
+  // Reigtering the default filters for product collection
+  addProcessor(
+    'productCollectionFilters',
+    registerDefaultProductCollectionFilters,
+    1
+  );
+  addProcessor(
+    'productCollectionFilters',
+    (filters) => [...filters, ...defaultPaginationFilters],
+    2
+  );
+
+  // Reigtering the default filters for category collection
+  addProcessor(
+    'categoryCollectionFilters',
+    registerDefaultCategoryCollectionFilters,
+    1
+  );
+  addProcessor(
+    'categoryCollectionFilters',
+    (filters) => [...filters, ...defaultPaginationFilters],
+    2
+  );
+
+  // Reigtering the default filters for collection collection
+  addProcessor(
+    'collectionCollectionFilters',
+    registerDefaultCollectionCollectionFilters,
+    1
+  );
+  addProcessor(
+    'collectionCollectionFilters',
+    (filters) => [...filters, ...defaultPaginationFilters],
+    2
+  );
+
+  // Reigtering the default filters for attribute collection
+  addProcessor(
+    'attributeCollectionFilters',
+    registerDefaultAttributeCollectionFilters,
+    1
+  );
+  addProcessor(
+    'attributeCollectionFilters',
+    (filters) => [...filters, ...defaultPaginationFilters],
+    2
+  );
+
+  // Reigtering the default filters for attribute group collection
+  addProcessor(
+    'attributeGroupCollectionFilters',
+    (filters) => [...filters, ...defaultPaginationFilters],
+    1
+  );
 };

@@ -12,9 +12,10 @@ import AttributeNameRow from '@components/admin/catalog/attributeGrid/rows/Attri
 import GroupRow from '@components/admin/catalog/attributeGrid/rows/GroupRow';
 import BasicRow from '@components/common/grid/rows/BasicRow';
 import YesNoRow from '@components/common/grid/rows/YesNoRow';
-import BasicColumnHeader from '@components/common/grid/headers/Basic';
-import GroupHeader from '@components/admin/catalog/attributeGrid/headers/GroupHeader';
-import DropdownColumnHeader from '@components/common/grid/headers/Dropdown';
+import SortableHeader from '@components/common/grid/headers/Sortable';
+import DummyColumnHeader from '@components/common/grid/headers/Dummy';
+import { Form } from '@components/common/form/Form';
+import { Field } from '@components/common/form/Field';
 
 function Actions({ attributes = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -107,6 +108,45 @@ export default function AttributeGrid({
 
   return (
     <Card>
+      <Card.Session
+        title={
+          <Form submitBtn={false}>
+            <Field
+              type="text"
+              id="name"
+              placeholder="Search"
+              value={currentFilters.find((f) => f.key === 'name')?.value}
+              onKeyPress={(e) => {
+                // If the user press enter, we should submit the form
+                if (e.key === 'Enter') {
+                  const url = new URL(document.location);
+                  const name = document.getElementById('name')?.value;
+                  if (name) {
+                    url.searchParams.set('name[operation]', 'like');
+                    url.searchParams.set('name[value]', name);
+                  } else {
+                    url.searchParams.delete('name[operation]');
+                    url.searchParams.delete('name[value]');
+                  }
+                  window.location.href = url;
+                }
+              }}
+            />
+          </Form>
+        }
+        actions={[
+          {
+            variant: 'interactive',
+            name: 'Clear filter',
+            onAction: () => {
+              // Just get the url and remove all query params
+              const url = new URL(document.location);
+              url.search = '';
+              window.location.href = url.href;
+            }
+          }
+        ]}
+       />
       <table className="listing sticky">
         <thead>
           <tr>
@@ -127,8 +167,8 @@ export default function AttributeGrid({
                 {
                   component: {
                     default: () => (
-                      <BasicColumnHeader
-                        id="name"
+                      <SortableHeader
+                        name="name"
                         title="Attribute Name"
                         currentFilters={currentFilters}
                       />
@@ -138,25 +178,17 @@ export default function AttributeGrid({
                 },
                 {
                   component: {
-                    default: () => (
-                      <GroupHeader id="group" currentFilters={currentFilters} />
-                    )
+                    default: () => <DummyColumnHeader title="Groups" />
                   },
                   sortOrder: 15
                 },
                 {
                   component: {
                     default: () => (
-                      <DropdownColumnHeader
-                        id="type"
+                      <SortableHeader
+                        name="type"
                         title="Type"
                         currentFilters={currentFilters}
-                        options={[
-                          { value: 'text', text: 'Text' },
-                          { value: 'select', text: 'Select' },
-                          { value: 'multiselect', text: 'Multi Select' },
-                          { value: 'textarea', text: 'Text Area' }
-                        ]}
                       />
                     )
                   },
@@ -165,14 +197,10 @@ export default function AttributeGrid({
                 {
                   component: {
                     default: () => (
-                      <DropdownColumnHeader
-                        id="isRequired"
+                      <SortableHeader
+                        name="is_required"
                         title="Is Required?"
                         currentFilters={currentFilters}
-                        options={[
-                          { value: 1, text: 'Yes' },
-                          { value: 0, text: 'No' }
-                        ]}
                       />
                     )
                   },
@@ -181,14 +209,10 @@ export default function AttributeGrid({
                 {
                   component: {
                     default: () => (
-                      <DropdownColumnHeader
-                        id="isFilterable"
+                      <SortableHeader
+                        name="is_filterable"
                         title="Is Filterable?"
                         currentFilters={currentFilters}
-                        options={[
-                          { value: 1, text: 'Yes' },
-                          { value: 0, text: 'No' }
-                        ]}
                       />
                     )
                   },
@@ -238,7 +262,7 @@ export default function AttributeGrid({
                   },
                   {
                     component: {
-                      default: () => <GroupRow groups={a.groups} />
+                      default: () => <GroupRow groups={a.groups?.items} />
                     },
                     sortOrder: 15
                   },
@@ -329,9 +353,11 @@ export const query = `
         updateApi
         deleteApi
         groups {
-          attributeGroupId
-          groupName
-          updateApi
+          items {
+            attributeGroupId
+            groupName
+            updateApi
+          }
         }
       }
       total

@@ -46,13 +46,13 @@ export default function Products({ collection: { code, addProductApi } }) {
       code,
       filters: !keyword
         ? [
-            { key: 'page', operation: '=', value: page.toString() },
-            { key: 'limit', operation: '=', value: '10' }
+            { key: 'page', operation: 'eq', value: page.toString() },
+            { key: 'limit', operation: 'eq', value: '10' }
           ]
         : [
-            { key: 'page', operation: '=', value: page.toString() },
-            { key: 'limit', operation: '=', value: '10' },
-            { key: 'keyword', operation: '=', value: keyword }
+            { key: 'page', operation: 'eq', value: page.toString() },
+            { key: 'limit', operation: 'eq', value: '10' },
+            { key: 'keyword', operation: 'eq', value: keyword }
           ]
     },
     pause: true

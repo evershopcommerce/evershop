@@ -11,6 +11,5 @@ module.exports = (request, response) => {
     title: 'Products',
     description: 'Products'
   });
-  const { query } = request;
-  setContextValue(request, 'filtersFromUrl', buildFilterFromUrl(query));
+  setContextValue(request, 'filtersFromUrl', buildFilterFromUrl(request));
 };

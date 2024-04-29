@@ -2,11 +2,12 @@ const { select } = require('@evershop/postgres-query-builder');
 const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { getOrdersBaseQuery } = require('../../../services/getOrdersBaseQuery');
 
 module.exports = {
   Query: {
     order: async (_, { uuid }, { pool }) => {
-      const query = select().from('order');
+      const query = getOrdersBaseQuery();
       query.where('uuid', '=', uuid);
       const order = await query.load(pool);
       if (!order) {

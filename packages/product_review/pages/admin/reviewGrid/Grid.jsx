@@ -7,10 +7,12 @@ import { useAlertContext } from '@components/common/modal/Alert';
 import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Card } from '@components/admin/cms/Card';
 import Area from '@components/common/Area';
-import BasicColumnHeader from '@components/common/grid/headers/Basic';
 import BasicRow from '@components/common/grid/rows/BasicRow';
+import { Form } from '@components/common/form/Form';
+import { Field } from '@components/common/form/Field';
+import SortableHeader from '@components/common/grid/headers/Sortable';
+import DummyColumnHeader from '@components/common/grid/headers/Dummy';
 import IsApprovedRow from './row/IsApprovedRow';
-import IsApprovedHeader from './header/IsApprovedHeader';
 import RatingRow from './row/RatingRow';
 import CommentRow from './row/CommentRow';
 import ProductRow from './row/ProductRow';
@@ -174,6 +176,64 @@ export default function ReviewGrid({
 
   return (
     <Card>
+      <Card.Session
+        title={
+          <Form submitBtn={false}>
+            <Area
+              id="productReviewGridFilter"
+              noOuter
+              coreComponents={[
+                {
+                  component: {
+                    default: () => (
+                      <Field
+                        type="text"
+                        id="keyword"
+                        placeholder="Search"
+                        value={
+                          currentFilters.find((f) => f.key === 'keyword')?.value
+                        }
+                        onKeyPress={(e) => {
+                          // If the user press enter, we should submit the form
+                          if (e.key === 'Enter') {
+                            const url = new URL(document.location);
+                            const keyword =
+                              document.getElementById('keyword')?.value;
+                            if (keyword) {
+                              url.searchParams.set(
+                                'keyword[operation]',
+                                'like'
+                              );
+                              url.searchParams.set('keyword[value]', keyword);
+                            } else {
+                              url.searchParams.delete('keyword[operation]');
+                              url.searchParams.delete('keyword[value]');
+                            }
+                            window.location.href = url;
+                          }
+                        }}
+                      />
+                    )
+                  },
+                  sortOrder: 10
+                }
+              ]}
+            />
+          </Form>
+        }
+        actions={[
+          {
+            variant: 'interactive',
+            name: 'Clear filter',
+            onAction: () => {
+              // Just get the url and remove all query params
+              const url = new URL(document.location);
+              url.search = '';
+              window.location.href = url.href;
+            }
+          }
+        ]}
+       />
       <table className="listing sticky">
         <thead>
           <tr>
@@ -196,9 +256,9 @@ export default function ReviewGrid({
                 {
                   component: {
                     default: () => (
-                      <BasicColumnHeader
+                      <SortableHeader
                         title="Product"
-                        id="product"
+                        name="product"
                         currentFilters={currentFilters}
                       />
                     )
@@ -207,34 +267,22 @@ export default function ReviewGrid({
                 },
                 {
                   component: {
-                    default: () => (
-                      <BasicColumnHeader
-                        title="Customer Name"
-                        id="customer_name"
-                        currentFilters={currentFilters}
-                      />
-                    )
+                    default: () => <DummyColumnHeader title="Customer Name" />
                   },
                   sortOrder: 5
                 },
                 {
                   component: {
-                    default: () => (
-                      <BasicColumnHeader
-                        title="Comment"
-                        id="comment"
-                        currentFilters={currentFilters}
-                      />
-                    )
+                    default: () => <DummyColumnHeader title="Comment" />
                   },
                   sortOrder: 10
                 },
                 {
                   component: {
                     default: () => (
-                      <BasicColumnHeader
+                      <SortableHeader
                         title="Rating"
-                        id="rating"
+                        name="rating"
                         currentFilters={currentFilters}
                       />
                     )
@@ -244,12 +292,10 @@ export default function ReviewGrid({
                 {
                   component: {
                     default: () => (
-                      <IsApprovedHeader
+                      <SortableHeader
                         title="Is Approved?"
-                        id="approved"
-                        currentFilter={currentFilters.find(
-                          (f) => f.key === 'approved'
-                        )}
+                        name="status"
+                        currentFilters={currentFilters}
                       />
                     )
                   },

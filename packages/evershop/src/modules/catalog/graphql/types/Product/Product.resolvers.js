@@ -36,7 +36,7 @@ module.exports = {
     products: async (_, { filters = [] }, { user }) => {
       const query = getProductsBaseQuery();
       const root = new ProductCollection(query);
-      await root.init({}, { filters }, { user });
+      await root.init(filters, !!user);
       return root;
     }
   }

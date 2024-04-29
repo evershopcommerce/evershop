@@ -599,6 +599,11 @@ class SelectQuery extends Query {
     return this;
   }
 
+  orderDirection(direction) {
+    this._orderBy._direction = direction;
+    return this;
+  }
+
   sql() {
     if (!this._table) {
       throw Error('You must specific table by calling `from` method');
@@ -699,6 +704,11 @@ class SelectQuery extends Query {
 
   removeGroupBy() {
     this._groupBy = new GroupBy();
+    return this;
+  }
+
+  removeLimit() {
+    this._limit = new Limit();
     return this;
   }
 }

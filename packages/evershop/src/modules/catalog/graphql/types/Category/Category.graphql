@@ -31,11 +31,24 @@ type CategoryImage {
 }
 
 """
-The `FilterInput` type represents a filter input object.
+The `FilterInput` type represents a filter input object. Operations must be one of the following: eq, neq, gt, gteq, lt, lteq, like, nlike, in, nin.
 """
+enum FilterOperation {
+  eq
+  neq
+  gt
+  gteq
+  lt
+  lteq
+  like
+  nlike
+  in
+  nin
+}
+
 input FilterInput {
   key: String!
-  operation: String!
+  operation: FilterOperation!
   value: String
 }
 
