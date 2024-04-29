@@ -21,7 +21,7 @@ module.exports = {
           query.andWhere('admin_user.full_name', 'LIKE', `%${filter.value}%`);
           currentFilters.push({
             key: 'full_name',
-            operation: '=',
+            operation: 'eq',
             value: filter.value
           });
         }
@@ -29,7 +29,7 @@ module.exports = {
           query.andWhere('admin_user.status', '=', filter.value);
           currentFilters.push({
             key: 'status',
-            operation: '=',
+            operation: 'eq',
             value: filter.value
           });
         }
@@ -43,7 +43,7 @@ module.exports = {
         query.orderBy('admin_user.full_name', sortOrder.value);
         currentFilters.push({
           key: 'sortBy',
-          operation: '=',
+          operation: 'eq',
           value: sortBy.value
         });
       } else {
@@ -53,7 +53,7 @@ module.exports = {
       if (sortOrder.key) {
         currentFilters.push({
           key: 'sortOrder',
-          operation: '=',
+          operation: 'eq',
           value: sortOrder.value
         });
       }
@@ -68,12 +68,12 @@ module.exports = {
       }; // TODO: Get from the config
       currentFilters.push({
         key: 'page',
-        operation: '=',
+        operation: 'eq',
         value: page.value
       });
       currentFilters.push({
         key: 'limit',
-        operation: '=',
+        operation: 'eq',
         value: limit.value
       });
       query.limit(

@@ -24,8 +24,15 @@ export function AttributeFilter({
           // Update the filter
           updateFilter(
             currentFilters.map((f) => {
-              if (f.key !== attributeCode) return f;
-              else return { key: attributeCode, value: value.join(',') };
+              if (f.key !== attributeCode) {
+                return f;
+              } else {
+                return {
+                  key: attributeCode,
+                  operation: 'in',
+                  value: value.join(',')
+                };
+              }
             })
           );
         }
@@ -33,18 +40,25 @@ export function AttributeFilter({
         // Add the option to the filter
         updateFilter(
           currentFilters.map((f) => {
-            if (f.key !== attributeCode) return f;
-            else
+            if (f.key !== attributeCode) {
+              return f;
+            } else {
               return {
                 key: attributeCode,
+                operation: 'in',
                 value: value.concat(optionId).join(',')
               };
+            }
           })
         );
       }
     } else {
       updateFilter(
-        currentFilters.concat({ key: attributeCode, value: optionId })
+        currentFilters.concat({
+          key: attributeCode,
+          operation: 'in',
+          value: optionId
+        })
       );
     }
   };

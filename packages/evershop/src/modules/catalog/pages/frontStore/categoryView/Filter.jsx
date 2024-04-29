@@ -30,24 +30,40 @@ export default function Filter({
       if (
         currentFilters[i].key === 'page' ||
         currentFilters[i].key === 'limit' ||
-        currentFilters[i].key === 'sortBy' ||
-        currentFilters[i].key === 'sortOrder'
+        currentFilters[i].key === 'ob' ||
+        currentFilters[i].key === 'od'
       ) {
         continue;
       }
-      url.searchParams.delete(currentFilters[i].key);
+      if (currentFilters[i].operation === 'eq') {
+        url.searchParams.delete(currentFilters[i].key);
+      } else {
+        url.searchParams.delete(`${currentFilters[i].key}[operation]`);
+        url.searchParams.delete(`${currentFilters[i].key}[value]`);
+      }
     }
 
     for (let i = 0; i < newFilters.length; i += 1) {
       if (
         newFilters[i].key === 'page' ||
         newFilters[i].key === 'limit' ||
-        newFilters[i].key === 'sortBy' ||
-        newFilters[i].key === 'sortOrder'
+        newFilters[i].key === 'ob' ||
+        newFilters[i].key === 'od'
       ) {
         continue;
       }
-      url.searchParams.append(newFilters[i].key, newFilters[i].value);
+      if (newFilters[i].operation === 'eq') {
+        url.searchParams.append(newFilters[i].key, newFilters[i].value);
+      } else {
+        url.searchParams.append(
+          `${newFilters[i].key}[operation]`,
+          newFilters[i].operation
+        );
+        url.searchParams.append(
+          `${newFilters[i].key}[value]`,
+          newFilters[i].value
+        );
+      }
     }
     // window.location.href = url;
     url.searchParams.delete('ajax', true);

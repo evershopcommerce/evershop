@@ -42,7 +42,7 @@ module.exports = {
         !user
       );
       const root = new ProductCollection(query);
-      await root.init(category, { filters }, { user });
+      await root.init(filters, !!user);
       return root;
     },
     availableAttributes: async (category) => {

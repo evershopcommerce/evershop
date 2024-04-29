@@ -9,6 +9,7 @@ const registerDefaultCustomerCollectionFilters = require('./services/registerDef
 const {
   defaultPaginationFilters
 } = require('../../lib/util/defaultPaginationFilters');
+const registerDefaultCustomerGroupCollectionFilters = require('./services/registerDefaultCustomerGroupCollectionFilters');
 
 module.exports = () => {
   addProcessor('cartFields', (fields) => {
@@ -160,7 +161,7 @@ module.exports = () => {
   };
   config.util.setModuleDefaults('customer', customerConfig);
 
-  // Reigtering the default filters for attribute collection
+  // Reigtering the default filters for customer collection
   addProcessor(
     'customerCollectionFilters',
     registerDefaultCustomerCollectionFilters,
@@ -168,6 +169,18 @@ module.exports = () => {
   );
   addProcessor(
     'customerCollectionFilters',
+    (filters) => [...filters, ...defaultPaginationFilters],
+    2
+  );
+
+  // Reigtering the default filters for customer group collection
+  addProcessor(
+    'customerGroupCollectionFilters',
+    registerDefaultCustomerGroupCollectionFilters,
+    1
+  );
+  addProcessor(
+    'customerGroupCollectionFilters',
     (filters) => [...filters, ...defaultPaginationFilters],
     2
   );
