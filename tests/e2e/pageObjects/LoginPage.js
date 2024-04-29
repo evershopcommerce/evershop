@@ -1,7 +1,8 @@
+const config = require('../config.js')
 class LoginPage {
   constructor() {
-    this.adminPanelUrl = 'http://localhost:3000/admin';
-    this.adminLoginUrl = 'http://localhost:3000/admin/login';
+    this.adminPanelUrl = `${config.baseUrl}/admin`;
+    this.adminLoginUrl = `${config.baseUrl}/admin/login`
     this.emailSelector = "//input[@name='email']";
     this.passwordSelector = "//input[@name='password']";
     this.loginBtnSelector = "//button[@class='button primary']";
