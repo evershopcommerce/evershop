@@ -30,7 +30,7 @@ const format = winston.format.combine(
         icon = '❌'; // Error icon
         break;
       case 'warn':
-        icon = '⚠️'; // Warning icon
+        icon = '⚠️ '; // Warning icon
         break;
       case 'info':
         icon = 'ℹ️'; // Info icon
