@@ -113,7 +113,9 @@ module.exports = async function registerDefaultAttributeCollectionFilters() {
           'attributeCollectionSortBy',
           {
             name: (query) => query.orderBy('attribute.name'),
-            type: (query) => query.orderBy('attribute.type')
+            type: (query) => query.orderBy('attribute.type'),
+            is_required: (query) => query.orderBy('attribute.is_required'),
+            is_filterable: (query) => query.orderBy('attribute.is_filterable')
           }
         );
 
