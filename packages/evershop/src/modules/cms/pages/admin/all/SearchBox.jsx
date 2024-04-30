@@ -70,7 +70,7 @@ export default function SearchBox({ resourceLinks }) {
     query: SearchQuery,
     variables: {
       filters: keyword
-        ? [{ key: 'keyword', operation: '=', value: keyword }]
+        ? [{ key: 'keyword', operation: 'eq', value: keyword }]
         : []
     },
     pause: true

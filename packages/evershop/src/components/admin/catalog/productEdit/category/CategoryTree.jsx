@@ -25,7 +25,7 @@ function CategoryTree({ selectedCategory, setSelectedCategory }) {
   const [result] = useQuery({
     query: categoriesQuery,
     variables: {
-      filters: [{ key: 'parent', operation: '=', value: null }]
+      filters: [{ key: 'parent', operation: 'eq', value: null }]
     }
   });
   const { data, fetching, error } = result;

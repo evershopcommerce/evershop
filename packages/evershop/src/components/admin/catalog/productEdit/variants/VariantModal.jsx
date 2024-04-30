@@ -4,12 +4,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ProductMediaManager from '@components/admin/catalog/productEdit/media/ProductMediaManager';
 import { Field } from '@components/common/form/Field';
+import { useFormContext } from '@components/common/form/Form';
 
 export function VariantModal({
   variant,
   variantAttributes,
   productImageUploadUrl
 }) {
+  const formContext = useFormContext();
   const image = variant?.product?.image;
   let gallery = variant?.product?.gallery || [];
 
@@ -37,6 +39,15 @@ export function VariantModal({
                   type="hidden"
                   name={`attributes[${index}][attribute_code]`}
                   value={a.attributeCode}
+                />
+                <input
+                  type="hidden"
+                  name={a.attributeCode}
+                  value={
+                    formContext.fields.find(
+                      (f) => f.name === `attributes[${index}][value]`
+                    )?.value
+                  }
                 />
                 <Field
                   name={`attributes[${index}][value]`}

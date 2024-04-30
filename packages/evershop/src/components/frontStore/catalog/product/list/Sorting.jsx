@@ -12,7 +12,7 @@ export default function Sorting() {
     // Check if this is browser or server
     if (typeof window !== 'undefined') {
       const params = new URL(document.location).searchParams;
-      return params.get('sortBy') || 'id';
+      return params.get('ob') || 'id';
     } else {
       return undefined;
     }
@@ -22,7 +22,7 @@ export default function Sorting() {
     // Check if this is browser or server
     if (typeof window !== 'undefined') {
       const params = new URL(document.location).searchParams;
-      return params.get('sortOrder') || 'asc';
+      return params.get('od') || 'asc';
     } else {
       return undefined;
     }
@@ -33,9 +33,9 @@ export default function Sorting() {
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
     if (e.target.value === '') {
-      url.searchParams.delete('sortBy');
+      url.searchParams.delete('ob');
     } else {
-      url.searchParams.set('sortBy', e.target.value);
+      url.searchParams.set('ob', e.target.value);
     }
     url.searchParams.append('ajax', true);
     setSortBy(e.target.value);
@@ -49,7 +49,7 @@ export default function Sorting() {
     e.preventDefault();
     const url = new URL(currentUrl, window.location.origin);
     const order = sortOrder.toLowerCase() === 'asc' ? 'desc' : 'asc';
-    url.searchParams.set('sortOrder', order);
+    url.searchParams.set('od', order);
     url.searchParams.append('ajax', true);
     setSortOrder(order);
     await AppContextDispatch.fetchPageData(url);

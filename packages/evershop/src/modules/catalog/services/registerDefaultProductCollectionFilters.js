@@ -1,4 +1,5 @@
 const uniqid = require('uniqid');
+const { value } = require('@evershop/postgres-query-builder');
 const {
   OPERATION_MAP
 } = require('@evershop/evershop/src/lib/util/filterOperationMapp');
@@ -28,35 +29,32 @@ module.exports = async function registerDefaultProductCollectionFilters() {
       }
     },
     {
-      key: 'minPrice',
-      operation: ['gteq'],
+      key: 'min_price',
+      operation: ['eq'],
       callback: (query, operation, value, currentFilters) => {
-        query.andWhere(
-          'product.price',
-          OPERATION_MAP[operation],
-          parseFloat(value) || 0
-        );
-        currentFilters.push({
-          key: 'minPrice',
-          operation,
-          value
-        });
+        // Check if the value is a positive number
+        if (!Number.isNaN(parseFloat(value)) && parseFloat(value) > 0) {
+          query.andWhere('product.price', '>=', parseFloat(value));
+          currentFilters.push({
+            key: 'min_price',
+            operation,
+            value
+          });
+        }
       }
     },
     {
-      key: 'maxPrice',
-      operation: ['lteq'],
+      key: 'max_price',
+      operation: ['eq'],
       callback: (query, operation, value, currentFilters) => {
-        query.andWhere(
-          'product.price',
-          OPERATION_MAP[operation],
-          parseFloat(value) || 9999999999
-        );
-        currentFilters.push({
-          key: 'maxPrice',
-          operation,
-          value
-        });
+        if (!Number.isNaN(parseFloat(value)) && parseFloat(value) > 0) {
+          query.andWhere('product.price', '<=', parseFloat(value));
+          currentFilters.push({
+            key: 'max_price',
+            operation,
+            value
+          });
+        }
       }
     },
     {
@@ -166,17 +164,17 @@ module.exports = async function registerDefaultProductCollectionFilters() {
     }
   ];
 
-  const {filterableAttributes} = this;
-  const {isAdmin} = this;
+  const { filterableAttributes } = this;
+  const { isAdmin } = this;
   // Attribute filters
   filterableAttributes.forEach((attribute) => {
     defaultFilters.push({
       key: attribute.attribute_code,
       operation: ['in'],
-      callback: (query, operation, value, currentFilters) => {
+      callback: (query, operation, val, currentFilters) => {
         const alias = `attribute_${uniqid()}`;
         // Split the value by comma and only get the positive integer
-        const values = value
+        const values = val
           .split(',')
           .map((v) => parseInt(v, 10))
           .filter((v) => v > 0);
@@ -184,11 +182,11 @@ module.exports = async function registerDefaultProductCollectionFilters() {
           .innerJoin('product_attribute_value_index', alias)
           .on(`${alias}.product_id`, '=', 'product.product_id')
           .and(`${alias}.attribute_id`, '=', value(attribute.attribute_id))
-          .and(`${alias}.option_id`, 'IN', values);
+          .and(`${alias}.option_id`, 'IN', value(values));
         currentFilters.push({
           key: attribute.attribute_code,
           operation,
-          values
+          value: val
         });
       }
     });

@@ -70,8 +70,8 @@ export function CreateVariantGroup({ createVariantGroupApi, setGroup }) {
     query: AttributesQuery,
     variables: {
       filters: [
-        { key: 'type', operation: '=', value: 'select' },
-        { key: 'group', operation: '=', value: groupField?.value }
+        { key: 'type', operation: 'eq', value: 'select' },
+        { key: 'group', operation: 'eq', value: groupField?.value }
       ]
     },
     pause: shouldPause
@@ -87,12 +87,7 @@ export function CreateVariantGroup({ createVariantGroupApi, setGroup }) {
   }
 
   if (error) {
-    return (
-      <p>
-        Oh no...
-        {error.message}
-      </p>
-    );
+    return <p className="text-critical">{error.message}</p>;
   }
 
   return (

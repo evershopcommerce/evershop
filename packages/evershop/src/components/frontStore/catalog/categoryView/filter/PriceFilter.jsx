@@ -11,7 +11,7 @@ export function PriceFilter({
 }) {
   const firstRender = React.useRef(true);
   const [from, setFrom] = React.useState(() => {
-    const minPriceFilter = currentFilters.find((f) => f.key === 'minPrice');
+    const minPriceFilter = currentFilters.find((f) => f.key === 'min_price');
     if (minPriceFilter) {
       return minPriceFilter.value;
     } else {
@@ -20,7 +20,7 @@ export function PriceFilter({
   });
 
   const [to, setTo] = React.useState(() => {
-    const maxPriceFilter = currentFilters.find((f) => f.key === 'maxPrice');
+    const maxPriceFilter = currentFilters.find((f) => f.key === 'max_price');
     if (maxPriceFilter) {
       return maxPriceFilter.value;
     } else {
@@ -31,7 +31,7 @@ export function PriceFilter({
   React.useEffect(() => {
     firstRender.current = true;
     setFrom(() => {
-      const minPriceFilter = currentFilters.find((f) => f.key === 'minPrice');
+      const minPriceFilter = currentFilters.find((f) => f.key === 'min_price');
       if (minPriceFilter) {
         return minPriceFilter.value;
       } else {
@@ -39,7 +39,7 @@ export function PriceFilter({
       }
     });
     setTo(() => {
-      const maxPriceFilter = currentFilters.find((f) => f.key === 'maxPrice');
+      const maxPriceFilter = currentFilters.find((f) => f.key === 'max_price');
       if (maxPriceFilter) {
         return maxPriceFilter.value;
       } else {
@@ -63,13 +63,13 @@ export function PriceFilter({
         }
         if (minValue || maxValue) {
           const newFilters = currentFilters.map((f) => {
-            if (f.key === 'minPrice' && minValue) {
+            if (f.key === 'min_price' && minValue) {
               return {
                 ...f,
                 value: minValue
               };
             }
-            if (f.key === 'maxPrice' && maxValue) {
+            if (f.key === 'max_price' && maxValue) {
               return {
                 ...f,
                 value: maxValue
@@ -79,17 +79,25 @@ export function PriceFilter({
           });
           // Check if the minPrice filter is already in the filter
           const minPriceIndex = currentFilters.findIndex(
-            (f) => f.key === 'minPrice'
+            (f) => f.key === 'min_price'
           );
           if (minPriceIndex === -1 && minValue) {
-            newFilters.push({ key: 'minPrice', value: minValue });
+            newFilters.push({
+              key: 'min_price',
+              operation: 'eq',
+              value: minValue
+            });
           }
           // Check if the maxPrice filter is already in the filter
           const maxPriceIndex = currentFilters.findIndex(
-            (f) => f.key === 'maxPrice'
+            (f) => f.key === 'max_price'
           );
           if (maxPriceIndex === -1 && maxValue) {
-            newFilters.push({ key: 'maxPrice', value: maxValue });
+            newFilters.push({
+              key: 'max_price',
+              operation: 'eq',
+              value: maxValue
+            });
           }
 
           updateFilter(newFilters);
