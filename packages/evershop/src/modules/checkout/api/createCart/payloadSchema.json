@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "properties": {
+    "customer_full_name": {
+      "type": "string"
+    },
+    "customer_email": {
+      "type": ["string"],
+      "format": "email",
+      "errorMessage": {
+        "type": "Email is invalid"
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string"
+          },
+          "qty": {
+            "type": "integer"
+          }
+        },
+        "required": ["sku", "qty"],
+        "additionalProperties": true,
+        "errorMessage": {
+          "properties": {
+            "sku": "Sku is required",
+            "qty": "Qty is invalid"
+          }
+        }
+      }
+    }
+  },
+  "required": ["items"],
+  "errorMessage": {
+    "required": {
+      "items": "Must provide at least one item"
+    }
+  },
+  "additionalProperties": true
+}

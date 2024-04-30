@@ -6,7 +6,10 @@ const {
 } = require('@evershop/evershop/src/lib/util/registry');
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4, validate } = require('uuid');
+const {
+  translate
+} = require('@evershop/evershop/src/lib/locale/translate/translate');
 const { DataObject } = require('./DataObject');
 const {
   getProductsBaseQuery
@@ -62,6 +65,12 @@ class Cart extends DataObject {
     return this.getData('items') ?? [];
   }
 
+  /**
+   *
+   * @param {string} productID | product_id, sku, or uuid
+   * @param {number} qty
+   * @returns
+   */
   async addItem(productID, qty) {
     const item = await this.createItem(productID, parseInt(qty, 10));
     if (item.hasError()) {
@@ -115,14 +124,21 @@ class Cart extends DataObject {
       throw new Error('Invalid quantity');
     }
     const productQuery = getProductsBaseQuery();
-    const product = await productQuery
-      .where('product_id', '=', productID)
-      .load(pool);
+    if (validate(productID)) {
+      productQuery.where('product.uuid', '=', productID);
+    } else if (/^\d+$/.test(productID)) {
+      productQuery
+        .where('product.product_id', '=', productID)
+        .or('product.sku', '=', productID);
+    } else {
+      productQuery.where('product.sku', '=', productID);
+    }
+    const product = await productQuery.load(pool);
     if (!product) {
-      throw new Error('Product not found');
+      throw new Error(translate('Product not found'));
     }
     const item = new Item(this, {
-      product_id: productID,
+      product_id: product.product_id,
       qty
     });
     await item.build();

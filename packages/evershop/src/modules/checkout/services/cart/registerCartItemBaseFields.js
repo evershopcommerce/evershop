@@ -328,8 +328,9 @@ module.exports.registerCartItemBaseFields =
                 .from('variant_group')
                 .where('variant_group_id', '=', product.variant_group_id)
                 .load(pool);
-              if (!group) return null;
-              else {
+              if (!group) {
+                return null;
+              } else {
                 const query = select('a.attribute_code')
                   .select('a.attribute_name')
                   .select('a.attribute_id')
