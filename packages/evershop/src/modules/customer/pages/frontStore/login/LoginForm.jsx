@@ -33,7 +33,6 @@ export default function LoginForm({
               }
             }}
             btnText={_('SIGN IN')}
-            submitBtn={false}
           >
             <Area
               id="loginFormInner"
