@@ -24,13 +24,27 @@ module.exports = async function registerDefaultAttributeCollectionFilters() {
     },
     {
       key: 'code',
-      operation: ['eq', 'like', 'nlike'],
+      operation: ['eq', 'like', 'nlike', 'in'],
       callback: (query, operation, value, currentFilters) => {
-        query.andWhere(
-          'attribute.attribute_code',
-          OPERATION_MAP[operation],
-          value
-        );
+        if (operation === 'in') {
+          query.andWhere(
+            'attribute.attribute_code',
+            OPERATION_MAP[operation],
+            value.split(',')
+          );
+        } else if (operation === 'eq') {
+          query.andWhere(
+            'attribute.attribute_code',
+            OPERATION_MAP[operation],
+            value
+          );
+        } else {
+          query.andWhere(
+            'attribute.attribute_code',
+            OPERATION_MAP[operation],
+            `%${value}%`
+          );
+        }
         currentFilters.push({
           key: 'code',
           operation,
@@ -55,7 +69,7 @@ module.exports = async function registerDefaultAttributeCollectionFilters() {
           value
         );
         currentFilters.push({
-          key: 'code',
+          key: 'group',
           operation,
           value
         });
@@ -67,7 +81,7 @@ module.exports = async function registerDefaultAttributeCollectionFilters() {
       callback: (query, operation, value, currentFilters) => {
         query.andWhere('attribute.type', OPERATION_MAP[operation], value);
         currentFilters.push({
-          key: 'code',
+          key: 'type',
           operation,
           value
         });

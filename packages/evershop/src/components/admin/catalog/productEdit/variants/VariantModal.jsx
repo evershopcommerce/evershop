@@ -2,9 +2,27 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useQuery } from 'urql';
 import ProductMediaManager from '@components/admin/catalog/productEdit/media/ProductMediaManager';
 import { Field } from '@components/common/form/Field';
 import { useFormContext } from '@components/common/form/Form';
+import Spinner from '@components/common/Spinner';
+
+const AttributesQuery = `
+  query Query($filters: [FilterInput]) {
+    attributes(filters: $filters) {
+      items {
+        attributeId
+        attributeCode
+        attributeName
+        options {
+          value: attributeOptionId
+          text: optionText
+        }
+      }
+    }
+  }
+`;
 
 export function VariantModal({
   variant,
@@ -18,6 +36,31 @@ export function VariantModal({
   if (image) {
     gallery = [image].concat(gallery);
   }
+  const [result] = useQuery({
+    query: AttributesQuery,
+    variables: {
+      filters: [
+        {
+          key: 'code',
+          operation: 'in',
+          value: variantAttributes.map((a) => a.attributeCode).join(',')
+        }
+      ]
+    }
+  });
+
+  const { data, fetching, error } = result;
+  if (fetching) {
+    return (
+      <div className="p-3 flex justify-center items-center border rounded border-divider">
+        <Spinner width={30} height={30} />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p className="text-critical">{error.message}</p>;
+  }
   return (
     <div className="variant-item pb-15 border-b border-solid border-divider mb-15 last:border-b-0 last:pb-0">
       <div className="grid grid-cols-2 gap-x-1">
@@ -30,7 +73,7 @@ export function VariantModal({
         </div>
         <div className="col-span-1">
           <div className="grid grid-cols-2 gap-x-1 border-b border-divider pb-15 mb-15">
-            {variantAttributes.map((a, index) => (
+            {data?.attributes?.items.map((a, index) => (
               <div key={a.attributeId} className="mt-1 col">
                 <div>
                   <label>{a.attributeName}</label>
@@ -57,10 +100,7 @@ export function VariantModal({
                       (v) => v.attributeCode === a.attributeCode
                     )?.optionId
                   }
-                  options={a.options.map((o) => ({
-                    value: o.optionId,
-                    text: o.optionText
-                  }))}
+                  options={a.options}
                   type="select"
                 />
               </div>
