@@ -32,7 +32,7 @@ export default function LoginForm({ authUrl, dashboardUrl }) {
         id="adminLoginForm"
         isJSON
         onSuccess={onSuccess}
-        btnText={'SIGN IN'}
+        btnText="SIGN IN"
       >
         <Field
           name="email"
