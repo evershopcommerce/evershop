@@ -16,6 +16,7 @@ import SortableHeader from '@components/common/grid/headers/Sortable';
 import DummyColumnHeader from '@components/common/grid/headers/Dummy';
 import { Form } from '@components/common/form/Form';
 import { Field } from '@components/common/form/Field';
+import { toast } from 'react-toastify';
 
 function Actions({ attributes = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -23,13 +24,29 @@ function Actions({ attributes = [], selectedIds = [] }) {
 
   const deleteAttributes = async () => {
     setIsLoading(true);
-    const promises = attributes
-      .filter((attribute) => selectedIds.includes(attribute.uuid))
-      .map((attribute) => axios.delete(attribute.deleteApi));
-    await Promise.all(promises);
-    setIsLoading(false);
-    // Refresh the page
-    window.location.reload();
+    try {
+      const promises = attributes
+        .filter((attribute) => selectedIds.includes(attribute.uuid))
+        .map((attribute) =>
+          axios.delete(attribute.deleteApi, {
+            validateStatus: () => true
+          })
+        );
+      const responses = await Promise.allSettled(promises);
+      setIsLoading(false);
+      responses.forEach((response) => {
+        // Get the axios response status code
+        const { status } = response.value;
+        if (status !== 200) {
+          throw new Error(response.value.data.error.message);
+        }
+      });
+      // Refresh the page
+      window.location.reload();
+    } catch (e) {
+      setIsLoading(false);
+      toast.error(e.message);
+    }
   };
 
   const actions = [
@@ -146,7 +163,7 @@ export default function AttributeGrid({
             }
           }
         ]}
-       />
+      />
       <table className="listing sticky">
         <thead>
           <tr>

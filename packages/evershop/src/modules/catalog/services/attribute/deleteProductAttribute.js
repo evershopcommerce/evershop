@@ -30,6 +30,21 @@ async function deleteAttribute(uuid, context) {
     if (!attribute) {
       throw new Error('Invalid attribute id');
     }
+
+    // Make sure the attribute is not being used in any variant group
+    const variantGroup = await select()
+      .from('variant_group')
+      .where('attribute_one', '=', attribute.attribute_id)
+      .or('attribute_two', '=', attribute.attribute_id)
+      .or('attribute_three', '=', attribute.attribute_id)
+      .or('attribute_four', '=', attribute.attribute_id)
+      .or('attribute_five', '=', attribute.attribute_id)
+      .load(connection);
+    if (variantGroup) {
+      throw new Error(
+        `The attribute "${attribute.attribute_name}" is being used in a variant group`
+      );
+    }
     await hookable(deleteAttributeData, { ...context, connection, attribute })(
       uuid,
       connection
