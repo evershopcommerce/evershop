@@ -22,7 +22,7 @@ export function Variant({
       </td>
       {variant.attributes.map((a) => (
         <td key={a.attributeId}>
-          <label>{a.optionText}</label>
+          <label>{a.optionText || '--'}</label>
         </td>
       ))}
       <td>
