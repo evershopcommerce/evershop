@@ -8,11 +8,11 @@ const {
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const {
-  insert,
   startTransaction,
   rollback,
   commit,
-  select
+  select,
+  insertOnUpdate
 } = require('@evershop/postgres-query-builder');
 
 // eslint-disable-next-line no-unused-vars
@@ -47,27 +47,40 @@ module.exports = async (request, response, delegate, next) => {
         message: 'Product does not exists'
       });
     }
-    // Check if the product is already assigned to the collection
-    const productCollection = await select()
-      .from('product_collection')
-      .where('collection_id', '=', collection.collection_id)
-      .and('product_id', '=', product.product_id)
-      .load(connection);
-    if (productCollection) {
-      response.status(OK);
-      return response.json({
-        success: true,
-        message: 'Product is assigned to the collection'
-      });
+
+    // If the product is belong to a variant group, get all the variants and assign them to the collection
+    if (product.variant_group_id) {
+      const variants = await select()
+        .from('product')
+        .where('variant_group_id', '=', product.variant_group_id)
+        .execute(connection);
+      // Insert all the variants to the collection
+      await Promise.all(
+        variants.map(async (variant) => {
+          await insertOnUpdate('product_collection', [
+            'collection_id',
+            'product_id'
+          ])
+            .given({
+              collection_id: collection.collection_id,
+              product_id: variant.product_id
+            })
+            .execute(connection);
+        })
+      );
+    } else {
+      // Assign the product to the collection
+      await insertOnUpdate('product_collection', [
+        'collection_id',
+        'product_id'
+      ])
+        .given({
+          collection_id: collection.collection_id,
+          product_id: product.product_id
+        })
+        .execute(connection);
     }
 
-    // Assign the product to the collection
-    await insert('product_collection')
-      .given({
-        collection_id: collection.collection_id,
-        product_id: product.product_id
-      })
-      .execute(connection);
     await commit(connection);
     response.status(OK);
     return response.json({

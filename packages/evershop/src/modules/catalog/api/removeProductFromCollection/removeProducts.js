@@ -48,11 +48,26 @@ module.exports = async (request, response, delegate, next) => {
       });
     }
 
-    // Remove the product from the collection
-    await del('product_collection')
-      .where('collection_id', '=', collection.collection_id)
-      .and('product_id', '=', product.product_id)
-      .execute(connection);
+    if (product.variant_group_id) {
+      const variants = await select()
+        .from('product')
+        .where('variant_group_id', '=', product.variant_group_id)
+        .execute(connection);
+
+      await Promise.all(
+        variants.map(async (variant) => {
+          await del('product_collection')
+            .where('collection_id', '=', collection.collection_id)
+            .and('product_id', '=', variant.product_id)
+            .execute(connection);
+        })
+      );
+    } else {
+      await del('product_collection')
+        .where('collection_id', '=', collection.collection_id)
+        .and('product_id', '=', product.product_id)
+        .execute(connection);
+    }
     await commit(connection);
     response.status(OK);
     response.json({
