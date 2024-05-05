@@ -118,6 +118,29 @@ module.exports = async function registerDefaultProductCollectionFilters() {
       }
     },
     {
+      key: 'type',
+      operation: ['eq'],
+      callback: (query, operation, value, currentFilters) => {
+        if (['simple', 'configurable'].includes(value)) {
+          switch (value) {
+            case 'simple':
+              query.andWhere('product.variant_group_id', 'IS NULL', null);
+              break;
+            case 'configurable':
+              query.andWhere('product.variant_group_id', 'IS NOT NULL', null);
+              break;
+            default:
+              break;
+          }
+          currentFilters.push({
+            key: 'type',
+            operation,
+            value
+          });
+        }
+      }
+    },
+    {
       key: 'cat',
       operation: ['eq', 'in', 'nin'],
       callback: (query, operation, value, currentFilters) => {
