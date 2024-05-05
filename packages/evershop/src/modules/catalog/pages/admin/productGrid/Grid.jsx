@@ -1,4 +1,4 @@
-/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react/no-unstable-nested-components,no-nested-ternary */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -17,6 +17,7 @@ import QtyRow from '@components/admin/catalog/productGrid/rows/QtyRow';
 import SortableHeader from '@components/common/grid/headers/Sortable';
 import { Form } from '@components/common/form/Form';
 import { Field } from '@components/common/form/Field';
+import Filter from '@components/common/list/Filter';
 
 function Actions({ products = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -173,32 +174,130 @@ export default function ProductGrid({
       <Card.Session
         title={
           <Form submitBtn={false}>
-            <Field
-              type="text"
-              id="keyword"
-              placeholder="Search"
-              value={currentFilters.find((f) => f.key === 'keyword')?.value}
-              onKeyPress={(e) => {
-                // If the user press enter, we should submit the form
-                if (e.key === 'Enter') {
-                  const url = new URL(document.location);
-                  const keyword = document.getElementById('keyword')?.value;
-                  if (keyword) {
-                    url.searchParams.set('keyword', keyword);
-                  } else {
-                    url.searchParams.delete('keyword');
+            <div className="flex gap-2 justify-center items-center">
+              <Area
+                id="productGridFilter"
+                noOuter
+                coreComponents={[
+                  {
+                    component: {
+                      default: () => (
+                        <Field
+                          type="text"
+                          id="keyword"
+                          placeholder="Search"
+                          value={
+                            currentFilters.find((f) => f.key === 'keyword')
+                              ?.value
+                          }
+                          onKeyPress={(e) => {
+                            // If the user press enter, we should submit the form
+                            if (e.key === 'Enter') {
+                              const url = new URL(document.location);
+                              const keyword =
+                                document.getElementById('keyword')?.value;
+                              if (keyword) {
+                                url.searchParams.set('keyword', keyword);
+                              } else {
+                                url.searchParams.delete('keyword');
+                              }
+                              window.location.href = url;
+                            }
+                          }}
+                        />
+                      )
+                    },
+                    sortOrder: 5
+                  },
+                  {
+                    component: {
+                      default: () => (
+                        <Filter
+                          options={[
+                            {
+                              label: 'Enabled',
+                              value: '1',
+                              onSelect: () => {
+                                const url = new URL(document.location);
+                                url.searchParams.set('status', 1);
+                                window.location.href = url;
+                              }
+                            },
+                            {
+                              label: 'Disabled',
+                              value: '0',
+                              onSelect: () => {
+                                const url = new URL(document.location);
+                                url.searchParams.set('status', 0);
+                                window.location.href = url;
+                              }
+                            }
+                          ]}
+                          selectedOption={
+                            currentFilters.find((f) => f.key === 'status')
+                              ? currentFilters.find((f) => f.key === 'status')
+                                  .value === '1'
+                                ? 'Enabled'
+                                : 'Disabled'
+                              : undefined
+                          }
+                          title="Status"
+                        />
+                      )
+                    },
+                    sortOrder: 10
+                  },
+                  {
+                    component: {
+                      default: () => (
+                        <Filter
+                          options={[
+                            {
+                              label: 'Simple',
+                              value: '1',
+                              onSelect: () => {
+                                const url = new URL(document.location);
+                                url.searchParams.set('type', 'simple');
+                                window.location.href = url;
+                              }
+                            },
+                            {
+                              label: 'Configurable',
+                              value: '0',
+                              onSelect: () => {
+                                const url = new URL(document.location);
+                                url.searchParams.set('type', 'configurable');
+                                window.location.href = url;
+                              }
+                            }
+                          ]}
+                          selectedOption={
+                            currentFilters.find((f) => f.key === 'type')
+                              ? currentFilters.find((f) => f.key === 'type')
+                                  .value
+                              : undefined
+                          }
+                          title="Product type"
+                        />
+                      )
+                    },
+                    sortOrder: 15
                   }
-                  window.location.href = url;
-                }
-              }}
-            />
+                ]}
+                currentFilters={currentFilters}
+              />
+            </div>
           </Form>
         }
         actions={[
           {
             variant: 'interactive',
             name: 'Clear filter',
-            onAction: () => {}
+            onAction: () => {
+              const url = new URL(document.location);
+              url.search = '';
+              window.location.href = url.href;
+            }
           }
         ]}
       />

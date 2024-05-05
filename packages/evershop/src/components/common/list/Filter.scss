@@ -1,0 +1,39 @@
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+}
+
+.filter-container button {
+    background: none;
+    border-bottom: 1px solid #ccc;
+    color: var(--color-text);
+    font-size: 1.5rem;
+    text-align: left;
+    font-size: 12px;
+    padding: 0 5px;
+    text-transform: capitalize;
+}
+
+.filter-container ul {
+  list-style: none;
+  padding: 10px;
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  width: max-content;
+}
+
+.filter-container ul li {
+  padding: 3px 5px;
+  text-transform: capitalize;
+  &:hover {
+    background: #f9f9f9;
+  }
+}
