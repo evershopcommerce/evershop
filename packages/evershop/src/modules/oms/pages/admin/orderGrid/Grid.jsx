@@ -16,6 +16,7 @@ import CreateAt from '@components/admin/customer/customerGrid/rows/CreateAt';
 import { Form } from '@components/common/form/Form';
 import { Field } from '@components/common/form/Field';
 import SortableHeader from '@components/common/grid/headers/Sortable';
+import Filter from '@components/common/list/Filter';
 
 function Actions({ orders = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -102,7 +103,9 @@ Actions.propTypes = {
 };
 
 export default function OrderGrid({
-  orders: { items: orders, total, currentFilters = [] }
+  orders: { items: orders, total, currentFilters = [] },
+  paymentStatusList,
+  shipmentStatusList
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
     ? currentFilters.find((filter) => filter.key === 'page').value
@@ -119,41 +122,107 @@ export default function OrderGrid({
       <Card.Session
         title={
           <Form submitBtn={false}>
-            <Area
-              id="orderGridFilter"
-              noOuter
-              coreComponents={[
-                {
-                  component: {
-                    default: () => (
-                      <Field
-                        type="text"
-                        id="keyword"
-                        placeholder="Search"
-                        value={
-                          currentFilters.find((f) => f.key === 'keyword')?.value
-                        }
-                        onKeyPress={(e) => {
-                          // If the user press enter, we should submit the form
-                          if (e.key === 'Enter') {
-                            const url = new URL(document.location);
-                            const keyword =
-                              document.getElementById('keyword')?.value;
-                            if (keyword) {
-                              url.searchParams.set('keyword', keyword);
-                            } else {
-                              url.searchParams.delete('keyword');
-                            }
-                            window.location.href = url;
+            <div className="flex gap-2 justify-center items-center">
+              <Area
+                id="orderGridFilter"
+                noOuter
+                coreComponents={[
+                  {
+                    component: {
+                      default: () => (
+                        <Field
+                          type="text"
+                          id="keyword"
+                          placeholder="Search"
+                          value={
+                            currentFilters.find((f) => f.key === 'keyword')
+                              ?.value
                           }
-                        }}
-                      />
-                    )
+                          onKeyPress={(e) => {
+                            // If the user press enter, we should submit the form
+                            if (e.key === 'Enter') {
+                              const url = new URL(document.location);
+                              const keyword =
+                                document.getElementById('keyword')?.value;
+                              if (keyword) {
+                                url.searchParams.set('keyword', keyword);
+                              } else {
+                                url.searchParams.delete('keyword');
+                              }
+                              window.location.href = url;
+                            }
+                          }}
+                        />
+                      )
+                    },
+                    sortOrder: 5
                   },
-                  sortOrder: 10
-                }
-              ]}
-            />
+                  {
+                    component: {
+                      default: () => (
+                        <Filter
+                          options={paymentStatusList.map((status) => ({
+                            label: status.name,
+                            value: status.code,
+                            onSelect: () => {
+                              const url = new URL(document.location);
+                              url.searchParams.set(
+                                'payment_status',
+                                status.code
+                              );
+                              window.location.href = url;
+                            }
+                          }))}
+                          selectedOption={
+                            currentFilters.find(
+                              (f) => f.key === 'payment_status'
+                            )
+                              ? currentFilters.find(
+                                  (f) => f.key === 'payment_status'
+                                ).value
+                              : undefined
+                          }
+                          title="Payment status"
+                        />
+                      )
+                    },
+                    sortOrder: 10
+                  },
+                  {
+                    component: {
+                      default: () => (
+                        <Filter
+                          options={shipmentStatusList.map((status) => ({
+                            label: status.name,
+                            value: status.code,
+                            onSelect: () => {
+                              const url = new URL(document.location);
+                              url.searchParams.set(
+                                'shipment_status',
+                                status.code
+                              );
+                              window.location.href = url;
+                            }
+                          }))}
+                          selectedOption={
+                            currentFilters.find(
+                              (f) => f.key === 'shipment_status'
+                            )
+                              ? currentFilters.find(
+                                  (f) => f.key === 'shipment_status'
+                                ).value
+                              : undefined
+                          }
+                          title="Shipment status"
+                        />
+                      )
+                    },
+                    sortOrder: 15
+                  }
+                ]}
+                currentFilters={currentFilters}
+              />
+            </div>
           </Form>
         }
         actions={[
@@ -396,12 +465,16 @@ OrderGrid.propTypes = {
       })
     ).isRequired
   }).isRequired,
-  total: PropTypes.number.isRequired,
-  currentFilters: PropTypes.arrayOf(
+  paymentStatusList: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      operation: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
+      code: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  shipmentStatusList: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
     })
   ).isRequired
 };
@@ -448,6 +521,14 @@ export const query = `
         operation
         value
       }
+    }
+    paymentStatusList {
+      code
+      name
+    }
+    shipmentStatusList {
+      code
+      name
     }
   }
 `;
