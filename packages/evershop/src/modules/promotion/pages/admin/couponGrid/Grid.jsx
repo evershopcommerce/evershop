@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -14,6 +15,7 @@ import { Form } from '@components/common/form/Form';
 import { Field } from '@components/common/form/Field';
 import SortableHeader from '@components/common/grid/headers/Sortable';
 import DummyColumnHeader from '@components/common/grid/headers/Dummy';
+import Filter from '@components/common/list/Filter';
 
 function Actions({ coupons = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -171,43 +173,129 @@ export default function CouponGrid({
       <Card.Session
         title={
           <Form submitBtn={false}>
-            <Area
-              id="cmsPageGridFilter"
-              noOuter
-              coreComponents={[
-                {
-                  component: {
-                    default: () => (
-                      <Field
-                        type="text"
-                        id="coupon"
-                        placeholder="Search"
-                        value={
-                          currentFilters.find((f) => f.key === 'coupon')?.value
-                        }
-                        onKeyPress={(e) => {
-                          // If the user press enter, we should submit the form
-                          if (e.key === 'Enter') {
-                            const url = new URL(document.location);
-                            const coupon =
-                              document.getElementById('coupon')?.value;
-                            if (coupon) {
-                              url.searchParams.set('coupon[operation]', 'like');
-                              url.searchParams.set('coupon[value]', coupon);
-                            } else {
-                              url.searchParams.delete('coupon[operation]');
-                              url.searchParams.delete('coupon[value]');
-                            }
-                            window.location.href = url;
+            <div className="flex gap-2 justify-center items-center">
+              <Area
+                id="couponGridFilter"
+                noOuter
+                coreComponents={[
+                  {
+                    component: {
+                      default: () => (
+                        <Field
+                          type="text"
+                          id="coupon"
+                          placeholder="Search"
+                          value={
+                            currentFilters.find((f) => f.key === 'coupon')
+                              ?.value
                           }
-                        }}
-                      />
-                    )
+                          onKeyPress={(e) => {
+                            // If the user press enter, we should submit the form
+                            if (e.key === 'Enter') {
+                              const url = new URL(document.location);
+                              const coupon =
+                                document.getElementById('coupon')?.value;
+                              if (coupon) {
+                                url.searchParams.set(
+                                  'coupon[operation]',
+                                  'like'
+                                );
+                                url.searchParams.set('coupon[value]', coupon);
+                              } else {
+                                url.searchParams.delete('coupon[operation]');
+                                url.searchParams.delete('coupon[value]');
+                              }
+                              window.location.href = url;
+                            }
+                          }}
+                        />
+                      )
+                    },
+                    sortOrder: 5
                   },
-                  sortOrder: 10
-                }
-              ]}
-            />
+                  {
+                    component: {
+                      default: () => (
+                        <Filter
+                          options={[
+                            {
+                              label: 'Enabled',
+                              value: '1',
+                              onSelect: () => {
+                                const url = new URL(document.location);
+                                url.searchParams.set('status', 1);
+                                window.location.href = url;
+                              }
+                            },
+                            {
+                              label: 'Disabled',
+                              value: '0',
+                              onSelect: () => {
+                                const url = new URL(document.location);
+                                url.searchParams.set('status', 0);
+                                window.location.href = url;
+                              }
+                            }
+                          ]}
+                          selectedOption={
+                            currentFilters.find((f) => f.key === 'status')
+                              ? currentFilters.find((f) => f.key === 'status')
+                                  .value === '1'
+                                ? 'Enabled'
+                                : 'Disabled'
+                              : undefined
+                          }
+                          title="Status"
+                        />
+                      )
+                    },
+                    sortOrder: 10
+                  },
+                  {
+                    component: {
+                      default: () => (
+                        <Filter
+                          options={[
+                            {
+                              label: 'Free shipping',
+                              value: '1',
+                              onSelect: () => {
+                                const url = new URL(document.location);
+                                url.searchParams.set('free_shipping', 1);
+                                window.location.href = url;
+                              }
+                            },
+                            {
+                              label: 'No free shipping',
+                              value: '0',
+                              onSelect: () => {
+                                const url = new URL(document.location);
+                                url.searchParams.set('free_shipping', 0);
+                                window.location.href = url;
+                              }
+                            }
+                          ]}
+                          selectedOption={
+                            currentFilters.find(
+                              (f) => f.key === 'free_shipping'
+                            )
+                              ? currentFilters.find(
+                                  (f) => f.key === 'free_shipping'
+                                ).value === '1'
+                                ? 'Free shipping'
+                                : 'No free shipping'
+                              : undefined
+                          }
+                          title="Free shipping?"
+                        />
+                      )
+                    },
+                    sortOrder: 10
+                  }
+                ]}
+                currentFilters={currentFilters}
+              />
+            </div>
           </Form>
         }
         actions={[
@@ -222,7 +310,7 @@ export default function CouponGrid({
             }
           }
         ]}
-       />
+      />
       <table className="listing sticky">
         <thead>
           <tr>

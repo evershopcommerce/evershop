@@ -5,6 +5,7 @@ type ShippingMethod {
   shippingMethodId: Int!
   uuid: String!
   name: String!
+  updateApi: String!
 }
 
 extend type Query {

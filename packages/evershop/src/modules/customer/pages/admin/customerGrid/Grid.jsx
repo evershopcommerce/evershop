@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -13,6 +14,7 @@ import CreateAt from '@components/admin/customer/customerGrid/rows/CreateAt';
 import { Form } from '@components/common/form/Form';
 import { Field } from '@components/common/form/Field';
 import SortableHeader from '@components/common/grid/headers/Sortable';
+import Filter from '@components/common/list/Filter';
 
 function Actions({ customers = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -131,41 +133,83 @@ export default function CustomerGrid({
       <Card.Session
         title={
           <Form submitBtn={false}>
-            <Area
-              id="customerGridFilter"
-              noOuter
-              coreComponents={[
-                {
-                  component: {
-                    default: () => (
-                      <Field
-                        type="text"
-                        id="keyword"
-                        placeholder="Search"
-                        value={
-                          currentFilters.find((f) => f.key === 'keyword')?.value
-                        }
-                        onKeyPress={(e) => {
-                          // If the user press enter, we should submit the form
-                          if (e.key === 'Enter') {
-                            const url = new URL(document.location);
-                            const keyword =
-                              document.getElementById('keyword')?.value;
-                            if (keyword) {
-                              url.searchParams.set('keyword', keyword);
-                            } else {
-                              url.searchParams.delete('keyword');
-                            }
-                            window.location.href = url;
+            <div className="flex gap-2 justify-center items-center">
+              <Area
+                id="customerGridFilter"
+                noOuter
+                coreComponents={[
+                  {
+                    component: {
+                      default: () => (
+                        <Field
+                          type="text"
+                          id="keyword"
+                          placeholder="Search"
+                          value={
+                            currentFilters.find((f) => f.key === 'keyword')
+                              ?.value
                           }
-                        }}
-                      />
-                    )
+                          onKeyPress={(e) => {
+                            // If the user press enter, we should submit the form
+                            if (e.key === 'Enter') {
+                              const url = new URL(document.location);
+                              const keyword =
+                                document.getElementById('keyword')?.value;
+                              if (keyword) {
+                                url.searchParams.set('keyword', keyword);
+                              } else {
+                                url.searchParams.delete('keyword');
+                              }
+                              window.location.href = url;
+                            }
+                          }}
+                        />
+                      )
+                    },
+                    sortOrder: 5
                   },
-                  sortOrder: 10
-                }
-              ]}
-            />
+                  {
+                    component: {
+                      default: () => (
+                        <Filter
+                          options={[
+                            {
+                              label: 'Enabled',
+                              value: '1',
+                              onSelect: () => {
+                                const url = new URL(document.location);
+                                url.searchParams.set('status', 1);
+                                window.location.href = url;
+                              }
+                            },
+                            {
+                              label: 'Disabled',
+                              value: '0',
+                              onSelect: () => {
+                                const url = new URL(document.location);
+                                url.searchParams.set('status', 0);
+                                window.location.href = url;
+                              }
+                            }
+                          ]}
+                          selectedOption={
+                            currentFilters.find((f) => f.key === 'status')
+                              ? currentFilters.find((f) => f.key === 'status')
+                                  .value === '1'
+                                ? 'Enabled'
+                                : 'Disabled'
+                              : undefined
+                          }
+                          title="Status"
+                        />
+                      )
+                    },
+                    sortOrder: 10
+                  }
+                ]}
+                currentFilters={currentFilters}
+              />
+            </div>
           </Form>
         }
         actions={[

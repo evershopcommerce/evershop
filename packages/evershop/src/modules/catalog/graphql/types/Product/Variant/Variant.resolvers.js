@@ -50,6 +50,11 @@ module.exports = {
           );
 
         query.where('variant_group_id', '=', variantGroupId);
+        query.andWhere(
+          'product_attribute_value_index.attribute_id',
+          'IN',
+          Object.values(group).filter((v) => Number.isInteger(v))
+        );
         if (!user) {
           query.andWhere('status', '=', 1);
         }

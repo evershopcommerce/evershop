@@ -31,6 +31,7 @@ type ShippingMethodByZone {
   max: Float
   min: Float
   updateApi: String!
+  deleteApi: String!
 }
 
 """
