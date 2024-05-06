@@ -1,0 +1,62 @@
+Total, Всього
+Order, Замовлення
+Sku, SKU
+Continue to shipping, Продовжити покупки
+Continue shopping, Продовжити покупки
+Continue Shopping, Продовжити Покупки
+CONTINUE SHOPPING, ПРОДОВЖИТИ ПОКУПКИ
+Shopping cart, Корзина
+Product, Товар
+Price, Ціна
+Quantity, Кількість
+Remove, Видалити
+Qty, Кількість
+Sub total, Проміжні підсумки
+Discount(${coupon}), Знижка(${coupon})
+Order summary, Опис замовлення
+Taxes and shipping calculated at checkout, Вартість податків і доставки розраховуються при оформленні замовлення
+CHECKOUT, ОФОРМИТИ ЗАМОВЛЕННЯ
+Change, Змінити
+Payment Method, Метод оплати
+Shipping Address, Адреса доставки
+Shipping Method, Спосіб доставки
+No payment methods available, Немає доступних способів оплати
+Place Order, Разместити замовлення
+My billing address is same as shipping address, Моя платіжна адреса співпадає з адресою доставки
+${count} items, Позицій: ${count}
+Discount, Знижка
+Shipping, Доставка
+No tax, Без податку
+Tax, Податок
+Sorry, there is no available method for your address, На жаль, для вашої адреси немає доступного способу доставки
+Please enter a shipping address in order to see shipping quotes, Будь ласка, введіть адресу, щоб розразувати вартість доставки
+Continue to payment, Перейти до оплати
+No payment method available, Немає доступних способів оплати
+Ship to, Адреса отримувача
+Shipment, Доставка
+Thank you ${name}!, ${name}, дякуємо за замовлення!
+Contact information, Контактні дані
+Order #${orderNumber}, Замовлення #${orderNumber}
+ADD TO CART, ДОДАТИ В КОЗИНУ
+Please select variant options, Будь ласка, выберіть інший варіант
+VIEW CART (${count}), ПОДИВИТИСЬ КОРЗИНУ (${count})
+JUST ADDED TO YOUR CART, ДОДАНО В КОРЗИНУ
+Promotion code?, Є промокод?
+Enter coupon code, Введіть промокод
+Apply, Застосувати
+Your cart is empty!, Ваша корзина пуста!
+Full name, Фамілія Ім'я
+Telephone, Телефон
+Address, Адреса
+City, Місто
+Country, Країна
+Postcode, Поштовий індекс
+Inclusive of tax ${taxAmount}, Включаючи податок ${taxAmount}
+Full name is required, Фамілія і Ім'я обов'язкові до заповнення
+Telephone is required, Телефон обов'язковий до заповнення
+Address is required, Адреса обов'язкова до заповнення
+City is required, Місто обов'язкове до заповнення
+Country is required, Країна обов'язкова до заповнення
+Postcode is required, Поштовий індекс обов'язковий до заповнення
+Contact, Контакт
+Payment, Оплата
