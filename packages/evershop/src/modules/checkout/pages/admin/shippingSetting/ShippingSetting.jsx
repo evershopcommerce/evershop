@@ -69,6 +69,7 @@ const ZonesQuery = `
         max
         min
         updateApi
+        deleteApi
       }
       updateApi
       deleteApi
@@ -119,7 +120,14 @@ export default function ShippingSetting({ createShippingZoneApi }) {
                 <Zones
                   zones={zonesQueryData.data.shippingZones}
                   countries={countriesQueryData.data.countries}
-                  getZones={reexecuteQuery}
+                  getZones={() => {
+                    reexecuteQuery(
+                      {
+                        requestPolicy: 'network-only'
+                      },
+                      false
+                    );
+                  }}
                 />
               )}
               <Card.Session>
@@ -175,21 +183,5 @@ export const layout = {
 export const query = `
   query Query {
     createShippingZoneApi: url(routeId: "createShippingZone")
-    shippingZones {
-      uuid
-      name
-      country {
-        name
-        code
-      }
-      provinces {
-        name
-        code
-      }
-      methods {
-        uuid
-        name
-      }
-    }
   }
 `;

@@ -1,0 +1,5 @@
+{
+  "methods": ["DELETE"],
+  "path": "/shippingZones/:zone_id/methods/:method_id",
+  "access": "private"
+}
