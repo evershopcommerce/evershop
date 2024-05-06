@@ -11,6 +11,7 @@ import Button from '@components/common/form/Button';
 import './Form.scss';
 import { useAppDispatch, useAppState } from '@components/common/context/app';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 
 function ToastMessage({ thumbnail, name, qty, count, cartUrl, toastId }) {
   return (
@@ -43,8 +44,12 @@ function ToastMessage({ thumbnail, name, qty, count, cartUrl, toastId }) {
         </div>
       </div>
       <div className="item-line flex justify-between">
-        <div className="popup-thumbnail flex justify-center">
-          <img src={thumbnail} alt={name} />
+        <div className="popup-thumbnail flex justify-center items-center">
+          {thumbnail ? (
+            <img src={thumbnail} alt={name} />
+          ) : (
+            <ProductNoThumbnail width={25} height={25} />
+          )}
         </div>
         <div className="item-info flex justify-between">
           <div className="name">
@@ -151,7 +156,7 @@ export default function ProductForm({ product, action }) {
             qty={response.data.item.qty}
             count={response.data.count}
             cartUrl="/cart"
-            toastId={`${toastId  }-${  Math.random().toString(36).slice(2)}`}
+            toastId={`${toastId}-${Math.random().toString(36).slice(2)}`}
           />,
           { closeButton: false }
         )
