@@ -5,8 +5,8 @@ import { useQuery } from 'urql';
 import { useCheckout } from '@components/common/context/checkout';
 import './CheckoutForm.scss';
 import { Field } from '@components/common/form/Field';
-import TestCards from './TestCards';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import TestCards from './TestCards';
 
 const cartQuery = `
   query Query($cartId: String) {
