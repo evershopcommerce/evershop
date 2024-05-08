@@ -5,6 +5,7 @@ import { useQuery } from 'urql';
 import { useCheckout } from '@components/common/context/checkout';
 import './CheckoutForm.scss';
 import { Field } from '@components/common/form/Field';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import TestCards from './TestCards';
 
 const cartQuery = `
@@ -101,7 +102,11 @@ export default function CheckoutForm({ stripePublishableKey }) {
         })
         .then((res) => res.json())
         .then((data) => {
-          setClientSecret(data.data.clientSecret);
+          if (data.error) {
+            setError(_('Some error occurred. Please try again later.'));
+          } else {
+            setClientSecret(data.data.clientSecret);
+          }
         });
     }
   }, [orderId]);

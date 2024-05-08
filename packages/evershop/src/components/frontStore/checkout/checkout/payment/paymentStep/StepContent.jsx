@@ -11,6 +11,7 @@ import { useCheckout } from '@components/common/context/checkout';
 import { Field } from '@components/common/form/Field';
 import Button from '@components/common/form/Button';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import Spinner from '@components/common/Spinner';
 
 const QUERY = `
   query Query($cartId: String) {
@@ -78,14 +79,15 @@ export function StepContent({
   });
   const { data, fetching, error } = result;
 
-  if (fetching) return <p>Loading .....</p>;
-  if (error) {
+  if (fetching) {
     return (
-      <p>
-        Oh no...
-        {error.message}
-      </p>
+      <div className="flex justify-center items-center p-3">
+        <Spinner width={25} height={25} />
+      </div>
     );
+  }
+  if (error) {
+    return <div className="p-2 text-critical">{error.message}</div>;
   }
   return (
     <div>
@@ -160,6 +162,7 @@ export function StepContent({
             {_('No payment method available')}
           </div>
         )}
+        <Area id="beforePlaceOrderButton" noOuter />
         <div className="form-submit-button">
           <Button
             onAction={() => {
