@@ -167,10 +167,9 @@ export default function CheckoutForm({ stripePublishableKey }) {
 
   if (result.error) {
     return (
-      <p>
-        Oh no...
+      <div className="flex p-2 justify-center items-center text-critical">
         {error.message}
-      </p>
+      </div>
     );
   }
   // Check if the selected payment method is Stripe

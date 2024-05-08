@@ -22,16 +22,6 @@ export function CheckoutProvider({
 
   // Call api to current url when steps change
   useEffect(() => {
-    const reload = async () => {
-      const url = new URL(window.location.href, window.location.origin);
-      url.searchParams.append('ajax', true);
-      await AppContextDispatch.fetchPageData(url);
-      url.searchParams.delete('ajax');
-    };
-    reload();
-  }, [steps]);
-
-  useEffect(() => {
     const placeOrder = async () => {
       // If order is placed, do nothing
       if (orderPlaced) {
@@ -49,14 +39,18 @@ export function CheckoutProvider({
         setOrderPlaced(true);
         setOrderId(response.data.data.uuid);
         setError(null);
-        // let redirectUrl = response.data.data.redirect || checkoutSuccessUrl;
-
-        // window.location.href = redirectUrl;
       } else {
         setError(response.data.error.message);
       }
     };
-    placeOrder();
+    const reload = async () => {
+      const url = new URL(window.location.href, window.location.origin);
+      url.searchParams.append('ajax', true);
+      await AppContextDispatch.fetchPageData(url);
+      url.searchParams.delete('ajax');
+      await placeOrder();
+    };
+    reload();
   }, [steps]);
 
   const getPaymentMethods = async () => {
