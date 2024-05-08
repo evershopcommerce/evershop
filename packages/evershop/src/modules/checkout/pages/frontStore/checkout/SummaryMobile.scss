@@ -1,0 +1,7 @@
+.checkout-summary.checkout__summary__mobile {
+  min-height: auto;
+  &::after {
+    display: none;
+    background-color: none
+  }
+}
