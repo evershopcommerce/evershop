@@ -2,12 +2,7 @@
 name: deploy-to-ghp
 
 on:
-  workflow_dispatch:
-    inputs:
-      node-runner:
-        description: 'Node Runner used for jobs'
-        default: 'nodejs-18'
-        type: string
+  push:
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
@@ -37,7 +32,7 @@ jobs:
       - name: Setup node js
         uses: actions/setup-node@v2
         with:
-          node-version: 18
+          node-version: 20
 
       - name: 🧱 Install Dependencies
         id: bootstrap
@@ -58,7 +53,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: '.'
+          path: './.evershop/build'
 
       - name: Deploy to GitHub Pages
         id: deployment
