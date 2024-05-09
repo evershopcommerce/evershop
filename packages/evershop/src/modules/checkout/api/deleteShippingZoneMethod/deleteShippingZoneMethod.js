@@ -63,14 +63,14 @@ module.exports = async (request, response, deledate, next) => {
     }
 
     // Delete the shipping zone method
-    const method = await del('shipping_zone_method')
+    await del('shipping_zone_method')
       .where('method_id', '=', zoneMethod.shipping_method_id)
       .and('zone_id', '=', shippingZone.shipping_zone_id)
       .execute(connection);
     await commit(connection);
     response.status(OK);
     response.json({
-      data: method
+      data: zoneMethod
     });
   } catch (e) {
     await rollback(connection);
