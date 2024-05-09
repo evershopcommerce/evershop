@@ -38,14 +38,11 @@ module.exports = async (request, response, deledate, next) => {
       });
       return;
     }
-    const zone = await del('shipping_zone')
-      .where('uuid', '=', id)
-      .execute(connection);
-
+    await del('shipping_zone').where('uuid', '=', id).execute(connection);
     await commit(connection);
     response.status(OK);
     response.json({
-      data: zone
+      data: shippingZone
     });
   } catch (e) {
     error(e);

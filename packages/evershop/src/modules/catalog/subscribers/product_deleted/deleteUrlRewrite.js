@@ -7,6 +7,6 @@ module.exports = async function buildUrlReWrite(data) {
   // Delete the url rewrite for the product
   await execute(
     pool,
-    `DELETE FROM url_rewrite WHERE entity_uuid = ${productUuid} AND entity_type = 'product'`
+    `DELETE FROM url_rewrite WHERE entity_uuid = '${productUuid}' AND entity_type = 'product'`
   );
 };
