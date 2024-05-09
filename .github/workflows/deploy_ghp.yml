@@ -33,14 +33,24 @@ jobs:
     steps:
       - name: ⛙ Checkout
         uses: actions/checkout@v4
-        # with:
-        #   token: ${{ secrets.CS_CI_GITHUB_TOKEN }}
+
+      - name: Setup node js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
 
       - name: 🧱 Install Dependencies
         id: bootstrap
         shell: bash
         run: | 
+          npm install -g npm@9
           npm install
+
+      - name: Build
+        id: build
+        shell: bash
+        run: |
+          npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
