@@ -1,5 +1,5 @@
-# With new versions of docker compose & docker engine using "version" to validate compose files is obsolete.
-# You would instead use "name:" or none of them and start your file from "services"
+## With new versions of docker compose & docker engine using "version" to validate compose files is obsolete.
+## You would instead use "name:" or none of them and start your file from "services"
 
 version: '3.8'
 
