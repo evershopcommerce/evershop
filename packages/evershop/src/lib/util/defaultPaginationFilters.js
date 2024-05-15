@@ -54,7 +54,7 @@ const defaultPaginationFilters = [
         } else {
           query.limit(0, parseInt(value, 10));
           currentFilters.push({
-            key: 'page',
+            key: 'limit',
             operation: 'eq',
             value
           });
@@ -77,22 +77,14 @@ const defaultPaginationFilters = [
     key: '*',
     operation: ['eq'],
     callback: (query, operation, value, currentFilters) => {
-      const page = currentFilters.find((f) => f.key === 'page');
-      const limit = currentFilters.find((f) => f.key === 'limit');
-      if (!limit) {
-        currentFilters.push({
-          key: 'limit',
-          operation: 'eq',
-          value: CONSTANTS.ADMIN_COLLECTION_SIZE
-        });
-      }
-      if (!page) {
-        currentFilters.push({
-          key: 'page',
-          operation: 'eq',
-          value: 1
-        });
-      }
+      const page = currentFilters.find((f) => f.key === 'page') || { value: 1 };
+      const limit = currentFilters.find((f) => f.key === 'limit') || {
+        value: CONSTANTS.ADMIN_COLLECTION_SIZE
+      };
+      query.limit(
+        (parseInt(page.value, 10) - 1) * parseInt(limit.value, 10),
+        parseInt(limit.value, 10)
+      );
     }
   }
 ];

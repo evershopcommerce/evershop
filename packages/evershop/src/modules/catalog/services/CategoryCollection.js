@@ -24,16 +24,16 @@ class CategoryCollection {
     );
 
     categoryCollectionFilters.forEach((filter) => {
-      const check = filters.find((f) => f.key === filter.key);
-      if (check) {
-        if (filter.operation.includes(check.operation)) {
-          filter.callback(
-            this.baseQuery,
-            check.operation,
-            check.value,
-            currentFilters
-          );
-        }
+      const check = filters.find(
+        (f) => f.key === filter.key && filter.operation.includes(f.operation)
+      );
+      if (filter.key === '*' || check) {
+        filter.callback(
+          this.baseQuery,
+          check?.operation,
+          check?.value,
+          currentFilters
+        );
       }
     });
 
