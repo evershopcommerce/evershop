@@ -1,15 +1,9 @@
-## With new versions of docker compose & docker engine using "version" to validate compose files is obsolete.
-## You would instead use "name:" or none of them and start your file from "services"
-
 version: '3.8'
 
 services:
   app:
     image: evershop/evershop:latest
     restart: always
-    volumes:
-    - config:/app/config
-    - translations:/app/translations
     environment:
       DB_HOST: database
       DB_PORT: 5432
@@ -44,6 +38,4 @@ networks:
     driver: bridge
 
 volumes:
-  postgres-data: {}
-  config: {}
-  translations: {}
+  postgres-data:
