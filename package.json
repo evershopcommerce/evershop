@@ -36,7 +36,7 @@
     "@babel/core": "^7.14.8",
     "@babel/node": "^7.14.7",
     "babel-jest": "^28.1.1",
-    "cypress": "^9.7.0",
+    "cypress": "^13.9.0",
     "eslint": "^8.17.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.6.0",
