@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "evershop dev",
     "setup": "evershop install",
-    "build": "evershop build",
+    "build": "evershop build --skip-minify",
     "start": "evershop start",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",
