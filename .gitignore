@@ -1,7 +1,6 @@
 node_modules
 .env
 ./dist
-/extensions/*
 themes
 .idea/*
 .evershop

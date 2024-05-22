@@ -1,9 +1,9 @@
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
 } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { error } = require('@evershop/evershop/src/lib/log/logger');
 const {
   translate
@@ -16,7 +16,7 @@ module.exports = async (request, response, delegate, next) => {
   try {
     const { items, customer_full_name, customer_email } = request.body;
     const cartData = {
-      currency: getConfig('shop.currency', 'USD')
+      currency: request.cookies.isoCode || getConfig('shop.currency', 'USD')
     };
     if (customer_full_name) {
       cartData.customer_full_name = customer_full_name;
