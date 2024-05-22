@@ -200,7 +200,7 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
     // Find the matched rewrite rule base on the request path
     const rewriteRule = await select()
       .from('url_rewrite')
-      .where('request_path', '=', `/${path}`)
+      .where('request_path', '=', `/${decodeURIComponent(path)}`)
       .load(pool);
 
     if (rewriteRule) {
