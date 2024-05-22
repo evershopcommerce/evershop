@@ -81,6 +81,16 @@ const defaultPaginationFilters = [
       const limit = currentFilters.find((f) => f.key === 'limit') || {
         value: CONSTANTS.ADMIN_COLLECTION_SIZE
       };
+      currentFilters.push({
+        key: 'page',
+        operation: 'eq',
+        value: page.value
+      });
+      currentFilters.push({
+        key: 'limit',
+        operation: 'eq',
+        value: limit.value
+      });
       query.limit(
         (parseInt(page.value, 10) - 1) * parseInt(limit.value, 10),
         parseInt(limit.value, 10)
