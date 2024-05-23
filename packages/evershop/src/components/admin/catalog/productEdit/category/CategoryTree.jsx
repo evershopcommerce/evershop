@@ -31,22 +31,29 @@ function CategoryTree({ selectedCategory, setSelectedCategory }) {
   const { data, fetching, error } = result;
 
   if (fetching) {
-    return <Spinner width={30} height={30} />;
+    return (
+      <div className="category-tree-container absolute top-5 left-0 right-0 border rounded">
+        <Spinner width={30} height={30} />
+      </div>
+    );
   }
   if (error) {
     return (
-      <p>
-        Oh no...
-        {error.message}
-      </p>
+      <div className="category-tree-container absolute top-5 left-0 right-0 border rounded">
+        <p className="text-critical">{error.message}</p>
+      </div>
     );
   }
   if (data.categories.items.length === 0) {
-    return <div>There is no category</div>;
+    return (
+      <div className="category-tree-container absolute top-5 left-0 right-0 border rounded">
+        <div>There is no category</div>
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="category-tree-container absolute top-5 left-0 right-0 border rounded">
       <ul className="category-tree">
         {data.categories.items.map((category) => (
           <CategoryItem
