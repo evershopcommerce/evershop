@@ -11,9 +11,11 @@
   -webkit-animation-duration: 0.25s;
   animation-duration: 0.25s;
   .modal-wrapper {
-    max-height: calc(100vh - 4rem);
+    // max-height: calc(100vh - 4rem);
+    overflow-y: auto;
     .modal {
       max-height: calc(100vh - 4rem);
+      overflow-y: auto;
     }
     .modal-content {
       max-height: calc(100vh - 18rem);
