@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   app:
-    image: evershop/evershop:latest
+    build:
+      dockerfile: ./Dockerfile
     restart: always
     environment:
       DB_HOST: database
@@ -16,8 +17,8 @@ services:
       - database
     ports:
       - 3000:3000
-  
-  #The postgres database: 
+
+  #The postgres database:
   database:
     image: postgres:16
     restart: unless-stopped
@@ -28,7 +29,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     networks:
       - myevershop
 
