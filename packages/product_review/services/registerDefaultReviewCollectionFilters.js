@@ -46,7 +46,7 @@ module.exports = async function registerDefaultReviewCollectionFilters() {
           {
             product: (query) => query.orderBy('product_description.name'),
             rating: (query) => query.orderBy('product_review.rating'),
-            status: (query) => query.orderBy('product_review.status')
+            status: (query) => query.orderBy('product_review.approved')
           }
         );
 

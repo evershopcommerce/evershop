@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "age": {
+      "type": ["integer", "string"],
+      "pattern": "^[0-9]+$"
+    }
+  },
+  "required": ["age"],
+  "additionalProperties": true
+}

@@ -9,6 +9,7 @@ COPY media ./media
 COPY config ./config
 COPY translations ./translations
 COPY packages ./packages
+
 RUN npm install
 RUN npm run build
 
