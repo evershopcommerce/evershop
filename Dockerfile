@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:18.16-alpine
 WORKDIR /app
 RUN npm install -g npm@9
 COPY package*.json .
@@ -8,6 +8,8 @@ COPY public ./public
 COPY media ./media
 COPY config ./config
 COPY translations ./translations
+COPY packages ./packages
+
 RUN npm install
 RUN npm run build
 
