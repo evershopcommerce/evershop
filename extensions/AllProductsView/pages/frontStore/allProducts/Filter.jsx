@@ -4,19 +4,14 @@ import Area from '@components/common/Area';
 import { useAppDispatch } from '@components/common/context/app';
 import './Filter.scss';
 import { PriceFilter } from '@components/frontStore/catalog/categoryView/filter/PriceFilter';
-import { AttributeFilter } from '@components/frontStore/catalog/categoryView/filter/AttributeFilter';
 import { CategoryFilter } from '@components/frontStore/catalog/categoryView/filter/CategoryFilter';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export const FilterDispatch = React.createContext();
 
 export default function Filter({
-  category: {
-    products: { currentFilters },
-    availableAttributes,
-    priceRange,
-    children
-  },
+  products: { currentFilters },
+  categories: { items: cats },
   setting
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,40 +25,24 @@ export default function Filter({
       if (
         currentFilters[i].key === 'page' ||
         currentFilters[i].key === 'limit' ||
-        currentFilters[i].key === 'ob' ||
-        currentFilters[i].key === 'od'
+        currentFilters[i].key === 'sortBy' ||
+        currentFilters[i].key === 'sortOrder'
       ) {
         continue;
       }
-      if (currentFilters[i].operation === 'eq') {
-        url.searchParams.delete(currentFilters[i].key);
-      } else {
-        url.searchParams.delete(`${currentFilters[i].key}[operation]`);
-        url.searchParams.delete(`${currentFilters[i].key}[value]`);
-      }
+      url.searchParams.delete(currentFilters[i].key);
     }
 
     for (let i = 0; i < newFilters.length; i += 1) {
       if (
         newFilters[i].key === 'page' ||
         newFilters[i].key === 'limit' ||
-        newFilters[i].key === 'ob' ||
-        newFilters[i].key === 'od'
+        newFilters[i].key === 'sortBy' ||
+        newFilters[i].key === 'sortOrder'
       ) {
         continue;
       }
-      if (newFilters[i].operation === 'eq') {
-        url.searchParams.append(newFilters[i].key, newFilters[i].value);
-      } else {
-        url.searchParams.append(
-          `${newFilters[i].key}[operation]`,
-          newFilters[i].operation
-        );
-        url.searchParams.append(
-          `${newFilters[i].key}[value]`,
-          newFilters[i].value
-        );
-      }
+      url.searchParams.append(newFilters[i].key, newFilters[i].value);
     }
     // window.location.href = url;
     url.searchParams.delete('ajax', true);
@@ -78,7 +57,13 @@ export default function Filter({
   };
 
   const contextValue = useMemo(() => ({ updateFilter }), [currentFilters]);
-
+  const priceRange = { min: Infinity, max: 0 }
+  for (const cat of cats) {
+    if (cat.priceRange.min < priceRange.min)
+      priceRange.min = cat.priceRange.min
+    if (cat.priceRange.max > priceRange.max)
+      priceRange.max = cat.priceRange.max
+  }
   return (
     <FilterDispatch.Provider value={contextValue}>
       <div
@@ -92,7 +77,6 @@ export default function Filter({
         <Area
           id="productFilter"
           noOuter
-          availableAttributes={availableAttributes}
           priceRange={priceRange}
           currentFilters={currentFilters}
           coreComponents={[
@@ -107,14 +91,9 @@ export default function Filter({
                 currentFilters,
                 updateFilter,
                 setting,
-                categories: children
+                categories: cats
               },
               sortOrder: 15
-            },
-            {
-              component: { default: AttributeFilter },
-              props: { availableAttributes, currentFilters, updateFilter },
-              sortOrder: 20
             }
           ]}
         />
@@ -170,37 +149,25 @@ export default function Filter({
 }
 
 Filter.propTypes = {
-  category: PropTypes.shape({
-    products: PropTypes.shape({
-      currentFilters: PropTypes.arrayOf(
-        PropTypes.shape({
-          key: PropTypes.string,
-          operation: PropTypes.string,
-          value: PropTypes.string
-        })
-      )
-    }),
-    availableAttributes: PropTypes.arrayOf(
+  products: PropTypes.shape({
+    currentFilters: PropTypes.arrayOf(
       PropTypes.shape({
-        attributeCode: PropTypes.string,
-        attributeName: PropTypes.string,
-        options: PropTypes.arrayOf(
-          PropTypes.shape({
-            optionId: PropTypes.number,
-            optionText: PropTypes.string
-          })
-        )
+        key: PropTypes.string,
+        operation: PropTypes.string,
+        value: PropTypes.string
       })
-    ),
-    priceRange: PropTypes.shape({
-      min: PropTypes.number,
-      max: PropTypes.number
-    }),
-    children: PropTypes.arrayOf(
+    )
+  }),
+  categories: PropTypes.shape({
+    items: PropTypes.arrayOf(
       PropTypes.shape({
-        categoryId: PropTypes.number,
+        categoryId: PropTypes.string,
         name: PropTypes.string,
-        uuid: PropTypes.string
+        uuid: PropTypes.string,
+        priceRange: PropTypes.shape({
+          min: PropTypes.float,
+          max: PropTypes.float
+        })
       })
     )
   }).isRequired,
@@ -217,30 +184,22 @@ export const layout = {
 
 export const query = `
 query Query($filters: [FilterInput]) {
-  category (id: getContextValue('categoryId')) {
-    products (filters: $filters) {
-      currentFilters {
-        key
-        operation
-        value
-      }
+  products (filters: $filters) {
+    currentFilters {
+      key
+      operation
+      value
     }
-    availableAttributes {
-      attributeCode
-      attributeName
-      options {
-        optionId
-        optionText
-      }
-    }
-    priceRange {
-      min
-      max
-    }
-    children {
-      categoryId,
+  }
+  categories {
+    items {
+      categoryId
       name
       uuid
+      priceRange {
+        min
+        max
+      }
     }
   }
   setting {
