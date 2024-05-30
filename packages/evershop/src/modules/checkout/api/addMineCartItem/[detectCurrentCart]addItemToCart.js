@@ -1,3 +1,4 @@
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { select } = require('@evershop/postgres-query-builder');
 const {
   INVALID_PAYLOAD,
@@ -23,7 +24,7 @@ module.exports = async (request, response, delegate, next) => {
     if (!cartId) {
       // Create a new cart
       const { sessionID, customer } = request.locals;
-      cart = await createNewCart(sessionID, customer || {});
+      cart = await createNewCart(sessionID, request.cookies.isoCode || getConfig('shop.currency', 'USD'), customer || {});
       cartId = cart.getData('uuid');
     } else {
       cart = await getCartByUUID(cartId); // Cart object

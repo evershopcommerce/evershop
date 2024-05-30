@@ -1,5 +1,7 @@
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { select, update } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');
@@ -24,11 +26,10 @@ module.exports = async (request, response, delegate, next) => {
         .where('customer_id', '=', customerID)
         .andWhere('status', '=', 1)
         .load(pool);
-
       if (customerCart) {
         // Update the cart with the session id
         await update('cart')
-          .given({ sid: request.sessionID })
+          .given({ sid: request.sessionID, currency: request.cookies.isoCode || getConfig('shop.currency', 'USD') })
           .where('uuid', '=', customerCart.uuid)
           .execute(pool);
         request.session.cartID = customerCart.uuid;

@@ -38,9 +38,8 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
     {
       key: 'currency',
       resolvers: [
-        async function resolver() {
-          const currency = getConfig('shop.currency', 'USD');
-          return currency;
+        async function resolver(isoCode) {
+          return isoCode || getConfig('shop.currency', 'USD');
         }
       ]
     },
@@ -538,7 +537,11 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
       key: 'payment_method',
       resolvers: [
         async function resolver(paymentMethod) {
-          this.setError('payment_method', 'Payment method is required');
+          // TODO: BEGIN OF COMMENT
+          // BUG? keep 
+          // error(`${JSON.stringify(paymentMethod)}`)
+          // this.setError('payment_method', 'Payment method is required');
+          // END OF COMMENT 
           return paymentMethod;
           // Each payment method should handle this field
           // by returning the payment method code and remove this error if the payment method is valid
