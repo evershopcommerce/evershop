@@ -79,7 +79,7 @@
       {
         "name": "AllProductsView",
         "resolve": "extensions/AllProductsView",
-        "enabled": false,
+        "enabled": true,
         "priority": 1
       },
       {
