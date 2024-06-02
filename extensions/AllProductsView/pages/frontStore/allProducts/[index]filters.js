@@ -5,8 +5,8 @@ const { setContextValue } = require('@evershop/evershop/src/modules/graphql/serv
 module.exports = async (request, response, delegate, next) => {
   const filterableAttributes = await select()
     .from('attribute')
-    .where('type', 'eq', 'select')
-    .and('is_filterable', 'eq', 1)
+    .where('type', '=', 'select')
+    .and('is_filterable', '=', 1)
     .execute(pool);
 
   const { query } = request;
@@ -17,19 +17,20 @@ module.exports = async (request, response, delegate, next) => {
     const filtersFromUrl = [];
 
     // Price filter
+    // const priceFilter = query.price;
     const minPrice = Object.keys(query).find((key) => key === 'minPrice');
     const maxPrice = Object.keys(query).find((key) => key === 'maxPrice');
     if (minPrice) {
       filtersFromUrl.push({
         key: 'minPrice',
-        operation: 'gteq',
+        operation: '=',
         value: `${query[minPrice]}`
       });
     }
     if (maxPrice) {
       filtersFromUrl.push({
         key: 'maxPrice',
-        operation: 'lteq',
+        operation: '=',
         value: `${query[maxPrice]}`
       });
     }
@@ -39,7 +40,7 @@ module.exports = async (request, response, delegate, next) => {
     if (categoryFilter) {
       filtersFromUrl.push({
         key: 'cat',
-        operation: 'eq',
+        operation: '=',
         value: `${query[categoryFilter]}`
       });
     }
@@ -57,14 +58,14 @@ module.exports = async (request, response, delegate, next) => {
           if (values.length > 0) {
             filtersFromUrl.push({
               key,
-              operation: 'in',
+              operation: '=',
               value: values.join(',')
             });
           }
         } else {
           filtersFromUrl.push({
             key,
-            operation: 'eq',
+            operation: '=',
             value: filter
           });
         }
@@ -79,14 +80,14 @@ module.exports = async (request, response, delegate, next) => {
     if (sortBy) {
       filtersFromUrl.push({
         key: 'sortBy',
-        operation: 'eq',
+        operation: '=',
         value: sortBy
       });
     }
 
     filtersFromUrl.push({
       key: 'sortOrder',
-      operation: 'eq',
+      operation: '=',
       value: sortOrder
     });
     // Paging
@@ -94,13 +95,13 @@ module.exports = async (request, response, delegate, next) => {
       ? '1'
       : query.page.toString();
     if (page !== '1') {
-      filtersFromUrl.push({ key: 'page', operation: 'eq', value: page });
+      filtersFromUrl.push({ key: 'page', operation: '=', value: page });
     }
     const limit = Number.isNaN(parseInt(query.limit, 10))
       ? '20'
       : query.limit.toString(); // TODO: Get from config
     if (limit !== '20') {
-      filtersFromUrl.push({ key: 'limit', operation: 'eq', value: limit });
+      filtersFromUrl.push({ key: 'limit', operation: '=', value: limit });
     }
     setContextValue(request, 'filtersFromUrl', filtersFromUrl);
     next();
