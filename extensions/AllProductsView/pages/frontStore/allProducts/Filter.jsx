@@ -42,7 +42,7 @@ export default function Filter({
       ) {
         continue;
       }
-      url.searchParams.append(newFilters[i].key, newFilters[i].value);
+      url.searchParams.append(newFilters[i].key, newFilters[i].operation);
     }
     // window.location.href = url;
     url.searchParams.delete('ajax', true);
@@ -57,12 +57,14 @@ export default function Filter({
   };
 
   const contextValue = useMemo(() => ({ updateFilter }), [currentFilters]);
-  const priceRange = { min: Infinity, max: 0 }
+  const priceRange = { min: Infinity, max: 0 };
   for (const cat of cats) {
-    if (cat.priceRange.min < priceRange.min)
-      priceRange.min = cat.priceRange.min
-    if (cat.priceRange.max > priceRange.max)
-      priceRange.max = cat.priceRange.max
+    if (cat.priceRange.min < priceRange.min) {
+      priceRange.min = cat.priceRange.min;
+    }
+    if (cat.priceRange.max > priceRange.max) {
+      priceRange.max = cat.priceRange.max;
+    }
   }
   return (
     <FilterDispatch.Provider value={contextValue}>
@@ -165,8 +167,8 @@ Filter.propTypes = {
         name: PropTypes.string,
         uuid: PropTypes.string,
         priceRange: PropTypes.shape({
-          min: PropTypes.float,
-          max: PropTypes.float
+          min: PropTypes.number,
+          max: PropTypes.number
         })
       })
     )
