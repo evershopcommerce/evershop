@@ -6,7 +6,7 @@ module.exports = async (request, response, delegate, next) => {
   const filterableAttributes = await select()
     .from('attribute')
     .where('type', 'eq', 'select')
-    .and('is_filterable', 'eq', 1)
+    .and('is_filterable', 'eq', 1) // Certifique-se de que "and" é suportado aqui. Caso contrário, use outra "where"
     .execute(pool);
 
   const { query } = request;
@@ -17,7 +17,6 @@ module.exports = async (request, response, delegate, next) => {
     const filtersFromUrl = [];
 
     // Price filter
-    // const priceFilter = query.price;
     const minPrice = Object.keys(query).find((key) => key === 'minPrice');
     const maxPrice = Object.keys(query).find((key) => key === 'maxPrice');
     if (minPrice) {
@@ -44,6 +43,7 @@ module.exports = async (request, response, delegate, next) => {
         value: `${query[categoryFilter]}`
       });
     }
+
     // Attribute filters
     Object.keys(query).forEach((key) => {
       const filter = query[key];
@@ -90,6 +90,7 @@ module.exports = async (request, response, delegate, next) => {
       operation: 'eq',
       value: sortOrder
     });
+
     // Paging
     const page = Number.isNaN(parseInt(query.page, 10))
       ? '1'
@@ -99,7 +100,7 @@ module.exports = async (request, response, delegate, next) => {
     }
     const limit = Number.isNaN(parseInt(query.limit, 10))
       ? '20'
-      : query.limit.toString(); // TODO: Get from config
+      : query.limit.toString();
     if (limit !== '20') {
       filtersFromUrl.push({ key: 'limit', operation: 'eq', value: limit });
     }
