@@ -1,9 +1,9 @@
-// Importar operações do filtro
-const operations = require('@evershop/postgres-query-builder').operations;
-
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { setContextValue } = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
+
+// Importe as operações de filtro do arquivo correto
+const { eq } = require('@evershop/postgres-query-builder/operations');
 
 module.exports = async (request, response, delegate, next) => {
   const filterableAttributes = await select()
@@ -20,51 +20,54 @@ module.exports = async (request, response, delegate, next) => {
     const filtersFromUrl = [];
 
     // Price filter
-    const minPrice = query['minPrice'];
-    const maxPrice = query['maxPrice'];
+    const minPrice = Object.keys(query).find((key) => key === 'minPrice');
+    const maxPrice = Object.keys(query).find((key) => key === 'maxPrice');
     if (minPrice) {
       filtersFromUrl.push({
         key: 'minPrice',
-        operation: operations.eq, // Utilizar a operação de igualdade
-        value: `${minPrice}`
+        operation: eq,
+        value: `${query[minPrice]}`
       });
     }
     if (maxPrice) {
       filtersFromUrl.push({
         key: 'maxPrice',
-        operation: operations.eq, // Utilizar a operação de igualdade
-        value: `${maxPrice}`
+        operation: eq,
+        value: `${query[maxPrice]}`
       });
     }
 
     // Category filter
-    const categoryFilter = query['cat'];
+    const categoryFilter = Object.keys(query).find((key) => key === 'cat');
     if (categoryFilter) {
       filtersFromUrl.push({
         key: 'cat',
-        operation: operations.eq, // Utilizar a operação de igualdade
-        value: `${categoryFilter}`
+        operation: eq,
+        value: `${query[categoryFilter]}`
       });
     }
-
     // Attribute filters
     Object.keys(query).forEach((key) => {
       const filter = query[key];
-      const attribute = filterableAttributes.find((a) => a.attribute_code === key);
+      const attribute = filterableAttributes.find(
+        (a) => a.attribute_code === key
+      );
       if (attribute) {
         if (Array.isArray(filter)) {
-          const values = filter.map((v) => parseInt(v, 10)).filter((v) => Number.isNaN(v) === false);
+          const values = filter
+            .map((v) => parseInt(v, 10))
+            .filter((v) => Number.isNaN(v) === false);
           if (values.length > 0) {
             filtersFromUrl.push({
               key,
-              operation: operations.eq, // Utilizar a operação de igualdade
+              operation: eq,
               value: values.join(',')
             });
           }
         } else {
           filtersFromUrl.push({
             key,
-            operation: operations.eq, // Utilizar a operação de igualdade
+            operation: eq,
             value: filter
           });
         }
@@ -79,27 +82,29 @@ module.exports = async (request, response, delegate, next) => {
     if (sortBy) {
       filtersFromUrl.push({
         key: 'sortBy',
-        operation: operations.eq, // Utilizar a operação de igualdade
+        operation: eq,
         value: sortBy
       });
     }
 
     filtersFromUrl.push({
       key: 'sortOrder',
-      operation: operations.eq, // Utilizar a operação de igualdade
+      operation: eq,
       value: sortOrder
     });
-
     // Paging
-    const page = Number.isNaN(parseInt(query.page, 10)) ? 1 : parseInt(query.page, 10);
-    if (page !== 1) {
-      filtersFromUrl.push({ key: 'page', operation: operations.eq, value: `${page}` });
+    const page = Number.isNaN(parseInt(query.page, 10))
+      ? '1'
+      : query.page.toString();
+    if (page !== '1') {
+      filtersFromUrl.push({ key: 'page', operation: eq, value: page });
     }
-    const limit = Number.isNaN(parseInt(query.limit, 10)) ? 20 : parseInt(query.limit, 10);
-    if (limit !== 20) {
-      filtersFromUrl.push({ key: 'limit', operation: operations.eq, value: `${limit}` });
+    const limit = Number.isNaN(parseInt(query.limit, 10))
+      ? '20'
+      : query.limit.toString(); // TODO: Get from config
+    if (limit !== '20') {
+      filtersFromUrl.push({ key: 'limit', operation: eq, value: limit });
     }
-
     setContextValue(request, 'filtersFromUrl', filtersFromUrl);
     next();
   }
