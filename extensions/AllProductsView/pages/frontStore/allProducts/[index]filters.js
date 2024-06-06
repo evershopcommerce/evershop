@@ -1,5 +1,5 @@
 // Importar operações do filtro
-const { eq } = require('@evershop/postgres-query-builder').operations;
+const operations = require('@evershop/postgres-query-builder').operations;
 
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
@@ -25,14 +25,14 @@ module.exports = async (request, response, delegate, next) => {
     if (minPrice) {
       filtersFromUrl.push({
         key: 'minPrice',
-        operation: '>=',
+        operation: operations.eq, // Utilizar a operação de igualdade
         value: `${minPrice}`
       });
     }
     if (maxPrice) {
       filtersFromUrl.push({
         key: 'maxPrice',
-        operation: '<=',
+        operation: operations.eq, // Utilizar a operação de igualdade
         value: `${maxPrice}`
       });
     }
@@ -42,7 +42,7 @@ module.exports = async (request, response, delegate, next) => {
     if (categoryFilter) {
       filtersFromUrl.push({
         key: 'cat',
-        operation: '=',
+        operation: operations.eq, // Utilizar a operação de igualdade
         value: `${categoryFilter}`
       });
     }
@@ -57,14 +57,14 @@ module.exports = async (request, response, delegate, next) => {
           if (values.length > 0) {
             filtersFromUrl.push({
               key,
-              operation: '=',
+              operation: operations.eq, // Utilizar a operação de igualdade
               value: values.join(',')
             });
           }
         } else {
           filtersFromUrl.push({
             key,
-            operation: '=',
+            operation: operations.eq, // Utilizar a operação de igualdade
             value: filter
           });
         }
@@ -79,25 +79,25 @@ module.exports = async (request, response, delegate, next) => {
     if (sortBy) {
       filtersFromUrl.push({
         key: 'sortBy',
-        operation: '=',
+        operation: operations.eq, // Utilizar a operação de igualdade
         value: sortBy
       });
     }
 
     filtersFromUrl.push({
       key: 'sortOrder',
-      operation: '=',
+      operation: operations.eq, // Utilizar a operação de igualdade
       value: sortOrder
     });
 
     // Paging
     const page = Number.isNaN(parseInt(query.page, 10)) ? 1 : parseInt(query.page, 10);
     if (page !== 1) {
-      filtersFromUrl.push({ key: 'page', operation: '>=', value: `${page}` });
+      filtersFromUrl.push({ key: 'page', operation: operations.eq, value: `${page}` });
     }
     const limit = Number.isNaN(parseInt(query.limit, 10)) ? 20 : parseInt(query.limit, 10);
     if (limit !== 20) {
-      filtersFromUrl.push({ key: 'limit', operation: '<=', value: `${limit}` });
+      filtersFromUrl.push({ key: 'limit', operation: operations.eq, value: `${limit}` });
     }
 
     setContextValue(request, 'filtersFromUrl', filtersFromUrl);
