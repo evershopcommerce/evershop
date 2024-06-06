@@ -23,7 +23,7 @@ module.exports = async (request, response, delegate, next) => {
     if (minPrice) {
       filtersFromUrl.push({
         key: 'minPrice',
-        operation: '=',
+        operation: eq,
         value: `${query[minPrice]}`
       });
     }
