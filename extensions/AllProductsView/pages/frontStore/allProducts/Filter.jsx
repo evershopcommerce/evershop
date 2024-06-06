@@ -57,13 +57,14 @@ export default function Filter({
   };
 
   const contextValue = useMemo(() => ({ updateFilter }), [currentFilters]);
-  const priceRange = { min: Infinity, max: 0 }
+  const priceRange = { min: Infinity, max: 0 };
   for (const cat of cats) {
     if (cat.priceRange.min < priceRange.min)
-      priceRange.min = cat.priceRange.min
+      priceRange.min = cat.priceRange.min;
     if (cat.priceRange.max > priceRange.max)
-      priceRange.max = cat.priceRange.max
+      priceRange.max = cat.priceRange.max;
   }
+
   return (
     <FilterDispatch.Provider value={contextValue}>
       <div
@@ -120,30 +121,30 @@ export default function Filter({
             />
           </svg>
         </a>
-      </div>
-      <a
-        className="filter-opener flex md:hidden"
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          setIsOpen(!isOpen);
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
+        <a
+          className="filter-opener flex md:hidden"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setIsOpen(!isOpen);
+          }}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
-          />
-        </svg>
-      </a>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+            />
+          </svg>
+        </a>
+      </div>
     </FilterDispatch.Provider>
   );
 }
@@ -152,12 +153,23 @@ Filter.propTypes = {
   products: PropTypes.shape({
     currentFilters: PropTypes.arrayOf(
       PropTypes.shape({
-        key: PropTypes.string,
-        operation: PropTypes.string,
-        value: PropTypes.string
+        key: PropTypes.string.isRequired,
+        operation: PropTypes.oneOf([
+          'EQ',
+          'NEQ',
+          'GT',
+          'GTEQ',
+          'LT',
+          'LTEQ',
+          'LIKE',
+          'NLIKE',
+          'IN',
+          'NIN'
+        ]).isRequired,
+        value: PropTypes.string.isRequired
       })
-    )
-  }),
+    ).isRequired
+  }).isRequired,
   categories: PropTypes.shape({
     items: PropTypes.arrayOf(
       PropTypes.shape({
@@ -165,11 +177,11 @@ Filter.propTypes = {
         name: PropTypes.string,
         uuid: PropTypes.string,
         priceRange: PropTypes.shape({
-          min: PropTypes.float,
-          max: PropTypes.float
-        })
+          min: PropTypes.number,
+          max: PropTypes.number
+        }).isRequired
       })
-    )
+    ).isRequired
   }).isRequired,
   setting: PropTypes.shape({
     storeLanguage: PropTypes.string,
