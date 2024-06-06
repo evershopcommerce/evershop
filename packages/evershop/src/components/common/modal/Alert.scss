@@ -14,6 +14,7 @@
     max-height: calc(100vh - 4rem);
     .modal {
       max-height: calc(100vh - 4rem);
+      overflow-y: auto;
     }
     .modal-content {
       max-height: calc(100vh - 18rem);

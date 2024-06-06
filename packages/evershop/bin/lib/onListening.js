@@ -1,5 +1,5 @@
 const boxen = require('boxen');
-const { success } = require('@evershop/evershop/src/lib/log/logger');
+const { green } = require('kleur');
 const normalizePort = require('./normalizePort');
 
 const port = normalizePort();
@@ -7,13 +7,16 @@ const port = normalizePort();
  * Event listener for HTTP server "listening" event.
  */
 module.exports = function onListening() {
-  success(
-    boxen(`Your website is running at "http://localhost:${port}"`, {
+  const message = boxen(
+    `Your website is running at "http://localhost:${port}"`,
+    {
       title: 'EverShop',
       titleAlignment: 'center',
       padding: 1,
       margin: 1,
       borderColor: 'green'
-    })
+    }
   );
+  // eslint-disable-next-line no-console
+  console.log(green(message));
 };
