@@ -165,8 +165,8 @@ Filter.propTypes = {
         name: PropTypes.string,
         uuid: PropTypes.string,
         priceRange: PropTypes.shape({
-          min: PropTypes.float,
-          max: PropTypes.float
+          min: PropTypes.number,
+          max: PropTypes.number
         })
       })
     )
