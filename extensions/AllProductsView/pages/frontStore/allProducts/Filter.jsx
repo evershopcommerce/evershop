@@ -169,7 +169,7 @@ query Query($filters: [FilterInput]) {
       key
       operation
       value
-    } 
+    }
   }
   categories {
     items {
