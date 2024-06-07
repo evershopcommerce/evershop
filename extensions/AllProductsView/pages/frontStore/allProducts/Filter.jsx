@@ -6,6 +6,7 @@ import './Filter.scss';
 import { PriceFilter } from '@components/frontStore/catalog/categoryView/filter/PriceFilter';
 import { CategoryFilter } from '@components/frontStore/catalog/categoryView/filter/CategoryFilter';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { FilterOperation } from '@evershop/evershop/src/lib/util/filterOperationMapp';
 
 export const FilterDispatch = React.createContext();
 
