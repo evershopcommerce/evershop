@@ -3,7 +3,7 @@ const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { setContextValue } = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
 
 // Importar o mapa de operações
-const { OPERATION_MAP } = require('path/to/packages/evershop/src/lib/util/filterOperationMapp');
+const { OPERATION_MAP } = require('@evershop/evershop/src/lib/util/filterOperationMapp');
 
 module.exports = async (request, response, delegate, next) => {
   const filterableAttributes = await select()
