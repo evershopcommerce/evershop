@@ -10,14 +10,14 @@ const processPriceFilters = (query, filtersFromUrl) => {
   if (minPrice) {
     filtersFromUrl.push({
       key: 'price',
-      operation: OPERATION_MAP.gteq,
+      operation: OPERATION_MAP.gteq, // Substituindo "=" pela operação correta
       value: `${minPrice}`
     });
   }
   if (maxPrice) {
     filtersFromUrl.push({
       key: 'price',
-      operation: OPERATION_MAP.lteq,
+      operation: OPERATION_MAP.lteq, // Substituindo "=" pela operação correta
       value: `${maxPrice}`
     });
   }
@@ -29,7 +29,7 @@ const processCategoryFilters = (query, filtersFromUrl) => {
   if (categoryFilter) {
     filtersFromUrl.push({
       key: 'cat',
-      operation: OPERATION_MAP.eq,
+      operation: OPERATION_MAP.eq, // Substituindo "=" pela operação correta
       value: `${categoryFilter}`
     });
   }
@@ -46,14 +46,14 @@ const processAttributeFilters = (query, filterableAttributes, filtersFromUrl) =>
         if (values.length > 0) {
           filtersFromUrl.push({
             key,
-            operation: OPERATION_MAP.in,
+            operation: OPERATION_MAP.in, // Substituindo "=" pela operação correta
             value: values.join(',')
           });
         }
       } else {
         filtersFromUrl.push({
           key,
-          operation: OPERATION_MAP.eq,
+          operation: OPERATION_MAP.eq, // Substituindo "=" pela operação correta
           value: filter
         });
       }
@@ -67,23 +67,23 @@ const processSortAndPaging = (query, filtersFromUrl) => {
   if (sortBy) {
     filtersFromUrl.push({
       key: 'sortBy',
-      operation: OPERATION_MAP.eq,
+      operation: OPERATION_MAP.eq, // Substituindo "=" pela operação correta
       value: sortBy
     });
   }
   filtersFromUrl.push({
     key: 'sortOrder',
-      operation: OPERATION_MAP.eq,
-      value: sortOrder.toUpperCase()
-    });
+    operation: OPERATION_MAP.eq, // Substituindo "=" pela operação correta
+    value: sortOrder.toUpperCase()
+  });
   filtersFromUrl.push({
     key: 'page',
-    operation: OPERATION_MAP.eq,
+    operation: OPERATION_MAP.eq, // Substituindo "=" pela operação correta
     value: page.toString()
   });
   filtersFromUrl.push({
     key: 'limit',
-    operation: OPERATION_MAP.eq,
+    operation: OPERATION_MAP.eq, // Substituindo "=" pela operação correta
     value: limit.toString()
   });
 };
