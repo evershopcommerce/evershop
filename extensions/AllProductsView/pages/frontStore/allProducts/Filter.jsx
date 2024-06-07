@@ -21,7 +21,6 @@ export default function Filter({
     const currentUrl = window.location.href;
     const url = new URL(currentUrl, window.location.origin);
     for (let i = 0; i < currentFilters.length; i += 1) {
-      // Leave the page, limit and sort untouched
       if (
         currentFilters[i].key === 'page' ||
         currentFilters[i].key === 'limit' ||
@@ -44,33 +43,26 @@ export default function Filter({
       }
       url.searchParams.append(newFilters[i].key, newFilters[i].value);
     }
-    // window.location.href = url;
     url.searchParams.delete('ajax', true);
 
-    // Delete the page. We want to go back to page 1
     url.searchParams.delete('page');
     url.searchParams.append('ajax', true);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    // eslint-disable-next-line no-restricted-globals
     history.pushState(null, '', url);
   };
 
   const contextValue = useMemo(() => ({ updateFilter }), [currentFilters]);
   const priceRange = { min: Infinity, max: 0 };
   for (const cat of cats) {
-    if (cat.priceRange.min < priceRange.min)
-      priceRange.min = cat.priceRange.min;
-    if (cat.priceRange.max > priceRange.max)
-      priceRange.max = cat.priceRange.max;
+    if (cat.priceRange.min < priceRange.min) priceRange.min = cat.priceRange.min;
+    if (cat.priceRange.max > priceRange.max) priceRange.max = cat.priceRange.max;
   }
 
   return (
     <FilterDispatch.Provider value={contextValue}>
       <div
-        className={`product-filter-tool hidden md:block ${
-          isOpen ? 'opening' : 'closed'
-        }`}
+        className={`product-filter-tool hidden md:block ${isOpen ? 'opening' : 'closed'}`}
       >
         <div className="filter-heading">
           <span className="font-bold ">{_('SHOP BY')}</span>
@@ -155,16 +147,7 @@ Filter.propTypes = {
       PropTypes.shape({
         key: PropTypes.string.isRequired,
         operation: PropTypes.oneOf([
-          'EQ',
-          'NEQ',
-          'GT',
-          'GTEQ',
-          'LT',
-          'LTEQ',
-          'LIKE',
-          'NLIKE',
-          'IN',
-          'NIN'
+          'eq', 'neq', 'gt', 'gteq', 'lt', 'lteq', 'like', 'nlike', 'in', 'nin'
         ]).isRequired,
         value: PropTypes.string.isRequired
       })
