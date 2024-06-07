@@ -1,7 +1,9 @@
-const queryBuilder = require('@evershop/postgres-query-builder');
-const { select } = queryBuilder;
+const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { setContextValue } = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
+
+// Importar o mapa de operações
+const { OPERATION_MAP } = require('path/to/packages/evershop/src/lib/util/filterOperationMapp');
 
 module.exports = async (request, response, delegate, next) => {
   const filterableAttributes = await select()
@@ -18,32 +20,33 @@ module.exports = async (request, response, delegate, next) => {
     const filtersFromUrl = [];
 
     // Price filter
-    const minPrice = Object.keys(query).find((key) => key === 'minPrice');
-    const maxPrice = Object.keys(query).find((key) => key === 'maxPrice');
+    const minPrice = query.minPrice;
+    const maxPrice = query.maxPrice;
     if (minPrice) {
       filtersFromUrl.push({
-        key: 'minPrice',
-        operation: queryBuilder.operations.eq,
-        value: `${query[minPrice]}`
+        key: 'price',
+        operation: OPERATION_MAP.gteq,
+        value: `${minPrice}`
       });
     }
     if (maxPrice) {
       filtersFromUrl.push({
-        key: 'maxPrice',
-        operation: queryBuilder.operations.eq,
-        value: `${query[maxPrice]}`
+        key: 'price',
+        operation: OPERATION_MAP.lteq,
+        value: `${maxPrice}`
       });
     }
 
     // Category filter
-    const categoryFilter = Object.keys(query).find((key) => key === 'cat');
+    const categoryFilter = query.cat;
     if (categoryFilter) {
       filtersFromUrl.push({
         key: 'cat',
-        operation: queryBuilder.operations.eq,
-        value: `${query[categoryFilter]}`
+        operation: OPERATION_MAP.eq,
+        value: `${categoryFilter}`
       });
     }
+
     // Attribute filters
     Object.keys(query).forEach((key) => {
       const filter = query[key];
@@ -54,57 +57,50 @@ module.exports = async (request, response, delegate, next) => {
         if (Array.isArray(filter)) {
           const values = filter
             .map((v) => parseInt(v, 10))
-            .filter((v) => Number.isNaN(v) === false);
+            .filter((v) => !Number.isNaN(v));
           if (values.length > 0) {
             filtersFromUrl.push({
               key,
-              operation: queryBuilder.operations.eq,
+              operation: OPERATION_MAP.in,
               value: values.join(',')
             });
           }
         } else {
           filtersFromUrl.push({
             key,
-            operation: queryBuilder.operations.eq,
+            operation: OPERATION_MAP.eq,
             value: filter
           });
         }
       }
     });
 
-    const { sortBy } = query;
-    const sortOrder =
-      query.sortOrder && ['DESC', 'ASC'].includes(query.sortOrder.toUpperCase())
-        ? query.sortOrder.toUpperCase()
-        : 'DESC';
+    // Sort and paging
+    const { sortBy, sortOrder = 'DESC', page = '1', limit = '20' } = query;
     if (sortBy) {
       filtersFromUrl.push({
         key: 'sortBy',
-        operation: queryBuilder.operations.eq,
+        operation: OPERATION_MAP.eq,
         value: sortBy
       });
     }
-
     filtersFromUrl.push({
       key: 'sortOrder',
-      operation: queryBuilder.operations.eq,
-      value: sortOrder
+      operation: OPERATION_MAP.eq,
+      value: sortOrder.toUpperCase()
     });
-    // Paging
-    const page = Number.isNaN(parseInt(query.page, 10))
-      ? '1'
-      : query.page.toString();
-    if (page !== '1') {
-      filtersFromUrl.push({ key: 'page', operation: queryBuilder.operations.eq, value: page });
-    }
-    const limit = Number.isNaN(parseInt(query.limit, 10))
-      ? '20'
-      : query.limit.toString(); // TODO: Get from config
-    if (limit !== '20') {
-      filtersFromUrl.push({ key: 'limit', operation: queryBuilder.operations.eq, value: limit });
-    }
+    filtersFromUrl.push({
+      key: 'page',
+      operation: OPERATION_MAP.eq,
+      value: page.toString()
+    });
+    filtersFromUrl.push({
+      key: 'limit',
+      operation: OPERATION_MAP.eq,
+      value: limit.toString()
+    });
+
     setContextValue(request, 'filtersFromUrl', filtersFromUrl);
     next();
   }
 };
-      
