@@ -6,7 +6,7 @@ import './Filter.scss';
 import { PriceFilter } from '@components/frontStore/catalog/categoryView/filter/PriceFilter';
 import { CategoryFilter } from '@components/frontStore/catalog/categoryView/filter/CategoryFilter';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
-import { FilterOperation } from '@evershop/evershop/src/lib/util/filterOperationMapp';
+import { FilterOperation } from '@evershop/evershop/src/lib/util/filterOperationMapp'; // Importe a enumeração FilterOperation
 
 export const FilterDispatch = React.createContext();
 
@@ -21,28 +21,14 @@ export default function Filter({
   const updateFilter = async (newFilters) => {
     const currentUrl = window.location.href;
     const url = new URL(currentUrl, window.location.origin);
-    for (let i = 0; i < currentFilters.length; i += 1) {
-      if (
-        currentFilters[i].key === 'page' ||
-        currentFilters[i].key === 'limit' ||
-        currentFilters[i].key === 'sortBy' ||
-        currentFilters[i].key === 'sortOrder'
-      ) {
-        continue;
-      }
-      url.searchParams.delete(currentFilters[i].key);
+    for (const filter of currentFilters) {
+      if (['page', 'limit', 'sortBy', 'sortOrder'].includes(filter.key)) continue;
+      url.searchParams.delete(filter.key);
     }
 
-    for (let i = 0; i < newFilters.length; i += 1) {
-      if (
-        newFilters[i].key === 'page' ||
-        newFilters[i].key === 'limit' ||
-        newFilters[i].key === 'sortBy' ||
-        newFilters[i].key === 'sortOrder'
-      ) {
-        continue;
-      }
-      url.searchParams.append(newFilters[i].key, newFilters[i].value);
+    for (const filter of newFilters) {
+      if (['page', 'limit', 'sortBy', 'sortOrder'].includes(filter.key)) continue;
+      url.searchParams.append(filter.key, filter.value);
     }
     url.searchParams.delete('ajax', true);
 
@@ -147,9 +133,7 @@ Filter.propTypes = {
     currentFilters: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
-        operation: PropTypes.oneOf([
-          'eq', 'neq', 'gt', 'gteq', 'lt', 'lteq', 'like', 'nlike', 'in', 'nin'
-        ]).isRequired,
+        operation: PropTypes.oneOf(Object.values(FilterOperation)).isRequired, // Utilize a enumeração para validar a operação
         value: PropTypes.string.isRequired
       })
     ).isRequired
@@ -185,7 +169,7 @@ query Query($filters: [FilterInput]) {
       key
       operation
       value
-    }
+    } 
   }
   categories {
     items {
