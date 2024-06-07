@@ -17,20 +17,19 @@ module.exports = async (request, response, delegate, next) => {
     const filtersFromUrl = [];
 
     // Price filter
-    // const priceFilter = query.price;
     const minPrice = Object.keys(query).find((key) => key === 'minPrice');
     const maxPrice = Object.keys(query).find((key) => key === 'maxPrice');
     if (minPrice) {
       filtersFromUrl.push({
         key: 'minPrice',
-        operation: '=',
+        operation: 'eq',
         value: `${query[minPrice]}`
       });
     }
     if (maxPrice) {
       filtersFromUrl.push({
         key: 'maxPrice',
-        operation: '=',
+        operation: 'eq',
         value: `${query[maxPrice]}`
       });
     }
@@ -40,7 +39,7 @@ module.exports = async (request, response, delegate, next) => {
     if (categoryFilter) {
       filtersFromUrl.push({
         key: 'cat',
-        operation: '=',
+        operation: 'eq',
         value: `${query[categoryFilter]}`
       });
     }
@@ -58,14 +57,14 @@ module.exports = async (request, response, delegate, next) => {
           if (values.length > 0) {
             filtersFromUrl.push({
               key,
-              operation: '=',
+              operation: 'eq',
               value: values.join(',')
             });
           }
         } else {
           filtersFromUrl.push({
             key,
-            operation: '=',
+            operation: 'eq',
             value: filter
           });
         }
@@ -80,14 +79,14 @@ module.exports = async (request, response, delegate, next) => {
     if (sortBy) {
       filtersFromUrl.push({
         key: 'sortBy',
-        operation: '=',
+        operation: 'eq',
         value: sortBy
       });
     }
 
     filtersFromUrl.push({
       key: 'sortOrder',
-      operation: '=',
+      operation: 'eq',
       value: sortOrder
     });
     // Paging
@@ -95,13 +94,13 @@ module.exports = async (request, response, delegate, next) => {
       ? '1'
       : query.page.toString();
     if (page !== '1') {
-      filtersFromUrl.push({ key: 'page', operation: '=', value: page });
+      filtersFromUrl.push({ key: 'page', operation: 'eq', value: page });
     }
     const limit = Number.isNaN(parseInt(query.limit, 10))
       ? '20'
       : query.limit.toString(); // TODO: Get from config
     if (limit !== '20') {
-      filtersFromUrl.push({ key: 'limit', operation: '=', value: limit });
+      filtersFromUrl.push({ key: 'limit', operation: 'eq', value: limit });
     }
     setContextValue(request, 'filtersFromUrl', filtersFromUrl);
     next();
