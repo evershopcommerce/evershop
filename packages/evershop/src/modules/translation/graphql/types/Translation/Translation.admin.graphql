@@ -1,16 +1,16 @@
 type Translation {
   id: ID!
-  created_at: Date!
-  updated_at: Date!
+  createdAt: Date!
+  updatedAt: Date!
 
-  entity_id: String!
-  entity_name: String!
-  entity_attribute: String!
+  entityId: String!
+  entityName: String!
+  entityAttribute: String!
   value: String!
-  language_code: String!
+  languageCode: String!
 }
 
 extend type Query {
-  translation(id: ID): Language
+  translation(id: ID): Translation
   translations(filters: [FilterInput]): [Translation]
 }

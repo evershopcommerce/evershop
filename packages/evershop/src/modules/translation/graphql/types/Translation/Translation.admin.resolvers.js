@@ -15,10 +15,9 @@ module.exports = {
     translations: async (_, __, { pool }) => {
       const query = getTranslationsBaseQuery();
 
-      const translation = await query
-        .execute(pool)
-        .map((row) => camelCase(row));
-      return translation;
+      const translation = await query.execute(pool);
+      const camelCaseTranslation = translation.map((item) => camelCase(item));
+      return camelCaseTranslation;
     }
   }
 };
