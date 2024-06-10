@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/languages/:id",
+  "access": "private"
+}

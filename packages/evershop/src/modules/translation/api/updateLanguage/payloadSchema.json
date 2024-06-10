@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "isDefault": {
+      "type": "number"
+    },
+    "isDisabled": {
+      "type": "number"
+    }
+  },
+  "additionalProperties": true
+}

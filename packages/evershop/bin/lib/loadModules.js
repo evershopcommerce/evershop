@@ -73,6 +73,11 @@ const coreModules = [
     name: 'tax',
     resolve: path.resolve(__dirname, '../../src/modules/tax'),
     path: path.resolve(__dirname, '../../src/modules/tax')
+  },
+  {
+    name: 'translation',
+    resolve: path.resolve(__dirname, '../../src/modules/translation'),
+    path: path.resolve(__dirname, '../../src/modules/translation')
   }
 ];
 
