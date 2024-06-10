@@ -1,0 +1,11 @@
+type Language {
+  id: ID!
+  code: String!
+  name: Int
+  icon: String
+}
+
+extend type Query {
+  language(code: String): Language
+  languages(filters: [FilterInput]): [Language]
+}
