@@ -46,7 +46,7 @@ export default function ShoppingCart({ cart, setting, removeUrl }) {
             ]}
           />
           <div className="cart-page-middle">
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-4">
+            <div className="grid gap-10 grid-cols-1 md:grid-cols-4">
               <Area
                 id="shoppingCartLeft"
                 className="col-span-1 md:col-span-3"
