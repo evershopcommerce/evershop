@@ -2,7 +2,7 @@
 The `Category` type represents a category object.
 """
 type Category {
-  categoryId: ID!
+  categoryId: Int!
   uuid: String!
   name: String!
   status: Int!

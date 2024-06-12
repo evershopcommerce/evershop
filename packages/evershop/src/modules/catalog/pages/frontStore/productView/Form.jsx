@@ -86,7 +86,7 @@ ToastMessage.propTypes = {
 
 function AddToCart({ stockAvaibility, loading = false, error }) {
   return (
-    <div className="add-to-cart mt-2">
+    <div className="add-to-cart mt-10">
       <div style={{ width: '8rem' }}>
         <Field
           type="text"
@@ -98,8 +98,8 @@ function AddToCart({ stockAvaibility, loading = false, error }) {
           formId="productForm"
         />
       </div>
-      {error && <div className="text-critical mt-1">{error}</div>}
-      <div className="mt-1">
+      {error && <div className="text-red-700 mt-5">{error}</div>}
+      <div className="mt-5">
         {stockAvaibility === true && (
           <Button
             title={_('ADD TO CART')}
