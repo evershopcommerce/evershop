@@ -5,7 +5,7 @@ const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
 const { warning } = require('@evershop/evershop/src/lib/log/logger');
 
-let extensions = [];
+let extensions;
 
 function loadExtensions() {
   const coreModules = getCoreModules();
@@ -42,7 +42,7 @@ function loadExtensions() {
 }
 
 module.exports.getEnabledExtensions = function getEnabledExtensions() {
-  if (extensions.length === 0) {
+  if (extensions === undefined) {
     extensions = loadExtensions();
   }
   return extensions;
