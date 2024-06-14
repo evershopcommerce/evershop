@@ -1,13 +1,14 @@
-Login, Login
-Logout, Logout
+Login, Iniciar Sessão
+Logout, Terminar Sessão
 Email, E-Mail
+Unauthorized, Sem autorização
 Password, Senha
 Forgot your password?, Esqueceu sua senha?
 Create an account, Criar uma conta
 Register, Registrar
 Full Name, Nome Completo
 Full name, Nome completo
-SIGN IN, REGISTRAR
+SIGN IN, ENTRAR
 Order History, Histórico de Compras
 Account Details, Detalhes da Conta
 You have not placed any orders yet, Você não fez nenhuma compra ainda
@@ -17,15 +18,15 @@ Contact information, Informações de contato
 City, Cidade
 Account Information, Informações da Conta
 Address, Endereço
-Postcode, CEP
-Postcode is required, CEP é obrigatório
+Postcode, Código postal
+Postcode is required, Código postal é obrigatório
 Telephone is required, Telefone é obrigatório
 Telephone, Telefone
 Full name is required, Nome completo é obrigatório
 Country is required, País é obrigatório
 Country, País
-Province is required, Estado é obrigatório
-Province, Estado
+Province is required, A Província é obrigatória
+Province, Província
 Billing Address, Endereço de Cobrança
 Shipping Address, Endereço de Entrega
 Create A New Account, Criar uma Nova Conta

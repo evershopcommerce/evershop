@@ -1,6 +1,13 @@
 Featured collection, Coleções em destaque
 SHOP BY, COMPRAR POR
 Sort By, Ordenar Por
+Name should not be empty, O nome não deve estar vazio
+Position should be a number, A posição deve ser um número
+Collection ID should not contain spaces, O ID da coleção não deve conter espaços
 There is no product to display, Nenhum há nenhum produto a ser exibido
 ${count} products, ${count} produtos
 Search results for "${keyword}", Resultados da busca por \"${keyword}\"
+No data was provided, Não foram fornecidos dados
+Can not delete the default attribute group, Não é possível excluir o grupo de atributos padrão
+Invalid variant group, Grupo de variantes inválido
+The product is either not exist or using different attribute group, O produto não existe ou está usando um grupo de atributos diferente

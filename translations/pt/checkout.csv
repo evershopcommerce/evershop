@@ -1,6 +1,17 @@
+Coupon applied successfully!, Cupom ou Código promocional aplicado com sucesso!
+Invalid coupon, Cupom ou Código promocional inválido
 Total, Total
 Order, Pedido
+Address is required, O endereço é obrigatório
+Invalid zone id, ID de zona inválido
+Cart id is required, O ID do carrinho é obrigatório 
+Email is required, O e-mail é obrigatório
+Method code is required, O código do método é necessário
+Either cost or calculate_api must be provided, O custo ou o calculate_api devem ser fornecidos
+Invalid cart, Carrinho de compras inválido
 Sku, SKU
+We do not ship to this address, Não fazemos envios para este endereço
+Inclusive of tax, Imposto incluído
 Continue to shipping, Continuar comprando
 Continue shopping, Continue comprando
 Continue Shopping, Continue Comprando
@@ -8,6 +19,8 @@ CONTINUE SHOPPING, CONTINUE COMPRANDO
 Shopping cart, Carrinho de compras
 Product, Produto
 Price, Preço
+Name, Nome
+Default, Padrão 
 Quantity, Quantidade
 Remove, Remover
 Qty, Quant
@@ -34,7 +47,7 @@ Continue to payment, Continuar para o pagamento
 No payment method available, Nenhum método de pagamento disponível
 Ship to, Enviar para
 Shipment, Envio
-Thank you ${name}!, Obrigado(a), ${name}!
+Thank you ${name}!, Obrigado(a) ${name}!
 Contact information, Informações de contato
 Order #${orderNumber}, Pedido #${orderNumber}
 ADD TO CART, ADICIONAR AO CARRINHO
@@ -44,13 +57,15 @@ JUST ADDED TO YOUR CART, ADICIONADO AO CARRINHO
 Promotion code?, Código promocional?
 Enter coupon code, Insira seu coupon
 Apply, Aplicar
+Shipping country is required, O país de envio é obrigatório
+Cart not found, Carrinho não encontrado
 Your cart is empty!, Seu carrinho está vazio!
 Full name, Nome completo
 Telephone, Telefone
 Address, Endereço
 City, Cidade
 Country, País
-Postcode, CEP
+Postcode, Código Postal
 Inclusive of tax, Impostos inclusos
 Sorry, there is no available method for your address,Desculpe, não existem opções para seu endereço.
 Full name is required, Nome completo é obrigatório
@@ -58,5 +73,5 @@ Telephone is required, Telefone é obrigatório
 Address is required, Endereço é obrigatório
 City is required, Cidade é obrigatória
 Country is required, País é obrigatório
-Postcode is required, CEP é obrigatório
+Postcode is required, O Código Postal é obrigatório
 Contact, Contato
