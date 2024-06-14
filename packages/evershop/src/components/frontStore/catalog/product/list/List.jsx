@@ -19,16 +19,16 @@ export default function ProductList({ products = [], countPerRow = 3 }) {
   let className;
   switch (countPerRow) {
     case 3:
-      className = 'grid grid-cols-2 md:grid-cols-3 gap-2';
+      className = 'grid grid-cols-2 md:grid-cols-3 gap-10';
       break;
     case 4:
-      className = 'grid grid-cols-2 md:grid-cols-4 gap-2';
+      className = 'grid grid-cols-2 md:grid-cols-4 gap-10';
       break;
     case 5:
-      className = 'grid grid-cols-2 md:grid-cols-5 gap-2';
+      className = 'grid grid-cols-2 md:grid-cols-5 gap-10';
       break;
     default:
-      className = 'grid grid-cols-2 md:grid-cols-3 gap-2';
+      className = 'grid grid-cols-2 md:grid-cols-3 gap-10';
   }
 
   return (

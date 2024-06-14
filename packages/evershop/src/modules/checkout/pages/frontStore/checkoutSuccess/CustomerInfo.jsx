@@ -46,11 +46,11 @@ export default function CustomerInfo({
         </div>
       </h3>
 
-      <div className="customer-info mt-3 mb-2">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="grid grid-cols-1 gap-3">
-            <div className="mb-2">
-              <div className="mb-075">
+      <div className="customer-info mt-7 mb-5">
+        <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 gap-5">
+            <div className="mb-5">
+              <div className="mb-5">
                 <h3>{_('Contact information')}</h3>
               </div>
               <div className="text-textSubdued">
@@ -59,7 +59,7 @@ export default function CustomerInfo({
               <div className="text-textSubdued">{customerEmail}</div>
             </div>
             <div>
-              <div className="mb-075">
+              <div className="mb-5">
                 <h3>{_('Shipping Address')}</h3>
               </div>
               <div className="text-textSubdued">
@@ -67,15 +67,15 @@ export default function CustomerInfo({
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-3">
-            <div className="mb-2">
-              <div className="mb-075">
+          <div className="grid grid-cols-1 gap-5">
+            <div className="mb-5">
+              <div className="mb-5">
                 <h3>{_('Payment Method')}</h3>
               </div>
               <div className="text-textSubdued">{paymentMethodName}</div>
             </div>
             <div>
-              <div className="mb-075">
+              <div className="mb-5">
                 <h3>{_('Billing Address')}</h3>
               </div>
               <div className="text-textSubdued">

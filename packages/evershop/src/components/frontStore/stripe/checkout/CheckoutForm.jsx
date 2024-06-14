@@ -167,7 +167,7 @@ export default function CheckoutForm({ stripePublishableKey }) {
 
   if (result.error) {
     return (
-      <div className="flex p-2 justify-center items-center text-critical">
+      <div className="flex p-5 justify-center items-center text-red-700">
         {error.message}
       </div>
     );
@@ -197,7 +197,7 @@ export default function CheckoutForm({ stripePublishableKey }) {
       </div>
       {/* Show any error that happens when processing the payment */}
       {error && (
-        <div className="card-error text-critical mb-2" role="alert">
+        <div className="card-error text-red-700 mb-2" role="alert">
           {error}
         </div>
       )}
@@ -208,7 +208,7 @@ export default function CheckoutForm({ stripePublishableKey }) {
         validationRules={[
           {
             rule: 'notEmpty',
-            message: 'Please complete the card information'
+            message: _('Please complete the card information')
           }
         ]}
       />

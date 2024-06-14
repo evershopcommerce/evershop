@@ -12,7 +12,7 @@ export default function OrderHistory({ customer: { orders = [] } }) {
         </div>
       )}
       {orders.map((order) => (
-        <div className="order-history-order border-divider py-2">
+        <div className="order-history-order border-divider py-5">
           <Order order={order} key={order.orderId} />
         </div>
       ))}

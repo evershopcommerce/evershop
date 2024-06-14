@@ -58,8 +58,8 @@ export default function Sorting() {
   };
 
   return (
-    <div className="product-sorting mb-1">
-      <div className="product-sorting-inner flex justify-end items-center space-x-05">
+    <div className="product-sorting mb-10">
+      <div className="product-sorting-inner flex justify-end items-center space-x-2">
         <div>
           <span>{_('Sort By')}:</span>
         </div>
