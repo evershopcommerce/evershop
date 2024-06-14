@@ -20,7 +20,7 @@ function Steps() {
 function Breadcrumb() {
   const steps = useCheckoutSteps();
   return (
-    <div className="mb-5 mt-3 flex checkout-breadcrumb">
+    <div className="mb-2 mt-1 flex checkout-breadcrumb">
       {steps.map((step, index) => {
         const separator =
           index < steps.length - 1 ? (
@@ -57,12 +57,12 @@ function CompletedSteps() {
   }
 
   return (
-    <div className="mt-3">
-      <div className="checkout-completed-steps border rounded px-5 border-divider divide-y">
+    <div className="mt-1">
+      <div className="checkout-completed-steps border rounded px-2 border-divider divide-y">
         {completedSteps.map((step) => (
           <div
             key={step.id}
-            className="grid gap-2 grid-cols-4 py-5 border-divider"
+            className="grid gap-1 grid-cols-4 py-1 border-divider"
           >
             <div className="col-span-1">
               <span>{step.previewTitle}</span>
@@ -105,7 +105,7 @@ export default function CheckoutPage({
         getPaymentMethodAPI={getPaymentMethodAPI}
         checkoutSuccessUrl={checkoutSuccessUrl}
       >
-        <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-3">
           <Area
             id="checkoutPageLeft"
             coreComponents={[

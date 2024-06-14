@@ -11,7 +11,7 @@ export function ItemOptions({ options = [] }) {
   const language = get(useAppState(), 'language', 'en');
 
   return (
-    <div className="cart-item-options mt-2">
+    <div className="cart-item-options mt-05">
       <ul className="list-basic">
         {options.map((o, i) => (
           // eslint-disable-next-line react/no-array-index-key

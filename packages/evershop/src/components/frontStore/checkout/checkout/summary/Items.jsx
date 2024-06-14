@@ -9,7 +9,7 @@ function ItemVariantOptions({ options = [] }) {
   }
 
   return (
-    <div className="cart-item-variant-options mt-2">
+    <div className="cart-item-variant-options mt-05">
       <ul>
         {options.map((o, i) => (
           // eslint-disable-next-line react/no-array-index-key

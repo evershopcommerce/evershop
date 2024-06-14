@@ -81,13 +81,13 @@ export function StepContent({
 
   if (fetching) {
     return (
-      <div className="flex justify-center items-center p-5">
+      <div className="flex justify-center items-center p-3">
         <Spinner width={25} height={25} />
       </div>
     );
   }
   if (error) {
-    return <div className="p-5 text-red-700">{error.message}</div>;
+    return <div className="p-2 text-critical">{error.message}</div>;
   }
   return (
     <div>
@@ -100,7 +100,7 @@ export function StepContent({
         submitBtn={false}
         isJSON
       >
-        <h4 className="mb-3 mt-7">{_('Billing Address')}</h4>
+        <h4 className="mb-1 mt-3">{_('Billing Address')}</h4>
         <BillingAddress
           useShippingAddress={useShippingAddress}
           setUseShippingAddress={setUseShippingAddress}
@@ -123,16 +123,16 @@ export function StepContent({
           </div>
         )}
 
-        <h4 className="mb-3 mt-7">{_('Payment Method')}</h4>
+        <h4 className="mb-1 mt-3">{_('Payment Method')}</h4>
         {paymentMethods && paymentMethods.length > 0 && (
           <>
-            <div className="divide-y border rounded border-divider p-5 mb-5">
+            <div className="divide-y border rounded border-divider px-2 mb-2">
               {paymentMethods.map((method) => (
                 <div
                   key={method.code}
                   className="border-divider payment-method-list"
                 >
-                  <div className="py-5">
+                  <div className="py-2">
                     <Area id={`checkoutPaymentMethod${method.code}`} />
                   </div>
                 </div>

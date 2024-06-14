@@ -145,18 +145,15 @@ export default function Variants({
     dispatchEvent(popStateEvent);
   };
 
-  if (!vs) {
-    return null;
-  }
   return (
-    <div className="variant variant-container grid grid-cols-1 gap-3 mt-10">
+    <div className="variant variant-container grid grid-cols-1 gap-1 mt-2">
       {attributes.map((a, i) => {
         const options = a.options.filter(
           (v, j, s) =>
             s.findIndex((o) => o.optionId === v.optionId) === j && v.productId
         );
         return (
-          <div key={a.attributeCode} className="mt-2">
+          <div key={a.attributeCode}>
             <input
               name={`variant_options[${i}][attribute_id]`}
               type="hidden"
@@ -167,10 +164,10 @@ export default function Variants({
               type="hidden"
               value={a.selectedOption}
             />
-            <div className="mb-2 font-semibold">
-              <span>{a.attributeName}</span>
+            <div className="mb-05 text-textSubdued uppercase">
+              <span>{a.attribute_name}</span>
             </div>
-            <ul className="variant-option-list flex justify-start gap-3 flex-wrap">
+            <ul className="variant-option-list flex justify-start gap-05 flex-wrap">
               {options.map((o) => {
                 let className = '';
                 if (a.selected && a.selectedOption === o.optionId) {
@@ -201,7 +198,7 @@ export default function Variants({
         );
       })}
       {error && (
-        <div className="variant-validate error text-red-700">{error}</div>
+        <div className="variant-validate error text-critical">{error}</div>
       )}
     </div>
   );
@@ -242,8 +239,8 @@ Variants.propTypes = {
 };
 
 export const layout = {
-  areaId: 'productSinglePageForm',
-  sortOrder: 35
+  areaId: 'productPageMiddleRight',
+  sortOrder: 40
 };
 
 export const query = `
