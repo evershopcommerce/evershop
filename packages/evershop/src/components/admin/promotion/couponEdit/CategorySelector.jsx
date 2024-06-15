@@ -30,7 +30,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
     variables: {
       filters: inputValue
         ? [
-            { key: 'name', operation: 'eq', value: inputValue },
+            { key: 'name', operation: 'like', value: inputValue },
             { key: 'page', operation: 'eq', value: page.toString() },
             { key: 'limit', operation: 'eq', value: limit.toString() }
           ]
@@ -72,7 +72,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
   }
 
   return (
-    <Card title="Select Products">
+    <Card title="Select categories">
       <div className="modal-content">
         <Card.Session>
           <div>
@@ -110,7 +110,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
                     <div className="col-span-5">
                       <h3>{cat.name}</h3>
                     </div>
-                    <div className="col-span-2 text-right">
+                    <div className="col-span-3 text-right">
                       {!selectedIDs.includes(cat.categoryId) && (
                         <button
                           type="button"
