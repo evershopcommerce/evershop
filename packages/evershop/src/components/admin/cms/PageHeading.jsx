@@ -8,7 +8,7 @@ function BreadcrumbIcon({ backUrl }) {
   return (
     <a
       href={backUrl}
-      className="breadcrum-icon border block border-border rounded mr-075"
+      className="breadcrum-icon border block border-border rounded mr-3"
     >
       <span className="flex items-center justify-center">
         <svg
@@ -51,7 +51,7 @@ function PageHeading({ backUrl, heading }) {
 
   return (
     <div className="page-heading flex justify-between items-center">
-      <div className="flex justify-start space-x-1 items-center">
+      <div className="flex justify-start space-x-4 items-center">
         <Area
           id="pageHeadingLeft"
           noOuter
@@ -75,7 +75,7 @@ function PageHeading({ backUrl, heading }) {
           ]}
         />
       </div>
-      <div className="flex justify-end space-x-1 items-center">
+      <div className="flex justify-end space-x-4 items-center">
         <Area id="pageHeadingRight" noOuter coreComponents={[]} />
       </div>
     </div>

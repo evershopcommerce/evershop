@@ -207,7 +207,7 @@ export default function StoreSetting({
 
   return (
     <div className="main-content-inner">
-      <div className="grid grid-cols-6 gap-x-2 grid-flow-row ">
+      <div className="grid grid-cols-6 gap-x-8 grid-flow-row ">
         <div className="col-span-2">
           <SettingMenu />
         </div>
@@ -242,7 +242,7 @@ export default function StoreSetting({
                 />
               </Card.Session>
               <Card.Session title="Contact Information">
-                <div className="grid grid-cols-2 gap-2 mt-2">
+                <div className="grid grid-cols-2 gap-8 mt-8">
                   <div>
                     <Field
                       name="storePhoneNumber"
@@ -275,7 +275,7 @@ export default function StoreSetting({
                   placeholder="Store Address"
                   type="text"
                 />
-                <div className="grid grid-cols-3 gap-2 mt-2">
+                <div className="grid grid-cols-3 gap-8 mt-8">
                   <div>
                     <Field
                       name="storeCity"

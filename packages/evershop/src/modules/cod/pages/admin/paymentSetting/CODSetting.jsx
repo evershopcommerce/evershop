@@ -10,7 +10,7 @@ export default function CODPayment({
   return (
     <Card title="Cash On Delivery Payment">
       <Card.Session>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-8">
           <div className="col-span-1 items-center flex">
             <h4>Enable?</h4>
           </div>
@@ -20,7 +20,7 @@ export default function CODPayment({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-8">
           <div className="col-span-1 items-center flex">
             <h4>Dislay Name</h4>
           </div>

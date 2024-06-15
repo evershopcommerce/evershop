@@ -32,9 +32,9 @@ export default function BestSellers({ bestSellers, listUrl }) {
               <tr key={i}>
                 <td>
                   <div className=" flex justify-left">
-                    <div className="flex justify-start gap-1 items-center">
+                    <div className="flex justify-start gap-4 items-center">
                       <div
-                        className="grid-thumbnail text-border border border-divider p-075 rounded"
+                        className="grid-thumbnail text-border border border-divider p-3 rounded"
                         style={{ width: '6rem' }}
                       >
                         {p.image?.thumb && (

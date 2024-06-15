@@ -118,7 +118,7 @@ function Alert({ children }) {
                   {(alert.primaryAction !== undefined ||
                     alert.secondaryAction !== undefined) && (
                     <Card.Session>
-                      <div className="flex justify-end space-x-1">
+                      <div className="flex justify-end space-x-4">
                         {alert.primaryAction && (
                           <Button {...alert.primaryAction} />
                         )}

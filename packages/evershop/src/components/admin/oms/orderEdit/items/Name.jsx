@@ -13,7 +13,7 @@ export function Name({ name, productSku, productUrl, variantOptions = [] }) {
             <a href={productUrl}>{name}</a>
           </span>
         </div>
-        <div className="text-sm text-gray-500">
+        <div className="text-gray-500">
           <span className="font-semibold">SKU: </span>
           <span>{productSku}</span>
         </div>

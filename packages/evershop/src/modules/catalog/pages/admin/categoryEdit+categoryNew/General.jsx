@@ -12,17 +12,17 @@ function ParentCategory({ currentId, parent }) {
   const [category, setCategory] = React.useState(parent || null);
 
   return (
-    <div className="mt-15 relative">
-      <div className="mb-1">Parent category</div>
+    <div className="mt-6 relative">
+      <div className="mb-4">Parent category</div>
       {category && (
-        <div className="border rounded border-[#c9cccf] mb-1 p-1">
+        <div className="border rounded border-[#c9cccf] mb-4 p-4">
           {category.path.map((item, index) => (
             <span key={item.name} className="text-gray-500">
               {item.name}
               {index < category.path.length - 1 && ' > '}
             </span>
           ))}
-          <span className="text-interactive pl-2">
+          <span className="text-interactive pl-8">
             <a
               href="#"
               onClick={(e) => {

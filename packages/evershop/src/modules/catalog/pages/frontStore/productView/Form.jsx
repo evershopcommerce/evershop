@@ -86,7 +86,7 @@ ToastMessage.propTypes = {
 
 function AddToCart({ stockAvaibility, loading = false, error }) {
   return (
-    <div className="add-to-cart mt-10">
+    <div className="add-to-cart mt-8">
       <div style={{ width: '8rem' }}>
         <Field
           type="text"
@@ -98,8 +98,8 @@ function AddToCart({ stockAvaibility, loading = false, error }) {
           formId="productForm"
         />
       </div>
-      {error && <div className="text-red-700 mt-5">{error}</div>}
-      <div className="mt-5">
+      {error && <div className="text-critical mt-4">{error}</div>}
+      <div className="mt-4">
         {stockAvaibility === true && (
           <Button
             title={_('ADD TO CART')}
@@ -211,7 +211,7 @@ ProductForm.propTypes = {
 
 export const layout = {
   areaId: 'productPageMiddleRight',
-  sortOrder: 20
+  sortOrder: 45
 };
 
 export const query = `

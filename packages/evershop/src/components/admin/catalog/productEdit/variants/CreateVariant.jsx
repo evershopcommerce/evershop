@@ -20,7 +20,7 @@ export function CreateVariant({
 
   return (
     <div>
-      <div className="mt-2">
+      <div className="mt-8">
         <Button
           title="Add Variant"
           onAction={() => {
@@ -46,7 +46,7 @@ export function CreateVariant({
                   </Card.Session>
                   <Card.Session>
                     <div className="flex justify-end">
-                      <div className="grid grid-cols-2 gap-1">
+                      <div className="grid grid-cols-2 gap-4">
                         <SubmitButton
                           productId={productId}
                           attributes={variantGroup.attributes}

@@ -9,7 +9,7 @@ function Card({ title, actions = [], subdued = false, children }) {
         <div className="flex justify-between card-header">
           {title && <h2 className="card-title">{title}</h2>}
           {actions.length > 0 && (
-            <div className="flex space-x-075">
+            <div className="flex space-x-3">
               {actions.map((action, index) => {
                 const className = {
                   primary: 'text-primary',
@@ -69,10 +69,10 @@ const Session = function Session({ actions = [], title, children }) {
   return (
     <div className="card-section border-b box-border">
       {(title || actions.length > 0) && (
-        <div className="flex justify-between card-section-header mb-1">
+        <div className="flex justify-between card-section-header mb-4">
           {title && <h3 className="card-session-title">{title}</h3>}
           {actions.length > 0 && (
-            <div className="flex space-x-075">
+            <div className="flex space-x-3">
               {actions.map((action, index) => {
                 const className = {
                   primary: 'text-primary',

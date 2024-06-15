@@ -12,7 +12,7 @@ export function ProvinceAndPostcode({
   isFieldRequired
 }) {
   return (
-    <div className="grid grid-cols-2 gap-1 mt-1">
+    <div className="grid grid-cols-2 gap-4 mt-4">
       <Province
         allowCountries={allowCountries}
         selectedCountry={selectedCountry}

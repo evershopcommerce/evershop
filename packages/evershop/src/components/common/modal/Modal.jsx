@@ -17,7 +17,7 @@ function Modal({ modal, title, children, primaryAction }) {
             <Card title={title}>
               <div className="modal-content">{children}</div>
               <Card.Session>
-                <div className="flex justify-end gap-2">
+                <div className="flex justify-end gap-8">
                   <Button
                     title="Close"
                     variant="secondary"

@@ -6,11 +6,11 @@ import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 export default function Order({ order }) {
   return (
     <div className="order border-divider">
-      <div className="order-inner grid grid-cols-1 md:grid-cols-3 gap-2">
+      <div className="order-inner grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="order-items col-span-2">
           {order.items.map((item) => (
-            <div className="order-item mb-1 flex gap-2 items-center">
-              <div className="thumbnail border border-divider p-1 rounded">
+            <div className="order-item mb-4 flex gap-8 items-center">
+              <div className="thumbnail border border-divider p-4 rounded">
                 {item.thumbnail && (
                   <img
                     style={{ maxWidth: '6rem' }}
@@ -42,7 +42,7 @@ export default function Order({ order }) {
               <span className="font-bold">
                 {_('Order')}: #{order.orderNumber}
               </span>
-              <span className="italic pl-1">{order.createdAt.text}</span>
+              <span className="italic pl-4">{order.createdAt.text}</span>
             </div>
           </div>
           <div className="order-total-value font-bold">

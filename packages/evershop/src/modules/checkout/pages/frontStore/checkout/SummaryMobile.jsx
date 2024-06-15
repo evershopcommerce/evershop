@@ -12,7 +12,7 @@ export default function Summary({
   return (
     <Area
       id="checkoutSummary"
-      className="checkout-summary checkout__summary__mobile md:hidden divide-y border rounded border-divider px-2 mb-2"
+      className="checkout-summary checkout__summary__mobile md:hidden divide-y border rounded border-divider px-8 mb-8"
       coreComponents={[
         {
           component: { default: Items },

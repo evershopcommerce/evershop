@@ -31,18 +31,18 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
   const { fullName } = adminUser;
   return (
     <div className="admin-user flex flex-grow justify-end items-center">
-      <div className="flex justify-items-start gap-1 justify-center">
+      <div className="flex justify-items-start gap-4 justify-center">
         <div className="relative">
           <a className="first-letter" href="#" onClick={(e) => show(e)}>
             {fullName[0]}
           </a>
           {showLogout && (
-            <div className="logout bg-background shadow p-2">
+            <div className="logout bg-background shadow p-8">
               <div>
                 <div>
                   Hello <span className="text-primary">{fullName}!</span>
                 </div>
-                <div className="mt-1">
+                <div className="mt-4">
                   <a
                     className="text-critical"
                     href="#"

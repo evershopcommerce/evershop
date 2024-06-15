@@ -68,9 +68,9 @@ export default function Pagination({ total, limit, page }) {
   };
 
   return (
-    <div className="pagination flex px-2">
-      <div className="flex justify-between w-full space-x-1 mt-1 mb-1">
-        <div className="flex space-x-1">
+    <div className="pagination flex px-8">
+      <div className="flex justify-between w-full space-x-4 mt-4 mb-4">
+        <div className="flex space-x-4">
           <div className="self-center">
             <span>Show</span>
           </div>
@@ -83,7 +83,7 @@ export default function Pagination({ total, limit, page }) {
             <span>per page</span>
           </div>
         </div>
-        <div className="flex space-x-1">
+        <div className="flex space-x-4">
           {page > 1 && (
             <>
               <div className="first self-center">

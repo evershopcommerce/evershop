@@ -114,7 +114,7 @@ export function CreateVariantGroup({ createVariantGroupApi, setGroup }) {
                 }}
               />
             ))}
-            <div className="mt-2">
+            <div className="mt-8">
               <a
                 className="text-interactive hover:underline"
                 href="#"

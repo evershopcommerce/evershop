@@ -32,7 +32,7 @@ export default function FromToColumnHeader({ title, id, currentFilters = [] }) {
         <div className="title" style={{ marginBottom: '1rem' }}>
           <span>{title}</span>
         </div>
-        <div className="flex space-x-1">
+        <div className="flex space-x-4">
           <div style={{ width: '6rem' }}>
             <Input
               type="text"

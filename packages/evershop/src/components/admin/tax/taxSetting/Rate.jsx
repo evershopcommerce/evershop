@@ -8,11 +8,11 @@ function Rate({ rate, getTaxClasses }) {
   return (
     <>
       <>
-        <td className="border-none py-1">{rate.name}</td>
-        <td className="border-none py-1">{rate.rate}%</td>
-        <td className="border-none py-1">{rate.isCompound ? 'Yes' : 'No'}</td>
-        <td className="border-none py-1">{rate.priority}</td>
-        <td className="border-none py-1">
+        <td className="border-none py-4">{rate.name}</td>
+        <td className="border-none py-4">{rate.rate}%</td>
+        <td className="border-none py-4">{rate.isCompound ? 'Yes' : 'No'}</td>
+        <td className="border-none py-4">{rate.priority}</td>
+        <td className="border-none py-4">
           <a
             href="#"
             className="text-interactive"
@@ -25,7 +25,7 @@ function Rate({ rate, getTaxClasses }) {
           </a>
           <a
             href="#"
-            className="text-critical ml-2"
+            className="text-critical ml-8"
             onClick={async (e) => {
               e.preventDefault();
               await fetch(rate.deleteApi, {

@@ -76,7 +76,7 @@ function CollectionSelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
       <div className="modal-content">
         <Card.Session>
           <div>
-            <div className="border rounded border-divider mb-2">
+            <div className="border rounded border-divider mb-8">
               <input
                 type="text"
                 value={inputValue}
@@ -105,7 +105,7 @@ function CollectionSelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
                 {data.collections.items.map((collection) => (
                   <div
                     key={collection.uuid}
-                    className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
+                    className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
                   >
                     <div className="col-span-5">
                       <h3>{collection.name}</h3>
@@ -144,7 +144,7 @@ function CollectionSelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
         </Card.Session>
       </div>
       <Card.Session>
-        <div className="flex justify-between gap-2">
+        <div className="flex justify-between gap-8">
           <SimplePageination
             total={data?.collections.total}
             count={data?.collections?.items?.length || 0}

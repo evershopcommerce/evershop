@@ -11,7 +11,7 @@ export default function Products({
   return (
     <div>
       <ProductList products={items} countPerRow={3} />
-      <span className="product-count italic block mt-2">
+      <span className="product-count italic block mt-8">
         {_('${count} products', { count: items.length })}
       </span>
     </div>

@@ -12,9 +12,9 @@ export default function Layout() {
         <Area id="content" className="" noOuter />
       </main>
       <div className="footer">
-        <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-2 justify-between">
+        <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-8 justify-between">
           <div>
-            <div className="card-icons flex justify-center space-x-1 md:justify-start">
+            <div className="card-icons flex justify-center space-x-4 md:justify-start">
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

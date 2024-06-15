@@ -10,7 +10,7 @@ export default function GeneralInfo({ product }) {
   return (
     <Area
       id="productViewGeneralInfo"
-      className="flex flex-col gap-5"
+      className="flex flex-col gap-4"
       coreComponents={[
         {
           component: { default: Name },

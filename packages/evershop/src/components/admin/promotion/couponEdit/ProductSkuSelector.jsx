@@ -109,7 +109,7 @@ function ProductSkuSelector({
       <div className="modal-content">
         <Card.Session>
           <div>
-            <div className="border rounded border-divider mb-2">
+            <div className="border rounded border-divider mb-8">
               <input
                 type="text"
                 value={inputValue}
@@ -141,10 +141,10 @@ function ProductSkuSelector({
                 {data.products.items.map((product) => (
                   <div
                     key={product.uuid}
-                    className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
+                    className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
                   >
                     <div className="col-span-1">
-                      <div className="text-border border border-divider p-075 rounded flex justify-center">
+                      <div className="text-border border border-divider p-3 rounded flex justify-center">
                         {product.image?.url && (
                           <img src={product.image?.url} alt={product.name} />
                         )}
@@ -213,7 +213,7 @@ function ProductSkuSelector({
         </Card.Session>
       </div>
       <Card.Session>
-        <div className="flex justify-between gap-2">
+        <div className="flex justify-between gap-8">
           <SimplePageination
             total={data?.products.total}
             count={data?.products?.items?.length || 0}

@@ -19,7 +19,7 @@ export default function LoginForm({
       <div className="login-form flex justify-center items-center">
         <div className="login-form-inner">
           <h1 className="text-center">{_('Login')}</h1>
-          {error && <div className="text-critical mb-1">{error}</div>}
+          {error && <div className="text-critical mb-4">{error}</div>}
           <Form
             id="loginForm"
             action={action}
@@ -60,7 +60,7 @@ export default function LoginForm({
               ]}
             />
           </Form>
-          <div className="text-center mt-1 gap-2 flex justify-center">
+          <div className="text-center mt-4 gap-8 flex justify-center">
             <a className="text-interactive" href={registerUrl}>
               {_('Create an account')}
             </a>

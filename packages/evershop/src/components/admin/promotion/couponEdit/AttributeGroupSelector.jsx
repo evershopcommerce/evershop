@@ -101,7 +101,7 @@ function AttributeGroupSelector({
       <div className="modal-content">
         <Card.Session>
           <div>
-            <div className="border rounded border-divider mb-2">
+            <div className="border rounded border-divider mb-8">
               <input
                 type="text"
                 value={inputValue}
@@ -128,7 +128,7 @@ function AttributeGroupSelector({
                 {data.attributeGroups.items.map((group) => (
                   <div
                     key={group.uuid}
-                    className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
+                    className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
                   >
                     <div className="col-span-5">
                       <h3>{group.groupName}</h3>
@@ -167,7 +167,7 @@ function AttributeGroupSelector({
         </Card.Session>
       </div>
       <Card.Session>
-        <div className="flex justify-between gap-2">
+        <div className="flex justify-between gap-8">
           <SimplePageination
             total={data?.attributeGroups.total}
             count={data?.attributeGroups?.items?.length || 0}

@@ -101,7 +101,7 @@ export default function Image({ category, imageUploadUrl }) {
                   onAction={() => ref.current.click()}
                 />
               </div>
-              <div className="flex justify-center mt-1">
+              <div className="flex justify-center mt-4">
                 <span style={{ color: '#6d7175', fontSize: '1.2rem' }}>
                   click to upload an image
                 </span>

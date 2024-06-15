@@ -62,8 +62,8 @@ export function VariantModal({
     return <p className="text-critical">{error.message}</p>;
   }
   return (
-    <div className="variant-item pb-15 border-b border-solid border-divider mb-15 last:border-b-0 last:pb-0">
-      <div className="grid grid-cols-2 gap-x-1">
+    <div className="variant-item pb-6 border-b border-solid border-divider mb-6 last:border-b-0 last:pb-0">
+      <div className="grid grid-cols-2 gap-x-4">
         <div className="col-span-1">
           <ProductMediaManager
             id="images"
@@ -72,9 +72,9 @@ export function VariantModal({
           />
         </div>
         <div className="col-span-1">
-          <div className="grid grid-cols-2 gap-x-1 border-b border-divider pb-15 mb-15">
+          <div className="grid grid-cols-2 gap-x-4 border-b border-divider pb-6 mb-6">
             {data?.attributes?.items.map((a, index) => (
-              <div key={a.attributeId} className="mt-1 col">
+              <div key={a.attributeId} className="mt-4 col">
                 <div>
                   <label>{a.attributeName}</label>
                 </div>
@@ -106,7 +106,7 @@ export function VariantModal({
               </div>
             ))}
           </div>
-          <div className="grid grid-cols-3 gap-x-1 border-b border-divider pb-15 mb-15">
+          <div className="grid grid-cols-3 gap-x-4 border-b border-divider pb-6 mb-6">
             <div>
               <div>SKU</div>
               <Field
@@ -128,7 +128,7 @@ export function VariantModal({
               />
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-x-1">
+          <div className="grid grid-cols-3 gap-x-4">
             <div>
               <div>Status</div>
               <Field

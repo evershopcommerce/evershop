@@ -28,7 +28,7 @@ function TaxClassForm({ saveTaxClassApi, closeModal, getTaxClasses }) {
           />
         </Card.Session>
         <Card.Session>
-          <div className="flex justify-end gap-1">
+          <div className="flex justify-end gap-4">
             <Button title="Cancel" variant="secondary" onAction={closeModal} />
             <Button
               title="Save"

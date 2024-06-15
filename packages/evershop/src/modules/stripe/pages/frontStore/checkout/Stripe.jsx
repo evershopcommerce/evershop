@@ -20,7 +20,7 @@ const stripeLoader = (publishKey) => {
 function StripeApp({ stripePublishableKey }) {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
-    <div className="mt-5">
+    <div className="App">
       <Elements stripe={stripeLoader(stripePublishableKey)}>
         <CheckoutForm stripePublishableKey={stripePublishableKey} />
       </Elements>
@@ -42,7 +42,7 @@ export default function StripeMethod({ setting }) {
 
   return (
     <div>
-      <div className="flex justify-start items-center gap-5">
+      <div className="flex justify-start items-center gap-4">
         {(!selectedPaymentMethod ||
           selectedPaymentMethod.code !== 'stripe') && (
           <a

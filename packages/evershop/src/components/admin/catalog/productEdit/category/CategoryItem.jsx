@@ -36,7 +36,7 @@ function CategoryItem({ category, selectedCategory, setSelectedCategory }) {
   }
   return (
     <li>
-      <div className="flex justify-start gap-1 items-center">
+      <div className="flex justify-start gap-4 items-center">
         {!category.children && (
           <a
             href="#"

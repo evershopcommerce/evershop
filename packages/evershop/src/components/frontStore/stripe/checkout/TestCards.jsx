@@ -22,7 +22,7 @@ function TestCards({ showTestCard, testSuccess, testFailure }) {
             <div className="text-sm text-gray-600">
               Test card number: 4242 4242 4242 4242
             </div>
-            <div className="text-sm text-gray-600">Test card expiry: 04/29</div>
+            <div className="text-sm text-gray-600">Test card expiry: 04/24</div>
             <div className="text-sm text-gray-600">Test card CVC: 242</div>
           </div>
         )}
@@ -34,7 +34,7 @@ function TestCards({ showTestCard, testSuccess, testFailure }) {
             <div className="text-sm text-gray-600">
               Test card number: 4000 0000 0000 9995
             </div>
-            <div className="text-sm text-gray-600">Test card expiry: 04/29</div>
+            <div className="text-sm text-gray-600">Test card expiry: 04/24</div>
             <div className="text-sm text-gray-600">Test card CVC: 242</div>
           </div>
         )}
@@ -68,7 +68,7 @@ function TestCards({ showTestCard, testSuccess, testFailure }) {
             <rect x="116.25" y="12.61" width="2.73" height="9.64" />
           </svg>
         </div>
-        <div className="self-center flex space-x-1">
+        <div className="self-center flex space-x-4">
           <Button
             onAction={testSuccess}
             title="Test success"

@@ -11,8 +11,8 @@ export function New({ createVariantGroupApi, setGroup }) {
         {action === undefined && (
           <div>
             <div className="justify-center text-center">
-              <div className="mb-4">
-                <span className="pr-1">
+              <div className="mb-16">
+                <span className="pr-4">
                   This product has some variants like color or size?
                 </span>
                 <a

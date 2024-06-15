@@ -11,7 +11,7 @@ export default function CouponForm({ cart: { applyCouponApi } }) {
   const AppContextDispatch = useAppDispatch();
 
   return (
-    <div className="mt-10">
+    <div className="mt-16">
       <Form
         method="POST"
         isJSON
@@ -34,7 +34,7 @@ export default function CouponForm({ cart: { applyCouponApi } }) {
         id="couponForm"
       >
         <p style={{ fontWeight: 600 }}>{_('Promotion code?')}</p>
-        <div className="grid grid-cols-3 gap-5" style={{ width: '300px' }}>
+        <div className="grid grid-cols-3 gap-8" style={{ width: '300px' }}>
           <div className="col-span-2">
             <Field
               type="text"
