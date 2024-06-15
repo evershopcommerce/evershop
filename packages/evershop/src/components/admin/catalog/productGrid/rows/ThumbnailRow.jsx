@@ -5,7 +5,7 @@ export default function ThumbnailRow({ src, name }) {
   return (
     <td>
       <div
-        className="grid-thumbnail text-border border border-divider p-075 rounded flex justify-center"
+        className="grid-thumbnail text-border border border-divider p-3 rounded flex justify-center"
         style={{ width: '6rem', height: '6rem' }}
       >
         {src && <img className="self-center" src={src} alt={name} />}

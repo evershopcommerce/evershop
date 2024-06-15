@@ -90,14 +90,14 @@ export default function ShippingSetting({ createShippingZoneApi }) {
 
   return (
     <div className="main-content-inner">
-      <div className="grid grid-cols-6 gap-x-2 grid-flow-row ">
+      <div className="grid grid-cols-6 gap-x-8 grid-flow-row ">
         <div className="col-span-2">
           <SettingMenu />
         </div>
         <div className="col-span-4">
           {countriesQueryData.fetching || zonesQueryData.fetching ? (
             <Card.Session title="Shipping">
-              <div className="flex justify-center p-2">
+              <div className="flex justify-center p-8">
                 <Spinner width={25} height={25} />
               </div>
             </Card.Session>

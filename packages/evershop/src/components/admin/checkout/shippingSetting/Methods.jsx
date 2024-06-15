@@ -7,7 +7,7 @@ import MethodForm from '@components/admin/checkout/shippingSetting/MethodForm';
 export function Methods({ getZones, methods, addMethodApi }) {
   const modal = useModal();
   return (
-    <div className="my-2">
+    <div className="my-8">
       <table className="border-collapse divide-y">
         <thead>
           <tr>
@@ -19,12 +19,12 @@ export function Methods({ getZones, methods, addMethodApi }) {
           </tr>
         </thead>
         {methods.map((method) => (
-          <tr key={method.methodId} className="border-divider py-2">
+          <tr key={method.methodId} className="border-divider py-8">
             <Method method={method} getZones={getZones} />
           </tr>
         ))}
       </table>
-      <div className="mt-1">
+      <div className="mt-4">
         <a
           href="#"
           className="text-interactive"

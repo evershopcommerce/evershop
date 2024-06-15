@@ -27,7 +27,7 @@ export default function Badge({
     : 'default';
   return (
     <span className={`${badgeVariant} badge`}>
-      <span className={`${badgeProgress} progress rounded-100`}>
+      <span className={`${badgeProgress} progress rounded-full`}>
         {progress === 'partiallycomplete' && <span />}
       </span>
       <span className="self-center title">{title}</span>

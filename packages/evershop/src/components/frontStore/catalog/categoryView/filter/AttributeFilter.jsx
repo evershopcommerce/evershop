@@ -66,7 +66,7 @@ export function AttributeFilter({
   return (
     <>
       {availableAttributes.map((a) => (
-        <div key={a.attributeCode} className="attribute-filter mt-2">
+        <div key={a.attributeCode} className="attribute-filter mt-8">
           <div className="filter-item-title">
             <span className="font-medium">{a.attributeName}</span>
           </div>
@@ -79,7 +79,7 @@ export function AttributeFilter({
               );
 
               return (
-                <li key={o.optionId} className="mt-05 mr-05">
+                <li key={o.optionId} className="mt-2 mr-2">
                   <a
                     href="#"
                     className="flex justify-start items-center"

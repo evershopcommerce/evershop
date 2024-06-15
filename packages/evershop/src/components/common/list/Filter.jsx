@@ -10,7 +10,7 @@ export default function Filter({ title, options, selectedOption }) {
       <button
         type="button"
         onClick={() => setShow(!show)}
-        className="flex gap-1 justify-center items-center"
+        className="flex gap-4 justify-center items-center"
       >
         <span>{selectedOption || title}</span>
         {!show && (

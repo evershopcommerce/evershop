@@ -11,12 +11,12 @@ export function NoResult({ keyword, resourseLinks = [] }) {
         &quot;
       </h3>
       <div>TRY OTHER RESOURCES</div>
-      <div className="grid grid-cols-2 mt-1">
+      <div className="grid grid-cols-2 mt-4">
         {resourseLinks.map((link, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <div
             key={index}
-            className="flex space-x-1 justify-center items-center"
+            className="flex space-x-4 justify-center items-center"
           >
             <Dot variant="info" />
             <a href={link.url} className="text-divider hover:underline">

@@ -172,7 +172,7 @@ export default function ShippingMethods({
           </svg>
         </div>
       )}
-      <h4 className="mt-3 mb-1">{_('Shipping Method')}</h4>
+      <h4 className="mt-12 mb-4">{_('Shipping Method')}</h4>
       {addressProvided === true && methods.length === 0 && (
         <div className="text-center p-3 border border-divider rounded text-textSubdued">
           {_('Sorry, there is no available method for your address')}
@@ -184,7 +184,7 @@ export default function ShippingMethods({
         </div>
       )}
       {methods.length > 0 && (
-        <div className="divide-y border rounded border-divider p-1 mb-2">
+        <div className="divide-y border rounded border-divider p-4 mb-8">
           <Field
             type="radio"
             name="method"

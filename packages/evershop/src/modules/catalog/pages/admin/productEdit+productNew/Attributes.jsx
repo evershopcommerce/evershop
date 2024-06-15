@@ -39,7 +39,7 @@ export default function Attributes({ product, groups: { items } }) {
                 value={currentGroup.groupId}
                 name="group_id"
               />
-              <div className="border rounded border-divider p-1">
+              <div className="border rounded border-divider p-4">
                 <span>{currentGroup.groupName}</span>
               </div>
               <div className="italic text-textSubdued">

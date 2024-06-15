@@ -5,7 +5,7 @@ import './Menu.scss';
 export default function Menu({ menu: { items } }) {
   return (
     <div className="main-menu self-center hidden md:block">
-      <ul className="nav flex space-x-275 justify-content-center">
+      <ul className="nav flex space-x-11 justify-content-center">
         {items.map((i, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <li className="nav-item" key={index}>

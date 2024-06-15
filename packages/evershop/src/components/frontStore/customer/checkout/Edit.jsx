@@ -52,9 +52,9 @@ export function Edit({
 
   return (
     <div className="">
-      <h4 className="mb-1 mt-1">{_('Contact information')}</h4>
+      <h4 className="mb-4 mt-4">{_('Contact information')}</h4>
       {!customer && (
-        <div className="mb-1">
+        <div className="mb-4">
           <span>{_('Already have an account?')}</span>{' '}
           <a className="text-interactive hover:underline" href={loginUrl}>
             {_('Login')}

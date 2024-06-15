@@ -87,7 +87,7 @@ export function StepContent({
     );
   }
   if (error) {
-    return <div className="p-2 text-critical">{error.message}</div>;
+    return <div className="p-8 text-critical">{error.message}</div>;
   }
   return (
     <div>
@@ -100,7 +100,7 @@ export function StepContent({
         submitBtn={false}
         isJSON
       >
-        <h4 className="mb-1 mt-3">{_('Billing Address')}</h4>
+        <h4 className="mb-4 mt-12">{_('Billing Address')}</h4>
         <BillingAddress
           useShippingAddress={useShippingAddress}
           setUseShippingAddress={setUseShippingAddress}
@@ -123,16 +123,16 @@ export function StepContent({
           </div>
         )}
 
-        <h4 className="mb-1 mt-3">{_('Payment Method')}</h4>
+        <h4 className="mb-4 mt-12">{_('Payment Method')}</h4>
         {paymentMethods && paymentMethods.length > 0 && (
           <>
-            <div className="divide-y border rounded border-divider px-2 mb-2">
+            <div className="divide-y border rounded border-divider px-8 mb-8">
               {paymentMethods.map((method) => (
                 <div
                   key={method.code}
                   className="border-divider payment-method-list"
                 >
-                  <div className="py-2">
+                  <div className="py-8">
                     <Area id={`checkoutPaymentMethod${method.code}`} />
                   </div>
                 </div>

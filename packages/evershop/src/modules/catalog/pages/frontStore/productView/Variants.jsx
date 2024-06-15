@@ -146,7 +146,7 @@ export default function Variants({
   };
 
   return (
-    <div className="variant variant-container grid grid-cols-1 gap-1 mt-2">
+    <div className="variant variant-container grid grid-cols-1 gap-4 mt-8">
       {attributes.map((a, i) => {
         const options = a.options.filter(
           (v, j, s) =>
@@ -164,10 +164,10 @@ export default function Variants({
               type="hidden"
               value={a.selectedOption}
             />
-            <div className="mb-05 text-textSubdued uppercase">
+            <div className="mb-2 text-textSubdued uppercase">
               <span>{a.attribute_name}</span>
             </div>
-            <ul className="variant-option-list flex justify-start gap-05 flex-wrap">
+            <ul className="variant-option-list flex justify-start gap-2 flex-wrap">
               {options.map((o) => {
                 let className = '';
                 if (a.selected && a.selectedOption === o.optionId) {

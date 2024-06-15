@@ -44,7 +44,7 @@ function Radio({ name, value, label, onChange, error, instruction, options }) {
               />
               {_value == o.value && <CheckedIcon />}
               {_value != o.value && <UnCheckedIcon />}
-              <span className="pl-1">{o.text}</span>
+              <span className="pl-4">{o.text}</span>
             </label>
           </div>
         ))}

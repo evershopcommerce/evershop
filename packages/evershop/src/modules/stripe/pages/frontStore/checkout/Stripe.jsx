@@ -42,7 +42,7 @@ export default function StripeMethod({ setting }) {
 
   return (
     <div>
-      <div className="flex justify-start items-center gap-1">
+      <div className="flex justify-start items-center gap-4">
         {(!selectedPaymentMethod ||
           selectedPaymentMethod.code !== 'stripe') && (
           <a

@@ -9,9 +9,9 @@ export default function MainBanner() {
   });
   return (
     <div className="main-banner-home flex items-center">
-      <div className="container grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div className="container grid grid-cols-1 md:grid-cols-2 gap-8">
         <div />
-        <div className="text-center md:text-left px-2 ">
+        <div className="text-center md:text-left px-8 ">
           <h2 className="h1 ">{text}</h2>
           <p>
             Use coupon code

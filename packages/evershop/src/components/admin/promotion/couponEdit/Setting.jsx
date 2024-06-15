@@ -4,7 +4,7 @@ import { Field } from '@components/common/form/Field';
 
 export function Setting({ discountAmount, startDate, endDate }) {
   return (
-    <div className="grid grid-cols-3 gap-2 form-field-container">
+    <div className="grid grid-cols-3 gap-8 form-field-container">
       <div>
         <Field
           type="text"

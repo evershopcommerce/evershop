@@ -63,8 +63,8 @@ function Groups({ groups, createGroupApi }) {
 
   return (
     <div>
-      <div className="mb-1">Select groups the attribute belongs to</div>
-      <div className="grid gap-2 grid-cols-2">
+      <div className="mb-4">Select groups the attribute belongs to</div>
+      <div className="grid gap-8 grid-cols-2">
         <div>
           <Select
             name="groups[]"
@@ -74,7 +74,7 @@ function Groups({ groups, createGroupApi }) {
             defaultValue={groups}
           />
         </div>
-        <div className="grid gap-2 grid-cols-1">
+        <div className="grid gap-8 grid-cols-1">
           <div>
             <Input
               type="text"
@@ -151,7 +151,7 @@ function Options({ originOptions = [] }) {
       {options.map((option, index) => {
         const { uuid, optionId, optionText } = option;
         return (
-          <div key={uuid} className="flex mb-05 space-x-2">
+          <div key={uuid} className="flex mb-2 space-x-8">
             <div>
               <Field
                 key={uuid}
@@ -179,7 +179,7 @@ function Options({ originOptions = [] }) {
           </div>
         );
       })}
-      <div className="mt-1">
+      <div className="mt-4">
         <a
           href="#"
           onClick={(e) => addOption(e)}

@@ -76,7 +76,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
       <div className="modal-content">
         <Card.Session>
           <div>
-            <div className="border rounded border-divider mb-2">
+            <div className="border rounded border-divider mb-8">
               <input
                 type="text"
                 value={inputValue}
@@ -105,7 +105,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
                 {data.categories.items.map((cat) => (
                   <div
                     key={cat.uuid}
-                    className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
+                    className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
                   >
                     <div className="col-span-5">
                       <h3>{cat.name}</h3>
@@ -144,7 +144,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
         </Card.Session>
       </div>
       <Card.Session>
-        <div className="flex justify-between gap-2">
+        <div className="flex justify-between gap-8">
           <SimplePageination
             total={data?.categories.total}
             count={data?.categories?.items?.length || 0}

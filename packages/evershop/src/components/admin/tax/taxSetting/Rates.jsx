@@ -7,7 +7,7 @@ import RateForm from './RateForm';
 export function Rates({ getTaxClasses, rates, addRateApi }) {
   const modal = useModal();
   return (
-    <div className="my-2">
+    <div className="my-8">
       <table className="border-collapse divide-y">
         <thead>
           <tr>
@@ -19,12 +19,12 @@ export function Rates({ getTaxClasses, rates, addRateApi }) {
           </tr>
         </thead>
         {rates.map((rate) => (
-            <tr key={rate.uuid} className="border-divider py-2">
-              <Rate rate={rate} getTaxClasses={getTaxClasses} />
-            </tr>
-          ))}
+          <tr key={rate.uuid} className="border-divider py-8">
+            <Rate rate={rate} getTaxClasses={getTaxClasses} />
+          </tr>
+        ))}
       </table>
-      <div className="mt-1">
+      <div className="mt-4">
         <a
           href="#"
           className="text-interactive"

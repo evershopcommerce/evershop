@@ -68,7 +68,7 @@ function TestCards({ showTestCard, testSuccess, testFailure }) {
             <rect x="116.25" y="12.61" width="2.73" height="9.64" />
           </svg>
         </div>
-        <div className="self-center flex space-x-1">
+        <div className="self-center flex space-x-4">
           <Button
             onAction={testSuccess}
             title="Test success"

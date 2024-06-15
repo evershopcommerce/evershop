@@ -11,7 +11,7 @@ export default function WeightBasedPrice({ lines }) {
     }))
   );
   return (
-    <div className="my-2">
+    <div className="my-8">
       <table className="border-collapse divide-y">
         <thead>
           <tr>
@@ -23,7 +23,7 @@ export default function WeightBasedPrice({ lines }) {
         <tbody>
           {rows.map((row, index) => (
             // Create a random key for each row
-            <tr key={row.key} className="border-divider py-2">
+            <tr key={row.key} className="border-divider py-8">
               <td className="border-none">
                 <Field
                   name={`weight_based_cost[${index}][min_weight]`}

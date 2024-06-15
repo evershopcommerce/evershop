@@ -37,8 +37,8 @@ function UpdateForm({ action, onSuccess }) {
     <div className="flex justify-center items-center">
       <div className="update-password-form flex justify-center items-center">
         <div className="update-password-form-inner">
-          <h2 className="text-center mb-2">{_('Enter your new password')}</h2>
-          {error && <div className="text-critical mb-1">{error}</div>}
+          <h2 className="text-center mb-8">{_('Enter your new password')}</h2>
+          {error && <div className="text-critical mb-4">{error}</div>}
           <Form
             id="updatePasswordForm"
             action={action}
@@ -66,7 +66,7 @@ function UpdateForm({ action, onSuccess }) {
               validationRules={['notEmpty']}
             />
             <Field name="token" type="hidden" value={token} />
-            <div className="form-submit-button flex border-t border-divider mt-1 pt-1">
+            <div className="form-submit-button flex border-t border-divider mt-4 pt-4">
               <Button
                 title={_('UPDATE PASSWORD')}
                 type="submit"

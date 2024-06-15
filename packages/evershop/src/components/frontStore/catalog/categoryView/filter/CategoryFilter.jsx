@@ -61,7 +61,7 @@ export function CategoryFilter({ currentFilters, categories, updateFilter }) {
   }
 
   return (
-    <div className="category-filter mt-2">
+    <div className="category-filter mt-8">
       <div className="filter-item-title">
         <span className="font-medium">{_('Category')}</span>
       </div>
@@ -74,7 +74,7 @@ export function CategoryFilter({ currentFilters, categories, updateFilter }) {
           );
 
           return (
-            <li key={c.uuid} className="mt-05 mr-05">
+            <li key={c.uuid} className="mt-2 mr-2">
               <a
                 href="#"
                 className="flex justify-start items-center"
