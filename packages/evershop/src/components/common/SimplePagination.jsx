@@ -5,13 +5,13 @@ import ChevronDoubleRightIcon from '@heroicons/react/outline/ChevronRightIcon';
 
 export function SimplePageination({ total, count, page, hasNext, setPage }) {
   return (
-    <div className="simple__pagination flex gap-1 items-center">
+    <div className="simple__pagination flex gap-4 items-center">
       <div>
         <span>
           {count} of {total}
         </span>
       </div>
-      <div className="flex gap-1">
+      <div className="flex gap-4">
         {page > 1 && (
           <a
             className="hover:text-interactive border rounded p-[5px] border-divider"

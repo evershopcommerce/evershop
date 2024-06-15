@@ -64,22 +64,22 @@ export default function LifetimeSale({ api }) {
     return (
       <Card title="Lifetime Sales">
         <Card.Session>
-          <div className="grid grid-cols-1 gap-1">
-            <div className="flex space-x-1 items-center">
+          <div className="grid grid-cols-1 gap-4">
+            <div className="flex space-x-4 items-center">
               <Dot variant="info" />
               <div className="self-center">{orders} orders</div>
             </div>
-            <div className="flex space-x-1 items-center">
+            <div className="flex space-x-4 items-center">
               <Dot variant="info" />
               <div className="self-center">{total} lifetime sale</div>
             </div>
-            <div className="flex space-x-1 items-center">
+            <div className="flex space-x-4 items-center">
               <Dot variant="success" />
               <div className="self-center">
                 {completed_percentage}% of orders completed
               </div>
             </div>
-            <div className="flex space-x-1 items-center">
+            <div className="flex space-x-4 items-center">
               <Dot variant="critical" />
               <div className="self-center">
                 {cancelled_percentage}% of orders cancelled

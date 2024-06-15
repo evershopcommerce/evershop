@@ -54,7 +54,7 @@ function Items({ items, setting: { displayCheckoutPriceIncludeTax } }) {
             // eslint-disable-next-line react/no-array-index-key
             <tr key={index}>
               <td>
-                <div className="flex justify-start space-x-5 product-info">
+                <div className="flex justify-start space-x-4 product-info">
                   <div className="product-image flex justify-center items-center">
                     {item.thumbnail && (
                       <img
@@ -92,7 +92,7 @@ function Items({ items, setting: { displayCheckoutPriceIncludeTax } }) {
                           await removeItem(item);
                         }}
                         href="#"
-                        className="underline text-gray-500"
+                        className="text-textSubdued underline"
                       >
                         <span>{_('Remove')}</span>
                       </a>
@@ -124,7 +124,7 @@ function Items({ items, setting: { displayCheckoutPriceIncludeTax } }) {
                     </span>
                   </div>
                 )}
-                <div className="md:hidden mt-05">
+                <div className="md:hidden mt-2">
                   <span>{_('Qty')}</span>
                   <span>{item.qty}</span>
                 </div>

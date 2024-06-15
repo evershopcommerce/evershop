@@ -30,7 +30,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
     variables: {
       filters: inputValue
         ? [
-            { key: 'name', operation: 'eq', value: inputValue },
+            { key: 'name', operation: 'like', value: inputValue },
             { key: 'page', operation: 'eq', value: page.toString() },
             { key: 'limit', operation: 'eq', value: limit.toString() }
           ]
@@ -72,11 +72,11 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
   }
 
   return (
-    <Card title="Select Products">
+    <Card title="Select categories">
       <div className="modal-content">
         <Card.Session>
           <div>
-            <div className="border rounded border-divider mb-2">
+            <div className="border rounded border-divider mb-8">
               <input
                 type="text"
                 value={inputValue}
@@ -105,12 +105,12 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
                 {data.categories.items.map((cat) => (
                   <div
                     key={cat.uuid}
-                    className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
+                    className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
                   >
                     <div className="col-span-5">
                       <h3>{cat.name}</h3>
                     </div>
-                    <div className="col-span-2 text-right">
+                    <div className="col-span-3 text-right">
                       {!selectedIDs.includes(cat.categoryId) && (
                         <button
                           type="button"
@@ -144,7 +144,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
         </Card.Session>
       </div>
       <Card.Session>
-        <div className="flex justify-between gap-2">
+        <div className="flex justify-between gap-8">
           <SimplePageination
             total={data?.categories.total}
             count={data?.categories?.items?.length || 0}

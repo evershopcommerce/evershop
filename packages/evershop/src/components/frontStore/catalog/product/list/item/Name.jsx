@@ -3,7 +3,7 @@ import React from 'react';
 
 function Name({ name, url }) {
   return (
-    <div className="product-name product-list-name mt-5 mb-1">
+    <div className="product-name product-list-name mt-4 mb-1">
       <a href={url} className="font-bold hover:underline h5">
         <span>{name}</span>
       </a>

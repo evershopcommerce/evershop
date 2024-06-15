@@ -31,7 +31,7 @@ export default function OrderSummary({
   return (
     <Card
       title={
-        <div className="flex space-x-1">
+        <div className="flex space-x-4">
           <Circle variant={paymentStatus.badge} />
           <span className="block self-center">
             {paymentMethodName || 'Unknown'}

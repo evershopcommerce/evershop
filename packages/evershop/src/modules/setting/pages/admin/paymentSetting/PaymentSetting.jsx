@@ -8,7 +8,7 @@ import SettingMenu from '@components/admin/setting/SettingMenu';
 export default function PaymentSetting({ saveSettingApi }) {
   return (
     <div className="main-content-inner">
-      <div className="grid grid-cols-6 gap-x-2 grid-flow-row ">
+      <div className="grid grid-cols-6 gap-x-8 grid-flow-row ">
         <div className="col-span-2">
           <SettingMenu />
         </div>
@@ -25,7 +25,7 @@ export default function PaymentSetting({ saveSettingApi }) {
               }
             }}
           >
-            <Area id="paymentSetting" className="grid gap-2" />
+            <Area id="paymentSetting" className="grid gap-8" />
           </Form>
         </div>
       </div>

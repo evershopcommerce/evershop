@@ -5,7 +5,7 @@ import Button from '@components/common/form/Button';
 
 function Name() {
   return (
-    <h1 className="page-name text-center mt-25 mb-15">404 Page Not Found</h1>
+    <h1 className="page-name text-center mt-10 mb-6">404 Page Not Found</h1>
   );
 }
 
@@ -13,7 +13,7 @@ function Content({ dashboardUrl }) {
   return (
     <div className="page-content">
       <div className="text-center">The page you requested does not exist.</div>
-      <div className="mt-2 text-center">
+      <div className="mt-8 text-center">
         <Button title="Back To Dashboard" url={dashboardUrl} outline />
       </div>
     </div>
@@ -26,8 +26,8 @@ Content.propTypes = {
 
 export default function NotFound({ dashboardUrl }) {
   return (
-    <div className="page-width mt-25">
-      <div className="pt-15">
+    <div className="page-width mt-10">
+      <div className="pt-6">
         <Area
           id="notfound-page"
           coreComponents={[

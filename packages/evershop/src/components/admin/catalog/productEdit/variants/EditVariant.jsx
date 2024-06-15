@@ -45,7 +45,7 @@ export function EditVariant({
             </Card.Session>
             <Card.Session>
               <div className="flex justify-end">
-                <div className="grid grid-cols-2 gap-1">
+                <div className="grid grid-cols-2 gap-4">
                   <Button
                     title="Save"
                     variant="primary"

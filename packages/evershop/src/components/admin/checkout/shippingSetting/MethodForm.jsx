@@ -29,7 +29,7 @@ function Condition({ method }) {
   const [type, setType] = React.useState(method?.conditionType || 'price');
   return (
     <div>
-      <div className="mb-1">
+      <div className="mb-4">
         <Radio
           name="condition_type"
           options={[
@@ -40,7 +40,7 @@ function Condition({ method }) {
           value={type}
         />
       </div>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-8">
         <div>
           <Field
             name="min"
@@ -175,7 +175,7 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
               value={shippingMethod}
             />
           ) : (
-            <div className="flex gap-1 justify-start items-center">
+            <div className="flex gap-4 justify-start items-center">
               <Input
                 name="name"
                 type="text"
@@ -293,7 +293,7 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
           {hasCondition && <Condition method={method} />}
         </Card.Session>
         <Card.Session>
-          <div className="flex justify-end gap-1">
+          <div className="flex justify-end gap-4">
             <Button
               title="Cancel"
               variant="secondary"

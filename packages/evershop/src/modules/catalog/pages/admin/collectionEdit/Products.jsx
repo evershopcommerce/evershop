@@ -142,7 +142,7 @@ export default function Products({ collection: { code, addProductApi } }) {
         )}
         <Card.Session>
           <div>
-            <div className="border rounded border-divider mb-2">
+            <div className="border rounded border-divider mb-8">
               <input
                 type="text"
                 value={keyword}
@@ -161,7 +161,7 @@ export default function Products({ collection: { code, addProductApi } }) {
                   </div>
                   <div>
                     {data.collection.products.total > 10 && (
-                      <div className="flex justify-between gap-1">
+                      <div className="flex justify-between gap-4">
                         {page > 1 && (
                           <a
                             className="text-interactive"
@@ -195,9 +195,9 @@ export default function Products({ collection: { code, addProductApi } }) {
                     // eslint-disable-next-line react/no-array-index-key
                     <div
                       key={p.uuid}
-                      className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
+                      className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
                     >
-                      <div className="grid-thumbnail text-border border border-divider p-075 rounded flex justify-center col-span-1">
+                      <div className="grid-thumbnail text-border border border-divider p-3 rounded flex justify-center col-span-1">
                         {p.image?.url && (
                           <img
                             className="self-center"

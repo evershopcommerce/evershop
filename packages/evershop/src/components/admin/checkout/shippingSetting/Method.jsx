@@ -10,11 +10,11 @@ function Method({ method, getZones }) {
   return (
     <>
       <>
-        <td className="border-none py-1">{method.name}</td>
-        <td className="border-none py-1">
+        <td className="border-none py-4">{method.name}</td>
+        <td className="border-none py-4">
           {method.isEnabled ? 'Enabled' : 'Disabled'}
         </td>
-        <td className="border-none py-1">
+        <td className="border-none py-4">
           {method.cost?.text || (
             <a
               href="#"
@@ -28,14 +28,14 @@ function Method({ method, getZones }) {
             </a>
           )}
         </td>
-        <td className="border-none py-1">
+        <td className="border-none py-4">
           {method.conditionType
             ? `${method.min || 0} <= ${method.conditionType} <= ${
                 method.max || '∞'
               }`
             : 'None'}
         </td>
-        <td className="border-none py-1">
+        <td className="border-none py-4">
           <a
             href="#"
             className="text-interactive"
@@ -48,7 +48,7 @@ function Method({ method, getZones }) {
           </a>
           <a
             href="#"
-            className="text-critical ml-2"
+            className="text-critical ml-8"
             onClick={async (e) => {
               e.preventDefault();
               try {

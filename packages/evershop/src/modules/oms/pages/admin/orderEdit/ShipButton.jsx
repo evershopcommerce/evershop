@@ -46,7 +46,7 @@ export default function ShipButton({
                     });
                   }}
                 >
-                  <div className="grid grid-cols-2 gap-1">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Field
                         formId="ship-items"

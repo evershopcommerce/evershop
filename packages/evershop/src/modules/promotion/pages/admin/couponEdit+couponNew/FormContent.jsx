@@ -10,7 +10,7 @@ export default function FormContent({ gridUrl }) {
   const { state } = useFormContext();
   return (
     <>
-      <div className="grid grid-cols-1 gap-2">
+      <div className="grid grid-cols-1 gap-8">
         <Card title="General">
           <Card.Session>
             <Area id="couponEditGeneral" noOuter />
@@ -21,15 +21,15 @@ export default function FormContent({ gridUrl }) {
             <Area id="couponEditDiscountType" noOuter />
           </Card.Session>
         </Card>
-        <div className="grid grid-cols-3 gap-x-2 grid-flow-row ">
-          <div className="col-span-2 grid grid-cols-1 gap-2 auto-rows-max">
+        <div className="grid grid-cols-3 gap-x-8 grid-flow-row ">
+          <div className="col-span-2 grid grid-cols-1 gap-8 auto-rows-max">
             <Card title="Order conditions">
               <Card.Session>
                 <Area id="couponEditLeft" noOuter className="col-8" />
               </Card.Session>
             </Card>
           </div>
-          <div className="col-span-1 grid grid-cols-1 gap-2 auto-rows-max">
+          <div className="col-span-1 grid grid-cols-1 gap-8 auto-rows-max">
             <Card title="Customer conditions">
               <Card.Session>
                 <Area id="couponEditRight" className="col-4" noOuter />
@@ -38,7 +38,7 @@ export default function FormContent({ gridUrl }) {
           </div>
         </div>
       </div>
-      <div className="form-submit-button flex border-t border-divider mt-15 pt-15 justify-between">
+      <div className="form-submit-button flex border-t border-divider mt-6 pt-6 justify-between">
         <Button
           title="Cancel"
           variant="critical"

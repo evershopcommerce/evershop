@@ -31,7 +31,7 @@ function ResetForm({ action, onSuccess }) {
       <div className="reset-password-form flex justify-center items-center">
         <div className="reset-password-form-inner">
           <h1 className="text-center">{_('Enter your email address')}</h1>
-          {error && <div className="text-critical mb-1">{error}</div>}
+          {error && <div className="text-critical mb-4">{error}</div>}
           <Form
             id="resetPasswordForm"
             action={action}
@@ -58,7 +58,7 @@ function ResetForm({ action, onSuccess }) {
               placeholder={_('Email')}
               validationRules={['notEmpty', 'email']}
             />
-            <div className="form-submit-button flex border-t border-divider mt-1 pt-1">
+            <div className="form-submit-button flex border-t border-divider mt-4 pt-4">
               <Button
                 title={_('RESET PASSWORD')}
                 type="submit"

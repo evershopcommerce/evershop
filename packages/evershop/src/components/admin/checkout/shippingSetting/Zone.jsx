@@ -13,9 +13,9 @@ function Zone({ zone, countries, getZones }) {
   return (
     <Card.Session
       title={
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex justify-between items-center gap-8">
           <div>{zone.name}</div>
-          <div className="flex justify-between gap-2">
+          <div className="flex justify-between gap-8">
             <a
               href="#"
               className="text-interactive"
@@ -58,11 +58,11 @@ function Zone({ zone, countries, getZones }) {
       }
     >
       <div className="divide-y border rounded border-divider">
-        <div className="flex justify-start items-center border-divider mt-2">
-          <div className="p-2">
+        <div className="flex justify-start items-center border-divider mt-8">
+          <div className="p-8">
             <MapIcon width={25} height={25} fill="#008060" />
           </div>
-          <div className="flex-grow px-1">
+          <div className="flex-grow px-4">
             <div>
               <b>{zone.country?.name || 'Worldwide'}</b>
             </div>
@@ -75,8 +75,8 @@ function Zone({ zone, countries, getZones }) {
             </div>
           </div>
         </div>
-        <div className="flex justify-start items-center border-divider mt-2">
-          <div className="flex-grow px-1">
+        <div className="flex justify-start items-center border-divider mt-8">
+          <div className="flex-grow px-4">
             <Methods
               methods={zone.methods}
               getZones={getZones}

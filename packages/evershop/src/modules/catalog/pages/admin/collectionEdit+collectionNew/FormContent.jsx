@@ -9,10 +9,10 @@ export default function FormContent({ gridUrl }) {
   const { state } = useFormContext();
   return (
     <div className="w-2/3" style={{ margin: '0 auto' }}>
-      <div className="grid gap-2">
+      <div className="grid gap-8">
         <Area id="collectionFormInner" noOuter />
       </div>
-      <div className="form-submit-button flex border-t border-divider mt-15 pt-15 justify-between">
+      <div className="form-submit-button flex border-t border-divider mt-6 pt-6 justify-between">
         <Button
           title="Cancel"
           variant="critical"

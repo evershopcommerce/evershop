@@ -30,7 +30,7 @@ export function Search({ addVariant, variants }) {
   };
 
   return (
-    <div className="flex justify-between mt-1">
+    <div className="flex justify-between mt-4">
       <div className="self-center">
         <div className="autocomplete-search">
           <Input

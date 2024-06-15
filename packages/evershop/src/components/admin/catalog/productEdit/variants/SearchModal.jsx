@@ -174,7 +174,7 @@ export function SearchModal({ keyword, variants, addVariant, searchAPI }) {
           </div>
         )}
         {potentialVariants.length <= 0 && (
-          <div className="flex justify-center p-1">
+          <div className="flex justify-center p-4">
             There is no product to show
           </div>
         )}

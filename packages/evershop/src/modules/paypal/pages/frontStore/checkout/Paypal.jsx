@@ -67,8 +67,8 @@ export function Paypal({
 
   return (
     <div>
-      {error && <div className="text-red-700 mb-5">{error}</div>}
-      <div className="p-10 text-center border rounded mt-3 border-divider">
+      {error && <div className="text-critical mb-4">{error}</div>}
+      <div className="p-8 text-center border rounded mt-4 border-divider">
         {_('You will be redirected to PayPal')}
       </div>
     </div>
@@ -92,7 +92,7 @@ export default function PaypalMethod({ getAccessTokenAPI, createOrderAPI }) {
 
   return (
     <div>
-      <div className="flex justify-start items-center gap-5">
+      <div className="flex justify-start items-center gap-4">
         {(!selectedPaymentMethod ||
           selectedPaymentMethod.code !== 'paypal') && (
           <a

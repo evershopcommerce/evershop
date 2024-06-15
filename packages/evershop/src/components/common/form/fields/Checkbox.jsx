@@ -49,7 +49,7 @@ function Checkbox({
           />
           {_isChecked === true && <CheckedIcon />}
           {_isChecked === false && <UnCheckedIcon />}
-          <span className="pl-05">{label}</span>
+          <span className="pl-2">{label}</span>
           <input type="hidden" name={name} value={_isChecked ? 1 : 0} />
         </label>
       </div>

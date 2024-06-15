@@ -67,7 +67,7 @@ export function Pagination({ total, limit, currentPage }) {
 
   return (
     <div className="products-pagination">
-      <ul className="pagination flex justify-center space-x-5">
+      <ul className="pagination flex justify-center space-x-4">
         {currentPage > 1 && (
           <li className="page-item prev self-center">
             <button

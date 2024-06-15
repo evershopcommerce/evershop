@@ -20,6 +20,7 @@ module.exports = {
       if (!user) {
         query.andWhere('attribute.display_on_frontend', '=', true);
       }
+      query.orderBy('attribute.sort_order', 'ASC');
       const attributes = await query.execute(pool);
       return attributes.map((a) => camelCase(a));
     },

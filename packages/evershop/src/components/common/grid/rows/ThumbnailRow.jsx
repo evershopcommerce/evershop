@@ -5,7 +5,7 @@ export default function ThumbnailRow({ id, areaProps }) {
   return (
     <td>
       <div
-        className="grid-thumbnail text-border border border-divider p-075 rounded flex justify-center"
+        className="grid-thumbnail text-border border border-divider p-3 rounded flex justify-center"
         style={{ width: '6rem', height: '6rem' }}
       >
         {areaProps.row[id] && (

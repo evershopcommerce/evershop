@@ -6,7 +6,7 @@ import { CKEditor } from '@components/common/CKEditor';
 export default function Page({ page }) {
   return (
     <div className="page-width">
-      <h1 className="text-center mb-3">{page.name}</h1>
+      <h1 className="text-center mb-12">{page.name}</h1>
       <CKEditor content={page.content} />
     </div>
   );

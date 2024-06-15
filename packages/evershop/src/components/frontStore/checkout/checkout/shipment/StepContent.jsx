@@ -44,7 +44,7 @@ export function StepContent({
 
   return (
     <div>
-      <h4 className="mb-1 mt-3">{_('Shipping Address')}</h4>
+      <h4 className="mb-4 mt-12">{_('Shipping Address')}</h4>
       <Form
         method="POST"
         action={addShippingAddressApi}

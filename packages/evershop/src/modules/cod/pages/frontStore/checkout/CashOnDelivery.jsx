@@ -39,7 +39,7 @@ export default function CashOnDeliveryMethod() {
 
   return (
     <div>
-      <div className="flex justify-start items-center gap-5">
+      <div className="flex justify-start items-center gap-4">
         {(!selectedPaymentMethod || selectedPaymentMethod.code !== 'cod') && (
           <a
             href="#"

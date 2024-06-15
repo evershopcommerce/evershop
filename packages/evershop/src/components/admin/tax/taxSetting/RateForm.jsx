@@ -50,7 +50,7 @@ function MethodForm({ saveRateApi, closeModal, getTaxClasses, rate }) {
         }}
       >
         <Card.Session title="Basic">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-8">
             <div>
               <Field
                 name="name"
@@ -75,7 +75,7 @@ function MethodForm({ saveRateApi, closeModal, getTaxClasses, rate }) {
           </div>
         </Card.Session>
         <Card.Session title="Setup shipping cost">
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-8">
             <div>
               <Field
                 name="country"
@@ -107,7 +107,7 @@ function MethodForm({ saveRateApi, closeModal, getTaxClasses, rate }) {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-2 mt-2">
+          <div className="grid grid-cols-2 gap-8 mt-8">
             <div>
               <Toggle
                 name="is_compound"
@@ -117,7 +117,7 @@ function MethodForm({ saveRateApi, closeModal, getTaxClasses, rate }) {
             </div>
             <div />
           </div>
-          <div className="grid grid-cols-2 gap-2 mt-2">
+          <div className="grid grid-cols-2 gap-8 mt-8">
             <div>
               <Field
                 name="priority"
@@ -132,7 +132,7 @@ function MethodForm({ saveRateApi, closeModal, getTaxClasses, rate }) {
           </div>
         </Card.Session>
         <Card.Session>
-          <div className="flex justify-end gap-1">
+          <div className="flex justify-end gap-4">
             <Button title="Cancel" variant="secondary" onAction={closeModal} />
             <Button
               title="Save"

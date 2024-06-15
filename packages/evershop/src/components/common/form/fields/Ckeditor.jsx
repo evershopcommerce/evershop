@@ -255,11 +255,11 @@ function FileBrowser({
           </a>
         </div>
         <div>
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 gap-8">
             <div className="col-span-1">
-              <div className="current-path mb-4">
+              <div className="current-path mb-16">
                 <div className="flex">
-                  <div className="pr-1">You are here:</div>
+                  <div className="pr-4">You are here:</div>
                   <div>
                     <a
                       href="#"
@@ -285,7 +285,7 @@ function FileBrowser({
                   ))}
                 </div>
               </div>
-              <ul className="mt-15 mb-15">
+              <ul className="mt-6 mb-6">
                 {folders.map((f, i) => (
                   <li
                     key={i}
@@ -307,7 +307,7 @@ function FileBrowser({
                       />
                     </svg>
                     <a
-                      className="pl-05 hover:underline"
+                      className="pl-2 hover:underline"
                       href="#"
                       onClick={(e) => onSelectFolder(e, f)}
                     >
@@ -327,7 +327,7 @@ function FileBrowser({
                   placeholder="New folder"
                   ref={newFolderRefInput}
                 />
-                <div className="mt-1">
+                <div className="mt-4">
                   <a
                     href="#"
                     onClick={(e) =>
@@ -341,8 +341,8 @@ function FileBrowser({
               </div>
             </div>
             <div className="col-span-3">
-              <div className="error text-critical mb-2">{error}</div>
-              <div className="tool-bar grid grid-cols-3 gap-1 mb-2">
+              <div className="error text-critical mb-8">{error}</div>
+              <div className="tool-bar grid grid-cols-3 gap-4 mb-8">
                 <Button
                   variant="critical"
                   outline
@@ -373,7 +373,7 @@ function FileBrowser({
                 </label>
               </div>
               {files.length === 0 && <div>There is no file to display.</div>}
-              <div className="grid grid-cols-9 gap-1">
+              <div className="grid grid-cols-9 gap-4">
                 {files.map((f) => (
                   <File file={f} select={onSelectFile} />
                 ))}
@@ -422,8 +422,8 @@ export default function CkeditorField({
 
   return (
     <div className="ckeditor">
-      <label htmlFor="description mt-1">{label}</label>
-      <div className="image-icon mt-1">
+      <label htmlFor="description mt-4">{label}</label>
+      <div className="image-icon mt-4">
         <a
           href="#"
           onClick={(e) => {

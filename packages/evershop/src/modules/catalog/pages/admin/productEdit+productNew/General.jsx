@@ -8,7 +8,7 @@ import CategoryTree from '@components/admin/catalog/productEdit/category/Categor
 
 function SKUPriceWeight({ sku, price, weight, setting }) {
   return (
-    <div className="grid grid-cols-3 gap-1 mt-15">
+    <div className="grid grid-cols-3 gap-4 mt-6">
       <div>
         <Field
           id="sku"
@@ -71,17 +71,17 @@ function Category({ product }) {
   );
 
   return (
-    <div className="mt-15 relative">
-      <div className="mb-1">Category</div>
+    <div className="mt-6 relative">
+      <div className="mb-4">Category</div>
       {category && (
-        <div className="border rounded border-[#c9cccf] mb-1 p-1">
+        <div className="border rounded border-[#c9cccf] mb-4 p-4">
           {category.path.map((item, index) => (
             <span key={item.name} className="text-gray-500">
               {item.name}
               {index < category.path.length - 1 && ' > '}
             </span>
           ))}
-          <span className="text-interactive pl-2">
+          <span className="text-interactive pl-8">
             <a
               href="#"
               onClick={(e) => {
@@ -97,7 +97,7 @@ function Category({ product }) {
                 e.preventDefault();
                 setCategory(null);
               }}
-              className="text-critical ml-2"
+              className="text-critical ml-8"
             >
               Unassign
             </a>
