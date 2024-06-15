@@ -211,7 +211,7 @@ ProductForm.propTypes = {
 
 export const layout = {
   areaId: 'productPageMiddleRight',
-  sortOrder: 20
+  sortOrder: 45
 };
 
 export const query = `
