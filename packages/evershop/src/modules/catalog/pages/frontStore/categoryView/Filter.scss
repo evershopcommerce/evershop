@@ -132,6 +132,7 @@ input[type='range']:nth-child(1)::-webkit-slider-thumb {
     background-color: #fff;
     padding: 20px;
     box-sizing: border-box;
+    overflow: auto;
   }
 
   .filter-opener,
