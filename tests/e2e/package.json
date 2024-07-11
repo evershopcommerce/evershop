@@ -1,0 +1,11 @@
+{
+    "scripts": {
+        "test:e2e": "cucumber-js -r cucumber.conf.js -r stepDefinitions/**/*.js -f @cucumber/pretty-formatter"
+    },
+    "devDependencies": {
+        "@cucumber/cucumber": "^10.3.2",
+        "@cucumber/pretty-formatter": "^1.0.1",
+        "@playwright/test": "^1.42.1",
+        "dotenv": "^16.4.5"
+    }
+}
