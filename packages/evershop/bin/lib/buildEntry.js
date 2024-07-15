@@ -14,6 +14,9 @@ const {
 } = require('@evershop/evershop/src/lib/webpack/util/parseGraphql');
 const JSON5 = require('json5');
 const { error } = require('@evershop/evershop/src/lib/log/logger');
+const {
+  getEnabledWidgets
+} = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
 /**
  * Only pass the page routes, not api routes
  */
@@ -21,6 +24,7 @@ module.exports.buildEntry = async function buildEntry(
   routes,
   clientOnly = false
 ) {
+  const widgets = getEnabledWidgets();
   await Promise.all(
     routes.map(async (route) => {
       const subPath = getRouteBuildPath(route);
@@ -70,6 +74,25 @@ module.exports.buildEntry = async function buildEntry(
         route.isAdmin ? 'HydrateAdmin' : 'HydrateFrontStore'
       }';
       `;
+      if (!route.isAdmin) {
+        areas['*'] = areas['*'] || {};
+        widgets.forEach((widget) => {
+          areas['*'][widget.id] = {
+            id: widget.id,
+            sortOrder: widget.sortOrder || 0,
+            component: `---require('${widget.component}')---`
+          };
+        });
+      } else {
+        widgets.forEach((widget) => {
+          areas[`widgetSettingForm__${widget.id}`] = {};
+          areas[`widgetSettingForm__${widget.id}`][widget.id] = {
+            id: widget.id,
+            sortOrder: widget.sortOrder || 0,
+            component: `---require('${widget.setting_component}')---`
+          };
+        });
+      }
       contentClient += '\r\n';
       contentClient += `Area.defaultProps.components = ${inspect(areas, {
         depth: 5
@@ -93,6 +116,7 @@ module.exports.buildEntry = async function buildEntry(
         /** Build query */
         const query = `${JSON.stringify(parseGraphql(components))}`;
 
+        // Loop through the widgets config and add the query to the widgets
         let contentServer = `import React from 'react'; `;
         contentServer += '\r\n';
         contentServer += `import ReactDOM from 'react-dom'; `;

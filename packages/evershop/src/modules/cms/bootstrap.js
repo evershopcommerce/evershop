@@ -5,6 +5,7 @@ const {
   defaultPaginationFilters
 } = require('../../lib/util/defaultPaginationFilters');
 const { addProcessor } = require('../../lib/util/registry');
+const registerDefaultWidgetCollectionFilters = require('./services/registerDefaultWidgetCollectionFilters');
 
 module.exports = () => {
   addProcessor('configuratonSchema', (schema) => {
@@ -150,7 +151,7 @@ module.exports = () => {
     file_storage: 'local'
   });
 
-  // Reigtering the default filters for attribute collection
+  // Reigtering the default filters for cms page collection
   addProcessor(
     'cmsPageCollectionFilters',
     registerDefaultPageCollectionFilters,
@@ -160,5 +161,41 @@ module.exports = () => {
     'cmsPageCollectionFilters',
     (filters) => [...filters, ...defaultPaginationFilters],
     2
+  );
+
+  // Reigtering the default filters for widget collection
+  addProcessor(
+    'widgetCollectionFilters',
+    registerDefaultWidgetCollectionFilters,
+    1
+  );
+  addProcessor(
+    'widgetCollectionFilters',
+    (filters) => [...filters, ...defaultPaginationFilters],
+    2
+  );
+
+  addProcessor('widgets', (widgets) =>
+    widgets.map((w) => {
+      const replacements = {
+        '&lt;': '<',
+        '&gt;': '>'
+      };
+      if (w.id === 'text_block') {
+        const { settings } = w;
+        // Un escape the html of the `text` field
+        settings.text = settings.text || '';
+        settings.text = settings.text.replace(
+          /&lt;|&gt;/g,
+          (match) => replacements[match]
+        );
+        return {
+          ...w,
+          props: settings
+        };
+      } else {
+        return w;
+      }
+    })
   );
 };

@@ -5,6 +5,7 @@ import React from 'react';
 import { useAppState } from '@components/common/context/app';
 
 function Area(props) {
+  const context = useAppState();
   const {
     id,
     coreComponents,
@@ -17,11 +18,27 @@ function Area(props) {
 
   const areaComponents = (() => {
     const areaCoreComponents = coreComponents || [];
+    const widgets = context.widgets || [];
+    const wildCardWidgets = components['*'] || {};
+    const assignedWidgets = [];
+
+    widgets.forEach((widget) => {
+      const w = wildCardWidgets[widget.widgetId];
+      if (widget.areaId === id && w !== undefined) {
+        assignedWidgets.push({
+          id: widget.type,
+          sortOrder: widget.sortOrder,
+          props: widget.props,
+          component: w.component
+        });
+      }
+    });
     const cs =
       components[id] === undefined
-        ? areaCoreComponents
-        : areaCoreComponents.concat(Object.values(components[id]));
-
+        ? areaCoreComponents.concat(assignedWidgets)
+        : areaCoreComponents
+            .concat(Object.values(components[id]))
+            .concat(assignedWidgets);
     return cs.sort((obj1, obj2) => obj1.sortOrder - obj2.sortOrder);
   })();
 
@@ -42,8 +59,6 @@ function Area(props) {
   } else {
     areaWrapperProps = { className: className || '' };
   }
-
-  const context = useAppState();
 
   return (
     <WrapperComponent {...areaWrapperProps}>
@@ -73,7 +88,9 @@ function Area(props) {
         }
 
         // eslint-disable-next-line react/no-array-index-key
-        return <C key={index} areaProps={props} {...componentProps} />;
+        return (
+          <C widgetId={id} key={index} areaProps={props} {...componentProps} />
+        );
       })}
     </WrapperComponent>
   );
@@ -95,7 +112,15 @@ Area.propTypes = {
   wrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   // eslint-disable-next-line react/forbid-prop-types
   wrapperProps: PropTypes.object,
-  components: PropTypes.shape({}).isRequired
+  components: PropTypes.shape({
+    '*': PropTypes.objectOf(
+      PropTypes.shape({
+        component: PropTypes.shape({
+          default: PropTypes.elementType
+        })
+      })
+    )
+  }).isRequired
 };
 
 Area.defaultProps = {

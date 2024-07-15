@@ -3,13 +3,14 @@ const { inspect } = require('util');
 const JSON5 = require('json5');
 const { CONSTANTS } = require('../../helpers');
 const { error } = require('../../log/logger');
+const { getEnabledWidgets } = require('../../util/getEnabledWidgets');
 
 /* eslint-disable no-multi-assign */
 /* eslint-disable global-require */
 module.exports = exports = function AreaLoader(c) {
   this.cacheable(false);
   const components = this.getOptions().getComponents();
-  const { routeId } = this.getOptions();
+  const { route } = this.getOptions();
   const areas = {};
   components.forEach((module) => {
     this.addDependency(module);
@@ -43,11 +44,21 @@ module.exports = exports = function AreaLoader(c) {
       }
     }
   });
-
+  const widgets = getEnabledWidgets();
+  areas['*'] = areas['*'] || {};
+  widgets.forEach((widget) => {
+    areas['*'][widget.type] = {
+      id: widget.type,
+      sortOrder: widget.sortOrder || 0,
+      component: route.isAdmin
+        ? `---require('${widget.setting_component}')---`
+        : `---require('${widget.component}')---`
+    };
+  });
   const content = `Area.defaultProps.components = ${inspect(areas, { depth: 5 })
     .replace(/"---/g, '')
     .replace(/---"/g, '')} `;
   return c
     .replace('/** render */', content)
-    .replace('/eHot', `/eHot/${routeId}`);
+    .replace('/eHot', `/eHot/${route.id}`);
 };

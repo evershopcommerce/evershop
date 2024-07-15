@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "type": ["string", "integer"],
+      "enum": ["0", "1", 0, 1]
+    },
+    "settings": {
+      "type": "object",
+      "skipEscape": true,
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

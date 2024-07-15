@@ -37,7 +37,8 @@ function renderDevelopment(request, response) {
   const devMiddleware = route.webpackMiddleware;
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
-    propsMap: get(response, 'locals.propsMap', {})
+    propsMap: get(response, 'locals.propsMap', {}),
+    widgets: get(response, 'locals.widgets', [])
   };
   const safeContextValue = jsesc(contextValue, {
     json: true,
@@ -94,7 +95,8 @@ function renderProduction(request, response) {
   ));
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
-    propsMap: get(response, 'locals.propsMap', {})
+    propsMap: get(response, 'locals.propsMap', {}),
+    widgets: get(response, 'locals.widgets', [])
   };
   const safeContextValue = jsesc(contextValue, {
     json: true,

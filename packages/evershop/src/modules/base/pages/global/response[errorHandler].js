@@ -5,6 +5,9 @@ const isErrorHandlerTriggered = require('@evershop/evershop/src/lib/middleware/i
 const { render } = require('@evershop/evershop/src/lib/response/render');
 const { get } = require('@evershop/evershop/src/lib/util/get');
 const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
+const { getValue } = require('@evershop/evershop/src/lib/util/registry');
+const { v4: uuidv4 } = require('uuid');
+const { loadWidgetInstances } = require('../../services/loadWidgetInstances');
 
 module.exports = async (request, response, delegate, next) => {
   /** Get all promise delegate */
@@ -52,6 +55,19 @@ module.exports = async (request, response, delegate, next) => {
             }
           });
         } else {
+          let widgetInstances = await loadWidgetInstances(request);
+          if (route.isAdmin) {
+            widgetInstances = widgetInstances.map((widget) => ({
+              ...widget,
+              areaId: 'widget_setting_form'
+            }));
+          }
+          const widgets = await getValue('widgets', widgetInstances, {
+            uuid: uuidv4(),
+            route: request.currentRoute
+          });
+
+          response.locals.widgets = widgets;
           render(request, response);
         }
       }
