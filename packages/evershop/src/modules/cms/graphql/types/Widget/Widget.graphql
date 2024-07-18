@@ -6,8 +6,8 @@ type Widget {
   uuid: String!
   name: String!
   type: String!
-  area: String!
-  route: String!
+  area: [String!]
+  route: [String!]
   sortOrder: Int!
   status: Int!
   settings: JSON!

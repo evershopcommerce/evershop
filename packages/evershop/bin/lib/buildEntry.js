@@ -74,25 +74,16 @@ module.exports.buildEntry = async function buildEntry(
         route.isAdmin ? 'HydrateAdmin' : 'HydrateFrontStore'
       }';
       `;
-      if (!route.isAdmin) {
-        areas['*'] = areas['*'] || {};
-        widgets.forEach((widget) => {
-          areas['*'][widget.id] = {
-            id: widget.id,
-            sortOrder: widget.sortOrder || 0,
-            component: `---require('${widget.component}')---`
-          };
-        });
-      } else {
-        widgets.forEach((widget) => {
-          areas[`widgetSettingForm__${widget.id}`] = {};
-          areas[`widgetSettingForm__${widget.id}`][widget.id] = {
-            id: widget.id,
-            sortOrder: widget.sortOrder || 0,
-            component: `---require('${widget.setting_component}')---`
-          };
-        });
-      }
+      areas['*'] = areas['*'] || {};
+      widgets.forEach((widget) => {
+        areas['*'][widget.type] = {
+          id: widget.type,
+          sortOrder: widget.sortOrder || 0,
+          component: route.isAdmin
+            ? `---require('${widget.setting_component}')---`
+            : `---require('${widget.component}')---`
+        };
+      });
       contentClient += '\r\n';
       contentClient += `Area.defaultProps.components = ${inspect(areas, {
         depth: 5

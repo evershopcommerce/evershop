@@ -7,7 +7,9 @@ const { get } = require('@evershop/evershop/src/lib/util/get');
 const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
 const { getValue } = require('@evershop/evershop/src/lib/util/registry');
 const { v4: uuidv4 } = require('uuid');
-const { loadWidgetInstances } = require('../../services/loadWidgetInstances');
+const {
+  loadWidgetInstances
+} = require('../../../cms/services/widget/loadWidgetInstances');
 
 module.exports = async (request, response, delegate, next) => {
   /** Get all promise delegate */

@@ -24,7 +24,7 @@ export default function WidgetForm({ action }) {
             )
           );
         } else {
-          toast.success('Page saved successfully!');
+          toast.success('Widget saved successfully!');
         }
       }}
       submitBtn={false}

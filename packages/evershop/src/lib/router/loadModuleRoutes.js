@@ -20,6 +20,7 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
         route.id,
         route.method,
         route.path,
+        route.name,
         route.isApi,
         route.folder
       );
@@ -37,6 +38,7 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
         route.id,
         route.method,
         route.path,
+        route.name,
         route.isApi,
         route.folder
       );
@@ -51,6 +53,7 @@ exports.loadModuleRoutes = function loadModuleRoutes(modulePath) {
         route.id,
         route.method,
         route.path,
+        route.name,
         route.isApi,
         route.folder,
         route.payloadSchema,

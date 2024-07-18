@@ -8,7 +8,13 @@ describe('Test validateRoute', () => {
   beforeAll(() => {
     const routes = scanForRoutes(path.resolve(__dirname, 'b'), true, false);
     routes.forEach((route) => {
-      registerAdminRoute(route.id, route.method, route.path, route.isApi);
+      registerAdminRoute(
+        route.id,
+        route.method,
+        route.path,
+        route.name,
+        route.isApi
+      );
     });
   });
 

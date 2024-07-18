@@ -24,7 +24,7 @@ function Area(props) {
 
     widgets.forEach((widget) => {
       const w = wildCardWidgets[widget.widgetId];
-      if (widget.areaId === id && w !== undefined) {
+      if (widget.areaId.includes(id) && w !== undefined) {
         assignedWidgets.push({
           id: widget.type,
           sortOrder: widget.sortOrder,
@@ -88,9 +88,7 @@ function Area(props) {
         }
 
         // eslint-disable-next-line react/no-array-index-key
-        return (
-          <C widgetId={id} key={index} areaProps={props} {...componentProps} />
-        );
+        return <C key={index} areaProps={props} {...componentProps} />;
       })}
     </WrapperComponent>
   );

@@ -1,13 +1,6 @@
 {
   "type": "object",
   "properties": {
-    "name": {
-      "type": "string"
-    },
-    "status": {
-      "type": ["string", "integer"],
-      "enum": ["0", "1", 0, 1]
-    },
     "area": {
       "type": "array",
       "items": {
@@ -19,10 +12,6 @@
       "items": {
         "type": "string"
       }
-    },
-    "settings": {
-      "type": "object",
-      "additionalProperties": true
     }
   },
   "additionalProperties": true
