@@ -102,6 +102,12 @@ module.exports = {
         .where('product_id', '=', productId)
         .load(pool);
       return product ? buildUrl('productEdit', { id: product.uuid }) : null;
-    }
+    },
+    total: ({ lineTotalInclTax }) =>
+      // This field is deprecated, use lineTotalInclTax instead
+      lineTotalInclTax,
+    subTotal: ({ lineTotal }) =>
+      // This field is deprecated, use lineTotal instead
+      lineTotal
   }
 };

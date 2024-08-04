@@ -77,7 +77,7 @@ ShoppingCart.propTypes = {
     uuid: PropTypes.string.isRequired
   }).isRequired,
   setting: PropTypes.shape({
-    displayCheckoutPriceIncludeTax: PropTypes.bool
+    priceIncludingTax: PropTypes.bool
   }).isRequired,
   removeUrl: PropTypes.string.isRequired
 };
@@ -116,11 +116,19 @@ export const query = `
           value
           text
         }
-        subTotal {
+        lineTotal {
           value
           text
         }
-        total {
+        lineTotal {
+          value
+          text
+        }
+        lineTotalInclTax {
+          value
+          text
+        }
+        lineTotalInclTax {
           value
           text
         }
@@ -129,7 +137,7 @@ export const query = `
       }
     }
     setting {
-      displayCheckoutPriceIncludeTax
+      priceIncludingTax
     }
   }
 `;

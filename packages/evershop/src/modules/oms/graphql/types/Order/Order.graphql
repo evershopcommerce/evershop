@@ -33,9 +33,14 @@ type OrderItem {
   finalPriceInclTax: Price!
   taxPercent: Float!
   taxAmount: Price!
+  taxAmountBeforeDiscount: Price!
   discountAmount: Price!
-  subTotal: Price!
-  total: Price!
+  lineTotal: Price!
+  subTotal: Price! # Deprecated, this field is equivalent to lineTotal
+  lineTotalWithDiscount: Price!
+  lineTotalWithDiscountInclTax: Price!
+  lineTotalInclTax: Price!
+  total: Price! # Deprecated, this field is equivalent to lineTotalInclTax
   variantGroupId: Int
   variantOptions: String
   productCustomOptions: String
@@ -66,9 +71,12 @@ type Order implements ShoppingCart {
   discountAmount: Price!
   subTotal: Price!
   subTotalInclTax: Price!
+  subTotalWithDiscount: Price!
+  subTotalWithDiscountInclTax: Price!
   totalQty: Int!
   totalWeight: Weight!
   taxAmount: Price!
+  taxAmountBeforeDiscount: Price!
   grandTotal: Price!
   shippingMethod: String
   shippingMethodName: String

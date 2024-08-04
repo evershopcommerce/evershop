@@ -36,7 +36,7 @@ ItemVariantOptions.defaultProps = {
   options: []
 };
 
-function Items({ items, displayCheckoutPriceIncludeTax }) {
+function Items({ items, priceIncludingTax }) {
   return (
     <div id="summary-items">
       <table className="listing items-table">
@@ -69,9 +69,9 @@ function Items({ items, displayCheckoutPriceIncludeTax }) {
               </td>
               <td>
                 <span>
-                  {displayCheckoutPriceIncludeTax
-                    ? item.total.text
-                    : item.subTotal.text}
+                  {priceIncludingTax
+                    ? item.lineTotalInclTax.text
+                    : item.lineTotal.text}
                 </span>
               </td>
             </tr>
@@ -89,20 +89,20 @@ Items.propTypes = {
       productName: PropTypes.string,
       variantOptions: PropTypes.string,
       qty: PropTypes.number,
-      total: PropTypes.shape({
+      lineTotalInclTax: PropTypes.shape({
         text: PropTypes.string
       }),
-      subTotal: PropTypes.shape({
+      lineTotal: PropTypes.shape({
         text: PropTypes.string
       })
     })
   ),
-  displayCheckoutPriceIncludeTax: PropTypes.bool
+  priceIncludingTax: PropTypes.bool
 };
 
 Items.defaultProps = {
   items: [],
-  displayCheckoutPriceIncludeTax: false
+  priceIncludingTax: false
 };
 
 export { Items };

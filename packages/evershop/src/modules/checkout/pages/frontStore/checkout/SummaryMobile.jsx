@@ -5,10 +5,7 @@ import { CartSummary } from '@components/frontStore/checkout/checkout/summary/Ca
 import Area from '@components/common/Area';
 import './SummaryMobile.scss';
 
-export default function Summary({
-  cart,
-  setting: { displayCheckoutPriceIncludeTax }
-}) {
+export default function Summary({ cart, setting: { priceIncludingTax } }) {
   return (
     <Area
       id="checkoutSummary"
@@ -16,13 +13,13 @@ export default function Summary({
       coreComponents={[
         {
           component: { default: Items },
-          props: { items: cart.items, displayCheckoutPriceIncludeTax },
+          props: { items: cart.items, priceIncludingTax },
           sortOrder: 20,
           id: 'checkoutOrderSummaryItems'
         },
         {
           component: { default: CartSummary },
-          props: { ...cart, displayCheckoutPriceIncludeTax },
+          props: { ...cart, priceIncludingTax },
           sortOrder: 30,
           id: 'checkoutOrderSummaryCart'
         }
@@ -39,10 +36,10 @@ Summary.propTypes = {
         productName: PropTypes.string,
         variantOptions: PropTypes.string,
         qty: PropTypes.number,
-        total: PropTypes.shape({
+        lineTotalInclTax: PropTypes.shape({
           text: PropTypes.string
         }),
-        subTotal: PropTypes.shape({
+        lineTotal: PropTypes.shape({
           text: PropTypes.string
         })
       })
@@ -70,7 +67,7 @@ Summary.propTypes = {
     coupon: PropTypes.string
   }).isRequired,
   setting: PropTypes.shape({
-    displayCheckoutPriceIncludeTax: PropTypes.bool
+    priceIncludingTax: PropTypes.bool
   }).isRequired
 };
 
@@ -115,18 +112,18 @@ export const query = `
         productSku
         qty
         variantOptions
-        total {
+        lineTotalInclTax {
           value
           text
         }
-        subTotal {
+        lineTotal {
           value
           text
         }
       }
     }
     setting {
-      displayCheckoutPriceIncludeTax
+      priceIncludingTax
     }
   }
 `;

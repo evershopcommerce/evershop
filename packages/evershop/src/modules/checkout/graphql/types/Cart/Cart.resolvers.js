@@ -44,5 +44,15 @@ module.exports = {
     addContactInfoApi: (cart) =>
       buildUrl('addCartContactInfo', { cart_id: cart.uuid }),
     addAddressApi: (cart) => buildUrl('addCartAddress', { cart_id: cart.uuid })
+  },
+  CartItem: {
+    total: ({ lineTotalInclTax }) => 
+      // This field is deprecated, use lineTotalInclTax instead
+       lineTotalInclTax
+    ,
+    subTotal: ({ lineTotal }) => 
+      // This field is deprecated, use lineTotal instead
+       lineTotal
+    
   }
 };

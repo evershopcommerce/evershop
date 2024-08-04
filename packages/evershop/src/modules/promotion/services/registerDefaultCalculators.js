@@ -2,13 +2,16 @@
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getCartTotalBeforeDiscount } = require('./getCartTotalBeforeDiscount');
 const { toPrice } = require('../../checkout/services/toPrice');
 
 module.exports.registerDefaultCalculators =
   function registerDefaultCalculators() {
     return [
       async function percentageDiscountToEntireOrderCalculator(cart, coupon) {
+        const priceIncludingTax = getConfig(
+          'pricing.tax.price_including_tax',
+          false
+        );
         if (coupon.discount_type !== 'percentage_discount_to_entire_order') {
           return false;
         }
@@ -17,8 +20,11 @@ module.exports.registerDefaultCalculators =
           return false;
         }
 
+        const cartSubTotal = priceIncludingTax
+          ? cart.getData('sub_total_incl_tax')
+          : cart.getData('sub_total');
         const cartDiscountAmount = toPrice(
-          (discountPercent * getCartTotalBeforeDiscount(cart)) / 100
+          (discountPercent * cartSubTotal) / 100
         );
         let distributedAmount = 0;
         const discounts = {};
@@ -27,7 +33,7 @@ module.exports.registerDefaultCalculators =
           let sharedDiscount = 0;
           if (index === items.length - 1) {
             const precision = getConfig('pricing.precision', '2');
-            const precisionFix = parseInt(`1${'0'.repeat(precision)}`, 10);
+            const precisionFix = 10**precision;
             sharedDiscount =
               (cartDiscountAmount * precisionFix -
                 distributedAmount * precisionFix) /
@@ -35,10 +41,11 @@ module.exports.registerDefaultCalculators =
             // Fix for rounding error
             sharedDiscount = parseFloat(sharedDiscount.toFixed(precision));
           } else {
-            const rowTotal = item.getData('final_price') * item.getData('qty');
+            const lineTotal = priceIncludingTax
+              ? item.getData('line_total_incl_tax')
+              : item.getData('line_total');
             sharedDiscount = toPrice(
-              (rowTotal * cartDiscountAmount) /
-                getCartTotalBeforeDiscount(cart),
+              (lineTotal * cartDiscountAmount) / cartSubTotal,
               0
             );
           }
@@ -50,7 +57,6 @@ module.exports.registerDefaultCalculators =
           }
           distributedAmount += sharedDiscount;
         });
-
         await Promise.all(
           items.map(async (item) => {
             await item.setData('discount_amount', discounts[item.getId()] || 0);
@@ -60,6 +66,10 @@ module.exports.registerDefaultCalculators =
         return true;
       },
       async function fixedDiscountToEntireOrderCalculator(cart, coupon) {
+        const priceIncludingTax = getConfig(
+          'pricing.tax.price_including_tax',
+          false
+        );
         if (coupon.discount_type !== 'fixed_discount_to_entire_order')
           return false;
 
@@ -69,9 +79,11 @@ module.exports.registerDefaultCalculators =
         if (cartDiscountAmount < 0) {
           return false;
         }
-        const cartTotal = getCartTotalBeforeDiscount(cart);
+        const cartSubTotal = priceIncludingTax
+          ? cart.getData('sub_total_incl_tax')
+          : cart.getData('sub_total');
         cartDiscountAmount =
-          cartTotal > cartDiscountAmount ? cartDiscountAmount : cartTotal;
+          cartSubTotal > cartDiscountAmount ? cartDiscountAmount : cartSubTotal;
         let distributedAmount = 0;
         const discounts = {};
         const items = cart.getItems();
@@ -87,10 +99,11 @@ module.exports.registerDefaultCalculators =
             // Fix for rounding error
             sharedDiscount = parseFloat(sharedDiscount.toFixed(precision));
           } else {
-            const rowTotal = item.getData('final_price') * item.getData('qty');
+            const lineTotal = priceIncludingTax
+              ? item.getData('line_total_incl_tax')
+              : item.getData('line_total');
             sharedDiscount = toPrice(
-              (rowTotal * cartDiscountAmount) /
-                getCartTotalBeforeDiscount(cart),
+              (lineTotal * cartDiscountAmount) / cartSubTotal,
               0
             );
           }
@@ -110,6 +123,10 @@ module.exports.registerDefaultCalculators =
         return true;
       },
       async function discountToSpecificProductsCalculator(cart, coupon) {
+        const priceIncludingTax = getConfig(
+          'pricing.tax.price_including_tax',
+          false
+        );
         if (
           ![
             'fixed_discount_to_specific_products',
@@ -261,18 +278,21 @@ module.exports.registerDefaultCalculators =
             return;
           }
           if (coupon.discount_type === 'fixed_discount_to_specific_products') {
-            if (discountAmount > item.getData('final_price')) {
-              discountAmount = item.getData('final_price');
-            }
+            discountAmount = Math.min(
+              discountAmount,
+              priceIncludingTax
+                ? item.getData('final_price_incl_tax')
+                : item.getData('final_price')
+            );
             discounts[item.getId()] =
-              maxQty > item.getData('qty')
-                ? toPrice(discountAmount * item.getData('qty'))
-                : toPrice(discountAmount * maxQty);
+              Math.min(item.getData('qty'), maxQty) * discountAmount;
           } else {
             const discountPercent = Math.min(discountAmount, 100);
             discounts[item.getId()] = toPrice(
               (Math.min(item.getData('qty'), maxQty) *
-                (item.getData('final_price') * discountPercent)) /
+                (priceIncludingTax
+                  ? item.getData('final_price_incl_tax')
+                  : item.getData('final_price') * discountPercent)) /
                 100
             );
           }
@@ -286,6 +306,10 @@ module.exports.registerDefaultCalculators =
         return true;
       },
       async function buyXGetYCalculator(cart, coupon) {
+        const priceIncludingTax = getConfig(
+          'pricing.tax.price_including_tax',
+          false
+        );
         if (coupon.discount_type !== 'buy_x_get_y') {
           return true;
         }
@@ -311,7 +335,11 @@ module.exports.registerDefaultCalculators =
               item.getData('qty') >= buyQty + getQty
             ) {
               const discountPerUnit = toPrice(
-                (discount * item.getData('final_price')) / 100
+                (discount *
+                  (priceIncludingTax
+                    ? item.getData('final_price_incl_tax')
+                    : item.getData('final_price'))) /
+                  100
               );
               const discountAbleUnits =
                 Math.floor(item.getData('qty') / buyQty) * getQty;

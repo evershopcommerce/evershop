@@ -5,8 +5,12 @@ const registerDefaultTaxClassCollectionFilters = require('./services/registerDef
 const {
   defaultPaginationFilters
 } = require('../../lib/util/defaultPaginationFilters');
+const {
+  registerCartItemTaxPercentField
+} = require('./services/registerCartItemTaxPercentField');
 
 module.exports = () => {
+  addProcessor('cartItemFields', registerCartItemTaxPercentField, 0);
   addProcessor('configuratonSchema', (schema) => {
     merge(schema, {
       properties: {
@@ -25,12 +29,9 @@ module.exports = () => {
                 },
                 round_level: {
                   type: 'string',
-                  enum: ['total', 'unit']
+                  enum: ['total', 'line', 'unit']
                 },
-                display_catalog_price_including_tax: {
-                  type: 'boolean'
-                },
-                display_checkout_price_including_tax: {
+                price_including_tax: {
                   type: 'boolean'
                 }
               }
@@ -47,8 +48,7 @@ module.exports = () => {
       rounding: 'round',
       precision: 2,
       round_level: 'total',
-      display_catalog_price_including_tax: true,
-      display_checkout_price_including_tax: true
+      price_including_tax: true
     }
   };
   config.util.setModuleDefaults('pricing', defaultTaxConfig);

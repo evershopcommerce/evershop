@@ -8,8 +8,16 @@ const registerDefaultAttributeCollectionFilters = require('./services/registerDe
 const {
   defaultPaginationFilters
 } = require('../../lib/util/defaultPaginationFilters');
+const {
+  registerCartItemProductUrlField
+} = require('./services/registerCartItemProductUrlField');
+const {
+  registerCartItemVariantOptionsField
+} = require('./services/registerCartItemVariantOptionsField');
 
 module.exports = () => {
+  addProcessor('cartItemFields', registerCartItemProductUrlField, 0);
+  addProcessor('cartItemFields', registerCartItemVariantOptionsField, 0);
   addProcessor('configuratonSchema', (schema) => {
     merge(schema, {
       properties: {
