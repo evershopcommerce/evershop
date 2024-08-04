@@ -6,9 +6,11 @@
   width: 100%;
   &.min {
     left: 0;
+    width: auto;
   }
   &.max {
     right: 0;
+    width: auto;
   }
   top: 50%;
   display: flex;
