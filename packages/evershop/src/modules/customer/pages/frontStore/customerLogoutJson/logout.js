@@ -1,3 +1,4 @@
+const { warning } = require('@evershop/evershop/src/lib/log/logger');
 const {
   INTERNAL_SERVER_ERROR,
   OK
@@ -20,6 +21,18 @@ module.exports = (request, response, delegate, next) => {
         response.$body = {
           data: {}
         };
+        // When a logged in user is logging out
+        // Delete the cookie/session and the website
+        // Will generate another session automatically
+        request.session.destroy((err) => {
+          if (err) {
+            // log if an error
+            warning(
+              `error in deleting session. sid:${request.session.id}, cartId:${request.session.cartID}, customerId:${request.session.customerID}`
+            );
+          }
+          response.clearCookie('sid');
+        });
         next();
       }
     });
