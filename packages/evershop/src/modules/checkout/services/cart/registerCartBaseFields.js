@@ -439,6 +439,9 @@ module.exports.registerCartBaseFields = function registerCartBaseFields(
       key: 'shipping_fee_tax_percent',
       resolvers: [
         async function resolver() {
+          if (!this.getData('shipping_method')) {
+            return null;
+          }
           let shippingTaxClass = await getSetting(
             'defaultShippingTaxClassId',
             ''
