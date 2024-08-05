@@ -56,7 +56,7 @@ function Summary({
     coupon,
     discountAmount
   },
-  setting: { displayCheckoutPriceIncludeTax }
+  setting: { priceIncludingTax }
 }) {
   if (totalQty === undefined || totalQty <= 0) {
     return null;
@@ -72,9 +72,7 @@ function Summary({
             {
               component: { default: Subtotal },
               props: {
-                subTotal: displayCheckoutPriceIncludeTax
-                  ? subTotalInclTax
-                  : subTotal
+                subTotal: priceIncludingTax ? subTotalInclTax : subTotal
               },
               sortOrder: 10,
               id: 'shoppingCartSubtotal'
@@ -88,7 +86,7 @@ function Summary({
             {
               // eslint-disable-next-line react/no-unstable-nested-components
               component: {
-                default: displayCheckoutPriceIncludeTax ? () => null : Tax
+                default: priceIncludingTax ? () => null : Tax
               },
               props: {
                 amount: taxAmount.text
@@ -104,7 +102,7 @@ function Summary({
               props: {
                 total: grandTotal.text,
                 taxAmount: taxAmount.text,
-                displayCheckoutPriceIncludeTax
+                priceIncludingTax
               },
               sortOrder: 30,
               id: 'tax'
@@ -146,7 +144,7 @@ Summary.propTypes = {
     })
   }).isRequired,
   setting: PropTypes.shape({
-    displayCheckoutPriceIncludeTax: PropTypes.bool
+    priceIncludingTax: PropTypes.bool
   }).isRequired
 };
 
@@ -165,14 +163,15 @@ export const query = `
         value
         text
       }
-      grandTotal {
-        value
-        text
-      }
       subTotalInclTax {
         value
         text
       }
+      grandTotal {
+        value
+        text
+      }
+      
       taxAmount {
         value
         text
@@ -184,7 +183,7 @@ export const query = `
       coupon
     }
     setting {
-      displayCheckoutPriceIncludeTax
+      priceIncludingTax
     }
     checkoutUrl: url(routeId: "checkout")
   }

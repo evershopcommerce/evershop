@@ -6,14 +6,11 @@ const {
 } = require('@evershop/evershop/src/lib/util/registry');
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { v4: uuidv4, validate } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 const {
   translate
 } = require('@evershop/evershop/src/lib/locale/translate/translate');
 const { DataObject } = require('./DataObject');
-const {
-  getProductsBaseQuery
-} = require('../../../catalog/services/getProductsBaseQuery');
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
@@ -22,19 +19,17 @@ class Item extends DataObject {
 
   #product;
 
-  constructor(theCart, initialData = {}) {
+  constructor(cart, initialData = {}) {
     super(getValueSync('cartItemFields', []), initialData);
-    this.#cart = theCart;
+    this.#cart = cart;
   }
 
   async getProduct() {
     if (this.#product) {
       return this.#product;
     }
-    const productQuery = getProductsBaseQuery();
-    const product = await productQuery
-      .where('product_id', '=', this.getData('product_id'))
-      .load(pool);
+    const loaderFunction = getValueSync('cartItemProductLoaderFunction');
+    const product = await loaderFunction(this.getData('product_id'));
     this.#product = product;
     return product;
   }
@@ -67,7 +62,7 @@ class Cart extends DataObject {
 
   /**
    *
-   * @param {string} productID | product_id, sku, or uuid
+   * @param {string} productID | product_id
    * @param {number} qty
    * @returns
    */
@@ -118,27 +113,13 @@ class Cart extends DataObject {
     }
   }
 
-  async createItem(productID, qty) {
-    // Make sure the qty is a number and greater than 0
-    if (typeof qty !== 'number' || qty <= 0) {
-      throw new Error('Invalid quantity');
-    }
-    const productQuery = getProductsBaseQuery();
-    if (validate(productID)) {
-      productQuery.where('product.uuid', '=', productID);
-    } else if (/^\d+$/.test(productID)) {
-      productQuery
-        .where('product.product_id', '=', productID)
-        .or('product.sku', '=', productID);
-    } else {
-      productQuery.where('product.sku', '=', productID);
-    }
-    const product = await productQuery.load(pool);
-    if (!product) {
-      throw new Error(translate('Product not found'));
+  async createItem(productId, qty) {
+    // Make sure the qty is a number, not NaN and greater than 0
+    if (typeof qty !== 'number' || Number.isNaN(qty) || qty <= 0) {
+      throw new Error(translate('Invalid quantity'));
     }
     const item = new Item(this, {
-      product_id: product.product_id,
+      product_id: productId,
       qty
     });
     await item.build();

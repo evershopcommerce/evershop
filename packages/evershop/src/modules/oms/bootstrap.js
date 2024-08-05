@@ -1,4 +1,5 @@
 const config = require('config');
+const { merge } = require('@evershop/evershop/src/lib/util/merge');
 const registerDefaultOrderCollectionFilters = require('./services/registerDefaultOrderCollectionFilters');
 const {
   defaultPaginationFilters
@@ -6,8 +7,91 @@ const {
 const { addProcessor } = require('../../lib/util/registry');
 
 module.exports = () => {
-  // Default order status and carriers configuration
-  const orderStatusConfig = {
+  addProcessor('configuratonSchema', (schema) => {
+    merge(schema, {
+      properties: {
+        oms: {
+          type: 'object',
+          properties: {
+            order: {
+              type: 'object',
+              properties: {
+                shipmentStatus: {
+                  type: 'object',
+                  patternProperties: {
+                    '^[a-zA-Z_]+$': {
+                      type: 'object',
+                      properties: {
+                        name: {
+                          type: 'string'
+                        },
+                        badge: {
+                          type: 'string'
+                        },
+                        progress: {
+                          type: 'string'
+                        },
+                        isDefault: {
+                          type: 'boolean'
+                        }
+                      },
+                      required: ['name', 'badge', 'progress']
+                    }
+                  },
+                  additionalProperties: false
+                },
+                paymentStatus: {
+                  type: 'object',
+                  patternProperties: {
+                    '^[a-zA-Z_]+$': {
+                      type: 'object',
+                      properties: {
+                        name: {
+                          type: 'string'
+                        },
+                        badge: {
+                          type: 'string'
+                        },
+                        progress: {
+                          type: 'string'
+                        },
+                        isDefault: {
+                          type: 'boolean'
+                        }
+                      },
+                      required: ['name', 'badge', 'progress']
+                    }
+                  },
+                  additionalProperties: false
+                }
+              },
+              required: ['shipmentStatus', 'paymentStatus'],
+              additionalProperties: false
+            },
+            carriers: {
+              type: 'object',
+              additionalProperties: {
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string'
+                  },
+                  trackingUrl: {
+                    type: 'string'
+                  }
+                },
+                required: ['name']
+              }
+            }
+          }
+        }
+      }
+    });
+    return schema;
+  });
+
+  // Default order configuration
+  const defaultOrderConfig = {
     order: {
       shipmentStatus: {
         processing: {
@@ -61,7 +145,7 @@ module.exports = () => {
       }
     }
   };
-  config.util.setModuleDefaults('oms', orderStatusConfig);
+  config.util.setModuleDefaults('oms', defaultOrderConfig);
 
   // Reigtering the default filters for attribute collection
   addProcessor(

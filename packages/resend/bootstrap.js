@@ -1,9 +1,51 @@
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const { merge } = require('@evershop/evershop/src/lib/util/merge');
 const { addProcessor } = require('@evershop/evershop/src/lib/util/registry');
 const config = require('config');
 
 module.exports = () => {
-  const resendConfig = {
+  addProcessor('configuratonSchema', (schema) => {
+    merge(
+      schema,
+      {
+        properties: {
+          resend: {
+            type: 'object',
+            properties: {
+              from: {
+                type: 'string'
+              },
+              events: {
+                type: 'object',
+                patternProperties: {
+                  '^[a-zA-Z_]+$': {
+                    type: 'object',
+                    properties: {
+                      subject: {
+                        type: 'string'
+                      },
+                      templatePath: {
+                        type: 'string',
+                        format: 'uri-reference'
+                      },
+                      enabled: {
+                        type: 'boolean'
+                      }
+                    },
+                    required: ['subject', 'templatePath', 'enabled']
+                  }
+                },
+                additionalProperties: false
+              }
+            }
+          }
+        }
+      },
+      100
+    );
+    return schema;
+  });
+  const defaultResendConfig = {
     from: 'Customer Service <hello@resend.dev>',
     events: {
       order_placed: {
@@ -23,7 +65,7 @@ module.exports = () => {
       }
     }
   };
-  config.util.setModuleDefaults('resend', resendConfig);
+  config.util.setModuleDefaults('resend', defaultResendConfig);
   // Add a processor to proceed the email data before sending
   addProcessor('resend_order_confirmation_email_data', (order) => {
     // Convert the order.created_at to a human readable date

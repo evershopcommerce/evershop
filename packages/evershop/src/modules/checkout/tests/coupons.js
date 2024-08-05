@@ -1,0 +1,82 @@
+const coupons = [
+  {
+    coupon_id: 1,
+    uuid: '511b3def-bfe0-4cff-91ce-667586939bdb',
+    status: true,
+    description: 'percentage_discount_to_entire_order',
+    discount_amount: 10,
+    free_shipping: false,
+    discount_type: 'percentage_discount_to_entire_order',
+    coupon: 'ten_percent_discount_to_entire_order',
+    used_time: 0,
+    target_products: [],
+    condition: { order_qty: '', order_total: '' },
+    user_condition: { email: '', groups: [''], purchased: '' },
+    buyx_gety: [
+      {
+        sku: 'AT46 8703 9964 4659 4364',
+        max_y: 2,
+        buy_qty: 3,
+        get_qty: 1,
+        discount: 70
+      },
+      {
+        sku: 'LU72 5610 V9CD PSQH XZTE',
+        max_y: 3,
+        buy_qty: 2,
+        get_qty: 1,
+        discount: 100
+      }
+    ],
+    max_uses_time_per_coupon: null,
+    max_uses_time_per_customer: null,
+    start_date: null,
+    end_date: null,
+    created_at: '2020-04-23 23:22:33+07',
+    updated_at: '2020-04-24 00:45:33+07'
+  },
+  {
+    coupon_id: 1,
+    uuid: '511b3sef-bfe0-4cff-91ce-667586939bdb',
+    status: true,
+    description: '100_fixed_discount_to_entire_order',
+    discount_amount: 100,
+    free_shipping: false,
+    discount_type: 'fixed_discount_to_entire_order',
+    coupon: '100_fixed_discount_to_entire_order',
+    used_time: 0,
+    target_products: [],
+    condition: { order_qty: '', order_total: '' },
+    user_condition: { email: '', groups: [''], purchased: '' },
+    buyx_gety: [],
+    max_uses_time_per_coupon: null,
+    max_uses_time_per_customer: null,
+    start_date: null,
+    end_date: null,
+    created_at: '2020-04-23 23:22:33+07',
+    updated_at: '2020-04-24 00:45:33+07'
+  },
+  {
+    coupon_id: 1,
+    uuid: '511b3sef-bfe0-4cff-91ce-667586939bdb',
+    status: true,
+    description: '500_fixed_discount_to_entire_order',
+    discount_amount: 500,
+    free_shipping: false,
+    discount_type: 'fixed_discount_to_entire_order',
+    coupon: '500_fixed_discount_to_entire_order',
+    used_time: 0,
+    target_products: [],
+    condition: { order_qty: '', order_total: '' },
+    user_condition: { email: '', groups: [''], purchased: '' },
+    buyx_gety: [],
+    max_uses_time_per_coupon: null,
+    max_uses_time_per_customer: null,
+    start_date: null,
+    end_date: null,
+    created_at: '2020-04-23 23:22:33+07',
+    updated_at: '2020-04-24 00:45:33+07'
+  }
+];
+
+module.exports.coupons = coupons;

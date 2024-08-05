@@ -13,8 +13,10 @@ const { toPrice } = require('../toPrice');
 const { getSetting } = require('../../../setting/services/setting');
 const { getTaxRates } = require('../../../tax/services/getTaxRates');
 
-module.exports.registerCartBaseFields = function registerCartBaseFields() {
-  return [
+module.exports.registerCartBaseFields = function registerCartBaseFields(
+  fields
+) {
+  const newFields = fields.concat([
     {
       key: 'cart_id',
       resolvers: [
@@ -106,6 +108,22 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
           items.forEach((i) => {
             taxAmount += i.getData('tax_amount');
           });
+
+          return toPrice(taxAmount + this.getData('shipping_tax_amount'));
+        }
+      ],
+      dependencies: ['items', 'shipping_tax_amount']
+    },
+    {
+      key: 'tax_amount_before_discount',
+      resolvers: [
+        async function resolver() {
+          // Sum all tax amount from items
+          let taxAmount = 0;
+          const items = this.getItems();
+          items.forEach((i) => {
+            taxAmount += i.getData('tax_amount_before_discount');
+          });
           return taxAmount;
         }
       ],
@@ -118,7 +136,7 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
           let total = 0;
           const items = this.getItems();
           items.forEach((i) => {
-            total += i.getData('final_price') * i.getData('qty');
+            total += i.getData('line_total');
           });
           return toPrice(total);
         }
@@ -129,25 +147,15 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
       key: 'sub_total_incl_tax',
       resolvers: [
         async function resolver() {
-          return toPrice(
-            this.getData('sub_total') + this.getData('tax_amount')
-          );
+          let total = 0;
+          const items = this.getItems();
+          items.forEach((i) => {
+            total += i.getData('line_total_incl_tax');
+          });
+          return toPrice(total);
         }
       ],
-      dependencies: ['sub_total', 'tax_amount']
-    },
-    {
-      key: 'grand_total',
-      resolvers: [
-        async function resolver() {
-          return (
-            this.getData('sub_total') +
-            this.getData('shipping_fee_incl_tax') +
-            this.getData('tax_amount')
-          );
-        }
-      ],
-      dependencies: ['sub_total', 'shipping_fee_incl_tax']
+      dependencies: ['items']
     },
     {
       key: 'shipping_zone_id',
@@ -328,7 +336,7 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
       dependencies: ['shipping_method']
     },
     {
-      key: 'shipping_fee_excl_tax',
+      key: 'shipping_fee_draft',
       resolvers: [
         async function resolver() {
           if (!this.getData('shipping_method')) {
@@ -428,11 +436,11 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
       dependencies: ['shipping_method']
     },
     {
-      key: 'shipping_fee_incl_tax',
+      key: 'shipping_fee_tax_percent',
       resolvers: [
         async function resolver() {
-          if (this.getData('shipping_fee_excl_tax') === 0) {
-            return 0;
+          if (!this.getData('shipping_method')) {
+            return null;
           }
           let shippingTaxClass = await getSetting(
             'defaultShippingTaxClassId',
@@ -442,7 +450,7 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
           // -1: Protional allocation based on the items
           // 0: Highest tax rate based on the items
           if (shippingTaxClass === '') {
-            return this.getData('shipping_fee_excl_tax');
+            return 0;
           } else {
             shippingTaxClass = parseInt(shippingTaxClass, 10);
             if (shippingTaxClass > 0) {
@@ -452,7 +460,7 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
                 .load(pool);
 
               if (!taxClass) {
-                return this.getData('shipping_fee_excl_tax');
+                return 0;
               } else {
                 const shippingAddress = this.getData('shippingAddress');
                 const percentage = getTaxPercent(
@@ -463,13 +471,7 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
                     shippingAddress.postcode
                   )
                 );
-
-                const taxAmount = calculateTaxAmount(
-                  percentage,
-                  this.getData('shipping_fee_excl_tax'),
-                  1
-                );
-                return this.getData('shipping_fee_excl_tax') + taxAmount;
+                return percentage;
               }
             } else {
               const items = this.getItems();
@@ -491,17 +493,88 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
                     item.getData('tax_percent');
                 });
               }
-              const taxAmount = calculateTaxAmount(
-                percentage,
-                this.getData('shipping_fee_excl_tax'),
-                1
-              );
-              return this.getData('shipping_fee_excl_tax') + taxAmount;
+              return percentage;
             }
           }
         }
       ],
-      dependencies: ['shipping_fee_excl_tax', 'sub_total']
+      dependencies: ['sub_total', 'shipping_method']
+    },
+    {
+      key: 'shipping_tax_amount',
+      resolvers: [
+        async function resolver() {
+          const priceIncludingTax = getConfig(
+            'pricing.tax.price_including_tax',
+            false
+          );
+          if (this.getData('shipping_fee_draft') === 0) {
+            return 0;
+          }
+          const shippingFeeTax = calculateTaxAmount(
+            this.getData('shipping_fee_tax_percent'),
+            this.getData('shipping_fee_draft'),
+            1,
+            priceIncludingTax
+          );
+          return toPrice(shippingFeeTax);
+        }
+      ],
+      dependencies: ['shipping_fee_draft', 'shipping_fee_tax_percent']
+    },
+    {
+      key: 'shipping_fee_excl_tax',
+      resolvers: [
+        async function resolver() {
+          const priceIncludingTax = getConfig(
+            'pricing.tax.price_including_tax',
+            false
+          );
+          if (this.getData('shipping_fee_draft') === 0) {
+            return 0;
+          }
+          if (priceIncludingTax === false) {
+            return this.getData('shipping_fee_draft');
+          } else {
+            const shippingFeeTax = calculateTaxAmount(
+              this.getData('shipping_fee_tax_percent'),
+              this.getData('shipping_fee_draft'),
+              1,
+              priceIncludingTax
+            );
+            return toPrice(this.getData('shipping_fee_draft') - shippingFeeTax);
+          }
+        }
+      ],
+      dependencies: ['shipping_fee_tax_percent', 'shipping_fee_draft']
+    },
+    {
+      key: 'shipping_fee_incl_tax',
+      resolvers: [
+        async function resolver() {
+          const priceIncludingTax = getConfig(
+            'pricing.tax.price_including_tax',
+            false
+          );
+          if (this.getData('shipping_fee_draft') === 0) {
+            return 0;
+          }
+          if (priceIncludingTax === true) {
+            return this.getData('shipping_fee_draft');
+          } else {
+            const shippingFeeTax = calculateTaxAmount(
+              this.getData('shipping_fee_tax_percent'),
+              this.getData('shipping_fee_draft'),
+              1,
+              priceIncludingTax
+            );
+            return toPrice(
+              this.getData('shipping_fee_excl_tax') + shippingFeeTax
+            );
+          }
+        }
+      ],
+      dependencies: ['shipping_fee_excl_tax', 'shipping_fee_tax_percent']
     },
     {
       key: 'billing_address_id',
@@ -579,5 +652,6 @@ module.exports.registerCartBaseFields = function registerCartBaseFields() {
       ],
       dependencies: ['cart_id', 'currency']
     }
-  ];
+  ]);
+  return newFields;
 };

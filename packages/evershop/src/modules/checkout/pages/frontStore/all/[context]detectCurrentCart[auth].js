@@ -3,6 +3,8 @@ const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');
+const { getCartByUUID } = require('../../../services/getCartByUUID');
+const { saveCart } = require('../../../services/saveCart');
 
 module.exports = async (request, response, delegate, next) => {
   // Check if any cart is associated with the session id
@@ -13,6 +15,9 @@ module.exports = async (request, response, delegate, next) => {
     .load(pool);
 
   if (cart) {
+    const cartObject = await getCartByUUID(cart.uuid);
+    // Save the cart
+    await saveCart(cartObject);
     setContextValue(request, 'cartId', cart.uuid);
   } else {
     // Get the customer id from the session

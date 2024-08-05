@@ -8,7 +8,7 @@ import { ItemOptions } from './ItemOptions';
 import { ItemVariantOptions } from './ItemVariantOptions';
 import './Items.scss';
 
-function Items({ items, setting: { displayCheckoutPriceIncludeTax } }) {
+function Items({ items, setting: { priceIncludingTax } }) {
   const AppContextDispatch = useAppDispatch();
 
   const removeItem = async (item) => {
@@ -104,12 +104,12 @@ function Items({ items, setting: { displayCheckoutPriceIncludeTax } }) {
                 {item.finalPrice.value < item.productPrice.value && (
                   <div>
                     <span className="regular-price">
-                      {displayCheckoutPriceIncludeTax
+                      {priceIncludingTax
                         ? item.productPriceInclTax.text
                         : item.productPrice.text}
                     </span>{' '}
                     <span className="sale-price">
-                      {displayCheckoutPriceIncludeTax
+                      {priceIncludingTax
                         ? item.finalPriceInclTax.text
                         : item.finalPrice.text}
                     </span>
@@ -118,7 +118,7 @@ function Items({ items, setting: { displayCheckoutPriceIncludeTax } }) {
                 {item.finalPrice.value >= item.productPrice.value && (
                   <div>
                     <span className="sale-price">
-                      {displayCheckoutPriceIncludeTax
+                      {priceIncludingTax
                         ? item.finalPriceInclTax.text
                         : item.finalPrice.text}
                     </span>
@@ -134,9 +134,9 @@ function Items({ items, setting: { displayCheckoutPriceIncludeTax } }) {
               </td>
               <td className="hidden md:table-cell">
                 <span>
-                  {displayCheckoutPriceIncludeTax
-                    ? item.total.text
-                    : item.subTotal.text}
+                  {priceIncludingTax
+                    ? item.lineTotalInclTax.text
+                    : item.lineTotal.text}
                 </span>
               </td>
             </tr>
@@ -172,11 +172,11 @@ Items.propTypes = {
         text: PropTypes.string
       }),
       qty: PropTypes.number,
-      total: PropTypes.shape({
+      lineTotalInclTax: PropTypes.shape({
         value: PropTypes.number,
         text: PropTypes.string
       }),
-      subTotal: PropTypes.shape({
+      lineTotal: PropTypes.shape({
         value: PropTypes.number,
         text: PropTypes.string
       }),
@@ -184,7 +184,7 @@ Items.propTypes = {
     })
   ).isRequired,
   setting: PropTypes.shape({
-    displayCheckoutPriceIncludeTax: PropTypes.bool
+    priceIncludingTax: PropTypes.bool
   }).isRequired
 };
 

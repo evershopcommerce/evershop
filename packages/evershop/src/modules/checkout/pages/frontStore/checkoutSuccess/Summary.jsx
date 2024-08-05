@@ -5,10 +5,7 @@ import Area from '@components/common/Area';
 import { OrderSummary } from '@components/frontStore/checkout/success/summary/order/OrderSummary';
 import './Summary.scss';
 
-export default function Summary({
-  order,
-  setting: { displayCheckoutPriceIncludeTax }
-}) {
+export default function Summary({ order, setting: { priceIncludingTax } }) {
   return (
     <Area
       id="checkoutSuccessSummary"
@@ -16,13 +13,13 @@ export default function Summary({
       coreComponents={[
         {
           component: { default: Items },
-          props: { items: order.items, displayCheckoutPriceIncludeTax },
+          props: { items: order.items, priceIncludingTax },
           sortOrder: 20,
           id: 'checkoutSuccessOrderSummaryItems'
         },
         {
           component: { default: OrderSummary },
-          props: { ...order, displayCheckoutPriceIncludeTax },
+          props: { ...order, priceIncludingTax },
           sortOrder: 30,
           id: 'checkoutSuccessOrderSummary'
         }
@@ -43,10 +40,10 @@ Summary.propTypes = {
         }).isRequired,
         thumbnail: PropTypes.string.isRequired,
         variantOptions: PropTypes.string.isRequired,
-        total: PropTypes.shape({
+        lineTotalInclTax: PropTypes.shape({
           text: PropTypes.string.isRequired
         }).isRequired,
-        subTotal: PropTypes.shape({
+        lineTotal: PropTypes.shape({
           text: PropTypes.string.isRequired
         }).isRequired
       })
@@ -73,7 +70,7 @@ Summary.propTypes = {
     coupon: PropTypes.string
   }).isRequired,
   setting: PropTypes.shape({
-    displayCheckoutPriceIncludeTax: PropTypes.bool
+    priceIncludingTax: PropTypes.bool
   }).isRequired
 };
 
@@ -118,18 +115,18 @@ export const query = `
         productSku
         qty
         variantOptions
-        total {
+        lineTotalInclTax {
           value
           text
         }
-        subTotal {
+        lineTotal {
           value
           text
         }
       }
     }
     setting {
-      displayCheckoutPriceIncludeTax
+      priceIncludingTax
     }
   }
 `;

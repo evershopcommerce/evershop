@@ -20,19 +20,36 @@ describe('Test until merge', () => {
     expect(merge(a, b)).toEqual({ a: 1, b: 1, c: 1 });
   });
 
-  it('It should not overwrite the value from the first object if it is existed and truthy', () => {
+  it('It should not overwrite the value from the first object if it is existed', () => {
     const a = { a: 1 };
     const b = { a: 2, c: 1 };
     const c = merge(a, b);
-    expect(c.a).toEqual(1);
+    expect(c.a).toEqual(2);
   });
 
-  it('It should overwrite the value from the first object if it is not truthy', () => {
+  it('It should overwrite the value from the first object', () => {
     const a = { a: '', c: null, d: [] };
     const b = { a: 2, c: 1, d: 1 };
     const c = merge(a, b);
     expect(c.a).toEqual(2);
     expect(c.c).toEqual(1);
-    expect(c.d).toEqual([]);
+    expect(c.d).toEqual(1);
+  });
+
+  it('It should merge array property from 2 objects', () => {
+    const a = { a: [1, 2] };
+    const b = { a: [2, 3], c: 1 };
+    const c = merge(a, b);
+    expect(c.a).toEqual([1, 2, 3]);
+  });
+
+  it('It should thrown an exception if the maximum depth is exceeded', () => {
+    const a = {
+      a: { b: { c: { d: { e: { f: { g: { h: { i: { j: { k: 1 } } } } } } } } } }
+    };
+    const b = {
+      a: { b: { c: { d: { e: { f: { g: { h: { i: { j: { k: 2 } } } } } } } } } }
+    };
+    expect(() => merge(a, b, 5)).toThrow(Error);
   });
 });
