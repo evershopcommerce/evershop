@@ -11,7 +11,7 @@ const coupons = [
     used_time: 0,
     target_products: [],
     condition: { order_qty: '', order_total: '' },
-    user_condition: { email: '', group: 999, purchased: '' },
+    user_condition: { email: '', groups: [''], purchased: '' },
     buyx_gety: [
       {
         sku: 'AT46 8703 9964 4659 4364',
@@ -47,7 +47,7 @@ const coupons = [
     used_time: 0,
     target_products: [],
     condition: { order_qty: '', order_total: '' },
-    user_condition: { email: '', group: 999, purchased: '' },
+    user_condition: { email: '', groups: [''], purchased: '' },
     buyx_gety: [],
     max_uses_time_per_coupon: null,
     max_uses_time_per_customer: null,
@@ -68,7 +68,7 @@ const coupons = [
     used_time: 0,
     target_products: [],
     condition: { order_qty: '', order_total: '' },
-    user_condition: { email: '', group: 999, purchased: '' },
+    user_condition: { email: '', groups: [''], purchased: '' },
     buyx_gety: [],
     max_uses_time_per_coupon: null,
     max_uses_time_per_customer: null,
