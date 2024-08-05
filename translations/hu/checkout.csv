@@ -1,0 +1,61 @@
+Total, Összesen
+Order, Megrendelés
+Sku, SKU
+Continue to shipping, Tovább a szállításhoz
+Continue shopping, Vásárlás folytatása
+Continue Shopping, Vásárlás Folytatása
+CONTINUE SHOPPING, VÁSÁRLÁS FOLYTATÁSA
+Shopping cart, Bevásárlókosár
+Product, Termék
+Price, Ár
+Quantity, Mennyiség
+Remove, Eltávolít
+Qty, Menny.
+Sub total, Részösszeg
+Discount(${coupon}), Kedvezmény(${coupon})
+Order summary, Megrendelés összesítő
+Taxes and shipping calculated at checkout, Az ÁFA és a szállítási költség a fizetéskor kerül véglegesítésre
+CHECKOUT, Fizetés
+Change, Módosít
+Payment Method, Fizetési mód
+Shipping Address, Szállítási cím
+Shipping Method, Szállítási mód
+No payment methods available, Nincs elérhető fizetési mód
+Place Order, Megrendelés feladása
+My billing address is same as shipping address, A számlázási és a szállítási címem megeggyezik
+${count} items, ${count} tétel
+Discount, Kedvezmény
+Shipping, Szállítás
+No tax, Nincs ÁFA
+Tax, ÁFA
+Sorry, there is no available method for your address, Sajnáljuk, de a címedhez nincs elérhető szállítási mód
+Please enter a shipping address in order to see shipping quotes, A szállítási díj megjelenítéséhez kérjük add meg a szállítási címedet
+Continue to payment, Tovább a fizetéshez
+Ship to, Szállítási cím
+Shipment, Szállítás
+Thank you ${name}!, Köszönjük ${name}!
+Contact information, Elérhetőség
+Order #${orderNumber}, Megrendelés #${orderNumber}
+ADD TO CART, KOSÁRBA
+Please select variant options, Válassz a lehetőségek közül!
+VIEW CART (${count}), KOSÁR MEGTEKINTÉSE (${count})
+JUST ADDED TO YOUR CART, HOZZÁADTUK A KOSARADHOZ!
+Promotion code?, Van promóciós kódod?
+Enter coupon code, Add meg a kuponkódodat!
+Apply, Jóváhagy
+Your cart is empty!, A bevásárlókosarad üres!
+Full name, Teljes név
+Telephone, Telefonszám
+Address, Cím
+City, Város
+Country, Ország
+Postcode, IRSZ
+Inclusive of tax, ÁFA nélküli
+Sorry, there is no available method for your address,Sajnáljuk, a címedre jelenleg nincs elérhető szállítási mód
+Full name is required, Kérjük add meg a teljes nevedet!
+Telephone is required, Kérjük add meg a telefonszámodat!
+Address is required, Kérjük add meg a címedet!
+City is required, Kérjük add meg a várost!
+Country is required, Kérjük add meg az országot!
+Postcode is required, Kérjük add meg az irányítószámot!
+Contact, Elérhetőség
