@@ -1,13 +1,15 @@
 /* eslint-disable react/no-danger */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { CKEditor } from '@components/common/CKEditor';
+import Editor from '@components/common/Editor';
 
 export default function Page({ page }) {
   return (
     <div className="page-width">
-      <h1 className="text-center mb-12">{page.name}</h1>
-      <CKEditor content={page.content} />
+      <div className="prose max-w-none">
+        <h1 className="text-center">{page.name}</h1>
+      </div>
+      <Editor rows={page.content} />
     </div>
   );
 }

@@ -359,7 +359,6 @@ export const query = `
         name
         status
         content
-        layout
         editUrl
         updateApi
         deleteApi

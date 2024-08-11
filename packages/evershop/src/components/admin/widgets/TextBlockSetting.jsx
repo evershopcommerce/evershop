@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from '@components/common/form/Field';
-import CkeditorField from '@components/common/form/fields/Ckeditor';
+import Editor from '@components/common/form/fields/Editor';
 
 export default function TextBlockSetting({ text, className }) {
   return (
@@ -13,7 +13,7 @@ export default function TextBlockSetting({ text, className }) {
         value={className}
         validationRules={['notEmpty']}
       />
-      <CkeditorField name="settings[text]" label="Content" value={text} />
+      <Editor name="settings[text]" label="Content" value={text} />
     </div>
   );
 }

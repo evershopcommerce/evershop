@@ -9,7 +9,7 @@ type Product {
   sku: String!
   weight: Weight!
   taxClass: Int
-  description: String
+  description: JSON
   urlKey: String
   metaTitle: String
   metaDescription: String

@@ -24,6 +24,37 @@ module.exports = {
     url: ({ urlKey }) => buildUrl('cmsPageView', { url_key: urlKey }),
     editUrl: ({ uuid }) => buildUrl('cmsPageEdit', { id: uuid }),
     updateApi: (page) => buildUrl('updateCmsPage', { id: page.uuid }),
-    deleteApi: (page) => buildUrl('deleteCmsPage', { id: page.uuid })
+    deleteApi: (page) => buildUrl('deleteCmsPage', { id: page.uuid }),
+    content: ({ content }) => {
+      try {
+        return JSON.parse(content);
+      } catch (e) {
+        // This is for backward compatibility. If the content is not a JSON string then it is a raw HTML block
+        return [
+          {
+            size: 1,
+            columns: [
+              {
+                id: 'c__c5d90067-c786-4324-8e24-8e30520ac3d7',
+                size: 1,
+                data: {
+                  time: 1723347125344,
+                  blocks: [
+                    {
+                      id: 'AU89ItzUa7',
+                      type: 'raw',
+                      data: {
+                        html: content
+                      }
+                    }
+                  ],
+                  version: '2.30.2'
+                }
+              }
+            ]
+          }
+        ];
+      }
+    }
   }
 };

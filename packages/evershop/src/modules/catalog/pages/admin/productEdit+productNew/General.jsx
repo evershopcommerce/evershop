@@ -3,8 +3,8 @@ import React from 'react';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
 import { Card } from '@components/admin/cms/Card';
-import CkeditorField from '@components/common/form/fields/Ckeditor';
 import CategoryTree from '@components/admin/catalog/productEdit/category/CategoryTree';
+import Editor from '@components/common/form/fields/Editor';
 
 function SKUPriceWeight({ sku, price, weight, setting }) {
   return (
@@ -227,7 +227,7 @@ export default function General({
               id: 'tax_class'
             },
             {
-              component: { default: CkeditorField },
+              component: { default: Editor },
               props: {
                 id: 'description',
                 name: 'description',

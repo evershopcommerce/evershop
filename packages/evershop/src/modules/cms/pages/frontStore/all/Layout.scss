@@ -246,3 +246,16 @@ table {
 button.outline {
   outline: none;
 }
+
+.editor__html {
+  a {
+    color: var(--interactive);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+html .prose {
+  font-size: 100%;
+}

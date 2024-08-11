@@ -4,8 +4,8 @@ import Area from '@components/common/Area';
 import { get } from '@evershop/evershop/src/lib/util/get';
 import { Field } from '@components/common/form/Field';
 import { Card } from '@components/admin/cms/Card';
-import CkeditorField from '@components/common/form/fields/Ckeditor';
 import CategoryTree from '@components/admin/catalog/productEdit/category/CategoryTree';
+import Editor from '@components/common/form/fields/Editor';
 
 function ParentCategory({ currentId, parent }) {
   const [selecting, setSelecting] = React.useState(false);
@@ -125,7 +125,7 @@ export default function General({
       sortOrder: 20
     },
     {
-      component: { default: CkeditorField },
+      component: { default: Editor },
       props: {
         id: 'description',
         name: 'description',
