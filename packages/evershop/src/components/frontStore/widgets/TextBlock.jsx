@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Editor from '@components/common/Editor';
 
-export default function TextBlock({ text, className }) {
-  return (
-    <div className={className} dangerouslySetInnerHTML={{ __html: text }} />
-  );
+export default function TextBlock({ text }) {
+  return <Editor rows={text} />;
 }
 
 TextBlock.propTypes = {
-  text: PropTypes.string,
-  className: PropTypes.string
+  text: PropTypes.string
 };
 
 TextBlock.defaultProps = {
-  text: '',
-  className: ''
+  text: []
 };

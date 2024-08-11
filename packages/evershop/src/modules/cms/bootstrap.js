@@ -6,6 +6,7 @@ const {
 } = require('../../lib/util/defaultPaginationFilters');
 const { addProcessor } = require('../../lib/util/registry');
 const registerDefaultWidgetCollectionFilters = require('./services/registerDefaultWidgetCollectionFilters');
+const { buildUrl } = require('../../lib/router/buildUrl');
 
 module.exports = () => {
   addProcessor('configuratonSchema', (schema) => {
@@ -197,19 +198,6 @@ module.exports = () => {
       },
       enabled: true
     },
-    html_block: {
-      setting_component:
-        '@evershop/evershop/src/components/admin/widgets/HtmlBlockSetting.jsx',
-      component:
-        '@evershop/evershop/src/components/frontStore/widgets/HtmlBlock.jsx',
-      name: 'Html block',
-      description: 'A html block',
-      default_setting: {
-        html: '',
-        css: ''
-      },
-      enabled: true
-    },
     featured_products: {
       setting_component:
         '@evershop/evershop/src/components/frontStore/widgets/FeaturedProducts.jsx',
@@ -264,22 +252,24 @@ module.exports = () => {
         '&lt;': '<',
         '&gt;': '>'
       };
-      if (w.id === 'text_block' || w.id === 'html_block') {
+      if (w.id === 'text_block') {
         const { settings } = w;
         // Un escape the html of the `text` field
-        settings.text = settings.text || '';
-        settings.html = settings.html || '';
         settings.text = settings.text.replace(
           /&lt;|&gt;/g,
           (match) => replacements[match]
         );
-        settings.html = settings.html.replace(
-          /&lt;|&gt;/g,
-          (match) => replacements[match]
-        );
+
+        settings.text = JSON.parse(settings.text);
         return {
           ...w,
-          props: settings
+          props: {
+            ...settings,
+            browserApi: buildUrl('fileBrowser', { 0: '' }),
+            deleteApi: buildUrl('fileDelete', { 0: '' }),
+            uploadApi: buildUrl('imageUpload', { 0: '' }),
+            folderCreateApi: buildUrl('folderCreate')
+          }
         };
       } else {
         return w;

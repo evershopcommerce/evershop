@@ -4,7 +4,7 @@ import Button from '@components/frontStore/cms/Button';
 export default function FeaturedCategories() {
   return (
     <div className="mt-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 page-width">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <div className="text-center">
             <img src="/assets/homepage/banner/men-shoes.jpeg" alt="" />

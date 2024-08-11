@@ -32,7 +32,7 @@ export default function ShoppingCart({ cart, setting, removeUrl }) {
   } else {
     return (
       <div>
-        <div className="cart page-width">
+        <div className="cart">
           <Area
             id="shoppingCartTop"
             className="cart-page-top"
@@ -84,7 +84,7 @@ ShoppingCart.propTypes = {
 
 export const layout = {
   areaId: 'content',
-  sortOrder: 1
+  sortOrder: 10
 };
 
 export const query = `

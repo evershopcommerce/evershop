@@ -5,7 +5,7 @@ import Editor from '@components/common/Editor';
 
 export default function Page({ page }) {
   return (
-    <div className="page-width">
+    <div>
       <div className="prose max-w-none">
         <h1 className="text-center">{page.name}</h1>
       </div>

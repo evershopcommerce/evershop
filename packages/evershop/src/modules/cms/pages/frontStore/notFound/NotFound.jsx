@@ -35,7 +35,7 @@ Content.propTypes = {
 
 export default function NotFound({ continueShoppingUrl }) {
   return (
-    <div className="page-width mt-10">
+    <div className="mt-10">
       <div className="pt-6">
         <Area
           id="notfound-page"
