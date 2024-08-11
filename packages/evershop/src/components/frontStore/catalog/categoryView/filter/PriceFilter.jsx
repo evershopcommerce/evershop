@@ -113,16 +113,16 @@ export function PriceFilter({
     firstRender.current = false;
     const { value } = e.target;
     if (direction === 'min') {
-      if (value > to - 5) {
-        setFrom(to - 5);
+      if (value > to - 20) {
+        setFrom(to - 20);
       } else {
         setFrom(value);
       }
     }
 
     if (direction === 'max') {
-      if (value - 5 < from) {
-        setTo(from + 5);
+      if (value - 20 < from) {
+        setTo(from + 20);
       } else {
         setTo(value);
       }
@@ -153,12 +153,6 @@ export function PriceFilter({
         <div className="tooltip min">
           <div
             className="push"
-            style={{
-              // eslint-disable-next-line no-mixed-operators
-              width: `calc(${
-                ((from - minPrice) / (maxPrice - minPrice)) * 100
-              }% + 3px)`
-            }}
           />
           <output>{f}</output>
         </div>
@@ -173,12 +167,6 @@ export function PriceFilter({
         <div className="tooltip max">
           <div
             className="push"
-            style={{
-              // eslint-disable-next-line no-mixed-operators
-              width: `calc(${
-                ((to - minPrice) / (maxPrice - minPrice)) * 100
-              }% - 6px)`
-            }}
           />
           <output>{t}</output>
         </div>
