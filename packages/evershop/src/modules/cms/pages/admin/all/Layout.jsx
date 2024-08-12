@@ -17,7 +17,7 @@ export default function AdminLayout() {
           <Area id="content" className="main-content-inner" />
           <div className="footer">
             <div className="copyright">
-              <span>Copyright © 2021 EverShop</span>
+              <span>Direitos Autorais © 2024 E-Moio, E.I</span>
             </div>
             <div className="version">
               <span>Version 1.0 dev</span>
