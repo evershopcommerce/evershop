@@ -8,7 +8,7 @@ export default function Logo({ dashboardUrl }) {
       <a href={dashboardUrl} className="flex items-end">
         {/* Substitua o SVG pelo elemento img com o URL do seu logotipo */}
         <img
-          src="https://a.e-moio.com/emoiologo.webp"
+          src="https://e-moio.com/emoiologo.webp"
           alt="Logotipo"
           width="120"
           height="54.4"
