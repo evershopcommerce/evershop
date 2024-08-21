@@ -39,9 +39,18 @@ type WidgetCollection {
   currentFilters: [Filter]
 }
 
+"""
+Return a text Widget
+"""
+type TextBlockWidget {
+  text: JSON
+  className: String
+}
+
 extend type Query {
   widget(id: Int): Widget
   widgets(filters: [FilterInput]): WidgetCollection
   widgetTypes: [WidgetType]
   widgetType(code: String!): WidgetType
+  textWidget(text: String, className: String): TextBlockWidget
 }

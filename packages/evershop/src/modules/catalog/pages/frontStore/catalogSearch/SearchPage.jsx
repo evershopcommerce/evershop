@@ -3,7 +3,7 @@ import Area from '@components/common/Area';
 
 export default function SearchPage() {
   return (
-    <div className="grid grid-cols-1 ">
+    <div className="page-width grid grid-cols-1 ">
       <Area id="oneColumn" />
     </div>
   );

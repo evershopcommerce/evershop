@@ -3,7 +3,7 @@ import Area from '@components/common/Area';
 
 export default function CategoryView() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <div className="page-width grid grid-cols-1 md:grid-cols-4 gap-8">
       <Area id="leftColumn" className="md:col-span-1" />
       <Area id="rightColumn" className="md:col-span-3" />
     </div>

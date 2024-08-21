@@ -33,6 +33,14 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
       }
     );
 
+    queryBody = queryBody.replace(
+      /getWidgetSetting\(([^)]+)\)/g,
+      (match, p1) => {
+        const base64 = Buffer.from(p1).toString('base64');
+        return `"getWidgetSetting_${base64}"`;
+      }
+    );
+
     const queryAst = parse(queryBody);
     const map = queryAst.definitions[0].selectionSet.selections.map(
       (selection) => {
@@ -74,7 +82,7 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
         variables.push({
           origin: name,
           type,
-          alias: `v${uniqid()}`
+          alias: `variable_${uniqid()}`
         });
       });
     }
@@ -179,7 +187,13 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
         return `"getContextValue_${base64}"`;
       }
     );
-
+    variablesBody = variablesBody.replace(
+      /getWidgetSetting\(([^)]+)\)/g,
+      (match, p1) => {
+        const base64 = Buffer.from(p1).toString('base64');
+        return `"getWidgetSetting_${base64}"`;
+      }
+    );
     try {
       // Json parse the variables body
       const variablesJson = JSON5.parse(variablesBody);

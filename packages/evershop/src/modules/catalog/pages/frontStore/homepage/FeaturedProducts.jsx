@@ -8,10 +8,12 @@ export default function FeaturedProducts({ collection }) {
   }
   return (
     <div className="pt-12">
-      <h3 className="mt-12 mb-12 text-center uppercase h5 tracking-widest">
-        {collection.name}
-      </h3>
-      <ProductList products={collection.products.items} countPerRow={4} />
+      <div className="page-width">
+        <h3 className="mt-12 mb-12 text-center uppercase h5 tracking-widest">
+          {collection.name}
+        </h3>
+        <ProductList products={collection.products.items} countPerRow={4} />
+      </div>
     </div>
   );
 }
@@ -59,26 +61,31 @@ export const query = `
       name
       products (filters: [{key: "limit", operation: eq, value: "4"}]) {
         items {
-          productId
-          name
-          sku
-          price {
-            regular {
-              value
-              text
-            }
-            special {
-              value
-              text
-            }
-            }
-          image {
-            alt
-            url: listing
-          }
-          url
+          ...Product
         }
       }
     }
+  }
+`;
+
+export const fragments = `
+  fragment Product on Product {
+    productId
+    name
+    price {
+      regular {
+        value
+        text
+      }
+      special {
+        value
+        text
+      }
+      }
+    image {
+      alt
+      url: listing
+    }
+    url
   }
 `;

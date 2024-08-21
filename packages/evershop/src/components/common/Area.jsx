@@ -23,10 +23,10 @@ function Area(props) {
     const assignedWidgets = [];
 
     widgets.forEach((widget) => {
-      const w = wildCardWidgets[widget.widgetId];
+      const w = wildCardWidgets[widget.type];
       if (widget.areaId.includes(id) && w !== undefined) {
         assignedWidgets.push({
-          id: widget.type,
+          id: widget.id,
           sortOrder: widget.sortOrder,
           props: widget.props,
           component: w.component
@@ -41,7 +41,7 @@ function Area(props) {
             .concat(assignedWidgets);
     return cs.sort((obj1, obj2) => obj1.sortOrder - obj2.sortOrder);
   })();
-
+  const { propsMap } = context;
   let WrapperComponent = React.Fragment;
   if (noOuter !== true) {
     if (wrapper !== undefined) {
@@ -66,9 +66,9 @@ function Area(props) {
         const C = w.component.default;
         // eslint-disable-next-line no-shadow
         const { id } = w;
-        const { propsMap } = context;
         const propsData = context.graphqlResponse;
         const propKeys = propsMap[id] || [];
+
         const componentProps = propKeys.reduce((acc, map) => {
           const { origin, alias } = map;
           acc[origin] = propsData[alias];

@@ -22,13 +22,12 @@ exports.loadWidgetInstances = async function loadWidgetInstances(request) {
     const { type } = request.params;
     return enabledWidgets
       .map((widget) => ({
-        id: widget.type,
+        type: widget.type,
         areaId: 'widget_setting_form',
-        widgetId: widget.type,
         props: widget.default_settings || {},
         sortOrder: 0
       }))
-      .filter((widget) => widget.id === type);
+      .filter((widget) => widget.type === type);
   }
 
   const node = query.andWhere(
@@ -43,9 +42,9 @@ exports.loadWidgetInstances = async function loadWidgetInstances(request) {
   query.orderBy('sort_order', 'asc');
   const widgetInstances = await query.execute(pool);
   return widgetInstances.map((widgetInstance) => ({
-    id: widgetInstance.type,
+    type: widgetInstance.type,
+    uuid: widgetInstance.uuid,
     areaId: widgetInstance.area,
-    widgetId: widgetInstance.type,
     settings: widgetInstance.settings,
     props: widgetInstance.settings, // By default, props is the same as setting, but can be overridden
     sortOrder: widgetInstance.sort_order

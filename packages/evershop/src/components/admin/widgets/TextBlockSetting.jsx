@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Editor from '@components/common/form/fields/Editor';
+import { Field } from '@components/common/form/Field';
 
 export default function TextBlockSetting({
-  text,
+  textWidget: { text, className },
   browserApi,
   deleteApi,
   uploadApi,
@@ -11,6 +12,13 @@ export default function TextBlockSetting({
 }) {
   return (
     <div>
+      <Field
+        type="text"
+        name="settings[className]"
+        label="Custom css classes"
+        value={className}
+        placeholder="Custom css classes"
+      />
       <Editor
         name="settings[text]"
         label="Content"
@@ -25,13 +33,38 @@ export default function TextBlockSetting({
 }
 
 TextBlockSetting.propTypes = {
-  text: PropTypes.string,
   browserApi: PropTypes.string.isRequired,
   deleteApi: PropTypes.string.isRequired,
   uploadApi: PropTypes.string.isRequired,
-  folderCreateApi: PropTypes.string.isRequired
+  folderCreateApi: PropTypes.string.isRequired,
+  textWidget: PropTypes.shape({
+    // eslint-disable-next-line react/forbid-prop-types
+    text: PropTypes.array,
+    className: PropTypes.string
+  })
 };
 
 TextBlockSetting.defaultProps = {
-  text: []
+  textWidget: {
+    text: [],
+    className: ''
+  }
 };
+
+export const query = `
+  query Query($text: String, $className: String) {
+    textWidget(text: $text, className: $className) {
+      text
+      className
+    }
+    browserApi: url(routeId: "fileBrowser", params: [{key: "0", value: ""}])
+    deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
+    uploadApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
+    folderCreateApi: url(routeId: "folderCreate")
+  }
+`;
+
+export const variables = `{
+  text: getWidgetSetting("text"),
+  className: getWidgetSetting("className")
+}`;

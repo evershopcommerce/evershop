@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function Breadcrumb({ pageInfo: { breadcrumbs } }) {
   return breadcrumbs.length ? (
-    <div className="my-8">
+    <div className="page-width my-8">
       {breadcrumbs.map((breadcrumb, index) =>
         index === breadcrumbs.length - 1 ? (
           <span key={index}>{breadcrumb.title}</span>

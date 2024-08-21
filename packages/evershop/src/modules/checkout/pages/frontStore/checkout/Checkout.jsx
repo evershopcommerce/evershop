@@ -105,7 +105,7 @@ export default function CheckoutPage({
         getPaymentMethodAPI={getPaymentMethodAPI}
         checkoutSuccessUrl={checkoutSuccessUrl}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-12">
           <Area
             id="checkoutPageLeft"
             coreComponents={[

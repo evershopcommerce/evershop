@@ -48,6 +48,17 @@ module.exports = {
             createWidgetUrl: buildUrl('widgetNew', { type: type.type })
           }
         : null;
+    },
+    textWidget(_, { text, className }) {
+      const replacements = {
+        '&lt;': '<',
+        '&gt;': '>'
+      };
+      const jsonText = text.replace(
+        /&lt;|&gt;/g,
+        (match) => replacements[match]
+      );
+      return { text: JSON.parse(jsonText), className };
     }
   },
   Widget: {

@@ -168,4 +168,37 @@ module.exports = () => {
     (filters) => [...filters, ...defaultPaginationFilters],
     1
   );
+
+  // Register default widgets
+  const widgets = {
+    collection_products: {
+      setting_component:
+        '@evershop/evershop/src/components/admin/widgets/CollectionProductsSetting.jsx',
+      component:
+        '@evershop/evershop/src/components/frontStore/widgets/CollectionProducts.jsx',
+      name: 'Collection products',
+      description: 'A list of products from a collection',
+      default_setting: {
+        collection: null
+      },
+      enabled: true
+    }
+  };
+  config.util.setModuleDefaults('widgets', widgets);
+
+  const parseIntCount = (data) => {
+    // eslint-disable-next-line no-param-reassign
+    data.settings = data.settings || {};
+    if (data.settings.count) {
+      // eslint-disable-next-line no-param-reassign
+      data.settings.count = parseInt(data.settings.count, 10);
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      data.settings.count = 4;
+    }
+    return data;
+  };
+
+  addProcessor('widgetDataBeforeCreate', parseIntCount, 1);
+  addProcessor('widgetDataBeforeUpdate', parseIntCount, 1);
 };

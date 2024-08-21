@@ -32,7 +32,7 @@ export default function ShoppingCart({ cart, setting, removeUrl }) {
   } else {
     return (
       <div>
-        <div className="cart">
+        <div className="cart page-width">
           <Area
             id="shoppingCartTop"
             className="cart-page-top"

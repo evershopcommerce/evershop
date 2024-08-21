@@ -5,8 +5,6 @@ const isErrorHandlerTriggered = require('@evershop/evershop/src/lib/middleware/i
 const { render } = require('@evershop/evershop/src/lib/response/render');
 const { get } = require('@evershop/evershop/src/lib/util/get');
 const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
-const { getValue } = require('@evershop/evershop/src/lib/util/registry');
-const { v4: uuidv4 } = require('uuid');
 const {
   loadWidgetInstances
 } = require('../../../cms/services/widget/loadWidgetInstances');
@@ -58,18 +56,19 @@ module.exports = async (request, response, delegate, next) => {
           });
         } else {
           let widgetInstances = await loadWidgetInstances(request);
-          if (route.isAdmin) {
-            widgetInstances = widgetInstances.map((widget) => ({
-              ...widget,
-              areaId: 'widget_setting_form'
-            }));
-          }
-          const widgets = await getValue('widgets', widgetInstances, {
-            uuid: uuidv4(),
-            route: request.currentRoute
+          widgetInstances = widgetInstances.map((widget) => {
+            const newWidget = {
+              sortOrder: widget.sortOrder,
+              areaId: widget.areaId,
+              type: widget.type
+            };
+            newWidget.id = `e${widget.uuid.replace(/-/g, '')}`;
+            if (route.isAdmin) {
+              newWidget.areaId = 'widget_setting_form';
+            }
+            return newWidget;
           });
-
-          response.locals.widgets = widgets;
+          response.locals.widgets = widgetInstances;
           render(request, response);
         }
       }

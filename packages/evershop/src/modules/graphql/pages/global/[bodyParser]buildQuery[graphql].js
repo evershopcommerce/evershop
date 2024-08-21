@@ -1,5 +1,6 @@
 const path = require('path');
 const JSON5 = require('json5');
+const uniqid = require('uniqid');
 const { readFileSync } = require('fs');
 const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
 const isProductionMode = require('@evershop/evershop/src/lib/util/isProductionMode');
@@ -9,10 +10,22 @@ const {
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
 const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
 const { error } = require('@evershop/evershop/src/lib/log/logger');
+
+const {
+  getEnabledWidgets
+} = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
+const { get } = require('@evershop/evershop/src/lib/util/get');
+const isResolvable = require('is-resolvable');
+const { v4: uuidv4 } = require('uuid');
+const { select } = require('@evershop/postgres-query-builder');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const {
+  loadWidgetInstances
+} = require('../../../cms/services/widget/loadWidgetInstances');
 // eslint-disable-next-line no-unused-vars
 const { getContextValue } = require('../../services/contextHelper');
 
-module.exports = (request, response) => {
+module.exports = async (request, response, delegate, next) => {
   let query;
   if (isDevelopmentMode()) {
     let route;
@@ -28,7 +41,7 @@ module.exports = (request, response) => {
     }
     const devMiddleware = route.webpackMiddleware;
     const { outputFileSystem } = devMiddleware.context;
-    const jsonWebpackStats = devMiddleware.context.stats.toJson();
+    const { jsonWebpackStats } = response.locals;
     const { outputPath } = jsonWebpackStats;
 
     query = outputFileSystem.readFileSync(
@@ -54,6 +67,8 @@ module.exports = (request, response) => {
       'utf8'
     );
   }
+  const widgetInstances = await loadWidgetInstances(request);
+  const enabledWidgets = getEnabledWidgets();
   if (query) {
     // Parse the query
     // Use regex to replace "getContextValue_'base64 encoded string'"
@@ -75,9 +90,248 @@ module.exports = (request, response) => {
     });
     try {
       const json = JSON5.parse(query);
-      // Get all variables definition and build the operation name
-      const variables = JSON5.parse(json.variables);
+      // We need to get the list of applicable widgets and remove all the queries and variable that are not used
+      let applicableWidgets = [];
+      const { currentRoute } = request;
+      if (currentRoute?.isAdmin) {
+        if (currentRoute?.id === 'widgetNew') {
+          const currentWidget = enabledWidgets.find(
+            (widget) => widget.type === currentRoute?.params?.type
+          );
+          applicableWidgets = [
+            {
+              uuid: uuidv4(),
+              settings: {},
+              component: currentWidget.setting_component
+            }
+          ];
+        } else if (currentRoute?.id === 'widgetEdit') {
+          const currentWidget = await select()
+            .from('widget')
+            .where('uuid', '=', request.params.id)
+            .load(pool);
+          const widgetSpecs = enabledWidgets.find(
+            (enabledWidget) => enabledWidget.type === currentWidget.type
+          );
+          applicableWidgets = [
+            {
+              uuid: request.params.id,
+              settings: currentWidget.settings,
+              component: widgetSpecs.setting_component
+            }
+          ];
+        }
+      } else {
+        applicableWidgets = widgetInstances.map((widget) => {
+          const widgetSpecs = enabledWidgets.find(
+            (enabledWidget) => enabledWidget.type === widget.type
+          );
+          return {
+            uuid: widget.uuid,
+            settings: widget.settings,
+            component: request.currentRoute?.isAdmin
+              ? widgetSpecs.setting_component
+              : widgetSpecs.component
+          };
+        });
+      }
+      json.queries = Object.keys(json.queries).reduce((acc, key) => {
+        const componentPath = Buffer.from(key, 'base64').toString('ascii');
+        if (
+          applicableWidgets.find(
+            (widget) => widget.component === componentPath
+          ) ||
+          !isResolvable(componentPath)
+        ) {
+          acc[key] = json.queries[key];
+        }
+        return acc;
+      }, {});
+
+      // Remove all variables from widgets that are not used
+      json.variables = Object.keys(json.variables).reduce((acc, key) => {
+        const componentPath = Buffer.from(key, 'base64').toString('ascii');
+        if (
+          applicableWidgets.find(
+            (widget) => widget.component === componentPath
+          ) ||
+          !isResolvable(componentPath)
+        ) {
+          acc[key] = json.variables[key];
+        }
+        return acc;
+      }, {});
+
       let operation = 'query Query';
+      const { fragments } = json;
+      const { propsMap } = json;
+      let queryStr = '';
+      let variables;
+
+      if (applicableWidgets.length > 0) {
+        applicableWidgets.forEach((widget) => {
+          const widgetKey = Buffer.from(widget.component).toString('base64');
+          let widgetQuery = json.queries[widgetKey];
+          // Deep clone the widget variables
+          let widgetVariables = JSON.parse(
+            JSON.stringify(json.variables[widgetKey])
+          );
+          const regex = /\\"getWidgetSetting_([a-zA-Z0-9+/=]+)\\"/g;
+          widgetQuery = widgetQuery.replace(regex, (match, p1) => {
+            const base64 = p1;
+            const decoded = Buffer.from(base64, 'base64').toString('ascii');
+            // Accept max 2 arguments from the decoded string, the fist one is the path to the setting object (a.b.c) and the second one is the default value
+            // Get the actual value from the setting of the current widget
+            // eslint-disable-next-line
+            const path = decoded.split(',')[0];
+            const defaultValue = decoded.split(',')[1] || undefined;
+            let value = get(widget.settings, path, defaultValue);
+            // JSON sringify without adding double quotes to the property name
+            value = JSON5.stringify(value, { quote: '"' });
+            // Escape the value so we can insert it into the query
+            if (value) {
+              value = value.replace(/"/g, '\\"');
+            }
+            return value;
+          });
+          // Use regex to find if there is any variable inside the query by checking if there is any string started with `$variable_` and no special character after that. If there is a match, we will replace it with the another unique name to make it unique
+          const variableRegex = /\$variable_([a-zA-Z0-9]+)/g;
+          const variableMatch = widgetQuery.match(variableRegex);
+          const variableList = [];
+          if (variableMatch) {
+            widgetQuery = widgetQuery.replace(variableRegex, (match, p1) => {
+              const newId = `${uniqid()}`;
+              variableList.push({
+                origin: `variable_${p1}`,
+                new: `variable_${newId}`
+              });
+              // Check if p1 already exists in the variableList
+              // If it does, we will replace it with the newId
+              const test = variableList.find(
+                (variable) => variable.origin === `variable_${p1}`
+              );
+              if (test) {
+                return `$${test.new}`;
+              } else {
+                return `$variable_${newId}`;
+              }
+            });
+          }
+
+          // Now we need to process the widgetVariables.values and widgetVariables.defs
+          const widgetVariablesValues = Object.keys(
+            widgetVariables.values
+          ).reduce((acc, key) => {
+            const check = variableList.find(
+              (variable) => variable.origin === key
+            );
+            if (check) {
+              const variableRegex = /getWidgetSetting_([a-zA-Z0-9+/=]+)/g;
+              const v = widgetVariables.values[key];
+              if (typeof v === 'string') {
+                // A regext matching "getContextValue_'base64 encoded string'"
+                // Check if the value is a string and contains the getContextValue_ string
+                const variableMatch = v.match(variableRegex);
+                if (variableMatch) {
+                  // Replace the getContextValue_ string with the actual function
+                  const base64 = variableMatch[0].replace(
+                    variableRegex,
+                    (match, p1) => p1
+                  );
+                  const decoded = Buffer.from(base64, 'base64')
+                    .toString('ascii')
+                    .split(',')[0]
+                    .replace(/['"]+/g, '');
+                  // eslint-disable-next-line no-eval
+                  const actualValue = get(widget.settings, decoded);
+                  acc[check.new] = actualValue;
+                }
+              } else {
+                acc[check.new] = v;
+              }
+            }
+            return acc;
+          }, {});
+          const widgetVariablesDefs = widgetVariables.defs.reduce(
+            (acc, variable) => {
+              const check = variableList.find(
+                (v) => v.origin === variable.alias
+              );
+              if (check) {
+                acc.push({
+                  ...variable,
+                  alias: check.new
+                });
+              } else {
+                acc.push(variable);
+              }
+              return acc;
+            },
+            []
+          );
+          widgetVariables = {
+            values: widgetVariablesValues,
+            defs: widgetVariablesDefs
+          };
+          const originPropsMap = propsMap[widgetKey]; // [{origin: 'real field name', alias: 'bbbb'}, {origin: 'real field name', alias: 'ccc'}]
+          const widgetUUID = `e${widget.uuid.replace(/-/g, '')}`;
+          propsMap[widgetUUID] = [];
+          originPropsMap.forEach((prop) => {
+            const newAlias = `e${uniqid()}`;
+            widgetQuery = widgetQuery.replace(prop.alias, newAlias);
+            propsMap[widgetUUID].push({
+              origin: prop.origin,
+              alias: newAlias
+            });
+          });
+          json.queries[widgetUUID] = widgetQuery;
+          json.variables[widgetUUID] = widgetVariables;
+          // Now we merge the queries to the query as the string,
+          queryStr = Object.keys(json.queries).reduce((acc, key) => {
+            if (!isResolvable(Buffer.from(key, 'base64').toString('ascii'))) {
+              // eslint-disable-next-line no-param-reassign
+              acc += `\n${json.queries[key]} `;
+            }
+            return acc;
+          }, '');
+
+          // Now we merge the variables
+          variables = Object.keys(json.variables).reduce(
+            (acc, key) => {
+              if (!isResolvable(Buffer.from(key, 'base64').toString('ascii'))) {
+                acc.values = { ...acc.values, ...json.variables[key].values };
+                acc.defs = [...acc.defs, ...json.variables[key].defs];
+              }
+              return acc;
+            },
+            { values: {}, defs: [] }
+          );
+        });
+      } else {
+        // Just delete resolvable queries and variables
+        queryStr = Object.keys(json.queries).reduce((acc, key) => {
+          if (isResolvable(Buffer.from(key, 'base64').toString('ascii'))) {
+            delete json.queries[key];
+          } else {
+            // eslint-disable-next-line no-param-reassign
+            acc += `\n${json.queries[key]} `;
+          }
+          return acc;
+        }, '');
+
+        variables = Object.keys(json.variables).reduce(
+          (acc, key) => {
+            if (isResolvable(Buffer.from(key, 'base64').toString('ascii'))) {
+              delete json.variables[key];
+            } else {
+              acc.values = { ...acc.values, ...json.variables[key].values };
+              acc.defs = [...acc.defs, ...json.variables[key].defs];
+            }
+            return acc;
+          },
+          { values: {}, defs: [] }
+        );
+      }
       if (variables.defs.length > 0) {
         const variablesString = variables.defs
           .map((variable) => `$${variable.alias}: ${variable.type}`)
@@ -106,9 +360,10 @@ module.exports = (request, response) => {
           }
         });
       }
-      request.body.graphqlQuery = `${operation} { ${json.query} } ${json.fragments}`;
+      request.body.graphqlQuery = `${operation} { ${queryStr} } ${fragments}`;
       request.body.graphqlVariables = variables.values;
-      request.body.propsMap = json.propsMap;
+      request.body.propsMap = propsMap;
+      next();
     } catch (e) {
       error(e);
       throw error;

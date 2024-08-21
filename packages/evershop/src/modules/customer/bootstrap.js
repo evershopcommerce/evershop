@@ -99,7 +99,6 @@ module.exports = () => {
   request.logoutCustomer = function logoutCustomer(callback) {
     this.session.customerID = undefined;
     this.locals.customer = undefined;
-
     this.session.save(callback);
   };
 
