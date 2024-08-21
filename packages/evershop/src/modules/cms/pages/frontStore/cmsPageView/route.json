@@ -1,4 +1,5 @@
 {
   "methods": ["GET"],
-  "path": "/page/:url_key"
+  "path": "/page/:url_key",
+  "name": "Static Page"
 }

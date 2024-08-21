@@ -1,18 +1,24 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from '@heroicons/react/solid/esm/DocumentIcon';
+import PageIcon from '@heroicons/react/solid/esm/DocumentIcon';
+import WidgetIcon from '@heroicons/react/solid/esm/PuzzleIcon';
 import NavigationItemGroup from '@components/admin/cms/NavigationItemGroup';
 
-export default function CmsMenuGroup({ cmsPageGrid }) {
+export default function CmsMenuGroup({ cmsPageGrid, widgetGrid }) {
   return (
     <NavigationItemGroup
       id="cmsMenuGroup"
       name="CMS"
       items={[
         {
-          Icon,
+          Icon: PageIcon,
           url: cmsPageGrid,
           title: 'Pages'
+        },
+        {
+          Icon: WidgetIcon,
+          url: widgetGrid,
+          title: 'Widgets'
         }
       ]}
     />
@@ -20,7 +26,8 @@ export default function CmsMenuGroup({ cmsPageGrid }) {
 }
 
 CmsMenuGroup.propTypes = {
-  cmsPageGrid: PropTypes.string.isRequired
+  cmsPageGrid: PropTypes.string.isRequired,
+  widgetGrid: PropTypes.string.isRequired
 };
 
 export const layout = {
@@ -31,5 +38,6 @@ export const layout = {
 export const query = `
   query Query {
     cmsPageGrid: url(routeId:"cmsPageGrid")
+    widgetGrid: url(routeId:"widgetGrid")
   }
 `;

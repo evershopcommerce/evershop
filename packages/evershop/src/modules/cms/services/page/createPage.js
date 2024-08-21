@@ -22,8 +22,7 @@ function validatePageDataBeforeInsert(data) {
     'name',
     'url_key',
     'content',
-    'meta_title',
-    'layout'
+    'meta_title'
   ];
   const jsonSchema = getValueSync('createPageDataJsonSchema', pageDataSchema);
   const validate = ajv.compile(jsonSchema);

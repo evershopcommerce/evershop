@@ -5,6 +5,7 @@ import React from 'react';
 import { useAppState } from '@components/common/context/app';
 
 function Area(props) {
+  const context = useAppState();
   const {
     id,
     coreComponents,
@@ -17,14 +18,30 @@ function Area(props) {
 
   const areaComponents = (() => {
     const areaCoreComponents = coreComponents || [];
+    const widgets = context.widgets || [];
+    const wildCardWidgets = components['*'] || {};
+    const assignedWidgets = [];
+
+    widgets.forEach((widget) => {
+      const w = wildCardWidgets[widget.type];
+      if (widget.areaId.includes(id) && w !== undefined) {
+        assignedWidgets.push({
+          id: widget.id,
+          sortOrder: widget.sortOrder,
+          props: widget.props,
+          component: w.component
+        });
+      }
+    });
     const cs =
       components[id] === undefined
-        ? areaCoreComponents
-        : areaCoreComponents.concat(Object.values(components[id]));
-
+        ? areaCoreComponents.concat(assignedWidgets)
+        : areaCoreComponents
+            .concat(Object.values(components[id]))
+            .concat(assignedWidgets);
     return cs.sort((obj1, obj2) => obj1.sortOrder - obj2.sortOrder);
   })();
-
+  const { propsMap } = context;
   let WrapperComponent = React.Fragment;
   if (noOuter !== true) {
     if (wrapper !== undefined) {
@@ -43,17 +60,15 @@ function Area(props) {
     areaWrapperProps = { className: className || '' };
   }
 
-  const context = useAppState();
-
   return (
     <WrapperComponent {...areaWrapperProps}>
       {areaComponents.map((w, index) => {
         const C = w.component.default;
         // eslint-disable-next-line no-shadow
         const { id } = w;
-        const { propsMap } = context;
         const propsData = context.graphqlResponse;
         const propKeys = propsMap[id] || [];
+
         const componentProps = propKeys.reduce((acc, map) => {
           const { origin, alias } = map;
           acc[origin] = propsData[alias];
@@ -95,7 +110,15 @@ Area.propTypes = {
   wrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   // eslint-disable-next-line react/forbid-prop-types
   wrapperProps: PropTypes.object,
-  components: PropTypes.shape({}).isRequired
+  components: PropTypes.shape({
+    '*': PropTypes.objectOf(
+      PropTypes.shape({
+        component: PropTypes.shape({
+          default: PropTypes.elementType
+        })
+      })
+    )
+  }).isRequired
 };
 
 Area.defaultProps = {

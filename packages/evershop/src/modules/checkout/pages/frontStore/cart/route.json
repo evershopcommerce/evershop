@@ -1,4 +1,5 @@
 {
   "methods": ["GET"],
-  "path": "/cart"
+  "path": "/cart",
+  "name": "Cart page"
 }

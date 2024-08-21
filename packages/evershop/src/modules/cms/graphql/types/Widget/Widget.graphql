@@ -1,0 +1,56 @@
+"""
+Lookup Widget by ID
+"""
+type Widget {
+  widgetId: Int
+  uuid: String!
+  name: String!
+  type: String!
+  area: [String!]
+  route: [String!]
+  sortOrder: Int!
+  status: Int!
+  settings: JSON!
+  editUrl: String!
+  updateApi: String!
+  deleteApi: String!
+}
+
+"""
+Widget type
+"""
+type WidgetType {
+  code: String!
+  name: String!
+  description: String!
+  createWidgetUrl: String!
+  settingComponent: String!
+  component: String!
+  defaultSetting: JSON
+}
+
+"""
+Return a collection of Widget
+"""
+type WidgetCollection {
+  items: [Widget]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+"""
+Return a text Widget
+"""
+type TextBlockWidget {
+  text: JSON
+  className: String
+}
+
+extend type Query {
+  widget(id: Int): Widget
+  widgets(filters: [FilterInput]): WidgetCollection
+  widgetTypes: [WidgetType]
+  widgetType(code: String!): WidgetType
+  textWidget(text: String, className: String): TextBlockWidget
+}

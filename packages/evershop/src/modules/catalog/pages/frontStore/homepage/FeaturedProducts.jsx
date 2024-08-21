@@ -61,26 +61,31 @@ export const query = `
       name
       products (filters: [{key: "limit", operation: eq, value: "4"}]) {
         items {
-          productId
-          name
-          sku
-          price {
-            regular {
-              value
-              text
-            }
-            special {
-              value
-              text
-            }
-            }
-          image {
-            alt
-            url: listing
-          }
-          url
+          ...Product
         }
       }
     }
+  }
+`;
+
+export const fragments = `
+  fragment Product on Product {
+    productId
+    name
+    price {
+      regular {
+        value
+        text
+      }
+      special {
+        value
+        text
+      }
+      }
+    image {
+      alt
+      url: listing
+    }
+    url
   }
 `;

@@ -5,7 +5,7 @@ type Collection {
   collectionId: Int!
   uuid: String!
   name: String!
-  description: String
+  description: JSON
   code: String!
   products(filters: [FilterInput]): ProductCollection
 }

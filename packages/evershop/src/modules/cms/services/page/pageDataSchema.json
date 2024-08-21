@@ -5,10 +5,6 @@
       "type": ["string", "integer"],
       "enum": ["0", "1", 0, 1]
     },
-    "layout": {
-      "type": "string",
-      "enum": ["oneColumn", "twoColumnsLeft", "twoColumnsRight", "threeColumns"]
-    },
     "name": {
       "type": "string"
     },

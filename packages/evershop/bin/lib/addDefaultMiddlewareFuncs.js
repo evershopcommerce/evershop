@@ -261,6 +261,11 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
         } else {
           middlewareFunc = route.webpackMiddleware;
         }
+        middlewareFunc.waitUntilValid(() => {
+          const { stats } = middlewareFunc.context;
+          const jsonWebpackStats = stats.toJson();
+          response.locals.jsonWebpackStats = jsonWebpackStats;
+        });
         // We need to run build for notFound route
         const notFoundRoute = routes.find((r) => r.id === 'notFound');
         const notFoundWebpackCompiler = notFoundRoute.webpackCompiler;

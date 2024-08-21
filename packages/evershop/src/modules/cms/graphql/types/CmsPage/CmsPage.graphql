@@ -4,11 +4,10 @@ Lookup CMS page by ID
 type CmsPage {
   cmsPageId: Int
   uuid: String!
-  layout: String!
   status: Int!
   urlKey: String!
   name: String!
-  content: String!
+  content: JSON!
   metaTitle: String
   metaKeywords: String
   metaDescription: String

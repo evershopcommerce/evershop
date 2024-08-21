@@ -7,7 +7,7 @@ type Category {
   name: String!
   status: Int!
   includeInNav: Int!
-  description: String
+  description: JSON
   urlKey: String
   metaTitle: String
   metaDescription: String

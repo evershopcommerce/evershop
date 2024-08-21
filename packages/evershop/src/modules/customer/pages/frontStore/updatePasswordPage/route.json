@@ -1,4 +1,5 @@
 {
   "methods": ["GET"],
-  "path": "/account/update-password"
+  "path": "/account/update-password",
+  "name": "Update password page"
 }

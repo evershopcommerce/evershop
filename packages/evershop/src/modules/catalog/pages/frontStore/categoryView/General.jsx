@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './General.scss';
-import { CKEditor } from '@components/common/CKEditor';
+import Editor from '@components/common/Editor';
 
 export default function CategoryInfo({
   category: { name, description, image }
@@ -17,7 +17,7 @@ export default function CategoryInfo({
           <div>
             <h1 className="category__name">{name}</h1>
             <div className="category__description">
-              <CKEditor content={description} />
+              <Editor rows={description} />
             </div>
           </div>
         </div>

@@ -15,6 +15,7 @@ exports.registerFrontStoreRoute = (
   id,
   method,
   path,
+  name,
   isApi = false,
   folder = '',
   payloadSchema = null,
@@ -31,5 +32,6 @@ exports.registerFrontStoreRoute = (
   route.isAdmin = false;
   route.isApi = isApi;
   route.folder = folder;
+  route.name = name;
   addRoute(route);
 };

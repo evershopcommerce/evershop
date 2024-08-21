@@ -84,7 +84,7 @@ ShoppingCart.propTypes = {
 
 export const layout = {
   areaId: 'content',
-  sortOrder: 1
+  sortOrder: 10
 };
 
 export const query = `

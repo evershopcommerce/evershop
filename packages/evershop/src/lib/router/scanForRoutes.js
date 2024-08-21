@@ -65,6 +65,7 @@ exports.scanForRoutes = (path, isAdmin, isApi) => {
 
             return {
               id: r,
+              name: routeJson?.name || r,
               method: methods,
               path: routePath,
               isAdmin,
