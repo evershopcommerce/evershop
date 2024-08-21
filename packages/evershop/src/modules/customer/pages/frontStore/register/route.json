@@ -1,4 +1,5 @@
 {
   "methods": ["GET"],
-  "path": "/account/register"
+  "path": "/account/register",
+  "name": "Register page"
 }

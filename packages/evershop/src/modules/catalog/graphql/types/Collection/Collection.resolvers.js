@@ -32,6 +32,37 @@ module.exports = {
       const root = new ProductCollection(query);
       await root.init(filters, !!user);
       return root;
+    },
+    description: ({ description }) => {
+      try {
+        return JSON.parse(description);
+      } catch (e) {
+        // This is for backward compatibility. If the description is not a JSON string then it is a raw HTML block
+        return [
+          {
+            size: 1,
+            columns: [
+              {
+                id: 'c__c5d90067-c786-4324-8e24-8e30520ac3d7',
+                size: 1,
+                data: {
+                  time: 1723347125344,
+                  blocks: [
+                    {
+                      id: 'AU89ItzUa7',
+                      type: 'raw',
+                      data: {
+                        html: description
+                      }
+                    }
+                  ],
+                  version: '2.30.2'
+                }
+              }
+            ]
+          }
+        ];
+      }
     }
   },
   Product: {

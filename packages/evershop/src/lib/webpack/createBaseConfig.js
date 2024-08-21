@@ -167,7 +167,10 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
             parse: {
               ecma: 2020
             },
-            compress: false,
+            compress: {
+              unused: true,
+              dead_code: true
+            },
             mangle: {
               safari10: true
             },

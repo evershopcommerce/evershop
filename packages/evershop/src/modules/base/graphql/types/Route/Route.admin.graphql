@@ -1,0 +1,15 @@
+"""
+Represents a route in the system
+"""
+type Route {
+  id: String!
+  isApi: Boolean!
+  isAdmin: Boolean!
+  name: String!
+  path: String!
+  method: [String!]!
+}
+
+extend type Query {
+  routes: [Route!]!
+}

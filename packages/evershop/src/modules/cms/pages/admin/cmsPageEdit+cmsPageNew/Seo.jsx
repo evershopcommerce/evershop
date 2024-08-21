@@ -81,7 +81,7 @@ Seo.defaultProps = {
 };
 
 export const layout = {
-  areaId: 'leftSide',
+  areaId: 'wideScreen',
   sortOrder: 30
 };
 

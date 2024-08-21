@@ -1,5 +1,9 @@
-const { execute } = require('graphql');
-const { parse } = require('graphql');
+const {
+  execute,
+  parse,
+  specifiedRules,
+  NoUnusedFragmentsRule
+} = require('graphql');
 const { validate } = require('graphql/validation');
 const { debug } = require('@evershop/evershop/src/lib/log/logger');
 const adminSchema = require('../../services/buildSchema');
@@ -28,18 +32,18 @@ module.exports = async function graphql(request, response, delegate, next) {
       } else {
         const document = parse(graphqlQuery);
         // Validate the query
-
-        const validationErrors = validate(schema, document);
+        const validationErrors = validate(
+          schema,
+          document,
+          specifiedRules.filter((rule) => rule !== NoUnusedFragmentsRule)
+        );
         if (validationErrors.length > 0) {
           const formatedErrorMessage = graphqlErrorMessageFormat(
             graphqlQuery,
             validationErrors[0].locations[0].line,
             validationErrors[0].locations[0].column
           );
-          debug(
-            'critical',
-            `GraphQL validation error: ${formatedErrorMessage}`
-          );
+          debug(`GraphQL validation error: ${formatedErrorMessage}`);
           next(validationErrors[0]);
         } else {
           const context = getContext(request);

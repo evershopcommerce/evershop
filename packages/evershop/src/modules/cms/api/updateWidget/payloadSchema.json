@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "area": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "route": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

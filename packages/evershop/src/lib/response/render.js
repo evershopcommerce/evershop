@@ -34,18 +34,16 @@ function renderDevelopment(request, response) {
   }
   // We can not get devMiddleware from response.locals
   // because there are 2 build (current route, and notFound)
-  const devMiddleware = route.webpackMiddleware;
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
-    propsMap: get(response, 'locals.propsMap', {})
+    propsMap: get(response, 'locals.propsMap', {}),
+    widgets: get(response, 'locals.widgets', [])
   };
   const safeContextValue = jsesc(contextValue, {
     json: true,
     isScriptContext: true
   });
-  const { stats } = devMiddleware.context;
-  // let stat = jsonWebpackStats.find(st => st.compilation.name === route.id);
-  const { assetsByChunkName } = stats.toJson();
+  const { assetsByChunkName } = response.locals.jsonWebpackStats;
 
   const notFoundFile = request.currentRoute?.isAdmin
     ? 'adminNotFound.js'
@@ -94,7 +92,8 @@ function renderProduction(request, response) {
   ));
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
-    propsMap: get(response, 'locals.propsMap', {})
+    propsMap: get(response, 'locals.propsMap', {}),
+    widgets: get(response, 'locals.widgets', [])
   };
   const safeContextValue = jsesc(contextValue, {
     json: true,
