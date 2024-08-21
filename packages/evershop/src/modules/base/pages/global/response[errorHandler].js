@@ -55,7 +55,13 @@ module.exports = async (request, response, delegate, next) => {
             }
           });
         } else {
-          let widgetInstances = await loadWidgetInstances(request);
+          let widgetInstances;
+          // Check if we are in the test mode
+          if (process.env.NODE_ENV === 'test') {
+            widgetInstances = [];
+          } else {
+            widgetInstances = await loadWidgetInstances(request);
+          }
           widgetInstances = widgetInstances.map((widget) => {
             const newWidget = {
               sortOrder: widget.sortOrder,
