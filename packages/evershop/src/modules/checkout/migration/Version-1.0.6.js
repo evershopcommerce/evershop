@@ -108,7 +108,7 @@ module.exports = exports = async (connection) => {
     'ALTER TABLE "order" ADD COLUMN IF NOT EXISTS "shipping_tax_amount" decimal(12,4)'
   );
 
-  // Calculate the value for the new columns 'tax_amount_before_discount', 'line_total_with_discount', 'line_total_with_discount_incl_tax', 'sub_total_before_discount', 'sub_total_before_discount_incl_tax'
+  // Calculate the value for the new columns 'tax_amount_before_discount', 'line_total_with_discount', 'line_total_with_discount_incl_tax', 'sub_total'
 
   await execute(
     connection,
@@ -178,6 +178,6 @@ module.exports = exports = async (connection) => {
 
   await execute(
     connection,
-    `UPDATE "order" SET sub_total_before_discount_incl_tax = sub_total_with_discount + tax_amount`
+    `UPDATE "order" SET sub_total_with_discount_incl_tax = sub_total_with_discount + tax_amount`
   );
 };
