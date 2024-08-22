@@ -133,6 +133,7 @@ export const query = `
           text
         }
         removeApi
+        updateQtyApi
         errors
       }
     }

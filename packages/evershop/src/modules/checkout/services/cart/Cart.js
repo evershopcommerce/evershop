@@ -113,6 +113,29 @@ class Cart extends DataObject {
     }
   }
 
+  async updateItemQty(uuid, qty, action) {
+    if (['increase', 'decrease'].indexOf(action) === -1) {
+      throw new Error('Invalid action');
+    }
+    const item = this.getItem(uuid);
+    if (!item) {
+      throw new Error('Item not found');
+    }
+    if (action === 'increase') {
+      await item.setData('qty', item.getData('qty') + parseInt(qty, 10));
+    } else {
+      const currentQty = item.getData('qty');
+      const newQty = Math.max(currentQty - parseInt(qty, 10), 0);
+      if (newQty === 0) {
+        await this.removeItem(uuid);
+      } else {
+        await item.setData('qty', newQty);
+      }
+    }
+    await this.build();
+    return item;
+  }
+
   async createItem(productId, qty) {
     // Make sure the qty is a number, not NaN and greater than 0
     if (typeof qty !== 'number' || Number.isNaN(qty) || qty <= 0) {

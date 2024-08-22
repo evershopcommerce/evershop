@@ -97,6 +97,7 @@ type CartItem implements ShoppingCartItem {
   uuid: String!
   cartId: ID!
   removeApi: String!
+  updateQtyApi: String!
   productId: ID!
   productSku: String!
   productName: String

@@ -19,7 +19,14 @@ module.exports = {
       const items = cart.items || [];
       return items.map((item) => ({
         ...camelCase(item),
-        removeApi: buildUrl('removeMineCartItem', { item_id: item.uuid })
+        removeApi: buildUrl('removeCartItem', {
+          item_id: item.uuid,
+          cart_id: cart.uuid
+        }),
+        updateQtyApi: buildUrl('updateCartItemQty', {
+          cart_id: cart.uuid,
+          item_id: item.uuid
+        })
       }));
     },
     shippingAddress: async ({ shippingAddressId }, _, { pool }) => {
@@ -46,13 +53,11 @@ module.exports = {
     addAddressApi: (cart) => buildUrl('addCartAddress', { cart_id: cart.uuid })
   },
   CartItem: {
-    total: ({ lineTotalInclTax }) => 
+    total: ({ lineTotalInclTax }) =>
       // This field is deprecated, use lineTotalInclTax instead
-       lineTotalInclTax
-    ,
-    subTotal: ({ lineTotal }) => 
+      lineTotalInclTax,
+    subTotal: ({ lineTotal }) =>
       // This field is deprecated, use lineTotal instead
-       lineTotal
-    
+      lineTotal
   }
 };
