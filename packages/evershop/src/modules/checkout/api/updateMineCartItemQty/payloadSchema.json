@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": ["increase", "decrease"] 
+    },
+    "qty": {
+      "type": ["string", "integer"],
+      "pattern": "^[1-9][0-9]*$"
+    }
+  },
+  "required": ["action", "qty"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "action": "Action is required. It must be either 'increase' or 'decrease'",
+      "qty": "Qty is invalid"
+    }
+  }
+}

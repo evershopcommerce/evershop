@@ -7,10 +7,10 @@ import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 import { ItemOptions } from './ItemOptions';
 import { ItemVariantOptions } from './ItemVariantOptions';
 import './Items.scss';
+import Quantity from './Quantity';
 
 function Items({ items, setting: { priceIncludingTax } }) {
   const AppContextDispatch = useAppDispatch();
-
   const removeItem = async (item) => {
     const response = await fetch(item.removeApi, {
       method: 'DELETE',
@@ -124,13 +124,12 @@ function Items({ items, setting: { priceIncludingTax } }) {
                     </span>
                   </div>
                 )}
-                <div className="md:hidden mt-2">
-                  <span>{_('Qty')}</span>
-                  <span>{item.qty}</span>
+                <div className="md:hidden mt-2 flex justify-end">
+                  <Quantity qty={item.qty} api={item.updateQtyApi} />
                 </div>
               </td>
               <td className="hidden md:table-cell">
-                <span>{item.qty}</span>
+                <Quantity qty={item.qty} api={item.updateQtyApi} />
               </td>
               <td className="hidden md:table-cell">
                 <span>
@@ -180,7 +179,8 @@ Items.propTypes = {
         value: PropTypes.number,
         text: PropTypes.string
       }),
-      removeApi: PropTypes.string
+      removeApi: PropTypes.string,
+      updateQtyApi: PropTypes.string
     })
   ).isRequired,
   setting: PropTypes.shape({
