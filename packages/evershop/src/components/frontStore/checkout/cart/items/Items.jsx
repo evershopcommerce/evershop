@@ -50,9 +50,8 @@ function Items({ items, setting: { priceIncludingTax } }) {
           </tr>
         </thead>
         <tbody>
-          {items.map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <tr key={index}>
+          {items.map((item) => (
+            <tr key={item.cartItemId}>
               <td>
                 <div className="flex justify-start space-x-4 product-info">
                   <div className="product-image flex justify-center items-center">
