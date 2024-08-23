@@ -96,7 +96,7 @@ module.exports = async (request, response, delegate, next) => {
       if (currentRoute?.isAdmin) {
         if (currentRoute?.id === 'widgetNew') {
           const currentWidget = enabledWidgets.find(
-            (widget) => widget.type === currentRoute?.params?.type
+            (widget) => widget.type === request.params?.type
           );
           applicableWidgets = [
             {

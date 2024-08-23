@@ -24,7 +24,6 @@ exports.loadWidgetInstances = async function loadWidgetInstances(request) {
       .map((widget) => ({
         type: widget.type,
         areaId: 'widget_setting_form',
-        props: widget.default_settings || {},
         sortOrder: 0
       }))
       .filter((widget) => widget.type === type);

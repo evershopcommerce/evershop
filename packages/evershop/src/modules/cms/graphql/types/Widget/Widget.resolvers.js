@@ -54,10 +54,9 @@ module.exports = {
         '&lt;': '<',
         '&gt;': '>'
       };
-      const jsonText = text.replace(
-        /&lt;|&gt;/g,
-        (match) => replacements[match]
-      );
+      const jsonText = text
+        ? text.replace(/&lt;|&gt;/g, (match) => replacements[match])
+        : '[]';
       return { text: JSON.parse(jsonText), className };
     }
   },
