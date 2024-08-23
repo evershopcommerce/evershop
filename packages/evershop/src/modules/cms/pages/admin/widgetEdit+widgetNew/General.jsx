@@ -121,6 +121,7 @@ export default function General({ widget, routes }) {
               ? allRoutes.filter((r) => widget.route.includes(r.value))
               : []
           }
+          className="page-select relative z-50"
         />
       </Card.Session>
       <Card.Session title="Sort order">
