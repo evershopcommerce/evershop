@@ -1,4 +1,5 @@
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { v4: uuidv4 } = require('uuid');
 const {
   getEnabledWidgets
 } = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
@@ -6,6 +7,7 @@ const { select } = require('@evershop/postgres-query-builder');
 
 module.exports = exports = {};
 
+const newUUID = uuidv4();
 exports.loadWidgetInstances = async function loadWidgetInstances(request) {
   const route = request.currentRoute;
   if (route.isAdmin && !['widgetEdit', 'widgetNew'].includes(route.id)) {
@@ -24,7 +26,9 @@ exports.loadWidgetInstances = async function loadWidgetInstances(request) {
       .map((widget) => ({
         type: widget.type,
         areaId: 'widget_setting_form',
-        sortOrder: 0
+        uuid: newUUID,
+        sortOrder: 0,
+        settings: widget.default_settings || {}
       }))
       .filter((widget) => widget.type === type);
   }
@@ -45,7 +49,6 @@ exports.loadWidgetInstances = async function loadWidgetInstances(request) {
     uuid: widgetInstance.uuid,
     areaId: widgetInstance.area,
     settings: widgetInstance.settings,
-    props: widgetInstance.settings, // By default, props is the same as setting, but can be overridden
     sortOrder: widgetInstance.sort_order
   }));
 };

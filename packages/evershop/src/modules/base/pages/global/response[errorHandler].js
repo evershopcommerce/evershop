@@ -4,7 +4,6 @@
 const isErrorHandlerTriggered = require('@evershop/evershop/src/lib/middleware/isErrorHandlerTriggered');
 const { render } = require('@evershop/evershop/src/lib/response/render');
 const { get } = require('@evershop/evershop/src/lib/util/get');
-const { v4: uuidv4 } = require('uuid');
 const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
 const {
   loadWidgetInstances
@@ -69,9 +68,7 @@ module.exports = async (request, response, delegate, next) => {
               areaId: widget.areaId,
               type: widget.type
             };
-            newWidget.id = widget.uuid
-              ? `e${widget.uuid.replace(/-/g, '')}`
-              : `e${uuidv4().replace(/-/g, '')}`;
+            newWidget.id = `e${widget.uuid.replace(/-/g, '')}`;
             if (route.isAdmin) {
               newWidget.areaId = 'widget_setting_form';
             }

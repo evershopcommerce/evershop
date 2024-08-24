@@ -30,7 +30,7 @@ module.exports = {
         description: row.description,
         settingComponent: row.setting_component,
         component: row.component,
-        defaultSetting: row.default_setting,
+        defaultSettings: row.default_settings,
         createWidgetUrl: buildUrl('widgetNew', { type: row.type })
       }));
     },
@@ -44,7 +44,7 @@ module.exports = {
             description: type.description,
             settingComponent: type.setting_component,
             component: type.component,
-            defaultSetting: type.default_setting,
+            defaultSettings: type.default_settings,
             createWidgetUrl: buildUrl('widgetNew', { type: type.type })
           }
         : null;
