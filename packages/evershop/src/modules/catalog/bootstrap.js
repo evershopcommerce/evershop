@@ -186,8 +186,9 @@ module.exports = () => {
         '@evershop/evershop/src/components/frontStore/widgets/CollectionProducts.jsx',
       name: 'Collection products',
       description: 'A list of products from a collection',
-      default_setting: {
-        collection: null
+      default_settings: {
+        collection: null,
+        count: 4
       },
       enabled: true
     }

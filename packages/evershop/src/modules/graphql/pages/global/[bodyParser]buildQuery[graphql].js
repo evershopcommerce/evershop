@@ -16,9 +16,6 @@ const {
 } = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
 const { get } = require('@evershop/evershop/src/lib/util/get');
 const isResolvable = require('is-resolvable');
-const { v4: uuidv4 } = require('uuid');
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   loadWidgetInstances
 } = require('../../../cms/services/widget/loadWidgetInstances');
@@ -93,35 +90,10 @@ module.exports = async (request, response, delegate, next) => {
       // We need to get the list of applicable widgets and remove all the queries and variable that are not used
       let applicableWidgets = [];
       const { currentRoute } = request;
-      if (currentRoute?.isAdmin) {
-        if (currentRoute?.id === 'widgetNew') {
-          const currentWidget = enabledWidgets.find(
-            (widget) => widget.type === currentRoute?.params?.type
-          );
-          applicableWidgets = [
-            {
-              uuid: uuidv4(),
-              settings: {},
-              component: currentWidget.setting_component
-            }
-          ];
-        } else if (currentRoute?.id === 'widgetEdit') {
-          const currentWidget = await select()
-            .from('widget')
-            .where('uuid', '=', request.params.id)
-            .load(pool);
-          const widgetSpecs = enabledWidgets.find(
-            (enabledWidget) => enabledWidget.type === currentWidget.type
-          );
-          applicableWidgets = [
-            {
-              uuid: request.params.id,
-              settings: currentWidget.settings,
-              component: widgetSpecs.setting_component
-            }
-          ];
-        }
-      } else {
+      if (
+        currentRoute?.isAdmin === false ||
+        ['widgetNew', 'widgetEdit'].includes(currentRoute?.id)
+      ) {
         applicableWidgets = widgetInstances.map((widget) => {
           const widgetSpecs = enabledWidgets.find(
             (enabledWidget) => enabledWidget.type === widget.type
@@ -129,7 +101,7 @@ module.exports = async (request, response, delegate, next) => {
           return {
             uuid: widget.uuid,
             settings: widget.settings,
-            component: request.currentRoute?.isAdmin
+            component: currentRoute?.isAdmin
               ? widgetSpecs.setting_component
               : widgetSpecs.component
           };

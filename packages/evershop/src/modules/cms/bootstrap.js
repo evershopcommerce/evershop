@@ -155,45 +155,15 @@ module.exports = () => {
 
   // Register default widgets
   const defaultWidgets = {
-    hero_banner: {
-      setting_component:
-        '@evershop/evershop/src/components/frontStore/widgets/Banner.jsx',
-      component:
-        '@evershop/evershop/src/components/frontStore/widgets/Banner.jsx',
-      name: 'Hero Banner',
-      description: 'A large banner that appears at the top of your store',
-      default_setting: {
-        title: 'Welcome to Example.com',
-        subtitle: 'The best place to shop online',
-        cta: {
-          text: 'Shop Now',
-          link: '/products'
-        },
-        image: {
-          src: 'https://via.placeholder.com/1920x1080',
-          alt: 'Hero Banner'
-        }
-      },
-      enabled: true
-    },
     text_block: {
       setting_component:
         '@evershop/evershop/src/components/admin/widgets/TextBlockSetting.jsx',
       component:
         '@evershop/evershop/src/components/frontStore/widgets/TextBlock.jsx',
       name: 'Text block',
-      description: 'A large banner that appears at the top of your store',
-      default_setting: {
-        text: 'Welcome to Example.com',
-        subtitle: 'The best place to shop online',
-        cta: {
-          text: 'Shop Now',
-          link: '/products'
-        },
-        image: {
-          src: 'https://via.placeholder.com/1920x1080',
-          alt: 'Hero Banner'
-        }
+      description: 'A text block widget',
+      default_settings: {
+        className: 'page-width'
       },
       enabled: true
     }
