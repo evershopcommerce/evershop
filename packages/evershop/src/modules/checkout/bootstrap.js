@@ -12,6 +12,7 @@ const {
   getProductsBaseQuery
 } = require('../catalog/services/getProductsBaseQuery');
 const { pool } = require('../../lib/postgres/connection');
+const { merge } = require('../../lib/util/merge');
 
 module.exports = () => {
   addProcessor('cartFields', registerCartBaseFields, 0);
@@ -39,10 +40,24 @@ module.exports = () => {
   });
 
   addProcessor('cartItemProductLoaderFunction', () => async (id) => {
-      const productQuery = getProductsBaseQuery();
-      const product = await productQuery
-        .where('product_id', '=', id)
-        .load(pool);
-      return product;
+    const productQuery = getProductsBaseQuery();
+    const product = await productQuery.where('product_id', '=', id).load(pool);
+    return product;
+  });
+
+  addProcessor('configuratonSchema', (schema) => {
+    merge(schema, {
+      properties: {
+        checkout: {
+          type: 'object',
+          properties: {
+            showShippingNote: {
+              type: 'boolean'
+            }
+          }
+        }
+      }
     });
+    return schema;
+  });
 };

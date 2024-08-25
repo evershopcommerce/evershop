@@ -50,7 +50,8 @@ module.exports = {
       buildUrl('addCartShippingMethod', { cart_id: cart.uuid }),
     addContactInfoApi: (cart) =>
       buildUrl('addCartContactInfo', { cart_id: cart.uuid }),
-    addAddressApi: (cart) => buildUrl('addCartAddress', { cart_id: cart.uuid })
+    addAddressApi: (cart) => buildUrl('addCartAddress', { cart_id: cart.uuid }),
+    addNoteApi: (cart) => buildUrl('addShippingNote', { cart_id: cart.uuid })
   },
   CartItem: {
     total: ({ lineTotalInclTax }) =>

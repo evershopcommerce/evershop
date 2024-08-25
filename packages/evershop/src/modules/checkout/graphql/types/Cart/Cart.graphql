@@ -165,6 +165,7 @@ type Cart implements ShoppingCart {
   addShippingMethodApi: String!
   addContactInfoApi: String!
   addAddressApi: String!
+  addNoteApi: String!
 }
 
 extend type Query {
