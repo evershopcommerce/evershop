@@ -66,6 +66,9 @@ module.exports = async () => {
                 cookieName: {
                   type: 'string'
                 },
+                maxAge: {
+                  type: 'number'
+                },
                 reSave: {
                   type: 'boolean'
                 },

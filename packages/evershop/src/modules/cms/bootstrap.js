@@ -125,6 +125,42 @@ module.exports = () => {
               enum: ['local']
             }
           }
+        },
+        widgets: {
+          type: 'object',
+          patternProperties: {
+            '^[a-zA-Z_]+$': {
+              type: 'object',
+              properties: {
+                setting_component: {
+                  type: 'string'
+                },
+                component: {
+                  type: 'string'
+                },
+                name: {
+                  type: 'string'
+                },
+                description: {
+                  type: 'string'
+                },
+                default_settings: {
+                  type: 'object'
+                },
+                enabled: {
+                  type: 'boolean'
+                }
+              },
+              required: [
+                'setting_component',
+                'component',
+                'name',
+                'description',
+                'enabled'
+              ],
+              additionalProperties: false
+            }
+          }
         }
       }
     });

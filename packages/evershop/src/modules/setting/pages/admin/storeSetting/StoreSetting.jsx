@@ -6,6 +6,7 @@ import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
 import { Card } from '@components/admin/cms/Card';
 import SettingMenu from '@components/admin/setting/SettingMenu';
+import Area from '@components/common/Area';
 
 const ProvincesQuery = `
   query Province($countries: [String]) {
@@ -182,6 +183,46 @@ Currency.defaultProps = {
   fieldName: 'storeCurrency'
 };
 
+function StorePhoneNumber({ storePhoneNumber }) {
+  return <div>
+    <Field
+      name="storePhoneNumber"
+      label="Store Phone Number"
+      placeholder="Store Phone Number"
+      value={storePhoneNumber}
+      type="text"
+    />
+  </div>
+}
+
+StorePhoneNumber.propTypes = {
+  storePhoneNumber: PropTypes.string
+};
+
+StorePhoneNumber.defaultProps = {
+  storePhoneNumber: ''
+};
+
+function StoreEmail({ storeEmail }) {
+  return <div>
+    <Field
+      name="storeEmail"
+      label="Store Email"
+      placeholder="Store Email"
+      value={storeEmail}
+      type="text"
+    />
+  </div>
+}
+
+StoreEmail.propTypes = {
+  storeEmail: PropTypes.string
+};
+
+StoreEmail.defaultProps = {
+  storeEmail: ''
+};
+
 export default function StoreSetting({
   saveSettingApi,
   setting: {
@@ -226,42 +267,64 @@ export default function StoreSetting({
           >
             <Card>
               <Card.Session title="Store Information">
-                <Field
-                  name="storeName"
-                  label="Store Name"
-                  placeholder="Store Name"
-                  value={storeName}
-                  type="text"
-                />
-                <Field
-                  name="storeDescription"
-                  label="Store Description"
-                  placeholder="Store Description"
-                  value={storeDescription}
-                  type="textarea"
+                <Area
+                  id="storeInfoSetting"
+                  coreComponents={[
+                    {
+                      component: {
+                        default: Field
+                      },
+                      props: {
+                        name: 'storeName',
+                        label: 'Store Name',
+                        placeholder: 'Store Name',
+                        value: storeName,
+                        type: 'text'
+                      },
+                      sortOrder: 10
+                    },
+                    {
+                      component: {
+                        default: Field
+                      },
+                      props: {
+                        name: 'storeDescription',
+                        label: 'Store Description',
+                        placeholder: 'Store Description',
+                        value: storeDescription,
+                        type: 'textarea'
+                      },
+                      sortOrder: 20
+                    }
+                  ]}
+                  noOuter
                 />
               </Card.Session>
               <Card.Session title="Contact Information">
-                <div className="grid grid-cols-2 gap-8 mt-8">
-                  <div>
-                    <Field
-                      name="storePhoneNumber"
-                      label="Store Phone Number"
-                      value={storePhoneNumber}
-                      placeholder="Store Phone Number"
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    <Field
-                      name="storeEmail"
-                      label="Store Email"
-                      value={storeEmail}
-                      placeholder="Store Email"
-                      type="text"
-                    />
-                  </div>
-                </div>
+                <Area
+                  id="storeContactSetting"
+                  coreComponents={[
+                    {
+                      component: {
+                        default: StorePhoneNumber
+                      },
+                      props: {
+                        storePhoneNumber
+                      },
+                      sortOrder: 10
+                    },
+                    {
+                      component: {
+                        default: StoreEmail
+                      },
+                      props: {
+                        storeEmail
+                      },
+                      sortOrder: 20
+                    }
+                  ]}
+                  className="grid grid-cols-2 gap-8 mt-8"
+                />
               </Card.Session>
               <Card.Session title="Address">
                 <Country
