@@ -17,12 +17,6 @@ export default function NewWidgetButton({ widgetTypes }) {
             title: 'Cancel',
             onAction: closeAlert,
             variant: 'primary'
-          },
-          secondaryAction: {
-            title: 'Disable',
-            onAction: async () => {},
-            variant: 'critical',
-            isLoading: false
           }
         });
       }}
