@@ -9,7 +9,7 @@ export default function Summary({ cart, setting: { priceIncludingTax } }) {
   return (
     <Area
       id="checkoutSummary"
-      className="checkout-summary hidden md:block"
+      className="checkout-summary h-full hidden md:block"
       coreComponents={[
         {
           component: { default: Items },
