@@ -30,6 +30,19 @@ export default function Status({ category }) {
           }
         />
       </Card.Session>
+      <Card.Session title="Show Products?">
+        <Field
+          type="radio"
+          name="show_products"
+          options={[
+            { value: 0, text: 'No' },
+            { value: 1, text: 'Yes' }
+          ]}
+          value={
+            category?.showProducts === undefined ? 1 : category.showProducts
+          }
+        />
+      </Card.Session>
     </Card>
   );
 }
@@ -37,7 +50,8 @@ export default function Status({ category }) {
 Status.propTypes = {
   category: PropTypes.shape({
     status: PropTypes.number,
-    includeInNav: PropTypes.number
+    includeInNav: PropTypes.number,
+    showProducts: PropTypes.number
   })
 };
 
@@ -55,6 +69,7 @@ export const query = `
     category(id: getContextValue("categoryId", null)) {
       status
       includeInNav
+      showProducts
     }
   }
 `;
