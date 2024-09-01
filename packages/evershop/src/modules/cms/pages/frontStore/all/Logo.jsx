@@ -8,7 +8,7 @@ export default function Logo({
   }
 }) {
   return (
-    <div className="logo ml-9 md:ml-0 flex justify-center">
+    <div className="logo md:ml-0 flex justify-center items-center">
       {src && (
         <a href="/" className="logo-icon">
           <img src={src} alt={alt} width={width} height={height} />

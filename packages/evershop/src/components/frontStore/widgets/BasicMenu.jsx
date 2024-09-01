@@ -55,7 +55,7 @@ export default function BasicMenu({
                     {item.name}
                   </a>
                   {item.children.length > 0 && (
-                    <ul className="md:absolute left-0 top-full mt-0 md:mt-3 w-48 bg-white md:shadow-lg rounded-md md:opacity-0 md:group-hover:opacity-100 md:group-hover:translate-y-0 transform transition-all duration-300 ease-in-out min-w-full md:min-w-[250px] z-30 border-t-4">
+                    <ul className="md:absolute left-0 top-full mt-0 md:mt-3 w-48 bg-white md:shadow-lg rounded-md md:opacity-0 md:group-hover:opacity-100 md:group-hover:translate-y-0 transform transition-all duration-300 ease-in-out min-w-full md:min-w-[250px] z-30 md:border-t-4">
                       {item.children.map((subItem, subIndex) => (
                         <li key={subIndex}>
                           <a
