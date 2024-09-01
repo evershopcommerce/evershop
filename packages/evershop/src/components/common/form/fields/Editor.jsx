@@ -282,6 +282,7 @@ export default function Editor({
         type="hidden"
         value={JSON.stringify(
           rows.map((row) => ({
+            id: row.id,
             size: row.size,
             columns: row.columns.map((column) => ({
               id: column.id,
