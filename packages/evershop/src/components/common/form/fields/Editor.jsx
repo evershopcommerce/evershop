@@ -57,7 +57,7 @@ export default function Editor({
   uploadApi,
   folderCreateApi
 }) {
-  const [draggable, setDragable] = React.useState(null);
+  const draggable = React.useRef(null);
   const [fileBrowser, setFileBrowser] = React.useState(null);
   const [rows, setRows] = React.useState(
     value
@@ -84,10 +84,6 @@ export default function Editor({
 
   React.useEffect(() => {
     async function initSwappable() {
-      if (draggable) {
-        draggable.destroy();
-      }
-
       const Swappable = await loadSwappable();
       // eslint-disable-next-line new-cap
       const swappable = new Swappable(document.querySelectorAll(`div#rows`), {
@@ -110,7 +106,11 @@ export default function Editor({
         }
         setRows((originRows) => {
           // Swap the source and destination in the rows array
-          const newRows = [...originRows];
+          const newRows = originRows.map((r) => {
+            const newRow = { ...r };
+            newRow.columns = r.columns.map((c) => ({ ...c }));
+            return newRow;
+          });
           const sourceIndex = newRows.findIndex((r) => r.id === source);
           const destinationIndex = newRows.findIndex(
             (r) => r.id === destination
@@ -121,10 +121,10 @@ export default function Editor({
           return newRows;
         });
       });
-      setDragable(swappable);
+      draggable.current = swappable;
     }
     initSwappable();
-  }, [rows]);
+  }, []);
 
   React.useEffect(() => {
     const initEditors = async () => {
@@ -200,16 +200,10 @@ export default function Editor({
   }, []);
 
   const removeRow = (rowId) => {
-    if (draggable) {
-      draggable.destroy();
-    }
     setRows(rows.filter((i) => i.id !== rowId));
   };
 
   const addRow = (row) => {
-    if (draggable) {
-      draggable.destroy();
-    }
     setRows(rows.concat(row));
   };
 
@@ -288,6 +282,7 @@ export default function Editor({
         type="hidden"
         value={JSON.stringify(
           rows.map((row) => ({
+            id: row.id,
             size: row.size,
             columns: row.columns.map((column) => ({
               id: column.id,
