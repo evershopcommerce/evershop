@@ -50,7 +50,7 @@ enum FilterOperation {
 input FilterInput {
   key: String!
   operation: FilterOperation!
-  value: String
+  value: ID
 }
 
 """

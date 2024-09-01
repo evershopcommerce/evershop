@@ -47,10 +47,45 @@ type TextBlockWidget {
   className: String
 }
 
+"""
+Return a menu input
+"""
+input BasicMenuInput {
+  id: ID
+  name: String!
+  label: String
+  url: String
+  children: [BasicMenuInput]
+  type: String!
+  uuid: String
+}
+
+"""
+Return a menu item
+"""
+type Menu {
+  id: ID!
+  name: String!
+  url: String
+  children: [Menu]
+  type: String!
+  uuid: String
+}
+
+"""
+Return a menu Widget
+"""
+type BasicMenuWidget {
+  menus: [Menu],
+  isMain: Boolean
+  className: String
+}
+
 extend type Query {
   widget(id: Int): Widget
   widgets(filters: [FilterInput]): WidgetCollection
   widgetTypes: [WidgetType]
   widgetType(code: String!): WidgetType
   textWidget(text: String, className: String): TextBlockWidget
+  basicMenuWidget(settings: JSON ): BasicMenuWidget
 }

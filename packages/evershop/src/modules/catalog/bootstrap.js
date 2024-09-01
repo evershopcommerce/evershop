@@ -196,6 +196,9 @@ module.exports = () => {
   config.util.setModuleDefaults('widgets', widgets);
 
   const parseIntCount = (data) => {
+    if (data.type !== 'collection_products') {
+      return data;
+    }
     // eslint-disable-next-line no-param-reassign
     data.settings = data.settings || {};
     if (data.settings.count) {

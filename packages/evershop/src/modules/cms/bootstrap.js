@@ -202,6 +202,15 @@ module.exports = () => {
         className: 'page-width'
       },
       enabled: true
+    },
+    basic_menu: {
+      setting_component:
+        '@evershop/evershop/src/components/admin/widgets/BasicMenuSetting.jsx',
+      component:
+        '@evershop/evershop/src/components/frontStore/widgets/BasicMenu.jsx',
+      name: 'Menu',
+      description: 'A menu widget',
+      enabled: true
     }
   };
   config.util.setModuleDefaults('widgets', defaultWidgets);
@@ -229,4 +238,23 @@ module.exports = () => {
     (filters) => [...filters, ...defaultPaginationFilters],
     2
   );
+
+  const parseMenus = (data) => {
+    if (data?.type !== 'basic_menu') {
+      return data;
+    }
+    // eslint-disable-next-line no-param-reassign
+    data.settings = data.settings || {};
+    if (data.settings.menus) {
+      // eslint-disable-next-line no-param-reassign
+      data.settings.menus = JSON.parse(data.settings.menus);
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      data.settings.menus = [];
+    }
+    return data;
+  };
+
+  addProcessor('widgetDataBeforeCreate', parseMenus, 1);
+  addProcessor('widgetDataBeforeUpdate', parseMenus, 1);
 };

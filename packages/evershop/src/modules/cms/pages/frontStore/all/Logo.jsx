@@ -8,7 +8,7 @@ export default function Logo({
   }
 }) {
   return (
-    <div className="logo">
+    <div className="logo ml-9 md:ml-0 flex justify-center">
       {src && (
         <a href="/" className="logo-icon">
           <img src={src} alt={alt} width={width} height={height} />
@@ -66,7 +66,7 @@ Logo.defaultProps = {
 
 export const layout = {
   areaId: 'header',
-  sortOrder: 1
+  sortOrder: 10
 };
 
 export const query = `
