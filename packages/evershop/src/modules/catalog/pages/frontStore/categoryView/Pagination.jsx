@@ -4,9 +4,13 @@ import { Pagination } from '@components/frontStore/catalog/product/list/Paginati
 
 export default function PaginationWrapper({
   products: {
+    showProducts,
     products: { total, currentFilters }
   }
 }) {
+  if (!showProducts) {
+    return null;
+  }
   const page = currentFilters.find((filter) => filter.key === 'page');
   const limit = currentFilters.find((filter) => filter.key === 'limit');
 
@@ -21,6 +25,7 @@ export default function PaginationWrapper({
 
 PaginationWrapper.propTypes = {
   products: PropTypes.shape({
+    showProducts: PropTypes.number.isRequired,
     products: PropTypes.shape({
       total: PropTypes.number.isRequired,
       currentFilters: PropTypes.arrayOf(
@@ -42,6 +47,7 @@ export const layout = {
 export const query = `
   query Query($filters: [FilterInput]) {
     products: category(id: getContextValue('categoryId')) {
+      showProducts
       products(filters: $filters) {
         total
         currentFilters {

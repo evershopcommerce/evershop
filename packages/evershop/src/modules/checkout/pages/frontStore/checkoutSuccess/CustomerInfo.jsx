@@ -48,39 +48,35 @@ export default function CustomerInfo({
 
       <div className="customer-info mt-12 mb-8">
         <div className="grid grid-cols-2 gap-12">
-          <div className="grid grid-cols-1 gap-12">
-            <div className="mb-8">
-              <div className="mb-3">
-                <h3>{_('Contact information')}</h3>
-              </div>
-              <div className="text-textSubdued">
-                {customerFullName || billingAddress?.fullName}
-              </div>
-              <div className="text-textSubdued">{customerEmail}</div>
+          <div>
+            <div className="mb-3">
+              <h3>{_('Contact information')}</h3>
             </div>
-            <div>
-              <div className="mb-3">
-                <h3>{_('Shipping Address')}</h3>
-              </div>
-              <div className="text-textSubdued">
-                <AddressSummary address={shippingAddress} />
-              </div>
+            <div className="text-textSubdued">
+              {customerFullName || billingAddress?.fullName}
+            </div>
+            <div className="text-textSubdued">{customerEmail}</div>
+          </div>
+          <div>
+            <div className="mb-3">
+              <h3>{_('Shipping Address')}</h3>
+            </div>
+            <div className="text-textSubdued">
+              <AddressSummary address={shippingAddress} />
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-12">
-            <div className="mb-8">
-              <div className="mb-3">
-                <h3>{_('Payment Method')}</h3>
-              </div>
-              <div className="text-textSubdued">{paymentMethodName}</div>
+          <div>
+            <div className="mb-3">
+              <h3>{_('Payment Method')}</h3>
             </div>
-            <div>
-              <div className="mb-3">
-                <h3>{_('Billing Address')}</h3>
-              </div>
-              <div className="text-textSubdued">
-                <AddressSummary address={billingAddress} />
-              </div>
+            <div className="text-textSubdued">{paymentMethodName}</div>
+          </div>
+          <div>
+            <div className="mb-3">
+              <h3>{_('Billing Address')}</h3>
+            </div>
+            <div className="text-textSubdued">
+              <AddressSummary address={billingAddress} />
             </div>
           </div>
         </div>
@@ -96,6 +92,7 @@ CustomerInfo.propTypes = {
     customerFullName: PropTypes.string,
     customerEmail: PropTypes.string.isRequired,
     paymentMethodName: PropTypes.string.isRequired,
+    shippingNote: PropTypes.string,
     shippingAddress: PropTypes.shape({
       fullName: PropTypes.string,
       postcode: PropTypes.string,
@@ -143,6 +140,7 @@ export const query = `
       customerFullName
       customerEmail
       paymentMethodName
+      shippingNote
       shippingAddress {
         fullName
         postcode

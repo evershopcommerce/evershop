@@ -577,6 +577,14 @@ module.exports.registerCartBaseFields = function registerCartBaseFields(
       dependencies: ['shipping_fee_excl_tax', 'shipping_fee_tax_percent']
     },
     {
+      key: 'shipping_note',
+      resolvers: [
+        async function resolver(note) {
+          return note;
+        }
+      ]
+    },
+    {
       key: 'billing_address_id',
       resolvers: [
         async function resolver(billingAddressId) {

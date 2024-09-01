@@ -148,7 +148,7 @@ module.exports = async (request, response, delegate, next) => {
           let widgetVariables = JSON.parse(
             JSON.stringify(json.variables[widgetKey])
           );
-          const regex = /\\"getWidgetSetting_([a-zA-Z0-9+/=]+)\\"/g;
+          const regex = /\\"getWidgetSetting_([a-zA-Z0-9+/=]*)\\"/g;
           widgetQuery = widgetQuery.replace(regex, (match, p1) => {
             const base64 = p1;
             const decoded = Buffer.from(base64, 'base64').toString('ascii');
@@ -198,7 +198,7 @@ module.exports = async (request, response, delegate, next) => {
               (variable) => variable.origin === key
             );
             if (check) {
-              const variableRegex = /getWidgetSetting_([a-zA-Z0-9+/=]+)/g;
+              const variableRegex = /getWidgetSetting_([a-zA-Z0-9+/=]*)/g;
               const v = widgetVariables.values[key];
               if (typeof v === 'string') {
                 // A regext matching "getContextValue_'base64 encoded string'"
@@ -215,7 +215,12 @@ module.exports = async (request, response, delegate, next) => {
                     .split(',')[0]
                     .replace(/['"]+/g, '');
                   // eslint-disable-next-line no-eval
-                  const actualValue = get(widget.settings, decoded);
+                  let actualValue;
+                  if (!decoded.trim()) {
+                    actualValue = widget.settings;
+                  } else {
+                    actualValue = get(widget.settings, decoded);
+                  }
                   acc[check.new] = actualValue;
                 }
               } else {

@@ -13,12 +13,10 @@ export default function CategoryInfo({
         {image && (
           <img src={image.url} alt={name} className="category__image" />
         )}
-        <div className="category__info">
-          <div>
-            <h1 className="category__name">{name}</h1>
-            <div className="category__description">
-              <Editor rows={description} />
-            </div>
+        <div className="category__info prose prose-base max-w-none">
+          <h1 className="category__name">{name}</h1>
+          <div className="category__description">
+            <Editor rows={description} />
           </div>
         </div>
       </div>

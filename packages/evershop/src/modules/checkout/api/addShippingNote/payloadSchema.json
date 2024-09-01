@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "note": {
+      "type": "string"
+    }
+  },
+  "required": ["note"],
+  "additionalProperties": false,
+  "errorMessage": {
+    "properties": {
+      "note": "Note is required"
+    }
+  }
+}

@@ -188,7 +188,7 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
       }
     );
     variablesBody = variablesBody.replace(
-      /getWidgetSetting\(([^)]+)\)/g,
+      /getWidgetSetting\(([^)]*)\)/g,
       (match, p1) => {
         const base64 = Buffer.from(p1).toString('base64');
         return `"getWidgetSetting_${base64}"`;
