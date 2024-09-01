@@ -60,22 +60,24 @@ export default function Editor({
   const [draggable, setDragable] = React.useState(null);
   const [fileBrowser, setFileBrowser] = React.useState(null);
   const [rows, setRows] = React.useState(
-    value.map((row) => {
-      const rowId = `r__${uuidv4()}`;
-      return {
-        ...row,
-        className: getRowClasses(row.size),
-        id: row.id || rowId,
-        columns: row.columns.map((column) => {
-          const colId = `c__${uuidv4()}`;
+    value
+      ? value.map((row) => {
+          const rowId = `r__${uuidv4()}`;
           return {
-            ...column,
-            className: getColumnClasses(column.size),
-            id: column.id || colId
+            ...row,
+            className: getRowClasses(row.size),
+            id: row.id || rowId,
+            columns: row.columns.map((column) => {
+              const colId = `c__${uuidv4()}`;
+              return {
+                ...column,
+                className: getColumnClasses(column.size),
+                id: column.id || colId
+              };
+            })
           };
         })
-      };
-    })
+      : []
   );
   const editors = React.useRef({});
   const isBuilding = React.useRef(false);
@@ -90,7 +92,10 @@ export default function Editor({
       // eslint-disable-next-line new-cap
       const swappable = new Swappable(document.querySelectorAll(`div#rows`), {
         draggable: 'div.row__container',
-        handle: 'div.row__container .drag__icon'
+        handle: 'div.row__container .drag__icon',
+        mirror: {
+          constrainDimensions: true
+        }
       });
       let source = null;
       let destination = null;
@@ -285,10 +290,10 @@ export default function Editor({
           rows.map((row) => ({
             size: row.size,
             columns: row.columns.map((column) => ({
-                id: column.id,
-                size: column.size,
-                data: column.data
-              }))
+              id: column.id,
+              size: column.size,
+              data: column.data
+            }))
           }))
         )}
         name={name}
