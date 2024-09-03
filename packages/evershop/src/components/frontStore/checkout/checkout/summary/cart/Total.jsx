@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
-export function Total({ total, taxAmount, priceIncludingTax }) {
+export function Total({ total, totalTaxAmount, priceIncludingTax }) {
   return (
     <div className="summary-row grand-total flex justify-between">
       {(priceIncludingTax && (
@@ -13,7 +13,7 @@ export function Total({ total, taxAmount, priceIncludingTax }) {
             </div>
             <div>
               <span className="italic">
-                ({_('Inclusive of tax ${taxAmount}', { taxAmount })})
+                ({_('Inclusive of tax ${totalTaxAmount}', { totalTaxAmount })})
               </span>
             </div>
           </div>
@@ -29,7 +29,7 @@ export function Total({ total, taxAmount, priceIncludingTax }) {
 
 Total.propTypes = {
   total: PropTypes.string.isRequired,
-  taxAmount: PropTypes.string.isRequired,
+  totalTaxAmount: PropTypes.string.isRequired,
   priceIncludingTax: PropTypes.bool
 };
 

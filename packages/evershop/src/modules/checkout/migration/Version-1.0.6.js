@@ -180,4 +180,22 @@ module.exports = exports = async (connection) => {
     connection,
     `UPDATE "order" SET sub_total_with_discount_incl_tax = sub_total_with_discount + tax_amount`
   );
+
+  // Add a column 'total_tax_amount' to the cart table if it does not exist
+  await execute(
+    connection,
+    'ALTER TABLE "cart" ADD COLUMN IF NOT EXISTS "total_tax_amount" decimal(12,4)'
+  );
+
+  // Update the value for the new column 'total_tax_amount' on the cart table get value from the `tax_amount` column
+  await execute(connection, `UPDATE "cart" SET total_tax_amount = tax_amount`);
+
+  // Add a column 'total_tax_amount' to the order table if it does not exist
+  await execute(
+    connection,
+    'ALTER TABLE "order" ADD COLUMN IF NOT EXISTS "total_tax_amount" decimal(12,4)'
+  );
+
+  // Update the value for the new column 'total_tax_amount' on the cart table get value from the `tax_amount` column
+  await execute(connection, `UPDATE "order" SET total_tax_amount = tax_amount`);
 };

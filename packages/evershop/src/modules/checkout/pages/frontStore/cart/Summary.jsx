@@ -51,7 +51,7 @@ function Summary({
     totalQty,
     subTotal,
     subTotalInclTax,
-    taxAmount,
+    totalTaxAmount,
     grandTotal,
     coupon,
     discountAmount
@@ -89,7 +89,7 @@ function Summary({
                 default: priceIncludingTax ? () => null : Tax
               },
               props: {
-                amount: taxAmount.text
+                amount: totalTaxAmount.text
               },
               sortOrder: 30,
               id: 'tax'
@@ -101,7 +101,7 @@ function Summary({
               },
               props: {
                 total: grandTotal.text,
-                taxAmount: taxAmount.text,
+                totalTaxAmount: totalTaxAmount.text,
                 priceIncludingTax
               },
               sortOrder: 30,
@@ -129,7 +129,7 @@ Summary.propTypes = {
       value: PropTypes.number,
       text: PropTypes.string
     }),
-    taxAmount: PropTypes.shape({
+    totalTaxAmount: PropTypes.shape({
       value: PropTypes.number,
       text: PropTypes.string
     }),
@@ -172,7 +172,7 @@ export const query = `
         text
       }
       
-      taxAmount {
+      totalTaxAmount {
         value
         text
       }

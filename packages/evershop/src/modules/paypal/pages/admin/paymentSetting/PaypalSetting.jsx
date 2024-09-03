@@ -49,7 +49,7 @@ export default function PaypalPayment({
             <Field
               type="text"
               name="paypalClientId"
-              placeholder="Publishable Key"
+              placeholder="Client ID"
               value={paypalClientId}
             />
           </div>
