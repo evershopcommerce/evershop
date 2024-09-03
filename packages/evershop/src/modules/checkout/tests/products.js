@@ -52,6 +52,15 @@ const products = [
     status: true,
     qty: 100,
     tax_class: 4
+  },
+  {
+    product_id: 7,
+    name: 'Tax 10%',
+    sku: 'SKU7',
+    price: 819,
+    status: true,
+    qty: 100,
+    tax_class: 1
   }
 ];
 

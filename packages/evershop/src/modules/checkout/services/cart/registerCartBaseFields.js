@@ -109,7 +109,7 @@ module.exports.registerCartBaseFields = function registerCartBaseFields(
             taxAmount += i.getData('tax_amount');
           });
 
-          return toPrice(taxAmount + this.getData('shipping_tax_amount'));
+          return toPrice(taxAmount);
         }
       ],
       dependencies: ['items', 'shipping_tax_amount']
@@ -562,19 +562,18 @@ module.exports.registerCartBaseFields = function registerCartBaseFields(
           if (priceIncludingTax === true) {
             return this.getData('shipping_fee_draft');
           } else {
-            const shippingFeeTax = calculateTaxAmount(
-              this.getData('shipping_fee_tax_percent'),
-              this.getData('shipping_fee_draft'),
-              1,
-              priceIncludingTax
-            );
             return toPrice(
-              this.getData('shipping_fee_excl_tax') + shippingFeeTax
+              this.getData('shipping_fee_excl_tax') +
+                this.getData('shipping_tax_amount')
             );
           }
         }
       ],
-      dependencies: ['shipping_fee_excl_tax', 'shipping_fee_tax_percent']
+      dependencies: [
+        'shipping_fee_excl_tax',
+        'shipping_tax_amount',
+        'shipping_fee_draft'
+      ]
     },
     {
       key: 'shipping_note',
@@ -583,6 +582,17 @@ module.exports.registerCartBaseFields = function registerCartBaseFields(
           return note;
         }
       ]
+    },
+    {
+      key: 'total_tax_amount', // This field should contain the total tax amount of the cart including tax of items and shipping fee
+      resolvers: [
+        function resolver() {
+          return toPrice(
+            this.getData('tax_amount') + this.getData('shipping_tax_amount')
+          );
+        }
+      ],
+      dependencies: ['tax_amount', 'shipping_tax_amount']
     },
     {
       key: 'billing_address_id',

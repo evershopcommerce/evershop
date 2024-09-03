@@ -8,6 +8,8 @@ const {
   OK,
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
 const { getContextValue } = require('../../../graphql/services/contextHelper');
 const { getSetting } = require('../../../setting/services/setting');
 const { toPrice } = require('../../../checkout/services/toPrice');
@@ -37,6 +39,43 @@ module.exports = async (request, response, stack, next) => {
       .from('order_item')
       .where('order_item_order_id', '=', order.order_id)
       .execute(pool);
+    const catalogPriceInclTax = getConfig(
+      'pricing.tax.price_including_tax',
+      false
+    );
+    const amount = {
+      currency_code: order.currency,
+      value: toPrice(order.grand_total),
+      breakdown: {
+        item_total: {
+          currency_code: order.currency,
+          value: catalogPriceInclTax
+            ? toPrice(order.sub_total_incl_tax)
+            : toPrice(order.sub_total)
+        },
+        shipping: {
+          currency_code: order.currency,
+          value: catalogPriceInclTax
+            ? toPrice(order.shipping_fee_incl_tax)
+            : toPrice(order.shipping_fee_excl_tax)
+        },
+        discount: {
+          currency_code: order.currency,
+          value: toPrice(order.discount_amount)
+        }
+      }
+    };
+    if (!catalogPriceInclTax) {
+      amount.breakdown.tax_total = {
+        currency_code: order.currency,
+        value: toPrice(order.total_tax_amount)
+      };
+    }
+
+    const finalAmount = getValueSync('paypalFinalAmount', amount, {
+      order,
+      items
+    });
 
     const orderData = {
       intent: await getSetting('paypalPaymentIntent', 'CAPTURE'),
@@ -48,31 +87,12 @@ module.exports = async (request, response, stack, next) => {
             quantity: item.qty,
             unit_amount: {
               currency_code: order.currency,
-              value: toPrice(item.final_price)
+              value: catalogPriceInclTax
+                ? toPrice(item.final_price_incl_tax)
+                : toPrice(item.final_price)
             }
           })),
-          amount: {
-            currency_code: order.currency,
-            value: toPrice(order.grand_total),
-            breakdown: {
-              item_total: {
-                currency_code: order.currency,
-                value: toPrice(order.sub_total)
-              },
-              shipping: {
-                currency_code: order.currency,
-                value: toPrice(order.shipping_fee_incl_tax)
-              },
-              tax_total: {
-                currency_code: order.currency,
-                value: toPrice(order.tax_amount)
-              },
-              discount: {
-                currency_code: order.currency,
-                value: toPrice(order.discount_amount)
-              }
-            }
-          }
+          amount: finalAmount
         }
       ],
       application_context: {
@@ -144,10 +164,21 @@ module.exports = async (request, response, stack, next) => {
         address
       };
     }
+
+    const finalPaypalOrderData = getValueSync(
+      'finalPaypalOrderData',
+      orderData,
+      {
+        order,
+        items,
+        shippingAddress,
+        billingAddress
+      }
+    );
     // Call PayPal API to create order using axios
     const { data } = await axios.post(
       `${await getApiBaseUrl()}/v2/checkout/orders`,
-      orderData,
+      finalPaypalOrderData,
       {
         headers: {
           'Content-Type': 'application/json',

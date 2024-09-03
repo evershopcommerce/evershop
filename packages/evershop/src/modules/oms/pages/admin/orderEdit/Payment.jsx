@@ -18,7 +18,7 @@ export default function OrderSummary({
     shippingMethodName,
     paymentMethodName,
     totalQty,
-    taxAmount,
+    totalTaxAmount,
     discountAmount,
     grandTotal,
     subTotal,
@@ -47,7 +47,7 @@ export default function OrderSummary({
           grandTotal={grandTotal}
           coupon={coupon}
           discountAmount={discountAmount}
-          taxAmount={taxAmount}
+          totalTaxAmount={totalTaxAmount}
           className="summary-wrapper"
           coreComponents={[
             {
@@ -70,7 +70,7 @@ export default function OrderSummary({
             },
             {
               component: { default: Tax },
-              props: { taxClass: '', amount: taxAmount.text },
+              props: { taxClass: '', amount: totalTaxAmount.text },
               sortOrder: 20
             },
 
@@ -97,7 +97,7 @@ OrderSummary.propTypes = {
     coupon: PropTypes.string,
     shippingMethod: PropTypes.string,
     paymentMethodName: PropTypes.string,
-    taxAmount: PropTypes.shape({
+    totalTaxAmount: PropTypes.shape({
       text: PropTypes.string.isRequired
     }).isRequired,
     discountAmount: PropTypes.shape({
@@ -148,7 +148,7 @@ export const query = `
       shippingMethodName
       paymentMethod
       paymentMethodName
-      taxAmount {
+      totalTaxAmount {
         text(currency: getContextValue("orderCurrency"))
       }
       discountAmount {

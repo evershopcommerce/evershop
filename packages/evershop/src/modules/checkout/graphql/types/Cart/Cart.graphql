@@ -145,6 +145,7 @@ type Cart implements ShoppingCart {
   coupon: String
   shippingFeeExclTax: Price!
   shippingFeeInclTax: Price!
+  shippingTaxAmount: Price!
   discountAmount: Price!
   subTotal: Price!
   subTotalInclTax: Price!
@@ -154,6 +155,7 @@ type Cart implements ShoppingCart {
   totalWeight: Weight!
   taxAmount: Price!
   taxAmountBeforeDiscount: Price!
+  totalTaxAmount: Price!
   grandTotal: Price!
   shippingMethod: String
   shippingMethodName: String

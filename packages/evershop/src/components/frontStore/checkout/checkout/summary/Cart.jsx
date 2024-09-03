@@ -12,7 +12,7 @@ function CartSummary({
   subTotalInclTax,
   grandTotal,
   discountAmount,
-  taxAmount,
+  totalTaxAmount,
   shippingMethodName,
   shippingFeeInclTax,
   coupon,
@@ -25,10 +25,10 @@ function CartSummary({
         total={priceIncludingTax ? subTotalInclTax.text : subTotal.text}
       />
       <Shipping method={shippingMethodName} cost={shippingFeeInclTax.text} />
-      {!priceIncludingTax && <Tax amount={taxAmount.text} />}
+      {!priceIncludingTax && <Tax amount={totalTaxAmount.text} />}
       <Discount code={coupon} discount={discountAmount.text} />
       <Total
-        taxAmount={taxAmount.text}
+        totalTaxAmount={totalTaxAmount.text}
         total={grandTotal.text}
         priceIncludingTax={priceIncludingTax}
       />
@@ -54,7 +54,7 @@ CartSummary.propTypes = {
   subTotalInclTax: PropTypes.shape({
     text: PropTypes.string.isRequired
   }),
-  taxAmount: PropTypes.shape({
+  totalTaxAmount: PropTypes.shape({
     text: PropTypes.string.isRequired
   }),
   totalQty: PropTypes.string,
@@ -79,7 +79,7 @@ CartSummary.defaultProps = {
   subTotalInclTax: {
     text: ''
   },
-  taxAmount: {
+  totalTaxAmount: {
     text: ''
   },
   totalQty: '',

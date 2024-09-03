@@ -77,6 +77,7 @@ type Order implements ShoppingCart {
   totalWeight: Weight!
   taxAmount: Price!
   taxAmountBeforeDiscount: Price!
+  totalTaxAmount: Price!
   grandTotal: Price!
   shippingMethod: String
   shippingMethodName: String

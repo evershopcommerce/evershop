@@ -64,7 +64,7 @@ Summary.propTypes = {
     subTotalInclTax: PropTypes.shape({
       text: PropTypes.string
     }),
-    taxAmount: PropTypes.shape({
+    totalTaxAmount: PropTypes.shape({
       text: PropTypes.string
     }),
     coupon: PropTypes.string
@@ -93,7 +93,7 @@ export const query = `
         value
         text
       }
-      taxAmount {
+      totalTaxAmount {
         value
         text
       }
