@@ -96,12 +96,12 @@ module.exports = () => {
     product: {
       image: {
         thumbnail: {
-          width: 100.6,
-          height: 100.5
+          width: 100,
+          height: 100
         },
         listing: {
-          width: 300.5,
-          height: 300.5
+          width: 300,
+          height: 300
         },
         single: {
           width: 500,
