@@ -91,7 +91,7 @@ export default function General({ widget, routes }) {
             { value: 0, text: 'Disabled' },
             { value: 1, text: 'Enabled' }
           ]}
-          value={widget?.status}
+          value={widget ? widget.status : 1}
         />
       </Card.Session>
       <Card.Session title="Area">

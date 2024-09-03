@@ -2,10 +2,7 @@ import ProductList from '@components/frontStore/catalog/product/list/List';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function CollectionProducts({
-  collection,
-  collectionProductsWidget: { count }
-}) {
+export default function CollectionProducts({ collection }) {
   if (!collection) {
     return null;
   }
@@ -15,10 +12,7 @@ export default function CollectionProducts({
         <h3 className="mt-12 mb-12 text-center uppercase h5 tracking-widest">
           {collection?.name}
         </h3>
-        <ProductList
-          products={collection?.products?.items}
-          countPerRow={count}
-        />
+        <ProductList products={collection?.products?.items} countPerRow={4} />
       </div>
     </div>
   );
@@ -59,18 +53,15 @@ CollectionProducts.propTypes = {
 };
 
 export const query = `
-  query Query($collection: String) {
+  query Query($collection: String, $count: ID) {
     collection (code: $collection) {
       collectionId
       name
-      products (filters: [{key: "limit", operation: eq, value: "5"}]) {
+      products (filters: [{key: "limit", operation: eq, value: $count}]) {
         items {
           ...Product
         }
       }
-    }
-    collectionProductsWidget(collection: $collection) {
-      count
     }
   }
 `;
@@ -98,5 +89,6 @@ export const fragments = `
 `;
 
 export const variables = `{
-  collection: getWidgetSetting("collection")
+  collection: getWidgetSetting("collection"),
+  count: getWidgetSetting("count")
 }`;
