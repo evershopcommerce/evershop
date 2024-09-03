@@ -282,7 +282,7 @@ export default function WidgetGrid({
         </thead>
         <tbody>
           <Actions
-            pages={items}
+            widgets={items}
             selectedIds={selectedRows}
             setSelectedRows={setSelectedRows}
           />
