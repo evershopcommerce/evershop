@@ -6,7 +6,7 @@ export default function PageEditPageHeading({ backUrl, page }) {
   return (
     <PageHeading
       backUrl={backUrl}
-      heading={page ? `Editing ${page.name}` : 'Create A New Page'}
+      heading={page ? `Editing ${page.name}` : 'Create a new page'}
     />
   );
 }

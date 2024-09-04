@@ -7,7 +7,7 @@ export default function CollectionEditPageHeading({ backUrl, collection }) {
     <div className='w-2/3' style={{margin: '0 auto'}}>
       <PageHeading
         backUrl={backUrl}
-        heading={collection ? `Editing ${collection.name}` : 'Create A New Collection'}
+        heading={collection ? `Editing ${collection.name}` : 'Create a new collection'}
       />
     </div>
   );

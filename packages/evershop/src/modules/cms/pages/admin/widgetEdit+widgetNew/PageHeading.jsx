@@ -6,7 +6,7 @@ export default function WidgetEditPageHeading({ backUrl, widget }) {
   return (
     <PageHeading
       backUrl={backUrl}
-      heading={widget ? `Editing widget ${widget.name}` : 'Create A New Widget'}
+      heading={widget ? `Editing widget ${widget.name}` : 'Create a new widget'}
     />
   );
 }
