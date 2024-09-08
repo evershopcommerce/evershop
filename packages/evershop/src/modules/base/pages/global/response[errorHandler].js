@@ -41,6 +41,26 @@ module.exports = async (request, response, delegate, next) => {
           isApi: route.isApi,
           isAdmin: route.isAdmin
         };
+        let widgetInstances;
+        // Check if we are in the test mode
+        if (process.env.NODE_ENV === 'test') {
+          widgetInstances = [];
+        } else {
+          widgetInstances = await loadWidgetInstances(request);
+        }
+        widgetInstances = widgetInstances.map((widget) => {
+          const newWidget = {
+            sortOrder: widget.sortOrder,
+            areaId: widget.areaId,
+            type: widget.type
+          };
+          newWidget.id = `e${widget.uuid.replace(/-/g, '')}`;
+          if (route.isAdmin) {
+            newWidget.areaId = 'widget_setting_form';
+          }
+          return newWidget;
+        });
+        response.locals.widgets = widgetInstances;
         if (
           (isDevelopmentMode() &&
             request.query &&
@@ -51,30 +71,11 @@ module.exports = async (request, response, delegate, next) => {
             success: true,
             eContext: {
               graphqlResponse: get(response, 'locals.graphqlResponse', {}),
-              propsMap: get(response, 'locals.propsMap', {})
+              propsMap: get(response, 'locals.propsMap', {}),
+              widgets: widgetInstances
             }
           });
         } else {
-          let widgetInstances;
-          // Check if we are in the test mode
-          if (process.env.NODE_ENV === 'test') {
-            widgetInstances = [];
-          } else {
-            widgetInstances = await loadWidgetInstances(request);
-          }
-          widgetInstances = widgetInstances.map((widget) => {
-            const newWidget = {
-              sortOrder: widget.sortOrder,
-              areaId: widget.areaId,
-              type: widget.type
-            };
-            newWidget.id = `e${widget.uuid.replace(/-/g, '')}`;
-            if (route.isAdmin) {
-              newWidget.areaId = 'widget_setting_form';
-            }
-            return newWidget;
-          });
-          response.locals.widgets = widgetInstances;
           render(request, response);
         }
       }
