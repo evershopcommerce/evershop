@@ -15,7 +15,8 @@ describe('Test tax amount calculation', () => {
     const cart = new Cart({
       status: 1
     });
-
+    const priceConfig = config.get('pricing');
+    priceConfig.tax.price_including_tax = false;
     const item = await cart.addItem(1, 1);
     expect(item.getData('tax_amount')).toEqual(10);
     const item2 = await cart.addItem(2, 2);

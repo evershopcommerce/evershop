@@ -15,7 +15,8 @@ describe('Test product price calculation', () => {
     const cart = new Cart({
       status: 1
     });
-
+    const priceConfig = config.get('pricing');
+    priceConfig.tax.price_including_tax = false;
     const item = await cart.addItem(1, 1);
     expect(item.getData('product_price')).toEqual(100);
     expect(item.getData('final_price')).toEqual(100);
@@ -28,7 +29,8 @@ describe('Test product price calculation', () => {
     const cart = new Cart({
       status: 1
     });
-
+    const priceConfig = config.get('pricing');
+    priceConfig.tax.price_including_tax = false;
     const item = await cart.addItem(1, 1);
     expect(item.getData('product_price_incl_tax')).toEqual(110);
     expect(item.getData('final_price_incl_tax')).toEqual(110);
