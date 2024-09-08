@@ -70,7 +70,7 @@ module.exports = async (request, response, delegate, next) => {
         groupedItems.map((item) => item.sku)
       )
       .and('status', '=', 1)
-      .load(pool);
+      .execute(pool);
     // Check if all products are available
     if (products.length !== groupedItems.length) {
       response.status(INVALID_PAYLOAD);
