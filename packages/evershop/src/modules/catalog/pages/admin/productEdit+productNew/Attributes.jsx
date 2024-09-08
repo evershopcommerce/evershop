@@ -254,7 +254,7 @@ export const layout = {
 };
 
 export const query = `
-  query Query {
+  query Query ($filters: [FilterInput!]) {
     product(id: getContextValue("productId", null)) {
       groupId
       variantGroupId
@@ -264,7 +264,7 @@ export const query = `
         optionText
       }
     },
-    groups: attributeGroups {
+    groups: attributeGroups(filters: $filters) {
       items {
         groupId: attributeGroupId
         groupName
@@ -285,3 +285,8 @@ export const query = `
     }
   }
 `;
+
+export const variables = `
+{
+  filters: [{ key: "limit", operation: 'eq', value: 1000 }]
+}`;
