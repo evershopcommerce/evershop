@@ -27,3 +27,7 @@ body .codex-editor {
 #rows .draggable-source--is-dragging>* {
   visibility: hidden;
 }
+
+.ce-rawtool__textarea {
+  z-index: 0;
+}
