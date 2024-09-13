@@ -16,11 +16,17 @@ function Subtotal({ subTotal }) {
 }
 
 Subtotal.propTypes = {
-  subTotal: PropTypes.number
+  subTotal: PropTypes.shape({
+    value: PropTypes.number,
+    text: PropTypes.string
+  })
 };
 
 Subtotal.defaultProps = {
-  subTotal: 0
+  subTotal: {
+    value: 0,
+    text: ''
+  }
 };
 
 function Discount({ discountAmount, coupon }) {
@@ -36,12 +42,18 @@ function Discount({ discountAmount, coupon }) {
 }
 
 Discount.propTypes = {
-  discountAmount: PropTypes.number,
+  discountAmount: PropTypes.shape({
+    value: PropTypes.number,
+    text: PropTypes.string
+  }),
   coupon: PropTypes.string
 };
 
 Discount.defaultProps = {
-  discountAmount: 0,
+  discountAmount: {
+    value: 0,
+    text: ''
+  },
   coupon: ''
 };
 

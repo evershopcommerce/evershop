@@ -77,7 +77,11 @@ Options.propTypes = {
       optionName: PropTypes.string,
       optionType: PropTypes.string
     })
-  ).isRequired
+  )
+};
+
+Options.defaultProps = {
+  options: []
 };
 
 export const layout = {

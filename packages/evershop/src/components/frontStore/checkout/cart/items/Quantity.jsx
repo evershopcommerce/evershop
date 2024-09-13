@@ -63,7 +63,7 @@ export default function Quantity({ qty, api }) {
       >
         {isLoading && (
           <svg
-            ariaHidden="true"
+            aria-hidden="true"
             focusable="false"
             role="presentation"
             className="spinner"
@@ -83,7 +83,7 @@ export default function Quantity({ qty, api }) {
         {!isLoading && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            ariaHidden="true"
+            aria-hidden="true"
             focusable="false"
             role="presentation"
             className="icon icon-minus"
@@ -99,7 +99,7 @@ export default function Quantity({ qty, api }) {
           </svg>
         )}
       </button>
-      <input type="text" value={quantity} />
+      <input type="text" value={quantity} readOnly />
       <button
         className="flex justify-center items-center"
         onClick={() => updateQuantity(quantity + 1)}
@@ -108,7 +108,7 @@ export default function Quantity({ qty, api }) {
       >
         {isLoading && (
           <svg
-            ariaHidden="true"
+            aria-hidden="true"
             focusable="false"
             role="presentation"
             className="spinner"
@@ -128,7 +128,7 @@ export default function Quantity({ qty, api }) {
         {!isLoading && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            ariaHidden="true"
+            aria-hidden="true"
             focusable="false"
             role="presentation"
             className="icon icon-plus"

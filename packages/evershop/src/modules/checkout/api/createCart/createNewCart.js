@@ -4,7 +4,6 @@ const {
   OK
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
 const {
   translate
 } = require('@evershop/evershop/src/lib/locale/translate/translate');
@@ -107,7 +106,6 @@ module.exports = async (request, response, delegate, next) => {
     };
     next();
   } catch (e) {
-    error(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

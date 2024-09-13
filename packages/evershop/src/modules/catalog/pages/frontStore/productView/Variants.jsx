@@ -157,12 +157,12 @@ export default function Variants({
             <input
               name={`variant_options[${i}][attribute_id]`}
               type="hidden"
-              value={a.attributeId}
+              value={a.attributeId || ''}
             />
             <input
               name={`variant_options[${i}][optionId]`}
               type="hidden"
-              value={a.selectedOption}
+              value={a.selectedOption || ''}
             />
             <div className="mb-2 text-textSubdued uppercase">
               <span>{a.attribute_name}</span>
