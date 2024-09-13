@@ -4,6 +4,7 @@ const JSON5 = require('json5');
 const { CONSTANTS } = require('../../helpers');
 const { error } = require('../../log/logger');
 const { getEnabledWidgets } = require('../../util/getEnabledWidgets');
+const { generateComponentKey } = require('../util/keyGenerator');
 
 /* eslint-disable no-multi-assign */
 /* eslint-disable global-require */
@@ -29,9 +30,7 @@ module.exports = exports = function AreaLoader(c) {
         .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
       try {
         const layout = JSON5.parse(check);
-        const id = Buffer.from(module.replace(CONSTANTS.ROOTPATH, '')).toString(
-          'base64'
-        );
+        const id = generateComponentKey(module.replace(CONSTANTS.ROOTPATH, ''));
         areas[layout.areaId] = areas[layout.areaId] || {};
         areas[layout.areaId][id] = {
           id,

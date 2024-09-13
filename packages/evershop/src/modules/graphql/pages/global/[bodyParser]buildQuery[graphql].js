@@ -15,7 +15,6 @@ const {
   getEnabledWidgets
 } = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
 const { get } = require('@evershop/evershop/src/lib/util/get');
-const isResolvable = require('is-resolvable');
 const {
   loadWidgetInstances
 } = require('../../../cms/services/widget/loadWidgetInstances');
@@ -98,41 +97,21 @@ module.exports = async (request, response, delegate, next) => {
           const widgetSpecs = enabledWidgets.find(
             (enabledWidget) => enabledWidget.type === widget.type
           );
+          const componentPath = currentRoute?.isAdmin
+            ? widgetSpecs.setting_component
+            : widgetSpecs.component;
+          const componentKey = currentRoute?.isAdmin
+            ? widgetSpecs.settingComponentKey
+            : widgetSpecs.componentKey;
           return {
             uuid: widget.uuid,
+            type: widget.type,
             settings: widget.settings,
-            component: currentRoute?.isAdmin
-              ? widgetSpecs.setting_component
-              : widgetSpecs.component
+            component: componentPath,
+            componentKey
           };
         });
       }
-      json.queries = Object.keys(json.queries).reduce((acc, key) => {
-        const componentPath = Buffer.from(key, 'base64').toString('ascii');
-        if (
-          applicableWidgets.find(
-            (widget) => widget.component === componentPath
-          ) ||
-          !isResolvable(componentPath)
-        ) {
-          acc[key] = json.queries[key];
-        }
-        return acc;
-      }, {});
-
-      // Remove all variables from widgets that are not used
-      json.variables = Object.keys(json.variables).reduce((acc, key) => {
-        const componentPath = Buffer.from(key, 'base64').toString('ascii');
-        if (
-          applicableWidgets.find(
-            (widget) => widget.component === componentPath
-          ) ||
-          !isResolvable(componentPath)
-        ) {
-          acc[key] = json.variables[key];
-        }
-        return acc;
-      }, {});
 
       let operation = 'query Query';
       const { fragments } = json;
@@ -142,7 +121,7 @@ module.exports = async (request, response, delegate, next) => {
 
       if (applicableWidgets.length > 0) {
         applicableWidgets.forEach((widget) => {
-          const widgetKey = Buffer.from(widget.component).toString('base64');
+          const widgetKey = widget.componentKey;
           let widgetQuery = json.queries[widgetKey];
           // Deep clone the widget variables
           let widgetVariables = JSON.parse(
@@ -265,7 +244,13 @@ module.exports = async (request, response, delegate, next) => {
           json.variables[widgetUUID] = widgetVariables;
           // Now we merge the queries to the query as the string,
           queryStr = Object.keys(json.queries).reduce((acc, key) => {
-            if (!isResolvable(Buffer.from(key, 'base64').toString('ascii'))) {
+            if (
+              !enabledWidgets.find(
+                (widget) =>
+                  widget.componentKey === key ||
+                  widget.settingComponentKey === key
+              )
+            ) {
               // eslint-disable-next-line no-param-reassign
               acc += `\n${json.queries[key]} `;
             }
@@ -275,7 +260,13 @@ module.exports = async (request, response, delegate, next) => {
           // Now we merge the variables
           variables = Object.keys(json.variables).reduce(
             (acc, key) => {
-              if (!isResolvable(Buffer.from(key, 'base64').toString('ascii'))) {
+              if (
+                !enabledWidgets.find(
+                  (widget) =>
+                    widget.componentKey === key ||
+                    widget.settingComponentKey === key
+                )
+              ) {
                 acc.values = { ...acc.values, ...json.variables[key].values };
                 acc.defs = [...acc.defs, ...json.variables[key].defs];
               }
@@ -287,7 +278,13 @@ module.exports = async (request, response, delegate, next) => {
       } else {
         // Just delete resolvable queries and variables
         queryStr = Object.keys(json.queries).reduce((acc, key) => {
-          if (isResolvable(Buffer.from(key, 'base64').toString('ascii'))) {
+          if (
+            enabledWidgets.find(
+              (widget) =>
+                widget.componentKey === key ||
+                widget.settingComponentKey === key
+            )
+          ) {
             delete json.queries[key];
           } else {
             // eslint-disable-next-line no-param-reassign
@@ -298,7 +295,13 @@ module.exports = async (request, response, delegate, next) => {
 
         variables = Object.keys(json.variables).reduce(
           (acc, key) => {
-            if (isResolvable(Buffer.from(key, 'base64').toString('ascii'))) {
+            if (
+              enabledWidgets.find(
+                (widget) =>
+                  widget.componentKey === key ||
+                  widget.settingComponentKey === key
+              )
+            ) {
               delete json.variables[key];
             } else {
               acc.values = { ...acc.values, ...json.variables[key].values };

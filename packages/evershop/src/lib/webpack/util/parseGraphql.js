@@ -4,6 +4,7 @@ const JSON5 = require('json5');
 const isResolvable = require('is-resolvable');
 const { CONSTANTS } = require('../../helpers');
 const { parseGraphqlByFile } = require('./parseGraphqlByFile');
+const { generateComponentKey } = require('./keyGenerator');
 
 module.exports.parseGraphql = function parseGraphql(modules) {
   let inUsedFragments = [];
@@ -24,12 +25,12 @@ module.exports.parseGraphql = function parseGraphql(modules) {
     // If the module is resolvable, get the apsolute path
     if (!fs.existsSync(module)) {
       modulePath = require.resolve(module);
-      moduleKey = Buffer.from(module).toString('base64');
+      moduleKey = generateComponentKey(module);
     } else {
       modulePath = module;
-      moduleKey = Buffer.from(
+      moduleKey = generateComponentKey(
         modulePath.replace(CONSTANTS.ROOTPATH, '')
-      ).toString('base64');
+      );
     }
     const moduleGraphqlData = parseGraphqlByFile(modulePath);
     queries[moduleKey] = moduleGraphqlData.query.source;
