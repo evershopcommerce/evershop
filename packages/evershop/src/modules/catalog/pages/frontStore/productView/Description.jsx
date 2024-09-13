@@ -15,7 +15,18 @@ export default function Description({ product: { description } }) {
 
 Description.propTypes = {
   product: PropTypes.shape({
-    description: PropTypes.string
+    description: PropTypes.arrayOf(
+      PropTypes.shape({
+        size: PropTypes.number.isRequired,
+        columns: PropTypes.arrayOf(
+          PropTypes.shape({
+            size: PropTypes.number.isRequired,
+            // eslint-disable-next-line react/forbid-prop-types
+            data: PropTypes.object
+          })
+        ).isRequired
+      })
+    ).isRequired
   }).isRequired
 };
 

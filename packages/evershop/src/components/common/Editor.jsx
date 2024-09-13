@@ -150,17 +150,19 @@ RenderEditorJS.propTypes = {
 export default function Editor({ rows }) {
   return (
     <div className="editor__html">
-      {rows.map((row) => {
+      {rows.map((row, index) => {
         const rowClasses = getRowClasses(row.size);
         return (
           <div
             className={`row__container mt-12 grid md:${rowClasses} grid-cols-1 gap-8`}
+            key={index}
           >
-            {row.columns.map((column) => {
+            {row.columns.map((column, index) => {
               const columnClasses = getColumnClasses(column.size);
               return (
                 <div
                   className={`column__container md:${columnClasses} col-span-1`}
+                  key={index}
                 >
                   {column.data?.blocks && (
                     <RenderEditorJS blocks={column.data?.blocks} />
@@ -178,10 +180,10 @@ export default function Editor({ rows }) {
 Editor.propTypes = {
   rows: PropTypes.arrayOf(
     PropTypes.shape({
-      size: PropTypes.string.isRequired,
+      size: PropTypes.number.isRequired,
       columns: PropTypes.arrayOf(
         PropTypes.shape({
-          size: PropTypes.string.isRequired,
+          size: PropTypes.number.isRequired,
           // eslint-disable-next-line react/forbid-prop-types
           data: PropTypes.object
         })
