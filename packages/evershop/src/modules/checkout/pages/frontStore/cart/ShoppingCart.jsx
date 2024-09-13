@@ -25,7 +25,7 @@ Title.propTypes = {
   title: PropTypes.string.isRequired
 };
 
-export default function ShoppingCart({ cart, setting, removeUrl }) {
+export default function ShoppingCart({ cart, setting }) {
   const { totalQty = 0, items = [] } = cart || {};
   if (totalQty <= 0) {
     return <Empty />;
@@ -53,7 +53,7 @@ export default function ShoppingCart({ cart, setting, removeUrl }) {
                 coreComponents={[
                   {
                     component: { default: Items },
-                    props: { items, setting, cartId: cart.uuid, removeUrl },
+                    props: { items, setting },
                     sortOrder: 10,
                     id: 'shoppingCartTitle'
                   }
@@ -78,8 +78,7 @@ ShoppingCart.propTypes = {
   }).isRequired,
   setting: PropTypes.shape({
     priceIncludingTax: PropTypes.bool
-  }).isRequired,
-  removeUrl: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export const layout = {
