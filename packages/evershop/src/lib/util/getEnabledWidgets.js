@@ -1,5 +1,6 @@
 const isResolvable = require('is-resolvable');
 const { getConfig } = require('./getConfig');
+const { generateComponentKey } = require('../webpack/util/keyGenerator');
 
 module.exports = exports = {};
 
@@ -21,7 +22,12 @@ exports.getEnabledWidgets = function getEnabledWidgets() {
       );
     }
     if (configuredWidgets[widget].enabled === true) {
-      widgets.push({ ...configuredWidgets[widget], type: widget });
+      widgets.push({
+        ...configuredWidgets[widget],
+        type: widget,
+        settingComponentKey: generateComponentKey(setting_component),
+        componentKey: generateComponentKey(component)
+      });
     }
   });
   return widgets;

@@ -17,6 +17,9 @@ const { error } = require('@evershop/evershop/src/lib/log/logger');
 const {
   getEnabledWidgets
 } = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
+const {
+  generateComponentKey
+} = require('@evershop/evershop/src/lib/webpack/util/keyGenerator');
 /**
  * Only pass the page routes, not api routes
  */
@@ -50,9 +53,9 @@ module.exports.buildEntry = async function buildEntry(
             .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
           try {
             const layout = JSON5.parse(check);
-            const id = Buffer.from(
+            const id = generateComponentKey(
               module.replace(CONSTANTS.ROOTPATH, '')
-            ).toString('base64');
+            );
             areas[layout.areaId] = areas[layout.areaId] || {};
             areas[layout.areaId][id] = {
               id,
