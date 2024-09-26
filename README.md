@@ -43,6 +43,10 @@ docker-compose up -d
 
 For the full installation guide, please refer to our [Installation guide](https://evershop.io/docs/development/getting-started/installation-guide).
 
+### One-Click Deployment
+
+[![Deploy to RepoCloud](https://d16t0pc4846x52.cloudfront.net/deploylobe.svg)](https://repocloud.io/details/?app_id=288)
+
 ## Documentation
 
 - [Installation guide](https://evershop.io/docs/development/getting-started/installation-guide).
