@@ -1,0 +1,17 @@
+{
+  "name": "@evershop/tidio_widget",
+  "version": "1.0.0",
+  "description": "help you add Tidio instant messaging widgets to evershop ",
+  
+  "keywords": [
+    "EverShop",
+    "tidio",
+    "widget"
+  ],
+  "author": "huangj1e",
+  "license": "GNU GENERAL PUBLIC LICENSE 3.0",
+  "engines": {
+    "node": ">= 14.0.0"
+  },
+  "private": false
+}
