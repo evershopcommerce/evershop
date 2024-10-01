@@ -54,6 +54,27 @@ module.exports = async () => {
                 required: ['name', 'enabled', 'resolve']
               }
             },
+            jobs: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string'
+                  },
+                  resolve: {
+                    type: 'string'
+                  },
+                  enabled: {
+                    type: 'boolean'
+                  },
+                  schedule: {
+                    type: 'string'
+                  }
+                },
+                required: ['name', 'enabled', 'resolve', 'schedule']
+              }
+            },
             theme: {
               type: 'string'
             },
