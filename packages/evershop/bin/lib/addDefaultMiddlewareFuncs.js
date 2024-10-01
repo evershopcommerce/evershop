@@ -86,7 +86,8 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
 
   if (isProductionMode()) {
     app.set('trust proxy', 1);
-    sess.cookie.secure = false;
+    sess.cookie.secure = true; // HTTPS
+    sess.cookie.sameSite = 'strict'; // Prevent CSRF attacks
   }
 
   const adminSessionMiddleware = session({
