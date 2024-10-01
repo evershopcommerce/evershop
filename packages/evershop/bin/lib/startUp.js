@@ -86,6 +86,23 @@ module.exports.start = async function start(cb) {
   });
 
   child.unref();
+
+  // Spawn the child process to manage scheduled jobs
+  const jobArgs = [path.resolve(__dirname, 'cronjob.js')];
+  if (isDevelopmentMode() || process.argv.includes('--debug')) {
+    jobArgs.push('--debug');
+  }
+  const jobChild = spawn('node', jobArgs, {
+    stdio: 'inherit',
+    env: {
+      ...process.env,
+      ALLOW_CONFIG_MUTATIONS: true
+    }
+  });
+  jobChild.on('error', (err) => {
+    error(`Error spawning job processor: ${err}`);
+  });
+  jobChild.unref();
 };
 
 module.exports.updateApp = function updateApp(cb) {
