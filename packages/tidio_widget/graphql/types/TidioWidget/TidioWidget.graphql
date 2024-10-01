@@ -1,0 +1,10 @@
+"""
+Return a text Widget
+"""
+type TidioWidget {
+  text: String
+}
+
+extend type Query {
+  tidioWidget(settings: JSON): TidioWidget
+}
