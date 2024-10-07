@@ -46,9 +46,6 @@ CollectionProducts.propTypes = {
         })
       ).isRequired
     }).isRequired
-  }).isRequired,
-  collectionProductsWidget: PropTypes.shape({
-    count: PropTypes.number
   }).isRequired
 };
 
@@ -70,6 +67,7 @@ export const fragments = `
   fragment Product on Product {
     productId
     name
+    sku
     price {
       regular {
         value
