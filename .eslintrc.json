@@ -64,7 +64,6 @@
     "/extensions/**",
     "/public/**",
     "/themes/**",
-    "/media/**",
-    "/mysqlToPostgres.js"
+    "/media/**"
   ]
 }
