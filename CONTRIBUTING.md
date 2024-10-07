@@ -62,7 +62,13 @@ Run the [Jest](https://jestjs.io/) unit testing
 ```sh
 npm run test
 ```
-10. Issue that [pull request!](https://github.com/github/docs/blob/main/CONTRIBUTING.md)
+
+10. Running linting
+```sh
+npm run lint
+```
+
+11. Issue that [pull request!](https://github.com/github/docs/blob/main/CONTRIBUTING.md) to the `dev` branch.
 
 ## Any contributions you make will be under the GNU General Public License v3.0 Software License
 In short, when you submit code changes, your submissions are understood to be under the same [GNU General Public License v3.0](https://github.com/evershopcommerce/evershop/blob/main/LICENSE) that covers the project. Feel free to contact the maintainers if that's a concern.
