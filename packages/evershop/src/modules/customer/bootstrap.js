@@ -156,6 +156,10 @@ module.exports = () => {
         },
         postcode: {
           type: ['string', 'number']
+        },
+        is_default: {
+          type: 'integer',
+          enum: [0, 1, '0', '1']
         }
       },
       required: [

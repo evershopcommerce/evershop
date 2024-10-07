@@ -45,6 +45,11 @@ export function CustomerAddressForm({
     }
   });
 
+  // Set country again when address changes
+  React.useEffect(() => {
+    setSelectedCountry(address?.country?.code);
+  }, [address]);
+
   return (
     <Area
       id={areaId}

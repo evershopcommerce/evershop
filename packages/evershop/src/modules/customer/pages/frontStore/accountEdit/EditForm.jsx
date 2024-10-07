@@ -3,6 +3,7 @@ import React from 'react';
 import EmailIcon from '@heroicons/react/outline/MailIcon';
 import User from '@heroicons/react/outline/UserIcon';
 import Area from '@components/common/Area';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function AccountDetails({ account }) {
   return (
@@ -40,6 +41,9 @@ export default function AccountDetails({ account }) {
               }
             ]}
           />
+          <a href="#" className="text-interactive underline italic">
+            {_('Edit')}
+          </a>
         </div>
       </div>
     </div>
@@ -54,7 +58,7 @@ AccountDetails.propTypes = {
 };
 
 export const layout = {
-  areaId: 'accountPageInfo',
+  areaId: 'accountPageRight',
   sortOrder: 10
 };
 

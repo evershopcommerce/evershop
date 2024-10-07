@@ -22,26 +22,20 @@ export default function Layout({ logoutUrl }) {
       <h1 className="text-center">{_('My Account')}</h1>
       <div className="page-width mt-12 grid grid-cols-1 md:grid-cols-3 gap-12">
         <div className="col-span-1 md:col-span-2">
-          <div className="border-b mb-8 border-textSubdued">
+          <div className="border-b mb-4 border-textSubdued">
             <h2>{_('Order History')}</h2>
           </div>
-          <Area id="accountPageOrderHistory" noOuter />
+          <Area id="accountPageLeft" noOuter />
         </div>
         <div className="col-span-1">
-          <div className="border-b mb-8 flex justify-between items-center  border-textSubdued">
+          <div className="border-b mb-4 flex justify-between items-center  border-textSubdued">
             <h2>{_('Account Details')}</h2>
             <a className="text-interactive" href="#" onClick={(e) => logout(e)}>
               {_('Logout')}
             </a>
           </div>
-          <Area id="accountPageInfo" noOuter />
+          <Area id="accountPageRight" noOuter />
         </div>
-      </div>
-      <div className="page-width mt-12">
-        <div className="border-b mb-8 border-textSubdued">
-          <h2>{_('Address Book')}</h2>
-        </div>
-        <Area id="accountPageAddressBook" noOuter />
       </div>
     </div>
   );

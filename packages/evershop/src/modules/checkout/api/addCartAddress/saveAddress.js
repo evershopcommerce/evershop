@@ -10,7 +10,7 @@ const { getCartByUUID } = require('../../services/getCartByUUID');
 const { saveCart } = require('../../services/saveCart');
 const {
   validateAddress
-} = require('../../../customer/services/addressValidator');
+} = require('../../../customer/services/customer/address/addressValidator');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {

@@ -118,7 +118,15 @@ export default function ShippingMethods({
           }
         );
         if (!response.data.error) {
-          const result = await client.query(QUERY, { cartId }).toPromise();
+          const result = await client
+            .query(
+              QUERY,
+              { cartId },
+              {
+                requestPolicy: 'network-only'
+              }
+            )
+            .toPromise();
           const address = result.data.cart.shippingAddress;
           completeStep(
             'shipment',

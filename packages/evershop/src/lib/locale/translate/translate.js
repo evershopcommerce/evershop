@@ -26,5 +26,5 @@ module.exports.loadCsv = async function loadCsv() {
   if (csvData === undefined) {
     csvData = await loadCsvTranslationFiles();
   }
-  
+  return csvData;
 };

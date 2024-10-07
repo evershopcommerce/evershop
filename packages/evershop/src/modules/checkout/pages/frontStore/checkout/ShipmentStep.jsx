@@ -9,6 +9,7 @@ import { StepContent } from '@components/frontStore/checkout/checkout/shipment/S
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 export default function ShipmentStep({
+  account,
   cart: {
     shippingAddress,
     shippingMethod,
@@ -56,12 +57,34 @@ export default function ShipmentStep({
         addShippingAddressApi={addShippingAddressApi}
         addShippingMethodApi={addShippingMethodApi}
         customerAddressSchema={customerAddressSchema}
+        addresses={account?.addresses || []}
       />
     </div>
   );
 }
 
 ShipmentStep.propTypes = {
+  account: PropTypes.shape({
+    addresses: PropTypes.arrayOf(
+      PropTypes.shape({
+        uuid: PropTypes.string.isRequired,
+        fullName: PropTypes.string.isRequired,
+        address1: PropTypes.string.isRequired,
+        city: PropTypes.string.isRequired,
+        postcode: PropTypes.string.isRequired,
+        country: PropTypes.shape({
+          name: PropTypes.string.isRequired,
+          code: PropTypes.string.isRequired
+        }),
+        province: PropTypes.shape({
+          name: PropTypes.string,
+          code: PropTypes.string
+        }),
+        telephone: PropTypes.string.isRequired,
+        isDefault: PropTypes.bool.isRequired
+      })
+    ).isRequired
+  }).isRequired,
   cart: PropTypes.shape({
     shippingAddress: PropTypes.shape({
       address1: PropTypes.string,
@@ -88,6 +111,25 @@ export const layout = {
 
 export const query = `
   query Query {
+    account: currentCustomer {
+      addresses {
+        uuid
+        fullName
+        address1
+        city
+        postcode
+        country {
+          name
+          code
+        }
+        province {
+          name
+          code
+        }
+        telephone
+        isDefault
+      }
+    }
     cart {
       shippingMethod
       shippingMethodName
