@@ -67,9 +67,13 @@ AdminUser.propTypes = {
   adminUser: PropTypes.shape({
     email: PropTypes.string.isRequired,
     fullName: PropTypes.string.isRequired
-  }).isRequired,
+  }),
   loginPage: PropTypes.string.isRequired,
   logoutUrl: PropTypes.string.isRequired
+};
+
+AdminUser.defaultProps = {
+  adminUser: null
 };
 
 export const layout = {
