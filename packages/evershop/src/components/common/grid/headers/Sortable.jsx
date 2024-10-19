@@ -137,7 +137,6 @@ SortableHeader.propTypes = {
   currentFilters: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
-      operations: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired
     })
   )

@@ -150,7 +150,7 @@ Actions.propTypes = {
   selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   products: PropTypes.arrayOf(
     PropTypes.shape({
-      uuid: PropTypes.number.isRequired,
+      uuid: PropTypes.string.isRequired,
       updateApi: PropTypes.string.isRequired,
       deleteApi: PropTypes.string.isRequired
     })
@@ -161,11 +161,14 @@ export default function ProductGrid({
   products: { items: products, total, currentFilters = [] }
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
-    ? currentFilters.find((filter) => filter.key === 'page').value
+    ? parseInt(currentFilters.find((filter) => filter.key === 'page').value, 10)
     : 1;
 
   const limit = currentFilters.find((filter) => filter.key === 'limit')
-    ? currentFilters.find((filter) => filter.key === 'limit').value
+    ? parseInt(
+        currentFilters.find((filter) => filter.key === 'limit').value,
+        10
+      )
     : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -173,7 +176,7 @@ export default function ProductGrid({
     <Card>
       <Card.Session
         title={
-          <Form submitBtn={false}>
+          <Form submitBtn={false} id="productGridFilter">
             <div className="flex gap-8 justify-center items-center">
               <Area
                 id="productGridFilter"
@@ -183,6 +186,7 @@ export default function ProductGrid({
                     component: {
                       default: () => (
                         <Field
+                          name="keyword"
                           type="text"
                           id="keyword"
                           placeholder="Search"

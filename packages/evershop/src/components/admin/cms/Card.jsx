@@ -118,7 +118,7 @@ Session.propTypes = {
     })
   ),
   children: PropTypes.node,
-  title: PropTypes.string
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 };
 
 Session.defaultProps = {

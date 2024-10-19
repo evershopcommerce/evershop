@@ -12,5 +12,5 @@ export default function QtyRow({ qty }) {
 }
 
 QtyRow.propTypes = {
-  qty: PropTypes.string.isRequired
+  qty: PropTypes.number.isRequired
 };
