@@ -117,6 +117,7 @@ function RowTemplates({ addRow }) {
     <div className="row-templates flex justify-center gap-7 border border-divider px-3">
       {Object.keys(templates).map((key) => (
         <a
+          key={key}
           href="#"
           onClick={(e) => {
             e.preventDefault();

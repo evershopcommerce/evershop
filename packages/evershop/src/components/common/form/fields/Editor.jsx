@@ -314,7 +314,20 @@ export default function Editor({
 Editor.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      size: PropTypes.number.isRequired,
+      columns: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          size: PropTypes.number.isRequired,
+          // eslint-disable-next-line react/forbid-prop-types
+          data: PropTypes.object.isRequired
+        })
+      )
+    })
+  ),
   browserApi: PropTypes.string.isRequired,
   deleteApi: PropTypes.string.isRequired,
   uploadApi: PropTypes.string.isRequired,
@@ -322,5 +335,6 @@ Editor.propTypes = {
 };
 
 Editor.defaultProps = {
+  value: [],
   label: ''
 };

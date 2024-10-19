@@ -208,25 +208,25 @@ Attributes.propTypes = {
   groups: PropTypes.shape({
     items: PropTypes.arrayOf(
       PropTypes.shape({
-        groupId: PropTypes.number,
+        groupId: PropTypes.string,
         groupName: PropTypes.string,
-        attributes: {
+        attributes: PropTypes.shape({
           items: PropTypes.arrayOf(
             PropTypes.shape({
-              attributeId: PropTypes.number,
+              attributeId: PropTypes.string,
               attributeName: PropTypes.string,
               attributeCode: PropTypes.string,
               type: PropTypes.string,
               isRequired: PropTypes.number,
               options: PropTypes.arrayOf(
                 PropTypes.shape({
-                  optionId: PropTypes.number,
+                  optionId: PropTypes.string,
                   optionText: PropTypes.string
                 })
               )
             })
           )
-        }
+        })
       })
     )
   }),

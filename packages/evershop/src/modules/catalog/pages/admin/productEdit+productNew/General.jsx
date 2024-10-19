@@ -216,7 +216,7 @@ export default function General({
               props: {
                 id: 'tax_class',
                 name: 'tax_class',
-                value: product?.taxClass || null,
+                value: product?.taxClass || '',
                 type: 'select',
                 label: 'Tax class',
                 options: [...taxClasses],
