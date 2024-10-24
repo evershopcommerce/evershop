@@ -6,7 +6,12 @@ export function Zones({ countries, getZones, zones }) {
   return (
     <>
       {zones.map((zone) => (
-        <Zone zone={zone} getZones={getZones} countries={countries} />
+        <Zone
+          zone={zone}
+          getZones={getZones}
+          countries={countries}
+          key={zone.uuid}
+        />
       ))}
     </>
   );
@@ -29,8 +34,16 @@ Zones.propTypes = {
     PropTypes.shape({
       uuid: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      country: PropTypes.string.isRequired,
-      provinces: PropTypes.arrayOf(PropTypes.string).isRequired,
+      country: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        code: PropTypes.string.isRequired
+      }),
+      provinces: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string.isRequired,
+          code: PropTypes.string.isRequired
+        })
+      ).isRequired,
       methods: PropTypes.arrayOf(
         PropTypes.shape({
           uuid: PropTypes.string.isRequired,

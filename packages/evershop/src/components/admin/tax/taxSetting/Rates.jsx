@@ -18,11 +18,13 @@ export function Rates({ getTaxClasses, rates, addRateApi }) {
             <th className="border-none">Action</th>
           </tr>
         </thead>
-        {rates.map((rate) => (
-          <tr key={rate.uuid} className="border-divider py-8">
-            <Rate rate={rate} getTaxClasses={getTaxClasses} />
-          </tr>
-        ))}
+        <tbody>
+          {rates.map((rate) => (
+            <tr key={rate.uuid} className="border-divider py-8">
+              <Rate rate={rate} getTaxClasses={getTaxClasses} />
+            </tr>
+          ))}
+        </tbody>
       </table>
       <div className="mt-4">
         <a

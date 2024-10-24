@@ -28,8 +28,6 @@ Transactions.propTypes = {
         text: PropTypes.string.isRequired,
         value: PropTypes.number.isRequired
       }),
-      createdAt: PropTypes.string.isRequired,
-      transactionType: PropTypes.string.isRequired,
       paymentAction: PropTypes.string.isRequired
     })
   )

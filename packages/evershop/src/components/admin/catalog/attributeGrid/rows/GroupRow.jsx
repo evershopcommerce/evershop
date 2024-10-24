@@ -93,7 +93,7 @@ export default function GroupRow({ groups }) {
 GroupRow.propTypes = {
   groups: PropTypes.arrayOf(
     PropTypes.shape({
-      attributeGroupId: PropTypes.number,
+      attributeGroupId: PropTypes.string,
       updateApi: PropTypes.string,
       groupName: PropTypes.string
     })

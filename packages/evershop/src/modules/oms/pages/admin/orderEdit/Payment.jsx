@@ -117,12 +117,12 @@ OrderSummary.propTypes = {
     paymentStatus: PropTypes.shape({
       code: PropTypes.string,
       badge: PropTypes.string,
-      progress: PropTypes.number,
+      progress: PropTypes.string,
       name: PropTypes.string
     }).isRequired,
     transactions: PropTypes.arrayOf(
       PropTypes.shape({
-        paymentTransactionId: PropTypes.string.isRequired,
+        paymentTransactionId: PropTypes.number.isRequired,
         amount: PropTypes.shape({
           text: PropTypes.string.isRequired,
           value: PropTypes.number.isRequired

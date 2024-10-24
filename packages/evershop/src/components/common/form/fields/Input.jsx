@@ -61,7 +61,7 @@ Input.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   prefix: PropTypes.node,
-  suffix: PropTypes.string,
+  suffix: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 

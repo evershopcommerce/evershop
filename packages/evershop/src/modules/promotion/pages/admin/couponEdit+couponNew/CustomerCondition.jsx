@@ -38,7 +38,7 @@ export default function CustomerCondition({
         {
           component: {
             // eslint-disable-next-line react/no-unstable-nested-components
-            default: (
+            default: () => (
               <Select
                 name="user_condition[groups][]"
                 options={customerGroups.map((group) => ({
@@ -93,7 +93,7 @@ export default function CustomerCondition({
             name: 'user_condition[purchased]',
             label: "Customer's purchase",
             placeholder: 'Enter purchased amount',
-            value: condition.purchased || null,
+            value: condition.purchased || '',
             validationRules: ['number'],
             instruction: 'Minimum purchased amount'
           },
@@ -108,9 +108,9 @@ export default function CustomerCondition({
 CustomerCondition.propTypes = {
   coupon: PropTypes.shape({
     userCondition: PropTypes.shape({
-      groups: PropTypes.arrayOf(PropTypes.number),
+      groups: PropTypes.arrayOf(PropTypes.string),
       emails: PropTypes.string,
-      purchased: PropTypes.number
+      purchased: PropTypes.string
     })
   }),
   groups: PropTypes.shape({

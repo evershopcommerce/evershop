@@ -20,6 +20,7 @@ export default function PriceConditionSelector({ condition, setCondition }) {
     <div>
       <Field
         type="text"
+        name=""
         value={price}
         placeholder="Enter the price"
         validationRules={['notEmpty']}
@@ -33,8 +34,11 @@ PriceConditionSelector.propTypes = {
   condition: PropTypes.shape({
     key: PropTypes.string,
     value: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.string
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      ),
+      PropTypes.string,
+      PropTypes.number
     ])
   }).isRequired,
   setCondition: PropTypes.func.isRequired

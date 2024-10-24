@@ -44,6 +44,7 @@ function Actions({ orders = [], selectedIds = [] }) {
             <Checkbox
               name="notify_customer"
               label="Send notification to the customer"
+              onChange={() => {}}
             />
           ),
           primaryAction: {
@@ -73,8 +74,9 @@ function Actions({ orders = [], selectedIds = [] }) {
             <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
               {selectedIds.length} selected
             </a>
-            {actions.map((action) => (
+            {actions.map((action, i) => (
               <a
+                key={i}
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
@@ -108,11 +110,14 @@ export default function OrderGrid({
   shipmentStatusList
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
-    ? currentFilters.find((filter) => filter.key === 'page').value
+    ? parseInt(currentFilters.find((filter) => filter.key === 'page').value, 10)
     : 1;
 
   const limit = currentFilters.find((filter) => filter.key === 'limit')
-    ? currentFilters.find((filter) => filter.key === 'limit').value
+    ? parseInt(
+        currentFilters.find((filter) => filter.key === 'limit').value,
+        10
+      )
     : 20;
 
   const [selectedRows, setSelectedRows] = useState([]);
@@ -121,7 +126,7 @@ export default function OrderGrid({
     <Card>
       <Card.Session
         title={
-          <Form submitBtn={false}>
+          <Form submitBtn={false} id="orderGridFilter">
             <div className="flex gap-8 justify-center items-center">
               <Area
                 id="orderGridFilter"
@@ -132,6 +137,7 @@ export default function OrderGrid({
                       default: () => (
                         <Field
                           type="text"
+                          name="keyword"
                           id="keyword"
                           placeholder="Search"
                           value={
@@ -428,7 +434,7 @@ OrderGrid.propTypes = {
   orders: PropTypes.shape({
     items: PropTypes.arrayOf(
       PropTypes.shape({
-        orderId: PropTypes.number.isRequired,
+        orderId: PropTypes.string.isRequired,
         uuid: PropTypes.string.isRequired,
         orderNumber: PropTypes.string.isRequired,
         createdAt: PropTypes.shape({
@@ -440,13 +446,13 @@ OrderGrid.propTypes = {
           name: PropTypes.string.isRequired,
           code: PropTypes.string.isRequired,
           badge: PropTypes.string.isRequired,
-          progress: PropTypes.number.isRequired
+          progress: PropTypes.string.isRequired
         }).isRequired,
         paymentStatus: PropTypes.shape({
           name: PropTypes.string.isRequired,
           code: PropTypes.string.isRequired,
           badge: PropTypes.string.isRequired,
-          progress: PropTypes.number.isRequired
+          progress: PropTypes.string.isRequired
         }).isRequired,
         grandTotal: PropTypes.shape({
           value: PropTypes.number.isRequired,

@@ -78,7 +78,7 @@ Activities.propTypes = {
     activities: PropTypes.arrayOf(
       PropTypes.shape({
         comment: PropTypes.string,
-        customerNotified: PropTypes.string,
+        customerNotified: PropTypes.number,
         createdAt: PropTypes.shape({
           value: PropTypes.string,
           timezone: PropTypes.string,

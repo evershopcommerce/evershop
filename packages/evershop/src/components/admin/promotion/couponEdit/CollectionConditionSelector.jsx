@@ -64,7 +64,7 @@ export default function CollectionConditionSelector({
               <CollectionSelector
                 onSelect={onSelect}
                 onUnSelect={onUnSelect}
-                selectedIDs={selectedIDs}
+                selectedIDs={selectedIDs.map((id) => parseInt(id, 10))}
                 closeModal={closeModal}
               />
             </div>
@@ -79,8 +79,11 @@ CollectionConditionSelector.propTypes = {
   condition: PropTypes.shape({
     key: PropTypes.string,
     value: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.string
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      ),
+      PropTypes.string,
+      PropTypes.number
     ])
   }).isRequired,
   setCondition: PropTypes.func.isRequired

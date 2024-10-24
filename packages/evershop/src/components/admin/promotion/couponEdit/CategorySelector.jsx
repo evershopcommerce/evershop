@@ -79,7 +79,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
             <div className="border rounded border-divider mb-8">
               <input
                 type="text"
-                value={inputValue}
+                value={inputValue || ''}
                 placeholder="Search categories"
                 onChange={(e) => setInputValue(e.target.value)}
               />
@@ -146,7 +146,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
       <Card.Session>
         <div className="flex justify-between gap-8">
           <SimplePageination
-            total={data?.categories.total}
+            total={data?.categories.total || 0}
             count={data?.categories?.items?.length || 0}
             page={page}
             hasNext={limit * page < data?.categories.total}
@@ -162,7 +162,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
 CategorySelector.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onUnSelect: PropTypes.func.isRequired,
-  selectedIDs: PropTypes.arrayOf(PropTypes.string),
+  selectedIDs: PropTypes.arrayOf(PropTypes.number),
   closeModal: PropTypes.func.isRequired
 };
 

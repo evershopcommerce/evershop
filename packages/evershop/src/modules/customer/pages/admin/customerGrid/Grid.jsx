@@ -88,8 +88,9 @@ function Actions({ customers = [], selectedIds = [] }) {
             <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
               {selectedIds.length} selected
             </a>
-            {actions.map((action) => (
+            {actions.map((action, i) => (
               <a
+                key={i}
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
@@ -121,10 +122,13 @@ export default function CustomerGrid({
   customers: { items: customers, total, currentFilters = [] }
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
-    ? currentFilters.find((filter) => filter.key === 'page').value
+    ? parseInt(currentFilters.find((filter) => filter.key === 'page').value, 10)
     : 1;
   const limit = currentFilters.find((filter) => filter.key === 'limit')
-    ? currentFilters.find((filter) => filter.key === 'limit').value
+    ? parseInt(
+        currentFilters.find((filter) => filter.key === 'limit').value,
+        10
+      )
     : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -132,7 +136,7 @@ export default function CustomerGrid({
     <Card>
       <Card.Session
         title={
-          <Form submitBtn={false}>
+          <Form submitBtn={false} id="customerGridFilter">
             <div className="flex gap-8 justify-center items-center">
               <Area
                 id="customerGridFilter"
@@ -144,6 +148,7 @@ export default function CustomerGrid({
                         <Field
                           type="text"
                           id="keyword"
+                          name="keyword"
                           placeholder="Search"
                           value={
                             currentFilters.find((f) => f.key === 'keyword')
@@ -260,7 +265,7 @@ export default function CustomerGrid({
                     default: () => (
                       <SortableHeader
                         title="Email"
-                        email="email"
+                        name="email"
                         currentFilters={currentFilters}
                       />
                     )

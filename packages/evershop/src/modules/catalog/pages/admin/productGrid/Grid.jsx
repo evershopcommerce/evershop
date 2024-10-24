@@ -127,8 +127,9 @@ function Actions({ products = [], selectedIds = [] }) {
             <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
               {selectedIds.length} selected
             </a>
-            {actions.map((action) => (
+            {actions.map((action, i) => (
               <a
+                key={i}
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
@@ -147,7 +148,7 @@ function Actions({ products = [], selectedIds = [] }) {
 }
 
 Actions.propTypes = {
-  selectedIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   products: PropTypes.arrayOf(
     PropTypes.shape({
       uuid: PropTypes.string.isRequired,

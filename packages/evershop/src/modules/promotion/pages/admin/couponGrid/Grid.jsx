@@ -126,8 +126,9 @@ function Actions({ coupons = [], selectedIds = [] }) {
             <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
               {selectedIds.length} selected
             </a>
-            {actions.map((action) => (
+            {actions.map((action, i) => (
               <a
+                key={i}
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
@@ -161,10 +162,13 @@ export default function CouponGrid({
   coupons: { items: coupons, total, currentFilters = [] }
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
-    ? currentFilters.find((filter) => filter.key === 'page').value
+    ? parseInt(currentFilters.find((filter) => filter.key === 'page').value, 10)
     : 1;
   const limit = currentFilters.find((filter) => filter.key === 'limit')
-    ? currentFilters.find((filter) => filter.key === 'limit').value
+    ? parseInt(
+        currentFilters.find((filter) => filter.key === 'limit').value,
+        10
+      )
     : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -172,7 +176,7 @@ export default function CouponGrid({
     <Card>
       <Card.Session
         title={
-          <Form submitBtn={false}>
+          <Form submitBtn={false} id="couponGridFilter">
             <div className="flex gap-8 justify-center items-center">
               <Area
                 id="couponGridFilter"
@@ -184,6 +188,7 @@ export default function CouponGrid({
                         <Field
                           type="text"
                           id="coupon"
+                          name="coupon"
                           placeholder="Search"
                           value={
                             currentFilters.find((f) => f.key === 'coupon')
@@ -483,14 +488,14 @@ CouponGrid.propTypes = {
         couponId: PropTypes.number.isRequired,
         uuid: PropTypes.string.isRequired,
         coupon: PropTypes.string.isRequired,
-        status: PropTypes.string.isRequired,
+        status: PropTypes.number.isRequired,
         usedTime: PropTypes.number.isRequired,
         startDate: PropTypes.shape({
           text: PropTypes.string.isRequired
-        }).isRequired,
+        }),
         endDate: PropTypes.shape({
           text: PropTypes.string.isRequired
-        }).isRequired,
+        }),
         editUrl: PropTypes.string.isRequired,
         updateApi: PropTypes.string.isRequired,
         deleteApi: PropTypes.string.isRequired

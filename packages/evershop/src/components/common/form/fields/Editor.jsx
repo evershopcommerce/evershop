@@ -264,7 +264,10 @@ export default function Editor({
                 }}
               >
                 {row.columns.map((column) => (
-                  <div className={`column p-3 ${column.className}`}>
+                  <div
+                    className={`column p-3 ${column.className}`}
+                    key={column.id}
+                  >
                     <div id={column.id} />
                   </div>
                 ))}

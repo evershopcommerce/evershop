@@ -91,7 +91,7 @@ export default function StripePayment({
 
 StripePayment.propTypes = {
   setting: PropTypes.shape({
-    stripePaymentStatus: PropTypes.bool,
+    stripePaymentStatus: PropTypes.number,
     stripeDislayName: PropTypes.string,
     stripePublishableKey: PropTypes.string,
     stripeSecretKey: PropTypes.string,

@@ -233,13 +233,13 @@ Attributes.propTypes = {
   product: PropTypes.shape({
     attributeIndex: PropTypes.arrayOf(
       PropTypes.shape({
-        attributeId: PropTypes.number,
+        attributeId: PropTypes.string,
         optionId: PropTypes.number,
         optionText: PropTypes.string
       })
     ),
-    groupId: PropTypes.number,
-    variantGroupId: PropTypes.number
+    groupId: PropTypes.string,
+    variantGroupId: PropTypes.string
   })
 };
 

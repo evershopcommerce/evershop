@@ -104,7 +104,7 @@ function AttributeGroupSelector({
             <div className="border rounded border-divider mb-8">
               <input
                 type="text"
-                value={inputValue}
+                value={inputValue || ''}
                 placeholder="Search attribute groups"
                 onChange={(e) => setInputValue(e.target.value)}
               />
@@ -169,7 +169,7 @@ function AttributeGroupSelector({
       <Card.Session>
         <div className="flex justify-between gap-8">
           <SimplePageination
-            total={data?.attributeGroups.total}
+            total={data?.attributeGroups.total || 0}
             count={data?.attributeGroups?.items?.length || 0}
             page={page}
             hasNext={limit * page < data?.attributeGroups.total}

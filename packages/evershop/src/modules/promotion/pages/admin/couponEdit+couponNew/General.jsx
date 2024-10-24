@@ -77,8 +77,8 @@ General.propTypes = {
     description: PropTypes.string,
     discountAmount: PropTypes.number,
     freeShipping: PropTypes.number,
-    startDate: PropTypes.string,
-    endDate: PropTypes.string
+    startDate: PropTypes.shape({ text: PropTypes.string }),
+    endDate: PropTypes.shape({ text: PropTypes.string })
   })
 };
 

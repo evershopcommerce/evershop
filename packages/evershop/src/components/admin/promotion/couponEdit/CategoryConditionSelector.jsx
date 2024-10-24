@@ -61,7 +61,7 @@ export default function CategoryConditionSelector({ condition, setCondition }) {
               <CategorySelector
                 onSelect={onSelect}
                 onUnSelect={onUnSelect}
-                selectedIDs={selectedIDs}
+                selectedIDs={selectedIDs.map((id) => parseInt(id, 10))}
                 closeModal={closeModal}
               />
             </div>
@@ -76,7 +76,9 @@ CategoryConditionSelector.propTypes = {
   condition: PropTypes.shape({
     key: PropTypes.string,
     value: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      ),
       PropTypes.string
     ])
   }).isRequired,

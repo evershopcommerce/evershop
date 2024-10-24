@@ -49,9 +49,13 @@ function SKUPriceWeight({ sku, price, weight, setting }) {
 }
 
 SKUPriceWeight.propTypes = {
-  price: PropTypes.number,
+  price: PropTypes.shape({
+    value: PropTypes.number
+  }),
   sku: PropTypes.string,
-  weight: PropTypes.number,
+  weight: PropTypes.shape({
+    value: PropTypes.number
+  }),
   setting: PropTypes.shape({
     storeCurrency: PropTypes.string,
     weightUnit: PropTypes.string
@@ -136,7 +140,7 @@ Category.propTypes = {
   product: PropTypes.shape({
     category: PropTypes.shape({
       categoryId: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
+      name: PropTypes.string,
       path: PropTypes.arrayOf(
         PropTypes.shape({
           name: PropTypes.string.isRequired
@@ -254,7 +258,20 @@ General.propTypes = {
   folderCreateApi: PropTypes.string.isRequired,
   uploadApi: PropTypes.string.isRequired,
   product: PropTypes.shape({
-    description: PropTypes.string,
+    description: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        size: PropTypes.number.isRequired,
+        columns: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            size: PropTypes.number.isRequired,
+            // eslint-disable-next-line react/forbid-prop-types
+            data: PropTypes.object.isRequired
+          })
+        )
+      })
+    ),
     name: PropTypes.string,
     price: PropTypes.shape({
       regular: PropTypes.shape({
@@ -262,7 +279,7 @@ General.propTypes = {
         value: PropTypes.number
       })
     }),
-    productId: PropTypes.string,
+    productId: PropTypes.number,
     taxClass: PropTypes.number,
     sku: PropTypes.string,
     weight: PropTypes.shape({

@@ -21,7 +21,7 @@ PaymentStatus.propTypes = {
     paymentStatus: PropTypes.shape({
       badge: PropTypes.string,
       name: PropTypes.string,
-      progress: PropTypes.number
+      progress: PropTypes.string
     })
   }).isRequired
 };

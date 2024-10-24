@@ -267,7 +267,7 @@ export default function Products({ category: { categoryId, addProductApi } }) {
 
 Products.propTypes = {
   category: PropTypes.shape({
-    categoryId: PropTypes.string,
+    categoryId: PropTypes.number,
     addProductApi: PropTypes.string
   }).isRequired
 };

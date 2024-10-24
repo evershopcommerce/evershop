@@ -86,7 +86,20 @@ General.propTypes = {
   uploadApi: PropTypes.string.isRequired,
   collection: PropTypes.shape({
     name: PropTypes.string,
-    description: PropTypes.string,
+    description: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        size: PropTypes.number.isRequired,
+        columns: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            size: PropTypes.number.isRequired,
+            // eslint-disable-next-line react/forbid-prop-types
+            data: PropTypes.object.isRequired
+          })
+        )
+      })
+    ),
     collectionId: PropTypes.number
   })
 };

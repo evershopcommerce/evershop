@@ -112,7 +112,7 @@ function ProductSkuSelector({
             <div className="border rounded border-divider mb-8">
               <input
                 type="text"
-                value={inputValue}
+                value={inputValue || ''}
                 placeholder="Search products"
                 onChange={(e) => {
                   setInputValue(e.target.value);
@@ -215,7 +215,7 @@ function ProductSkuSelector({
       <Card.Session>
         <div className="flex justify-between gap-8">
           <SimplePageination
-            total={data?.products.total}
+            total={data?.products.total || 0}
             count={data?.products?.items?.length || 0}
             page={page}
             hasNext={limit * page < data?.products.total}

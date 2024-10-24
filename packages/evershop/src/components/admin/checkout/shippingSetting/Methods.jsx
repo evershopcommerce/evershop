@@ -18,11 +18,13 @@ export function Methods({ getZones, methods, addMethodApi }) {
             <th className="border-none">Action</th>
           </tr>
         </thead>
-        {methods.map((method) => (
-          <tr key={method.methodId} className="border-divider py-8">
-            <Method method={method} getZones={getZones} />
-          </tr>
-        ))}
+        <tbody>
+          {methods.map((method) => (
+            <tr key={method.methodId} className="border-divider py-8">
+              <Method method={method} getZones={getZones} />
+            </tr>
+          ))}
+        </tbody>
       </table>
       <div className="mt-4">
         <a
@@ -62,7 +64,9 @@ Methods.propTypes = {
     PropTypes.shape({
       uuid: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      cost: PropTypes.string.isRequired
+      cost: PropTypes.shape({
+        value: PropTypes.number
+      })
     })
   ).isRequired,
   getZones: PropTypes.func.isRequired,

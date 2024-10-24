@@ -83,8 +83,9 @@ function Actions({ attributes = [], selectedIds = [] }) {
             <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
               {selectedIds.length} selected
             </a>
-            {actions.map((action) => (
+            {actions.map((action, i) => (
               <a
+                key={i}
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
@@ -116,10 +117,13 @@ export default function AttributeGrid({
   attributes: { items: attributes, total, currentFilters = [] }
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
-    ? currentFilters.find((filter) => filter.key === 'page').value
+    ? parseInt(currentFilters.find((filter) => filter.key === 'page').value, 10)
     : 1;
   const limit = currentFilters.find((filter) => filter.key === 'limit')
-    ? currentFilters.find((filter) => filter.key === 'limit').value
+    ? parseInt(
+        currentFilters.find((filter) => filter.key === 'limit').value,
+        10
+      )
     : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -127,10 +131,11 @@ export default function AttributeGrid({
     <Card>
       <Card.Session
         title={
-          <Form submitBtn={false}>
+          <Form submitBtn={false} id="attributeGridFilter">
             <Field
               type="text"
               id="name"
+              name="name"
               placeholder="Search"
               value={currentFilters.find((f) => f.key === 'name')?.value}
               onKeyPress={(e) => {
@@ -293,17 +298,13 @@ export default function AttributeGrid({
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <YesNoRow id="isRequired" areaProps={areaProps} />
-                      )
+                      default: () => <YesNoRow value={a.isRequired} />
                     },
                     sortOrder: 25
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <YesNoRow id="isFilterable" areaProps={areaProps} />
-                      )
+                      default: () => <YesNoRow value={a.isFilterable} />
                     },
                     sortOrder: 30
                   }
@@ -328,12 +329,12 @@ AttributeGrid.propTypes = {
     items: PropTypes.arrayOf(
       PropTypes.shape({
         uuid: PropTypes.string.isRequired,
-        attributeId: PropTypes.number.isRequired,
+        attributeId: PropTypes.string.isRequired,
         attributeName: PropTypes.string.isRequired,
         attributeCode: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
-        isRequired: PropTypes.bool.isRequired,
-        isFilterable: PropTypes.bool.isRequired,
+        isRequired: PropTypes.number.isRequired,
+        isFilterable: PropTypes.number.isRequired,
         editUrl: PropTypes.string.isRequired,
         updateApi: PropTypes.string.isRequired,
         deleteApi: PropTypes.string.isRequired

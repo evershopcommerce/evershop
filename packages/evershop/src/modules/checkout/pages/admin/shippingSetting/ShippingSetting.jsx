@@ -168,11 +168,7 @@ export default function ShippingSetting({ createShippingZoneApi }) {
 }
 
 ShippingSetting.propTypes = {
-  createShippingZoneApi: PropTypes.string.isRequired,
-  setting: PropTypes.shape({
-    allowedCountries: PropTypes.arrayOf(PropTypes.string),
-    weightUnit: PropTypes.string
-  }).isRequired
+  createShippingZoneApi: PropTypes.string.isRequired
 };
 
 export const layout = {

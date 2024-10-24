@@ -82,8 +82,8 @@ CreateVariant.propTypes = {
     attributes: PropTypes.arrayOf(
       PropTypes.shape({
         attributeName: PropTypes.string,
-        attributeId: PropTypes.string.isRequired,
-        attributeType: PropTypes.string.isRequired,
+        attributeId: PropTypes.number.isRequired,
+        attributeCode: PropTypes.string.isRequired,
         attributeValues: PropTypes.arrayOf(
           PropTypes.shape({
             attributeValueId: PropTypes.string.isRequired,
@@ -93,8 +93,8 @@ CreateVariant.propTypes = {
       })
     )
   }).isRequired,
-  createProductApi: PropTypes.func.isRequired,
-  addVariantItemApi: PropTypes.func.isRequired,
+  createProductApi: PropTypes.string.isRequired,
+  addVariantItemApi: PropTypes.string.isRequired,
   productImageUploadUrl: PropTypes.string.isRequired,
   refresh: PropTypes.func.isRequired
 };
