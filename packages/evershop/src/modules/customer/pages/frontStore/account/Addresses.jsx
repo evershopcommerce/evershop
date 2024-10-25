@@ -24,6 +24,7 @@ export default function Addresses({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {addresses.map((address) => (
           <div
+            key={address.uuid}
             className={
               address.isDefault
                 ? 'border rounded border-green-700 p-5'
@@ -204,7 +205,7 @@ Addresses.propTypes = {
           code: PropTypes.string
         }),
         telephone: PropTypes.string.isRequired,
-        isDefault: PropTypes.bool.isRequired,
+        isDefault: PropTypes.bool,
         updateApi: PropTypes.string.isRequired,
         deleteApi: PropTypes.string.isRequired
       })
@@ -212,7 +213,8 @@ Addresses.propTypes = {
     addAddressApi: PropTypes.string.isRequired
   }).isRequired,
   setting: PropTypes.shape({
-    customerAddressSchema: PropTypes.string.isRequired
+    // eslint-disable-next-line react/forbid-prop-types
+    customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
 };
 

@@ -84,7 +84,7 @@ ShipmentStep.propTypes = {
         isDefault: PropTypes.bool.isRequired
       })
     ).isRequired
-  }).isRequired,
+  }),
   cart: PropTypes.shape({
     shippingAddress: PropTypes.shape({
       address1: PropTypes.string,
@@ -100,8 +100,15 @@ ShipmentStep.propTypes = {
     addShippingAddressApi: PropTypes.string
   }).isRequired,
   setting: PropTypes.shape({
-    customerAddressSchema: PropTypes.string
+    // eslint-disable-next-line react/forbid-prop-types
+    customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
+};
+
+ShipmentStep.defaultProps = {
+  account: {
+    addresses: []
+  }
 };
 
 export const layout = {

@@ -77,9 +77,13 @@ export function Paypal({
 
 Paypal.propTypes = {
   createOrderAPI: PropTypes.string.isRequired,
-  getAccessTokenAPI: PropTypes.func.isRequired,
-  orderId: PropTypes.string.isRequired,
+  getAccessTokenAPI: PropTypes.string.isRequired,
+  orderId: PropTypes.string,
   orderPlaced: PropTypes.bool.isRequired
+};
+
+Paypal.defaultProps = {
+  orderId: undefined
 };
 
 export default function PaypalMethod({ getAccessTokenAPI, createOrderAPI }) {
@@ -171,7 +175,7 @@ export default function PaypalMethod({ getAccessTokenAPI, createOrderAPI }) {
 
 PaypalMethod.propTypes = {
   createOrderAPI: PropTypes.string.isRequired,
-  getAccessTokenAPI: PropTypes.func.isRequired
+  getAccessTokenAPI: PropTypes.string.isRequired
 };
 
 export const layout = {

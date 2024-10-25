@@ -23,9 +23,8 @@ export default function ShippingNote({
             name="note"
             placeholder={_('Add a note to your order')}
             onChange={(e) => setNote(e.target.value)}
-          >
-            {note}
-          </textarea>
+            value={note}
+          />
           <div className="field-border" />
         </div>
       </div>

@@ -46,10 +46,12 @@ OrderSummary.propTypes = {
   }),
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      quantity: PropTypes.number.isRequired,
-      price: PropTypes.shape({
+      productName: PropTypes.string.isRequired,
+      qty: PropTypes.number.isRequired,
+      lineTotalInclTax: PropTypes.shape({
+        text: PropTypes.string.isRequired
+      }).isRequired,
+      lineTotal: PropTypes.shape({
         text: PropTypes.string.isRequired
       }).isRequired
     })

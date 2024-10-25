@@ -53,7 +53,6 @@ function Items({ items, priceIncludingTax }) {
 Items.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
       productName: PropTypes.string.isRequired,
       qty: PropTypes.number.isRequired,
       thumbnail: PropTypes.string,

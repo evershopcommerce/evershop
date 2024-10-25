@@ -33,11 +33,11 @@ Products.propTypes = {
           url: PropTypes.string,
           price: PropTypes.shape({
             regular: PropTypes.shape({
-              value: PropTypes.float,
+              value: PropTypes.number,
               text: PropTypes.string
             }),
             special: PropTypes.shape({
-              value: PropTypes.float,
+              value: PropTypes.number,
               text: PropTypes.string
             })
           }),

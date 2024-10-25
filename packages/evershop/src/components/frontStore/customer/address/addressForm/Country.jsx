@@ -17,7 +17,7 @@ export function Country({
     <div style={{ marginTop: '1rem' }}>
       <Field
         type="select"
-        value={selectedCountry}
+        value={selectedCountry || ''}
         label={_('Country')}
         name={fieldName}
         placeholder={_('Country')}
@@ -35,12 +35,18 @@ export function Country({
 }
 
 Country.propTypes = {
-  allowCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
-  selectedCountry: PropTypes.string.isRequired,
+  allowCountries: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      name: PropTypes.string
+    })
+  ).isRequired,
+  selectedCountry: PropTypes.string,
   setSelectedCountry: PropTypes.func.isRequired,
   fieldName: PropTypes.string
 };
 
 Country.defaultProps = {
-  fieldName: 'country'
+  fieldName: 'country',
+  selectedCountry: null
 };

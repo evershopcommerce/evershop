@@ -37,7 +37,8 @@ const QUERY = `
   }
 `;
 export function StepContent({
-  cart: { billingAddress, addBillingAddressApi, addPaymentMethodApi }
+  cart: { billingAddress, addBillingAddressApi, addPaymentMethodApi },
+  customerAddressSchema
 }) {
   const { completeStep } = useCheckoutStepsDispatch();
   const [useShippingAddress, setUseShippingAddress] = useState(!billingAddress);
@@ -110,6 +111,7 @@ export function StepContent({
             <CustomerAddressForm
               areaId="checkoutBillingAddressForm"
               address={billingAddress || data.cart.shippingAddress}
+              customerAddressSchema={customerAddressSchema}
             />
           </div>
         )}
@@ -119,6 +121,7 @@ export function StepContent({
             <CustomerAddressForm
               areaId="checkoutBillingAddressForm"
               address={data.cart.shippingAddress}
+              customerAddressSchema={customerAddressSchema}
             />
           </div>
         )}
@@ -141,7 +144,9 @@ export function StepContent({
             <Field
               type="hidden"
               name="method_code"
-              value={paymentMethods.find((e) => e.selected === true)?.code}
+              value={
+                paymentMethods.find((e) => e.selected === true)?.code || ''
+              }
               validationRules={[
                 {
                   rule: 'notEmpty',
@@ -151,7 +156,9 @@ export function StepContent({
             />
             <input
               type="hidden"
-              value={paymentMethods.find((e) => e.selected === true)?.name}
+              value={
+                paymentMethods.find((e) => e.selected === true)?.name || ''
+              }
               name="method_name"
             />
             <input type="hidden" value="billing" name="type" />
@@ -203,5 +210,7 @@ StepContent.propTypes = {
     }),
     addBillingAddressApi: PropTypes.string.isRequired,
     addPaymentMethodApi: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  customerAddressSchema: PropTypes.object.isRequired
 };

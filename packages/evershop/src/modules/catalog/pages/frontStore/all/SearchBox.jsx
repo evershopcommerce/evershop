@@ -17,6 +17,12 @@ export default function SearchBox({ searchPageUrl }) {
     setKeyword(key);
   }, []);
 
+  React.useEffect(() => {
+    if (showing) {
+      InputRef.current.focus();
+    }
+  }, [showing]);
+
   return (
     <div className="search-box">
       <a
@@ -25,7 +31,6 @@ export default function SearchBox({ searchPageUrl }) {
         onClick={(e) => {
           e.preventDefault();
           setShowing(!showing);
-          InputRef.current.focus();
         }}
       >
         <svg
@@ -75,7 +80,7 @@ export default function SearchBox({ searchPageUrl }) {
               }
               placeholder={_('Search')}
               ref={InputRef}
-              value={keyword}
+              value={keyword || ''}
               onChange={(e) => {
                 setKeyword(e.target.value);
               }}

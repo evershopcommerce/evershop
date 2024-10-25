@@ -148,7 +148,7 @@ StepContent.propTypes = {
         name: PropTypes.string
       }),
       fullName: PropTypes.string,
-      id: PropTypes.string,
+      id: PropTypes.number,
       postcode: PropTypes.string,
       province: PropTypes.shape({
         code: PropTypes.string,
@@ -162,7 +162,8 @@ StepContent.propTypes = {
     isCompleted: PropTypes.bool,
     isEditing: PropTypes.bool
   }).isRequired,
-  customerAddressSchema: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  customerAddressSchema: PropTypes.object.isRequired,
   addresses: PropTypes.arrayOf(
     PropTypes.shape({
       uuid: PropTypes.string.isRequired,

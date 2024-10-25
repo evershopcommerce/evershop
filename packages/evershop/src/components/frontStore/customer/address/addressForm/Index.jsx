@@ -66,7 +66,8 @@ Index.propTypes = {
   }),
   areaId: PropTypes.string,
   formId: PropTypes.string,
-  customerAddressSchema: PropTypes.string.isRequired
+  // eslint-disable-next-line react/forbid-prop-types
+  customerAddressSchema: PropTypes.object.isRequired
 };
 
 Index.defaultProps = {

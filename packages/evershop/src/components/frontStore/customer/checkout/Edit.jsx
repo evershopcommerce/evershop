@@ -76,7 +76,7 @@ export function Edit({
           name="email"
           validationRules={['notEmpty', 'email']}
           placeholder={_('Email')}
-          value={email}
+          value={email || ''}
         />
       </Form>
     </div>
@@ -85,10 +85,15 @@ export function Edit({
 
 Edit.propTypes = {
   addContactInfoApi: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
+  email: PropTypes.string,
   loginUrl: PropTypes.string.isRequired,
   setEmail: PropTypes.func.isRequired,
   customer: PropTypes.shape({
     email: PropTypes.string.isRequired
-  }).isRequired
+  })
+};
+
+Edit.defaultProps = {
+  email: '',
+  customer: null
 };

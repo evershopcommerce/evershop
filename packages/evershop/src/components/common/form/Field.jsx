@@ -124,7 +124,15 @@ Field.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  validationRules: PropTypes.arrayOf(PropTypes.string),
+  validationRules: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        rule: PropTypes.string,
+        message: PropTypes.string
+      })
+    ])
+  ),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
