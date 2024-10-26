@@ -25,7 +25,7 @@ exports.Tailwindcss = class Tailwindcss {
           name: 'Tailwindcss',
           stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONS // see below for more stages
         },
-        (assets) => {
+        async (assets) => {
           try {
             let cssAsset;
             let jsAsset;
@@ -62,14 +62,12 @@ exports.Tailwindcss = class Tailwindcss {
                 return;
               }
               // Postcss await
-              const tailWindCss = new CleanCSS().minify(
-                postcss([
-                  tailwindcss(mergedTailwindConfig),
-                  autoprefixer
-                ]).process(tailwind, {
-                  from: undefined
-                }).css
-              );
+              const tailWindCss = await postcss([
+                tailwindcss(mergedTailwindConfig),
+                autoprefixer
+              ])
+                .process(tailwind, { from: undefined })
+                .then((result) => new CleanCSS().minify(result.css));
 
               // match any characters between /*beginTailwind*/
               // and /*endTailwind*/ including line breaks

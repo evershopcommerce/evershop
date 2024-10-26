@@ -50,7 +50,8 @@
     "import/extensions": "off",
     "no-shadow": "off",
     "no-lonely-if": "warn",
-    "no-console": "error"
+    "no-console": "error",
+    "no-useless-return": "off"
   },
   "ignorePatterns": [
     "/node_modules/",

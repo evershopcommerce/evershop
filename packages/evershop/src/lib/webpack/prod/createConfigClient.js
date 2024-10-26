@@ -64,7 +64,13 @@ module.exports.createConfigClient = function createConfigClient(routes) {
         ),
         options: {}
       },
-      'sass-loader'
+      {
+        loader: 'sass-loader',
+        options: {
+          implementation: require('sass'),
+          api: 'modern'
+        }
+      }
     ]
   });
 
