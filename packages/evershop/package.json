@@ -114,7 +114,7 @@
     "recharts": "^2.0.9",
     "sass": "^1.53.0",
     "sass-loader": "^13.0.2",
-    "semver": "^7.3.5",
+    "semver": "^7.6.3",
     "serve-static": "^1.15.0",
     "session-file-store": "^1.5.0",
     "sharp": "^0.33.5",
