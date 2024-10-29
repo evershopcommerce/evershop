@@ -13,5 +13,5 @@ exports.CONSTANTS = Object.freeze({
   THEMEPATH: path.resolve(rootPath, 'themes'),
   CACHEPATH: path.resolve(rootPath, '.evershop'),
   BUILDPATH: path.resolve(rootPath, '.evershop', 'build'),
-  ADMIN_COLLECTION_SIZE: getConfig('admin_collection_size', 20)
+  ADMIN_COLLECTION_SIZE: getConfig('admin_collection_size', 100)
 });
