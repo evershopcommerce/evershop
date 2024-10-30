@@ -78,19 +78,29 @@ const defaultPaginationFilters = [
     operation: ['eq'],
     callback: (query, operation, value, currentFilters) => {
       const page = currentFilters.find((f) => f.key === 'page') || { value: 1 };
-      const limit = currentFilters.find((f) => f.key === 'limit') || {
-        value: CONSTANTS.ADMIN_COLLECTION_SIZE
-      };
       currentFilters.push({
         key: 'page',
         operation: 'eq',
         value: page.value
       });
-      currentFilters.push({
-        key: 'limit',
-        operation: 'eq',
-        value: limit.value
-      });
+      let limit = { value: Number.MAX_SAFE_INTEGER };
+
+      // eslint-disable-next-line no-underscore-dangle
+      const isCategory = query?._table === 'category';
+      const hasParent = currentFilters.some(item => item.key === 'parent');
+      const doNotSetLimit = isCategory && hasParent;
+      
+      if(!doNotSetLimit) {
+        limit = currentFilters.find((f) => f.key === 'limit') || {
+          value: CONSTANTS.ADMIN_COLLECTION_SIZE
+        };
+        currentFilters.push({
+          key: 'limit',
+          operation: 'eq',
+          value: limit.value
+        });
+      }
+     
       query.limit(
         (parseInt(page.value, 10) - 1) * parseInt(limit.value, 10),
         parseInt(limit.value, 10)
