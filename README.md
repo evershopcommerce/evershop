@@ -98,6 +98,14 @@ If you have an idea, or you're missing a capability that would make development 
 If a similar feature request already exists, don't forget to leave a "+1".
 If you add some more information such as your thoughts and vision about the feature, your comments will be embraced warmly :)
 
+#### Sponsors
+
+<table style="text-align:center;">
+<tr>
+<td align="center" valign="middle"><a href="https://www.bountyhub.dev/en/bounties?repo=evershopcommerce%2Fevershop" target="_blank"><img src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/sponsors/bountyhub.png" width="85" valign="middle" /></a></td>
+</tr>
+</table>
+
 ## Contributing
 
 EverShop is an open-source project. We are committed to a fully transparent development process and appreciate highly any contributions. Whether you are helping us fix bugs, proposing new features, improving our documentation or spreading the word - we would love to have you as part of the EverShop community.
