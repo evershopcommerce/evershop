@@ -21,7 +21,7 @@
   <a href="https://opensource.org/licenses/GPL-3.0">
     <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License">
   </a>
-    <a href="https://bountyhub.dev/bounties?repo=evershopcommerce/evershop">
+  <a href="https://bountyhub.dev/bounties?repo=evershopcommerce/evershop">
     <img src="https://img.shields.io/badge/Bounties-on%20BountyHub-yellow" alt="License">
   </a>
 </p>
