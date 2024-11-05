@@ -21,6 +21,9 @@
   <a href="https://opensource.org/licenses/GPL-3.0">
     <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License">
   </a>
+    <a href="https://bountyhub.dev/bounties?repo=evershopcommerce/evershop">
+    <img src="https://img.shields.io/badge/Bounties-on%20BountyHub-yellow" alt="License">
+  </a>
 </p>
 
 <p align="center">
@@ -85,7 +88,7 @@ If you like my work, feel free to:
 
 <table style="text-align:center;">
 <tr>
-<td align="center" valign="middle"><a href="https://www.bountyhub.dev/en/bounties?repo=evershopcommerce%2Fevershop" target="_blank"><img src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/sponsors/bountyhub.png" width="85" valign="middle" /></a></td>
+<td align="center" valign="middle"><a href="https://www.bountyhub.dev" target="_blank"><img src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/sponsors/bountyhub.png" width="85" valign="middle" /></a></td>
 </tr>
 </table>
 
