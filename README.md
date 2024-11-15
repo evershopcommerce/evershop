@@ -85,7 +85,7 @@ If you like my work, feel free to:
 
 <table style="text-align:center;">
 <tr>
-<td align="center" valign="middle"><a href="https://www.bountyhub.dev/en/bounties?repo=evershopcommerce%2Fevershop" target="_blank"><img src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/sponsors/bountyhub.png" width="85" valign="middle" /></a></td>
+<td align="center" valign="middle"><a href="https://www.bountyhub.dev/" target="_blank"><img src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/sponsors/bountyhub.png" width="85" valign="middle" /></a></td>
 </tr>
 </table>
 
