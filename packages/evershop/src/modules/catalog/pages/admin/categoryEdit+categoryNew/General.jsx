@@ -22,7 +22,7 @@ function ParentCategory({ currentId, parent }) {
               {index < category.path.length - 1 && ' > '}
             </span>
           ))}
-          <span className="text-interactive pl-8">
+          <span className="text-interactive pl-8 hover:underline">
             <a
               href="#"
               onClick={(e) => {
@@ -31,6 +31,17 @@ function ParentCategory({ currentId, parent }) {
               }}
             >
               Change
+            </a>
+          </span>
+          <span className="text-critical pl-8 hover:underline">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setCategory(null);
+              }}
+            >
+              Unlink
             </a>
           </span>
         </div>
