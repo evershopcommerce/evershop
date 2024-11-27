@@ -72,7 +72,7 @@
     "config": "^3.3.6",
     "connect-pg-simple": "^9.0.0",
     "cookie-parser": "^1.4.6",
-    "cross-spawn": "^7.0.3",
+    "cross-spawn": "^7.0.6",
     "css-loader": "^6.7.1",
     "csv-parser": "^3.0.0",
     "dayjs": "^1.10.6",
