@@ -58,6 +58,7 @@ module.exports = {
         if (!user) {
           query.andWhere('status', '=', 1);
         }
+        query.orderBy('product_attribute_value_index.option_id', 'ASC');
         const vs = await query.execute(pool);
         const attributes = await select()
           .from('attribute')
