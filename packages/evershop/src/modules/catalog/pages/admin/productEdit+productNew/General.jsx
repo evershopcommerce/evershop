@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useQuery } from 'urql';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
 import { Card } from '@components/admin/cms/Card';
-import CategoryTree from '@components/admin/catalog/productEdit/category/CategoryTree';
 import Editor from '@components/common/form/fields/Editor';
+import { useModal } from '@components/common/modal/useModal';
+import CategorySelector from '@components/admin/promotion/couponEdit/CategorySelector';
 
 function SKUPriceWeight({ sku, price, weight, setting }) {
   return (
@@ -68,75 +70,138 @@ SKUPriceWeight.defaultProps = {
   weight: undefined
 };
 
-function Category({ product }) {
-  const [selecting, setSelecting] = React.useState(false);
-  const [category, setCategory] = React.useState(
-    product ? product.category : null
-  );
+const CategoryQuery = `
+  query Query ($id: Int!) {
+    category(id: $id) {
+      name
+      path {
+        name
+      }
+    }
+  }
+`;
 
+function ProductCategory({ categoryId, onChange, onUnassign }) {
+  const [result] = useQuery({
+    query: CategoryQuery,
+    variables: {
+      id: parseInt(categoryId, 10)
+    }
+  });
+  const { data, fetching, error } = result;
+  if (error) {
+    return (
+      <p className="text-critical">
+        There was an error fetching categories.
+        {error.message}
+      </p>
+    );
+  }
+  if (fetching) {
+    return <span>Loading...</span>;
+  }
+  return (
+    <div>
+      {data.category.path.map((item, index) => (
+        <span key={item.name} className="text-gray-500">
+          {item.name}
+          {index < data.category.path.length - 1 && ' > '}
+        </span>
+      ))}
+      <span className="text-interactive pl-8">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            onChange();
+          }}
+        >
+          Change
+        </a>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            onUnassign();
+          }}
+          className="text-critical ml-8"
+        >
+          Unassign
+        </a>
+      </span>
+    </div>
+  );
+}
+
+ProductCategory.propTypes = {
+  categoryId: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onUnassign: PropTypes.func.isRequired
+};
+
+function CategorySelect({ product }) {
+  const [category, setCategory] = React.useState(
+    product ? product.category?.categoryId : null
+  );
+  const modal = useModal();
+
+  const closeModal = () => {
+    modal.closeModal();
+  };
+
+  const onSelect = (categoryID) => {
+    setCategory(categoryID);
+    closeModal();
+  };
   return (
     <div className="mt-6 relative">
       <div className="mb-4">Category</div>
       {category && (
         <div className="border rounded border-[#c9cccf] mb-4 p-4">
-          {category.path.map((item, index) => (
-            <span key={item.name} className="text-gray-500">
-              {item.name}
-              {index < category.path.length - 1 && ' > '}
-            </span>
-          ))}
-          <span className="text-interactive pl-8">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setSelecting(true);
-              }}
-            >
-              Change
-            </a>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setCategory(null);
-              }}
-              className="text-critical ml-8"
-            >
-              Unassign
-            </a>
-          </span>
+          <ProductCategory
+            categoryId={category}
+            onChange={() => modal.openModal()}
+            onUnassign={() => setCategory(null)}
+          />
         </div>
       )}
-      {!selecting && !category && (
+      {!category && (
         <a
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            setSelecting(!selecting);
+            modal.openModal();
           }}
           className="text-interactive"
         >
           Select category
         </a>
       )}
-      {selecting && (
-        <CategoryTree
-          selectedCategory={category}
-          setSelectedCategory={(cat) => {
-            setCategory(cat);
-            setSelecting(false);
-          }}
-        />
+      {modal.state.showing && (
+        <div className={modal.className} onAnimationEnd={modal.onAnimationEnd}>
+          <div
+            className="modal-wrapper flex self-center justify-center items-center"
+            tabIndex={-1}
+            role="dialog"
+          >
+            <div className="modal">
+              <CategorySelector
+                onSelect={onSelect}
+                onUnSelect={() => {}}
+                selectedIDs={category ? [category] : []}
+                closeModal={closeModal}
+              />
+            </div>
+          </div>
+        </div>
       )}
-      {category && (
-        <input type="hidden" name="category_id" value={category?.categoryId} />
-      )}
+      {category && <input type="hidden" name="category_id" value={category} />}
+      {!category && <input type="hidden" name="category_id" value="" />}
     </div>
   );
 }
 
-Category.propTypes = {
+CategorySelect.propTypes = {
   product: PropTypes.shape({
     category: PropTypes.shape({
       categoryId: PropTypes.number.isRequired,
@@ -150,7 +215,7 @@ Category.propTypes = {
   })
 };
 
-Category.defaultProps = {
+CategorySelect.defaultProps = {
   product: {
     category: {}
   }
@@ -208,7 +273,7 @@ export default function General({
               id: 'SKUPriceWeight'
             },
             {
-              component: { default: Category },
+              component: { default: CategorySelect },
               props: {
                 product
               },

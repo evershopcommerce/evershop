@@ -14,6 +14,9 @@ const SearchQuery = `
         categoryId
         uuid
         name
+        path {
+          name
+        }
       }
       total
     }
@@ -64,7 +67,7 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
 
   if (error) {
     return (
-      <p>
+      <p className="text-critical">
         There was an error fetching categories.
         {error.message}
       </p>
@@ -108,7 +111,14 @@ function CategorySelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
                     className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
                   >
                     <div className="col-span-5">
-                      <h3>{cat.name}</h3>
+                      <h3>
+                        {cat.path.map((item, index) => (
+                          <span key={item.name} className="text-gray-500">
+                            {item.name}
+                            {index < cat.path.length - 1 && ' > '}
+                          </span>
+                        ))}
+                      </h3>
                     </div>
                     <div className="col-span-3 text-right">
                       {!selectedIDs.includes(cat.categoryId) && (
