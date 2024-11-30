@@ -93,6 +93,7 @@ export default function SearchBox({ searchPageUrl }) {
                   window.location.href = url;
                 }
               }}
+              enterkeyhint="done"
             />
           </div>
         </div>

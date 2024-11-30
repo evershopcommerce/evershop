@@ -26,7 +26,8 @@ const inputProps = function buidProps(props) {
     'onKeyUp',
     'value',
     'id',
-    'defaultValue'
+    'defaultValue',
+    'enterkeyhint'
   ].forEach((a) => {
     if (props[a] !== undefined) {
       obj[a] = props[a];
