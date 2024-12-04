@@ -23,3 +23,20 @@
 .price-filter .filter-item-title {
   border-bottom: 0;
 }
+
+.min, .max {
+  &::-moz-range-track, &::-webkit-slider-runnable-track {
+    background: black;
+    height: 1px;
+  }
+}
+
+.mindiv {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  //border: 2px solid green;
+  box-sizing: border-box;
+  z-index: 1;
+  margin: 7px 1px;
+}
