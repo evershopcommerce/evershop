@@ -8,6 +8,7 @@ const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   translate
 } = require('@evershop/evershop/src/lib/locale/translate/translate');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const {
   setContextValue,
   getContextValue
@@ -49,7 +50,9 @@ module.exports = async (request, response, delegate, next) => {
     }
 
     // If everything is fine, add the product to the cart
-    const item = await cart.addItem(product.product_id, parseInt(qty, 10));
+    const item = await cart.addItem(product.product_id, parseInt(qty, 10), {
+      request
+    });
     await saveCart(cart);
     // Set the new cart id to the context, so next middleware can use it
     setContextValue(request, 'cartId', cart.getData('uuid'));
@@ -62,7 +65,8 @@ module.exports = async (request, response, delegate, next) => {
       }
     };
     next();
-  } catch (error) {
+  } catch (e) {
+    error(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

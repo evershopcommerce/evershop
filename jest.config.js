@@ -6,7 +6,10 @@ const config = {
     '<rootDir>/.evershop/',
     '<rootDir>/node_modules/',
     '<rootDir>/packages/core/node_modules/'
-  ]
+  ],
+  moduleNameMapper: {
+      '^axios$': require.resolve('axios')
+    }
 }
 
 module.exports = config;

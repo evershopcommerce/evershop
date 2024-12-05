@@ -118,7 +118,7 @@ module.exports.DataObject = class DataObject {
   export() {
     const data = {};
     this.#fields.forEach((f) => {
-      data[f.key] = this.#data[f.key];
+      data[f.key] = structuredClone(this.#data[f.key]);
     });
     if (this.hasError()) {
       data.errors = Object.values(this.#errors);
