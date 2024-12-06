@@ -79,7 +79,7 @@
     "debug": "^4.3.2",
     "dotenv": "^16.3.1",
     "enquirer": "^2.3.6",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "express-session": "^1.17.3",
     "flatpickr": "^4.6.9",
     "graphql": "^16.6.0",
