@@ -18,33 +18,29 @@ const {
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, deledate, next) => {
   const { id } = request.params;
-  let { cost, calculate_api, condition_type, max, min } = request.body;
+  let {
+    cost,
+    calculate_api,
+    condition_type,
+    max,
+    min,
+    weight_based_cost,
+    price_based_cost
+  } = request.body;
   const { method_id, is_enabled, calculation_type } = request.body;
-  // Make sure cost or calculate_api is provided
-  if (
-    (request.body.cost === undefined || request.body.cost === null) &&
-    (request.body.calculate_api === undefined ||
-      request.body.calculate_api === null)
-  ) {
-    response.status(INVALID_PAYLOAD);
-    response.json({
-      error: {
-        status: INVALID_PAYLOAD,
-        message: 'Either cost or calculate_api must be provided'
-      }
-    });
-    return;
-  }
 
+  if (calculation_type === 'api') {
+    cost = weight_based_cost = price_based_cost = null;
+  } else if (calculation_type === 'price_based_rate') {
+    calculate_api = cost = weight_based_cost = null;
+  } else if (calculation_type === 'weight_based_rate') {
+    calculate_api = cost = price_based_cost = null;
+  } else {
+    calculate_api = weight_based_cost = price_based_cost = null;
+  }
   if (condition_type === 'none') {
     condition_type = null;
     min = max = null;
-  }
-
-  if (calculation_type === 'api') {
-    cost = null;
-  } else {
-    calculate_api = null;
   }
 
   const connection = await getConnection();
@@ -83,10 +79,6 @@ module.exports = async (request, response, deledate, next) => {
       return;
     }
 
-    if (calculate_api) {
-      cost = null;
-    }
-
     const zoneMethod = await insert('shipping_zone_method')
       .given({
         zone_id: zone.shipping_zone_id,
@@ -95,6 +87,8 @@ module.exports = async (request, response, deledate, next) => {
         is_enabled,
         calculate_api,
         condition_type,
+        price_based_cost,
+        weight_based_cost,
         max,
         min
       })
