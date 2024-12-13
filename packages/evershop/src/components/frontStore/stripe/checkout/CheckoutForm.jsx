@@ -1,11 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import {
+  PaymentElement,
+  useStripe,
+  useElements
+} from '@stripe/react-stripe-js';
 import { useQuery } from 'urql';
 import { useCheckout } from '@components/common/context/checkout';
 import './CheckoutForm.scss';
 import { Field } from '@components/common/form/Field';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import RenderIfTrue from '@components/common/RenderIfTrue';
+import Spinner from '@components/common/Spinner';
 import TestCards from './TestCards';
 
 const cartQuery = `
@@ -50,36 +55,18 @@ const cartQuery = `
   }
 `;
 
-const cardStyle = {
-  style: {
-    base: {
-      color: '#737373',
-      fontFamily: 'Arial, sans-serif',
-      fontSmoothing: 'antialiased',
-      fontSize: '16px',
-      '::placeholder': {
-        color: '#737373'
-      }
-    },
-    invalid: {
-      color: '#fa755a',
-      iconColor: '#fa755a'
-    }
-  },
-  hidePostalCode: true
-};
-
-export default function CheckoutForm({ stripePublishableKey }) {
-  const [, setSucceeded] = useState(false);
+export default function CheckoutForm({
+  stripePublishableKey,
+  clientSecret,
+  returnUrl
+}) {
   const [cardComleted, setCardCompleted] = useState(false);
   const [error, setError] = useState(null);
   const [, setDisabled] = useState(true);
-  const [clientSecret, setClientSecret] = useState('');
   const [showTestCard, setShowTestCard] = useState('success');
   const stripe = useStripe();
   const elements = useElements();
-  const { cartId, orderId, orderPlaced, paymentMethods, checkoutSuccessUrl } =
-    useCheckout();
+  const { cartId, orderId, orderPlaced, paymentMethods } = useCheckout();
 
   const [result] = useQuery({
     query: cartQuery,
@@ -90,63 +77,50 @@ export default function CheckoutForm({ stripePublishableKey }) {
   });
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the order is placed
-    if (orderId) {
-      window
-        .fetch('/api/stripe/paymentIntents', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ order_id: orderId })
-        })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.error) {
-            setError(_('Some error occurred. Please try again later.'));
-          } else {
-            setClientSecret(data.data.clientSecret);
-          }
-        });
-    }
-  }, [orderId]);
-
-  useEffect(() => {
     const pay = async () => {
       const billingAddress =
         result.data.cart.billingAddress || result.data.cart.shippingAddress;
-      const payload = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
-          billing_details: {
-            name: billingAddress.fullName,
-            email: result.data.cart.customerEmail,
-            phone: billingAddress.telephone,
-            address: {
-              line1: billingAddress.address1,
-              country: billingAddress.country.code,
-              state: billingAddress.province?.code,
-              postal_code: billingAddress.postcode,
-              city: billingAddress.city
+
+      const submit = await elements.submit();
+      if (submit.error) {
+        // Show error to your customer
+        setError(submit.error.message);
+        return;
+      }
+      const payload = await stripe.confirmPayment({
+        clientSecret,
+        elements,
+        confirmParams: {
+          payment_method_data: {
+            billing_details: {
+              name: billingAddress.fullName,
+              email: result.data.cart.customerEmail,
+              phone: billingAddress.telephone,
+              address: {
+                line1: billingAddress.address1,
+                country: billingAddress.country.code,
+                state: billingAddress.province?.code,
+                postal_code: billingAddress.postcode,
+                city: billingAddress.city
+              }
             }
-          }
+          },
+          return_url: `${returnUrl}?order_id=${orderId}`
         }
       });
 
       if (payload.error) {
-        setError(`Payment failed ${payload.error.message}`);
-      } else {
-        setError(null);
-        setSucceeded(true);
-        // Redirect to checkout success page
-        window.location.href = `${checkoutSuccessUrl}/${orderId}`;
+        // Get the payment intent ID
+        const paymentIntent = payload.error.payment_intent;
+        // Redirect to the return URL with the payment intent ID
+        window.location.href = `${returnUrl}?order_id=${orderId}&payment_intent=${paymentIntent.id}`;
       }
     };
 
-    if (orderPlaced === true && clientSecret) {
+    if (orderId && clientSecret) {
       pay();
     }
-  }, [orderPlaced, clientSecret, result]);
+  }, [orderId, clientSecret, result]);
 
   const handleChange = (event) => {
     // Listen for changes in the CardElement
@@ -180,42 +154,50 @@ export default function CheckoutForm({ stripePublishableKey }) {
 
   return (
     // eslint-disable-next-line react/jsx-filename-extension
-    <div>
-      <div className="stripe-form">
-        {stripePublishableKey && stripePublishableKey.startsWith('pk_test') && (
-          <TestCards
-            showTestCard={showTestCard}
-            testSuccess={testSuccess}
-            testFailure={testFailure}
+    <>
+      <RenderIfTrue condition={stripe && elements}>
+        <div>
+          <div className="stripe-form">
+            {stripePublishableKey &&
+              stripePublishableKey.startsWith('pk_test') && (
+                <TestCards
+                  showTestCard={showTestCard}
+                  testSuccess={testSuccess}
+                  testFailure={testFailure}
+                />
+              )}
+            <PaymentElement id="payment-element" onChange={handleChange} />
+          </div>
+          {/* Show any error that happens when processing the payment */}
+          {error && (
+            <div className="card-error text-critical mb-8" role="alert">
+              {error}
+            </div>
+          )}
+          <Field
+            type="hidden"
+            name="stripeCartComplete"
+            value={cardComleted ? 1 : ''}
+            validationRules={[
+              {
+                rule: 'notEmpty',
+                message: 'Please complete the card information'
+              }
+            ]}
           />
-        )}
-        <CardElement
-          id="card-element"
-          options={cardStyle}
-          onChange={handleChange}
-        />
-      </div>
-      {/* Show any error that happens when processing the payment */}
-      {error && (
-        <div className="card-error text-critical mb-8" role="alert">
-          {error}
         </div>
-      )}
-      <Field
-        type="hidden"
-        name="stripeCartComplete"
-        value={cardComleted ? 1 : ''}
-        validationRules={[
-          {
-            rule: 'notEmpty',
-            message: 'Please complete the card information'
-          }
-        ]}
-      />
-    </div>
+      </RenderIfTrue>
+      <RenderIfTrue condition={!stripe || !elements}>
+        <div className="flex justify-center p-5">
+          <Spinner width={20} height={20} />
+        </div>
+      </RenderIfTrue>
+    </>
   );
 }
 
 CheckoutForm.propTypes = {
-  stripePublishableKey: PropTypes.string.isRequired
+  stripePublishableKey: PropTypes.string.isRequired,
+  clientSecret: PropTypes.string.isRequired,
+  returnUrl: PropTypes.string.isRequired
 };

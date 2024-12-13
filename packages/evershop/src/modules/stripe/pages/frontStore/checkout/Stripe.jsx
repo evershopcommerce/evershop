@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { useCheckout } from '@components/common/context/checkout';
 import StripeLogo from '@components/frontStore/stripe/StripeLogo';
 import CheckoutForm from '@components/frontStore/stripe/checkout/CheckoutForm';
+import RenderIfTrue from '@components/common/RenderIfTrue';
+import Spinner from '@components/common/Spinner';
+import { toast } from 'react-toastify';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -17,22 +21,65 @@ const stripeLoader = (publishKey) => {
   return stripe;
 };
 
-function StripeApp({ stripePublishableKey }) {
+function StripeApp({ stripePublishableKey, cartId, returnUrl }) {
+  const [clientSecret, setClientSecret] = React.useState(null);
+
+  useEffect(() => {
+    window
+      .fetch('/api/stripe/paymentIntents', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cart_id: cartId })
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          toast.error(_('Some error occurred. Please try again later.'));
+        } else {
+          setClientSecret(data.data.clientSecret);
+        }
+      });
+  }, []);
+
   return (
     // eslint-disable-next-line react/jsx-filename-extension
-    <div className="App">
-      <Elements stripe={stripeLoader(stripePublishableKey)}>
-        <CheckoutForm stripePublishableKey={stripePublishableKey} />
-      </Elements>
-    </div>
+    <>
+      <RenderIfTrue condition={clientSecret}>
+        <div className="App">
+          <Elements
+            stripe={stripeLoader(stripePublishableKey)}
+            options={{ clientSecret }}
+          >
+            <CheckoutForm
+              stripePublishableKey={stripePublishableKey}
+              clientSecret={clientSecret}
+              returnUrl={returnUrl}
+            />
+          </Elements>
+        </div>
+      </RenderIfTrue>
+      <RenderIfTrue condition={!clientSecret}>
+        <div className="flex justify-center p-5">
+          <Spinner width={25} height={25} />
+        </div>
+      </RenderIfTrue>
+    </>
   );
 }
 
 StripeApp.propTypes = {
-  stripePublishableKey: PropTypes.string.isRequired
+  stripePublishableKey: PropTypes.string.isRequired,
+  cartId: PropTypes.string.isRequired,
+  returnUrl: PropTypes.string.isRequired
 };
 
-export default function StripeMethod({ setting }) {
+export default function StripeMethod({
+  setting,
+  checkout: { cartId },
+  returnUrl
+}) {
   const checkout = useCheckout();
   const { paymentMethods, setPaymentMethods } = checkout;
   // Get the selected payment method
@@ -107,8 +154,12 @@ export default function StripeMethod({ setting }) {
       </div>
       <div>
         {selectedPaymentMethod && selectedPaymentMethod.code === 'stripe' && (
-          <div>
-            <StripeApp stripePublishableKey={setting.stripePublishableKey} />
+          <div className="mt-5">
+            <StripeApp
+              cartId={cartId}
+              stripePublishableKey={setting.stripePublishableKey}
+              returnUrl={returnUrl}
+            />
           </div>
         )}
       </div>
@@ -119,7 +170,11 @@ export default function StripeMethod({ setting }) {
 StripeMethod.propTypes = {
   setting: PropTypes.shape({
     stripePublishableKey: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  checkout: PropTypes.shape({
+    cartId: PropTypes.string.isRequired
+  }).isRequired,
+  returnUrl: PropTypes.string.isRequired
 };
 
 export const layout = {
@@ -133,5 +188,9 @@ export const query = `
       stripeDislayName
       stripePublishableKey
     }
+    checkout {
+      cartId
+    }
+    returnUrl: url(routeId: "stripeReturn")
   }
 `;

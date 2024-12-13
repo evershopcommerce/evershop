@@ -1,15 +1,15 @@
 {
   "type": "object",
   "properties": {
-    "order_id": {
+    "cart_id": {
       "type": "string"
     }
   },
-  "required": ["order_id"],
+  "required": ["cart_id"],
   "additionalProperties": true,
   "errorMessage": {
     "properties": {
-      "order_id": "Order is invalid"
+      "cart_id": "Cart is invalid"
     }
   }
 }

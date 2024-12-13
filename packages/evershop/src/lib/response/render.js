@@ -6,6 +6,9 @@ const { get } = require('../util/get');
 const isProductionMode = require('../util/isProductionMode');
 const { getRouteBuildPath } = require('../webpack/getRouteBuildPath');
 const { getConfig } = require('../util/getConfig');
+const {
+  getNotifications
+} = require('../../modules/base/services/notifications');
 
 function normalizeAssets(assets) {
   if (typeof assets === 'object' && !Array.isArray(assets) && assets !== null) {
@@ -37,7 +40,8 @@ function renderDevelopment(request, response) {
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     propsMap: get(response, 'locals.propsMap', {}),
-    widgets: get(response, 'locals.widgets', [])
+    widgets: get(response, 'locals.widgets', []),
+    notifications: getNotifications(request)
   };
   const safeContextValue = jsesc(contextValue, {
     json: true,
@@ -93,7 +97,8 @@ function renderProduction(request, response) {
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     propsMap: get(response, 'locals.propsMap', {}),
-    widgets: get(response, 'locals.widgets', [])
+    widgets: get(response, 'locals.widgets', []),
+    notifications: getNotifications(request)
   };
   const safeContextValue = jsesc(contextValue, {
     json: true,

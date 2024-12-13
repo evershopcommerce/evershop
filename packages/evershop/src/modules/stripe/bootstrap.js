@@ -1,5 +1,7 @@
+const { hookBefore } = require('../../lib/util/hookable');
 const { addProcessor } = require('../../lib/util/registry');
 const { getSetting } = require('../setting/services/setting');
+const { updatePaymentIntent } = require('./services/updatePaymentIntent');
 
 module.exports = () => {
   addProcessor('cartFields', (fields) => {
@@ -24,4 +26,11 @@ module.exports = () => {
     });
     return fields;
   });
+
+  hookBefore(
+    'createOrder',
+    async function updatePaymentIntentBeforePlaceOrder() {
+      await updatePaymentIntent(this.cart);
+    }
+  );
 };

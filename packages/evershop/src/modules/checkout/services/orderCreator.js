@@ -10,9 +10,11 @@ const {
 const { v4: uuidv4 } = require('uuid');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
+const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
 
 /* Default validation rules */
-let validationServices = [
+const validationServices = [
   {
     id: 'checkCartError',
     /**
@@ -88,17 +90,28 @@ const validationErrors = [];
 
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
-// eslint-disable-next-line no-unused-vars
-exports.createOrder = async function createOrder(cart) {
+
+async function disableCart(cartId) {
+  const cart = await update('cart')
+    .given({ status: 0 })
+    .where('cart_id', '=', cartId)
+    .execute(pool);
+  return cart;
+}
+
+async function createOrder(cart) {
   // Start creating order
   const connection = await getConnection(pool);
   const shipmentStatusList = getConfig('oms.order.shipmentStatus', {});
   const paymentStatusList = getConfig('oms.order.paymentStatus', {});
   try {
     await startTransaction(connection);
-
+    const validators = getValueSync(
+      'createOrderValidationRules',
+      validationServices
+    );
     // eslint-disable-next-line no-restricted-syntax
-    for (const rule of validationServices) {
+    for (const rule of validators) {
       // eslint-disable-next-line no-await-in-loop
       if ((await rule.func(cart, validationErrors)) === false) {
         throw new Error(validationErrors);
@@ -184,10 +197,8 @@ exports.createOrder = async function createOrder(cart) {
       .execute(connection);
 
     // Disable the cart
-    await update('cart')
-      .given({ status: 0 })
-      .where('cart_id', '=', cart.getData('cart_id'))
-      .execute(connection);
+    await disableCart(cart.getData('cart_id'));
+
     // Load the created order
     const createdOrder = await select()
       .from('order')
@@ -200,20 +211,11 @@ exports.createOrder = async function createOrder(cart) {
     await rollback(connection);
     throw e;
   }
+}
+
+exports.createOrder = async (cart) => {
+  const order = await hookable(createOrder, {
+    cart
+  })(cart);
+  return order;
 };
-
-exports.addCreateOrderValidationRule = function addCreateOrderValidationRule(
-  id,
-  func
-) {
-  if (typeof obj !== 'function') {
-    throw new Error('Validator must be a function');
-  }
-
-  validationServices.push({ id, func });
-};
-
-exports.removeCreateOrderValidationRule =
-  function removeCreateOrderValidationRule(id) {
-    validationServices = validationServices.filter((r) => r.id !== id);
-  };

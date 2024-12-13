@@ -8,6 +8,7 @@ const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopment
 const {
   loadWidgetInstances
 } = require('../../../cms/services/widget/loadWidgetInstances');
+const { getNotifications } = require('../../services/notifications');
 
 module.exports = async (request, response, delegate, next) => {
   /** Get all promise delegate */
@@ -72,7 +73,8 @@ module.exports = async (request, response, delegate, next) => {
             eContext: {
               graphqlResponse: get(response, 'locals.graphqlResponse', {}),
               propsMap: get(response, 'locals.propsMap', {}),
-              widgets: widgetInstances
+              widgets: widgetInstances,
+              notifications: getNotifications(request)
             }
           });
         } else {
