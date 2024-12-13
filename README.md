@@ -38,7 +38,7 @@ You can get started with EverShop in minutes by using the Docker image. The Dock
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/evershopcommerce/evershop/main/docker-compose.yml > docker-compose.yml
-docker-compose up -d
+docker compose up -d
 ```
 
 For the full installation guide, please refer to our [Installation guide](https://evershop.io/docs/development/getting-started/installation-guide).
