@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
+import smallUnit from 'zero-decimal-currencies';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { useCheckout } from '@components/common/context/checkout';
 import StripeLogo from '@components/frontStore/stripe/StripeLogo';
 import CheckoutForm from '@components/frontStore/stripe/checkout/CheckoutForm';
-import RenderIfTrue from '@components/common/RenderIfTrue';
-import Spinner from '@components/common/Spinner';
-import { toast } from 'react-toastify';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -21,64 +18,48 @@ const stripeLoader = (publishKey) => {
   return stripe;
 };
 
-function StripeApp({ stripePublishableKey, cartId, returnUrl }) {
-  const [clientSecret, setClientSecret] = React.useState(null);
-
-  useEffect(() => {
-    window
-      .fetch('/api/stripe/paymentIntents', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ cart_id: cartId })
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          toast.error(_('Some error occurred. Please try again later.'));
-        } else {
-          setClientSecret(data.data.clientSecret);
-        }
-      });
-  }, []);
-
+function StripeApp({
+  total,
+  currency,
+  stripePublishableKey,
+  returnUrl,
+  createPaymentIntentApi,
+  stripePaymentMode
+}) {
+  const options = {
+    mode: 'payment',
+    currency: currency.toLowerCase(),
+    amount: Number(smallUnit(total, currency)),
+    capture_method:
+      stripePaymentMode === 'capture' ? 'automatic_async' : 'manual'
+  };
   return (
-    // eslint-disable-next-line react/jsx-filename-extension
-    <>
-      <RenderIfTrue condition={clientSecret}>
-        <div className="App">
-          <Elements
-            stripe={stripeLoader(stripePublishableKey)}
-            options={{ clientSecret }}
-          >
-            <CheckoutForm
-              stripePublishableKey={stripePublishableKey}
-              clientSecret={clientSecret}
-              returnUrl={returnUrl}
-            />
-          </Elements>
-        </div>
-      </RenderIfTrue>
-      <RenderIfTrue condition={!clientSecret}>
-        <div className="flex justify-center p-5">
-          <Spinner width={25} height={25} />
-        </div>
-      </RenderIfTrue>
-    </>
+    <div className="stripe__app">
+      <Elements stripe={stripeLoader(stripePublishableKey)} options={options}>
+        <CheckoutForm
+          stripePublishableKey={stripePublishableKey}
+          returnUrl={returnUrl}
+          createPaymentIntentApi={createPaymentIntentApi}
+        />
+      </Elements>
+    </div>
   );
 }
 
 StripeApp.propTypes = {
   stripePublishableKey: PropTypes.string.isRequired,
-  cartId: PropTypes.string.isRequired,
-  returnUrl: PropTypes.string.isRequired
+  returnUrl: PropTypes.string.isRequired,
+  createPaymentIntentApi: PropTypes.string.isRequired,
+  stripePaymentMode: PropTypes.string.isRequired,
+  total: PropTypes.number.isRequired,
+  currency: PropTypes.string.isRequired
 };
 
 export default function StripeMethod({
   setting,
-  checkout: { cartId },
-  returnUrl
+  cart: { grandTotal, currency },
+  returnUrl,
+  createPaymentIntentApi
 }) {
   const checkout = useCheckout();
   const { paymentMethods, setPaymentMethods } = checkout;
@@ -156,9 +137,12 @@ export default function StripeMethod({
         {selectedPaymentMethod && selectedPaymentMethod.code === 'stripe' && (
           <div className="mt-5">
             <StripeApp
-              cartId={cartId}
+              total={grandTotal.value}
+              currency={currency}
               stripePublishableKey={setting.stripePublishableKey}
               returnUrl={returnUrl}
+              createPaymentIntentApi={createPaymentIntentApi}
+              stripePaymentMode={setting.stripePaymentMode}
             />
           </div>
         )}
@@ -169,12 +153,18 @@ export default function StripeMethod({
 
 StripeMethod.propTypes = {
   setting: PropTypes.shape({
-    stripePublishableKey: PropTypes.string.isRequired
+    stripeDislayName: PropTypes.string.isRequired,
+    stripePublishableKey: PropTypes.string.isRequired,
+    stripePaymentMode: PropTypes.string.isRequired
   }).isRequired,
-  checkout: PropTypes.shape({
-    cartId: PropTypes.string.isRequired
+  cart: PropTypes.shape({
+    grandTotal: PropTypes.shape({
+      value: PropTypes.number
+    }),
+    currency: PropTypes.string
   }).isRequired,
-  returnUrl: PropTypes.string.isRequired
+  returnUrl: PropTypes.string.isRequired,
+  createPaymentIntentApi: PropTypes.string.isRequired
 };
 
 export const layout = {
@@ -187,10 +177,15 @@ export const query = `
     setting {
       stripeDislayName
       stripePublishableKey
+      stripePaymentMode
     }
-    checkout {
-      cartId
+    cart {
+      grandTotal {
+        value
+      }
+      currency
     }
     returnUrl: url(routeId: "stripeReturn")
+    createPaymentIntentApi: url(routeId: "createPaymentIntent")
   }
 `;

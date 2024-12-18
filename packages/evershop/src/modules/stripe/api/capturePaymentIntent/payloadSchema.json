@@ -1,18 +1,14 @@
 {
   "type": "object",
   "properties": {
-    "cart_id": {
-      "type": "string"
-    },
     "order_id": {
       "type": "string"
     }
   },
-  "required": ["cart_id", "order_id"],
+  "required": ["order_id"],
   "additionalProperties": true,
   "errorMessage": {
     "properties": {
-      "cart_id": "Cart is invalid",
       "order_id": "Order is invalid"
     }
   }

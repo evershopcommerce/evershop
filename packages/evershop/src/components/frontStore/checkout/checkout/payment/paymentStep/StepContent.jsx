@@ -42,7 +42,7 @@ export function StepContent({
 }) {
   const { completeStep } = useCheckoutStepsDispatch();
   const [useShippingAddress, setUseShippingAddress] = useState(!billingAddress);
-  const { cartId, paymentMethods, getPaymentMethods } = useCheckout();
+  const { cartId, error, paymentMethods, getPaymentMethods } = useCheckout();
   const [loading, setLoading] = useState(false);
 
   const onSuccess = async (response) => {
@@ -72,13 +72,20 @@ export function StepContent({
     getPaymentMethods();
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      setLoading(false);
+      toast.error(error);
+    }
+  }, [error]);
+
   const [result] = useQuery({
     query: QUERY,
     variables: {
       cartId
     }
   });
-  const { data, fetching, error } = result;
+  const { data, fetching, error: queryError } = result;
 
   if (fetching) {
     return (
@@ -87,7 +94,7 @@ export function StepContent({
       </div>
     );
   }
-  if (error) {
+  if (queryError) {
     return <div className="p-8 text-critical">{error.message}</div>;
   }
   return (

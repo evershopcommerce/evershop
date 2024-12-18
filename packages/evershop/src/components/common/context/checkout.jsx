@@ -5,7 +5,7 @@ import { useCheckoutSteps } from '@components/common/context/checkoutSteps';
 import { useAppDispatch } from '@components/common/context/app';
 
 const Checkout = React.createContext();
-
+const CheckoutDispatch = React.createContext();
 export function CheckoutProvider({
   children,
   cartId,
@@ -18,37 +18,16 @@ export function CheckoutProvider({
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState();
-  const [, setError] = useState(null);
+  const [error, setError] = useState(null);
 
   // Call api to current url when steps change
   useEffect(() => {
-    const placeOrder = async () => {
-      // If order is placed, do nothing
-      if (orderPlaced) {
-        return;
-      }
-      // If there is a incompleted step, do nothing
-      if (
-        steps.length < 1 ||
-        steps.findIndex((s) => s.isCompleted === false) !== -1
-      ) {
-        return;
-      }
-      const response = await axios.post(placeOrderAPI, { cart_id: cartId });
-      if (!response.data.error) {
-        setOrderPlaced(true);
-        setOrderId(response.data.data.uuid);
-        setError(null);
-      } else {
-        setError(response.data.error.message);
-      }
-    };
     const reload = async () => {
       const url = new URL(window.location.href, window.location.origin);
       url.searchParams.append('ajax', true);
       await AppContextDispatch.fetchPageData(url);
       url.searchParams.delete('ajax');
-      await placeOrder();
+      // await placeOrder();
     };
     reload();
   }, [steps]);
@@ -67,6 +46,7 @@ export function CheckoutProvider({
     () => ({
       steps,
       cartId,
+      error,
       orderPlaced,
       orderId,
       paymentMethods,
@@ -74,10 +54,36 @@ export function CheckoutProvider({
       getPaymentMethods,
       checkoutSuccessUrl
     }),
-    [steps, cartId, orderPlaced, orderId, paymentMethods, checkoutSuccessUrl]
+    [
+      steps,
+      cartId,
+      error,
+      orderPlaced,
+      orderId,
+      paymentMethods,
+      checkoutSuccessUrl
+    ]
   );
 
-  return <Checkout.Provider value={contextValue}>{children}</Checkout.Provider>;
+  const placeOrder = async () => {
+    try {
+      setError(null);
+      const response = await axios.post(placeOrderAPI, { cart_id: cartId });
+      setOrderPlaced(true);
+      setOrderId(response.data.data.uuid);
+      return response.data.data;
+    } catch (e) {
+      setError(e.message);
+      return null;
+    }
+  };
+
+  const dispatchMethods = useMemo(() => ({ placeOrder, setError }), []);
+  return (
+    <CheckoutDispatch.Provider value={dispatchMethods}>
+      <Checkout.Provider value={contextValue}>{children}</Checkout.Provider>
+    </CheckoutDispatch.Provider>
+  );
 }
 
 CheckoutProvider.propTypes = {
@@ -92,3 +98,4 @@ CheckoutProvider.propTypes = {
 };
 
 export const useCheckout = () => React.useContext(Checkout);
+export const useCheckoutDispatch = () => React.useContext(CheckoutDispatch);

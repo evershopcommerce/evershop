@@ -34,11 +34,16 @@ module.exports = async (request, response, delegate, next) => {
     } else {
       stripeSecretKey = await getSetting('stripeSecretKey', '');
     }
-
+    const stripePaymentMode = await getSetting('stripePaymentMode', 'capture');
     const stripe = stripePayment(stripeSecretKey);
     const paymentIntent = await stripe.paymentIntents.retrieve(payment_intent);
     // Check if the payment intent is succeeded
-    if (paymentIntent.status === 'succeeded') {
+    if (
+      (stripePaymentMode === 'capture' &&
+        paymentIntent.status === 'succeeded') ||
+      (stripePaymentMode === 'authorizeOnly' &&
+        paymentIntent.status === 'requires_capture')
+    ) {
       // Redirect to the order success page
       response.redirect(buildUrl('checkoutSuccess', { orderId: order_id }));
       return;

@@ -6,11 +6,15 @@ import {
   useElements
 } from '@stripe/react-stripe-js';
 import { useQuery } from 'urql';
-import { useCheckout } from '@components/common/context/checkout';
+import {
+  useCheckout,
+  useCheckoutDispatch
+} from '@components/common/context/checkout';
 import './CheckoutForm.scss';
-import { Field } from '@components/common/form/Field';
 import RenderIfTrue from '@components/common/RenderIfTrue';
 import Spinner from '@components/common/Spinner';
+import { toast } from 'react-toastify';
+import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import TestCards from './TestCards';
 
 const cartQuery = `
@@ -57,16 +61,15 @@ const cartQuery = `
 
 export default function CheckoutForm({
   stripePublishableKey,
-  clientSecret,
+  createPaymentIntentApi,
   returnUrl
 }) {
-  const [cardComleted, setCardCompleted] = useState(false);
-  const [error, setError] = useState(null);
-  const [, setDisabled] = useState(true);
+  const [clientSecret, setClientSecret] = React.useState(null);
   const [showTestCard, setShowTestCard] = useState('success');
   const stripe = useStripe();
   const elements = useElements();
-  const { cartId, orderId, orderPlaced, paymentMethods } = useCheckout();
+  const { steps, cartId, orderId, orderPlaced, paymentMethods } = useCheckout();
+  const { placeOrder, setError } = useCheckoutDispatch();
 
   const [result] = useQuery({
     query: cartQuery,
@@ -78,15 +81,45 @@ export default function CheckoutForm({
 
   useEffect(() => {
     const pay = async () => {
-      const billingAddress =
-        result.data.cart.billingAddress || result.data.cart.shippingAddress;
-
       const submit = await elements.submit();
       if (submit.error) {
-        // Show error to your customer
         setError(submit.error.message);
         return;
       }
+      // Place the order
+      await placeOrder();
+    };
+    // If all steps are completed, submit the payment
+    if (steps.every((step) => step.isCompleted)) {
+      pay();
+    }
+  }, [steps]);
+
+  useEffect(() => {
+    if (orderId && orderPlaced) {
+      window
+        .fetch(createPaymentIntentApi, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ cart_id: cartId, order_id: orderId })
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            toast.error(_('Some error occurred. Please try again later.'));
+          } else {
+            setClientSecret(data.data.clientSecret);
+          }
+        });
+    }
+  }, [orderId]);
+
+  useEffect(() => {
+    const confirmPayment = async () => {
+      const billingAddress =
+        result.data.cart.billingAddress || result.data.cart.shippingAddress;
       const payload = await stripe.confirmPayment({
         clientSecret,
         elements,
@@ -116,20 +149,10 @@ export default function CheckoutForm({
         window.location.href = `${returnUrl}?order_id=${orderId}&payment_intent=${paymentIntent.id}`;
       }
     };
-
-    if (orderId && clientSecret) {
-      pay();
+    if (orderPlaced && clientSecret) {
+      confirmPayment();
     }
-  }, [orderId, clientSecret, result]);
-
-  const handleChange = (event) => {
-    // Listen for changes in the CardElement
-    // and display any errors as the customer types their card details
-    setDisabled(event.empty);
-    if (event.complete === true && !event.error) {
-      setCardCompleted(true);
-    }
-  };
+  }, [orderPlaced, clientSecret]);
 
   const testSuccess = () => {
     setShowTestCard('success');
@@ -142,7 +165,7 @@ export default function CheckoutForm({
   if (result.error) {
     return (
       <div className="flex p-8 justify-center items-center text-critical">
-        {error.message}
+        {result.error.message}
       </div>
     );
   }
@@ -150,12 +173,13 @@ export default function CheckoutForm({
   const stripePaymentMethod = paymentMethods.find(
     (method) => method.code === 'stripe' && method.selected === true
   );
-  if (!stripePaymentMethod) return null;
-
+  if (!stripePaymentMethod) {
+    return null;
+  }
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <>
-      <RenderIfTrue condition={stripe && elements}>
+      <RenderIfTrue condition={!!(stripe && elements)}>
         <div>
           <div className="stripe-form">
             {stripePublishableKey &&
@@ -166,28 +190,11 @@ export default function CheckoutForm({
                   testFailure={testFailure}
                 />
               )}
-            <PaymentElement id="payment-element" onChange={handleChange} />
+            <PaymentElement id="payment-element" />
           </div>
-          {/* Show any error that happens when processing the payment */}
-          {error && (
-            <div className="card-error text-critical mb-8" role="alert">
-              {error}
-            </div>
-          )}
-          <Field
-            type="hidden"
-            name="stripeCartComplete"
-            value={cardComleted ? 1 : ''}
-            validationRules={[
-              {
-                rule: 'notEmpty',
-                message: 'Please complete the card information'
-              }
-            ]}
-          />
         </div>
       </RenderIfTrue>
-      <RenderIfTrue condition={!stripe || !elements}>
+      <RenderIfTrue condition={!!(!stripe || !elements)}>
         <div className="flex justify-center p-5">
           <Spinner width={20} height={20} />
         </div>
@@ -198,6 +205,6 @@ export default function CheckoutForm({
 
 CheckoutForm.propTypes = {
   stripePublishableKey: PropTypes.string.isRequired,
-  clientSecret: PropTypes.string.isRequired,
-  returnUrl: PropTypes.string.isRequired
+  returnUrl: PropTypes.string.isRequired,
+  createPaymentIntentApi: PropTypes.string.isRequired
 };

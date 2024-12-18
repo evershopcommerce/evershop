@@ -12,7 +12,7 @@ const { getSetting } = require('../../../setting/services/setting');
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   // eslint-disable-next-line camelcase
-  const { cart_id } = request.body;
+  const { cart_id, order_id } = request.body;
   // Check the cart
   const cart = await select()
     .from('cart')
@@ -30,40 +30,30 @@ module.exports = async (request, response, delegate, next) => {
   } else {
     const stripeConfig = getConfig('system.stripe', {});
     let stripeSecretKey;
+
     if (stripeConfig.secretKey) {
       stripeSecretKey = stripeConfig.secretKey;
     } else {
       stripeSecretKey = await getSetting('stripeSecretKey', '');
     }
+    const stripePaymentMode = await getSetting('stripePaymentMode', 'capture');
 
     const stripe = stripePayment(stripeSecretKey);
-    // Search the payment intent using metadata.cartId, make sure not to create a new one
-    const paymentIntentSearch = await stripe.paymentIntents.search({
-      limit: 1,
-      // eslint-disable-next-line no-useless-escape
-      query: `metadata[\"cart_id\"]:\"${cart_id}\" AND status:\"requires_payment_method\"`
-    });
 
-    if (paymentIntentSearch.data.length > 0) {
-      response.status(OK);
-      response.json({
-        data: {
-          clientSecret: paymentIntentSearch.data[0].client_secret
-        }
-      });
-      return;
-    }
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
       amount: smallestUnit.default(cart.grand_total, cart.currency),
       currency: cart.currency,
       metadata: {
         // eslint-disable-next-line camelcase
-        cart_id
+        cart_id,
+        order_id
       },
       automatic_payment_methods: {
         enabled: true
-      }
+      },
+      capture_method:
+        stripePaymentMode === 'capture' ? 'automatic_async' : 'manual'
     });
 
     response.status(OK);

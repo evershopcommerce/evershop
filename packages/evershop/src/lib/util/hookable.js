@@ -51,20 +51,18 @@ function hookable(originalFunction, context) {
           const beforeHookFunctions = beforeHooks.get(funcName) || [];
           const afterHookFunctions = afterHooks.get(funcName) || [];
 
-          // Clone the argumentsList to avoid mutation
-
           for (let index = 0; index < beforeHookFunctions.length; index += 1) {
             const callbackFunc = beforeHookFunctions[index].callback;
             // Call the callback function with the cloned arguments
             await callbackFunc.call(context, ...argumentsList);
           }
+
           const result = await Reflect.apply(target, thisArg, argumentsList);
 
           for (let index = 0; index < afterHookFunctions.length; index += 1) {
             const callbackFunc = afterHookFunctions[index].callback;
             await callbackFunc.call(context, result, ...argumentsList);
           }
-
           return result;
         }
       : function (target, thisArg, argumentsList) {
@@ -80,7 +78,6 @@ function hookable(originalFunction, context) {
           afterHookFunctions.forEach((hook) => {
             hook.callback.call(context, result, ...argumentsList);
           });
-
           return result;
         }
   });

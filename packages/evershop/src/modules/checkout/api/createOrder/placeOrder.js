@@ -37,7 +37,7 @@ module.exports = async (request, response, delegate, next) => {
       return;
     }
 
-    const orderId = await createOrder(cart);
+    const { uuid: orderId } = await createOrder(cart);
 
     // Load created order
     const order = await select()
