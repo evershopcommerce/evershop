@@ -2,6 +2,7 @@ extend type Order {
   customerUrl: String
   editUrl: String!
   createShipmentApi: String!
+  cancelApi: String!
   shipment: Shipment
 }
 

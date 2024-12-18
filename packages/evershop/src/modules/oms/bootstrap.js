@@ -33,6 +33,9 @@ module.exports = () => {
                         },
                         isDefault: {
                           type: 'boolean'
+                        },
+                        isCancelable: {
+                          type: 'boolean'
                         }
                       },
                       required: ['name', 'badge', 'progress']
@@ -56,6 +59,9 @@ module.exports = () => {
                           type: 'string'
                         },
                         isDefault: {
+                          type: 'boolean'
+                        },
+                        isCancelable: {
                           type: 'boolean'
                         }
                       },
@@ -108,7 +114,14 @@ module.exports = () => {
         delivered: {
           name: 'Delivered',
           badge: 'success',
-          progress: 'complete'
+          progress: 'complete',
+          isCancelable: false
+        },
+        canceled: {
+          name: 'Canceled',
+          badge: 'success',
+          progress: 'complete',
+          isCancelable: false
         }
       },
       paymentStatus: {
@@ -121,7 +134,14 @@ module.exports = () => {
         paid: {
           name: 'Paid',
           badge: 'success',
-          progress: 'complete'
+          progress: 'complete',
+          isCancelable: false
+        },
+        canceled: {
+          name: 'Canceled',
+          badge: 'success',
+          progress: 'complete',
+          isCancelable: false
         }
       }
     },
