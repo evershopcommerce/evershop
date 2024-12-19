@@ -7,7 +7,8 @@ const { cancelOrder } = require('../../services/cancelOrder');
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, deledate, next) => {
   try {
-    await cancelOrder(request.params.id);
+    const { reason } = request.body;
+    await cancelOrder(request.params.id, reason);
     response.status(OK);
     response.json({
       data: {}

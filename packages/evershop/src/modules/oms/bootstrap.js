@@ -69,6 +69,9 @@ module.exports = () => {
                     }
                   },
                   additionalProperties: false
+                },
+                reStockAfterCancellation: {
+                  type: 'boolean'
                 }
               },
               required: ['shipmentStatus', 'paymentStatus'],
@@ -119,7 +122,7 @@ module.exports = () => {
         },
         canceled: {
           name: 'Canceled',
-          badge: 'success',
+          badge: 'critical',
           progress: 'complete',
           isCancelable: false
         }
@@ -139,11 +142,12 @@ module.exports = () => {
         },
         canceled: {
           name: 'Canceled',
-          badge: 'success',
+          badge: 'critical',
           progress: 'complete',
           isCancelable: false
         }
-      }
+      },
+      reStockAfterCancellation: true
     },
     carriers: {
       default: {

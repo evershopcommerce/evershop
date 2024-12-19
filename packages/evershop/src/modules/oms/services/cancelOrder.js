@@ -9,7 +9,8 @@ const {
   rollback,
   getConnection,
   update,
-  startTransaction
+  startTransaction,
+  execute
 } = require('@evershop/postgres-query-builder');
 
 function validateStatus(paymentStatus, shipmentStatus) {
@@ -18,15 +19,13 @@ function validateStatus(paymentStatus, shipmentStatus) {
 
   const paymentStatusConfig = paymentStatusList[paymentStatus];
   const shipmentStatusConfig = shipmentStatusList[shipmentStatus];
-  if (!paymentStatusConfig || !shipmentStatusConfig) {
-    return true; // If status is not found, we don't consider it is cancelable
-  }
   if (
     paymentStatusConfig.isCancelable === false ||
     shipmentStatusConfig.isCancelable === false
   ) {
     return false;
   }
+
   return true;
 }
 
@@ -40,17 +39,33 @@ async function updateStatusToCancel(uuid, connection) {
     .execute(connection, false);
 }
 
-async function addCancellationActivity(orderID, connection) {
+async function reStock(orderID, connection) {
+  const orderItems = await select()
+    .from('order_item')
+    .where('order_item_order_id', '=', orderID)
+    .execute(connection, false);
+
+  await Promise.all(
+    orderItems.map(async (orderItem) => {
+      await execute(
+        connection,
+        `UPDATE product_inventory SET qty = qty + ${orderItem.qty} WHERE product_inventory_product_id = ${orderItem.product_id}`
+      );
+    })
+  );
+}
+
+async function addCancellationActivity(orderID, reason, connection) {
   await insert('order_activity')
     .given({
       order_activity_order_id: orderID,
-      comment: 'Order canceled',
+      comment: `Order canceled ${reason ? `(${reason})` : ''}`,
       customer_notified: 0 // TODO: check config of SendGrid
     })
     .execute(connection, false);
 }
 
-async function cancelOrder(uuid) {
+async function cancelOrder(uuid, reason) {
   const connection = await getConnection(pool);
   try {
     await startTransaction(connection);
@@ -74,8 +89,10 @@ async function cancelOrder(uuid) {
     await hookable(updateStatusToCancel, { order })(uuid, connection);
     await hookable(addCancellationActivity, { order })(
       order.order_id,
+      reason,
       connection
     );
+    await hookable(reStock, { order })(order.order_id, connection);
     await commit(connection);
   } catch (err) {
     error(err);
@@ -84,6 +101,6 @@ async function cancelOrder(uuid) {
   }
 }
 
-module.exports.cancelOrder = async (uuid) => {
-  await hookable(cancelOrder, { uuid })(uuid);
+module.exports.cancelOrder = async (uuid, reason) => {
+  await hookable(cancelOrder, { uuid })(uuid, reason);
 };
