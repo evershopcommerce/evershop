@@ -99,7 +99,7 @@ CancelButton.propTypes = {
 
 export const layout = {
   areaId: 'order_actions',
-  sortOrder: 15
+  sortOrder: 35
 };
 
 export const query = `

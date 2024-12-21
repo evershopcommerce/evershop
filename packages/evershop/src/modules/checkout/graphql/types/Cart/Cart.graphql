@@ -9,7 +9,6 @@ interface ShoppingCart {
   customerFullName: String
   userIp: String
   userId: String
-  status: Int!
   coupon: String
   shippingFeeExclTax: Price!
   shippingFeeInclTax: Price!

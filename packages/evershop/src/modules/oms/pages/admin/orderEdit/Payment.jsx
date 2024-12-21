@@ -34,7 +34,9 @@ export default function OrderSummary({
         <div className="flex space-x-4">
           <Circle variant={paymentStatus.badge} />
           <span className="block self-center">
-            {paymentMethodName || 'Unknown'}
+            {`${paymentStatus.name || 'Unknown'} - ${
+              paymentMethodName || 'Unknown'
+            }`}
           </span>
         </div>
       }

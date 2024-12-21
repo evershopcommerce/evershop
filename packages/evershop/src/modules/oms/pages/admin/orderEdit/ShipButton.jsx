@@ -36,6 +36,10 @@ export default function ShipButton({
                     onSuccess={(response) => {
                       if (response.error) {
                         toast.error(response.error.message);
+                        dispatchAlert({
+                          type: 'update',
+                          payload: { secondaryAction: { isLoading: false } }
+                        });
                       } else {
                         // Reload the page
                         window.location.reload();

@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Badge from '@components/common/Badge';
 
-export default function PaymentStatus({ order: { paymentStatus } }) {
-  if (paymentStatus) {
+export default function Status({ order: { status } }) {
+  if (status) {
     return (
       <Badge
-        variant={paymentStatus.badge}
-        title={paymentStatus.name || 'Unknown'}
-        progress={paymentStatus.progress}
+        variant={status.badge}
+        title={status.name}
+        progress={status.progress}
       />
     );
   } else {
@@ -16,9 +16,9 @@ export default function PaymentStatus({ order: { paymentStatus } }) {
   }
 }
 
-PaymentStatus.propTypes = {
+Status.propTypes = {
   order: PropTypes.shape({
-    paymentStatus: PropTypes.shape({
+    status: PropTypes.shape({
       badge: PropTypes.string,
       name: PropTypes.string,
       progress: PropTypes.string
@@ -28,13 +28,13 @@ PaymentStatus.propTypes = {
 
 export const layout = {
   areaId: 'pageHeadingLeft',
-  sortOrder: 10
+  sortOrder: 200
 };
 
 export const query = `
   query Query {
     order(uuid: getContextValue("orderId")) {
-      paymentStatus {
+      status {
         code
         badge
         progress

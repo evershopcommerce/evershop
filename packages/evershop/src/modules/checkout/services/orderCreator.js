@@ -12,6 +12,7 @@ const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
 const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
+const { resolveOrderStatus } = require('../../oms/services/updateOrderStatus');
 
 /* Default validation rules */
 const validationServices = [
@@ -140,6 +141,11 @@ async function saveOrder(cart, connection) {
     .limit(0, 1)
     .execute(pool);
 
+  const orderStatus = resolveOrderStatus(
+    defaultShipmentStatus,
+    defaultPaymentStatus
+  );
+
   // Save order to DB
   const order = await insert('order')
     .given({
@@ -150,6 +156,7 @@ async function saveOrder(cart, connection) {
       // FIXME: Must be structured
       shipping_address_id: shipAddr.insertId,
       billing_address_id: billAddr.insertId,
+      status: orderStatus,
       payment_status: defaultPaymentStatus,
       shipment_status: defaultShipmentStatus
     })
