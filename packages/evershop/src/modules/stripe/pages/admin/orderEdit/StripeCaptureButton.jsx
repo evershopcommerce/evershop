@@ -4,8 +4,9 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import Button from '@components/common/form/Button';
 import { Card } from '@components/admin/cms/Card';
+import RenderIfTrue from '@components/common/RenderIfTrue';
 
-export default function CaptureButton({
+export default function StripeCaptureButton({
   captureAPI,
   order: { paymentStatus, uuid, paymentMethod }
 }) {
@@ -28,20 +29,22 @@ export default function CaptureButton({
     setIsLoading(false);
   };
 
-  if (paymentStatus.code === 'authorized' && paymentMethod === 'stripe') {
-    return (
+  return (
+    <RenderIfTrue
+      condition={
+        paymentStatus.code === 'authorized' && paymentMethod === 'stripe'
+      }
+    >
       <Card.Session>
         <div className="flex justify-end">
           <Button title="Capture" onAction={onAction} isLoading={isLoading} />
         </div>
       </Card.Session>
-    );
-  } else {
-    return null;
-  }
+    </RenderIfTrue>
+  );
 }
 
-CaptureButton.propTypes = {
+StripeCaptureButton.propTypes = {
   captureAPI: PropTypes.string.isRequired,
   order: PropTypes.shape({
     paymentStatus: PropTypes.shape({

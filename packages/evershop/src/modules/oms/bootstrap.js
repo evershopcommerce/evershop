@@ -41,12 +41,6 @@ module.exports = () => {
                         },
                         isCancelable: {
                           type: 'boolean'
-                        },
-                        orderStatus: {
-                          type: 'array',
-                          items: {
-                            type: 'string'
-                          }
                         }
                       },
                       required: ['name', 'badge', 'progress']
@@ -74,12 +68,6 @@ module.exports = () => {
                         },
                         isCancelable: {
                           type: 'boolean'
-                        },
-                        orderStatus: {
-                          type: 'array',
-                          items: {
-                            type: 'string'
-                          }
                         }
                       },
                       required: ['name', 'badge', 'progress']
@@ -199,6 +187,15 @@ module.exports = () => {
                       required: ['name', 'badge', 'progress']
                     }
                   },
+                  additionalProperties: true
+                },
+                psoMapping: {
+                  type: 'object',
+                  patternProperties: {
+                    '^[a-zA-Z_*]+:[a-zA-Z_*]+$': {
+                      type: 'string'
+                    }
+                  },
                   additionalProperties: false
                 },
                 reStockAfterCancellation: {
@@ -238,36 +235,30 @@ module.exports = () => {
           name: 'Pending',
           badge: 'default',
           progress: 'incomplete',
-          isDefault: true,
-          orderStatus: ['new', 'processing']
+          isDefault: true
         },
         processing: {
           name: 'Processing',
           badge: 'default',
           progress: 'incomplete',
-          isDefault: false,
-          orderStatus: ['processing']
+          isDefault: false
         },
         shipped: {
           name: 'Shipped',
           badge: 'attention',
-          progress: 'complete',
-          isCancelable: false,
-          orderStatus: ['processing']
+          progress: 'complete'
         },
         delivered: {
           name: 'Delivered',
           badge: 'success',
           progress: 'complete',
-          isCancelable: false,
-          orderStatus: ['processing', 'completed']
+          isCancelable: false
         },
         canceled: {
           name: 'Canceled',
           badge: 'critical',
           progress: 'complete',
-          isCancelable: false,
-          orderStatus: ['canceled', 'processing']
+          isCancelable: false
         }
       },
       paymentStatus: {
@@ -276,22 +267,19 @@ module.exports = () => {
           badge: 'default',
           progress: 'incomplete',
           isDefault: true,
-          isCancelable: true,
-          orderStatus: ['new', 'processing']
+          isCancelable: true
         },
         paid: {
           name: 'Paid',
           badge: 'success',
           progress: 'complete',
-          isCancelable: false,
-          orderStatus: ['processing', 'completed']
+          isCancelable: false
         },
         canceled: {
           name: 'Canceled',
           badge: 'critical',
           progress: 'complete',
-          isCancelable: false,
-          orderStatus: ['canceled', 'processing']
+          isCancelable: true
         }
       },
       status: {
@@ -326,6 +314,14 @@ module.exports = () => {
           progress: 'complete',
           next: []
         }
+      },
+      psoMapping: {
+        'pending:pending': 'new',
+        'pending:*': 'processing',
+        'paid:*': 'processing',
+        'paid:delivered': 'completed',
+        'canceled:*': 'processing',
+        'canceled:canceled': 'canceled'
       },
       reStockAfterCancellation: true
     },
@@ -364,18 +360,18 @@ module.exports = () => {
   );
 
   hookAfter(
-    'updatePaymentStatus',
+    'changePaymentStatus',
     async (order, orderId, status, connection) => {
-      const orderStatus = resolveOrderStatus(order.shipment_status, status);
+      const orderStatus = resolveOrderStatus(status, order.shipment_status);
       await changeOrderStatus(order, orderStatus, connection);
     }
   );
 
   hookAfter(
-    'updateShipmentStatus',
+    'changeShipmentStatus',
     async (order, orderId, status, connection) => {
-      const orderStatus = resolveOrderStatus(status, order.payment_status);
-      await changeOrderStatus(orderId, orderStatus, connection);
+      const orderStatus = resolveOrderStatus(order.payment_status, status);
+      await changeOrderStatus(order, orderStatus, connection);
     }
   );
 };

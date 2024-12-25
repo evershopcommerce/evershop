@@ -7,6 +7,7 @@ const {
   INTERNAL_SERVER_ERROR,
   OK
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 const { createOrder } = require('../../services/orderCreator');
 
@@ -76,6 +77,7 @@ module.exports = async (request, response, delegate, next) => {
     };
     next();
   } catch (e) {
+    error(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {

@@ -92,11 +92,11 @@ const validationErrors = [];
 // eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
-async function disableCart(cartId) {
+async function disableCart(cartId, connection) {
   const cart = await update('cart')
     .given({ status: 0 })
     .where('cart_id', '=', cartId)
-    .execute(pool);
+    .execute(connection);
   return cart;
 }
 
@@ -139,11 +139,11 @@ async function saveOrder(cart, connection) {
     .from('order')
     .orderBy('order_id', 'DESC')
     .limit(0, 1)
-    .execute(pool);
+    .execute(connection);
 
   const orderStatus = resolveOrderStatus(
-    defaultShipmentStatus,
-    defaultPaymentStatus
+    defaultPaymentStatus,
+    defaultShipmentStatus
   );
 
   // Save order to DB
@@ -219,7 +219,7 @@ async function createOrder(cart) {
     await hookable(saveOrderActivity, { cart })(order.insertId, connection);
 
     // Disable the cart
-    await hookable(disableCart, { cart })(cart.getData('cart_id'));
+    await hookable(disableCart, { cart })(cart.getData('cart_id'), connection);
 
     await commit(connection);
     return order;

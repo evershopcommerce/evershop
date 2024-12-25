@@ -46,25 +46,30 @@ export function StepContent({
   const [loading, setLoading] = useState(false);
 
   const onSuccess = async (response) => {
-    if (!response.error) {
-      const selectedMethd = paymentMethods.find((e) => e.selected === true);
-      const result = await fetch(addPaymentMethodApi, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          method_code: selectedMethd.code,
-          method_name: selectedMethd.name
-        })
-      });
-      const data = await result.json();
-      if (!data.error) {
-        completeStep('payment');
+    try {
+      if (!response.error) {
+        const selectedMethd = paymentMethods.find((e) => e.selected === true);
+        const result = await fetch(addPaymentMethodApi, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            method_code: selectedMethd.code,
+            method_name: selectedMethd.name
+          })
+        });
+        const data = await result.json();
+        if (!data.error) {
+          await completeStep('payment');
+        }
+      } else {
+        setLoading(false);
+        toast.error(response.error.message);
       }
-    } else {
+    } catch (e) {
       setLoading(false);
-      toast.error(response.error.message);
+      toast.error(e.message);
     }
   };
 

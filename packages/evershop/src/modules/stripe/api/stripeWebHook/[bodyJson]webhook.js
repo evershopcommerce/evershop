@@ -2,7 +2,6 @@
 const {
   insert,
   startTransaction,
-  update,
   commit,
   rollback,
   select,
@@ -16,6 +15,9 @@ const { emit } = require('@evershop/evershop/src/lib/event/emitter');
 const { debug, error } = require('@evershop/evershop/src/lib/log/logger');
 const { display } = require('zero-decimal-currencies');
 const { getSetting } = require('../../../setting/services/setting');
+const {
+  updatePaymentStatus
+} = require('../../../oms/services/updatePaymentStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -45,6 +47,10 @@ module.exports = async (request, response, delegate, next) => {
     await startTransaction(connection);
     const paymentIntent = event.data.object;
     const { order_id } = paymentIntent.metadata;
+    const transaction = await select()
+      .from('payment_transaction')
+      .where('transaction_id', '=', paymentIntent.id)
+      .load(connection);
     // Load the order
     const order = await select()
       .from('order')
@@ -72,26 +78,20 @@ module.exports = async (request, response, delegate, next) => {
           })
           .execute(connection);
 
-        // Update the order status
-        await update('order')
-          .given({ payment_status: 'paid' })
-          .where('order_id', '=', order.order_id)
-          .execute(connection);
+        if (!transaction) {
+          await updatePaymentStatus(order.order_id, 'paid', connection);
 
-        // Add an activity log
-        await insert('order_activity')
-          .given({
-            order_activity_order_id: order.order_id,
-            comment: `Customer paid by using credit card. Transaction ID: ${paymentIntent.id}`
-          })
-          .execute(connection);
+          // Add an activity log
+          await insert('order_activity')
+            .given({
+              order_activity_order_id: order.order_id,
+              comment: `Customer paid by using credit card. Transaction ID: ${paymentIntent.id}`
+            })
+            .execute(connection);
 
-        // Emit event to add order placed event
-        await emit('order_placed', { ...order });
-        break;
-      }
-      case 'payment_method.attached': {
-        debug('PaymentMethod was attached to a Customer!');
+          // Emit event to add order placed event
+          await emit('order_placed', { ...order });
+        }
         break;
       }
       case 'payment_intent.amount_capturable_updated': {
@@ -113,22 +113,24 @@ module.exports = async (request, response, delegate, next) => {
           })
           .execute(connection);
 
-        // Update the order status
-        await update('order')
-          .given({ payment_status: 'authorized' })
-          .where('order_id', '=', order.order_id)
-          .execute(connection);
+        if (!transaction) {
+          await updatePaymentStatus(order.order_id, 'authorized', connection);
+          // Add an activity log
+          await insert('order_activity')
+            .given({
+              order_activity_order_id: order.order_id,
+              comment: `Customer authorized by using credit card. Transaction ID: ${paymentIntent.id}`
+            })
+            .execute(connection);
 
-        // Add an activity log
-        await insert('order_activity')
-          .given({
-            order_activity_order_id: order.order_id,
-            comment: `Customer authorized by using credit card. Transaction ID: ${paymentIntent.id}`
-          })
-          .execute(connection);
-
-        // Emit event to add order placed event
-        await emit('order_placed', { ...order });
+          // Emit event to add order placed event
+          await emit('order_placed', { ...order });
+        }
+        break;
+      }
+      case 'payment_intent.canceled': {
+        debug('payment_intent.canceled event received');
+        await updatePaymentStatus(order.order_id, 'canceled', connection);
         break;
       }
       default: {

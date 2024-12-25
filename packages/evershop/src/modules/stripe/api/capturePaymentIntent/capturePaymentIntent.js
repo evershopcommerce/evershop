@@ -7,8 +7,11 @@ const {
 } = require('@evershop/evershop/src/lib/util/httpStatus');
 const { error } = require('@evershop/evershop/src/lib/log/logger');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select, update } = require('@evershop/postgres-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const { getSetting } = require('../../../setting/services/setting');
+const {
+  updatePaymentStatus
+} = require('../../../oms/services/updatePaymentStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -82,10 +85,7 @@ module.exports = async (request, response, delegate, next) => {
     // Capture the PaymentIntent
     await stripe.paymentIntents.capture(paymentTransaction.transaction_id);
     // Update the order status to paid
-    await update('order')
-      .given({ payment_status: 'paid' })
-      .where('order_id', '=', order.order_id)
-      .execute(pool);
+    await updatePaymentStatus(order.order_id, 'paid');
     response.status(OK);
     response.json({
       data: {

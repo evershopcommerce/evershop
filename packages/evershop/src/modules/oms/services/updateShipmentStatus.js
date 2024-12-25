@@ -18,7 +18,7 @@ function validateShipmentStatusBeforeUpdate(status) {
   return false;
 }
 
-async function updateShipmentStatus(orderId, status, connection) {
+async function changeShipmentStatus(orderId, status, connection) {
   const order = await update('order')
     .given({
       shipment_status: status
@@ -36,7 +36,7 @@ module.exports = {
         await startTransaction(connection);
       }
       hookable(validateShipmentStatusBeforeUpdate, { orderId })(status);
-      await hookable(updateShipmentStatus, {
+      await hookable(changeShipmentStatus, {
         orderId,
         status
       })(orderId, status, connection);

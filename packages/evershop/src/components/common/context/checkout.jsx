@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import axios from 'axios';
 import { useCheckoutSteps } from '@components/common/context/checkoutSteps';
-import { useAppDispatch } from '@components/common/context/app';
 
 const Checkout = React.createContext();
 const CheckoutDispatch = React.createContext();
@@ -13,24 +12,11 @@ export function CheckoutProvider({
   getPaymentMethodAPI,
   checkoutSuccessUrl
 }) {
-  const AppContextDispatch = useAppDispatch();
   const steps = useCheckoutSteps();
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState();
   const [error, setError] = useState(null);
-
-  // Call api to current url when steps change
-  useEffect(() => {
-    const reload = async () => {
-      const url = new URL(window.location.href, window.location.origin);
-      url.searchParams.append('ajax', true);
-      await AppContextDispatch.fetchPageData(url);
-      url.searchParams.delete('ajax');
-      // await placeOrder();
-    };
-    reload();
-  }, [steps]);
 
   const getPaymentMethods = async () => {
     const response = await axios.get(getPaymentMethodAPI);

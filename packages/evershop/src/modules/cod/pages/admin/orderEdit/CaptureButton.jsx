@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import Button from '@components/common/form/Button';
 import { Card } from '@components/admin/cms/Card';
+import RenderIfTrue from '@components/common/RenderIfTrue';
 
 export default function CaptureButton({
   captureAPI,
@@ -28,17 +29,17 @@ export default function CaptureButton({
     setIsLoading(false);
   };
 
-  if (paymentStatus.code === 'pending' && paymentMethod === 'cod') {
-    return (
+  return (
+    <RenderIfTrue
+      condition={paymentStatus.code === 'pending' && paymentMethod === 'cod'}
+    >
       <Card.Session>
         <div className="flex justify-end">
           <Button title="Capture" onAction={onAction} isLoading={isLoading} />
         </div>
       </Card.Session>
-    );
-  } else {
-    return null;
-  }
+    </RenderIfTrue>
+  );
 }
 
 CaptureButton.propTypes = {

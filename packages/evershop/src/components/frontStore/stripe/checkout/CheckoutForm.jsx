@@ -141,7 +141,6 @@ export default function CheckoutForm({
           return_url: `${returnUrl}?order_id=${orderId}`
         }
       });
-
       if (payload.error) {
         // Get the payment intent ID
         const paymentIntent = payload.error.payment_intent;

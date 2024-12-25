@@ -16,6 +16,8 @@ type PaymentStatus {
   code: String
   badge: String
   progress: String
+  isDefault: Boolean
+  isCancelable: Boolean
 }
 
 """
@@ -26,6 +28,8 @@ type ShipmentStatus {
   code: String
   badge: String
   progress: String
+  isDefault: Boolean
+  isCancelable: Boolean
 }
 
 extend type Query {

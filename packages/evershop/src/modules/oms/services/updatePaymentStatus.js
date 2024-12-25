@@ -18,7 +18,7 @@ function validatePaymentStatusBeforeUpdate(status) {
   return false;
 }
 
-async function updatePaymentStatus(orderId, status, connection) {
+async function changePaymentStatus(orderId, status, connection) {
   const order = await update('order')
     .given({
       payment_status: status
@@ -28,28 +28,26 @@ async function updatePaymentStatus(orderId, status, connection) {
   return order;
 }
 
-module.exports = {
-  updatePaymentStatus: async (orderId, status, conn) => {
-    const connection = conn || (await getConnection(pool));
-    try {
-      if (!conn) {
-        await startTransaction(connection);
-      }
-      hookable(validatePaymentStatusBeforeUpdate, { orderId })(status);
-      await hookable(updatePaymentStatus, { orderId, status })(
-        orderId,
-        status,
-        connection
-      );
-      if (!conn) {
-        await commit(connection);
-      }
-    } catch (err) {
-      error(err);
-      if (!conn) {
-        await rollback(connection);
-      }
-      throw err;
+module.exports.updatePaymentStatus = async (orderId, status, conn) => {
+  const connection = conn || (await getConnection(pool));
+  try {
+    if (!conn) {
+      await startTransaction(connection);
     }
+    hookable(validatePaymentStatusBeforeUpdate, { orderId })(status);
+    await hookable(changePaymentStatus, { orderId, status })(
+      orderId,
+      status,
+      connection
+    );
+    if (!conn) {
+      await commit(connection);
+    }
+  } catch (err) {
+    error(err);
+    if (!conn) {
+      await rollback(connection);
+    }
+    throw err;
   }
 };

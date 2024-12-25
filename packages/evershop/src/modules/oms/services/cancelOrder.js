@@ -8,10 +8,11 @@ const {
   commit,
   rollback,
   getConnection,
-  update,
   startTransaction,
   execute
 } = require('@evershop/postgres-query-builder');
+const { updatePaymentStatus } = require('./updatePaymentStatus');
+const { updateShipmentStatus } = require('./updateShipmentStatus');
 
 function validateStatus(paymentStatus, shipmentStatus) {
   const shipmentStatusList = getConfig('oms.order.shipmentStatus', {});
@@ -29,17 +30,15 @@ function validateStatus(paymentStatus, shipmentStatus) {
   return true;
 }
 
-async function updateStatusToCancel(uuid, connection) {
-  await update('order')
-    .given({
-      payment_status: 'canceled',
-      shipment_status: 'canceled'
-    })
-    .where('uuid', '=', uuid)
-    .execute(connection, false);
+async function updatePaymentStatusToCancel(orderID, connection) {
+  await updatePaymentStatus(orderID, 'canceled', connection);
 }
 
-async function reStock(orderID, connection) {
+async function updateShipmentStatusToCancel(orderID, connection) {
+  await updateShipmentStatus(orderID, 'canceled', connection);
+}
+
+async function reStockAfterCancel(orderID, connection) {
   const orderItems = await select()
     .from('order_item')
     .where('order_item_order_id', '=', orderID)
@@ -86,13 +85,20 @@ async function cancelOrder(uuid, reason) {
       throw new Error('Order is not cancelable at this status');
     }
 
-    await hookable(updateStatusToCancel, { order })(uuid, connection);
+    await hookable(updatePaymentStatusToCancel, { order })(
+      order.order_id,
+      connection
+    );
+    await hookable(updateShipmentStatusToCancel, { order })(
+      order.order_id,
+      connection
+    );
     await hookable(addCancellationActivity, { order })(
       order.order_id,
       reason,
       connection
     );
-    await hookable(reStock, { order })(order.order_id, connection);
+    await hookable(reStockAfterCancel, { order })(order.order_id, connection);
     await commit(connection);
   } catch (err) {
     error(err);

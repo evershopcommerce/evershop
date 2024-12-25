@@ -9,10 +9,17 @@ import { Field } from '@components/common/form/Field';
 import { toast } from 'react-toastify';
 import RenderIfTrue from '@components/common/RenderIfTrue';
 
-export default function CancelButton({ order: { cancelApi, paymentStatus } }) {
+export default function CancelButton({
+  order: { cancelApi, paymentStatus, shipmentStatus }
+}) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   return (
-    <RenderIfTrue condition={paymentStatus.code !== 'canceled'}>
+    <RenderIfTrue
+      condition={
+        paymentStatus.isCancelable !== false &&
+        shipmentStatus.isCancelable !== false
+      }
+    >
       <Button
         title="Cancel Order"
         variant="critical"
@@ -91,14 +98,19 @@ export default function CancelButton({ order: { cancelApi, paymentStatus } }) {
 CancelButton.propTypes = {
   order: PropTypes.shape({
     paymentStatus: PropTypes.shape({
-      code: PropTypes.string
+      code: PropTypes.string,
+      isCancelable: PropTypes.bool
+    }).isRequired,
+    shipmentStatus: PropTypes.shape({
+      code: PropTypes.string,
+      isCancelable: PropTypes.bool
     }).isRequired,
     cancelApi: PropTypes.string.isRequired
   }).isRequired
 };
 
 export const layout = {
-  areaId: 'order_actions',
+  areaId: 'pageHeadingRight',
   sortOrder: 35
 };
 
@@ -107,6 +119,11 @@ export const query = `
     order(uuid: getContextValue("orderId")) {
       paymentStatus {
         code
+        isCancelable
+      }
+      shipmentStatus {
+        code
+        isCancelable
       }
       cancelApi
     }
