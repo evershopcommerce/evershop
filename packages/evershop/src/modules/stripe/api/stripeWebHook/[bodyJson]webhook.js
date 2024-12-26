@@ -109,7 +109,9 @@ module.exports = async (request, response, delegate, next) => {
             transaction_id: paymentIntent.id,
             transaction_type: 'online',
             payment_action:
-              paymentIntent.capture_method === 'manual' ? 'Manual' : 'Automatic'
+              paymentIntent.capture_method === 'manual'
+                ? 'authorize'
+                : 'capture'
           })
           .execute(connection);
 
