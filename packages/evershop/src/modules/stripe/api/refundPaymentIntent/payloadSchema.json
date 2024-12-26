@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "order_id": {
+      "type": "string"
+    },
+    "amount": {
+      "type": ["string", "number"],
+      "pattern": "^\\d+(\\.\\d{1,2})?$",
+      "errorMessage": {
+        "pattern": "Amount should be a number with maximum 2 decimal places"
+      }
+    }
+  },
+  "required": ["order_id"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "order_id": "Order is invalid"
+    }
+  }
+}

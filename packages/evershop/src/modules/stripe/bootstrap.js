@@ -35,10 +35,29 @@ module.exports = () => {
           name: 'Authorized',
           badge: 'attention',
           progress: 'incomplete'
+        },
+        failed: {
+          name: 'Failed',
+          badge: 'critical',
+          progress: 'failed'
+        },
+        refunded: {
+          name: 'Refunded',
+          badge: 'critical',
+          progress: 'complete'
+        },
+        partial_refunded: {
+          name: 'Partial Refunded',
+          badge: 'critical',
+          progress: 'incomplete'
         }
       },
       psoMapping: {
-        'authorized:*': 'processing'
+        'authorized:*': 'processing',
+        'failed:*': 'new',
+        'refunded:*': 'closed',
+        'partial_refunded:*': 'processing',
+        'partial_refunded:delivered': 'completed'
       }
     }
   };

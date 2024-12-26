@@ -362,6 +362,12 @@ module.exports = () => {
   hookAfter(
     'changePaymentStatus',
     async (order, orderId, status, connection) => {
+      if (order.status === 'canceled') {
+        throw new Error('Order is already canceled');
+      }
+      if (order.status === 'closed') {
+        throw new Error('Order is already closed');
+      }
       const orderStatus = resolveOrderStatus(status, order.shipment_status);
       await changeOrderStatus(order, orderStatus, connection);
     }
@@ -370,6 +376,12 @@ module.exports = () => {
   hookAfter(
     'changeShipmentStatus',
     async (order, orderId, status, connection) => {
+      if (order.status === 'canceled') {
+        throw new Error('Order is already canceled');
+      }
+      if (order.status === 'closed') {
+        throw new Error('Order is already closed');
+      }
       const orderStatus = resolveOrderStatus(order.payment_status, status);
       await changeOrderStatus(order, orderStatus, connection);
     }

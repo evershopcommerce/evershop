@@ -10,6 +10,9 @@ const {
   addNotification
 } = require('@evershop/evershop/src/modules/base/services/notifications');
 const { error } = require('@evershop/evershop/src/lib/log/logger');
+const {
+  updatePaymentStatus
+} = require('@evershop/evershop/src/modules/oms/services/updatePaymentStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -54,6 +57,7 @@ module.exports = async (request, response, delegate, next) => {
         .given({ status: true })
         .where('cart_id', '=', order.cart_id)
         .execute(pool);
+      await updatePaymentStatus(order.order_id, 'failed');
       // Add a error notification
       addNotification(request, 'Payment failed', 'error');
       request.session.save(() => {

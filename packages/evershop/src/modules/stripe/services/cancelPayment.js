@@ -12,7 +12,7 @@ async function cancelPaymentIntent(orderID) {
       .where('payment_transaction_order_id', '=', orderID)
       .load(pool);
     if (!transaction) {
-      throw new Error('Can not find payment transaction');
+      return;
     }
     const stripeConfig = getConfig('system.stripe', {});
     let stripeSecretKey;
