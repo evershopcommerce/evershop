@@ -1,42 +1,15 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { useCheckout } from '@components/common/context/checkout';
+import React, { useEffect, useState } from 'react';
+import {
+  useCheckout,
+  useCheckoutDispatch
+} from '@components/common/context/checkout';
 import PaypalLogo from '@components/frontStore/paypal/PaypalLogo';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import RenderIfTrue from '@components/common/RenderIfTrue';
 
-export function Paypal({
-  getAccessTokenAPI,
-  createOrderAPI,
-  orderId,
-  orderPlaced
-}) {
+export function Paypal({ createOrderAPI, orderId, orderPlaced }) {
   const [error, setError] = useState('');
-  const [accessTokenGenerated, setAccessTokenGenerated] = useState(false);
-
-  React.useEffect(() => {
-    const getAccessToken = async () => {
-      let response = await fetch(getAccessTokenAPI, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          order_id: orderId
-        })
-      });
-      response = await response.json();
-      if (!response.error) {
-        setAccessTokenGenerated(true);
-      } else {
-        setError(response.error.message);
-      }
-    };
-
-    if (orderId) {
-      // Call the API to get the access token
-      getAccessToken();
-    }
-  }, [orderId]);
 
   React.useEffect(() => {
     const createOrder = async () => {
@@ -59,11 +32,11 @@ export function Paypal({
       }
     };
 
-    if (orderPlaced && accessTokenGenerated) {
+    if (orderPlaced && orderId) {
       // Call the API to create the order
       createOrder();
     }
-  }, [orderPlaced, accessTokenGenerated]);
+  }, [orderPlaced, orderId]);
 
   return (
     <div>
@@ -77,7 +50,6 @@ export function Paypal({
 
 Paypal.propTypes = {
   createOrderAPI: PropTypes.string.isRequired,
-  getAccessTokenAPI: PropTypes.string.isRequired,
   orderId: PropTypes.string,
   orderPlaced: PropTypes.bool.isRequired
 };
@@ -86,19 +58,36 @@ Paypal.defaultProps = {
   orderId: undefined
 };
 
-export default function PaypalMethod({ getAccessTokenAPI, createOrderAPI }) {
+export default function PaypalMethod({ createOrderAPI }) {
   const checkout = useCheckout();
-  const { paymentMethods, setPaymentMethods, orderPlaced, orderId } = checkout;
+  const { placeOrder } = useCheckoutDispatch();
+  const { steps, paymentMethods, setPaymentMethods, orderPlaced, orderId } =
+    checkout;
   // Get the selected payment method
   const selectedPaymentMethod = paymentMethods
     ? paymentMethods.find((paymentMethod) => paymentMethod.selected)
     : undefined;
 
+  useEffect(() => {
+    const selectedPaymentMethod = paymentMethods.find(
+      (paymentMethod) => paymentMethod.selected
+    );
+    if (
+      steps.every((step) => step.isCompleted) &&
+      selectedPaymentMethod.code === 'paypal'
+    ) {
+      placeOrder();
+    }
+  }, [steps]);
+
   return (
     <div>
       <div className="flex justify-start items-center gap-4">
-        {(!selectedPaymentMethod ||
-          selectedPaymentMethod.code !== 'paypal') && (
+        <RenderIfTrue
+          condition={
+            !selectedPaymentMethod || selectedPaymentMethod.code !== 'paypal'
+          }
+        >
           <a
             href="#"
             onClick={(e) => {
@@ -134,8 +123,12 @@ export default function PaypalMethod({ getAccessTokenAPI, createOrderAPI }) {
               <circle cx="12" cy="12" r="10" />
             </svg>
           </a>
-        )}
-        {selectedPaymentMethod && selectedPaymentMethod.code === 'paypal' && (
+        </RenderIfTrue>
+        <RenderIfTrue
+          condition={
+            selectedPaymentMethod && selectedPaymentMethod.code === 'paypal'
+          }
+        >
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -152,30 +145,32 @@ export default function PaypalMethod({ getAccessTokenAPI, createOrderAPI }) {
               <polyline points="22 4 12 14.01 9 11.01" />
             </svg>
           </div>
-        )}
+        </RenderIfTrue>
         <div>
           <PaypalLogo width={70} />
         </div>
       </div>
       <div>
-        {selectedPaymentMethod && selectedPaymentMethod.code === 'paypal' && (
+        <RenderIfTrue
+          condition={
+            selectedPaymentMethod && selectedPaymentMethod.code === 'paypal'
+          }
+        >
           <div>
             <Paypal
-              getAccessTokenAPI={getAccessTokenAPI}
               createOrderAPI={createOrderAPI}
               orderPlaced={orderPlaced}
               orderId={orderId}
             />
           </div>
-        )}
+        </RenderIfTrue>
       </div>
     </div>
   );
 }
 
 PaypalMethod.propTypes = {
-  createOrderAPI: PropTypes.string.isRequired,
-  getAccessTokenAPI: PropTypes.string.isRequired
+  createOrderAPI: PropTypes.string.isRequired
 };
 
 export const layout = {
@@ -185,7 +180,6 @@ export const layout = {
 
 export const query = `
   query Query {
-    getAccessTokenAPI: url(routeId: "paypalGetAccessToken")
     createOrderAPI: url(routeId: "paypalCreateOrder")
   }
 `;

@@ -82,6 +82,7 @@ export default function StripePayment({
               name="stripeEndpointSecret"
               placeholder="Secret Key"
               value={stripeEndpointSecret}
+              instruction="Your webhook url should be: https://yourdomain.com/api/stripe/webhook"
             />
           </div>
         </div>
