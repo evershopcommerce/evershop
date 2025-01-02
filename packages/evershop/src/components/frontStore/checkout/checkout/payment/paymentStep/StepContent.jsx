@@ -204,7 +204,7 @@ export function StepContent({
 StepContent.propTypes = {
   cart: PropTypes.shape({
     billingAddress: PropTypes.shape({
-      id: PropTypes.string,
+      id: PropTypes.number,
       fullName: PropTypes.string,
       postcode: PropTypes.string,
       telephone: PropTypes.string,
