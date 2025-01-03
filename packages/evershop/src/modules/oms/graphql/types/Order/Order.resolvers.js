@@ -84,6 +84,20 @@ module.exports = {
         ...status,
         code: paymentStatus
       };
+    },
+    status: ({ status }) => {
+      const statusList = getConfig('oms.order.status', {});
+      const statusObj = statusList[status] || {
+        name: 'Unknown',
+        code: status,
+        badge: 'default',
+        progress: 'incomplete'
+      };
+
+      return {
+        ...statusObj,
+        code: status
+      };
     }
   },
   Customer: {

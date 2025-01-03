@@ -13,7 +13,7 @@ export default function OrderHistory({ customer: { orders = [] } }) {
       {orders.length > 0 && (
         <>
           {orders.map((order) => (
-            <Card.Session>
+            <Card.Session key={order.uuid}>
               <div className="flex justify-between items-center gap-4">
                 <div>
                   <a
@@ -64,6 +64,7 @@ export const query = `
     customer(id: getContextValue("customerUuid", null)) {
       orders {
         orderNumber
+        uuid
         editUrl
         createdAt {
           text

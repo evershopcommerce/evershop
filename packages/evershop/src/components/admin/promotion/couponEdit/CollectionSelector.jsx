@@ -79,7 +79,7 @@ function CollectionSelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
             <div className="border rounded border-divider mb-8">
               <input
                 type="text"
-                value={inputValue}
+                value={inputValue || ''}
                 placeholder="Search collections"
                 onChange={(e) => setInputValue(e.target.value)}
               />
@@ -146,7 +146,7 @@ function CollectionSelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
       <Card.Session>
         <div className="flex justify-between gap-8">
           <SimplePageination
-            total={data?.collections.total}
+            total={data?.collections.total || 0}
             count={data?.collections?.items?.length || 0}
             page={page}
             hasNext={limit * page < data?.collections.total}
@@ -162,7 +162,7 @@ function CollectionSelector({ onSelect, onUnSelect, selectedIDs, closeModal }) {
 CollectionSelector.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onUnSelect: PropTypes.func.isRequired,
-  selectedIDs: PropTypes.arrayOf(PropTypes.string),
+  selectedIDs: PropTypes.arrayOf(PropTypes.number),
   closeModal: PropTypes.func.isRequired
 };
 

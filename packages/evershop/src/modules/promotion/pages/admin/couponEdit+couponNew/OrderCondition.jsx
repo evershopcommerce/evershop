@@ -8,16 +8,18 @@ export default function OrderCondition({ coupon = {} }) {
   return (
     <div>
       <Field
+        type="text"
         name="condition[order_total]"
         label="Minimum purchase amount"
         placeholder="Enter minimum purchase amount"
-        value={condition.orderTotal || null}
+        value={condition.orderTotal || ''}
       />
       <Field
+        type="text"
         name="condition[order_qty]"
         label="Minimum purchase qty"
         placeholder="Enter minimum purchase qty"
-        value={condition.orderQty || null}
+        value={condition.orderQty || ''}
       />
       <RequiredProducts requiredProducts={condition.requiredProducts || []} />
     </div>
@@ -27,13 +29,19 @@ export default function OrderCondition({ coupon = {} }) {
 OrderCondition.propTypes = {
   coupon: PropTypes.shape({
     condition: PropTypes.shape({
-      orderTotal: PropTypes.number,
-      orderQty: PropTypes.number,
+      orderTotal: PropTypes.string,
+      orderQty: PropTypes.string,
       requiredProducts: PropTypes.arrayOf(
         PropTypes.shape({
           key: PropTypes.string,
           operator: PropTypes.string,
-          value: PropTypes.string,
+          value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.arrayOf(
+              PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+            )
+          ]),
           qty: PropTypes.string
         })
       )

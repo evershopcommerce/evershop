@@ -98,10 +98,13 @@ export default function CollectionGrid({
   collections: { items: collections, total, currentFilters = [] }
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
-    ? currentFilters.find((filter) => filter.key === 'page').value
+    ? parseInt(currentFilters.find((filter) => filter.key === 'page').value, 10)
     : 1;
   const limit = currentFilters.find((filter) => filter.key === 'limit')
-    ? currentFilters.find((filter) => filter.key === 'limit').value
+    ? parseInt(
+        currentFilters.find((filter) => filter.key === 'limit').value,
+        10
+      )
     : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -110,10 +113,11 @@ export default function CollectionGrid({
       <Card>
         <Card.Session
           title={
-            <Form submitBtn={false}>
+            <Form submitBtn={false} id="collectionGridFilter">
               <Field
                 type="text"
                 id="name"
+                name="name"
                 placeholder="Search"
                 value={currentFilters.find((f) => f.key === 'name')?.value}
                 onKeyPress={(e) => {
@@ -235,7 +239,9 @@ export default function CollectionGrid({
                   coreComponents={[
                     {
                       component: {
-                        default: () => <TextRow text={c.collectionId} />
+                        default: () => (
+                          <TextRow text={c.collectionId.toString()} />
+                        )
                       },
                       sortOrder: 5
                     },

@@ -2,4 +2,5 @@ extend type Setting {
   stripePaymentStatus: Int
   stripeDislayName: String
   stripePublishableKey: String
+  stripePaymentMode: String
 }

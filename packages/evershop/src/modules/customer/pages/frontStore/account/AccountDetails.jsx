@@ -2,24 +2,44 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import EmailIcon from '@heroicons/react/outline/MailIcon';
 import User from '@heroicons/react/outline/UserIcon';
+import Area from '@components/common/Area';
 
 export default function AccountDetails({ account }) {
   return (
     <div className="account-details">
       <div className="account-details-inner">
         <div className="grid grid-cols-1 gap-4">
-          <div className="account-details-name flex gap-4">
-            <div>
-              <User width={20} height={20} />
-            </div>
-            <div>{account.fullName}</div>
-          </div>
-          <div className="account-details-email flex gap-4">
-            <div>
-              <EmailIcon width={20} height={20} />
-            </div>
-            <div>{account.email}</div>
-          </div>
+          <Area
+            id="accountDetails"
+            coreComponents={[
+              {
+                component: {
+                  default: () => (
+                    <div className="account-details-name flex gap-4">
+                      <div>
+                        <User width={20} height={20} />
+                      </div>
+                      <div>{account.fullName}</div>
+                    </div>
+                  )
+                },
+                sortOrder: 10
+              },
+              {
+                component: {
+                  default: () => (
+                    <div className="account-details-email flex gap-4">
+                      <div>
+                        <EmailIcon width={20} height={20} />
+                      </div>
+                      <div>{account.email}</div>
+                    </div>
+                  )
+                },
+                sortOrder: 15
+              }
+            ]}
+          />
         </div>
       </div>
     </div>
@@ -34,7 +54,7 @@ AccountDetails.propTypes = {
 };
 
 export const layout = {
-  areaId: 'accountPageRight',
+  areaId: 'accountPageInfo',
   sortOrder: 10
 };
 

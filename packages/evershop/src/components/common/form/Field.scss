@@ -9,15 +9,6 @@ html {
     padding: 0.5rem 1.2rem;
     display: block;
     flex: 1 1;
-
-    &:focus {
-      outline: none;
-
-      & + .field-border:after {
-        box-shadow: 0 0 0 2px #458fff;
-      }
-    }
-
     display: block;
     width: 100%;
     position: relative;
@@ -25,6 +16,13 @@ html {
     border: 1px solid transparent;
     margin: 1px;
     border-radius: 4px;
+    &:focus {
+      outline: none;
+
+      & + .field-border:after {
+        box-shadow: 0 0 0 2px #458fff;
+      }
+    }
   }
 }
 select {

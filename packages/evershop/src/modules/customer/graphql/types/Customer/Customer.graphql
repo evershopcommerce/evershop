@@ -1,4 +1,23 @@
 """
+Represent a customer address
+"""
+type CustomerAddress implements Address {
+  cartAddressId: Int!
+  uuid: String!
+  fullName: String
+  postcode: String
+  telephone: String
+  country: Country
+  province: Province
+  city: String
+  address1: String
+  address2: String
+  isDefault: Boolean
+  updateApi: String!
+  deleteApi: String!
+}
+
+"""
 Represents a customer
 """
 type Customer {
@@ -6,6 +25,8 @@ type Customer {
   uuid: String!
   status: Int!
   email: String!
+  addresses: [CustomerAddress]
+  addAddressApi: String!
   fullName: String!
   createdAt: Date!
 }

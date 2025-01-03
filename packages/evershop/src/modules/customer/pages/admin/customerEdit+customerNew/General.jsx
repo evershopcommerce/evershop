@@ -102,7 +102,7 @@ General.propTypes = {
     group: PropTypes.shape({
       groupName: PropTypes.string
     }),
-    status: PropTypes.string
+    status: PropTypes.number
   }).isRequired
 };
 

@@ -7,7 +7,10 @@ import {
 import { StepContent } from '@components/frontStore/checkout/checkout/payment/paymentStep/StepContent';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 
-export default function PaymentStep({ cart }) {
+export default function PaymentStep({
+  cart,
+  setting: { customerAddressSchema }
+}) {
   const steps = useCheckoutSteps();
   const step = steps.find((e) => e.id === 'payment') || {};
   const [display, setDisplay] = React.useState(false);
@@ -30,7 +33,13 @@ export default function PaymentStep({ cart }) {
 
   return (
     <div className="checkout-payment checkout-step">
-      {display && <StepContent cart={cart} step={step} />}
+      {display && (
+        <StepContent
+          cart={cart}
+          step={step}
+          customerAddressSchema={customerAddressSchema}
+        />
+      )}
     </div>
   );
 }
@@ -55,6 +64,10 @@ PaymentStep.propTypes = {
       }),
       telephone: PropTypes.string
     })
+  }).isRequired,
+  setting: PropTypes.shape({
+    // eslint-disable-next-line react/forbid-prop-types
+    customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
 };
 
@@ -85,6 +98,9 @@ export const query = `
       }
       addBillingAddressApi: addAddressApi
       addPaymentMethodApi
+    }
+    setting {
+      customerAddressSchema
     }
   }
 `;

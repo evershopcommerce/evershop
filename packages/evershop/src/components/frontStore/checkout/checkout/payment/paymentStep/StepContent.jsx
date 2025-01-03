@@ -37,33 +37,39 @@ const QUERY = `
   }
 `;
 export function StepContent({
-  cart: { billingAddress, addBillingAddressApi, addPaymentMethodApi }
+  cart: { billingAddress, addBillingAddressApi, addPaymentMethodApi },
+  customerAddressSchema
 }) {
   const { completeStep } = useCheckoutStepsDispatch();
   const [useShippingAddress, setUseShippingAddress] = useState(!billingAddress);
-  const { cartId, paymentMethods, getPaymentMethods } = useCheckout();
+  const { cartId, error, paymentMethods, getPaymentMethods } = useCheckout();
   const [loading, setLoading] = useState(false);
 
   const onSuccess = async (response) => {
-    if (!response.error) {
-      const selectedMethd = paymentMethods.find((e) => e.selected === true);
-      const result = await fetch(addPaymentMethodApi, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          method_code: selectedMethd.code,
-          method_name: selectedMethd.name
-        })
-      });
-      const data = await result.json();
-      if (!data.error) {
-        completeStep('payment');
+    try {
+      if (!response.error) {
+        const selectedMethd = paymentMethods.find((e) => e.selected === true);
+        const result = await fetch(addPaymentMethodApi, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            method_code: selectedMethd.code,
+            method_name: selectedMethd.name
+          })
+        });
+        const data = await result.json();
+        if (!data.error) {
+          await completeStep('payment');
+        }
+      } else {
+        setLoading(false);
+        toast.error(response.error.message);
       }
-    } else {
+    } catch (e) {
       setLoading(false);
-      toast.error(response.error.message);
+      toast.error(e.message);
     }
   };
 
@@ -71,13 +77,20 @@ export function StepContent({
     getPaymentMethods();
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      setLoading(false);
+      toast.error(error);
+    }
+  }, [error]);
+
   const [result] = useQuery({
     query: QUERY,
     variables: {
       cartId
     }
   });
-  const { data, fetching, error } = result;
+  const { data, fetching, error: queryError } = result;
 
   if (fetching) {
     return (
@@ -86,7 +99,7 @@ export function StepContent({
       </div>
     );
   }
-  if (error) {
+  if (queryError) {
     return <div className="p-8 text-critical">{error.message}</div>;
   }
   return (
@@ -110,6 +123,7 @@ export function StepContent({
             <CustomerAddressForm
               areaId="checkoutBillingAddressForm"
               address={billingAddress || data.cart.shippingAddress}
+              customerAddressSchema={customerAddressSchema}
             />
           </div>
         )}
@@ -119,6 +133,7 @@ export function StepContent({
             <CustomerAddressForm
               areaId="checkoutBillingAddressForm"
               address={data.cart.shippingAddress}
+              customerAddressSchema={customerAddressSchema}
             />
           </div>
         )}
@@ -141,7 +156,9 @@ export function StepContent({
             <Field
               type="hidden"
               name="method_code"
-              value={paymentMethods.find((e) => e.selected === true)?.code}
+              value={
+                paymentMethods.find((e) => e.selected === true)?.code || ''
+              }
               validationRules={[
                 {
                   rule: 'notEmpty',
@@ -151,7 +168,9 @@ export function StepContent({
             />
             <input
               type="hidden"
-              value={paymentMethods.find((e) => e.selected === true)?.name}
+              value={
+                paymentMethods.find((e) => e.selected === true)?.name || ''
+              }
               name="method_name"
             />
             <input type="hidden" value="billing" name="type" />
@@ -185,7 +204,7 @@ export function StepContent({
 StepContent.propTypes = {
   cart: PropTypes.shape({
     billingAddress: PropTypes.shape({
-      id: PropTypes.string,
+      id: PropTypes.number,
       fullName: PropTypes.string,
       postcode: PropTypes.string,
       telephone: PropTypes.string,
@@ -203,5 +222,7 @@ StepContent.propTypes = {
     }),
     addBillingAddressApi: PropTypes.string.isRequired,
     addPaymentMethodApi: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  customerAddressSchema: PropTypes.object.isRequired
 };

@@ -15,10 +15,10 @@ export function Edit({
 }) {
   const { completeStep } = useCheckoutStepsDispatch();
 
-  const onSuccess = (response) => {
+  const onSuccess = async (response) => {
     if (!response.error) {
       setEmail(response.data.email);
-      completeStep('contact', response.data.email);
+      await completeStep('contact', response.data.email);
     } else {
       toast.error(response.error.message);
     }
@@ -42,7 +42,7 @@ export function Edit({
       const data = await response.json();
       if (!data.error) {
         setEmail(data.email);
-        completeStep('contact', data.email);
+        await completeStep('contact', data.email);
       } else {
         toast.error(data.error.message);
       }
@@ -76,7 +76,7 @@ export function Edit({
           name="email"
           validationRules={['notEmpty', 'email']}
           placeholder={_('Email')}
-          value={email}
+          value={email || ''}
         />
       </Form>
     </div>
@@ -85,10 +85,15 @@ export function Edit({
 
 Edit.propTypes = {
   addContactInfoApi: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
+  email: PropTypes.string,
   loginUrl: PropTypes.string.isRequired,
   setEmail: PropTypes.func.isRequired,
   customer: PropTypes.shape({
     email: PropTypes.string.isRequired
-  }).isRequired
+  })
+};
+
+Edit.defaultProps = {
+  email: '',
+  customer: null
 };

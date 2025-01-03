@@ -45,6 +45,11 @@ export function CustomerAddressForm({
     }
   });
 
+  // Set country again when address changes
+  React.useEffect(() => {
+    setSelectedCountry(address?.country?.code);
+  }, [address]);
+
   return (
     <Area
       id={areaId}
@@ -163,7 +168,8 @@ CustomerAddressForm.propTypes = {
   ).isRequired,
   areaId: PropTypes.string,
   formId: PropTypes.string,
-  customerAddressSchema: PropTypes.string.isRequired
+  // eslint-disable-next-line react/forbid-prop-types
+  customerAddressSchema: PropTypes.object.isRequired
 };
 
 CustomerAddressForm.defaultProps = {

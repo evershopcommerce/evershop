@@ -99,7 +99,7 @@ AddTrackingButton.propTypes = {
       carrier: PropTypes.string,
       trackingNumber: PropTypes.string,
       updateShipmentApi: PropTypes.string.isRequired
-    }).isRequired
+    })
   }).isRequired,
   carriers: PropTypes.arrayOf(
     PropTypes.shape({

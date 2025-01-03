@@ -1,5 +1,7 @@
+const { hookAfter } = require('../../lib/util/hookable');
 const { addProcessor } = require('../../lib/util/registry');
 const { getSetting } = require('../setting/services/setting');
+const { voidPaymentTransaction } = require('./services/voidPaymentTransaction');
 
 module.exports = () => {
   addProcessor('cartFields', (fields) => {
@@ -24,5 +26,15 @@ module.exports = () => {
       ]
     });
     return fields;
+  });
+
+  hookAfter('changePaymentStatus', async (order, orderID, status) => {
+    if (status !== 'canceled') {
+      return;
+    }
+    if (order.payment_method !== 'paypal') {
+      return;
+    }
+    await voidPaymentTransaction(orderID);
   });
 };

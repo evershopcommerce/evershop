@@ -15,5 +15,9 @@ export default function PaymentStatusRow({ status }) {
 }
 
 PaymentStatusRow.propTypes = {
-  status: PropTypes.string.isRequired
+  status: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    badge: PropTypes.string.isRequired,
+    progress: PropTypes.string.isRequired
+  }).isRequired
 };

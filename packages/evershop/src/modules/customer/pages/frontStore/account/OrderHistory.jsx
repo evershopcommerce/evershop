@@ -61,7 +61,7 @@ OrderHistory.propTypes = {
 };
 
 export const layout = {
-  areaId: 'accountPageLeft',
+  areaId: 'accountPageOrderHistory',
   sortOrder: 10
 };
 

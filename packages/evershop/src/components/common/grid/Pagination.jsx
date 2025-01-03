@@ -113,7 +113,7 @@ export default function Pagination({ total, limit, page }) {
           )}
           <div className="current" style={{ width: '5rem' }}>
             <Select
-              placeholder={page}
+              placeholder={page.toString()}
               onChange={(e) => {
                 onKeyPress(e);
               }}
@@ -123,7 +123,7 @@ export default function Pagination({ total, limit, page }) {
                 (_, i) => i + 1
               ).map((item) => ({
                 value: item,
-                text: item
+                text: item.toString()
               }))}
             />
           </div>

@@ -14,7 +14,7 @@
     },
     "calculation_type": {
       "type": "string",
-      "enum": ["flat_rate", "api"]
+      "enum": ["flat_rate", "price_based_rate", "weight_based_rate", "api"]
     },
     "calculate_api": {
       "type": "string"
@@ -30,6 +30,48 @@
     "max": {
       "type": ["string", "number"],
       "pattern": "^\\d+(\\.\\d{1,2})?$"
+    },
+    "weight_based_cost": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "min_weight": {
+            "type": ["string", "number"],
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "cost": {
+            "type": ["string", "number"],
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "min_weight",
+          "cost"
+        ]
+      }
+    },
+    "price_based_cost": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "min_price": {
+            "type": ["string", "number"],
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "cost": {
+            "type": ["string", "number"],
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "min_price",
+          "cost"
+        ]
+      }
     }
   },
   "additionalProperties": true,

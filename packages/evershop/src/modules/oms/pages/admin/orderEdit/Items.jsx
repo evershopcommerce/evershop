@@ -113,7 +113,7 @@ Items.propTypes = {
     shipmentStatus: PropTypes.shape({
       code: PropTypes.string,
       badge: PropTypes.string,
-      progress: PropTypes.number,
+      progress: PropTypes.string,
       name: PropTypes.string
     }),
     shipment: PropTypes.shape({

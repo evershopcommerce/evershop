@@ -61,7 +61,7 @@ SkuSelector.propTypes = {
     buyQty: PropTypes.string,
     getQty: PropTypes.string,
     maxY: PropTypes.string,
-    discount: PropTypes.string
+    discount: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   }).isRequired,
   updateProduct: PropTypes.func.isRequired
 };
@@ -101,7 +101,7 @@ export function BuyXGetY({ requireProducts, discountType }) {
         buy_qty: '',
         get_qty: '',
         max_y: '',
-        discount: 100
+        discount: '100'
       })
     );
   };
@@ -139,7 +139,7 @@ export function BuyXGetY({ requireProducts, discountType }) {
           </thead>
           <tbody>
             {products.map((p, i) => (
-              <tr key={p.sku}>
+              <tr key={`${p.sku}-${i}`}>
                 <td>
                   <SkuSelector
                     product={p}

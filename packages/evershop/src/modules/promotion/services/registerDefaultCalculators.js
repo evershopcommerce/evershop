@@ -33,7 +33,7 @@ module.exports.registerDefaultCalculators =
           let sharedDiscount = 0;
           if (index === items.length - 1) {
             const precision = getConfig('pricing.precision', '2');
-            const precisionFix = 10**precision;
+            const precisionFix = 10 ** precision;
             sharedDiscount =
               (cartDiscountAmount * precisionFix -
                 distributedAmount * precisionFix) /
@@ -289,11 +289,12 @@ module.exports.registerDefaultCalculators =
           } else {
             const discountPercent = Math.min(discountAmount, 100);
             discounts[item.getId()] = toPrice(
-              (Math.min(item.getData('qty'), maxQty) *
+              ((discountPercent *
                 (priceIncludingTax
                   ? item.getData('final_price_incl_tax')
-                  : item.getData('final_price') * discountPercent)) /
-                100
+                  : item.getData('final_price'))) /
+                100) *
+                Math.min(item.getData('qty'), maxQty)
             );
           }
         });

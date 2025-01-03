@@ -31,7 +31,7 @@ export default function Activities({ order: { activities = [] } }) {
       });
     } else {
       dailyActivities.push({
-        date: element.createdAt.value,
+        date: element.createdAt.date,
         activities: [
           {
             comment: element.comment,
@@ -78,7 +78,7 @@ Activities.propTypes = {
     activities: PropTypes.arrayOf(
       PropTypes.shape({
         comment: PropTypes.string,
-        customerNotified: PropTypes.string,
+        customerNotified: PropTypes.number,
         createdAt: PropTypes.shape({
           value: PropTypes.string,
           timezone: PropTypes.string,

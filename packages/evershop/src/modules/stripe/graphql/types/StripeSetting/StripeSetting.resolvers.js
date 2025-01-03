@@ -39,6 +39,16 @@ module.exports = {
       } else {
         return null;
       }
+    },
+    stripePaymentMode: (setting) => {
+      const stripePaymentMode = setting.find(
+        (s) => s.name === 'stripePaymentMode'
+      );
+      if (stripePaymentMode) {
+        return stripePaymentMode.value;
+      } else {
+        return 'capture';
+      }
     }
   }
 };

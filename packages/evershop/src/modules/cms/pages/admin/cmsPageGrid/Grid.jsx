@@ -121,8 +121,9 @@ function Actions({ pages = [], selectedIds = [] }) {
             <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
               {selectedIds.length} selected
             </a>
-            {actions.map((action) => (
+            {actions.map((action, i) => (
               <a
+                key={i}
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
@@ -144,7 +145,7 @@ Actions.propTypes = {
   selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   pages: PropTypes.arrayOf(
     PropTypes.shape({
-      uuid: PropTypes.number.isRequired,
+      uuid: PropTypes.string.isRequired,
       updateApi: PropTypes.string.isRequired,
       deleteApi: PropTypes.string.isRequired
     })
@@ -155,10 +156,13 @@ export default function CMSPageGrid({
   cmsPages: { items: pages, total, currentFilters = [] }
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
-    ? currentFilters.find((filter) => filter.key === 'page').value
+    ? parseInt(currentFilters.find((filter) => filter.key === 'page').value, 10)
     : 1;
   const limit = currentFilters.find((filter) => filter.key === 'limit')
-    ? currentFilters.find((filter) => filter.key === 'limit').value
+    ? parseInt(
+        currentFilters.find((filter) => filter.key === 'limit').value,
+        10
+      )
     : 20;
 
   const [selectedRows, setSelectedRows] = useState([]);
@@ -167,7 +171,7 @@ export default function CMSPageGrid({
     <Card>
       <Card.Session
         title={
-          <Form submitBtn={false}>
+          <Form submitBtn={false} id="pageGridFilter">
             <Area
               id="cmsPageGridFilter"
               noOuter
@@ -178,6 +182,7 @@ export default function CMSPageGrid({
                       <Field
                         type="text"
                         id="name"
+                        name="name"
                         placeholder="Search"
                         value={
                           currentFilters.find((f) => f.key === 'name')?.value
@@ -329,7 +334,7 @@ CMSPageGrid.propTypes = {
   cmsPages: PropTypes.shape({
     items: PropTypes.arrayOf(
       PropTypes.shape({
-        uuid: PropTypes.number.isRequired,
+        uuid: PropTypes.string.isRequired,
         updateApi: PropTypes.string.isRequired,
         deleteApi: PropTypes.string.isRequired
       })

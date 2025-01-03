@@ -37,7 +37,7 @@ TrackingButton.propTypes = {
     shipment: PropTypes.shape({
       carrier: PropTypes.string,
       trackingNumber: PropTypes.string
-    }).isRequired
+    })
   }).isRequired,
   carriers: PropTypes.arrayOf(
     PropTypes.shape({

@@ -46,16 +46,8 @@ module.exports = exports = function TailwindLoader(c) {
     // All file in themes folder and name is capitalized
     join(CONSTANTS.ROOTPATH, 'themes', '**', '[A-Z]*.jsx')
   ];
-  // Postcss with tailwind plugin
-  try {
-    const tailwindCssResult = postcss([
-      tailwindcss(mergedTailwindConfig),
-      autoprefixer
-    ]).process(c);
-    // get the css from the result
-    const tailwindCss = tailwindCssResult.css;
-    return tailwindCss;
-  } catch (error) {
-    throw new Error(error);
-  }
+
+  return postcss([tailwindcss(mergedTailwindConfig), autoprefixer])
+    .process(c, { from: undefined })
+    .then((result) => result.css);
 };

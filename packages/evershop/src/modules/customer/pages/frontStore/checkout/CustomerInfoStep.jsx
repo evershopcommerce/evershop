@@ -61,7 +61,7 @@ ContactInformationStep.propTypes = {
     email: PropTypes.string.isRequired
   }),
   cart: PropTypes.shape({
-    customerEmail: PropTypes.string.isRequired,
+    customerEmail: PropTypes.string,
     addContactInfoApi: PropTypes.string.isRequired
   }).isRequired
 };

@@ -39,22 +39,27 @@ function Rate({ rate, getTaxClasses }) {
         </td>
       </>
       {modal.state.showing && (
-        <div className={modal.className} onAnimationEnd={modal.onAnimationEnd}>
+        <td className="border-none w-0 h-0">
           <div
-            className="modal-wrapper flex self-center justify-center items-center"
-            tabIndex={-1}
-            role="dialog"
+            className={modal.className}
+            onAnimationEnd={modal.onAnimationEnd}
           >
-            <div className="modal">
-              <RateForm
-                saveRateApi={rate.updateApi}
-                closeModal={() => modal.closeModal()}
-                getTaxClasses={getTaxClasses}
-                rate={rate}
-              />
+            <div
+              className="modal-wrapper flex self-center justify-center items-center"
+              tabIndex={-1}
+              role="dialog"
+            >
+              <div className="modal">
+                <RateForm
+                  saveRateApi={rate.updateApi}
+                  closeModal={() => modal.closeModal()}
+                  getTaxClasses={getTaxClasses}
+                  rate={rate}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </td>
       )}
     </>
   );

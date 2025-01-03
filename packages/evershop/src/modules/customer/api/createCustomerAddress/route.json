@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/customers/:customer_id/addresses",
+  "access": "public"
+}

@@ -24,7 +24,7 @@ export default function Media({ id, product, productImageUploadUrl }) {
 }
 
 Media.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   product: PropTypes.shape({
     gallery: PropTypes.arrayOf(
       PropTypes.shape({
@@ -41,6 +41,7 @@ Media.propTypes = {
 };
 
 Media.defaultProps = {
+  id: 'images',
   product: null
 };
 

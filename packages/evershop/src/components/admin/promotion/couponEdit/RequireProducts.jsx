@@ -86,8 +86,7 @@ export function RequiredProducts({ requiredProducts }) {
         </thead>
         <tbody>
           {products.map((p, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <tr key={i}>
+            <tr key={`${p.key}-${p.operator}-${p.value}-${p.qty}-${i}`}>
               <td>
                 <div className="form-field-container dropdown">
                   <div className="field-wrapper">

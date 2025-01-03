@@ -6,12 +6,13 @@ export function TaxClasses({ countries, getTaxClasses, classes }) {
   return (
     <>
       {classes.map((taxClass) => (
-          <TaxClass
-            taxClass={taxClass}
-            getTaxClasses={getTaxClasses}
-            countries={countries}
-          />
-        ))}
+        <TaxClass
+          key={taxClass.uuid}
+          taxClass={taxClass}
+          getTaxClasses={getTaxClasses}
+          countries={countries}
+        />
+      ))}
     </>
   );
 }

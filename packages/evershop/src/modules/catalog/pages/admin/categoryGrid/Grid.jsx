@@ -98,10 +98,13 @@ export default function CategoryGrid({
   categories: { items: categories, total, currentFilters = [] }
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
-    ? currentFilters.find((filter) => filter.key === 'page').value
+    ? parseInt(currentFilters.find((filter) => filter.key === 'page').value, 10)
     : 1;
   const limit = currentFilters.find((filter) => filter.key === 'limit')
-    ? currentFilters.find((filter) => filter.key === 'limit').value
+    ? parseInt(
+        currentFilters.find((filter) => filter.key === 'limit').value,
+        10
+      )
     : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -109,10 +112,11 @@ export default function CategoryGrid({
     <Card>
       <Card.Session
         title={
-          <Form submitBtn={false}>
+          <Form submitBtn={false} id="categoryGridFilter">
             <Field
               type="text"
               id="name"
+              name="name"
               placeholder="Search"
               value={currentFilters.find((f) => f.key === 'name')?.value}
               onKeyPress={(e) => {
@@ -246,9 +250,7 @@ export default function CategoryGrid({
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <YesNoRow id="includeInNav" areaProps={areaProps} />
-                      )
+                      default: () => <YesNoRow value={c.includeInNav} />
                     },
                     sortOrder: 30
                   }

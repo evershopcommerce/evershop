@@ -38,7 +38,7 @@ const useMemoizeArgs = (args, equalityFunc) => {
 export function Field(props) {
   const { name, value, validationRules, onChange, type } = props;
   const context = useFormContext();
-  const [fieldValue, setFieldValue] = React.useState(value);
+  const [fieldValue, setFieldValue] = React.useState(value || '');
   const field = context.fields.find((f) => f.name && f.name === name);
 
   React.useEffect(() => {
@@ -124,7 +124,15 @@ Field.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  validationRules: PropTypes.arrayOf(PropTypes.string),
+  validationRules: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        rule: PropTypes.string,
+        message: PropTypes.string
+      })
+    ])
+  ),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 

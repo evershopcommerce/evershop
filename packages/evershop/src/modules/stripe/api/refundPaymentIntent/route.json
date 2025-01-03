@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/stripe/paymentIntents/refund",
+  "access": "private"
+}

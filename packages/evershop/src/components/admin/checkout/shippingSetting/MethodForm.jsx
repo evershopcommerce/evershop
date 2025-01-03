@@ -51,7 +51,7 @@ function Condition({ method }) {
               type === 'price' ? 'Minimum order price' : 'Minimum order weight'
             }
             type="text"
-            value={method?.min}
+            value={method?.min || ''}
             validationRules={['notEmpty']}
           />
         </div>
@@ -65,7 +65,7 @@ function Condition({ method }) {
               type === 'price' ? 'Maximum order price' : 'Maximum order weight'
             }
             type="text"
-            value={method?.max}
+            value={method?.max || ''}
             validationRules={['notEmpty']}
           />
         </div>
@@ -77,8 +77,8 @@ function Condition({ method }) {
 Condition.propTypes = {
   method: PropTypes.shape({
     conditionType: PropTypes.string,
-    min: PropTypes.string,
-    max: PropTypes.string
+    min: PropTypes.number,
+    max: PropTypes.number
   })
 };
 
@@ -232,10 +232,14 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
           <Field
             type="hidden"
             name="method_id"
-            value={shippingMethod?.value}
+            value={shippingMethod?.value || ''}
             validationRules={['notEmpty']}
           />
-          <Toggle name="is_enabled" label="Status" value={method?.isEnabled} />
+          <Toggle
+            name="is_enabled"
+            label="Status"
+            value={method?.isEnabled || 0}
+          />
         </Card.Session>
         <Card.Session title="Setup shipping cost">
           <Radio
@@ -258,7 +262,7 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
               type="text"
               placeholder="Shipping cost"
               validationRules={['notEmpty']}
-              value={method?.cost?.value}
+              value={method?.cost?.value || ''}
             />
           )}
           {type === 'price_based_rate' && (
@@ -273,7 +277,7 @@ function MethodForm({ saveMethodApi, closeModal, getZones, method }) {
               type="text"
               placeholder="Calculate API endpoint"
               validationRules={['notEmpty']}
-              value={method?.calculateApi}
+              value={method?.calculateApi || ''}
               instruction="This API will be called to calculate shipping cost. It supposed to return a number."
             />
           )}
@@ -326,12 +330,12 @@ MethodForm.propTypes = {
   closeModal: PropTypes.func.isRequired,
   getZones: PropTypes.func.isRequired,
   method: PropTypes.shape({
-    methodId: PropTypes.string,
+    methodId: PropTypes.number,
     name: PropTypes.string,
     isEnabled: PropTypes.bool,
     calculateApi: PropTypes.string,
     cost: PropTypes.shape({
-      value: PropTypes.string
+      value: PropTypes.number
     }),
     priceBasedCost: PropTypes.arrayOf(
       PropTypes.shape({
@@ -354,8 +358,8 @@ MethodForm.propTypes = {
       })
     ),
     conditionType: PropTypes.string,
-    min: PropTypes.string,
-    max: PropTypes.string
+    min: PropTypes.number,
+    max: PropTypes.number
   })
 };
 

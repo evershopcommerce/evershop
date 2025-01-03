@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "reason": {
+      "type": "string"
+    }
+  },
+  "required": ["reason"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "reason": "Reason is mandatory"
+    }
+  }
+}

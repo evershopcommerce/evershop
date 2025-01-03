@@ -78,22 +78,27 @@ function Method({ method, getZones }) {
         </td>
       </>
       {modal.state.showing && (
-        <div className={modal.className} onAnimationEnd={modal.onAnimationEnd}>
+        <td className="border-none w-0 h-0">
           <div
-            className="modal-wrapper flex self-center justify-center items-center"
-            tabIndex={-1}
-            role="dialog"
+            className={modal.className}
+            onAnimationEnd={modal.onAnimationEnd}
           >
-            <div className="modal">
-              <MethodForm
-                saveMethodApi={method.updateApi}
-                closeModal={() => modal.closeModal()}
-                getZones={getZones}
-                method={method}
-              />
+            <div
+              className="modal-wrapper flex self-center justify-center items-center"
+              tabIndex={-1}
+              role="dialog"
+            >
+              <div className="modal">
+                <MethodForm
+                  saveMethodApi={method.updateApi}
+                  closeModal={() => modal.closeModal()}
+                  getZones={getZones}
+                  method={method}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </td>
       )}
     </>
   );
@@ -104,7 +109,8 @@ Method.propTypes = {
     name: PropTypes.string.isRequired,
     isEnabled: PropTypes.bool.isRequired,
     cost: PropTypes.shape({
-      text: PropTypes.string.isRequired
+      text: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired
     }),
     priceBasedCost: PropTypes.arrayOf(
       PropTypes.shape({
@@ -118,13 +124,26 @@ Method.propTypes = {
         cost: PropTypes.number.isRequired
       })
     ),
-    conditionType: PropTypes.string.isRequired,
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
+    conditionType: PropTypes.string,
+    min: PropTypes.number,
+    max: PropTypes.number,
     updateApi: PropTypes.string.isRequired,
     deleteApi: PropTypes.string.isRequired
-  }).isRequired,
+  }),
   getZones: PropTypes.func.isRequired
+};
+
+Method.defaultProps = {
+  method: {
+    cost: {
+      text: ''
+    },
+    priceBasedCost: [],
+    weightBasedCost: [],
+    conditionType: null,
+    min: null,
+    max: null
+  }
 };
 
 export default Method;

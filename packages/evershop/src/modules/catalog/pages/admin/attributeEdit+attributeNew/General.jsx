@@ -120,7 +120,7 @@ Groups.propTypes = {
   createGroupApi: PropTypes.string.isRequired,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.number,
+      value: PropTypes.string,
       label: PropTypes.string
     })
   ).isRequired
@@ -195,7 +195,7 @@ function Options({ originOptions = [] }) {
 Options.propTypes = {
   originOptions: PropTypes.arrayOf(
     PropTypes.shape({
-      optionId: PropTypes.number,
+      optionId: PropTypes.string,
       optionText: PropTypes.string
     })
   ).isRequired
@@ -285,23 +285,23 @@ export default function General({ attribute, createGroupApi }) {
 General.propTypes = {
   attribute: PropTypes.shape({
     type: PropTypes.string.isRequired,
-    attribute_id: PropTypes.number,
-    attribute_name: PropTypes.string,
-    attribute_code: PropTypes.string,
+    attributeId: PropTypes.string,
+    attributeName: PropTypes.string,
+    attributeCode: PropTypes.string,
     options: PropTypes.arrayOf(
       PropTypes.shape({
-        optionId: PropTypes.number,
+        optionId: PropTypes.string,
         optionText: PropTypes.string
       })
     ),
-    groups: {
+    groups: PropTypes.shape({
       items: PropTypes.arrayOf(
         PropTypes.shape({
-          value: PropTypes.number,
+          value: PropTypes.string,
           label: PropTypes.string
         })
       )
-    }
+    })
   }),
   createGroupApi: PropTypes.string.isRequired
 };

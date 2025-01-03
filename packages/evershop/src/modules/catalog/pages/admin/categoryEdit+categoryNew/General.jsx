@@ -22,7 +22,7 @@ function ParentCategory({ currentId, parent }) {
               {index < category.path.length - 1 && ' > '}
             </span>
           ))}
-          <span className="text-interactive pl-8">
+          <span className="text-interactive pl-8 hover:underline">
             <a
               href="#"
               onClick={(e) => {
@@ -31,6 +31,17 @@ function ParentCategory({ currentId, parent }) {
               }}
             >
               Change
+            </a>
+          </span>
+          <span className="text-critical pl-8 hover:underline">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setCategory(null);
+              }}
+            >
+              Unlink
             </a>
           </span>
         </div>
@@ -62,7 +73,7 @@ function ParentCategory({ currentId, parent }) {
       <input
         type="hidden"
         name="parent_id"
-        value={category?.categoryId || null}
+        value={category?.categoryId || ''}
       />
     </div>
   );
@@ -161,7 +172,20 @@ General.propTypes = {
   uploadApi: PropTypes.string.isRequired,
   category: PropTypes.shape({
     name: PropTypes.string,
-    description: PropTypes.string,
+    description: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        size: PropTypes.number.isRequired,
+        columns: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            size: PropTypes.number.isRequired,
+            // eslint-disable-next-line react/forbid-prop-types
+            data: PropTypes.object.isRequired
+          })
+        )
+      })
+    ),
     categoryId: PropTypes.number,
     parent: PropTypes.shape({
       categoryId: PropTypes.number.isRequired,

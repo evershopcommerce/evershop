@@ -144,7 +144,7 @@ Variants.propTypes = {
   variantAttributes: PropTypes.arrayOf(
     PropTypes.shape({
       attributeName: PropTypes.string,
-      attributeId: PropTypes.string.isRequired,
+      attributeId: PropTypes.number.isRequired,
       options: PropTypes.arrayOf(
         PropTypes.shape({
           optionId: PropTypes.number,
@@ -159,8 +159,8 @@ Variants.propTypes = {
     attributes: PropTypes.arrayOf(
       PropTypes.shape({
         attributeName: PropTypes.string,
-        attributeId: PropTypes.string.isRequired,
-        attributeType: PropTypes.string.isRequired,
+        attributeId: PropTypes.number.isRequired,
+        attributeCode: PropTypes.string.isRequired,
         attributeValues: PropTypes.arrayOf(
           PropTypes.shape({
             attributeValueId: PropTypes.string.isRequired,

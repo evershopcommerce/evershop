@@ -80,8 +80,12 @@ ToastMessage.propTypes = {
   count: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   qty: PropTypes.number.isRequired,
-  thumbnail: PropTypes.string.isRequired,
+  thumbnail: PropTypes.string,
   toastId: PropTypes.string.isRequired
+};
+
+ToastMessage.defaultProps = {
+  thumbnail: null
 };
 
 function AddToCart({ stockAvaibility, loading = false, error }) {

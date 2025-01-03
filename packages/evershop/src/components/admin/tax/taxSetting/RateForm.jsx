@@ -112,7 +112,7 @@ function MethodForm({ saveRateApi, closeModal, getTaxClasses, rate }) {
               <Toggle
                 name="is_compound"
                 label="Is compound"
-                value={rate?.isCompound}
+                value={rate?.isCompound || false}
               />
             </div>
             <div />
@@ -159,12 +159,12 @@ MethodForm.propTypes = {
   getTaxClasses: PropTypes.func.isRequired,
   rate: PropTypes.shape({
     name: PropTypes.string,
-    rate: PropTypes.string,
+    rate: PropTypes.number,
     country: PropTypes.string,
     province: PropTypes.string,
     postcode: PropTypes.string,
     isCompound: PropTypes.bool,
-    priority: PropTypes.string
+    priority: PropTypes.number
   })
 };
 

@@ -112,6 +112,7 @@ module.exports = exports = async (connection) => {
   "integration_order_id" varchar DEFAULT NULL,
   "sid" varchar DEFAULT NULL,
   "order_number" varchar NOT NULL,
+  "status" varchar NOT NULL DEFAULT NULL,
   "cart_id" INT NOT NULL,
   "currency" varchar NOT NULL,
   "customer_id" INT DEFAULT NULL,

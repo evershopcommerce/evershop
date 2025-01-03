@@ -79,7 +79,7 @@ function Area(props) {
         }
         // Check if C is a React component
         if (React.isValidElement(C)) {
-          return C;
+          return <React.Fragment key={index}>{C}</React.Fragment>;
         }
 
         if (typeof C === 'string') {
@@ -101,7 +101,7 @@ Area.propTypes = {
       id: PropTypes.string,
       sortOrder: PropTypes.number,
       component: PropTypes.shape({
-        default: PropTypes.elementType
+        default: PropTypes.oneOfType([PropTypes.elementType, PropTypes.node])
       })
     })
   ),
@@ -114,7 +114,7 @@ Area.propTypes = {
     '*': PropTypes.objectOf(
       PropTypes.shape({
         component: PropTypes.shape({
-          default: PropTypes.elementType
+          default: PropTypes.oneOfType([PropTypes.elementType, PropTypes.node])
         })
       })
     )

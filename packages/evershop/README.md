@@ -1,6 +1,6 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 <p align="center">
-<img width="60" height="68" alt="EverShop Logo" src="https://evershop.io/img/logo.png"/>
+<img width="60" height="68" alt="EverShop Logo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/logo-green.png"/>
 </p>
 <p align="center">
   <h1 align="center">EverShop</h1>
@@ -58,19 +58,16 @@ Explore our demo store.
 
 <p align="left">
   <a href="https://demo.evershop.io/admin" target="_blank">
-    <img alt="evershop-backend-demo" height="35" alt="EverShop Admin Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-admin-demo.png"/>
+    <img alt="evershop-backend-demo" height="35" alt="EverShop Admin Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-demo-back.png"/>
+  </a>
+  <a href="https://demo.evershop.io/" target="_blank">
+    <img alt="evershop-store-demo" height="35" alt="EverShop Store Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-demo-front.png"/>
   </a>
 </p>
 <b>Demo user:</b>
 
 Email: demo@evershop.io<br/>
 Password: 123456
-
-<p align="left">
-  <a href="https://demo.evershop.io/" target="_blank">
-    <img alt="evershop-store-demo" height="35" alt="EverShop Store Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-store-front-demo.png"/>
-  </a>
-</p>
 
 ## Support
 
@@ -80,6 +77,19 @@ If you like my work, feel free to:
 - [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)][tweet] about EverShop. Thank you!
 
 [tweet]: https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fevershopcommerce%2Fevershop&text=Awesome%20React%20Ecommerce%20Project&hashtags=react,ecommerce,expressjs,graphql
+
+### Sponsors
+
+<table style="text-align:center;">
+<tr>
+<td align="center" valign="middle"><a href="https://www.bountyhub.dev/" target="_blank"><img src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/sponsors/bountyhub.png" width="85" valign="middle" /></a></td>
+</tr>
+</table>
+
+## Contributing
+
+EverShop is an open-source project. We are committed to a fully transparent development process and appreciate highly any contributions. Whether you are helping us fix bugs, proposing new features, improving our documentation or spreading the word - we would love to have you as part of the EverShop community.
+
 ### Ask a question about EverShop
 
 You can ask questions, and participate in discussions about EverShop-related topics in the EverShop Discord channel.
@@ -98,9 +108,6 @@ If you have an idea, or you're missing a capability that would make development 
 If a similar feature request already exists, don't forget to leave a "+1".
 If you add some more information such as your thoughts and vision about the feature, your comments will be embraced warmly :)
 
-## Contributing
-
-EverShop is an open-source project. We are committed to a fully transparent development process and appreciate highly any contributions. Whether you are helping us fix bugs, proposing new features, improving our documentation or spreading the word - we would love to have you as part of the EverShop community.
 
 Please refer to our [Contribution Guidelines](./CONTRIBUTING.md) and [Code of Conduct](./CODE_OF_CONDUCT.md).
 

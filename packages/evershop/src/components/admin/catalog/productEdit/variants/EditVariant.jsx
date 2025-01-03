@@ -95,7 +95,7 @@ EditVariant.propTypes = {
     product: PropTypes.shape({
       updateApi: PropTypes.string.isRequired
     }),
-    id: PropTypes.number.isRequired
+    id: PropTypes.string.isRequired
   }).isRequired,
   variantGroup: PropTypes.shape({
     attributes: PropTypes.arrayOf(

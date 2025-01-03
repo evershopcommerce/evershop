@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-const isEqualWith = require('lodash/isEqualWith');
+const isEqualWith = require('lodash.isequalwith');
 const { error } = require('@evershop/evershop/src/lib/log/logger');
 
 module.exports.DataObject = class DataObject {
@@ -118,7 +118,7 @@ module.exports.DataObject = class DataObject {
   export() {
     const data = {};
     this.#fields.forEach((f) => {
-      data[f.key] = this.#data[f.key];
+      data[f.key] = structuredClone(this.#data[f.key]);
     });
     if (this.hasError()) {
       data.errors = Object.values(this.#errors);

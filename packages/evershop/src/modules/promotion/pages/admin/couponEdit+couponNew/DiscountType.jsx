@@ -84,7 +84,12 @@ DiscountType.propTypes = {
         PropTypes.shape({
           key: PropTypes.string,
           operator: PropTypes.string,
-          value: PropTypes.string,
+          value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.arrayOf(PropTypes.string),
+            PropTypes.arrayOf(PropTypes.number)
+          ]),
           qty: PropTypes.string
         })
       )

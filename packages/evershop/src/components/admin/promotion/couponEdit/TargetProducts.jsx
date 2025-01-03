@@ -70,6 +70,7 @@ function Products({ targetProducts, maxQty }) {
           <div>Maximum</div>
           <div style={{ width: '70px', padding: '0 1rem' }}>
             <Field
+              type="text"
               name="target_products[maxQty]"
               value={maxQty}
               placeholder="10"
@@ -426,7 +427,12 @@ Products.propTypes = {
     PropTypes.shape({
       key: PropTypes.string,
       operator: PropTypes.string,
-      value: PropTypes.string,
+      value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.arrayOf(PropTypes.number)
+      ]),
       qty: PropTypes.string
     })
   )

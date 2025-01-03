@@ -5,6 +5,11 @@ const {
   defaultPaginationFilters
 } = require('../../lib/util/defaultPaginationFilters');
 const { addProcessor } = require('../../lib/util/registry');
+const { hookAfter } = require('../../lib/util/hookable');
+const {
+  changeOrderStatus,
+  resolveOrderStatus
+} = require('./services/updateOrderStatus');
 
 module.exports = () => {
   addProcessor('configuratonSchema', (schema) => {
@@ -33,6 +38,9 @@ module.exports = () => {
                         },
                         isDefault: {
                           type: 'boolean'
+                        },
+                        isCancelable: {
+                          type: 'boolean'
                         }
                       },
                       required: ['name', 'badge', 'progress']
@@ -57,12 +65,141 @@ module.exports = () => {
                         },
                         isDefault: {
                           type: 'boolean'
+                        },
+                        isCancelable: {
+                          type: 'boolean'
                         }
                       },
                       required: ['name', 'badge', 'progress']
                     }
                   },
                   additionalProperties: false
+                },
+                status: {
+                  type: 'object',
+                  properties: {
+                    new: {
+                      type: 'object',
+                      properties: {
+                        name: {
+                          type: 'string'
+                        },
+                        badge: {
+                          type: 'string'
+                        },
+                        progress: {
+                          type: 'string'
+                        },
+                        isDefault: {
+                          type: 'boolean'
+                        },
+                        next: {
+                          type: 'array',
+                          items: {
+                            type: 'string'
+                          }
+                        }
+                      },
+                      required: ['name', 'badge', 'progress']
+                    },
+                    processing: {
+                      type: 'object',
+                      properties: {
+                        name: {
+                          type: 'string'
+                        },
+                        badge: {
+                          type: 'string'
+                        },
+                        progress: {
+                          type: 'string'
+                        },
+                        next: {
+                          type: 'array',
+                          items: {
+                            type: 'string'
+                          }
+                        }
+                      },
+                      required: ['name', 'badge', 'progress']
+                    },
+                    completed: {
+                      type: 'object',
+                      properties: {
+                        name: {
+                          type: 'string'
+                        },
+                        badge: {
+                          type: 'string'
+                        },
+                        progress: {
+                          type: 'string'
+                        },
+                        next: {
+                          type: 'array',
+                          items: {
+                            type: 'string'
+                          }
+                        }
+                      },
+                      required: ['name', 'badge', 'progress']
+                    },
+                    canceled: {
+                      type: 'object',
+                      properties: {
+                        name: {
+                          type: 'string'
+                        },
+                        badge: {
+                          type: 'string'
+                        },
+                        progress: {
+                          type: 'string'
+                        },
+                        next: {
+                          type: 'array',
+                          items: {
+                            type: 'string'
+                          }
+                        }
+                      },
+                      required: ['name', 'badge', 'progress']
+                    },
+                    closed: {
+                      type: 'object',
+                      properties: {
+                        name: {
+                          type: 'string'
+                        },
+                        badge: {
+                          type: 'string'
+                        },
+                        progress: {
+                          type: 'string'
+                        },
+                        next: {
+                          type: 'array',
+                          items: {
+                            type: 'string'
+                          }
+                        }
+                      },
+                      required: ['name', 'badge', 'progress']
+                    }
+                  },
+                  additionalProperties: true
+                },
+                psoMapping: {
+                  type: 'object',
+                  patternProperties: {
+                    '^[a-zA-Z_*]+:[a-zA-Z_*]+$': {
+                      type: 'string'
+                    }
+                  },
+                  additionalProperties: false
+                },
+                reStockAfterCancellation: {
+                  type: 'boolean'
                 }
               },
               required: ['shipmentStatus', 'paymentStatus'],
@@ -94,11 +231,17 @@ module.exports = () => {
   const defaultOrderConfig = {
     order: {
       shipmentStatus: {
+        pending: {
+          name: 'Pending',
+          badge: 'default',
+          progress: 'incomplete',
+          isDefault: true
+        },
         processing: {
           name: 'Processing',
           badge: 'default',
           progress: 'incomplete',
-          isDefault: true
+          isDefault: false
         },
         shipped: {
           name: 'Shipped',
@@ -108,7 +251,14 @@ module.exports = () => {
         delivered: {
           name: 'Delivered',
           badge: 'success',
-          progress: 'complete'
+          progress: 'complete',
+          isCancelable: false
+        },
+        canceled: {
+          name: 'Canceled',
+          badge: 'critical',
+          progress: 'complete',
+          isCancelable: false
         }
       },
       paymentStatus: {
@@ -116,14 +266,64 @@ module.exports = () => {
           name: 'Pending',
           badge: 'default',
           progress: 'incomplete',
-          isDefault: true
+          isDefault: true,
+          isCancelable: true
         },
         paid: {
           name: 'Paid',
           badge: 'success',
-          progress: 'complete'
+          progress: 'complete',
+          isCancelable: false
+        },
+        canceled: {
+          name: 'Canceled',
+          badge: 'critical',
+          progress: 'complete',
+          isCancelable: true
         }
-      }
+      },
+      status: {
+        new: {
+          name: 'New',
+          badge: 'default',
+          progress: 'incomplete',
+          isDefault: true,
+          next: ['processing', 'canceled']
+        },
+        processing: {
+          name: 'Processing',
+          badge: 'default',
+          progress: 'incomplete',
+          next: ['completed', 'canceled']
+        },
+        completed: {
+          name: 'Completed',
+          badge: 'success',
+          progress: 'complete',
+          next: ['closed']
+        },
+        canceled: {
+          name: 'Canceled',
+          badge: 'critical',
+          progress: 'complete',
+          next: []
+        },
+        closed: {
+          name: 'Closed',
+          badge: 'default',
+          progress: 'complete',
+          next: []
+        }
+      },
+      psoMapping: {
+        'pending:pending': 'new',
+        'pending:*': 'processing',
+        'paid:*': 'processing',
+        'paid:delivered': 'completed',
+        'canceled:*': 'processing',
+        'canceled:canceled': 'canceled'
+      },
+      reStockAfterCancellation: true
     },
     carriers: {
       default: {
@@ -157,5 +357,33 @@ module.exports = () => {
     'orderCollectionFilters',
     (filters) => [...filters, ...defaultPaginationFilters],
     2
+  );
+
+  hookAfter(
+    'changePaymentStatus',
+    async (order, orderId, status, connection) => {
+      if (order.status === 'canceled') {
+        throw new Error('Order is already canceled');
+      }
+      if (order.status === 'closed') {
+        throw new Error('Order is already closed');
+      }
+      const orderStatus = resolveOrderStatus(status, order.shipment_status);
+      await changeOrderStatus(order, orderStatus, connection);
+    }
+  );
+
+  hookAfter(
+    'changeShipmentStatus',
+    async (order, orderId, status, connection) => {
+      if (order.status === 'canceled') {
+        throw new Error('Order is already canceled');
+      }
+      if (order.status === 'closed') {
+        throw new Error('Order is already closed');
+      }
+      const orderStatus = resolveOrderStatus(order.payment_status, status);
+      await changeOrderStatus(order, orderStatus, connection);
+    }
   );
 };

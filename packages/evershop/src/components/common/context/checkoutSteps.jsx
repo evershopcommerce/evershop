@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
+import { useAppDispatch } from './app';
 
 const Steps = React.createContext();
 const CheckoutStepsDispatch = React.createContext();
 
 export function CheckoutSteps({ children, value }) {
+  const AppContextDispatch = useAppDispatch();
   const [steps, setSteps] = useState(value);
 
   const canStepDisplay = (step) => {
@@ -48,7 +50,11 @@ export function CheckoutSteps({ children, value }) {
     );
   };
 
-  const completeStep = (stepId, preview) => {
+  const completeStep = async (stepId, preview) => {
+    const url = new URL(window.location.href, window.location.origin);
+    url.searchParams.append('ajax', true);
+    await AppContextDispatch.fetchPageData(url);
+    url.searchParams.delete('ajax');
     setSteps(
       steps.map((s) => {
         if (s.id === stepId) {

@@ -113,7 +113,7 @@ export default function TaxSetting({
                       type="select"
                       name="defaultShippingTaxClassId"
                       label="Shipping tax class"
-                      value={setting.defaultShippingTaxClassId}
+                      value={setting.defaultShippingTaxClassId || ''}
                       placeholder="None"
                       disableDefaultOption={false}
                       options={[
@@ -140,7 +140,7 @@ export default function TaxSetting({
                       type="select"
                       name="baseCalculationAddress"
                       label="Base calculation address"
-                      value={setting.baseCalculationAddress}
+                      value={setting.baseCalculationAddress || ''}
                       options={[
                         {
                           value: 'shippingAddress',
@@ -206,8 +206,8 @@ TaxSetting.propTypes = {
   createTaxClassApi: PropTypes.string.isRequired,
   saveSettingApi: PropTypes.string.isRequired,
   setting: PropTypes.shape({
-    defaultProductTaxClassId: PropTypes.string,
-    defaultShippingTaxClassId: PropTypes.string,
+    defaultProductTaxClassId: PropTypes.number,
+    defaultShippingTaxClassId: PropTypes.number,
     baseCalculationAddress: PropTypes.string
   }).isRequired
 };

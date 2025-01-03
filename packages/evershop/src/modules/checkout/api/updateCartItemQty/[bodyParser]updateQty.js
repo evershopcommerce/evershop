@@ -25,7 +25,7 @@ module.exports = async (request, response, delegate, next) => {
       return;
     }
     const { action, qty } = request.body;
-    const item = await cart.updateItemQty(item_id, qty, action);
+    const item = await cart.updateItemQty(item_id, qty, action, { request });
     await saveCart(cart);
     response.status(OK);
     response.$body = {
