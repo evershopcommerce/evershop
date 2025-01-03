@@ -41,7 +41,7 @@ function hookBefore(funcName, callback, priority = 10) {
 
 function hookable(originalFunction, context) {
   // Make sure the original function is a named function
-  const funcName = originalFunction.name;
+  const funcName = originalFunction.name.replace('bound ', '');
   if (!funcName) {
     throw new Error('The original function must be a named function');
   }

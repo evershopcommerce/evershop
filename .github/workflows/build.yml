@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '14', '15']
+        node: [ '18']
     name: Node ${{ matrix.node }}
 
     # env:
