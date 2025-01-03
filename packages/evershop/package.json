@@ -15,6 +15,7 @@
     "postpack": "node postpack.js",
     "dev": "evershop dev",
     "build": "evershop build",
+    "build-fast": "evershop build -- --skip-minify",
     "start": "evershop start",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",
