@@ -86,14 +86,16 @@ module.exports.registerDefaultValidators =
         )
           ? parseFloat(conditions.order_total)
           : null;
-        if (
-          minimumSubTotal && priceIncludingTax
-            ? cart.getData('sub_total_incl_tax')
-            : cart.getData('sub_total') < minimumSubTotal
-        ) {
-          return false;
+        if (minimumSubTotal === null) {
+          return true;
         }
-        return true;
+        let check = false;
+        if (priceIncludingTax) {
+          check = cart.getData('sub_total_incl_tax') >= minimumSubTotal;
+        } else {
+          check = cart.getData('sub_total') >= minimumSubTotal;
+        }
+        return check;
       },
       function minimumQtyValidator(cart, coupon) {
         const conditions = coupon.condition;
