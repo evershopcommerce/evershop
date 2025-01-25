@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/momo/captureTransactions",
+  "access": "public"
+}

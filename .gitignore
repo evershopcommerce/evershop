@@ -1,7 +1,6 @@
 node_modules
 .env
 ./dist
-/extensions/*
 themes
 .idea/*
 .evershop
@@ -14,7 +13,6 @@ npm-debug.log
 .log
 coverage
 cypress
-/config
 .prettierignore
 .prettierrc
 mysqlToPostgres.js

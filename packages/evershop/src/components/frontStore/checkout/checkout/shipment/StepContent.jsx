@@ -8,8 +8,6 @@ import CustomerAddressForm from '@components/frontStore/customer/address/address
 import { Form } from '@components/common/form/Form';
 import { useCheckout } from '@components/common/context/checkout';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
-import { AddressSummary } from '@components/common/customer/address/AddressSummary';
-
 const QUERY = `
   query Query($cartId: String) {
     cart(id: $cartId) {
@@ -72,7 +70,6 @@ export function StepContent({
       <div className="grid grid-cols-2 gap-5 mb-5">
         {addresses.map((address) => (
           <div className="border rounded border-gray-300 p-5">
-            <AddressSummary key={address.uuid} address={address} />
             <div className="flex justify-end gap-5">
               <a
                 href="#"

@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "type": "string"
+    },
+    "requestId": {
+      "type": "string"
+    }
+  },
+  "required": ["orderId", "requestId"],
+  "additionalProperties": true
+}

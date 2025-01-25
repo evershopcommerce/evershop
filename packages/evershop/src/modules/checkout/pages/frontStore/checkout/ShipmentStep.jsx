@@ -31,19 +31,20 @@ export default function ShipmentStep({
       id: 'shipment',
       title: _('Shipment'),
       previewTitle: _('Ship to'),
-      isCompleted: !!(shippingAddress && shippingMethod),
+      isCompleted: true,
       preview: shippingAddress
         ? `${shippingAddress.address1}, ${shippingAddress.city}, ${shippingAddress.country.name}`
         : '',
       sortOrder: 10,
-      editable: true
+      editable: false
     });
   }, []);
 
   React.useEffect(() => {
-    setDisplay(canStepDisplay(step, steps));
+    setDisplay(false);
   });
 
+  
   if (display === false) {
     return null;
   }

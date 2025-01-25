@@ -40,7 +40,7 @@ export default function CustomerInfo({
           </span>
           <div>
             {_('Thank you ${name}!', {
-              name: customerFullName || billingAddress?.fullName
+              name: customerFullName || billingAddress?.fullName || ""
             })}
           </div>
         </div>
@@ -59,25 +59,9 @@ export default function CustomerInfo({
           </div>
           <div>
             <div className="mb-3">
-              <h3>{_('Shipping Address')}</h3>
-            </div>
-            <div className="text-textSubdued">
-              <AddressSummary address={shippingAddress} />
-            </div>
-          </div>
-          <div>
-            <div className="mb-3">
               <h3>{_('Payment Method')}</h3>
             </div>
             <div className="text-textSubdued">{paymentMethodName}</div>
-          </div>
-          <div>
-            <div className="mb-3">
-              <h3>{_('Billing Address')}</h3>
-            </div>
-            <div className="text-textSubdued">
-              <AddressSummary address={billingAddress} />
-            </div>
           </div>
         </div>
       </div>

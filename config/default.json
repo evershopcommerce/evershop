@@ -1,0 +1,15 @@
+{
+    "system": {
+        "extensions": [
+            {
+                "name": "momo",
+                "resolve": "extensions/momo",
+                "enabled": true,
+                "priority": 10
+            }
+        ]
+    },
+    "shop" : {
+        "currency": "VND"
+    }
+}

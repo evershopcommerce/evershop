@@ -44,7 +44,6 @@ export function StepContent({
   const [useShippingAddress, setUseShippingAddress] = useState(!billingAddress);
   const { cartId, error, paymentMethods, getPaymentMethods } = useCheckout();
   const [loading, setLoading] = useState(false);
-
   const onSuccess = async (response) => {
     try {
       if (!response.error) {
@@ -113,31 +112,6 @@ export function StepContent({
         submitBtn={false}
         isJSON
       >
-        <h4 className="mb-4 mt-12">{_('Billing Address')}</h4>
-        <BillingAddress
-          useShippingAddress={useShippingAddress}
-          setUseShippingAddress={setUseShippingAddress}
-        />
-        {useShippingAddress === false && (
-          <div style={{ display: 'block' }}>
-            <CustomerAddressForm
-              areaId="checkoutBillingAddressForm"
-              address={billingAddress || data.cart.shippingAddress}
-              customerAddressSchema={customerAddressSchema}
-            />
-          </div>
-        )}
-
-        {useShippingAddress === true && (
-          <div style={{ display: 'none' }}>
-            <CustomerAddressForm
-              areaId="checkoutBillingAddressForm"
-              address={data.cart.shippingAddress}
-              customerAddressSchema={customerAddressSchema}
-            />
-          </div>
-        )}
-
         <h4 className="mb-4 mt-12">{_('Payment Method')}</h4>
         {paymentMethods && paymentMethods.length > 0 && (
           <>

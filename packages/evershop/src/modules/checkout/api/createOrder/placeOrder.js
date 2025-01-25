@@ -39,7 +39,6 @@ module.exports = async (request, response, delegate, next) => {
     }
 
     const { uuid: orderId } = await createOrder(cart);
-
     // Load created order
     const order = await select()
       .from('order')
@@ -50,16 +49,6 @@ module.exports = async (request, response, delegate, next) => {
       .from('order_item')
       .where('order_item_order_id', '=', order.order_id)
       .execute(pool);
-
-    order.shipping_address = await select()
-      .from('order_address')
-      .where('order_address_id', '=', order.shipping_address_id)
-      .load(pool);
-
-    order.billing_address = await select()
-      .from('order_address')
-      .where('order_address_id', '=', order.billing_address_id)
-      .load(pool);
 
     response.status(OK);
     response.$body = {

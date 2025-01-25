@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AddressSummary } from '@components/common/customer/address/AddressSummary';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import { useModal } from '@components/common/modal/useModal';
@@ -31,7 +30,6 @@ export default function Addresses({
                 : 'border rounded border-gray-300 p-5'
             }
           >
-            <AddressSummary key={address.uuid} address={address} />
             <div className="flex justify-end gap-5">
               <a
                 href="#"
