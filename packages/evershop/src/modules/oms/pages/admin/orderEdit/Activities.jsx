@@ -31,7 +31,7 @@ export default function Activities({ order: { activities = [] } }) {
       });
     } else {
       dailyActivities.push({
-        date: element.createdAt.value,
+        date: element.createdAt.date,
         activities: [
           {
             comment: element.comment,

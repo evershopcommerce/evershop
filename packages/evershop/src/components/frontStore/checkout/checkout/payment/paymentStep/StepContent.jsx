@@ -42,29 +42,34 @@ export function StepContent({
 }) {
   const { completeStep } = useCheckoutStepsDispatch();
   const [useShippingAddress, setUseShippingAddress] = useState(!billingAddress);
-  const { cartId, paymentMethods, getPaymentMethods } = useCheckout();
+  const { cartId, error, paymentMethods, getPaymentMethods } = useCheckout();
   const [loading, setLoading] = useState(false);
 
   const onSuccess = async (response) => {
-    if (!response.error) {
-      const selectedMethd = paymentMethods.find((e) => e.selected === true);
-      const result = await fetch(addPaymentMethodApi, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          method_code: selectedMethd.code,
-          method_name: selectedMethd.name
-        })
-      });
-      const data = await result.json();
-      if (!data.error) {
-        completeStep('payment');
+    try {
+      if (!response.error) {
+        const selectedMethd = paymentMethods.find((e) => e.selected === true);
+        const result = await fetch(addPaymentMethodApi, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            method_code: selectedMethd.code,
+            method_name: selectedMethd.name
+          })
+        });
+        const data = await result.json();
+        if (!data.error) {
+          await completeStep('payment');
+        }
+      } else {
+        setLoading(false);
+        toast.error(response.error.message);
       }
-    } else {
+    } catch (e) {
       setLoading(false);
-      toast.error(response.error.message);
+      toast.error(e.message);
     }
   };
 
@@ -72,13 +77,20 @@ export function StepContent({
     getPaymentMethods();
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      setLoading(false);
+      toast.error(error);
+    }
+  }, [error]);
+
   const [result] = useQuery({
     query: QUERY,
     variables: {
       cartId
     }
   });
-  const { data, fetching, error } = result;
+  const { data, fetching, error: queryError } = result;
 
   if (fetching) {
     return (
@@ -87,7 +99,7 @@ export function StepContent({
       </div>
     );
   }
-  if (error) {
+  if (queryError) {
     return <div className="p-8 text-critical">{error.message}</div>;
   }
   return (
@@ -192,7 +204,7 @@ export function StepContent({
 StepContent.propTypes = {
   cart: PropTypes.shape({
     billingAddress: PropTypes.shape({
-      id: PropTypes.string,
+      id: PropTypes.number,
       fullName: PropTypes.string,
       postcode: PropTypes.string,
       telephone: PropTypes.string,

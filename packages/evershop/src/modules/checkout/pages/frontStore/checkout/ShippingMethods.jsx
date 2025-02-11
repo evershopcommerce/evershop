@@ -128,7 +128,7 @@ export default function ShippingMethods({
             )
             .toPromise();
           const address = result.data.cart.shippingAddress;
-          completeStep(
+          await completeStep(
             'shipment',
             `${address.address1}, ${address.city}, ${address.country.name}`
           );

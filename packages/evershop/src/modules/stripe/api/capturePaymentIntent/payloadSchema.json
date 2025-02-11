@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "order_id": {
+      "type": "string"
+    }
+  },
+  "required": ["order_id"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "order_id": "Order is invalid"
+    }
+  }
+}

@@ -4,10 +4,10 @@ Represents a payment transaction
 type PaymentTransaction {
   paymentTransactionId: Int!
   uuid: String!
-  transactionId: String!
+  transactionId: String
   transactionType: String!
   amount: Price!
-  parentTransactionId: String!
+  parentTransactionId: String
   paymentAction: String!
   additionalInformation: String!
   createdAt: String!

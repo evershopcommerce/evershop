@@ -9,7 +9,6 @@ import { Shipping } from '@components/admin/oms/orderEdit/payment/Shipping';
 import { SubTotal } from '@components/admin/oms/orderEdit/payment/SubTotal';
 import { Tax } from '@components/admin/oms/orderEdit/payment/Tax';
 import { Total } from '@components/admin/oms/orderEdit/payment/Total';
-import { Transactions } from '@components/admin/oms/orderEdit/payment/Transactions';
 
 export default function OrderSummary({
   order: {
@@ -24,8 +23,7 @@ export default function OrderSummary({
     subTotal,
     shippingFeeInclTax,
     currency,
-    paymentStatus,
-    transactions
+    paymentStatus
   }
 }) {
   return (
@@ -34,7 +32,9 @@ export default function OrderSummary({
         <div className="flex space-x-4">
           <Circle variant={paymentStatus.badge} />
           <span className="block self-center">
-            {paymentMethodName || 'Unknown'}
+            {`${paymentStatus.name || 'Unknown'} - ${
+              paymentMethodName || 'Unknown'
+            }`}
           </span>
         </div>
       }
@@ -82,10 +82,7 @@ export default function OrderSummary({
           ]}
         />
       </Card.Session>
-      <Card.Session>
-        <Transactions transactions={transactions} />
-      </Card.Session>
-      <Area id="orderPaymentActions" noOuter />
+      <Area id="orderPaymentActions" />
     </Card>
   );
 }
@@ -119,18 +116,7 @@ OrderSummary.propTypes = {
       badge: PropTypes.string,
       progress: PropTypes.string,
       name: PropTypes.string
-    }).isRequired,
-    transactions: PropTypes.arrayOf(
-      PropTypes.shape({
-        paymentTransactionId: PropTypes.number.isRequired,
-        amount: PropTypes.shape({
-          text: PropTypes.string.isRequired,
-          value: PropTypes.number.isRequired
-        }).isRequired,
-        paymentAction: PropTypes.string.isRequired,
-        transactionType: PropTypes.string.isRequired
-      })
-    ).isRequired
+    }).isRequired
   }).isRequired
 };
 
@@ -169,15 +155,6 @@ export const query = `
         badge
         progress
         name
-      }
-      transactions: paymentTransactions {
-        paymentTransactionId
-        amount {
-          text(currency: getContextValue("orderCurrency"))
-          value
-        }
-        paymentAction
-        transactionType
       }
     }
   }

@@ -29,7 +29,11 @@ Current.propTypes = {
   image: PropTypes.shape({
     alt: PropTypes.string,
     single: PropTypes.string.isRequired
-  }).isRequired
+  })
+};
+
+Current.defaultProps = {
+  image: null
 };
 
 export default function Images({ product: { uuid, image, gallery = [] } }) {

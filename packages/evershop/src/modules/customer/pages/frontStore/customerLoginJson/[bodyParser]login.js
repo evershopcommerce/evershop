@@ -37,7 +37,7 @@ module.exports = async (request, response, delegate, next) => {
     response.json({
       error: {
         status: INVALID_PAYLOAD,
-        message
+        message: error.message
       }
     });
   }

@@ -15,6 +15,7 @@ module.exports = {
   Order: {
     editUrl: ({ uuid }) => buildUrl('orderEdit', { id: uuid }),
     createShipmentApi: ({ uuid }) => buildUrl('createShipment', { id: uuid }),
+    cancelApi: ({ uuid }) => buildUrl('cancelOrder', { id: uuid }),
     customerUrl: async ({ customerId }, _, { pool }) => {
       const customer = await select()
         .from('customer')

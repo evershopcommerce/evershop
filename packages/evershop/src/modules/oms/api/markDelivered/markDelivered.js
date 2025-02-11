@@ -4,7 +4,6 @@ const {
   insert,
   commit,
   select,
-  update,
   startTransaction
 } = require('@evershop/postgres-query-builder');
 const {
@@ -15,6 +14,7 @@ const {
   OK,
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { updateShipmentStatus } = require('../../services/updateShipmentStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -53,12 +53,7 @@ module.exports = async (request, response, delegate, next) => {
       return;
     }
 
-    await update('order')
-      .given({
-        shipment_status: 'delivered'
-      })
-      .where('order_id', '=', order_id)
-      .execute(connection);
+    await updateShipmentStatus(order_id, 'delivered', connection);
     /* Add an activity log message */
     await insert('order_activity')
       .given({

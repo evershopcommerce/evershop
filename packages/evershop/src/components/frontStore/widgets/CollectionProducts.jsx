@@ -41,7 +41,7 @@ CollectionProducts.propTypes = {
           image: PropTypes.shape({
             alt: PropTypes.string.isRequired,
             url: PropTypes.string.isRequired
-          }).isRequired,
+          }),
           url: PropTypes.string.isRequired
         })
       ).isRequired

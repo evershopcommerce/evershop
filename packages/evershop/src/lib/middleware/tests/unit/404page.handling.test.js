@@ -45,7 +45,7 @@ describe('buildMiddlewareFunction', () => {
   });
 
   it('It should not bypass the app level middleware when status is 404', async () => {
-    const notFound = require('../app/modules/basecopy/pages/global/[notification]notFound[response]');
+    const notFound = require('../app/modules/basecopy/pages/global/[auth]notFound[response]');
     const dummy = require('../app/modules/basecopy/pages/global/[notFound]dummy[response]');
     const response = require('../app/modules/basecopy/pages/global/response[errorHandler]');
     expect(notFound).toHaveBeenCalledTimes(2);

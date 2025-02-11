@@ -34,8 +34,8 @@ Summary.propTypes = {
       PropTypes.shape({
         productName: PropTypes.string.isRequired,
         qty: PropTypes.number.isRequired,
-        thumbnail: PropTypes.string.isRequired,
-        variantOptions: PropTypes.string.isRequired,
+        thumbnail: PropTypes.string,
+        variantOptions: PropTypes.string,
         lineTotalInclTax: PropTypes.shape({
           text: PropTypes.string.isRequired
         }).isRequired,

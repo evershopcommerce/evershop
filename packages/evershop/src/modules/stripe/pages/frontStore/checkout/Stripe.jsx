@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import smallUnit from 'zero-decimal-currencies';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { useCheckout } from '@components/common/context/checkout';
@@ -17,22 +18,49 @@ const stripeLoader = (publishKey) => {
   return stripe;
 };
 
-function StripeApp({ stripePublishableKey }) {
+function StripeApp({
+  total,
+  currency,
+  stripePublishableKey,
+  returnUrl,
+  createPaymentIntentApi,
+  stripePaymentMode
+}) {
+  const options = {
+    mode: 'payment',
+    currency: currency.toLowerCase(),
+    amount: Number(smallUnit(total, currency)),
+    capture_method:
+      stripePaymentMode === 'capture' ? 'automatic_async' : 'manual'
+  };
   return (
-    // eslint-disable-next-line react/jsx-filename-extension
-    <div className="App">
-      <Elements stripe={stripeLoader(stripePublishableKey)}>
-        <CheckoutForm stripePublishableKey={stripePublishableKey} />
+    <div className="stripe__app">
+      <Elements stripe={stripeLoader(stripePublishableKey)} options={options}>
+        <CheckoutForm
+          stripePublishableKey={stripePublishableKey}
+          returnUrl={returnUrl}
+          createPaymentIntentApi={createPaymentIntentApi}
+        />
       </Elements>
     </div>
   );
 }
 
 StripeApp.propTypes = {
-  stripePublishableKey: PropTypes.string.isRequired
+  stripePublishableKey: PropTypes.string.isRequired,
+  returnUrl: PropTypes.string.isRequired,
+  createPaymentIntentApi: PropTypes.string.isRequired,
+  stripePaymentMode: PropTypes.string.isRequired,
+  total: PropTypes.number.isRequired,
+  currency: PropTypes.string.isRequired
 };
 
-export default function StripeMethod({ setting }) {
+export default function StripeMethod({
+  setting,
+  cart: { grandTotal, currency },
+  returnUrl,
+  createPaymentIntentApi
+}) {
   const checkout = useCheckout();
   const { paymentMethods, setPaymentMethods } = checkout;
   // Get the selected payment method
@@ -107,8 +135,15 @@ export default function StripeMethod({ setting }) {
       </div>
       <div>
         {selectedPaymentMethod && selectedPaymentMethod.code === 'stripe' && (
-          <div>
-            <StripeApp stripePublishableKey={setting.stripePublishableKey} />
+          <div className="mt-5">
+            <StripeApp
+              total={grandTotal.value}
+              currency={currency}
+              stripePublishableKey={setting.stripePublishableKey}
+              returnUrl={returnUrl}
+              createPaymentIntentApi={createPaymentIntentApi}
+              stripePaymentMode={setting.stripePaymentMode}
+            />
           </div>
         )}
       </div>
@@ -118,8 +153,18 @@ export default function StripeMethod({ setting }) {
 
 StripeMethod.propTypes = {
   setting: PropTypes.shape({
-    stripePublishableKey: PropTypes.string.isRequired
-  }).isRequired
+    stripeDislayName: PropTypes.string.isRequired,
+    stripePublishableKey: PropTypes.string.isRequired,
+    stripePaymentMode: PropTypes.string.isRequired
+  }).isRequired,
+  cart: PropTypes.shape({
+    grandTotal: PropTypes.shape({
+      value: PropTypes.number
+    }),
+    currency: PropTypes.string
+  }).isRequired,
+  returnUrl: PropTypes.string.isRequired,
+  createPaymentIntentApi: PropTypes.string.isRequired
 };
 
 export const layout = {
@@ -132,6 +177,15 @@ export const query = `
     setting {
       stripeDislayName
       stripePublishableKey
+      stripePaymentMode
     }
+    cart {
+      grandTotal {
+        value
+      }
+      currency
+    }
+    returnUrl: url(routeId: "stripeReturn")
+    createPaymentIntentApi: url(routeId: "createPaymentIntent")
   }
 `;

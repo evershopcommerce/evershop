@@ -1,9 +1,12 @@
-const { select, update, insert } = require('@evershop/postgres-query-builder');
+const { select, insert } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   INVALID_PAYLOAD,
   OK
 } = require('@evershop/evershop/src/lib/util/httpStatus');
+const {
+  updatePaymentStatus
+} = require('../../../oms/services/updatePaymentStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
@@ -28,11 +31,8 @@ module.exports = async (request, response, delegate, next) => {
       }
     });
   } else {
-    // Update order status to processing
-    await update('order')
-      .given({ payment_status: 'paid' })
-      .where('uuid', '=', order_id)
-      .execute(pool);
+    // Update order payment status
+    await updatePaymentStatus(order.order_id, 'paid', pool);
 
     // Add transaction data to database
     await insert('payment_transaction')

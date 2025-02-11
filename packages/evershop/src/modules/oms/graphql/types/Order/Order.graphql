@@ -54,6 +54,7 @@ type Order implements ShoppingCart {
   orderId: ID!
   uuid: String!
   orderNumber: String!
+  status: Status
   items: [OrderItem]
   shippingAddress: OrderAddress
   billingAddress: OrderAddress
@@ -64,7 +65,6 @@ type Order implements ShoppingCart {
   customerFullName: String
   userIp: String
   userId: String
-  status: Int!
   coupon: String
   shippingFeeExclTax: Price!
   shippingFeeInclTax: Price!
