@@ -18,7 +18,9 @@ module.exports.awsFileUploader = {
       const params = {
         Bucket: bucketName,
         Key: fileName,
-        Body: fileContent
+        Body: fileContent,
+        ContentType: file.mimetype,
+        ACL: 'public-read'
       };
 
       const uploadCommand = new PutObjectCommand(params);
@@ -32,10 +34,7 @@ module.exports.awsFileUploader = {
         name: files[index].filename,
         path: path.join(requestedPath, files[index].filename),
         size: files[index].size,
-        url: `https://${bucketName}.s3.amazonaws.com/${path.join(
-          requestedPath,
-          files[index].filename
-        )}`
+        url: `https://s3.${getEnv('AWS_REGION')}.amazonaws.com/${bucketName}/${path.join(requestedPath, files[index].filename)}`
       });
     });
 
