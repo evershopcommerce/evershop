@@ -2,7 +2,7 @@
 
 This extension allows customer to login to EverShop using your Google account.
 
-> **Note**: This extension requires EverShop version 1.0.0-rc.6 or higher.
+> **Breaking Changes**: From version 1.2.0 All the configuration options are moved to `.env` file.
 
 ## Installation guide
 
@@ -36,18 +36,13 @@ Edit the `config/default.json` file in the root directory of your EverShop insta
 
 ### Step 3: Add the Google client ID, secret and some other configuration options
 
-Edit the `config/default.json` file:
+Edit the `.env` file:
 
-```json
-{
-  ...,
-  "google_login": {
-    "client_id": "YOUR_GOOGLE_CLIENT_ID",
-    "client_secret": "YOUR_GOOGLE_CLIENT_SECRET",
-    "success_redirect_url": "http://localhost:3000",
-    "failure_redirect_url": "http://localhost:3000/account/login"
-  }
-}
+```bash
+  GOOGLE_LOGIN_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID",
+  GOOGLE_LOGIN_CLIENT_SECRET="YOUR_GOOGLE CLIENT_SECRET",
+  GOOGLE_LOGIN_SUCCESS_REDIRECT_URL="https://example.com",
+  GOOGLE_LOGIN_FAILURE_REDIRECT_URL="https://example.com/account/login"
 ```
 
 ### Step 4: Run the build command

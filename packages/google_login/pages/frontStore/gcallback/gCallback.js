@@ -9,17 +9,18 @@ const {
 } = require('@evershop/google_login/services/getGoogleUserInfo');
 const { select, insert } = require('@evershop/postgres-query-builder');
 const { error } = require('@evershop/evershop/src/lib/log/logger');
+const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
 
 /* eslint-disable-next-line no-unused-vars */
 module.exports = async (request, response, delegate, next) => {
   const { code } = request.query;
-  const client_id = getConfig('google_login.client_id');
-  const client_secret = getConfig('google_login.client_secret');
+  const client_id = getEnv('GOOGLE_LOGIN_CLIENT_ID');
+  const client_secret = getEnv('GOOGLE_LOGIN_CLIENT_SECRET');
   const homeUrl = getConfig('shop.homeUrl', 'http://localhost:3000');
   const redirect_uri = `${homeUrl}${buildUrl('gcallback')}`;
-  const successUrl = getConfig('google_login.success_redirect_url', homeUrl);
-  const failureUrl = getConfig(
-    'google_login.failure_redirect_url',
+  const successUrl = getEnv('GOOGLE_LOGIN_SUCCESS_REDIRECT_URL', homeUrl);
+  const failureUrl = getEnv(
+    'GOOGLE_LOGIN_FAILURE_REDIRECT_URL',
     `${homeUrl}${buildUrl('login')}`
   );
 
