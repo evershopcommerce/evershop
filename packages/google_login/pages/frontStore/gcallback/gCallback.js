@@ -7,9 +7,10 @@ const {
 const {
   getGoogleUserInfo
 } = require('@evershop/google_login/services/getGoogleUserInfo');
-const { select, insert } = require('@evershop/postgres-query-builder');
+const { select } = require('@evershop/postgres-query-builder');
 const { error } = require('@evershop/evershop/src/lib/log/logger');
 const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
+const createCustomer = require('@evershop/evershop/src/modules/customer/services/customer/createCustomer');
 
 /* eslint-disable-next-line no-unused-vars */
 module.exports = async (request, response, delegate, next) => {
@@ -49,22 +50,28 @@ module.exports = async (request, response, delegate, next) => {
       throw new Error('This account is disabled');
     }
 
+    // Create a fake strong password
+    const password = Math.random().toString(36).substring(2, 15);
     if (!customer) {
       // If the email does not exist, create a new customer
-      customer = await insert('customer')
-        .given({
+      customer = await createCustomer(
+        {
           email: userInfo.email,
           full_name: userInfo.name,
           status: 1,
           is_google_login: true,
-          password: ''
-        })
-        .execute(pool);
+          password
+        },
+        {
+          googleLogin: true
+        }
+      );
     }
-    // Login the customer
-    request.session.customerID = customer.customer_id;
     // Delete the password field
     delete customer.password;
+    // Login the customer
+    request.session.customerID = customer.customer_id;
+
     // Save the customer in the request
     request.locals.customer = customer;
     request.session.save((e) => {
