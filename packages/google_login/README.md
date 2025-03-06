@@ -39,9 +39,9 @@ Edit the `config/default.json` file in the root directory of your EverShop insta
 Edit the `.env` file:
 
 ```bash
-  GOOGLE_LOGIN_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID",
-  GOOGLE_LOGIN_CLIENT_SECRET="YOUR_GOOGLE CLIENT_SECRET",
-  GOOGLE_LOGIN_SUCCESS_REDIRECT_URL="https://example.com",
+  GOOGLE_LOGIN_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID"
+  GOOGLE_LOGIN_CLIENT_SECRET="YOUR_GOOGLE CLIENT_SECRET"
+  GOOGLE_LOGIN_SUCCESS_REDIRECT_URL="https://example.com"
   GOOGLE_LOGIN_FAILURE_REDIRECT_URL="https://example.com/account/login"
 ```
 
