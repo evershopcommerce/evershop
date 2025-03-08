@@ -1,0 +1,51 @@
+.uploader-icon {
+  width: 3.85rem;
+  border-radius: 100%;
+  color: white;
+  background-color: rgb(92, 95, 98);
+  align-self: center;
+  margin-bottom: 1rem;
+}
+.image-uploader {
+  border: 2px dashed var(--border);
+  padding: 2rem 3rem;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  .loading {
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 11;
+    svg {
+      width: 3rem;
+      height: 3rem;
+      fill: var(--primary);
+    }
+  }
+}
+.category-image {
+  height: 20rem;
+  border: 1px solid var(--divider);
+  text-align: center;
+  img {
+    display: inline;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+.category__image__loading{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  svg {
+    width: 25px;
+    height: 25px;
+  }
+}

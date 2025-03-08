@@ -53,7 +53,7 @@ export default function CustomerInfo({
               <h3>{_('Contact information')}</h3>
             </div>
             <div className="text-textSubdued">
-              {customerFullName || billingAddress?.fullName}
+              {customerFullName || billingAddress?.fullName || ""}
             </div>
             <div className="text-textSubdued">{customerEmail}</div>
           </div>

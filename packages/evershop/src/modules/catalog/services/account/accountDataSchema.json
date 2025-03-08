@@ -1,0 +1,45 @@
+{
+  "type": "object",
+  "properties": {
+    "account_id": {
+      "type": "string"
+    },
+    "product_id": {
+      "type": "integer"
+    },
+    "username": {
+      "type": ["string", "null"],
+      "default": null
+    },
+    "password": {
+      "type": "string"
+    },
+    "other": {
+      "type": ["string", "null"],
+      "default": null
+    },
+    "key": {
+      "type": ["string", "null"],
+      "default": null
+    },
+    "status": {
+      "type": "string"
+    },
+    "client_email": {
+      "type": ["string", "null"],
+      "format": "email",
+      "default": null
+    },
+    "expiration_date": {
+      "type": ["string", "null"],
+      "format": "date",
+      "default": null
+    },
+    "sold_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "default": null
+    }
+  },
+  "additionalProperties": false
+}

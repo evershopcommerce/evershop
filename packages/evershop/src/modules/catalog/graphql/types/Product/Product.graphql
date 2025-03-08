@@ -18,6 +18,7 @@ type Product {
   visibility: Int
   groupId: ID
   url: String
+  productType: String
 }
 
 """
