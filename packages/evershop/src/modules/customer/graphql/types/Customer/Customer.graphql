@@ -18,6 +18,18 @@ type CustomerAddress implements Address {
 }
 
 """
+Represent a customer store
+"""
+type CustomerStore {
+  totalSales: Int
+  productCount: Int
+  shopName: String
+  rating: String
+  updateApi: String
+  accessApi: String
+}
+
+"""
 Represents a customer
 """
 type Customer {
@@ -26,7 +38,9 @@ type Customer {
   status: Int!
   email: String!
   addresses: [CustomerAddress]
+  store: CustomerStore
   addAddressApi: String!
+  addStoreApi: String!
   fullName: String!
   createdAt: Date!
 }

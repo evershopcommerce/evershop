@@ -3,6 +3,7 @@
  */
 function logoutUser() {
   this.session.userID = undefined;
+  this.session.storeName = undefined;
   this.locals.user = undefined;
 }
 

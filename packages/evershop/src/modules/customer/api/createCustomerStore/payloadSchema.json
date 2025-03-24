@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "shop_name": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

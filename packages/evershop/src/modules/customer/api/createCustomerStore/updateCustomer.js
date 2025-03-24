@@ -1,4 +1,4 @@
-const { update, select } = require('@evershop/postgres-query-builder');
+const { insert, select } = require('@evershop/postgres-query-builder');
 const {
   getConnection
 } = require('@evershop/evershop/src/lib/postgres/connection');
@@ -38,19 +38,20 @@ module.exports = async (request, response, delegate, next) => {
       request.body.password = hashPassword(request.body.password);
     }
 
-    await update('store')
-      .given({
-        ...request.body,
-        group_id: 1 // TODO: fix me
-      })
-      .where('customer_id', '=', customer.customer_id)
-      .execute(connection, false);
+  console.log(request);
+  // Add transaction data to database
+  await insert('store')
+  .given({
+    customer_id: customer.customer_id,
+    shop_name: request.body.shopName,
+  })
+  .execute(connection);
 
     // Load updated customer
     const updatedCustomer = await select()
       .from('store')
       .where('customer_id', '=', customer.customer_id)
-      .load(connection);
+      .load(connection, false);
 
     response.status(OK);
     response.$body = {

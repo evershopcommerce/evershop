@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "store_name": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

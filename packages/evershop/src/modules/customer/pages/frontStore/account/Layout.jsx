@@ -43,6 +43,12 @@ export default function Layout({ logoutUrl }) {
         </div>
         <Area id="accountPageAddressBook" noOuter />
       </div>
+      <div className="page-width mt-12">
+        <div className="border-b mb-8 border-textSubdued">
+          <h2>{_('Store Management')}</h2>
+        </div>
+        <Area id="accountPageStore" noOuter />
+      </div>
     </div>
   );
 }

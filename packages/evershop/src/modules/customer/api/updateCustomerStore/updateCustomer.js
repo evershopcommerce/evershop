@@ -40,16 +40,15 @@ module.exports = async (request, response, delegate, next) => {
 
     await update('store')
       .given({
-        ...request.body,
-        group_id: 1 // TODO: fix me
+        shop_name: request.body.shopName
       })
       .where('customer_id', '=', customer.customer_id)
       .execute(connection, false);
 
     // Load updated customer
     const updatedCustomer = await select()
-      .from('store')
-      .where('customer_id', '=', customer.customer_id)
+      .from('customer')
+      .where('uuid', '=', request.params.id)
       .load(connection);
 
     response.status(OK);

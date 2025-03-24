@@ -26,8 +26,29 @@ module.exports = {
           })
         }));
     },
+    store: async (customer, args, { pool }) => {
+      let store = await select()
+        .from('store')
+        .where('customer_id', '=', customer.customerId)
+        .execute(pool);
+        
+        store = store.map((store) => ({
+          ...camelCase(store),
+          updateApi: buildUrl('updateCustomerStore', {
+            id: customer.uuid
+          })
+        }));
+
+        if (store.length > 0) {
+          return store[0];
+        }
+        return store;
+    },
     addAddressApi: (customer) => buildUrl('createCustomerAddress', {
         customer_id: customer.uuid
-      })
+      }),
+    addStoreApi: (customer) => buildUrl('createCustomerStore', {
+      id: customer.uuid
+    })
   }
 };

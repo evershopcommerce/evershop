@@ -18,12 +18,22 @@ async function loginCustomerWithEmail(email, password) {
     .from('customer')
     .where('email', 'ILIKE', customerEmail)
     .and('status', '=', 1)
-    .load(pool);
+    .load(pool, false);
   const result = comparePassword(password, customer ? customer.password : '');
   if (!customer || !result) {
     throw new Error(translate('Invalid email or password'));
   }
+  const store = await select()
+          .from('store')
+          .where('customer_id', '=', customer.customer_id)
+          .execute(pool);
+  console.log("store before", store);
+  if (!store) {
+    this.session.storeName = store.shop_name;
+  }
+
   this.session.customerID = customer.customer_id;
+  console.log("customerID before", this.session.customerID);
   // Delete the password field
   delete customer.password;
   // Save the customer in the request

@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/customers/store/:id",
+  "access": "public"
+}
