@@ -27,7 +27,9 @@
     "test": "jest --workspace=@evershop/evershop",
     "cypress": "cypress run",
     "lint": "eslint --fix --ext .js,.jsx .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "typescript-build": "rimraf dist && tsc -p tsconfig.json && copyfiles ./**/*.graphql dist/ && copyfiles ./pages dist/",
+    "watch": "tsc --watch"
   },
   "author": "The Nguyen (https://evershop.io)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
@@ -52,5 +54,11 @@
     "rxjs": "^7.2.0",
     "tailwindcss": "^3.2.1",
     "webpack-bundle-analyzer": "^4.5.0"
+  },
+  "dependencies": {
+    "@types/node": "^22.13.14",
+    "copyfiles": "^2.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
   }
 }
