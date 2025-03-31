@@ -1,14 +1,12 @@
 /* eslint-disable global-require */
 /* eslint-disable guard-for-in */
 /* eslint-disable import/no-import-module-exports */
-const isErrorHandlerTriggered = require('@evershop/evershop/src/lib/middleware/isErrorHandlerTriggered');
-const { render } = require('@evershop/evershop/src/lib/response/render');
-const { get } = require('@evershop/evershop/src/lib/util/get');
-const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
-const {
-  loadWidgetInstances
-} = require('../../../cms/services/widget/loadWidgetInstances');
-const { getNotifications } = require('../../services/notifications');
+import isErrorHandlerTriggered from '@evershop/evershop/src/lib/middleware/isErrorHandlerTriggered.js';
+import { render } from '@evershop/evershop/src/lib/response/render.js';
+import { get } from '@evershop/evershop/src/lib/util/get.js';
+import isDevelopmentMode from '@evershop/evershop/src/lib/util/isDevelopmentMode.js';
+import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
+import { getNotifications } from '../../services/notifications.js';
 
 module.exports = async (request, response, delegate, next) => {
   /** Get all promise delegate */

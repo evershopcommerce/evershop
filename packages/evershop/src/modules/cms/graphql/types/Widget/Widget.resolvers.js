@@ -1,19 +1,13 @@
-const uniqid = require('uniqid');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getEnabledWidgets
-} = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
-const { select } = require('@evershop/postgres-query-builder');
-const {
-  getWidgetsBaseQuery
-} = require('../../../services/getWidgetsBaseQuery');
-const { WidgetCollection } = require('../../../services/WidgetCollection');
-const {
-  getCmsPagesBaseQuery
-} = require('../../../services/getCmsPagesBaseQuery');
+import uniqid from 'uniqid';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { getEnabledWidgets } from '@evershop/evershop/src/lib/util/getEnabledWidgets.js';
+import { select } from '@evershop/postgres-query-builder';
+import { getWidgetsBaseQuery } from '../../../services/getWidgetsBaseQuery.js';
+import { WidgetCollection } from '../../../services/WidgetCollection.js';
+import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
 
-module.exports = {
+export default {
   Query: {
     widget: async (root, { id }, { pool }) => {
       const query = getWidgetsBaseQuery();

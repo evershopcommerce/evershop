@@ -1,6 +1,6 @@
-const { currencies } = require('@evershop/evershop/src/lib/locale/currencies');
+import { currencies } from '@evershop/evershop/src/lib/locale/currencies.js';
 
-module.exports = {
+export default {
   Query: {
     currencies: () => currencies
   }

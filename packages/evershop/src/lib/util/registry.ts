@@ -1,4 +1,4 @@
-const isEqual = require('react-fast-compare');
+import isEqual from 'react-fast-compare';
 
 let locked = false;
 
@@ -165,15 +165,7 @@ class Registry {
 }
 
 const registry = new Registry();
-
-module.exports = {
-  /**
-   * @param {String} name
-   * @param {any} initialization
-   * @param {Object} context
-   * @param {Function} validator
-   */
-  async getValue(name, initialization, context, validator) {
+export async function getValue(name, initialization, context, validator) {
     let initValue;
     // Check if the initValue is a function, then add this function to the processors as the first processor
     if (typeof initialization === 'function') {
@@ -188,17 +180,11 @@ module.exports = {
     } else {
       initValue = initialization;
     }
-    const val = await registry.get(name, initValue, context, validator);
-    return val;
-  },
+  const val = await registry.get(name, initValue, context, validator);
+  return val;
+}
 
-  /**
-   * @param {String} name
-   * @param {any} initialization
-   * @param {Object} context
-   * @param {Function} validator
-   */
-  getValueSync(name, initialization, context, validator) {
+export function getValueSync(name, initialization, context, validator) {
     let initValue;
     // Check if the initValue is a function, then add this function to the processors as the first processor
     if (typeof initialization === 'function') {
@@ -217,21 +203,17 @@ module.exports = {
     }
     const val = registry.getSync(name, initValue, context, validator);
     return val;
-  },
-
-  addProcessor(name, callback, priority) {
+  }
+export function addProcessor(name, callback, priority) {
     return registry.addProcessor(name, callback, priority);
-  },
-
-  addFinalProcessor(name, callback) {
+  }
+export function addFinalProcessor(name, callback) {
     return registry.addFinalProcessor(name, callback);
-  },
-
-  getProcessors<T>(name) {
+  }
+export function getProcessors<T>(name) {
     return registry.getProcessors(name) as T;
-  },
-
-  lockRegistry() {
+  };
+export function lockRegistry() {
     // Reset the values cache by removing all values from all properties in the registry values
     Object.keys(registry.values).forEach((key) => {
       if (Object.prototype.hasOwnProperty.call(registry.values, key)) {
@@ -240,4 +222,3 @@ module.exports = {
     });
     locked = true;
   }
-};

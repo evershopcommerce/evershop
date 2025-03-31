@@ -1,14 +1,12 @@
 /* eslint-disable global-require */
-const path = require('path');
-const jsesc = require('jsesc');
-const { getRoutes } = require('../router/Router');
-const { get } = require('../util/get');
-const isProductionMode = require('../util/isProductionMode');
-const { getRouteBuildPath } = require('../webpack/getRouteBuildPath');
-const { getConfig } = require('../util/getConfig');
-const {
-  getNotifications
-} = require('../../modules/base/services/notifications');
+import path from 'path';
+import jsesc from 'jsesc';
+import { getRoutes } from '../router/Router.js';
+import { get } from '../util/get.js';
+import isProductionMode from '../util/isProductionMode.js';
+import { getRouteBuildPath } from '../webpack/getRouteBuildPath.js';
+import { getConfig } from '../util/getConfig.js';
+import { getNotifications } from '../../modules/base/services/notifications.js';
 
 function normalizeAssets(assets) {
   if (typeof assets === 'object' && !Array.isArray(assets) && assets !== null) {
@@ -108,10 +106,10 @@ function renderProduction(request, response) {
   response.send(source);
 }
 
-module.exports.render = function render(request, response) {
+export function render(request, response) {
   if (isProductionMode()) {
     renderProduction(request, response);
   } else {
     renderDevelopment(request, response);
   }
-};
+}

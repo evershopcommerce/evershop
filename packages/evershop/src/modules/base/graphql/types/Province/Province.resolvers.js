@@ -1,6 +1,6 @@
-const { provinces } = require('@evershop/evershop/src/lib/locale/provinces');
+import { provinces } from '@evershop/evershop/src/lib/locale/provinces.js';
 
-module.exports = {
+export default {
   Query: {
     provinces: (_, { countries = [] }) => {
       if (countries.length === 0) {

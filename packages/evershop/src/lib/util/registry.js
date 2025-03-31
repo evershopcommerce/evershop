@@ -1,4 +1,4 @@
-const isEqual = require('react-fast-compare');
+import isEqual from 'react-fast-compare';
 
 let locked = false;
 
@@ -166,78 +166,76 @@ class Registry {
 
 const registry = new Registry();
 
-module.exports = {
-  /**
-   * @param {String} name
-   * @param {any} initialization
-   * @param {Object} context
-   * @param {Function} validator
-   */
-  async getValue(name, initialization, context, validator) {
-    let initValue;
-    // Check if the initValue is a function, then add this function to the processors as the first processor
-    if (typeof initialization === 'function') {
-      // Add this function to the processors, add this to the biginning of the processors
-      const processors = this.values[name] ? this.values[name].processors : [];
-      processors.unshift({
-        callback: initialization,
-        priority: 0
-      });
-      this.values[name] = this.values[name] || {};
-      this.values[name].processors = processors;
-    } else {
-      initValue = initialization;
-    }
-    const val = await registry.get(name, initValue, context, validator);
-    return val;
-  },
-
-  /**
-   * @param {String} name
-   * @param {any} initialization
-   * @param {Object} context
-   * @param {Function} validator
-   */
-  getValueSync(name, initialization, context, validator) {
-    let initValue;
-    // Check if the initValue is a function, then add this function to the processors as the first processor
-    if (typeof initialization === 'function') {
-      // Add this function to the processors, add this to the biginning of the processors
-      const processors = registry.values[name]
-        ? registry.values[name]?.processors
-        : [];
-      processors.unshift({
-        callback: initialization,
-        priority: 0
-      });
-      registry.values[name] = registry.values[name] || {};
-      registry.values[name].processors = processors;
-    } else {
-      initValue = initialization;
-    }
-    const val = registry.getSync(name, initValue, context, validator);
-    return val;
-  },
-
-  addProcessor(name, callback, priority) {
-    return registry.addProcessor(name, callback, priority);
-  },
-
-  addFinalProcessor(name, callback) {
-    return registry.addFinalProcessor(name, callback);
-  },
-
-  getProcessors(name) {
-    return registry.getProcessors(name);
-  },
-
-  lockRegistry() {
-    // Reset the values cache by removing all values from all properties in the registry values
-    Object.keys(registry.values).forEach((key) => {
-      if (Object.prototype.hasOwnProperty.call(registry.values, key)) {
-        delete registry.values[key].value;
-      }
+/**
+ * @param {String} name
+ * @param {any} initialization
+ * @param {Object} context
+ * @param {Function} validator
+ */
+export async function getValue(name, initialization, context, validator) {
+  let initValue;
+  // Check if the initValue is a function, then add this function to the processors as the first processor
+  if (typeof initialization === 'function') {
+    // Add this function to the processors, add this to the biginning of the processors
+    const processors = this.values[name] ? this.values[name].processors : [];
+    processors.unshift({
+      callback: initialization,
+      priority: 0
     });
-    locked = true;
+    this.values[name] = this.values[name] || {};
+    this.values[name].processors = processors;
+  } else {
+    initValue = initialization;
   }
-};
+  const val = await registry.get(name, initValue, context, validator);
+  return val;
+}
+
+/**
+ * @param {String} name
+ * @param {any} initialization
+ * @param {Object} context
+ * @param {Function} validator
+ */
+export function getValueSync(name, initialization, context, validator) {
+  let initValue;
+  // Check if the initValue is a function, then add this function to the processors as the first processor
+  if (typeof initialization === 'function') {
+    // Add this function to the processors, add this to the biginning of the processors
+    const processors = registry.values[name]
+      ? registry.values[name]?.processors
+      : [];
+    processors.unshift({
+      callback: initialization,
+      priority: 0
+    });
+    registry.values[name] = registry.values[name] || {};
+    registry.values[name].processors = processors;
+  } else {
+    initValue = initialization;
+  }
+  const val = registry.getSync(name, initValue, context, validator);
+  return val;
+}
+
+export function addProcessor(name, callback, priority) {
+  return registry.addProcessor(name, callback, priority);
+}
+
+export function addFinalProcessor(name, callback) {
+  return registry.addFinalProcessor(name, callback);
+}
+
+export function getProcessors(name) {
+  return registry.getProcessors(name);
+}
+
+export function lockRegistry() {
+  // Reset the values cache by removing all values from all properties in the registry values
+  Object.keys(registry.values).forEach((key) => {
+    if (Object.prototype.hasOwnProperty.call(registry.values, key)) {
+      delete registry.values[key].value;
+    }
+  });
+  locked = true;
+}

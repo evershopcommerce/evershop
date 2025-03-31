@@ -1,16 +1,16 @@
 /* eslint-disable no-param-reassign */
-const winston = require('winston');
+import winston from 'winston';
+import CustomColorize from './CustomColorize.js';
+import isDevelopmentMode from '../util/isDevelopmentMode.js';
+import { getEnv } from '../util/getEnv.js';
+import { getValueSync, addProcessor } from '../util/registry.js';
 
 const { errors } = winston.format;
-const customColorize = require('./CustomColorize');
-const isDevelopmentMode = require('../util/isDevelopmentMode');
-const { getEnv } = require('../util/getEnv');
-const { getValueSync, addProcessor } = require('../util/registry');
 
 const isDebugging = isDevelopmentMode() || process.argv.includes('--debug');
 const format = winston.format.combine(
   errors({ stack: true }),
-  customColorize({
+  CustomColorize({
     colors: {
       error: 'red',
       warn: 'yellow',
@@ -112,27 +112,27 @@ function createLogger() {
 }
 
 // Define logger function
-function debug(message) {
+export function debug(message) {
   const logger = createLogger();
   logger.debug(message);
 }
 
-function error(e) {
+export function error(e) {
   const logger = createLogger();
   logger.error(e);
 }
 
-function warning(message) {
+export function warning(message) {
   const logger = createLogger();
   logger.warn(message);
 }
 
-function info(message) {
+export function info(message) {
   const logger = createLogger();
   logger.info(message);
 }
 
-function success(message) {
+export function success(message) {
   const logger = createLogger();
   logger.info(message);
 }
@@ -147,12 +147,3 @@ addProcessor(
   },
   0
 );
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {
-  success,
-  info,
-  warning,
-  error,
-  debug
-};

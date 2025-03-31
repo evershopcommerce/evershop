@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   babelrcRoots: [__dirname
   ],
   parserOpts: {

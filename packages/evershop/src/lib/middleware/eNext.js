@@ -1,4 +1,4 @@
-const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
+import isErrorHandlerTriggered from './isErrorHandlerTriggered.js';
 
 function noop() {}
 
@@ -13,4 +13,4 @@ function eNext(request, response, next) {
   };
 }
 
-module.exports = eNext;
+export default eNext;

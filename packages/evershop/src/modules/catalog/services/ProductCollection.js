@@ -1,11 +1,11 @@
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
 
-const { select, node, sql } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getValue } = require('@evershop/evershop/src/lib/util/registry');
+import { select, node, sql } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getValue } from '@evershop/evershop/src/lib/util/registry.js';
 
-class ProductCollection {
+export class ProductCollection {
   constructor(baseQuery) {
     this.baseQuery = baseQuery;
     this.baseQuery.orderBy('product.product_id', 'DESC');
@@ -139,5 +139,3 @@ class ProductCollection {
     return this.currentFilters;
   }
 }
-
-module.exports.ProductCollection = ProductCollection;

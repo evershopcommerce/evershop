@@ -1,14 +1,10 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { v4: uuidv4 } = require('uuid');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { toPrice } = require('../toPrice');
-const {
-  calculateTaxAmount
-} = require('../../../tax/services/calculateTaxAmount');
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { v4 as uuidv4 } from 'uuid';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { calculateTaxAmount } from '@evershop/evershop/src/modules/tax/services/calculateTaxAmount.js';
+import { toPrice } from '../toPrice.js';
 
-module.exports.registerCartItemBaseFields = function registerCartItemBaseFields(
-  fields
-) {
+export function registerCartItemBaseFields(fields) {
   const newFields = fields.concat([
     {
       key: 'cart_item_id',
@@ -321,4 +317,4 @@ module.exports.registerCartItemBaseFields = function registerCartItemBaseFields(
     }
   ]);
   return newFields;
-};
+}

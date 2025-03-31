@@ -1,7 +1,7 @@
-const { v4: uuidv4 } = require('uuid');
-const { select } = require('@evershop/postgres-query-builder');
+import { v4 as uuidv4 } from 'uuid';
+import { select } from '@evershop/postgres-query-builder';
 
-module.exports = {
+export default {
   Product: {
     image: async (product) => {
       const mainImage = product.originImage;

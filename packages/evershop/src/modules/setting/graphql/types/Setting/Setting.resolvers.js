@@ -1,6 +1,6 @@
-const { select } = require('@evershop/postgres-query-builder');
+import { select } from '@evershop/postgres-query-builder';
 
-module.exports = {
+export default {
   Query: {
     setting: async (root, _, { pool }) => {
       const setting = await select().from('setting').execute(pool);

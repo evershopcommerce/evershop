@@ -1,8 +1,6 @@
-const { execute } = require('@evershop/postgres-query-builder');
+import { execute } from '@evershop/postgres-query-builder';
 
-module.exports.createMigrationTable = async function createMigrationTable(
-  connection
-) {
+export async function createMigrationTable(connection) {
   await execute(
     connection,
     `CREATE TABLE IF NOT EXISTS "migration"  (
@@ -14,4 +12,4 @@ module.exports.createMigrationTable = async function createMigrationTable(
         CONSTRAINT "MODULE_UNIQUE" UNIQUE ("module")
         )`
   );
-};
+}

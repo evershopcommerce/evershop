@@ -1,11 +1,11 @@
-const fs = require('fs');
-const { parse } = require('graphql');
-const uniqid = require('uniqid');
-const { print } = require('graphql/language/printer');
-const JSON5 = require('json5');
+import fs from 'fs';
+import { parse } from 'graphql';
+import uniqid from 'uniqid';
+import { print } from 'graphql/language/printer.js';
+import JSON5 from 'json5';
 
 // This function should return an object { query, fragments, variables }.
-module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
+export function parseGraphqlByFile(module) {
   const result = {
     query: {},
     fragments: {},
@@ -215,4 +215,4 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
     result.variables.definitions = [];
   }
   return result;
-};
+}

@@ -1,19 +1,11 @@
 /* eslint-disable no-param-reassign */
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const {
-  getAttributesBaseQuery
-} = require('../../../services/getAttributesBaseQuery');
-const {
-  getAttributeGroupsBaseQuery
-} = require('../../../services/getAttributeGroupsBaseQuery');
-const {
-  AttributeCollection
-} = require('../../../services/AttributeCollection');
-const {
-  AttributeGroupCollection
-} = require('../../../services/AttributeGroupCollection');
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { getAttributesBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getAttributesBaseQuery.js';
+import { getAttributeGroupsBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getAttributeGroupsBaseQuery.js';
+import { AttributeCollection } from '@evershop/evershop/src/modules/catalog/services/AttributeCollection.js';
+import { AttributeGroupCollection } from '@evershop/evershop/src/modules/catalog/services/AttributeGroupCollection.js';
 
-module.exports = {
+export default {
   Query: {
     attributes: async (_, { filters = [] }) => {
       const query = getAttributesBaseQuery();

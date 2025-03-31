@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select } = require('@evershop/postgres-query-builder');
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { select } from '@evershop/postgres-query-builder';
 
-module.exports.getTaxRates = async function getTaxRates(
+export async function getTaxRates(
   taxClassId,
   country,
   province,
@@ -63,4 +63,4 @@ module.exports.getTaxRates = async function getTaxRates(
 
     return taxRates;
   }
-};
+}

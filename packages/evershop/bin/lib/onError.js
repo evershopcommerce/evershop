@@ -1,11 +1,11 @@
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const normalizePort = require('./normalizePort');
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { normalizePort } from './normalizePort.js';
 
 const port = normalizePort();
 /**
  * Event listener for HTTP server "err" event.
  */
-module.exports = function onError(err) {
+export function onError(err) {
   if (err.syscall !== 'listen') {
     throw err;
   }
@@ -25,4 +25,4 @@ module.exports = function onError(err) {
     default:
       throw err;
   }
-};
+}

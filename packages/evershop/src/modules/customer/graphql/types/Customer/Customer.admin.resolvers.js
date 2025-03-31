@@ -1,11 +1,9 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getCustomersBaseQuery
-} = require('../../../services/getCustomersBaseQuery');
-const { CustomerCollection } = require('../../../services/CustomerCollection');
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { getCustomersBaseQuery } from '../../../services/getCustomersBaseQuery.js';
+import { CustomerCollection } from '../../../services/CustomerCollection.js';
 
-module.exports = {
+export default {
   Query: {
     customer: async (root, { id }, { pool }) => {
       const query = getCustomersBaseQuery();

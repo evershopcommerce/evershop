@@ -1,20 +1,16 @@
-const { error } = require('../../lib/log/logger');
-const { addProcessor, addFinalProcessor } = require('../../lib/util/registry');
-const { sortFields } = require('./services/cart/sortFields');
-const {
-  registerCartBaseFields
-} = require('./services/cart/registerCartBaseFields');
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import {
+  addProcessor,
+  addFinalProcessor
+} from '@evershop/evershop/src/lib/util/registry.js';
+import { sortFields } from '@evershop/evershop/src/modules/checkout/services/cart/sortFields.js';
+import { registerCartBaseFields } from '@evershop/evershop/src/modules/checkout/services/cart/registerCartBaseFields.js';
+import { registerCartItemBaseFields } from '@evershop/evershop/src/modules/checkout/services/cart/registerCartItemBaseFields.js';
+import { getProductsBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getProductsBaseQuery.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { merge } from '@evershop/evershop/src/lib/util/merge.js';
 
-const {
-  registerCartItemBaseFields
-} = require('./services/cart/registerCartItemBaseFields');
-const {
-  getProductsBaseQuery
-} = require('../catalog/services/getProductsBaseQuery');
-const { pool } = require('../../lib/postgres/connection');
-const { merge } = require('../../lib/util/merge');
-
-module.exports = () => {
+export default () => {
   addProcessor('cartFields', registerCartBaseFields, 0);
 
   addProcessor('cartItemFields', registerCartItemBaseFields, 0);

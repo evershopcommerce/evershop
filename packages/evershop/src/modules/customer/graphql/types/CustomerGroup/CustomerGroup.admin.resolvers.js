@@ -1,14 +1,10 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getCustomerGroupsBaseQuery
-} = require('../../../services/getCustomerGroupsBaseQuery');
-const {
-  CustomerGroupCollection
-} = require('../../../services/CustomerGroupCollection');
+import { select } from '@evershop/postgres-query-builder';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { getCustomerGroupsBaseQuery } from '../../../services/getCustomerGroupsBaseQuery.js';
+import { CustomerGroupCollection } from '../../../services/CustomerGroupCollection.js';
 
-module.exports = {
+export default {
   Query: {
     customerGroup: async (root, { id }, { pool }) => {
       const group = await select()

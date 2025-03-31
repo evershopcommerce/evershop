@@ -1,4 +1,4 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
 
-module.exports.getFrontStoreSessionCookieName = () =>
+export const getFrontStoreSessionCookieName = () =>
   getConfig('system.session.cookieName', 'sid');

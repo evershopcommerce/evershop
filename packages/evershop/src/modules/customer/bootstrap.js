@@ -1,18 +1,16 @@
-const { request } = require('express');
-const config = require('config');
-const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const { translate } = require('../../lib/locale/translate/translate');
-const { addProcessor } = require('../../lib/util/registry');
-const registerDefaultCustomerCollectionFilters = require('./services/registerDefaultCustomerCollectionFilters');
-const {
-  defaultPaginationFilters
-} = require('../../lib/util/defaultPaginationFilters');
-const registerDefaultCustomerGroupCollectionFilters = require('./services/registerDefaultCustomerGroupCollectionFilters');
-const { hookable } = require('../../lib/util/hookable');
-const loginCustomerWithEmail = require('./services/customer/loginCustomerWithEmail');
-const logoutCustomer = require('./services/customer/logoutCustomer');
+import { request } from 'express';
+import config from 'config';
+import { merge } from '@evershop/evershop/src/lib/util/merge.js';
+import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
+import { addProcessor } from '@evershop/evershop/src/lib/util/registry.js';
+import { registerDefaultCustomerCollectionFilters } from '@evershop/evershop/src/modules/customer/services/registerDefaultCustomerCollectionFilters.js';
+import { defaultPaginationFilters } from '@evershop/evershop/src/lib/util/defaultPaginationFilters.js';
+import { registerDefaultCustomerGroupCollectionFilters } from '@evershop/evershop/src/modules/customer/services/registerDefaultCustomerGroupCollectionFilters.js';
+import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import loginCustomerWithEmail from '@evershop/evershop/src/modules/customer/services/customer/loginCustomerWithEmail.js';
+import logoutCustomer from '@evershop/evershop/src/modules/customer/services/customer/logoutCustomer.js';
 
-module.exports = () => {
+export default () => {
   addProcessor('cartFields', (fields) => {
     fields.push({
       key: 'customer_id',

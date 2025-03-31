@@ -1,12 +1,12 @@
-const boxen = require('boxen');
-const { green } = require('kleur');
-const normalizePort = require('./normalizePort');
+import boxen from 'boxen';
+import kleur from 'kleur';
+import { normalizePort } from './normalizePort.js';
 
 const port = normalizePort();
 /**
  * Event listener for HTTP server "listening" event.
  */
-module.exports = function onListening() {
+export function onListening() {
   const message = boxen(
     `Your website is running at "http://localhost:${port}"`,
     {
@@ -18,5 +18,5 @@ module.exports = function onListening() {
     }
   );
   // eslint-disable-next-line no-console
-  console.log(green(message));
-};
+  console.log(kleur.green(message));
+}

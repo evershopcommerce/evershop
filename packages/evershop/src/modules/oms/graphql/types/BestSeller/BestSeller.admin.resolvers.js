@@ -1,11 +1,9 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getProductsBaseQuery
-} = require('@evershop/evershop/src/modules/catalog/services/getProductsBaseQuery');
-const { sql } = require('@evershop/postgres-query-builder');
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { getProductsBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getProductsBaseQuery.js';
+import { sql } from '@evershop/postgres-query-builder';
 
-module.exports = {
+export default {
   Query: {
     bestSellers: async () => {
       const query = getProductsBaseQuery();

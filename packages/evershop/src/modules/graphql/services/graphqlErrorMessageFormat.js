@@ -1,4 +1,4 @@
-module.exports.graphqlErrorMessageFormat = function graphqlErrorMessageFormat(
+export function graphqlErrorMessageFormat(
   inputString,
   lineNumber,
   columnNumber
@@ -35,4 +35,4 @@ module.exports.graphqlErrorMessageFormat = function graphqlErrorMessageFormat(
   );
 
   return highlightedLine;
-};
+}

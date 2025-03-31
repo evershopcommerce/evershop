@@ -1,8 +1,6 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  comparePassword
-} = require('@evershop/evershop/src/lib/util/passwordHelper');
-const { select } = require('@evershop/postgres-query-builder');
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { comparePassword } from '@evershop/evershop/src/lib/util/passwordHelper.js';
+import { select } from '@evershop/postgres-query-builder';
 
 /**
  * This function will login the admin user with email and password. This function must be accessed from the request object (request.loginUserWithEmail(email, password, callback))
@@ -28,4 +26,4 @@ async function loginUserWithEmail(email, password) {
   this.locals.user = user;
 }
 
-module.exports = loginUserWithEmail;
+export default loginUserWithEmail;

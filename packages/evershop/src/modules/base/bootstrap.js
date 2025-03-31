@@ -1,10 +1,8 @@
-const {
-  loadCsv
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const { addProcessor } = require('../../lib/util/registry');
+import { loadCsv } from '@evershop/evershop/src/lib/locale/translate/translate.js';
+import { merge } from '@evershop/evershop/src/lib/util/merge.js';
+import { addProcessor } from '@evershop/evershop/src/lib/util/registry.js';
 
-module.exports = async () => {
+export default async () => {
   await loadCsv();
   addProcessor('configuratonSchema', (schema) => {
     merge(schema, {

@@ -1,12 +1,12 @@
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import {
   execute,
   insertOnUpdate,
   select
-} = require('@evershop/postgres-query-builder');
+} from '@evershop/postgres-query-builder';
 
-module.exports = async function buildUrlReWrite(data) {
+export default async function buildUrlReWrite(data) {
   try {
     const categoryUUid = data.uuid;
     const categoryId = data.category_id;
@@ -68,4 +68,4 @@ module.exports = async function buildUrlReWrite(data) {
   } catch (err) {
     error(err);
   }
-};
+}

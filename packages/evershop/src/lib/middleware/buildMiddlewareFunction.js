@@ -1,15 +1,11 @@
-/* eslint-disable global-require */
-const { existsSync } = require('fs');
-const { sep } = require('path');
-const { asyncMiddlewareWrapper } = require('./async');
-const eNext = require('./eNext');
-const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
-const { getDelegates } = require('./delegate');
-const { syncMiddlewareWrapper } = require('./sync');
-const isDevelopmentMode = require('../util/isDevelopmentMode');
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+import { existsSync } from 'fs';
+import { sep } from 'path';
+import { asyncMiddlewareWrapper } from './async.js';
+import { syncMiddlewareWrapper } from './sync.js';
+import eNext from './eNext.js';
+import isErrorHandlerTriggered from './isErrorHandlerTriggered.js';
+import { getDelegates } from './delegate.js';
+import isDevelopmentMode from '../util/isDevelopmentMode.js';
 
 /**
  * This function takes the defined middleware function and return a new one with wrapper
@@ -22,7 +18,7 @@ module.exports = exports = {};
  * @returns {object} the middleware object
  * @throws
  */
-exports.buildMiddlewareFunction = function buildMiddlewareFunction(id, path) {
+export function buildMiddlewareFunction(id, path) {
   if (!/^[a-zA-Z0-9_]+$/.test(id)) {
     throw new TypeError(`Middleware ID ${id} is invalid`);
   }
@@ -47,36 +43,38 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(id, path) {
       if (isDevelopmentMode() && !existsSync(path)) {
         next();
       }
-      const func = require(path);
       // If there response status is 404. We skip routed middlewares
       if (response.statusCode === 404 && isRoutedLevel) {
         next();
       } else {
-        if (func.constructor.name === 'AsyncFunction') {
-          asyncMiddlewareWrapper(
-            id,
-            func,
-            request,
-            response,
-            getDelegates(request),
-            eNext(request, response, next)
-          );
-        } else {
-          syncMiddlewareWrapper(
-            id,
-            func,
-            request,
-            response,
-            getDelegates(request),
-            eNext(request, response, next)
-          );
-        }
+        import(path).then((m) => {
+          const func = m.default;
+          if (func.constructor.name === 'AsyncFunction') {
+            asyncMiddlewareWrapper(
+              id,
+              func,
+              request,
+              response,
+              getDelegates(request),
+              eNext(request, response, next)
+            );
+          } else {
+            syncMiddlewareWrapper(
+              id,
+              func,
+              request,
+              response,
+              getDelegates(request),
+              eNext(request, response, next)
+            );
+          }
 
-        // If middleware function does not have next function as a parameter
-        if (func.length < 4 && !isErrorHandlerTriggered(response)) {
-          next();
-        }
+          // If middleware function does not have next function as a parameter
+          if (func.length < 4 && !isErrorHandlerTriggered(response)) {
+            next();
+          }
+        });
       }
     };
   }
-};
+}

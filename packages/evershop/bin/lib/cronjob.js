@@ -1,9 +1,7 @@
-const cron = require('node-cron');
-const isResolvable = require('is-resolvable');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-
-module.exports = exports;
+import cron from 'node-cron';
+import isResolvable from 'is-resolvable';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
 
 function start() {
   // Get the list of jobs from the configuration

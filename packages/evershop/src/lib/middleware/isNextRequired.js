@@ -1,6 +1,6 @@
-const { readFileSync } = require('fs');
+import { readFileSync } from 'fs';
 
-module.exports = function isNextRequired(path) {
+export default function isNextRequired(path) {
   const code = readFileSync(path, 'utf8');
   return code.includes('next');
-};
+}

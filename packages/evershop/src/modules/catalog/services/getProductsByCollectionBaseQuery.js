@@ -1,6 +1,6 @@
-const { getProductsBaseQuery } = require('./getProductsBaseQuery');
+import { getProductsBaseQuery } from './getProductsBaseQuery.js';
 
-module.exports.getProductsByCollectionBaseQuery = (collectionId) => {
+export const getProductsByCollectionBaseQuery = (collectionId) => {
   const query = getProductsBaseQuery();
   query
     .leftJoin('product_collection')

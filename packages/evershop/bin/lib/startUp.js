@@ -1,29 +1,32 @@
-const http = require('http');
-const config = require('config');
-const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
-const spawn = require('cross-spawn');
-const path = require('path');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
-const { lockHooks } = require('@evershop/evershop/src/lib/util/hookable');
-const { lockRegistry } = require('@evershop/evershop/src/lib/util/registry');
-const {
-  validateConfiguration
-} = require('@evershop/evershop/src/lib/util/validateConfiguration');
-const { createApp } = require('./app');
-const normalizePort = require('./normalizePort');
-const onListening = require('./onListening');
-const onError = require('./onError');
-const { getCoreModules } = require('./loadModules');
-const { migrate } = require('./bootstrap/migrate');
-const { loadBootstrapScript } = require('./bootstrap/bootstrap');
-const { getEnabledExtensions } = require('../extension');
+/* eslint-disable no-underscore-dangle */
+import http from 'http';
+import config from 'config';
+import { Handler } from '@evershop/evershop/src/lib/middleware/Handler.js';
+import spawn from 'cross-spawn';
+import path from 'path';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import isDevelopmentMode from '@evershop/evershop/src/lib/util/isDevelopmentMode.js';
+import { lockHooks } from '@evershop/evershop/src/lib/util/hookable.js';
+import { lockRegistry } from '@evershop/evershop/src/lib/util/registry.js';
+import { validateConfiguration } from '@evershop/evershop/src/lib/util/validateConfiguration.js';
+import { fileURLToPath } from 'url';
+import { createApp } from './app.js';
+import { normalizePort } from './normalizePort.js';
+import { onListening } from './onListening.js';
+import { onError } from './onError.js';
+import { getCoreModules } from './loadModules.js';
+import { migrate } from './bootstrap/migrate.js';
+import { loadBootstrapScript } from './bootstrap/bootstrap.js';
+import { getEnabledExtensions } from '../extension/index.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let app = createApp();
 /** Create a http server */
 const server = http.createServer(app);
 
-module.exports.start = async function start(cb) {
+export const start = async function start(cb) {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
 
   /** Loading bootstrap script from modules */
@@ -105,7 +108,7 @@ module.exports.start = async function start(cb) {
   jobChild.unref();
 };
 
-module.exports.updateApp = function updateApp(cb) {
+export const updateApp = function updateApp(cb) {
   /** Clean up middleware */
   Handler.middlewares = [];
   const newApp = createApp();

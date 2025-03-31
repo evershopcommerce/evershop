@@ -1,13 +1,11 @@
-const config = require('config');
-const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const registerDefaultPageCollectionFilters = require('./services/registerDefaultPageCollectionFilters');
-const {
-  defaultPaginationFilters
-} = require('../../lib/util/defaultPaginationFilters');
-const { addProcessor } = require('../../lib/util/registry');
-const registerDefaultWidgetCollectionFilters = require('./services/registerDefaultWidgetCollectionFilters');
+import config from 'config';
+import { merge } from '@evershop/evershop/src/lib/util/merge.js';
+import { registerDefaultPageCollectionFilters } from '@evershop/evershop/src/modules/cms/services/registerDefaultPageCollectionFilters.js';
+import { defaultPaginationFilters } from '@evershop/evershop/src/lib/util/defaultPaginationFilters.js';
+import { addProcessor } from '@evershop/evershop/src/lib/util/registry.js';
+import { registerDefaultWidgetCollectionFilters } from '@evershop/evershop/src/modules/cms/services/registerDefaultWidgetCollectionFilters.js';
 
-module.exports = () => {
+export default () => {
   addProcessor('configuratonSchema', (schema) => {
     merge(schema, {
       properties: {

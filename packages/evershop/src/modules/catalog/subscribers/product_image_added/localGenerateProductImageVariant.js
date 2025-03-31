@@ -1,13 +1,13 @@
-const path = require('path');
-const { existsSync } = require('fs');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const sharp = require('sharp');
-const { update } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+import path from 'path';
+import { existsSync } from 'fs';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import sharp from 'sharp';
+import { update } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
 
-module.exports = async function localGenerateProductImageVariant(data) {
+export default async function localGenerateProductImageVariant(data) {
   if (getConfig('system.file_storage') === 'local') {
     try {
       const imagePath = data.origin_image.replace('/assets', '');
@@ -59,4 +59,4 @@ module.exports = async function localGenerateProductImageVariant(data) {
       error(e);
     }
   }
-};
+}

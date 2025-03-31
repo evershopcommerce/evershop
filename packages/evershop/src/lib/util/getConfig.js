@@ -1,4 +1,4 @@
-const config = require('config');
+import config from 'config';
 
 /**
  * Get the configuration value base on path
@@ -8,10 +8,6 @@ const config = require('config');
  *
  * @return  {any}                   The configuration value
  */
-function getConfig(path, defaultValue) {
+export function getConfig(path, defaultValue) {
   return config.has(path) ? config.get(path) : defaultValue;
 }
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
-exports.getConfig = getConfig;

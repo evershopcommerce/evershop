@@ -1,9 +1,9 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
 
 let setting;
 
-module.exports.getSetting = async (name, defaultValue) => {
+export async function getSetting(name, defaultValue) {
   if (!setting) {
     setting = await select().from('setting').execute(pool);
   }
@@ -13,8 +13,8 @@ module.exports.getSetting = async (name, defaultValue) => {
   } else {
     return defaultValue;
   }
-};
+}
 
-module.exports.refreshSetting = async () => {
+export async function refreshSetting() {
   setting = await select().from('setting').execute(pool);
-};
+}

@@ -1,10 +1,10 @@
-const { makeExecutableSchema } = require('@graphql-tools/schema');
-const { buildTypeDefs } = require('./buildTypes');
-const { buildResolvers } = require('./buildResolvers');
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { buildTypeDefs } from './buildTypes.js';
+import { buildResolvers } from './buildResolvers.js';
 
 const schema = makeExecutableSchema({
   typeDefs: buildTypeDefs(),
   resolvers: buildResolvers()
 });
 
-module.exports = schema;
+export default schema;

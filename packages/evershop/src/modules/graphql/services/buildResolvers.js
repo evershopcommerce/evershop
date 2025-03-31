@@ -1,10 +1,10 @@
-const path = require('path');
-const { loadFilesSync } = require('@graphql-tools/load-files');
-const { mergeResolvers } = require('@graphql-tools/merge');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { getEnabledExtensions } = require('../../../../bin/extension');
+import path from 'path';
+import { loadFilesSync } from '@graphql-tools/load-files';
+import { mergeResolvers } from '@graphql-tools/merge';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { getEnabledExtensions } from '@evershop/evershop/bin/extension/index.js';
 
-module.exports.buildResolvers = function buildResolvers(isAdmin = false) {
+export function buildResolvers(isAdmin = false) {
   const typeSources = [
     path.join(CONSTANTS.MOLDULESPATH, '*/graphql/types/**/*.resolvers.js')
   ];
@@ -24,4 +24,4 @@ module.exports.buildResolvers = function buildResolvers(isAdmin = false) {
   );
 
   return resolvers;
-};
+}

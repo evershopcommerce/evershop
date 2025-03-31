@@ -1,10 +1,8 @@
-const isResolvable = require('is-resolvable');
-const { getConfig } = require('./getConfig');
-const { generateComponentKey } = require('../webpack/util/keyGenerator');
+import isResolvable from 'is-resolvable';
+import { getConfig } from './getConfig.js';
+import { generateComponentKey } from '../webpack/util/keyGenerator.js';
 
-module.exports = exports = {};
-
-exports.getEnabledWidgets = function getEnabledWidgets() {
+export function getEnabledWidgets() {
   const configuredWidgets = getConfig('widgets', {});
   const widgets = [];
   Object.keys(configuredWidgets).forEach((widget) => {
@@ -31,4 +29,4 @@ exports.getEnabledWidgets = function getEnabledWidgets() {
     }
   });
   return widgets;
-};
+}

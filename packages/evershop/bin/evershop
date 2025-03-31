@@ -1,38 +1,46 @@
 #!/usr/bin/env node
-/* eslint-disable global-require */
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
+process.env.ALLOW_CONFIG_MUTATIONS = true;
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 const { argv } = yargs(hideBin(process.argv));
 const command = argv._[0];
-
+console.log('asdasdasd');
 try {
   if (command === 'build') {
     process.env.NODE_ENV = 'production';
-    require('./build/index');
+    import('./build/index').then((module) => module.default());
   } else if (command === 'dev') {
     process.env.NODE_ENV = 'development';
-    require('./dev');
+    import('./dev/index.js').then((module) => module.default());
   } else if (command === 'start') {
     process.env.NODE_ENV = 'production';
-    require('./start');
+    import('./start/index.js')
+      .then((module) => module.default())
+      .catch((e) => {
+        console.error(e);
+      });
   } else if (command === 'install') {
-    require('./install');
+    import('./install/index.js').then((module) => module.default());
   } else if (command === 'user:create') {
-    require('./user/create');
+    import('./user/create.js').then((module) => module.default());
   } else if (command === 'user:changePassword') {
-    require('./user/changePassword');
+    import('./user/changePassword.js').then((module) => module.default());
   } else {
     throw new Error('Invalid command');
   }
 } catch (e) {
-  const { error } = require('../src/lib/log/logger');
-  error(e);
+  import('@evershop/evershop/src/lib/log/logger.js').then((module) => {
+    module.error(e);
+  });
 }
-const { error } = require('../src/lib/log/logger');
 process.on('uncaughtException', function (exception) {
-  error(exception);
+  import('@evershop/evershop/src/lib/log/logger.js').then((module) => {
+    module.error(exception);
+  });
 });
 process.on('unhandledRejection', (reason, p) => {
-  error(`Unhandled Rejection: ${reason} at: ${p}`);
+  import('@evershop/evershop/src/lib/log/logger.js').then((module) => {
+    module.error(`Unhandled Rejection: ${reason} at: ${p}`);
+  });
 });

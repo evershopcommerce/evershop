@@ -1,5 +1,5 @@
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const { getValue } = require('@evershop/evershop/src/lib/util/registry');
+import { getValue } from '@evershop/evershop/src/lib/util/registry.js';
+import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
 
 async function addCartItem(cart, productID, qty, context = {}) {
   if (typeof context !== 'object' || context === null) {
@@ -38,7 +38,7 @@ async function addCartItem(cart, productID, qty, context = {}) {
   }
 }
 
-module.exports = async (cart, sku, qty, context) => {
+export default async (cart, sku, qty, context) => {
   const item = await hookable(addCartItem, context)(cart, sku, qty, context);
   return item;
 };

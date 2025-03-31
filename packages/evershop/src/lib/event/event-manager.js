@@ -1,15 +1,13 @@
-const { select, del } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  loadBootstrapScript
-} = require('@evershop/evershop/bin/lib/bootstrap/bootstrap');
-const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
-const { getEnabledExtensions } = require('@evershop/evershop/bin/extension');
-const { callSubscribers } = require('./callSubscibers');
-const { loadSubscribers } = require('./loadSubscribers');
-const { error } = require('../log/logger');
-const { lockHooks } = require('../util/hookable');
-const { lockRegistry } = require('../util/registry');
+import { select, del } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { loadBootstrapScript } from '@evershop/evershop/bin/lib/bootstrap/bootstrap.js';
+import { getCoreModules } from '@evershop/evershop/bin/lib/loadModules.js';
+import { getEnabledExtensions } from '@evershop/evershop/bin/extension/index.js';
+import { callSubscribers } from './callSubscibers.js';
+import { loadSubscribers } from './loadSubscribers.js';
+import { error } from '../log/logger.js';
+import { lockHooks } from '../util/hookable.js';
+import { lockRegistry } from '../util/registry.js';
 
 const loadEventInterval = 10000;
 const syncEventInterval = 2000;
@@ -17,7 +15,7 @@ const maxEvents = 10;
 let events = [];
 // Get the modules from the arguments
 const modules = [...getCoreModules(), ...getEnabledExtensions()];
-const subscribers = loadSubscribers(modules);
+const subscribers = await loadSubscribers(modules);
 
 const init = async () => {
   /** Loading bootstrap script from modules */

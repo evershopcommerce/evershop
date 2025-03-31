@@ -99,9 +99,10 @@ function lockHooks() {
   locked = true;
 }
 
-module.exports = {
-  hookBefore,
+export {
+  hook,
   hookAfter,
+  hookBefore,
   hookable,
   getHooks,
   clearHooks,

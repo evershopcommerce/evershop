@@ -1,8 +1,8 @@
-const { basename } = require('path');
-const { buildMiddlewareFunction } = require('./buildMiddlewareFunction');
-const { getRouteFromPath } = require('./getRouteFromPath');
+import { basename } from 'path';
+import { buildMiddlewareFunction } from './buildMiddlewareFunction.js';
+import { getRouteFromPath } from './getRouteFromPath.js';
 
-module.exports.parseFromFile = (path) => {
+export function parseFromFile(path) {
   const name = basename(path);
   let m = {};
   let id;
@@ -76,4 +76,4 @@ module.exports.parseFromFile = (path) => {
       }
     ];
   }
-};
+}

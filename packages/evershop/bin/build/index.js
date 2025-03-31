@@ -1,27 +1,22 @@
+import config from 'config';
+import { existsSync, rmSync, mkdirSync } from 'fs';
+import path from 'path';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers';
+import { loadModuleRoutes } from '@evershop/evershop/src/lib/router/loadModuleRoutes';
+import { getRoutes } from '@evershop/evershop/src/lib/router/Router';
+import { isBuildRequired } from '@evershop/evershop/src/lib/webpack/isBuildRequired';
+import { buildEntry } from '@evershop/evershop/bin/lib/buildEntry';
+import { getCoreModules } from '@evershop/evershop/bin/lib/loadModules';
+import { error } from '@evershop/evershop/src/lib/log/logger';
+import { lockHooks } from '@evershop/evershop/src/lib/util/hookable';
+import { lockRegistry } from '@evershop/evershop/src/lib/util/registry';
+import { validateConfiguration } from '@evershop/evershop/src/lib/util/validateConfiguration';
+import { compile } from './complie';
+import { getEnabledExtensions } from '../extension';
+import { loadBootstrapScript } from '../lib/bootstrap/bootstrap';
+import 'dotenv/config';
+
 process.env.ALLOW_CONFIG_MUTATIONS = true;
-const config = require('config');
-const { existsSync, rmSync, mkdirSync } = require('fs');
-const path = require('path');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const {
-  loadModuleRoutes
-} = require('@evershop/evershop/src/lib/router/loadModuleRoutes');
-const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
-const {
-  isBuildRequired
-} = require('@evershop/evershop/src/lib/webpack/isBuildRequired');
-const { buildEntry } = require('@evershop/evershop/bin/lib/buildEntry');
-const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { lockHooks } = require('@evershop/evershop/src/lib/util/hookable');
-const { lockRegistry } = require('@evershop/evershop/src/lib/util/registry');
-const {
-  validateConfiguration
-} = require('@evershop/evershop/src/lib/util/validateConfiguration');
-const { compile } = require('./complie');
-const { getEnabledExtensions } = require('../extension');
-const { loadBootstrapScript } = require('../lib/bootstrap/bootstrap');
-require('dotenv').config();
 /* Loading modules and initilize routes, components */
 const modules = [...getCoreModules(), ...getEnabledExtensions()];
 

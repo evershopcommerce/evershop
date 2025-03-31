@@ -1,46 +1,27 @@
 /* eslint-disable no-param-reassign */
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const sessionStorage = require('connect-pg-simple');
-const pathToRegexp = require('path-to-regexp');
-const webpack = require('webpack');
-const { debug } = require('@evershop/evershop/src/lib/log/logger');
-const middleware = require('webpack-dev-middleware');
-const {
-  createConfigClient
-} = require('@evershop/evershop/src/lib/webpack/dev/createConfigClient');
-const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
-const {
-  isBuildRequired
-} = require('@evershop/evershop/src/lib/webpack/isBuildRequired');
-const publicStatic = require('@evershop/evershop/src/lib/middlewares/publicStatic');
-const themePublicStatic = require('@evershop/evershop/src/lib/middlewares/themePublicStatic');
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  setContextValue
-} = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const isProductionMode = require('@evershop/evershop/src/lib/util/isProductionMode');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const {
-  getAdminSessionCookieName
-} = require('@evershop/evershop/src/modules/auth/services/getAdminSessionCookieName');
-const {
-  getFrontStoreSessionCookieName
-} = require('@evershop/evershop/src/modules/auth/services/getFrontStoreSessionCookieName');
-const {
-  getCookieSecret
-} = require('@evershop/evershop/src/modules/auth/services/getCookieSecret');
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import sessionStorage from 'connect-pg-simple';
+import pathToRegexp from 'path-to-regexp';
+import webpack from 'webpack';
+import { debug } from '@evershop/evershop/src/lib/log/logger.js';
+import middleware from 'webpack-dev-middleware';
+import { createConfigClient } from '@evershop/evershop/src/lib/webpack/dev/createConfigClient.js';
+import isDevelopmentMode from '@evershop/evershop/src/lib/util/isDevelopmentMode.js';
+import { isBuildRequired } from '@evershop/evershop/src/lib/webpack/isBuildRequired.js';
+import publicStatic from '@evershop/evershop/src/lib/middlewares/publicStatic.js';
+import themePublicStatic from '@evershop/evershop/src/lib/middlewares/themePublicStatic.js';
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { setContextValue } from '@evershop/evershop/src/modules/graphql/services/contextHelper.js';
+import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
+import isProductionMode from '@evershop/evershop/src/lib/util/isProductionMode.js';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getAdminSessionCookieName } from '@evershop/evershop/src/modules/auth/services/getAdminSessionCookieName.js';
+import { getFrontStoreSessionCookieName } from '@evershop/evershop/src/modules/auth/services/getFrontStoreSessionCookieName.js';
+import { getCookieSecret } from '@evershop/evershop/src/modules/auth/services/getCookieSecret.js';
 
-module.exports = exports = {};
-
-exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
-  app,
-  routes
-) {
+export function addDefaultMiddlewareFuncs(app, routes) {
   app.use((request, response, next) => {
     response.debugMiddlewares = [];
     next();
@@ -338,4 +319,4 @@ exports.addDefaultMiddlewareFuncs = function addDefaultMiddlewareFuncs(
       next();
     }
   });
-};
+}

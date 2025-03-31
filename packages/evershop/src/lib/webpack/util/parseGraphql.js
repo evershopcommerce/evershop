@@ -1,12 +1,12 @@
-const fs = require('fs');
-const uniqid = require('uniqid');
-const JSON5 = require('json5');
-const isResolvable = require('is-resolvable');
-const { CONSTANTS } = require('../../helpers');
-const { parseGraphqlByFile } = require('./parseGraphqlByFile');
-const { generateComponentKey } = require('./keyGenerator');
+import fs from 'fs';
+import uniqid from 'uniqid';
+import JSON5 from 'json5';
+import isResolvable from 'is-resolvable';
+import { CONSTANTS } from '../../helpers.js';
+import { parseGraphqlByFile } from './parseGraphqlByFile.js';
+import { generateComponentKey } from './keyGenerator.js';
 
-module.exports.parseGraphql = function parseGraphql(modules) {
+export function parseGraphql(modules) {
   let inUsedFragments = [];
   const propsMap = {};
   let queries = {};
@@ -99,4 +99,4 @@ module.exports.parseGraphql = function parseGraphql(modules) {
     variables: variableList,
     propsMap
   };
-};
+}

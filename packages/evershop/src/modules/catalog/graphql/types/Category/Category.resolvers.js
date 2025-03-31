@@ -1,20 +1,14 @@
-const { v4: uuidv4 } = require('uuid');
-const { select, execute } = require('@evershop/postgres-query-builder');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getProductsByCategoryBaseQuery
-} = require('../../../services/getProductsByCategoryBaseQuery');
-const {
-  getFilterableAttributes
-} = require('../../../services/getFilterableAttributes');
-const { ProductCollection } = require('../../../services/ProductCollection');
-const {
-  getCategoriesBaseQuery
-} = require('../../../services/getCategoriesBaseQuery');
-const { CategoryCollection } = require('../../../services/CategoryCollection');
+import { v4 as uuidv4 } from 'uuid';
+import { select, execute } from '@evershop/postgres-query-builder';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { getProductsByCategoryBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getProductsByCategoryBaseQuery.js';
+import { getFilterableAttributes } from '@evershop/evershop/src/modules/catalog/services/getFilterableAttributes.js';
+import { ProductCollection } from '@evershop/evershop/src/modules/catalog/services/ProductCollection.js';
+import { getCategoriesBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getCategoriesBaseQuery.js';
+import { CategoryCollection } from '@evershop/evershop/src/modules/catalog/services/CategoryCollection.js';
 
-module.exports = {
+export default {
   Query: {
     category: async (_, { id }, { pool }) => {
       const query = select().from('category');

@@ -1,10 +1,7 @@
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { setDelegate } = require('./delegate');
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { setDelegate } from './delegate.js';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
-
-exports.asyncMiddlewareWrapper = async function asyncMiddlewareWrapper(
+export async function asyncMiddlewareWrapper(
   id,
   middlewareFunc,
   request,
@@ -40,4 +37,4 @@ exports.asyncMiddlewareWrapper = async function asyncMiddlewareWrapper(
     // Call error handler middleware if it is not called yet
     next(e);
   }
-};
+}

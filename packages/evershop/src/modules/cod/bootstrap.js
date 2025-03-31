@@ -1,7 +1,7 @@
-const { addProcessor } = require('../../lib/util/registry');
-const { getSetting } = require('../setting/services/setting');
+import { addProcessor } from '@evershop/evershop/src/lib/util/registry.js';
+import { getSetting } from '@evershop/evershop/src/modules/setting/services/setting.js';
 
-module.exports = () => {
+export default () => {
   addProcessor('cartFields', (fields) => {
     fields.push({
       key: 'payment_method',

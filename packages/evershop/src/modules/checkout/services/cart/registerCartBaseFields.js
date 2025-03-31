@@ -1,21 +1,17 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { v4: uuidv4 } = require('uuid');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select } = require('@evershop/postgres-query-builder');
-const { default: axios } = require('axios');
-const normalizePort = require('@evershop/evershop/bin/lib/normalizePort');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { getTaxPercent } = require('../../../tax/services/getTaxPercent');
-const {
-  calculateTaxAmount
-} = require('../../../tax/services/calculateTaxAmount');
-const { toPrice } = require('../toPrice');
-const { getSetting } = require('../../../setting/services/setting');
-const { getTaxRates } = require('../../../tax/services/getTaxRates');
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { v4 as uuidv4 } from 'uuid';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { select } from '@evershop/postgres-query-builder';
+import axios from 'axios';
+import { normalizePort } from '@evershop/evershop/bin/lib/normalizePort.js';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { getTaxPercent } from '@evershop/evershop/src/modules/tax/services/getTaxPercent.js';
+import { calculateTaxAmount } from '@evershop/evershop/src/modules/tax/services/calculateTaxAmount.js';
+import { getSetting } from '@evershop/evershop/src/modules/setting/services/setting.js';
+import { getTaxRates } from '@evershop/evershop/src/modules/tax/services/getTaxRates.js';
+import { toPrice } from '../toPrice.js';
 
-module.exports.registerCartBaseFields = function registerCartBaseFields(
-  fields
-) {
+export function registerCartBaseFields(fields) {
   const newFields = fields.concat([
     {
       key: 'cart_id',
@@ -672,4 +668,4 @@ module.exports.registerCartBaseFields = function registerCartBaseFields(
     }
   ]);
   return newFields;
-};
+}

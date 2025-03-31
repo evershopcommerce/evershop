@@ -1,8 +1,6 @@
-const { getRoutes } = require('./Router');
-const { compile } = require('../pathToRegexp');
+import { getRoutes } from './Router.js';
+import { compile } from '../pathToRegexp.js';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
 /**
  * This function take a route ID, list of params and return the url
  *
@@ -11,7 +9,7 @@ module.exports = exports = {};
  *
  * @return  {string} The Url
  */
-exports.buildUrl = (routeId, params = {}) => {
+export const buildUrl = (routeId, params = {}) => {
   const routes = getRoutes();
   const route = routes.find((r) => r.id === routeId);
   if (route === undefined) {

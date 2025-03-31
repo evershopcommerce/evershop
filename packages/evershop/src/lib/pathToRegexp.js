@@ -1,3 +1,5 @@
+import isarray from 'isarray';
+
 /* eslint-disable func-names */
 /* eslint-disable no-shadow */
 /* eslint-disable no-param-reassign */
@@ -199,7 +201,6 @@ function pathToRegexp(e, t, r) {
       : stringToRegexp(e, t, r)
   );
 }
-var isarray = require('isarray');
 
 var PATH_REGEXP = new RegExp(
   [
@@ -208,8 +209,5 @@ var PATH_REGEXP = new RegExp(
   ].join('|'),
   'g'
 );
-(module.exports = pathToRegexp),
-  (module.exports.parse = parse),
-  (module.exports.compile = compile),
-  (module.exports.tokensToFunction = tokensToFunction),
-  (module.exports.tokensToRegExp = tokensToRegExp);
+
+export { pathToRegexp, parse, compile, tokensToFunction, tokensToRegExp };

@@ -1,7 +1,7 @@
 /**
  * Normalize a port into a number, string, or false.
  */
-module.exports = function normalizePort() {
+export function normalizePort() {
   // eslint-disable-next-line no-shadow
   const port = parseInt(process.env.PORT, 10);
 
@@ -16,4 +16,4 @@ module.exports = function normalizePort() {
   }
 
   return 3000;
-};
+}

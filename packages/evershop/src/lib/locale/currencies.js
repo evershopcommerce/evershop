@@ -1,4 +1,4 @@
-module.exports.currencies = [
+export const currencies = [
   { code: 'AFN', name: 'Afghan Afghani' },
   { code: 'ALL', name: 'Albanian Lek' },
   { code: 'DZD', name: 'Algerian Dinar' },

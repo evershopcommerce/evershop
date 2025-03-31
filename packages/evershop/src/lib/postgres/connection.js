@@ -1,8 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const { Pool } = require('pg');
-const fs = require('fs');
-const { getConfig } = require('../util/getConfig');
+import pg from 'pg';
+import fs from 'fs';
+import { getConfig } from '../util/getConfig.js';
 
+const { Pool } = pg;
 // Use env for the database connection, maintain the backward compatibility
 const connectionSetting = {
   host: process.env.DB_HOST || getConfig('system.database.host'),
@@ -66,5 +67,4 @@ async function getConnection() {
   return await pool.connect();
 }
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = { pool, getConnection };
+export { pool, getConnection };

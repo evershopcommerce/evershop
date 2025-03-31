@@ -1,14 +1,12 @@
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import {
   getValue,
   getValueSync
-} = require('@evershop/evershop/src/lib/util/registry');
-const {
-  OPERATION_MAP
-} = require('@evershop/evershop/src/lib/util/filterOperationMapp');
+} from '@evershop/evershop/src/lib/util/registry.js';
+import { OPERATION_MAP } from '@evershop/evershop/src/lib/util/filterOperationMapp.js';
 
-class AttributeGroupCollection {
+export class AttributeGroupCollection {
   constructor(baseQuery) {
     this.baseQuery = baseQuery;
   }
@@ -96,5 +94,3 @@ class AttributeGroupCollection {
     return this.currentFilters;
   }
 }
-
-module.exports.AttributeGroupCollection = AttributeGroupCollection;

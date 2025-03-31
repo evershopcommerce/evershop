@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-const isEqualWith = require('lodash.isequalwith');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+import isEqualWith from 'lodash.isequalwith';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
 
-module.exports.DataObject = class DataObject {
+export class DataObject {
   #fields;
 
   #data = {};
@@ -127,4 +127,4 @@ module.exports.DataObject = class DataObject {
     }
     return data;
   }
-};
+}

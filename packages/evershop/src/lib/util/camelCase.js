@@ -1,4 +1,4 @@
-module.exports.camelCase = (object) => {
+export const camelCase = (object) => {
   // Throw error if the object is not an object
   if (typeof object !== 'object' && object !== null) {
     throw new Error('The object must be an object');

@@ -1,9 +1,9 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { getCartByUUID } = require('../../../services/getCartByUUID');
+import { select } from '@evershop/postgres-query-builder';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { getCartByUUID } from '@evershop/evershop/src/modules/checkout/services/getCartByUUID.js';
 
-module.exports = {
+export default {
   Query: {
     cart: async (_, { id }, { cartId }) => {
       try {

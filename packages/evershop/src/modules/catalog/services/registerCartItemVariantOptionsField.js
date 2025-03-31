@@ -1,9 +1,7 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select } = require('@evershop/postgres-query-builder');
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { select } from '@evershop/postgres-query-builder';
 
-module.exports = exports = {};
-
-exports.registerCartItemVariantOptionsField = (fields) => {
+export const registerCartItemVariantOptionsField = (fields) => {
   const newFields = fields.concat([
     {
       key: 'variant_options',

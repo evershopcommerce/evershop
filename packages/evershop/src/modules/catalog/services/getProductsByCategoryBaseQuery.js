@@ -1,8 +1,8 @@
-const { execute } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getProductsBaseQuery } = require('./getProductsBaseQuery');
+import { execute } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getProductsBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getProductsBaseQuery.js';
 
-module.exports.getProductsByCategoryBaseQuery = async (
+export const getProductsByCategoryBaseQuery = async (
   categoryId,
   fromSubCategories = false
 ) => {

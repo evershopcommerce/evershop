@@ -1,5 +1,5 @@
 // Map the operation to the SQL operation
-const OPERATION_MAP = {
+export const OPERATION_MAP = {
   eq: '=',
   neq: '<>',
   gt: '>',
@@ -11,6 +11,3 @@ const OPERATION_MAP = {
   in: 'IN',
   nin: 'NOT IN'
 };
-
-module.exports = exports;
-exports.OPERATION_MAP = OPERATION_MAP;

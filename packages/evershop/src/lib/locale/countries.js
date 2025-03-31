@@ -1,4 +1,4 @@
-module.exports.contries = [
+export const contries = [
   { code: 'AF', name: 'Afghanistan' },
   { code: 'AL', name: 'Albania' },
   { code: 'DZ', name: 'Algeria' },

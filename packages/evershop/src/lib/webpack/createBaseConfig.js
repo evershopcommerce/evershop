@@ -1,13 +1,13 @@
-const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
-const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
-const { CONSTANTS } = require('../helpers');
-const isProductionMode = require('../util/isProductionMode');
-const { getEnabledExtensions } = require('../../../bin/extension');
-const { getConfig } = require('../util/getConfig');
-const { loadCsvTranslationFiles } = require('./loaders/loadTranslationFromCsv');
+import path from 'path';
+import TerserPlugin from 'terser-webpack-plugin';
+import { getCoreModules } from '@evershop/evershop/bin/lib/loadModules.js';
+import { getEnabledExtensions } from '@evershop/evershop/bin/extension/index.js';
+import { CONSTANTS } from '../helpers.js';
+import isProductionMode from '../util/isProductionMode.js';
+import { getConfig } from '../util/getConfig.js';
+import { loadCsvTranslationFiles } from './loaders/loadTranslationFromCsv.js';
 
-module.exports.createBaseConfig = function createBaseConfig(isServer) {
+export function createBaseConfig(isServer) {
   const extenions = getEnabledExtensions();
   const coreModules = getCoreModules();
   const theme = getConfig('system.theme', null);
@@ -186,4 +186,4 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
   }
 
   return config;
-};
+}

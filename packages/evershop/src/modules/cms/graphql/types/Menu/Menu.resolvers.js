@@ -1,7 +1,7 @@
-const { select, value } = require('@evershop/postgres-query-builder');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+import { select, value } from '@evershop/postgres-query-builder';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
 
-module.exports = {
+export default {
   Query: {
     menu: async (root, _, { pool }) => {
       const query = select('name')

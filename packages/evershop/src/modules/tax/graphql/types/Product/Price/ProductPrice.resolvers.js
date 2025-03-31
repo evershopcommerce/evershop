@@ -1,8 +1,6 @@
-const {
-  toPrice
-} = require('@evershop/evershop/src/modules/checkout/services/toPrice');
+import { toPrice } from '@evershop/evershop/src/modules/checkout/services/toPrice.js';
 
-module.exports = {
+export default {
   Product: {
     price: async (product) => {
       const price = toPrice(product.price);

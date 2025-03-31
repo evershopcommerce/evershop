@@ -7,7 +7,7 @@
  *
  * @return  {any}                   The value
  */
-function get(obj, path, defaultValue) {
+export function get(obj, path, defaultValue) {
   const pathSplit = path.split('.');
   let current = obj;
   while (pathSplit.length) {
@@ -22,6 +22,3 @@ function get(obj, path, defaultValue) {
   }
   return current;
 }
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = { get };

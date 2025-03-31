@@ -1,9 +1,14 @@
-const path = require('path');
-const { getConfig } = require('./util/getConfig');
+/* eslint-disable no-underscore-dangle */
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { getConfig } from './util/getConfig.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const rootPath = process.cwd();
 
-exports.CONSTANTS = Object.freeze({
+export const CONSTANTS = Object.freeze({
   ROOTPATH: rootPath,
   LIBPATH: path.resolve(__dirname),
   MOLDULESPATH: path.resolve(__dirname, '..', 'modules'),

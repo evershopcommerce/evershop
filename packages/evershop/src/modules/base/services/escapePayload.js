@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-const secret = require('@evershop/evershop/src/modules/base/services/secret');
+import secret from '@evershop/evershop/src/modules/base/services/secret.js';
 
 function escapeHtmlTags(str) {
   const regex = /<([a-zA-Z]+)(?:\s[^>]*)?>|<\/([a-zA-Z]+)>/g;
@@ -12,7 +12,7 @@ function escapeHtmlTags(str) {
   );
 }
 
-module.exports = function escapePayload(obj) {
+export default function escapePayload(obj) {
   // eslint-disable-next-line no-restricted-syntax
   for (const prop in obj) {
     if (typeof obj[prop] === 'string') {
@@ -31,4 +31,4 @@ module.exports = function escapePayload(obj) {
       });
     }
   }
-};
+}

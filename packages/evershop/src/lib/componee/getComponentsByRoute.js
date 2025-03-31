@@ -1,15 +1,12 @@
-const { resolve } = require('path');
-const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
-const { getEnabledExtensions } = require('../../../bin/extension');
-const { scanRouteComponents } = require('./scanForComponents');
-const { getConfig } = require('../util/getConfig');
-const { CONSTANTS } = require('../helpers');
-const { getEnabledWidgets } = require('../util/getEnabledWidgets');
+import { resolve } from 'path';
+import { getCoreModules } from '@evershop/evershop/bin/lib/loadModules.js';
+import { getEnabledExtensions } from '@evershop/evershop/bin/extension/index.js';
+import { scanRouteComponents } from './scanForComponents.js';
+import { getConfig } from '../util/getConfig.js';
+import { CONSTANTS } from '../helpers.js';
+import { getEnabledWidgets } from '../util/getEnabledWidgets.js';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
-
-exports.getComponentsByRoute = function getComponentsByRoute(route) {
+export function getComponentsByRoute(route) {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
   const theme = getConfig('system.theme');
 
@@ -31,4 +28,4 @@ exports.getComponentsByRoute = function getComponentsByRoute(route) {
       (widgets || []).map((widget) => widget.setting_component)
     );
   }
-};
+}

@@ -1,9 +1,9 @@
-const { contries } = require('@evershop/evershop/src/lib/locale/countries');
-const { provinces } = require('@evershop/evershop/src/lib/locale/provinces');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select } = require('@evershop/postgres-query-builder');
+import { contries } from '@evershop/evershop/src/lib/locale/countries.js';
+import { provinces } from '@evershop/evershop/src/lib/locale/provinces.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { select } from '@evershop/postgres-query-builder';
 
-module.exports = {
+export default {
   Query: {
     countries: (_, argument) => {
       const list = argument?.countries || [];

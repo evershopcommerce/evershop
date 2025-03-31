@@ -1,13 +1,13 @@
-const webpack = require('webpack');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const path = require('path');
-const { createBaseConfig } = require('../createBaseConfig');
-const { getComponentsByRoute } = require('../../componee/getComponentsByRoute');
-const { CONSTANTS } = require('../../helpers');
-const { GraphqlPlugin } = require('../plugins/GraphqlPlugin');
-const { getEnabledWidgets } = require('../../util/getEnabledWidgets');
+import webpack from 'webpack';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import path from 'path';
+import { createBaseConfig } from '../createBaseConfig.js';
+import { getComponentsByRoute } from '../../componee/getComponentsByRoute.js';
+import { CONSTANTS } from '../../helpers.js';
+import { GraphqlPlugin } from '../plugins/GraphqlPlugin.js';
+import { getEnabledWidgets } from '../../util/getEnabledWidgets.js';
 
-module.exports.createConfigClient = function createConfigClient(route) {
+export function createConfigClient(route) {
   const config = createBaseConfig(false);
   config.name = route.id;
 
@@ -114,4 +114,4 @@ module.exports.createConfigClient = function createConfigClient(route) {
   // Enable source maps
   config.devtool = 'eval-cheap-module-source-map';
   return config;
-};
+}

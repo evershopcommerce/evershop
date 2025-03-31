@@ -1,11 +1,8 @@
-/* eslint-disable global-require */
-const { readdirSync } = require('fs');
-const { resolve } = require('path');
-const { parseFromFile } = require('./parseFromFile');
+import { readdirSync } from 'fs';
+import { resolve } from 'path';
+import { parseFromFile } from './parseFromFile.js';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
-
+/**
 /**
  * This function take a path and scan for the middleware functions
  *
@@ -13,7 +10,7 @@ module.exports = exports = {};
  *
  * @return {array}  List of middleware function
  */
-exports.scanForMiddlewareFunctions = function scanForMiddlewareFunctions(path) {
+export function scanForMiddlewareFunctions(path) {
   let middlewares = [];
   readdirSync(resolve(path), { withFileTypes: true })
     .filter(
@@ -28,4 +25,4 @@ exports.scanForMiddlewareFunctions = function scanForMiddlewareFunctions(path) {
     });
 
   return middlewares;
-};
+}

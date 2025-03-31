@@ -1,8 +1,8 @@
-const path = require('path');
-const fs = require('fs');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+import path from 'path';
+import fs from 'fs';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
 
-function loadModuleSubscribers(modulePath) {
+async function loadModuleSubscribers(modulePath) {
   const subscribers = [];
   const subscribersDir = path.join(modulePath, 'subscribers');
 
@@ -15,40 +15,45 @@ function loadModuleSubscribers(modulePath) {
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name);
 
-  eventDirs.forEach((eventName) => {
-    const eventSubscribersDir = path.join(subscribersDir, eventName);
+  await Promise.all(
+    eventDirs.map(async (eventName) => {
+      const eventSubscribersDir = path.join(subscribersDir, eventName);
 
-    // get only .js files
-    const files = fs
-      .readdirSync(eventSubscribersDir, { withFileTypes: true })
-      .filter((dirent) => dirent.isFile() && dirent.name.endsWith('.js'))
-      .map((dirent) => dirent.name);
+      // get only .js files
+      const files = fs
+        .readdirSync(eventSubscribersDir, { withFileTypes: true })
+        .filter((dirent) => dirent.isFile() && dirent.name.endsWith('.js'))
+        .map((dirent) => dirent.name);
 
-    files.forEach((file) => {
-      const subscriberPath = path.join(eventSubscribersDir, file);
-      const subscriberFn = require(subscriberPath);
-
-      subscribers.push({
-        event: eventName,
-        subscriber: subscriberFn
-      });
-    });
-  });
+      await Promise.all(
+        files.map(async (file) => {
+          const subscriberPath = path.join(eventSubscribersDir, file);
+          const module = await import(subscriberPath);
+          subscribers.push({
+            event: eventName,
+            subscriber: module.default
+          });
+        })
+      );
+    })
+  );
 
   return subscribers;
 }
 
-module.exports.loadSubscribers = function loadSubscribers(modules) {
+export async function loadSubscribers(modules) {
   const subscribers = [];
   /** Loading subscriber  */
-  modules.forEach((module) => {
-    try {
-      // Load routes
-      subscribers.push(...loadModuleSubscribers(module.path));
-    } catch (e) {
-      error(e);
-      process.exit(0);
-    }
-  });
+  await Promise.all(
+    modules.map(async (module) => {
+      try {
+        // Load subscribers
+        subscribers.push(...(await loadModuleSubscribers(module.path)));
+      } catch (e) {
+        error(e);
+        process.exit(0);
+      }
+    })
+  );
   return subscribers;
-};
+}

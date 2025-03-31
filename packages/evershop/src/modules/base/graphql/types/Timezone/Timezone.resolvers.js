@@ -1,6 +1,6 @@
-const { timezones } = require('@evershop/evershop/src/lib/locale/timezones');
+import { timezones } from '@evershop/evershop/src/lib/locale/timezones.js';
 
-module.exports = {
+export default {
   Query: {
     timezones: () => timezones
   }

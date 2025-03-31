@@ -1,3 +1,4 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
 
-module.exports.getCookieSecret = () => getConfig('system.session.cookieSecret', 'keyboard cat');
+export const getCookieSecret = () =>
+  getConfig('system.session.cookieSecret', 'keyboard cat');

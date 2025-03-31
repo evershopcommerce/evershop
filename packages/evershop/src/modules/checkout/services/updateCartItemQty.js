@@ -1,4 +1,4 @@
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
+import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
 
 async function updateCartItemQty(cart, uuid, qty, action, context = {}) {
   if (['increase', 'decrease'].indexOf(action) === -1) {
@@ -29,7 +29,7 @@ async function updateCartItemQty(cart, uuid, qty, action, context = {}) {
   return item;
 }
 
-module.exports = async (cart, uuid, qty, action, context) => {
+export default async (cart, uuid, qty, action, context) => {
   const updatedItem = await hookable(updateCartItemQty, context)(
     cart,
     uuid,

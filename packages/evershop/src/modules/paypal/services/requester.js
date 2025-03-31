@@ -1,9 +1,9 @@
-const { default: axios } = require('axios');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getApiBaseUrl } = require('./getApiBaseUrl');
-const { getSetting } = require('../../setting/services/setting');
+import axios from 'axios';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getApiBaseUrl } from './getApiBaseUrl.js';
+import { getSetting } from '../../setting/services/setting.js';
 
-async function createAxiosInstance(request) {
+export async function createAxiosInstance(request) {
   const axiosInstance = axios.create({
     baseURL: await getApiBaseUrl(),
     headers: {
@@ -64,5 +64,3 @@ async function requestAccessToken() {
   );
   return paypalAccessToken;
 }
-
-module.exports.createAxiosInstance = createAxiosInstance;

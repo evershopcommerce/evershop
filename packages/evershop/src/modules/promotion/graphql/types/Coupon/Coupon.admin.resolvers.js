@@ -1,12 +1,10 @@
-const { GraphQLJSON } = require('graphql-type-json');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getCouponsBaseQuery
-} = require('../../../services/getCouponsBaseQuery');
-const { CouponCollection } = require('../../../services/CouponCollection');
+import { GraphQLJSON } from 'graphql-type-json';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { getCouponsBaseQuery } from '../../../services/getCouponsBaseQuery.js';
+import { CouponCollection } from '../../../services/CouponCollection.js';
 
-module.exports = {
+export default {
   JSON: GraphQLJSON,
   Query: {
     coupon: async (root, { id }, { pool }) => {

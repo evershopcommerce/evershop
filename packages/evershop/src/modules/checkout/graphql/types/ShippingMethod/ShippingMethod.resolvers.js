@@ -1,9 +1,9 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
 
-module.exports = {
+export default {
   Query: {
     shippingMethods: async () => {
       const shippingMethods = await select()

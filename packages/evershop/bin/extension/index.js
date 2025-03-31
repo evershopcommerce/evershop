@@ -1,9 +1,9 @@
-const { existsSync } = require('fs');
-const { resolve } = require('path');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
-const { warning } = require('@evershop/evershop/src/lib/log/logger');
+import { existsSync } from 'fs';
+import { resolve } from 'path';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getCoreModules } from '@evershop/evershop/bin/lib/loadModules.js';
+import { warning } from '@evershop/evershop/src/lib/log/logger.js';
 
 let extensions;
 
@@ -41,9 +41,9 @@ function loadExtensions() {
   return extensions;
 }
 
-module.exports.getEnabledExtensions = function getEnabledExtensions() {
+export function getEnabledExtensions() {
   if (extensions === undefined) {
     extensions = loadExtensions();
   }
   return extensions;
-};
+}

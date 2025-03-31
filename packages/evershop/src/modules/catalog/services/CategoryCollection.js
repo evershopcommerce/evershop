@@ -1,8 +1,8 @@
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getValue } = require('@evershop/evershop/src/lib/util/registry');
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getValue } from '@evershop/evershop/src/lib/util/registry.js';
 
-class CategoryCollection {
+export class CategoryCollection {
   constructor(baseQuery) {
     this.baseQuery = baseQuery;
     this.baseQuery.orderBy('category.category_id', 'DESC');
@@ -62,5 +62,3 @@ class CategoryCollection {
     return this.currentFilters;
   }
 }
-
-module.exports.CategoryCollection = CategoryCollection;

@@ -1,9 +1,5 @@
-const crypto = require('crypto');
+import crypto from 'crypto';
 
-function generateComponentKey(text) {
+export function generateComponentKey(text) {
   return crypto.createHash('md5').update(text).digest('hex');
 }
-
-module.exports = exports = {
-  generateComponentKey
-};

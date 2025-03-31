@@ -1,9 +1,7 @@
-const {
-  OPERATION_MAP
-} = require('@evershop/evershop/src/lib/util/filterOperationMapp');
-const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
+import { OPERATION_MAP } from '@evershop/evershop/src/lib/util/filterOperationMapp.js';
+import { getValueSync } from '@evershop/evershop/src/lib/util/registry.js';
 
-module.exports = async function registerDefaultCouponCollectionFilters() {
+export async function registerDefaultCouponCollectionFilters() {
   // List of default supported filters
   const defaultFilters = [
     {
@@ -69,4 +67,4 @@ module.exports = async function registerDefaultCouponCollectionFilters() {
   ];
 
   return defaultFilters;
-};
+}

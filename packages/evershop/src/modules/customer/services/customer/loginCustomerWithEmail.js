@@ -1,11 +1,7 @@
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  comparePassword
-} = require('@evershop/evershop/src/lib/util/passwordHelper');
-const { select } = require('@evershop/postgres-query-builder');
+import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { comparePassword } from '@evershop/evershop/src/lib/util/passwordHelper.js';
+import { select } from '@evershop/postgres-query-builder';
 /**
  * Login a customer with email and password. This function must be accessed from the request object (request.loginCustomerWithEmail(email, password, callback))
  * @param {string} email
@@ -30,4 +26,4 @@ async function loginCustomerWithEmail(email, password) {
   this.locals.customer = customer;
 }
 
-module.exports = loginCustomerWithEmail;
+export default loginCustomerWithEmail;

@@ -1,4 +1,4 @@
-module.exports.provinces = [
+export const provinces = [
   { code: 'AD-07', countryCode: 'AD', name: 'Andorra la Vella' },
   { code: 'AD-02', countryCode: 'AD', name: 'Canillo' },
   { code: 'AD-03', countryCode: 'AD', name: 'Encamp' },

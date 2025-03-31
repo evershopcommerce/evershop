@@ -1,10 +1,8 @@
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const { get } = require('@evershop/evershop/src/lib/util/get');
-const { select } = require('@evershop/postgres-query-builder');
+import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
+import { get } from '@evershop/evershop/src/lib/util/get.js';
+import { select } from '@evershop/postgres-query-builder';
 
-module.exports = {
+export default {
   Query: {
     pageInfo: (root, args, context) => ({
       url: get(context, 'currentUrl'),

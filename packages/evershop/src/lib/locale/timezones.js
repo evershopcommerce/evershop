@@ -1,4 +1,4 @@
-module.exports.timezones = [
+export const timezones = [
   {
     code: 'Australia/Darwin',
     name: 'AUS Central Standard Time (Australia/Darwin)'

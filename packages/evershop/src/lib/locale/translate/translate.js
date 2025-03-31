@@ -1,13 +1,11 @@
-const {
-  loadCsvTranslationFiles
-} = require('../../webpack/loaders/loadTranslationFromCsv');
+import { loadCsvTranslationFiles } from '../../webpack/loaders/loadTranslationFromCsv.js';
 
 let csvData;
 
 /**
  * This function is used to translate the text form server side, like from middleware. For templating use the _ function
  */
-module.exports.translate = function translate(enText, values = {}) {
+export function translate(enText, values = {}) {
   const translatedText =
     csvData && csvData[enText] !== undefined ? csvData[enText] : enText;
   // Check if the data is null, undefined or empty object
@@ -19,12 +17,12 @@ module.exports.translate = function translate(enText, values = {}) {
       values[key.trim()] !== undefined ? values[key.trim()] : match
     );
   }
-};
+}
 
-module.exports.loadCsv = async function loadCsv() {
+export async function loadCsv() {
   // Only load the csv files once
   if (csvData === undefined) {
     csvData = await loadCsvTranslationFiles();
   }
   return csvData;
-};
+}

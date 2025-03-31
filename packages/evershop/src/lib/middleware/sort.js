@@ -1,7 +1,4 @@
-const Topo = require('@hapi/topo');
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+import Topo from '@hapi/topo';
 
 /**
  * This function take a path and scan for the middleware functions
@@ -10,7 +7,7 @@ module.exports = exports = {};
  *
  * @return {array} List of sorted middleware functions
  */
-exports.sortMiddlewares = function sortMiddlewares(middlewares = []) {
+export function sortMiddlewares(middlewares = []) {
   const middlewareFunctions = middlewares.filter((m) => {
     if ((m.before === m.after) === null) return true;
     const dependencies = (m.before || []).concat(m.after || []);
@@ -46,4 +43,4 @@ exports.sortMiddlewares = function sortMiddlewares(middlewares = []) {
     middlewareFunctions.splice(index, 1);
     return m;
   });
-};
+}

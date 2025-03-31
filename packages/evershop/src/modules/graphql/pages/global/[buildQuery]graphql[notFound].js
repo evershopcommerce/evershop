@@ -1,19 +1,12 @@
-const {
-  execute,
-  parse,
-  specifiedRules,
-  NoUnusedFragmentsRule
-} = require('graphql');
-const { validate } = require('graphql/validation');
-const { debug } = require('@evershop/evershop/src/lib/log/logger');
-const adminSchema = require('../../services/buildSchema');
-const storeFrontSchema = require('../../services/buildStoreFrontSchema');
-const { getContext } = require('../../services/contextHelper');
-const {
-  graphqlErrorMessageFormat
-} = require('../../services/graphqlErrorMessageFormat');
+import { execute, parse, specifiedRules, NoUnusedFragmentsRule } from 'graphql';
+import { validate } from 'graphql/validation';
+import { debug } from '@evershop/evershop/src/lib/log/logger.js';
+import adminSchema from '../../services/buildSchema.js';
+import storeFrontSchema from '../../services/buildStoreFrontSchema.js';
+import { getContext } from '../../services/contextHelper.js';
+import { graphqlErrorMessageFormat } from '../../services/graphqlErrorMessageFormat.js';
 
-module.exports = async function graphql(request, response, delegate, next) {
+export default async function graphql(request, response, delegate, next) {
   const { currentRoute } = request;
   const schema =
     currentRoute && currentRoute.isAdmin ? adminSchema : storeFrontSchema;
@@ -74,4 +67,4 @@ module.exports = async function graphql(request, response, delegate, next) {
   } catch (error) {
     next(error);
   }
-};
+}

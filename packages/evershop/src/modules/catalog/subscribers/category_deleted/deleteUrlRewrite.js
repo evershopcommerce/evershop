@@ -1,8 +1,8 @@
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { execute, select } = require('@evershop/postgres-query-builder');
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { execute, select } from '@evershop/postgres-query-builder';
 
-module.exports = async function deleteUrlReWrite(data) {
+export default async function deleteUrlReWrite(data) {
   try {
     const categoryUuid = data.uuid;
     // Get the current url rewrite for this category
@@ -29,4 +29,4 @@ module.exports = async function deleteUrlReWrite(data) {
   } catch (err) {
     error(err);
   }
-};
+}

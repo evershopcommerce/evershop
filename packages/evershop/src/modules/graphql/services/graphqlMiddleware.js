@@ -1,10 +1,9 @@
-const { execute } = require('graphql');
-const { validate } = require('graphql/validation');
-const { parse } = require('graphql');
-const { OK } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getContext } = require('./contextHelper');
+import { execute , parse } from 'graphql';
+import { validate } from 'graphql/validation';
+import { OK } from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { getContext } from './contextHelper.js';
 
-module.exports.graphqlMiddleware = (schema) =>
+export const graphqlMiddleware = (schema) =>
   async function graphqlMiddleware(request, response, delegate, next) {
     const { body } = request;
     const { query, variables } = body;

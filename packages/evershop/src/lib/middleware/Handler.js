@@ -1,13 +1,13 @@
-const { existsSync } = require('fs');
-const isDevelopmentMode = require('../util/isDevelopmentMode');
-const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
-const { sortMiddlewares } = require('./sort');
-const { parseFromFile } = require('./parseFromFile');
-const { noDublicateId } = require('./noDuplicateId');
-const { getRoutes } = require('../router/Router');
-const { error } = require('../log/logger');
+import { existsSync } from 'fs';
+import isDevelopmentMode from '../util/isDevelopmentMode.js';
+import isErrorHandlerTriggered from './isErrorHandlerTriggered.js';
+import { sortMiddlewares } from './sort.js';
+import { parseFromFile } from './parseFromFile.js';
+import { noDublicateId } from './noDuplicateId.js';
+import { getRoutes } from '../router/Router.js';
+import { error } from '../log/logger.js';
 
-class Handler {
+export class Handler {
   static middlewares = [];
 
   static sortedMiddlewarePerRoute = {};
@@ -141,5 +141,3 @@ class Handler {
     };
   }
 }
-
-module.exports.Handler = Handler;

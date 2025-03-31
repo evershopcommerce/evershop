@@ -1,3 +1,5 @@
-const config = require('./config');
+import config from './config.js';
 // eslint-disable-next-line import/no-extraneous-dependencies
-require('@babel/register')(config);
+import '@babel/register';
+
+config();

@@ -10,7 +10,7 @@
  *
  * @return  {object}  The new target object
  */
-function merge(target, source, maxDepth = 20, currentDepth = 0) {
+export function merge(target, source, maxDepth = 20, currentDepth = 0) {
   function isBuiltInObject(obj) {
     return (
       obj instanceof Date ||
@@ -77,6 +77,3 @@ function merge(target, source, maxDepth = 20, currentDepth = 0) {
 
   return target;
 }
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = { merge };

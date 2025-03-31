@@ -1,10 +1,10 @@
-const fs = require('fs').promises;
-const { join } = require('path');
-const staticMiddleware = require('serve-static');
-const { CONSTANTS } = require('../helpers');
-const { getConfig } = require('../util/getConfig');
+import fs from 'fs/promises';
+import { join } from 'path';
+import staticMiddleware from 'serve-static';
+import { CONSTANTS } from '../helpers.js';
+import { getConfig } from '../util/getConfig.js';
 
-module.exports = async function themePubliStatic(request, response, next) {
+export default async function themePublicStatic(request, response, next) {
   // Get the request path
   const { path } = request;
   const theme = getConfig('system.theme', null);
@@ -32,4 +32,4 @@ module.exports = async function themePubliStatic(request, response, next) {
       next();
     }
   }
-};
+}

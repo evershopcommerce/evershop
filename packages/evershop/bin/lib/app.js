@@ -1,21 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 /* eslint-disable global-require */
-const express = require('express');
-const {
-  getModuleMiddlewares
-} = require('@evershop/evershop/src/lib/middleware');
-const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
-const {
-  loadModuleRoutes
-} = require('@evershop/evershop/src/lib/router/loadModuleRoutes');
-const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { getCoreModules } = require('./loadModules');
-const { addDefaultMiddlewareFuncs } = require('./addDefaultMiddlewareFuncs');
-const { getEnabledExtensions } = require('../extension');
+import express from 'express';
+import { getModuleMiddlewares } from '@evershop/evershop/src/lib/middleware/index.js';
+import { getRoutes } from '@evershop/evershop/src/lib/router/Router.js';
+import { loadModuleRoutes } from '@evershop/evershop/src/lib/router/loadModuleRoutes.js';
+import { Handler } from '@evershop/evershop/src/lib/middleware/Handler.js';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { getCoreModules } from './loadModules.js';
+import { addDefaultMiddlewareFuncs } from './addDefaultMiddlewareFuncs.js';
+import { getEnabledExtensions } from '../extension/index.js';
 
-module.exports.createApp = () => {
+export const createApp = () => {
   /** Create express app */
   const app = express();
   // Enable trust proxy

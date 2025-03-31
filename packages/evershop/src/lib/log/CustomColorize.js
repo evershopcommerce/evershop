@@ -1,6 +1,6 @@
 // Extend the default winston colorize format and add color to the stack trace
-const { format } = require('winston');
-const { LEVEL } = require('triple-beam');
+import { format } from 'winston';
+import { LEVEL } from 'triple-beam';
 
 const { colorize } = format;
 
@@ -19,4 +19,4 @@ class CustomColorize extends colorize.Colorizer {
   }
 }
 
-module.exports = (opts) => new CustomColorize(opts);
+export default (opts) => new CustomColorize(opts);

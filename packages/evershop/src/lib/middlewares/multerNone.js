@@ -1,7 +1,7 @@
-const multer = require('multer');
+import multer from 'multer';
 
 const upload = multer();
 
-module.exports = (request, response, stack, next) => {
+export default (request, response, stack, next) => {
   upload.none()(request, response, next);
 };

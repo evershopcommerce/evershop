@@ -1,13 +1,11 @@
-const { v4: uuidv4 } = require('uuid');
-const { select } = require('@evershop/postgres-query-builder');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getProductsBaseQuery
-} = require('../../../services/getProductsBaseQuery');
-const { ProductCollection } = require('../../../services/ProductCollection');
+import { v4 as uuidv4 } from 'uuid';
+import { select } from '@evershop/postgres-query-builder';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { getProductsBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getProductsBaseQuery.js';
+import { ProductCollection } from '@evershop/evershop/src/modules/catalog/services/ProductCollection.js';
 
-module.exports = {
+export default {
   Product: {
     url: async (product, _, { pool }) => {
       // Get the url rewrite for this product

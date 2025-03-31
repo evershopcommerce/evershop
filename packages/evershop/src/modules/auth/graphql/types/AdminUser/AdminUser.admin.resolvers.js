@@ -1,7 +1,7 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
+import { select } from '@evershop/postgres-query-builder';
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
 
-module.exports = {
+export default {
   Query: {
     adminUser: async (root, { id }, { pool }) => {
       const query = select().from('admin_user');

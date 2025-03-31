@@ -1,6 +1,6 @@
-const { select } = require('@evershop/postgres-query-builder');
+import { select } from '@evershop/postgres-query-builder';
 
-module.exports.getCmsPagesBaseQuery = () => {
+export const getCmsPagesBaseQuery = () => {
   const query = select().from('cms_page');
   query
     .leftJoin('cms_page_description')

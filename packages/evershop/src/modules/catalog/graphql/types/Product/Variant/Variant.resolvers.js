@@ -1,12 +1,10 @@
-const { select } = require('@evershop/postgres-query-builder');
-const uniqid = require('uniqid');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getProductsBaseQuery
-} = require('../../../../services/getProductsBaseQuery');
+import { select } from '@evershop/postgres-query-builder';
+import uniqid from 'uniqid';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
+import { getProductsBaseQuery } from '../../../../services/getProductsBaseQuery.js';
 
-module.exports = {
+export default {
   Product: {
     variantGroup: async (product, _, { pool, user }) => {
       const { variantGroupId } = product;

@@ -1,19 +1,19 @@
-const path = require('path');
-const semver = require('semver');
-const {
+import path from 'path';
+import semver from 'semver';
+import {
   insertOnUpdate,
   select,
   startTransaction,
   commit,
   rollback
-} = require('@evershop/postgres-query-builder');
-const {
+} from '@evershop/postgres-query-builder';
+import {
   getConnection,
   pool
-} = require('@evershop/evershop/src/lib/postgres/connection');
-const { existsSync, readdirSync } = require('fs');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { createMigrationTable } = require('../../install/createMigrationTable');
+} from '@evershop/evershop/src/lib/postgres/connection.js';
+import { existsSync, readdirSync } from 'fs';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { createMigrationTable } from '../../install/createMigrationTable.js';
 
 async function getCurrentInstalledVersion(module) {
   /** Check for current installed version */
@@ -79,7 +79,7 @@ async function migrateModule(module) {
   }
 }
 
-module.exports.migrate = async function migrate(modules) {
+export async function migrate(modules) {
   try {
     const connection = await getConnection();
     // Create a migration table if not exists. This is for the first time installation
@@ -92,4 +92,4 @@ module.exports.migrate = async function migrate(modules) {
     error(e);
     process.exit(0);
   }
-};
+}

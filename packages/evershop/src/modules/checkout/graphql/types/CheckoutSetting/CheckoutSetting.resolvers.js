@@ -1,6 +1,6 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
 
-module.exports = {
+export default {
   Setting: {
     showShippingNote: () => getConfig('checkout.showShippingNote', true)
   }

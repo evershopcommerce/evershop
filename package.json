@@ -1,6 +1,7 @@
 {
   "name": "evershop",
   "version": "1.0.0-beta",
+  "type": "module",
   "description": "A shopping cart platform with Express, React and Postgres",
   "files": [
     "bin",

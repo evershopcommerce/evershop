@@ -1,10 +1,8 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  getProductsByCategoryBaseQuery
-} = require('./getProductsByCategoryBaseQuery');
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getProductsByCategoryBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getProductsByCategoryBaseQuery.js';
 
-module.exports.getFilterableAttributes = async (categoryId) => {
+export const getFilterableAttributes = async (categoryId) => {
   const productsQuery = await getProductsByCategoryBaseQuery(categoryId, true);
   productsQuery.select('product.product_id');
   // Get the list of productIds before applying pagination, sorting...etc

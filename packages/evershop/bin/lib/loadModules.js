@@ -1,7 +1,10 @@
-const path = require('path');
-const { readdirSync } = require('fs');
+/* eslint-disable no-underscore-dangle */
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { readdirSync } from 'fs';
 
-module.exports = exports = {};
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const coreModules = [
   {
@@ -76,15 +79,15 @@ const coreModules = [
   }
 ];
 
-exports.loadModules = function loadModule(path) {
+export function loadModule(path) {
   return readdirSync(path, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => ({
       name: dirent.name,
       path: path.resolve(path, dirent.name)
     }));
-};
+}
 
-exports.getCoreModules = function getCoreModules() {
+export function getCoreModules() {
   return coreModules;
-};
+}

@@ -1,7 +1,7 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { execute } = require('@evershop/postgres-query-builder');
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { execute } from '@evershop/postgres-query-builder';
 
-module.exports = async function buildUrlReWrite(data) {
+export default async function buildUrlReWrite(data) {
   const productUuid = data.uuid;
 
   // Delete the url rewrite for the product
@@ -9,4 +9,4 @@ module.exports = async function buildUrlReWrite(data) {
     pool,
     `DELETE FROM url_rewrite WHERE entity_uuid = '${productUuid}' AND entity_type = 'product'`
   );
-};
+}

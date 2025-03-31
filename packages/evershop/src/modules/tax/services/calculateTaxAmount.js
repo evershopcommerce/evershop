@@ -1,6 +1,6 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
 
-module.exports.calculateTaxAmount = function calculateTaxAmount(
+export function calculateTaxAmount(
   taxPercentage,
   price,
   quantity = 1,
@@ -9,7 +9,7 @@ module.exports.calculateTaxAmount = function calculateTaxAmount(
   const rounding = getConfig('pricing.tax.rounding', 'round');
   const roundingLevel = getConfig('pricing.tax.round_level', 'unit');
   const precision = getConfig('pricing.tax.precision', '2');
-  const precisionFix = 10**precision;
+  const precisionFix = 10 ** precision;
 
   const taxAmountUnit =
     priceIncludingTax === false
@@ -54,4 +54,4 @@ module.exports.calculateTaxAmount = function calculateTaxAmount(
   } else {
     return taxAmountUnit * quantity; // Rounding will be done in the resolver of the total tax amount in the cart
   }
-};
+}
