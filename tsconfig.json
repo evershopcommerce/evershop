@@ -21,6 +21,7 @@
     "module": "ES2020",
     "moduleResolution": "Node",
     "esModuleInterop": true,
+    "allowJs": true,
   },
   "exclude": [
     "dist",
