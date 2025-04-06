@@ -7,7 +7,7 @@ import { useClient } from 'urql';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index';
 import { Form } from '@components/common/form/Form';
 import { useCheckout } from '@components/common/context/checkout';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
 import { AddressSummary } from '@components/common/customer/address/AddressSummary';
 
 const QUERY = `

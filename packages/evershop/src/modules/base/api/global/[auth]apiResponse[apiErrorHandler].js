@@ -1,9 +1,9 @@
 /* eslint-disable global-require */
 /* eslint-disable guard-for-in */
 /* eslint-disable import/no-import-module-exports */
-const isErrorHandlerTriggered = require('@evershop/evershop/src/lib/middleware/isErrorHandlerTriggered');
+import isErrorHandlerTriggered from '@evershop/evershop/src/lib/middleware/isErrorHandlerTriggered.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   /** Get all promise delegate */
   const promises = [];
   Object.keys(delegate).forEach((id) => {

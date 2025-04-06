@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '@components/common/context/app';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
 import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 import { ItemOptions } from './ItemOptions';
 import { ItemVariantOptions } from './ItemVariantOptions';

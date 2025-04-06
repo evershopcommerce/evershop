@@ -1,9 +1,9 @@
-const { select } = require('@evershop/postgres-query-builder');
-const dayjs = require('dayjs');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+import { select } from '@evershop/postgres-query-builder';
+import dayjs from 'dayjs';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
 
 // eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, stack, next) => {
+export default async (request, response, delegate, next) => {
   response.$body = [];
   const { period = 'weekly' } = request.query;
   let i = 5;

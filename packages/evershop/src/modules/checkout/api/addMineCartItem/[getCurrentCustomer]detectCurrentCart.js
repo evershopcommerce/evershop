@@ -1,9 +1,9 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select } = require('@evershop/postgres-query-builder');
-const { UNAUTHORIZED } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { setContextValue } = require('../../../graphql/services/contextHelper');
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { select } from '@evershop/postgres-query-builder';
+import { UNAUTHORIZED } from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { setContextValue } from '../../../graphql/services/contextHelper.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   /**
    * We firstly get the sessionID from the request.
    * This API needs the client to send the session cookie in the request.

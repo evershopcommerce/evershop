@@ -1,6 +1,4 @@
-/* eslint-disable no-multi-assign */
-/* eslint-disable global-require */
-module.exports = exports = async function TranslationLoader(c) {
+export default async function TranslationLoader(c) {
   const csvData = await this.getOptions().getTranslateData();
   // Use regex to find all function call `_()` in the template string
   const regex =
@@ -21,4 +19,4 @@ module.exports = exports = async function TranslationLoader(c) {
     }
   }
   return result;
-};
+}

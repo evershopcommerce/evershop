@@ -1,20 +1,18 @@
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const {
+import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import {
   getValueSync,
   getValue
-} = require('@evershop/evershop/src/lib/util/registry');
-const {
+} from '@evershop/evershop/src/lib/util/registry.js';
+import {  
   startTransaction,
   commit,
   rollback,
   update,
   select
-} = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('@evershop/evershop/src/lib/postgres/connection');
-const { getAjv } = require('../../../base/services/getAjv');
-const collectionDataSchema = require('./collectionDataSchema.json');
+} from '@evershop/postgres-query-builder';
+import { getConnection } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getAjv } from '../../../base/services/getAjv.js';
+import collectionDataSchema from './collectionDataSchema.json' with { type: 'json' };
 
 function validateCollectionDataBeforeInsert(data) {
   const ajv = getAjv();
@@ -67,7 +65,7 @@ async function updateCollectionData(uuid, data, connection) {
 async function updateCollection(uuid, data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
-  const hookContext = {connection, ...context};
+  const hookContext = { connection, ...context };
   try {
     const collectionData = await getValue('collectionDataBeforeUpdate', data);
     // Validate collection data
@@ -87,7 +85,7 @@ async function updateCollection(uuid, data, context) {
   }
 }
 
-module.exports = async (uuid, data, context) => {
+export default async (uuid, data, context) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

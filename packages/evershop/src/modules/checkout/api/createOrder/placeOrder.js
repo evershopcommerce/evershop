@@ -1,18 +1,18 @@
 /* eslint-disable camelcase */
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const {
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { getCartByUUID } = require('../../services/getCartByUUID');
-const { createOrder } = require('../../services/orderCreator');
+} from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { createOrder } from '../../services/orderCreator.js';
 
 // eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const { cart_id } = request.body;
     // Verify cart

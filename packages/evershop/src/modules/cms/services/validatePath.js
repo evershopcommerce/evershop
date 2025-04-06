@@ -1,6 +1,6 @@
-const path = require('path');
+import path from 'path';
 
-module.exports.validatePath = function validatePath(root, requestedPath) {
+export function validatePath(root, requestedPath) {
   if (requestedPath === '') {
     return true;
   }
@@ -13,4 +13,4 @@ module.exports.validatePath = function validatePath(root, requestedPath) {
   }
 
   return false;
-};
+}

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
-const concat = require('concat-stream');
+import concat from 'concat-stream';
 
 function CustomMemoryStorage(opts) {
   this.getFilename = opts.filename;
@@ -32,6 +32,6 @@ CustomMemoryStorage.prototype._removeFile = function _removeFile(
   cb(null);
 };
 
-module.exports = function (opts) {
+export default function (opts) {
   return new CustomMemoryStorage(opts);
-};
+}

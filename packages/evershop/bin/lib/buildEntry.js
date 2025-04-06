@@ -1,32 +1,19 @@
-const fs = require('fs');
-const { mkdir, writeFile } = require('fs').promises;
-const path = require('path');
-const { inspect } = require('util');
-const {
-  getComponentsByRoute
-} = require('@evershop/evershop/src/lib/componee/getComponentsByRoute');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const {
-  getRouteBuildPath
-} = require('@evershop/evershop/src/lib/webpack/getRouteBuildPath');
-const {
-  parseGraphql
-} = require('@evershop/evershop/src/lib/webpack/util/parseGraphql');
-const JSON5 = require('json5');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const {
-  getEnabledWidgets
-} = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
-const {
-  generateComponentKey
-} = require('@evershop/evershop/src/lib/webpack/util/keyGenerator');
+import fs from 'fs';
+import { mkdir, writeFile } from 'fs/promises';
+import path from 'path';
+import { inspect } from 'util';
+import { getComponentsByRoute } from '@evershop/evershop/src/lib/componee/getComponentsByRoute.js';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { getRouteBuildPath } from '@evershop/evershop/src/lib/webpack/getRouteBuildPath.js';
+import { parseGraphql } from '@evershop/evershop/src/lib/webpack/util/parseGraphql.js';
+import JSON5 from 'json5';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { getEnabledWidgets } from '@evershop/evershop/src/lib/util/getEnabledWidgets.js';
+import { generateComponentKey } from '@evershop/evershop/src/lib/webpack/util/keyGenerator.js';
 /**
  * Only pass the page routes, not api routes
  */
-module.exports.buildEntry = async function buildEntry(
-  routes,
-  clientOnly = false
-) {
+export async function buildEntry(routes, clientOnly = false) {
   const widgets = getEnabledWidgets();
   await Promise.all(
     routes.map(async (route) => {
@@ -137,4 +124,4 @@ module.exports.buildEntry = async function buildEntry(
       }
     })
   );
-};
+}

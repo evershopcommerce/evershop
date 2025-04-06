@@ -1,13 +1,12 @@
-const {
+import {
   OK,
   INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const createCustomer = require('../../services/customer/createCustomer');
+} from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import createCustomer from '../../services/customer/createCustomer.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const customer = await createCustomer(request.body, {
       routeId: request.currentRoute.id

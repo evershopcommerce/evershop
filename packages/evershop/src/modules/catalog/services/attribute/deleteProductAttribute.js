@@ -1,14 +1,12 @@
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const {
+import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import {
   startTransaction,
   commit,
   rollback,
   select,
   del
-} = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('@evershop/evershop/src/lib/postgres/connection');
+} from '@evershop/postgres-query-builder';
+import { getConnection } from '@evershop/evershop/src/lib/postgres/connection.js';
 
 async function deleteAttributeData(uuid, connection) {
   await del('attribute').where('uuid', '=', uuid).execute(connection);
@@ -57,7 +55,7 @@ async function deleteAttribute(uuid, context) {
   }
 }
 
-module.exports = async (uuid, context) => {
+export default async (uuid, context) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

@@ -1,7 +1,7 @@
-const createProduct = require('../../services/product/createProduct');
+import createProduct from '../../services/product/createProduct.js';
 
 // eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate) => {
+export default async (request, response, delegate) => {
   const result = await createProduct(request.body, {
     routeId: request.currentRoute.id
   });

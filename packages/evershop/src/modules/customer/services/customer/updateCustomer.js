@@ -1,20 +1,18 @@
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const {
+import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import {
   getValueSync,
   getValue
-} = require('@evershop/evershop/src/lib/util/registry');
-const {
-  startTransaction,
+} from '@evershop/evershop/src/lib/util/registry.js';
+import {
+  startTransaction, 
   commit,
   rollback,
   update,
   select
-} = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('@evershop/evershop/src/lib/postgres/connection');
-const { getAjv } = require('../../../base/services/getAjv');
-const customerDataSchema = require('./customerDataSchema.json');
+} from '@evershop/postgres-query-builder';
+import { getConnection } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getAjv } from '../../../base/services/getAjv.js';
+import customerDataSchema from './customerDataSchema.json' with { type: 'json' };
 
 function validateCustomerDataBeforeInsert(data) {
   const ajv = getAjv();
@@ -86,7 +84,7 @@ async function updateCustomer(uuid, data, context) {
   }
 }
 
-module.exports = async (uuid, data, context) => {
+export default async (uuid, data, context) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

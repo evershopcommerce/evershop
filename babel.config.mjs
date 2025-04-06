@@ -1,6 +1,4 @@
 export default {
-  babelrcRoots: [__dirname
-  ],
   parserOpts: {
     allowReturnOutsideFunction: true
   },

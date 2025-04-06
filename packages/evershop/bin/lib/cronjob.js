@@ -28,15 +28,15 @@ function start() {
     cron.schedule(job.schedule, async () => {
       try {
         // Load the module
-        const jobFunction = require(job.resolve);
+        const module = await import(job.resolve);
         // Make sure the module is a function or async function
-        if (typeof jobFunction !== 'function') {
+        if (typeof module.default !== 'function') {
           throw new Error(
             `Job ${job.name} is not a function. Make sure the module exports a function as default.`
           );
         }
         // Execute the job
-        await jobFunction();
+        await module.default();
       } catch (e) {
         error(e);
       }

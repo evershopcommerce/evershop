@@ -1,6 +1,6 @@
-const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
+import { getRoutes } from '@evershop/evershop/src/lib/router/Router.js';
 
-module.exports.broadcash = function broadcash() {
+export const broadcash = async () => {
   const routes = getRoutes();
   routes.forEach((route) => {
     if (

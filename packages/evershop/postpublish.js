@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 function getFileRecursive(dir, files) {
   const list = fs.readdirSync(dir);

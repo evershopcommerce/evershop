@@ -1,15 +1,15 @@
-const path = require('path');
-const fs = require('fs').promises;
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+import path from 'path';
+import fs from 'fs/promises';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getValueSync } from '@evershop/evershop/src/lib/util/registry.js';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
 
 /**
  * @param {Array} files an array of files in the format of {name: String, data: Buffer}
  * @param {String} destinationPath the destination path
  */
-module.exports.uploadFile = async (files, destinationPath) => {
+export const uploadFile = async (files, destinationPath) => {
   /**
    * @type {Object} uploader
    * @property {Function} upload

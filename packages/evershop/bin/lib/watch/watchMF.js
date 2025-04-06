@@ -1,9 +1,9 @@
-const { normalize, basename } = require('path');
-const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { broadcash } = require('./broadcash');
+import { normalize, basename } from 'path';
+import { Handler } from '@evershop/evershop/src/lib/middleware/Handler.js';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { broadcash } from './broadcash.js';
 
-module.exports.watchMF = function (event, path) {
+export function watchMF(event, path) {
   // Check if path include graphql/types
   if (
     !path.includes(normalize('pages/admin')) &&
@@ -34,4 +34,4 @@ module.exports.watchMF = function (event, path) {
   } catch (e) {
     error(`Hot Reload Error: ${e.message}`);
   }
-};
+}

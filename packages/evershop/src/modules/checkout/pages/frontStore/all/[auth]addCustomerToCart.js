@@ -1,8 +1,8 @@
-const { select, update } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+import { select, update } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const { sessionID } = request;
     const customer = request.getCurrentCustomer();

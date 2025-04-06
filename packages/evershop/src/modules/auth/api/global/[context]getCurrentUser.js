@@ -1,12 +1,10 @@
-const sessionStorage = require('connect-pg-simple');
-const util = require('util');
-const { select } = require('@evershop/postgres-query-builder');
-const session = require('express-session');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  getAdminSessionCookieName
-} = require('../../services/getAdminSessionCookieName');
-const { setContextValue } = require('../../../graphql/services/contextHelper');
+import sessionStorage from 'connect-pg-simple';
+import util from 'util';
+import { select } from '@evershop/postgres-query-builder';
+import session from 'express-session';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getAdminSessionCookieName } from '../../services/getAdminSessionCookieName.js';
+import { setContextValue } from '../../../graphql/services/contextHelper.js';
 
 /**
  * This is the session based authentication middleware.
@@ -17,7 +15,7 @@ const { setContextValue } = require('../../../graphql/services/contextHelper');
  * @param {*} next
  * @returns
  */
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   // Check if the user is authenticated, if yes we assume previous authentication middleware has set the user in the context
   let currentAdminUser = request.getCurrentUser();
   if (!currentAdminUser) {

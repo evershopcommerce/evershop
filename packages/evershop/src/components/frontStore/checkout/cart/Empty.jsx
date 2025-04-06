@@ -1,9 +1,8 @@
 import React from 'react';
 import { useAppState } from '@components/common/context/app';
 import Button from '@components/common/form/Button';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
-
-const { get } = require('@evershop/evershop/src/lib/util/get');
+import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { get } from '@evershop/evershop/src/lib/util/get.js';
 
 export function Empty() {
   const items = get(useAppState(), 'cart.items', []);

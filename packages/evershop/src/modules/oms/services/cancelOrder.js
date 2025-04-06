@@ -1,8 +1,8 @@
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const {
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import {
   select,
   insert,
   commit,
@@ -10,9 +10,9 @@ const {
   getConnection,
   startTransaction,
   execute
-} = require('@evershop/postgres-query-builder');
-const { updatePaymentStatus } = require('./updatePaymentStatus');
-const { updateShipmentStatus } = require('./updateShipmentStatus');
+} from '@evershop/postgres-query-builder';
+import { updatePaymentStatus } from './updatePaymentStatus.js';
+import { updateShipmentStatus } from './updateShipmentStatus.js';
 
 function validateStatus(paymentStatus, shipmentStatus) {
   const shipmentStatusList = getConfig('oms.order.shipmentStatus', {});
@@ -107,6 +107,6 @@ async function cancelOrder(uuid, reason) {
   }
 }
 
-module.exports.cancelOrder = async (uuid, reason) => {
+export default async (uuid, reason) => {
   await hookable(cancelOrder, { uuid })(uuid, reason);
 };

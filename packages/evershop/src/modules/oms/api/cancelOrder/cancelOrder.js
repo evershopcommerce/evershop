@@ -1,11 +1,11 @@
-const {
+import {
   OK,
   INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { cancelOrder } = require('../../services/cancelOrder');
+} from '@evershop/evershop/src/lib/util/httpStatus.js';
+import cancelOrder from '../../services/cancelOrder.js';
 
 // eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, deledate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const { reason } = request.body;
     await cancelOrder(request.params.id, reason);

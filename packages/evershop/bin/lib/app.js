@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
-/* eslint-disable global-require */
 import express from 'express';
 import { getModuleMiddlewares } from '@evershop/evershop/src/lib/middleware/index.js';
 import { getRoutes } from '@evershop/evershop/src/lib/router/Router.js';

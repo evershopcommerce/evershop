@@ -1,8 +1,6 @@
-const { getAdminRoutes } = require('@evershop/evershop/src/lib/router/Router');
+import { getAdminRoutes } from '@evershop/evershop/src/lib/router/Router.js';
 
-module.exports = exports = {};
-
-exports.prepare = function prepare(app, middlewares, routes) {
+export function prepare(app, middlewares, routes) {
   const adminRoutes = getAdminRoutes();
 
   middlewares.forEach((m) => {
@@ -65,4 +63,4 @@ exports.prepare = function prepare(app, middlewares, routes) {
       }
     }
   });
-};
+}

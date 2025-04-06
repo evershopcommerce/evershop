@@ -1,17 +1,16 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const normalizePort = require('@evershop/evershop/bin/lib/normalizePort');
-const {
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { normalizePort } from '@evershop/evershop/bin/lib/normalizePort.js';
+import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { default: axios } = require('axios');
-const { select } = require('@evershop/postgres-query-builder');
-const { toPrice } = require('../../services/toPrice');
+} from '@evershop/evershop/src/lib/util/httpStatus.js';
+import axios from 'axios';
+import { select } from '@evershop/postgres-query-builder';
+import { toPrice } from '../../services/toPrice.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const { cart_id } = request.params;
   const { country, province } = request.query;
   try {

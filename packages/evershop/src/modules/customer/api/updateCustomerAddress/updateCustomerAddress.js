@@ -1,15 +1,14 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const {
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select } = require('@evershop/postgres-query-builder');
-const updateCustomerAddress = require('../../services/customer/address/updateCustomerAddress');
+} from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { select } from '@evershop/postgres-query-builder';
+import updateCustomerAddress from '../../services/customer/address/updateCustomerAddress.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const customer = await select()
       .from('customer')

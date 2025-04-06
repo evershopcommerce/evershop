@@ -6,7 +6,7 @@ import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import produce from 'immer';
 import Button from '@components/common/form/Button';
-import { assign } from '@evershop/evershop/src/lib/util/assign';
+import { assign } from '@evershop/evershop/src/lib/util/assign.js';
 import './Alert.scss';
 import { Card } from '@components/admin/cms/Card';
 

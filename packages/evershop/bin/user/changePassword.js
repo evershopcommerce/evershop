@@ -1,11 +1,9 @@
-require('dotenv').config();
-const { error, success } = require('@evershop/evershop/src/lib/log/logger');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  hashPassword
-} = require('@evershop/evershop/src/lib/util/passwordHelper');
-const { update, select } = require('@evershop/postgres-query-builder');
-const yargs = require('yargs');
+import 'dotenv/config';
+import { error, success } from '@evershop/evershop/src/lib/log/logger.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { hashPassword } from '@evershop/evershop/src/lib/util/passwordHelper.js';
+import { update, select } from '@evershop/postgres-query-builder';
+import yargs from 'yargs';
 
 function isValidPassword(password) {
   return password.length >= 8;

@@ -1,8 +1,6 @@
-const {
-  INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
+import { INVALID_PAYLOAD } from '@evershop/evershop/src/lib/util/httpStatus.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   if (!request.body.coupon || !/^\S*$/.test(request.body.coupon)) {
     return response.status(INVALID_PAYLOAD).json({
       error: {

@@ -1,5 +1,4 @@
-import { execute , parse } from 'graphql';
-import { validate } from 'graphql/validation';
+import { execute, parse, validateSchema } from 'graphql';
 import { OK } from '@evershop/evershop/src/lib/util/httpStatus.js';
 import { getContext } from './contextHelper.js';
 
@@ -25,7 +24,7 @@ export const graphqlMiddleware = (schema) =>
 
       const document = parse(query);
       // Validate the query
-      const validationErrors = validate(schema, document);
+      const validationErrors = validateSchema(schema, document);
       if (validationErrors.length > 0) {
         next(new Error(validationErrors[0].message));
       } else {

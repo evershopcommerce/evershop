@@ -1,14 +1,14 @@
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const {
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import {
   update,
   getConnection,
   startTransaction,
   rollback,
   commit
-} = require('@evershop/postgres-query-builder');
+} from '@evershop/postgres-query-builder';
 
 function validatePaymentStatusBeforeUpdate(status) {
   const paymentStatusList = getConfig('oms.order.paymentStatus', {});
@@ -28,7 +28,7 @@ async function changePaymentStatus(orderId, status, connection) {
   return order;
 }
 
-module.exports.updatePaymentStatus = async (orderId, status, conn) => {
+export const updatePaymentStatus = async (orderId, status, conn) => {
   const connection = conn || (await getConnection(pool));
   try {
     if (!conn) {

@@ -1,12 +1,8 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const {
-  setContextValue
-} = require('../../../../graphql/services/contextHelper');
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-module.exports = (request, response, delegate, next) => {
+export default (request, response, delegate, next) => {
   // Check if the customer is logged in
   if (!request.isCustomerLoggedIn()) {
     // Redirect to admin dashboard

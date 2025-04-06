@@ -3,7 +3,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import Button from '@components/common/form/Button';
 import { useFormDispatch } from '@components/common/form/Form';
-import { serializeForm } from '@evershop/evershop/src/lib/util/formToJson';
+import { serializeForm } from '@evershop/evershop/src/lib/util/formToJson.js';
 
 export function SubmitButton({
   productId,

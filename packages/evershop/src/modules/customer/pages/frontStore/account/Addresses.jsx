@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { AddressSummary } from '@components/common/customer/address/AddressSummary';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
 import { useModal } from '@components/common/modal/useModal';
 import { Form } from '@components/common/form/Form';
 import { toast } from 'react-toastify';

@@ -1,5 +1,5 @@
-const path = require('path');
-const { scanRouteComponents } = require('../../scanForComponents');
+import path from 'path';
+import { scanRouteComponents } from '../../scanForComponents.js';
 
 describe('test scanRouteComponents function', () => {
   const modules = [

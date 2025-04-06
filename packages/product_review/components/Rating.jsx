@@ -11,6 +11,7 @@ function Rating({ rating }) {
           <StartIcon
             width={20}
             height={20}
+            key={i}
             fill={rating > i ? '#ff5501' : '#989898'}
           />
         ))}

@@ -1,7 +1,7 @@
-const multer = require('multer');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { generateFileName } = require('./generateFileName');
-const customMemoryStorage = require('./CustomMemoryStorage');
+import multer from 'multer';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { generateFileName } from './generateFileName.js';
+import customMemoryStorage from './CustomMemoryStorage.js';
 
 function fileFilter(request, file, cb) {
   const allowedMimeTypes = getConfig('system.upload_allowed_mime_types', [
@@ -20,7 +20,7 @@ function fileFilter(request, file, cb) {
   }
 }
 
-module.exports.getMulter = () => {
+export const getMulter = () => {
   const memoryStorage = customMemoryStorage({ filename: generateFileName });
   return multer({ storage: memoryStorage, fileFilter });
 };

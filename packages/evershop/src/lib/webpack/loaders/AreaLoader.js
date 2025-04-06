@@ -1,14 +1,12 @@
-const fs = require('fs');
-const { inspect } = require('util');
-const JSON5 = require('json5');
-const { CONSTANTS } = require('../../helpers');
-const { error } = require('../../log/logger');
-const { getEnabledWidgets } = require('../../util/getEnabledWidgets');
-const { generateComponentKey } = require('../util/keyGenerator');
+import fs from 'fs';
+import { inspect } from 'util';
+import JSON5 from 'json5';
+import { CONSTANTS } from '../../helpers.js';
+import { error } from '../../log/logger.js';
+import { getEnabledWidgets } from '../../util/getEnabledWidgets.js';
+import { generateComponentKey } from '../util/keyGenerator.js';
 
-/* eslint-disable no-multi-assign */
-/* eslint-disable global-require */
-module.exports = exports = function AreaLoader(c) {
+export default function AreaLoader(c) {
   this.cacheable(false);
   const components = this.getOptions().getComponents();
   const { route } = this.getOptions();
@@ -60,4 +58,4 @@ module.exports = exports = function AreaLoader(c) {
   return c
     .replace('/** render */', content)
     .replace('/eHot', `/eHot/${route.id}`);
-};
+}

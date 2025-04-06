@@ -1,23 +1,21 @@
 /* eslint-disable no-await-in-loop */
-const { writeFile, mkdir } = require('fs').promises;
-const path = require('path');
-const { green } = require('kleur');
-const ora = require('ora');
-const boxen = require('boxen');
-const { Pool } = require('pg');
-const {
+import { writeFile, mkdir } from 'fs/promises';
+import path from 'path';
+import { green } from 'kleur';
+import ora from 'ora';
+import boxen from 'boxen';
+import { Pool } from 'pg';
+import {
   execute,
   startTransaction,
   commit,
   rollback,
   insertOnUpdate
-} = require('@evershop/postgres-query-builder');
-const { prompt } = require('enquirer');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { error, success } = require('@evershop/evershop/src/lib/log/logger');
-const {
-  hashPassword
-} = require('@evershop/evershop/src/lib/util/passwordHelper');
+} from '@evershop/postgres-query-builder';
+import { prompt } from 'enquirer';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { error, success } from '@evershop/evershop/src/lib/log/logger.js';
+import { hashPassword } from '@evershop/evershop/src/lib/util/passwordHelper.js';
 
 // The installation command will create a .env file in the root directory of the project.
 // If you are using docker, do not run this command. Instead, you should set the environment variables in the docker-compose.yml file and run `npm run start`

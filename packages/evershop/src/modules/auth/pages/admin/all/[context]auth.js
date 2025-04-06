@@ -1,8 +1,8 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { select } = require('@evershop/postgres-query-builder');
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { select } from '@evershop/postgres-query-builder';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const { userID } = request.session;
   // Load the user from the database
   const user = await select()

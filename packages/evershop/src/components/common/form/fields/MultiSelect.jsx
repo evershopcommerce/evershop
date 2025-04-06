@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Error from '@components/common/form/fields/Error';
 import '../Field.scss';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
 
 const MultiSelect = React.forwardRef((props, ref) => {
   const {

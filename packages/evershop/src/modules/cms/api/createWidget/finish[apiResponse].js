@@ -1,8 +1,8 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { OK } = require('@evershop/evershop/src/lib/util/httpStatus');
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { OK } from '@evershop/evershop/src/lib/util/httpStatus.js';
 
 // eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const widget = await delegate.createWidget;
   response.status(OK);
   response.json({

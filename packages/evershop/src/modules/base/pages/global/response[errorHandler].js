@@ -8,7 +8,7 @@ import isDevelopmentMode from '@evershop/evershop/src/lib/util/isDevelopmentMode
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getNotifications } from '../../services/notifications.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   /** Get all promise delegate */
   const promises = [];
   Object.keys(delegate).forEach((id) => {

@@ -1,5 +1,5 @@
-const staticMiddleware = require('@evershop/evershop/src/lib/middlewares/static');
+import staticMiddleware from '@evershop/evershop/src/lib/middlewares/static.js';
 
-module.exports = (request, response, stack, next) => {
+export default (request, response, stack, next) => {
   staticMiddleware(request, response, next);
 };

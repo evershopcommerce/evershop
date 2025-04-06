@@ -1,15 +1,13 @@
-const { select, insert } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
+import { select, insert } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import {
   INVALID_PAYLOAD,
   OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const {
-  updatePaymentStatus
-} = require('../../../oms/services/updatePaymentStatus');
+} from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 
 // eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   // eslint-disable-next-line camelcase
   const { order_id } = request.body;
 

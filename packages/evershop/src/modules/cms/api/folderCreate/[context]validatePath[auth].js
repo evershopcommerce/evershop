@@ -1,10 +1,8 @@
-const {
-  INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { validatePath } = require('../../services/validatePath');
+import { INVALID_PAYLOAD } from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { validatePath } from '../../services/validatePath.js';
 
-module.exports = (request, response, delegate, next) => {
+export default (request, response, delegate, next) => {
   const { path } = request.body || '';
   // Validate the path to avoid Relative Path Traversal attack
   if (validatePath(CONSTANTS.MEDIAPATH, path) === false) {

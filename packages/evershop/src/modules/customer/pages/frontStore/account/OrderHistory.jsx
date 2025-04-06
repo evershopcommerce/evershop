@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Order from '@components/frontStore/customer/detail/Order';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
 
 export default function OrderHistory({ customer: { orders = [] } }) {
   return (
@@ -12,7 +12,10 @@ export default function OrderHistory({ customer: { orders = [] } }) {
         </div>
       )}
       {orders.map((order) => (
-        <div className="order-history-order border-divider py-8">
+        <div
+          className="order-history-order border-divider py-8"
+          key={order.orderId}
+        >
           <Order order={order} key={order.orderId} />
         </div>
       ))}

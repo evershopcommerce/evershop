@@ -1,8 +1,8 @@
-const touch = require('touch');
-const { resolve } = require('path');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+import touch from 'touch';
+import { resolve } from 'path';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
 
-module.exports.watchPage = function (event) {
+export function watchPage(event) {
   if (event === 'add') {
     // TODO: Touching this file will trigger a rebuild of all pages. This is not optimized
     touch(
@@ -12,4 +12,4 @@ module.exports.watchPage = function (event) {
       )
     );
   }
-};
+}

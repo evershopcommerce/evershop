@@ -1,9 +1,9 @@
-const { normalize, resolve } = require('path');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { info } = require('@evershop/evershop/src/lib/log/logger');
-const { broadcash } = require('./broadcash');
+import { normalize, resolve } from 'path';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { info } from '@evershop/evershop/src/lib/log/logger.js';
+import { broadcash } from './broadcash.js';
 
-module.exports.watchSchema = function (event, path) {
+export function watchSchema(event, path) {
   // Check if path include graphql/types
   if (!path.includes(normalize('graphql/types'))) {
     return;
@@ -21,4 +21,4 @@ module.exports.watchSchema = function (event, path) {
   ];
   require(resolve(CONSTANTS.MOLDULESPATH, 'graphql/services/buildSchema'));
   broadcash();
-};
+}

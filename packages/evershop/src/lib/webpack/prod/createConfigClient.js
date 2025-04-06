@@ -1,15 +1,15 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WebpackBar = require('webpackbar');
-const { createBaseConfig } = require('../createBaseConfig');
-const { getRouteBuildPath } = require('../getRouteBuildPath');
-const { getRouteBuildSubPath } = require('../getRouteBuildSubPath');
-const { isBuildRequired } = require('../isBuildRequired');
-const { CONSTANTS } = require('../../helpers');
-const { Tailwindcss } = require('../plugins/Tailwindcss');
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import WebpackBar from 'webpackbar';
+import { createBaseConfig } from '../createBaseConfig.js';
+import { getRouteBuildPath } from '../getRouteBuildPath.js';
+import { getRouteBuildSubPath } from '../getRouteBuildSubPath.js';
+import { isBuildRequired } from '../isBuildRequired.js';
+import { CONSTANTS } from '../../helpers.js';
+import { Tailwindcss } from '../plugins/Tailwindcss.js';
 
-module.exports.createConfigClient = function createConfigClient(routes) {
+export function createConfigClient(routes) {
   const config = createBaseConfig(false);
   const { plugins } = config;
   const entry = {};
@@ -67,7 +67,7 @@ module.exports.createConfigClient = function createConfigClient(routes) {
       {
         loader: 'sass-loader',
         options: {
-          implementation: require('sass'),
+          sassOptions: { implementation: 'sass' },
           api: 'modern'
         }
       }
@@ -98,4 +98,4 @@ module.exports.createConfigClient = function createConfigClient(routes) {
   config.name = 'Client';
 
   return config;
-};
+}

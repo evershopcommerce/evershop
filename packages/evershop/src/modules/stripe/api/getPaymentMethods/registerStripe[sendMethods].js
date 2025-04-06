@@ -1,8 +1,8 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getSetting } = require('../../../setting/services/setting');
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getSetting } from '../../../setting/services/setting.js';
 
 // eslint-disable-next-line no-unused-vars
-module.exports = async (request, response) => {
+export default async (request, response) => {
   // Check if Stripe is enabled
   const stripeConfig = getConfig('system.stripe', {});
   let stripeStatus;

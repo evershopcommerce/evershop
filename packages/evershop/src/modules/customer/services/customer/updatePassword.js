@@ -1,18 +1,16 @@
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const {
+import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import {
   startTransaction,
   commit,
   rollback,
   update,
   select
-} = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('@evershop/evershop/src/lib/postgres/connection');
-const {
+} from '@evershop/postgres-query-builder';
+import { getConnection } from '@evershop/evershop/src/lib/postgres/connection.js';
+import {
   hashPassword,
   verifyPassword
-} = require('@evershop/evershop/src/lib/util/passwordHelper');
+} from '@evershop/evershop/src/lib/util/passwordHelper.js';
 
 async function updateCustomerPassword(customerId, hash, connection) {
   await update('customer')
@@ -58,7 +56,7 @@ async function updatePassword(customerId, newPassword, context) {
   }
 }
 
-module.exports = async (customerId, password, context) => {
+export default async (customerId, password, context) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

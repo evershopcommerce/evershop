@@ -294,9 +294,17 @@ export function addDefaultMiddlewareFuncs(app, routes) {
         const { webpackCompiler } = route;
         const hotMiddleware = route.hotMiddleware
           ? route.hotMiddleware
-          : require('webpack-hot-middleware')(webpackCompiler, {
-              path: `/eHot/${route.id}`
-            });
+          : (function () {
+              const hotMiddlewareModule = import('webpack-hot-middleware');
+              return function (req, res, next) {
+                hotMiddlewareModule.then((module) => {
+                  const middleware = module.default(webpackCompiler, {
+                    path: `/eHot/${route.id}`
+                  });
+                  middleware(req, res, next);
+                });
+              };
+            })();
         if (!route.hotMiddleware) {
           route.hotMiddleware = hotMiddleware;
         }

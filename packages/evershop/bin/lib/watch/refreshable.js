@@ -1,7 +1,7 @@
-const chokidar = require('chokidar');
-const { resolve } = require('path');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { broadcash } = require('./broadcash');
+import chokidar from 'chokidar';
+import { resolve } from 'path';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { broadcash } from './broadcash.js';
 
 function refreshable() {
   const watcher = chokidar.watch('./packages/evershop/src/lib/response/*', {

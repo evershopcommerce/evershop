@@ -1,16 +1,14 @@
-const {
+import {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { getCartByUUID } = require('../../services/getCartByUUID');
-const { saveCart } = require('../../services/saveCart');
+} from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { saveCart } from '../../services/saveCart.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const { cart_id, item_id } = request.params;
     const cart = await getCartByUUID(cart_id);

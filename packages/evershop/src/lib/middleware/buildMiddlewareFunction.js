@@ -30,12 +30,14 @@ export function buildMiddlewareFunction(id, path) {
   // TODO: fix me
   if (id === 'errorHandler' || id === 'apiErrorHandler') {
     return (error, request, response, next) => {
-      const func = require(path);
-      if (request.currentRoute) {
-        func(error, request, response, getDelegates(request), next);
-      } else {
-        func(error, request, response, [], next);
-      }
+      import(path).then((m) => {
+        const func = m.default;
+        if (request.currentRoute) {
+          func(error, request, response, getDelegates(request), next);
+        } else {
+          func(error, request, response, [], next);
+        }
+      });
     };
   } else {
     return (request, response, next) => {

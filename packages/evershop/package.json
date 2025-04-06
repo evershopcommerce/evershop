@@ -51,8 +51,8 @@
     "@evershop/editorjs-image": "^1.0.0",
     "@evershop/postgres-query-builder": "^1.2.0",
     "@graphql-tools/load-files": "^6.6.1",
-    "@graphql-tools/merge": "^8.3.5",
-    "@graphql-tools/schema": "^9.0.3",
+    "@graphql-tools/merge": "^8.4.2",
+    "@graphql-tools/schema": "^9.0.19",
     "@hapi/topo": "^5.0.0",
     "@heroicons/react": "^1.0.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
@@ -69,7 +69,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "boxen": "^5.1.2",
-    "chokidar": "^3.5.3",
+    "chokidar": "^4.0.3",
     "clean-css": "^5.3.1",
     "config": "^3.3.6",
     "connect-pg-simple": "^9.0.0",
@@ -134,7 +134,7 @@
     "webpack-hot-middleware": "^2.25.1",
     "webpackbar": "^5.0.2",
     "winston": "^3.3.3",
-    "yargs": "^16.2.0",
+    "yargs": "^17.7.2",
     "zero-decimal-currencies": "^1.2.0"
   }
 }

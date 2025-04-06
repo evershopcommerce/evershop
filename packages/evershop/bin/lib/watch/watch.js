@@ -1,10 +1,10 @@
-const chokidar = require('chokidar');
-const { resolve } = require('path');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { existsSync } = require('fs');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import chokidar from 'chokidar';
+import { resolve } from 'path';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { existsSync } from 'fs';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
 
-function watch(calbacks = []) {
+export function watch(calbacks = []) {
   const watcher = chokidar.watch(resolve(CONSTANTS.ROOTPATH, 'extensions/**'), {
     // ignored: /node_modules[\\/]/,
     ignoreInitial: true,
@@ -27,5 +27,3 @@ function watch(calbacks = []) {
     });
   });
 }
-
-module.exports.watch = watch;

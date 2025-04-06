@@ -1,11 +1,11 @@
-const path = require('path');
-const WebpackBar = require('webpackbar');
-const { CONSTANTS } = require('../../helpers');
-const { createBaseConfig } = require('../createBaseConfig');
-const { getRouteBuildSubPath } = require('../getRouteBuildSubPath');
-const { isBuildRequired } = require('../isBuildRequired');
+import path from 'path';
+import WebpackBar from 'webpackbar';
+import { CONSTANTS } from '../../helpers.js';
+import { createBaseConfig } from '../createBaseConfig.js';
+import { getRouteBuildSubPath } from '../getRouteBuildSubPath.js';
+import { isBuildRequired } from '../isBuildRequired.js';
 
-module.exports.createConfigServer = function createConfigServer(routes) {
+export function createConfigServer(routes) {
   const entry = {};
   routes.forEach((route) => {
     if (!isBuildRequired(route)) {
@@ -43,4 +43,4 @@ module.exports.createConfigServer = function createConfigServer(routes) {
   config.name = 'Server';
 
   return config;
-};
+}

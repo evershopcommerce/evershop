@@ -5,7 +5,7 @@ import { Thumbnail } from '@components/frontStore/catalog/product/list/item/Thum
 import { Price } from '@components/frontStore/catalog/product/list/item/Price';
 import Area from '@components/common/Area';
 import { get } from '@evershop/evershop/src/lib/util/get';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
 
 export default function ProductList({ products = [], countPerRow = 3 }) {
   if (products.length === 0) {

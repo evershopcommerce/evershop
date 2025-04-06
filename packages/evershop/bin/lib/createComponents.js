@@ -1,16 +1,11 @@
-const { mkdir, writeFile } = require('fs').promises;
-const path = require('path');
-const { inspect } = require('util');
-const { Componee } = require('@evershop/evershop/src/lib/componee/Componee');
-const isProductionMode = require('@evershop/evershop/src/lib/util/isProductionMode');
-const {
-  getRouteBuildPath
-} = require('@evershop/evershop/src/lib/webpack/getRouteBuildPath');
+import { mkdir, writeFile } from 'fs/promises';
+import path from 'path';
+import { inspect } from 'util';
+import { Componee } from '@evershop/evershop/src/lib/componee/Componee.js';
+import isProductionMode from '@evershop/evershop/src/lib/util/isProductionMode.js';
+import { getRouteBuildPath } from '@evershop/evershop/src/lib/webpack/getRouteBuildPath.js';
 
-module.exports.createComponents = async function createComponents(
-  routes,
-  clientOnly = false
-) {
+export async function createComponents(routes, clientOnly = false) {
   await Promise.all(
     routes.map(async (route) => {
       const components = Componee.getComponentsByRoute(route.id);
@@ -90,4 +85,4 @@ module.exports.createComponents = async function createComponents(
       }
     })
   );
-};
+}

@@ -1,5 +1,6 @@
 /* eslint-disable global-require */
 import path from 'path';
+import fs from 'fs';
 import jsesc from 'jsesc';
 import { getRoutes } from '../router/Router.js';
 import { get } from '../util/get.js';
@@ -82,16 +83,17 @@ function renderProduction(request, response) {
     : frontNotFound;
   const route = response.statusCode === 404 ? notFound : request.currentRoute;
   const langCode = route.isAdmin === true ? 'en' : language;
-  const { renderHtml } = require(path.resolve(
+  const serverIndexPath = path.resolve(
     getRouteBuildPath(route),
     'server',
     'index.js'
-  ));
-  const assets = require(path.resolve(
+  );
+  const assetsPath = path.resolve(
     getRouteBuildPath(route),
     'client',
     'index.json'
-  ));
+  );
+  const assets = JSON.parse(fs.readFileSync(assetsPath, 'utf8'));
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     propsMap: get(response, 'locals.propsMap', {}),
@@ -102,8 +104,16 @@ function renderProduction(request, response) {
     json: true,
     isScriptContext: true
   });
-  const source = renderHtml(assets.js, assets.css, safeContextValue, langCode);
-  response.send(source);
+
+  import(serverIndexPath).then(({ renderHtml }) => {
+    const source = renderHtml(
+      assets.js,
+      assets.css,
+      safeContextValue,
+      langCode
+    );
+    response.send(source);
+  });
 }
 
 export function render(request, response) {

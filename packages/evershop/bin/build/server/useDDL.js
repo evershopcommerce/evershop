@@ -1,18 +1,22 @@
-const path = require('path');
-const { existsSync, rmdirSync } = require('fs');
-const { writeFile, mkdir } = require('fs').promises;
-const { inspect } = require('util');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const ora = require('ora');
-const { red, green } = require('kleur');
-const boxen = require('boxen');
-const { getRoutes } = require('@evershop/evershop/src/lib/router/routes');
-const {
-  getComponentsByRoute
-} = require('@evershop/evershop/src/lib/componee/getComponentByRoute');
-const webpack = require('webpack');
-const { info } = require('@evershop/evershop/src/lib/log/logger');
+import path from 'path';
+import { existsSync, rmdirSync } from 'fs';
+import { writeFile, mkdir } from 'fs/promises';
+import { inspect } from 'util';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import ora from 'ora';
+import { red, green } from 'kleur';
+import boxen from 'boxen';
+import { getRoutes } from '@evershop/evershop/src/lib/router/routes.js';
+import { getComponentsByRoute } from '@evershop/evershop/src/lib/componee/getComponentByRoute.js';
+import pkg from 'webpack';
+import { info } from '@evershop/evershop/src/lib/log/logger.js';
+// Run building vendor first
+import { createVendorConfig } from '@evershop/evershop/src/lib/webpack/configProvider.js';
+import { loadModuleComponents } from '../../serve/loadModuleComponents.js';
+import { loadModuleRoutes } from '../../serve/loadModuleRoutes.js';
+import { loadModules } from '../../serve/loadModules.js';
 
+const { webpack } = pkg;
 const modules = loadModules(path.resolve(__dirname, '../../../src', 'modules'));
 
 const spinner = ora({
@@ -60,14 +64,6 @@ if (existsSync(path.resolve(CONSTANTS.ROOTPATH, './.evershop/build'))) {
   });
 }
 const start = Date.now();
-
-// Run building vendor first
-const {
-  createVendorConfig
-} = require('@evershop/evershop/src/lib/webpack/configProvider');
-const { loadModuleComponents } = require('../../serve/loadModuleComponents');
-const { loadModuleRoutes } = require('../../serve/loadModuleRoutes');
-const { loadModules } = require('../../serve/loadModules');
 
 const vendorComplier = webpack(createVendorConfig(webpack));
 const webpackVendorPromise = new Promise((resolve, reject) => {

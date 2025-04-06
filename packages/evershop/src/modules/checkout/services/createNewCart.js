@@ -1,6 +1,4 @@
-const { createNewCart: create } = require('./cart/Cart');
-
-module.exports = exports;
+import { createNewCart as create } from './cart/Cart.js';
 
 /**
  * This function return a Cart object by the session ID and the customer object
@@ -9,7 +7,7 @@ module.exports = exports;
  * @param {Object} customer : The customer object
  * @returns {Promise<Cart>}
  */
-exports.createNewCart = async (sid, customer = {}) => {
+export async function createNewCart(sid, customer = {}) {
   // Extract the customer info
   const {
     customerId: customer_id,
@@ -25,4 +23,4 @@ exports.createNewCart = async (sid, customer = {}) => {
     customer_full_name
   });
   return cart;
-};
+}

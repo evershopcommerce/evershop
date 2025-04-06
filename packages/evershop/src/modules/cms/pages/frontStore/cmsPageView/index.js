@@ -1,12 +1,8 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  setContextValue
-} = require('../../../../graphql/services/contextHelper');
-const {
-  getCmsPagesBaseQuery
-} = require('../../../services/getCmsPagesBaseQuery');
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
+import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const query = getCmsPagesBaseQuery();
     query

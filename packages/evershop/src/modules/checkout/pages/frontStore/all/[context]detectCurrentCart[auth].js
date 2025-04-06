@@ -1,12 +1,10 @@
-const { select, update } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  setContextValue
-} = require('../../../../graphql/services/contextHelper');
-const { getCartByUUID } = require('../../../services/getCartByUUID');
-const { saveCart } = require('../../../services/saveCart');
+import { select, update } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
+import { getCartByUUID } from '../../../services/getCartByUUID.js';
+import { saveCart } from '../../../services/saveCart.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   // Check if any cart is associated with the session id
   const cart = await select()
     .from('cart')

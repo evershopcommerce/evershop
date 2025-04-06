@@ -1,19 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 /* eslint-disable global-require */
-const path = require('path');
-const {
-  addDefaultMiddlewareFuncs
-} = require('@evershop/evershop/bin/lib/addDefaultMiddlewareFuncs');
-const express = require('express');
-const {
-  loadModuleRoutes
-} = require('@evershop/evershop/src/lib/router/loadModuleRoutes');
-const { once } = require('events');
-const { getModuleMiddlewares } = require('../..');
-const { getRoutes } = require('../../../router/Router');
-const { Handler } = require('../../Handler');
-const { error } = require('../../../log/logger');
+import path from 'path';
+import { addDefaultMiddlewareFuncs } from '@evershop/evershop/bin/lib/addDefaultMiddlewareFuncs.js';
+import express from 'express';
+import { loadModuleRoutes } from '@evershop/evershop/src/lib/router/loadModuleRoutes.js';
+import { once } from 'events';
+import { getModuleMiddlewares } from '../../getModuleMiddlewares.js';
+import { getRoutes } from '../../../router/Router.js';
+import { Handler } from '../../Handler.js';
+import { error } from '../../../log/logger.js';
 
 /** Create express app */
 const app = express();

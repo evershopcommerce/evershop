@@ -1,4 +1,4 @@
-const {
+import {
   startTransaction,
   del,
   commit,
@@ -6,20 +6,18 @@ const {
   insert,
   rollback,
   select
-} = require('@evershop/postgres-query-builder');
-const {
+} from '@evershop/postgres-query-builder';
+import {
   pool,
   getConnection
-} = require('@evershop/evershop/src/lib/postgres/connection');
-
-module.exports = exports;
+} from '@evershop/evershop/src/lib/postgres/connection.js';
 
 /**
  * @param {Cart} cart
  * @returns {Promise<Number|null>}
  * @throws {Error}
  * */
-exports.saveCart = async (cart) => {
+export const saveCart = async (cart) => {
   const connection = await getConnection(pool);
   await startTransaction(connection);
   try {

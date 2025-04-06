@@ -1,9 +1,9 @@
-const { emit } = require('@evershop/evershop/src/lib/event/emitter');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select } = require('@evershop/postgres-query-builder');
+import { emit } from '@evershop/evershop/src/lib/event/emitter.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { select } from '@evershop/postgres-query-builder';
 
 // eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   // Get the order data from $body
   const newOrder = response.$body?.data || {};
   if (newOrder.payment_method !== 'cod') {

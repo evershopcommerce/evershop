@@ -1,16 +1,14 @@
 /* eslint-disable camelcase */
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getCart } = require('./cart/Cart');
-
-module.exports = exports;
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getCart } from './cart/Cart.js';
 
 /**
  * This function return a Cart object by the session ID.
  * @param {string} sid : The session ID
  * @returns {Promise<Cart>}
  */
-exports.getCurrentCart = async (sid) => {
+export const getCurrentCart = async (sid) => {
   // Try to get the cart by the session id first
   const cartBySid = await select()
     .from('cart')

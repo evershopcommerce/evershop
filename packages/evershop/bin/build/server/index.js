@@ -1,10 +1,9 @@
-const webpack = require('webpack');
-const {
-  createConfigServer
-} = require('@evershop/evershop/src/lib/webpack/prod/createConfigServer');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+import pkg from 'webpack';
+import { createConfigServer } from '@evershop/evershop/src/lib/webpack/prod/createConfigServer.js';
+import { error } from '@evershop/evershop/src/lib/log/logger';
 
-module.exports.buildServer = async function buildServer(routes) {
+const { webpack } = pkg;
+export const buildServer = async function buildServer(routes) {
   const config = createConfigServer(routes);
   const compiler = webpack(config);
 

@@ -24,7 +24,7 @@ export function parseGraphql(modules) {
     let moduleKey;
     // If the module is resolvable, get the apsolute path
     if (!fs.existsSync(module)) {
-      modulePath = require.resolve(module);
+      modulePath = new URL(import.meta.resolve(module)).pathname;
       moduleKey = generateComponentKey(module);
     } else {
       modulePath = module;

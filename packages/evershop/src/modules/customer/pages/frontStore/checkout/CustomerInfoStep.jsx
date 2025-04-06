@@ -6,7 +6,7 @@ import {
 } from '@components/common/context/checkoutSteps';
 import { useCheckout } from '@components/common/context/checkout';
 import { Edit } from '@components/frontStore/customer/checkout/Edit';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
 
 export default function ContactInformationStep({
   cart: { customerEmail, addContactInfoApi },

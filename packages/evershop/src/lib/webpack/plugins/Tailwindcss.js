@@ -1,18 +1,14 @@
-/* eslint-disable global-require */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable prefer-destructuring */
-const postcss = require('postcss');
-const tailwindcss = require('tailwindcss');
-const autoprefixer = require('autoprefixer');
-const CleanCSS = require('clean-css');
-const { Compilation, sources } = require('webpack');
-const { getTailwindConfig } = require('../util/getTailwindConfig');
-const { error } = require('../../log/logger');
+import postcss from 'postcss';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+import CleanCSS from 'clean-css';
+import webpack from 'webpack';
+import { getTailwindConfig } from '../util/getTailwindConfig.js';
+import { error } from '../../log/logger.js';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+const { Compilation, sources } = webpack;
 
-exports.Tailwindcss = class Tailwindcss {
+export class Tailwindcss {
   constructor(chunks, route) {
     this.chunks = chunks;
     this.route = route;
@@ -20,12 +16,12 @@ exports.Tailwindcss = class Tailwindcss {
 
   apply(compiler) {
     compiler.hooks.compilation.tap('Tailwindcss', (compilation) => {
-      compilation.hooks.processAssets.tap(
+      compilation.hooks.processAssets.tapAsync(
         {
           name: 'Tailwindcss',
-          stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONS // see below for more stages
+          stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONS
         },
-        async (assets) => {
+        async (assets, callback) => {
           try {
             let cssAsset;
             let jsAsset;
@@ -45,7 +41,7 @@ exports.Tailwindcss = class Tailwindcss {
               }
             });
             if (cssAsset && jsAsset) {
-              const mergedTailwindConfig = getTailwindConfig(this.route);
+              const mergedTailwindConfig = await getTailwindConfig(this.route);
               mergedTailwindConfig.content = [
                 {
                   raw: jsAsset[1].source()
@@ -56,9 +52,11 @@ exports.Tailwindcss = class Tailwindcss {
                 /\/\*beginTailwind\*\/(.*)\/\*endTailwind\*\//s
               );
               if (tailwind) {
+                // eslint-disable-next-line prefer-destructuring
                 tailwind = tailwind[1];
               } else {
                 /** Tailwindcss is removed by theme */
+                callback();
                 return;
               }
               // Postcss await
@@ -68,7 +66,6 @@ exports.Tailwindcss = class Tailwindcss {
               ])
                 .process(tailwind, { from: undefined })
                 .then((result) => new CleanCSS().minify(result.css));
-
               // match any characters between /*beginTailwind*/
               // and /*endTailwind*/ including line breaks
               compilation.updateAsset(
@@ -83,12 +80,16 @@ exports.Tailwindcss = class Tailwindcss {
                       )
                   )
               );
+              callback();
+            } else {
+              callback();
             }
           } catch (e) {
             error(e);
+            callback();
           }
         }
       );
     });
   }
-};
+}

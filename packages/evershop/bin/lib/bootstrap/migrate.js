@@ -54,14 +54,12 @@ async function migrateModule(module) {
     const connection = await getConnection();
     await startTransaction(connection);
     // eslint-disable-next-line no-await-in-loop
-    // eslint-disable-next-line global-require
     /** We expect the migration script to provide a function as a default export */
     try {
-      await require(path.resolve(
-        module.path,
-        'migration',
-        `Version-${version}.js`
-      ))(connection);
+      const module = await import(
+        path.resolve(module.path, 'migration', `Version-${version}.js`)
+      );
+      await module.default(connection);
       // eslint-disable-next-line no-await-in-loop
       await insertOnUpdate('migration', ['module'])
         .given({

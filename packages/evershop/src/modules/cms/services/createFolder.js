@@ -1,14 +1,14 @@
-const path = require('path');
-const fs = require('fs').promises;
-const { existsSync } = require('fs');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
+import path from 'path';
+import fs from 'fs/promises';
+import { existsSync } from 'fs';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getValueSync } from '@evershop/evershop/src/lib/util/registry.js';
 
 /**
  * @param {String} destinationPath the destination path
  */
-module.exports.createFolder = async (destinationPath) => {
+export const createFolder = async (destinationPath) => {
   /**
    * @type {Object} uploader
    * @property {Function} create

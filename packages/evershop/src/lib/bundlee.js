@@ -1,17 +1,16 @@
 /* eslint-disable no-underscore-dangle */
-const { inspect } = require('util');
-const { writeFile, mkdir, rmdir } = require('fs/promises');
-const { existsSync, statSync, readdirSync } = require('fs');
-const path = require('path');
-const sass = require('node-sass');
-const CleanCss = require('clean-css');
-const { CONSTANTS } = require('./helpers');
-const { buildUrl } = require('./router/buildUrl');
-// eslint-disable-next-line import/no-unresolved, import/extensions
-const { createWebpack } = require('./webpack/webpack');
-const { getComponentsByRoute } = require('./componee/getComponentsByRoute');
+import { inspect } from 'util';
+import { writeFile, mkdir, rmdir } from 'fs/promises';
+import { existsSync, statSync, readdirSync } from 'fs';
+import path from 'path';
+import sass from 'node-sass';
+import CleanCss from 'clean-css';
+import { CONSTANTS } from './helpers.js';
+import { buildUrl } from './router/buildUrl.js';
+import { createWebpack } from './webpack/webpack.js';
+import { getComponentsByRoute } from './componee/getComponentsByRoute.js';
 
-module.exports = async (request, response, route) => {
+export default async (request, response, route) => {
   /** Only create bundle file for GET and "text/html" route */
   if (route.isApi === true) {
     return;

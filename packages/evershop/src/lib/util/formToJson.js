@@ -1,8 +1,4 @@
-/* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
-/* eslint-disable prefer-const */
-module.exports = exports = {};
-
 function update(data, keys, value) {
   if (keys.length === 0) {
     // Leaf node
@@ -36,9 +32,9 @@ function update(data, keys, value) {
   return data;
 }
 
-exports.serializeForm = function serializeForm(formDataEntries, dataFilter) {
+export function serializeForm(formDataEntries, dataFilter) {
   const data = Array.from(formDataEntries).reduce((data, [field, value]) => {
-    // eslint-disable-next-line no-useless-escape,no-unused-vars
+    // eslint-disable-next-line no-useless-escape,no-unused-vars,prefer-const
     let [_, prefix, keys] = field.match(/^([^\[]+)((?:\[[^\]]*\])*)/);
 
     if (keys) {
@@ -55,4 +51,4 @@ exports.serializeForm = function serializeForm(formDataEntries, dataFilter) {
   } else {
     return data;
   }
-};
+}

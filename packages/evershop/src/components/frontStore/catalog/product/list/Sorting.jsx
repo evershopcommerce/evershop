@@ -3,7 +3,7 @@
 import React from 'react';
 import { Select } from '@components/common/form/fields/Select';
 import { useAppDispatch } from '@components/common/context/app';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
 import options from '@components/frontStore/catalog/product/list/SortOptions';
 
 export default function Sorting() {

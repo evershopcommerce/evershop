@@ -1,9 +1,9 @@
-const chokidar = require('chokidar');
-const touch = require('touch');
-const { resolve } = require('path');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+import chokidar from 'chokidar';
+import touch from 'touch';
+import { resolve } from 'path';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
 
-function watchComponents() {
+export function watchComponents() {
   chokidar
     .watch(
       ['./packages/**/*.jsx', './extensions/**/*.jsx', './themes/**/*.jsx'],
@@ -22,5 +22,3 @@ function watchComponents() {
       );
     });
 }
-
-module.exports.watchComponents = watchComponents;

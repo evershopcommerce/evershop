@@ -1,9 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-
+import fs from 'fs';
+import path from 'path';
+import packageJson from './package.json' with { type: 'json' };
 // Get the current version of the package from the nearest package.json file
-const packageJson = require(path.resolve(__dirname, 'package.json'));
-const {version} = packageJson;
+const { version } = packageJson;
 // Get the --pack-destination from the command line arguments
 // Create a package.json file in the packDestination directory with dependencies is the package itself
 fs.writeFileSync(

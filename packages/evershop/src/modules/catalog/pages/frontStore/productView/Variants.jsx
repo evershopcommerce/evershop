@@ -5,7 +5,7 @@ import PubSub from 'pubsub-js';
 import { FORM_VALIDATED } from '@evershop/evershop/src/lib/util/events';
 import './Variants.scss';
 import { useAppDispatch } from '@components/common/context/app';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
 
 const processAttributes = (vs, attributes, currentUrl) => {
   const selectedOptions = [];

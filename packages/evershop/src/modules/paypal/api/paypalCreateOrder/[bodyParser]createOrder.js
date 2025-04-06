@@ -1,22 +1,22 @@
 /* eslint-disable camelcase */
-const { select, update } = require('@evershop/postgres-query-builder');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
+import { select, update } from '@evershop/postgres-query-builder';
+import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { getContextValue } = require('../../../graphql/services/contextHelper');
-const { getSetting } = require('../../../setting/services/setting');
-const { toPrice } = require('../../../checkout/services/toPrice');
-const { createAxiosInstance } = require('../../services/requester');
+} from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getValueSync } from '@evershop/evershop/src/lib/util/registry.js';
+import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { getContextValue } from '../../../graphql/services/contextHelper.js';
+import { getSetting } from '../../../setting/services/setting.js';
+import { toPrice } from '../../../checkout/services/toPrice.js';
+import { createAxiosInstance } from '../../services/requester.js';
 
 // eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const { order_id } = request.body;
     const order = await select()

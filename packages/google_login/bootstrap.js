@@ -1,7 +1,7 @@
-const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const { addProcessor } = require('@evershop/evershop/src/lib/util/registry');
+import { merge } from '@evershop/evershop/src/lib/util/merge.js';
+import { addProcessor } from '@evershop/evershop/src/lib/util/registry.js';
 
-module.exports = () => {
+export default () => {
   addProcessor('configuratonSchema', (schema) => {
     merge(
       schema,

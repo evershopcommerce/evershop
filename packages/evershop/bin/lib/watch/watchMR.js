@@ -1,13 +1,13 @@
-const chokidar = require('chokidar');
-const { existsSync } = require('fs');
-const { resolve } = require('path');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { Handler } = require('@evershop/evershop/src/lib/middleware/Handler');
-const { info, error } = require('@evershop/evershop/src/lib/log/logger');
-const { updateApp } = require('../startUp');
-const { broadcash } = require('./broadcash');
+import chokidar from 'chokidar';
+import { existsSync } from 'fs';
+import { resolve } from 'path';
+import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
+import { Handler } from '@evershop/evershop/src/lib/middleware/Handler.js';
+import { info, error } from '@evershop/evershop/src/lib/log/logger.js';
+import { updateApp } from '../startUp.js';
+import { broadcash } from './broadcash.js';
 
-function watchMR() {
+export function watchMR() {
   const watcher = chokidar.watch(
     resolve(CONSTANTS.ROOTPATH, 'extensions/*/controllers/**'),
     {
@@ -98,5 +98,3 @@ function watchMR() {
     updateApp(broadcash);
   });
 }
-
-module.exports.watchMR = watchMR;

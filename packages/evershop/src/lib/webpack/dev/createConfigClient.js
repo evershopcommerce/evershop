@@ -54,7 +54,7 @@ export function createConfigClient(route) {
       {
         loader: 'sass-loader',
         options: {
-          implementation: require('sass'),
+          implementation: 'sass',
           api: 'modern'
         }
       }

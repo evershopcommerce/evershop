@@ -333,7 +333,6 @@ export default function CouponGrid({
               noOuter
               coreComponents={[
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => (
                       <SortableHeader
@@ -346,21 +345,18 @@ export default function CouponGrid({
                   sortOrder: 10
                 },
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => <DummyColumnHeader title="State Date" />
                   },
                   sortOrder: 20
                 },
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => <DummyColumnHeader title="End Date" />
                   },
                   sortOrder: 30
                 },
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => (
                       <SortableHeader
@@ -373,7 +369,6 @@ export default function CouponGrid({
                   sortOrder: 40
                 },
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => (
                       <SortableHeader
@@ -419,7 +414,6 @@ export default function CouponGrid({
                 setSelectedRows={setSelectedRows}
                 coreComponents={[
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: () => (
                         <CouponName url={c.editUrl} name={c.coupon} />
@@ -428,7 +422,6 @@ export default function CouponGrid({
                     sortOrder: 10
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: () => (
                         <TextRow text={c.startDate?.text || '--'} />
@@ -437,14 +430,12 @@ export default function CouponGrid({
                     sortOrder: 20
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: () => <TextRow text={c.endDate?.text || '--'} />
                     },
                     sortOrder: 30
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: ({ areaProps }) => (
                         <StatusRow
@@ -457,7 +448,6 @@ export default function CouponGrid({
                     sortOrder: 40
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: ({ areaProps }) => (
                         <BasicRow id="usedTime" areaProps={areaProps} />

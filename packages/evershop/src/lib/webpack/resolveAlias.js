@@ -1,5 +1,5 @@
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
 
 function getAllFilesInFolder(folderPath) {
   if (!fs.existsSync(folderPath)) {
@@ -46,10 +46,7 @@ function getAllFilesInFolder(folderPath) {
   return results;
 }
 
-exports.resolveAlias = function resolveAlias(
-  extensions = [],
-  themePath = null
-) {
+export function resolveAlias(extensions = [], themePath = null) {
   let resolves = {};
 
   if (themePath) {
@@ -66,6 +63,6 @@ exports.resolveAlias = function resolveAlias(
   });
 
   return resolves;
-};
+}
 
-exports.alias = {};
+export const alias = {};
