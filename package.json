@@ -18,8 +18,9 @@
     "packages/*",
     "extensions/*"
   ],
+  "main": "./dist/packages/evershop/bin/start/index",
   "scripts": {
-    "dev-ts": "tsx ./packages/evershop/bin/evershop.ts dev",
+    "dev-ts": "rimraf ./dist && tsc -p tsconfig.json",
     "dev": "evershop dev",
     "setup": "evershop install",
     "build": "evershop build",

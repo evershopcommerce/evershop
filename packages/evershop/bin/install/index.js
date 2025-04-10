@@ -280,11 +280,11 @@ DB_SSLMODE="${sslMode}"
 }
 
 // eslint-disable-next-line func-names
-(async () => {
+export default async () => {
   try {
     await install();
   } catch (e) {
     error(e);
     process.exit(0);
   }
-})();
+}

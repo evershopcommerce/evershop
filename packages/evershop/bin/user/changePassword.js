@@ -38,7 +38,7 @@ const { argv } = yargs
   })
   .help();
 
-async function updatePassword() {
+export default async function updatePassword() {
   const { email, password } = argv;
 
   try {
@@ -63,5 +63,3 @@ async function updatePassword() {
     process.exit(0);
   }
 }
-
-updatePassword();

@@ -107,13 +107,3 @@ export const start = async function start(cb) {
   });
   jobChild.unref();
 };
-
-export const updateApp = function updateApp(cb) {
-  /** Clean up middleware */
-  Handler.middlewares = [];
-  const newApp = createApp();
-  server.removeListener('request', app);
-  server.on('request', newApp);
-  app = newApp;
-  cb();
-};
