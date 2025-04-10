@@ -1,12 +1,24 @@
-const beforeHooks = new Map();
-const afterHooks = new Map();
+type Hook = {
+  callback: Function;
+  priority: number;
+};
+
+type HookStorage = Map<string, Hook[]>;
+
+const beforeHooks: HookStorage = new Map();
+const afterHooks: HookStorage = new Map();
 let locked = false;
 
-function isAsyncFunction(func) {
+function isAsyncFunction(func: Function): boolean {
   return func.constructor.name === 'AsyncFunction';
 }
 
-function hook(funcName, callback, priority = 10, position = 'before') {
+function hook(
+  funcName: string,
+  callback: Function,
+  priority: number = 10,
+  position: 'before' | 'after' = 'before'
+): void {
   if (locked) {
     throw new Error(
       'Hooks are locked. You should consider adding hooks using the bootstrap function'
@@ -26,20 +38,31 @@ function hook(funcName, callback, priority = 10, position = 'before') {
     storage.set(funcName, []);
   }
 
-  const hooks = storage.get(funcName);
+  const hooks = storage.get(funcName)!;
   hooks.push({ callback, priority });
   hooks.sort((a, b) => a.priority - b.priority);
 }
 
-function hookAfter(funcName, callback, priority = 10) {
+export function hookAfter(
+  funcName: string,
+  callback: Function,
+  priority: number = 10
+): void {
   hook(funcName, callback, priority, 'after');
 }
 
-function hookBefore(funcName, callback, priority = 10) {
+export function hookBefore(
+  funcName: string,
+  callback: Function,
+  priority: number = 10
+): void {
   hook(funcName, callback, priority, 'before');
 }
 
-function hookable(originalFunction, context) {
+export function hookable<T extends Function>(
+  originalFunction: T,
+  context: any
+): T {
   // Make sure the original function is a named function
   const funcName = originalFunction.name.replace('bound ', '');
   if (!funcName) {
@@ -80,31 +103,21 @@ function hookable(originalFunction, context) {
           });
           return result;
         }
-  });
+  }) as T;
 }
 
-function getHooks() {
+export function getHooks(): { beforeHooks: HookStorage; afterHooks: HookStorage } {
   return {
     beforeHooks,
     afterHooks
   };
 }
 
-function clearHooks() {
+export function clearHooks(): void {
   beforeHooks.clear();
   afterHooks.clear();
 }
 
-function lockHooks() {
+export function lockHooks(): void {
   locked = true;
-}
-
-export {
-  hook,
-  hookAfter,
-  hookBefore,
-  hookable,
-  getHooks,
-  clearHooks,
-  lockHooks
-};
+} 
