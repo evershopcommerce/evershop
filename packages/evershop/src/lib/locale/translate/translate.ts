@@ -5,7 +5,10 @@ let csvData;
 /**
  * This function is used to translate the text form server side, like from middleware. For templating use the _ function
  */
-export function translate(enText, values = {}) {
+export function translate(
+  enText: string,
+  values: Record<string, any> = {}
+): void {
   const translatedText =
     csvData && csvData[enText] !== undefined ? csvData[enText] : enText;
   // Check if the data is null, undefined or empty object

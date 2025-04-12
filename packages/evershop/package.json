@@ -7,29 +7,22 @@
     "bin",
     "src",
     "dist",
-    "tsconfig.json"
+    "types"
   ],
-  "types": "./dist/src",
+  "types": "./types",
   "exports": {
     ".": {
       "types": "./dist/src/*.d.ts",
       "import": "./dist/src/*.js",
       "require": "./dist/src/*.js"
     },
-    "./lib/*": {
-      "types": "./dist/src/lib/*.d.ts",
-      "import": "./dist/src/lib/*.js",
-      "require": "./dist/src/lib/*.js"
+    "./src/*": {
+      "types": "./dist/src/*.d.ts",
+      "import": "./dist/src/*.js",
+      "require": "./dist/src/*.js"
     },
-    "./components/*": {
-      "types": "./dist/src/components/*.d.ts",
-      "import": "./dist/src/components/*.js",
-      "require": "./dist/src/components/*.js"
-    },
-    "./modules/*": {
-      "types": "./dist/src/modules/*.d.ts",
-      "import": "./dist/src/modules/*.js",
-      "require": "./dist/src/modules/*.js"
+    "./types/*": {
+      "types": "./types/*.d.ts"
     }
   },
   "bin": {
@@ -163,13 +156,6 @@
     "webpackbar": "^5.0.2",
     "winston": "^3.3.3",
     "yargs": "^17.7.2",
-    "zero-decimal-currencies": "^1.2.0",
-    "@types/react": "^17.0.1",
-    "@types/react-dom": "^17.0.1",
-    "@types/node": "^16.18.0",
-    "@types/express": "^4.17.17",
-    "@types/lodash": "^4.14.202",
-    "@types/jest": "^29.5.0",
-    "typescript": "^5.8.3"
+    "zero-decimal-currencies": "^1.2.0"
   }
 }

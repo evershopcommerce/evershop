@@ -9,7 +9,7 @@ import { compile } from '../pathToRegexp.js';
  *
  * @return  {string} The Url
  */
-export const buildUrl = (routeId, params = {}) => {
+export const buildUrl = (routeId: string, params: Record<string, any> = {}) => {
   const routes = getRoutes();
   const route = routes.find((r) => r.id === routeId);
   if (route === undefined) {
@@ -21,6 +21,6 @@ export const buildUrl = (routeId, params = {}) => {
     const url = toPath(params);
     return url;
   } catch (e) {
-    throw new Error(`Could not build url for route ${routeId}. ${e.message}`);
+    throw new Error(`Could not build url for route ${routeId}. ${(e as Error).message}`);
   }
 };

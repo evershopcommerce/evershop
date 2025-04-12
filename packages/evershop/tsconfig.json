@@ -2,7 +2,6 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "declarationDir": "./dist/types",
     "baseUrl": ".",
     "paths": {
       "@components/*": [
@@ -14,7 +13,8 @@
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "types/**/*"
   ],
   "exclude": [
     "node_modules",

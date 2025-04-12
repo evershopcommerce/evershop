@@ -5,10 +5,13 @@
  * @param defaultValue - Default value if environment variable is not set
  * @returns The environment variable value or default value
  */
-export function getEnv<T = string | undefined>(
+export function getEnv(
   name: string,
-  defaultValue?: T
-): T {
+  defaultValue?: string
+): string {
   const value = process.env[name];
-  return value !== undefined ? value as T : defaultValue as T;
+  return value !== undefined ? value as string : defaultValue as string;
 } 
+
+const env = getEnv("NODE_ENV", "development");
+env.toUpperCase();

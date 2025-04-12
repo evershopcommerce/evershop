@@ -1,20 +1,23 @@
-export function get<T = any, R = any>(
-  obj: T,
+export function get<T = any, D = any>(
+  obj: Record<string, any> | null | undefined,
   path: string,
-  defaultValue?: R
-): R {
+  defaultValue?: D
+): T | D {
   const pathSplit = path.split('.');
   let current: any = obj;
-  
+
   while (pathSplit.length) {
     if (typeof current !== 'object' || current === null) {
-      return defaultValue as R;
+      return defaultValue as D;
     }
+
     const key = pathSplit.shift()!;
-    if (current[key] === undefined || current[key] === null) {
-      return defaultValue as R;
+    if (!(key in current)) {
+      return defaultValue as D;
     }
+
     current = current[key];
   }
-  return current as R;
-} 
+
+  return (current === undefined || current === null) ? defaultValue as D : current;
+}

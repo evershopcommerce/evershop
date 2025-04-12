@@ -1,6 +1,6 @@
-const normalizePort = require('@evershop/evershop/bin/lib/normalizePort');
-const { buildUrl } = require('./buildUrl');
-const { getConfig } = require('../util/getConfig');
+import { normalizePort } from '@evershop/evershop/bin/lib/normalizePort.js';
+import { buildUrl } from './buildUrl.js';
+import { getConfig } from '../util/getConfig';
 
 const port = normalizePort();
 

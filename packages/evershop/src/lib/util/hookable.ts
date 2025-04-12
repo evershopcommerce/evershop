@@ -3,6 +3,11 @@ type Hook = {
   priority: number;
 };
 
+export enum HookPosition {
+  BEFORE = 'before',
+  AFTER = 'after'
+}
+
 type HookStorage = Map<string, Hook[]>;
 
 const beforeHooks: HookStorage = new Map();
@@ -17,7 +22,7 @@ function hook(
   funcName: string,
   callback: Function,
   priority: number = 10,
-  position: 'before' | 'after' = 'before'
+  position: HookPosition = HookPosition.BEFORE
 ): void {
   if (locked) {
     throw new Error(
@@ -32,7 +37,7 @@ function hook(
     throw new Error('Priority must be a number');
   }
 
-  const storage = position === 'before' ? beforeHooks : afterHooks;
+  const storage = position === HookPosition.BEFORE ? beforeHooks : afterHooks;
 
   if (!storage.has(funcName)) {
     storage.set(funcName, []);
@@ -48,7 +53,7 @@ export function hookAfter(
   callback: Function,
   priority: number = 10
 ): void {
-  hook(funcName, callback, priority, 'after');
+  hook(funcName, callback, priority, HookPosition.AFTER);
 }
 
 export function hookBefore(
@@ -56,7 +61,7 @@ export function hookBefore(
   callback: Function,
   priority: number = 10
 ): void {
-  hook(funcName, callback, priority, 'before');
+  hook(funcName, callback, priority, HookPosition.BEFORE);
 }
 
 export function hookable<T extends Function>(
@@ -106,7 +111,10 @@ export function hookable<T extends Function>(
   }) as T;
 }
 
-export function getHooks(): { beforeHooks: HookStorage; afterHooks: HookStorage } {
+export function getHooks(): {
+  beforeHooks: HookStorage;
+  afterHooks: HookStorage;
+} {
   return {
     beforeHooks,
     afterHooks

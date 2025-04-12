@@ -1,10 +1,14 @@
 import isResolvable from 'is-resolvable';
-import { getConfig } from './getConfig.js';
+import { getConfig } from './getConfig';
 import { generateComponentKey } from '../webpack/util/keyGenerator.js';
-
-export function getEnabledWidgets() {
-  const configuredWidgets = getConfig('widgets', {});
-  const widgets = [];
+import type { Widget } from 'Widget';
+/**
+ * Get the enabled widgets from the configuration
+ * @returns {Widget[]} The enabled widgets
+ */
+export function getEnabledWidgets(): Widget[] {
+  const configuredWidgets = getConfig<Record<string, Widget>>('widgets', {});
+  const widgets: Widget[] = [];
   Object.keys(configuredWidgets).forEach((widget) => {
     // Make sure the enabled = true and the component path is exist
     const { setting_component } = configuredWidgets[widget];
