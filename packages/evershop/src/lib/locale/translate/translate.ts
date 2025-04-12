@@ -1,6 +1,6 @@
 import { loadCsvTranslationFiles } from '../../webpack/loaders/loadTranslationFromCsv.js';
 
-let csvData;
+let csvData: Record<string, unknown>;
 
 /**
  * This function is used to translate the text form server side, like from middleware. For templating use the _ function
@@ -8,12 +8,12 @@ let csvData;
 export function translate(
   enText: string,
   values: Record<string, any> = {}
-): void {
+): string | null {
   const translatedText =
     csvData && csvData[enText] !== undefined ? csvData[enText] : enText;
   // Check if the data is null, undefined or empty object
   if (!values || Object.keys(values).length === 0) {
-    return translatedText;
+    return translatedText as string;
   } else {
     const template = `${translatedText}`;
     return template.replace(/\${(.*?)}/g, (match, key) =>

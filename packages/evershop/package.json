@@ -11,15 +11,10 @@
   ],
   "types": "./types",
   "exports": {
-    ".": {
-      "types": "./dist/src/*.d.ts",
-      "import": "./dist/src/*.js",
-      "require": "./dist/src/*.js"
-    },
-    "./src/*": {
-      "types": "./dist/src/*.d.ts",
-      "import": "./dist/src/*.js",
-      "require": "./dist/src/*.js"
+    "./lib": {
+      "types": "./dist/src/lib/index.d.ts",
+      "import": "./dist/src/lib/index.js",
+      "require": "./dist/src/lib/index.js"
     },
     "./types/*": {
       "types": "./types/*.d.ts"
