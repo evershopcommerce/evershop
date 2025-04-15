@@ -16,12 +16,24 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "lib": ["esnext"],
     "module": "ES2020",
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "allowJs": true,
+    "jsx": "react-jsx",
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "@components/*": [
+        "packages/evershop/src/components/*"
+      ],
+      "@evershop/evershop/src/*": [
+        "packages/evershop/src/*"
+      ]
+    }
   },
+  "include": [
+    "packages/evershop/types"
+  ],
   "exclude": [
     "dist",
     "**/__tests__",

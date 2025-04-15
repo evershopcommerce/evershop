@@ -6,16 +6,14 @@
     "dist"
   ],
   "exports": {
-    ".": "./dist/src/index.js",
-    "./lib": "./dist/src/lib/index.js",
-    "./lib/*": "./dist/src/lib/*.js"
+    "./lib": "./dist/src/lib/index.js"
   },
   "bin": {
     "evershop": "./bin/evershop"
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "prepack": "rimraf dist && npx tsc",
+    "prepack": "rimraf dist && npm run typescript-build",
     "postpack": "node postpack.js",
     "dev": "evershop dev",
     "build": "npm run typescript-build && evershop build",
@@ -25,7 +23,7 @@
     "test": "jest",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch",
-    "typescript-build": "tsc"
+    "typescript-build": "tspc"
   },
   "author": "The Nguyen (https://evershop.io)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
