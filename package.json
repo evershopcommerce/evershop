@@ -64,9 +64,7 @@
     "ts-patch": "^3.3.0",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3",
-    "webpack-bundle-analyzer": "^4.5.0"
-  },
-  "devDependencies": {
+    "webpack-bundle-analyzer": "^4.5.0",
     "typescript-transform-paths": "^3.5.5"
   }
 }
