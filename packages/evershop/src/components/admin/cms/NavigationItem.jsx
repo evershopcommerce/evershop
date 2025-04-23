@@ -5,23 +5,16 @@ import './NavigationItem.scss';
 export default function NavigationItem({ Icon, url, title }) {
   const [isActive, setIsActive] = React.useState(false);
   React.useEffect(() => {
-    const currentUrl = window.location.href;
-    const baseUrl = window.location.origin;
-    const check = currentUrl.split(baseUrl + url);
-    if (check.length === 2 && url.indexOf('products/new') === -1) {
-      // TODO: Fix me
-      if (url.split('/').length === 2) {
-        if (check[1] === '' || !/^\/[a-zA-Z1-9]/.test(check[1])) {
-          setIsActive(true);
-        }
-      } else {
-        setIsActive(true);
-      }
-    }
-  }, []);
+    const currentPath = window.location.pathname.replace(/\/$/, '');
+    const linkPath = new URL(url).pathname.replace(/\/$/, '');
+
+    const isActiveLink = currentPath === linkPath;
+
+    setIsActive(isActiveLink);
+  }, [url]);
 
   return (
-    <li className={isActive ? 'active nav-item' : 'nav-item'}>
+    <li className={isActive ? 'nav-item active' : 'nav-item'}>
       <a href={url} className="flex justify-left">
         <i className="menu-icon">
           <Icon />
