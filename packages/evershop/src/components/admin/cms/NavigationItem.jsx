@@ -14,7 +14,7 @@ export default function NavigationItem({ Icon, url, title }) {
   }, [url]);
 
   return (
-    <li className={isActive ? 'nav-item active' : 'nav-item'}>
+    <li className={isActive ? 'active nav-item' : 'nav-item'}>
       <a href={url} className="flex justify-left">
         <i className="menu-icon">
           <Icon />
