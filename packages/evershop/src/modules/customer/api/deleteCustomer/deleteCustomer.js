@@ -1,7 +1,7 @@
 import {
   OK,
   INTERNAL_SERVER_ERROR
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
+} from '../../../../lib/util/httpStatus.js';
 import deleteCustomer from '../../services/customer/deleteCustomer.js';
 
 // eslint-disable-next-line no-unused-vars

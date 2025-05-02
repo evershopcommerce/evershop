@@ -1,9 +1,9 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { pool } = require('../../../../lib/postgres/connection');
 const {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
+} = require('../../../../lib/util/httpStatus');
 const { select } = require('@evershop/postgres-query-builder');
 const updateProduct = require('../../services/product/updateProduct');
 

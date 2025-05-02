@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import uniqid from 'uniqid';
 import { toast } from 'react-toastify';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import { get } from '../../../../../lib/util/get.js';
 import './ProductMediaManager.scss';
 import Spinner from '@components/common/Spinner';
 

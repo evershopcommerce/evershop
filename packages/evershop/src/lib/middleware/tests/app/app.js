@@ -2,9 +2,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable global-require */
 import path from 'path';
-import { addDefaultMiddlewareFuncs } from '@evershop/evershop/bin/lib/addDefaultMiddlewareFuncs.js';
+import { addDefaultMiddlewareFuncs } from '../../../../../bin/lib/addDefaultMiddlewareFuncs.js';
 import express from 'express';
-import { loadModuleRoutes } from '@evershop/evershop/src/lib/router/loadModuleRoutes.js';
+import { loadModuleRoutes } from '../../../../lib/router/loadModuleRoutes.js';
 import { once } from 'events';
 import { getModuleMiddlewares } from '../../getModuleMiddlewares.js';
 import { getRoutes } from '../../../router/Router.js';

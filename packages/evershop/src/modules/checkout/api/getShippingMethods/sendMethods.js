@@ -1,11 +1,11 @@
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
-import { normalizePort } from '@evershop/evershop/bin/lib/normalizePort.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import { normalizePort } from '../../../../../bin/lib/normalizePort.js';
 import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
+} from '../../../../lib/util/httpStatus.js';
 import axios from 'axios';
 import { select } from '@evershop/postgres-query-builder';
 import { toPrice } from '../../services/toPrice.js';

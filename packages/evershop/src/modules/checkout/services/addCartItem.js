@@ -1,5 +1,5 @@
-import { getValue } from '@evershop/evershop/src/lib/util/registry.js';
-import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import { getValue } from '../../../lib/util/registry.js';
+import { hookable } from '../../../lib/util/hookable.js';
 
 async function addCartItem(cart, productID, qty, context = {}) {
   if (typeof context !== 'object' || context === null) {

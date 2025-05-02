@@ -1,4 +1,4 @@
-import { getCart } from '@evershop/evershop/src/modules/checkout/services/cart/Cart.js';
+import { getCart } from '../../../modules/checkout/services/cart/Cart.js';
 
 /**
  * This function returns a Cart object by ID.

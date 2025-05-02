@@ -1,6 +1,6 @@
 import { select, update } from '@evershop/postgres-query-builder';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { pool } from '../../../../../lib/postgres/connection.js';
+import { error } from '../../../../../lib/log/logger.js';
 
 export default async (request, response, delegate, next) => {
   try {

@@ -1,5 +1,5 @@
 import { execute, parse, validateSchema } from 'graphql';
-import { OK } from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { OK } from '../../../lib/util/httpStatus.js';
 import { getContext } from './contextHelper.js';
 
 export const graphqlMiddleware = (schema) =>

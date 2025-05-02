@@ -3,7 +3,7 @@ import React from 'react';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
 import './UpdatePasswordForm.scss';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 import Button from '@components/common/form/Button';
 
 function Success() {

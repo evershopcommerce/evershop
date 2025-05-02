@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import { select } from '@evershop/postgres-query-builder';
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
-import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
-import { getProductsBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getProductsBaseQuery.js';
-import { ProductCollection } from '@evershop/evershop/src/modules/catalog/services/ProductCollection.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { getProductsBaseQuery } from '../../../../../modules/catalog/services/getProductsBaseQuery.js';
+import { ProductCollection } from '../../../../../modules/catalog/services/ProductCollection.js';
 
 export default {
   Product: {

@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
 import { select, update } from '@evershop/postgres-query-builder';
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
-import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
-import { getValueSync } from '@evershop/evershop/src/lib/util/registry.js';
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
+} from '../../../../lib/util/httpStatus.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
+import { getValueSync } from '../../../../lib/util/registry.js';
+import { error } from '../../../../lib/log/logger.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../setting/services/setting.js';
 import { toPrice } from '../../../checkout/services/toPrice.js';

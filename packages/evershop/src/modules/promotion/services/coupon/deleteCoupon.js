@@ -1,4 +1,4 @@
-import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import { hookable } from '../../../../lib/util/hookable.js';
 import {
   startTransaction,
   commit,
@@ -6,7 +6,7 @@ import {
   select,
   del
 } from '@evershop/postgres-query-builder';
-import { getConnection } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getConnection } from '../../../../lib/postgres/connection.js';
 
 async function deleteCouponData(uuid, connection) {
   await del('coupon').where('uuid', '=', uuid).execute(connection);

@@ -1,6 +1,6 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { pool } = require('../../../../lib/postgres/connection');
 const { select } = require('@evershop/postgres-query-builder');
-const { UNAUTHORIZED } = require('@evershop/evershop/src/lib/util/httpStatus');
+const { UNAUTHORIZED } = require('../../../../lib/util/httpStatus');
 const { setContextValue } = require('../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {

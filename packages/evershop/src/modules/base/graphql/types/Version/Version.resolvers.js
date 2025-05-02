@@ -1,4 +1,4 @@
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { error } from '../../../../../lib/log/logger.js';
 import json from '@evershop/evershop/package.json' with { type: 'json' };
 
 export default {

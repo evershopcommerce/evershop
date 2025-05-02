@@ -6,12 +6,12 @@ import {
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
-import { getConnection } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getConnection } from '../../../../lib/postgres/connection.js';
 import {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
+} from '../../../../lib/util/httpStatus.js';
 import { updateShipmentStatus } from '../../services/updateShipmentStatus.js';
 
 export default async (request, response, delegate, next) => {

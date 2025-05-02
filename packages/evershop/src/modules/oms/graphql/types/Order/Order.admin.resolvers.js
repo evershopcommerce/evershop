@@ -1,5 +1,5 @@
 import { select } from '@evershop/postgres-query-builder';
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { getOrdersBaseQuery } from '../../../services/getOrdersBaseQuery.js';
 import { OrderCollection } from '../../../services/OrderCollection.js';
 

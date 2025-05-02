@@ -1,4 +1,4 @@
-const normalizePort = require('@evershop/evershop/bin/lib/normalizePort');
+const normalizePort = require('../../../bin/lib/normalizePort');
 const { buildUrl } = require('./buildUrl');
 const { getConfig } = require('../util/getConfig');
 

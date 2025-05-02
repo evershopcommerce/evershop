@@ -1,13 +1,13 @@
 const stripePayment = require('stripe');
 const smallestUnit = require('zero-decimal-currencies');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const { getConfig } = require('../../../../lib/util/getConfig');
 const {
   OK,
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+} = require('../../../../lib/util/httpStatus');
+const { error } = require('../../../../lib/log/logger');
+const { pool } = require('../../../../lib/postgres/connection');
 const {
   select,
   getConnection,

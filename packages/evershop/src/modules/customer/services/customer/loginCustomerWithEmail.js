@@ -1,6 +1,6 @@
-import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { comparePassword } from '@evershop/evershop/src/lib/util/passwordHelper.js';
+import { translate } from '../../../../lib/locale/translate/translate.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { comparePassword } from '../../../../lib/util/passwordHelper.js';
 import { select } from '@evershop/postgres-query-builder';
 /**
  * Login a customer with email and password. This function must be accessed from the request object (request.loginCustomerWithEmail(email, password, callback))

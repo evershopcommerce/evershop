@@ -5,11 +5,11 @@ import {
   commit,
   startTransaction
 } from '@evershop/postgres-query-builder';
-import { getConnection } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getConnection } from '../../../../lib/postgres/connection.js';
 import {
   OK,
   INTERNAL_SERVER_ERROR
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
+} from '../../../../lib/util/httpStatus.js';
 
 // eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate, next) => {

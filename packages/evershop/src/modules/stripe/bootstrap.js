@@ -1,6 +1,6 @@
 import config from 'config';
-import { addProcessor } from '@evershop/evershop/src/lib/util/registry.js';
-import { hookAfter } from '@evershop/evershop/src/lib/util/hookable.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { hookAfter } from '../../lib/util/hookable.js';
 import { getSetting } from '../setting/services/setting.js';
 import { cancelPaymentIntent } from './services/cancelPayment.js';
 

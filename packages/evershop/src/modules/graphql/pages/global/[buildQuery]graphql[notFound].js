@@ -5,7 +5,7 @@ import {
   NoUnusedFragmentsRule,
   validateSchema
 } from 'graphql';
-import { debug } from '@evershop/evershop/src/lib/log/logger.js';
+import { debug } from '../../../../lib/log/logger.js';
 import adminSchema from '../../services/buildSchema.js';
 import storeFrontSchema from '../../services/buildStoreFrontSchema.js';
 import { getContext } from '../../services/contextHelper.js';

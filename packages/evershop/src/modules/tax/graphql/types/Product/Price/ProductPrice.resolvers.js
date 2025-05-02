@@ -1,4 +1,4 @@
-import { toPrice } from '@evershop/evershop/src/modules/checkout/services/toPrice.js';
+import { toPrice } from '../../../../../../modules/checkout/services/toPrice.js';
 
 export default {
   Product: {

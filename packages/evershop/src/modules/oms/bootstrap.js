@@ -1,5 +1,5 @@
 import config from 'config';
-import { merge } from '@evershop/evershop/src/lib/util/merge.js';
+import { merge } from '../../lib/util/merge.js';
 import registerDefaultOrderCollectionFilters from './services/registerDefaultOrderCollectionFilters.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { addProcessor } from '../../lib/util/registry.js';

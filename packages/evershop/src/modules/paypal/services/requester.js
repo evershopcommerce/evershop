@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
 import { getApiBaseUrl } from './getApiBaseUrl.js';
 import { getSetting } from '../../setting/services/setting.js';
 

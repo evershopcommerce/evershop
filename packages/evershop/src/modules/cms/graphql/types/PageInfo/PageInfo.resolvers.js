@@ -1,5 +1,5 @@
-import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
-import { get } from '@evershop/evershop/src/lib/util/get.js';
+import { translate } from '../../../../../lib/locale/translate/translate.js';
+import { get } from '../../../../../lib/util/get.js';
 import { select } from '@evershop/postgres-query-builder';
 
 export default {

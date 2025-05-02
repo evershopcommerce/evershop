@@ -3,7 +3,7 @@ import React from 'react';
 import EmailIcon from '@heroicons/react/outline/MailIcon';
 import User from '@heroicons/react/outline/UserIcon';
 import Area from '@components/common/Area';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 export default function AccountDetails({ account }) {
   return (

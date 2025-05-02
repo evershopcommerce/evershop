@@ -1,10 +1,7 @@
-import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import {
-  getValue,
-  getValueSync
-} from '@evershop/evershop/src/lib/util/registry.js';
-import { OPERATION_MAP } from '@evershop/evershop/src/lib/util/filterOperationMapp.js';
+import { camelCase } from '../../../lib/util/camelCase.js';
+import { pool } from '../../../lib/postgres/connection.js';
+import { getValue, getValueSync } from '../../../lib/util/registry.js';
+import { OPERATION_MAP } from '../../../lib/util/filterOperationMapp.js';
 
 export class AttributeGroupCollection {
   constructor(baseQuery) {

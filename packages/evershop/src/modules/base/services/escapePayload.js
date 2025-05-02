@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import secret from '@evershop/evershop/src/modules/base/services/secret.js';
+import secret from '../../../modules/base/services/secret.js';
 
 function escapeHtmlTags(str) {
   const regex = /<([a-zA-Z]+)(?:\s[^>]*)?>|<\/([a-zA-Z]+)>/g;

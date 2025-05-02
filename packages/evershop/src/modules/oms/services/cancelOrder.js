@@ -1,7 +1,7 @@
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
-import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import { error } from '../../../lib/log/logger.js';
+import { pool } from '../../../lib/postgres/connection.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
+import { hookable } from '../../../lib/util/hookable.js';
 import {
   select,
   insert,

@@ -1,5 +1,5 @@
-import { OPERATION_MAP } from '@evershop/evershop/src/lib/util/filterOperationMapp.js';
-import { getValueSync } from '@evershop/evershop/src/lib/util/registry.js';
+import { OPERATION_MAP } from '../../../lib/util/filterOperationMapp.js';
+import { getValueSync } from '../../../lib/util/registry.js';
 
 export async function registerDefaultCouponCollectionFilters() {
   // List of default supported filters

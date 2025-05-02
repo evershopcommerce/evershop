@@ -1,4 +1,4 @@
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import { execute } from '@evershop/postgres-query-builder';
 
 export default async function buildUrlReWrite(data) {

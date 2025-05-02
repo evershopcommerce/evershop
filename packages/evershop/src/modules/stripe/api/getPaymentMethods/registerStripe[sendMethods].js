@@ -1,4 +1,4 @@
-import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getSetting } from '../../../setting/services/setting.js';
 
 // eslint-disable-next-line no-unused-vars

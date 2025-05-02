@@ -1,6 +1,6 @@
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import { v4 as uuidv4 } from 'uuid';
-import { getEnabledWidgets } from '@evershop/evershop/src/lib/util/getEnabledWidgets.js';
+import { getEnabledWidgets } from '../../../../lib/util/getEnabledWidgets.js';
 import { select } from '@evershop/postgres-query-builder';
 
 const newUUID = uuidv4();

@@ -1,6 +1,6 @@
 node_modules
 .env
-./dist
+dist
 /extensions/*
 themes
 .idea/*

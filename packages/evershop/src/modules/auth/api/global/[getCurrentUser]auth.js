@@ -1,4 +1,4 @@
-import { UNAUTHORIZED } from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { UNAUTHORIZED } from '../../../../lib/util/httpStatus.js';
 
 /**
  * This is the session based authentication middleware.

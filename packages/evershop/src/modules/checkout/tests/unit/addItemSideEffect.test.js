@@ -6,9 +6,9 @@ const { Cart } = require('../../services/cart/Cart');
 const {
   hookAfter,
   hookBefore
-} = require('@evershop/evershop/src/lib/util/hookable');
+} = require('../../../../lib/util/hookable');
 const { products } = require('../products');
-const { addProcessor } = require('@evershop/evershop/src/lib/util/registry');
+const { addProcessor } = require('../../../../lib/util/registry');
 // Default tax configuration
 config.util.setModuleDefaults('pricing', {
   tax: {

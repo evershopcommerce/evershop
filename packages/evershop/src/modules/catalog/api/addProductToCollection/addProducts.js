@@ -1,10 +1,10 @@
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
-import { getConnection } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { error } from '../../../../lib/log/logger.js';
+import { getConnection } from '../../../../lib/postgres/connection.js';
 import {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
+} from '../../../../lib/util/httpStatus.js';
 import {
   startTransaction,
   rollback,

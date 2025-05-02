@@ -1,7 +1,7 @@
 import uniqid from 'uniqid';
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
-import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
-import { getEnabledWidgets } from '@evershop/evershop/src/lib/util/getEnabledWidgets.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { getEnabledWidgets } from '../../../../../lib/util/getEnabledWidgets.js';
 import { select } from '@evershop/postgres-query-builder';
 import { getWidgetsBaseQuery } from '../../../services/getWidgetsBaseQuery.js';
 import { WidgetCollection } from '../../../services/WidgetCollection.js';
@@ -49,6 +49,7 @@ export default {
         : null;
     },
     textWidget(_, { text, className }) {
+      return { text: 'test', className };
       const replacements = {
         '&lt;': '<',
         '&gt;': '>'
@@ -56,6 +57,7 @@ export default {
       const jsonText = text
         ? text.replace(/&lt;|&gt;/g, (match) => replacements[match])
         : '[]';
+      console.log(text);
       return { text: JSON.parse(jsonText), className };
     },
     basicMenuWidget: async (_, { settings }, { pool }) => {

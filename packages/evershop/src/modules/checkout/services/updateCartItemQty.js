@@ -1,4 +1,4 @@
-import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import { hookable } from '../../../lib/util/hookable.js';
 
 async function updateCartItemQty(cart, uuid, qty, action, context = {}) {
   if (['increase', 'decrease'].indexOf(action) === -1) {

@@ -1,7 +1,7 @@
 import {
   INTERNAL_SERVER_ERROR,
   OK
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
+} from '../../../../../lib/util/httpStatus.js';
 
 export default (request, response, delegate, next) => {
   try {

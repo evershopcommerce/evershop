@@ -1,4 +1,4 @@
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
+const { CONSTANTS } = require('../../../../../lib/helpers');
 const { validatePath } = require('../../validatePath');
 
 describe('Test validatePath', () => {

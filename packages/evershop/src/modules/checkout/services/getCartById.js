@@ -1,5 +1,5 @@
 const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { pool } = require('../../../lib/postgres/connection');
 const { getCart } = require('./cart/Cart');
 
 module.exports = exports;

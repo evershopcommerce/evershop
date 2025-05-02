@@ -1,10 +1,10 @@
 const { insert, select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { pool } = require('../../../../lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+} = require('../../../../lib/util/httpStatus');
+const { error } = require('../../../../lib/log/logger');
 const crypto = require('crypto');
 
 // eslint-disable-next-line no-unused-vars

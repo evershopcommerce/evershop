@@ -1,7 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { defaultPaginationFilters } from '@evershop/evershop/src/lib/util/defaultPaginationFilters.js';
-import { addProcessor } from '@evershop/evershop/src/lib/util/registry.js';
+import { pool } from '../../lib/postgres/connection.js';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
+import { addProcessor } from '../../lib/util/registry.js';
 import { registerCartItemPromotionFields } from './services/registerCartItemPromotionFields.js';
 import { registerCartPromotionFields } from './services/registerCartPromotionFields.js';
 import { registerDefaultCalculators } from './services/registerDefaultCalculators.js';

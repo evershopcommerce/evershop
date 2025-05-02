@@ -1,5 +1,5 @@
 import { request } from 'express';
-import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
+import { hookable } from '../../lib/util/hookable.js';
 import loginUserWithEmail from './services/loginUserWithEmail.js';
 import logoutUser from './services/logoutUser.js';
 

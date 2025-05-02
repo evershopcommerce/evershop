@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import { insert, select } from '@evershop/postgres-query-builder';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
+} from '../../../../lib/util/httpStatus.js';
 import { getCartByUUID } from '../../services/getCartByUUID.js';
 import { saveCart } from '../../services/saveCart.js';
 import { validateAddress } from '../../../customer/services/customer/address/addressValidator.js';

@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
-import { getAttributesBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getAttributesBaseQuery.js';
-import { getAttributeGroupsBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getAttributeGroupsBaseQuery.js';
-import { AttributeCollection } from '@evershop/evershop/src/modules/catalog/services/AttributeCollection.js';
-import { AttributeGroupCollection } from '@evershop/evershop/src/modules/catalog/services/AttributeGroupCollection.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { getAttributesBaseQuery } from '../../../../../modules/catalog/services/getAttributesBaseQuery.js';
+import { getAttributeGroupsBaseQuery } from '../../../../../modules/catalog/services/getAttributeGroupsBaseQuery.js';
+import { AttributeCollection } from '../../../../../modules/catalog/services/AttributeCollection.js';
+import { AttributeGroupCollection } from '../../../../../modules/catalog/services/AttributeGroupCollection.js';
 
 export default {
   Query: {

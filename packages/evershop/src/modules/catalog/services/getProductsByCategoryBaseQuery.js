@@ -1,6 +1,6 @@
 import { execute } from '@evershop/postgres-query-builder';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { getProductsBaseQuery } from '@evershop/evershop/src/modules/catalog/services/getProductsBaseQuery.js';
+import { pool } from '../../../lib/postgres/connection.js';
+import { getProductsBaseQuery } from '../../../modules/catalog/services/getProductsBaseQuery.js';
 
 export const getProductsByCategoryBaseQuery = async (
   categoryId,

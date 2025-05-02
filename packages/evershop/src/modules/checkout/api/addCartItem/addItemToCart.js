@@ -3,8 +3,8 @@ const {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+} = require('../../../../lib/util/httpStatus');
+const { pool } = require('../../../../lib/postgres/connection');
 const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 const { saveCart } = require('../../services/saveCart');

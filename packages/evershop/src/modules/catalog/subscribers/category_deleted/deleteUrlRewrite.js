@@ -1,5 +1,5 @@
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { error } from '../../../../lib/log/logger.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import { execute, select } from '@evershop/postgres-query-builder';
 
 export default async function deleteUrlReWrite(data) {

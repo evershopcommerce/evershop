@@ -1,7 +1,9 @@
 import config from 'config';
-import { merge } from '@evershop/evershop/src/lib/util/merge.js';
-import { addProcessor } from '@evershop/evershop/src/lib/util/registry.js';
-import { defaultPaginationFilters } from '@evershop/evershop/src/lib/util/defaultPaginationFilters.js';
+import path from 'path';
+import { CONSTANTS } from '../../lib/helpers.js';
+import { merge } from '../../lib/util/merge.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import registerDefaultProductCollectionFilters from './services/registerDefaultProductCollectionFilters.js';
 import registerDefaultCategoryCollectionFilters from './services/registerDefaultCategoryCollectionFilters.js';
 import registerDefaultCollectionCollectionFilters from './services/registerDefaultCollectionCollectionFilters.js';
@@ -173,10 +175,14 @@ export default () => {
   // Register default widgets
   const widgets = {
     collection_products: {
-      setting_component:
-        '@evershop/evershop/src/components/admin/widgets/CollectionProductsSetting.jsx',
-      component:
-        '@evershop/evershop/src/components/frontStore/widgets/CollectionProducts.jsx',
+      setting_component: path.resolve(
+        CONSTANTS.LIBPATH,
+        '../components/admin/widgets/CollectionProductsSetting.jsx'
+      ),
+      component: path.resolve(
+        CONSTANTS.LIBPATH,
+        '../components/frontStore/widgets/CollectionProducts.jsx'
+      ),
       name: 'Collection products',
       description: 'A list of products from a collection',
       default_settings: {

@@ -1,7 +1,7 @@
 const {
   OK,
   INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
+} = require('../../../../lib/util/httpStatus');
 const deleteCollection = require('../../services/collection/deleteCollection');
 
 // eslint-disable-next-line no-unused-vars

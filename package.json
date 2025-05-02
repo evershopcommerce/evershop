@@ -1,27 +1,19 @@
 {
-  "name": "evershop",
-  "version": "1.0.0-beta",
+  "name": "eversh2op",
+  "version": "1.2.2",
   "type": "module",
   "description": "A shopping cart platform with Express, React and Postgres",
-  "files": [
-    "bin",
-    "src",
-    "dist",
-    ".babelrc",
-    "babel.config.js"
-  ],
-  "bin": {
-    "evershop": "./bin/evershop"
-  },
   "workspaces": [
     "packages/*",
     "extensions/*"
   ],
   "scripts": {
-    "dev": "evershop dev",
+    "dev": "tsx watch --tsconfig ./packages/evershop/tsconfig.json ./packages/evershop/bin/dev/index.ts",
     "setup": "evershop install",
-    "build": "evershop build",
+    "build": "rimraf packages/evershop/dist && tsc -p packages/evershop/tsconfig.json && copyfiles -u 3 \"packages/evershop/src/**/*.{graphql,scss,json}\" packages/evershop/dist && node packages/evershop/dist/bin/evershop.js build",
+    "build-no-compile": "node packages/evershop/dist/bin/evershop.js build",
     "start": "evershop start",
+    "start:watch": "tsx watch --tsconfig ./packages/evershop/tsconfig.json ./packages/evershop/src/bin/start/index.ts",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",
     "start:debug": "evershop start --debug",
@@ -56,7 +48,6 @@
   "dependencies": {
     "@types/node": "^22.13.14",
     "copyfiles": "^2.4.1",
-    "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }
 }

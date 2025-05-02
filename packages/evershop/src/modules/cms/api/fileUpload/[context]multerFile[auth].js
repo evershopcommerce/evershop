@@ -1,4 +1,4 @@
-import { INVALID_PAYLOAD } from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
 import { getMulter } from '../../services/getMulter.js';
 
 const upload = getMulter();

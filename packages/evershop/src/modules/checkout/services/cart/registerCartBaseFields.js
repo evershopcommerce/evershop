@@ -1,14 +1,14 @@
-import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
 import { v4 as uuidv4 } from 'uuid';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import { select } from '@evershop/postgres-query-builder';
 import axios from 'axios';
-import { normalizePort } from '@evershop/evershop/bin/lib/normalizePort.js';
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
-import { getTaxPercent } from '@evershop/evershop/src/modules/tax/services/getTaxPercent.js';
-import { calculateTaxAmount } from '@evershop/evershop/src/modules/tax/services/calculateTaxAmount.js';
-import { getSetting } from '@evershop/evershop/src/modules/setting/services/setting.js';
-import { getTaxRates } from '@evershop/evershop/src/modules/tax/services/getTaxRates.js';
+import { normalizePort } from '../../../../bin/lib/normalizePort.js';
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import { getTaxPercent } from '../../../../modules/tax/services/getTaxPercent.js';
+import { calculateTaxAmount } from '../../../../modules/tax/services/calculateTaxAmount.js';
+import { getSetting } from '../../../../modules/setting/services/setting.js';
+import { getTaxRates } from '../../../../modules/tax/services/getTaxRates.js';
 import { toPrice } from '../toPrice.js';
 
 export function registerCartBaseFields(fields) {

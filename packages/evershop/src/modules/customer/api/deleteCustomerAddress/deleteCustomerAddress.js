@@ -2,9 +2,9 @@ import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
+} from '../../../../lib/util/httpStatus.js';
 import { select } from '@evershop/postgres-query-builder';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import deleteCustomerAddress from '../../services/customer/address/deleteCustomerAddress.js';
 
 // eslint-disable-next-line no-unused-vars

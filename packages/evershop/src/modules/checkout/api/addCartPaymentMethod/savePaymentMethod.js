@@ -3,7 +3,7 @@ import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
+} from '../../../../lib/util/httpStatus.js';
 import { getCartByUUID } from '../../services/getCartByUUID.js';
 import { saveCart } from '../../services/saveCart.js';
 

@@ -7,7 +7,7 @@ import Area from '@components/common/Area';
 import { Country } from '@components/frontStore/customer/address/addressForm/Country';
 import { ProvinceAndPostcode } from '@components/frontStore/customer/address/addressForm/ProvinceAndPostcode';
 import { NameAndTelephone } from '@components/frontStore/customer/address/addressForm/NameAndTelephone';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 function isFieldRequired(schema, fieldName) {
   if (schema && Array.isArray(schema.required)) {

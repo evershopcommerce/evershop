@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './CategoryFilter.scss';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 export function CategoryFilter({ currentFilters, categories, updateFilter }) {
   const onChange = (e, categoryId) => {

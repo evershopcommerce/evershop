@@ -10,7 +10,7 @@ import {
 import {
   pool,
   getConnection
-} from '@evershop/evershop/src/lib/postgres/connection.js';
+} from '../../../lib/postgres/connection.js';
 
 /**
  * @param {Cart} cart

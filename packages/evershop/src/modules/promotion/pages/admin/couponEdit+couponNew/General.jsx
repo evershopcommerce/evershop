@@ -3,7 +3,7 @@ import React from 'react';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
 import { Toggle } from '@components/common/form/fields/Toggle';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import { get } from '../../../../../lib/util/get.js';
 import { Setting } from '@components/admin/promotion/couponEdit/Setting';
 
 export default function General({ coupon = {} }) {

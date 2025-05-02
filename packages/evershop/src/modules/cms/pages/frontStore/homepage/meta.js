@@ -1,4 +1,4 @@
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../../setting/services/setting.js';
 

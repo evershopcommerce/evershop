@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useAppState } from '@components/common/context/app';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import { get } from '../../../../../../lib/util/get.js';
 
 export function ItemOptions({ options = [] }) {
   if (options.length === 0) {

@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { error } from '../../lib/log/logger.js';
 
 async function loadModuleSubscribers(modulePath) {
   const subscribers = [];

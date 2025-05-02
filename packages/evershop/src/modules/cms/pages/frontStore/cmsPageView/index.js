@@ -1,4 +1,4 @@
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../../../lib/postgres/connection.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
 

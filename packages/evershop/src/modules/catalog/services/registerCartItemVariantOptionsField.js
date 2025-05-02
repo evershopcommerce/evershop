@@ -1,4 +1,4 @@
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../lib/postgres/connection.js';
 import { select } from '@evershop/postgres-query-builder';
 
 export const registerCartItemVariantOptionsField = (fields) => {

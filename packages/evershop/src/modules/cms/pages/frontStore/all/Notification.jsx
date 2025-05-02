@@ -1,6 +1,6 @@
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import { get } from '../../../../../lib/util/get.js';
 import { useAppState } from '@components/common/context/app';
 import './Notification.scss';
 

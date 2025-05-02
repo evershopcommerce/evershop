@@ -1,5 +1,5 @@
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { pool } from '../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../lib/router/buildUrl.js';
 import { select } from '@evershop/postgres-query-builder';
 
 export const registerCartItemProductUrlField = (fields) => {

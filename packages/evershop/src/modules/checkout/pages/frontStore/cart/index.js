@@ -1,4 +1,4 @@
-import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
+import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
 // eslint-disable-next-line no-unused-vars

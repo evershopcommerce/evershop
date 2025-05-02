@@ -1,5 +1,5 @@
-import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
-import { getValue } from '@evershop/evershop/src/lib/util/registry.js';
+import { hookable } from '../../../../../lib/util/hookable.js';
+import { getValue } from '../../../../../lib/util/registry.js';
 import {
   startTransaction,
   commit,
@@ -7,7 +7,7 @@ import {
   update,
   select
 } from '@evershop/postgres-query-builder';
-import { getConnection } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { getConnection } from '../../../../../lib/postgres/connection.js';
 import { validateAddress } from './addressValidator.js';
 
 async function updateCustomerAddressData(uuid, data, connection) {

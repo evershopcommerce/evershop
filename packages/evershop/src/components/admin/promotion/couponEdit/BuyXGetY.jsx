@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import PubSub from 'pubsub-js';
 import { Field } from '@components/common/form/Field';
-import { FORM_FIELD_UPDATED } from '@evershop/evershop/src/lib/util/events';
+import { FORM_FIELD_UPDATED } from '../../../../lib/util/events';
 import { useModal } from '@components/common/modal/useModal';
 import ProductSkuSelector from './ProductSkuSelector';
 

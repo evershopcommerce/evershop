@@ -1,7 +1,7 @@
 import {
   INVALID_PAYLOAD,
   OK
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
+} from '../../../../lib/util/httpStatus.js';
 import { uploadFile } from '../../services/uploadFile.js';
 
 // eslint-disable-next-line no-unused-vars

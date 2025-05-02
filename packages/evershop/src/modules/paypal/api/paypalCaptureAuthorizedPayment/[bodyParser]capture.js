@@ -1,12 +1,12 @@
 import { select, insert } from '@evershop/postgres-query-builder';
 import { AxiosError } from 'axios';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
+} from '../../../../lib/util/httpStatus.js';
+import { error } from '../../../../lib/log/logger.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { createAxiosInstance } from '../../services/requester.js';
 

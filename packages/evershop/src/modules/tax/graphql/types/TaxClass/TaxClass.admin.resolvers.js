@@ -1,7 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { pool } from '../../../../../lib/postgres/connection.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { TaxClassCollection } from '../../../services/TaxClassCollection.js';
 
 export default {

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import isEqualWith from 'lodash.isequalwith';
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { error } from '../../../../lib/log/logger.js';
 
 export class DataObject {
   #fields;

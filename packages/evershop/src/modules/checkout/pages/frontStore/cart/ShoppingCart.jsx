@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '@components/common/Area';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import { get } from '../../../../../lib/util/get.js';
 import { useAppState } from '@components/common/context/app';
 import Items from '@components/frontStore/checkout/cart/items/Items';
 import { Empty } from '@components/frontStore/checkout/cart/Empty';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 function Title({ title }) {
   const items = get(useAppState(), 'cart.items', []);

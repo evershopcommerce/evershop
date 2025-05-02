@@ -1,5 +1,5 @@
-import { emit } from '@evershop/evershop/src/lib/event/emitter.js';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { emit } from '../../../../lib/event/emitter.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import { select } from '@evershop/postgres-query-builder';
 
 // eslint-disable-next-line no-unused-vars

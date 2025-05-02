@@ -1,7 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
-import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
-import { getCartByUUID } from '@evershop/evershop/src/modules/checkout/services/getCartByUUID.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { getCartByUUID } from '../../../../../modules/checkout/services/getCartByUUID.js';
 
 export default {
   Query: {

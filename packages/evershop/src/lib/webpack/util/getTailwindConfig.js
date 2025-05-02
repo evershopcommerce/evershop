@@ -6,10 +6,10 @@ import { CONSTANTS } from '../../helpers.js';
 export async function getTailwindConfig(route) {
   const defaultTailwindConfig = route.isAdmin
     ? await import(
-        '@evershop/evershop/src/modules/cms/services/tailwind.admin.config.js'
+        '../../../modules/cms/services/tailwind.admin.config.js'
       )
     : await import(
-        '@evershop/evershop/src/modules/cms/services/tailwind.frontStore.config.js'
+        '../../../modules/cms/services/tailwind.frontStore.config.js'
       );
 
   let tailwindConfig = {};

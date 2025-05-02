@@ -1,5 +1,5 @@
 const { execute, select } = require('@evershop/postgres-query-builder');
-const { warning } = require('@evershop/evershop/src/lib/log/logger');
+const { warning } = require('../../../lib/log/logger');
 const { resolveOrderStatus } = require('../services/updateOrderStatus');
 
 // eslint-disable-next-line no-multi-assign

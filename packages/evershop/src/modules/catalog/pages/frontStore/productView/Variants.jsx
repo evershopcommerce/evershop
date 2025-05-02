@@ -2,10 +2,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import PubSub from 'pubsub-js';
-import { FORM_VALIDATED } from '@evershop/evershop/src/lib/util/events';
+import { FORM_VALIDATED } from '../../../../../lib/util/events';
 import './Variants.scss';
 import { useAppDispatch } from '@components/common/context/app';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 const processAttributes = (vs, attributes, currentUrl) => {
   const selectedOptions = [];

@@ -10,7 +10,7 @@ import { BillingAddress } from '@components/frontStore/checkout/checkout/payment
 import { useCheckout } from '@components/common/context/checkout';
 import { Field } from '@components/common/form/Field';
 import Button from '@components/common/form/Button';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../../lib/locale/translate/index.js';
 import Spinner from '@components/common/Spinner';
 
 const QUERY = `

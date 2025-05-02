@@ -2,7 +2,7 @@ process.env.ALLOW_CONFIG_MUTATIONS = true;
 const {
   addProcessor,
   addFinalProcessor
-} = require('@evershop/evershop/src/lib/util/registry');
+} = require('../../../lib/util/registry');
 const {
   registerCartBaseFields
 } = require('../services/cart/registerCartBaseFields');

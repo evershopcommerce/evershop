@@ -1,7 +1,7 @@
 import uniqid from 'uniqid';
 import { value } from '@evershop/postgres-query-builder';
-import { OPERATION_MAP } from '@evershop/evershop/src/lib/util/filterOperationMapp.js';
-import { getValueSync } from '@evershop/evershop/src/lib/util/registry.js';
+import { OPERATION_MAP } from '../../../lib/util/filterOperationMapp.js';
+import { getValueSync } from '../../../lib/util/registry.js';
 
 export default async function registerDefaultProductCollectionFilters() {
   // List of default supported filters

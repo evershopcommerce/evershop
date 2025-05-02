@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { get } from '@evershop/evershop/src/lib/util/get.js';
+import { get } from '../../../lib/util/get.js';
 
 export function getContextValue(
   request,

@@ -1,5 +1,5 @@
 import { select } from '@evershop/postgres-query-builder';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../lib/postgres/connection.js';
 import { getSetting } from '../../setting/services/setting.js';
 import { getTaxPercent } from './getTaxPercent.js';
 import { getTaxRates } from './getTaxRates.js';

@@ -1,6 +1,6 @@
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import { select } from '@evershop/postgres-query-builder';
-import { UNAUTHORIZED } from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { UNAUTHORIZED } from '../../../../lib/util/httpStatus.js';
 import { setContextValue } from '../../../graphql/services/contextHelper.js';
 
 export default async (request, response, delegate, next) => {

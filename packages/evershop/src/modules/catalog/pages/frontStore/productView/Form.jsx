@@ -10,7 +10,7 @@ import { Field } from '@components/common/form/Field';
 import Button from '@components/common/form/Button';
 import './Form.scss';
 import { useAppDispatch, useAppState } from '@components/common/context/app';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 
 function ToastMessage({ thumbnail, name, qty, count, cartUrl, toastId }) {

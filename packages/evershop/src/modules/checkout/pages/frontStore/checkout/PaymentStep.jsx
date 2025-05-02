@@ -5,7 +5,7 @@ import {
   useCheckoutStepsDispatch
 } from '@components/common/context/checkoutSteps';
 import { StepContent } from '@components/frontStore/checkout/checkout/payment/paymentStep/StepContent';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 export default function PaymentStep({
   cart,

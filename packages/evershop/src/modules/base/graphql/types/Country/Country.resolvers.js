@@ -1,6 +1,6 @@
-import { contries } from '@evershop/evershop/src/lib/locale/countries.js';
-import { provinces } from '@evershop/evershop/src/lib/locale/provinces.js';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { contries } from '../../../../../lib/locale/countries.js';
+import { provinces } from '../../../../../lib/locale/provinces.js';
+import { pool } from '../../../../../lib/postgres/connection.js';
 import { select } from '@evershop/postgres-query-builder';
 
 export default {

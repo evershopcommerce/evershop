@@ -1,5 +1,5 @@
-import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
-import { getValueSync } from '@evershop/evershop/src/lib/util/registry.js';
+import { hookable } from '../../../lib/util/hookable.js';
+import { getValueSync } from '../../../lib/util/registry.js';
 
 function addNotificationMessage(request, message, type = 'info') {
   const notification = {

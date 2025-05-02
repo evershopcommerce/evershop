@@ -1,10 +1,10 @@
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+} from '../../../../lib/util/httpStatus.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import { select } from '@evershop/postgres-query-builder';
 import updateCustomerAddress from '../../services/customer/address/updateCustomerAddress.js';
 

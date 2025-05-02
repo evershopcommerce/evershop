@@ -1,5 +1,5 @@
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { comparePassword } from '@evershop/evershop/src/lib/util/passwordHelper.js';
+import { pool } from '../../../lib/postgres/connection.js';
+import { comparePassword } from '../../../lib/util/passwordHelper.js';
 import { select } from '@evershop/postgres-query-builder';
 
 /**

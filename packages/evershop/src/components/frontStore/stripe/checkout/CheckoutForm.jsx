@@ -14,7 +14,7 @@ import './CheckoutForm.scss';
 import RenderIfTrue from '@components/common/RenderIfTrue';
 import Spinner from '@components/common/Spinner';
 import { toast } from 'react-toastify';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../lib/locale/translate/index.js';
 import TestCards from './TestCards';
 
 const cartQuery = `

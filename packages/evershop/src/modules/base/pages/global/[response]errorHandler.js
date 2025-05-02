@@ -1,6 +1,6 @@
 import { encode } from 'html-entities';
-import { INTERNAL_SERVER_ERROR } from '@evershop/evershop/src/lib/util/httpStatus.js';
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
+import { error } from '../../../../lib/log/logger.js';
 
 // eslint-disable-next-line no-unused-vars
 export default async (err, request, response, delegate, next) => {

@@ -6,7 +6,7 @@ import './Filter.scss';
 import { PriceFilter } from '@components/frontStore/catalog/categoryView/filter/PriceFilter';
 import { AttributeFilter } from '@components/frontStore/catalog/categoryView/filter/AttributeFilter';
 import { CategoryFilter } from '@components/frontStore/catalog/categoryView/filter/CategoryFilter';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 export const FilterDispatch = React.createContext();
 

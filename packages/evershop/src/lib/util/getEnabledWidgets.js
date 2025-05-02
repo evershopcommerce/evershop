@@ -1,4 +1,4 @@
-import isResolvable from 'is-resolvable';
+import { isResolvable } from './isResolvable.js';
 import { getConfig } from './getConfig.js';
 import { generateComponentKey } from '../webpack/util/keyGenerator.js';
 

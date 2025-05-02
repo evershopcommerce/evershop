@@ -1,8 +1,8 @@
 import { select } from '@evershop/postgres-query-builder';
-import { contries } from '@evershop/evershop/src/lib/locale/countries.js';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
+import { contries } from '../../../../../lib/locale/countries.js';
+import { pool } from '../../../../../lib/postgres/connection.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 
 export default {
   Query: {

@@ -1,4 +1,4 @@
-import { OK } from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { OK } from '../../../../lib/util/httpStatus.js';
 import { deleteFile } from '../../services/deleteFile.js';
 
 // eslint-disable-next-line no-unused-vars

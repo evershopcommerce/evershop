@@ -3,10 +3,10 @@ import {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
+} from '../../../../lib/util/httpStatus.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { translate } from '../../../../lib/locale/translate/translate.js';
+import { error } from '../../../../lib/log/logger.js';
 import {
   setContextValue,
   getContextValue

@@ -1,5 +1,5 @@
-import { getEnv } from '@evershop/evershop/src/lib/util/getEnv.js';
-import { UNAUTHORIZED } from '@evershop/evershop/src/lib/util/httpStatus.js';
+import { getEnv } from '../../../../lib/util/getEnv';
+import { UNAUTHORIZED } from '../../../../lib/util/httpStatus.js';
 
 export default (request, response, delegate, next) => {
   const { currentRoute } = request;

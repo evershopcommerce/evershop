@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 /* eslint-disable guard-for-in */
 /* eslint-disable import/no-import-module-exports */
-import isErrorHandlerTriggered from '@evershop/evershop/src/lib/middleware/isErrorHandlerTriggered.js';
+import isErrorHandlerTriggered from '../../../../lib/middleware/isErrorHandlerTriggered.js';
 
 export default async (request, response, delegate, next) => {
   /** Get all promise delegate */

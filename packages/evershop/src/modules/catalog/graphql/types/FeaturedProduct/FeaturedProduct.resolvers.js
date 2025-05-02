@@ -1,6 +1,6 @@
 import { select, node } from '@evershop/postgres-query-builder';
-import { camelCase } from '@evershop/evershop/src/lib/util/camelCase.js';
-import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { getConfig } from '../../../../../lib/util/getConfig.js';
 
 export default {
   Query: {

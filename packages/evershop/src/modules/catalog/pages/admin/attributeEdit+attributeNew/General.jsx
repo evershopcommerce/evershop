@@ -5,7 +5,7 @@ import React from 'react';
 import Select from 'react-select';
 import { useQuery } from 'urql';
 import Area from '@components/common/Area';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import { get } from '../../../../../lib/util/get.js';
 import { Field } from '@components/common/form/Field';
 import { Card } from '@components/admin/cms/Card';
 import { Input } from '@components/common/form/fields/Input';

@@ -1,11 +1,11 @@
 import path from 'path';
 import { existsSync } from 'fs';
-import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
 import sharp from 'sharp';
 import { update } from '@evershop/postgres-query-builder';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
-import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { CONSTANTS } from '../../../../lib/helpers.js';
+import { error } from '../../../../lib/log/logger.js';
 
 export default async function localGenerateProductImageVariant(data) {
   if (getConfig('system.file_storage') === 'local') {

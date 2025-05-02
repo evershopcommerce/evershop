@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import PubSub from 'pubsub-js';
 import Area from '@components/common/Area';
-import { FORM_FIELD_UPDATED } from '@evershop/evershop/src/lib/util/events';
+import { FORM_FIELD_UPDATED } from '../../../../lib/util/events';
 import CategoryConditionSelector from '@components/admin/promotion/couponEdit/CategoryConditionSelector';
 import { Field } from '@components/common/form/Field';
 import CollectionConditionSelector from './CollectionConditionSelector';

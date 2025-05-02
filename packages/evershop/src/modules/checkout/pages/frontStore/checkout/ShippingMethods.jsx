@@ -7,7 +7,7 @@ import { useFormContext } from '@components/common/form/Form';
 import { Field } from '@components/common/form/Field';
 import { useCheckoutStepsDispatch } from '@components/common/context/checkoutSteps';
 import { useCheckout } from '@components/common/context/checkout';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 const QUERY = `
   query Query($cartId: String) {

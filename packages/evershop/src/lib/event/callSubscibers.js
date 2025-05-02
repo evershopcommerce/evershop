@@ -1,4 +1,4 @@
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
+import { error } from '../../lib/log/logger.js';
 
 export async function callSubscribers(subscribers, eventData) {
   const promises = subscribers.map(

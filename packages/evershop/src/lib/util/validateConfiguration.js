@@ -1,4 +1,4 @@
-import { getAjv } from '@evershop/evershop/src/modules/base/services/getAjv.js';
+import { getAjv } from '../../modules/base/services/getAjv.js';
 import { getValueSync } from './registry.js';
 
 export function validateConfiguration(config) {

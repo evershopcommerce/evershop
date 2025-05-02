@@ -1,4 +1,4 @@
-import { getValueSync } from '@evershop/evershop/src/lib/util/registry.js';
+import { getValueSync } from '../../../lib/util/registry.js';
 
 export async function calculateDiscount(cart, couponCode = null) {
   const calculatorFunctions = getValueSync('discountCalculatorFunctions', []);

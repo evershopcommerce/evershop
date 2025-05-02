@@ -1,4 +1,4 @@
-import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
 import { toPrice } from '../../checkout/services/toPrice.js';
 
 export function registerCartItemPromotionFields(fields) {

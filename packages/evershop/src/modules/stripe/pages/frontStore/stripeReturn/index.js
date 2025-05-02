@@ -1,18 +1,18 @@
 const stripePayment = require('stripe');
 const { select, update } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const { pool } = require('../../../../../lib/postgres/connection');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
+const { getConfig } = require('../../../../../lib/util/getConfig');
 const {
   getSetting
-} = require('@evershop/evershop/src/modules/setting/services/setting');
+} = require('../../../../../modules/setting/services/setting');
 const {
   addNotification
-} = require('@evershop/evershop/src/modules/base/services/notifications');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+} = require('../../../../../modules/base/services/notifications');
+const { error } = require('../../../../../lib/log/logger');
 const {
   updatePaymentStatus
-} = require('@evershop/evershop/src/modules/oms/services/updatePaymentStatus');
+} = require('../../../../../modules/oms/services/updatePaymentStatus');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {

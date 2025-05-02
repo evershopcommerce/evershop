@@ -1,9 +1,9 @@
 import path from 'path';
 import fs from 'fs/promises';
 import { existsSync } from 'fs';
-import { CONSTANTS } from '@evershop/evershop/src/lib/helpers.js';
-import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
-import { getValueSync } from '@evershop/evershop/src/lib/util/registry.js';
+import { CONSTANTS } from '../../../lib/helpers.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
+import { getValueSync } from '../../../lib/util/registry.js';
 
 /**
  * @param {String} destinationPath the destination path

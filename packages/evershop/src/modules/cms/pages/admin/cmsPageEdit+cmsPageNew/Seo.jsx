@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import { get } from '../../../../../lib/util/get.js';
 import { Card } from '@components/admin/cms/Card';
 
 export default function Seo({ page }) {

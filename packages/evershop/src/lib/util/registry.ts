@@ -2,10 +2,28 @@ import isEqual from 'react-fast-compare';
 
 let locked = false;
 
-class Registry {
-  values = {};
+export type RegistryValue<T> = {
+  initValue: T;
+  context: Record<string, any>;
+  value: T;
+  processors: {
+    callback: SyncProcessor<T> | AsyncProcessor<T>;
+    priority: number;
+  }[];
+};
 
-  async get(name, initValue, context, validator) {
+export type SyncProcessor<T> = (value: T) => T;
+export type AsyncProcessor<T> = (value: T) => Promise<T>;
+
+class Registry {
+  values: Record<string, RegistryValue<any>> = {};
+
+  async get<T>(
+    name: string,
+    initValue: T,
+    context: Record<string, any>,
+    validator: (value: T) => boolean
+  ) {
     if (this.values[name]) {
       // If the initValue and the context are identical, return the cached value. Skip the processors
       if (
@@ -18,7 +36,7 @@ class Registry {
     }
 
     // Cache the initValue and the context
-    this.values[name] = this.values[name] || {};
+    this.values[name] = this.values[name] || ({} as RegistryValue<T>);
     this.values[name].initValue = initValue;
     this.values[name].context = context;
 
@@ -48,10 +66,19 @@ class Registry {
     return value;
   }
 
-  getSync(name, initValue, context, validator) {
-    const validateFunc = (value) => {
+  getSync<T>(
+    name: string,
+    initValue: T,
+    context: Record<string, any>,
+    validator: (value: T) => boolean
+  ) {
+    const validateFunc = (value: T) => {
       // Check if value is a promise
-      if (typeof value === 'object' && typeof value.then === 'function') {
+      if (
+        value !== null &&
+        typeof value === 'object' &&
+        typeof (value as unknown as Promise<any>).then === 'function'
+      ) {
         throw new Error(
           `The 'getSync' function does not support async processor. Please use 'get' function instead`
         );
@@ -74,7 +101,7 @@ class Registry {
     }
 
     // Cache the initValue and the context
-    this.values[name] = this.values[name] || {};
+    this.values[name] = this.values[name] || ({} as RegistryValue<T>);
     this.values[name].initValue = initValue;
     this.values[name].context = context;
 
@@ -102,7 +129,11 @@ class Registry {
     return value;
   }
 
-  addProcessor(name, callback, priority) {
+  addProcessor<T>(
+    name: string,
+    callback: SyncProcessor<T> | AsyncProcessor<T>,
+    priority: number
+  ) {
     if (locked) {
       throw new Error(
         'Registry is locked. Consider to use bootstrap file to add processors'
@@ -123,15 +154,14 @@ class Registry {
     }
 
     // Throw error if callback is not a function or async function
-    if (
-      typeof callback !== 'function' &&
-      callback.constructor.name !== 'AsyncFunction'
-    ) {
+    if (typeof callback !== 'function') {
       throw new Error('Callback must be a function');
     }
-
     if (!this.values[name]) {
       this.values[name] = {
+        initValue: undefined as unknown as T,
+        context: undefined as unknown as Record<string, any>,
+        value: undefined as unknown as T,
         processors: []
       };
     }
@@ -145,7 +175,10 @@ class Registry {
     processors.sort((a, b) => a.priority - b.priority);
   }
 
-  addFinalProcessor(name, callback) {
+  addFinalProcessor<T>(
+    name: string,
+    callback: SyncProcessor<T> | AsyncProcessor<T>
+  ): void {
     // Check if there is already a final processor base on the priority
     const processors = this.values[name] ? this.values[name].processors : [];
     if (processors.find((p) => p.priority === 1000)) {
@@ -156,7 +189,10 @@ class Registry {
     this.addProcessor(name, callback, 1000);
   }
 
-  getProcessors(name) {
+  getProcessors(name: string): {
+    callback: SyncProcessor<any> | AsyncProcessor<any>;
+    priority: number;
+  }[] {
     if (!this.values[name]) {
       throw new Error(`The value ${name} is not registered`);
     }
@@ -165,60 +201,106 @@ class Registry {
 }
 
 const registry = new Registry();
-export async function getValue(name, initialization, context, validator) {
-    let initValue;
-    // Check if the initValue is a function, then add this function to the processors as the first processor
-    if (typeof initialization === 'function') {
-      // Add this function to the processors, add this to the biginning of the processors
-      const processors = this.values[name] ? this.values[name].processors : [];
-      processors.unshift({
-        callback: initialization,
-        priority: 0
-      });
-      this.values[name] = this.values[name] || {};
-      this.values[name].processors = processors;
-    } else {
-      initValue = initialization;
-    }
+
+/**
+ * Get the value from the registry
+ * @param name - The name of the value
+ * @param initialization - The initialization value or a function that returns the value
+ * @param context - The context of the value
+ * @param validator - The validator function
+ * @returns The value from the registry
+ */
+export async function getValue<T>(
+  name: string,
+  initialization: T | AsyncProcessor<T> | SyncProcessor<T>,
+  context: Record<string, any>,
+  validator: (value: T) => boolean
+): Promise<T> {
+  let initValue;
+  const value = registry.values[name] || ({} as RegistryValue<T>);
+  // Check if the initValue is a function, then add this function to the processors as the first processor
+  if (typeof initialization === 'function') {
+    // Add this function to the biginning of the processors
+    const processors = value.processors || [];
+    processors.unshift({
+      callback: initialization as SyncProcessor<T> | AsyncProcessor<T>,
+      priority: 0
+    });
+    registry.values[name] = {
+      ...value,
+      processors
+    };
+    initValue = value.initValue;
+  } else {
+    initValue = initialization as T;
+  }
   const val = await registry.get(name, initValue, context, validator);
   return val;
 }
 
-export function getValueSync(name, initialization, context, validator) {
-    let initValue;
-    // Check if the initValue is a function, then add this function to the processors as the first processor
-    if (typeof initialization === 'function') {
-      // Add this function to the processors, add this to the biginning of the processors
-      const processors = registry.values[name]
-        ? registry.values[name]?.processors
-        : [];
-      processors.unshift({
-        callback: initialization,
-        priority: 0
-      });
-      registry.values[name] = registry.values[name] || {};
-      registry.values[name].processors = processors;
-    } else {
-      initValue = initialization;
-    }
-    const val = registry.getSync(name, initValue, context, validator);
-    return val;
-  }
-export function addProcessor(name, callback, priority) {
-    return registry.addProcessor(name, callback, priority);
-  }
-export function addFinalProcessor(name, callback) {
-    return registry.addFinalProcessor(name, callback);
-  }
-export function getProcessors<T>(name) {
-    return registry.getProcessors(name) as T;
-  };
-export function lockRegistry() {
-    // Reset the values cache by removing all values from all properties in the registry values
-    Object.keys(registry.values).forEach((key) => {
-      if (Object.prototype.hasOwnProperty.call(registry.values, key)) {
-        delete registry.values[key].value;
-      }
+/**
+ * Get the value from the registry
+ * @param name - The name of the value
+ * @param initialization - The initialization value or a function that returns the value
+ * @param context - The context of the value
+ * @param validator - The validator function
+ * @returns The value from the registry
+ */
+export function getValueSync<T>(
+  name: string,
+  initialization: T | SyncProcessor<T>,
+  context: Record<string, any>,
+  validator: (value: T) => boolean
+): T {
+  let initValue;
+  // Check if the initValue is a function, then add this function to the processors as the first processor
+  if (typeof initialization === 'function') {
+    // Add this function to the processors, add this to the biginning of the processors
+    const processors = registry.values[name]
+      ? registry.values[name]?.processors
+      : [];
+    processors.unshift({
+      callback: initialization as SyncProcessor<T>,
+      priority: 0
     });
-    locked = true;
+    registry.values[name] = registry.values[name] || ({} as RegistryValue<T>);
+    registry.values[name].processors = processors;
+    initValue = registry.values[name].initValue;
+  } else {
+    initValue = initialization;
   }
+  const val = registry.getSync(name, initValue, context, validator);
+  return val;
+}
+
+export function addProcessor<T>(
+  name: string,
+  callback: SyncProcessor<T> | AsyncProcessor<T>,
+  priority: number
+): void {
+  return registry.addProcessor(name, callback, priority);
+}
+
+export function addFinalProcessor(
+  name: string,
+  callback: SyncProcessor<any> | AsyncProcessor<any>
+): void {
+  return registry.addFinalProcessor(name, callback);
+}
+
+export function getProcessors<T>(name: string): {
+  callback: SyncProcessor<T> | AsyncProcessor<T>;
+  priority: number;
+}[] {
+  return registry.getProcessors(name);
+}
+
+export function lockRegistry(): void {
+  // Reset the values cache by removing all values from all properties in the registry values
+  Object.keys(registry.values).forEach((key) => {
+    if (Object.prototype.hasOwnProperty.call(registry.values, key)) {
+      delete registry.values[key].value;
+    }
+  });
+  locked = true;
+}

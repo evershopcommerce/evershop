@@ -3,15 +3,15 @@
 import {
   getValueSync,
   getValue
-} from '@evershop/evershop/src/lib/util/registry.js';
+} from '../../../../lib/util/registry.js';
 import { select } from '@evershop/postgres-query-builder';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import { v4 as uuidv4 } from 'uuid';
-import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
-import { DataObject } from '@evershop/evershop/src/modules/checkout/services/cart/DataObject.js';
-import addCartItem from '@evershop/evershop/src/modules/checkout/services/addCartItem.js';
-import removeCartItem from '@evershop/evershop/src/modules/checkout/services/removeCartItem.js';
-import updateCartItemQty from '@evershop/evershop/src/modules/checkout/services/updateCartItemQty.js';
+import { translate } from '../../../../lib/locale/translate/translate.js';
+import { DataObject } from '../../../../modules/checkout/services/cart/DataObject.js';
+import addCartItem from '../../../../modules/checkout/services/addCartItem.js';
+import removeCartItem from '../../../../modules/checkout/services/removeCartItem.js';
+import updateCartItemQty from '../../../../modules/checkout/services/updateCartItemQty.js';
 
 class Item extends DataObject {
   #cart;

@@ -1,6 +1,6 @@
-import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
-import { get } from '@evershop/evershop/src/lib/util/get.js';
-import { setContextValue } from '@evershop/evershop/src/modules/graphql/services/contextHelper.js';
+import { translate } from '../../../../../lib/locale/translate/translate.js';
+import { get } from '../../../../../lib/util/get.js';
+import { setContextValue } from '../../../../../modules/graphql/services/contextHelper.js';
 
 export default (request, response, delegate, next) => {
   // Get the keyword from the request query

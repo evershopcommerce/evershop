@@ -2,7 +2,7 @@ import sessionStorage from 'connect-pg-simple';
 import util from 'util';
 import { select } from '@evershop/postgres-query-builder';
 import session from 'express-session';
-import { pool } from '@evershop/evershop/src/lib/postgres/connection.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import { getAdminSessionCookieName } from '../../services/getAdminSessionCookieName.js';
 import { setContextValue } from '../../../graphql/services/contextHelper.js';
 

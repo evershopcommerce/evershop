@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '@components/common/context/app';
-import { _ } from '@evershop/evershop/src/lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 import Button from '@components/common/form/Button';
 
 export default function ShippingNote({

@@ -1,4 +1,4 @@
-import { timezones } from '@evershop/evershop/src/lib/locale/timezones.js';
+import { timezones } from '../../../../../lib/locale/timezones.js';
 
 export default {
   Query: {

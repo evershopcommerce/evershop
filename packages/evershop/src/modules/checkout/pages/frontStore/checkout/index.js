@@ -1,5 +1,5 @@
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
-import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getCurrentCart } from '../../../services/getCurrentCart.js';
 

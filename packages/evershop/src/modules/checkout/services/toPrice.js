@@ -1,4 +1,4 @@
-import { getConfig } from '@evershop/evershop/src/lib/util/getConfig.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
 
 export function toPrice(value, forDisplay = false) {
   let price = parseFloat(value || 0);

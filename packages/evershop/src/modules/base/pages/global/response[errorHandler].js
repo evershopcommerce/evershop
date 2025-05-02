@@ -1,10 +1,10 @@
 /* eslint-disable global-require */
 /* eslint-disable guard-for-in */
 /* eslint-disable import/no-import-module-exports */
-import isErrorHandlerTriggered from '@evershop/evershop/src/lib/middleware/isErrorHandlerTriggered.js';
-import { render } from '@evershop/evershop/src/lib/response/render.js';
-import { get } from '@evershop/evershop/src/lib/util/get.js';
-import isDevelopmentMode from '@evershop/evershop/src/lib/util/isDevelopmentMode.js';
+import isErrorHandlerTriggered from '../../../../lib/middleware/isErrorHandlerTriggered.js';
+import { render } from '../../../../lib/response/render.js';
+import { get } from '../../../../lib/util/get.js';
+import isDevelopmentMode from '../../../../lib/util/isDevelopmentMode.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getNotifications } from '../../services/notifications.js';
 

@@ -1,14 +1,14 @@
 import { request } from 'express';
 import config from 'config';
-import { merge } from '@evershop/evershop/src/lib/util/merge.js';
-import { translate } from '@evershop/evershop/src/lib/locale/translate/translate.js';
-import { addProcessor } from '@evershop/evershop/src/lib/util/registry.js';
-import { registerDefaultCustomerCollectionFilters } from '@evershop/evershop/src/modules/customer/services/registerDefaultCustomerCollectionFilters.js';
-import { defaultPaginationFilters } from '@evershop/evershop/src/lib/util/defaultPaginationFilters.js';
-import { registerDefaultCustomerGroupCollectionFilters } from '@evershop/evershop/src/modules/customer/services/registerDefaultCustomerGroupCollectionFilters.js';
-import { hookable } from '@evershop/evershop/src/lib/util/hookable.js';
-import loginCustomerWithEmail from '@evershop/evershop/src/modules/customer/services/customer/loginCustomerWithEmail.js';
-import logoutCustomer from '@evershop/evershop/src/modules/customer/services/customer/logoutCustomer.js';
+import { merge } from '../../lib/util/merge.js';
+import { translate } from '../../lib/locale/translate/translate.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { registerDefaultCustomerCollectionFilters } from '../../modules/customer/services/registerDefaultCustomerCollectionFilters.js';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
+import { registerDefaultCustomerGroupCollectionFilters } from '../../modules/customer/services/registerDefaultCustomerGroupCollectionFilters.js';
+import { hookable } from '../../lib/util/hookable.js';
+import loginCustomerWithEmail from '../../modules/customer/services/customer/loginCustomerWithEmail.js';
+import logoutCustomer from '../../modules/customer/services/customer/logoutCustomer.js';
 
 export default () => {
   addProcessor('cartFields', (fields) => {

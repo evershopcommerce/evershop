@@ -1,7 +1,7 @@
 import React from 'react';
 import Meta from '@components/common/Meta';
 import { useAppState } from '@components/common/context/app';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import { get } from '../../../lib/util/get.js';
 
 export default function MetaDescription() {
   const description = get(useAppState(), 'metaDescription', '');

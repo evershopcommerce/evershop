@@ -1,7 +1,7 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const {
   translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
+} = require('../../../../../lib/locale/translate/translate');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');

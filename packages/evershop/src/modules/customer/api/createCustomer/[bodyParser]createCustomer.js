@@ -1,9 +1,9 @@
 import {
   OK,
   INTERNAL_SERVER_ERROR
-} from '@evershop/evershop/src/lib/util/httpStatus.js';
-import { buildUrl } from '@evershop/evershop/src/lib/router/buildUrl.js';
-import { error } from '@evershop/evershop/src/lib/log/logger.js';
+} from '../../../../lib/util/httpStatus.js';
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import { error } from '../../../../lib/log/logger.js';
 import createCustomer from '../../services/customer/createCustomer.js';
 
 export default async (request, response, delegate, next) => {

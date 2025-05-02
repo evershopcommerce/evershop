@@ -1,6 +1,6 @@
 import { resolve } from 'path';
-import { getCoreModules } from '@evershop/evershop/bin/lib/loadModules.js';
-import { getEnabledExtensions } from '@evershop/evershop/bin/extension/index.js';
+import { getCoreModules } from '../../bin/lib/loadModules.js';
+import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { scanRouteComponents } from './scanForComponents.js';
 import { getConfig } from '../util/getConfig.js';
 import { CONSTANTS } from '../helpers.js';

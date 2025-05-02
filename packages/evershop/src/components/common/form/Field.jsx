@@ -14,7 +14,7 @@ import { Select } from '@components/common/form/fields/Select';
 import { TextArea } from '@components/common/form/fields/Textarea';
 import { Toggle } from '@components/common/form/fields/Toggle';
 import { useFormContext } from '@components/common/form/Form';
-import { FORM_FIELD_UPDATED } from '@evershop/evershop/src/lib/util/events';
+import { FORM_FIELD_UPDATED } from '../../../lib/util/events';
 import './Field.scss';
 import { Password } from '@components/common/form/fields/Password';
 

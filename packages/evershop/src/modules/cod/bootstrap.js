@@ -1,5 +1,5 @@
-import { addProcessor } from '@evershop/evershop/src/lib/util/registry.js';
-import { getSetting } from '@evershop/evershop/src/modules/setting/services/setting.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { getSetting } from '../../modules/setting/services/setting.js';
 
 export default () => {
   addProcessor('cartFields', (fields) => {
