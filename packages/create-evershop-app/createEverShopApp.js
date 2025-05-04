@@ -41,7 +41,7 @@ function init() {
       );
       console.log(
         `      ${chalk.cyan(
-          'https://github.com/evershop/create-evershop-app/issues/new'
+          'https://github.com/evershopcommerce/evershop/issues/new'
         )}`
       );
       console.log();
@@ -127,7 +127,9 @@ function createApp(name, verbose, useYarn) {
       setup: 'evershop install',
       start: 'evershop start',
       build: 'evershop build',
-      dev: 'evershop dev'
+      dev: 'evershop dev',
+      'user:create': 'evershop user:create',
+      'user:changePassword': 'evershop user:changePassword',
     }
   };
   fs.writeFileSync(
