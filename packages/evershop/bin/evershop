@@ -1,38 +1,134 @@
 #!/usr/bin/env node
+
 /* eslint-disable global-require */
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 
-const { argv } = yargs(hideBin(process.argv));
-const command = argv._[0];
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-try {
-  if (command === 'build') {
-    process.env.NODE_ENV = 'production';
-    require('./build/index');
-  } else if (command === 'dev') {
-    process.env.NODE_ENV = 'development';
-    require('./dev');
-  } else if (command === 'start') {
-    process.env.NODE_ENV = 'production';
-    require('./start');
-  } else if (command === 'install') {
-    require('./install');
-  } else if (command === 'user:create') {
-    require('./user/create');
-  } else if (command === 'user:changePassword') {
-    require('./user/changePassword');
-  } else {
-    throw new Error('Invalid command');
-  }
-} catch (e) {
-  const { error } = require('../src/lib/log/logger');
-  error(e);
+function isValidEmail(email) {
+  return EMAIL_REGEX.test(email);
 }
-const { error } = require('../src/lib/log/logger');
-process.on('uncaughtException', function (exception) {
+
+function isValidPassword(password) {
+  return password.length >= 8;
+}
+
+yargs(hideBin(process.argv))
+  .command('build', 'Build the application', {
+    "skip-minify": {
+      description: 'Skip minify',
+      type: 'boolean',
+      default: false
+    }
+  }, (argv) => {
+    const { "skip-minify": isSkipMinify } = argv;
+    process.env.NODE_ENV = 'production';
+    const { runBuild } = require('./build/index');
+    runBuild({ isSkipMinify });
+  })
+  .command('dev', 'Start the application in development mode', {}, () => {
+    process.env.NODE_ENV = 'development';
+    const { runDev } = require('./dev');
+    runDev();
+  })
+  .command('start', 'Start the application in production mode', {
+    debug: { 
+      description: 'Enable debug mode', 
+      type: 'boolean', 
+      default: false
+    }
+  }, (argv) => {
+    const { debug } = argv;
+    process.env.NODE_ENV = 'production';
+    const { runStart } = require('./start');
+    runStart({ isDebug: debug });
+  })
+  .command('install', 'Install the application', {}, () => {
+    const { runInstall } = require('./install');
+    runInstall();
+  })
+  .command('user:create', 'Create a new Admin user', 
+    (yargs) =>
+      yargs
+        .option('name', {
+          alias: 'n',
+          description: 'Admin user full name',
+          demandOption: true,
+          type: 'string'
+        })
+        .option('email', {
+          alias: 'e',
+          description: 'User email',
+          demandOption: true,
+          type: 'string'
+        })
+        .check((argv) => {
+          if (!isValidEmail(argv.email)) {
+            throw new Error('Invalid email format');
+          }
+          return true;
+        })
+        .option('password', {
+          alias: 'p',
+          description: 'Password (>= 8 characters)',
+          demandOption: true,
+          type: 'string'
+        })
+        .check((argv) => {
+          if (!isValidPassword(argv.password)) {
+            throw new Error(
+              'Invalid password. Password must be at least 8 characters long'
+            );
+          }
+          return true;
+        })
+  , (argv) => {
+    const { name, email, password } = argv;
+    const { createAdminUser } = require('./user/create');
+    createAdminUser({ name, email, password });
+  })
+  .command('user:changePassword', 'Change Admin user password', 
+    (yargs) => 
+      yargs.option('email', {
+        alias: 'e',
+        description: 'User email',
+        demandOption: true,
+        type: 'string'
+      })
+      .option('password', {
+        alias: 'p',
+        description: 'Password (>= 8 characters)',
+        demandOption: true,
+        type: 'string'
+      })
+      .check((argv) => {
+        const { password } = argv;
+        if (!isValidPassword(password)) {
+          throw new Error(
+            'Invalid password. Password must be at least 8 characters long'
+          );
+        }
+        return true;
+      })
+  , (argv) => {
+    const { email, password } = argv;
+    const { updatePassword } = require('./user/changePassword');
+    updatePassword({ email, password });
+  })
+  .demandCommand(1, 'Invalid command')
+  .strict()
+  .help()
+  .alias('h', 'help')
+  .parse();
+
+  
+process.on('uncaughtException', (exception) => {
+  const { error } = require('../src/lib/log/logger');
   error(exception);
 });
+
 process.on('unhandledRejection', (reason, p) => {
+  const { error } = require('../src/lib/log/logger');
   error(`Unhandled Rejection: ${reason} at: ${p}`);
 });

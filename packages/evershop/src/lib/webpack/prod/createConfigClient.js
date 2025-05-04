@@ -9,8 +9,8 @@ const { isBuildRequired } = require('../isBuildRequired');
 const { CONSTANTS } = require('../../helpers');
 const { Tailwindcss } = require('../plugins/Tailwindcss');
 
-module.exports.createConfigClient = function createConfigClient(routes) {
-  const config = createBaseConfig(false);
+module.exports.createConfigClient = function createConfigClient(routes, { isSkipMinify }) {
+  const config = createBaseConfig({ isServer: false, isSkipMinify });
   const { plugins } = config;
   const entry = {};
   routes.forEach((route) => {

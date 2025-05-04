@@ -7,8 +7,8 @@ const { CONSTANTS } = require('../../helpers');
 const { GraphqlPlugin } = require('../plugins/GraphqlPlugin');
 const { getEnabledWidgets } = require('../../util/getEnabledWidgets');
 
-module.exports.createConfigClient = function createConfigClient(route) {
-  const config = createBaseConfig(false);
+module.exports.createConfigClient = function createConfigClient(route, { isSkipMinify }) {
+  const config = createBaseConfig({ isServer: false, isSkipMinify });
   config.name = route.id;
 
   const loaders = config.module.rules;

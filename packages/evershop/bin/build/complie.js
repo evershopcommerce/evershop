@@ -7,8 +7,8 @@ const {
 } = require('@evershop/evershop/src/lib/webpack/prod/createConfigServer');
 const { error } = require('@evershop/evershop/src/lib/log/logger');
 
-module.exports.compile = async function compile(routes) {
-  const config = [createConfigClient(routes), createConfigServer(routes)];
+module.exports.compile = async function compile(routes, { isSkipMinify }) {
+  const config = [createConfigClient(routes, { isSkipMinify }), createConfigServer(routes, { isSkipMinify })];
   const compiler = webpack(config);
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {

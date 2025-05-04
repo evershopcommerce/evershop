@@ -7,7 +7,7 @@ const { getEnabledExtensions } = require('../../../bin/extension');
 const { getConfig } = require('../util/getConfig');
 const { loadCsvTranslationFiles } = require('./loaders/loadTranslationFromCsv');
 
-module.exports.createBaseConfig = function createBaseConfig(isServer) {
+module.exports.createBaseConfig = function createBaseConfig({ isServer, isSkipMinify }) {
   const extenions = getEnabledExtensions();
   const coreModules = getCoreModules();
   const theme = getConfig('system.theme', null);
@@ -157,10 +157,9 @@ module.exports.createBaseConfig = function createBaseConfig(isServer) {
   config.optimization = {};
 
   // Check if the flag --skip-minify is set
-  const skipMinify = process.argv.includes('--skip-minify');
   if (isProductionMode()) {
     config.optimization = Object.assign(config.optimization, {
-      minimize: !skipMinify,
+      minimize: !isSkipMinify,
       minimizer: [
         new TerserPlugin({
           terserOptions: {

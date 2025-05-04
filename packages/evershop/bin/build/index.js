@@ -1,5 +1,7 @@
 process.env.ALLOW_CONFIG_MUTATIONS = true;
+
 const config = require('config');
+
 const { existsSync, rmSync, mkdirSync } = require('fs');
 const path = require('path');
 const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
@@ -21,7 +23,9 @@ const {
 const { compile } = require('./complie');
 const { getEnabledExtensions } = require('../extension');
 const { loadBootstrapScript } = require('../lib/bootstrap/bootstrap');
+
 require('dotenv').config();
+
 /* Loading modules and initilize routes, components */
 const modules = [...getCoreModules(), ...getEnabledExtensions()];
 
@@ -45,7 +49,7 @@ if (existsSync(path.resolve(CONSTANTS.BUILDPATH))) {
   mkdirSync(path.resolve(CONSTANTS.BUILDPATH), { recursive: true });
 }
 
-(async () => {
+async function runBuild({ isSkipMinify }) {
   /** Loading bootstrap script from modules */
   try {
     // eslint-disable-next-line no-restricted-syntax
@@ -60,11 +64,16 @@ if (existsSync(path.resolve(CONSTANTS.BUILDPATH))) {
     error(e);
     process.exit(0);
   }
+
   process.env.ALLOW_CONFIG_MUTATIONS = false;
 
   const routes = getRoutes();
   await buildEntry(routes.filter((r) => isBuildRequired(r)));
 
   /** Build  */
-  await compile(routes);
-})();
+  await compile(routes, { isSkipMinify });
+}
+
+module.exports = {
+  runBuild
+}

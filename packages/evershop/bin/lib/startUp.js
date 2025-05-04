@@ -23,7 +23,7 @@ let app = createApp();
 /** Create a http server */
 const server = http.createServer(app);
 
-module.exports.start = async function start(cb) {
+module.exports.start = async function start({ isDebug }, cb) {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
 
   /** Loading bootstrap script from modules */
@@ -70,7 +70,7 @@ module.exports.start = async function start(cb) {
   const args = [
     path.resolve(__dirname, '../../src/lib/event/event-manager.js')
   ];
-  if (isDevelopmentMode() || process.argv.includes('--debug')) {
+  if (isDevelopmentMode() || isDebug) {
     args.push('--debug');
   }
   const child = spawn('node', args, {

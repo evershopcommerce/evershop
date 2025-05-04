@@ -5,7 +5,7 @@ const { createBaseConfig } = require('../createBaseConfig');
 const { getRouteBuildSubPath } = require('../getRouteBuildSubPath');
 const { isBuildRequired } = require('../isBuildRequired');
 
-module.exports.createConfigServer = function createConfigServer(routes) {
+module.exports.createConfigServer = function createConfigServer(routes, { isSkipMinify }) {
   const entry = {};
   routes.forEach((route) => {
     if (!isBuildRequired(route)) {
@@ -23,7 +23,7 @@ module.exports.createConfigServer = function createConfigServer(routes) {
       )
     ];
   });
-  const config = createBaseConfig(true);
+  const config = createBaseConfig({ isServer: true, isSkipMinify });
   const { plugins } = config;
   plugins.push(new WebpackBar({ name: 'Server', color: 'orange' }));
 
