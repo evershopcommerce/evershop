@@ -28,7 +28,7 @@
   },
   "scripts": {
     "prepublishOnly": "node prepublish.js",
-    "prepack": "rimraf dist && npm run build:ts",
+    "prepack": "rimraf dist && npm run build:ts && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
     "dev": "tsx ./bin/dev/index.ts",
     "build": "rimraf dist && npm run build:ts",
     "start": "evershop start",
