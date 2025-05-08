@@ -19,8 +19,7 @@ export function createBaseConfig(isServer) {
 
   const loaders = [
     {
-      // Handle TypeScript-only files
-      test: /\.ts$/, // <-- Changed to just .ts
+      test: /\.ts$/,
       exclude: {
         and: [/node_modules/],
         not: [
@@ -38,11 +37,11 @@ export function createBaseConfig(isServer) {
           loader: 'babel-loader',
           options: {
             presets: [
-              '@babel/preset-env', // <-- Add env preset
+              '@babel/preset-env',
               [
                 '@babel/preset-typescript',
                 {
-                  isTSX: false, // <-- No JSX for .ts files
+                  isTSX: false,
                   allExtensions: true,
                   allowNamespaces: true,
                   onlyRemoveTypeImports: true
@@ -54,7 +53,6 @@ export function createBaseConfig(isServer) {
       ]
     },
     {
-      // Handle TSX and JSX files
       test: /\.(jsx|tsx)$/,
       exclude: {
         and: [/node_modules/],
@@ -101,7 +99,7 @@ export function createBaseConfig(isServer) {
               ],
               '@babel/preset-react',
               [
-                '@babel/preset-typescript', // <-- Add TypeScript preset for .tsx files
+                '@babel/preset-typescript',
                 {
                   isTSX: true,
                   allExtensions: true,
@@ -204,6 +202,12 @@ export function createBaseConfig(isServer) {
   // Resolve alias for core components
   alias['@components-origin'] = path.resolve(__dirname, '../../components');
 
+  // Avoid multiple react instances
+  alias['react'] = path.resolve(CONSTANTS.ROOTPATH, 'node_modules/react');
+  alias['react-dom'] = path.resolve(
+    CONSTANTS.ROOTPATH,
+    'node_modules/react-dom'
+  );
   // Resolve alias for core module pages
   coreModules.forEach((mod) => {
     alias[`@default-theme/${mod.name.toLowerCase()}`] = path.resolve(
