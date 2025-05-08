@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import jsesc from 'jsesc';
 import { getRoutes } from '../router/Router.js';
-import { get } from '../util/get';
+import { get } from '../util/get.js';
 import isProductionMode from '../util/isProductionMode.js';
 import { getRouteBuildPath } from '../webpack/getRouteBuildPath.js';
 import { getConfig } from '../util/getConfig.js';
