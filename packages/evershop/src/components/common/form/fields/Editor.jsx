@@ -1,6 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -85,7 +82,7 @@ export default function Editor({
   React.useEffect(() => {
     async function initSwappable() {
       const Swappable = await loadSwappable();
-      // eslint-disable-next-line new-cap
+
       const swappable = new Swappable(document.querySelectorAll(`div#rows`), {
         draggable: 'div.row__container',
         handle: 'div.row__container .drag__icon',
@@ -325,7 +322,7 @@ Editor.propTypes = {
         PropTypes.shape({
           id: PropTypes.string.isRequired,
           size: PropTypes.number.isRequired,
-          // eslint-disable-next-line react/forbid-prop-types
+
           data: PropTypes.object.isRequired
         })
       )

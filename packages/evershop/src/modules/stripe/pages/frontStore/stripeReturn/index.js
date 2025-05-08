@@ -14,7 +14,6 @@ const {
   updatePaymentStatus
 } = require('../../../../../modules/oms/services/updatePaymentStatus');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   try {
     const { order_id, payment_intent } = request.query;

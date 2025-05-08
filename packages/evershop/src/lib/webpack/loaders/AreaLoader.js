@@ -1,7 +1,6 @@
 import fs from 'fs';
 import { inspect } from 'util';
 import JSON5 from 'json5';
-import { CONSTANTS } from '../../helpers.js';
 import { error } from '../../log/logger.js';
 import { getEnabledWidgets } from '../../util/getEnabledWidgets.js';
 import { generateComponentKey } from '../util/keyGenerator.js';
@@ -28,7 +27,7 @@ export default function AreaLoader(c) {
         .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
       try {
         const layout = JSON5.parse(check);
-        const id = generateComponentKey(module.replace(CONSTANTS.ROOTPATH, ''));
+        const id = generateComponentKey(module);
         areas[layout.areaId] = areas[layout.areaId] || {};
         areas[layout.areaId][id] = {
           id,

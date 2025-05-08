@@ -4,9 +4,7 @@ const {
   OK
 } = require('../../../../lib/util/httpStatus');
 const { getConfig } = require('../../../../lib/util/getConfig');
-const {
-  translate
-} = require('../../../../lib/locale/translate/translate');
+const { translate } = require('../../../../lib/locale/translate/translate');
 const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('../../../../lib/postgres/connection');
 const { setContextValue } = require('../../../graphql/services/contextHelper');

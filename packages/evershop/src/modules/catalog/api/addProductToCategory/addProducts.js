@@ -8,7 +8,6 @@ const {
 const { select } = require('@evershop/postgres-query-builder');
 const updateProduct = require('../../services/product/updateProduct');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { category_id } = request.params;
   const { product_id } = request.body;

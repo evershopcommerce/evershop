@@ -35,7 +35,6 @@ export default function BestCustomers({ listUrl, setting }) {
                 currency: setting.storeCurrency
               }).format(c.total);
               return (
-                // eslint-disable-next-line react/no-array-index-key
                 <tr key={i}>
                   <td>
                     <a href={c.editUrl || ''}>{c.full_name}</a>

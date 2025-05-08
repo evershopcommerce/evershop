@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
@@ -11,7 +10,6 @@ import { error } from '../../../../lib/log/logger.js';
 import { getCartByUUID } from '../../services/getCartByUUID.js';
 import { createOrder } from '../../services/orderCreator.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate, next) => {
   try {
     const { cart_id } = request.body;

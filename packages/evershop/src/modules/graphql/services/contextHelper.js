@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { get } from '../../../lib/util/get.js';
 
 export function getContextValue(

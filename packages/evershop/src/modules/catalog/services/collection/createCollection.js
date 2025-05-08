@@ -1,17 +1,12 @@
 const { hookable } = require('../../../../lib/util/hookable');
-const {
-  getValueSync,
-  getValue
-} = require('../../../../lib/util/registry');
+const { getValueSync, getValue } = require('../../../../lib/util/registry');
 const {
   startTransaction,
   commit,
   rollback,
   insert
 } = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('../../../../lib/postgres/connection');
+const { getConnection } = require('../../../../lib/postgres/connection');
 const { getAjv } = require('../../../base/services/getAjv');
 const collectionDataSchema = require('./collectionDataSchema.json');
 
@@ -44,7 +39,7 @@ async function insertCollectionData(data, connection) {
 async function createCollection(data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
-  const hookContext = {connection, ...context};
+  const hookContext = { connection, ...context };
   try {
     const collectionData = await getValue('collectionDataBeforeCreate', data);
     // Validate collection data

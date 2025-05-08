@@ -12,7 +12,6 @@ class CustomColorize extends colorize.Colorizer {
   transform(info, opts) {
     super.transform(info, opts);
     if (info.stack) {
-      // eslint-disable-next-line no-param-reassign
       info.stack = this.colorize(info[LEVEL], info.level, info.stack);
     }
     return info;

@@ -2,9 +2,10 @@ const {
   OK,
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getSetting } = require('@evershop/evershop/src/modules/setting/services/setting');
+const {
+  getSetting
+} = require('@evershop/evershop/src/modules/setting/services/setting');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { age } = request.body;
   try {
@@ -13,7 +14,7 @@ module.exports = async (request, response, delegate, next) => {
     if (age && age >= minAge) {
       // Set the age verified cookie
       response.cookie('age-verified', 1, {
-        maxAge: 1000 * 60 * 60 * 24  * 10
+        maxAge: 1000 * 60 * 60 * 24 * 10
       });
       response.json({
         data: {

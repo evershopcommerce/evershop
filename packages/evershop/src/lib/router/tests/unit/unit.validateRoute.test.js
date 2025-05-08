@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, global-require */
 const path = require('path');
 const { scanForRoutes } = require('../../scanForRoutes');
 const { registerAdminRoute } = require('../../registerAdminRoute');

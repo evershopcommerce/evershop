@@ -1,8 +1,5 @@
 import { error } from '../../lib/log/logger.js';
-import {
-  addProcessor,
-  addFinalProcessor
-} from '../../lib/util/registry.js';
+import { addProcessor, addFinalProcessor } from '../../lib/util/registry.js';
 import { sortFields } from '../../modules/checkout/services/cart/sortFields.js';
 import { registerCartBaseFields } from '../../modules/checkout/services/cart/registerCartBaseFields.js';
 import { registerCartItemBaseFields } from '../../modules/checkout/services/cart/registerCartItemBaseFields.js';

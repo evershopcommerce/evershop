@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -122,7 +121,10 @@ export function SearchModal({ keyword, variants, addVariant, searchAPI }) {
             <table className="listing">
               <tbody>
                 {potentialVariants.map((v) => (
-                  <tr className={v.selected === true ? 'selected' : ''}>
+                  <tr
+                    className={v.selected === true ? 'selected' : ''}
+                    key={v.variant_product_id}
+                  >
                     <td>{v.image.url && <img src={v.image.url} alt="" />}</td>
                     <td>
                       <a

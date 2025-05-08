@@ -4,7 +4,6 @@ const {
 } = require('../../../../lib/util/httpStatus');
 const deleteProduct = require('../../services/product/deleteProduct');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   try {
     const { id } = request.params;

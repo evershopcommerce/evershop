@@ -4,7 +4,6 @@ const { getConfig } = require('../util/getConfig');
 
 const port = normalizePort();
 
-// eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 /**
  * This function take a route ID, list of params and return the absolute url

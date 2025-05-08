@@ -13,7 +13,6 @@ import {
   insertOnUpdate
 } from '@evershop/postgres-query-builder';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate, next) => {
   const { collection_id } = request.params;
   const { product_id } = request.body;

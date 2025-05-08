@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, global-require */
 process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 const config = require('config');
 require('../basicSetup');

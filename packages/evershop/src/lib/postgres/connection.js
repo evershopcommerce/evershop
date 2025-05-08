@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import pg from 'pg';
 import fs from 'fs';
 import { getConfig } from '../util/getConfig.js';
@@ -63,7 +62,6 @@ pool.on('connect', (client) => {
 });
 
 async function getConnection() {
-  // eslint-disable-next-line no-return-await
   return await pool.connect();
 }
 

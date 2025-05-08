@@ -176,7 +176,6 @@ export default function CheckoutForm({
     return null;
   }
   return (
-    // eslint-disable-next-line react/jsx-filename-extension
     <>
       <RenderIfTrue condition={!!(stripe && elements)}>
         <div>

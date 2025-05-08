@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import http from 'http';
 import config from 'config';
 import { Handler } from '../../lib/middleware/Handler.js';
@@ -25,7 +24,7 @@ const __dirname = path.dirname(__filename);
 const isTsx = () => process.env['_']?.includes('tsx');
 
 export const start = async function start(cb) {
-  let app = createApp();
+  const app = createApp();
   /** Create a http server */
   const server = http.createServer(app);
 
@@ -34,7 +33,6 @@ export const start = async function start(cb) {
 
   /** Loading bootstrap script from modules */
   try {
-    // eslint-disable-next-line no-restricted-syntax
     for (const module of modules) {
       await loadBootstrapScript(module);
     }

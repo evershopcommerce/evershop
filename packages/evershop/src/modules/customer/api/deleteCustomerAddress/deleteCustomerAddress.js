@@ -7,7 +7,6 @@ import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../lib/postgres/connection.js';
 import deleteCustomerAddress from '../../services/customer/address/deleteCustomerAddress.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate, next) => {
   try {
     const customer = await select()

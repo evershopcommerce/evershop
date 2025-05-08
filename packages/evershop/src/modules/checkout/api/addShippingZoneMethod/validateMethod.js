@@ -1,7 +1,6 @@
 const { error } = require('../../../../lib/log/logger');
 const throwIf = require('../../../../lib/util/throwIf');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, deledate, next) => {
   const {
     cost,

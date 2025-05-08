@@ -1,6 +1,5 @@
 const { getRoutes } = require('./Router');
 
-// eslint-disable-next-line no-multi-assign
 module.exports = exports = {};
 
 /**

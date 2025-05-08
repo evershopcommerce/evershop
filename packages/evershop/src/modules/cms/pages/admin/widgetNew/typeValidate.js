@@ -2,7 +2,6 @@ import { getEnabledWidgets } from '../../../../../lib/util/getEnabledWidgets.js'
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-// eslint-disable-next-line no-unused-vars
 export default (request, response, delegate, next) => {
   const { type } = request.params;
   const enabledWidgets = getEnabledWidgets();

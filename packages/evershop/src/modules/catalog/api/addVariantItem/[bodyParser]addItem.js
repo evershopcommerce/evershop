@@ -6,20 +6,16 @@ const {
   rollback
 } = require('@evershop/postgres-query-builder');
 const uniqid = require('uniqid');
-const {
-  pool,
-  getConnection
-} = require('../../../../lib/postgres/connection');
+const { pool, getConnection } = require('../../../../lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
 } = require('../../../../lib/util/httpStatus');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { id: groupId } = request.params;
-  // eslint-disable-next-line camelcase
+
   const { product_id } = request.body;
   const connection = await getConnection(pool);
   try {

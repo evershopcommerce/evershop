@@ -1,7 +1,4 @@
-import {
-  OK,
-  INTERNAL_SERVER_ERROR
-} from '../../../../lib/util/httpStatus.js';
+import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import { error } from '../../../../lib/log/logger.js';
 import createCustomerAddress from '../../services/customer/address/createCustomerAddress.js';
@@ -12,7 +9,7 @@ export default async (request, response, delegate, next) => {
       request.params.customer_id,
       request.body
     );
-    // eslint-disable-next-line no-param-reassign
+
     delegate.createCustomerAddress = address;
     response.status(OK);
     response.$body = {

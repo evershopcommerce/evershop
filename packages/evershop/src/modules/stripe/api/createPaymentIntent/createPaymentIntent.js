@@ -3,15 +3,10 @@ const smallestUnit = require('zero-decimal-currencies');
 const stripePayment = require('stripe');
 const { pool } = require('../../../../lib/postgres/connection');
 const { getConfig } = require('../../../../lib/util/getConfig');
-const {
-  OK,
-  INVALID_PAYLOAD
-} = require('../../../../lib/util/httpStatus');
+const { OK, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
 const { getSetting } = require('../../../setting/services/setting');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
-  // eslint-disable-next-line camelcase
   const { cart_id, order_id } = request.body;
   // Check the cart
   const cart = await select()
@@ -45,7 +40,6 @@ module.exports = async (request, response, delegate, next) => {
       amount: smallestUnit.default(cart.grand_total, cart.currency),
       currency: cart.currency,
       metadata: {
-        // eslint-disable-next-line camelcase
         cart_id,
         order_id
       },

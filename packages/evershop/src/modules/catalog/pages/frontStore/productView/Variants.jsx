@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import PropTypes from 'prop-types';
 import React from 'react';
 import PubSub from 'pubsub-js';
@@ -100,12 +99,10 @@ export default function Variants({
       return true;
     }
     if (attributeRef.current.find((a) => a.selected !== true)) {
-      // eslint-disable-next-line no-param-reassign
       errors.variants = 'Missing variant';
       setError(_('Please select variant options'));
       return false;
     } else {
-      // eslint-disable-next-line no-param-reassign
       delete errors.variants;
       setError(null);
       return true;
@@ -139,7 +136,7 @@ export default function Variants({
     url.searchParams.set(attributeCode, optionId);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    // eslint-disable-next-line no-restricted-globals
+
     history.pushState(null, '', url);
     const popStateEvent = new PopStateEvent('popstate');
     dispatchEvent(popStateEvent);

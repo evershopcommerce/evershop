@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, global-require */
 const { buildMiddlewareFunction } = require('../../buildMiddlewareFunction');
 
 require('@babel/register')({

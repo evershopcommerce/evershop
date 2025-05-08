@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
@@ -233,7 +232,6 @@ export function registerDefaultCalculators() {
                 flag = false;
                 return false;
               } else {
-                // eslint-disable-next-line no-eval
                 flag = eval(
                   `${item.getData('final_price')} ${operator} ${price}`
                 );

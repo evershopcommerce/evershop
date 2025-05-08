@@ -4,7 +4,7 @@ import React from 'react';
 export default function CheckoutButton({ action, cartId }) {
   const onClick = (e) => {
     e.preventDefault();
-    // eslint-disable-next-line no-undef
+
     Fetch(action, false, 'POST', { cartId });
   };
 

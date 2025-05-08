@@ -1,12 +1,8 @@
-import {
-  OK,
-  INTERNAL_SERVER_ERROR
-} from '../../../../lib/util/httpStatus.js';
+import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, deledate, next) => {
   const promises = [];
-  // eslint-disable-next-line no-restricted-syntax
+
   for (const id in deledate) {
     // Check if middleware is async
     if (Promise.resolve(deledate[id]) === deledate[id]) {

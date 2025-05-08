@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, global-require */
 const http = require('http');
 const axios = require('axios').default;
 const { app, bootstrap, close } = require('../app/app');

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const {
   rollback,
   commit,
@@ -6,9 +5,7 @@ const {
   select,
   update
 } = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('../../../../lib/postgres/connection');
+const { getConnection } = require('../../../../lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
@@ -16,7 +13,6 @@ const {
 } = require('../../../../lib/util/httpStatus');
 const { error } = require('../../../../lib/log/logger');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, deledate, next) => {
   const connection = await getConnection();
   await startTransaction(connection);

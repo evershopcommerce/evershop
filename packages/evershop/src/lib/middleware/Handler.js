@@ -119,14 +119,13 @@ export class Handler {
         if (arguments.length === 0 && currentGood === goodHandlers.length - 1) {
           next();
         } else if (currentError === errorHandlers.length - 1) {
-          // eslint-disable-next-line prefer-rest-params
           next(arguments[0]);
         } else if (arguments.length > 0) {
           // Call the error handler middleware if it is not called yet
           if (!isErrorHandlerTriggered(response)) {
             currentError += 1;
             const middlewareFunc = errorHandlers[currentError].middleware;
-            // eslint-disable-next-line prefer-rest-params
+
             middlewareFunc(arguments[0], request, response, eNext);
           }
         } else {

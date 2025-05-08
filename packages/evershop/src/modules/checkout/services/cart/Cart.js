@@ -1,9 +1,4 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable max-classes-per-file */
-import {
-  getValueSync,
-  getValue
-} from '../../../../lib/util/registry.js';
+import { getValueSync, getValue } from '../../../../lib/util/registry.js';
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { v4 as uuidv4 } from 'uuid';

@@ -10,10 +10,8 @@ import { error } from '../../../../lib/log/logger.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { createAxiosInstance } from '../../services/requester.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate, next) => {
   try {
-    // eslint-disable-next-line camelcase
     const { order_id } = request.body;
     // Validate the order;
     const order = await select()

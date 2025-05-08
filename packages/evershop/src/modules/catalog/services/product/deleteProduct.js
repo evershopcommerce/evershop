@@ -6,9 +6,7 @@ const {
   select,
   del
 } = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('../../../../lib/postgres/connection');
+const { getConnection } = require('../../../../lib/postgres/connection');
 
 async function deleteProductData(uuid, connection) {
   await del('product').where('uuid', '=', uuid).execute(connection);

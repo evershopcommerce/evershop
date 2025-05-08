@@ -1,13 +1,10 @@
 const { update } = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('../../../../lib/postgres/connection');
+const { getConnection } = require('../../../../lib/postgres/connection');
 const {
   INTERNAL_SERVER_ERROR,
   OK
 } = require('../../../../lib/util/httpStatus');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const connection = await getConnection();
   try {

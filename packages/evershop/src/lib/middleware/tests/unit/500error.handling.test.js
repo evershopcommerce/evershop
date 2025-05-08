@@ -16,7 +16,7 @@ describe('buildMiddlewareFunction', () => {
     const response = await axios.get(
       `http://localhost:${port}/errorHandlerTest`,
       {
-        validateStatus (status) {
+        validateStatus(status) {
           return status >= 200 && status < 600;
         }
       }

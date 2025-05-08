@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
 import './General.scss';
@@ -35,7 +34,7 @@ CategoryInfo.propTypes = {
           PropTypes.shape({
             id: PropTypes.string.isRequired,
             size: PropTypes.number.isRequired,
-            // eslint-disable-next-line react/forbid-prop-types
+
             data: PropTypes.object.isRequired
           })
         )

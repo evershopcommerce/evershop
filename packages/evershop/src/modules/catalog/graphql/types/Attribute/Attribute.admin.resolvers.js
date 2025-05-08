@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { getAttributesBaseQuery } from '../../../../../modules/catalog/services/getAttributesBaseQuery.js';
 import { getAttributeGroupsBaseQuery } from '../../../../../modules/catalog/services/getAttributeGroupsBaseQuery.js';

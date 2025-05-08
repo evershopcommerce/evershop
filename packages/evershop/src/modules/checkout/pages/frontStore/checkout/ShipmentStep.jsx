@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -100,7 +99,6 @@ ShipmentStep.propTypes = {
     addShippingAddressApi: PropTypes.string
   }).isRequired,
   setting: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
     customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
 };

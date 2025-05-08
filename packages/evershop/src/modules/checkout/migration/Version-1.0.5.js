@@ -1,6 +1,5 @@
 const { execute } = require('@evershop/postgres-query-builder');
 
-// eslint-disable-next-line no-multi-assign
 module.exports = exports = async (connection) => {
   // Add a column 'price_based_cost' to the method table if it does not exist
   await execute(

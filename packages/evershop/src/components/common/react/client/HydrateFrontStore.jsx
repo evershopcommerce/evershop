@@ -6,6 +6,6 @@ const client = createClient({
   url: '/api/graphql'
 });
 
-export default function HydrateFrontStore() {
+export function HydrateFrontStore() {
   return <Hydrate client={client} />;
 }

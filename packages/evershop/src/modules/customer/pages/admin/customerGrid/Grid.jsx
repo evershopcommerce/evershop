@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -247,7 +246,6 @@ export default function CustomerGrid({
               noOuter
               coreComponents={[
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => (
                       <SortableHeader
@@ -260,7 +258,6 @@ export default function CustomerGrid({
                   sortOrder: 10
                 },
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => (
                       <SortableHeader
@@ -273,7 +270,6 @@ export default function CustomerGrid({
                   sortOrder: 15
                 },
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => (
                       <SortableHeader
@@ -286,7 +282,6 @@ export default function CustomerGrid({
                   sortOrder: 20
                 },
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => (
                       <SortableHeader
@@ -332,7 +327,6 @@ export default function CustomerGrid({
                 setSelectedRows={setSelectedRows}
                 coreComponents={[
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: () => (
                         <CustomerNameRow
@@ -345,7 +339,6 @@ export default function CustomerGrid({
                     sortOrder: 10
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: ({ areaProps }) => (
                         <BasicRow id="email" areaProps={areaProps} />
@@ -354,7 +347,6 @@ export default function CustomerGrid({
                     sortOrder: 15
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: ({ areaProps }) => (
                         <StatusRow id="status" areaProps={areaProps} />
@@ -363,7 +355,6 @@ export default function CustomerGrid({
                     sortOrder: 20
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: () => <CreateAt time={c.createdAt.text} />
                     },

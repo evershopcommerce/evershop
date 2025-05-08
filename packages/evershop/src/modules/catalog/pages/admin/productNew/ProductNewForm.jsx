@@ -13,7 +13,6 @@ export default function ProductNewForm({ action }) {
       action={action}
       dataFilter={(formData) => {
         if (formData.tax_class === '') {
-          // eslint-disable-next-line no-param-reassign
           formData.tax_class = null;
         }
         return formData;

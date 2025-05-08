@@ -1,6 +1,5 @@
 const { execute } = require('@evershop/postgres-query-builder');
 
-// eslint-disable-next-line no-multi-assign
 module.exports = exports = async (connection) => {
   // Update the is_default column to be a boolean, default to false
   await execute(

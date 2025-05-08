@@ -25,8 +25,7 @@ modules.forEach((module) => {
     // Load routes
     loadModuleRoutes(module.path);
   } catch (e) {
-    console.log('11111', e);
-    // error(e);
+    error(e);
     process.exit(0);
   }
 });
@@ -40,10 +39,8 @@ if (existsSync(path.resolve(CONSTANTS.BUILDPATH))) {
   mkdirSync(path.resolve(CONSTANTS.BUILDPATH), { recursive: true });
 }
 export default async function build() {
-  console.log('building...');
   /** Loading bootstrap script from modules */
   try {
-    // eslint-disable-next-line no-restricted-syntax
     for (const module of modules) {
       await loadBootstrapScript(module);
     }
@@ -52,8 +49,7 @@ export default async function build() {
     // Get the configuration (nodeconfig)
     validateConfiguration(config);
   } catch (e) {
-    console.log('11111', e);
-    // error(e);
+    error(e);
     process.exit(0);
   }
   process.env.ALLOW_CONFIG_MUTATIONS = false;
@@ -66,16 +62,14 @@ export default async function build() {
 }
 
 process.on('uncaughtException', function (exception) {
-  console.log('11111', exception);
-  // import('../../lib/log/logger.js').then((module) => {
-  //   module.error(exception);
-  // });
+  import('../../lib/log/logger.js').then((module) => {
+    module.error(exception);
+  });
 });
 process.on('unhandledRejection', (reason, p) => {
-  console.log('11111', p);
-  // import('../../lib/log/logger.js').then((module) => {
-  //   module.error(`Unhandled Rejection: ${reason} at: ${p}`);
-  // });
+  import('../../lib/log/logger.js').then((module) => {
+    module.error(`Unhandled Rejection: ${reason} at: ${p}`);
+  });
 });
 
 build();

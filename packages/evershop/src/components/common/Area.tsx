@@ -96,7 +96,7 @@ function Area(props: AreaProps) {
     <WrapperComponent {...areaWrapperProps}>
       {areaComponents.map((w, index) => {
         const C = w.component.default;
-        // eslint-disable-next-line no-shadow
+
         const { id } = w;
         const propsData = context.graphqlResponse;
         const propKeys = propsMap[id] || [];
@@ -118,11 +118,9 @@ function Area(props: AreaProps) {
         }
 
         if (typeof C === 'string') {
-          // eslint-disable-next-line react/no-array-index-key
           return <C key={index} {...componentProps} />;
         }
 
-        // eslint-disable-next-line react/no-array-index-key
         return typeof C === 'function' ? (
           <C key={index} areaProps={props} {...componentProps} />
         ) : null;

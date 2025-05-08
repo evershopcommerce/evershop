@@ -1,6 +1,5 @@
 const { execute } = require('@evershop/postgres-query-builder');
 
-// eslint-disable-next-line no-multi-assign
 module.exports = exports = async (connection) => {
   // Create a GIN index for search on the product_description table using name and description column
   await execute(

@@ -9,7 +9,6 @@ module.exports = async (request, response) => {
   // Get the paypal token from query string
   const paypalToken = request.query.token;
 
-  // eslint-disable-next-line camelcase
   const { order_id } = request.params;
   if (paypalToken) {
     // This token actually the paypal order id

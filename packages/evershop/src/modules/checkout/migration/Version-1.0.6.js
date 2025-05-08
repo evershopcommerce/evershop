@@ -1,6 +1,5 @@
 const { execute } = require('@evershop/postgres-query-builder');
 
-// eslint-disable-next-line no-multi-assign
 module.exports = exports = async (connection) => {
   // Rename sub_total column to line_total
   await execute(

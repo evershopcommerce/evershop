@@ -122,7 +122,7 @@ function MenuSettingPopup({ item, updateItem }) {
                   ...currentItem,
                   uuid: newValue.value,
                   label: newValue.label,
-                  // eslint-disable-next-line no-underscore-dangle
+
                   type: newValue.__typename === 'Category' ? 'category' : 'page'
                 });
               }}
@@ -319,13 +319,13 @@ export default function BasicMenuSetting({
 }) {
   const [items, setItems] = React.useState(menus);
   const modal = useModal();
-  // eslint-disable-next-line no-unused-vars
+
   const swappable = React.useRef(null);
   const swappableChild = React.useRef({});
   React.useEffect(() => {
     async function initSwappable() {
       const Swappable = await loadSwappable();
-      // eslint-disable-next-line new-cap
+
       const swappable = new Swappable(
         document.querySelectorAll(`div.menu__container`),
         {
@@ -365,7 +365,7 @@ export default function BasicMenuSetting({
   React.useEffect(() => {
     async function initChildSwappable() {
       const Swappable = await loadSwappable();
-      // eslint-disable-next-line new-cap
+
       items.forEach((item) => {
         if (swappableChild.current[item.id]) {
           swappableChild.current[item.id].destroy();
@@ -446,7 +446,6 @@ export default function BasicMenuSetting({
         if (prevItem.id === item.id) {
           return false;
         } else if (prevItem.children.length > 0) {
-          // eslint-disable-next-line no-param-reassign
           prevItem.children = prevItem.children.filter(
             (child) => child.id !== item.id
           );

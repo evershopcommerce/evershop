@@ -7,7 +7,6 @@ export function parseFromFile(path) {
   let m = {};
   let id;
   if (/^(\[)[a-zA-Z1-9.,]+(\])[a-zA-Z1-9]+.js$/.test(name)) {
-    // eslint-disable-next-line no-useless-escape
     const split = name.split(/[\[\]]+/);
     id = split[2].substr(0, split[2].indexOf('.')).trim();
     m = {
@@ -17,7 +16,6 @@ export function parseFromFile(path) {
       path
     };
   } else if (/^[a-zA-Z1-9]+(\[)[a-zA-Z1-9,]+(\]).js$/.test(name)) {
-    // eslint-disable-next-line no-useless-escape
     const split = name.split(/[\[\]]+/);
     id = split[0].trim();
     m = {
@@ -29,7 +27,6 @@ export function parseFromFile(path) {
   } else if (
     /^(\[)[a-zA-Z1-9,]+(\])[a-zA-Z1-9]+(\[)[a-zA-Z1-9,]+(\]).js$/.test(name)
   ) {
-    // eslint-disable-next-line no-useless-escape
     const split = name.split(/[\[\]]+/);
     id = split[2].trim();
     m = {

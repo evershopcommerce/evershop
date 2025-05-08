@@ -66,7 +66,6 @@ PaymentStep.propTypes = {
     })
   }).isRequired,
   setting: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
     customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
 };

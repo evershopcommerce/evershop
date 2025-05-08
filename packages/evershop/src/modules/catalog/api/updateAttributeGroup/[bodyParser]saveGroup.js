@@ -6,7 +6,6 @@ const {
   INVALID_PAYLOAD
 } = require('../../../../lib/util/httpStatus');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const data = request.body;
   try {

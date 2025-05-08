@@ -12,7 +12,6 @@ import {
   del
 } from '@evershop/postgres-query-builder';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate, next) => {
   const { collection_id, product_id } = request.params;
   const connection = await getConnection();

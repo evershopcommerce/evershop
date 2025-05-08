@@ -37,14 +37,11 @@ const MultiSelect = React.forwardRef((props, ref) => {
             {_('Please select')}
           </option>
           {options &&
-            options.map(
-              // eslint-disable-next-line react/no-array-index-key
-              (option, key) => (
-                <option key={key} value={option.value}>
-                  {option.text}
-                </option>
-              )
-            )}
+            options.map((option, key) => (
+              <option key={key} value={option.value}>
+                {option.text}
+              </option>
+            ))}
         </select>
         <div className="field-border" />
         <div className="field-suffix">

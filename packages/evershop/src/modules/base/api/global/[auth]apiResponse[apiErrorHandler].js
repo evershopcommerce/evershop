@@ -1,6 +1,3 @@
-/* eslint-disable global-require */
-/* eslint-disable guard-for-in */
-/* eslint-disable import/no-import-module-exports */
 import isErrorHandlerTriggered from '../../../../lib/middleware/isErrorHandlerTriggered.js';
 
 export default async (request, response, delegate, next) => {

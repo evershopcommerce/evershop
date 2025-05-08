@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,

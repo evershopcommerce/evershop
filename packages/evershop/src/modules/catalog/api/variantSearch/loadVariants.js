@@ -2,7 +2,6 @@ const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('../../../../lib/postgres/connection');
 const { OK } = require('../../../../lib/util/httpStatus');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, stack, next) => {
   const query = select()
     .select('product_id', 'variant_product_id')
@@ -71,7 +70,6 @@ module.exports = async (request, response, stack, next) => {
   });
 
   for (let i = 0; i < variants.length; i += 1) {
-    // eslint-disable-next-line no-await-in-loop
     variants[i].attributes = JSON.parse(
       JSON.stringify(
         await select()

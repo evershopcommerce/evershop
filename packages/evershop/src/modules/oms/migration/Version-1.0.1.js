@@ -2,7 +2,6 @@ const { execute, select } = require('@evershop/postgres-query-builder');
 const { warning } = require('../../../lib/log/logger');
 const { resolveOrderStatus } = require('../services/updateOrderStatus');
 
-// eslint-disable-next-line no-multi-assign
 module.exports = exports = async (connection) => {
   await execute(
     connection,
@@ -11,7 +10,7 @@ module.exports = exports = async (connection) => {
 
   // Mapping the order status for legacy orders
   const orders = await select().from('order').execute(connection);
-  // eslint-disable-next-line no-restricted-syntax
+
   for (const order of orders) {
     try {
       const status = resolveOrderStatus(

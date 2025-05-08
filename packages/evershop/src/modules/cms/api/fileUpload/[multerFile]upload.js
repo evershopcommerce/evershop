@@ -1,10 +1,6 @@
-import {
-  INVALID_PAYLOAD,
-  OK
-} from '../../../../lib/util/httpStatus.js';
+import { INVALID_PAYLOAD, OK } from '../../../../lib/util/httpStatus.js';
 import { uploadFile } from '../../services/uploadFile.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate, next) => {
   if (!request.files || request.files.length === 0) {
     response.status(INVALID_PAYLOAD).json({

@@ -1,5 +1,3 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/jsx-closing-tag-location */
 import PropTypes from 'prop-types';
 import React from 'react';
 import Button from '@components/common/form/Button';
@@ -28,7 +26,6 @@ export default function AddTrackingButton({ order: { shipment }, carriers }) {
                   submitBtn={false}
                   isJSON
                   onSuccess={() => {
-                    // eslint-disable-next-line no-restricted-globals
                     location.reload();
                   }}
                   onValidationError={() => {

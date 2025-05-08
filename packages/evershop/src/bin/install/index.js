@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 import { green } from 'kleur';
@@ -28,9 +27,9 @@ async function install() {
     );
     process.exit(0);
   }
-  // eslint-disable-next-line no-var,vars-on-top
+
   var db;
-  // eslint-disable-next-line no-var,vars-on-top
+
   var adminUser;
 
   success(
@@ -151,7 +150,6 @@ async function install() {
       validate: (value) => {
         if (
           !value.match(
-            // eslint-disable-next-line no-useless-escape
             /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
           )
         ) {
@@ -279,7 +277,6 @@ DB_SSLMODE="${sslMode}"
   process.exit(0);
 }
 
-// eslint-disable-next-line func-names
 (async () => {
   try {
     await install();

@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-param-reassign */
 import concat from 'concat-stream';
 
 function CustomMemoryStorage(opts) {

@@ -2,7 +2,6 @@ import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 
-/* eslint-disable no-unused-vars */
 export default async (request, response, delegate, next) => {
   const query = select();
   query

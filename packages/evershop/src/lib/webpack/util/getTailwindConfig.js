@@ -5,9 +5,7 @@ import { CONSTANTS } from '../../helpers.js';
 
 export async function getTailwindConfig(route) {
   const defaultTailwindConfig = route.isAdmin
-    ? await import(
-        '../../../modules/cms/services/tailwind.admin.config.js'
-      )
+    ? await import('../../../modules/cms/services/tailwind.admin.config.js')
     : await import(
         '../../../modules/cms/services/tailwind.frontStore.config.js'
       );

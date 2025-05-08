@@ -87,7 +87,6 @@ const webpackVendorPromise = new Promise((resolve, reject) => {
 
 webpackVendorPromise.then(async () => {
   controllers.forEach((route) => {
-    // eslint-disable-next-line func-names
     const buildFunc = async function () {
       const components = getComponentsByRoute(route.id);
 

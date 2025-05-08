@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const https = require('https');
 const chalk = require('chalk');
 const commander = require('commander');

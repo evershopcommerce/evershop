@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   rollback,
   insert,
@@ -6,10 +5,7 @@ import {
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
-import {
-  getConnection,
-  pool
-} from '../../../../lib/postgres/connection.js';
+import { getConnection, pool } from '../../../../lib/postgres/connection.js';
 import {
   OK,
   INTERNAL_SERVER_ERROR,

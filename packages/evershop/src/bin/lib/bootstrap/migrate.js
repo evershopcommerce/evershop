@@ -42,7 +42,7 @@ async function migrateModule(module) {
     .sort((first, second) => semver.lt(first, second));
 
   const currentInstalledVersion = await getCurrentInstalledVersion(module.name);
-  // eslint-disable-next-line no-restricted-syntax
+
   for (const version of migrations) {
     /** If the version is lower or equal the installed version, ignore it */
     if (semver.lte(version, currentInstalledVersion)) {
@@ -50,14 +50,14 @@ async function migrateModule(module) {
     }
     const connection = await getConnection();
     await startTransaction(connection);
-    // eslint-disable-next-line no-await-in-loop
+
     /** We expect the migration script to provide a function as a default export */
     try {
       const module = await import(
         path.resolve(module.path, 'migration', `Version-${version}.js`)
       );
       await module.default(connection);
-      // eslint-disable-next-line no-await-in-loop
+
       await insertOnUpdate('migration', ['module'])
         .given({
           module: module.name,
@@ -79,7 +79,7 @@ export async function migrate(modules) {
     const connection = await getConnection();
     // Create a migration table if not exists. This is for the first time installation
     await createMigrationTable(connection);
-    // eslint-disable-next-line no-restricted-syntax
+
     for (const module of modules) {
       await migrateModule(module);
     }

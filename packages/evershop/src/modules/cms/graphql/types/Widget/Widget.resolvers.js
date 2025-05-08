@@ -57,7 +57,6 @@ export default {
       const jsonText = text
         ? text.replace(/&lt;|&gt;/g, (match) => replacements[match])
         : '[]';
-      console.log(text);
       return { text: JSON.parse(jsonText), className };
     },
     basicMenuWidget: async (_, { settings }, { pool }) => {
@@ -68,7 +67,7 @@ export default {
       if (!menus) {
         return { menus: [] };
       }
-      // eslint-disable-next-line no-restricted-syntax
+
       for (const menu of menus) {
         if (menu.type === 'category') {
           categories.push(menu.uuid);
@@ -114,14 +113,14 @@ export default {
         return {
           ...menu,
           id: uniqid(),
-          // eslint-disable-next-line no-nested-ternary
+
           url: url ? url.url : menu.type === 'custom' ? menu.url : null,
           children: menu.children.map((child) => {
             const url = urls.find((u) => u.uuid === child.uuid);
             return {
               ...child,
               id: uniqid(),
-              // eslint-disable-next-line no-nested-ternary
+
               url: url ? url.url : child.type === 'custom' ? child.url : null
             };
           })

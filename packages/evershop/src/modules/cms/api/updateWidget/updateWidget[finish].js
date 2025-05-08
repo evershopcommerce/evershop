@@ -1,6 +1,5 @@
 import updateWidget from '../../services/widget/updateWidget.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate) => {
   const data = request.body;
   if (!data.route || (data.route.length === 1 && data.route[0] === '')) {

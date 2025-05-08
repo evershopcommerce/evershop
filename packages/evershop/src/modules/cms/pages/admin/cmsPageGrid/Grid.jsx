@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -278,7 +277,6 @@ export default function CMSPageGrid({
             setSelectedRows={setSelectedRows}
           />
           {pages.map((p, i) => (
-            // eslint-disable-next-line react/no-array-index-key
             <tr key={i}>
               <td style={{ width: '2rem' }}>
                 <Checkbox

@@ -10,7 +10,6 @@ export function ItemVariantOptions({ options = [] }) {
     <div className="cart-item-variant-options mt-2">
       <ul>
         {options.map((o, i) => (
-          // eslint-disable-next-line react/no-array-index-key
           <li key={i}>
             <span className="attribute-name font-semibold">
               {o.attribute_name}:{' '}

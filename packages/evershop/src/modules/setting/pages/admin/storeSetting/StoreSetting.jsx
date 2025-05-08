@@ -184,15 +184,17 @@ Currency.defaultProps = {
 };
 
 function StorePhoneNumber({ storePhoneNumber }) {
-  return <div>
-    <Field
-      name="storePhoneNumber"
-      label="Store Phone Number"
-      placeholder="Store Phone Number"
-      value={storePhoneNumber}
-      type="text"
-    />
-  </div>
+  return (
+    <div>
+      <Field
+        name="storePhoneNumber"
+        label="Store Phone Number"
+        placeholder="Store Phone Number"
+        value={storePhoneNumber}
+        type="text"
+      />
+    </div>
+  );
 }
 
 StorePhoneNumber.propTypes = {
@@ -204,15 +206,17 @@ StorePhoneNumber.defaultProps = {
 };
 
 function StoreEmail({ storeEmail }) {
-  return <div>
-    <Field
-      name="storeEmail"
-      label="Store Email"
-      placeholder="Store Email"
-      value={storeEmail}
-      type="text"
-    />
-  </div>
+  return (
+    <div>
+      <Field
+        name="storeEmail"
+        label="Store Email"
+        placeholder="Store Email"
+        value={storeEmail}
+        type="text"
+      />
+    </div>
+  );
 }
 
 StoreEmail.propTypes = {

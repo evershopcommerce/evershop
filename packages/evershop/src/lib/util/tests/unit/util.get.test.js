@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, global-require */
 const { get } = require('../../get');
 
 describe('Test until get', () => {

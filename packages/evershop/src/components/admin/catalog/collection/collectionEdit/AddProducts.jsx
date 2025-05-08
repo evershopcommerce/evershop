@@ -30,7 +30,6 @@ function AddProducts({ addProductApi, addedProductIDs, closeModal }) {
       onSelect={addProduct}
       closeModal={closeModal}
       selectedChecker={(product) =>
-        // eslint-disable-next-line eqeqeq
         addedProducts.find((p) => p == product.productId)
       }
       onUnSelect={() => {}}

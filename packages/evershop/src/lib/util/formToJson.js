@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 function update(data, keys, value) {
   if (keys.length === 0) {
     // Leaf node
@@ -34,7 +33,7 @@ function update(data, keys, value) {
 
 export function serializeForm(formDataEntries, dataFilter) {
   const data = Array.from(formDataEntries).reduce((data, [field, value]) => {
-    // eslint-disable-next-line no-useless-escape,no-unused-vars,prefer-const
+    // eslint-disable-next-line prefer-const
     let [_, prefix, keys] = field.match(/^([^\[]+)((?:\[[^\]]*\])*)/);
 
     if (keys) {

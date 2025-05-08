@@ -8,10 +8,7 @@ import {
   select,
   update
 } from '@evershop/postgres-query-builder';
-import {
-  getConnection,
-  pool
-} from '../../../../../lib/postgres/connection.js';
+import { getConnection, pool } from '../../../../../lib/postgres/connection.js';
 import { validateAddress } from './addressValidator.js';
 
 async function insertCustomerAddressData(data, connection) {

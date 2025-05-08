@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 import path from 'path';
 import fs from 'fs';
 import jsesc from 'jsesc';
@@ -8,7 +7,7 @@ import isProductionMode from '../util/isProductionMode.js';
 import { getRouteBuildPath } from '../webpack/getRouteBuildPath.js';
 import { getConfig } from '../util/getConfig.js';
 import { getNotifications } from '../../modules/base/services/notifications.js';
-import { error } from 'console';
+import { error } from '../log/logger.js';
 
 function normalizeAssets(assets) {
   if (typeof assets === 'object' && !Array.isArray(assets) && assets !== null) {
@@ -87,7 +86,7 @@ function renderProduction(request, response) {
   const serverIndexPath = path.resolve(
     getRouteBuildPath(route),
     'server',
-    'index.cjs'
+    'index.js'
   );
   const assetsPath = path.resolve(
     getRouteBuildPath(route),
@@ -105,21 +104,18 @@ function renderProduction(request, response) {
     json: true,
     isScriptContext: true
   });
-  console.log('aaaaaaaaaaa');
   import(serverIndexPath)
     .then((module) => {
-      console.log('bbbbbb');
-      // const source = renderHtml(
-      //   assets.js,
-      //   assets.css,
-      //   safeContextValue,
-      //   langCode
-      // );
-      // response.send(source);
+      const source = module.default(
+        assets.js,
+        assets.css,
+        safeContextValue,
+        langCode
+      );
+      response.send(source);
     })
-    .catch((error) => {
-      console.log('cccccccccc');
-      console.log(error);
+    .catch((e) => {
+      error(e);
     });
 }
 

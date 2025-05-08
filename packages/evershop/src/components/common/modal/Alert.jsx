@@ -1,6 +1,3 @@
-/* eslint-disable react/jsx-closing-tag-location */
-/* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable react/jsx-props-no-spreading */
 import PropTypes from 'prop-types';
 import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom';
@@ -29,7 +26,6 @@ function reducer(state, action) {
 const alertReducer = produce((draff, action) => {
   switch (action.type) {
     case 'open':
-      // eslint-disable-next-line no-param-reassign
       draff = { ...action.payload };
       return draff;
     case 'remove':

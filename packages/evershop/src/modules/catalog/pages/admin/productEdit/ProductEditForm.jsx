@@ -13,11 +13,9 @@ export default function ProductEditForm({ action }) {
       action={action}
       dataFilter={(formData) => {
         if (formData.tax_class === '') {
-          // eslint-disable-next-line no-param-reassign
           formData.tax_class = null;
         }
         if (formData.images === undefined) {
-          // eslint-disable-next-line no-param-reassign
           formData.images = [];
         }
         return formData;

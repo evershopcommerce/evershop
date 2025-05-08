@@ -54,7 +54,6 @@ export default function Seo({ category }) {
     }
   ].map((f) => {
     if (get(category, `${f.props.id}`) !== undefined) {
-      // eslint-disable-next-line no-param-reassign
       f.props.value = get(category, `${f.props.id}`);
     }
     return f;

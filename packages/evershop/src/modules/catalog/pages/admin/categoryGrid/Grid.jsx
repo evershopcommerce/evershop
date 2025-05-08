@@ -1,6 +1,3 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';

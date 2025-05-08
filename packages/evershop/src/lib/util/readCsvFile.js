@@ -9,7 +9,6 @@ export async function readCsvFile(filePath) {
       .on('data', (data) => {
         // Skip the first row (headers)
         if (!data[0].startsWith('#')) {
-          // eslint-disable-next-line prefer-destructuring
           results[data[0]] = data[1];
         }
       })

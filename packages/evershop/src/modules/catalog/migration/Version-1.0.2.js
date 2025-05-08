@@ -1,6 +1,5 @@
 const { execute } = require('@evershop/postgres-query-builder');
 
-// eslint-disable-next-line no-multi-assign
 module.exports = exports = async (connection) => {
   // Add a category_id column to the product table
   await execute(

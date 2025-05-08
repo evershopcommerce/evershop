@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { select } from '@evershop/postgres-query-builder';
 import { DateTime } from 'luxon';
 import { pool } from '../../../lib/postgres/connection.js';
@@ -117,7 +116,6 @@ export function registerDefaultValidators() {
         let qty = 0;
         // Continue to next item if key is not category
         if (condition.key !== 'category') {
-          // eslint-disable-next-line no-continue
           continue;
         } else if (
           ['IN', 'NOT IN'].includes(operator) &&
@@ -125,7 +123,6 @@ export function registerDefaultValidators() {
         ) {
           const requiredCategoryIds = value.map((v) => parseInt(v.trim(), 10));
           if (operator === 'IN') {
-            // eslint-disable-next-line no-loop-func
             items.forEach((item) => {
               const categoryId = item.getData('category_id');
               if (requiredCategoryIds.includes(categoryId)) {
@@ -133,7 +130,6 @@ export function registerDefaultValidators() {
               }
             });
           } else {
-            // eslint-disable-next-line no-loop-func
             items.forEach((item) => {
               const categoryId = item.getData('category_id');
               if (!requiredCategoryIds.includes(categoryId)) {
@@ -170,7 +166,6 @@ export function registerDefaultValidators() {
         let qty = 0;
         // Continue to next item if key is not collection based requirement
         if (condition.key !== 'collection') {
-          // eslint-disable-next-line no-continue
           continue;
         } else if (
           ['IN', 'NOT IN'].includes(operator) &&
@@ -182,14 +177,12 @@ export function registerDefaultValidators() {
           const productIds = items.map((item) => item.getData('product_id'));
           // Load the collections of all item
           if (!collections) {
-            // eslint-disable-next-line no-await-in-loop
             collections = await select()
               .from('product_collection')
               .where('product_id', 'IN', productIds)
               .execute(pool);
           }
           if (operator === 'IN') {
-            // eslint-disable-next-line no-loop-func
             items.forEach((item) => {
               const productId = item.getData('product_id');
               const collectionIDs = collections.filter(
@@ -204,7 +197,6 @@ export function registerDefaultValidators() {
               }
             });
           } else {
-            // eslint-disable-next-line no-loop-func
             items.forEach((item) => {
               const productId = item.getData('product_id');
               const collectionIDs = collections.filter(
@@ -247,7 +239,6 @@ export function registerDefaultValidators() {
         let qty = 0;
         // Continue to next item if key is not attribute_group
         if (condition.key !== 'attribute_group') {
-          // eslint-disable-next-line no-continue
           continue;
         } else if (
           ['IN', 'NOT IN'].includes(operator) &&
@@ -302,7 +293,6 @@ export function registerDefaultValidators() {
         }
         // Continue to next item if key is not price
         if (condition.key !== 'price') {
-          // eslint-disable-next-line no-continue
           continue;
         } else if (['=', '!=', '>', '>=', '<', '<='].includes(operator)) {
           if (operator === '=') {
@@ -312,7 +302,7 @@ export function registerDefaultValidators() {
             const price = priceIncludingTax
               ? item.getData('final_price_incl_tax')
               : item.getData('final_price');
-            // eslint-disable-next-line no-eval
+
             if (eval(`${price} ${operator} ${value}`)) {
               qty += item.getData('qty');
             }
@@ -344,7 +334,6 @@ export function registerDefaultValidators() {
         let qty = 0;
         // Continue to next item if key is not attribute_group
         if (condition.key !== 'sku') {
-          // eslint-disable-next-line no-continue
           continue;
         } else if (
           ['IN', 'NOT IN'].includes(operator) &&

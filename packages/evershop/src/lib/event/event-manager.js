@@ -20,7 +20,6 @@ const subscribers = await loadSubscribers(modules);
 const init = async () => {
   /** Loading bootstrap script from modules */
   try {
-    // eslint-disable-next-line no-restricted-syntax
     for (const module of modules) {
       await loadBootstrapScript(module);
     }
@@ -95,7 +94,6 @@ async function syncEvents() {
 }
 
 async function executeSubscribers(event) {
-  // eslint-disable-next-line no-param-reassign
   event.status = 'processing';
   const eventData = event.data;
   // get subscribers for the event
@@ -104,7 +102,7 @@ async function executeSubscribers(event) {
     .map((subscriber) => subscriber.subscriber);
   // Call subscribers
   await callSubscribers(matchingSubscribers, eventData);
-  // eslint-disable-next-line no-param-reassign
+
   event.status = 'done';
 }
 

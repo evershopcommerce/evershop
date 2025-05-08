@@ -97,7 +97,6 @@ function Products({ targetProducts, maxQty }) {
         </thead>
         <tbody>
           {products.map((p, i) => (
-            // eslint-disable-next-line react/no-array-index-key
             <tr key={i}>
               <td>
                 <div className="form-field-container dropdown">
@@ -174,7 +173,6 @@ function Products({ targetProducts, maxQty }) {
                                 default: c.allowKeys.includes(p.key) ? (
                                   <option value={c.key}>{c.label}</option>
                                 ) : (
-                                  // eslint-disable-next-line react/jsx-no-useless-fragment
                                   <>{null}</>
                                 )
                               },

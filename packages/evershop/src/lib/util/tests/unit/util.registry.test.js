@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, global-require */
 const {
   getValue,
   getValueSync,

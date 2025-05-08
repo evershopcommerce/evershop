@@ -8,7 +8,6 @@ import { saveCart } from '../../../checkout/services/saveCart.js';
 
 export default async (request, response, delegate, next) => {
   try {
-    // eslint-disable-next-line camelcase
     const { cart_id } = request.params;
     const { coupon } = request.body;
     const cart = await getCartByUUID(cart_id);

@@ -1,6 +1,5 @@
 import { getSetting } from '../../../setting/services/setting.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response) => {
   // Check if COD is enabled
   const codStatus = await getSetting('codPaymentStatus', 0);

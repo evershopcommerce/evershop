@@ -1,6 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-param-reassign */
-/* eslint-disable global-require */
 import path from 'path';
 import { addDefaultMiddlewareFuncs } from '../../../../../bin/lib/addDefaultMiddlewareFuncs.js';
 import express from 'express';

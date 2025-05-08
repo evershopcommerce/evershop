@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -134,6 +133,7 @@ function Actions({ reviews = [], selectedIds = [] }) {
             </a>
             {actions.map((action) => (
               <a
+                key={action.name}
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
@@ -233,7 +233,7 @@ export default function ReviewGrid({
             }
           }
         ]}
-       />
+      />
       <table className="listing sticky">
         <thead>
           <tr>
@@ -312,7 +312,6 @@ export default function ReviewGrid({
             setSelectedRows={setSelectedRows}
           />
           {reviews.map((r, i) => (
-            // eslint-disable-next-line react/no-array-index-key
             <tr key={i}>
               <td style={{ width: '2rem' }}>
                 <Checkbox

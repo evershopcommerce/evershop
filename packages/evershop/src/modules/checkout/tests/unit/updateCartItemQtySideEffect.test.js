@@ -1,12 +1,8 @@
-/* eslint-disable no-undef, global-require */
 process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 const config = require('config');
 require('../basicSetup');
 const { Cart } = require('../../services/cart/Cart');
-const {
-  hookAfter,
-  hookBefore
-} = require('../../../../lib/util/hookable');
+const { hookAfter, hookBefore } = require('../../../../lib/util/hookable');
 // Default tax configuration
 config.util.setModuleDefaults('pricing', {
   tax: {

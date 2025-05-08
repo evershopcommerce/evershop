@@ -13,7 +13,6 @@ const { error } = require('../../../../lib/log/logger');
 const { getConfig } = require('../../../../lib/util/getConfig');
 const updatePassword = require('../../services/customer/updatePassword');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { body } = request;
 

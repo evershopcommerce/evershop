@@ -66,7 +66,7 @@ Index.propTypes = {
   }),
   areaId: PropTypes.string,
   formId: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
+
   customerAddressSchema: PropTypes.object.isRequired
 };
 

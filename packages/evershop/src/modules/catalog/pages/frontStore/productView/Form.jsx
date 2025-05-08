@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';

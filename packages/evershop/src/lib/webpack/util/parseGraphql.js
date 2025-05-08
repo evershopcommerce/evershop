@@ -2,7 +2,6 @@ import fs from 'fs';
 import uniqid from 'uniqid';
 import JSON5 from 'json5';
 import { isResolvable } from '../../util/isResolvable.js';
-import { CONSTANTS } from '../../helpers.js';
 import { parseGraphqlByFile } from './parseGraphqlByFile.js';
 import { generateComponentKey } from './keyGenerator.js';
 
@@ -28,9 +27,7 @@ export function parseGraphql(modules) {
       moduleKey = generateComponentKey(module);
     } else {
       modulePath = module;
-      moduleKey = generateComponentKey(
-        modulePath.replace(CONSTANTS.ROOTPATH, '')
-      );
+      moduleKey = generateComponentKey(modulePath);
     }
     const moduleGraphqlData = parseGraphqlByFile(modulePath);
     queries[moduleKey] = moduleGraphqlData.query.source;

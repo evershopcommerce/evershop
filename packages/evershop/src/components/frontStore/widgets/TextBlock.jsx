@@ -12,7 +12,6 @@ export default function TextBlock({ textWidget: { text, className } }) {
 
 TextBlock.propTypes = {
   textWidget: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
     text: PropTypes.array,
     className: PropTypes.string
   })

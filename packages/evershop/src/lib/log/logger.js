@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import winston from 'winston';
 import CustomColorize from './CustomColorize.js';
 import isDevelopmentMode from '../util/isDevelopmentMode.js';
@@ -22,7 +21,9 @@ export function error(e) {
   const { stack } = new Error();
   const callerInfo = stack.split('\n')[2] || 'Unknown caller';
 
+  // eslint-disable-next-line no-console
   console.log(e);
+  // eslint-disable-next-line no-console
   console.log(`Called from: ${callerInfo.trim()}`);
 
   const logger = createLogger();

@@ -1,7 +1,6 @@
 import { useAppState } from '@components/common/context/app';
 import { get } from '../../../lib/util/get.js';
 
-/* eslint-disable global-require */
 const { resolve } = require('path');
 const { CONSTANTS } = require('../../../lib/helpers');
 

@@ -40,9 +40,7 @@ export async function buildEntry(routes, clientOnly = false) {
             .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
           try {
             const layout = JSON5.parse(check);
-            const id = generateComponentKey(
-              module.replace(CONSTANTS.ROOTPATH, '')
-            );
+            const id = generateComponentKey(module);
             areas[layout.areaId] = areas[layout.areaId] || {};
             areas[layout.areaId][id] = {
               id,
@@ -59,10 +57,10 @@ export async function buildEntry(routes, clientOnly = false) {
       let contentClient = `
       import React from 'react';
       import ReactDOM from 'react-dom';
-      import { Area } from '@evershop/evershop/components/common/Area';
-      import Hydrate from '@evershop/evershop/components/common/react/client/${
+      import {Area} from '@evershop/evershop/components/common/Area';
+      import {${
         route.isAdmin ? 'HydrateAdmin' : 'HydrateFrontStore'
-      }';
+      }} from '@evershop/evershop/components/common/index';
       `;
       areas['*'] = areas['*'] || {};
       widgets.forEach((widget) => {
@@ -82,7 +80,7 @@ export async function buildEntry(routes, clientOnly = false) {
         .replace(/---"/g, '')} `;
       contentClient += '\r\n';
       contentClient += `ReactDOM.hydrate(
-        <Hydrate/>,
+        ${route.isAdmin ? '<HydrateAdmin/>' : '<HydrateFrontStore/>'},
         document.getElementById('app')
       );`;
       if (!fs.existsSync(path.resolve(subPath, 'client'))) {
@@ -104,6 +102,8 @@ export async function buildEntry(routes, clientOnly = false) {
         contentServer += '\r\n';
         contentServer += `import {Area} from '@evershop/evershop/components/common/Area';`;
         contentServer += '\r\n';
+        contentServer += `import {renderHtml} from '/Users/thenguyenhuu/vscode/evershop/packages/evershop/dist/components/common/react/server/render.jsx';\r\n`;
+        contentServer += `export default renderHtml;\r\n`;
         contentServer += `Area.defaultProps.components = ${inspect(areas, {
           depth: 5
         })

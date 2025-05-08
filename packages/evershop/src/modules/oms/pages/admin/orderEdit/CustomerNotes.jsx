@@ -12,7 +12,6 @@ export default function CustomerNotes({ order: { shippingNote } }) {
           coreComponents={[
             {
               component: {
-                // eslint-disable-next-line react/no-unstable-nested-components
                 default: () => (
                   <div>
                     {shippingNote || (

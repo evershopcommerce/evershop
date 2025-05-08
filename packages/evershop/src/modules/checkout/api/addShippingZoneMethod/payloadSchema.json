@@ -46,10 +46,7 @@
           }
         },
         "additionalProperties": false,
-        "required": [
-          "min_weight",
-          "cost"
-        ]
+        "required": ["min_weight", "cost"]
       }
     },
     "price_based_cost": {
@@ -67,16 +64,10 @@
           }
         },
         "additionalProperties": false,
-        "required": [
-          "min_price",
-          "cost"
-        ]
+        "required": ["min_price", "cost"]
       }
     }
   },
   "additionalProperties": true,
-  "required": [
-    "method_id",
-    "condition_type"
-  ]
+  "required": ["method_id", "condition_type"]
 }

@@ -223,6 +223,6 @@ StepContent.propTypes = {
     addBillingAddressApi: PropTypes.string.isRequired,
     addPaymentMethodApi: PropTypes.string.isRequired
   }).isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
+
   customerAddressSchema: PropTypes.object.isRequired
 };

@@ -10,7 +10,6 @@ const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const sgMail = require('@sendgrid/mail');
 const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   try {
     const {

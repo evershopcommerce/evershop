@@ -21,10 +21,9 @@ export async function createAxiosInstance(request) {
         expires_in: paypalAccessToken.data.expires_in,
         created_at: new Date().getTime()
       };
-      // eslint-disable-next-line no-param-reassign
+
       config.headers.Authorization = `Bearer ${paypalAccessToken.data.access_token}`;
     } else {
-      // eslint-disable-next-line no-param-reassign
       config.headers.Authorization = `Bearer ${tokenObj.access_token}`;
     }
     return config;

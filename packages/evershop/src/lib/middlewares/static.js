@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import staticMiddleware from 'serve-static';
 import { normalize, join } from 'path';
 import { existsSync } from 'fs';

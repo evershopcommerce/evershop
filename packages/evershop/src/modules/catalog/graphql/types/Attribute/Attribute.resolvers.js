@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { select } from '@evershop/postgres-query-builder';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 

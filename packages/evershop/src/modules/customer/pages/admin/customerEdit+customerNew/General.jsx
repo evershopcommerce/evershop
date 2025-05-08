@@ -68,24 +68,20 @@ export default function General({ customer }) {
         id="customerEditInformation"
         coreComponents={[
           {
-            // eslint-disable-next-line react/no-unstable-nested-components
             component: {
               default: () => <FullName fullName={customer.fullName} />
             },
             sortOrder: 10
           },
           {
-            // eslint-disable-next-line react/no-unstable-nested-components
             component: { default: () => <Email email={customer.email} /> },
             sortOrder: 15
           },
           {
-            // eslint-disable-next-line react/no-unstable-nested-components
             component: { default: () => <Group group={customer.group} /> },
             sortOrder: 20
           },
           {
-            // eslint-disable-next-line react/no-unstable-nested-components
             component: { default: () => <Status status={customer.status} /> },
             sortOrder: 25
           }

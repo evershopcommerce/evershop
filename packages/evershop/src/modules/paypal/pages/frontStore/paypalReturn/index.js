@@ -12,7 +12,6 @@ module.exports = async (request, response, delegate, next) => {
   // Get paypal token from query string
   const paypalToken = request.query.token;
   if (paypalToken) {
-    // eslint-disable-next-line camelcase
     const { order_id } = request.params;
     const query = select().from('order');
     query
@@ -38,7 +37,6 @@ module.exports = async (request, response, delegate, next) => {
               : 'paypalAuthorizePayment'
           )}`,
           {
-            // eslint-disable-next-line camelcase
             order_id
           },
           {
@@ -55,7 +53,7 @@ module.exports = async (request, response, delegate, next) => {
         // Emit event to add order placed event
         await emit('order_placed', { ...order });
         // Redirect to order success page
-        // eslint-disable-next-line camelcase
+
         response.redirect(302, `${buildUrl('checkoutSuccess')}/${order_id}`);
       } catch (e) {
         next();

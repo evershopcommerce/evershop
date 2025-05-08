@@ -37,7 +37,7 @@ export const getFilterableAttributes = async (categoryId) => {
   const attributeData = await query.execute(pool);
 
   const attributes = [];
-  // eslint-disable-next-line no-plusplus
+
   for (let i = 0; i < attributeData.length; i++) {
     const index = attributes.findIndex(
       (a) => a.attributeCode === attributeData[i].attribute_code
@@ -65,7 +65,6 @@ export const getFilterableAttributes = async (categoryId) => {
           optionText: attributeData[i].option_text
         });
       } else {
-        // eslint-disable-next-line no-plusplus
         attributes[index].options[idx].productCount++;
       }
     }

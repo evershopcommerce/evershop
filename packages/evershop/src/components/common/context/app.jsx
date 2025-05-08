@@ -21,7 +21,6 @@ export function AppProvider({ value, children }) {
     // Update the entire context using immer
     setData(
       produce(data, (draff) => {
-        // eslint-disable-next-line no-param-reassign
         draff = dataResponse.eContext;
         return draff;
       })
@@ -54,7 +53,7 @@ AppProvider.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]).isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
+
   value: PropTypes.object.isRequired
 };
 

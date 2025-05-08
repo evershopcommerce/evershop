@@ -1,7 +1,6 @@
 import { INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 import { error } from '../../../../lib/log/logger.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (err, request, response, delegate, next) => {
   error(err);
   // Set this flag to make sure this middleware only be executed 1 time

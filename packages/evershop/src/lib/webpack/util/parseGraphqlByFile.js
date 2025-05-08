@@ -48,13 +48,11 @@ export function parseGraphqlByFile(module) {
         const alias = selection.alias ? selection.alias.value : name;
         const newAlias = `e${uniqid()}`;
         if (!selection.alias) {
-          // eslint-disable-next-line no-param-reassign
           selection.alias = {
             kind: 'Name',
             value: newAlias
           };
         } else {
-          // eslint-disable-next-line no-param-reassign
           selection.alias.value = newAlias;
         }
 
@@ -69,12 +67,11 @@ export function parseGraphqlByFile(module) {
     queryBody = print(queryAst);
 
     // Regex to find all variable name and type ($name: Type!) in graphql query
-    // eslint-disable-next-line no-useless-escape
+
     const variableRegex = /\$([a-zA-Z0-9]+)\s*:\s*([a-zA-Z0-9\[\]!]+)/g;
     const variableMatch = queryBody.match(variableRegex);
     if (variableMatch) {
       variableMatch.forEach((variable) => {
-        // eslint-disable-next-line no-useless-escape
         const varRegex = /\$([a-zA-Z0-9]+)\s*:\s*([a-zA-Z0-9\[\]!]+)/;
         const varMatch = varRegex.exec(variable);
         const name = varMatch[1];

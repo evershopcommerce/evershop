@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, global-require */
 const { merge } = require('../../merge');
 
 describe('Test until merge', () => {

@@ -30,9 +30,7 @@ export async function loadCsvTranslationFiles() {
 
     const fileDataList = await Promise.all(filePromises);
 
-    // eslint-disable-next-line no-restricted-syntax
     for (const fileData of fileDataList) {
-      // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of Object.entries(fileData)) {
         results[key] = value;
       }

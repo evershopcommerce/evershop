@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { pool } from '../../../lib/postgres/connection.js';
 import { select } from '@evershop/postgres-query-builder';
 

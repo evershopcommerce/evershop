@@ -1,7 +1,6 @@
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getSetting } from '../../../setting/services/setting.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response) => {
   // Check if Paypal is enabled
   const paypalConfig = getConfig('system.paypal', {});

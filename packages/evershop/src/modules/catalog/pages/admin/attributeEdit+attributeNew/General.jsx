@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import React from 'react';
 import Select from 'react-select';
@@ -256,7 +254,6 @@ export default function General({ attribute, createGroupApi }) {
     }
   ].map((f) => {
     if (get(attribute, `${f.props.id}`) !== undefined) {
-      // eslint-disable-next-line no-param-reassign
       f.props.value = get(attribute, `${f.props.id}`);
     }
     return f;

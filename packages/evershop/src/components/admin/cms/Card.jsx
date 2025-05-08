@@ -18,7 +18,6 @@ function Card({ title, actions = [], subdued = false, children }) {
                   secondary: 'text-secondary'
                 };
                 return (
-                  // eslint-disable-next-line react/no-array-index-key
                   <div key={index} className="card-action">
                     <a
                       href="#"
@@ -81,7 +80,6 @@ const Session = function Session({ actions = [], title, children }) {
                   secondary: 'text-secondary'
                 };
                 return (
-                  // eslint-disable-next-line react/no-array-index-key
                   <div key={index} className="card-action">
                     <a
                       href="#"

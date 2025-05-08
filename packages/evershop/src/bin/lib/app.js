@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-param-reassign */
 import express from 'express';
 import { getModuleMiddlewares } from '../../lib/middleware/index.js';
 import { getRoutes } from '../../lib/router/Router.js';

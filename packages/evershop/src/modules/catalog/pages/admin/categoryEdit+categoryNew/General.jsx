@@ -150,7 +150,6 @@ export default function General({
     }
   ].map((f) => {
     if (get(category, `${f.props.id}`) !== undefined) {
-      // eslint-disable-next-line no-param-reassign
       f.props.value = get(category, `${f.props.id}`);
     }
     return f;
@@ -180,7 +179,7 @@ General.propTypes = {
           PropTypes.shape({
             id: PropTypes.string.isRequired,
             size: PropTypes.number.isRequired,
-            // eslint-disable-next-line react/forbid-prop-types
+
             data: PropTypes.object.isRequired
           })
         )

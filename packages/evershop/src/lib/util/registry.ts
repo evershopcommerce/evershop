@@ -140,7 +140,6 @@ class Registry {
       );
     }
     if (typeof priority === 'undefined') {
-      // eslint-disable-next-line no-param-reassign
       priority = 10;
     }
     // Throw error if priority is not a number

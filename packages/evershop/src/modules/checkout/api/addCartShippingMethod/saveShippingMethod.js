@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   OK,
   INTERNAL_SERVER_ERROR,

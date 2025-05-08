@@ -35,14 +35,14 @@ export function SubmitButton({
 
       // Merge product and variant form data
       const formData = new FormData();
-      // eslint-disable-next-line no-restricted-syntax
+
       for (const [key, value] of productFormData.entries()) {
         // Do not include 'images[]' key
         if (key !== 'images[]') {
           formData.append(key, value);
         }
       }
-      // eslint-disable-next-line no-restricted-syntax
+
       for (const [key, value] of variantFormData.entries()) {
         // If key not include 'attributes'
         if (key === 'images[]') {
@@ -60,7 +60,6 @@ export function SubmitButton({
       productData.attributes = productData.attributes || [];
       productData.attributes = productData.attributes.map((attribute) => {
         if (variantFormData.has(attribute.attribute_code)) {
-          // eslint-disable-next-line no-param-reassign
           attribute.value = variantFormData.get(attribute.attribute_code);
         }
         return attribute;

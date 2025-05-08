@@ -14,7 +14,6 @@ const Handlebars = require('handlebars');
 const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
 const { getValue } = require('@evershop/evershop/src/lib/util/registry');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   try {
     const {

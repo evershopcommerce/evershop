@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-constructed-context-values */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import PubSub from 'pubsub-js';

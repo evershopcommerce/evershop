@@ -14,7 +14,6 @@ export function ItemOptions({ options = [] }) {
     <div className="cart-item-options mt-2">
       <ul className="list-basic">
         {options.map((o, i) => (
-          // eslint-disable-next-line react/no-array-index-key
           <li key={i}>
             <span className="option-name">{o.option_name}: </span>
             {o.values.map((v, k) => {
@@ -23,7 +22,6 @@ export function ItemOptions({ options = [] }) {
                 currency
               }).format(v.extra_price);
               return (
-                // eslint-disable-next-line react/no-array-index-key
                 <span key={k}>
                   {v.value_text}
                   <span className="extra-price">

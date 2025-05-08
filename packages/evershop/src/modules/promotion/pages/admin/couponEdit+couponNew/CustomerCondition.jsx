@@ -37,7 +37,6 @@ export default function CustomerCondition({
       coreComponents={[
         {
           component: {
-            // eslint-disable-next-line react/no-unstable-nested-components
             default: () => (
               <Select
                 name="user_condition[groups][]"

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /**
  * This function take 2 objects and merge the second one to the first one
  *

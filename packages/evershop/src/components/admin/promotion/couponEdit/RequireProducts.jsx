@@ -162,7 +162,6 @@ export function RequiredProducts({ requiredProducts }) {
                                 default: c.allowKeys.includes(p.key) ? (
                                   <option value={c.key}>{c.label}</option>
                                 ) : (
-                                  // eslint-disable-next-line react/jsx-no-useless-fragment
                                   <>{null}</>
                                 )
                               },

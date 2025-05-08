@@ -4,13 +4,9 @@ import {
   rollback
 } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
-import {
-  OK,
-  INTERNAL_SERVER_ERROR
-} from '../../../../lib/util/httpStatus.js';
+import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 import { refreshSetting } from '../../services/setting.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate, next) => {
   const { body } = request;
   const connection = await getConnection();

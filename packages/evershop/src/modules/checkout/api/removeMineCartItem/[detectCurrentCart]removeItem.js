@@ -3,9 +3,7 @@ const {
   INTERNAL_SERVER_ERROR,
   OK
 } = require('../../../../lib/util/httpStatus');
-const {
-  translate
-} = require('../../../../lib/locale/translate/translate');
+const { translate } = require('../../../../lib/locale/translate/translate');
 const { getContextValue } = require('../../../graphql/services/contextHelper');
 const { saveCart } = require('../../services/saveCart');
 const { getCartByUUID } = require('../../services/getCartByUUID');

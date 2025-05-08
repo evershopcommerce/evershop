@@ -1,5 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Field } from '@components/common/form/Field';
@@ -168,7 +166,7 @@ CustomerAddressForm.propTypes = {
   ).isRequired,
   areaId: PropTypes.string,
   formId: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
+
   customerAddressSchema: PropTypes.object.isRequired
 };
 

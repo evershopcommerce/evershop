@@ -19,12 +19,47 @@ export function createBaseConfig(isServer) {
 
   const loaders = [
     {
-      test: /\.(jsx)$/,
+      // Handle TypeScript-only files
+      test: /\.ts$/, // <-- Changed to just .ts
       exclude: {
         and: [/node_modules/],
         not: [
           /@evershop[\\/]evershop/,
-          // Include all enabled extension;
+          ...extenions.map((ext) => {
+            const regex = new RegExp(
+              ext.resolve.replace(/\\/g, '[\\\\\\]').replace(/\//g, '[\\\\/]')
+            );
+            return regex;
+          })
+        ]
+      },
+      use: [
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              '@babel/preset-env', // <-- Add env preset
+              [
+                '@babel/preset-typescript',
+                {
+                  isTSX: false, // <-- No JSX for .ts files
+                  allExtensions: true,
+                  allowNamespaces: true,
+                  onlyRemoveTypeImports: true
+                }
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      // Handle TSX and JSX files
+      test: /\.(jsx|tsx)$/,
+      exclude: {
+        and: [/node_modules/],
+        not: [
+          /@evershop[\\/]evershop/,
           ...extenions.map((ext) => {
             const regex = new RegExp(
               ext.resolve.replace(/\\/g, '[\\\\\\]').replace(/\//g, '[\\\\/]')
@@ -64,7 +99,16 @@ export function createBaseConfig(isServer) {
                   ]
                 }
               ],
-              '@babel/preset-react'
+              '@babel/preset-react',
+              [
+                '@babel/preset-typescript', // <-- Add TypeScript preset for .tsx files
+                {
+                  isTSX: true,
+                  allExtensions: true,
+                  allowNamespaces: true,
+                  onlyRemoveTypeImports: true
+                }
+              ]
             ]
           }
         },
@@ -112,10 +156,15 @@ export function createBaseConfig(isServer) {
   }
 
   if (isServer) {
-    output.libraryTarget = 'commonjs2';
-    output.globalObject = 'this';
+    output.library = {
+      type: 'module'
+    };
+    output.module = true;
+    output.chunkFormat = 'module';
+    output.environment = { module: true };
+    output.iife = false;
+    output.scriptType = 'module';
   }
-
   const config = {
     mode: isProductionMode() ? 'production' : 'development',
     module: {
@@ -165,7 +214,11 @@ export function createBaseConfig(isServer) {
 
   config.resolve = {
     alias,
-    extensions: ['.js', '.jsx', '.json', '.wasm', '.ts', '.tsx']
+    extensions: ['.js', '.jsx', '.json', '.wasm', '.ts', '.tsx'],
+    extensionAlias: {
+      '.js': ['.ts', '.js'],
+      '.jsx': ['.tsx', '.jsx']
+    }
   };
 
   config.optimization = {};

@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { inspect } from 'util';
 import { writeFile, mkdir, rmdir } from 'fs/promises';
 import { existsSync, statSync, readdirSync } from 'fs';
@@ -91,7 +90,7 @@ export default async (request, response, route) => {
   if (route.__BUILDING__ === true) {
     await new Promise((resolve, reject) => {
       let timer = 0;
-      // eslint-disable-next-line no-var
+
       var check = setInterval(() => {
         // We only wait for 1 min maximum for the bundle
         if (timer > 60000) {
@@ -122,7 +121,7 @@ export default async (request, response, route) => {
     });
     return;
   }
-  // eslint-disable-next-line no-param-reassign
+
   route.__BUILDING__ = true;
 
   if (
@@ -246,10 +245,9 @@ export default async (request, response, route) => {
     }
   }
 
-  // eslint-disable-next-line no-param-reassign
   route.__BUILDREQUIRED__ = false;
-  // eslint-disable-next-line no-param-reassign
+
   route.__BUNDLEHASH__ = hash;
-  // eslint-disable-next-line no-param-reassign
+
   route.__BUILDING__ = false;
 };

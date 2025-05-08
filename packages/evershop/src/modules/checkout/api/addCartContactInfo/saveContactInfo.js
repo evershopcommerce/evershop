@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   INVALID_PAYLOAD,
   OK,

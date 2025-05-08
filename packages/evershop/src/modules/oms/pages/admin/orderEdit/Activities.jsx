@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { DateTime } from 'luxon';

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   rollback,
   insert,
@@ -6,12 +5,8 @@ import {
   startTransaction
 } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
-import {
-  OK,
-  INTERNAL_SERVER_ERROR
-} from '../../../../lib/util/httpStatus.js';
+import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate, next) => {
   const connection = await getConnection();
   await startTransaction(connection);

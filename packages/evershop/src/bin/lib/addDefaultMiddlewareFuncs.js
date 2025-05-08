@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import sessionStorage from 'connect-pg-simple';
@@ -118,7 +117,6 @@ export function addDefaultMiddlewareFuncs(app, routes) {
 
   routes.forEach((r) => {
     const currentRouteMiddleware = (request, response, next) => {
-      // eslint-disable-next-line no-underscore-dangle
       request.currentRoute = r;
       next();
     };
@@ -147,7 +145,6 @@ export function addDefaultMiddlewareFuncs(app, routes) {
 
     /** 405 Not Allowed handle */
     app.all(r.path, (request, response, next) => {
-      // eslint-disable-next-line no-underscore-dangle
       if (
         request.currentRoute &&
         !request.currentRoute.method.includes(request.method)
@@ -160,7 +157,7 @@ export function addDefaultMiddlewareFuncs(app, routes) {
 
     // Cookie parser
     app.use(cookieParser(cookieSecret));
-    // eslint-disable-next-line no-underscore-dangle
+
     r.__BUILDREQUIRED__ = true;
   });
 

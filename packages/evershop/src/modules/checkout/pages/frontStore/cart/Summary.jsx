@@ -96,7 +96,6 @@ function Summary({
               id: 'shoppingCartDiscount'
             },
             {
-              // eslint-disable-next-line react/no-unstable-nested-components
               component: {
                 default: priceIncludingTax ? () => null : Tax
               },
@@ -107,7 +106,6 @@ function Summary({
               id: 'tax'
             },
             {
-              // eslint-disable-next-line react/no-unstable-nested-components
               component: {
                 default: Total
               },

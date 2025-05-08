@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import PropTypes from 'prop-types';
 import React from 'react';
 import Error from '@components/common/form/fields/Error';

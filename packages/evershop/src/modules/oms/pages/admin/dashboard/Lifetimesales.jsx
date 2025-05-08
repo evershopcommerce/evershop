@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
@@ -98,15 +97,12 @@ export default function LifetimeSale({ api }) {
                   dataKey="value"
                   label
                 >
-                  {
-                    // eslint-disable-next-line react/no-array-index-key
-                    chartData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))
-                  }
+                  {chartData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
                 </Pie>
               </PieChart>
             </ResponsiveContainer>

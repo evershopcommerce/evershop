@@ -18,7 +18,6 @@ async function addCartItem(cart, productID, qty, context = {}) {
     let duplicateItem;
     for (let i = 0; i < items.length; i += 1) {
       if (items[i].getData('product_sku') === item.getData('product_sku')) {
-        // eslint-disable-next-line no-await-in-loop
         await items[i].setData(
           'qty',
           item.getData('qty') + items[i].getData('qty')

@@ -16,7 +16,6 @@ export function Results({ keyword, results = {} }) {
           <div className="item-category flex flex-col space-x-4">
             <div className="result-category">Products</div>
             {products.items.map((product, index) => (
-              // eslint-disable-next-line react/no-array-index-key
               <a href={product.url} key={index}>
                 <div className="font-bold">{product.name}</div>
                 <div>#{product.sku}</div>
@@ -28,7 +27,6 @@ export function Results({ keyword, results = {} }) {
           <div className="item-category flex flex-col space-x-4">
             <div className="result-category">Customers</div>
             {customers.items.map((customer, index) => (
-              // eslint-disable-next-line react/no-array-index-key
               <a href={customer.url} key={index}>
                 <div className="font-bold">{customer.fullName}</div>
                 <div>{customer.email}</div>
@@ -40,7 +38,6 @@ export function Results({ keyword, results = {} }) {
           <div className="item-category flex flex-col space-x-4">
             <div className="result-category">Orders</div>
             {orders.items.map((order, index) => (
-              // eslint-disable-next-line react/no-array-index-key
               <a href={order.url} key={index}>
                 <div className="font-bold">#{order.orderNumber}</div>
                 <div>{order.email}</div>

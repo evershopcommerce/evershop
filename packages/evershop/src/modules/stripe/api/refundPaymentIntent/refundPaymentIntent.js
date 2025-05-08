@@ -21,12 +21,11 @@ const {
   updatePaymentStatus
 } = require('../../../oms/services/updatePaymentStatus');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const connection = await getConnection(pool);
   try {
     await startTransaction(connection);
-    // eslint-disable-next-line camelcase
+
     const { order_id, amount } = request.body;
     // Load the order
     const order = await select()

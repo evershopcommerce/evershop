@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';

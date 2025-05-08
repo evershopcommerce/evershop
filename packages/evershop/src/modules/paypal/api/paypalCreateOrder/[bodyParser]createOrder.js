@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { select, update } from '@evershop/postgres-query-builder';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import { pool } from '../../../../lib/postgres/connection.js';
@@ -15,7 +14,6 @@ import { getSetting } from '../../../setting/services/setting.js';
 import { toPrice } from '../../../checkout/services/toPrice.js';
 import { createAxiosInstance } from '../../services/requester.js';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate, next) => {
   try {
     const { order_id } = request.body;

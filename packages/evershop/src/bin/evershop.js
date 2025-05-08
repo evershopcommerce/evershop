@@ -34,7 +34,6 @@ process.on('uncaughtException', function (exception) {
   });
 });
 process.on('unhandledRejection', (reason, p) => {
-  console.log('11111', p);
   import('../lib/log/logger.js').then((module) => {
     module.error(`Unhandled Rejection: ${reason} at: ${p}`);
   });

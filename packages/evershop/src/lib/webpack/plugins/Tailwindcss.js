@@ -52,7 +52,6 @@ export class Tailwindcss {
                 /\/\*beginTailwind\*\/(.*)\/\*endTailwind\*\//s
               );
               if (tailwind) {
-                // eslint-disable-next-line prefer-destructuring
                 tailwind = tailwind[1];
               } else {
                 /** Tailwindcss is removed by theme */

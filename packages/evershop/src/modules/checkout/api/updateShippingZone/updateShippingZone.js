@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const {
   rollback,
   commit,
@@ -8,16 +7,13 @@ const {
   select,
   update
 } = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('../../../../lib/postgres/connection');
+const { getConnection } = require('../../../../lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
 } = require('../../../../lib/util/httpStatus');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, deledate, next) => {
   const { id } = request.params;
   const connection = await getConnection();
@@ -59,13 +55,15 @@ module.exports = async (request, response, deledate, next) => {
         .where('zone_id', '=', zoneId)
         .execute(connection);
     } else {
-      const provincePromises = provinces.map((province) => insertOnUpdate('shipping_zone_province', ['province'])
+      const provincePromises = provinces.map((province) =>
+        insertOnUpdate('shipping_zone_province', ['province'])
           .given({
             zone_id: zoneId,
             province
           })
           .where('zone_id', '=', zoneId)
-          .execute(connection));
+          .execute(connection)
+      );
       await Promise.all(provincePromises);
       // Delete all provinces that are not in the list
       await del('shipping_zone_province')

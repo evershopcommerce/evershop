@@ -122,7 +122,7 @@ async function saveProductAttributes(productId, attributes, connection) {
           .where('attribute_option_id', '=', parseInt(attribute.value, 10))
           .load(connection);
         if (option === false) {
-          // eslint-disable-next-line no-continue
+           
           continue;
         }
         // Delete old option if any
@@ -217,7 +217,7 @@ async function updateProductImages(images, productId, connection) {
       .execute(connection);
   }
   if (Array.isArray(images) && images.length > 0) {
-    // eslint-disable-next-line no-useless-catch
+     
     try {
       // Delete all images that not in the gallery anymore
       await del('product_image')

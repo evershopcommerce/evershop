@@ -7,10 +7,7 @@ import {
   rollback,
   select
 } from '@evershop/postgres-query-builder';
-import {
-  pool,
-  getConnection
-} from '../../../lib/postgres/connection.js';
+import { pool, getConnection } from '../../../lib/postgres/connection.js';
 
 /**
  * @param {Cart} cart

@@ -30,7 +30,6 @@ export default function NavigationItemGroup({
           noOuter
           coreComponents={items.map((item) => ({
             component: {
-              // eslint-disable-next-line react/no-unstable-nested-components
               default: () => (
                 <NavigationItem
                   Icon={item.Icon}

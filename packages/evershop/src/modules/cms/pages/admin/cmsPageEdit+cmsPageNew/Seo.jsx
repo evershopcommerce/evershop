@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
 import React from 'react';
 import Area from '@components/common/Area';

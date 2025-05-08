@@ -7,10 +7,9 @@ const {
 const { error } = require('../../../../lib/log/logger');
 const crypto = require('crypto');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { body } = request;
-  // eslint-disable-next-line camelcase
+
   const { email } = body;
   try {
     // Generate a random token using crypto module

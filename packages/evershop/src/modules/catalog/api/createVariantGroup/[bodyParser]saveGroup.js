@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { insert, select } = require('@evershop/postgres-query-builder');
 const { pool } = require('../../../../lib/postgres/connection');
 const { buildUrl } = require('../../../../lib/router/buildUrl');
@@ -8,7 +7,6 @@ const {
   INVALID_PAYLOAD
 } = require('../../../../lib/util/httpStatus');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const { attribute_codes, attribute_group_id } = request.body;
   try {

@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server';
 import ServerHtml from '@components/common/react/server/Server';
 import { AppProvider } from '@components/common/context/app';
 
-export function renderHtml(js, css, contextData, langeCode) {
+function renderHtml(js, css, contextData, langeCode) {
   const source = renderToString(
     <AppProvider value={JSON.parse(contextData)}>
       <ServerHtml
@@ -16,3 +16,5 @@ export function renderHtml(js, css, contextData, langeCode) {
 
   return `<!DOCTYPE html><html id="root" lang="${langeCode}">${source}</html>`;
 }
+
+export { renderHtml };

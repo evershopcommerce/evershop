@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   rollback,
   insert,
@@ -7,10 +6,7 @@ import {
   update,
   startTransaction
 } from '@evershop/postgres-query-builder';
-import {
-  getConnection,
-  pool
-} from '../../../../lib/postgres/connection.js';
+import { getConnection, pool } from '../../../../lib/postgres/connection.js';
 import {
   INVALID_PAYLOAD,
   OK,

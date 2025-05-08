@@ -8,18 +8,18 @@
     "extensions/*"
   ],
   "scripts": {
-    "dev": "tsx watch --tsconfig ./packages/evershop/tsconfig.json ./packages/evershop/bin/dev/index.ts",
+    "dev": "tsx watch --tsconfig ./packages/evershop/tsconfig.json ./packages/evershop/src/bin/dev/index.ts",
     "setup": "evershop install",
     "build": "rimraf packages/evershop/dist && tsc -p packages/evershop/tsconfig.json && copyfiles -u 3 \"packages/evershop/src/**/*.{graphql,scss,json}\" packages/evershop/dist && node packages/evershop/dist/bin/evershop.js build",
     "build-no-compile": "node packages/evershop/dist/bin/evershop.js build",
-    "start": "evershop start",
+    "start": "node ./packages/evershop/dist/bin/start/index.js",
     "start:watch": "tsx watch --tsconfig ./packages/evershop/tsconfig.json ./packages/evershop/src/bin/start/index.ts",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",
     "start:debug": "evershop start --debug",
     "test": "jest --workspace=@evershop/evershop",
     "cypress": "cypress run",
-    "lint": "eslint --quiet --ext .jsx ",
+    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
     "prepare": "husky install",
     "typescript-build": "rimraf dist && tsc -p tsconfig.json && copyfiles ./**/*.graphql dist/ && copyfiles ./pages dist/",
     "watch": "tsc --watch"
@@ -30,6 +30,10 @@
     "@babel/cli": "^7.15.7",
     "@babel/core": "^7.14.8",
     "@babel/node": "^7.14.7",
+    "@babel/preset-typescript": "^7.27.1",
+    "@evershop/evershop": "^1.2.2",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
     "babel-jest": "^28.1.1",
     "cypress": "^13.15.1",
     "eslint": "^9.24.0",
@@ -43,11 +47,11 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "tailwindcss": "^3.2.1",
+    "typescript": "^5.8.3",
     "webpack-bundle-analyzer": "^4.5.0"
   },
   "dependencies": {
     "@types/node": "^22.13.14",
-    "copyfiles": "^2.4.1",
-    "typescript": "^5.8.2"
+    "copyfiles": "^2.4.1"
   }
 }

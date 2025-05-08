@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import secret from '../../../modules/base/services/secret.js';
 
 function escapeHtmlTags(str) {
@@ -13,7 +12,6 @@ function escapeHtmlTags(str) {
 }
 
 export default function escapePayload(obj) {
-  // eslint-disable-next-line no-restricted-syntax
   for (const prop in obj) {
     if (typeof obj[prop] === 'string') {
       // Check if we found the secret string at the end of value

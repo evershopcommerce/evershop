@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import { sep } from 'path';
 
 export function getRouteFromPath(path) {

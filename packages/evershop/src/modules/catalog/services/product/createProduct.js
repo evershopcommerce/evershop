@@ -117,7 +117,7 @@ async function insertProductAttributes(attributes, productId, connection) {
           .from('attribute_option')
           .where('attribute_option_id', '=', parseInt(attribute.value, 10))
           .load(connection);
-        // eslint-disable-next-line no-continue
+         
         if (option === false) {
           continue;
         }

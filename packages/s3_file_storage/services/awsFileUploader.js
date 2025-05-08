@@ -9,7 +9,7 @@ module.exports.awsFileUploader = {
   upload: async (files, requestedPath) => {
     const uploadedFiles = [];
     const uploadPromises = [];
-    // eslint-disable-next-line no-restricted-syntax
+
     for (const file of files) {
       const fileName = requestedPath
         ? `${requestedPath}/${file.filename}`

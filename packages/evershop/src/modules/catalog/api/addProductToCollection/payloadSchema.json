@@ -5,8 +5,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "product_id"
-  ],
+  "required": ["product_id"],
   "additionalProperties": true
 }

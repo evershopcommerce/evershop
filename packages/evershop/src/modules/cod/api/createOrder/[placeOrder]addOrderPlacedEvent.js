@@ -2,7 +2,6 @@ import { emit } from '../../../../lib/event/emitter.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { select } from '@evershop/postgres-query-builder';
 
-// eslint-disable-next-line no-unused-vars
 export default async (request, response, delegate, next) => {
   // Get the order data from $body
   const newOrder = response.$body?.data || {};

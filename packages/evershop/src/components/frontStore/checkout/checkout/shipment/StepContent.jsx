@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
 import React from 'react';
 import produce from 'immer';
@@ -71,7 +70,10 @@ export function StepContent({
       <h4 className="mb-4 mt-12">{_('Shipping Address')}</h4>
       <div className="grid grid-cols-2 gap-5 mb-5">
         {addresses.map((address) => (
-          <div className="border rounded border-gray-300 p-5">
+          <div
+            className="border rounded border-gray-300 p-5"
+            key={address.uuid}
+          >
             <AddressSummary key={address.uuid} address={address} />
             <div className="flex justify-end gap-5">
               <a
@@ -162,7 +164,7 @@ StepContent.propTypes = {
     isCompleted: PropTypes.bool,
     isEditing: PropTypes.bool
   }).isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
+
   customerAddressSchema: PropTypes.object.isRequired,
   addresses: PropTypes.arrayOf(
     PropTypes.shape({

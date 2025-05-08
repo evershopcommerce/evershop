@@ -12,7 +12,6 @@ const { error } = require('@evershop/evershop/src/lib/log/logger');
 const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
 const createCustomer = require('@evershop/evershop/src/modules/customer/services/customer/createCustomer');
 
-/* eslint-disable-next-line no-unused-vars */
 module.exports = async (request, response, delegate, next) => {
   const { code } = request.query;
   const client_id = getEnv('GOOGLE_LOGIN_CLIENT_ID');

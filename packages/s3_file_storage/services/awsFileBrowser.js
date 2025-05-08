@@ -7,11 +7,10 @@ const bucketName = getEnv('AWS_BUCKET_NAME');
 module.exports.awsFileBrowser = {
   list: async (path) => {
     if (path !== '') {
-      // eslint-disable-next-line no-param-reassign
       path = `${path}/`;
     }
     // Keep only one slash at the end of the path
-    // eslint-disable-next-line no-param-reassign
+
     path = path.replace(/\/{2,}$/, '/');
     const params = {
       Bucket: bucketName,

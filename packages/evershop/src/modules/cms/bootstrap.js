@@ -251,13 +251,11 @@ export default () => {
     if (data?.type !== 'basic_menu') {
       return data;
     }
-    // eslint-disable-next-line no-param-reassign
+
     data.settings = data.settings || {};
     if (data.settings.menus) {
-      // eslint-disable-next-line no-param-reassign
       data.settings.menus = JSON.parse(data.settings.menus);
     } else {
-      // eslint-disable-next-line no-param-reassign
       data.settings.menus = [];
     }
     return data;

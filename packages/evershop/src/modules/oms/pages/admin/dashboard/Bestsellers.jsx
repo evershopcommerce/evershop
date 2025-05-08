@@ -28,7 +28,6 @@ export default function BestSellers({ bestSellers, listUrl }) {
               </tr>
             )}
             {bestSellers.map((p, i) => (
-              // eslint-disable-next-line react/no-array-index-key
               <tr key={i}>
                 <td>
                   <div className=" flex justify-left">

@@ -42,7 +42,7 @@ export function registerCartPromotionFields(fields) {
             // Start calculate discount amount
             await calculateDiscount(this, coupon);
             let discountAmount = 0;
-            // eslint-disable-next-line no-restricted-syntax
+
             for (const item of items) {
               discountAmount += item.getData('discount_amount');
             }

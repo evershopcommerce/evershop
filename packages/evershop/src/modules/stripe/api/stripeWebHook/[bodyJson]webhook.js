@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 const {
   insert,
   startTransaction,
@@ -7,9 +6,7 @@ const {
   select,
   insertOnUpdate
 } = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('../../../../lib/postgres/connection');
+const { getConnection } = require('../../../../lib/postgres/connection');
 const { getConfig } = require('../../../../lib/util/getConfig');
 const { emit } = require('../../../../lib/event/emitter');
 const { debug, error } = require('../../../../lib/log/logger');
@@ -19,7 +16,6 @@ const {
   updatePaymentStatus
 } = require('../../../oms/services/updatePaymentStatus');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, delegate, next) => {
   const sig = request.headers['stripe-signature'];
 

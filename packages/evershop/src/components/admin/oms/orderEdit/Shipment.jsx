@@ -48,7 +48,6 @@ function Actions({ status, startShipUrl, completeShipUrl }) {
   const startShipment = (e) => {
     e.preventDefault();
     fetch(startShipUrl, false, 'GET', {}, null, () => {
-      // eslint-disable-next-line no-restricted-globals
       location.reload();
     });
   };
@@ -56,7 +55,6 @@ function Actions({ status, startShipUrl, completeShipUrl }) {
   const completeShipment = (e) => {
     e.preventDefault();
     fetch(completeShipUrl, false, 'GET', {}, null, () => {
-      // eslint-disable-next-line no-restricted-globals
       location.reload();
     });
   };

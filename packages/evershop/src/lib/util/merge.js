@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /**
  * This function take 2 objects: target and source, and merge them together recursively
  * This function will not merge built-in objects like Date, RegExp, Map, Set

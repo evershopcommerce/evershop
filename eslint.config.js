@@ -2,11 +2,44 @@
 import pluginReact from 'eslint-plugin-react';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import pluginImport from 'eslint-plugin-import';
+import eslintPluginTypescript from '@typescript-eslint/eslint-plugin';
+import typescriptParser from '@typescript-eslint/parser';
 
 export default [
+  {
+      ignores: [
+      "/node_modules/",
+      "**/*test.js",
+      "**/tests/**",
+      "**/create-evershop-app/**",
+      "**/.evershop/**",
+      "/.vscode/**",
+      "/.git/**",
+      "/.idea/**",
+      "**/extensions/**",
+      "**/public/**",
+      "**/themes/**",
+      "**/media/**",
+      "**/dist/**",
+      "**/packages/*/dist/**",
+      "**/packages/evershop/dist/**"
+    ]},
   pluginReact.configs.flat.recommended,
   pluginReact.configs.flat['jsx-runtime'],
   jsxA11y.flatConfigs.recommended,
+  {
+    files: ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
+    plugins: {
+      "@typescript-eslint": eslintPluginTypescript
+    },
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module'
+      }
+    }
+  },
 	{
     languageOptions: {
       ecmaVersion: 'latest',
@@ -39,15 +72,10 @@ export default [
       "no-shadow": "off",
       "no-lonely-if": "warn",
       "no-console": "error",
-      "no-useless-return": "off"
+      "no-useless-return": "off",
+      "react/display-name": "off",
+      "jsx-a11y/label-has-associated-control": "off"
 		},
-    ignores: [
-      "**/node_modules/**",
-      "**/\.evershop/**",
-      "**/build/**",
-      "**/coverage/**",
-      "**/test/**",
-    ],
     settings: {
       react: {
         version: "detect"

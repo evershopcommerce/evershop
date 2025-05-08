@@ -198,9 +198,8 @@ async function createOrderFunc(cart) {
       'createOrderValidationRules',
       validationServices
     );
-    // eslint-disable-next-line no-restricted-syntax
+
     for (const rule of validators) {
-      // eslint-disable-next-line no-await-in-loop
       if ((await rule.func(cart, validationErrors)) === false) {
         throw new Error(validationErrors);
       }

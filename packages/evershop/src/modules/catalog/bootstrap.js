@@ -198,13 +198,11 @@ export default () => {
     if (data.type !== 'collection_products') {
       return data;
     }
-    // eslint-disable-next-line no-param-reassign
+
     data.settings = data.settings || {};
     if (data.settings.count) {
-      // eslint-disable-next-line no-param-reassign
       data.settings.count = parseInt(data.settings.count, 10);
     } else {
-      // eslint-disable-next-line no-param-reassign
       data.settings.count = 4;
     }
     return data;

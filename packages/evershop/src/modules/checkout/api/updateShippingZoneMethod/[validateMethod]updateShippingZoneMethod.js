@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const {
   rollback,
   commit,
@@ -6,16 +5,13 @@ const {
   select,
   update
 } = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('../../../../lib/postgres/connection');
+const { getConnection } = require('../../../../lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
 } = require('../../../../lib/util/httpStatus');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = async (request, response, deledate, next) => {
   const { method_id, zone_id } = request.params;
   const connection = await getConnection();

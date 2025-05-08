@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-restricted-globals */
 import React from 'react';
 import { Select } from '@components/common/form/fields/Select';
 import { useAppDispatch } from '@components/common/context/app';

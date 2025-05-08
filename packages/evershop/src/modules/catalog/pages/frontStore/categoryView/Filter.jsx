@@ -73,7 +73,7 @@ export default function Filter({
     url.searchParams.append('ajax', true);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    // eslint-disable-next-line no-restricted-globals
+
     history.pushState(null, '', url);
   };
 

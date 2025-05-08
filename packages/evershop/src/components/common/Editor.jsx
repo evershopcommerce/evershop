@@ -141,7 +141,7 @@ RenderEditorJS.propTypes = {
   blocks: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string.isRequired,
-      // eslint-disable-next-line react/forbid-prop-types
+
       data: PropTypes.object.isRequired
     })
   ).isRequired
@@ -184,7 +184,7 @@ Editor.propTypes = {
       columns: PropTypes.arrayOf(
         PropTypes.shape({
           size: PropTypes.number.isRequired,
-          // eslint-disable-next-line react/forbid-prop-types
+
           data: PropTypes.object
         })
       ).isRequired

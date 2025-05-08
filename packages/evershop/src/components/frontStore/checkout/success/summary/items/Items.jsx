@@ -10,7 +10,6 @@ function Items({ items, priceIncludingTax }) {
       <table className="listing items-table">
         <tbody>
           {items.map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
             <tr key={index}>
               <td>
                 <div className="product-thumbnail">

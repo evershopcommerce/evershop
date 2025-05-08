@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components,no-nested-ternary */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -454,7 +453,6 @@ export default function ProductGrid({
                     sortOrder: 15
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: ({ areaProps }) => (
                         <BasicRow id="sku" areaProps={areaProps} />
@@ -463,14 +461,12 @@ export default function ProductGrid({
                     sortOrder: 20
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: () => <QtyRow qty={p.inventory?.qty} />
                     },
                     sortOrder: 25
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: ({ areaProps }) => (
                         <StatusRow id="status" areaProps={areaProps} />

@@ -38,7 +38,6 @@ TextBlockSetting.propTypes = {
   uploadApi: PropTypes.string.isRequired,
   folderCreateApi: PropTypes.string.isRequired,
   textWidget: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
     text: PropTypes.array,
     className: PropTypes.string
   })

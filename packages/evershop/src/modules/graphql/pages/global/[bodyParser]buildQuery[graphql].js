@@ -11,7 +11,7 @@ import { error } from '../../../../lib/log/logger.js';
 import { getEnabledWidgets } from '../../../../lib/util/getEnabledWidgets.js';
 import { get } from '../../../../lib/util/get.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
-// eslint-disable-next-line no-unused-vars
+
 import { getContextValue } from '../../services/contextHelper.js';
 
 export default async (request, response, delegate, next) => {
@@ -66,7 +66,7 @@ export default async (request, response, delegate, next) => {
     query = query.replace(regex, (match, p1) => {
       const base64 = p1;
       const decoded = Buffer.from(base64, 'base64').toString('ascii');
-      // eslint-disable-next-line no-eval
+
       let value = eval(`getContextValue(request, ${decoded})`);
 
       // JSON sringify without adding double quotes to the property name
@@ -111,7 +111,6 @@ export default async (request, response, delegate, next) => {
       const { propsMap } = json;
       let queryStr = '';
       let variables;
-
       if (applicableWidgets.length > 0) {
         applicableWidgets.forEach((widget) => {
           const widgetKey = widget.componentKey;
@@ -126,7 +125,7 @@ export default async (request, response, delegate, next) => {
             const decoded = Buffer.from(base64, 'base64').toString('ascii');
             // Accept max 2 arguments from the decoded string, the fist one is the path to the setting object (a.b.c) and the second one is the default value
             // Get the actual value from the setting of the current widget
-            // eslint-disable-next-line
+
             const path = decoded.split(',')[0];
             const defaultValue = decoded.split(',')[1] || undefined;
             let value = get(widget.settings, path, defaultValue);
@@ -186,7 +185,7 @@ export default async (request, response, delegate, next) => {
                     .toString('ascii')
                     .split(',')[0]
                     .replace(/['"]+/g, '');
-                  // eslint-disable-next-line no-eval
+
                   let actualValue;
                   if (!decoded.trim()) {
                     actualValue = widget.settings;
@@ -244,7 +243,6 @@ export default async (request, response, delegate, next) => {
                   widget.settingComponentKey === key
               )
             ) {
-              // eslint-disable-next-line no-param-reassign
               acc += `\n${json.queries[key]} `;
             }
             return acc;
@@ -280,7 +278,6 @@ export default async (request, response, delegate, next) => {
           ) {
             delete json.queries[key];
           } else {
-            // eslint-disable-next-line no-param-reassign
             acc += `\n${json.queries[key]} `;
           }
           return acc;
@@ -326,7 +323,7 @@ export default async (request, response, delegate, next) => {
                 (match, p1) => p1
               );
               const decoded = Buffer.from(base64, 'base64').toString('ascii');
-              // eslint-disable-next-line no-eval
+
               const actualValue = eval(`getContextValue(request, ${decoded})`);
               variables.values[key] = actualValue;
             }

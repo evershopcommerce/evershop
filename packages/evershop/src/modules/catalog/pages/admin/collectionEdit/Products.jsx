@@ -192,7 +192,6 @@ export default function Products({ collection: { code, addProductApi } }) {
                 </div>
                 <div className="divide-y">
                   {data.collection.products.items.map((p) => (
-                    // eslint-disable-next-line react/no-array-index-key
                     <div
                       key={p.uuid}
                       className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
