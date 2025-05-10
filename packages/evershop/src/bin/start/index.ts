@@ -1,7 +1,5 @@
-// https://github.com/node-config/node-config/issues/578
-import 'dotenv/config';
+import './initEnvStart.js';
 import { start } from '../lib/startUp.js';
-process.env.NODE_ENV = 'production';
 
 start();
 process.on('uncaughtException', function (exception) {

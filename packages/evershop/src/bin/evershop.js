@@ -6,13 +6,10 @@ const { argv } = yargs(hideBin(process.argv));
 const command = argv._[0];
 try {
   if (command === 'build') {
-    process.env.NODE_ENV = 'production';
     await import('./build/index.js');
   } else if (command === 'dev') {
-    process.env.NODE_ENV = 'development';
     await import('./dev/index.js');
   } else if (command === 'start') {
-    process.env.NODE_ENV = 'production';
     await import('./start/index.js');
   } else if (command === 'install') {
     await import('./install/index.js');

@@ -14,7 +14,7 @@ import { validateConfiguration } from '../../lib/util/validateConfiguration.js';
 import { compile } from './complie.js';
 import { getEnabledExtensions } from '../extension/index.js';
 import { loadBootstrapScript } from '../lib/bootstrap/bootstrap.js';
-import 'dotenv/config';
+import './initEnvBuild.js';
 
 /* Loading modules and initilize routes, components */
 const modules = [...getCoreModules(), ...getEnabledExtensions()];

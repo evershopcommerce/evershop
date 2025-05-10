@@ -27,8 +27,6 @@ export const start = async function start(cb) {
   const app = createApp();
   /** Create a http server */
   const server = http.createServer(app);
-
-  process.env.ALLOW_CONFIG_MUTATIONS = true;
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
 
   /** Loading bootstrap script from modules */
