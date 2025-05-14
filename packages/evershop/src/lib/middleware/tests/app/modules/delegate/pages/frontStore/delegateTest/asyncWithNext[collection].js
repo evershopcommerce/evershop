@@ -1,6 +1,6 @@
-const axios = require('axios');
+import axios from 'axios';
 
-module.exports = async (request, response, delegates, next) => {
+export default async (request, response, delegates, next) => {
   const content = await axios.get(
     'https://jsonplaceholder.typicode.com/todos/1'
   );

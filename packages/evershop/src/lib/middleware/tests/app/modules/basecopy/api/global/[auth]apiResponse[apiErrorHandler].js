@@ -1,3 +1,3 @@
-const apiResponse = require('../../../../../../../../modules/base/api/global/[auth]apiResponse[apiErrorHandler]');
+import apiResponse from '../../../../../../../../modules/base/api/global/[auth]apiResponse[apiErrorHandler].js';
 
-module.exports = apiResponse;
+export default apiResponse;

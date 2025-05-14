@@ -1,5 +1,5 @@
-const { CONSTANTS } = require('../../../../../lib/helpers');
-const { validatePath } = require('../../validatePath');
+import { CONSTANTS } from '../../../../../lib/helpers.js';
+import { validatePath } from '../../validatePath.js';
 
 describe('Test validatePath', () => {
   it('It should return true for valid path', async () => {

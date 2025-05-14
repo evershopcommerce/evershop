@@ -1,7 +1,6 @@
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../../setting/services/setting.js';
-
 export default async (request, response, delegate, next) => {
   setContextValue(request, 'pageInfo', {
     title: await getSetting('storeName', 'EverShop'),
@@ -11,6 +10,6 @@ export default async (request, response, delegate, next) => {
     ),
     url: buildUrl('homepage')
   });
-
   next();
 };
+//# sourceMappingURL=meta.js.map

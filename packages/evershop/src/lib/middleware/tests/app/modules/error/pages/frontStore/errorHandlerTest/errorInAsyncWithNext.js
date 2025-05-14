@@ -1,6 +1,6 @@
-const jest = require('jest-mock');
+import jest from 'jest-mock';
 
-module.exports = jest.fn(async (request, response, delegates, next) => {
+export default jest.fn(async (request, response, delegates, next) => {
   try {
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await delay(3000);

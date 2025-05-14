@@ -1,6 +1,9 @@
-const http = require('http');
-const axios = require('axios').default;
-const { app, bootstrap, close } = require('../app/app');
+import http from 'http';
+import axios from 'axios';
+import { app, bootstrap, close } from '../app/app.js';
+import { test } from '../app/modules/delegate/pages/frontStore/delegateTest/collection.js';
+
+import { jest, describe, it, expect, beforeAll, afterAll } from '@jest/globals';
 
 jest.setTimeout(80000);
 describe('buildMiddlewareFunction', () => {
@@ -18,9 +21,6 @@ describe('buildMiddlewareFunction', () => {
       }
     });
 
-    const {
-      test
-    } = require('../app/modules/delegate/pages/frontStore/delegateTest/collection');
     const delegates = test.mock.results[0].value;
     expect(delegates.returnOne).toEqual(1);
     expect(delegates.returnTwo).toEqual(undefined);

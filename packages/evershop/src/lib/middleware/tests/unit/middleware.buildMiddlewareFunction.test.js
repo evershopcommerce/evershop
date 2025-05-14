@@ -1,6 +1,9 @@
-const { buildMiddlewareFunction } = require('../../buildMiddlewareFunction');
+import { buildMiddlewareFunction } from '../../buildMiddlewareFunction.js';
+import path from 'path';
+import babelRegister from '@babel/register';
+import { jest, describe, it, expect } from '@jest/globals';
 
-require('@babel/register')({
+babelRegister({
   presets: ['@babel/preset-env']
 });
 

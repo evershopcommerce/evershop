@@ -1,11 +1,10 @@
 import { existsSync } from 'fs';
 import { sep } from 'path';
-import { asyncMiddlewareWrapper } from './async.js';
-import { syncMiddlewareWrapper } from './sync.js';
 import eNext from './eNext.js';
 import isErrorHandlerTriggered from './isErrorHandlerTriggered.js';
-import { getDelegates } from './delegate.js';
+import { getDelegates, setDelegate } from './delegate.js';
 import isDevelopmentMode from '../util/isDevelopmentMode.js';
+import { error } from '../log/logger.js';
 
 /**
  * This function takes the defined middleware function and return a new one with wrapper
@@ -29,53 +28,54 @@ export function buildMiddlewareFunction(id, path) {
   // Check if the middleware is an error handler.
   // TODO: fix me
   if (id === 'errorHandler' || id === 'apiErrorHandler') {
-    return (error, request, response, next) => {
-      import(path).then((m) => {
-        const func = m.default;
-        if (request.currentRoute) {
-          func(error, request, response, getDelegates(request), next);
-        } else {
-          func(error, request, response, [], next);
-        }
-      });
+    return async (error, request, response, next) => {
+      const m = await import(path);
+      const func = m.default;
+      if (request.currentRoute) {
+        await func(error, request, response, getDelegates(request), next);
+      } else {
+        await func(error, request, response, [], next);
+      }
     };
   } else {
-    return (request, response, next) => {
-      // Fix middleware removed during a request
-      if (isDevelopmentMode() && !existsSync(path)) {
-        next();
-      }
+    return async (request, response, next) => {
+      const startTime = process.hrtime();
+      const debuging = {
+        id
+      };
+      response.debugMiddlewares.push(debuging);
       // If there response status is 404. We skip routed middlewares
       if (response.statusCode === 404 && isRoutedLevel) {
         next();
       } else {
-        import(path).then((m) => {
+        try {
+          const m = await import(path);
           const func = m.default;
-          if (func.constructor.name === 'AsyncFunction') {
-            asyncMiddlewareWrapper(
-              id,
-              func,
-              request,
-              response,
-              getDelegates(request),
-              eNext(request, response, next)
-            );
+          if (func.length === 4) {
+            await func(request, response, getDelegates(request), (err) => {
+              const endTime = process.hrtime(startTime);
+              debuging.time = endTime[1] / 1000000;
+              setDelegate(id, undefined, request);
+              eNext(request, response, next)(err);
+            });
           } else {
-            syncMiddlewareWrapper(
-              id,
-              func,
+            const returnValue = await func(
               request,
               response,
-              getDelegates(request),
-              eNext(request, response, next)
+              getDelegates(request)
             );
+            setDelegate(id, returnValue, request);
+            const endTime = process.hrtime(startTime);
+            debuging.time = endTime[1] / 1000000;
+            eNext(request, response, next)();
           }
-
-          // If middleware function does not have next function as a parameter
-          if (func.length < 4 && !isErrorHandlerTriggered(response)) {
-            next();
-          }
-        });
+        } catch (e) {
+          // Log the error
+          e.message = `Exception in middleware ${id}: ${e.message}`;
+          error(e);
+          // Call error handler middleware if it is not called yet
+          next(e);
+        }
       }
     };
   }

@@ -1,5 +1,10 @@
 import path from 'path';
 import { scanRouteComponents } from '../../scanForComponents.js';
+import { jest, describe, it, expect, beforeAll, afterAll } from '@jest/globals';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe('test scanRouteComponents function', () => {
   const modules = [

@@ -1,9 +1,10 @@
-const {
+import {
   getValue,
   getValueSync,
   addProcessor,
   getProcessors
-} = require('../../registry');
+} from '../../registry.js';
+import { jest, describe, it, expect } from '@jest/globals';
 
 describe('registry', () => {
   it('It should return the init value if no processor provided', async () => {

@@ -1,6 +1,9 @@
-const { app, bootstrap, close } = require('../app/app');
-const axios = require('axios').default;
-const http = require('http');
+import { app, bootstrap, close } from '../app/app.js';
+import axios from 'axios';
+import http from 'http';
+import errorHandler from '../app/modules/basecopy/pages/global/[response]errorHandler.js';
+
+import { jest, describe, it, expect, beforeAll, afterAll } from '@jest/globals';
 
 jest.setTimeout(800000);
 describe('buildMiddlewareFunction', () => {
@@ -26,7 +29,6 @@ describe('buildMiddlewareFunction', () => {
   });
 
   it('The error handler middleware should be executed only one time per request', async () => {
-    const errorHandler = require('../app/modules/basecopy/pages/global/[response]errorHandler');
     expect(errorHandler).toHaveBeenCalledTimes(1);
   });
 

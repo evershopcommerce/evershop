@@ -1,20 +1,26 @@
-const path = require('path');
-const { resolveAlias } = require('../../resolveAlias');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { resolveAlias } from '../../resolveAlias.js';
+
+// Get the directory name for this file
+const currentFilePath = fileURLToPath(import.meta.url);
+const currentDirPath = dirname(currentFilePath);
 
 describe('resolveAlias', () => {
   it('It should get the components and css file with correct priority', () => {
     const resolves = resolveAlias(
       [
         {
-          path: path.resolve(__dirname, 'extensions/extensionA'),
+          path: path.resolve(currentDirPath, 'extensions/extensionA'),
           priority: 1
         },
         {
-          path: path.resolve(__dirname, 'extensions/extensionB'),
+          path: path.resolve(currentDirPath, 'extensions/extensionB'),
           priority: 2
         }
       ],
-      path.resolve(__dirname, 'theme')
+      path.resolve(currentDirPath, 'theme')
     );
     expect(resolves[path.join('@components', 'a', 'A')])
       .toString()
@@ -48,4 +54,4 @@ describe('resolveAlias', () => {
       .toString()
       .includes('extensionB');
   });
-});
+}); 

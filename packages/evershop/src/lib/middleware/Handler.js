@@ -6,28 +6,19 @@ import { parseFromFile } from './parseFromFile.js';
 import { noDublicateId } from './noDuplicateId.js';
 import { getRoutes } from '../router/Router.js';
 import { error } from '../log/logger.js';
-
 export class Handler {
-  static middlewares = [];
-
-  static sortedMiddlewarePerRoute = {};
-
   constructor(routeId) {
     this.routeId = routeId;
   }
-
   static addMiddleware(middleware) {
     this.middlewares.push(middleware);
   }
-
   static getMiddlewares() {
     return this.middlewares;
   }
-
   static getMiddleware(id) {
     return this.middlewares.find((m) => m.id === id);
   }
-
   static getMiddlewareByRoute(route) {
     const routeId = route.id;
     if (this.sortedMiddlewarePerRoute[routeId]) {
@@ -38,7 +29,6 @@ export class Handler {
       (m) =>
         (m.routeId === route.id || m.scope === 'app') && m.region === region
     );
-
     if (route.isAdmin === true) {
       middlewares = middlewares.concat(
         this.middlewares.filter(
@@ -53,7 +43,6 @@ export class Handler {
       );
     }
     middlewares = sortMiddlewares(middlewares);
-
     if (isDevelopmentMode()) {
       middlewares.unshift({
         middleware: (request, response, next) => {
@@ -67,20 +56,16 @@ export class Handler {
       });
     }
     this.sortedMiddlewarePerRoute[routeId] = middlewares;
-
     return middlewares;
   }
-
   static getAppLevelMiddlewares(region) {
     return sortMiddlewares(
       this.middlewares.filter((m) => m.scope === 'app' && m.region === region)
     );
   }
-
   static removeMiddleware(path) {
     this.middlewares = this.middlewares.filter((m) => m.path !== path);
   }
-
   static addMiddlewareFromPath(path) {
     if (!existsSync(path) || !path.endsWith('.js')) {
       throw new Error(`Middleware file ${path} does not exist`);
@@ -95,11 +80,13 @@ export class Handler {
       });
     }
   }
-
   static middleware() {
     return (request, response, next) => {
+      var _a;
       request.params = {
-        ...(request.locals?.customParams || {}),
+        ...(((_a = request.locals) === null || _a === void 0
+          ? void 0
+          : _a.customParams) || {}),
         ...request.params
       };
       const { currentRoute } = request;
@@ -125,7 +112,6 @@ export class Handler {
           if (!isErrorHandlerTriggered(response)) {
             currentError += 1;
             const middlewareFunc = errorHandlers[currentError].middleware;
-
             middlewareFunc(arguments[0], request, response, eNext);
           }
         } else {
@@ -140,3 +126,6 @@ export class Handler {
     };
   }
 }
+Handler.middlewares = [];
+Handler.sortedMiddlewarePerRoute = {};
+//# sourceMappingURL=Handler.js.map

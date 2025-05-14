@@ -1,30 +1,15 @@
 process.env.ALLOW_CONFIG_MUTATIONS = true;
-const {
-  addProcessor,
-  addFinalProcessor
-} = require('../../../lib/util/registry');
-const {
-  registerCartBaseFields
-} = require('../services/cart/registerCartBaseFields');
-const {
-  registerCartItemBaseFields
-} = require('../services/cart/registerCartItemBaseFields');
-const { sortFields } = require('../services/cart/sortFields');
-const { products } = require('./products');
-const { taxRates } = require('./taxRates');
-const {
-  registerCartPromotionFields
-} = require('../../promotion/services/registerCartPromotionFields');
-const {
-  registerCartItemPromotionFields
-} = require('../../promotion/services/registerCartItemPromotionFields');
-const { coupons } = require('./coupons');
-const {
-  registerDefaultValidators
-} = require('../../promotion/services/registerDefaultValidators');
-const {
-  registerDefaultCalculators
-} = require('../../promotion/services/registerDefaultCalculators');
+import { addProcessor, addFinalProcessor } from '../../../lib/util/registry.js';
+import { registerCartBaseFields } from '../services/cart/registerCartBaseFields.js';
+import { registerCartItemBaseFields } from '../services/cart/registerCartItemBaseFields.js';
+import { sortFields } from '../services/cart/sortFields.js';
+import { products } from './products.js';
+import { taxRates } from './taxRates.js';
+import { registerCartPromotionFields } from '../../promotion/services/registerCartPromotionFields.js';
+import { registerCartItemPromotionFields } from '../../promotion/services/registerCartItemPromotionFields.js';
+import { coupons } from './coupons.js';
+import { registerDefaultValidators } from '../../promotion/services/registerDefaultValidators.js';
+import { registerDefaultCalculators } from '../../promotion/services/registerDefaultCalculators.js';
 
 // Default tax configuration
 addProcessor('cartFields', registerCartBaseFields, 0);

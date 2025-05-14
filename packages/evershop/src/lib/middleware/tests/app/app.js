@@ -1,12 +1,16 @@
 import path from 'path';
-import { addDefaultMiddlewareFuncs } from '../../../../../bin/lib/addDefaultMiddlewareFuncs.js';
+import { addDefaultMiddlewareFuncs } from '../../../../bin/lib/addDefaultMiddlewareFuncs.js';
 import express from 'express';
 import { loadModuleRoutes } from '../../../../lib/router/loadModuleRoutes.js';
 import { once } from 'events';
-import { getModuleMiddlewares } from '../../getModuleMiddlewares.js';
+import { getModuleMiddlewares } from '../../index.js';
 import { getRoutes } from '../../../router/Router.js';
 import { Handler } from '../../Handler.js';
 import { error } from '../../../log/logger.js';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /** Create express app */
 const app = express();
@@ -76,14 +80,14 @@ routes.forEach((route) => {
   app.all(route.path, Handler.middleware());
 });
 
-module.exports = {
-  app,
-  bootstrap: async (server) => {
-    server.listen();
-    await once(server, 'listening');
-    return server.address().port;
-  },
-  close: (server, done) => {
-    server.close(done);
-  }
+const bootstrap = async (server) => {
+  server.listen();
+  await once(server, 'listening');
+  return server.address().port;
 };
+
+const close = (server, done) => {
+  server.close(done);
+};
+
+export { app, bootstrap, close };

@@ -1,3 +1,3 @@
-const jest = require('jest-mock');
+import jest from 'jest-mock';
 
-module.exports = jest.fn((request, response, delegates) => 1);
+export default jest.fn((request, response, delegates) => 1);

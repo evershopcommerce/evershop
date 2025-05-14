@@ -1,3 +1,3 @@
-const staticMiddleware = require('../../../../../../../../../modules/cms/pages/admin/adminStaticAsset/staticAssets');
+import staticMiddleware from '../../../../../../../../../modules/cms/pages/admin/adminStaticAsset/staticAssets.js';
 
-module.exports = staticMiddleware;
+export default staticMiddleware;

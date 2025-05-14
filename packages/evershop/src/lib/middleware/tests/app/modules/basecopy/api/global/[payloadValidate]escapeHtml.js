@@ -1,3 +1,3 @@
-const escapeHtml = require('../../../../../../../../modules/base/api/global/[payloadValidate]escapeHtml');
+import escapeHtml from '../../../../../../../../modules/base/api/global/[payloadValidate]escapeHtml.js';
 
-module.exports = escapeHtml;
+export default escapeHtml;

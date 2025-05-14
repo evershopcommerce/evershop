@@ -1,4 +1,4 @@
-const { noDublicateId } = require('../../noDuplicateId');
+import { noDublicateId } from '../../noDuplicateId.js';
 
 describe('Test scanForMiddlewareFunctions function', () => {
   it('It should return false if routed middlewareID is existed', () => {

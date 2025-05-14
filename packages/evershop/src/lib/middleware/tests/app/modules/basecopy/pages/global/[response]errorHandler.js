@@ -1,4 +1,4 @@
-const jest = require('jest-mock');
-const errorHandler = require('../../../../../../../../modules/base/pages/global/[response]errorHandler');
+import jest from 'jest-mock';
+import errorHandler from '../../../../../../../../modules/base/pages/global/[response]errorHandler.js';
 
-module.exports = jest.fn(errorHandler);
+export default jest.fn(errorHandler);

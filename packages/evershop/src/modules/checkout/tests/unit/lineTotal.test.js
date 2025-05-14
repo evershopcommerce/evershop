@@ -1,7 +1,7 @@
 process.env.ALLOW_CONFIG_MUTATIONS = 'true';
-const config = require('config');
-require('../basicSetup');
-const { Cart } = require('../../services/cart/Cart');
+import config from 'config';
+import '../basicSetup.js';
+import { Cart } from '../../services/cart/Cart.js';
 // Default tax configuration
 config.util.setModuleDefaults('pricing', {
   tax: {

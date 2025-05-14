@@ -1,4 +1,4 @@
-const { getConfig } = require('../../getConfig');
+import { getConfig } from '../../getConfig.js';
 
 describe('Test until getConfig', () => {
   it('It should return the default value if path is invalid', () => {

@@ -1,5 +1,9 @@
-const path = require('path');
-const { scanForRoutes } = require('../../scanForRoutes');
+import { scanForRoutes } from '../../scanForRoutes.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe('Test scanForRoutes', () => {
   it('It should thrown an exception if path is not valid', () => {

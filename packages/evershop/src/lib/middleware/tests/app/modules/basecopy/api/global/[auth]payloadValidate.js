@@ -1,3 +1,3 @@
-const payloadValidate = require('../../../../../../../../modules/base/api/global/[auth]payloadValidate');
+import payloadValidate from '../../../../../../../../modules/base/api/global/[auth]payloadValidate.js';
 
-module.exports = payloadValidate;
+export default payloadValidate;
