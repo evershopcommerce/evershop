@@ -1,4 +1,4 @@
-module.exports.isValueASQL = function isValueASQL(value) {
+export function isValueASQL(value) {
   // Check if value is an object and has property "isSQL" and it's true
   if (typeof value === 'object' && value.isSQL === true) {
     return true;
@@ -12,4 +12,4 @@ module.exports.isValueASQL = function isValueASQL(value) {
     ) ||
     /^[A-Z ]+([(])[a-zA-Z0-9* _=<>(,&).`!']+([)])$/.test(value)
   );
-};
+}
