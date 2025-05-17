@@ -335,7 +335,7 @@ class Node {
   }
 }
 
-interface JoinDefinition {
+export interface JoinDefinition {
   type: string;
   table: string;
   alias: string;

@@ -16,13 +16,13 @@ export type SyncProcessor<T> = (value: T) => T;
 export type AsyncProcessor<T> = (value: T) => Promise<T>;
 
 class Registry {
-  values: Record<string, RegistryValue<any>> = {};
+  values: Record<string, Partial<RegistryValue<any>>> = {};
 
   async get<T>(
     name: string,
     initValue: T,
-    context: Record<string, any>,
-    validator: (value: T) => boolean
+    context?: Record<string, any>,
+    validator?: (value: T) => boolean
   ) {
     if (this.values[name]) {
       // If the initValue and the context are identical, return the cached value. Skip the processors
@@ -69,8 +69,8 @@ class Registry {
   getSync<T>(
     name: string,
     initValue: T,
-    context: Record<string, any>,
-    validator: (value: T) => boolean
+    context?: Record<string, any>,
+    validator?: (value: T) => boolean
   ) {
     const validateFunc = (value: T) => {
       // Check if value is a promise
@@ -159,7 +159,7 @@ class Registry {
     if (!this.values[name]) {
       this.values[name] = {
         processors: []
-      } as RegistryValue<any>;
+      } as Partial<RegistryValue<any>>;
     }
     this.values[name].processors = this.values[name].processors || [];
     // Add the callback to the processors, sort by priority
@@ -176,7 +176,7 @@ class Registry {
     callback: SyncProcessor<T> | AsyncProcessor<T>
   ): void {
     // Check if there is already a final processor base on the priority
-    const processors = this.values[name] ? this.values[name].processors : [];
+    const processors = this.values[name]?.processors || [];
     if (processors.find((p) => p.priority === 1000)) {
       throw new Error(
         `There is already a final processor for the value ${name}`
@@ -209,8 +209,8 @@ const registry = new Registry();
 export async function getValue<T>(
   name: string,
   initialization: T | AsyncProcessor<T> | SyncProcessor<T>,
-  context: Record<string, any>,
-  validator: (value: T) => boolean
+  context?: Record<string, any>,
+  validator?: (value: T) => boolean
 ): Promise<T> {
   let initValue;
   const value = registry.values[name] || ({} as RegistryValue<T>);
@@ -252,9 +252,7 @@ export function getValueSync<T>(
   // Check if the initValue is a function, then add this function to the processors as the first processor
   if (typeof initialization === 'function') {
     // Add this function to the processors, add this to the biginning of the processors
-    const processors = registry.values[name]
-      ? registry.values[name]?.processors
-      : [];
+    const processors = registry.values[name]?.processors || [];
     processors.unshift({
       callback: initialization as SyncProcessor<T>,
       priority: 0

@@ -10,8 +10,8 @@ interface NavigationItemGroupProps {
   id: string;
   name: string;
   items: NavigationItemProps[];
-  Icon: React.ElementType;
-  url: string;
+  Icon: React.ElementType | null;
+  url: string | null;
 }
 
 export function NavigationItemGroup({

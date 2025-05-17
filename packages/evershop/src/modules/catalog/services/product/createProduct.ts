@@ -44,7 +44,7 @@ function validateProductDataBeforeInsert(data: Record<string, any>) {
   }
 }
 
-async function insertProductInventory(inventoryData: Record<string, any>, productId: number, connection: ExtendedPoolClient) {
+async function insertProductInventory(inventoryData: Record<string, any>, productId: number, connection: PoolClient) {
   // Save the product inventory
   await insert('product_inventory')
     .given(inventoryData)
@@ -183,7 +183,7 @@ async function createProduct(data, context) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const productData = await getValue('productDataBeforeCreate', data);
+    const productData = await getValue('productDataBeforeCreate', data, {});
 
     // Validate product data
     validateProductDataBeforeInsert(productData);
