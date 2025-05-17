@@ -1,4 +1,9 @@
-export const currencies = [
+export interface Currency {
+  code: string;
+  name: string;
+}
+
+export const currencies: Currency[] = [
   { code: 'AFN', name: 'Afghan Afghani' },
   { code: 'ALL', name: 'Albanian Lek' },
   { code: 'DZD', name: 'Algerian Dinar' },

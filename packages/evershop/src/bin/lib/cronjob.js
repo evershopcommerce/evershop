@@ -1,5 +1,4 @@
 import cron from 'node-cron';
-import isResolvable from 'is-resolvable';
 import { getConfig } from '../../lib/util/getConfig.js';
 import { error } from '../../lib/log/logger.js';
 
@@ -9,11 +8,7 @@ function start() {
 
   const goodJobs = [];
   jobs.forEach((job) => {
-    if (!isResolvable(job.resolve)) {
-      error(
-        `Job ${job.name} is not resolvable. Please check again the 'resolve' property.`
-      );
-    } else if (!cron.validate(job.schedule)) {
+    if (!cron.validate(job.schedule)) {
       error(
         `Job ${job.name} has an invalid schedule. Please check again the 'schedule' property.`
       );

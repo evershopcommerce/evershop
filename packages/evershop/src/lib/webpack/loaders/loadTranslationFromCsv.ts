@@ -5,7 +5,9 @@ import { CONSTANTS } from '../../helpers.js';
 import { readCsvFile } from '../../util/readCsvFile.js';
 import { error } from '../../log/logger.js';
 
-export async function loadCsvTranslationFiles() {
+export async function loadCsvTranslationFiles(): Promise<
+  Record<string, string>
+> {
   try {
     const language = getConfig('shop.language', 'en');
     const folderPath = path.resolve(

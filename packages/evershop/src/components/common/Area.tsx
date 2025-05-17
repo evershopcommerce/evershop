@@ -3,8 +3,8 @@ import type { ElementType } from 'react';
 import { useAppState } from '@components/common/context/app.jsx';
 
 interface Component {
-  id: string;
-  sortOrder: number;
+  id?: string;
+  sortOrder?: number;
   props?: Record<string, any>;
   component: {
     default: React.ElementType | React.ReactNode;

@@ -4,7 +4,7 @@ import AttributeIcon from '@heroicons/react/solid/esm/HashtagIcon';
 import CategoryIcon from '@heroicons/react/solid/esm/LinkIcon';
 import CollectionIcon from '@heroicons/react/solid/esm/TagIcon';
 import ProductIcon from '@heroicons/react/solid/esm/ArchiveIcon';
-import NavigationItemGroup from '@components/admin/cms/NavigationItemGroup';
+import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
 
 export default function CatalogMenuGroup({
   productGrid,

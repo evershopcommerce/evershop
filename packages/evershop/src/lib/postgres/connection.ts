@@ -1,12 +1,15 @@
 import pg from 'pg';
 import fs from 'fs';
 import { getConfig } from '../util/getConfig.js';
+import type { PoolConfig } from 'pg';
 
 const { Pool } = pg;
 // Use env for the database connection, maintain the backward compatibility
-const connectionSetting = {
+const connectionSetting: PoolConfig = {
   host: process.env.DB_HOST || getConfig('system.database.host'),
-  port: process.env.DB_PORT || getConfig('system.database.port'),
+  port:
+    (process.env.DB_PORT as unknown as number) ||
+    (getConfig('system.database.port') as unknown as number),
   user: process.env.DB_USER || getConfig('system.database.user'),
   password: process.env.DB_PASSWORD || getConfig('system.database.password'),
   database: process.env.DB_NAME || getConfig('system.database.database'),
@@ -24,7 +27,7 @@ switch (sslMode) {
   case 'prefer':
   case 'verify-ca':
   case 'verify-full': {
-    const ssl = {
+    const ssl: PoolConfig['ssl'] = {
       rejectUnauthorized: true
     };
     const ca = process.env.DB_SSLROOTCERT;

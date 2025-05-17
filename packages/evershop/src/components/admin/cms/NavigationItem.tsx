@@ -1,8 +1,13 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import './NavigationItem.scss';
 
-export default function NavigationItem({ Icon, url, title }) {
+export interface NavigationItemProps {
+  Icon: React.ElementType;
+  url: string;
+  title: string;
+}
+
+export function NavigationItem({ Icon, url, title }: NavigationItemProps) {
   const [isActive, setIsActive] = React.useState(false);
   React.useEffect(() => {
     const currentUrl = window.location.href;
@@ -31,9 +36,3 @@ export default function NavigationItem({ Icon, url, title }) {
     </li>
   );
 }
-
-NavigationItem.propTypes = {
-  Icon: PropTypes.elementType.isRequired,
-  title: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired
-};

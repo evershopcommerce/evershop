@@ -12,13 +12,15 @@ import {
   update,
   insertOnUpdate
 } from '@evershop/postgres-query-builder';
+import type { PoolClient } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { getAjv } from '../../../base/services/getAjv.js';
-import productDataSchema from './productDataSchema.json' with { type: 'json' };
+import { JSONSchemaType } from 'ajv';
+import productDataSchema from './productDataSchema.json'  with { type: 'json' };
 
-function validateProductDataBeforeInsert(data) {
+function validateProductDataBeforeInsert(data: Record<string, any>) {
   const ajv = getAjv();
-  productDataSchema.required = [
+  (productDataSchema as JSONSchemaType<any>).required = [
     'name',
     'url_key',
     'status',
@@ -30,7 +32,8 @@ function validateProductDataBeforeInsert(data) {
   ];
   const jsonSchema = getValueSync(
     'createProductDataJsonSchema',
-    productDataSchema
+    productDataSchema,
+    {}
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
@@ -41,7 +44,7 @@ function validateProductDataBeforeInsert(data) {
   }
 }
 
-async function insertProductInventory(inventoryData, productId, connection) {
+async function insertProductInventory(inventoryData: Record<string, any>, productId: number, connection: ExtendedPoolClient) {
   // Save the product inventory
   await insert('product_inventory')
     .given(inventoryData)
@@ -220,6 +223,11 @@ async function createProduct(data, context) {
   }
 }
 
+/**
+ * Create product service. This service will create a product with all related data
+ * @param {Object} data
+ * @param {Object} context
+ */
 export default async (data, context) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {

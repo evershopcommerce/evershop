@@ -1,4 +1,9 @@
-export const timezones = [
+export interface Timezone {
+  code: string;
+  name: string;
+}
+
+export const timezones: Timezone[] = [
   {
     code: 'Australia/Darwin',
     name: 'AUS Central Standard Time (Australia/Darwin)'

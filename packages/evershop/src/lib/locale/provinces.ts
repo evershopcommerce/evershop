@@ -1,4 +1,10 @@
-export const provinces = [
+export interface Province {
+  code: string;
+  countryCode: string;
+  name: string;
+}
+
+export const provinces: Province[] = [
   { code: 'AD-07', countryCode: 'AD', name: 'Andorra la Vella' },
   { code: 'AD-02', countryCode: 'AD', name: 'Canillo' },
   { code: 'AD-03', countryCode: 'AD', name: 'Encamp' },

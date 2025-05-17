@@ -1,4 +1,4 @@
-import { getEnv } from '../../../../lib/util/getEnv';
+import { getEnv } from '../../../../lib/util/getEnv.js';
 import { UNAUTHORIZED } from '../../../../lib/util/httpStatus.js';
 
 export default (request, response, delegate, next) => {

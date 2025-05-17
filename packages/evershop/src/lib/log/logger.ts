@@ -11,36 +11,36 @@ function createLogger() {
 }
 
 // Define logger function
-export function debug(message) {
+export function debug(message: string) {
   const logger = createLogger();
   logger.debug(message);
 }
 
-export function error(e) {
-  // Get the stack trace to find where this function was called
-  const { stack } = new Error();
-  const callerInfo = stack.split('\n')[2] || 'Unknown caller';
+export function error(e: Error) {
+  // // Get the stack trace to find where this function was called
+  // const { stack } = new Error();
+  // const callerInfo = stack.split('\n')[2] || 'Unknown caller';
 
-  // eslint-disable-next-line no-console
-  console.log(e);
-  // eslint-disable-next-line no-console
-  console.log(`Called from: ${callerInfo.trim()}`);
+  // // eslint-disable-next-line no-console
+  // console.log(e);
+  // // eslint-disable-next-line no-console
+  // console.log(`Called from: ${callerInfo.trim()}`);
 
   const logger = createLogger();
   logger.error(e);
 }
 
-export function warning(message) {
+export function warning(message: string): void {
   const logger = createLogger();
   logger.warn(message);
 }
 
-export function info(message) {
+export function info(message: string): void {
   const logger = createLogger();
   logger.info(message);
 }
 
-export function success(message) {
+export function success(message: string): void {
   const logger = createLogger();
   logger.info(message);
 }

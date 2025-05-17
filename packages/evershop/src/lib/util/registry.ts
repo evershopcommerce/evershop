@@ -132,7 +132,7 @@ class Registry {
   addProcessor<T>(
     name: string,
     callback: SyncProcessor<T> | AsyncProcessor<T>,
-    priority: number
+    priority?: number
   ) {
     if (locked) {
       throw new Error(
@@ -158,11 +158,8 @@ class Registry {
     }
     if (!this.values[name]) {
       this.values[name] = {
-        initValue: undefined as unknown as T,
-        context: undefined as unknown as Record<string, any>,
-        value: undefined as unknown as T,
         processors: []
-      };
+      } as RegistryValue<any>;
     }
     this.values[name].processors = this.values[name].processors || [];
     // Add the callback to the processors, sort by priority
@@ -249,7 +246,7 @@ export function getValueSync<T>(
   name: string,
   initialization: T | SyncProcessor<T>,
   context: Record<string, any>,
-  validator: (value: T) => boolean
+  validator?: (value: T) => boolean
 ): T {
   let initValue;
   // Check if the initValue is a function, then add this function to the processors as the first processor
@@ -275,7 +272,7 @@ export function getValueSync<T>(
 export function addProcessor<T>(
   name: string,
   callback: SyncProcessor<T> | AsyncProcessor<T>,
-  priority: number
+  priority?: number
 ): void {
   return registry.addProcessor(name, callback, priority);
 }

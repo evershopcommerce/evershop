@@ -9,20 +9,28 @@
   "bin": {
     "evershop": "./dist/bin/evershop.js"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/types/index.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
     },
-    "./lib/util": {
-      "import": "./dist/lib/util/index.js",
-      "types": "./dist/lib/util/index.d.ts"
+    "./lib": {
+      "import": "./dist/lib/index.js",
+      "types": "./dist/lib/index.d.ts"
     },
-    "./components/common/*": {
+    "./components/common": {
       "import": "./dist/components/common/index.jsx",
       "types": "./dist/components/common/index.d.ts"
+    },
+    "./components/admin": {
+      "import": "./dist/components/admin/index.jsx",
+      "types": "./dist/components/admin/index.d.ts"
+    },
+    "./components/frontend": {
+      "import": "./dist/components/storeFront/index.jsx",
+      "types": "./dist/components/storeFront/index.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -31,6 +39,7 @@
     "prepack": "rimraf dist && npm run build:ts && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
     "dev": "tsx ./bin/dev/index.ts",
     "build": "rimraf dist && npm run build:ts",
+    "build:prod": "rimraf dist && npm run build:ts && node src/bin/build/index.js -- --build_mode production",
     "start": "evershop start",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",
@@ -109,7 +118,6 @@
     "html-webpack-plugin": "^5.5.0",
     "immer": "^9.0.3",
     "is-object": "^1.0.2",
-    "is-resolvable": "^1.1.0",
     "jsesc": "^3.0.2",
     "json5": "^2.2.1",
     "kleur": "3.0.3",
@@ -122,7 +130,6 @@
     "ora": "^5.4.1",
     "pg": "^8.11.3",
     "postcss": "^8.4.18",
-    "promise.allsettled": "^1.0.4",
     "prop-types": "^15.8.1",
     "pubsub-js": "^1.9.3",
     "react": "^17.0.1",
@@ -159,6 +166,7 @@
     "@types/config": "^3.3.5",
     "@types/express": "^5.0.1",
     "@types/node": "^22.14.1",
+    "@types/pg": "^8.15.2",
     "@types/react": "^19.1.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3"

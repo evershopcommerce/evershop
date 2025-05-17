@@ -66,7 +66,7 @@ export function hookBefore(
 
 export function hookable<T extends Function>(
   originalFunction: T,
-  context: any
+  context?: any
 ): T {
   // Make sure the original function is a named function
   const funcName = originalFunction.name.replace('bound ', '');

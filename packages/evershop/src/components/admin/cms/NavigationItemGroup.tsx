@@ -1,16 +1,26 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '@components/common/Area';
-import NavigationItem from '@components/admin/cms/NavigationItem';
+import Area from '@components/common/Area.jsx';
+import {
+  NavigationItem,
+  NavigationItemProps
+} from '@components/admin/cms/NavigationItem.jsx';
 import './NavigationItemGroup.scss';
 
-export default function NavigationItemGroup({
+interface NavigationItemGroupProps {
+  id: string;
+  name: string;
+  items: NavigationItemProps[];
+  Icon: React.ElementType;
+  url: string;
+}
+
+export function NavigationItemGroup({
   id,
   name,
   items = [],
   Icon = null,
   url = null
-}) {
+}: NavigationItemGroupProps) {
   return (
     <li className="root-nav-item nav-item">
       <div className="flex justify-between items-center">
@@ -44,20 +54,6 @@ export default function NavigationItemGroup({
     </li>
   );
 }
-
-NavigationItemGroup.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      Icon: PropTypes.elementType,
-      url: PropTypes.string,
-      title: PropTypes.string.isRequired
-    })
-  ),
-  Icon: PropTypes.elementType,
-  url: PropTypes.string
-};
 
 NavigationItemGroup.defaultProps = {
   items: [],

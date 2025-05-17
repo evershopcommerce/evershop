@@ -1,5 +1,5 @@
 import { select } from '@evershop/postgres-query-builder';
-import { contries } from '../../../../../lib/locale/countries.js';
+import { countries } from '../../../../../lib/locale/countries.js';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
@@ -41,7 +41,7 @@ export default {
       if (!country) {
         return null;
       } else {
-        const c = contries.find((p) => p.code === country);
+        const c = countries.find((p) => p.code === country);
         if (c) {
           return c;
         } else {

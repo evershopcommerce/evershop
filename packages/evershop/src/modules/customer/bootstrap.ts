@@ -1,4 +1,5 @@
 import { request } from 'express';
+import type { EvershopRequest } from 'src/types/request.js';
 import config from 'config';
 import { merge } from '../../lib/util/merge.js';
 import { translate } from '../../lib/locale/translate/translate.js';
@@ -11,7 +12,7 @@ import loginCustomerWithEmail from '../../modules/customer/services/customer/log
 import logoutCustomer from '../../modules/customer/services/customer/logoutCustomer.js';
 
 export default () => {
-  addProcessor('cartFields', (fields) => {
+  addProcessor('cartFields', (fields: any[]) => {
     fields.push({
       key: 'customer_id',
       resolvers: [
@@ -69,7 +70,7 @@ export default () => {
    * @param {*} password
    * @param {*} callback
    */
-  request.loginCustomerWithEmail = async function login(
+  (request as EvershopRequest).loginCustomerWithEmail = async function login(
     email,
     password,
     callback
@@ -78,18 +79,20 @@ export default () => {
     this.session.save(callback);
   };
 
-  request.logoutCustomer = function logout(callback) {
+  (request as EvershopRequest).logoutCustomer = function logout(callback) {
     hookable(logoutCustomer.bind(this))();
     this.session.save(callback);
   };
 
-  request.isCustomerLoggedIn = function isCustomerLoggedIn() {
-    return !!this.session?.customerID;
-  };
+  (request as EvershopRequest).isCustomerLoggedIn =
+    function isCustomerLoggedIn() {
+      return !!this.session?.customerID;
+    };
 
-  request.getCurrentCustomer = function getCurrentCustomer() {
-    return this.locals?.customer;
-  };
+  (request as EvershopRequest).getCurrentCustomer =
+    function getCurrentCustomer() {
+      return this.locals?.customer;
+    };
 
   addProcessor('configuratonSchema', (schema) => {
     merge(schema, {
@@ -171,7 +174,7 @@ export default () => {
   );
   addProcessor(
     'customerCollectionFilters',
-    (filters) => [...filters, ...defaultPaginationFilters],
+    (filters: any[]) => [...filters, ...defaultPaginationFilters],
     2
   );
 
@@ -183,7 +186,7 @@ export default () => {
   );
   addProcessor(
     'customerGroupCollectionFilters',
-    (filters) => [...filters, ...defaultPaginationFilters],
+    (filters: any[]) => [...filters, ...defaultPaginationFilters],
     2
   );
 };

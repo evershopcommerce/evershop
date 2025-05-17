@@ -1,4 +1,4 @@
-import { contries } from '../../../../../lib/locale/countries.js';
+import { countries } from '../../../../../lib/locale/countries.js';
 import { provinces } from '../../../../../lib/locale/provinces.js';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { select } from '@evershop/postgres-query-builder';
@@ -8,16 +8,16 @@ export default {
     countries: (_, argument) => {
       const list = argument?.countries || [];
       if (list.length === 0) {
-        return contries;
+        return countries;
       } else {
-        return contries.filter((c) => list.includes(c.code));
+        return countries.filter((c) => list.includes(c.code));
       }
     },
     allowedCountries: async () => {
       const allowedCountries = await select('country')
         .from('shipping_zone')
         .execute(pool);
-      return contries.filter((c) =>
+      return countries.filter((c) =>
         allowedCountries.find((p) => p.country === c.code)
       );
     }
@@ -27,7 +27,7 @@ export default {
       if (country.name) {
         return country.name;
       } else {
-        const c = contries.find((p) => p.code === country);
+        const c = countries.find((p) => p.code === country);
         return c.name;
       }
     },

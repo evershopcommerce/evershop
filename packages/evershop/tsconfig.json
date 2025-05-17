@@ -7,7 +7,6 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "declaration": true,
-    "declarationDir": "./dist/types",
     "sourceMap": true,
     "allowJs": true,
     "checkJs": false,
@@ -16,6 +15,7 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "allowArbitraryExtensions": true,
+    "strictNullChecks": true,
     "baseUrl": ".",
     "rootDir": "./src",
     "paths": {
