@@ -1,9 +1,9 @@
-import pg from 'pg';
 import fs from 'fs';
-import { getConfig } from '../util/getConfig.js';
+import { PoolClient } from '@evershop/postgres-query-builder';
+import { Pool } from 'pg';
 import type { PoolConfig } from 'pg';
+import { getConfig } from '../util/getConfig.js';
 
-const { Pool } = pg;
 // Use env for the database connection, maintain the backward compatibility
 const connectionSetting: PoolConfig = {
   host: process.env.DB_HOST || getConfig('system.database.host'),
@@ -64,7 +64,7 @@ pool.on('connect', (client) => {
   client.query(`SET TIMEZONE TO "${timeZone}";`);
 });
 
-async function getConnection() {
+async function getConnection(): Promise<PoolClient> {
   return await pool.connect();
 }
 

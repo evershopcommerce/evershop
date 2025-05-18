@@ -1,8 +1,8 @@
+import { PoolClient as PgPoolClient, Pool, QueryResult } from 'pg';
 import uniqid from 'uniqid';
-import { Pool, PoolClient as PgPoolClient, QueryResult } from 'pg';
-import { toString } from './toString.js';
 import { fieldResolve } from './fieldResolve.js';
 import { isValueASQL } from './isValueASQL.js';
+import { toString } from './toString.js';
 
 interface SQLValue {
   value: any;
@@ -10,10 +10,6 @@ interface SQLValue {
 }
 
 type Binding = Record<string, any>;
-
-interface BoundPool extends Pool {
-  connect(): Promise<PoolClient>;
-}
 
 interface PoolClient extends PgPoolClient {
   INTRANSACTION?: boolean;
@@ -265,7 +261,7 @@ class Node {
   }
 
   getBinding(): Binding {
-    let binding: Binding = {};
+    const binding: Binding = {};
     this._tree.forEach((element) => {
       if (
         element instanceof Leaf ||
@@ -577,12 +573,12 @@ class Query {
     return this._binding;
   }
 
-  async sql(connection?: PoolClient): Promise<string> {
+  async sql(connection?: PoolClient | Pool): Promise<string> {
     throw new Error('Method not implemented');
   }
 
   async execute(
-    connection: PoolClient,
+    connection: PoolClient | Pool,
     releaseConnection = true
   ): Promise<any[]> {
     let sql = await this.sql(connection);
@@ -709,11 +705,11 @@ class SelectQuery extends Query {
   }
 
   async execute(
-    connection: PoolClient | BoundPool,
+    connection: PoolClient | Pool,
     releaseConnection = true
   ): Promise<any[]> {
-    if (connection.constructor.name === 'BoundPool') {
-      connection = await getConnection(connection as BoundPool);
+    if (connection instanceof Pool) {
+      connection = await getConnection(connection);
     }
     let sql = await this.sql();
     const binding: any[] = [];
@@ -743,7 +739,7 @@ class SelectQuery extends Query {
           /COUNT\s*\(/i.test(f)
         );
         if (countField) {
-          let alias = countField.match(/(?<=as\s)(.*)/i) as RegExpMatchArray;
+          const alias = countField.match(/(?<=as\s)(.*)/i) as RegExpMatchArray;
           let aliasResult = '';
           if (alias) {
             aliasResult = alias[0].trim();
@@ -873,7 +869,7 @@ class UpdateQuery extends Query {
   }
 
   async execute(
-    connection: PoolClient,
+    connection: PoolClient | Pool,
     releaseConnection = true
   ): Promise<any> {
     const rows = await super.execute(connection, releaseConnection);
@@ -968,7 +964,7 @@ class InsertQuery extends Query {
   }
 
   async execute(
-    connection: PoolClient,
+    connection: PoolClient | Pool,
     releaseConnection = true
   ): Promise<any> {
     const rows = await super.execute(connection, releaseConnection);
@@ -1074,7 +1070,7 @@ class InsertOnUpdateQuery extends Query {
   }
 
   async execute(
-    connection: PoolClient,
+    connection: PoolClient | Pool,
     releaseConnection = true
   ): Promise<any> {
     const rows = await super.execute(connection, releaseConnection);
@@ -1107,7 +1103,7 @@ class DeleteQuery extends Query {
 }
 
 // Connection management functions
-async function getConnection(pool: BoundPool): Promise<PoolClient> {
+async function getConnection(pool: Pool): Promise<PoolClient> {
   return await pool.connect();
 }
 
@@ -1130,19 +1126,19 @@ async function rollback(connection: PoolClient): Promise<void> {
   connection.release();
 }
 
-function release(connection: PoolClient): void {
-  if (connection.INTRANSACTION === true) {
+function release(connection: PoolClient | Pool): void {
+  // Check if connection is a Pool instance
+  if (connection instanceof Pool) {
     return;
   }
-  // Check if connection is instance of BoundPool class
-  if (connection.constructor.name === 'BoundPool') {
+  if (connection.INTRANSACTION === true) {
     return;
   }
   connection.release();
 }
 
 async function execute(
-  connection: PoolClient,
+  connection: PoolClient | Pool,
   query: string
 ): Promise<QueryResult> {
   return await connection.query(query);
@@ -1226,6 +1222,5 @@ export {
   SQLValue,
   Binding,
   Pool,
-  PoolClient,
-  BoundPool
+  PoolClient
 };
