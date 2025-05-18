@@ -1,9 +1,9 @@
 import 'dotenv/config';
+import { select, update } from '@evershop/postgres-query-builder';
+import yargs from 'yargs';
 import { error, success } from '../../src/lib/log/logger.js';
 import { pool } from '../../src/lib/postgres/connection.js';
 import { hashPassword } from '../../src/lib/util/passwordHelper.js';
-import { update, select } from '@evershop/postgres-query-builder';
-import yargs from 'yargs';
 
 function isValidPassword(password) {
   return password.length >= 8;

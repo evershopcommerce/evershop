@@ -1,6 +1,6 @@
+import { Toggle } from '@components/common/form/fields/Toggle';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Toggle } from '@components/common/form/fields/Toggle';
 
 export default function Status({ cmsPage }) {
   return (

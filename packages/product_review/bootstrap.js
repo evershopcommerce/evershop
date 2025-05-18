@@ -1,7 +1,7 @@
-const { addProcessor } = require('@evershop/evershop/src/lib/util/registry');
 const {
   defaultPaginationFilters
 } = require('@evershop/evershop/src/lib/util/defaultPaginationFilters');
+const { addProcessor } = require('@evershop/evershop/src/lib/util/registry');
 const registerDefaultReviewCollectionFilters = require('./services/registerDefaultReviewCollectionFilters');
 
 module.exports = () => {

@@ -1,8 +1,7 @@
+import { node, select, sql } from '@evershop/postgres-query-builder';
+import { pool } from '../../../lib/postgres/connection.js';
 import { camelCase } from '../../../lib/util/camelCase.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
-
-import { select, node, sql } from '@evershop/postgres-query-builder';
-import { pool } from '../../../lib/postgres/connection.js';
 import { getValue } from '../../../lib/util/registry.js';
 
 export class ProductCollection {

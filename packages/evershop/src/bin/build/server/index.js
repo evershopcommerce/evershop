@@ -1,6 +1,6 @@
 import pkg from 'webpack';
-import { createConfigServer } from '../../../src/lib/webpack/prod/createConfigServer.js';
 import { error } from '../../../src/lib/log/logger';
+import { createConfigServer } from '../../../src/lib/webpack/prod/createConfigServer.js';
 
 const { webpack } = pkg;
 export const buildServer = async function buildServer(routes) {

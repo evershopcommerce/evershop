@@ -1,8 +1,8 @@
 import { GraphQLJSON } from 'graphql-type-json';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
-import { getCouponsBaseQuery } from '../../../services/getCouponsBaseQuery.js';
 import { CouponCollection } from '../../../services/CouponCollection.js';
+import { getCouponsBaseQuery } from '../../../services/getCouponsBaseQuery.js';
 
 export default {
   JSON: GraphQLJSON,

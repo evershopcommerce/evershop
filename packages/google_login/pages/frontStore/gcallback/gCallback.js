@@ -1,6 +1,9 @@
+const { error } = require('@evershop/evershop/src/lib/log/logger');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
+const createCustomer = require('@evershop/evershop/src/modules/customer/services/customer/createCustomer');
 const {
   getGoogleAuthToken
 } = require('@evershop/google_login/services/getGoogleAuthToken');
@@ -8,9 +11,6 @@ const {
   getGoogleUserInfo
 } = require('@evershop/google_login/services/getGoogleUserInfo');
 const { select } = require('@evershop/postgres-query-builder');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
-const createCustomer = require('@evershop/evershop/src/modules/customer/services/customer/createCustomer');
 
 module.exports = async (request, response, delegate, next) => {
   const { code } = request.query;

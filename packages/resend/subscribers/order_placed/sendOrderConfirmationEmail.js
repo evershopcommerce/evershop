@@ -1,15 +1,15 @@
 const path = require('path');
 const fs = require('fs').promises;
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { Resend } = require('resend');
-const { select } = require('@evershop/postgres-query-builder');
 const { contries } = require('@evershop/evershop/src/lib/locale/countries');
 const { provinces } = require('@evershop/evershop/src/lib/locale/provinces');
 const { error } = require('@evershop/evershop/src/lib/log/logger');
-const Handlebars = require('handlebars');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
 const { getValue } = require('@evershop/evershop/src/lib/util/registry');
+const { select } = require('@evershop/postgres-query-builder');
+const Handlebars = require('handlebars');
+const { Resend } = require('resend');
 
 module.exports = async function sendOrderConfirmationEmail(data) {
   try {

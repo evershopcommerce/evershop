@@ -1,19 +1,22 @@
-import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
-import {
-  PaymentElement,
-  useStripe,
-  useElements
-} from '@stripe/react-stripe-js';
-import { useQuery } from 'urql';
+
 import {
   useCheckout,
   useCheckoutDispatch
 } from '@components/common/context/checkout';
+import {
+  PaymentElement,
+  useElements,
+  useStripe
+} from '@stripe/react-stripe-js';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { useQuery } from 'urql';
+
+
 import './CheckoutForm.scss';
 import RenderIfTrue from '@components/common/RenderIfTrue';
 import Spinner from '@components/common/Spinner';
-import { toast } from 'react-toastify';
 import { _ } from '../../../../lib/locale/translate/index.js';
 import TestCards from './TestCards';
 

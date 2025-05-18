@@ -1,6 +1,6 @@
 import cron from 'node-cron';
-import { getConfig } from '../../lib/util/getConfig.js';
 import { error } from '../../lib/log/logger.js';
+import { getConfig } from '../../lib/util/getConfig.js';
 
 function start() {
   // Get the list of jobs from the configuration

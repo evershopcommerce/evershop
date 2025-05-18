@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import { Card } from '@components/admin/cms/Card';
 import Area from '@components/common/Area';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function Setting({ type }) {
   const areaId = `widget_setting_form`;

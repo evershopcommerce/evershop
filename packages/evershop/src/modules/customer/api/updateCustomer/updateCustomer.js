@@ -1,10 +1,10 @@
-import { update, select } from '@evershop/postgres-query-builder';
+import { select, update } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import {
-  OK,
   INTERNAL_SERVER_ERROR,
-  INVALID_PAYLOAD
+  INVALID_PAYLOAD,
+  OK
 } from '../../../../lib/util/httpStatus.js';
 import { hashPassword } from '../../../../lib/util/passwordHelper.js';
 

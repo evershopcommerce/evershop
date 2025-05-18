@@ -1,6 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import PropTypes from 'prop-types';
+import React from 'react';
 import './GoogleLogin.scss';
 
 function GoogleIcon({ width, height }) {

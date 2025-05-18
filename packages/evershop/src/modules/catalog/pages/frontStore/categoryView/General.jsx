@@ -1,5 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+
 import './General.scss';
 import Editor from '@components/common/Editor';
 

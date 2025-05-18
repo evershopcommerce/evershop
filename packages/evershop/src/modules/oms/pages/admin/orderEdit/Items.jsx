@@ -4,9 +4,9 @@ import Area from '@components/common/Area';
 import { Circle } from '@components/common/Circle';
 import './Items.scss';
 import { Card } from '@components/admin/cms/Card';
-import { Thumbnail } from '@components/admin/oms/orderEdit/items/Thumbnail';
 import { Name } from '@components/admin/oms/orderEdit/items/Name';
 import { Price } from '@components/admin/oms/orderEdit/items/Price';
+import { Thumbnail } from '@components/admin/oms/orderEdit/items/Thumbnail';
 
 export default function Items({ order: { items, shipmentStatus } }) {
   return (

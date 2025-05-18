@@ -1,6 +1,6 @@
 // Extend the default winston colorize format and add color to the stack trace
-import { format } from 'winston';
 import { LEVEL } from 'triple-beam';
+import { format } from 'winston';
 
 const { colorize } = format;
 

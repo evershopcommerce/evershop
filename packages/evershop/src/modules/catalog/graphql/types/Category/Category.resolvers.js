@@ -1,12 +1,12 @@
+import { execute, select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
-import { select, execute } from '@evershop/postgres-query-builder';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
-import { getProductsByCategoryBaseQuery } from '../../../../../modules/catalog/services/getProductsByCategoryBaseQuery.js';
-import { getFilterableAttributes } from '../../../../../modules/catalog/services/getFilterableAttributes.js';
-import { ProductCollection } from '../../../../../modules/catalog/services/ProductCollection.js';
-import { getCategoriesBaseQuery } from '../../../../../modules/catalog/services/getCategoriesBaseQuery.js';
 import { CategoryCollection } from '../../../../../modules/catalog/services/CategoryCollection.js';
+import { getCategoriesBaseQuery } from '../../../../../modules/catalog/services/getCategoriesBaseQuery.js';
+import { getFilterableAttributes } from '../../../../../modules/catalog/services/getFilterableAttributes.js';
+import { getProductsByCategoryBaseQuery } from '../../../../../modules/catalog/services/getProductsByCategoryBaseQuery.js';
+import { ProductCollection } from '../../../../../modules/catalog/services/ProductCollection.js';
 
 export default {
   Query: {

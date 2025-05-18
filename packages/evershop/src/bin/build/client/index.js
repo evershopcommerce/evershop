@@ -1,6 +1,6 @@
 import webpack from 'webpack';
-import { createConfigClient } from '../../../src/lib/webpack/prod/createConfigClient';
 import { error } from '../../../src/lib/log/logger';
+import { createConfigClient } from '../../../src/lib/webpack/prod/createConfigClient';
 
 export async function buildClient(routes) {
   const config = createConfigClient(routes);

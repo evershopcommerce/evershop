@@ -1,11 +1,11 @@
+import { Card } from '@components/admin/cms/Card';
+import SettingMenu from '@components/admin/setting/SettingMenu';
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Form } from '@components/common/form/Form';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import Area from '@components/common/Area';
-import { Form } from '@components/common/form/Form';
-import SettingMenu from '@components/admin/setting/SettingMenu';
-import { Field } from '@components/common/form/Field';
-import { Card } from '@components/admin/cms/Card';
 
 export default function AgeSetting({ saveSettingApi, setting: { minAge } }) {
   return (

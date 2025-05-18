@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import Area from '@components/common/Area';
 import { Alert } from '@components/common/modal/Alert';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 function ServerHtml({ css, js, appContext }) {
   return (

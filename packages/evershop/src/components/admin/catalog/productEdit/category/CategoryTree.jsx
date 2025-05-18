@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useQuery } from 'urql';
 import Spinner from '@components/common/Spinner';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useQuery } from 'urql';
 import CategoryItem from './CategoryItem';
 import './CategoryTree.scss';
 

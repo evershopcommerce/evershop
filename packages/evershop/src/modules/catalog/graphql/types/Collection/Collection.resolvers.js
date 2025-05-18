@@ -1,10 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
 import { select } from '@evershop/postgres-query-builder';
+import { v4 as uuidv4 } from 'uuid';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
-import { ProductCollection } from '../../../../../modules/catalog/services/ProductCollection.js';
-import { getProductsByCollectionBaseQuery } from '../../../../../modules/catalog/services/getProductsByCollectionBaseQuery.js';
-import { getCollectionsBaseQuery } from '../../../../../modules/catalog/services/getCollectionsBaseQuery.js';
 import { CollectionCollection } from '../../../../../modules/catalog/services/CollectionCollection.js';
+import { getCollectionsBaseQuery } from '../../../../../modules/catalog/services/getCollectionsBaseQuery.js';
+import { getProductsByCollectionBaseQuery } from '../../../../../modules/catalog/services/getProductsByCollectionBaseQuery.js';
+import { ProductCollection } from '../../../../../modules/catalog/services/ProductCollection.js';
 
 export default {
   Query: {

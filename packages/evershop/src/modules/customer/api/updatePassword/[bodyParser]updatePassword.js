@@ -1,16 +1,16 @@
+const crypto = require('crypto');
 const { select, del } = require('@evershop/postgres-query-builder');
 const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
-const crypto = require('crypto');
+const utc = require('dayjs/plugin/utc');
+const { error } = require('../../../../lib/log/logger');
 const { pool } = require('../../../../lib/postgres/connection');
+const { getConfig } = require('../../../../lib/util/getConfig');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
 } = require('../../../../lib/util/httpStatus');
-const { error } = require('../../../../lib/log/logger');
-const { getConfig } = require('../../../../lib/util/getConfig');
 const updatePassword = require('../../services/customer/updatePassword');
 
 module.exports = async (request, response, delegate, next) => {

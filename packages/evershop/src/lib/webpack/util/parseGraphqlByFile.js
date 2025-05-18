@@ -1,8 +1,8 @@
 import fs from 'fs';
 import { parse } from 'graphql';
-import uniqid from 'uniqid';
 import { print } from 'graphql/language/printer.js';
 import JSON5 from 'json5';
+import uniqid from 'uniqid';
 
 // This function should return an object { query, fragments, variables }.
 export function parseGraphqlByFile(module) {

@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import './ResetPasswordForm.scss';
 import { _ } from '../../../../../lib/locale/translate/index.js';
 import Button from '@components/common/form/Button';

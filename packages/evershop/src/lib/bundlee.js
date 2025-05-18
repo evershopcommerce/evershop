@@ -1,13 +1,13 @@
-import { inspect } from 'util';
-import { writeFile, mkdir, rmdir } from 'fs/promises';
-import { existsSync, statSync, readdirSync } from 'fs';
+import { existsSync, readdirSync, statSync } from 'fs';
+import { mkdir, rmdir, writeFile } from 'fs/promises';
 import path from 'path';
-import sass from 'node-sass';
+import { inspect } from 'util';
 import CleanCss from 'clean-css';
+import sass from 'node-sass';
+import { getComponentsByRoute } from './componee/getComponentsByRoute.js';
 import { CONSTANTS } from './helpers.js';
 import { buildUrl } from './router/buildUrl.js';
 import { createWebpack } from './webpack/webpack.js';
-import { getComponentsByRoute } from './componee/getComponentsByRoute.js';
 
 export default async (request, response, route) => {
   /** Only create bundle file for GET and "text/html" route */

@@ -1,13 +1,13 @@
-import { hookable } from '../../../../../lib/util/hookable.js';
-import { getValue } from '../../../../../lib/util/registry.js';
 import {
-  startTransaction,
   commit,
   rollback,
-  update,
-  select
+  select,
+  startTransaction,
+  update
 } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../../lib/postgres/connection.js';
+import { hookable } from '../../../../../lib/util/hookable.js';
+import { getValue } from '../../../../../lib/util/registry.js';
 import { validateAddress } from './addressValidator.js';
 
 async function updateCustomerAddressData(uuid, data, connection) {

@@ -1,10 +1,10 @@
 import { resolve } from 'path';
-import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { getEnabledExtensions } from '../../bin/extension/index.js';
-import { scanRouteComponents } from './scanForComponents.js';
-import { getConfig } from '../util/getConfig.js';
+import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { CONSTANTS } from '../helpers.js';
+import { getConfig } from '../util/getConfig.js';
 import { getEnabledWidgets } from '../util/getEnabledWidgets.js';
+import { scanRouteComponents } from './scanForComponents.js';
 
 export function getComponentsByRoute(route) {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];

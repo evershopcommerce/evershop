@@ -1,13 +1,13 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import jsesc from 'jsesc';
-import { getRoutes } from '../router/Router.js';
-import { get } from '../util/get.js';
-import isProductionMode from '../util/isProductionMode.js';
-import { getRouteBuildPath } from '../webpack/getRouteBuildPath.js';
-import { getConfig } from '../util/getConfig.js';
 import { getNotifications } from '../../modules/base/services/notifications.js';
 import { error } from '../log/logger.js';
+import { getRoutes } from '../router/Router.js';
+import { get } from '../util/get.js';
+import { getConfig } from '../util/getConfig.js';
+import isProductionMode from '../util/isProductionMode.js';
+import { getRouteBuildPath } from '../webpack/getRouteBuildPath.js';
 
 function normalizeAssets(assets) {
   if (typeof assets === 'object' && !Array.isArray(assets) && assets !== null) {

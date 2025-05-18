@@ -1,7 +1,7 @@
+import { Card } from '@components/admin/cms/Card';
+import { Field } from '@components/common/form/Field';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Field } from '@components/common/form/Field';
-import { Card } from '@components/admin/cms/Card';
 
 const getGroup = (groups = [], groupId = null) =>
   groups.find(

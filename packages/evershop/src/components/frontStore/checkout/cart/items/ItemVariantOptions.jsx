@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 export function ItemVariantOptions({ options = [] }) {
   if (!Array.isArray(options) || !options || options.length === 0) {
     return null;

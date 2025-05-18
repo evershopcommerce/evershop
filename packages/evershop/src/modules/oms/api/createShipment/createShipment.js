@@ -1,15 +1,15 @@
 import {
-  rollback,
-  insert,
   commit,
+  insert,
+  rollback,
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
 import { getConnection, pool } from '../../../../lib/postgres/connection.js';
 import {
-  OK,
   INTERNAL_SERVER_ERROR,
-  INVALID_PAYLOAD
+  INVALID_PAYLOAD,
+  OK
 } from '../../../../lib/util/httpStatus.js';
 import { updateShipmentStatus } from '../../services/updateShipmentStatus.js';
 

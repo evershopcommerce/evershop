@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+
+import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
 import PageIcon from '@heroicons/react/solid/esm/DocumentIcon';
 import WidgetIcon from '@heroicons/react/solid/esm/PuzzleIcon';
-import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function CmsMenuGroup({ cmsPageGrid, widgetGrid }) {
   return (

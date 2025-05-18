@@ -1,7 +1,7 @@
-import chokidar from 'chokidar';
-import { resolve } from 'path';
-import { CONSTANTS } from '../../../src/lib/helpers.js';
 import { existsSync } from 'fs';
+import { resolve } from 'path';
+import chokidar from 'chokidar';
+import { CONSTANTS } from '../../../src/lib/helpers.js';
 import { getConfig } from '../../../src/lib/util/getConfig.js';
 
 export function watch(calbacks = []) {

@@ -1,9 +1,9 @@
 import config from 'config';
-import { merge } from '../../lib/util/merge.js';
-import registerDefaultOrderCollectionFilters from './services/registerDefaultOrderCollectionFilters.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
-import { addProcessor } from '../../lib/util/registry.js';
 import { hookAfter } from '../../lib/util/hookable.js';
+import { merge } from '../../lib/util/merge.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import registerDefaultOrderCollectionFilters from './services/registerDefaultOrderCollectionFilters.js';
 import {
   changeOrderStatus,
   resolveOrderStatus

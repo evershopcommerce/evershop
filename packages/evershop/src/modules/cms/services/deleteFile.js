@@ -1,5 +1,5 @@
-import { join } from 'path';
 import { existsSync, lstatSync, unlinkSync } from 'fs';
+import { join } from 'path';
 import { CONSTANTS } from '../../../lib/helpers.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { getValueSync } from '../../../lib/util/registry.js';

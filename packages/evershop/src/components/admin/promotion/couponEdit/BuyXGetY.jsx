@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import PubSub from 'pubsub-js';
 import { Field } from '@components/common/form/Field';
-import { FORM_FIELD_UPDATED } from '../../../../lib/util/events';
 import { useModal } from '@components/common/modal/useModal';
+import PropTypes from 'prop-types';
+import PubSub from 'pubsub-js';
+import React from 'react';
+import { FORM_FIELD_UPDATED } from '../../../../lib/util/events';
 import ProductSkuSelector from './ProductSkuSelector';
 
 function SkuSelector({ product, updateProduct }) {

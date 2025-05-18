@@ -1,6 +1,6 @@
+import { useAppState } from '@components/common/context/app.jsx';
 import React from 'react';
 import type { ElementType } from 'react';
-import { useAppState } from '@components/common/context/app.jsx';
 
 interface Component {
   id?: string;

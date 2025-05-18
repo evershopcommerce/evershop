@@ -1,8 +1,8 @@
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import {
+  INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD,
-  OK,
-  INTERNAL_SERVER_ERROR
+  OK
 } from '../../../../../lib/util/httpStatus.js';
 
 export default async (request, response, delegate, next) => {

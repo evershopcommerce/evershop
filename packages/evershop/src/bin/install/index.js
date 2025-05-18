@@ -1,17 +1,17 @@
-import { writeFile, mkdir } from 'fs/promises';
+import { mkdir, writeFile } from 'fs/promises';
 import path from 'path';
+import {
+  commit,
+  execute,
+  insertOnUpdate,
+  rollback,
+  startTransaction
+} from '@evershop/postgres-query-builder';
+import boxen from 'boxen';
+import { prompt } from 'enquirer';
 import { green } from 'kleur';
 import ora from 'ora';
-import boxen from 'boxen';
 import { Pool } from 'pg';
-import {
-  execute,
-  startTransaction,
-  commit,
-  rollback,
-  insertOnUpdate
-} from '@evershop/postgres-query-builder';
-import { prompt } from 'enquirer';
 import { CONSTANTS } from '../../src/lib/helpers.js';
 import { error, success } from '../../src/lib/log/logger.js';
 import { hashPassword } from '../../src/lib/util/passwordHelper.js';

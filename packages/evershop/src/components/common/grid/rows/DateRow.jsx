@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { DateTime } from 'luxon';
 import { useAppState } from '@components/common/context/app';
+import { DateTime } from 'luxon';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { get } from '../../../../lib/util/get.js';
 
 export default function DateRow({ id, areaProps }) {

@@ -1,10 +1,10 @@
-import path from 'path';
 import { existsSync, rmSync } from 'fs';
-import { CONSTANTS } from '../../../src/lib/helpers.js';
+import path from 'path';
+import { green, red } from 'kleur';
 import ora from 'ora';
-import { red, green } from 'kleur';
-import { getRoutes } from '../../../src/lib/router/routes.js';
 import webpack from 'webpack';
+import { CONSTANTS } from '../../../src/lib/helpers.js';
+import { getRoutes } from '../../../src/lib/router/routes.js';
 import { createConfig } from '../../../src/lib/webpack/createConfig.js';
 import { loadModuleComponents } from '../../serve/loadModuleComponents.js';
 import { loadModuleRoutes } from '../../serve/loadModuleRoutes.js';

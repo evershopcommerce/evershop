@@ -1,13 +1,13 @@
+const { translate } = require('../../../../lib/locale/translate/translate');
+const { error } = require('../../../../lib/log/logger');
 const {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
 } = require('../../../../lib/util/httpStatus');
-const { translate } = require('../../../../lib/locale/translate/translate');
-const { error } = require('../../../../lib/log/logger');
+const { getContextValue } = require('../../../graphql/services/contextHelper');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 const { saveCart } = require('../../services/saveCart');
-const { getContextValue } = require('../../../graphql/services/contextHelper');
 
 module.exports = async (request, response, delegate, next) => {
   try {

@@ -1,7 +1,7 @@
-import { pool } from '../../../lib/postgres/connection.js';
-import { getConfig } from '../../../lib/util/getConfig.js';
 import sessionStorage from 'connect-pg-simple';
 import session from 'express-session';
+import { pool } from '../../../lib/postgres/connection.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
 
 export const getSessionConfig = (cookieSecret) => {
   const sess = {

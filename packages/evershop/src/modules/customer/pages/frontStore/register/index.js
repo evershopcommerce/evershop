@@ -1,5 +1,5 @@
-import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import {
   getContextValue,
   setContextValue

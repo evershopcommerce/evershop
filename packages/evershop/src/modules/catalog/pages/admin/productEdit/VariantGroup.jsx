@@ -1,8 +1,8 @@
+import { New } from '@components/admin/catalog/productEdit/variants/New';
+import { Variants } from '@components/admin/catalog/productEdit/variants/Variants';
+import { Card } from '@components/admin/cms/Card';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { New } from '@components/admin/catalog/productEdit/variants/New';
-import { Card } from '@components/admin/cms/Card';
-import { Variants } from '@components/admin/catalog/productEdit/variants/Variants';
 
 export default function VariantGroup({
   product,

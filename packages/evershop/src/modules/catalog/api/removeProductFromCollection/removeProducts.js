@@ -1,16 +1,16 @@
+import {
+  commit,
+  del,
+  rollback,
+  select,
+  startTransaction
+} from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import {
+  INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD,
-  OK,
-  INTERNAL_SERVER_ERROR
+  OK
 } from '../../../../lib/util/httpStatus.js';
-import {
-  startTransaction,
-  rollback,
-  commit,
-  select,
-  del
-} from '@evershop/postgres-query-builder';
 
 export default async (request, response, delegate, next) => {
   const { collection_id, product_id } = request.params;

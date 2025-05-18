@@ -1,12 +1,12 @@
-import { hookable } from '../../../../lib/util/hookable.js';
 import {
-  startTransaction,
   commit,
+  del,
   rollback,
   select,
-  del
+  startTransaction
 } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
+import { hookable } from '../../../../lib/util/hookable.js';
 
 async function deleteCategoryData(uuid, connection) {
   await del('category').where('uuid', '=', uuid).execute(connection);

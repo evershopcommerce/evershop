@@ -1,19 +1,19 @@
 import { select } from '@evershop/postgres-query-builder';
-import {
-  INVALID_PAYLOAD,
-  INTERNAL_SERVER_ERROR,
-  OK
-} from '../../../../lib/util/httpStatus.js';
-import { pool } from '../../../../lib/postgres/connection.js';
 import { translate } from '../../../../lib/locale/translate/translate.js';
 import { error } from '../../../../lib/log/logger.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import {
-  setContextValue,
-  getContextValue
+  INTERNAL_SERVER_ERROR,
+  INVALID_PAYLOAD,
+  OK
+} from '../../../../lib/util/httpStatus.js';
+import {
+  getContextValue,
+  setContextValue
 } from '../../../graphql/services/contextHelper.js';
+import { createNewCart } from '../../services/createNewCart.js';
 import { getCartByUUID } from '../../services/getCartByUUID.js';
 import { saveCart } from '../../services/saveCart.js';
-import { createNewCart } from '../../services/createNewCart.js';
 
 export default async (request, response, delegate, next) => {
   try {

@@ -1,9 +1,9 @@
 import config from 'config';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
-import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
-import { registerDefaultTaxClassCollectionFilters } from './services/registerDefaultTaxClassCollectionFilters.js';
 import { registerCartItemTaxPercentField } from './services/registerCartItemTaxPercentField.js';
+import { registerDefaultTaxClassCollectionFilters } from './services/registerDefaultTaxClassCollectionFilters.js';
 
 export default () => {
   addProcessor('cartItemFields', registerCartItemTaxPercentField, 0);

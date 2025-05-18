@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useQuery } from 'urql';
-import { toast } from 'react-toastify';
-import { Field } from '@components/common/form/Field';
-import { Form } from '@components/common/form/Form';
 import { Card } from '@components/admin/cms/Card';
 import SettingMenu from '@components/admin/setting/SettingMenu';
 import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Form } from '@components/common/form/Form';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { toast } from 'react-toastify';
+import { useQuery } from 'urql';
 
 const ProvincesQuery = `
   query Province($countries: [String]) {

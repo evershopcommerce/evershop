@@ -1,9 +1,9 @@
-import { resolve } from 'path';
 import { existsSync, readdirSync } from 'fs';
+import { resolve } from 'path';
+import { addMiddleware } from './addMiddleware.js';
+import { Handler } from './Handler.js';
 import { scanForMiddlewareFunctions } from './scanForMiddlewareFunctions.js';
 import { sortMiddlewares } from './sort.js';
-import { Handler } from './Handler.js';
-import { addMiddleware } from './addMiddleware.js';
 
 const middlewareList = Handler.middlewares;
 

@@ -1,13 +1,13 @@
+import { select } from '@evershop/postgres-query-builder';
+import axios from 'axios';
+import { normalizePort } from '../../../../../bin/lib/normalizePort.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
-import { normalizePort } from '../../../../../bin/lib/normalizePort.js';
 import {
-  OK,
   INTERNAL_SERVER_ERROR,
-  INVALID_PAYLOAD
+  INVALID_PAYLOAD,
+  OK
 } from '../../../../lib/util/httpStatus.js';
-import axios from 'axios';
-import { select } from '@evershop/postgres-query-builder';
 import { toPrice } from '../../services/toPrice.js';
 
 export default async (request, response, delegate, next) => {

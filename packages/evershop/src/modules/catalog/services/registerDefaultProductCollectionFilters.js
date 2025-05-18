@@ -1,5 +1,5 @@
-import uniqid from 'uniqid';
 import { value } from '@evershop/postgres-query-builder';
+import uniqid from 'uniqid';
 import { OPERATION_MAP } from '../../../lib/util/filterOperationMapp.js';
 import { getValueSync } from '../../../lib/util/registry.js';
 

@@ -1,7 +1,7 @@
 import pkg from 'webpack';
+import { error } from '../../lib/log/logger.js';
 import { createConfigClient } from '../../lib/webpack/prod/createConfigClient.js';
 import { createConfigServer } from '../../lib/webpack/prod/createConfigServer.js';
-import { error } from '../../lib/log/logger.js';
 
 const { webpack } = pkg;
 export async function compile(routes) {

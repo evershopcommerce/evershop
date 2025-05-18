@@ -1,15 +1,15 @@
-import path from 'path';
 import { existsSync, rmdirSync } from 'fs';
-import { writeFile, mkdir } from 'fs/promises';
+import { mkdir, writeFile } from 'fs/promises';
+import path from 'path';
 import { inspect } from 'util';
-import { CONSTANTS } from '../../../src/lib/helpers.js';
-import ora from 'ora';
-import { red, green } from 'kleur';
 import boxen from 'boxen';
-import { getRoutes } from '../../../src/lib/router/routes.js';
-import { getComponentsByRoute } from '../../../src/lib/componee/getComponentByRoute.js';
+import { green, red } from 'kleur';
+import ora from 'ora';
 import pkg from 'webpack';
+import { getComponentsByRoute } from '../../../src/lib/componee/getComponentByRoute.js';
+import { CONSTANTS } from '../../../src/lib/helpers.js';
 import { info } from '../../../src/lib/log/logger.js';
+import { getRoutes } from '../../../src/lib/router/routes.js';
 // Run building vendor first
 import { createVendorConfig } from '../../../src/lib/webpack/configProvider.js';
 import { loadModuleComponents } from '../../serve/loadModuleComponents.js';

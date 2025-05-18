@@ -1,15 +1,16 @@
-import PropTypes from 'prop-types';
-import {
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  AreaChart,
-  Area
-} from 'recharts';
-import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+
 import { Card } from '@components/admin/cms/Card';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import {
+  Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from 'recharts';
 import './Statistic.scss';
 
 export default function SaleStatistic({ api }) {

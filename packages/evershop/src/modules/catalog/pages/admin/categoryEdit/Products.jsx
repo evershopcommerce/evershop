@@ -1,8 +1,10 @@
+
+import { Card } from '@components/admin/cms/Card';
+import { useModal } from '@components/common/modal/useModal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useQuery } from 'urql';
-import { Card } from '@components/admin/cms/Card';
-import { useModal } from '@components/common/modal/useModal';
+
 import './Products.scss';
 import AddProducts from '@components/admin/catalog/collection/collectionEdit/AddProducts';
 import Spinner from '@components/common/Spinner';

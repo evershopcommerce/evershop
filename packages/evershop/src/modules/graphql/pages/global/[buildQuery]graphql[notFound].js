@@ -1,8 +1,8 @@
 import {
   execute,
+  NoUnusedFragmentsRule,
   parse,
   specifiedRules,
-  NoUnusedFragmentsRule,
   validateSchema
 } from 'graphql';
 import { debug } from '../../../../lib/log/logger.js';

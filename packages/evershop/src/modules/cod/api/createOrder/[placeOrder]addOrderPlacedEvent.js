@@ -1,6 +1,6 @@
+import { select } from '@evershop/postgres-query-builder';
 import { emit } from '../../../../lib/event/emitter.js';
 import { pool } from '../../../../lib/postgres/connection.js';
-import { select } from '@evershop/postgres-query-builder';
 
 export default async (request, response, delegate, next) => {
   // Get the order data from $body

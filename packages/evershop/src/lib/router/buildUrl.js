@@ -1,5 +1,5 @@
-import { getRoutes } from './Router.js';
 import { compile } from '../pathToRegexp.js';
+import { getRoutes } from './Router.js';
 
 /**
  * This function take a route ID, list of params and return the url

@@ -1,6 +1,6 @@
+import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../lib/router/buildUrl.js';
-import { select } from '@evershop/postgres-query-builder';
 
 export const registerCartItemProductUrlField = (fields) => {
   const newFields = fields.concat([

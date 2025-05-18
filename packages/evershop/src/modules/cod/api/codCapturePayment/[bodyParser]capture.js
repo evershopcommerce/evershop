@@ -1,4 +1,4 @@
-import { select, insert } from '@evershop/postgres-query-builder';
+import { insert, select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { INVALID_PAYLOAD, OK } from '../../../../lib/util/httpStatus.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';

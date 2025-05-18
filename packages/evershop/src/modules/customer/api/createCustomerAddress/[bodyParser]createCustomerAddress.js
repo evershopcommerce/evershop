@@ -1,6 +1,6 @@
-import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
-import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import { error } from '../../../../lib/log/logger.js';
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
 import createCustomerAddress from '../../services/customer/address/createCustomerAddress.js';
 
 export default async (request, response, delegate, next) => {

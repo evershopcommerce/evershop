@@ -1,9 +1,9 @@
 // eslint.config.js
-import pluginReact from 'eslint-plugin-react';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
-import pluginImport from 'eslint-plugin-import';
 import eslintPluginTypescript from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
+import pluginImport from 'eslint-plugin-import';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import pluginReact from 'eslint-plugin-react';
 
 export default [
   {
@@ -22,7 +22,10 @@ export default [
       "**/media/**",
       "**/dist/**",
       "**/packages/*/dist/**",
-      "**/packages/evershop/dist/**"
+      "**/packages/evershop/dist/**",
+      "**/packages/postgres-query-builder/dist/**",
+      "**/packages/product_review/**",
+      "**/packages/resend/**"
     ]},
   pluginReact.configs.flat.recommended,
   pluginReact.configs.flat['jsx-runtime'],
@@ -40,7 +43,10 @@ export default [
       }
     }
   },
-	{
+  {
+    plugins: {
+      "import": pluginImport
+    },
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -50,9 +56,9 @@ export default [
         }
       }
     },
-		rules: {
-			semi: "off",
-			"prefer-const": "error",
+    rules: {
+      semi: "off",
+      "prefer-const": "error",
       "import/no-dynamic-require": 0,
       "no-else-return": "off",
       "import/prefer-default-export": 0,
@@ -74,12 +80,22 @@ export default [
       "no-console": "error",
       "no-useless-return": "off",
       "react/display-name": "off",
-      "jsx-a11y/label-has-associated-control": "off"
-		},
+      "jsx-a11y/label-has-associated-control": "off",
+      
+      // Add import sorting rules
+      "import/order": ["warn", {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "never",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }]
+    },
     settings: {
       react: {
         version: "detect"
       }
     }
-	}
+  }
 ]

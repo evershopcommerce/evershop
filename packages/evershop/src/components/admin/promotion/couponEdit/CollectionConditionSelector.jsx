@@ -1,7 +1,7 @@
+import CollectionSelector from '@components/admin/promotion/couponEdit/CollectionSelector';
+import { useModal } from '@components/common/modal/useModal';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useModal } from '@components/common/modal/useModal';
-import CollectionSelector from '@components/admin/promotion/couponEdit/CollectionSelector';
 
 export default function CollectionConditionSelector({
   condition,

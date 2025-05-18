@@ -1,11 +1,11 @@
-import config from 'config';
-import { merge } from '../../lib/util/merge.js';
-import { CONSTANTS } from '../../lib/helpers.js';
-import { registerDefaultPageCollectionFilters } from '../../modules/cms/services/registerDefaultPageCollectionFilters.js';
-import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
-import { addProcessor } from '../../lib/util/registry.js';
-import { registerDefaultWidgetCollectionFilters } from '../../modules/cms/services/registerDefaultWidgetCollectionFilters.js';
 import path from 'path';
+import config from 'config';
+import { CONSTANTS } from '../../lib/helpers.js';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
+import { merge } from '../../lib/util/merge.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { registerDefaultPageCollectionFilters } from '../../modules/cms/services/registerDefaultPageCollectionFilters.js';
+import { registerDefaultWidgetCollectionFilters } from '../../modules/cms/services/registerDefaultWidgetCollectionFilters.js';
 
 export default () => {
   addProcessor('configuratonSchema', (schema) => {

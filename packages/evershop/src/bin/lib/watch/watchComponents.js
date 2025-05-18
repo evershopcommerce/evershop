@@ -1,6 +1,6 @@
+import { resolve } from 'path';
 import chokidar from 'chokidar';
 import touch from 'touch';
-import { resolve } from 'path';
 import { CONSTANTS } from '../../../src/lib/helpers.js';
 
 export function watchComponents() {

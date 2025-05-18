@@ -1,16 +1,16 @@
+import { Card } from '@components/admin/cms/Card';
+import PageName from '@components/admin/cms/cmsPageGrid/rows/PageName';
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { Form } from '@components/common/form/Form';
+import SortableHeader from '@components/common/grid/headers/Sortable';
+import Pagination from '@components/common/grid/Pagination';
+import StatusRow from '@components/common/grid/rows/StatusRow';
+import { useAlertContext } from '@components/common/modal/Alert';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import axios from 'axios';
-import Pagination from '@components/common/grid/Pagination';
-import { useAlertContext } from '@components/common/modal/Alert';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Card } from '@components/admin/cms/Card';
-import Area from '@components/common/Area';
-import StatusRow from '@components/common/grid/rows/StatusRow';
-import PageName from '@components/admin/cms/cmsPageGrid/rows/PageName';
-import { Form } from '@components/common/form/Form';
-import { Field } from '@components/common/form/Field';
-import SortableHeader from '@components/common/grid/headers/Sortable';
 
 function Actions({ pages = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();

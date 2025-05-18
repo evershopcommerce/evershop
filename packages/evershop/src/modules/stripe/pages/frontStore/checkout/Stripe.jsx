@@ -1,11 +1,11 @@
+import { useCheckout } from '@components/common/context/checkout';
+import CheckoutForm from '@components/frontStore/stripe/checkout/CheckoutForm';
+import StripeLogo from '@components/frontStore/stripe/StripeLogo';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import PropTypes from 'prop-types';
 import React from 'react';
 import smallUnit from 'zero-decimal-currencies';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
-import { useCheckout } from '@components/common/context/checkout';
-import StripeLogo from '@components/frontStore/stripe/StripeLogo';
-import CheckoutForm from '@components/frontStore/stripe/checkout/CheckoutForm';
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.

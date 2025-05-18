@@ -1,10 +1,10 @@
-import { getValueSync, getValue } from '../../../../lib/util/registry.js';
 import { select } from '@evershop/postgres-query-builder';
-import { pool } from '../../../../lib/postgres/connection.js';
 import { v4 as uuidv4 } from 'uuid';
 import { translate } from '../../../../lib/locale/translate/translate.js';
-import { DataObject } from '../../../../modules/checkout/services/cart/DataObject.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getValue, getValueSync } from '../../../../lib/util/registry.js';
 import addCartItem from '../../../../modules/checkout/services/addCartItem.js';
+import { DataObject } from '../../../../modules/checkout/services/cart/DataObject.js';
 import removeCartItem from '../../../../modules/checkout/services/removeCartItem.js';
 import updateCartItemQty from '../../../../modules/checkout/services/updateCartItemQty.js';
 

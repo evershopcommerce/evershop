@@ -1,7 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import getRowClasses from './form/fields/editor/GetRowClasses';
+import React from 'react';
 import getColumnClasses from './form/fields/editor/GetColumnClasses';
+import getRowClasses from './form/fields/editor/GetRowClasses';
 
 function Paragraph({ data }) {
   return <p dangerouslySetInnerHTML={{ __html: data.text }} />;

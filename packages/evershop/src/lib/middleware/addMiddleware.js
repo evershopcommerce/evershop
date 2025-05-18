@@ -1,5 +1,5 @@
-import { Handler } from './Handler.js';
 import { findDublicatedMiddleware } from './findDublicatedMiddleware.js';
+import { Handler } from './Handler.js';
 
 export function addMiddleware(middleware) {
   const index = findDublicatedMiddleware(Handler.middlewares, middleware);

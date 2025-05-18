@@ -1,7 +1,9 @@
+
 import PropTypes from 'prop-types';
-import React from 'react';
 import PubSub from 'pubsub-js';
+import React from 'react';
 import { FORM_VALIDATED } from '../../../../../lib/util/events';
+
 import './Variants.scss';
 import { useAppDispatch } from '@components/common/context/app';
 import { _ } from '../../../../../lib/locale/translate/index.js';

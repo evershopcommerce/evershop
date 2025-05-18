@@ -1,11 +1,11 @@
 const path = require('path');
 const { BlobServiceClient } = require('@azure/storage-blob');
+const { error } = require('@evershop/evershop/src/lib/log/logger');
+const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
-const sharp = require('sharp');
 const { update } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+const sharp = require('sharp');
 
 async function resizeAndUploadImage(
   containerName,

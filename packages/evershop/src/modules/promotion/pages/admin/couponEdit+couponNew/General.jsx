@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { Setting } from '@components/admin/promotion/couponEdit/Setting';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
 import { Toggle } from '@components/common/form/fields/Toggle';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { get } from '../../../../../lib/util/get.js';
-import { Setting } from '@components/admin/promotion/couponEdit/Setting';
+
 
 export default function General({ coupon = {} }) {
   return (

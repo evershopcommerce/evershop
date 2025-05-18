@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import { getConfig } from '../../util/getConfig.js';
 import { CONSTANTS } from '../../helpers.js';
-import { readCsvFile } from '../../util/readCsvFile.js';
 import { error } from '../../log/logger.js';
+import { getConfig } from '../../util/getConfig.js';
+import { readCsvFile } from '../../util/readCsvFile.js';
 
 export async function loadCsvTranslationFiles(): Promise<
   Record<string, string>

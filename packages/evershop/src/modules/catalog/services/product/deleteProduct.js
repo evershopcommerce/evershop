@@ -1,4 +1,3 @@
-const { hookable } = require('../../../../lib/util/hookable');
 const {
   startTransaction,
   commit,
@@ -7,6 +6,7 @@ const {
   del
 } = require('@evershop/postgres-query-builder');
 const { getConnection } = require('../../../../lib/postgres/connection');
+const { hookable } = require('../../../../lib/util/hookable');
 
 async function deleteProductData(uuid, connection) {
   await del('product').where('uuid', '=', uuid).execute(connection);

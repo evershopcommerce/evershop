@@ -1,6 +1,6 @@
+import Button from '@components/common/form/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Button from '@components/common/form/Button';
 import { toast } from 'react-toastify';
 
 export default function MarkDeliveredButton({

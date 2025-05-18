@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
 import { useAppDispatch } from '@components/common/context/app';
-import { _ } from '../../../../../lib/locale/translate/index.js';
 import Button from '@components/common/form/Button';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { toast } from 'react-toastify';
+import { _ } from '../../../../../lib/locale/translate/index.js';
+
 
 export default function ShippingNote({
   setting: { showShippingNote },

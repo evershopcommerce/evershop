@@ -1,8 +1,8 @@
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import {
-  setContextValue,
-  hasContextValue
+  hasContextValue,
+  setContextValue
 } from '../../../graphql/services/contextHelper.js';
 
 export default (request, response) => {

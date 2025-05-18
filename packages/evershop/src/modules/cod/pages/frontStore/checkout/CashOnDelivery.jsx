@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
 import {
   useCheckout,
   useCheckoutDispatch
 } from '@components/common/context/checkout';
 import CODLogo from '@components/frontStore/cod/CODLogo';
+import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 
 export function COD({ orderId, checkoutSuccessUrl }) {
   React.useEffect(() => {

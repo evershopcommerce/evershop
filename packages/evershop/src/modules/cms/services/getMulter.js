@@ -1,7 +1,7 @@
 import multer from 'multer';
 import { getConfig } from '../../../lib/util/getConfig.js';
-import { generateFileName } from './generateFileName.js';
 import customMemoryStorage from './CustomMemoryStorage.js';
+import { generateFileName } from './generateFileName.js';
 
 function fileFilter(request, file, cb) {
   const allowedMimeTypes = getConfig('system.upload_allowed_mime_types', [

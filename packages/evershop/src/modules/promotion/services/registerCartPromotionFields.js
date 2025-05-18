@@ -1,7 +1,7 @@
 import { getConfig } from '../../../lib/util/getConfig.js';
+import { toPrice } from '../../checkout/services/toPrice.js';
 import { validateCoupon } from './couponValidator.js';
 import { calculateDiscount } from './discountCalculator.js';
-import { toPrice } from '../../checkout/services/toPrice.js';
 
 export function registerCartPromotionFields(fields) {
   const newFields = fields.concat(

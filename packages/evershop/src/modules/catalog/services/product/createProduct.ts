@@ -1,21 +1,21 @@
-import { hookable } from '../../../../lib/util/hookable.js';
 import {
-  getValueSync,
-  getValue
-} from '../../../../lib/util/registry.js';
-import {
-  startTransaction,
   commit,
-  rollback,
   insert,
+  insertOnUpdate,
+  rollback,
   select,
-  update,
-  insertOnUpdate
+  startTransaction,
+  update
 } from '@evershop/postgres-query-builder';
 import type { PoolClient } from '@evershop/postgres-query-builder';
-import { getConnection } from '../../../../lib/postgres/connection.js';
-import { getAjv } from '../../../base/services/getAjv.js';
 import { JSONSchemaType } from 'ajv';
+import { getConnection } from '../../../../lib/postgres/connection.js';
+import { hookable } from '../../../../lib/util/hookable.js';
+import {
+  getValue,
+  getValueSync
+} from '../../../../lib/util/registry.js';
+import { getAjv } from '../../../base/services/getAjv.js';
 import productDataSchema from './productDataSchema.json'  with { type: 'json' };
 
 function validateProductDataBeforeInsert(data: Record<string, any>) {
@@ -52,7 +52,7 @@ async function insertProductInventory(inventoryData: Record<string, any>, produc
     .execute(connection);
 }
 
-async function insertProductAttributes(attributes, productId, connection) {
+async function insertProductAttributes(attributes, productId: number, connection: PoolClient) {
   // Looping attributes array
   for (let i = 0; i < attributes.length; i += 1) {
     const attribute = attributes[i];
@@ -148,7 +148,7 @@ async function insertProductAttributes(attributes, productId, connection) {
   }
 }
 
-async function insertProductImages(images, productId, connection) {
+async function insertProductImages(images, productId: number, connection: PoolClient) {
   await Promise.all(
     images.map((f, index) =>
       (async () => {
@@ -179,7 +179,7 @@ async function insertProductData(data, connection) {
  * @param {Object} data
  * @param {Object} context
  */
-async function createProduct(data, context) {
+async function createProduct(data: Record<string, any>, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -228,7 +228,7 @@ async function createProduct(data, context) {
  * @param {Object} data
  * @param {Object} context
  */
-export default async (data, context) => {
+export default async (data: Record<string, any>, context: Record<string, any>) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

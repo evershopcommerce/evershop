@@ -1,11 +1,11 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import TerserPlugin from 'terser-webpack-plugin';
-import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { getEnabledExtensions } from '../../bin/extension/index.js';
+import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { CONSTANTS } from '../helpers.js';
-import isProductionMode from '../util/isProductionMode.js';
 import { getConfig } from '../util/getConfig.js';
+import isProductionMode from '../util/isProductionMode.js';
 import { loadCsvTranslationFiles } from './loaders/loadTranslationFromCsv.js';
 
 // Get the directory name of the current module

@@ -1,6 +1,6 @@
-import path from 'path';
-import fs from 'fs/promises';
 import { existsSync } from 'fs';
+import fs from 'fs/promises';
+import path from 'path';
 import { CONSTANTS } from '../../../lib/helpers.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { getValueSync } from '../../../lib/util/registry.js';

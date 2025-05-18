@@ -1,5 +1,5 @@
-import path from 'path';
 import { existsSync } from 'fs';
+import path from 'path';
 import { registerAdminRoute } from './registerAdminRoute.js';
 import { registerFrontStoreRoute } from './registerFrontStoreRoute.js';
 import { scanForRoutes } from './scanForRoutes.js';

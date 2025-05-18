@@ -1,8 +1,8 @@
+import { CustomerAddressForm } from '@components/frontStore/customer/address/addressForm/AddressForm';
+import { AddressFormLoadingSkeleton } from '@components/frontStore/customer/address/addressForm/AddressFormLoadingSkeleton';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useQuery } from 'urql';
-import { CustomerAddressForm } from '@components/frontStore/customer/address/addressForm/AddressForm';
-import { AddressFormLoadingSkeleton } from '@components/frontStore/customer/address/addressForm/AddressFormLoadingSkeleton';
 
 const CountriesQuery = `
   query Country {

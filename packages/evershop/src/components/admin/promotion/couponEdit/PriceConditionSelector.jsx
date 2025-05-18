@@ -1,6 +1,6 @@
+import { Field } from '@components/common/form/Field';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Field } from '@components/common/form/Field';
 
 export default function PriceConditionSelector({ condition, setCondition }) {
   const [price, setPrice] = React.useState(condition.value || '');

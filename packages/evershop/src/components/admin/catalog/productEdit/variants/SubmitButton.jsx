@@ -1,8 +1,8 @@
+import Button from '@components/common/form/Button';
+import { useFormDispatch } from '@components/common/form/Form';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import Button from '@components/common/form/Button';
-import { useFormDispatch } from '@components/common/form/Form';
 import { serializeForm } from '../../../../../lib/util/formToJson.js';
 
 export function SubmitButton({

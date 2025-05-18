@@ -1,7 +1,7 @@
+import { sql } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { getProductsBaseQuery } from '../../../../../modules/catalog/services/getProductsBaseQuery.js';
-import { sql } from '@evershop/postgres-query-builder';
 
 export default {
   Query: {

@@ -1,11 +1,11 @@
+import { select } from '@evershop/postgres-query-builder';
 import uniqid from 'uniqid';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { getEnabledWidgets } from '../../../../../lib/util/getEnabledWidgets.js';
-import { select } from '@evershop/postgres-query-builder';
+import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
 import { getWidgetsBaseQuery } from '../../../services/getWidgetsBaseQuery.js';
 import { WidgetCollection } from '../../../services/WidgetCollection.js';
-import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
 
 export default {
   Query: {

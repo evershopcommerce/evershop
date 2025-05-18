@@ -1,20 +1,20 @@
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import axios from 'axios';
-import Pagination from '@components/common/grid/Pagination';
-import { useAlertContext } from '@components/common/modal/Alert';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Card } from '@components/admin/cms/Card';
 import Area from '@components/common/Area';
-import BasicRow from '@components/common/grid/rows/BasicRow';
-import { Form } from '@components/common/form/Form';
 import { Field } from '@components/common/form/Field';
-import SortableHeader from '@components/common/grid/headers/Sortable';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { Form } from '@components/common/form/Form';
 import DummyColumnHeader from '@components/common/grid/headers/Dummy';
-import IsApprovedRow from './row/IsApprovedRow';
-import RatingRow from './row/RatingRow';
+import SortableHeader from '@components/common/grid/headers/Sortable';
+import Pagination from '@components/common/grid/Pagination';
+import BasicRow from '@components/common/grid/rows/BasicRow';
+import { useAlertContext } from '@components/common/modal/Alert';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import CommentRow from './row/CommentRow';
+import IsApprovedRow from './row/IsApprovedRow';
 import ProductRow from './row/ProductRow';
+import RatingRow from './row/RatingRow';
 
 function Actions({ reviews = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();

@@ -1,6 +1,6 @@
-import React from 'react';
 import Area from '@components/common/Area';
 import LoadingBar from '@components/common/LoadingBar';
+import React from 'react';
 import './Layout.scss';
 import './tailwind.scss';
 

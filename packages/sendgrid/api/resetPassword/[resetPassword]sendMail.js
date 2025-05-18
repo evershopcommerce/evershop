@@ -1,14 +1,14 @@
+const { error } = require('@evershop/evershop/src/lib/log/logger');
+const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
 const {
   INTERNAL_SERVER_ERROR
 } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
 const {
   getContextValue
 } = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
 const sgMail = require('@sendgrid/mail');
-const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
 
 module.exports = async (request, response, delegate, next) => {
   try {

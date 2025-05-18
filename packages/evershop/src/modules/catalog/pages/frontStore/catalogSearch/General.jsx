@@ -1,4 +1,5 @@
 import React from 'react';
+
 import './General.scss';
 import { _ } from '../../../../../lib/locale/translate/index.js';
 

@@ -1,5 +1,5 @@
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { translate } = require('../../../../../lib/locale/translate/translate');
+const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const {
   setContextValue
 } = require('../../../../graphql/services/contextHelper');

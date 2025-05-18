@@ -1,8 +1,8 @@
 import winston from 'winston';
-import CustomColorize from './CustomColorize.js';
-import isDevelopmentMode from '../util/isDevelopmentMode.js';
 import { getEnv } from '../util/getEnv.js';
-import { getValueSync, addProcessor } from '../util/registry.js';
+import isDevelopmentMode from '../util/isDevelopmentMode.js';
+import { addProcessor, getValueSync } from '../util/registry.js';
+import CustomColorize from './CustomColorize.js';
 
 function createLogger() {
   return getValueSync('logger', null, {

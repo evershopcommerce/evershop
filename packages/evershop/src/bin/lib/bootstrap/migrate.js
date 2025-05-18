@@ -1,15 +1,15 @@
-import path from 'path';
-import semver from 'semver';
-import {
-  insertOnUpdate,
-  select,
-  startTransaction,
-  commit,
-  rollback
-} from '@evershop/postgres-query-builder';
-import { getConnection, pool } from '../../../lib/postgres/connection.js';
 import { existsSync, readdirSync } from 'fs';
+import path from 'path';
+import {
+  commit,
+  insertOnUpdate,
+  rollback,
+  select,
+  startTransaction
+} from '@evershop/postgres-query-builder';
+import semver from 'semver';
 import { error } from '../../../lib/log/logger.js';
+import { getConnection, pool } from '../../../lib/postgres/connection.js';
 import { createMigrationTable } from '../../install/createMigrationTable.js';
 
 async function getCurrentInstalledVersion(module) {

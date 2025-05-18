@@ -1,6 +1,6 @@
+import { useAppDispatch } from '@components/common/context/app';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppDispatch } from '@components/common/context/app';
 import './Pagination.scss';
 
 export function Pagination({ total, limit, currentPage }) {

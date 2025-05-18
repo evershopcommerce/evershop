@@ -1,5 +1,5 @@
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
+const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
 const { getValue } = require('@evershop/evershop/src/lib/util/registry');
 
 class ReviewCollection {

@@ -1,9 +1,9 @@
 import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { CONSTANTS } from '../../lib/helpers.js';
+import { warning } from '../../lib/log/logger.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import { getCoreModules } from '../lib/loadModules.js';
-import { warning } from '../../lib/log/logger.js';
 
 let extensions;
 

@@ -1,7 +1,7 @@
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
-import { getCustomersBaseQuery } from '../../../services/getCustomersBaseQuery.js';
 import { CustomerCollection } from '../../../services/CustomerCollection.js';
+import { getCustomersBaseQuery } from '../../../services/getCustomersBaseQuery.js';
 
 export default {
   Query: {

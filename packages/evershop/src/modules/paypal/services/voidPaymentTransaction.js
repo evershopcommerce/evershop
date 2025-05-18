@@ -1,5 +1,5 @@
-import { error } from '../../../lib/log/logger.js';
 import { select } from '@evershop/postgres-query-builder';
+import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { createAxiosInstance } from './requester.js';
 

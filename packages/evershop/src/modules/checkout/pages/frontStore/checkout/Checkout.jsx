@@ -1,13 +1,14 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import Chervon from '@heroicons/react/outline/ChevronRightIcon';
 import Area from '@components/common/Area';
+import { CheckoutProvider } from '@components/common/context/checkout';
 import {
   CheckoutSteps,
   useCheckoutSteps,
   useCheckoutStepsDispatch
 } from '@components/common/context/checkoutSteps';
-import { CheckoutProvider } from '@components/common/context/checkout';
+import Chervon from '@heroicons/react/outline/ChevronRightIcon';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import './Checkout.scss';
 import { _ } from '../../../../../lib/locale/translate/index.js';
 

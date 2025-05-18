@@ -1,14 +1,14 @@
+import {
+  commit,
+  getConnection,
+  rollback,
+  startTransaction,
+  update
+} from '@evershop/postgres-query-builder';
 import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { hookable } from '../../../lib/util/hookable.js';
-import {
-  update,
-  getConnection,
-  startTransaction,
-  rollback,
-  commit
-} from '@evershop/postgres-query-builder';
 
 function validatePaymentStatusBeforeUpdate(status) {
   const paymentStatusList = getConfig('oms.order.paymentStatus', {});

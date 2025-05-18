@@ -1,7 +1,7 @@
-import { camelCase } from '../../../lib/util/camelCase.js';
 import { pool } from '../../../lib/postgres/connection.js';
-import { getValue, getValueSync } from '../../../lib/util/registry.js';
+import { camelCase } from '../../../lib/util/camelCase.js';
 import { OPERATION_MAP } from '../../../lib/util/filterOperationMapp.js';
+import { getValue, getValueSync } from '../../../lib/util/registry.js';
 
 export class AttributeGroupCollection {
   constructor(baseQuery) {

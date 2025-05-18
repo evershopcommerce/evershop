@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { useQuery } from 'urql';
+import ZoneForm from '@components/admin/checkout/shippingSetting/ZoneForm';
+import { Zones } from '@components/admin/checkout/shippingSetting/Zones';
 import { Card } from '@components/admin/cms/Card';
 import SettingMenu from '@components/admin/setting/SettingMenu';
 import Button from '@components/common/form/Button';
 import { useModal } from '@components/common/modal/useModal';
-import ZoneForm from '@components/admin/checkout/shippingSetting/ZoneForm';
 import Spinner from '@components/common/Spinner';
-import { Zones } from '@components/admin/checkout/shippingSetting/Zones';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useQuery } from 'urql';
 
 const CountriesQuery = `
   query Country($countries: [String]) {

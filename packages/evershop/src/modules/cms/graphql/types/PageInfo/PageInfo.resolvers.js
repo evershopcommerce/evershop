@@ -1,6 +1,6 @@
+import { select } from '@evershop/postgres-query-builder';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { get } from '../../../../../lib/util/get.js';
-import { select } from '@evershop/postgres-query-builder';
 
 export default {
   Query: {

@@ -1,7 +1,7 @@
+import { Card } from '@components/admin/cms/Card';
+import Area from '@components/common/Area';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '@components/common/Area';
-import { Card } from '@components/admin/cms/Card';
 
 function FullName({ fullName }) {
   return (

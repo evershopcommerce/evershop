@@ -1,10 +1,10 @@
+const { select } = require('@evershop/postgres-query-builder');
 const { pool } = require('../../../../lib/postgres/connection');
 const {
   INVALID_PAYLOAD,
   OK,
   INTERNAL_SERVER_ERROR
 } = require('../../../../lib/util/httpStatus');
-const { select } = require('@evershop/postgres-query-builder');
 const updateProduct = require('../../services/product/updateProduct');
 
 module.exports = async (request, response, delegate, next) => {

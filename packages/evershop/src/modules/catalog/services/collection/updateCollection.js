@@ -1,16 +1,16 @@
-import { hookable } from '../../../../lib/util/hookable.js';
-import {
-  getValueSync,
-  getValue
-} from '../../../../lib/util/registry.js';
 import {  
-  startTransaction,
   commit,
   rollback,
-  update,
-  select
+  select,
+  startTransaction,
+  update
 } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
+import { hookable } from '../../../../lib/util/hookable.js';
+import {
+  getValue,
+  getValueSync
+} from '../../../../lib/util/registry.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import collectionDataSchema from './collectionDataSchema.json' with { type: 'json' };
 

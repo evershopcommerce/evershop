@@ -1,6 +1,7 @@
+
+import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { DateTime } from 'luxon';
 import './Activities.scss';
 
 export default function Activities({ order: { activities = [] } }) {

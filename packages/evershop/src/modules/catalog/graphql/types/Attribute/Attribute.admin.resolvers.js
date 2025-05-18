@@ -1,8 +1,8 @@
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
-import { getAttributesBaseQuery } from '../../../../../modules/catalog/services/getAttributesBaseQuery.js';
-import { getAttributeGroupsBaseQuery } from '../../../../../modules/catalog/services/getAttributeGroupsBaseQuery.js';
 import { AttributeCollection } from '../../../../../modules/catalog/services/AttributeCollection.js';
 import { AttributeGroupCollection } from '../../../../../modules/catalog/services/AttributeGroupCollection.js';
+import { getAttributeGroupsBaseQuery } from '../../../../../modules/catalog/services/getAttributeGroupsBaseQuery.js';
+import { getAttributesBaseQuery } from '../../../../../modules/catalog/services/getAttributesBaseQuery.js';
 
 export default {
   Query: {

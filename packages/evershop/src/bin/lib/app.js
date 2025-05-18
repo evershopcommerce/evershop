@@ -1,12 +1,12 @@
 import express from 'express';
-import { getModuleMiddlewares } from '../../lib/middleware/index.js';
-import { getRoutes } from '../../lib/router/Router.js';
-import { loadModuleRoutes } from '../../lib/router/loadModuleRoutes.js';
-import { Handler } from '../../lib/middleware/Handler.js';
 import { error } from '../../lib/log/logger.js';
-import { getCoreModules } from './loadModules.js';
-import { addDefaultMiddlewareFuncs } from './addDefaultMiddlewareFuncs.js';
+import { Handler } from '../../lib/middleware/Handler.js';
+import { getModuleMiddlewares } from '../../lib/middleware/index.js';
+import { loadModuleRoutes } from '../../lib/router/loadModuleRoutes.js';
+import { getRoutes } from '../../lib/router/Router.js';
 import { getEnabledExtensions } from '../extension/index.js';
+import { addDefaultMiddlewareFuncs } from './addDefaultMiddlewareFuncs.js';
+import { getCoreModules } from './loadModules.js';
 
 export const createApp = () => {
   /** Create express app */

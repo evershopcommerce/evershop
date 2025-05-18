@@ -1,6 +1,6 @@
 const normalizePort = require('../../../bin/lib/normalizePort');
-const { buildUrl } = require('./buildUrl');
 const { getConfig } = require('../util/getConfig');
+const { buildUrl } = require('./buildUrl');
 
 const port = normalizePort();
 

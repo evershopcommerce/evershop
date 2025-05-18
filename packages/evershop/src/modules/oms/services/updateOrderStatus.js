@@ -1,19 +1,19 @@
 /**
  * This function will be executed automatically after either shipment status or payment status is updated.
  */
+import {
+  commit,
+  getConnection,
+  insert,
+  rollback,
+  startTransaction,
+  update
+} from '@evershop/postgres-query-builder';
 import Topo from '@hapi/topo';
 import { error } from '../../../lib/log/logger.js';
-import {
-  getConnection,
-  startTransaction,
-  commit,
-  rollback,
-  update,
-  insert
-} from '@evershop/postgres-query-builder';
-import { hookable } from '../../../lib/util/hookable.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
+import { hookable } from '../../../lib/util/hookable.js';
 
 function getOrderStatusFlow() {
   try {

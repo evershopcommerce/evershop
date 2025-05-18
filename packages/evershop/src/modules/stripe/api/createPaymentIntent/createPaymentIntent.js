@@ -1,6 +1,6 @@
 const { select } = require('@evershop/postgres-query-builder');
-const smallestUnit = require('zero-decimal-currencies');
 const stripePayment = require('stripe');
+const smallestUnit = require('zero-decimal-currencies');
 const { pool } = require('../../../../lib/postgres/connection');
 const { getConfig } = require('../../../../lib/util/getConfig');
 const { OK, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');

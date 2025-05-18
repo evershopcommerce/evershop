@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import {
   useCheckoutSteps,
   useCheckoutStepsDispatch
 } from '@components/common/context/checkoutSteps';
 import { StepContent } from '@components/frontStore/checkout/checkout/payment/paymentStep/StepContent';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { _ } from '../../../../../lib/locale/translate/index.js';
 
 export default function PaymentStep({

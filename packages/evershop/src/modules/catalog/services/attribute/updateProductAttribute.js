@@ -1,5 +1,3 @@
-const { hookable } = require('../../../../lib/util/hookable');
-const { getValueSync, getValue } = require('../../../../lib/util/registry');
 const {
   startTransaction,
   commit,
@@ -11,6 +9,8 @@ const {
   insert
 } = require('@evershop/postgres-query-builder');
 const { getConnection } = require('../../../../lib/postgres/connection');
+const { hookable } = require('../../../../lib/util/hookable');
+const { getValueSync, getValue } = require('../../../../lib/util/registry');
 const { getAjv } = require('../../../base/services/getAjv');
 const attributeDataSchema = require('./attributeDataSchema.json');
 

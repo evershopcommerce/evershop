@@ -1,5 +1,5 @@
-import React from 'react';
 import { useAppState } from '@components/common/context/app';
+import React from 'react';
 import './LoadingBar.scss';
 
 const LoadingBar = function LoadingBar() {

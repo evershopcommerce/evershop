@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Field } from '@components/common/form/Field';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function PriceBasedPrice({ lines }) {
   // This is a table with 3 columns: Min Price, Shipping Cost, and Action

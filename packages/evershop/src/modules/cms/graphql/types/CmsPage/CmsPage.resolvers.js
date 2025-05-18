@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
-import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
 import { CMSPageCollection } from '../../../services/CMSPageCollection.js';
+import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
 
 export default {
   Query: {

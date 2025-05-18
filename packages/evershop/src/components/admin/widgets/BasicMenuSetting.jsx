@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useQuery } from 'urql';
-import uniqid from 'uniqid';
-import { useModal } from '@components/common/modal/useModal';
-import './BasicMenuSetting.scss';
-import CreatableSelect from 'react-select/creatable';
-import Spinner from '@components/common/Spinner';
 import Button from '@components/common/form/Button';
 import { Field } from '@components/common/form/Field';
+import { useModal } from '@components/common/modal/useModal';
+import Spinner from '@components/common/Spinner';
+import PropTypes from 'prop-types';
+import React from 'react';
+import CreatableSelect from 'react-select/creatable';
+import uniqid from 'uniqid';
+import { useQuery } from 'urql';
 import { Card } from '../cms/Card';
+import './BasicMenuSetting.scss';
 
 const menuQuery = `
   query Query ($filters: [FilterInput]) {

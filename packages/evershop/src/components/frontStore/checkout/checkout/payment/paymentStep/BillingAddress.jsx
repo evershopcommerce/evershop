@@ -1,6 +1,6 @@
+import { Field } from '@components/common/form/Field';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Field } from '@components/common/form/Field';
 import { _ } from '../../../../../../lib/locale/translate/index.js';
 
 export function BillingAddress({ useShippingAddress, setUseShippingAddress }) {

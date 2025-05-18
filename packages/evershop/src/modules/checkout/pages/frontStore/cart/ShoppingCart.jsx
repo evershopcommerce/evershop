@@ -1,11 +1,11 @@
+import Area from '@components/common/Area';
+import { useAppState } from '@components/common/context/app';
+import { Empty } from '@components/frontStore/checkout/cart/Empty';
+import Items from '@components/frontStore/checkout/cart/items/Items';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '@components/common/Area';
-import { get } from '../../../../../lib/util/get.js';
-import { useAppState } from '@components/common/context/app';
-import Items from '@components/frontStore/checkout/cart/items/Items';
-import { Empty } from '@components/frontStore/checkout/cart/Empty';
 import { _ } from '../../../../../lib/locale/translate/index.js';
+import { get } from '../../../../../lib/util/get.js';
 
 function Title({ title }) {
   const items = get(useAppState(), 'cart.items', []);

@@ -1,6 +1,6 @@
-import { isResolvable } from './isResolvable.js';
-import { getConfig } from './getConfig.js';
 import { generateComponentKey } from '../webpack/util/keyGenerator.js';
+import { getConfig } from './getConfig.js';
+import { isResolvable } from './isResolvable.js';
 
 export function getEnabledWidgets() {
   const configuredWidgets = getConfig('widgets', {});

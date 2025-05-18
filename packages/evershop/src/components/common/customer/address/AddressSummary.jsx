@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
 import Area from '@components/common/Area';
+import React from 'react';
 
 export function AddressSummary({ address }) {
   return (

@@ -2,14 +2,14 @@ import fs from 'fs';
 import { mkdir, writeFile } from 'fs/promises';
 import path from 'path';
 import { inspect } from 'util';
+import JSON5 from 'json5';
 import { getComponentsByRoute } from '../../lib/componee/getComponentsByRoute.js';
 import { CONSTANTS } from '../../lib/helpers.js';
-import { getRouteBuildPath } from '../../lib/webpack/getRouteBuildPath.js';
-import { parseGraphql } from '../../lib/webpack/util/parseGraphql.js';
-import JSON5 from 'json5';
 import { error } from '../../lib/log/logger.js';
 import { getEnabledWidgets } from '../../lib/util/getEnabledWidgets.js';
+import { getRouteBuildPath } from '../../lib/webpack/getRouteBuildPath.js';
 import { generateComponentKey } from '../../lib/webpack/util/keyGenerator.js';
+import { parseGraphql } from '../../lib/webpack/util/parseGraphql.js';
 /**
  * Only pass the page routes, not api routes
  */

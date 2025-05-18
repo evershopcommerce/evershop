@@ -1,7 +1,7 @@
+import CategorySelector from '@components/admin/promotion/couponEdit/CategorySelector';
+import { useModal } from '@components/common/modal/useModal';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useModal } from '@components/common/modal/useModal';
-import CategorySelector from '@components/admin/promotion/couponEdit/CategorySelector';
 
 export default function CategoryConditionSelector({ condition, setCondition }) {
   const categories = Array.isArray(condition.value) ? condition.value : [];

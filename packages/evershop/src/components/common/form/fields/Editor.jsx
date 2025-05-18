@@ -1,13 +1,14 @@
+
+import RemoveIcon from '@heroicons/react/outline/XCircleIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import RemoveIcon from '@heroicons/react/outline/XCircleIcon';
 import { Field } from '../Field';
 import { validator } from '../validator';
+import FileBrowser from './editor/FileBrowser';
 import getColumnClasses from './editor/GetColumnClasses';
 import getRowClasses from './editor/GetRowClasses';
 import RowTemplates from './editor/RowTemplates';
-import FileBrowser from './editor/FileBrowser';
 import './Editor.scss';
 
 async function loadSwappable() {

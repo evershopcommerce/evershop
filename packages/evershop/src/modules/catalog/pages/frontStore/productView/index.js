@@ -1,4 +1,4 @@
-import { select, node } from '@evershop/postgres-query-builder';
+import { node, select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { get } from '../../../../../lib/util/get.js';
 import { getConfig } from '../../../../../lib/util/getConfig.js';

@@ -1,5 +1,5 @@
-import touch from 'touch';
 import { resolve } from 'path';
+import touch from 'touch';
 import { CONSTANTS } from '../../../src/lib/helpers.js';
 
 export function watchPage(event) {

@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Discount } from '@components/frontStore/checkout/checkout/summary/cart/Discount';
 import { Shipping } from '@components/frontStore/checkout/checkout/summary//cart/Shipping';
 import { Subtotal } from '@components/frontStore/checkout/checkout/summary//cart/Subtotal';
 import { Tax } from '@components/frontStore/checkout/checkout/summary//cart/Tax';
 import { Total } from '@components/frontStore/checkout/checkout/summary//cart/Total';
+import { Discount } from '@components/frontStore/checkout/checkout/summary/cart/Discount';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 function CartSummary({
   totalQty,

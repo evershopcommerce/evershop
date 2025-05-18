@@ -1,24 +1,24 @@
+import { select } from '@evershop/postgres-query-builder';
+import sessionStorage from 'connect-pg-simple';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import sessionStorage from 'connect-pg-simple';
 import pathToRegexp from 'path-to-regexp';
 import webpack from 'webpack';
-import { debug } from '../../lib/log/logger.js';
 import middleware from 'webpack-dev-middleware';
-import { createConfigClient } from '../../lib/webpack/dev/createConfigClient.js';
-import isDevelopmentMode from '../../lib/util/isDevelopmentMode.js';
-import { isBuildRequired } from '../../lib/webpack/isBuildRequired.js';
+import { translate } from '../../lib/locale/translate/translate.js';
+import { debug } from '../../lib/log/logger.js';
 import publicStatic from '../../lib/middlewares/publicStatic.js';
 import themePublicStatic from '../../lib/middlewares/themePublicStatic.js';
-import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../lib/postgres/connection.js';
-import { setContextValue } from '../../modules/graphql/services/contextHelper.js';
-import { translate } from '../../lib/locale/translate/translate.js';
-import isProductionMode from '../../lib/util/isProductionMode.js';
 import { getConfig } from '../../lib/util/getConfig.js';
+import isDevelopmentMode from '../../lib/util/isDevelopmentMode.js';
+import isProductionMode from '../../lib/util/isProductionMode.js';
+import { createConfigClient } from '../../lib/webpack/dev/createConfigClient.js';
+import { isBuildRequired } from '../../lib/webpack/isBuildRequired.js';
 import { getAdminSessionCookieName } from '../../modules/auth/services/getAdminSessionCookieName.js';
-import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
 import { getCookieSecret } from '../../modules/auth/services/getCookieSecret.js';
+import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
+import { setContextValue } from '../../modules/graphql/services/contextHelper.js';
 
 export function addDefaultMiddlewareFuncs(app, routes) {
   app.use((request, response, next) => {

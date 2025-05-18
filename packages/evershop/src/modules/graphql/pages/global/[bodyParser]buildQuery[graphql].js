@@ -1,17 +1,16 @@
+import { readFileSync } from 'fs';
 import path from 'path';
 import JSON5 from 'json5';
 import uniqid from 'uniqid';
-import { readFileSync } from 'fs';
+import { CONSTANTS } from '../../../../lib/helpers.js';
+import { error } from '../../../../lib/log/logger.js';
+import { getRoutes } from '../../../../lib/router/Router.js';
+import { get } from '../../../../lib/util/get.js';
+import { getEnabledWidgets } from '../../../../lib/util/getEnabledWidgets.js';
 import isDevelopmentMode from '../../../../lib/util/isDevelopmentMode.js';
 import isProductionMode from '../../../../lib/util/isProductionMode.js';
 import { getRouteBuildPath } from '../../../../lib/webpack/getRouteBuildPath.js';
-import { CONSTANTS } from '../../../../lib/helpers.js';
-import { getRoutes } from '../../../../lib/router/Router.js';
-import { error } from '../../../../lib/log/logger.js';
-import { getEnabledWidgets } from '../../../../lib/util/getEnabledWidgets.js';
-import { get } from '../../../../lib/util/get.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
-
 import { getContextValue } from '../../services/contextHelper.js';
 
 export default async (request, response, delegate, next) => {

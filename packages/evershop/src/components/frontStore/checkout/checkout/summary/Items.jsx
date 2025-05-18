@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import './Items.scss';
 import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 

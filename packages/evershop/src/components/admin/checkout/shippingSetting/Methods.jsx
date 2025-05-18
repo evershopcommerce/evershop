@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useModal } from '@components/common/modal/useModal';
 import Method from '@components/admin/checkout/shippingSetting/Method';
 import MethodForm from '@components/admin/checkout/shippingSetting/MethodForm';
+import { useModal } from '@components/common/modal/useModal';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export function Methods({ getZones, methods, addMethodApi }) {
   const modal = useModal();

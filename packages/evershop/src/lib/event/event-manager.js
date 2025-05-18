@@ -1,13 +1,13 @@
-import { select, del } from '@evershop/postgres-query-builder';
-import { pool } from '../../lib/postgres/connection.js';
+import { del, select } from '@evershop/postgres-query-builder';
+import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { loadBootstrapScript } from '../../bin/lib/bootstrap/bootstrap.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
-import { getEnabledExtensions } from '../../bin/extension/index.js';
-import { callSubscribers } from './callSubscibers.js';
-import { loadSubscribers } from './loadSubscribers.js';
+import { pool } from '../../lib/postgres/connection.js';
 import { error } from '../log/logger.js';
 import { lockHooks } from '../util/hookable.js';
 import { lockRegistry } from '../util/registry.js';
+import { callSubscribers } from './callSubscibers.js';
+import { loadSubscribers } from './loadSubscribers.js';
 
 const loadEventInterval = 10000;
 const syncEventInterval = 2000;

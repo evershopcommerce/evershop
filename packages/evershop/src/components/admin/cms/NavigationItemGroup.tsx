@@ -1,9 +1,9 @@
-import React from 'react';
-import Area from '@components/common/Area.jsx';
 import {
   NavigationItem,
   NavigationItemProps
 } from '@components/admin/cms/NavigationItem.jsx';
+import Area from '@components/common/Area.jsx';
+import React from 'react';
 import './NavigationItemGroup.scss';
 
 interface NavigationItemGroupProps {

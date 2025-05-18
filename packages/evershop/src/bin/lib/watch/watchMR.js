@@ -1,9 +1,9 @@
-import chokidar from 'chokidar';
 import { existsSync } from 'fs';
 import { resolve } from 'path';
+import chokidar from 'chokidar';
 import { CONSTANTS } from '../../../src/lib/helpers.js';
+import { error, info } from '../../../src/lib/log/logger.js';
 import { Handler } from '../../../src/lib/middleware/Handler.js';
-import { info, error } from '../../../src/lib/log/logger.js';
 import { updateApp } from '../startUp.js';
 import { broadcash } from './broadcash.js';
 

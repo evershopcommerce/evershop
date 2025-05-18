@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getConfig } from '../../../lib/util/getConfig.js';
-import { getApiBaseUrl } from './getApiBaseUrl.js';
 import { getSetting } from '../../setting/services/setting.js';
+import { getApiBaseUrl } from './getApiBaseUrl.js';
 
 export async function createAxiosInstance(request) {
   const axiosInstance = axios.create({

@@ -1,24 +1,24 @@
-import { hookable } from '../../../../lib/util/hookable.js';
 import {
-  getValueSync,
-  getValue
-} from '../../../../lib/util/registry.js';
-import {
-  startTransaction,
   commit,
-  rollback,
   insert,
-  select
+  rollback,
+  select,
+  startTransaction
 } from '@evershop/postgres-query-builder';
+import { emit } from '../../../../lib/event/emitter.js';
 import {
   getConnection,
   pool
 } from '../../../../lib/postgres/connection.js';
+import { hookable } from '../../../../lib/util/hookable.js';
 import {
   hashPassword,
   verifyPassword
 } from '../../../../lib/util/passwordHelper.js';
-import { emit } from '../../../../lib/event/emitter.js';
+import {
+  getValue,
+  getValueSync
+} from '../../../../lib/util/registry.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import customerDataSchema from './customerDataSchema.json' with { type: 'json' };
 

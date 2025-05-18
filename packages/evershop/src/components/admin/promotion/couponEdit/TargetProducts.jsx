@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import PubSub from 'pubsub-js';
-import Area from '@components/common/Area';
-import { FORM_FIELD_UPDATED } from '../../../../lib/util/events';
 import CategoryConditionSelector from '@components/admin/promotion/couponEdit/CategoryConditionSelector';
+import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
-import CollectionConditionSelector from './CollectionConditionSelector';
-import SkuConditionSelector from './SkuConditionSelector';
+import PropTypes from 'prop-types';
+import PubSub from 'pubsub-js';
+import React from 'react';
+import { FORM_FIELD_UPDATED } from '../../../../lib/util/events';
 import AttributeGroupConditionSelector from './AttributeGroupConditionSelector';
-import PriceConditionSelector from './PriceConditionSelector';
+import CollectionConditionSelector from './CollectionConditionSelector';
 import { compareKeyList } from './CompareKeyList';
 import { compareOperatorList } from './CompareOperatorList';
+import PriceConditionSelector from './PriceConditionSelector';
+import SkuConditionSelector from './SkuConditionSelector';
 
 function Products({ targetProducts, maxQty }) {
   const [products, setProducts] = React.useState(() =>

@@ -1,7 +1,7 @@
+import { NavigationItem } from '@components/admin/cms/NavigationItem';
+import Icon from '@heroicons/react/solid/esm/HomeIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from '@heroicons/react/solid/esm/HomeIcon';
-import { NavigationItem } from '@components/admin/cms/NavigationItem';
 
 export default function DashboardMenuItem({ url }) {
   return <NavigationItem Icon={Icon} title="Dashboard" url={url} />;

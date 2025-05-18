@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 export function Thumbnail({ imageUrl, qty }) {
   return (
     <td>

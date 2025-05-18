@@ -1,15 +1,15 @@
+const { select } = require('@evershop/postgres-query-builder');
+const { translate } = require('../../../../lib/locale/translate/translate');
+const { pool } = require('../../../../lib/postgres/connection');
+const { getConfig } = require('../../../../lib/util/getConfig');
 const {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
 } = require('../../../../lib/util/httpStatus');
-const { getConfig } = require('../../../../lib/util/getConfig');
-const { translate } = require('../../../../lib/locale/translate/translate');
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('../../../../lib/postgres/connection');
 const { setContextValue } = require('../../../graphql/services/contextHelper');
-const { saveCart } = require('../../services/saveCart');
 const { Cart } = require('../../services/cart/Cart');
+const { saveCart } = require('../../services/saveCart');
 
 module.exports = async (request, response, delegate, next) => {
   try {

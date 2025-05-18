@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { join } from 'path';
-import { getConfig } from '../../util/getConfig.js';
 import { CONSTANTS } from '../../helpers.js';
+import { getConfig } from '../../util/getConfig.js';
 
 export async function getTailwindConfig(route) {
   const defaultTailwindConfig = route.isAdmin

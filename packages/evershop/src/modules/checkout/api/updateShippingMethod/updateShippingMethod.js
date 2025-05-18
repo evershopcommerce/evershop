@@ -5,13 +5,13 @@ const {
   select,
   update
 } = require('@evershop/postgres-query-builder');
+const { error } = require('../../../../lib/log/logger');
 const { getConnection } = require('../../../../lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
 } = require('../../../../lib/util/httpStatus');
-const { error } = require('../../../../lib/log/logger');
 
 module.exports = async (request, response, deledate, next) => {
   const connection = await getConnection();

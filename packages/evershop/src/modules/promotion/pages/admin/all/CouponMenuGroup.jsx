@@ -1,7 +1,7 @@
+import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
+import Icon from '@heroicons/react/solid/esm/GiftIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from '@heroicons/react/solid/esm/GiftIcon';
-import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
 
 export default function CatalogMenuGroup({ couponGrid }) {
   return (

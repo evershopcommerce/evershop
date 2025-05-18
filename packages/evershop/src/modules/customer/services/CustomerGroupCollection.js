@@ -1,5 +1,5 @@
-import { camelCase } from '../../../lib/util/camelCase.js';
 import { pool } from '../../../lib/postgres/connection.js';
+import { camelCase } from '../../../lib/util/camelCase.js';
 import { getValue } from '../../../lib/util/registry.js';
 
 export class CustomerGroupCollection {

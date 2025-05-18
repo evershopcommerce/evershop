@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 export default function CheckoutButton({ action, cartId }) {
   const onClick = (e) => {
     e.preventDefault();

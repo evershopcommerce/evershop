@@ -1,18 +1,18 @@
-const stripePayment = require('stripe');
 const { select, update } = require('@evershop/postgres-query-builder');
+const stripePayment = require('stripe');
+const { error } = require('../../../../../lib/log/logger');
 const { pool } = require('../../../../../lib/postgres/connection');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
 const { getConfig } = require('../../../../../lib/util/getConfig');
 const {
-  getSetting
-} = require('../../../../../modules/setting/services/setting');
-const {
   addNotification
 } = require('../../../../../modules/base/services/notifications');
-const { error } = require('../../../../../lib/log/logger');
 const {
   updatePaymentStatus
 } = require('../../../../../modules/oms/services/updatePaymentStatus');
+const {
+  getSetting
+} = require('../../../../../modules/setting/services/setting');
 
 module.exports = async (request, response, delegate, next) => {
   try {

@@ -1,10 +1,10 @@
-import postcss from 'postcss';
-import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 import CleanCSS from 'clean-css';
+import postcss from 'postcss';
+import tailwindcss from 'tailwindcss';
 import webpack from 'webpack';
-import { getTailwindConfig } from '../util/getTailwindConfig.js';
 import { error } from '../../log/logger.js';
+import { getTailwindConfig } from '../util/getTailwindConfig.js';
 
 const { Compilation, sources } = webpack;
 

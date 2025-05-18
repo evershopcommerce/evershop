@@ -1,17 +1,17 @@
+const { select } = require('@evershop/postgres-query-builder');
 const stripePayment = require('stripe');
+const { error } = require('../../../../lib/log/logger');
+const { pool } = require('../../../../lib/postgres/connection');
 const { getConfig } = require('../../../../lib/util/getConfig');
 const {
   OK,
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR
 } = require('../../../../lib/util/httpStatus');
-const { error } = require('../../../../lib/log/logger');
-const { pool } = require('../../../../lib/postgres/connection');
-const { select } = require('@evershop/postgres-query-builder');
-const { getSetting } = require('../../../setting/services/setting');
 const {
   updatePaymentStatus
 } = require('../../../oms/services/updatePaymentStatus');
+const { getSetting } = require('../../../setting/services/setting');
 
 module.exports = async (request, response, delegate, next) => {
   try {

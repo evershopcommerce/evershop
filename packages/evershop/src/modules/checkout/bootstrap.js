@@ -1,11 +1,11 @@
 import { error } from '../../lib/log/logger.js';
-import { addProcessor, addFinalProcessor } from '../../lib/util/registry.js';
-import { sortFields } from '../../modules/checkout/services/cart/sortFields.js';
-import { registerCartBaseFields } from '../../modules/checkout/services/cart/registerCartBaseFields.js';
-import { registerCartItemBaseFields } from '../../modules/checkout/services/cart/registerCartItemBaseFields.js';
-import { getProductsBaseQuery } from '../../modules/catalog/services/getProductsBaseQuery.js';
 import { pool } from '../../lib/postgres/connection.js';
 import { merge } from '../../lib/util/merge.js';
+import { addFinalProcessor, addProcessor } from '../../lib/util/registry.js';
+import { getProductsBaseQuery } from '../../modules/catalog/services/getProductsBaseQuery.js';
+import { registerCartBaseFields } from '../../modules/checkout/services/cart/registerCartBaseFields.js';
+import { registerCartItemBaseFields } from '../../modules/checkout/services/cart/registerCartItemBaseFields.js';
+import { sortFields } from '../../modules/checkout/services/cart/sortFields.js';
 
 export default () => {
   addProcessor('cartFields', registerCartBaseFields, 0);

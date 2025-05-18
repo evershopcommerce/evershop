@@ -1,15 +1,15 @@
-import config from 'config';
 import path from 'path';
+import config from 'config';
 import { CONSTANTS } from '../../lib/helpers.js';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
-import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
-import registerDefaultProductCollectionFilters from './services/registerDefaultProductCollectionFilters.js';
-import registerDefaultCategoryCollectionFilters from './services/registerDefaultCategoryCollectionFilters.js';
-import registerDefaultCollectionCollectionFilters from './services/registerDefaultCollectionCollectionFilters.js';
-import registerDefaultAttributeCollectionFilters from './services/registerDefaultAttributeCollectionFilters.js';
 import { registerCartItemProductUrlField } from './services/registerCartItemProductUrlField.js';
 import { registerCartItemVariantOptionsField } from './services/registerCartItemVariantOptionsField.js';
+import registerDefaultAttributeCollectionFilters from './services/registerDefaultAttributeCollectionFilters.js';
+import registerDefaultCategoryCollectionFilters from './services/registerDefaultCategoryCollectionFilters.js';
+import registerDefaultCollectionCollectionFilters from './services/registerDefaultCollectionCollectionFilters.js';
+import registerDefaultProductCollectionFilters from './services/registerDefaultProductCollectionFilters.js';
 
 export default () => {
   addProcessor('cartItemFields', registerCartItemProductUrlField, 0);

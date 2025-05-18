@@ -6,15 +6,15 @@ const {
   select,
   insertOnUpdate
 } = require('@evershop/postgres-query-builder');
-const { getConnection } = require('../../../../lib/postgres/connection');
-const { getConfig } = require('../../../../lib/util/getConfig');
+const { display } = require('zero-decimal-currencies');
 const { emit } = require('../../../../lib/event/emitter');
 const { debug, error } = require('../../../../lib/log/logger');
-const { display } = require('zero-decimal-currencies');
-const { getSetting } = require('../../../setting/services/setting');
+const { getConnection } = require('../../../../lib/postgres/connection');
+const { getConfig } = require('../../../../lib/util/getConfig');
 const {
   updatePaymentStatus
 } = require('../../../oms/services/updatePaymentStatus');
+const { getSetting } = require('../../../setting/services/setting');
 
 module.exports = async (request, response, delegate, next) => {
   const sig = request.headers['stripe-signature'];

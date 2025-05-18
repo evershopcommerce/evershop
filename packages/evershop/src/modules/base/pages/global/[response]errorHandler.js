@@ -1,6 +1,6 @@
 import { encode } from 'html-entities';
-import { INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 import { error } from '../../../../lib/log/logger.js';
+import { INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 
 export default async (err, request, response, delegate, next) => {
   error(err);

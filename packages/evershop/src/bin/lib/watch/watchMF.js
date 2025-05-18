@@ -1,6 +1,6 @@
-import { normalize, basename } from 'path';
-import { Handler } from '../../../src/lib/middleware/Handler.js';
+import { basename, normalize } from 'path';
 import { error } from '../../../src/lib/log/logger.js';
+import { Handler } from '../../../src/lib/middleware/Handler.js';
 import { broadcash } from './broadcash.js';
 
 export function watchMF(event, path) {

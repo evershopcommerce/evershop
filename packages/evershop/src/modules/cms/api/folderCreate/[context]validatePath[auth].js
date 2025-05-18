@@ -1,5 +1,5 @@
-import { INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
 import { CONSTANTS } from '../../../../lib/helpers.js';
+import { INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
 import { validatePath } from '../../services/validatePath.js';
 
 export default (request, response, delegate, next) => {

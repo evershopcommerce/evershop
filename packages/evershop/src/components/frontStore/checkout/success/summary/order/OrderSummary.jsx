@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import { Discount } from '@components/frontStore/checkout/success/summary/order/Discount';
 import { Shipping } from '@components/frontStore/checkout/success/summary/order/Shipping';
 import { Subtotal } from '@components/frontStore/checkout/success/summary/order/Subtotal';
 import { Tax } from '@components/frontStore/checkout/success/summary/order/Tax';
 import { Total } from '@components/frontStore/checkout/success/summary/order/Total';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 function OrderSummary({
   items,

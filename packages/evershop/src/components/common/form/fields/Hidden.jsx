@@ -1,6 +1,6 @@
+import Error from '@components/common/form/fields/Error';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Error from '@components/common/form/fields/Error';
 
 export function Hidden({ name, value, error }) {
   return (

@@ -1,5 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+
+
 import './PriceFilter.scss';
 import { _ } from '../../../../../lib/locale/translate/index.js';
 

@@ -1,11 +1,11 @@
+import Area from '@components/common/Area';
+import { Name } from '@components/frontStore/catalog/product/list/item/Name';
+import { Price } from '@components/frontStore/catalog/product/list/item/Price';
+import { Thumbnail } from '@components/frontStore/catalog/product/list/item/Thumbnail';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Name } from '@components/frontStore/catalog/product/list/item/Name';
-import { Thumbnail } from '@components/frontStore/catalog/product/list/item/Thumbnail';
-import { Price } from '@components/frontStore/catalog/product/list/item/Price';
-import Area from '@components/common/Area';
-import { get } from '../../../../../lib/util/get.js';
 import { _ } from '../../../../../lib/locale/translate/index.js';
+import { get } from '../../../../../lib/util/get.js';
 
 export default function ProductList({ products = [], countPerRow = 3 }) {
   if (products.length === 0) {

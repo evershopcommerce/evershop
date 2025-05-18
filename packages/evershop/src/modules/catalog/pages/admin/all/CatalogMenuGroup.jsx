@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+
+import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
+import ProductIcon from '@heroicons/react/solid/esm/ArchiveIcon';
 import AttributeIcon from '@heroicons/react/solid/esm/HashtagIcon';
 import CategoryIcon from '@heroicons/react/solid/esm/LinkIcon';
 import CollectionIcon from '@heroicons/react/solid/esm/TagIcon';
-import ProductIcon from '@heroicons/react/solid/esm/ArchiveIcon';
-import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function CatalogMenuGroup({
   productGrid,

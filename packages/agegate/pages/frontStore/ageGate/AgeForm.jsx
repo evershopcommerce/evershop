@@ -1,7 +1,7 @@
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { toast } from 'react-toastify';
 
 function AgeForm({ action, homeUrl, failurePageUrl, setting: { minAge } }) {

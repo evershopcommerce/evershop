@@ -1,11 +1,11 @@
-import webpack from 'webpack';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import path from 'path';
-import { createBaseConfig } from '../createBaseConfig.js';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import webpack from 'webpack';
 import { getComponentsByRoute } from '../../componee/getComponentsByRoute.js';
 import { CONSTANTS } from '../../helpers.js';
-import { GraphqlPlugin } from '../plugins/GraphqlPlugin.js';
 import { getEnabledWidgets } from '../../util/getEnabledWidgets.js';
+import { createBaseConfig } from '../createBaseConfig.js';
+import { GraphqlPlugin } from '../plugins/GraphqlPlugin.js';
 
 export function createConfigClient(route) {
   const config = createBaseConfig(false);

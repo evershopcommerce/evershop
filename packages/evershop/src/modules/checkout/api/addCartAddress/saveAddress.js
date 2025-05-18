@@ -1,13 +1,13 @@
 import { insert, select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../lib/postgres/connection.js';
 import {
+  INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD,
-  OK,
-  INTERNAL_SERVER_ERROR
+  OK
 } from '../../../../lib/util/httpStatus.js';
+import { validateAddress } from '../../../customer/services/customer/address/addressValidator.js';
 import { getCartByUUID } from '../../services/getCartByUUID.js';
 import { saveCart } from '../../services/saveCart.js';
-import { validateAddress } from '../../../customer/services/customer/address/addressValidator.js';
 
 export default async (request, response, delegate, next) => {
   try {

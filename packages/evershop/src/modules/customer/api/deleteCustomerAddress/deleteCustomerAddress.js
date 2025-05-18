@@ -1,10 +1,10 @@
-import {
-  OK,
-  INTERNAL_SERVER_ERROR,
-  INVALID_PAYLOAD
-} from '../../../../lib/util/httpStatus.js';
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../lib/postgres/connection.js';
+import {
+  INTERNAL_SERVER_ERROR,
+  INVALID_PAYLOAD,
+  OK
+} from '../../../../lib/util/httpStatus.js';
 import deleteCustomerAddress from '../../services/customer/address/deleteCustomerAddress.js';
 
 export default async (request, response, delegate, next) => {

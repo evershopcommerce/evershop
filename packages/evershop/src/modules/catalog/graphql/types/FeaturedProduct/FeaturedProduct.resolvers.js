@@ -1,4 +1,4 @@
-import { select, node } from '@evershop/postgres-query-builder';
+import { node, select } from '@evershop/postgres-query-builder';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { getConfig } from '../../../../../lib/util/getConfig.js';
 

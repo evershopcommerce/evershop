@@ -1,7 +1,7 @@
+import AttributeGroupSelector from '@components/admin/promotion/couponEdit/AttributeGroupSelector';
+import { useModal } from '@components/common/modal/useModal';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useModal } from '@components/common/modal/useModal';
-import AttributeGroupSelector from '@components/admin/promotion/couponEdit/AttributeGroupSelector';
 
 export default function AttributeGroupConditionSelector({
   condition,

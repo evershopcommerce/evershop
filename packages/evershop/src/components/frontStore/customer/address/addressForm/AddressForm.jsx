@@ -1,10 +1,10 @@
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Country } from '@components/frontStore/customer/address/addressForm/Country';
+import { NameAndTelephone } from '@components/frontStore/customer/address/addressForm/NameAndTelephone';
+import { ProvinceAndPostcode } from '@components/frontStore/customer/address/addressForm/ProvinceAndPostcode';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Field } from '@components/common/form/Field';
-import Area from '@components/common/Area';
-import { Country } from '@components/frontStore/customer/address/addressForm/Country';
-import { ProvinceAndPostcode } from '@components/frontStore/customer/address/addressForm/ProvinceAndPostcode';
-import { NameAndTelephone } from '@components/frontStore/customer/address/addressForm/NameAndTelephone';
 import { _ } from '../../../../../lib/locale/translate/index.js';
 
 function isFieldRequired(schema, fieldName) {

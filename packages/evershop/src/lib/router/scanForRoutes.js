@@ -1,4 +1,4 @@
-import { readdirSync, existsSync, readFileSync } from 'fs';
+import { existsSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 function startWith(str, prefix) {

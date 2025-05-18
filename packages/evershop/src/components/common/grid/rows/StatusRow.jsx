@@ -1,6 +1,6 @@
+import Dot from '@components/common/Dot';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Dot from '@components/common/Dot';
 
 export default function StatusRow({ id, areaProps }) {
   return (

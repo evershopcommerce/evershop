@@ -1,17 +1,17 @@
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import axios from 'axios';
-import Area from '@components/common/Area';
-import Pagination from '@components/common/grid/Pagination';
-import { useAlertContext } from '@components/common/modal/Alert';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Card } from '@components/admin/cms/Card';
 import CollectionNameRow from '@components/admin/catalog/collectionGrid/rows/CollectionNameRow';
-import TextRow from '@components/common/grid/rows/TextRow';
+import { Card } from '@components/admin/cms/Card';
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { Form } from '@components/common/form/Form';
 import DummyColumnHeader from '@components/common/grid/headers/Dummy';
 import SortableHeader from '@components/common/grid/headers/Sortable';
-import { Form } from '@components/common/form/Form';
-import { Field } from '@components/common/form/Field';
+import Pagination from '@components/common/grid/Pagination';
+import TextRow from '@components/common/grid/rows/TextRow';
+import { useAlertContext } from '@components/common/modal/Alert';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 function Actions({ collections = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();

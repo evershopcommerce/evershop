@@ -1,6 +1,6 @@
-import staticMiddleware from 'serve-static';
-import { normalize, join } from 'path';
 import { existsSync } from 'fs';
+import { join, normalize } from 'path';
+import staticMiddleware from 'serve-static';
 import { CONSTANTS } from '../helpers.js';
 
 export default (request, response, next) => {

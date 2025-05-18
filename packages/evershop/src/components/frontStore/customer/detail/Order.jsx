@@ -1,7 +1,7 @@
-import { _ } from '../../../../lib/locale/translate/index.js';
+import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
+import { _ } from '../../../../lib/locale/translate/index.js';
 
 export default function Order({ order }) {
   return (

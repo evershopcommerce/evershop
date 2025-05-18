@@ -1,8 +1,8 @@
 import { select } from '@evershop/postgres-query-builder';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
-import { getCustomerGroupsBaseQuery } from '../../../services/getCustomerGroupsBaseQuery.js';
 import { CustomerGroupCollection } from '../../../services/CustomerGroupCollection.js';
+import { getCustomerGroupsBaseQuery } from '../../../services/getCustomerGroupsBaseQuery.js';
 
 export default {
   Query: {

@@ -1,10 +1,10 @@
 import 'dotenv/config';
-import { error, success } from '../../src/lib/log/logger.js';
-import { pool } from '../../src/lib/postgres/connection.js';
-import { hashPassword } from '../../src/lib/util/passwordHelper.js';
 import { insertOnUpdate } from '@evershop/postgres-query-builder';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import { error, success } from '../../src/lib/log/logger.js';
+import { pool } from '../../src/lib/postgres/connection.js';
+import { hashPassword } from '../../src/lib/util/passwordHelper.js';
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

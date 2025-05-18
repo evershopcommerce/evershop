@@ -1,6 +1,6 @@
+import { ItemVariantOptions } from '@components/frontStore/checkout/cart/items/ItemVariantOptions';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ItemVariantOptions } from '@components/frontStore/checkout/cart/items/ItemVariantOptions';
 import './Items.scss';
 import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 

@@ -1,6 +1,6 @@
+import { Card } from '@components/admin/cms/Card';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Card } from '@components/admin/cms/Card';
 import './Bestsellers.scss';
 
 export default function BestSellers({ bestSellers, listUrl }) {

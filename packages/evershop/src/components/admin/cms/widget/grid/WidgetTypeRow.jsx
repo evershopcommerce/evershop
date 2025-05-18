@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 export default function WidgetTypeRow({ code, types }) {
   const type = types.find((t) => t.code === code);
   if (!type) {

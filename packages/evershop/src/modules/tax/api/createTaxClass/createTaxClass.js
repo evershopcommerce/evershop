@@ -1,11 +1,11 @@
 import {
-  rollback,
-  insert,
   commit,
+  insert,
+  rollback,
   startTransaction
 } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
-import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
+import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
 
 export default async (request, response, delegate, next) => {
   const connection = await getConnection();

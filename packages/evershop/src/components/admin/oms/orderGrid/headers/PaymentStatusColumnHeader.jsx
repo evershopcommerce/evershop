@@ -1,6 +1,6 @@
+import { Select } from '@components/common/form/fields/Select';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Select } from '@components/common/form/fields/Select';
 
 export default function PaymentStatusColumnHeader({
   title,

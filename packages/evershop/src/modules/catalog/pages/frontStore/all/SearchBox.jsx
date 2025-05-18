@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import React, { useRef, useState } from 'react';
 import { Input } from '@components/common/form/fields/Input';
 import XIcon from '@heroicons/react/solid/esm/XIcon';
+import PropTypes from 'prop-types';
+import React, { useRef, useState } from 'react';
 import { _ } from '../../../../../lib/locale/translate/index.js';
 import './SearchBox.scss';
 

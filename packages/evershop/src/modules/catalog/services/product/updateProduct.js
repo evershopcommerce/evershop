@@ -1,20 +1,20 @@
+import {
+  commit,
+  del,
+  insert,
+  insertOnUpdate,
+  rollback,
+  select,
+  startTransaction,
+  update
+} from '@evershop/postgres-query-builder';
+import { error } from '../../../../lib/log/logger.js';
+import { getConnection } from '../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../lib/util/hookable.js';
 import {
-  getValueSync,
-  getValue
+  getValue,
+  getValueSync
 } from '../../../../lib/util/registry.js';
-import {
-  startTransaction,
-  commit,
-  rollback,
-  insert,
-  select,
-  update,
-  insertOnUpdate,
-  del
-} from '@evershop/postgres-query-builder';
-import { getConnection } from '../../../../lib/postgres/connection.js';
-import { error } from '../../../../lib/log/logger.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import productDataSchema from './productDataSchema.json' with { type: 'json' };
 

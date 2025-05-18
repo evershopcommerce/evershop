@@ -1,6 +1,6 @@
+import { useAppState } from '@components/common/context/app';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '@components/common/context/app';
 import { get } from '../../../../../lib/util/get.js';
 
 export function ItemOptions({ options = [] }) {

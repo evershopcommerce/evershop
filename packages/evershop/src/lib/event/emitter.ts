@@ -6,7 +6,7 @@ import { pool } from '../postgres/connection.js';
  * @param name - The name of the event
  * @param data - The data to emit
  */
-export async function emit(name, data) {
+export async function emit(name: string, data: Record<string, any>) {
   await insert('event')
     .given({
       name,

@@ -1,7 +1,7 @@
+import { NavigationItem } from '@components/admin/cms/NavigationItem';
+import Icon from '@heroicons/react/solid/esm/ArchiveIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from '@heroicons/react/solid/esm/ArchiveIcon';
-import { NavigationItem } from '@components/admin/cms/NavigationItem';
 
 export default function NewProductQuickLink({ productNew }) {
   return <NavigationItem Icon={Icon} title="New Product" url={productNew} />;

@@ -1,7 +1,7 @@
+import { Card } from '@components/admin/cms/Card';
+import { useAppState } from '@components/common/context/app';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '@components/common/context/app';
-import { Card } from '@components/admin/cms/Card';
 
 export default function BestCustomers({ listUrl, setting }) {
   const context = useAppState();

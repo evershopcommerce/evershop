@@ -1,7 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { VariantType } from './VariantType';
+import React from 'react';
 import { EditVariant } from './EditVariant';
+import { VariantType } from './VariantType';
 
 export function Variant({
   variant,

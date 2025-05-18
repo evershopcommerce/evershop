@@ -1,6 +1,6 @@
+import { ItemVariantOptions } from '@components/admin/oms/orderEdit/items/ItemVariantOptions';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ItemVariantOptions } from '@components/admin/oms/orderEdit/items/ItemVariantOptions';
 
 export function Name({ name, productSku, productUrl, variantOptions = [] }) {
   return (

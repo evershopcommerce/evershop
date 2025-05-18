@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 export function Price({ price, qty }) {
   return (
     <td>

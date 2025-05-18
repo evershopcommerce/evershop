@@ -1,9 +1,9 @@
-import { join } from 'path';
 import { existsSync, readdirSync } from 'fs';
+import { join } from 'path';
 import { CONSTANTS } from '../../../lib/helpers.js';
+import { buildUrl } from '../../../lib/router/buildUrl.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { getValueSync } from '../../../lib/util/registry.js';
-import { buildUrl } from '../../../lib/router/buildUrl.js';
 
 /**
  * @param {String} path the file path

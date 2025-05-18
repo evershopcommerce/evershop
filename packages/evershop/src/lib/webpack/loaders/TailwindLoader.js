@@ -1,7 +1,7 @@
 import { join } from 'path';
+import autoprefixer from 'autoprefixer';
 import postcss from 'postcss';
 import tailwindcss from 'tailwindcss';
-import autoprefixer from 'autoprefixer';
 import { CONSTANTS } from '../../helpers.js';
 import { getTailwindConfig } from '../util/getTailwindConfig.js';
 

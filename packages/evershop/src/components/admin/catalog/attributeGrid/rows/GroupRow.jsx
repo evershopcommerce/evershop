@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { toast } from 'react-toastify';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
 import { useAlertContext } from '@components/common/modal/Alert';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { toast } from 'react-toastify';
 
 export default function GroupRow({ groups }) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();

@@ -1,10 +1,10 @@
 const { select } = require('@evershop/postgres-query-builder');
+const { pool } = require('../../../../lib/postgres/connection');
 const {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
 } = require('../../../../lib/util/httpStatus');
-const { pool } = require('../../../../lib/postgres/connection');
 const { setContextValue } = require('../../../graphql/services/contextHelper');
 const { getCartByUUID } = require('../../services/getCartByUUID');
 const { saveCart } = require('../../services/saveCart');

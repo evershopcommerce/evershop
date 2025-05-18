@@ -1,8 +1,8 @@
 const { select } = require('@evershop/postgres-query-builder');
 const { default: axios } = require('axios');
+const { emit } = require('../../../../../lib/event/emitter');
 const { pool } = require('../../../../../lib/postgres/connection');
 const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const { emit } = require('../../../../../lib/event/emitter');
 const {
   getContextValue
 } = require('../../../../graphql/services/contextHelper');

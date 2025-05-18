@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useQuery } from 'urql';
 import ProductMediaManager from '@components/admin/catalog/productEdit/media/ProductMediaManager';
 import { Field } from '@components/common/form/Field';
 import { useFormContext } from '@components/common/form/Form';
 import Spinner from '@components/common/Spinner';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useQuery } from 'urql';
 
 const AttributesQuery = `
   query Query($filters: [FilterInput]) {

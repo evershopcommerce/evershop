@@ -1,13 +1,13 @@
 import {
-  startTransaction,
-  del,
   commit,
-  update,
+  del,
   insert,
   rollback,
-  select
+  select,
+  startTransaction,
+  update
 } from '@evershop/postgres-query-builder';
-import { pool, getConnection } from '../../../lib/postgres/connection.js';
+import { getConnection, pool } from '../../../lib/postgres/connection.js';
 
 /**
  * @param {Cart} cart

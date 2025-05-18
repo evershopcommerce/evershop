@@ -2,11 +2,11 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import WebpackBar from 'webpackbar';
+import { CONSTANTS } from '../../helpers.js';
 import { createBaseConfig } from '../createBaseConfig.js';
 import { getRouteBuildPath } from '../getRouteBuildPath.js';
 import { getRouteBuildSubPath } from '../getRouteBuildSubPath.js';
 import { isBuildRequired } from '../isBuildRequired.js';
-import { CONSTANTS } from '../../helpers.js';
 import { Tailwindcss } from '../plugins/Tailwindcss.js';
 
 export function createConfigClient(routes) {

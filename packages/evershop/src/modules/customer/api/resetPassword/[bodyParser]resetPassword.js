@@ -1,11 +1,11 @@
+const crypto = require('crypto');
 const { insert, select } = require('@evershop/postgres-query-builder');
+const { error } = require('../../../../lib/log/logger');
 const { pool } = require('../../../../lib/postgres/connection');
 const {
   OK,
   INTERNAL_SERVER_ERROR
 } = require('../../../../lib/util/httpStatus');
-const { error } = require('../../../../lib/log/logger');
-const crypto = require('crypto');
 
 module.exports = async (request, response, delegate, next) => {
   const { body } = request;
