@@ -1,21 +1,31 @@
-const {
+import {
   startTransaction,
   commit,
   rollback,
   insert
-} = require('@evershop/postgres-query-builder');
-const { getConnection } = require('../../../../lib/postgres/connection');
-const { hookable } = require('../../../../lib/util/hookable');
-const { getValueSync, getValue } = require('../../../../lib/util/registry');
-const { getAjv } = require('../../../base/services/getAjv');
-const collectionDataSchema = require('./collectionDataSchema.json');
+} from '@evershop/postgres-query-builder';
+import type { PoolClient } from '@evershop/postgres-query-builder';
+import { JSONSchemaType } from 'ajv';
+import { getConnection } from '../../../../lib/postgres/connection.js';
+import { hookable } from '../../../../lib/util/hookable.js';
+import { getValueSync, getValue } from '../../../../lib/util/registry.js';
+import { getAjv } from '../../../base/services/getAjv.js';
+import collectionDataSchema from './collectionDataSchema.json' with { type: 'json' };
 
-function validateCollectionDataBeforeInsert(data) {
+export type CollectionData = {
+  name: string;
+  description: string;
+  code: string;
+  [key: string]: any;
+};
+
+function validateCollectionDataBeforeInsert(data: CollectionData) {
   const ajv = getAjv();
-  collectionDataSchema.required = ['name', 'description', 'code'];
+  (collectionDataSchema as JSONSchemaType<any>).required = ['name', 'description', 'code'];
   const jsonSchema = getValueSync(
     'createCollectionDataJsonSchema',
-    collectionDataSchema
+    collectionDataSchema,
+    {}
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
@@ -26,7 +36,7 @@ function validateCollectionDataBeforeInsert(data) {
   }
 }
 
-async function insertCollectionData(data, connection) {
+async function insertCollectionData(data: CollectionData, connection: PoolClient) {
   const collection = await insert('collection').given(data).execute(connection);
   return collection;
 }
@@ -36,7 +46,7 @@ async function insertCollectionData(data, connection) {
  * @param {Object} data
  * @param {Object} context
  */
-async function createCollection(data, context) {
+async function createCollection(data: CollectionData, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   const hookContext = { connection, ...context };
@@ -59,7 +69,12 @@ async function createCollection(data, context) {
   }
 }
 
-module.exports = async (data, context) => {
+/**
+ * Create collection service. This service will create a collection with all related data
+ * @param {Object} data
+ * @param {Object} context
+ */
+export default async (data: CollectionData, context: Record<string, any>) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

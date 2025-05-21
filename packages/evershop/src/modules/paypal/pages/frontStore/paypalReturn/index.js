@@ -1,14 +1,12 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { default: axios } = require('axios');
-const { emit } = require('../../../../../lib/event/emitter');
-const { pool } = require('../../../../../lib/postgres/connection');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const {
-  getContextValue
-} = require('../../../../graphql/services/contextHelper');
-const { getSetting } = require('../../../../setting/services/setting');
+import { select } from '@evershop/postgres-query-builder';
+import axios from 'axios';
+import { emit } from '../../../../../lib/event/emitter.js';
+import { pool } from '../../../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { getContextValue } from '../../../../graphql/services/contextHelper.js';
+import { getSetting } from '../../../../setting/services/setting.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   // Get paypal token from query string
   const paypalToken = request.query.token;
   if (paypalToken) {

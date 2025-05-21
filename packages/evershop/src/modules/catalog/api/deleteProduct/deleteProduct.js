@@ -1,10 +1,7 @@
-const {
-  OK,
-  INTERNAL_SERVER_ERROR
-} = require('../../../../lib/util/httpStatus');
-const deleteProduct = require('../../services/product/deleteProduct');
+import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
+import deleteProduct from '../../services/product/deleteProduct.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const { id } = request.params;
     const product = await deleteProduct(id, {

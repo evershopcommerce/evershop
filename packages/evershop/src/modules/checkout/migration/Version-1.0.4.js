@@ -1,6 +1,6 @@
-const { execute } = require('@evershop/postgres-query-builder');
+import { execute } from '@evershop/postgres-query-builder';
 
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   // Add a column 'sub_total' to the order item table if it does not exist
   await execute(
     connection,

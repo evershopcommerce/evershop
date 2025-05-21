@@ -1,6 +1,6 @@
-const { execute } = require('@evershop/postgres-query-builder');
+import { execute } from '@evershop/postgres-query-builder';
 
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   // Remove the inventory from the product table
   await execute(
     connection,

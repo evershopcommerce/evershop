@@ -1,6 +1,6 @@
-const { execute } = require('@evershop/postgres-query-builder');
+import { execute } from '@evershop/postgres-query-builder';
 
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   // Update the is_default column to be a boolean, default to false
   await execute(
     connection,

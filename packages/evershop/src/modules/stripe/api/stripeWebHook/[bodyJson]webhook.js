@@ -1,22 +1,21 @@
-const {
+import {
   insert,
   startTransaction,
   commit,
   rollback,
   select,
   insertOnUpdate
-} = require('@evershop/postgres-query-builder');
-const { display } = require('zero-decimal-currencies');
-const { emit } = require('../../../../lib/event/emitter');
-const { debug, error } = require('../../../../lib/log/logger');
-const { getConnection } = require('../../../../lib/postgres/connection');
-const { getConfig } = require('../../../../lib/util/getConfig');
-const {
-  updatePaymentStatus
-} = require('../../../oms/services/updatePaymentStatus');
-const { getSetting } = require('../../../setting/services/setting');
+} from '@evershop/postgres-query-builder';
+import stripe from 'stripe';
+import { display } from 'zero-decimal-currencies';
+import { emit } from '../../../../lib/event/emitter.js';
+import { debug, error } from '../../../../lib/log/logger.js';
+import { getConnection } from '../../../../lib/postgres/connection.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
+import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
+import { getSetting } from '../../../setting/services/setting.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const sig = request.headers['stripe-signature'];
 
   let event;
@@ -29,7 +28,7 @@ module.exports = async (request, response, delegate, next) => {
     } else {
       stripeSecretKey = await getSetting('stripeSecretKey', '');
     }
-    const stripe = require('stripe')(stripeSecretKey);
+    const stripe = stripe(stripeSecretKey);
 
     // Webhook enpoint secret
     let endpointSecret;

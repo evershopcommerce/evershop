@@ -1,8 +1,6 @@
-const fs = require('fs');
+import fs from 'fs';
 
-module.exports = exports = {};
-
-exports.FileListPlugin = class FileListPlugin {
+export const FileListPlugin = class FileListPlugin {
   apply(compiler) {
     compiler.hooks.emit.tapAsync('FileListPlugin', (compilation, callback) => {
       const list = compilation._modules;

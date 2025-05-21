@@ -1,12 +1,12 @@
-const { update, select } = require('@evershop/postgres-query-builder');
-const { pool } = require('../../../../lib/postgres/connection');
-const {
+import { update, select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../lib/postgres/connection.js';
+import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} = require('../../../../lib/util/httpStatus');
+} from '../../../../lib/util/httpStatus.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const data = request.body;
   try {
     const group = await select()

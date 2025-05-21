@@ -1,7 +1,7 @@
+import { resolve } from 'path';
 import { useAppState } from '@components/common/context/app';
+import { CONSTANTS } from '../../../lib/helpers.js';
 import { get } from '../../../lib/util/get.js';
-const { resolve } = require('path');
-const { CONSTANTS } = require('../../../lib/helpers');
 
 export function getComponents() {
   const componentsPath = get(useAppState(), 'componentsPath');

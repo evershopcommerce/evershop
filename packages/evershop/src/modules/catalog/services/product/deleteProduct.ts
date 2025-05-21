@@ -1,14 +1,15 @@
-const {
+import {
   startTransaction,
   commit,
   rollback,
   select,
   del
-} = require('@evershop/postgres-query-builder');
-const { getConnection } = require('../../../../lib/postgres/connection');
-const { hookable } = require('../../../../lib/util/hookable');
+} from '@evershop/postgres-query-builder';
+import type { PoolClient } from '@evershop/postgres-query-builder';
+import { getConnection } from '../../../../lib/postgres/connection.js';
+import { hookable } from '../../../../lib/util/hookable.js';
 
-async function deleteProductData(uuid, connection) {
+async function deleteProductData(uuid: string, connection: PoolClient) {
   await del('product').where('uuid', '=', uuid).execute(connection);
 }
 
@@ -17,7 +18,7 @@ async function deleteProductData(uuid, connection) {
  * @param {String} uuid
  * @param {Object} context
  */
-async function deleteProduct(uuid, context) {
+async function deleteProduct(uuid: string, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -46,7 +47,12 @@ async function deleteProduct(uuid, context) {
   }
 }
 
-module.exports = async (uuid, context) => {
+/**
+ * Delete product service. This service will delete a product with all related data
+ * @param {String} uuid
+ * @param {Object} context
+ */
+export default async (uuid: string, context: Record<string, any>) => {
   const connection = await getConnection();
   await startTransaction(connection);
   try {

@@ -18,7 +18,33 @@ import {
 import { getAjv } from '../../../base/services/getAjv.js';
 import productDataSchema from './productDataSchema.json'  with { type: 'json' };
 
-function validateProductDataBeforeInsert(data: Record<string, any>) {
+export type ProductData = ProductInventoryData & {
+  name: string,
+  url_key?: string,
+  status: string,
+  sku: string,
+  price: number,
+  group_id: number,
+  visibility?: string,
+  attributes?: ProductAttributeData[],
+  images?: string[],
+  [key: string]: any
+};
+
+export type ProductInventoryData = {
+  qty: number,
+  manage_stock: boolean,
+  stock_availability: boolean,
+  [key: string]: any
+}
+
+export type ProductAttributeData = {
+  attribute_code: string,
+  value: string,
+  [key: string]: any
+}
+
+function validateProductDataBeforeInsert(data: ProductData) {
   const ajv = getAjv();
   (productDataSchema as JSONSchemaType<any>).required = [
     'name',
@@ -44,7 +70,7 @@ function validateProductDataBeforeInsert(data: Record<string, any>) {
   }
 }
 
-async function insertProductInventory(inventoryData: Record<string, any>, productId: number, connection: PoolClient) {
+async function insertProductInventory(inventoryData: ProductInventoryData, productId: number, connection: PoolClient) {
   // Save the product inventory
   await insert('product_inventory')
     .given(inventoryData)
@@ -52,7 +78,7 @@ async function insertProductInventory(inventoryData: Record<string, any>, produc
     .execute(connection);
 }
 
-async function insertProductAttributes(attributes, productId: number, connection: PoolClient) {
+async function insertProductAttributes(attributes: ProductAttributeData[], productId: number, connection: PoolClient) {
   // Looping attributes array
   for (let i = 0; i < attributes.length; i += 1) {
     const attribute = attributes[i];
@@ -67,6 +93,10 @@ async function insertProductAttributes(attributes, productId: number, connection
       }
 
       if (attr.type === 'textarea' || attr.type === 'text') {
+        // Throw error if attribute value is not a string
+        if (typeof attribute.value !== 'string') {
+          throw new Error(`Attribute value must be a string for attribute ${attribute.attribute_code}`);
+        }
         const flag = await select('attribute_id')
           .from('product_attribute_value_index')
           .where('product_id', '=', productId)
@@ -87,6 +117,10 @@ async function insertProductAttributes(attributes, productId: number, connection
             .execute(connection);
         }
       } else if (attr.type === 'multiselect') {
+        // Throw error if attribute value is not an array
+        if (!Array.isArray(attribute.value)) {
+          throw new Error(`Attribute value must be an array for attribute ${attribute.attribute_code}`);
+        }
         await Promise.all(
           attribute.value.map(() =>
             (async () => {
@@ -116,6 +150,10 @@ async function insertProductAttributes(attributes, productId: number, connection
           )
         );
       } else if (attr.type === 'select') {
+        // Throw error if attribute value is not a number
+        if (typeof attribute.value !== 'number') {
+          throw new Error(`Attribute value must be a number for attribute ${attribute.attribute_code}`);
+        }
         const option = await select()
           .from('attribute_option')
           .where('attribute_option_id', '=', parseInt(attribute.value, 10))
@@ -148,7 +186,7 @@ async function insertProductAttributes(attributes, productId: number, connection
   }
 }
 
-async function insertProductImages(images, productId: number, connection: PoolClient) {
+async function insertProductImages(images: string[], productId: number, connection: PoolClient) {
   await Promise.all(
     images.map((f, index) =>
       (async () => {
@@ -161,7 +199,8 @@ async function insertProductImages(images, productId: number, connection: PoolCl
   );
 }
 
-async function insertProductData(data, connection) {
+
+async function insertProductData(data: ProductData, connection: PoolClient) {
   const product = await insert('product').given(data).execute(connection);
   const description = await insert('product_description')
     .given(data)
@@ -179,7 +218,7 @@ async function insertProductData(data, connection) {
  * @param {Object} data
  * @param {Object} context
  */
-async function createProduct(data: Record<string, any>, context: Record<string, any>) {
+async function createProduct(data: ProductData, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -228,7 +267,7 @@ async function createProduct(data: Record<string, any>, context: Record<string, 
  * @param {Object} data
  * @param {Object} context
  */
-export default async (data: Record<string, any>, context: Record<string, any>) => {
+export default async (data: ProductData, context: Record<string, any>) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

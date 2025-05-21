@@ -32,6 +32,14 @@
       "import": "./dist/components/storeFront/index.jsx",
       "types": "./dist/components/storeFront/index.d.ts"
     },
+    "./catalog/services": {
+      "import": "./dist/modules/catalog/services/index.js",
+      "types": "./dist/modules/catalog/services/index.d.ts"
+    },
+    "./customer/services": {
+      "import": "./dist/modules/customer/services/index.js",
+      "types": "./dist/modules/customer/services/index.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {

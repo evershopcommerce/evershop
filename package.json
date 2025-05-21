@@ -18,7 +18,7 @@
     "start:watch": "tsx watch --tsconfig ./packages/evershop/tsconfig.json ./packages/evershop/src/bin/start/index.ts",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",
-    "start:debug": "evershop start --debug",
+    "start:debug": "node ./packages/evershop/dist/bin/start/index.js --debug",
     "test": "ALLOW_CONFIG_MUTATIONS=true NODE_OPTIONS=--experimental-vm-modules node_modules/jest/bin/jest.js",
     "cypress": "cypress run",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx .",

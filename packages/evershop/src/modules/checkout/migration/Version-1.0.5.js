@@ -1,6 +1,6 @@
-const { execute } = require('@evershop/postgres-query-builder');
+import { execute } from '@evershop/postgres-query-builder';
 
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   // Add a column 'price_based_cost' to the method table if it does not exist
   await execute(
     connection,

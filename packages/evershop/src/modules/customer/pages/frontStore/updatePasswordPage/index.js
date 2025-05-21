@@ -1,10 +1,8 @@
-const { translate } = require('../../../../../lib/locale/translate/translate');
-const { buildUrl } = require('../../../../../lib/router/buildUrl');
-const {
-  setContextValue
-} = require('../../../../graphql/services/contextHelper');
+import { translate } from '../../../../../lib/locale/translate/translate.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-module.exports = (request, response, delegate, next) => {
+export default (request, response, delegate, next) => {
   // Check if the customer is logged in
   if (request.isCustomerLoggedIn()) {
     // Redirect to homepage

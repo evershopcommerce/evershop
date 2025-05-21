@@ -1,19 +1,17 @@
-const { select } = require('@evershop/postgres-query-builder');
-const stripePayment = require('stripe');
-const { error } = require('../../../../lib/log/logger');
-const { pool } = require('../../../../lib/postgres/connection');
-const { getConfig } = require('../../../../lib/util/getConfig');
-const {
+import { select } from '@evershop/postgres-query-builder';
+import stripePayment from 'stripe';
+import { error } from '../../../../lib/log/logger.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
+import {
   OK,
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR
-} = require('../../../../lib/util/httpStatus');
-const {
-  updatePaymentStatus
-} = require('../../../oms/services/updatePaymentStatus');
-const { getSetting } = require('../../../setting/services/setting');
+} from '../../../../lib/util/httpStatus.js';
+import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
+import { getSetting } from '../../../setting/services/setting.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const { order_id } = request.body;
     // Load the order

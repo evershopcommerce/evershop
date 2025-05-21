@@ -1,6 +1,6 @@
-const updatePage = require('../../services/page/updatePage');
+import updatePage from '../../services/page/updatePage.js';
 
-module.exports = async (request, response, delegate) => {
+export default async (request, response, delegate) => {
   const data = request.body;
   const page = await updatePage(request.params.id, data, {
     routeId: request.currentRoute.id

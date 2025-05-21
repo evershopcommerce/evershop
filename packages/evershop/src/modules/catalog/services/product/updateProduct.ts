@@ -3,11 +3,13 @@ import {
   del,
   insert,
   insertOnUpdate,
+  PoolClient,
   rollback,
   select,
   startTransaction,
   update
 } from '@evershop/postgres-query-builder';
+import { JSONSchemaType } from 'ajv';
 import { error } from '../../../../lib/log/logger.js';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../lib/util/hookable.js';
@@ -16,14 +18,16 @@ import {
   getValueSync
 } from '../../../../lib/util/registry.js';
 import { getAjv } from '../../../base/services/getAjv.js';
+import type { ProductAttributeData, ProductData, ProductInventoryData } from './createProduct.js';
 import productDataSchema from './productDataSchema.json' with { type: 'json' };
 
-function validateProductDataBeforeUpdate(data) {
+function validateProductDataBeforeUpdate(data: ProductData) {
   const ajv = getAjv();
-  productDataSchema.required = [];
+  (productDataSchema as JSONSchemaType<any>).required = [];
   const jsonSchema = getValueSync(
     'updateProductDataJsonSchema',
-    productDataSchema
+    productDataSchema,
+    {}
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
@@ -34,7 +38,7 @@ function validateProductDataBeforeUpdate(data) {
   }
 }
 
-async function updateProductInventory(inventoryData, productId, connection) {
+async function updateProductInventory(inventoryData: ProductInventoryData, productId: number, connection: PoolClient) {
   // Save the product inventory
   try {
     // Update product inventory
@@ -55,7 +59,7 @@ async function updateProductInventory(inventoryData, productId, connection) {
  * @param {*} connection
  * @returns
  */
-async function saveProductAttributes(productId, attributes, connection) {
+async function saveProductAttributes(productId: number, attributes: ProductAttributeData[], connection: PoolClient) {
   for (let i = 0; i < attributes.length; i += 1) {
     const attribute = attributes[i];
     if (attribute.value) {
@@ -69,6 +73,10 @@ async function saveProductAttributes(productId, attributes, connection) {
       }
 
       if (attr.type === 'textarea' || attr.type === 'text') {
+        // Thrown error if value is not a string
+        if (typeof attribute.value !== 'string') {
+          throw new Error(`Attribute value must be a string for attribute ${attribute.attribute_code}`);
+        }
         const flag = await select('attribute_id')
           .from('product_attribute_value_index')
           .where('product_id', '=', productId)
@@ -89,8 +97,12 @@ async function saveProductAttributes(productId, attributes, connection) {
             .execute(connection);
         }
       } else if (attr.type === 'multiselect') {
+        // Thrown error if value is not an array
+        if (!Array.isArray(attribute.value)) {
+          throw new Error(`Attribute value must be an array for attribute ${attribute.attribute_code}`);
+        }
         await Promise.all(
-          attribute.value.map(() =>
+          attribute.value.map((optionId) =>
             (async () => {
               const option = await select()
                 .from('attribute_option')
@@ -258,7 +270,7 @@ async function updateProductImages(images, productId, connection) {
   }
 }
 
-async function updateProductData(uuid, data, connection) {
+async function updateProductData(uuid: string, data: ProductData, connection: PoolClient) {
   const query = select().from('product');
   query
     .leftJoin('product_description')
@@ -298,7 +310,10 @@ async function updateProductData(uuid, data, connection) {
 
   // Update product category and tax class to all products in same variant group
   if (product.variant_group_id) {
-    const sharedData = {};
+    const sharedData: {
+      tax_class?: string;
+      category_id?: string;
+    } = {};
     if (newProduct.tax_class !== product.tax_class) {
       sharedData.tax_class = newProduct.tax_class;
     }
@@ -323,7 +338,7 @@ async function updateProductData(uuid, data, connection) {
  * @param {Object} data
  * @param {Object} context
  */
-async function updateProduct(uuid, data, context) {
+async function updateProduct(uuid: string, data: ProductData, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -381,7 +396,13 @@ async function updateProduct(uuid, data, context) {
   }
 }
 
-export default async (uuid, data, context) => {
+/**
+ * Update product service. This service will update a product with all related data
+ * @param {String} uuid
+ * @param {Object} data
+ * @param {Object} context
+ */
+export default async (uuid: string, data: ProductData, context: Record<string, any>) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

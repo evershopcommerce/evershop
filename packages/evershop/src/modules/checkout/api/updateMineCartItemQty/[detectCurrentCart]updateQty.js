@@ -1,15 +1,15 @@
-const { translate } = require('../../../../lib/locale/translate/translate');
-const { error } = require('../../../../lib/log/logger');
-const {
+import { translate } from '../../../../lib/locale/translate/translate.js';
+import { error } from '../../../../lib/log/logger.js';
+import {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
-} = require('../../../../lib/util/httpStatus');
-const { getContextValue } = require('../../../graphql/services/contextHelper');
-const { getCartByUUID } = require('../../services/getCartByUUID');
-const { saveCart } = require('../../services/saveCart');
+} from '../../../../lib/util/httpStatus.js';
+import { getContextValue } from '../../../graphql/services/contextHelper.js';
+import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { saveCart } from '../../services/saveCart.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const { item_id } = request.params;
     const cartId = getContextValue(request, 'cartId');

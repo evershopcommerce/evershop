@@ -1,8 +1,8 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('../../../../lib/postgres/connection');
-const { OK } = require('../../../../lib/util/httpStatus');
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { OK } from '../../../../lib/util/httpStatus.js';
 
-module.exports = async (request, response, stack, next) => {
+export default async (request, response, delegate, next) => {
   const query = select()
     .select('product_id', 'variant_product_id')
     .select('sku')

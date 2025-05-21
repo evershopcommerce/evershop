@@ -1,6 +1,6 @@
-const { execute, insert } = require('@evershop/postgres-query-builder');
+import { execute, insert } from '@evershop/postgres-query-builder';
 
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   await execute(
     connection,
     `CREATE TABLE "tax_class" (

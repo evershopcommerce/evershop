@@ -1,6 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
+import type { SelectQuery } from '@evershop/postgres-query-builder';
 
-export const getProductsBaseQuery = () => {
+export const getProductsBaseQuery = (): SelectQuery => {
   const query = select().from('product');
   query
     .leftJoin('product_description')

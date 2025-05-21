@@ -1,10 +1,7 @@
-const {
-  OK,
-  INTERNAL_SERVER_ERROR
-} = require('../../../../lib/util/httpStatus');
-const deleteCollection = require('../../services/collection/deleteCollection');
+import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
+import deleteCollection from '../../services/collection/deleteCollection.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const { id } = request.params;
     const collection = await deleteCollection(id, {

@@ -5,6 +5,8 @@ import {
   startTransaction,
   update
 } from '@evershop/postgres-query-builder';
+import type { PoolClient } from '@evershop/postgres-query-builder';
+import { JSONSchemaType } from 'ajv';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../lib/util/hookable.js';
 import {
@@ -13,13 +15,16 @@ import {
 } from '../../../../lib/util/registry.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import categoryDataSchema from './categoryDataSchema.json' with { type: 'json' };
+import { CategoryData } from './createCategory.js';
 
-function validateCategoryDataBeforeInsert(data) {
+
+function validateCategoryDataBeforeInsert(data: CategoryData) {
   const ajv = getAjv();
   categoryDataSchema.required = [];
   const jsonSchema = getValueSync(
     'updateCategoryDataJsonSchema',
-    categoryDataSchema
+    categoryDataSchema,
+    {}
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
@@ -30,7 +35,7 @@ function validateCategoryDataBeforeInsert(data) {
   }
 }
 
-async function updateCategoryData(uuid, data, connection) {
+async function updateCategoryData(uuid: string, data: CategoryData, connection: PoolClient) {
   const query = select().from('category');
   query
     .leftJoin('category_description')
@@ -76,7 +81,7 @@ async function updateCategoryData(uuid, data, connection) {
  * @param {Object} data
  * @param {Object} context
  */
-async function updateCategory(uuid, data, context) {
+async function updateCategory(uuid: string, data: CategoryData, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -98,7 +103,13 @@ async function updateCategory(uuid, data, context) {
   }
 }
 
-export default async (uuid, data, context) => {
+/**
+ * Update category service. This service will update a category with all related data
+ * @param {String} uuid
+ * @param {Object} data
+ * @param {Object} context
+ */
+export default async (uuid: string, data: CategoryData, context: Record<string, any>) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

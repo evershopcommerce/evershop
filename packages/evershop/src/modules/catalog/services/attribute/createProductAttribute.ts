@@ -6,6 +6,7 @@ import {
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
+import type { PoolClient } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../lib/util/hookable.js';
 import {
@@ -15,7 +16,17 @@ import {
 import { getAjv } from '../../../base/services/getAjv.js';
 import attributeDataSchema from './attributeDataSchema.json' with { type: 'json' };
 
-function validateAttributeDataBeforeInsert(data) {
+export type AttributeData = {
+  attribute_code: string;
+  attribute_name: string;
+  type: string;
+  is_required: boolean;
+  display_on_frontend?: boolean;
+  groups: number[];
+  [key: string]: any;
+};
+
+function validateAttributeDataBeforeInsert(data: AttributeData) {
   const ajv = getAjv();
   attributeDataSchema.required = [
     'attribute_code',
@@ -27,7 +38,8 @@ function validateAttributeDataBeforeInsert(data) {
   ];
   const jsonSchema = getValueSync(
     'createAttributeDataJsonSchema',
-    attributeDataSchema
+    attributeDataSchema,
+    {}
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
@@ -38,7 +50,7 @@ function validateAttributeDataBeforeInsert(data) {
   }
 }
 
-async function insertAttributeGroups(attributeId, groups, connection) {
+async function insertAttributeGroups(attributeId: number, groups: number[], connection: PoolClient) {
   // Ignore updating groups if it is not present in the data
   if (groups.length === 0) {
     return;
@@ -58,11 +70,11 @@ async function insertAttributeGroups(attributeId, groups, connection) {
 }
 
 async function insertAttributeOptions(
-  attributeId,
-  attributeType,
-  attributeCode,
-  options,
-  connection
+  attributeId: number,
+  attributeType: string,
+  attributeCode: string,
+  options: { option_text: string }[],
+  connection: PoolClient
 ) {
   // Ignore updating options if it is not present in the data
   if (
@@ -86,7 +98,7 @@ async function insertAttributeOptions(
   );
 }
 
-async function insertAttributeData(data, connection) {
+async function insertAttributeData(data: AttributeData, connection: PoolClient) {
   const result = await insert('attribute').given(data).execute(connection);
   return result;
 }
@@ -96,7 +108,7 @@ async function insertAttributeData(data, connection) {
  * @param {Object} data
  * @param {Object} context
  */
-async function createAttribute(data, context) {
+async function createAttribute(data: AttributeData, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -138,7 +150,12 @@ async function createAttribute(data, context) {
   }
 }
 
-export default async (data, context) => {
+/**
+ * Create attribute service. This service will create a attribute with all related data
+ * @param {Object} data
+ * @param {Object} context
+ */
+export default async (data: AttributeData, context: Record<string, any>) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

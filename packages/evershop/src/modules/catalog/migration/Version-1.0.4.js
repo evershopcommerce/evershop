@@ -1,6 +1,6 @@
-const { execute, insert } = require('@evershop/postgres-query-builder');
+import { execute, insert } from '@evershop/postgres-query-builder';
 
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   // Create a function to add event to the event table after a order is created
   await execute(
     connection,

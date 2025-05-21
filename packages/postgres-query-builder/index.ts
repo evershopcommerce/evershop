@@ -1219,6 +1219,11 @@ export {
   sql,
   value,
   // Types for external usage
+  SelectQuery,
+  UpdateQuery,
+  InsertQuery,
+  InsertOnUpdateQuery,
+  DeleteQuery,
   SQLValue,
   Binding,
   Pool,

@@ -5,10 +5,11 @@ import {
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
+import type { PoolClient } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../lib/util/hookable.js';
 
-async function deleteCategoryData(uuid, connection) {
+async function deleteCategoryData(uuid: string, connection: PoolClient) {
   await del('category').where('uuid', '=', uuid).execute(connection);
 }
 /**
@@ -16,7 +17,7 @@ async function deleteCategoryData(uuid, connection) {
  * @param {String} uuid
  * @param {Object} context
  */
-async function deleteCategory(uuid, context) {
+async function deleteCategory(uuid: string, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -47,7 +48,12 @@ async function deleteCategory(uuid, context) {
   }
 }
 
-export default async (uuid, context) => {
+/**
+ * Delete category service. This service will delete a category with all related data
+ * @param {String} uuid
+ * @param {Object} context
+ */
+export default async (uuid: string, context: Record<string, any>) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

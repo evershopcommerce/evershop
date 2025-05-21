@@ -1,11 +1,8 @@
-const { update } = require('@evershop/postgres-query-builder');
-const { getConnection } = require('../../../../lib/postgres/connection');
-const {
-  INTERNAL_SERVER_ERROR,
-  OK
-} = require('../../../../lib/util/httpStatus');
+import { update } from '@evershop/postgres-query-builder';
+import { getConnection } from '../../../../lib/postgres/connection.js';
+import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const connection = await getConnection();
   try {
     await update('product')

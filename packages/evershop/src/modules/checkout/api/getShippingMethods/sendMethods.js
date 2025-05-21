@@ -1,6 +1,6 @@
 import { select } from '@evershop/postgres-query-builder';
 import axios from 'axios';
-import { normalizePort } from '../../../../../bin/lib/normalizePort.js';
+import { normalizePort } from '../../../../bin/lib/normalizePort.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import {

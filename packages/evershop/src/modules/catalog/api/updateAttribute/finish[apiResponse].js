@@ -1,7 +1,7 @@
-const { buildUrl } = require('../../../../lib/router/buildUrl');
-const { OK } = require('../../../../lib/util/httpStatus');
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import { OK } from '../../../../lib/util/httpStatus.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const attribute = await delegate.updateAttribute;
   response.status(OK);
   response.json({

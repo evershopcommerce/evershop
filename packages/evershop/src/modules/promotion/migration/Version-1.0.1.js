@@ -1,6 +1,6 @@
-const { execute } = require('@evershop/postgres-query-builder');
+import { execute } from '@evershop/postgres-query-builder';
 
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   await execute(
     connection,
     `ALTER TABLE "coupon" ALTER COLUMN "target_products" TYPE jsonb USING "target_products"::jsonb`

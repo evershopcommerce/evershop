@@ -1,10 +1,9 @@
-const normalizePort = require('../../../bin/lib/normalizePort');
-const { getConfig } = require('../util/getConfig');
-const { buildUrl } = require('./buildUrl');
+import normalizePort from '../../bin/lib/normalizePort.js';
+import { getConfig } from '../util/getConfig.js';
+import { buildUrl } from './buildUrl.js';
 
 const port = normalizePort();
 
-module.exports = exports = {};
 /**
  * This function take a route ID, list of params and return the absolute url
  *
@@ -13,7 +12,7 @@ module.exports = exports = {};
  *
  * @return  {string} The Url
  */
-exports.buildAbsoluteUrl = (routeId, params = {}) => {
+export const buildAbsoluteUrl = (routeId, params = {}) => {
   const url = buildUrl(routeId, params).replace(/^\/|\/$/g, '');
   const homeUrl = getConfig('shop.homeUrl', `http://localhost:${port}`).replace(
     /^\/|\/$/g,

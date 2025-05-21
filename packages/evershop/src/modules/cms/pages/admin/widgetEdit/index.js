@@ -1,13 +1,9 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('../../../../../lib/postgres/connection');
-const {
-  getEnabledWidgets
-} = require('../../../../../lib/util/getEnabledWidgets');
-const {
-  setContextValue
-} = require('../../../../graphql/services/contextHelper');
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../../lib/postgres/connection.js';
+import { getEnabledWidgets } from '../../../../../lib/util/getEnabledWidgets.js';
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const query = select();
     query.from('widget');

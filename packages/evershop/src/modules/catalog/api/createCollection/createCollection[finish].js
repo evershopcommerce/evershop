@@ -1,6 +1,6 @@
-const createCollection = require('../../services/collection/createCollection');
+import createCollection from '../../services/collection/createCollection.js';
 
-module.exports = async (request, response, delegate) => {
+export default async (request, response, delegate) => {
   const collection = await createCollection(request.body, {
     routeId: request.currentRoute.id
   });

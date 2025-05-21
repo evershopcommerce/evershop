@@ -1,4 +1,4 @@
-const {
+import {
   rollback,
   commit,
   startTransaction,
@@ -6,15 +6,15 @@ const {
   del,
   select,
   update
-} = require('@evershop/postgres-query-builder');
-const { getConnection } = require('../../../../lib/postgres/connection');
-const {
+} from '@evershop/postgres-query-builder';
+import { getConnection } from '../../../../lib/postgres/connection.js';
+import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} = require('../../../../lib/util/httpStatus');
+} from '../../../../lib/util/httpStatus.js';
 
-module.exports = async (request, response, deledate, next) => {
+export default async (request, response, delegate, next) => {
   const { id } = request.params;
   const connection = await getConnection();
   await startTransaction(connection);

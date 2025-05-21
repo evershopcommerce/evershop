@@ -1,7 +1,6 @@
-const { error } = require('../../../../lib/log/logger');
-const throwIf = require('../../../../lib/util/throwIf');
+import { error } from '../../../../lib/log/logger.js';
 
-module.exports = async (request, response, deledate, next) => {
+export default async (request, response, delegate, next) => {
   const {
     cost,
     calculate_api,
@@ -12,20 +11,20 @@ module.exports = async (request, response, deledate, next) => {
 
   try {
     if (calculation_type === 'api') {
-      throwIf(!calculate_api, 'API calculation type requires calculate_api');
+      if (!calculate_api) {
+        throw new Error('API calculation type requires calculate_api');
+      }
     } else if (calculation_type === 'price_based_rate') {
-      throwIf(
-        !price_based_cost || price_based_cost.length === 0,
-        'Require price based rates'
-      );
+      if (!price_based_cost || price_based_cost.length === 0) {
+        throw new Error('Require price based rates');
+      }
     } else if (calculation_type === 'weight_based_rate') {
-      throwIf(
-        !weight_based_cost || weight_based_cost.length === 0,
-        'Require weight based rates'
-      );
-    } else {
-      throwIf(!cost, 'Flat rate calculation type requires cost');
-    }
+      if (!weight_based_cost || weight_based_cost.length === 0) {
+        throw new Error('Require weight based rates');
+      }
+    } else if (!cost) {
+        throw new Error('Flat rate calculation type requires cost');
+      }
     return next();
   } catch (e) {
     error(e);

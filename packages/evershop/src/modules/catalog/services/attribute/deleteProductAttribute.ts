@@ -5,10 +5,11 @@ import {
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
+import type { PoolClient } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../lib/util/hookable.js';
 
-async function deleteAttributeData(uuid, connection) {
+async function deleteAttributeData(uuid: string, connection: PoolClient) {
   await del('attribute').where('uuid', '=', uuid).execute(connection);
 }
 /**
@@ -16,7 +17,7 @@ async function deleteAttributeData(uuid, connection) {
  * @param {String} uuid
  * @param {Object} context
  */
-async function deleteAttribute(uuid, context) {
+async function deleteAttribute(uuid: string, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -55,7 +56,12 @@ async function deleteAttribute(uuid, context) {
   }
 }
 
-export default async (uuid, context) => {
+/**
+ * Delete attribute service. This service will delete an attribute with all related data
+ * @param {String} uuid
+ * @param {Object} context
+ */
+export default async (uuid: string, context: Record<string, any>) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

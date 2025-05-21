@@ -5,6 +5,8 @@ import {
   startTransaction,
   update
 } from '@evershop/postgres-query-builder';
+import type { PoolClient } from '@evershop/postgres-query-builder';
+import { JSONSchemaType } from 'ajv';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../lib/util/hookable.js';
 import {
@@ -13,13 +15,15 @@ import {
 } from '../../../../lib/util/registry.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import collectionDataSchema from './collectionDataSchema.json' with { type: 'json' };
+import { CollectionData } from './createCollection.js';
 
-function validateCollectionDataBeforeInsert(data) {
+function validateCollectionDataBeforeInsert(data: CollectionData) {
   const ajv = getAjv();
-  collectionDataSchema.required = [];
+  (collectionDataSchema as JSONSchemaType<any>).required = [];
   const jsonSchema = getValueSync(
     'updateCollectionDataJsonSchema',
-    collectionDataSchema
+    collectionDataSchema,
+    {}
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
@@ -30,7 +34,7 @@ function validateCollectionDataBeforeInsert(data) {
   }
 }
 
-async function updateCollectionData(uuid, data, connection) {
+async function updateCollectionData(uuid: string, data: CollectionData, connection: PoolClient) {
   const collection = await select()
     .from('collection')
     .where('uuid', '=', uuid)
@@ -62,7 +66,7 @@ async function updateCollectionData(uuid, data, connection) {
  * @param {Object} data
  * @param {Object} context
  */
-async function updateCollection(uuid, data, context) {
+async function updateCollection(uuid: string, data: CollectionData, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   const hookContext = { connection, ...context };
@@ -85,7 +89,13 @@ async function updateCollection(uuid, data, context) {
   }
 }
 
-export default async (uuid, data, context) => {
+/**
+ * Update collection service. This service will update a collection with all related data
+ * @param {String} uuid
+ * @param {Object} data
+ * @param {Object} context
+ */
+export default async (uuid: string, data: CollectionData, context: Record<string, any>) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

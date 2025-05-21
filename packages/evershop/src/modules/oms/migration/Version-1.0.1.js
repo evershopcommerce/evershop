@@ -1,8 +1,8 @@
-const { execute, select } = require('@evershop/postgres-query-builder');
-const { warning } = require('../../../lib/log/logger');
-const { resolveOrderStatus } = require('../services/updateOrderStatus');
+import { execute, select } from '@evershop/postgres-query-builder';
+import { warning } from '../../../lib/log/logger.js';
+import { resolveOrderStatus } from '../services/updateOrderStatus.js';
 
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   await execute(
     connection,
     `ALTER TABLE "order" ADD COLUMN IF NOT EXISTS "status" varchar DEFAULT NULL;`

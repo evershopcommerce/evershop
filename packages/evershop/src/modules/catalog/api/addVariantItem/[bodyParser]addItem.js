@@ -1,19 +1,19 @@
-const {
+import {
   select,
   update,
   startTransaction,
   commit,
   rollback
-} = require('@evershop/postgres-query-builder');
-const uniqid = require('uniqid');
-const { pool, getConnection } = require('../../../../lib/postgres/connection');
-const {
+} from '@evershop/postgres-query-builder';
+import uniqid from 'uniqid';
+import { pool, getConnection } from '../../../../lib/postgres/connection.js';
+import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} = require('../../../../lib/util/httpStatus');
+} from '../../../../lib/util/httpStatus.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const { id: groupId } = request.params;
 
   const { product_id } = request.body;

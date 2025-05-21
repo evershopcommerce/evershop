@@ -1,6 +1,9 @@
+import { SelectQuery } from '@evershop/postgres-query-builder';
 import { getProductsBaseQuery } from './getProductsBaseQuery.js';
 
-export const getProductsByCollectionBaseQuery = (collectionId) => {
+export const getProductsByCollectionBaseQuery = (
+  collectionId: number
+): SelectQuery => {
   const query = getProductsBaseQuery();
   query
     .leftJoin('product_collection')

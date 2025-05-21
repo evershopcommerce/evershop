@@ -1,13 +1,13 @@
-const { insert, select } = require('@evershop/postgres-query-builder');
-const { pool } = require('../../../../lib/postgres/connection');
-const { buildUrl } = require('../../../../lib/router/buildUrl');
-const {
+import { insert, select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} = require('../../../../lib/util/httpStatus');
+} from '../../../../lib/util/httpStatus.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const { attribute_codes, attribute_group_id } = request.body;
   try {
     if (attribute_codes.length === 0) {

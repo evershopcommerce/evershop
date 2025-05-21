@@ -1,19 +1,19 @@
-const crypto = require('crypto');
-const { select, del } = require('@evershop/postgres-query-builder');
-const dayjs = require('dayjs');
-const timezone = require('dayjs/plugin/timezone');
-const utc = require('dayjs/plugin/utc');
-const { error } = require('../../../../lib/log/logger');
-const { pool } = require('../../../../lib/postgres/connection');
-const { getConfig } = require('../../../../lib/util/getConfig');
-const {
+import crypto from 'crypto';
+import { select, del } from '@evershop/postgres-query-builder';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+import { error } from '../../../../lib/log/logger.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
+import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} = require('../../../../lib/util/httpStatus');
-const updatePassword = require('../../services/customer/updatePassword');
+} from '../../../../lib/util/httpStatus.js';
+import updatePassword from '../../services/customer/updatePassword.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const { body } = request;
 
   try {

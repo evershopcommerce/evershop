@@ -1,11 +1,11 @@
-import { execute } from '@evershop/postgres-query-builder';
+import { execute, SelectQuery } from '@evershop/postgres-query-builder';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getProductsBaseQuery } from '../../../modules/catalog/services/getProductsBaseQuery.js';
 
 export const getProductsByCategoryBaseQuery = async (
-  categoryId,
+  categoryId: number,
   fromSubCategories = false
-) => {
+): Promise<SelectQuery> => {
   const query = getProductsBaseQuery();
 
   if (!fromSubCategories) {

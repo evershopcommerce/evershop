@@ -1,4 +1,5 @@
-const {
+import type { PoolClient } from '@evershop/postgres-query-builder';
+import {
   startTransaction,
   commit,
   rollback,
@@ -7,19 +8,28 @@ const {
   insertOnUpdate,
   del,
   insert
-} = require('@evershop/postgres-query-builder');
-const { getConnection } = require('../../../../lib/postgres/connection');
-const { hookable } = require('../../../../lib/util/hookable');
-const { getValueSync, getValue } = require('../../../../lib/util/registry');
-const { getAjv } = require('../../../base/services/getAjv');
-const attributeDataSchema = require('./attributeDataSchema.json');
+} from '@evershop/postgres-query-builder';
+import { getConnection } from '../../../../lib/postgres/connection.js';
+import { hookable } from '../../../../lib/util/hookable.js';
+import { getValueSync, getValue } from '../../../../lib/util/registry.js';
+import { getAjv } from '../../../base/services/getAjv.js';
+import attributeDataSchema from './attributeDataSchema.json' with { type: 'json' };
 
-function validateAttributeDataBeforeInsert(data) {
+export type AttributeData = {
+  attribute_code?: string;
+  type?: string;
+  groups: number[];
+  options: { option_text: string, option_id: string | number }[];
+  [key: string]: any;
+};
+
+function validateAttributeDataBeforeInsert(data: AttributeData) {
   const ajv = getAjv();
   attributeDataSchema.required = [];
   const jsonSchema = getValueSync(
     'updateAttributeDataJsonSchema',
-    attributeDataSchema
+    attributeDataSchema,
+    {}
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
@@ -31,11 +41,11 @@ function validateAttributeDataBeforeInsert(data) {
 }
 
 async function updateAttributeOptions(
-  attributeId,
-  attributeType,
-  attributeCode,
-  options,
-  connection
+  attributeId: number,
+  attributeType: string,
+  attributeCode: string,
+  options: { option_text: string, option_id: string | number }[],
+  connection: PoolClient
 ) {
   // Ignore updating options if it is not present in the data or if the attribute type is not select or multiselect
   if (
@@ -47,7 +57,7 @@ async function updateAttributeOptions(
 
   const ids = options
     .filter((o) => o !== undefined)
-    .map((o) => parseInt(o.option_id, 10));
+    .map((o) => (typeof o.option_id === 'string' ? parseInt(o.option_id, 10) : o.option_id));
   const oldOptions = await select()
     .from('attribute_option')
     .where('attribute_id', '=', attributeId)
@@ -93,7 +103,7 @@ async function updateAttributeOptions(
   );
 }
 
-async function updateAttributeGroups(attributeId, groups, connection) {
+async function updateAttributeGroups(attributeId: number, groups: number[], connection: PoolClient) {
   // Ignore updating groups if it is not present in the data
   if (groups.length === 0) {
     return;
@@ -105,10 +115,10 @@ async function updateAttributeGroups(attributeId, groups, connection) {
     .where('attribute_id', '=', attributeId)
     .execute(connection);
 
-  const shouldDelete = [];
+  const shouldDelete: number[] = [];
   currentGroups.forEach((g) => {
     if (
-      !groups.find((group) => parseInt(group, 10) === parseInt(g.group_id, 10))
+      !groups.find((group) => parseInt(group.toString(), 10) === parseInt(g.group_id.toString(), 10))
     ) {
       shouldDelete.push(g.group_id);
     }
@@ -132,7 +142,7 @@ async function updateAttributeGroups(attributeId, groups, connection) {
     .execute(connection);
 }
 
-async function updateAttributeData(uuid, data, connection) {
+async function updateAttributeData(uuid: string, data: AttributeData, connection: PoolClient) {
   const attribute = await select()
     .from('attribute')
     .where('uuid', '=', uuid)
@@ -162,7 +172,7 @@ async function updateAttributeData(uuid, data, connection) {
  * @param {Object} data
  * @param {Object} context
  */
-async function updateAttribute(uuid, data, context) {
+async function updateAttribute(uuid: string, data: AttributeData, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -208,7 +218,13 @@ async function updateAttribute(uuid, data, context) {
   }
 }
 
-module.exports = async (uuid, data, context) => {
+/**
+ * Update attribute service. This service will update a attribute with all related data
+ * @param {String} uuid
+ * @param {Object} data
+ * @param {Object} context
+ */
+export default async (uuid: string, data: AttributeData, context: Record<string, any>) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

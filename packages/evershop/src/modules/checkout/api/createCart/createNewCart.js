@@ -1,17 +1,17 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { translate } = require('../../../../lib/locale/translate/translate');
-const { pool } = require('../../../../lib/postgres/connection');
-const { getConfig } = require('../../../../lib/util/getConfig');
-const {
+import { select } from '@evershop/postgres-query-builder';
+import { translate } from '../../../../lib/locale/translate/translate.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
+import {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
-} = require('../../../../lib/util/httpStatus');
-const { setContextValue } = require('../../../graphql/services/contextHelper');
-const { Cart } = require('../../services/cart/Cart');
-const { saveCart } = require('../../services/saveCart');
+} from '../../../../lib/util/httpStatus.js';
+import { setContextValue } from '../../../graphql/services/contextHelper.js';
+import { Cart } from '../../services/cart/Cart.js';
+import { saveCart } from '../../services/saveCart.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const { items, customer_full_name, customer_email } = request.body;
     const cartData = {

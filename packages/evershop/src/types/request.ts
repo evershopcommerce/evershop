@@ -5,6 +5,26 @@ export interface EvershopRequest extends ExpressRequest {
   isAdmin?: boolean;
   session?: any;
   currentRoute?: Route;
+  locals?: {
+    user?: {
+      user_id: number;
+      uuid: string;
+      email: string;
+      full_name: string;
+      status: number;
+      created_at: Date;
+      updated_at: Date;
+    };
+    customer?: {
+      customer_id: number;
+      uuid: string;
+      email: string;
+      full_name: string;
+      status: number;
+      created_at: Date;
+      updated_at: Date;
+    };
+  };
   loginCustomerWithEmail?: (
     email: string,
     password: string,
@@ -13,4 +33,20 @@ export interface EvershopRequest extends ExpressRequest {
   logoutCustomer?: (callback: (err: Error | null) => void) => void;
   isCustomerLoggedIn?: () => boolean;
   getCurrentCustomer?: () => any;
+  loginUserWithEmail?: (
+    email: string,
+    password: string,
+    callback: (err: Error | null, user?: any) => void
+  ) => Promise<void>;
+  logoutUser?: (callback: (err: Error | null) => void) => void;
+  isUserLoggedIn?: () => boolean;
+  getCurrentUser?: () => {
+    user_id: number;
+    uuid: string;
+    email: string;
+    full_name: string;
+    status: number;
+    created_at: Date;
+    updated_at: Date;
+  };
 }

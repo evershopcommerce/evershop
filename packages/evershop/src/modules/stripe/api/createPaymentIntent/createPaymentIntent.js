@@ -1,12 +1,12 @@
-const { select } = require('@evershop/postgres-query-builder');
-const stripePayment = require('stripe');
-const smallestUnit = require('zero-decimal-currencies');
-const { pool } = require('../../../../lib/postgres/connection');
-const { getConfig } = require('../../../../lib/util/getConfig');
-const { OK, INVALID_PAYLOAD } = require('../../../../lib/util/httpStatus');
-const { getSetting } = require('../../../setting/services/setting');
+import { select } from '@evershop/postgres-query-builder';
+import stripePayment from 'stripe';
+import smallestUnit from 'zero-decimal-currencies';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
+import { OK, INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
+import { getSetting } from '../../../setting/services/setting.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const { cart_id, order_id } = request.body;
   // Check the cart
   const cart = await select()
