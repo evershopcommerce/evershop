@@ -8,13 +8,13 @@ import {
   startTransaction
 } from '@evershop/postgres-query-builder';
 import boxen from 'boxen';
-import { prompt } from 'enquirer';
-import { green } from 'kleur';
+import enquirer from 'enquirer';
+import kleur from 'kleur';
 import ora from 'ora';
 import { Pool } from 'pg';
-import { CONSTANTS } from '../../src/lib/helpers.js';
-import { error, success } from '../../src/lib/log/logger.js';
-import { hashPassword } from '../../src/lib/util/passwordHelper.js';
+import { CONSTANTS } from '../../lib/helpers.js';
+import { error, success } from '../../lib/log/logger.js';
+import { hashPassword } from '../../lib/util/passwordHelper.js';
 
 // The installation command will create a .env file in the root directory of the project.
 // If you are using docker, do not run this command. Instead, you should set the environment variables in the docker-compose.yml file and run `npm run start`
@@ -32,14 +32,17 @@ async function install() {
 
   var adminUser;
 
-  success(
-    boxen(green('Welcome to EverShop - The open-source e-commerce platform'), {
-      title: 'EverShop',
-      titleAlignment: 'center',
-      padding: 1,
-      margin: 1,
-      borderColor: 'green'
-    })
+  // eslint-disable-next-line no-console
+  console.log(
+    kleur.green(
+      boxen('Welcome to EverShop - The open-source e-commerce platform', {
+        title: 'EverShop',
+        titleAlignment: 'center',
+        padding: 1,
+        margin: 1,
+        borderColor: 'green'
+      })
+    )
   );
 
   const dbQuestions = [
@@ -81,7 +84,7 @@ async function install() {
   ];
 
   try {
-    db = await prompt(dbQuestions);
+    db = await enquirer.prompt(dbQuestions);
   } catch (e) {
     process.exit(0);
   }
@@ -180,17 +183,17 @@ async function install() {
   ];
 
   try {
-    adminUser = await prompt(adminUserQuestions);
+    adminUser = await enquirer.prompt(adminUserQuestions);
   } catch (e) {
     process.exit(0);
   }
 
   /* Start installation */
   const messages = [];
-  messages.push(`\n\n${green('EverShop is being installed ☕ ☕ ☕')}`);
+  messages.push(`\n\n${kleur.green('EverShop is being installed ☕ ☕ ☕')}`);
   messages.push('Creating .env file');
   const spinner = ora({
-    text: green(messages.join('\n')),
+    text: kleur.green(messages.join('\n')),
     spinner: 'dots12'
   }).start();
   spinner.start();
@@ -208,7 +211,7 @@ DB_SSLMODE="${sslMode}"
   );
 
   messages.pop();
-  messages.push(green('✔ Created .env file'));
+  messages.push(kleur.green('✔ Created .env file'));
   spinner.text = messages.join('\n');
 
   // Create `media` folder
@@ -218,7 +221,7 @@ DB_SSLMODE="${sslMode}"
   await mkdir(path.resolve(CONSTANTS.ROOTPATH, 'public'), { recursive: true });
 
   // Start install database
-  messages.push(green('Setting up a database'));
+  messages.push(kleur.green('Setting up a database'));
   spinner.text = messages.join('\n');
 
   const connection = await pool.connect();
@@ -256,13 +259,14 @@ DB_SSLMODE="${sslMode}"
     process.exit(0);
   }
   messages.pop();
-  messages.push(green('✔ Setup database'));
-  messages.push(green('✔ Create admin user'));
+  messages.push(kleur.green('✔ Setup database'));
+  messages.push(kleur.green('✔ Create admin user'));
   spinner.succeed(messages.join('\n'));
 
-  success(
+  // eslint-disable-next-line no-console
+  console.log(
     boxen(
-      green(
+      kleur.green(
         'Installation completed!. Run `npm run build` and `npm run start` to launch your store'
       ),
       {

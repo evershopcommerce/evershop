@@ -53,10 +53,10 @@ async function migrateModule(module) {
 
     /** We expect the migration script to provide a function as a default export */
     try {
-      const module = await import(
+      const versionModule = await import(
         path.resolve(module.path, 'migration', `Version-${version}.js`)
       );
-      await module.default(connection);
+      await versionModule.default(connection);
 
       await insertOnUpdate('migration', ['module'])
         .given({
