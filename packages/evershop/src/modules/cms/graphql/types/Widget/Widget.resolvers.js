@@ -49,7 +49,6 @@ export default {
         : null;
     },
     textWidget(_, { text, className }) {
-      return { text: 'test', className };
       const replacements = {
         '&lt;': '<',
         '&gt;': '>'
