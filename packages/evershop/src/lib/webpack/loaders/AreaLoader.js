@@ -53,8 +53,9 @@ export default function AreaLoader(c) {
   });
   const content = `Area.defaultProps.components = ${inspect(areas, { depth: 5 })
     .replace(/"---/g, '')
-    .replace(/---"/g, '')} `;
-  return c
+    .replace(/---"/g, '')} ;`;
+  const result = c
     .replace('/** render */', content)
     .replace('/eHot', `/eHot/${route.id}`);
+  return result;
 }

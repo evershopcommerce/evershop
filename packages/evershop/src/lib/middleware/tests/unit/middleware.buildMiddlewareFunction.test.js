@@ -1,11 +1,6 @@
 import { buildMiddlewareFunction } from '../../buildMiddlewareFunction.js';
 import path from 'path';
-import babelRegister from '@babel/register';
 import { jest, describe, it, expect } from '@jest/globals';
-
-babelRegister({
-  presets: ['@babel/preset-env']
-});
 
 expect.extend({
   nullOrAny(received, expected) {

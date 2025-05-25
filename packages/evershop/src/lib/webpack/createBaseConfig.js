@@ -1,6 +1,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import TerserPlugin from 'terser-webpack-plugin';
+import { SwcMinifyWebpackPlugin } from 'swc-minify-webpack-plugin';
 import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { CONSTANTS } from '../helpers.js';
@@ -34,20 +35,16 @@ export function createBaseConfig(isServer) {
       },
       use: [
         {
-          loader: 'babel-loader',
+          loader: 'swc-loader',
           options: {
-            presets: [
-              '@babel/preset-env',
-              [
-                '@babel/preset-typescript',
-                {
-                  isTSX: false,
-                  allExtensions: true,
-                  allowNamespaces: true,
-                  onlyRemoveTypeImports: true
-                }
-              ]
-            ]
+            jsc: {
+              parser: {
+                syntax: 'typescript',
+                tsx: false,
+                decorators: true
+              },
+              target: 'es2020'
+            }
           }
         }
       ]
@@ -80,34 +77,21 @@ export function createBaseConfig(isServer) {
           )
         },
         {
-          loader: 'babel-loader?cacheDirectory',
+          loader: 'swc-loader',
           options: {
-            sourceType: 'unambiguous',
-            cacheDirectory: true,
-            presets: [
-              [
-                '@babel/preset-env',
-                {
-                  targets: {
-                    esmodules: true
-                  },
-                  exclude: [
-                    '@babel/plugin-transform-regenerator',
-                    '@babel/plugin-transform-async-to-generator'
-                  ]
+            jsc: {
+              parser: {
+                syntax: 'typescript',
+                tsx: true,
+                decorators: true
+              },
+              transform: {
+                react: {
+                  runtime: 'automatic'
                 }
-              ],
-              '@babel/preset-react',
-              [
-                '@babel/preset-typescript',
-                {
-                  isTSX: true,
-                  allExtensions: true,
-                  allowNamespaces: true,
-                  onlyRemoveTypeImports: true
-                }
-              ]
-            ]
+              },
+              target: 'es6'
+            }
           }
         },
         {
@@ -233,24 +217,15 @@ export function createBaseConfig(isServer) {
     config.optimization = Object.assign(config.optimization, {
       minimize: !skipMinify,
       minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            parse: {
-              ecma: 2020
-            },
-            compress: {
-              unused: true,
-              dead_code: true
-            },
-            mangle: {
-              safari10: true
-            },
-            output: {
-              ecma: 5,
-              comments: false,
-              ascii_only: true
-            }
-          }
+        new SwcMinifyWebpackPlugin({
+          compress: true,
+          mangle: true,
+          module: true,
+          sourceMap: true,
+          keep_classnames: false,
+          keep_fnames: false,
+          safari10: true,
+          sourceMap: true
         })
       ]
     });
