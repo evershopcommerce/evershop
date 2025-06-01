@@ -19,7 +19,7 @@ export function createConfigClient(routes) {
     }
     const subPath = getRouteBuildSubPath(route);
     entry[subPath] = [
-      path.resolve(CONSTANTS.BUILDPATH, subPath, 'client', 'entry.jsx')
+      path.resolve(CONSTANTS.BUILDPATH, subPath, 'client', 'entry.js')
     ];
     plugins.push(
       new HtmlWebpackPlugin({
@@ -80,18 +80,6 @@ export function createConfigClient(routes) {
       filename: '[name]/client/[fullhash].css'
     })
   );
-  // plugins.push(new HtmlWebpackPlugin({
-  //   filename: 'index.json',
-  //   templateContent: ({ htmlWebpackPlugin }) => {
-  //     const isFiles = htmlWebpackPlugin.files.js;
-  //     const cssFiles = htmlWebpackPlugin.files.css;
-  //     return JSON.stringify({
-  //       js: isFiles,
-  //       css: cssFiles
-  //     });
-  //   },
-  //   inject: false
-  // }));
 
   config.entry = entry;
   config.output.filename = '[name]/client/[fullhash].js';

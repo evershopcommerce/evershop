@@ -10,7 +10,7 @@
     "sourceMap": true,
     "allowJs": true,
     "checkJs": false,
-    "jsx": "preserve",
+    "jsx": "react",
     "outDir": "./dist",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,

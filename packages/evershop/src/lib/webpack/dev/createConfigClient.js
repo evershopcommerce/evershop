@@ -13,7 +13,7 @@ export function createConfigClient(route) {
 
   const loaders = config.module.rules;
   loaders.unshift({
-    test: /common[\\/]react[\\/]client[\\/]Index\.jsx$/i,
+    test: /common[\\/]react[\\/]client[\\/]Index\.js$/i,
     use: [
       {
         loader: path.resolve(
@@ -62,7 +62,7 @@ export function createConfigClient(route) {
   });
 
   loaders.push({
-    test: /Client\.jsx$/,
+    test: /Client\.js$/,
     use: [
       {
         loader: path.resolve(
@@ -92,18 +92,18 @@ export function createConfigClient(route) {
     entry[route.id] = [
       ...getComponentsByRoute(route),
       path.resolve(
-        CONSTANTS.MOLDULESPATH,
-        '../components/common/react/client/Index.jsx'
+        CONSTANTS.MODULESPATH,
+        '../components/common/react/client/Index.js'
       ),
       `webpack-hot-middleware/client?path=/eHot/${route.id}&reload=true&overlay=true`
     ];
     // Widgets
-    const widgets = getEnabledWidgets();
-    if (!route.isAdmin) {
-      Object.keys(widgets).forEach((widget) => {
-        entry[route.id].push(widgets[widget].component);
-      });
-    }
+    // const widgets = getEnabledWidgets();
+    // if (!route.isAdmin) {
+    //   Object.keys(widgets).forEach((widget) => {
+    //     entry[route.id].push(widgets[widget].component);
+    //   });
+    // }
     return entry;
   };
   config.watchOptions = {

@@ -177,11 +177,11 @@ export default () => {
     collection_products: {
       setting_component: path.resolve(
         CONSTANTS.LIBPATH,
-        '../components/admin/widgets/CollectionProductsSetting.jsx'
+        '../components/admin/widgets/CollectionProductsSetting.js'
       ),
       component: path.resolve(
         CONSTANTS.LIBPATH,
-        '../components/frontStore/widgets/CollectionProducts.jsx'
+        '../components/frontStore/widgets/CollectionProducts.js'
       ),
       name: 'Collection products',
       description: 'A list of products from a collection',

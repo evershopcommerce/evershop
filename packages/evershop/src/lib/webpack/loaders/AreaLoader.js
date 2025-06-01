@@ -10,6 +10,7 @@ export default function AreaLoader(c) {
   const components = this.getOptions().getComponents();
   const { route } = this.getOptions();
   const areas = {};
+  const imports = [];
   components.forEach((module) => {
     this.addDependency(module);
     if (!fs.existsSync(module)) {
@@ -28,11 +29,14 @@ export default function AreaLoader(c) {
       try {
         const layout = JSON5.parse(check);
         const id = generateComponentKey(module);
+        imports.push(`import ${id} from '${module}';`);
         areas[layout.areaId] = areas[layout.areaId] || {};
         areas[layout.areaId][id] = {
           id,
           sortOrder: layout.sortOrder,
-          component: `---require('${module}')---`
+          component: {
+            default: `---${id}---`
+          }
         };
       } catch (e) {
         error(`Error parsing layout from ${module}`);
@@ -43,17 +47,26 @@ export default function AreaLoader(c) {
   const widgets = getEnabledWidgets();
   areas['*'] = areas['*'] || {};
   widgets.forEach((widget) => {
+    imports.push(
+      `import ${widget.type} from '${
+        route.isAdmin ? widget.setting_component : widget.component
+      }';`
+    );
     areas['*'][widget.type] = {
       id: widget.type,
       sortOrder: widget.sortOrder || 0,
-      component: route.isAdmin
-        ? `---require('${widget.setting_component}')---`
-        : `---require('${widget.component}')---`
+      component: {
+        default: `---${widget.type}---`
+      }
     };
   });
-  const content = `Area.defaultProps.components = ${inspect(areas, { depth: 5 })
+  const content = `${imports.join(
+    '\r\n'
+  )}\r\nArea.defaultProps.components = ${inspect(areas, { depth: 5 })
     .replace(/"---/g, '')
-    .replace(/---"/g, '')} ;`;
+    .replace(/---"/g, '')
+    .replace(/'---/g, '')
+    .replace(/---'/g, '')} ;`;
   const result = c
     .replace('/** render */', content)
     .replace('/eHot', `/eHot/${route.id}`);

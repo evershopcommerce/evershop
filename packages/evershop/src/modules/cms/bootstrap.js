@@ -194,11 +194,11 @@ export default () => {
     text_block: {
       setting_component: path.resolve(
         CONSTANTS.LIBPATH,
-        '../components/admin/widgets/TextBlockSetting.jsx'
+        '../components/admin/widgets/TextBlockSetting.js'
       ),
       component: path.resolve(
         CONSTANTS.LIBPATH,
-        '../components/frontStore/widgets/TextBlock.jsx'
+        '../components/frontStore/widgets/TextBlock.js'
       ),
       name: 'Text block',
       description: 'A text block widget',
@@ -210,11 +210,11 @@ export default () => {
     basic_menu: {
       setting_component: path.resolve(
         CONSTANTS.LIBPATH,
-        '../components/admin/widgets/BasicMenuSetting.jsx'
+        '../components/admin/widgets/BasicMenuSetting.js'
       ),
       component: path.resolve(
         CONSTANTS.LIBPATH,
-        '../components/frontStore/widgets/BasicMenu.jsx'
+        '../components/frontStore/widgets/BasicMenu.js'
       ),
       name: 'Menu',
       description: 'A menu widget',

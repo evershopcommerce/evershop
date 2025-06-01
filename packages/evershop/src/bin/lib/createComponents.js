@@ -38,6 +38,8 @@ export async function createComponents(routes, clientOnly = false) {
       contentClient += `Area.defaultProps.components = ${inspect(components, {
         depth: 5
       })
+        .replace(/"---/g, '')
+        .replace(/---/g, '')
         .replace(/'---/g, '')
         .replace(/---'/g, '')} `;
       contentClient += '\r\n';
@@ -72,6 +74,8 @@ export async function createComponents(routes, clientOnly = false) {
         contentServer += `Area.defaultProps.components = ${inspect(components, {
           depth: 5
         })
+          .replace(/"---/g, '')
+          .replace(/---"/g, '')
           .replace(/'---/g, '')
           .replace(/---'/g, '')} `;
 

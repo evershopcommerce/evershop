@@ -1,6 +1,5 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-import TerserPlugin from 'terser-webpack-plugin';
 import { SwcMinifyWebpackPlugin } from 'swc-minify-webpack-plugin';
 import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
@@ -20,37 +19,13 @@ export function createBaseConfig(isServer) {
 
   const loaders = [
     {
-      test: /\.ts$/,
-      exclude: {
-        and: [/node_modules/],
-        not: [
-          /@evershop[\\/]evershop/,
-          ...extenions.map((ext) => {
-            const regex = new RegExp(
-              ext.resolve.replace(/\\/g, '[\\\\\\]').replace(/\//g, '[\\\\/]')
-            );
-            return regex;
-          })
-        ]
-      },
-      use: [
-        {
-          loader: 'swc-loader',
-          options: {
-            jsc: {
-              parser: {
-                syntax: 'typescript',
-                tsx: false,
-                decorators: true
-              },
-              target: 'es2020'
-            }
-          }
-        }
-      ]
+      test: /\.m?js$/,
+      resolve: {
+        fullySpecified: false
+      }
     },
     {
-      test: /\.(jsx|tsx)$/,
+      test: /^[A-Z].*\.js$/,
       exclude: {
         and: [/node_modules/],
         not: [
@@ -75,24 +50,6 @@ export function createBaseConfig(isServer) {
             CONSTANTS.LIBPATH,
             'webpack/loaders/GraphqlLoader.js'
           )
-        },
-        {
-          loader: 'swc-loader',
-          options: {
-            jsc: {
-              parser: {
-                syntax: 'typescript',
-                tsx: true,
-                decorators: true
-              },
-              transform: {
-                react: {
-                  runtime: 'automatic'
-                }
-              },
-              target: 'es6'
-            }
-          }
         },
         {
           loader: path.resolve(
@@ -152,7 +109,7 @@ export function createBaseConfig(isServer) {
     module: {
       rules: loaders
     },
-    target: isServer === true ? 'node18' : 'web',
+    target: 'web',
     output,
     plugins: [],
     cache: { type: 'memory' }
@@ -164,10 +121,7 @@ export function createBaseConfig(isServer) {
 
   // Resolve aliases
   const alias = {
-    '@evershop/evershop/src/components': path.resolve(
-      __dirname,
-      '../../components'
-    )
+    '@evershop/evershop/components': path.resolve(__dirname, '../../components')
   };
   if (theme) {
     alias['@components'] = [
@@ -199,13 +153,15 @@ export function createBaseConfig(isServer) {
       'pages'
     );
   });
-
+  alias['webpack-hot-middleware'] = path.resolve(
+    CONSTANTS.ROOTPATH,
+    'node_modules/webpack-hot-middleware'
+  );
   config.resolve = {
     alias,
     extensions: ['.js', '.jsx', '.json', '.wasm', '.ts', '.tsx'],
     extensionAlias: {
-      '.js': ['.ts', '.js'],
-      '.jsx': ['.tsx', '.jsx']
+      '.jsx': ['.js']
     }
   };
 

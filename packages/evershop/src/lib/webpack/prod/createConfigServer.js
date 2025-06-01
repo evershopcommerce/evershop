@@ -13,7 +13,7 @@ export function createConfigServer(routes) {
     }
     const subPath = getRouteBuildSubPath(route);
     entry[subPath] = [
-      path.resolve(CONSTANTS.BUILDPATH, subPath, 'server', 'entry.jsx')
+      path.resolve(CONSTANTS.BUILDPATH, subPath, 'server', 'entry.js')
     ];
   });
   const config = createBaseConfig(true);

@@ -34,9 +34,9 @@ export const createApp = () => {
   extensions.forEach((extension) => {
     try {
       // Load middleware functions
-      getModuleMiddlewares(extension.resolve);
+      getModuleMiddlewares(extension.path);
       // Load routes
-      loadModuleRoutes(extension.resolve);
+      loadModuleRoutes(extension.path);
     } catch (e) {
       error(e);
       process.exit(0);

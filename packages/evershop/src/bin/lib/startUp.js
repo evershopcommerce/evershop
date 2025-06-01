@@ -21,8 +21,6 @@ import { onListening } from './onListening.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const isTsx = () => process.env['_']?.includes('tsx');
-
 export const start = async function start(cb) {
   const app = createApp();
   /** Create a http server */
@@ -73,8 +71,7 @@ export const start = async function start(cb) {
   if (isDevelopmentMode() || process.argv.includes('--debug')) {
     args.push('--debug');
   }
-  const nodeOrTsx = isDevelopmentMode() || isTsx() ? 'tsx' : 'node';
-  const child = spawn(nodeOrTsx, args, {
+  const child = spawn('node', args, {
     stdio: 'inherit',
     env: {
       ...process.env,
@@ -93,7 +90,7 @@ export const start = async function start(cb) {
   if (isDevelopmentMode() || process.argv.includes('--debug')) {
     jobArgs.push('--debug');
   }
-  const jobChild = spawn(nodeOrTsx, jobArgs, {
+  const jobChild = spawn('node', jobArgs, {
     stdio: 'inherit',
     env: {
       ...process.env,

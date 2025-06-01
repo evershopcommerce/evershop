@@ -15,6 +15,7 @@ import { getContextValue } from '../../services/contextHelper.js';
 
 export default async (request, response, delegate, next) => {
   let query;
+  getContextValue(request, 'dummy', null);
   if (isDevelopmentMode()) {
     let route;
     if (response.statusCode === 404) {

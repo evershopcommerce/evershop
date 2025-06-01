@@ -17,6 +17,7 @@ export async function buildEntry(routes, clientOnly = false) {
   const widgets = getEnabledWidgets();
   await Promise.all(
     routes.map(async (route) => {
+      const imports = [];
       const subPath = getRouteBuildPath(route);
       const components = getComponentsByRoute(route);
       if (!components) {
@@ -41,11 +42,12 @@ export async function buildEntry(routes, clientOnly = false) {
           try {
             const layout = JSON5.parse(check);
             const id = generateComponentKey(module);
+            imports.push(`import ${id} from '${module}';`);
             areas[layout.areaId] = areas[layout.areaId] || {};
             areas[layout.areaId][id] = {
               id,
               sortOrder: layout.sortOrder,
-              component: `---require('${module}')---`
+              component: { default: `---${id}---` }
             };
           } catch (e) {
             error(`Error parsing layout from ${module}`);
@@ -64,30 +66,43 @@ export async function buildEntry(routes, clientOnly = false) {
       `;
       areas['*'] = areas['*'] || {};
       widgets.forEach((widget) => {
+        imports.push(
+          `import ${widget.type} from '${
+            route.isAdmin ? widget.setting_component : widget.component
+          }';`
+        );
         areas['*'][widget.type] = {
           id: widget.type,
           sortOrder: widget.sortOrder || 0,
-          component: route.isAdmin
-            ? `---require('${widget.setting_component}')---`
-            : `---require('${widget.component}')---`
+          component: {
+            default: `---${widget.type}---`
+          }
         };
       });
+      contentClient += '\r\n';
+      contentClient += imports.join('\r\n');
       contentClient += '\r\n';
       contentClient += `Area.defaultProps.components = ${inspect(areas, {
         depth: 5
       })
         .replace(/"---/g, '')
-        .replace(/---"/g, '')} `;
+        .replace(/---"/g, '')
+        .replace(/'---/g, '')
+        .replace(/---'/g, '')} `;
       contentClient += '\r\n';
       contentClient += `ReactDOM.hydrate(
-        ${route.isAdmin ? '<HydrateAdmin/>' : '<HydrateFrontStore/>'},
+        ${
+          route.isAdmin
+            ? 'React.createElement(HydrateAdmin, null)'
+            : 'React.createElement(HydrateFrontStore, null)'
+        },
         document.getElementById('app')
       );`;
       if (!fs.existsSync(path.resolve(subPath, 'client'))) {
         await mkdir(path.resolve(subPath, 'client'), { recursive: true });
       }
       await writeFile(
-        path.resolve(subPath, 'client', 'entry.jsx'),
+        path.resolve(subPath, 'client', 'entry.js'),
         contentClient
       );
 
@@ -103,18 +118,22 @@ export async function buildEntry(routes, clientOnly = false) {
         contentServer += `import { Area } from '@evershop/evershop/components/common';`;
         contentServer += '\r\n';
         contentServer += `import { renderHtml } from '@evershop/evershop/components/common';\r\n`;
+        contentServer += imports.join('\r\n');
+        contentServer += '\r\n';
         contentServer += `export default renderHtml;\r\n`;
         contentServer += `Area.defaultProps.components = ${inspect(areas, {
           depth: 5
         })
           .replace(/"---/g, '')
-          .replace(/---"/g, '')} `;
+          .replace(/---"/g, '')
+          .replace(/'---/g, '')
+          .replace(/---'/g, '')} `;
 
         if (!fs.existsSync(path.resolve(subPath, 'server'))) {
           await mkdir(path.resolve(subPath, 'server'), { recursive: true });
         }
         await writeFile(
-          path.resolve(subPath, 'server', 'entry.jsx'),
+          path.resolve(subPath, 'server', 'entry.js'),
           contentServer
         );
         await writeFile(
