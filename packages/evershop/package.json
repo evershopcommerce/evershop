@@ -32,6 +32,10 @@
       "import": "./dist/components/storeFront/index.jsx",
       "types": "./dist/components/storeFront/index.d.ts"
     },
+    "./graphql/services": {
+      "import": "./dist/modules/graphql/services/index.js",
+      "types": "./dist/modules/graphql/services/index.d.ts"
+    },
     "./catalog/services": {
       "import": "./dist/modules/catalog/services/index.js",
       "types": "./dist/modules/catalog/services/index.d.ts"
@@ -40,14 +44,21 @@
       "import": "./dist/modules/customer/services/index.js",
       "types": "./dist/modules/customer/services/index.d.ts"
     },
+    "./setting/services": {
+      "import": "./dist/modules/setting/services/index.js",
+      "types": "./dist/modules/setting/services/index.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
     "prepublishOnly": "node prepublish.js",
+    "build:tsc": "rimraf dist && npm run build:ts && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
     "prepack": "rimraf dist && npm run build:ts && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
-    "dev": "tsx ./bin/dev/index.ts",
-    "build": "rimraf dist && npm run build:ts",
-    "build:prod": "rimraf dist && npm run build:ts && node src/bin/build/index.js -- --build_mode production",
+    "dev": "node --watch ./dist/bin/dev/index.js",
+    "compile": "swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths",
+    "compile:watch": "swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths --watch",
+    "build": "rimraf dist && swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths",
+    "build:prod": "rimraf dist && npm run build && node src/bin/build/index.js -- --build_mode production",
     "start": "evershop start",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",
@@ -100,7 +111,6 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "boxen": "^5.1.2",
-    "chokidar": "^4.0.3",
     "clean-css": "^5.3.1",
     "config": "^3.3.6",
     "connect-pg-simple": "^9.0.0",
@@ -151,7 +161,6 @@
     "sharp": "^0.33.5",
     "stripe": "^8.176.0",
     "style-loader": "^3.3.1",
-    "swc-loader": "^0.2.6",
     "swc-minify-webpack-plugin": "^2.1.3",
     "tailwindcss": "^3.4.14",
     "touch": "^3.1.0",
@@ -167,12 +176,13 @@
     "zero-decimal-currencies": "^1.2.0"
   },
   "devDependencies": {
+    "chokidar": "^4.0.3",
     "@types/config": "^3.3.5",
     "@types/express": "^5.0.1",
     "@types/node": "^22.14.1",
     "@types/pg": "^8.15.2",
     "@types/react": "^19.1.2",
-    "tsx": "^4.19.3",
+    "copyfiles": "^2.4.1",
     "typescript": "^5.8.3"
   }
 }

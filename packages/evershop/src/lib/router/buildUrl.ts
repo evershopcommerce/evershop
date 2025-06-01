@@ -9,7 +9,10 @@ import { getRoutes } from './Router.js';
  *
  * @return  {string} The Url
  */
-export const buildUrl = (routeId, params = {}) => {
+export const buildUrl = (
+  routeId: string,
+  params: Record<string, any> = {}
+): string => {
   const routes = getRoutes();
   const route = routes.find((r) => r.id === routeId);
   if (route === undefined) {

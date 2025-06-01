@@ -1,9 +1,14 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../lib/postgres/connection.js';
 
-let setting;
+export type Setting = {
+  name: string;
+  value: any;
+};
 
-export async function getSetting(name, defaultValue) {
+let setting: Setting[] | undefined;
+
+export async function getSetting<T>(name: string, defaultValue: T): Promise<T> {
   if (!setting) {
     setting = await select().from('setting').execute(pool);
   }
@@ -15,6 +20,6 @@ export async function getSetting(name, defaultValue) {
   }
 }
 
-export async function refreshSetting() {
+export async function refreshSetting(): Promise<void> {
   setting = await select().from('setting').execute(pool);
 }

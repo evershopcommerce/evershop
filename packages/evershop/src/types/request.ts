@@ -24,6 +24,7 @@ export interface EvershopRequest extends ExpressRequest {
       created_at: Date;
       updated_at: Date;
     };
+    context?: Record<string, any>;
   };
   loginCustomerWithEmail?: (
     email: string,
