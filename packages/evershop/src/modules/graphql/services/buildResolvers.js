@@ -7,7 +7,7 @@ import { CONSTANTS } from '../../../lib/helpers.js';
 
 export async function buildResolvers(isAdmin = false) {
   const typeSources = [
-    path.join(CONSTANTS.MOLDULESPATH, '*/graphql/types/**/*.resolvers.{js,ts}')
+    path.join(CONSTANTS.MODULESPATH, '*/graphql/types/**/*.resolvers.{js,ts}')
   ];
 
   const extensions = getEnabledExtensions();

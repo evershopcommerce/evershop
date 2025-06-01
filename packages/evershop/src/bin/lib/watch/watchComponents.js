@@ -16,7 +16,7 @@ export function watchComponents() {
     .on('add', () => {
       touch(
         resolve(
-          CONSTANTS.MOLDULESPATH,
+          CONSTANTS.MODULESPATH,
           '../components/common/react/client/Index.jsx'
         )
       );

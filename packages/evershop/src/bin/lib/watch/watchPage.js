@@ -7,7 +7,7 @@ export function watchPage(event) {
     // TODO: Touching this file will trigger a rebuild of all pages. This is not optimized
     touch(
       resolve(
-        CONSTANTS.MOLDULESPATH,
+        CONSTANTS.MODULESPATH,
         '../components/common/react/client/Index.jsx'
       )
     );
