@@ -4,8 +4,11 @@ import { getConfig } from './util/getConfig.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const rootPath = process.cwd();
+const rootPath = __dirname.includes(
+  path.join('node_modules', '@evershop', 'evershop')
+)
+  ? process.cwd()
+  : path.resolve(__dirname, '..', '..', '..', '..');
 
 export const CONSTANTS = Object.freeze({
   ROOTPATH: rootPath,
