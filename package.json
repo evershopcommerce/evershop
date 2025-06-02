@@ -21,7 +21,6 @@
   "author": "The Nguyen (https://evershop.io)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
   "devDependencies": {
-    "@evershop/evershop": "^1.2.2",
     "@swc/cli": "^0.7.7",
     "@swc/core": "^1.11.29",
     "@types/jest": "^29.5.14",
