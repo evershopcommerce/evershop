@@ -1,5 +1,5 @@
 import pkg from 'webpack';
-import { error } from '../../../src/lib/log/logger';
+import { error } from '../../../src/lib/log/logger.js';
 import { createConfigServer } from '../../../src/lib/webpack/prod/createConfigServer.js';
 
 const { webpack } = pkg;
