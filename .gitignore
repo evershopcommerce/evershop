@@ -2,7 +2,7 @@ node_modules
 .env
 dist
 /extensions/*
-themes
+/themes
 .idea/*
 .evershop
 .vscode
@@ -14,7 +14,9 @@ npm-debug.log
 .log
 coverage
 cypress
+.turbo
 /config
+/packages/evershop/config
 .prettierignore
 .prettierrc
 mysqlToPostgres.js

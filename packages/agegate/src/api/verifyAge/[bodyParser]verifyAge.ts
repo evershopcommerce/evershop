@@ -1,16 +1,17 @@
-const {
-  OK,
-  INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const {
-  getSetting
-} = require('@evershop/evershop/src/modules/setting/services/setting');
+import { EvershopRequest, EvershopResponse } from '@evershop/evershop';
+import { INTERNAL_SERVER_ERROR, OK } from '@evershop/evershop/lib';
+import { getSetting } from '@evershop/evershop/setting/services';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (
+  request: EvershopRequest,
+  response: EvershopResponse,
+  delegate,
+  next
+) => {
   const { age } = request.body;
   try {
     response.status(OK);
-    const minAge = await getSetting('minAge');
+    const minAge = await getSetting<number>('minAge', 18);
     if (age && age >= minAge) {
       // Set the age verified cookie
       response.cookie('age-verified', 1, {

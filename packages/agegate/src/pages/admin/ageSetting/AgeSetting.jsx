@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 export default function AgeSetting({ saveSettingApi, setting: { minAge } }) {
   return (
     <div className="main-content-inner">
-      <div className="grid grid-cols-6 gap-x-2 grid-flow-row ">
+      <div className="grid grid-cols-6 gap-x-8 grid-flow-row ">
         <div className="col-span-2">
           <SettingMenu />
         </div>

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   Setting: {
     minAge: (setting) => {
       const minAge = setting.find((s) => s.name === 'minAge');

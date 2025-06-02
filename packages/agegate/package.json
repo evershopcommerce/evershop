@@ -1,0 +1,12 @@
+{
+  "name": "agegate",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "compile": "swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
