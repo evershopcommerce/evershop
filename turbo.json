@@ -1,0 +1,25 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "compile": {
+      "persistent": false,
+      "cache": false
+    },
+    "build": {
+      "dependsOn": ["compile"],
+      "cache": false,
+      "persistent": false
+    },
+    "start": {
+      "dependsOn": ["compile"],
+      "cache": false,
+      "persistent": true
+    },
+    "dev": {
+      "dependsOn": ["compile"],
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

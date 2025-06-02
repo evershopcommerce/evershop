@@ -1,8 +1,6 @@
-const {
-  INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getAjv } = require('../../services/getAjv');
-const markSkipEscape = require('../../services/markSkipEscape');
+import { INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
+import { getAjv } from '../../services/getAjv.js';
+import markSkipEscape from '../../services/markSkipEscape.js';
 
 // Initialize the ajv instance
 const ajv = getAjv();
@@ -22,7 +20,8 @@ ajv.addKeyword({
     };
   }
 });
-module.exports = (request, response, delegate, next) => {
+
+export default (request, response, delegate, next) => {
   // Get the current route
   const { currentRoute } = request;
   // Get the payload schema

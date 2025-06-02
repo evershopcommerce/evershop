@@ -1,14 +1,11 @@
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const {
+import { translate } from '../../../../../lib/locale/translate/translate.js';
+import {
+  INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD,
-  OK,
-  INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
+  OK
+} from '../../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const { body } = request;
   const { email, password } = body;
   const message = translate('Invalid email or password');

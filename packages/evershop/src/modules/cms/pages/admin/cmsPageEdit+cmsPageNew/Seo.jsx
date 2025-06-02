@@ -1,10 +1,10 @@
-/* eslint-disable no-param-reassign */
-import PropTypes from 'prop-types';
-import React from 'react';
+import { Card } from '@components/admin/cms/Card';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
-import { get } from '@evershop/evershop/src/lib/util/get';
-import { Card } from '@components/admin/cms/Card';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { get } from '../../../../../lib/util/get.js';
+
 
 export default function Seo({ page }) {
   const fields = [

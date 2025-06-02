@@ -1,7 +1,7 @@
-const { getAjv } = require('../../modules/base/services/getAjv');
-const { getValueSync } = require('./registry');
+import { getAjv } from '../../modules/base/services/getAjv.js';
+import { getValueSync } from './registry.js';
 
-module.exports.validateConfiguration = function validateConfiguration(config) {
+export function validateConfiguration(config) {
   const ajv = getAjv();
   const configSchema = getValueSync(
     'configuratonSchema',
@@ -56,7 +56,7 @@ module.exports.validateConfiguration = function validateConfiguration(config) {
   } else {
     return true;
   }
-};
+}
 
 function errorFormatter(errors) {
   const messages = ['Invalid configuration:'];

@@ -1,9 +1,9 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { getOrdersBaseQuery } = require('../../../services/getOrdersBaseQuery');
-const { OrderCollection } = require('../../../services/OrderCollection');
+import { select } from '@evershop/postgres-query-builder';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { getOrdersBaseQuery } from '../../../services/getOrdersBaseQuery.js';
+import { OrderCollection } from '../../../services/OrderCollection.js';
 
-module.exports = {
+export default {
   Query: {
     orders: async (_, { filters = [] }) => {
       const query = getOrdersBaseQuery();

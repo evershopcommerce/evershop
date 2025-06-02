@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import Editor from '@components/common/Editor';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function TextBlock({ textWidget: { text, className } }) {
   return (
@@ -12,7 +12,6 @@ export default function TextBlock({ textWidget: { text, className } }) {
 
 TextBlock.propTypes = {
   textWidget: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
     text: PropTypes.array,
     className: PropTypes.string
   })

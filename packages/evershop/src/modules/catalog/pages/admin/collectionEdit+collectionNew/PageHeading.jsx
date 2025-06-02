@@ -1,13 +1,15 @@
+import PageHeading from '@components/admin/cms/PageHeading';
 import PropTypes from 'prop-types';
 import React from 'react';
-import PageHeading from '@components/admin/cms/PageHeading';
 
 export default function CollectionEditPageHeading({ backUrl, collection }) {
   return (
-    <div className='w-2/3' style={{margin: '0 auto'}}>
+    <div className="w-2/3" style={{ margin: '0 auto' }}>
       <PageHeading
         backUrl={backUrl}
-        heading={collection ? `Editing ${collection.name}` : 'Create a new collection'}
+        heading={
+          collection ? `Editing ${collection.name}` : 'Create a new collection'
+        }
       />
     </div>
   );

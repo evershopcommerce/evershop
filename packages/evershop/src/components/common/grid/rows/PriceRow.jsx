@@ -1,6 +1,6 @@
+import { useAppState } from '@components/common/context/app';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '@components/common/context/app';
 
 export default function PriceRow({ id, areaProps }) {
   const context = useAppState();

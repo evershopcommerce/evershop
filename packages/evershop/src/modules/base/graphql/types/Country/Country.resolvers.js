@@ -1,23 +1,23 @@
-const { contries } = require('@evershop/evershop/src/lib/locale/countries');
-const { provinces } = require('@evershop/evershop/src/lib/locale/provinces');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select } = require('@evershop/postgres-query-builder');
+import { select } from '@evershop/postgres-query-builder';
+import { countries } from '../../../../../lib/locale/countries.js';
+import { provinces } from '../../../../../lib/locale/provinces.js';
+import { pool } from '../../../../../lib/postgres/connection.js';
 
-module.exports = {
+export default {
   Query: {
     countries: (_, argument) => {
       const list = argument?.countries || [];
       if (list.length === 0) {
-        return contries;
+        return countries;
       } else {
-        return contries.filter((c) => list.includes(c.code));
+        return countries.filter((c) => list.includes(c.code));
       }
     },
     allowedCountries: async () => {
       const allowedCountries = await select('country')
         .from('shipping_zone')
         .execute(pool);
-      return contries.filter((c) =>
+      return countries.filter((c) =>
         allowedCountries.find((p) => p.country === c.code)
       );
     }
@@ -27,7 +27,7 @@ module.exports = {
       if (country.name) {
         return country.name;
       } else {
-        const c = contries.find((p) => p.code === country);
+        const c = countries.find((p) => p.code === country);
         return c.name;
       }
     },

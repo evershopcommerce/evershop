@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 function Attributes({ product: { attributes } }) {
   if (!attributes.length) {
     return null;

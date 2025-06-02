@@ -1,21 +1,20 @@
-/* eslint-disable no-nested-ternary */
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import axios from 'axios';
-import Area from '@components/common/Area';
-import Pagination from '@components/common/grid/Pagination';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { useAlertContext } from '@components/common/modal/Alert';
+import { Card } from '@components/admin/cms/Card';
 import CouponName from '@components/admin/promotion/couponGrid/rows/CouponName';
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { Form } from '@components/common/form/Form';
+import DummyColumnHeader from '@components/common/grid/headers/Dummy';
+import SortableHeader from '@components/common/grid/headers/Sortable';
+import Pagination from '@components/common/grid/Pagination';
 import BasicRow from '@components/common/grid/rows/BasicRow';
 import StatusRow from '@components/common/grid/rows/StatusRow';
-import { Card } from '@components/admin/cms/Card';
 import TextRow from '@components/common/grid/rows/TextRow';
-import { Form } from '@components/common/form/Form';
-import { Field } from '@components/common/form/Field';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import DummyColumnHeader from '@components/common/grid/headers/Dummy';
 import Filter from '@components/common/list/Filter';
+import { useAlertContext } from '@components/common/modal/Alert';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 function Actions({ coupons = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -333,7 +332,6 @@ export default function CouponGrid({
               noOuter
               coreComponents={[
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => (
                       <SortableHeader
@@ -346,21 +344,18 @@ export default function CouponGrid({
                   sortOrder: 10
                 },
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => <DummyColumnHeader title="State Date" />
                   },
                   sortOrder: 20
                 },
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => <DummyColumnHeader title="End Date" />
                   },
                   sortOrder: 30
                 },
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => (
                       <SortableHeader
@@ -373,7 +368,6 @@ export default function CouponGrid({
                   sortOrder: 40
                 },
                 {
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   component: {
                     default: () => (
                       <SortableHeader
@@ -419,7 +413,6 @@ export default function CouponGrid({
                 setSelectedRows={setSelectedRows}
                 coreComponents={[
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: () => (
                         <CouponName url={c.editUrl} name={c.coupon} />
@@ -428,7 +421,6 @@ export default function CouponGrid({
                     sortOrder: 10
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: () => (
                         <TextRow text={c.startDate?.text || '--'} />
@@ -437,14 +429,12 @@ export default function CouponGrid({
                     sortOrder: 20
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: () => <TextRow text={c.endDate?.text || '--'} />
                     },
                     sortOrder: 30
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: ({ areaProps }) => (
                         <StatusRow
@@ -457,7 +447,6 @@ export default function CouponGrid({
                     sortOrder: 40
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: ({ areaProps }) => (
                         <BasicRow id="usedTime" areaProps={areaProps} />

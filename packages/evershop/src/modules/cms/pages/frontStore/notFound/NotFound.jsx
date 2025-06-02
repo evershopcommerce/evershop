@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import Area from '@components/common/Area';
 import Button from '@components/common/form/Button';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 function Name() {
   return (

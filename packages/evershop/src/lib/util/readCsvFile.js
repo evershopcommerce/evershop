@@ -1,7 +1,7 @@
-const fs = require('fs');
-const csv = require('csv-parser');
+import fs from 'fs';
+import csv from 'csv-parser';
 
-async function readCsvFile(filePath) {
+export async function readCsvFile(filePath) {
   return new Promise((resolve, reject) => {
     const results = {};
     fs.createReadStream(filePath)
@@ -9,7 +9,6 @@ async function readCsvFile(filePath) {
       .on('data', (data) => {
         // Skip the first row (headers)
         if (!data[0].startsWith('#')) {
-          // eslint-disable-next-line prefer-destructuring
           results[data[0]] = data[1];
         }
       })
@@ -21,5 +20,3 @@ async function readCsvFile(filePath) {
       });
   });
 }
-
-module.exports.readCsvFile = readCsvFile;

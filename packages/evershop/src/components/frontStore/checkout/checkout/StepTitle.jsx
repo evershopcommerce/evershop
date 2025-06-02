@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 function Title({ step }) {
   return (
     <div className="flex space-x-4 step-title mb-4 mt-4">

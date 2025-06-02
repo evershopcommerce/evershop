@@ -1,4 +1,4 @@
-module.exports = function GraphqlAPILoader(source) {
+export default function GraphqlAPILoader(source) {
   // Get options
   const options = this.getOptions();
   const isAdmin = options.isAdmin || false;
@@ -12,4 +12,4 @@ module.exports = function GraphqlAPILoader(source) {
   } else {
     return source;
   }
-};
+}

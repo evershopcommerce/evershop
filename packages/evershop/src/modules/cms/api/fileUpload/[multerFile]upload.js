@@ -1,11 +1,7 @@
-const {
-  INVALID_PAYLOAD,
-  OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { uploadFile } = require('../../services/uploadFile');
+import { INVALID_PAYLOAD, OK } from '../../../../lib/util/httpStatus.js';
+import { uploadFile } from '../../services/uploadFile.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   if (!request.files || request.files.length === 0) {
     response.status(INVALID_PAYLOAD).json({
       error: {

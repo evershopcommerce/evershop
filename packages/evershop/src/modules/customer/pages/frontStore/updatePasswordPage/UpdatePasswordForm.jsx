@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import './UpdatePasswordForm.scss';
+import Button from '@components/common/form/Button';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
-import './UpdatePasswordForm.scss';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
-import Button from '@components/common/form/Button';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 function Success() {
   return (

@@ -1,11 +1,11 @@
-const fs = require('fs');
-const { parse } = require('graphql');
-const uniqid = require('uniqid');
-const { print } = require('graphql/language/printer');
-const JSON5 = require('json5');
+import fs from 'fs';
+import { parse } from 'graphql';
+import { print } from 'graphql/language/printer.js';
+import JSON5 from 'json5';
+import uniqid from 'uniqid';
 
 // This function should return an object { query, fragments, variables }.
-module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
+export function parseGraphqlByFile(module) {
   const result = {
     query: {},
     fragments: {},
@@ -48,13 +48,11 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
         const alias = selection.alias ? selection.alias.value : name;
         const newAlias = `e${uniqid()}`;
         if (!selection.alias) {
-          // eslint-disable-next-line no-param-reassign
           selection.alias = {
             kind: 'Name',
             value: newAlias
           };
         } else {
-          // eslint-disable-next-line no-param-reassign
           selection.alias.value = newAlias;
         }
 
@@ -69,12 +67,11 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
     queryBody = print(queryAst);
 
     // Regex to find all variable name and type ($name: Type!) in graphql query
-    // eslint-disable-next-line no-useless-escape
+
     const variableRegex = /\$([a-zA-Z0-9]+)\s*:\s*([a-zA-Z0-9\[\]!]+)/g;
     const variableMatch = queryBody.match(variableRegex);
     if (variableMatch) {
       variableMatch.forEach((variable) => {
-        // eslint-disable-next-line no-useless-escape
         const varRegex = /\$([a-zA-Z0-9]+)\s*:\s*([a-zA-Z0-9\[\]!]+)/;
         const varMatch = varRegex.exec(variable);
         const name = varMatch[1];
@@ -215,4 +212,4 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
     result.variables.definitions = [];
   }
   return result;
-};
+}

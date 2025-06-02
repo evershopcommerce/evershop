@@ -1,11 +1,7 @@
-const {
-  buildFilterFromUrl
-} = require('@evershop/evershop/src/lib/util/buildFilterFromUrl');
-const {
-  setContextValue
-} = require('@evershop/evershop/src/modules/graphql/services/contextHelper');
+import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
+import { setContextValue } from '../../../../../modules/graphql/services/contextHelper.js';
 
-module.exports = (request, response, delegate, next) => {
+export default (request, response, delegate, next) => {
   setContextValue(request, 'filtersFromUrl', buildFilterFromUrl(request));
   next();
 };

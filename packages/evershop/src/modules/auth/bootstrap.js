@@ -1,9 +1,9 @@
-const { request } = require('express');
-const { hookable } = require('../../lib/util/hookable');
-const loginUserWithEmail = require('./services/loginUserWithEmail');
-const logoutUser = require('./services/logoutUser');
+import { request } from 'express';
+import { hookable } from '../../lib/util/hookable.js';
+import loginUserWithEmail from './services/loginUserWithEmail.js';
+import logoutUser from './services/logoutUser.js';
 
-module.exports = () => {
+export default () => {
   request.loginUserWithEmail = async function login(email, password, callback) {
     await hookable(loginUserWithEmail.bind(this))(email, password);
     this.session.save(callback);

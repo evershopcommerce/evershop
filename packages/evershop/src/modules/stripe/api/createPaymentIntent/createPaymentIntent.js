@@ -1,17 +1,12 @@
-const { select } = require('@evershop/postgres-query-builder');
-const smallestUnit = require('zero-decimal-currencies');
-const stripePayment = require('stripe');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const {
-  OK,
-  INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getSetting } = require('../../../setting/services/setting');
+import { select } from '@evershop/postgres-query-builder';
+import stripePayment from 'stripe';
+import smallestUnit from 'zero-decimal-currencies';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
+import { OK, INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
+import { getSetting } from '../../../setting/services/setting.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
-  // eslint-disable-next-line camelcase
+export default async (request, response, delegate, next) => {
   const { cart_id, order_id } = request.body;
   // Check the cart
   const cart = await select()
@@ -45,7 +40,6 @@ module.exports = async (request, response, delegate, next) => {
       amount: smallestUnit.default(cart.grand_total, cart.currency),
       currency: cart.currency,
       metadata: {
-        // eslint-disable-next-line camelcase
         cart_id,
         order_id
       },

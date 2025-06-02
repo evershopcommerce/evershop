@@ -1,6 +1,6 @@
+import { Pagination } from '@components/frontStore/catalog/product/list/Pagination';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Pagination } from '@components/frontStore/catalog/product/list/Pagination';
 
 export default function PaginationWrapper({
   products: {

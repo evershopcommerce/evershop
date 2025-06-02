@@ -1,12 +1,12 @@
-import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useMemo, useState } from 'react';
 import Area from '@components/common/Area';
 import { useAppDispatch } from '@components/common/context/app';
 import './Filter.scss';
-import { PriceFilter } from '@components/frontStore/catalog/categoryView/filter/PriceFilter';
 import { AttributeFilter } from '@components/frontStore/catalog/categoryView/filter/AttributeFilter';
 import { CategoryFilter } from '@components/frontStore/catalog/categoryView/filter/CategoryFilter';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { PriceFilter } from '@components/frontStore/catalog/categoryView/filter/PriceFilter';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 export const FilterDispatch = React.createContext();
 
@@ -73,7 +73,7 @@ export default function Filter({
     url.searchParams.append('ajax', true);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    // eslint-disable-next-line no-restricted-globals
+
     history.pushState(null, '', url);
   };
 

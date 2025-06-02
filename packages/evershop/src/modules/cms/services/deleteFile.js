@@ -1,13 +1,13 @@
-const { join } = require('path');
-const { existsSync, lstatSync, unlinkSync } = require('fs');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
+import { existsSync, lstatSync, unlinkSync } from 'fs';
+import { join } from 'path';
+import { CONSTANTS } from '../../../lib/helpers.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
+import { getValueSync } from '../../../lib/util/registry.js';
 
 /**
  * @param {String} path the file path
  */
-module.exports.deleteFile = async (path) => {
+export const deleteFile = async (path) => {
   /**
    * @type {Object} uploader
    * @property {Function} upload

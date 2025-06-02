@@ -1,7 +1,4 @@
-const { findDublicatedMiddleware } = require('./findDublicatedMiddleware');
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+import { findDublicatedMiddleware } from './findDublicatedMiddleware.js';
 
 /**
  * This function check if the new middleware function has dublicated ID or not
@@ -11,13 +8,10 @@ module.exports = exports = {};
  *
  * @return  {boolean}
  */
-exports.noDublicateId = function noDublicateId(
-  registeredMiddlewares,
-  newMiddleware
-) {
+export function noDublicateId(registeredMiddlewares, newMiddleware) {
   if (findDublicatedMiddleware(registeredMiddlewares, newMiddleware) !== -1) {
     return false;
   } else {
     return true;
   }
-};
+}

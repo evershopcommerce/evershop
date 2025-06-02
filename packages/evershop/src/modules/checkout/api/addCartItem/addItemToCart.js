@@ -1,15 +1,15 @@
-const { select } = require('@evershop/postgres-query-builder');
-const {
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../lib/postgres/connection.js';
+import {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { setContextValue } = require('../../../graphql/services/contextHelper');
-const { getCartByUUID } = require('../../services/getCartByUUID');
-const { saveCart } = require('../../services/saveCart');
+} from '../../../../lib/util/httpStatus.js';
+import { setContextValue } from '../../../graphql/services/contextHelper.js';
+import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { saveCart } from '../../services/saveCart.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const cartId = request.params.cart_id;
     const { sku, qty } = request.body;

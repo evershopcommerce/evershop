@@ -1,11 +1,11 @@
-const stripePayment = require('stripe');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getSetting } = require('../../setting/services/setting');
+import { select } from '@evershop/postgres-query-builder';
+import stripePayment from 'stripe';
+import { error } from '../../../lib/log/logger.js';
+import { pool } from '../../../lib/postgres/connection.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
+import { getSetting } from '../../setting/services/setting.js';
 
-async function cancelPaymentIntent(orderID) {
+export async function cancelPaymentIntent(orderID) {
   try {
     const transaction = await select()
       .from('payment_transaction')
@@ -40,5 +40,3 @@ async function cancelPaymentIntent(orderID) {
     throw err;
   }
 }
-
-module.exports.cancelPaymentIntent = cancelPaymentIntent;

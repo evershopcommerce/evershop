@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import './Dot.scss';
 
 export default function Dot({ size = '1rem', variant = 'primary' }) {

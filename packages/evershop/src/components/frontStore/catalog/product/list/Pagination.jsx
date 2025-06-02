@@ -1,6 +1,6 @@
+import { useAppDispatch } from '@components/common/context/app';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppDispatch } from '@components/common/context/app';
 import './Pagination.scss';
 
 export function Pagination({ total, limit, currentPage }) {
@@ -25,7 +25,7 @@ export function Pagination({ total, limit, currentPage }) {
     setPage(p);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    // eslint-disable-next-line no-restricted-globals
+
     history.pushState(null, '', url);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setIsOnEdit(false);
@@ -43,7 +43,7 @@ export function Pagination({ total, limit, currentPage }) {
     url.searchParams.append('ajax', true);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    // eslint-disable-next-line no-restricted-globals
+
     history.pushState(null, '', url);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -60,7 +60,7 @@ export function Pagination({ total, limit, currentPage }) {
     url.searchParams.append('ajax', true);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    // eslint-disable-next-line no-restricted-globals
+
     history.pushState(null, '', url);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

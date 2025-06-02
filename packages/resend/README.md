@@ -11,6 +11,7 @@ A Resend extension for EverShop. This extension is used to send email to custome
 ```javascript
 npm install @evershop/resend
 ```
+
 ### Step 2: Register the extension by adding it to the config file
 
 ```javascript
@@ -70,6 +71,7 @@ RESEND_API_KEY=your_api_key
 ```
 
 This extension now supports 3 events:
+
 1. order_placed: This event is fired when a customer places an order. Send an email to confirm the order.
 2. reset_password: This event is fired when a customer requests to reset password. Send an email with a link to reset password.
 3. customer_registered: This event is fired when a customer registers an account. Send a customer welcome email.

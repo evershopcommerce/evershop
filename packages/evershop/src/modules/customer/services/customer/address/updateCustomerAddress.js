@@ -1,16 +1,14 @@
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const { getValue } = require('@evershop/evershop/src/lib/util/registry');
-const {
-  startTransaction,
+import {
   commit,
   rollback,
-  update,
-  select
-} = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('@evershop/evershop/src/lib/postgres/connection');
-const { validateAddress } = require('./addressValidator');
+  select,
+  startTransaction,
+  update
+} from '@evershop/postgres-query-builder';
+import { getConnection } from '../../../../../lib/postgres/connection.js';
+import { hookable } from '../../../../../lib/util/hookable.js';
+import { getValue } from '../../../../../lib/util/registry.js';
+import { validateAddress } from './addressValidator.js';
 
 async function updateCustomerAddressData(uuid, data, connection) {
   const query = select().from('customer_address');
@@ -81,7 +79,7 @@ async function updateCustomerAddress(uuid, data, context) {
   }
 }
 
-module.exports = async (uuid, data, context) => {
+export default async (uuid, data, context) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

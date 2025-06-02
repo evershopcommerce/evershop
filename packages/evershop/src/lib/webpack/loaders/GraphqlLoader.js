@@ -1,5 +1,4 @@
-/* eslint-disable no-multi-assign */
-module.exports = exports = function GraphqlLoader(content) {
+export default function GraphqlLoader(content) {
   // Regex matching 'export var query = `query { ... }`'
   const queryRegex = /export\s+var\s+query\s*=\s*`([^`]+)`/;
 
@@ -11,4 +10,4 @@ module.exports = exports = function GraphqlLoader(content) {
     .replace(queryRegex, '')
     .replace(fragmentRegex, '')
     .replace(variablesRegex, '');
-};
+}

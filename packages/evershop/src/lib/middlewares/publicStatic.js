@@ -1,9 +1,9 @@
-const fs = require('fs').promises;
-const { join } = require('path');
-const staticMiddleware = require('serve-static');
-const { CONSTANTS } = require('../helpers');
+import fs from 'fs';
+import { join } from 'path';
+import staticMiddleware from 'serve-static';
+import { CONSTANTS } from '../helpers.js';
 
-module.exports = async function publiStatic(request, response, next) {
+export default async function publicStatic(request, response, next) {
   // Get the request path
   const { path } = request;
   try {
@@ -24,4 +24,4 @@ module.exports = async function publiStatic(request, response, next) {
     // If the path is not a file or does not exist in the public folder, call next
     next();
   }
-};
+}

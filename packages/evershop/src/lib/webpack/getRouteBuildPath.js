@@ -1,8 +1,8 @@
-const path = require('path');
-const { CONSTANTS } = require('../helpers');
-const { getRouteBuildSubPath } = require('./getRouteBuildSubPath');
+import path from 'path';
+import { CONSTANTS } from '../helpers.js';
+import { getRouteBuildSubPath } from './getRouteBuildSubPath.js';
 
-module.exports.getRouteBuildPath = function getRouteBuildPath(route) {
+export function getRouteBuildPath(route) {
   const subPath = getRouteBuildSubPath(route);
   return path.resolve(CONSTANTS.BUILDPATH, subPath);
-};
+}

@@ -1,6 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import React from 'react';
+import { _ } from '../../../../../../lib/locale/translate/index.js';
 
 export function Discount({ discount, code }) {
   if (!discount) {

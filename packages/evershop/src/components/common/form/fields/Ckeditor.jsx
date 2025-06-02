@@ -1,6 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
 import React from 'react';
 import Button from '@components/common/form/Button';
@@ -361,7 +358,11 @@ function FileBrowser({
                     document.getElementById('upload-image').click();
                   }}
                 />
-                <label htmlFor="upload-image" className="self-center">
+                <label
+                  htmlFor="upload-image"
+                  className="self-center"
+                  id="upload-image-label"
+                >
                   <a className="invisible">
                     <input
                       id="upload-image"
@@ -375,7 +376,7 @@ function FileBrowser({
               {files.length === 0 && <div>There is no file to display.</div>}
               <div className="grid grid-cols-9 gap-4">
                 {files.map((f) => (
-                  <File file={f} select={onSelectFile} />
+                  <File file={f} select={onSelectFile} key={f.name} />
                 ))}
               </div>
             </div>
@@ -389,7 +390,7 @@ function FileBrowser({
 FileBrowser.propTypes = {
   browserApi: PropTypes.string.isRequired,
   deleteApi: PropTypes.string.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
+
   editor: PropTypes.object.isRequired,
   folderCreateApi: PropTypes.string.isRequired,
   setFileBrowser: PropTypes.string.isRequired,
@@ -478,7 +479,7 @@ export default function CkeditorField({
           }}
           onChange={(event, editor) => {
             const data = editor.getData();
-            // eslint-disable-next-line no-undef
+
             // Set data to the textarea with the name of the editor
             // CKEditor.instances[name].setData(data);
             setEditorData(data);

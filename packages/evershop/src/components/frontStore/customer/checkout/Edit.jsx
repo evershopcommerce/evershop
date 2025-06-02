@@ -1,10 +1,10 @@
+import { useCheckoutStepsDispatch } from '@components/common/context/checkoutSteps';
+import { Field } from '@components/common/form/Field';
+import { Form } from '@components/common/form/Form';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { Form } from '@components/common/form/Form';
-import { Field } from '@components/common/form/Field';
-import { useCheckoutStepsDispatch } from '@components/common/context/checkoutSteps';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '../../../../lib/locale/translate/index.js';
 
 export function Edit({
   customer,

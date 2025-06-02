@@ -1,21 +1,17 @@
-const config = require('config');
-const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const { addProcessor } = require('../../lib/util/registry');
-const registerDefaultProductCollectionFilters = require('./services/registerDefaultProductCollectionFilters');
-const registerDefaultCategoryCollectionFilters = require('./services/registerDefaultCategoryCollectionFilters');
-const registerDefaultCollectionCollectionFilters = require('./services/registerDefaultCollectionCollectionFilters');
-const registerDefaultAttributeCollectionFilters = require('./services/registerDefaultAttributeCollectionFilters');
-const {
-  defaultPaginationFilters
-} = require('../../lib/util/defaultPaginationFilters');
-const {
-  registerCartItemProductUrlField
-} = require('./services/registerCartItemProductUrlField');
-const {
-  registerCartItemVariantOptionsField
-} = require('./services/registerCartItemVariantOptionsField');
+import path from 'path';
+import config from 'config';
+import { CONSTANTS } from '../../lib/helpers.js';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
+import { merge } from '../../lib/util/merge.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { registerCartItemProductUrlField } from './services/registerCartItemProductUrlField.js';
+import { registerCartItemVariantOptionsField } from './services/registerCartItemVariantOptionsField.js';
+import registerDefaultAttributeCollectionFilters from './services/registerDefaultAttributeCollectionFilters.js';
+import registerDefaultCategoryCollectionFilters from './services/registerDefaultCategoryCollectionFilters.js';
+import registerDefaultCollectionCollectionFilters from './services/registerDefaultCollectionCollectionFilters.js';
+import registerDefaultProductCollectionFilters from './services/registerDefaultProductCollectionFilters.js';
 
-module.exports = () => {
+export default () => {
   addProcessor('cartItemFields', registerCartItemProductUrlField, 0);
   addProcessor('cartItemFields', registerCartItemVariantOptionsField, 0);
   addProcessor('configuratonSchema', (schema) => {
@@ -120,7 +116,6 @@ module.exports = () => {
     precision: 2
   };
   config.util.setModuleDefaults('pricing', defaultPricingConfig);
-  // Getting config value like this: config.get('catalog.product.image.thumbnail.width');
 
   // Reigtering the default filters for product collection
   addProcessor(
@@ -180,10 +175,14 @@ module.exports = () => {
   // Register default widgets
   const widgets = {
     collection_products: {
-      setting_component:
-        '@evershop/evershop/src/components/admin/widgets/CollectionProductsSetting.jsx',
-      component:
-        '@evershop/evershop/src/components/frontStore/widgets/CollectionProducts.jsx',
+      setting_component: path.resolve(
+        CONSTANTS.LIBPATH,
+        '../components/admin/widgets/CollectionProductsSetting.js'
+      ),
+      component: path.resolve(
+        CONSTANTS.LIBPATH,
+        '../components/frontStore/widgets/CollectionProducts.js'
+      ),
       name: 'Collection products',
       description: 'A list of products from a collection',
       default_settings: {
@@ -199,13 +198,11 @@ module.exports = () => {
     if (data.type !== 'collection_products') {
       return data;
     }
-    // eslint-disable-next-line no-param-reassign
+
     data.settings = data.settings || {};
     if (data.settings.count) {
-      // eslint-disable-next-line no-param-reassign
       data.settings.count = parseInt(data.settings.count, 10);
     } else {
-      // eslint-disable-next-line no-param-reassign
       data.settings.count = 4;
     }
     return data;

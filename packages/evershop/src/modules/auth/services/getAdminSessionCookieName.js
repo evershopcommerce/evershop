@@ -1,4 +1,4 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { getConfig } from '../../../lib/util/getConfig.js';
 
-module.exports.getAdminSessionCookieName = () =>
+export const getAdminSessionCookieName = () =>
   getConfig('system.session.adminCookieName', 'asid');

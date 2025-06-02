@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import Button from '@components/common/form/Button';
 import { Card } from '@components/admin/cms/Card';
+import Button from '@components/common/form/Button';
 import RenderIfTrue from '@components/common/RenderIfTrue';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { toast } from 'react-toastify';
 
 export default function PaypalCaptureButton({
   captureAPI,

@@ -1,8 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import getRowClasses from './GetRowClasses';
 import getColumnClasses from './GetColumnClasses';
+import getRowClasses from './GetRowClasses';
 
 function RowTemplates({ addRow }) {
   const templates = {

@@ -1,10 +1,10 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { getOrdersBaseQuery } = require('../../../services/getOrdersBaseQuery');
+import { select } from '@evershop/postgres-query-builder';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { getOrdersBaseQuery } from '../../../services/getOrdersBaseQuery.js';
 
-module.exports = {
+export default {
   Query: {
     order: async (_, { uuid }, { pool }) => {
       const query = getOrdersBaseQuery();

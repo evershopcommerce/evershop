@@ -1,6 +1,6 @@
-/* eslint-disable react/no-danger */
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+
 import './General.scss';
 import Editor from '@components/common/Editor';
 
@@ -35,7 +35,7 @@ CategoryInfo.propTypes = {
           PropTypes.shape({
             id: PropTypes.string.isRequired,
             size: PropTypes.number.isRequired,
-            // eslint-disable-next-line react/forbid-prop-types
+
             data: PropTypes.object.isRequired
           })
         )

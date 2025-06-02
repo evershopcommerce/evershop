@@ -1,6 +1,6 @@
-const { select } = require('@evershop/postgres-query-builder');
+import { select } from '@evershop/postgres-query-builder';
 
-module.exports.getCustomerGroupsBaseQuery = () => {
+export const getCustomerGroupsBaseQuery = () => {
   const query = select().from('customer_group');
 
   return query;

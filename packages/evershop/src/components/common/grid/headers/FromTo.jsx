@@ -1,6 +1,6 @@
+import { Input } from '@components/common/form/fields/Input';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Input } from '@components/common/form/fields/Input';
 
 export default function FromToColumnHeader({ title, id, currentFilters = [] }) {
   const filterFrom = React.useRef(null);

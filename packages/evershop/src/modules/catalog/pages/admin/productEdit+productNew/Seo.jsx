@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { Card } from '@components/admin/cms/Card';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
-import { get } from '@evershop/evershop/src/lib/util/get';
-import { Card } from '@components/admin/cms/Card';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { get } from '../../../../../lib/util/get.js';
+
 
 export default function SEO({ product }) {
   const fields = [
@@ -54,7 +55,6 @@ export default function SEO({ product }) {
     }
   ].map((f) => {
     if (get(product, `${f.props.id}`) !== undefined) {
-      // eslint-disable-next-line no-param-reassign
       f.props.value = get(product, `${f.props.id}`);
     }
     return f;

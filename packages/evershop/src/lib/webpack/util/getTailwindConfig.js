@@ -1,12 +1,14 @@
-const fs = require('fs');
-const { join } = require('path');
-const { getConfig } = require('../../util/getConfig');
-const { CONSTANTS } = require('../../helpers');
+import fs from 'fs';
+import { join } from 'path';
+import { CONSTANTS } from '../../helpers.js';
+import { getConfig } from '../../util/getConfig.js';
 
-module.exports.getTailwindConfig = function getTailwindConfig(route) {
+export async function getTailwindConfig(route) {
   const defaultTailwindConfig = route.isAdmin
-    ? require('@evershop/evershop/src/modules/cms/services/tailwind.admin.config.js')
-    : require('@evershop/evershop/src/modules/cms/services/tailwind.frontStore.config.js');
+    ? await import('../../../modules/cms/services/tailwind.admin.config.js')
+    : await import(
+        '../../../modules/cms/services/tailwind.frontStore.config.js'
+      );
 
   let tailwindConfig = {};
   if (!route.isAdmin) {
@@ -16,18 +18,16 @@ module.exports.getTailwindConfig = function getTailwindConfig(route) {
       theme &&
       fs.existsSync(join(CONSTANTS.THEMEPATH, theme, 'tailwind.config.js'))
     ) {
-      tailwindConfig = require(join(
-        CONSTANTS.THEMEPATH,
-        theme,
-        'tailwind.config.js'
-      ));
+      tailwindConfig = await import(
+        join(CONSTANTS.THEMEPATH, theme, 'tailwind.config.js')
+      );
     }
   }
   // Merge defaultTailwindConfig with tailwindConfigJs
   const mergedTailwindConfig = Object.assign(
-    defaultTailwindConfig,
-    tailwindConfig
+    defaultTailwindConfig.default,
+    tailwindConfig.default
   );
 
   return mergedTailwindConfig;
-};
+}

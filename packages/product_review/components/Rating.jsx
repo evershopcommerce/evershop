@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import './Rating.scss';
 import StartIcon from '@heroicons/react/solid/esm/StarIcon';
 
@@ -11,6 +11,7 @@ function Rating({ rating }) {
           <StartIcon
             width={20}
             height={20}
+            key={i}
             fill={rating > i ? '#ff5501' : '#989898'}
           />
         ))}

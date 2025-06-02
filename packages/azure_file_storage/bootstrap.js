@@ -1,9 +1,9 @@
-const { addProcessor } = require('@evershop/evershop/src/lib/util/registry');
 const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const { azureFileUploader } = require('./services/azureFileUploader');
-const { azureFileDeleter } = require('./services/azureFileDeleter');
-const { azureFolderCreator } = require('./services/azureFolderCreator');
+const { addProcessor } = require('@evershop/evershop/src/lib/util/registry');
 const { azureFileBrowser } = require('./services/azureFileBrowser');
+const { azureFileDeleter } = require('./services/azureFileDeleter');
+const { azureFileUploader } = require('./services/azureFileUploader');
+const { azureFolderCreator } = require('./services/azureFolderCreator');
 
 module.exports = () => {
   addProcessor('configuratonSchema', (schema) => {

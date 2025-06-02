@@ -1,26 +1,26 @@
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const {
-  getValueSync,
-  getValue
-} = require('@evershop/evershop/src/lib/util/registry');
-const {
-  startTransaction,
+import {
   commit,
-  rollback,
   insert,
-  select
-} = require('@evershop/postgres-query-builder');
-const {
+  rollback,
+  select,
+  startTransaction
+} from '@evershop/postgres-query-builder';
+import { emit } from '../../../../lib/event/emitter.js';
+import {
   getConnection,
   pool
-} = require('@evershop/evershop/src/lib/postgres/connection');
-const {
+} from '../../../../lib/postgres/connection.js';
+import { hookable } from '../../../../lib/util/hookable.js';
+import {
   hashPassword,
   verifyPassword
-} = require('@evershop/evershop/src/lib/util/passwordHelper');
-const { emit } = require('@evershop/evershop/src/lib/event/emitter');
-const { getAjv } = require('../../../base/services/getAjv');
-const customerDataSchema = require('./customerDataSchema.json');
+} from '../../../../lib/util/passwordHelper.js';
+import {
+  getValue,
+  getValueSync
+} from '../../../../lib/util/registry.js';
+import { getAjv } from '../../../base/services/getAjv.js';
+import customerDataSchema from './customerDataSchema.json' with { type: 'json' };
 
 function validateCustomerDataBeforeInsert(data) {
   const ajv = getAjv();
@@ -102,7 +102,7 @@ async function createCustomer(data, context) {
   }
 }
 
-module.exports = async (data, context) => {
+export default async (data, context) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

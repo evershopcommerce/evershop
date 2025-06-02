@@ -1,4 +1,4 @@
-const jest = require('jest-mock');
-const notFound = require('../../../../../../../../modules/base/pages/global/[auth]notFound[response]');
+import jest from 'jest-mock';
+import notFound from '../../../../../../../../modules/base/pages/global/[auth]notFound[response].js';
 
-module.exports = jest.fn(notFound);
+export default jest.fn(notFound);

@@ -1,6 +1,6 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { getConfig } from '../../../../../lib/util/getConfig.js';
 
-module.exports = {
+export default {
   Price: {
     value: (rawPrice) => parseFloat(rawPrice), // TODO: Format for decimal value?
     currency: async (_, { currency }) => {

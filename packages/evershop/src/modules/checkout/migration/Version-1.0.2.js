@@ -1,7 +1,6 @@
-const { execute } = require('@evershop/postgres-query-builder');
+import { execute } from '@evershop/postgres-query-builder';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   // Reduce product stock when order is placed if product manage stock is true
   await execute(
     connection,

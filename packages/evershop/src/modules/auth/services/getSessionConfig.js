@@ -1,9 +1,9 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const sessionStorage = require('connect-pg-simple');
-const session = require('express-session');
+import sessionStorage from 'connect-pg-simple';
+import session from 'express-session';
+import { pool } from '../../../lib/postgres/connection.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
 
-module.exports.getSessionConfig = (cookieSecret) => {
+export const getSessionConfig = (cookieSecret) => {
   const sess = {
     store: new (sessionStorage(session))({
       pool

@@ -1,6 +1,4 @@
-module.exports = exports = {};
-
-exports.fieldResolve = function fieldResolve(fieldName) {
+export function fieldResolve(fieldName) {
   // Check if field name is a SQL function
   if (
     /^([A-Za-z_][A-Za-z0-9_]*\()?(DISTINCT )?"?([A-Za-z_][A-Za-z0-9_]*"?\.)?"?[A-Za-z_][A-Za-z0-9_]*"?(\))$/.test(
@@ -21,4 +19,4 @@ exports.fieldResolve = function fieldResolve(fieldName) {
   } else {
     throw new Error(`Invalid field name ${fieldName}`);
   }
-};
+}

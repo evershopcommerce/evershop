@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   Query: {
     collectionProductsWidget: async (root, { collection, count }) => ({
       collection,

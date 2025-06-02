@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import Dot from '@components/common/Dot';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export function NoResult({ keyword, resourseLinks = [] }) {
   return (
@@ -13,7 +13,6 @@ export function NoResult({ keyword, resourseLinks = [] }) {
       <div>TRY OTHER RESOURCES</div>
       <div className="grid grid-cols-2 mt-4">
         {resourseLinks.map((link, index) => (
-          // eslint-disable-next-line react/no-array-index-key
           <div
             key={index}
             className="flex space-x-4 justify-center items-center"

@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+
 import { Input } from '@components/common/form/fields/Input';
 import ChevronDoubleLeftIcon from '@heroicons/react/outline/ChevronDoubleLeftIcon';
 import ChevronDoubleRightIcon from '@heroicons/react/outline/ChevronDoubleRightIcon';
+import PropTypes from 'prop-types';
+import React from 'react';
 import './Pagination.scss';
 import { Select } from '@components/common/form/fields/Select';
 

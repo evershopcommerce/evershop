@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { useCheckout } from '@components/common/context/checkout';
 import {
   useCheckoutSteps,
   useCheckoutStepsDispatch
 } from '@components/common/context/checkoutSteps';
-import { useCheckout } from '@components/common/context/checkout';
 import { Edit } from '@components/frontStore/customer/checkout/Edit';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 export default function ContactInformationStep({
   cart: { customerEmail, addContactInfoApi },

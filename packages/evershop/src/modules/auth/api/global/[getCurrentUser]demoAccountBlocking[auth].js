@@ -1,7 +1,7 @@
-const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
-const { UNAUTHORIZED } = require('@evershop/evershop/src/lib/util/httpStatus');
+import { getEnv } from '../../../../lib/util/getEnv.js';
+import { UNAUTHORIZED } from '../../../../lib/util/httpStatus.js';
 
-module.exports = (request, response, delegate, next) => {
+export default (request, response, delegate, next) => {
   const { currentRoute } = request;
   if (
     request.method === 'GET' ||

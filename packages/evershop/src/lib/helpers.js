@@ -1,12 +1,19 @@
-const path = require('path');
-const { getConfig } = require('./util/getConfig');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { getConfig } from './util/getConfig.js';
 
-const rootPath = process.cwd();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootPath = __dirname.includes(
+  path.join('node_modules', '@evershop', 'evershop')
+)
+  ? process.cwd()
+  : path.resolve(__dirname, '..', '..', '..', '..');
 
-exports.CONSTANTS = Object.freeze({
+export const CONSTANTS = Object.freeze({
   ROOTPATH: rootPath,
   LIBPATH: path.resolve(__dirname),
-  MOLDULESPATH: path.resolve(__dirname, '..', 'modules'),
+  MODULESPATH: path.resolve(__dirname, '..', 'modules'),
   PUBLICPATH: path.resolve(rootPath, 'public'),
   MEDIAPATH: path.resolve(rootPath, 'media'),
   NODEMODULEPATH: path.resolve(rootPath, 'node_modules'),

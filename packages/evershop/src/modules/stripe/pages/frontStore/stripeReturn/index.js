@@ -1,21 +1,14 @@
-const stripePayment = require('stripe');
-const { select, update } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const {
-  getSetting
-} = require('@evershop/evershop/src/modules/setting/services/setting');
-const {
-  addNotification
-} = require('@evershop/evershop/src/modules/base/services/notifications');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const {
-  updatePaymentStatus
-} = require('@evershop/evershop/src/modules/oms/services/updatePaymentStatus');
+import { select, update } from '@evershop/postgres-query-builder';
+import stripePayment from 'stripe';
+import { error } from '../../../../../lib/log/logger.js';
+import { pool } from '../../../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { addNotification } from '../../../../../modules/base/services/notifications.js';
+import { updatePaymentStatus } from '../../../../../modules/oms/services/updatePaymentStatus.js';
+import { getSetting } from '../../../../../modules/setting/services/setting.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const { order_id, payment_intent } = request.query;
     // Check if order exist

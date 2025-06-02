@@ -1,12 +1,10 @@
-const { v4: uuidv4 } = require('uuid');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getCmsPagesBaseQuery
-} = require('../../../services/getCmsPagesBaseQuery');
-const { CMSPageCollection } = require('../../../services/CMSPageCollection');
+import { v4 as uuidv4 } from 'uuid';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { CMSPageCollection } from '../../../services/CMSPageCollection.js';
+import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
 
-module.exports = {
+export default {
   Query: {
     cmsPage: async (root, { id }, { pool }) => {
       const query = getCmsPagesBaseQuery();

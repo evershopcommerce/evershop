@@ -1,5 +1,6 @@
-const jest = require('jest-mock');
+import jest from 'jest-mock';
 
-module.exports = jest.fn((request, response, delegates) => {
+export default jest.fn((request, response, delegates) => {
+  console.log('loadAttribute');
   throw new Error('this is an error');
 });

@@ -1,14 +1,14 @@
-const { join } = require('path');
-const { existsSync, readdirSync } = require('fs');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+import { existsSync, readdirSync } from 'fs';
+import { join } from 'path';
+import { CONSTANTS } from '../../../lib/helpers.js';
+import { buildUrl } from '../../../lib/router/buildUrl.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
+import { getValueSync } from '../../../lib/util/registry.js';
 
 /**
  * @param {String} path the file path
  */
-module.exports.browFiles = async (path) => {
+export const browFiles = async (path) => {
   /**
    * @type {Object} uploader
    * @property {Function} list

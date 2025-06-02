@@ -1,7 +1,7 @@
+import { CreateVariantGroup } from '@components/admin/catalog/productEdit/variants/CreateVariantGroup';
+import { Card } from '@components/admin/cms/Card';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Card } from '@components/admin/cms/Card';
-import { CreateVariantGroup } from '@components/admin/catalog/productEdit/variants/CreateVariantGroup';
 
 export function New({ createVariantGroupApi, setGroup }) {
   const [action, setAction] = React.useState(undefined);

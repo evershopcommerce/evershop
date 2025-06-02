@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { useQuery } from 'urql';
 import { Card } from '@components/admin/cms/Card';
 import SettingMenu from '@components/admin/setting/SettingMenu';
-import Button from '@components/common/form/Button';
-import { useModal } from '@components/common/modal/useModal';
-import TaxClassForm from '@components/admin/tax/taxSetting/TaxClassForm';
-import Spinner from '@components/common/Spinner';
 import { TaxClasses } from '@components/admin/tax/taxSetting/TaxClasses';
-import { Form } from '@components/common/form/Form';
+import TaxClassForm from '@components/admin/tax/taxSetting/TaxClassForm';
+import Button from '@components/common/form/Button';
 import { Field } from '@components/common/form/Field';
+import { Form } from '@components/common/form/Form';
+import { useModal } from '@components/common/modal/useModal';
+import Spinner from '@components/common/Spinner';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { toast } from 'react-toastify';
+import { useQuery } from 'urql';
 
 const CountriesQuery = `
   query Country($countries: [String]) {

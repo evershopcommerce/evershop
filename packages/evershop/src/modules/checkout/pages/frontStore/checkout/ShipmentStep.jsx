@@ -1,12 +1,11 @@
-/* eslint-disable no-param-reassign */
-import PropTypes from 'prop-types';
-import React from 'react';
 import {
   useCheckoutSteps,
   useCheckoutStepsDispatch
 } from '@components/common/context/checkoutSteps';
 import { StepContent } from '@components/frontStore/checkout/checkout/shipment/StepContent';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 export default function ShipmentStep({
   account,
@@ -100,7 +99,6 @@ ShipmentStep.propTypes = {
     addShippingAddressApi: PropTypes.string
   }).isRequired,
   setting: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
     customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
 };

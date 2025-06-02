@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { useModal } from '@components/common/modal/useModal';
+import PropTypes from 'prop-types';
+import React from 'react';
 import RateForm from './RateForm';
 
 function Rate({ rate, getTaxClasses }) {

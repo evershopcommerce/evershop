@@ -1,6 +1,6 @@
-const escapePayload = require('../../services/escapePayload');
+import escapePayload from '../../services/escapePayload.js';
 
-module.exports = (request, response, delegate, next) => {
+export default (request, response, delegate, next) => {
   // return next();
   if (request.method === 'GET') {
     next();

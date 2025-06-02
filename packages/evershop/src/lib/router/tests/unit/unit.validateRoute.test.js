@@ -1,8 +1,12 @@
-/* eslint-disable no-undef, global-require */
-const path = require('path');
-const { scanForRoutes } = require('../../scanForRoutes');
-const { registerAdminRoute } = require('../../registerAdminRoute');
-const { validateRoute } = require('../../validateRoute');
+import path from 'path';
+import { scanForRoutes } from '../../scanForRoutes.js';
+import { registerAdminRoute } from '../../registerAdminRoute.js';
+import { validateRoute } from '../../validateRoute.js';
+import { jest, describe, it, expect, beforeAll, afterAll } from '@jest/globals';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe('Test validateRoute', () => {
   beforeAll(() => {

@@ -1,4 +1,4 @@
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
+import { hookable } from '../../../lib/util/hookable.js';
 
 async function removeCartItem(cart, uuid) {
   const items = cart.getItems();
@@ -12,7 +12,7 @@ async function removeCartItem(cart, uuid) {
   }
 }
 
-module.exports = async (cart, uuid, context) => {
+export default async (cart, uuid, context) => {
   const removedItem = await hookable(removeCartItem, context)(cart, uuid);
   return removedItem;
 };

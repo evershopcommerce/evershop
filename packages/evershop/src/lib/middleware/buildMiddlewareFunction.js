@@ -1,15 +1,10 @@
-/* eslint-disable global-require */
-const { existsSync } = require('fs');
-const { sep } = require('path');
-const { asyncMiddlewareWrapper } = require('./async');
-const eNext = require('./eNext');
-const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
-const { getDelegates } = require('./delegate');
-const { syncMiddlewareWrapper } = require('./sync');
-const isDevelopmentMode = require('../util/isDevelopmentMode');
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+import { existsSync } from 'fs';
+import { sep } from 'path';
+import { error } from '../log/logger.js';
+import isDevelopmentMode from '../util/isDevelopmentMode.js';
+import { getDelegates, setDelegate } from './delegate.js';
+import eNext from './eNext.js';
+import isErrorHandlerTriggered from './isErrorHandlerTriggered.js';
 
 /**
  * This function takes the defined middleware function and return a new one with wrapper
@@ -22,7 +17,7 @@ module.exports = exports = {};
  * @returns {object} the middleware object
  * @throws
  */
-exports.buildMiddlewareFunction = function buildMiddlewareFunction(id, path) {
+export function buildMiddlewareFunction(id, path) {
   if (!/^[a-zA-Z0-9_]+$/.test(id)) {
     throw new TypeError(`Middleware ID ${id} is invalid`);
   }
@@ -33,50 +28,55 @@ exports.buildMiddlewareFunction = function buildMiddlewareFunction(id, path) {
   // Check if the middleware is an error handler.
   // TODO: fix me
   if (id === 'errorHandler' || id === 'apiErrorHandler') {
-    return (error, request, response, next) => {
-      const func = require(path);
+    return async (error, request, response, next) => {
+      const m = await import(path);
+      const func = m.default;
       if (request.currentRoute) {
-        func(error, request, response, getDelegates(request), next);
+        await func(error, request, response, getDelegates(request), next);
       } else {
-        func(error, request, response, [], next);
+        await func(error, request, response, [], next);
       }
     };
   } else {
-    return (request, response, next) => {
-      // Fix middleware removed during a request
-      if (isDevelopmentMode() && !existsSync(path)) {
-        next();
-      }
-      const func = require(path);
+    return async (request, response, next) => {
+      const startTime = process.hrtime();
+      const debuging = {
+        id
+      };
+      response.debugMiddlewares.push(debuging);
       // If there response status is 404. We skip routed middlewares
       if (response.statusCode === 404 && isRoutedLevel) {
         next();
       } else {
-        if (func.constructor.name === 'AsyncFunction') {
-          asyncMiddlewareWrapper(
-            id,
-            func,
-            request,
-            response,
-            getDelegates(request),
-            eNext(request, response, next)
-          );
-        } else {
-          syncMiddlewareWrapper(
-            id,
-            func,
-            request,
-            response,
-            getDelegates(request),
-            eNext(request, response, next)
-          );
-        }
-
-        // If middleware function does not have next function as a parameter
-        if (func.length < 4 && !isErrorHandlerTriggered(response)) {
-          next();
+        try {
+          const m = await import(path);
+          const func = m.default;
+          if (func.length === 4) {
+            await func(request, response, getDelegates(request), (err) => {
+              const endTime = process.hrtime(startTime);
+              debuging.time = endTime[1] / 1000000;
+              setDelegate(id, undefined, request);
+              eNext(request, response, next)(err);
+            });
+          } else {
+            const returnValue = await func(
+              request,
+              response,
+              getDelegates(request)
+            );
+            setDelegate(id, returnValue, request);
+            const endTime = process.hrtime(startTime);
+            debuging.time = endTime[1] / 1000000;
+            eNext(request, response, next)();
+          }
+        } catch (e) {
+          // Log the error
+          e.message = `Exception in middleware ${id}: ${e.message}`;
+          error(e);
+          // Call error handler middleware if it is not called yet
+          next(e);
         }
       }
     };
   }
-};
+}

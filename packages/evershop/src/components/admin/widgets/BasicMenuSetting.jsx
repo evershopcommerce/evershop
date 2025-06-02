@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useQuery } from 'urql';
-import uniqid from 'uniqid';
-import { useModal } from '@components/common/modal/useModal';
-import './BasicMenuSetting.scss';
-import CreatableSelect from 'react-select/creatable';
-import Spinner from '@components/common/Spinner';
 import Button from '@components/common/form/Button';
 import { Field } from '@components/common/form/Field';
+import { useModal } from '@components/common/modal/useModal';
+import Spinner from '@components/common/Spinner';
+import PropTypes from 'prop-types';
+import React from 'react';
+import CreatableSelect from 'react-select/creatable';
+import uniqid from 'uniqid';
+import { useQuery } from 'urql';
 import { Card } from '../cms/Card';
+import './BasicMenuSetting.scss';
 
 const menuQuery = `
   query Query ($filters: [FilterInput]) {
@@ -122,7 +122,7 @@ function MenuSettingPopup({ item, updateItem }) {
                   ...currentItem,
                   uuid: newValue.value,
                   label: newValue.label,
-                  // eslint-disable-next-line no-underscore-dangle
+
                   type: newValue.__typename === 'Category' ? 'category' : 'page'
                 });
               }}
@@ -319,13 +319,13 @@ export default function BasicMenuSetting({
 }) {
   const [items, setItems] = React.useState(menus);
   const modal = useModal();
-  // eslint-disable-next-line no-unused-vars
+
   const swappable = React.useRef(null);
   const swappableChild = React.useRef({});
   React.useEffect(() => {
     async function initSwappable() {
       const Swappable = await loadSwappable();
-      // eslint-disable-next-line new-cap
+
       const swappable = new Swappable(
         document.querySelectorAll(`div.menu__container`),
         {
@@ -365,7 +365,7 @@ export default function BasicMenuSetting({
   React.useEffect(() => {
     async function initChildSwappable() {
       const Swappable = await loadSwappable();
-      // eslint-disable-next-line new-cap
+
       items.forEach((item) => {
         if (swappableChild.current[item.id]) {
           swappableChild.current[item.id].destroy();
@@ -446,7 +446,6 @@ export default function BasicMenuSetting({
         if (prevItem.id === item.id) {
           return false;
         } else if (prevItem.children.length > 0) {
-          // eslint-disable-next-line no-param-reassign
           prevItem.children = prevItem.children.filter(
             (child) => child.id !== item.id
           );

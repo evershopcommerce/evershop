@@ -1,13 +1,11 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Country } from '@components/frontStore/customer/address/addressForm/Country';
+import { NameAndTelephone } from '@components/frontStore/customer/address/addressForm/NameAndTelephone';
+import { ProvinceAndPostcode } from '@components/frontStore/customer/address/addressForm/ProvinceAndPostcode';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Field } from '@components/common/form/Field';
-import Area from '@components/common/Area';
-import { Country } from '@components/frontStore/customer/address/addressForm/Country';
-import { ProvinceAndPostcode } from '@components/frontStore/customer/address/addressForm/ProvinceAndPostcode';
-import { NameAndTelephone } from '@components/frontStore/customer/address/addressForm/NameAndTelephone';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 function isFieldRequired(schema, fieldName) {
   if (schema && Array.isArray(schema.required)) {
@@ -168,7 +166,7 @@ CustomerAddressForm.propTypes = {
   ).isRequired,
   areaId: PropTypes.string,
   formId: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
+
   customerAddressSchema: PropTypes.object.isRequired
 };
 

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   theme: {
     extend: {
       colors: {
@@ -30,6 +30,5 @@ module.exports = {
       margin: ['first', 'last'],
       padding: ['first', 'last']
     }
-  },
-  plugins: [require('@tailwindcss/typography')]
+  }
 };

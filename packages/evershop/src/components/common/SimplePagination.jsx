@@ -1,7 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+
 import ChevronDoubleLeftIcon from '@heroicons/react/outline/ChevronLeftIcon';
 import ChevronDoubleRightIcon from '@heroicons/react/outline/ChevronRightIcon';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export function SimplePageination({ total, count, page, hasNext, setPage }) {
   return (

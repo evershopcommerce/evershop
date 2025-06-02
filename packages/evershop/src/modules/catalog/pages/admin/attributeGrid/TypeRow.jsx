@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 export default function TypeRow({ id, areaProps: { row } }) {
   return (
     <td>

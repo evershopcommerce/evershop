@@ -1,23 +1,19 @@
-/* eslint-disable camelcase */
-const {
+import {
   rollback,
   commit,
   startTransaction,
   select,
   update
-} = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('@evershop/evershop/src/lib/postgres/connection');
-const {
+} from '@evershop/postgres-query-builder';
+import { error } from '../../../../lib/log/logger.js';
+import { getConnection } from '../../../../lib/postgres/connection.js';
+import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+} from '../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, deledate, next) => {
+export default async (request, response, delegate, next) => {
   const connection = await getConnection();
   await startTransaction(connection);
   const { name } = request.body;

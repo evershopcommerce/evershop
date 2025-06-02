@@ -1,11 +1,8 @@
-const { encode } = require('html-entities');
-const {
-  INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+import { encode } from 'html-entities';
+import { error } from '../../../../lib/log/logger.js';
+import { INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (err, request, response, delegate, next) => {
+export default async (err, request, response, delegate, next) => {
   error(err);
   // Set this flag to make sure this middleware only be executed 1 time
   response.locals.errorHandlerTriggered = true;

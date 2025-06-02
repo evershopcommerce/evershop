@@ -1,9 +1,7 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const {
-  setContextValue
-} = require('../../../../graphql/services/contextHelper');
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-module.exports = (request, response, delegate, next) => {
+export default (request, response, delegate, next) => {
   // Check if the user is logged in
   const user = request.getCurrentUser();
   if (user) {

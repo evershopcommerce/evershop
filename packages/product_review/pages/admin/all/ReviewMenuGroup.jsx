@@ -1,7 +1,7 @@
+import NavigationItemGroup from '@components/admin/cms/NavigationItemGroup';
+import ChatIcon from '@heroicons/react/solid/esm/ChatIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ChatIcon from '@heroicons/react/solid/esm/ChatIcon';
-import NavigationItemGroup from '@components/admin/cms/NavigationItemGroup';
 
 export default function ReviewMenuGroup({ reviewGrid }) {
   return (

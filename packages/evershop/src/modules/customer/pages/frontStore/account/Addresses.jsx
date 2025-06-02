@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { AddressSummary } from '@components/common/customer/address/AddressSummary';
-import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
-import { useModal } from '@components/common/modal/useModal';
 import { Form } from '@components/common/form/Form';
+import { useModal } from '@components/common/modal/useModal';
+import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { toast } from 'react-toastify';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 export default function Addresses({
   account: { addresses, addAddressApi },
@@ -213,7 +213,6 @@ Addresses.propTypes = {
     addAddressApi: PropTypes.string.isRequired
   }).isRequired,
   setting: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
     customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
 };

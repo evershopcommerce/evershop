@@ -1,8 +1,6 @@
-const {
-  setContextValue
-} = require('../../../../graphql/services/contextHelper');
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-module.exports = (request) => {
+export default (request) => {
   setContextValue(request, 'pageInfo', {
     title: 'Tax Setting',
     description: 'Tax Setting'

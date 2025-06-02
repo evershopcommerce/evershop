@@ -1,17 +1,15 @@
-const config = require('config');
-const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const registerDefaultOrderCollectionFilters = require('./services/registerDefaultOrderCollectionFilters');
-const {
-  defaultPaginationFilters
-} = require('../../lib/util/defaultPaginationFilters');
-const { addProcessor } = require('../../lib/util/registry');
-const { hookAfter } = require('../../lib/util/hookable');
-const {
+import config from 'config';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
+import { hookAfter } from '../../lib/util/hookable.js';
+import { merge } from '../../lib/util/merge.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import registerDefaultOrderCollectionFilters from './services/registerDefaultOrderCollectionFilters.js';
+import {
   changeOrderStatus,
   resolveOrderStatus
-} = require('./services/updateOrderStatus');
+} from './services/updateOrderStatus.js';
 
-module.exports = () => {
+export default () => {
   addProcessor('configuratonSchema', (schema) => {
     merge(schema, {
       properties: {

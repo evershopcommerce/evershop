@@ -1,7 +1,7 @@
+import { Card } from '@components/admin/cms/Card';
+import Area from '@components/common/Area';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '@components/common/Area';
-import { Card } from '@components/admin/cms/Card';
 
 export default function CustomerNotes({ order: { shippingNote } }) {
   return (
@@ -12,7 +12,6 @@ export default function CustomerNotes({ order: { shippingNote } }) {
           coreComponents={[
             {
               component: {
-                // eslint-disable-next-line react/no-unstable-nested-components
                 default: () => (
                   <div>
                     {shippingNote || (

@@ -1,4 +1,4 @@
-const {
+import {
   commit,
   getConnection,
   insert,
@@ -6,13 +6,13 @@ const {
   select,
   startTransaction,
   update
-} = require('@evershop/postgres-query-builder');
-const { v4: uuidv4 } = require('uuid');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const { resolveOrderStatus } = require('../../oms/services/updateOrderStatus');
+} from '@evershop/postgres-query-builder';
+import { v4 as uuidv4 } from 'uuid';
+import { pool } from '../../../lib/postgres/connection.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
+import { hookable } from '../../../lib/util/hookable.js';
+import { getValueSync } from '../../../lib/util/registry.js';
+import { resolveOrderStatus } from '../../oms/services/updateOrderStatus.js';
 
 /* Default validation rules */
 const validationServices = [
@@ -88,9 +88,6 @@ const validationServices = [
 ];
 
 const validationErrors = [];
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
 
 async function disableCart(cartId, connection) {
   const cart = await update('cart')
@@ -192,7 +189,7 @@ async function saveOrderActivity(orderID, connection) {
     .execute(connection);
 }
 
-async function createOrder(cart) {
+async function createOrderFunc(cart) {
   // Start creating order
   const connection = await getConnection(pool);
   try {
@@ -201,9 +198,8 @@ async function createOrder(cart) {
       'createOrderValidationRules',
       validationServices
     );
-    // eslint-disable-next-line no-restricted-syntax
+
     for (const rule of validators) {
-      // eslint-disable-next-line no-await-in-loop
       if ((await rule.func(cart, validationErrors)) === false) {
         throw new Error(validationErrors);
       }
@@ -229,8 +225,8 @@ async function createOrder(cart) {
   }
 }
 
-exports.createOrder = async (cart) => {
-  const order = await hookable(createOrder, {
+export const createOrder = async (cart) => {
+  const order = await hookable(createOrderFunc, {
     cart
   })(cart);
   return order;

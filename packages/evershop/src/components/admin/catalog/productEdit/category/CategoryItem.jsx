@@ -1,9 +1,10 @@
-import React from 'react';
-import { useQuery } from 'urql';
-import PropTypes from 'prop-types';
+
 import Spinner from '@components/common/Spinner';
 import MinusSmall from '@heroicons/react/outline/MinusSmIcon';
 import PlusSmall from '@heroicons/react/outline/PlusSmIcon';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useQuery } from 'urql';
 
 const childrenQuery = `
   query Query ($filters: [FilterInput]) {

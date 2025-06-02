@@ -1,13 +1,11 @@
-const {
-  INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getMulter } = require('../../services/getMulter');
+import { INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
+import { getMulter } from '../../services/getMulter.js';
 
 const upload = getMulter();
 
-module.exports = (request, response, delegate, next) => {
+export default (request, response, delegate, next) => {
   const path = request.params[0] || '';
-  // eslint-disable-next-line no-useless-escape
+
   if (path && !/^[a-z0-9\/]+$/i.test(path)) {
     response.status(INVALID_PAYLOAD).json({
       error: {

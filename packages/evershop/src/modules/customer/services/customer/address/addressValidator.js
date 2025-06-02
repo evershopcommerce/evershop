@@ -1,10 +1,10 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getAjv } = require('../../../../base/services/getAjv');
+import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { getAjv } from '../../../../base/services/getAjv.js';
 
 /**
  * This function validates the address using the schema defined in the json configuration {customer: {addressSchema: { ... }}}
  */
-module.exports.validateAddress = function validateAddress(address) {
+export const validateAddress = (address) => {
   const jsonSchema = getConfig('customer.addressSchema', undefined);
   if (!jsonSchema) {
     return true;

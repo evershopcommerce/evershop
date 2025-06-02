@@ -1,13 +1,13 @@
-const config = require('config');
-const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const registerDefaultPageCollectionFilters = require('./services/registerDefaultPageCollectionFilters');
-const {
-  defaultPaginationFilters
-} = require('../../lib/util/defaultPaginationFilters');
-const { addProcessor } = require('../../lib/util/registry');
-const registerDefaultWidgetCollectionFilters = require('./services/registerDefaultWidgetCollectionFilters');
+import path from 'path';
+import config from 'config';
+import { CONSTANTS } from '../../lib/helpers.js';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
+import { merge } from '../../lib/util/merge.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { registerDefaultPageCollectionFilters } from '../../modules/cms/services/registerDefaultPageCollectionFilters.js';
+import { registerDefaultWidgetCollectionFilters } from '../../modules/cms/services/registerDefaultWidgetCollectionFilters.js';
 
-module.exports = () => {
+export default () => {
   addProcessor('configuratonSchema', (schema) => {
     merge(schema, {
       properties: {
@@ -192,10 +192,14 @@ module.exports = () => {
   // Register default widgets
   const defaultWidgets = {
     text_block: {
-      setting_component:
-        '@evershop/evershop/src/components/admin/widgets/TextBlockSetting.jsx',
-      component:
-        '@evershop/evershop/src/components/frontStore/widgets/TextBlock.jsx',
+      setting_component: path.resolve(
+        CONSTANTS.LIBPATH,
+        '../components/admin/widgets/TextBlockSetting.js'
+      ),
+      component: path.resolve(
+        CONSTANTS.LIBPATH,
+        '../components/frontStore/widgets/TextBlock.js'
+      ),
       name: 'Text block',
       description: 'A text block widget',
       default_settings: {
@@ -204,10 +208,14 @@ module.exports = () => {
       enabled: true
     },
     basic_menu: {
-      setting_component:
-        '@evershop/evershop/src/components/admin/widgets/BasicMenuSetting.jsx',
-      component:
-        '@evershop/evershop/src/components/frontStore/widgets/BasicMenu.jsx',
+      setting_component: path.resolve(
+        CONSTANTS.LIBPATH,
+        '../components/admin/widgets/BasicMenuSetting.js'
+      ),
+      component: path.resolve(
+        CONSTANTS.LIBPATH,
+        '../components/frontStore/widgets/BasicMenu.js'
+      ),
       name: 'Menu',
       description: 'A menu widget',
       enabled: true
@@ -243,13 +251,11 @@ module.exports = () => {
     if (data?.type !== 'basic_menu') {
       return data;
     }
-    // eslint-disable-next-line no-param-reassign
+
     data.settings = data.settings || {};
     if (data.settings.menus) {
-      // eslint-disable-next-line no-param-reassign
       data.settings.menus = JSON.parse(data.settings.menus);
     } else {
-      // eslint-disable-next-line no-param-reassign
       data.settings.menus = [];
     }
     return data;

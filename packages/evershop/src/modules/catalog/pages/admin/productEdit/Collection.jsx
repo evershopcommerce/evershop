@@ -1,7 +1,7 @@
+import { Card } from '@components/admin/cms/Card';
+import CollectionIcon from '@heroicons/react/solid/esm/TagIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import CollectionIcon from '@heroicons/react/solid/esm/TagIcon';
-import { Card } from '@components/admin/cms/Card';
 
 export default function Collections({ product: { collections } }) {
   return (

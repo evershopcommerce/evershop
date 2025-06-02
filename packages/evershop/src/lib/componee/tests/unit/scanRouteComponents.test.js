@@ -1,5 +1,10 @@
-const path = require('path');
-const { scanRouteComponents } = require('../../scanForComponents');
+import path from 'path';
+import { scanRouteComponents } from '../../scanForComponents.js';
+import { jest, describe, it, expect, beforeAll, afterAll } from '@jest/globals';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe('test scanRouteComponents function', () => {
   const modules = [
@@ -46,17 +51,17 @@ describe('test scanRouteComponents function', () => {
     );
 
     expect(components).toEqual({
-      'all/Menu.jsx': path.resolve(
+      'all/Menu.js': path.resolve(
         __dirname,
-        './__mocks__/modules/firstModule/pages/frontStore/all/Menu.jsx'
+        './__mocks__/modules/firstModule/pages/frontStore/all/Menu.js'
       ),
-      'all/Banner.jsx': path.resolve(
+      'all/Banner.js': path.resolve(
         __dirname,
-        './__mocks__/extensions/firstExtension/pages/frontStore/all/Banner.jsx'
+        './__mocks__/extensions/firstExtension/pages/frontStore/all/Banner.js'
       ),
-      'all/CommentList.jsx': path.resolve(
+      'all/CommentList.js': path.resolve(
         __dirname,
-        './__mocks__/extensions/firstExtension/pages/frontStore/all/CommentList.jsx'
+        './__mocks__/extensions/firstExtension/pages/frontStore/all/CommentList.js'
       )
     });
   });
@@ -68,10 +73,10 @@ describe('test scanRouteComponents function', () => {
       themePath
     );
 
-    expect(components['productView/Price.jsx']).toEqual(
+    expect(components['productView/Price.js']).toEqual(
       path.resolve(
         __dirname,
-        './__mocks__/extensions/firstExtension/pages/frontStore/productView/Price.jsx'
+        './__mocks__/extensions/firstExtension/pages/frontStore/productView/Price.js'
       )
     );
   });
@@ -83,10 +88,10 @@ describe('test scanRouteComponents function', () => {
       themePath
     );
 
-    expect(components['productView/Name.jsx']).toEqual(
+    expect(components['productView/Name.js']).toEqual(
       path.resolve(
         __dirname,
-        './__mocks__/extensions/firstExtension/pages/frontStore/productView/Name.jsx'
+        './__mocks__/extensions/firstExtension/pages/frontStore/productView/Name.js'
       )
     );
   });
@@ -98,38 +103,38 @@ describe('test scanRouteComponents function', () => {
       path.resolve(__dirname, './__mocks__/themes/justatheme')
     );
 
-    expect(components['all/Shipping.jsx']).toEqual(
+    expect(components['all/Shipping.js']).toEqual(
       path.resolve(
         __dirname,
-        './__mocks__/themes/justatheme/pages/all/Shipping.jsx'
+        './__mocks__/themes/justatheme/pages/all/Shipping.js'
       )
     );
 
-    expect(components['all/CommentList.jsx']).toEqual(
+    expect(components['all/CommentList.js']).toEqual(
       path.resolve(
         __dirname,
-        './__mocks__/themes/justatheme/pages/all/CommentList.jsx'
+        './__mocks__/themes/justatheme/pages/all/CommentList.js'
       )
     );
 
-    expect(components['productView/Name.jsx']).toEqual(
+    expect(components['productView/Name.js']).toEqual(
       path.resolve(
         __dirname,
-        './__mocks__/themes/justatheme/pages/productView/Name.jsx'
+        './__mocks__/themes/justatheme/pages/productView/Name.js'
       )
     );
 
-    expect(components['productView/Price.jsx']).toEqual(
+    expect(components['productView/Price.js']).toEqual(
       path.resolve(
         __dirname,
-        './__mocks__/themes/justatheme/pages/productView/Price.jsx'
+        './__mocks__/themes/justatheme/pages/productView/Price.js'
       )
     );
 
-    expect(components['productView/OutOfStock.jsx']).toEqual(
+    expect(components['productView/OutOfStock.js']).toEqual(
       path.resolve(
         __dirname,
-        './__mocks__/themes/justatheme/pages/productView/OutOfStock.jsx'
+        './__mocks__/themes/justatheme/pages/productView/OutOfStock.js'
       )
     );
   });

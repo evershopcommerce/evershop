@@ -1,8 +1,7 @@
-/* eslint-disable no-param-reassign */
+import { Card } from '@components/admin/cms/Card';
+import { Field } from '@components/common/form/Field';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Field } from '@components/common/form/Field';
-import { Card } from '@components/admin/cms/Card';
 
 const getGroup = (groups = [], groupId = null) =>
   groups.find(
@@ -19,7 +18,6 @@ export default function Attributes({ product, groups: { items } }) {
   const handleGroupChange = (e) => {
     // Check if product is in a variant group
     if (product?.variantGroupId) {
-      // eslint-disable-next-line no-alert
       alert(
         'You can not change the attribute group of a product that is already in a variant group.'
       );

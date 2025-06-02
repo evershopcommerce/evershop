@@ -1,9 +1,9 @@
-const jest = require('jest-mock');
+import jest from 'jest-mock';
 
 const test = jest.fn((delegates) => delegates);
 function collection(request, response, delegates) {
   test(delegates);
 }
-const myModule = (module.exports = collection);
+export default collection;
 
-myModule.test = test;
+export { test };

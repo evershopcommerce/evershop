@@ -1,22 +1,21 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import PropTypes from 'prop-types';
-import React from 'react';
-import PubSub from 'pubsub-js';
-import isEqual from 'react-fast-compare';
 import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Date } from '@components/common/form/fields/Date';
 import { DateTime } from '@components/common/form/fields/DateTime';
 import { Hidden } from '@components/common/form/fields/Hidden';
 import { Input } from '@components/common/form/fields/Input';
 import { MultiSelect } from '@components/common/form/fields/MultiSelect';
+import { Password } from '@components/common/form/fields/Password';
 import { Radio } from '@components/common/form/fields/Radio';
 import { Select } from '@components/common/form/fields/Select';
 import { TextArea } from '@components/common/form/fields/Textarea';
 import { Toggle } from '@components/common/form/fields/Toggle';
 import { useFormContext } from '@components/common/form/Form';
-import { FORM_FIELD_UPDATED } from '@evershop/evershop/src/lib/util/events';
+import PropTypes from 'prop-types';
+import PubSub from 'pubsub-js';
+import React from 'react';
+import isEqual from 'react-fast-compare';
 import './Field.scss';
-import { Password } from '@components/common/form/fields/Password';
+import { FORM_FIELD_UPDATED } from '../../../lib/util/events';
 
 const useMemoizeArgs = (args, equalityFunc) => {
   const ref = React.useRef();

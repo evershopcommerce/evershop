@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Form } from '@components/common/form/Form';
 import { Field } from '@components/common/form/Field';
-import StartIcon from '@heroicons/react/solid/esm/StarIcon';
+import { Form } from '@components/common/form/Form';
 import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import StartIcon from '@heroicons/react/solid/esm/StarIcon';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function ReviewForm({ action, product }) {
   const [error, setError] = React.useState(null);
@@ -39,12 +39,13 @@ export default function ReviewForm({ action, product }) {
             method="POST"
             onSuccess={onSuccess}
             isJSON
-            btnText={_("Submit review")}
+            btnText={_('Submit review')}
           >
             <label htmlFor="rating">{_('Your Rating')}</label>
             <div className="rating__stars">
               {[...Array(5)].map((e, i) => (
                 <a
+                  key={i}
                   className=""
                   href="#"
                   onClick={(element) => {
@@ -68,13 +69,13 @@ export default function ReviewForm({ action, product }) {
             />
             <Field
               name="customer_name"
-              label={_("Your Name")}
+              label={_('Your Name')}
               type="text"
               validationRules={['notEmpty']}
             />
             <Field
               name="comment"
-              label={_("Your Comment")}
+              label={_('Your Comment')}
               type="textarea"
               validationRules={['notEmpty']}
             />

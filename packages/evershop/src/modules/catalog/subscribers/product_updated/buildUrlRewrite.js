@@ -1,7 +1,7 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select, insertOnUpdate } = require('@evershop/postgres-query-builder');
+import { insertOnUpdate, select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../lib/postgres/connection.js';
 
-module.exports = async function buildUrlReWrite(data) {
+export default async function buildUrlReWrite(data) {
   const productId = data.product_id;
   const productUuid = data.uuid;
   const categoryId = data.category_id;
@@ -42,7 +42,6 @@ module.exports = async function buildUrlReWrite(data) {
 
   if (!categoryUrlRewrite) {
     // Wait for the category event to be fired and create the url rewrite for product
-    
   } else {
     await insertOnUpdate('url_rewrite', ['entity_uuid', 'language'])
       .given({
@@ -53,4 +52,4 @@ module.exports = async function buildUrlReWrite(data) {
       })
       .execute(pool);
   }
-};
+}

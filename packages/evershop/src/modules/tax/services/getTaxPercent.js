@@ -1,4 +1,4 @@
-module.exports.getTaxPercent = function getTaxPercent(rates) {
+export function getTaxPercent(rates) {
   let taxPercent = 0;
 
   rates.forEach((rate) => {
@@ -11,4 +11,4 @@ module.exports.getTaxPercent = function getTaxPercent(rates) {
   });
 
   return taxPercent * 100;
-};
+}

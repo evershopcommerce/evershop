@@ -1,8 +1,8 @@
-const { addProcessor } = require('@evershop/evershop/src/lib/util/registry');
 const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const { awsFileUploader } = require('./services/awsFileUploader');
-const { awsFileDeleter } = require('./services/awsFileDeleter');
+const { addProcessor } = require('@evershop/evershop/src/lib/util/registry');
 const { awsFileBrowser } = require('./services/awsFileBrowser');
+const { awsFileDeleter } = require('./services/awsFileDeleter');
+const { awsFileUploader } = require('./services/awsFileUploader');
 const { awsFolderCreator } = require('./services/awsFolderCreator');
 
 module.exports = () => {

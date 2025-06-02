@@ -1,7 +1,6 @@
-/* eslint-disable react/jsx-props-no-spreading */
+import Error from '@components/common/form/fields/Error';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Error from '@components/common/form/fields/Error';
 import '../Field.scss';
 
 const inputProps = function buidProps(props) {

@@ -193,7 +193,8 @@ input[type='checkbox'] {
   padding-right: 0 1rem 0 0;
 }
 
-.form-control[disabled] + .field-border, input[readonly] + .field-border {
+.form-control[disabled] + .field-border,
+input[readonly] + .field-border {
   background-color: #e2e2e2;
   cursor: not-allowed;
   &:after {

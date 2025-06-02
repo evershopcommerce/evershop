@@ -1,6 +1,6 @@
-/* eslint-disable no-undef, global-require */
-const { Handler } = require('../../Handler');
-require('../app/app');
+import { Handler } from '../../Handler.js';
+import '../app/app.js';
+import { jest, describe, it, expect, beforeAll, afterAll } from '@jest/globals';
 
 describe('test getMiddlewaresByRoute', () => {
   const productMiddleweres = Handler.getMiddlewareByRoute({

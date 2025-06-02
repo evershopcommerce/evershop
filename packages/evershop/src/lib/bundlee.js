@@ -1,17 +1,15 @@
-/* eslint-disable no-underscore-dangle */
-const { inspect } = require('util');
-const { writeFile, mkdir, rmdir } = require('fs/promises');
-const { existsSync, statSync, readdirSync } = require('fs');
-const path = require('path');
-const sass = require('node-sass');
-const CleanCss = require('clean-css');
-const { CONSTANTS } = require('./helpers');
-const { buildUrl } = require('./router/buildUrl');
-// eslint-disable-next-line import/no-unresolved, import/extensions
-const { createWebpack } = require('./webpack/webpack');
-const { getComponentsByRoute } = require('./componee/getComponentsByRoute');
+import { existsSync, readdirSync, statSync } from 'fs';
+import { mkdir, rmdir, writeFile } from 'fs/promises';
+import path from 'path';
+import { inspect } from 'util';
+import CleanCss from 'clean-css';
+import sass from 'node-sass';
+import { getComponentsByRoute } from './componee/getComponentsByRoute.js';
+import { CONSTANTS } from './helpers.js';
+import { buildUrl } from './router/buildUrl.js';
+import { createWebpack } from './webpack/webpack.js';
 
-module.exports = async (request, response, route) => {
+export default async (request, response, route) => {
   /** Only create bundle file for GET and "text/html" route */
   if (route.isApi === true) {
     return;
@@ -92,7 +90,7 @@ module.exports = async (request, response, route) => {
   if (route.__BUILDING__ === true) {
     await new Promise((resolve, reject) => {
       let timer = 0;
-      // eslint-disable-next-line no-var
+
       var check = setInterval(() => {
         // We only wait for 1 min maximum for the bundle
         if (timer > 60000) {
@@ -123,7 +121,7 @@ module.exports = async (request, response, route) => {
     });
     return;
   }
-  // eslint-disable-next-line no-param-reassign
+
   route.__BUILDING__ = true;
 
   if (
@@ -247,10 +245,9 @@ module.exports = async (request, response, route) => {
     }
   }
 
-  // eslint-disable-next-line no-param-reassign
   route.__BUILDREQUIRED__ = false;
-  // eslint-disable-next-line no-param-reassign
+
   route.__BUNDLEHASH__ = hash;
-  // eslint-disable-next-line no-param-reassign
+
   route.__BUILDING__ = false;
 };

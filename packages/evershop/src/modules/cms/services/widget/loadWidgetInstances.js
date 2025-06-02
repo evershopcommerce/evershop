@@ -1,14 +1,11 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { v4: uuidv4 } = require('uuid');
-const {
-  getEnabledWidgets
-} = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
-const { select } = require('@evershop/postgres-query-builder');
+import { select } from '@evershop/postgres-query-builder';
+import { v4 as uuidv4 } from 'uuid';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getEnabledWidgets } from '../../../../lib/util/getEnabledWidgets.js';
 
-module.exports = exports = {};
 
 const newUUID = uuidv4();
-exports.loadWidgetInstances = async function loadWidgetInstances(request) {
+export async function loadWidgetInstances(request) {
   const route = request.currentRoute;
   if (route.isAdmin && !['widgetEdit', 'widgetNew'].includes(route.id)) {
     return [];
@@ -51,4 +48,4 @@ exports.loadWidgetInstances = async function loadWidgetInstances(request) {
     settings: widgetInstance.settings,
     sortOrder: widgetInstance.sort_order
   }));
-};
+}

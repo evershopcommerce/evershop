@@ -1,6 +1,7 @@
 {
   "name": "@evershop/google_login",
   "version": "1.2.1",
+  "type": "module",
   "description": "A Google authentication extension for EverShop.",
   "repository": {
     "type": "git",

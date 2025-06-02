@@ -1,5 +1,3 @@
-module.exports = () => {
-  // Build schema
-  // eslint-disable-next-line global-require
-  require('./services/buildSchema');
-};
+import '../../modules/graphql/services/buildSchema.js';
+
+export default () => {};

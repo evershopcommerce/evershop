@@ -1,19 +1,19 @@
 /**
  * This function will be executed automatically after either shipment status or payment status is updated.
  */
-const Topo = require('@hapi/topo');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const {
-  getConnection,
-  startTransaction,
+import {
   commit,
+  getConnection,
+  insert,
   rollback,
-  update,
-  insert
-} = require('@evershop/postgres-query-builder');
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+  startTransaction,
+  update
+} from '@evershop/postgres-query-builder';
+import Topo from '@hapi/topo';
+import { error } from '../../../lib/log/logger.js';
+import { pool } from '../../../lib/postgres/connection.js';
+import { getConfig } from '../../../lib/util/getConfig.js';
+import { hookable } from '../../../lib/util/hookable.js';
 
 function getOrderStatusFlow() {
   try {
@@ -34,7 +34,7 @@ function getOrderStatusFlow() {
   }
 }
 
-function resolveOrderStatus(paymentStatus, shipmentStatus) {
+export function resolveOrderStatus(paymentStatus, shipmentStatus) {
   const orderStatusList = getConfig('oms.order.status', {});
   const shipmentStatusList = getConfig('oms.order.shipmentStatus', {});
   const paymentStatusList = getConfig('oms.order.paymentStatus', {});
@@ -82,45 +82,36 @@ async function addOrderStatusChangeEvents(orderId, before, after, connection) {
     .execute(connection);
 }
 
-module.exports = {
-  resolveOrderStatus,
-  /**
-   * This function should not be called directly. Any status change should be done through the payment or shipment status update.
-   * @param {Object} order
-   * @param {String} status
-   * @param {Connection} conn
-   */
-  changeOrderStatus: async (order, status, conn) => {
-    const statusFlow = getOrderStatusFlow();
-    // Do not allow to revert the status
-    if (statusFlow.indexOf(order.status) > statusFlow.indexOf(status)) {
-      throw new Error('Can not revert the status of the order');
-    }
-    const connection = conn || (await getConnection(pool));
-    try {
-      if (!conn) {
-        await startTransaction(connection);
-      }
-
-      await hookable(updateOrderStatus, {
-        order,
-        status
-      })(order.order_id, status, connection);
-
-      await hookable(addOrderStatusChangeEvents, {
-        order,
-        status
-      })(order.order_id, order.status, status, connection);
-
-      if (!conn) {
-        await commit(connection);
-      }
-    } catch (err) {
-      error(err);
-      if (!conn) {
-        await rollback(connection);
-      }
-      throw err;
-    }
+export async function changeOrderStatus(order, status, conn) {
+  const statusFlow = getOrderStatusFlow();
+  // Do not allow to revert the status
+  if (statusFlow.indexOf(order.status) > statusFlow.indexOf(status)) {
+    throw new Error('Can not revert the status of the order');
   }
-};
+  const connection = conn || (await getConnection(pool));
+  try {
+    if (!conn) {
+      await startTransaction(connection);
+    }
+
+    await hookable(updateOrderStatus, {
+      order,
+      status
+    })(order.order_id, status, connection);
+
+    await hookable(addOrderStatusChangeEvents, {
+      order,
+      status
+    })(order.order_id, order.status, status, connection);
+
+    if (!conn) {
+      await commit(connection);
+    }
+  } catch (err) {
+    error(err);
+    if (!conn) {
+      await rollback(connection);
+    }
+    throw err;
+  }
+}

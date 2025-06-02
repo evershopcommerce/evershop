@@ -1,8 +1,8 @@
-const Ajv = require('ajv');
-const ajvErrors = require('ajv-errors');
-const addFormats = require('ajv-formats');
+import Ajv from 'ajv';
+import ajvErrors from 'ajv-errors';
+import addFormats from 'ajv-formats';
 
-module.exports.getAjv = () => {
+export function getAjv() {
   // Initialize the ajv instance
   const ajv = new Ajv({
     strict: false,
@@ -16,4 +16,4 @@ module.exports.getAjv = () => {
   ajvErrors(ajv);
 
   return ajv;
-};
+}

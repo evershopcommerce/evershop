@@ -1,8 +1,8 @@
+import Area from '@components/common/Area';
+import { CartSummary } from '@components/frontStore/checkout/checkout/summary/Cart';
+import { Items } from '@components/frontStore/checkout/checkout/summary/Items';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Items } from '@components/frontStore/checkout/checkout/summary/Items';
-import { CartSummary } from '@components/frontStore/checkout/checkout/summary/Cart';
-import Area from '@components/common/Area';
 import './Summary.scss';
 
 export default function Summary({ cart, setting: { priceIncludingTax } }) {

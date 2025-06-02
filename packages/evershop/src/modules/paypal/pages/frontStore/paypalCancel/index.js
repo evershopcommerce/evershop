@@ -1,15 +1,14 @@
-const { select, update } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+import { select, update } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 
-module.exports = async (request, response) => {
+export default async (request, response) => {
   // When the user cancelled the payment from PayPal
   // he/she will be redirected to the checkout page.
   // We need to check if the cart is still valid.
   // Get the paypal token from query string
   const paypalToken = request.query.token;
 
-  // eslint-disable-next-line camelcase
   const { order_id } = request.params;
   if (paypalToken) {
     // This token actually the paypal order id

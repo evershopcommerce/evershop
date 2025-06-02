@@ -1,33 +1,24 @@
-const { existsSync } = require('fs');
-const isDevelopmentMode = require('../util/isDevelopmentMode');
-const isErrorHandlerTriggered = require('./isErrorHandlerTriggered');
-const { sortMiddlewares } = require('./sort');
-const { parseFromFile } = require('./parseFromFile');
-const { noDublicateId } = require('./noDuplicateId');
-const { getRoutes } = require('../router/Router');
-const { error } = require('../log/logger');
-
-class Handler {
-  static middlewares = [];
-
-  static sortedMiddlewarePerRoute = {};
-
+import { existsSync } from 'fs';
+import { error } from '../log/logger.js';
+import { getRoutes } from '../router/Router.js';
+import isDevelopmentMode from '../util/isDevelopmentMode.js';
+import isErrorHandlerTriggered from './isErrorHandlerTriggered.js';
+import { noDublicateId } from './noDuplicateId.js';
+import { parseFromFile } from './parseFromFile.js';
+import { sortMiddlewares } from './sort.js';
+export class Handler {
   constructor(routeId) {
     this.routeId = routeId;
   }
-
   static addMiddleware(middleware) {
     this.middlewares.push(middleware);
   }
-
   static getMiddlewares() {
     return this.middlewares;
   }
-
   static getMiddleware(id) {
     return this.middlewares.find((m) => m.id === id);
   }
-
   static getMiddlewareByRoute(route) {
     const routeId = route.id;
     if (this.sortedMiddlewarePerRoute[routeId]) {
@@ -38,7 +29,6 @@ class Handler {
       (m) =>
         (m.routeId === route.id || m.scope === 'app') && m.region === region
     );
-
     if (route.isAdmin === true) {
       middlewares = middlewares.concat(
         this.middlewares.filter(
@@ -53,7 +43,6 @@ class Handler {
       );
     }
     middlewares = sortMiddlewares(middlewares);
-
     if (isDevelopmentMode()) {
       middlewares.unshift({
         middleware: (request, response, next) => {
@@ -67,20 +56,16 @@ class Handler {
       });
     }
     this.sortedMiddlewarePerRoute[routeId] = middlewares;
-
     return middlewares;
   }
-
   static getAppLevelMiddlewares(region) {
     return sortMiddlewares(
       this.middlewares.filter((m) => m.scope === 'app' && m.region === region)
     );
   }
-
   static removeMiddleware(path) {
     this.middlewares = this.middlewares.filter((m) => m.path !== path);
   }
-
   static addMiddlewareFromPath(path) {
     if (!existsSync(path) || !path.endsWith('.js')) {
       throw new Error(`Middleware file ${path} does not exist`);
@@ -95,11 +80,13 @@ class Handler {
       });
     }
   }
-
   static middleware() {
     return (request, response, next) => {
+      var _a;
       request.params = {
-        ...(request.locals?.customParams || {}),
+        ...(((_a = request.locals) === null || _a === void 0
+          ? void 0
+          : _a.customParams) || {}),
         ...request.params
       };
       const { currentRoute } = request;
@@ -119,14 +106,12 @@ class Handler {
         if (arguments.length === 0 && currentGood === goodHandlers.length - 1) {
           next();
         } else if (currentError === errorHandlers.length - 1) {
-          // eslint-disable-next-line prefer-rest-params
           next(arguments[0]);
         } else if (arguments.length > 0) {
           // Call the error handler middleware if it is not called yet
           if (!isErrorHandlerTriggered(response)) {
             currentError += 1;
             const middlewareFunc = errorHandlers[currentError].middleware;
-            // eslint-disable-next-line prefer-rest-params
             middlewareFunc(arguments[0], request, response, eNext);
           }
         } else {
@@ -141,5 +126,6 @@ class Handler {
     };
   }
 }
-
-module.exports.Handler = Handler;
+Handler.middlewares = [];
+Handler.sortedMiddlewarePerRoute = {};
+//# sourceMappingURL=Handler.js.map

@@ -1,3 +1,4 @@
-const validate = require('../addShippingZoneMethod/validateMethod');
+import validate from '../addShippingZoneMethod/validateMethod.js';
 
-module.exports = async (request, response, deledate, next) => validate(request, response, deledate, next);
+export default async (request, response, delegate, next) =>
+  validate(request, response, delegate, next);

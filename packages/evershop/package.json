@@ -1,24 +1,69 @@
 {
   "name": "@evershop/evershop",
   "version": "1.2.2",
+  "type": "module",
   "description": "The React Ecommerce platform. Built with React and Postgres. Open-source and free. Fast and customizable.",
   "files": [
-    "bin",
-    "src"
+    "dist"
   ],
   "bin": {
-    "evershop": "./bin/evershop"
+    "evershop": "./dist/bin/evershop.js"
+  },
+  "main": "./dist/types/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./lib": {
+      "import": "./dist/lib/index.js",
+      "types": "./dist/lib/index.d.ts"
+    },
+    "./components/common": {
+      "import": "./dist/components/common/index.jsx",
+      "types": "./dist/components/common/index.d.ts"
+    },
+    "./components/admin": {
+      "import": "./dist/components/admin/index.jsx",
+      "types": "./dist/components/admin/index.d.ts"
+    },
+    "./components/frontend": {
+      "import": "./dist/components/storeFront/index.jsx",
+      "types": "./dist/components/storeFront/index.d.ts"
+    },
+    "./graphql/services": {
+      "import": "./dist/modules/graphql/services/index.js",
+      "types": "./dist/modules/graphql/services/index.d.ts"
+    },
+    "./catalog/services": {
+      "import": "./dist/modules/catalog/services/index.js",
+      "types": "./dist/modules/catalog/services/index.d.ts"
+    },
+    "./customer/services": {
+      "import": "./dist/modules/customer/services/index.js",
+      "types": "./dist/modules/customer/services/index.d.ts"
+    },
+    "./setting/services": {
+      "import": "./dist/modules/setting/services/index.js",
+      "types": "./dist/modules/setting/services/index.d.ts"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "prepublishOnly": "node prepublish.js",
-    "prepack": "node prepublish.js",
-    "postpack": "node postpack.js",
-    "dev": "evershop dev",
-    "build": "evershop build",
-    "start": "evershop start",
+    "prepack": "rimraf dist && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
+    "dev": "node --watch ./dist/bin/dev/index.js",
+    "start": "node ./dist/bin/start/index.js",
+    "build": "node ./dist/bin/build/index.js",
+    "compile": "swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths",
+    "compile:watch": "swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths --watch",
+    "compile:tsc": "rimraf dist && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",
-    "test": "jest"
+    "test": "jest",
+    "build:watch": "tsc --watch",
+    "typecheck": "tsc --noEmit"
   },
   "author": "The Nguyen (https://evershop.io)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
@@ -36,10 +81,6 @@
   },
   "homepage": "http://evershop.io/",
   "dependencies": {
-    "@babel/cli": "^7.25.9",
-    "@babel/core": "^7.25.9",
-    "@babel/preset-env": "^7.25.9",
-    "@babel/preset-react": "^7.16.0",
     "@ckeditor/ckeditor5-build-classic": "^36.0.1",
     "@ckeditor/ckeditor5-react": "^5.1.0",
     "@editorjs/editorjs": "^2.30.2",
@@ -50,25 +91,24 @@
     "@evershop/editorjs-image": "^1.0.0",
     "@evershop/postgres-query-builder": "^1.2.0",
     "@graphql-tools/load-files": "^6.6.1",
-    "@graphql-tools/merge": "^8.3.5",
-    "@graphql-tools/schema": "^9.0.3",
+    "@graphql-tools/merge": "^8.4.2",
+    "@graphql-tools/schema": "^9.0.19",
     "@hapi/topo": "^5.0.0",
     "@heroicons/react": "^1.0.5",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.6.0",
     "@shopify/draggable": "^1.0.0-beta.8",
     "@stripe/react-stripe-js": "^1.5.0",
     "@stripe/stripe-js": "^1.18.0",
+    "@swc/core": "^1.11.29",
     "@tailwindcss/typography": "^0.5.13",
     "ajv": "^8.12.0",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
     "autoprefixer": "^10.4.13",
     "axios": "^1.7.7",
-    "babel-loader": "^8.2.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "boxen": "^5.1.2",
-    "chokidar": "^3.5.3",
     "clean-css": "^5.3.1",
     "config": "^3.3.6",
     "connect-pg-simple": "^9.0.0",
@@ -87,24 +127,21 @@
     "graphql-tag": "^2.12.6",
     "graphql-type-json": "^0.3.2",
     "html-entities": "^2.3.3",
-    "html-webpack-harddisk-plugin": "^2.0.0",
     "html-webpack-plugin": "^5.5.0",
     "immer": "^9.0.3",
     "is-object": "^1.0.2",
-    "is-resolvable": "^1.1.0",
     "jsesc": "^3.0.2",
     "json5": "^2.2.1",
     "kleur": "3.0.3",
     "lodash.isequalwith": "^4.4.0",
     "luxon": "^2.0.2",
     "mini-css-extract-plugin": "^2.6.1",
-    "multer": "^1.4.5-lts.1",
+    "multer": "^2.0.0",
     "nanoid": "^3.3.8",
     "node-cron": "^3.0.3",
     "ora": "^5.4.1",
     "pg": "^8.11.3",
     "postcss": "^8.4.18",
-    "promise.allsettled": "^1.0.4",
     "prop-types": "^15.8.1",
     "pubsub-js": "^1.9.3",
     "react": "^17.0.1",
@@ -122,18 +159,28 @@
     "sharp": "^0.33.5",
     "stripe": "^8.176.0",
     "style-loader": "^3.3.1",
+    "swc-minify-webpack-plugin": "^2.1.3",
     "tailwindcss": "^3.4.14",
-    "terser-webpack-plugin": "^5.3.7",
     "touch": "^3.1.0",
     "uniqid": "^5.3.0",
     "urql": "^3.0.3",
     "uuid": "^9.0.0",
     "webpack": "^5.72.1",
-    "webpack-dev-middleware": "^5.3.4",
-    "webpack-hot-middleware": "^2.25.1",
+    "webpack-dev-middleware": "^7.4.2",
+    "webpack-hot-middleware": "^2.26.1",
     "webpackbar": "^5.0.2",
     "winston": "^3.3.3",
-    "yargs": "^16.2.0",
+    "yargs": "^17.7.2",
     "zero-decimal-currencies": "^1.2.0"
+  },
+  "devDependencies": {
+    "chokidar": "^4.0.3",
+    "@types/config": "^3.3.5",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.1",
+    "@types/pg": "^8.15.2",
+    "@types/react": "^19.1.2",
+    "copyfiles": "^2.4.1",
+    "typescript": "^5.8.3"
   }
 }

@@ -1,8 +1,9 @@
+
+import { useAppDispatch, useAppState } from '@components/common/context/app';
+import axios from 'axios';
+import produce from 'immer';
 import PropTypes from 'prop-types';
 import React from 'react';
-import produce from 'immer';
-import axios from 'axios';
-import { useAppDispatch, useAppState } from '@components/common/context/app';
 
 export function HotReload({ hot }) {
   const [isRefreshing, setIsRefreshing] = React.useState(false);
@@ -24,13 +25,11 @@ export function HotReload({ hot }) {
         if (response.status < 300) {
           setData(
             produce(appContext, (draff) => {
-              // eslint-disable-next-line no-param-reassign
               draff = response.data.eContext;
               return draff;
             })
           );
         } else {
-          // eslint-disable-next-line no-restricted-globals
           location.reload();
         }
       }

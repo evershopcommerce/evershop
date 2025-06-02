@@ -1,9 +1,7 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
 import PropTypes from 'prop-types';
-import { VariantType } from './VariantType';
+import React from 'react';
 import { EditVariant } from './EditVariant';
+import { VariantType } from './VariantType';
 
 export function Variant({
   variant,

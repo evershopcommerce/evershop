@@ -1,8 +1,8 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { select } = require('@evershop/postgres-query-builder');
+import { select } from '@evershop/postgres-query-builder';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
 
-module.exports = {
+export default {
   Query: {
     currentCustomer: async (root, args, { customer }) =>
       customer ? camelCase(customer) : null
@@ -15,18 +15,19 @@ module.exports = {
         .execute(pool);
 
       return addresses.map((address) => ({
-          ...camelCase(address),
-          updateApi: buildUrl('updateCustomerAddress', {
-            address_id: address.uuid,
-            customer_id: customer.uuid
-          }),
-          deleteApi: buildUrl('deleteCustomerAddress', {
-            address_id: address.uuid,
-            customer_id: customer.uuid
-          })
-        }));
+        ...camelCase(address),
+        updateApi: buildUrl('updateCustomerAddress', {
+          address_id: address.uuid,
+          customer_id: customer.uuid
+        }),
+        deleteApi: buildUrl('deleteCustomerAddress', {
+          address_id: address.uuid,
+          customer_id: customer.uuid
+        })
+      }));
     },
-    addAddressApi: (customer) => buildUrl('createCustomerAddress', {
+    addAddressApi: (customer) =>
+      buildUrl('createCustomerAddress', {
         customer_id: customer.uuid
       })
   }

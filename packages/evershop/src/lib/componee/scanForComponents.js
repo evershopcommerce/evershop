@@ -1,16 +1,12 @@
-/* eslint-disable global-require */
-const { readdirSync, existsSync } = require('fs');
-const { resolve, sep } = require('path');
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+import { existsSync, readdirSync } from 'fs';
+import { resolve, sep } from 'path';
 
 function scanForComponents(path) {
   return readdirSync(resolve(path), { withFileTypes: true })
     .filter(
       (dirent) =>
         dirent.isFile() &&
-        /.jsx$/.test(dirent.name) &&
+        /.js$/.test(dirent.name) &&
         /^[A-Z]/.test(dirent.name[0])
     )
     .map((dirent) => resolve(path, dirent.name));
@@ -94,5 +90,4 @@ function scanRouteComponents(route, modules, themePath = null) {
   return components;
 }
 
-exports.scanForComponents = scanForComponents;
-exports.scanRouteComponents = scanRouteComponents;
+export { scanForComponents, scanRouteComponents };

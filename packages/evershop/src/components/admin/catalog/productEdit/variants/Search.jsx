@@ -1,10 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
-import PropTypes from 'prop-types';
 import { SearchModal } from '@components/admin/catalog/productEdit/variants/SearchModal';
-import { Input } from '@components/common/form/fields/Input';
 import { VariantType } from '@components/admin/catalog/productEdit/variants/VariantType';
+import { Input } from '@components/common/form/fields/Input';
 import { useAlertContext } from '@components/common/modal/Alert';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export function Search({ addVariant, variants }) {
   const searchInput = React.useRef();

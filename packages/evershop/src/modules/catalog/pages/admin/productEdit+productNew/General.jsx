@@ -1,12 +1,12 @@
+import { Card } from '@components/admin/cms/Card';
+import CategorySelector from '@components/admin/promotion/couponEdit/CategorySelector';
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import Editor from '@components/common/form/fields/Editor';
+import { useModal } from '@components/common/modal/useModal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useQuery } from 'urql';
-import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
-import { Card } from '@components/admin/cms/Card';
-import Editor from '@components/common/form/fields/Editor';
-import { useModal } from '@components/common/modal/useModal';
-import CategorySelector from '@components/admin/promotion/couponEdit/CategorySelector';
 
 function SKUPriceWeight({ sku, price, weight, setting }) {
   return (
@@ -331,7 +331,7 @@ General.propTypes = {
           PropTypes.shape({
             id: PropTypes.string.isRequired,
             size: PropTypes.number.isRequired,
-            // eslint-disable-next-line react/forbid-prop-types
+
             data: PropTypes.object.isRequired
           })
         )

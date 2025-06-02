@@ -1,3 +1,3 @@
-const detectCurrentCartMiddleware = require('../addMineCartItem/[getCurrentCustomer]detectCurrentCart');
+import detectCurrentCartMiddleware from '../addMineCartItem/[getCurrentCustomer]detectCurrentCart.js';
 
-module.exports = detectCurrentCartMiddleware;
+export default detectCurrentCartMiddleware;

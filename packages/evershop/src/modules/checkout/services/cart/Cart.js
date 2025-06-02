@@ -1,21 +1,12 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable max-classes-per-file */
-const {
-  getValueSync,
-  getValue
-} = require('@evershop/evershop/src/lib/util/registry');
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { v4: uuidv4 } = require('uuid');
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const { DataObject } = require('./DataObject');
-const addCartItem = require('../addCartItem');
-const removeCartItem = require('../removeCartItem');
-const updateCartItemQty = require('../updateCartItemQty');
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+import { select } from '@evershop/postgres-query-builder';
+import { v4 as uuidv4 } from 'uuid';
+import { translate } from '../../../../lib/locale/translate/translate.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getValue, getValueSync } from '../../../../lib/util/registry.js';
+import addCartItem from '../../../../modules/checkout/services/addCartItem.js';
+import { DataObject } from '../../../../modules/checkout/services/cart/DataObject.js';
+import removeCartItem from '../../../../modules/checkout/services/removeCartItem.js';
+import updateCartItemQty from '../../../../modules/checkout/services/updateCartItemQty.js';
 
 class Item extends DataObject {
   #cart;
@@ -184,44 +175,41 @@ class Cart extends DataObject {
   }
 }
 
-module.exports = {
-  Cart,
-  createNewCart: async (initialData) => {
-    const cart = new Cart(initialData);
-    await cart.build();
-    return cart;
-  },
-  getCart: async (uuid) => {
-    const cart = await select()
-      .from('cart')
-      .where('uuid', '=', uuid)
-      .load(pool);
-    if (!cart || cart.status !== true) {
-      throw new Error('Cart not found');
-    }
-    const cartObject = new Cart(cart);
-    // Get the cart items
-    const items = await select()
-      .from('cart_item')
-      .where('cart_id', '=', cart.cart_id)
-      .execute(pool);
-    // Build the cart items
-    const cartItems = [];
-    await Promise.all(
-      items.map(async (item) => {
-        const cartItem = new Item(cartObject, {
-          ...item
-        });
-        await cartItem.build();
-        cartItems.push(cartItem);
-      })
-    );
+async function createNewCart(initialData) {
+  const cart = new Cart(initialData);
+  await cart.build();
+  return cart;
+}
 
-    const finalItems = await getValue('cartInitialItems', cartItems, {
-      cart: cartObject,
-      unique: uuidv4() // To make sure the value will not be cached
-    });
-    await cartObject.setData('items', finalItems);
-    return cartObject;
+async function getCart(uuid) {
+  const cart = await select().from('cart').where('uuid', '=', uuid).load(pool);
+  if (!cart || cart.status !== true) {
+    throw new Error('Cart not found');
   }
-};
+  const cartObject = new Cart(cart);
+  // Get the cart items
+  const items = await select()
+    .from('cart_item')
+    .where('cart_id', '=', cart.cart_id)
+    .execute(pool);
+  // Build the cart items
+  const cartItems = [];
+  await Promise.all(
+    items.map(async (item) => {
+      const cartItem = new Item(cartObject, {
+        ...item
+      });
+      await cartItem.build();
+      cartItems.push(cartItem);
+    })
+  );
+
+  const finalItems = await getValue('cartInitialItems', cartItems, {
+    cart: cartObject,
+    unique: uuidv4() // To make sure the value will not be cached
+  });
+  await cartObject.setData('items', finalItems);
+  return cartObject;
+}
+
+export { Cart, createNewCart, getCart };

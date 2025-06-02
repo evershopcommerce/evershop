@@ -1,13 +1,11 @@
-const { getCart } = require('./cart/Cart');
-
-module.exports = exports;
+import { getCart } from '../../../modules/checkout/services/cart/Cart.js';
 
 /**
  * This function returns a Cart object by ID.
  * @param {*} id
  * @returns {Promise<Cart>}
  */
-exports.getCartByUUID = async (uuid) => {
+export const getCartByUUID = async (uuid) => {
   const cart = await getCart(uuid);
   return cart;
 };

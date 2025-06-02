@@ -1,11 +1,7 @@
-const {
-  OK,
-  INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const deleteCustomer = require('../../services/customer/deleteCustomer');
+import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
+import deleteCustomer from '../../services/customer/deleteCustomer.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   try {
     const customer = await deleteCustomer(request.params.id, {
       routeId: request.currentRoute.id

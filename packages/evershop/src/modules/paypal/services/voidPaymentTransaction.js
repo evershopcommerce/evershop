@@ -1,9 +1,9 @@
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { createAxiosInstance } = require('./requester');
+import { select } from '@evershop/postgres-query-builder';
+import { error } from '../../../lib/log/logger.js';
+import { pool } from '../../../lib/postgres/connection.js';
+import { createAxiosInstance } from './requester.js';
 
-async function voidPaymentTransaction(orderID) {
+export async function voidPaymentTransaction(orderID) {
   try {
     const transaction = await select()
       .from('payment_transaction')
@@ -39,5 +39,3 @@ async function voidPaymentTransaction(orderID) {
     throw err;
   }
 }
-
-module.exports.voidPaymentTransaction = voidPaymentTransaction;

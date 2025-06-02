@@ -1,6 +1,3 @@
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
-
 class Router {
   constructor() {
     this.routes = [];
@@ -33,8 +30,8 @@ class Router {
 }
 
 const router = new Router();
-exports.addRoute = (route) => router.addRoute(route);
-exports.getFrontStoreRoutes = () => router.getFrontStoreRoutes();
-exports.getAdminRoutes = () => router.getAdminRoutes();
-exports.getRoutes = () => router.getRoutes();
-exports.empty = () => router.empty();
+export const addRoute = (route) => router.addRoute(route);
+export const getFrontStoreRoutes = () => router.getFrontStoreRoutes();
+export const getAdminRoutes = () => router.getAdminRoutes();
+export const getRoutes = () => router.getRoutes();
+export const empty = () => router.empty();

@@ -1,5 +1,5 @@
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const { getValue } = require('@evershop/evershop/src/lib/util/registry');
+import { hookable } from '../../../lib/util/hookable.js';
+import { getValue } from '../../../lib/util/registry.js';
 
 async function addCartItem(cart, productID, qty, context = {}) {
   if (typeof context !== 'object' || context === null) {
@@ -18,7 +18,6 @@ async function addCartItem(cart, productID, qty, context = {}) {
     let duplicateItem;
     for (let i = 0; i < items.length; i += 1) {
       if (items[i].getData('product_sku') === item.getData('product_sku')) {
-        // eslint-disable-next-line no-await-in-loop
         await items[i].setData(
           'qty',
           item.getData('qty') + items[i].getData('qty')
@@ -38,7 +37,7 @@ async function addCartItem(cart, productID, qty, context = {}) {
   }
 }
 
-module.exports = async (cart, sku, qty, context) => {
+export default async (cart, sku, qty, context) => {
   const item = await hookable(addCartItem, context)(cart, sku, qty, context);
   return item;
 };

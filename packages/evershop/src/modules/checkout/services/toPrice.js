@@ -1,16 +1,13 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { getConfig } from '../../../lib/util/getConfig.js';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
-
-exports.toPrice = function toPrice(value, forDisplay = false) {
+export function toPrice(value, forDisplay = false) {
   let price = parseFloat(value || 0);
   if (Number.isNaN(price)) {
     throw new Error('Price is not a number');
   }
   const rounding = getConfig('pricing.rounding', 'round');
   const precision = getConfig('pricing.precision', 2);
-  const precisionFix = 10**precision;
+  const precisionFix = 10 ** precision;
   switch (rounding) {
     case 'up':
       price = Math.ceil(price * precisionFix) / precisionFix;
@@ -35,4 +32,4 @@ exports.toPrice = function toPrice(value, forDisplay = false) {
       currency
     }).format(price);
   }
-};
+}

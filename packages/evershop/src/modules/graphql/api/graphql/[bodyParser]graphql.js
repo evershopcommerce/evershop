@@ -1,5 +1,5 @@
-const schema = require('../../services/buildStoreFrontSchema');
-const { graphqlMiddleware } = require('../../services/graphqlMiddleware');
+import schema from '../../services/buildStoreFrontSchema.js';
+import { graphqlMiddleware } from '../../services/graphqlMiddleware.js';
 
 const middleware = graphqlMiddleware(schema);
-module.exports = middleware;
+export default middleware;

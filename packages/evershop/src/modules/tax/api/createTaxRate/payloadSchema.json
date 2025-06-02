@@ -27,8 +27,5 @@
     }
   },
   "additionalProperties": true,
-  "required": [
-    "name",
-    "rate"
-  ]
+  "required": ["name", "rate"]
 }

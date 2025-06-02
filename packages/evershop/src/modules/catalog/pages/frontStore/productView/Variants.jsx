@@ -1,11 +1,12 @@
-/* eslint-disable no-restricted-syntax */
+
 import PropTypes from 'prop-types';
-import React from 'react';
 import PubSub from 'pubsub-js';
-import { FORM_VALIDATED } from '@evershop/evershop/src/lib/util/events';
+import React from 'react';
+import { FORM_VALIDATED } from '../../../../../lib/util/events';
+
 import './Variants.scss';
 import { useAppDispatch } from '@components/common/context/app';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 const processAttributes = (vs, attributes, currentUrl) => {
   const selectedOptions = [];
@@ -100,12 +101,10 @@ export default function Variants({
       return true;
     }
     if (attributeRef.current.find((a) => a.selected !== true)) {
-      // eslint-disable-next-line no-param-reassign
       errors.variants = 'Missing variant';
       setError(_('Please select variant options'));
       return false;
     } else {
-      // eslint-disable-next-line no-param-reassign
       delete errors.variants;
       setError(null);
       return true;
@@ -139,7 +138,7 @@ export default function Variants({
     url.searchParams.set(attributeCode, optionId);
     await AppContextDispatch.fetchPageData(url);
     url.searchParams.delete('ajax');
-    // eslint-disable-next-line no-restricted-globals
+
     history.pushState(null, '', url);
     const popStateEvent = new PopStateEvent('popstate');
     dispatchEvent(popStateEvent);

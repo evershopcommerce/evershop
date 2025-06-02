@@ -1,6 +1,6 @@
-const Topo = require('@hapi/topo');
+import Topo from '@hapi/topo';
 
-module.exports.sortFields = (fields) => {
+export function sortFields(fields) {
   // Filter the fields.
   const newFields = [];
   fields.forEach((f) => {
@@ -50,4 +50,4 @@ module.exports.sortFields = (fields) => {
   });
 
   return finalFields;
-};
+}

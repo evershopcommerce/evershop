@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import Area from '@components/common/Area';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function CategoryView({ category }) {
   if (!category.showProducts) {

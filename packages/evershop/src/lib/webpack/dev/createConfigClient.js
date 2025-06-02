@@ -1,19 +1,19 @@
-const webpack = require('webpack');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const path = require('path');
-const { createBaseConfig } = require('../createBaseConfig');
-const { getComponentsByRoute } = require('../../componee/getComponentsByRoute');
-const { CONSTANTS } = require('../../helpers');
-const { GraphqlPlugin } = require('../plugins/GraphqlPlugin');
-const { getEnabledWidgets } = require('../../util/getEnabledWidgets');
+import path from 'path';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import webpack from 'webpack';
+import { getComponentsByRoute } from '../../componee/getComponentsByRoute.js';
+import { CONSTANTS } from '../../helpers.js';
+import { getEnabledWidgets } from '../../util/getEnabledWidgets.js';
+import { createBaseConfig } from '../createBaseConfig.js';
+import { GraphqlPlugin } from '../plugins/GraphqlPlugin.js';
 
-module.exports.createConfigClient = function createConfigClient(route) {
+export function createConfigClient(route) {
   const config = createBaseConfig(false);
   config.name = route.id;
 
   const loaders = config.module.rules;
   loaders.unshift({
-    test: /common[\\/]react[\\/]client[\\/]Index\.jsx$/i,
+    test: /common[\\/]react[\\/]client[\\/]Index\.js$/i,
     use: [
       {
         loader: path.resolve(
@@ -54,7 +54,7 @@ module.exports.createConfigClient = function createConfigClient(route) {
       {
         loader: 'sass-loader',
         options: {
-          implementation: require('sass'),
+          implementation: 'sass',
           api: 'modern'
         }
       }
@@ -62,7 +62,7 @@ module.exports.createConfigClient = function createConfigClient(route) {
   });
 
   loaders.push({
-    test: /Client\.jsx$/,
+    test: /Client\.js$/,
     use: [
       {
         loader: path.resolve(
@@ -92,18 +92,18 @@ module.exports.createConfigClient = function createConfigClient(route) {
     entry[route.id] = [
       ...getComponentsByRoute(route),
       path.resolve(
-        CONSTANTS.MOLDULESPATH,
-        '../components/common/react/client/Index.jsx'
+        CONSTANTS.MODULESPATH,
+        '../components/common/react/client/Index.js'
       ),
       `webpack-hot-middleware/client?path=/eHot/${route.id}&reload=true&overlay=true`
     ];
     // Widgets
-    const widgets = getEnabledWidgets();
-    if (!route.isAdmin) {
-      Object.keys(widgets).forEach((widget) => {
-        entry[route.id].push(widgets[widget].component);
-      });
-    }
+    // const widgets = getEnabledWidgets();
+    // if (!route.isAdmin) {
+    //   Object.keys(widgets).forEach((widget) => {
+    //     entry[route.id].push(widgets[widget].component);
+    //   });
+    // }
     return entry;
   };
   config.watchOptions = {
@@ -114,4 +114,4 @@ module.exports.createConfigClient = function createConfigClient(route) {
   // Enable source maps
   config.devtool = 'eval-cheap-module-source-map';
   return config;
-};
+}

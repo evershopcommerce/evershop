@@ -1,5 +1,4 @@
-/* eslint-disable no-undef, global-require */
-const { merge } = require('../../merge');
+import { merge } from '../../merge.js';
 
 describe('Test until merge', () => {
   it('It should thrown an exception if `object` is not an object or null', () => {

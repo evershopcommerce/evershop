@@ -1,7 +1,6 @@
-const createCollection = require('../../services/collection/createCollection');
+import createCollection from '../../services/collection/createCollection.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate) => {
+export default async (request, response, delegate) => {
   const collection = await createCollection(request.body, {
     routeId: request.currentRoute.id
   });

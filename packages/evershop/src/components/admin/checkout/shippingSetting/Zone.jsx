@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { Card } from '@components/admin/cms/Card';
-import MapIcon from '@heroicons/react/solid/esm/LocationMarkerIcon';
-import { useModal } from '@components/common/modal/useModal';
-import ZoneForm from '@components/admin/checkout/shippingSetting/ZoneForm';
 import { Methods } from '@components/admin/checkout/shippingSetting/Methods';
+import ZoneForm from '@components/admin/checkout/shippingSetting/ZoneForm';
+import { Card } from '@components/admin/cms/Card';
+import { useModal } from '@components/common/modal/useModal';
+import MapIcon from '@heroicons/react/solid/esm/LocationMarkerIcon';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { toast } from 'react-toastify';
 
 function Zone({ zone, countries, getZones }) {
   const modal = useModal();

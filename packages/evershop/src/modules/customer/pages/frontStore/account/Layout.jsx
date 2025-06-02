@@ -1,8 +1,8 @@
+import Area from '@components/common/Area';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import Area from '@components/common/Area';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 export default function Layout({ logoutUrl }) {
   const logout = async (e) => {

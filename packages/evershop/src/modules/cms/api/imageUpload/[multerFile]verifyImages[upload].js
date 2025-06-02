@@ -1,9 +1,6 @@
-const {
-  INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
+import { INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = (request, response, delegate, next) => {
+export default (request, response, delegate, next) => {
   if (!request.files || request.files.length === 0) {
     next();
   } else {

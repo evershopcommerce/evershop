@@ -1,17 +1,17 @@
-const bcrypt = require('bcryptjs');
-const { getValueSync } = require('./registry');
+import bcrypt from 'bcryptjs';
+import { getValueSync } from './registry.js';
 
-module.exports.hashPassword = function hashPassword(password) {
+export function hashPassword(password) {
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(password, salt);
   return hash;
-};
+}
 
-module.exports.comparePassword = function comparePassword(password, hash) {
+export function comparePassword(password, hash) {
   return bcrypt.compareSync(password, hash);
-};
+}
 
-module.exports.verifyPassword = function verifyPassword(password) {
+export function verifyPassword(password) {
   const rules = getValueSync(
     'passwordVerifyRules',
     [
@@ -56,4 +56,4 @@ module.exports.verifyPassword = function verifyPassword(password) {
   if (errors.length) {
     throw new Error(`Password is invalid: ${errors.join(', ')}`);
   }
-};
+}

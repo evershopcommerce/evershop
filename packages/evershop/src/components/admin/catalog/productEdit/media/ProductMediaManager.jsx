@@ -1,12 +1,11 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable no-undef */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import uniqid from 'uniqid';
 import { toast } from 'react-toastify';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import { get } from '../../../../../lib/util/get.js';
 import './ProductMediaManager.scss';
 import Spinner from '@components/common/Spinner';
 
@@ -185,7 +184,7 @@ export default function ProductMediaManager({
       }
 
       const Swappable = await loadSwappable();
-      // eslint-disable-next-line new-cap
+
       const swappable = new Swappable(document.querySelectorAll(`div#${id}`), {
         draggable: 'div.image',
         handle: 'div.image img'

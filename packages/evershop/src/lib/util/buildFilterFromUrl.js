@@ -1,4 +1,4 @@
-module.exports.buildFilterFromUrl = (request) => {
+export const buildFilterFromUrl = (request) => {
   const { query } = request;
   if (!query) {
     return [];

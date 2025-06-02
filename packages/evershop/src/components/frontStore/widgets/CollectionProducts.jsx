@@ -1,4 +1,4 @@
-import ProductList from '@components/frontStore/catalog/product/list/List';
+import ProductList from '@components/frontStore/catalog/product/list/List.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 

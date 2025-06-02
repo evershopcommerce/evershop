@@ -6,4 +6,4 @@ function logoutCustomer() {
   this.locals.customer = undefined;
 }
 
-module.exports = logoutCustomer;
+export default logoutCustomer;

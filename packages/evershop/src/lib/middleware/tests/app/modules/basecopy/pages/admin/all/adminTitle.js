@@ -1,1 +1,1 @@
-module.exports = (request, response, next) => {};
+export default (request, response, next) => {};

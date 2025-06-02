@@ -1,8 +1,6 @@
-/* eslint-disable no-multi-assign */
-/* eslint-disable prefer-destructuring */
-const { sep } = require('path');
+import { sep } from 'path';
 
-module.exports.getRouteFromPath = (path) => {
+export function getRouteFromPath(path) {
   const parts = path.split(sep).reverse();
 
   // Check if current path is an api path
@@ -45,4 +43,4 @@ module.exports.getRouteFromPath = (path) => {
     scope,
     routeId
   };
-};
+}

@@ -1,8 +1,8 @@
+import { AddressSummary } from '@components/common/customer/address/AddressSummary';
+import Button from '@components/common/form/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Button from '@components/common/form/Button';
-import { AddressSummary } from '@components/common/customer/address/AddressSummary';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '../../../../../lib/locale/translate/index.js';
 
 export default function CustomerInfo({
   order: {

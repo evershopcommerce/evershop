@@ -1,9 +1,9 @@
-const { hookAfter } = require('../../lib/util/hookable');
-const { addProcessor } = require('../../lib/util/registry');
-const { getSetting } = require('../setting/services/setting');
-const { voidPaymentTransaction } = require('./services/voidPaymentTransaction');
+import { hookAfter } from '../../lib/util/hookable.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { getSetting } from '../setting/services/setting.js';
+import { voidPaymentTransaction } from './services/voidPaymentTransaction.js';
 
-module.exports = () => {
+export default () => {
   addProcessor('cartFields', (fields) => {
     fields.push({
       key: 'payment_method',

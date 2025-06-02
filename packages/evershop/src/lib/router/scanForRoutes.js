@@ -1,9 +1,5 @@
-/* eslint-disable global-require */
-const { readdirSync, existsSync } = require('fs');
-const { join } = require('path');
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+import { existsSync, readdirSync, readFileSync } from 'fs';
+import { join } from 'path';
 
 function startWith(str, prefix) {
   return str.slice(0, prefix.length) === prefix;
@@ -38,8 +34,7 @@ function validateRoute(methods, path, routePath) {
 /**
  * Scan for routes base on module path.
  */
-
-exports.scanForRoutes = (path, isAdmin, isApi) => {
+export function scanForRoutes(path, isAdmin, isApi) {
   const scanedRoutes = readdirSync(path, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name);
@@ -48,7 +43,9 @@ exports.scanForRoutes = (path, isAdmin, isApi) => {
       if (/^[A-Za-z.]+$/.test(r) === true) {
         if (existsSync(join(path, r, 'route.json'))) {
           // import route.json
-          const routeJson = require(join(path, r, 'route.json'));
+          const routeJson = JSON.parse(
+            readFileSync(join(path, r, 'route.json'), 'utf8')
+          );
           const methods = routeJson?.methods.map((m) => m.toUpperCase()) || [];
           let routePath = routeJson?.path;
           if (
@@ -60,7 +57,9 @@ exports.scanForRoutes = (path, isAdmin, isApi) => {
             // Load the validation schema
             let payloadSchema;
             if (existsSync(join(path, r, 'payloadSchema.json'))) {
-              payloadSchema = require(join(path, r, 'payloadSchema.json'));
+              payloadSchema = JSON.parse(
+                readFileSync(join(path, r, 'payloadSchema.json'), 'utf8')
+              );
             }
 
             return {
@@ -85,4 +84,4 @@ exports.scanForRoutes = (path, isAdmin, isApi) => {
       }
     })
     .filter((e) => e !== false);
-};
+}

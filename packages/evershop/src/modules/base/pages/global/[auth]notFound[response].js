@@ -1,9 +1,7 @@
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const { setContextValue } = require('../../../graphql/services/contextHelper');
+import { translate } from '../../../../lib/locale/translate/translate.js';
+import { setContextValue } from '../../../graphql/services/contextHelper.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   if (response.statusCode !== 404) {
     next();
   } else {

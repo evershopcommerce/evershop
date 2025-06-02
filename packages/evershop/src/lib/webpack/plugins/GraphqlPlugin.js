@@ -1,10 +1,7 @@
-const { getComponentsByRoute } = require('../../componee/getComponentsByRoute');
-const { parseGraphql } = require('../util/parseGraphql');
+import { getComponentsByRoute } from '../../componee/getComponentsByRoute.js';
+import { parseGraphql } from '../util/parseGraphql.js';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
-
-exports.GraphqlPlugin = class GraphqlPlugin {
+export const GraphqlPlugin = class GraphqlPlugin {
   constructor(route, outputFile = undefined) {
     this.route = route;
     this.outputFile = outputFile || 'query.graphql';

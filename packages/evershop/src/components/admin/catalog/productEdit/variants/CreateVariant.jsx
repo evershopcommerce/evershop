@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { SubmitButton } from '@components/admin/catalog/productEdit/variants/SubmitButton';
+import { VariantModal } from '@components/admin/catalog/productEdit/variants/VariantModal';
+import { Card } from '@components/admin/cms/Card';
 import Button from '@components/common/form/Button';
 import { Form, useFormDispatch } from '@components/common/form/Form';
 import { useModal } from '@components/common/modal/useModal';
-import { Card } from '@components/admin/cms/Card';
-import { VariantModal } from '@components/admin/catalog/productEdit/variants/VariantModal';
-import { SubmitButton } from '@components/admin/catalog/productEdit/variants/SubmitButton';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export function CreateVariant({
   productId,

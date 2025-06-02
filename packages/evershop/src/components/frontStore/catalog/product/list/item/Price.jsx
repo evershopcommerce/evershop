@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 function Price({ regular, special }) {
   return (
     <div className="product-price-listing">

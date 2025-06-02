@@ -72,14 +72,13 @@ module.exports = () => {
     const locale = getConfig('shop.language', 'en');
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
-    // eslint-disable-next-line no-param-reassign
     order.created_at = new Date(order.created_at).toLocaleDateString(
       locale,
       options
     );
 
     // Add the order total text including the currency
-    // eslint-disable-next-line no-param-reassign
+
     order.grand_total_text = Number(order.grand_total).toLocaleString(locale, {
       style: 'currency',
       currency: order.currency

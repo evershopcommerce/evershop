@@ -1,8 +1,7 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { OK } = require('@evershop/evershop/src/lib/util/httpStatus');
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import { OK } from '../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, delegate, next) => {
   const attribute = await delegate.createAttribute;
   response.status(OK);
   response.json({

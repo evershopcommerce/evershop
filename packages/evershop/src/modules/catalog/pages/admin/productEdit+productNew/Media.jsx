@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import ProductMediaManager from '@components/admin/catalog/productEdit/media/ProductMediaManager';
 import { Card } from '@components/admin/cms/Card';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function Media({ id, product, productImageUploadUrl }) {
   const image = product?.image;

@@ -1,12 +1,8 @@
-/* eslint-disable no-undef, global-require */
 process.env.ALLOW_CONFIG_MUTATIONS = 'true';
-const config = require('config');
-require('../basicSetup');
-const { Cart } = require('../../services/cart/Cart');
-const {
-  hookAfter,
-  hookBefore
-} = require('@evershop/evershop/src/lib/util/hookable');
+import config from 'config';
+import '../basicSetup.js';
+import { Cart } from '../../services/cart/Cart.js';
+import { hookAfter, hookBefore } from '../../../../lib/util/hookable.js';
 // Default tax configuration
 config.util.setModuleDefaults('pricing', {
   tax: {
