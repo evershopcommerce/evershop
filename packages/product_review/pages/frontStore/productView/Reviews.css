@@ -1,0 +1,22 @@
+.review__list {
+  margin-bottom: 20px;
+}
+.review__list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.review__list li :last-child {
+  border-bottom: 0;
+}
+.review__list .user-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.review__list .comment {
+  font-style: italic;
+}
+
+.rating__stars {
+  display: flex;
+  justify-self: start;
+}/*# sourceMappingURL=Reviews.css.map */

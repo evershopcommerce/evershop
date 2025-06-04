@@ -1,0 +1,61 @@
+.search-box {
+  align-self: center;
+  margin-left: 23.3rem;
+  width: 55rem;
+  position: relative;
+}
+.search-box .field-wrapper {
+  background-color: #f1f2f3;
+  border-radius: 3px;
+}
+.search-box .field-border {
+  border-color: #f1f2f3 !important;
+}
+.search-box .field-prefix {
+  padding-left: 0.85rem;
+}
+.search-box .search-result {
+  position: absolute;
+  top: calc(100% + 1rem);
+  left: 0;
+  background-color: #202123;
+  border-radius: 5px;
+  width: 100%;
+  color: #999fa4;
+  padding: 2rem 1rem;
+}
+.search-box .search-result .loading {
+  color: var(--primary);
+  position: absolute;
+  top: calc(50% - 1rem);
+  left: calc(50% - 1rem);
+}
+.search-box .no-result h3 {
+  font-size: 2.6rem;
+  color: white;
+}
+.search-box .results {
+  max-height: 20rem;
+  overflow-y: auto;
+}
+.search-box .results h3 {
+  color: white;
+  font-size: 2.6rem;
+}
+.search-box .results .result-category {
+  text-transform: uppercase;
+}
+.search-box .results .item-list {
+  margin-top: 1rem;
+}
+.search-box .results .item-list .result-category {
+  margin-bottom: 5px;
+}
+.search-box .results .item-list .item-category a {
+  margin-top: 2px;
+  border-radius: 3px;
+  padding: 3px 10px;
+}
+.search-box .results .item-list .item-category a:hover {
+  background-color: #2f3133;
+}/*# sourceMappingURL=SearchBox.css.map */

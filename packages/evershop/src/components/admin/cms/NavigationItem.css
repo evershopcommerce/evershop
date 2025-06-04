@@ -1,0 +1,8 @@
+.nav-item .menu-icon {
+  padding-right: 10px;
+  align-self: center;
+}
+.nav-item .menu-icon svg {
+  width: 15px;
+  height: 15px;
+}/*# sourceMappingURL=NavigationItem.css.map */

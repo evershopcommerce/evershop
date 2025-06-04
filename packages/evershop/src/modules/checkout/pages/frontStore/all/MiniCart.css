@@ -1,0 +1,21 @@
+.mini-cart-icon {
+  position: relative;
+  display: block;
+}
+.mini-cart-icon svg {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.mini-cart-icon span {
+  display: block;
+  background-color: #3a3a3a;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 100%;
+  text-align: center;
+  color: white;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  font-size: 12px;
+}/*# sourceMappingURL=MiniCart.css.map */

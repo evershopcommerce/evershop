@@ -1,0 +1,7 @@
+.checkout-summary.checkout__summary__mobile {
+  min-height: auto;
+}
+.checkout-summary.checkout__summary__mobile::after {
+  display: none;
+  background-color: none;
+}/*# sourceMappingURL=SummaryMobile.css.map */

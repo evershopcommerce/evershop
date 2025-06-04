@@ -1,0 +1,32 @@
+.next a,
+.first a,
+.last a,
+.prev a {
+  width: 3.5rem;
+  height: 3.5rem;
+  color: var(--border);
+  display: flex;
+  border: 1px solid var(--divider);
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+}
+.next a svg,
+.first a svg,
+.last a svg,
+.prev a svg {
+  width: 55%;
+}
+
+.pagination input {
+  text-align: center;
+}
+
+.current .field-suffix {
+  display: none;
+  padding: 0;
+}
+
+.current select {
+  text-align: center;
+}/*# sourceMappingURL=Pagination.css.map */

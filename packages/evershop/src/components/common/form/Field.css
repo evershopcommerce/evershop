@@ -1,0 +1,213 @@
+html input[type=text],
+html input[type=email],
+html input[type=password],
+html input[type=tel],
+html select,
+html textarea {
+  background: none;
+  padding: 0.5rem 1.2rem;
+  display: block;
+  flex: 1 1;
+  display: block;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  border: 1px solid transparent;
+  margin: 1px;
+  border-radius: 4px;
+}
+html input[type=text]:focus,
+html input[type=email]:focus,
+html input[type=password]:focus,
+html input[type=tel]:focus,
+html select:focus,
+html textarea:focus {
+  outline: none;
+}
+html input[type=text]:focus + .field-border:after,
+html input[type=email]:focus + .field-border:after,
+html input[type=password]:focus + .field-border:after,
+html input[type=tel]:focus + .field-border:after,
+html select:focus + .field-border:after,
+html textarea:focus + .field-border:after {
+  box-shadow: 0 0 0 2px #458fff;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+}
+select ~ .field-suffix {
+  margin-left: -1.85rem;
+}
+
+input[type=radio] {
+  width: 0;
+  height: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+}
+input[type=radio] + .radio-checked,
+input[type=radio] + .radio-unchecked {
+  border: 2px solid var(--formFieldBorder);
+  border-radius: 100%;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: inline-flex;
+  box-sizing: border-box;
+  justify-content: center;
+  transition: border-color 1s;
+}
+input[type=radio]:checked + .radio-checked {
+  border-color: var(--interactive);
+}
+input[type=radio]:checked + .radio-checked span {
+  align-self: center;
+  background-color: var(--interactive);
+  display: inline-block;
+  border-radius: 100%;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+input[type=checkbox] {
+  width: 0;
+  height: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+}
+input[type=checkbox] + .checkbox-checked,
+input[type=checkbox] + .checkbox-unchecked {
+  border: 2px solid var(--formFieldBorder);
+  border-radius: 4px;
+  width: 1.8rem;
+  height: 1.8rem;
+  display: inline-flex;
+  box-sizing: border-box;
+  justify-content: center;
+  transition: background-color 1000ms ease-in;
+}
+input[type=checkbox]:checked + .checkbox-checked {
+  border: 0;
+  background-color: var(--interactive);
+}
+input[type=checkbox]:checked + .checkbox-checked svg {
+  fill: white;
+  color: white;
+}
+
+.radio-field > div {
+  padding: 0.15rem 0;
+}
+
+.field-wrapper {
+  background-color: white;
+  position: relative;
+}
+.field-wrapper label {
+  cursor: pointer;
+}
+.field-wrapper.radio-field {
+  background-color: transparent;
+}
+.field-wrapper .field-border {
+  border: 1px solid var(--formFieldBorder);
+  border-top-color: var(--formFieldBorderShadow);
+  border-radius: 4px;
+  position: absolute;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.field-wrapper .field-border:after {
+  transition: box-shadow 0.1s;
+  position: absolute;
+  z-index: 9;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  content: "";
+  border-radius: 4px;
+}
+
+.field-instruction {
+  color: var(--textSubdued);
+}
+
+.form-field-container {
+  margin-top: 2rem;
+}
+.form-field-container:first-child {
+  margin-top: 0;
+}
+.form-field-container label {
+  margin-bottom: 0.3rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.field-error {
+  margin-top: 0.25rem;
+}
+.field-error svg {
+  width: 22px;
+  height: 22px;
+  fill: var(--critical);
+  color: var(--critical);
+  align-self: center;
+  margin-right: 0.4rem;
+}
+.field-error span {
+  align-self: center;
+  line-height: 1;
+}
+
+.form-field-container.has-error .field-border {
+  border-color: var(--critical);
+  background-color: #fff4f4;
+}
+
+.field-prefix,
+.field-suffix {
+  position: relative;
+  z-index: 10;
+  padding: 0 1.25rem;
+  align-self: center;
+  display: inline-flex;
+}
+
+.dropdown .field-prefix,
+.dropdown .field-suffix {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  align-self: center;
+  align-items: center;
+  display: inline-flex;
+}
+
+.dropdown .field-prefix {
+  left: 0;
+  padding-left: 0 0 0 1rem;
+}
+
+.dropdown .field-suffix {
+  right: 0;
+  padding-right: 0 1rem 0 0;
+}
+
+.form-control[disabled] + .field-border,
+input[readonly] + .field-border {
+  background-color: #e2e2e2;
+  cursor: not-allowed;
+}
+.form-control[disabled] + .field-border:after,
+input[readonly] + .field-border:after {
+  box-shadow: none;
+}/*# sourceMappingURL=Field.css.map */

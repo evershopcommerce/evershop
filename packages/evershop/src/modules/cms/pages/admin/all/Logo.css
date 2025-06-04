@@ -1,0 +1,12 @@
+.logo {
+  display: flex;
+}
+.logo a {
+  align-self: center;
+  color: var(--primary);
+  padding: 3px;
+}
+.logo a svg {
+  width: 4rem;
+  height: 3rem;
+}/*# sourceMappingURL=Logo.css.map */

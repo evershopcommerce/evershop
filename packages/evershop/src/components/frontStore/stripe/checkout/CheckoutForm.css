@@ -1,0 +1,24 @@
+.stripe-form .stripe-form-heading {
+  border-bottom: 1px solid var(--divider);
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  -moz-columns: #333333;
+       columns: #333333;
+  font-size: 16px;
+}
+.stripe-form .stripe-form-heading .button {
+  font-size: 1.2rem;
+  padding: 0.5rem 0.85rem;
+}
+.stripe-form .stripe-form-heading svg {
+  max-height: 2.5rem;
+  min-height: 2.5rem;
+}
+.stripe-form .stripe-form-body {
+  background-color: #fafafa;
+  padding: 1.5rem;
+}
+
+.cls-1 {
+  fill: #635bff;
+}/*# sourceMappingURL=CheckoutForm.css.map */

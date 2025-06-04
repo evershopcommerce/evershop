@@ -1,0 +1,21 @@
+.variant-option-list li {
+  border: 1px solid var(--divider);
+  border-radius: 2px;
+  background-color: #fff;
+  font-size: 12px;
+}
+.variant-option-list li a,
+.variant-option-list li span {
+  padding: 1rem 1.5rem;
+  display: block;
+  text-align: center;
+}
+.variant-option-list li.selected {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+.variant-option-list li.un-available {
+  background-color: var(--border);
+  color: #fff;
+}/*# sourceMappingURL=Variants.css.map */

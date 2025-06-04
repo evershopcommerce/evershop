@@ -1,0 +1,40 @@
+.checkout-steps form .form-submit-button {
+  padding-top: 0px;
+  border-top: 0;
+  display: flex;
+  justify-content: end;
+}
+.checkout-steps form .form-submit-button button.button {
+  padding: 2rem;
+  font-weight: 400;
+}
+.checkout-steps form label {
+  color: var(--textSubdued);
+}
+.checkout-steps .place-order-button button {
+  padding: 2rem;
+  font-weight: 400;
+}
+
+.wrapper .header {
+  margin-bottom: 0;
+}
+.wrapper .footer {
+  margin-top: 0;
+}
+
+.checkout-steps {
+  padding-bottom: 2rem;
+}
+
+.separator {
+  padding: 0 5px;
+}
+
+.checkout-breadcrumb {
+  font-size: 12px;
+}
+
+.breadcrumb {
+  display: none;
+}/*# sourceMappingURL=Checkout.css.map */

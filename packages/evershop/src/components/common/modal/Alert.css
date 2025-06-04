@@ -1,0 +1,60 @@
+.modal-overlay {
+  position: fixed;
+  top: 100%;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1001;
+  background-color: rgba(17, 18, 19, 0.3);
+  animation-duration: 0.25s;
+}
+.modal-overlay .modal-wrapper {
+  max-height: calc(100vh - 4rem);
+}
+.modal-overlay .modal-wrapper .modal {
+  max-height: calc(100vh - 4rem);
+}
+.modal-overlay .modal-wrapper .modal-content {
+  max-height: calc(100vh - 18rem);
+  overflow-y: auto;
+}
+.modal-overlay.fadeIn {
+  top: 0;
+  animation-name: fadeIn;
+}
+.modal-overlay.fadeOut {
+  top: 100%;
+  animation-name: fadeOut;
+}
+.modal-overlay .modal {
+  min-width: 50rem;
+  max-width: 50%;
+  position: relative;
+}
+.modal-overlay .modal .modal-close-button {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+}
+@keyframes fadeIn {
+  0% {
+    top: 100%;
+    opacity: 0;
+  }
+  100% {
+    top: 0%;
+    opacity: 100;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 100;
+    top: 0%;
+  }
+  100% {
+    opacity: 0;
+    top: 100%;
+  }
+}/*# sourceMappingURL=Alert.css.map */

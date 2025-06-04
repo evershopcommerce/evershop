@@ -1,0 +1,27 @@
+.category__name {
+  font-size: 4rem;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.category__general {
+  position: relative;
+}
+.category__general .category__image {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  min-height: 200px;
+}
+.category__general .category__image + .category__info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 50px;
+}
+.category__general .category__info {
+  align-items: center;
+}/*# sourceMappingURL=General.css.map */

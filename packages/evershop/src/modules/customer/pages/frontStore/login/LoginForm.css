@@ -1,0 +1,28 @@
+.login-form {
+  width: 468px;
+  max-width: 80%;
+  background-color: white;
+  border-radius: 5px;
+  padding: 4rem;
+  box-shadow: 6px 12px 60px rgba(0, 0, 0, 0.2);
+}
+.login-form h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+.login-form .form-submit-button button {
+  width: 100%;
+  padding: 1.2rem 1.6rem;
+}
+.login-form .form-field-container label {
+  color: #666;
+}
+.login-form input[type=text],
+.login-form input[type=password] {
+  padding: 0.8rem 1.2rem;
+}
+.login-form .login-form-inner {
+  width: 100%;
+}/*# sourceMappingURL=LoginForm.css.map */

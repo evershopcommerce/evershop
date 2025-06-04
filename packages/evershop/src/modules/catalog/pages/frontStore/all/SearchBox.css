@@ -1,0 +1,40 @@
+.search-box {
+  align-self: center;
+  position: relative;
+}
+.search-box .field-wrapper {
+  background-color: #f1f2f3;
+  border-radius: 3px;
+}
+.search-box .field-border {
+  border-color: #f1f2f3 !important;
+}
+.search-box .field-prefix {
+  padding-left: 0.85rem;
+}
+.search-box .search-input-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
+.search-box .search-input-container .search-input {
+  background-color: white;
+  padding: 5rem;
+  display: flex;
+  justify-content: center;
+}
+.search-box .search-input-container .search-input .form-field-container {
+  width: 80%;
+}
+.search-box .search-input-container .search-input .close-icon {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  font-size: 2rem;
+  cursor: pointer;
+}/*# sourceMappingURL=SearchBox.css.map */

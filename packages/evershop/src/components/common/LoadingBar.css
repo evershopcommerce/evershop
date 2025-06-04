@@ -1,0 +1,11 @@
+.loading-bar {
+  background: #058c8c;
+  height: 4px;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: width 1.5s;
+  width: 0%;
+  z-index: 1001;
+}/*# sourceMappingURL=LoadingBar.css.map */
