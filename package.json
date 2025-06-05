@@ -12,6 +12,8 @@
     "start": "turbo watch start --filter=@evershop/evershop --filter=agegate",
     "build": "turbo watch build --filter=@evershop/evershop --filter=agegate",
     "setup": "evershop install",
+     "user:create": "evershop user:create",
+  "user:changePassword": "evershop user:changePassword",
     "build-no-compile": "node packages/evershop/dist/bin/build/index.js",
     "start:debug": "node ./packages/evershop/dist/bin/start/index.js --debug",
     "test": "ALLOW_CONFIG_MUTATIONS=true NODE_OPTIONS=--experimental-vm-modules node_modules/jest/bin/jest.js",
