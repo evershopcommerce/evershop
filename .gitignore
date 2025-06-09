@@ -20,3 +20,5 @@ cypress
 .prettierignore
 .prettierrc
 mysqlToPostgres.js
+__pycache__/
+*.py[cod]
