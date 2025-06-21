@@ -5,16 +5,27 @@ import {
   specifiedRules,
   validateSchema
 } from 'graphql';
+import { isDevelopmentMode } from '../../../../lib/index.js';
 import { debug } from '../../../../lib/log/logger.js';
-import adminSchema from '../../services/buildSchema.js';
-import storeFrontSchema from '../../services/buildStoreFrontSchema.js';
+import adminSchema, { rebuildSchema } from '../../services/buildSchema.js';
+import storeFrontSchema, {
+  rebuildStoreFrontSchema
+} from '../../services/buildStoreFrontSchema.js';
 import { getContext } from '../../services/contextHelper.js';
 import { graphqlErrorMessageFormat } from '../../services/graphqlErrorMessageFormat.js';
 
 export default async function graphql(request, response, delegate, next) {
   const { currentRoute } = request;
-  const schema =
-    currentRoute && currentRoute.isAdmin ? adminSchema : storeFrontSchema;
+  let schema;
+  if (isDevelopmentMode()) {
+    schema =
+      currentRoute && currentRoute.isAdmin
+        ? await rebuildSchema()
+        : await rebuildStoreFrontSchema();
+  } else {
+    schema =
+      currentRoute && currentRoute.isAdmin ? adminSchema : storeFrontSchema;
+  }
   // TODO: Should we wait for previous async middlewares?
   try {
     const { body } = request;

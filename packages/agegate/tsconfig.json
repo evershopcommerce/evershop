@@ -17,10 +17,7 @@
     "allowArbitraryExtensions": true,
     "strictNullChecks": true,
     "baseUrl": ".",
-    "rootDir": "./src",
-    "paths": {
-      "@components/*": ["@evershop/evershop/components/*"]
-    }
+    "rootDir": "./src"
   },
   "include": ["src"]
 }

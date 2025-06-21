@@ -100,15 +100,16 @@ export const start = async function start(cb) {
   jobChild.on('error', (err) => {
     error(`Error spawning job processor: ${err}`);
   });
-  jobChild.unref();
-};
 
-export const updateApp = function updateApp(cb) {
-  /** Clean up middleware */
-  Handler.middlewares = [];
-  const newApp = createApp();
-  server.removeListener('request', app);
-  server.on('request', newApp);
-  app = newApp;
-  cb();
+  jobChild.unref();
+  process.on('exit', () => {
+    // Cleanup child processes on exit
+    if (child && child.pid) {
+      child.kill('SIGTERM');
+    }
+    if (jobChild && jobChild.pid) {
+      jobChild.kill('SIGTERM');
+    }
+    process.kill(process.ppid, 'SIGUSR2');
+  });
 };

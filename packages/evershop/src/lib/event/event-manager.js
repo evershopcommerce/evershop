@@ -3,7 +3,7 @@ import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { loadBootstrapScript } from '../../bin/lib/bootstrap/bootstrap.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { pool } from '../../lib/postgres/connection.js';
-import { error } from '../log/logger.js';
+import { debug, error } from '../log/logger.js';
 import { lockHooks } from '../util/hookable.js';
 import { lockRegistry } from '../util/registry.js';
 import { callSubscribers } from './callSubscibers.js';
@@ -105,5 +105,27 @@ async function executeSubscribers(event) {
 
   event.status = 'done';
 }
+
+process.on('SIGTERM', async () => {
+  debug('Event manager received SIGTERM, shutting down...');
+  try {
+    process.exit(0);
+  } catch (err) {
+    error('Error during shutdown:');
+    error(err);
+    process.exit(1); // Exit with an error code
+  }
+});
+
+process.on('SIGINT', async () => {
+  debug('Event manager received SIGINT, shutting down...');
+  try {
+    process.exit(0);
+  } catch (err) {
+    error('Error during shutdown:');
+    error(err);
+    process.exit(1); // Exit with an error code
+  }
+});
 
 init();

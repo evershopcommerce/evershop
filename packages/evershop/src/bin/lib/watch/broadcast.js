@@ -1,6 +1,6 @@
-import { getRoutes } from '../../../src/lib/router/Router.js';
+import { getRoutes } from '../../../lib/router/Router.js';
 
-export const broadcash = async () => {
+export const broadcast = async () => {
   const routes = getRoutes();
   routes.forEach((route) => {
     if (

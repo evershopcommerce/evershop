@@ -1,14 +1,40 @@
-import './initEnvDev.js';
-import { start } from '../../bin/lib/startUp.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import spawn from 'cross-spawn';
+import { debug, error } from '../../lib/index.js';
 
-start();
-process.on('uncaughtException', function (exception) {
-  import('../../lib/log/logger.js').then((module) => {
-    module.error(exception);
+function startDev() {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
+  const args = [path.resolve(__dirname, 'init.js')];
+  const appProcess = spawn('node', args, {
+    stdio: ['inherit', 'inherit', 'inherit'],
+    env: {
+      ...process.env,
+      ALLOW_CONFIG_MUTATIONS: true
+    }
   });
+
+  appProcess.on('error', (err) => {
+    error(`Error spawning processor: ${err}`);
+  });
+
+  return appProcess;
+}
+
+const childProcess = startDev();
+process.on('exit', () => {
+  // Cleanup child processes on exit
+  if (childProcess && childProcess.pid) {
+    childProcess.kill();
+  }
 });
-process.on('unhandledRejection', (reason, p) => {
-  import('../../lib/log/logger.js').then((module) => {
-    module.error(`Unhandled Rejection: ${reason} at: ${p}`);
-  });
+
+process.on('SIGUSR2', () => {
+  debug('Restarting the development server');
+  if (childProcess && childProcess.pid) {
+    childProcess.kill('SIGTERM');
+  }
+  startDev();
 });

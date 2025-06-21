@@ -1,27 +1,34 @@
 import { existsSync } from 'fs';
+import path, { dirname } from 'path';
 import { error } from '../log/logger.js';
 import { getRoutes } from '../router/Router.js';
 import isDevelopmentMode from '../util/isDevelopmentMode.js';
+import isProductionMode from '../util/isProductionMode.js';
 import isErrorHandlerTriggered from './isErrorHandlerTriggered.js';
 import { noDublicateId } from './noDuplicateId.js';
 import { parseFromFile } from './parseFromFile.js';
 import { sortMiddlewares } from './sort.js';
+
 export class Handler {
   constructor(routeId) {
     this.routeId = routeId;
   }
+
   static addMiddleware(middleware) {
     this.middlewares.push(middleware);
   }
+
   static getMiddlewares() {
     return this.middlewares;
   }
+
   static getMiddleware(id) {
     return this.middlewares.find((m) => m.id === id);
   }
+
   static getMiddlewareByRoute(route) {
     const routeId = route.id;
-    if (this.sortedMiddlewarePerRoute[routeId]) {
+    if (isProductionMode() && this.sortedMiddlewarePerRoute[routeId]) {
       return this.sortedMiddlewarePerRoute[routeId];
     }
     const region = route.isApi ? 'api' : 'pages';
@@ -58,14 +65,29 @@ export class Handler {
     this.sortedMiddlewarePerRoute[routeId] = middlewares;
     return middlewares;
   }
+
   static getAppLevelMiddlewares(region) {
     return sortMiddlewares(
       this.middlewares.filter((m) => m.scope === 'app' && m.region === region)
     );
   }
+
   static removeMiddleware(path) {
     this.middlewares = this.middlewares.filter((m) => m.path !== path);
   }
+
+  static removeMiddlewares(basePath) {
+    this.middlewares = this.middlewares.filter((m) => {
+      if (m.path === basePath) {
+        return false;
+      } else if (dirname(m.path) === basePath) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+  }
+
   static addMiddlewareFromPath(path) {
     if (!existsSync(path) || !path.endsWith('.js')) {
       throw new Error(`Middleware file ${path} does not exist`);
@@ -80,6 +102,7 @@ export class Handler {
       });
     }
   }
+
   static middleware() {
     return (request, response, next) => {
       var _a;
@@ -128,4 +151,3 @@ export class Handler {
 }
 Handler.middlewares = [];
 Handler.sortedMiddlewarePerRoute = {};
-//# sourceMappingURL=Handler.js.map

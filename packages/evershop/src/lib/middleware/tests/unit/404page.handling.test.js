@@ -25,11 +25,14 @@ describe('buildMiddlewareFunction', () => {
       `http://localhost:${port}/noexistedroute`,
       {
         validateStatus(status) {
-          return status >= 200 && status < 500;
+          return status >= 200 && status < 600;
         }
       }
     );
+    console.log(response.status);
+    console.log(response.data);
     expect(response.status).toEqual(404);
+    expect(notFound).toHaveBeenCalledTimes(1);
   });
 
   it('It should return 404 page when middleware sets status to 404', async () => {

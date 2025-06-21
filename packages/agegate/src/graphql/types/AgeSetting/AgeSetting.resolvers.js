@@ -5,7 +5,7 @@ export default {
       if (minAge) {
         return minAge.value;
       } else {
-        return 18;
+        return 10;
       }
     }
   }

@@ -4,6 +4,7 @@ import { loadFiles } from '@graphql-tools/load-files';
 import { mergeResolvers } from '@graphql-tools/merge';
 import { getEnabledExtensions } from '../../../bin/extension/index.js';
 import { CONSTANTS } from '../../../lib/helpers.js';
+import { isDevelopmentMode } from '../../../lib/index.js';
 
 export async function buildResolvers(isAdmin = false) {
   const typeSources = [
@@ -24,8 +25,15 @@ export async function buildResolvers(isAdmin = false) {
         ? []
         : ['.admin.resolvers.js', '.admin.resolvers.ts'],
       requireMethod: async (path) => {
-        const module = await import(url.pathToFileURL(path));
-        return module;
+        if (isDevelopmentMode()) {
+          const module = await import(
+            `${url.pathToFileURL(path)}?t=${Date.now()}`
+          );
+          return module;
+        } else {
+          const module = await import(url.pathToFileURL(path));
+          return module;
+        }
       }
     })
   );

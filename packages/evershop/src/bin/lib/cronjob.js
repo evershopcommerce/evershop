@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import { error } from '../../lib/log/logger.js';
+import { debug, error } from '../../lib/log/logger.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 
 function start() {
@@ -38,5 +38,27 @@ function start() {
     });
   });
 }
+
+process.on('SIGTERM', async () => {
+  debug('Cron job received SIGTERM, shutting down...');
+  try {
+    process.exit(0);
+  } catch (err) {
+    error('Error during shutdown:');
+    error(err);
+    process.exit(1); // Exit with an error code
+  }
+});
+
+process.on('SIGINT', async () => {
+  debug('Cron job received SIGINT, shutting down...');
+  try {
+    process.exit(0);
+  } catch (err) {
+    error('Error during shutdown:');
+    error(err);
+    process.exit(1); // Exit with an error code
+  }
+});
 
 start();

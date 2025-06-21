@@ -1,10 +1,11 @@
 import { existsSync } from 'fs';
 import { sep } from 'path';
-import { error } from '../log/logger.js';
+import { debug, error } from '../log/logger.js';
 import isDevelopmentMode from '../util/isDevelopmentMode.js';
 import { getDelegates, setDelegate } from './delegate.js';
 import eNext from './eNext.js';
 import isErrorHandlerTriggered from './isErrorHandlerTriggered.js';
+import isProductionMode from '../util/isProductionMode.js';
 
 /**
  * This function takes the defined middleware function and return a new one with wrapper
@@ -29,7 +30,9 @@ export function buildMiddlewareFunction(id, path) {
   // TODO: fix me
   if (id === 'errorHandler' || id === 'apiErrorHandler') {
     return async (error, request, response, next) => {
-      const m = await import(path);
+      const m = isDevelopmentMode()
+        ? await import(`${path}?t=${Date.now()}`)
+        : await import(path);
       const func = m.default;
       if (request.currentRoute) {
         await func(error, request, response, getDelegates(request), next);
@@ -49,8 +52,23 @@ export function buildMiddlewareFunction(id, path) {
         next();
       } else {
         try {
-          const m = await import(path);
-          const func = m.default;
+          const m = isDevelopmentMode()
+            ? await import(`${path}?t=${Date.now()}`)
+            : await import(path);
+          let func = m.default;
+          if (!func) {
+            if (isProductionMode()) {
+              throw new Error(
+                `Middleware ${id} is invalid. It should provide a function as default export.`
+              );
+            } else {
+              func = () => {
+                debug(
+                  `Middleware ${id} is not implemented yet. Please implement it.`
+                );
+              };
+            }
+          }
           if (func.length === 4) {
             await func(request, response, getDelegates(request), (err) => {
               const endTime = process.hrtime(startTime);

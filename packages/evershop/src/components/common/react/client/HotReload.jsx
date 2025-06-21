@@ -1,4 +1,3 @@
-
 import { useAppDispatch, useAppState } from '@components/common/context/app';
 import axios from 'axios';
 import produce from 'immer';
@@ -22,6 +21,14 @@ export function HotReload({ hot }) {
             return status >= 200 && status <= 500;
           }
         });
+        // get the final url incase of redirect
+        if (response.request) {
+          const finalUrl = response.request.responseURL;
+          if (finalUrl !== url.href) {
+            window.location.href = finalUrl;
+            return;
+          }
+        }
         if (response.status < 300) {
           setData(
             produce(appContext, (draff) => {
@@ -30,7 +37,7 @@ export function HotReload({ hot }) {
             })
           );
         } else {
-          location.reload();
+          window.location.reload();
         }
       }
     });

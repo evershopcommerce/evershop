@@ -5,11 +5,13 @@ import session from 'express-session';
 import pathToRegexp from 'path-to-regexp';
 import webpack from 'webpack';
 import middleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 import { translate } from '../../lib/locale/translate/translate.js';
-import { debug } from '../../lib/log/logger.js';
+import { debug, warning } from '../../lib/log/logger.js';
 import publicStatic from '../../lib/middlewares/publicStatic.js';
 import themePublicStatic from '../../lib/middlewares/themePublicStatic.js';
 import { pool } from '../../lib/postgres/connection.js';
+import { getRoutes } from '../../lib/router/Router.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import isDevelopmentMode from '../../lib/util/isDevelopmentMode.js';
 import isProductionMode from '../../lib/util/isProductionMode.js';
@@ -19,8 +21,9 @@ import { getAdminSessionCookieName } from '../../modules/auth/services/getAdminS
 import { getCookieSecret } from '../../modules/auth/services/getCookieSecret.js';
 import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
 import { setContextValue } from '../../modules/graphql/services/contextHelper.js';
+import { findRoute } from './findRoute.js';
 
-export function addDefaultMiddlewareFuncs(app, routes) {
+export function addDefaultMiddlewareFuncs(app) {
   app.use((request, response, next) => {
     response.debugMiddlewares = [];
     next();
@@ -79,6 +82,81 @@ export function addDefaultMiddlewareFuncs(app, routes) {
     name: getFrontStoreSessionCookieName()
   });
 
+  // routes.forEach((r) => {
+  //   const currentRouteMiddleware = (request, response, next) => {
+  //     request.currentRoute = r;
+  //     next();
+  //   };
+  //   r.method.forEach((method) => {
+  //     switch (method.toUpperCase()) {
+  //       case 'GET':
+  //         app.get(r.path, currentRouteMiddleware);
+  //         break;
+  //       case 'POST':
+  //         app.post(r.path, currentRouteMiddleware);
+  //         break;
+  //       case 'PUT':
+  //         app.put(r.path, currentRouteMiddleware);
+  //         break;
+  //       case 'DELETE':
+  //         app.delete(r.path, currentRouteMiddleware);
+  //         break;
+  //       case 'PATCH':
+  //         app.patch(r.path, currentRouteMiddleware);
+  //         break;
+  //       default:
+  //         app.get(r.path, currentRouteMiddleware);
+  //         break;
+  //     }
+  //   });
+
+  //   /** 405 Not Allowed handle */
+  //   app.all(r.path, (request, response, next) => {
+  //     if (
+  //       request.currentRoute &&
+  //       !request.currentRoute.method.includes(request.method)
+  //     ) {
+  //       response.status(405).send('Method Not Allowed');
+  //     } else {
+  //       next();
+  //     }
+  //   });
+
+  //   // Cookie parser
+  //   app.use(cookieParser(cookieSecret));
+
+  //   r.__BUILDREQUIRED__ = true;
+  // });
+
+  // Cookie parser
+  app.use(cookieParser(cookieSecret));
+  app.use((request, response, next) => {
+    const routes = getRoutes();
+    const method = request.method.toUpperCase();
+    const requestPath = request.originalUrl.split('?')[0];
+    const matchedRoutes = routes.filter((r) => {
+      const regexp = pathToRegexp(r.path, []);
+      const match = regexp.exec(requestPath);
+      if (match && r.method.includes(method)) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    if (matchedRoutes.length > 1) {
+      warning(
+        `Multiple routes matched for ${requestPath}. Please check your routes: ${matchedRoutes
+          .map((r) => r.id)
+          .join(', ')}. Route ${matchedRoutes[0].id} will be used.`
+      );
+    }
+    if (matchedRoutes.length) {
+      request.currentRoute = matchedRoutes[0];
+      next();
+    } else {
+      next();
+    }
+  });
   const sessionMiddleware = (request, response, next) => {
     const { currentRoute } = request;
     if (currentRoute?.isApi) {
@@ -90,77 +168,6 @@ export function addDefaultMiddlewareFuncs(app, routes) {
       frontStoreSessionMiddleware(request, response, next);
     }
   };
-
-  function findRoute(request) {
-    if (request.currentRoute) {
-      return request.currentRoute;
-    } else {
-      const path = request.originalUrl.split('?')[0];
-      if (
-        path.endsWith('.js') ||
-        path.endsWith('.css') ||
-        path.endsWith('.json')
-      ) {
-        const id = path.split('/').pop().split('.')[0];
-        return (
-          routes.find((r) => r.id === id) ||
-          routes.find((r) => r.id === 'notFound')
-        );
-      } else if (path.includes('/eHot/')) {
-        const id = path.split('/').pop();
-        return routes.find((r) => r.id === id);
-      } else {
-        return routes.find((r) => r.id === 'notFound');
-      }
-    }
-  }
-
-  routes.forEach((r) => {
-    const currentRouteMiddleware = (request, response, next) => {
-      request.currentRoute = r;
-      next();
-    };
-    r.method.forEach((method) => {
-      switch (method.toUpperCase()) {
-        case 'GET':
-          app.get(r.path, currentRouteMiddleware);
-          break;
-        case 'POST':
-          app.post(r.path, currentRouteMiddleware);
-          break;
-        case 'PUT':
-          app.put(r.path, currentRouteMiddleware);
-          break;
-        case 'DELETE':
-          app.delete(r.path, currentRouteMiddleware);
-          break;
-        case 'PATCH':
-          app.patch(r.path, currentRouteMiddleware);
-          break;
-        default:
-          app.get(r.path, currentRouteMiddleware);
-          break;
-      }
-    });
-
-    /** 405 Not Allowed handle */
-    app.all(r.path, (request, response, next) => {
-      if (
-        request.currentRoute &&
-        !request.currentRoute.method.includes(request.method)
-      ) {
-        response.status(405).send('Method Not Allowed');
-      } else {
-        next();
-      }
-    });
-
-    // Cookie parser
-    app.use(cookieParser(cookieSecret));
-
-    r.__BUILDREQUIRED__ = true;
-  });
-
   app.use(sessionMiddleware);
 
   app.use(async (request, response, next) => {
@@ -183,6 +190,7 @@ export function addDefaultMiddlewareFuncs(app, routes) {
 
     if (rewriteRule) {
       // Find the route
+      const routes = getRoutes();
       const route = routes.find((r) => {
         const regexp = pathToRegexp(r.path);
         const match = regexp.exec(rewriteRule.target_path);
@@ -210,110 +218,249 @@ export function addDefaultMiddlewareFuncs(app, routes) {
     }
   });
 
-  if (isDevelopmentMode()) {
-    routes.forEach((route) => {
-      if (isBuildRequired(route)) {
+  app.use((request, response, next) => {
+    if (!isDevelopmentMode()) {
+      return next();
+    }
+    const routes = getRoutes();
+    const route = findRoute(request);
+    request.locals = request.locals || {};
+    request.locals.webpackMatchedRoute = route;
+    if (!isBuildRequired(route)) {
+      next();
+    } else {
+      if (!route.webpackCompiler) {
         route.webpackCompiler = webpack(createConfigClient(route));
       }
-    });
-
-    app.use((request, response, next) => {
-      const route = findRoute(request);
-      request.locals = request.locals || {};
-      request.locals.webpackMatchedRoute = route;
-      if (!isBuildRequired(route)) {
-        next();
+      const { webpackCompiler } = route;
+      let middlewareFunc;
+      if (!route.webpackMiddleware) {
+        middlewareFunc = route.webpackMiddleware = middleware(webpackCompiler, {
+          serverSideRender: true,
+          publicPath: '/',
+          stats: 'none'
+        });
+        middlewareFunc.context.logger.info = () => {};
       } else {
-        const { webpackCompiler } = route;
-        let middlewareFunc;
-        if (!route.webpackMiddleware) {
-          middlewareFunc = route.webpackMiddleware = middleware(
-            webpackCompiler,
-            {
-              serverSideRender: true,
-              publicPath: '/',
-              stats: 'none'
-            }
-          );
-          middlewareFunc.context.logger.info = () => {};
-        } else {
-          middlewareFunc = route.webpackMiddleware;
-        }
-        middlewareFunc.waitUntilValid(() => {
-          const { stats } = middlewareFunc.context;
-          const jsonWebpackStats = stats.toJson();
-          response.locals.jsonWebpackStats = jsonWebpackStats;
-        });
-        // We need to run build for notFound route
-        const notFoundRoute = routes.find((r) => r.id === 'notFound');
-        const notFoundWebpackCompiler = notFoundRoute.webpackCompiler;
-        let notFoundMiddlewareFunc;
-        if (!notFoundRoute.webpackMiddleware) {
-          notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware = middleware(
-            notFoundWebpackCompiler,
-            {
-              serverSideRender: true,
-              publicPath: '/',
-              stats: 'none'
-            }
-          );
-          notFoundMiddlewareFunc.context.logger.info = () => {};
-        } else {
-          notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware;
-        }
+        middlewareFunc = route.webpackMiddleware;
+      }
+      middlewareFunc.waitUntilValid(() => {
+        const { stats } = middlewareFunc.context;
+        const jsonWebpackStats = stats.toJson();
+        response.locals.jsonWebpackStats = jsonWebpackStats;
+      });
+      // We need to run build for notFound route
+      const notFoundRoute = routes.find((r) => r.id === 'notFound');
+      if (!notFoundRoute.webpackCompiler) {
+        notFoundRoute.webpackCompiler = webpack(
+          createConfigClient(notFoundRoute)
+        );
+      }
+      const notFoundWebpackCompiler = notFoundRoute.webpackCompiler;
+      let notFoundMiddlewareFunc;
+      if (!notFoundRoute.webpackMiddleware) {
+        notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware = middleware(
+          notFoundWebpackCompiler,
+          {
+            serverSideRender: true,
+            publicPath: '/',
+            stats: 'none'
+          }
+        );
+        notFoundMiddlewareFunc.context.logger.info = () => {};
+      } else {
+        notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware;
+      }
 
-        // We need to run build for adminNotFound route
-        const adminNotFoundRoute = routes.find((r) => r.id === 'adminNotFound');
-        const adminNotFoundWebpackCompiler = adminNotFoundRoute.webpackCompiler;
-        let adminNotFoundMiddlewareFunc;
-        if (!adminNotFoundRoute.webpackMiddleware) {
-          adminNotFoundMiddlewareFunc = adminNotFoundRoute.webpackMiddleware =
-            middleware(adminNotFoundWebpackCompiler, {
-              serverSideRender: true,
-              publicPath: '/',
-              stats: 'none'
-            });
-          adminNotFoundMiddlewareFunc.context.logger.info = () => {};
-        } else {
-          adminNotFoundMiddlewareFunc = adminNotFoundRoute.webpackMiddleware;
-        }
-
-        middlewareFunc(request, response, () => {
-          notFoundMiddlewareFunc(request, response, () => {
-            adminNotFoundMiddlewareFunc(request, response, next);
+      // We need to run build for adminNotFound route
+      const adminNotFoundRoute = routes.find((r) => r.id === 'adminNotFound');
+      if (!adminNotFoundRoute.webpackCompiler) {
+        adminNotFoundRoute.webpackCompiler = webpack(
+          createConfigClient(adminNotFoundRoute)
+        );
+      }
+      const adminNotFoundWebpackCompiler = adminNotFoundRoute.webpackCompiler;
+      let adminNotFoundMiddlewareFunc;
+      if (!adminNotFoundRoute.webpackMiddleware) {
+        adminNotFoundMiddlewareFunc = adminNotFoundRoute.webpackMiddleware =
+          middleware(adminNotFoundWebpackCompiler, {
+            serverSideRender: true,
+            publicPath: '/',
+            stats: 'none'
           });
-        });
+        adminNotFoundMiddlewareFunc.context.logger.info = () => {};
+      } else {
+        adminNotFoundMiddlewareFunc = adminNotFoundRoute.webpackMiddleware;
       }
-    });
 
-    routes.forEach((route) => {
-      if (isBuildRequired(route)) {
-        const { webpackCompiler } = route;
-        const hotMiddleware = route.hotMiddleware
-          ? route.hotMiddleware
-          : (function () {
-              const hotMiddlewareModule = import('webpack-hot-middleware');
-              return function (req, res, next) {
-                hotMiddlewareModule.then((module) => {
-                  const middleware = module.default(webpackCompiler, {
-                    path: `/eHot/${route.id}`
-                  });
-                  middleware(req, res, next);
-                });
-              };
-            })();
-        if (!route.hotMiddleware) {
-          route.hotMiddleware = hotMiddleware;
-        }
-        app.use(hotMiddleware);
-      }
+      middlewareFunc(request, response, () => {
+        notFoundMiddlewareFunc(request, response, () => {
+          adminNotFoundMiddlewareFunc(request, response, next);
+        });
+      });
+    }
+  });
+  app.use((request, response, next) => {
+    if (!isDevelopmentMode()) {
+      return next();
+    }
+    const routes = getRoutes();
+    const route = findRoute(request);
+    request.currentRoute = route;
+    if (!isBuildRequired(route)) {
+      return next();
+    }
+    if (!route.hotMiddleware) {
+      const { webpackCompiler } = route;
+      const hotMiddleware = webpackHotMiddleware(webpackCompiler, {
+        path: `/eHot/${route.id}`
+      });
+      route.hotMiddleware = hotMiddleware;
+    }
+    return route.hotMiddleware(request, response, () => {
+      next();
     });
-  }
+  });
+  // if (isDevelopmentMode()) {
+  //   routes.forEach((route) => {
+  //     if (isBuildRequired(route)) {
+  //       route.webpackCompiler = webpack(createConfigClient(route));
+  //     }
+  //   });
+
+  //   app.use((request, response, next) => {
+  //     if (!isDevelopmentMode()) {
+  //       return next();
+  //     }
+  //     const routes = getRoutes();
+  //     const route = findRoute(request);
+  //     request.locals = request.locals || {};
+  //     request.locals.webpackMatchedRoute = route;
+  //     if (!isBuildRequired(route)) {
+  //       next();
+  //     } else {
+  //       if (!route.webpackCompiler) {
+  //         route.webpackCompiler = webpack(createConfigClient(route));
+  //       }
+  //       const { webpackCompiler } = route;
+  //       let middlewareFunc;
+  //       if (!route.webpackMiddleware) {
+  //         middlewareFunc = route.webpackMiddleware = middleware(
+  //           webpackCompiler,
+  //           {
+  //             serverSideRender: true,
+  //             publicPath: '/',
+  //             stats: 'none'
+  //           }
+  //         );
+  //         middlewareFunc.context.logger.info = () => {};
+  //       } else {
+  //         middlewareFunc = route.webpackMiddleware;
+  //       }
+  //       middlewareFunc.waitUntilValid(() => {
+  //         const { stats } = middlewareFunc.context;
+  //         const jsonWebpackStats = stats.toJson();
+  //         response.locals.jsonWebpackStats = jsonWebpackStats;
+  //       });
+  //       // We need to run build for notFound route
+  //       const notFoundRoute = routes.find((r) => r.id === 'notFound');
+  //       const notFoundWebpackCompiler = notFoundRoute.webpackCompiler;
+  //       let notFoundMiddlewareFunc;
+  //       if (!notFoundRoute.webpackMiddleware) {
+  //         notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware = middleware(
+  //           notFoundWebpackCompiler,
+  //           {
+  //             serverSideRender: true,
+  //             publicPath: '/',
+  //             stats: 'none'
+  //           }
+  //         );
+  //         notFoundMiddlewareFunc.context.logger.info = () => {};
+  //       } else {
+  //         notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware;
+  //       }
+
+  //       // We need to run build for adminNotFound route
+  //       const adminNotFoundRoute = routes.find((r) => r.id === 'adminNotFound');
+  //       const adminNotFoundWebpackCompiler = adminNotFoundRoute.webpackCompiler;
+  //       let adminNotFoundMiddlewareFunc;
+  //       if (!adminNotFoundRoute.webpackMiddleware) {
+  //         adminNotFoundMiddlewareFunc = adminNotFoundRoute.webpackMiddleware =
+  //           middleware(adminNotFoundWebpackCompiler, {
+  //             serverSideRender: true,
+  //             publicPath: '/',
+  //             stats: 'none'
+  //           });
+  //         adminNotFoundMiddlewareFunc.context.logger.info = () => {};
+  //       } else {
+  //         adminNotFoundMiddlewareFunc = adminNotFoundRoute.webpackMiddleware;
+  //       }
+
+  //       middlewareFunc(request, response, () => {
+  //         notFoundMiddlewareFunc(request, response, () => {
+  //           adminNotFoundMiddlewareFunc(request, response, next);
+  //         });
+  //       });
+  //     }
+  //   });
+
+  //   // routes.forEach((route) => {
+  //   //   if (isBuildRequired(route)) {
+  //   //     const { webpackCompiler } = route;
+  //   //     const hotMiddleware = route.hotMiddleware
+  //   //       ? route.hotMiddleware
+  //   //       : (function () {
+  //   //           const hotMiddlewareModule = import('webpack-hot-middleware');
+  //   //           return function (req, res, next) {
+  //   //             hotMiddlewareModule.then((module) => {
+  //   //               const middleware = module.default(webpackCompiler, {
+  //   //                 path: `/eHot/${route.id}`
+  //   //               });
+  //   //               middleware(req, res, next);
+  //   //             });
+  //   //           };
+  //   //         })();
+  //   //     if (!route.hotMiddleware) {
+  //   //       route.hotMiddleware = hotMiddleware;
+  //   //     }
+  //   //     app.use(hotMiddleware);
+  //   //   }
+  //   // });
+
+  //   app.use((request, response, next) => {
+  //     if (!isDevelopmentMode()) {
+  //       return next();
+  //     }
+  //     const routes = getRoutes();
+  //     const route = findRoute(request);
+  //     request.currentRoute = route;
+  //     if (!isBuildRequired(route)) {
+  //       return next();
+  //     }
+  //     if (!route.hotMiddleware) {
+  //       route.hotMiddleware = (function () {
+  //         const hotMiddlewareModule = import('webpack-hot-middleware');
+  //         return function (req, res, next) {
+  //           hotMiddlewareModule.then((module) => {
+  //             const middleware = module.default(webpackCompiler, {
+  //               path: `/eHot/${route.id}`
+  //             });
+  //             middleware(req, res, next);
+  //           });
+  //         };
+  //       })();
+  //     }
+  //     return route.hotMiddleware(request, response, () => {
+  //       next();
+  //     });
+  //   });
+  // }
 
   /** 404 Not Found handle */
   app.use((request, response, next) => {
     if (!request.currentRoute) {
       response.status(404);
+      const routes = getRoutes();
       request.currentRoute = routes.find((r) => r.id === 'notFound');
       setContextValue(request, 'pageInfo', {
         title: translate('Not found'),

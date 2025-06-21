@@ -1,5 +1,6 @@
-import { existsSync, readdirSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { existsSync, readdirSync } from 'fs';
+import { basename, dirname, join } from 'path';
+import { jsonParse } from '../util/jsonParse.js';
 
 function startWith(str, prefix) {
   return str.slice(0, prefix.length) === prefix;
@@ -31,6 +32,42 @@ function validateRoute(methods, path, routePath) {
   return true;
 }
 
+export function parseRoute(jsonPath, isAdmin = false, isApi = false) {
+  const routeId = basename(dirname(jsonPath));
+  if (/^[a-zA-Z]+$/.test(routeId) === false) {
+    throw new Error(
+      `Route folder ${routeId} is invalid. It must contains only characters.`
+    );
+  }
+  const routeJson = jsonParse(jsonPath);
+  const methods = routeJson?.methods.map((m) => m.toUpperCase()) || [];
+  let routePath = routeJson?.path;
+  if (validateRoute(methods, routePath, routePath) === true) {
+    if (isApi === true) {
+      routePath = `/api${routePath}`;
+    }
+    // Load the validation schema
+    let payloadSchema;
+    if (existsSync(join(dirname(jsonPath), 'payloadSchema.json'))) {
+      payloadSchema = jsonParse(join(dirname(jsonPath), 'payloadSchema.json'));
+    }
+
+    return {
+      id: routeId,
+      name: routeJson?.name || routeId,
+      method: methods,
+      path: routePath,
+      isAdmin,
+      isApi,
+      folder: dirname(jsonPath),
+      payloadSchema,
+      access: routeJson?.access || 'private'
+    };
+  } else {
+    return null;
+  }
+}
+
 /**
  * Scan for routes base on module path.
  */
@@ -42,40 +79,9 @@ export function scanForRoutes(path, isAdmin, isApi) {
     .map((r) => {
       if (/^[A-Za-z.]+$/.test(r) === true) {
         if (existsSync(join(path, r, 'route.json'))) {
-          // import route.json
-          const routeJson = JSON.parse(
-            readFileSync(join(path, r, 'route.json'), 'utf8')
+          return (
+            parseRoute(join(path, r, 'route.json'), isAdmin, isApi) || false
           );
-          const methods = routeJson?.methods.map((m) => m.toUpperCase()) || [];
-          let routePath = routeJson?.path;
-          if (
-            validateRoute(methods, routePath, join(path, r, 'route')) === true
-          ) {
-            if (isApi === true) {
-              routePath = `/api${routePath}`;
-            }
-            // Load the validation schema
-            let payloadSchema;
-            if (existsSync(join(path, r, 'payloadSchema.json'))) {
-              payloadSchema = JSON.parse(
-                readFileSync(join(path, r, 'payloadSchema.json'), 'utf8')
-              );
-            }
-
-            return {
-              id: r,
-              name: routeJson?.name || r,
-              method: methods,
-              path: routePath,
-              isAdmin,
-              isApi,
-              folder: join(path, r),
-              payloadSchema,
-              access: routeJson?.access || 'private'
-            };
-          } else {
-            return false;
-          }
         } else {
           return false;
         }

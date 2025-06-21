@@ -8,7 +8,7 @@ try {
   if (command === 'build') {
     await import('./build/index.js');
   } else if (command === 'dev') {
-    await import('./dev/index.js');
+    await import('./dev/init.js');
   } else if (command === 'start') {
     await import('./start/index.js');
   } else if (command === 'install') {

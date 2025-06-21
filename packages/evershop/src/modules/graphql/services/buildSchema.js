@@ -8,4 +8,13 @@ const schema = makeExecutableSchema({
   resolvers
 });
 
+export async function rebuildSchema() {
+  const resolvers = await buildResolvers(true);
+  const schema = makeExecutableSchema({
+    typeDefs: buildTypeDefs(true),
+    resolvers: resolvers
+  });
+  return schema;
+}
+
 export default schema;

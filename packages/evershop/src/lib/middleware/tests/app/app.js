@@ -72,13 +72,16 @@ const routes = getRoutes();
 addDefaultMiddlewareFuncs(app, routes);
 
 /** Hack for 'no route' case */
-routes.push({
-  id: 'noRoute',
-  path: '/*'
-});
-routes.forEach((route) => {
-  app.all(route.path, Handler.middleware());
-});
+// routes.push({
+//   id: 'noRoute',
+//   path: '/*',
+//   method: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
+// });
+
+// routes.forEach((route) => {
+//   app.all(route.path, Handler.middleware());
+// });
+app.use(Handler.middleware());
 
 const bootstrap = async (server) => {
   server.listen();
