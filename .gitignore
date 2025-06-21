@@ -1,6 +1,14 @@
 node_modules
 .env
 dist
+/extensions/*
+!extensions/agegate
+!extensions/azure_file_storage
+!extensions/google_login
+!extensions/s3_file_storage
+!extensions/resend
+!extensions/sendgrid
+!extensions/product_review
 /themes
 .idea/*
 .evershop

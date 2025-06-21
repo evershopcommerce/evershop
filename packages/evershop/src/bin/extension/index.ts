@@ -1,10 +1,10 @@
 import { existsSync } from 'fs';
-import { join, resolve } from 'path';
-import { CONSTANTS } from '../../lib/helpers.js';
+import { resolve } from 'path';
 import { warning } from '../../lib/log/logger.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import { Extension } from '../../types/extension.js';
 import { getCoreModules } from '../lib/loadModules.js';
+import { CONSTANTS } from '../../lib/helpers.js';
 
 let extensions: Extension[] | undefined = undefined;
 
@@ -49,7 +49,10 @@ function loadExtensions(): Extension[] {
         path: resolve(extension.resolve, 'dist')
       });
     } else {
-      extensions.push(extension);
+      extensions.push({
+        ...extension,
+        path: resolve(CONSTANTS.ROOTPATH, extension.resolve)
+      });
     }
   });
 
