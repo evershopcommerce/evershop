@@ -180,7 +180,7 @@ export function addDefaultMiddlewareFuncs(app) {
     const route = findRoute(request);
     request.locals = request.locals || {};
     request.locals.webpackMatchedRoute = route;
-    if (!isBuildRequired(route)) {
+    if (!route || !isBuildRequired(route)) {
       next();
     } else {
       if (!route.webpackCompiler) {
