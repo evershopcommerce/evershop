@@ -7,7 +7,9 @@ import { Event } from '../watchHandler.js';
 export function deleteARoute(app: Application, event: Event) {
   try {
     const jsonPath = event.path.toString();
-    const routeId = basename(dirname(jsonPath));
+    const routeId = jsonPath.includes('route.json')
+      ? basename(dirname(jsonPath))
+      : basename(jsonPath);
     if (hasRoute(routeId)) {
       deleteRoute(routeId);
     }
