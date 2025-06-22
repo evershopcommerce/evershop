@@ -1,7 +1,7 @@
 import './register.js';
 import './initEnvDev.js';
-import { start } from '../lib/startUp.js';
 import { debug, error } from '../../lib/index.js';
+import { start } from '../lib/startUp.js';
 import { compileTs } from './compileTs.js';
 import enableWatcher from './enableWatcher.js';
 

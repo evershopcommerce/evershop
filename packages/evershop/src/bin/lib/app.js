@@ -43,47 +43,34 @@ export const createApp = () => {
     }
   });
 
-  //const routes = getRoutes();
-
   // Adding default middlewares
   addDefaultMiddlewareFuncs(app);
-
-  // /** Hack for 'no route' case */
-  // routes.push({
-  //   id: 'noRoute',
-  //   path: '/*',
-  //   method: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
-  // });
-
-  // routes.forEach((route) => {
-  //   // app.all(route.path, Handler.middleware());
-  //   route.method.forEach((method) => {
-  //     switch (method.toUpperCase()) {
-  //       case 'GET':
-  //         app.get(route.path, Handler.middleware());
-  //         break;
-  //       case 'POST':
-  //         app.post(route.path, Handler.middleware());
-  //         break;
-  //       case 'PUT':
-  //         app.put(route.path, Handler.middleware());
-  //         break;
-  //       case 'DELETE':
-  //         app.delete(route.path, Handler.middleware());
-  //         break;
-  //       case 'PATCH':
-  //         app.patch(route.path, Handler.middleware());
-  //         break;
-  //       default:
-  //         app.get(route.path, Handler.middleware());
-  //         break;
-  //     }
-  //   });
-  // });
+  const routes = getRoutes();
+  routes.forEach((route) => {
+    // app.all(route.path, Handler.middleware());
+    route.method.forEach((method) => {
+      switch (method.toUpperCase()) {
+        case 'GET':
+          app.get(route.path, Handler.middleware());
+          break;
+        case 'POST':
+          app.post(route.path, Handler.middleware());
+          break;
+        case 'PUT':
+          app.put(route.path, Handler.middleware());
+          break;
+        case 'DELETE':
+          app.delete(route.path, Handler.middleware());
+          break;
+        case 'PATCH':
+          app.patch(route.path, Handler.middleware());
+          break;
+        default:
+          app.get(route.path, Handler.middleware());
+          break;
+      }
+    });
+  });
   app.use(Handler.middleware());
-  // console.dir(app._router, {
-  //   depth: null,
-  //   colors: true
-  // });
   return app;
 };

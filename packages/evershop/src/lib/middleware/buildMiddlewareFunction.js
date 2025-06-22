@@ -2,10 +2,10 @@ import { existsSync } from 'fs';
 import { sep } from 'path';
 import { debug, error } from '../log/logger.js';
 import isDevelopmentMode from '../util/isDevelopmentMode.js';
+import isProductionMode from '../util/isProductionMode.js';
 import { getDelegates, setDelegate } from './delegate.js';
 import eNext from './eNext.js';
 import isErrorHandlerTriggered from './isErrorHandlerTriggered.js';
-import isProductionMode from '../util/isProductionMode.js';
 
 /**
  * This function takes the defined middleware function and return a new one with wrapper

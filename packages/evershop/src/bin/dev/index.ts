@@ -9,7 +9,7 @@ function startDev() {
 
   const args = [path.resolve(__dirname, 'init.js')];
   const appProcess = spawn('node', args, {
-    stdio: ['inherit', 'inherit', 'inherit'],
+    stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
     env: {
       ...process.env,
       ALLOW_CONFIG_MUTATIONS: true
@@ -18,6 +18,17 @@ function startDev() {
 
   appProcess.on('error', (err) => {
     error(`Error spawning processor: ${err}`);
+  });
+
+  appProcess.on('message', (message) => {
+    debug('Restarting the development server');
+    if (message === 'RESTART_ME') {
+      if (appProcess && appProcess.pid) {
+        appProcess.removeAllListeners();
+        appProcess.kill('SIGTERM');
+      }
+      startDev();
+    }
   });
 
   return appProcess;
@@ -29,12 +40,4 @@ process.on('exit', () => {
   if (childProcess && childProcess.pid) {
     childProcess.kill();
   }
-});
-
-process.on('SIGUSR2', () => {
-  debug('Restarting the development server');
-  if (childProcess && childProcess.pid) {
-    childProcess.kill('SIGTERM');
-  }
-  startDev();
 });

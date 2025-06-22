@@ -1,10 +1,10 @@
 import { existsSync } from 'fs';
 import { resolve } from 'path';
+import { CONSTANTS } from '../../lib/helpers.js';
 import { warning } from '../../lib/log/logger.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import { Extension } from '../../types/extension.js';
 import { getCoreModules } from '../lib/loadModules.js';
-import { CONSTANTS } from '../../lib/helpers.js';
 
 let extensions: Extension[] | undefined = undefined;
 

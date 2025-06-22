@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import config from 'config';
 import spawn from 'cross-spawn';
-import { error } from '../../lib/log/logger.js';
+import { error, debug } from '../../lib/log/logger.js';
 import { Handler } from '../../lib/middleware/Handler.js';
 import { lockHooks } from '../../lib/util/hookable.js';
 import isDevelopmentMode from '../../lib/util/isDevelopmentMode.js';
@@ -102,7 +102,7 @@ export const start = async function start(cb) {
   });
 
   jobChild.unref();
-  process.on('exit', () => {
+  process.on('exit', (code) => {
     // Cleanup child processes on exit
     if (child && child.pid) {
       child.kill('SIGTERM');
@@ -110,6 +110,9 @@ export const start = async function start(cb) {
     if (jobChild && jobChild.pid) {
       jobChild.kill('SIGTERM');
     }
-    process.kill(process.ppid, 'SIGUSR2');
+    if (code === 100) {
+      debug('Restarting the sever');
+      process.send('RESTART_ME');
+    }
   });
 };

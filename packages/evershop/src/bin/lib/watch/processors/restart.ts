@@ -1,3 +1,3 @@
 export function restartProcess() {
-  process.exit(0);
+  process.exit(100);
 }
