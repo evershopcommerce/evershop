@@ -1,5 +1,5 @@
 {
-  "name": "eversh2op",
+  "name": "evershop",
   "version": "1.2.2",
   "type": "module",
   "description": "A shopping cart platform with Express, React and Postgres",
@@ -39,7 +39,7 @@
     "minimatch": "^10.0.1",
     "prettier": "2.8.4",
     "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
+    "rimraf": "^6.0.1",
     "swc-minify-webpack-plugin": "^2.1.3",
     "tailwindcss": "^3.2.1",
     "ts-jest": "^29.3.2",

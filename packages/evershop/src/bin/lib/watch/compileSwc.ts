@@ -1,4 +1,4 @@
-import fs, { promises as fsp, rmSync } from 'fs';
+import fs, { promises as fsp } from 'fs';
 import type { PathLike } from 'fs';
 import path from 'path';
 import { execa } from 'execa';
@@ -52,10 +52,8 @@ export async function compileSwc(
     }
 
     try {
-      // Delete the dist directory if it exists
-      await execa('rm', ['-rf', distPath as string], {
-        cwd: path.resolve(srcPath as string, '..')
-      });
+      // Delete the dist directory if it exists using rimraf
+      await fsp.rm(distPath as string, { recursive: true, force: true });
       await execa('swc', cliOptions, {
         cwd: path.resolve(srcPath as string, '..')
       });
