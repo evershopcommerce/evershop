@@ -2,6 +2,7 @@ import fs, { promises as fsp, rmSync } from 'fs';
 import type { PathLike } from 'fs';
 import path from 'path';
 import { execa } from 'execa';
+import { CONSTANTS } from '../../../lib/helpers.js';
 import { error, warning } from '../../../lib/index.js';
 
 export async function compileSwc(
@@ -28,13 +29,14 @@ export async function compileSwc(
     }
   } else {
     let cliOptions;
+    const configFile = path.resolve(CONSTANTS.LIBPATH, '../../.swcrc');
     if (fs.statSync(srcPath).isDirectory()) {
       cliOptions = [
         srcPath as string,
         '-d',
         distPath as string,
         '--config-file',
-        '/Users/thenguyenhuu/vscode/evershop/packages/evershop/.swcrc',
+        configFile,
         '--strip-leading-paths',
         '--copy-files'
       ];
@@ -44,7 +46,7 @@ export async function compileSwc(
         '-o',
         distPath as string,
         '--config-file',
-        '/Users/thenguyenhuu/vscode/evershop/packages/evershop/.swcrc',
+        configFile,
         '--strip-leading-paths'
       ];
     }
