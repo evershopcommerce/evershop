@@ -19,6 +19,8 @@ export async function compileSwc(
   ) {
     // For this case, we just force copy the file to the dist directory
     try {
+      const directory = path.dirname(distPath as string);
+      await fsp.mkdir(directory, { recursive: true });
       await fsp.copyFile(srcPath as string, distPath as string);
     } catch (err) {
       error(`Error copying ${srcPath} to ${distPath}:`);
