@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { join } from 'path';
+import { pathToFileURL } from 'url';
 import { CONSTANTS } from '../../helpers.js';
 import { getConfig } from '../../util/getConfig.js';
 
@@ -19,7 +20,7 @@ export async function getTailwindConfig(route) {
       fs.existsSync(join(CONSTANTS.THEMEPATH, theme, 'tailwind.config.js'))
     ) {
       tailwindConfig = await import(
-        join(CONSTANTS.THEMEPATH, theme, 'tailwind.config.js')
+        pathToFileURL(join(CONSTANTS.THEMEPATH, theme, 'tailwind.config.js'))
       );
     }
   }

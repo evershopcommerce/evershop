@@ -16,8 +16,7 @@ export function scanForMiddlewareFunctions(path) {
     .filter(
       (dirent) =>
         dirent.isFile() &&
-        (/\.js$/.test(dirent.name) ||
-          (/\.ts$/.test(dirent.name) && !/\.d\.ts$/.test(dirent.name))) &&
+        /\.js$/.test(dirent.name) &&
         !/^[A-Z]/.test(dirent.name[0])
     )
     .forEach((dirent) => {

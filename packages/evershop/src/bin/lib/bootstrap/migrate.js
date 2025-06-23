@@ -1,5 +1,6 @@
 import { existsSync, readdirSync } from 'fs';
 import path from 'path';
+import { pathToFileURL } from 'url';
 import {
   commit,
   insertOnUpdate,
@@ -54,7 +55,9 @@ async function migrateModule(module) {
     /** We expect the migration script to provide a function as a default export */
     try {
       const versionModule = await import(
-        path.resolve(module.path, 'migration', `Version-${version}.js`)
+        pathToFileURL(
+          path.resolve(module.path, 'migration', `Version-${version}.js`)
+        )
       );
       await versionModule.default(connection);
 

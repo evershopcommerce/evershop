@@ -1,5 +1,6 @@
 import { existsSync } from 'fs';
 import path from 'path';
+import { pathToFileURL } from 'url';
 
 interface Module {
   path: string;
@@ -11,24 +12,16 @@ type BootstrapModule = {
 
 /**
  * Loads and runs the bootstrap script from a module directory.
- * Prefers `bootstrap.js`, falls back to `bootstrap.ts` if not found.
  */
 export const loadBootstrapScript = async function loadBootstrapScript(
   module: Module
 ): Promise<void> {
-  const jsPath = path.resolve(module.path, 'bootstrap.js');
-  const tsPath = path.resolve(module.path, 'bootstrap.ts');
-
-  const bootstrapPath = existsSync(jsPath)
-    ? jsPath
-    : existsSync(tsPath)
-    ? tsPath
-    : null;
-
-  if (!bootstrapPath) {
+  const filePath = path.resolve(module.path, 'bootstrap.js');
+  if (!existsSync(filePath)) {
     return;
   }
-
+  // Convert path to a URL
+  const bootstrapPath = pathToFileURL(filePath).toString();
   const bootstrap = (await import(bootstrapPath)) as BootstrapModule;
 
   if (typeof bootstrap.default !== 'function') {

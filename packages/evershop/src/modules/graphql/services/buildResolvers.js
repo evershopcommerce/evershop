@@ -22,8 +22,8 @@ export async function buildResolvers(isAdmin = false) {
   const resolvers = mergeResolvers(
     await loadFiles(typeSources, {
       ignoredExtensions: isAdmin
-        ? []
-        : ['.admin.resolvers.js', '.admin.resolvers.ts'],
+        ? ['.ts', '.d.ts']
+        : ['.admin.resolvers.js', '.admin.resolvers.ts', '.ts', '.d.ts'],
       requireMethod: async (path) => {
         if (isDevelopmentMode()) {
           const module = await import(

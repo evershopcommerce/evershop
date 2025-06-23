@@ -1,5 +1,6 @@
 import { existsSync } from 'fs';
 import { sep } from 'path';
+import { pathToFileURL } from 'url';
 import { debug, error } from '../log/logger.js';
 import isDevelopmentMode from '../util/isDevelopmentMode.js';
 import isProductionMode from '../util/isProductionMode.js';
@@ -31,8 +32,8 @@ export function buildMiddlewareFunction(id, path) {
   if (id === 'errorHandler' || id === 'apiErrorHandler') {
     return async (error, request, response, next) => {
       const m = isDevelopmentMode()
-        ? await import(`${path}?t=${Date.now()}`)
-        : await import(path);
+        ? await import(`${pathToFileURL(path)}?t=${Date.now()}`)
+        : await import(pathToFileURL(path));
       const func = m.default;
       if (request.currentRoute) {
         await func(error, request, response, getDelegates(request), next);
@@ -53,8 +54,8 @@ export function buildMiddlewareFunction(id, path) {
       } else {
         try {
           const m = isDevelopmentMode()
-            ? await import(`${path}?t=${Date.now()}`)
-            : await import(path);
+            ? await import(`${pathToFileURL(path)}?t=${Date.now()}`)
+            : await import(pathToFileURL(path));
           let func = m.default;
           if (!func) {
             if (isProductionMode()) {
