@@ -3,7 +3,7 @@ import { basename, dirname } from 'path';
 import { Application } from 'express';
 import { minimatch } from 'minimatch';
 import { has } from '../../../bin/dev/hooks.js';
-import { debug, error, warning } from '../../../lib/index.js';
+import { debug, error } from '../../../lib/index.js';
 import { getRoute } from '../../../lib/router/Router.js';
 import { broadcast } from './broadcast.js';
 import { isRestartRequired } from './isRestartRequired.js';
@@ -189,7 +189,13 @@ export function applyEffects(events: Event[], app: Application) {
     }
   }
   // Call broadcast to notify all clients about the changes if there are any known effects
-  if (events.some((e) => e.effect && e.effect !== 'unknown')) {
+  if (
+    events.some(
+      (e) =>
+        e.effect && e.effect !== 'unknown' && !e.effect.includes('component')
+    )
+  ) {
+    debug('Broadcasting changes to all clients');
     broadcast();
   }
 }

@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { pathToFileURL } from 'url';
 import { inspect } from 'util';
 import JSON5 from 'json5';
 import { error } from '../../log/logger.js';
@@ -29,7 +30,8 @@ export default function AreaLoader(c) {
       try {
         const layout = JSON5.parse(check);
         const id = generateComponentKey(module);
-        imports.push(`import ${id} from '${module}';`);
+        const url = pathToFileURL(module).toString();
+        imports.push(`import ${id} from '${url}';`);
         areas[layout.areaId] = areas[layout.areaId] || {};
         areas[layout.areaId][id] = {
           id,
@@ -47,11 +49,10 @@ export default function AreaLoader(c) {
   const widgets = getEnabledWidgets();
   areas['*'] = areas['*'] || {};
   widgets.forEach((widget) => {
-    imports.push(
-      `import ${widget.type} from '${
-        route.isAdmin ? widget.setting_component : widget.component
-      }';`
-    );
+    const url = pathToFileURL(
+      route.isAdmin ? widget.setting_component : widget.component
+    ).toString();
+    imports.push(`import ${widget.type} from '${url}';`);
     areas['*'][widget.type] = {
       id: widget.type,
       sortOrder: widget.sortOrder || 0,

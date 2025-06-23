@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { pathToFileURL } from 'url';
 import jsesc from 'jsesc';
 import { getNotifications } from '../../modules/base/services/notifications.js';
 import { error } from '../log/logger.js';
@@ -104,7 +105,7 @@ function renderProduction(request, response) {
     json: true,
     isScriptContext: true
   });
-  import(serverIndexPath)
+  import(pathToFileURL(serverIndexPath).toString())
     .then((module) => {
       const source = module.default(
         assets.js,
