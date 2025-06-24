@@ -2,7 +2,7 @@ import { existsSync } from 'fs';
 import { basename, dirname } from 'path';
 import { Application } from 'express';
 import { minimatch } from 'minimatch';
-import { has } from '../../../bin/dev/hooks.js';
+import { has } from '../../../bin/dev/register.js';
 import { debug, error } from '../../../lib/index.js';
 import { getRoute } from '../../../lib/router/Router.js';
 import { broadcast } from './broadcast.js';

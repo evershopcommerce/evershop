@@ -1,7 +1,13 @@
 import { isBuiltin } from 'node:module';
-import path from 'node:path';
+import path, { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const maps = new Map();
+let broadcastChannel;
+
+export function initialize(data) {
+  broadcastChannel = data.broadcastChannel;
+}
+
 export function resolve(specifier, context, nextResolve) {
   if (
     isBuiltin(specifier) ||
@@ -10,22 +16,16 @@ export function resolve(specifier, context, nextResolve) {
   ) {
     return nextResolve(specifier, context);
   } else {
-    const parrentURL = context.parentURL?.replace(/\.[^/.]+$/, '');
-    // Convert parrentURL to a file path
-    const parentPath = new URL(parrentURL).pathname;
-    const modulePath = path.resolve(
-      parentPath,
-      specifier.startsWith('./') ? specifier.slice(2) : specifier
-    );
+    const modulePath = !specifier.startsWith('file:')
+      ? path.resolve(dirname(fileURLToPath(context.parentURL)), specifier)
+      : fileURLToPath(specifier);
     if (modulePath.includes('node_modules')) {
       return nextResolve(specifier, context);
     } else {
-      maps.set(modulePath, true);
+      broadcastChannel.postMessage({
+        path: modulePath,
+      });
       return nextResolve(specifier, context);
     }
   }
-}
-
-export function has(pathName) {
-  return maps.has(pathName);
 }
