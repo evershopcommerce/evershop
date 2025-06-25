@@ -3,7 +3,6 @@ export type Extension = {
   resolve: string;
   srcPath?: string;
   path: string;
-  syntax?: 'typescript' | 'javascript';
   enabled: boolean;
   priority: number;
 };

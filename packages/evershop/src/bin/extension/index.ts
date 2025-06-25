@@ -1,7 +1,8 @@
 import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { CONSTANTS } from '../../lib/helpers.js';
-import { warning } from '../../lib/log/logger.js';
+import { isDevelopmentMode, isProductionMode } from '../../lib/index.js';
+import { error, warning } from '../../lib/log/logger.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import { Extension } from '../../types/extension.js';
 import { getCoreModules } from '../lib/loadModules.js';
@@ -31,34 +32,49 @@ function loadExtensions(): Extension[] {
       );
       return;
     }
-    if (extension.syntax === 'typescript') {
-      if (!existsSync(resolve(extension.resolve, 'src'))) {
-        warning(
-          `Extension ${
+    if (isProductionMode() || extension.resolve.includes('node_modules')) {
+      // Make sure the folder has 'dist' subdirectory
+      if (!existsSync(resolve(extension.resolve, 'dist'))) {
+        error(
+          `Extension '${
             extension.name
-          } has syntax 'typescript' but does not have a 'src' directory at ${resolve(
+          }' must have a 'dist' directory at ${resolve(
+            extension.resolve,
+            'dist'
+          )}. This is required for production mode.`
+        );
+        process.exit(1);
+      } else {
+        extensions.push({
+          ...extension,
+          path: resolve(CONSTANTS.ROOTPATH, extension.resolve, 'dist')
+        });
+      }
+    }
+    if (isDevelopmentMode() && !extension.resolve.includes('node_modules')) {
+      // Make sure the folder has 'src' subdirectory
+      if (!existsSync(resolve(extension.resolve, 'src'))) {
+        error(
+          `Extension '${
+            extension.name
+          }' must have a 'src' directory at ${resolve(
             extension.resolve,
             'src'
-          )}. Skipping.`
+          )}`
         );
-        return;
+        process.exit(1);
+      } else {
+        extensions.push({
+          ...extension,
+          srcPath: resolve(extension.resolve, 'src'),
+          path: resolve(extension.resolve, 'dist')
+        });
       }
-      extensions.push({
-        ...extension,
-        srcPath: resolve(extension.resolve, 'src'),
-        path: resolve(extension.resolve, 'dist')
-      });
-    } else {
-      extensions.push({
-        ...extension,
-        path: resolve(CONSTANTS.ROOTPATH, extension.resolve)
-      });
     }
   });
 
   // Sort the extensions by priority, smaller number means higher priority
   extensions.sort((a, b) => a.priority - b.priority);
-
   return extensions;
 }
 
