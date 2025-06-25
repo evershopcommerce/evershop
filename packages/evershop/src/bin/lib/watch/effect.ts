@@ -130,7 +130,7 @@ export function detectEffect(event: Event): Effect {
     } else {
       return 'update_front_store_route';
     }
-  } else if (minimatch(event.path.toString(), '**/*/[A-Z]*.jsx')) {
+  } else if (minimatch(event.path.toString(), '**/*/[A-Z]*.+(jsx|tsx)')) {
     const routeFolder = basename(dirname(event.path.toString()));
     if (!isValidRouteFolder(routeFolder)) {
       return 'unknown'; // Not a valid route folder, skip
