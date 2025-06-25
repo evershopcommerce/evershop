@@ -1,8 +1,7 @@
 import fs from 'fs';
 import { join } from 'path';
 import { pathToFileURL } from 'url';
-import { CONSTANTS } from '../../helpers.js';
-import { getConfig } from '../../util/getConfig.js';
+import { getEnabledTheme } from '../../../lib/util/getEnabledTheme.js';
 
 export async function getTailwindConfig(route) {
   const defaultTailwindConfig = route.isAdmin
@@ -14,13 +13,13 @@ export async function getTailwindConfig(route) {
   let tailwindConfig = {};
   if (!route.isAdmin) {
     // Get the current theme
-    const theme = getConfig('system.theme');
+    const theme = getEnabledTheme();
     if (
       theme &&
-      fs.existsSync(join(CONSTANTS.THEMEPATH, theme, 'tailwind.config.js'))
+      fs.existsSync(join(theme.path, 'dist', 'tailwind.config.js'))
     ) {
       tailwindConfig = await import(
-        pathToFileURL(join(CONSTANTS.THEMEPATH, theme, 'tailwind.config.js'))
+        pathToFileURL(join(theme.path, 'dist', 'tailwind.config.js'))
       );
     }
   }

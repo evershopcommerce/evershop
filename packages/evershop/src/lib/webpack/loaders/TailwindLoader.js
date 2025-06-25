@@ -4,6 +4,7 @@ import postcss from 'postcss';
 import tailwindcss from 'tailwindcss';
 import { getEnabledExtensions } from '../../../bin/extension/index.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
+import { getEnabledTheme } from '../../../lib/util/getEnabledTheme.js';
 import { CONSTANTS } from '../../helpers.js';
 import { getTailwindConfig } from '../util/getTailwindConfig.js';
 
@@ -44,16 +45,10 @@ export default async function TailwindLoader(c) {
       join(extension.path, '**', '[A-Z]*.js')
     )
   ];
-  if (getConfig('system.theme')) {
+  const theme = getEnabledTheme();
+  if (theme) {
     mergedTailwindConfig.content.push(
-      join(
-        CONSTANTS.ROOTPATH,
-        'packages',
-        'theme',
-        getConfig('system.theme'),
-        '**',
-        '[A-Z]*.js'
-      )
+      join(theme.path, 'dist', '**', '[A-Z]*.js')
     );
   }
 

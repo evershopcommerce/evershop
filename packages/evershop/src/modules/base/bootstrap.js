@@ -74,7 +74,8 @@ export default async () => {
               }
             },
             theme: {
-              type: 'string'
+              type: 'string',
+              required: ['name']
             },
             session: {
               type: 'object',

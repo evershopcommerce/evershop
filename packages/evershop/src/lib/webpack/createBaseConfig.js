@@ -4,7 +4,7 @@ import { SwcMinifyWebpackPlugin } from 'swc-minify-webpack-plugin';
 import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { CONSTANTS } from '../helpers.js';
-import { getConfig } from '../util/getConfig.js';
+import { getEnabledTheme } from '../util/getEnabledTheme.js';
 import isProductionMode from '../util/isProductionMode.js';
 import { loadCsvTranslationFiles } from './loaders/loadTranslationFromCsv.js';
 
@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 export function createBaseConfig(isServer) {
   const extenions = getEnabledExtensions();
   const coreModules = getCoreModules();
-  const theme = getConfig('system.theme', null);
+  const theme = getEnabledTheme();
 
   const loaders = [
     {
@@ -124,9 +124,7 @@ export function createBaseConfig(isServer) {
     '@evershop/evershop/components': path.resolve(__dirname, '../../components')
   };
   if (theme) {
-    alias['@components'] = [
-      path.resolve(CONSTANTS.THEMEPATH, theme, 'components')
-    ];
+    alias['@components'] = [path.resolve(theme.path, 'dist/components')];
   } else {
     alias['@components'] = [];
   }
@@ -159,7 +157,7 @@ export function createBaseConfig(isServer) {
   );
   config.resolve = {
     alias,
-    extensions: ['.js', '.jsx', '.json', '.wasm', '.ts', '.tsx'],
+    extensions: ['.js', '.json', '.wasm'],
     extensionAlias: {
       '.jsx': ['.js']
     }

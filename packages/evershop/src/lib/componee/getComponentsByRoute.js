@@ -2,18 +2,18 @@ import { resolve } from 'path';
 import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { CONSTANTS } from '../helpers.js';
-import { getConfig } from '../util/getConfig.js';
+import { getEnabledTheme } from '../util/getEnabledTheme.js';
 import { getEnabledWidgets } from '../util/getEnabledWidgets.js';
 import { scanRouteComponents } from './scanForComponents.js';
 
 export function getComponentsByRoute(route) {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
-  const theme = getConfig('system.theme');
+  const theme = getEnabledTheme();
 
   let components;
   if (theme) {
     components = Object.values(
-      scanRouteComponents(route, modules, resolve(CONSTANTS.THEMEPATH, theme))
+      scanRouteComponents(route, modules, resolve(theme.path, 'dist'))
     );
   } else {
     components = Object.values(scanRouteComponents(route, modules));
