@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function CODPayment({
-  setting: { codPaymentStatus, codDislayName }
+  setting: { codPaymentStatus, codDisplayName }
 }) {
   return (
     <Card title="Cash On Delivery Payment">
@@ -27,9 +27,9 @@ export default function CODPayment({
           <div className="col-span-2">
             <Field
               type="text"
-              name="codDislayName"
-              placeholder="Dislay Name"
-              value={codDislayName}
+              name="codDisplayName"
+              placeholder="Display Name"
+              value={codDisplayName}
             />
           </div>
         </div>
@@ -41,7 +41,7 @@ export default function CODPayment({
 CODPayment.propTypes = {
   setting: PropTypes.shape({
     codPaymentStatus: PropTypes.number,
-    codDislayName: PropTypes.string
+    codDisplayName: PropTypes.string
   }).isRequired
 };
 
@@ -54,7 +54,7 @@ export const query = `
   query Query {
     setting {
       codPaymentStatus
-      codDislayName
+      codDisplayName
     }
   }
 `;

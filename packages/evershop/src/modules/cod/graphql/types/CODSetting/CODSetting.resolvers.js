@@ -10,10 +10,10 @@ export default {
         return 0;
       }
     },
-    codDislayName: (setting) => {
-      const codDislayName = setting.find((s) => s.name === 'codDislayName');
-      if (codDislayName) {
-        return codDislayName.value;
+    codDisplayName: (setting) => {
+      const codDisplayName = setting.find((s) => s.name === 'codDisplayName');
+      if (codDisplayName) {
+        return codDisplayName.value;
       } else {
         return 'Cash On Delivery';
       }
