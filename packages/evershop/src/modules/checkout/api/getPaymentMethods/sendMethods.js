@@ -1,32 +1,17 @@
 import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
+import { getAvailablePaymentMethods } from '../../services/getAvailablePaymentMethos.js';
 
-export default async (request, response, deledate, next) => {
-  const promises = [];
-
-  for (const id in deledate) {
-    // Check if middleware is async
-    if (Promise.resolve(deledate[id]) === deledate[id]) {
-      promises.push(deledate[id]);
-    }
-  }
+export default async (request, response, delegate, next) => {
   try {
-    const data = [];
-    // Wait for all async middleware to be completed
-    const results = await Promise.all(promises);
-    // Parse the returned value from previous middleware
-    // Each payment method is encouraged to have a middleware to register itself
-    for (let i = 0; i < results.length; i += 1) {
-      const result = results[i];
-      if (result && result.methodCode && result.methodName) {
-        // This value will be considered as a payment method
-        data.push({ code: result.methodCode, name: result.methodName });
-      }
-    }
+    const paymentMethods = await getAvailablePaymentMethods();
 
     response.status(OK);
     response.json({
       data: {
-        methods: data
+        methods: paymentMethods.map((method) => ({
+          code: method.methodCode,
+          name: method.methodName
+        }))
       }
     });
   } catch (e) {
