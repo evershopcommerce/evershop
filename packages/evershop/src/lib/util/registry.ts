@@ -136,7 +136,7 @@ class Registry {
   ) {
     if (locked) {
       throw new Error(
-        'Registry is locked. Consider to use bootstrap file to add processors'
+        'Registry is locked. Most likely you are trying to add a processor from a middleware. Consider using a bootstrap file to add processors'
       );
     }
     if (typeof priority === 'undefined') {

@@ -153,7 +153,7 @@ export default function StripeMethod({
 
 StripeMethod.propTypes = {
   setting: PropTypes.shape({
-    stripeDislayName: PropTypes.string.isRequired,
+    stripeDisplayName: PropTypes.string.isRequired,
     stripePublishableKey: PropTypes.string.isRequired,
     stripePaymentMode: PropTypes.string.isRequired
   }).isRequired,
@@ -175,7 +175,7 @@ export const layout = {
 export const query = `
   query Query {
     setting {
-      stripeDislayName
+      stripeDisplayName
       stripePublishableKey
       stripePaymentMode
     }

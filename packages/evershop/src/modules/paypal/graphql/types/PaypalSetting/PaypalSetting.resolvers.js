@@ -2,12 +2,12 @@ import { getConfig } from '../../../../../lib/util/getConfig.js';
 
 export default {
   Setting: {
-    paypalDislayName: (setting) => {
-      const paypalDislayName = setting.find(
-        (s) => s.name === 'paypalDislayName'
+    paypalDisplayName: (setting) => {
+      const paypalDisplayName = setting.find(
+        (s) => s.name === 'paypalDisplayName'
       );
-      if (paypalDislayName) {
-        return paypalDislayName.value;
+      if (paypalDisplayName) {
+        return paypalDisplayName.value;
       } else {
         return 'Paypal';
       }

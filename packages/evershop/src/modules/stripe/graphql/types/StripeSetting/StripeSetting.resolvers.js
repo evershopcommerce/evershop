@@ -16,12 +16,12 @@ export default {
         return 0;
       }
     },
-    stripeDislayName: (setting) => {
-      const stripeDislayName = setting.find(
-        (s) => s.name === 'stripeDislayName'
+    stripeDisplayName: (setting) => {
+      const stripeDisplayName = setting.find(
+        (s) => s.name === 'stripeDisplayName'
       );
-      if (stripeDislayName) {
-        return stripeDislayName.value;
+      if (stripeDisplayName) {
+        return stripeDisplayName.value;
       } else {
         return 'Credit Card';
       }
