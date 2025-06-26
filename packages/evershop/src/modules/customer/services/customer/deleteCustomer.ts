@@ -1,14 +1,16 @@
 import {
   commit,
   del,
+  PoolClient,
   rollback,
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../lib/util/hookable.js';
+import { CustomerData } from './createCustomer.js';
 
-async function deleteCustomerData(uuid, connection) {
+async function deleteCustomerData(uuid: string, connection: PoolClient) {
   await del('customer').where('uuid', '=', uuid).execute(connection);
 }
 /**
@@ -16,7 +18,7 @@ async function deleteCustomerData(uuid, connection) {
  * @param {String} uuid
  * @param {Object} context
  */
-async function deleteCustomer(uuid, context) {
+async function deleteCustomer(uuid: string, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -41,7 +43,15 @@ async function deleteCustomer(uuid, context) {
   }
 }
 
-export default async (uuid, context) => {
+/**
+ * Delete customer service. This service will delete a customer with all related data
+ * @param {String} uuid
+ * @param {Object} context
+ */
+export default async (
+  uuid: string,
+  context: Record<string, any>
+): Promise<CustomerData> => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

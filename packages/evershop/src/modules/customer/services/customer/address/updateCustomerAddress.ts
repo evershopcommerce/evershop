@@ -1,5 +1,6 @@
 import {
   commit,
+  PoolClient,
   rollback,
   select,
   startTransaction,
@@ -8,16 +9,20 @@ import {
 import { getConnection } from '../../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../../lib/util/hookable.js';
 import { getValue } from '../../../../../lib/util/registry.js';
-import { validateAddress } from './addressValidator.js';
+import { Address, validateAddress } from './addressValidator.js';
 
-async function updateCustomerAddressData(uuid, data, connection) {
+async function updateCustomerAddressData(
+  uuid: string,
+  data: Partial<Address>,
+  connection: PoolClient
+): Promise<Address> {
   const query = select().from('customer_address');
   const address = await query.where('uuid', '=', uuid).load(connection);
   try {
-    const newAddress = await update('customer_address')
+    const newAddress = (await update('customer_address')
       .given(data)
       .where('uuid', '=', uuid)
-      .execute(connection);
+      .execute(connection)) as Address;
     if (newAddress.is_default) {
       await update('customer_address')
         .given({
@@ -41,8 +46,15 @@ async function updateCustomerAddressData(uuid, data, connection) {
  * @param {String} uuid
  * @param {Object} data
  * @param {Object} context
+ * @return {Promise<Address>} The updated address
+ * @throws {Error} If the address does not exist or if there is an error during the transaction
+ * @throws {Error} If the address data is invalid
  */
-async function updateCustomerAddress(uuid, data, context) {
+async function updateCustomerAddress(
+  uuid: string,
+  data: Partial<Address>,
+  context: Record<string, unknown>
+): Promise<Address> {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -79,7 +91,20 @@ async function updateCustomerAddress(uuid, data, context) {
   }
 }
 
-export default async (uuid, data, context) => {
+/**
+ * Update customer address service. This service will update a customer address with all related data
+ * @param {String} uuid
+ * @param {Object} data
+ * @param {Object} context
+ * @return {Promise<Address>} The updated address
+ * @throws {Error} If the address does not exist or if there is an error during the transaction
+ * @throws {Error} If the context is not an object
+ */
+export default async (
+  uuid: string,
+  data: Partial<Address>,
+  context: Record<string, unknown>
+) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

@@ -1,5 +1,6 @@
 import {
   commit,
+  PoolClient,
   rollback,
   select,
   startTransaction,
@@ -12,7 +13,11 @@ import {
   verifyPassword
 } from '../../../../lib/util/passwordHelper.js';
 
-async function updateCustomerPassword(customerId, hash, connection) {
+async function updateCustomerPassword(
+  customerId: number,
+  hash: string,
+  connection: PoolClient
+) {
   await update('customer')
     .given({
       password: hash
@@ -27,7 +32,11 @@ async function updateCustomerPassword(customerId, hash, connection) {
  * @param {String} newPassword
  * @param {Object} context
  */
-async function updatePassword(customerId, newPassword, context) {
+async function updatePassword(
+  customerId: number,
+  newPassword: string,
+  context: Record<string, unknown>
+): Promise<Record<string, unknown>> {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -56,7 +65,17 @@ async function updatePassword(customerId, newPassword, context) {
   }
 }
 
-export default async (customerId, password, context) => {
+/**
+ * Update customer password service.
+ * @param {Number} customerId
+ * @param {String} password
+ * @param {Object} context
+ */
+export default async (
+  customerId: number,
+  password: string,
+  context: Record<string, unknown>
+): Promise<boolean> => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

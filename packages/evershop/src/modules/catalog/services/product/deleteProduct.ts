@@ -8,6 +8,7 @@ import {
 import type { PoolClient } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../lib/util/hookable.js';
+import { ProductData } from './createProduct.js';
 
 async function deleteProductData(uuid: string, connection: PoolClient) {
   await del('product').where('uuid', '=', uuid).execute(connection);
@@ -52,7 +53,10 @@ async function deleteProduct(uuid: string, context: Record<string, any>) {
  * @param {String} uuid
  * @param {Object} context
  */
-export default async (uuid: string, context: Record<string, any>) => {
+export default async (
+  uuid: string,
+  context: Record<string, any>
+): Promise<ProductData> => {
   const connection = await getConnection();
   await startTransaction(connection);
   try {

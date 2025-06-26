@@ -4,7 +4,8 @@
   "type": "module",
   "description": "The React Ecommerce platform. Built with React and Postgres. Open-source and free. Fast and customizable.",
   "files": [
-    "dist"
+    "dist",
+    ".swcrc"
   ],
   "bin": {
     "evershop": "./dist/bin/evershop.js"
@@ -17,14 +18,12 @@
       "types": "./dist/types/index.d.ts"
     },
     "./lib": {
-      "node": {
-        "import": "./dist/lib/index.js",
-        "types": "./dist/lib/index.d.ts"
-      },
       "browser": {
         "import": "./dist/lib/index.browser.js",
         "types": "./dist/lib/index.browser.d.ts"
-      }
+      },
+      "import": "./dist/lib/index.js",
+      "types": "./dist/lib/index.d.ts"
     },
     "./components/common": {
       "import": "./dist/components/common/index.jsx",
@@ -53,6 +52,10 @@
     "./setting/services": {
       "import": "./dist/modules/setting/services/index.js",
       "types": "./dist/modules/setting/services/index.d.ts"
+    },
+    "./checkout/services": {
+      "import": "./dist/modules/checkout/services/index.js",
+      "types": "./dist/modules/checkout/services/index.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -184,6 +187,7 @@
     "@types/pg": "^8.15.2",
     "@types/react": "^19.1.2",
     "copyfiles": "^2.4.1",
+    "execa": "^9.6.0",
     "typescript": "^5.8.3"
   }
 }

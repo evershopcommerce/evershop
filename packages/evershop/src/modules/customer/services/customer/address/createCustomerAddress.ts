@@ -1,6 +1,7 @@
 import {
   commit,
   insert,
+  PoolClient,
   rollback,
   select,
   startTransaction,
@@ -9,9 +10,12 @@ import {
 import { getConnection, pool } from '../../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../../lib/util/hookable.js';
 import { getValue } from '../../../../../lib/util/registry.js';
-import { validateAddress } from './addressValidator.js';
+import { Address, validateAddress } from './addressValidator.js';
 
-async function insertCustomerAddressData(data, connection) {
+async function insertCustomerAddressData(
+  data: Address,
+  connection: PoolClient
+): Promise<Address> {
   const address = await insert('customer_address')
     .given(data)
     .execute(connection);
@@ -29,10 +33,15 @@ async function insertCustomerAddressData(data, connection) {
 
 /**
  * Create customer address service. This service will create a customer address with all related data
- * @param {Object} data
+ * @param {String} customerUUID
+ * @param {Address} address
  * @param {Object} context
  */
-async function createCustomerAddress(customerUUID, address, context) {
+async function createCustomerAddress(
+  customerUUID: string,
+  address: Address,
+  context: Record<string, unknown>
+): Promise<Address> {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -66,7 +75,19 @@ async function createCustomerAddress(customerUUID, address, context) {
   }
 }
 
-export default async (customerUUID, addressData, context) => {
+/**
+ * Create customer address service. This service will create a customer address with all related data
+ * @param {String} customerUUID
+ * @param {Address} addressData
+ * @param {Object} context
+ * @returns {Promise<Address>}
+ * @throws {Error} If context is not an object or if address validation fails
+ */
+export default async (
+  customerUUID: string,
+  addressData: Address,
+  context: Record<string, unknown>
+) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

@@ -212,4 +212,4 @@ async function getCart(uuid) {
   return cartObject;
 }
 
-export { Cart, createNewCart, getCart };
+export { Cart, Item, createNewCart, getCart };

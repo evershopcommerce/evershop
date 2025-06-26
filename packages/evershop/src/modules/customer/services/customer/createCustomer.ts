@@ -1,10 +1,12 @@
 import {
   commit,
   insert,
+  PoolClient,
   rollback,
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
+import { JSONSchemaType } from 'ajv';
 import { emit } from '../../../../lib/event/emitter.js';
 import {
   getConnection,
@@ -22,12 +24,22 @@ import {
 import { getAjv } from '../../../base/services/getAjv.js';
 import customerDataSchema from './customerDataSchema.json' with { type: 'json' };
 
-function validateCustomerDataBeforeInsert(data) {
+export type CustomerData = {
+  email?: string,
+  full_name?: string,
+  password?: string,
+  group_id?: number,
+  status?: number,
+  [key: string]: unknown
+};
+
+function validateCustomerDataBeforeInsert(data: CustomerData) {
   const ajv = getAjv();
-  customerDataSchema.required = ['email', 'password', 'full_name'];
+  (customerDataSchema as JSONSchemaType<any>).required = ['email', 'password', 'full_name'];
   const jsonSchema = getValueSync(
     'createCustomerDataJsonSchema',
-    customerDataSchema
+    customerDataSchema,
+    {}
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
@@ -41,7 +53,7 @@ function validateCustomerDataBeforeInsert(data) {
   }
 }
 
-async function insertCustomerData(data, connection) {
+async function insertCustomerData(data: CustomerData, connection: PoolClient) {
   const customer = await insert('customer').given(data).execute(connection);
   // Delete password from customer object
   delete customer.password;
@@ -53,7 +65,7 @@ async function insertCustomerData(data, connection) {
  * @param {Object} data
  * @param {Object} context
  */
-async function createCustomer(data, context) {
+async function createCustomer(data: CustomerData, context: Record<string, unknown> = {}) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -102,7 +114,12 @@ async function createCustomer(data, context) {
   }
 }
 
-export default async (data, context) => {
+/**
+ * Create customer service. This service will create a customer with all related data
+ * @param {Object} data
+ * @param {Object} context
+ */
+export default async (data: CustomerData, context: Record<string, unknown> ): Promise<CustomerData> => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

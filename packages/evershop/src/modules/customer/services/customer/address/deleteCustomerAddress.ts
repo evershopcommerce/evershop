@@ -1,22 +1,29 @@
 import {
   commit,
   del,
+  PoolClient,
   rollback,
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../../lib/util/hookable.js';
+import { Address } from './addressValidator.js';
 
-async function deleteCustomerAddressData(uuid, connection) {
+async function deleteCustomerAddressData(uuid: string, connection: PoolClient) {
   await del('customer_address').where('uuid', '=', uuid).execute(connection);
 }
 /**
  * Delete customer address service. This service will delete a customer address with all related data
  * @param {String} uuid
  * @param {Object} context
+ * @return {Promise<Address>} The deleted address
+ * @throws {Error} If the address does not exist or if there is an error during the transaction
  */
-async function deleteCustomerAddress(uuid, context) {
+async function deleteCustomerAddress(
+  uuid: string,
+  context: Record<string, unknown>
+): Promise<Address> {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -40,14 +47,24 @@ async function deleteCustomerAddress(uuid, context) {
   }
 }
 
-export default async (uuid, context) => {
+/**
+ * Delete customer address service. This service will delete a customer address with all related data
+ * @param {String} uuid
+ * @param {Object} context
+ * @return {Promise<Address>} The deleted address
+ * @throws {Error} If the address does not exist or if there is an error during the transaction
+ */
+export default async (
+  uuid: string,
+  context: Record<string, unknown>
+): Promise<Address> => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');
   }
-  const customer = await hookable(deleteCustomerAddress, context)(
+  const customerAddress = await hookable(deleteCustomerAddress, context)(
     uuid,
     context
   );
-  return customer;
+  return customerAddress;
 };
