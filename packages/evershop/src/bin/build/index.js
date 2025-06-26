@@ -42,7 +42,11 @@ export default async function build() {
   /** Loading bootstrap script from modules */
   try {
     for (const module of modules) {
-      await loadBootstrapScript(module);
+      await loadBootstrapScript(module, {
+        command: 'build',
+        env: 'production',
+        process: 'main'
+      });
     }
     lockHooks();
     lockRegistry();

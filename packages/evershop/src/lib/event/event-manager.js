@@ -21,7 +21,10 @@ const init = async () => {
   /** Loading bootstrap script from modules */
   try {
     for (const module of modules) {
-      await loadBootstrapScript(module);
+      await loadBootstrapScript(module, {
+        ...JSON.parse(process.env.bootstrapContext || '{}'),
+        process: 'event'
+      });
     }
     lockHooks();
     lockRegistry();

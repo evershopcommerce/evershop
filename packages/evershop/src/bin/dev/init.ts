@@ -7,7 +7,11 @@ import enableWatcher from './enableWatcher.js';
 
 await compileTs();
 enableWatcher();
-start();
+start({
+  command: 'dev',
+  env: 'development',
+  process: 'main'
+});
 
 process.on('SIGTERM', async () => {
   debug('Received SIGTERM, shutting down the main process...');

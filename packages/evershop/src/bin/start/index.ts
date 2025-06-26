@@ -1,7 +1,11 @@
 import './initEnvStart.js';
 import { start } from '../lib/startUp.js';
 
-start();
+start({
+  command: 'start',
+  env: 'production',
+  process: 'main'
+});
 process.on('uncaughtException', function (exception) {
   import('../../lib/log/logger.js').then((module) => {
     module.error(exception);

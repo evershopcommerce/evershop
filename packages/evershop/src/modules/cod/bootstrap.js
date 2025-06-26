@@ -1,7 +1,8 @@
 import { addProcessor } from '../../lib/util/registry.js';
 import { getSetting } from '../../modules/setting/services/setting.js';
+import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethos.js';
 
-export default () => {
+export default async (context) => {
   addProcessor('cartFields', (fields) => {
     fields.push({
       key: 'payment_method',
@@ -24,4 +25,11 @@ export default () => {
     });
     return fields;
   });
+
+  if (context?.command !== 'build') {
+    registerPaymentMethod(
+      'cod',
+      await getSetting('codDisplayName', 'Cash On Delivery')
+    );
+  }
 };

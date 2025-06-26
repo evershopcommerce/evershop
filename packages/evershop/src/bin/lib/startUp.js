@@ -21,7 +21,7 @@ import { onListening } from './onListening.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const start = async function start(cb) {
+export const start = async function start(context, cb) {
   const app = createApp();
   /** Create a http server */
   const server = http.createServer(app);
@@ -30,7 +30,7 @@ export const start = async function start(cb) {
   /** Loading bootstrap script from modules */
   try {
     for (const module of modules) {
-      await loadBootstrapScript(module);
+      await loadBootstrapScript(module, context);
     }
     lockHooks();
     lockRegistry();
@@ -75,6 +75,7 @@ export const start = async function start(cb) {
     stdio: 'inherit',
     env: {
       ...process.env,
+      bootstrapContext: JSON.stringify(context),
       ALLOW_CONFIG_MUTATIONS: true
     }
   });
@@ -94,6 +95,7 @@ export const start = async function start(cb) {
     stdio: 'inherit',
     env: {
       ...process.env,
+      bootstrapContext: JSON.stringify(context),
       ALLOW_CONFIG_MUTATIONS: true
     }
   });

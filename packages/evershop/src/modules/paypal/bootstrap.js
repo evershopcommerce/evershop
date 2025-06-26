@@ -1,9 +1,10 @@
 import { hookAfter } from '../../lib/util/hookable.js';
 import { addProcessor } from '../../lib/util/registry.js';
+import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethos.js';
 import { getSetting } from '../setting/services/setting.js';
 import { voidPaymentTransaction } from './services/voidPaymentTransaction.js';
 
-export default () => {
+export default async (context) => {
   addProcessor('cartFields', (fields) => {
     fields.push({
       key: 'payment_method',
@@ -37,4 +38,11 @@ export default () => {
     }
     await voidPaymentTransaction(orderID);
   });
+
+  if (context?.command !== 'build') {
+    registerPaymentMethod(
+      'paypal',
+      await getSetting('paypalDisplayName', 'Paypal')
+    );
+  }
 };

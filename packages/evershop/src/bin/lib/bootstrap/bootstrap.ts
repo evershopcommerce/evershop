@@ -6,15 +6,22 @@ interface Module {
   path: string;
 }
 
+export type BootstrapContext = {
+  command?: string;
+  env?: 'production' | 'development' | 'test';
+  process?: 'main' | 'cronjob' | 'event';
+};
+
 type BootstrapModule = {
-  default: () => Promise<void> | void;
+  default: (context: BootstrapContext) => Promise<void> | void;
 };
 
 /**
  * Loads and runs the bootstrap script from a module directory.
  */
 export const loadBootstrapScript = async function loadBootstrapScript(
-  module: Module
+  module: Module,
+  context: BootstrapContext = {}
 ): Promise<void> {
   const filePath = path.resolve(module.path, 'bootstrap.js');
   if (!existsSync(filePath)) {
@@ -30,5 +37,5 @@ export const loadBootstrapScript = async function loadBootstrapScript(
     );
   }
 
-  await bootstrap.default();
+  await bootstrap.default(context);
 };
