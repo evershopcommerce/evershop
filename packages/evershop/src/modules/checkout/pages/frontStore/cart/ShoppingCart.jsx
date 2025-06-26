@@ -4,7 +4,7 @@ import { Empty } from '@components/frontStore/checkout/cart/Empty';
 import Items from '@components/frontStore/checkout/cart/items/Items';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 import { get } from '../../../../../lib/util/get.js';
 
 function Title({ title }) {

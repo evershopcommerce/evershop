@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import '../Field.scss';
-import { _ } from '../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../lib/locale/translate/_.js';
 
 const Select = React.forwardRef((props, ref) => {
   const {

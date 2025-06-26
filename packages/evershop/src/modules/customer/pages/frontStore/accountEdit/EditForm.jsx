@@ -1,10 +1,9 @@
-
 import Area from '@components/common/Area';
 import EmailIcon from '@heroicons/react/outline/MailIcon';
 import User from '@heroicons/react/outline/UserIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export default function AccountDetails({ account }) {
   return (

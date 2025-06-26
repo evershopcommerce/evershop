@@ -11,8 +11,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
-import { _ } from '../../../../../../lib/locale/translate/index.js';
-
+import { _ } from '../../../../../../lib/locale/translate/_.js';
 
 const QUERY = `
   query Query($cartId: String) {

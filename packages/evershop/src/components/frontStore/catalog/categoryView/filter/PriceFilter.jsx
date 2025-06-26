@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-
 import './PriceFilter.scss';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export function PriceFilter({
   priceRange: { min: minPrice, max: maxPrice },

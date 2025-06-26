@@ -2,7 +2,7 @@ import { Input } from '@components/common/form/fields/Input';
 import XIcon from '@heroicons/react/solid/esm/XIcon';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 import './SearchBox.scss';
 
 export default function SearchBox({ searchPageUrl }) {

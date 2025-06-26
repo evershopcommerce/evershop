@@ -4,7 +4,7 @@ import { Price } from '@components/frontStore/catalog/product/list/item/Price';
 import { Thumbnail } from '@components/frontStore/catalog/product/list/item/Thumbnail';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 import { get } from '../../../../../lib/util/get.js';
 
 export default function ProductList({ products = [], countPerRow = 3 }) {

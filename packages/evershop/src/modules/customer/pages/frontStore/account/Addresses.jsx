@@ -5,7 +5,7 @@ import CustomerAddressForm from '@components/frontStore/customer/address/address
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export default function Addresses({
   account: { addresses, addAddressApi },

@@ -1,4 +1,3 @@
-
 import {
   useCheckout,
   useCheckoutDispatch
@@ -13,11 +12,10 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 
-
 import './CheckoutForm.scss';
 import RenderIfTrue from '@components/common/RenderIfTrue';
 import Spinner from '@components/common/Spinner';
-import { _ } from '../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../lib/locale/translate/_.js';
 import TestCards from './TestCards';
 
 const cartQuery = `

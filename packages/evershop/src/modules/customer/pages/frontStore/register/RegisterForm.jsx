@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import './RegisterForm.scss';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 import Area from '@components/common/Area';
 
 export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {

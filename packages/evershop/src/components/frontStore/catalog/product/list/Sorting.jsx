@@ -2,8 +2,7 @@ import { useAppDispatch } from '@components/common/context/app';
 import { Select } from '@components/common/form/fields/Select';
 import options from '@components/frontStore/catalog/product/list/SortOptions';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/index.js';
-
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export default function Sorting() {
   const AppContextDispatch = useAppDispatch();

@@ -4,7 +4,7 @@ import './UpdatePasswordForm.scss';
 import Button from '@components/common/form/Button';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 function Success() {
   return (

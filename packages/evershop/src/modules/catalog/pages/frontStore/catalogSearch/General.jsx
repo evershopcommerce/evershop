@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './General.scss';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export default function SearchInfo() {
   const [key, setKey] = React.useState('');

@@ -2,7 +2,7 @@ import Area from '@components/common/Area';
 import Button from '@components/common/form/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 function Name() {
   return (

@@ -1,7 +1,7 @@
 import ProductList from '@components/frontStore/catalog/product/list/List';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export default function Products({ products: { items } }) {
   return (

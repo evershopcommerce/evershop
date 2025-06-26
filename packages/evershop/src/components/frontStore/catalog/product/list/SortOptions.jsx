@@ -1,4 +1,4 @@
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 const options = [
   { code: 'price', name: _('Price') },

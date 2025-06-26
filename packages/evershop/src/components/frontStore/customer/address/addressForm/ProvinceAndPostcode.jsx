@@ -2,7 +2,7 @@ import { Field } from '@components/common/form/Field';
 import { Province } from '@components/frontStore/customer/address/addressForm/Province';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export function ProvinceAndPostcode({
   address,

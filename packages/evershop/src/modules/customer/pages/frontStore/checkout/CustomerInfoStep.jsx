@@ -6,7 +6,7 @@ import {
 import { Edit } from '@components/frontStore/customer/checkout/Edit';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export default function ContactInformationStep({
   cart: { customerEmail, addContactInfoApi },

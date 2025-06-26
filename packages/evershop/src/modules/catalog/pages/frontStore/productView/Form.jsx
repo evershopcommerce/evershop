@@ -8,9 +8,8 @@ import produce from 'immer';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 import './Form.scss';
-
 
 function ToastMessage({ thumbnail, name, qty, count, cartUrl, toastId }) {
   return (

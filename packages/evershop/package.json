@@ -17,8 +17,14 @@
       "types": "./dist/types/index.d.ts"
     },
     "./lib": {
-      "import": "./dist/lib/index.js",
-      "types": "./dist/lib/index.d.ts"
+      "node": {
+        "import": "./dist/lib/index.js",
+        "types": "./dist/lib/index.d.ts"
+      },
+      "browser": {
+        "import": "./dist/lib/index.browser.js",
+        "types": "./dist/lib/index.browser.d.ts"
+      }
     },
     "./components/common": {
       "import": "./dist/components/common/index.jsx",
@@ -56,8 +62,6 @@
     "dev": "node ./dist/bin/dev/index.js",
     "start": "node ./dist/bin/start/index.js",
     "build": "node ./dist/bin/build/index.js",
-    "compile": "swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths",
-    "compile:watch": "swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths --watch",
     "compile:tsc": "rimraf dist && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",

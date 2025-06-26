@@ -5,7 +5,7 @@ import { NameAndTelephone } from '@components/frontStore/customer/address/addres
 import { ProvinceAndPostcode } from '@components/frontStore/customer/address/addressForm/ProvinceAndPostcode';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 function isFieldRequired(schema, fieldName) {
   if (schema && Array.isArray(schema.required)) {

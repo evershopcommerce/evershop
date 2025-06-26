@@ -6,7 +6,7 @@ import './Filter.scss';
 import { AttributeFilter } from '@components/frontStore/catalog/categoryView/filter/AttributeFilter';
 import { CategoryFilter } from '@components/frontStore/catalog/categoryView/filter/CategoryFilter';
 import { PriceFilter } from '@components/frontStore/catalog/categoryView/filter/PriceFilter';
-import { _ } from '../../../../../lib/locale/translate/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export const FilterDispatch = React.createContext();
 
