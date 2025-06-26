@@ -13,7 +13,7 @@
     "build": "node ./packages/evershop/dist/bin/build/index.js",
     "setup": "evershop install",
     "compile": "rimraf ./packages/evershop/dist && cd ./packages/evershop && swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths",
-    "compile:tsc": "rimraf ./packages/evershop/dist && tsc --project ./packages/evershop/tsconfig.json && copyfiles -u 1 \"./packages/evershop/src/**/*.{graphql,scss,json}\" ./packages/evershop/dist",
+    "compile:tsc": "rimraf ./packages/evershop/dist && cd ./packages/evershop && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
     "start:debug": "node ./packages/evershop/dist/bin/start/index.js --debug",
     "test": "ALLOW_CONFIG_MUTATIONS=true NODE_OPTIONS=--experimental-vm-modules node_modules/jest/bin/jest.js",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
