@@ -1,6 +1,4 @@
 import path from 'path';
-import { execa } from 'execa';
-import { getEnabledExtensions } from '../extension/index.js';
 import { compileSwc } from '../lib/watch/compileSwc.js';
 import { getSrcPaths } from '../lib/watch/getSrcPaths.js';
 
