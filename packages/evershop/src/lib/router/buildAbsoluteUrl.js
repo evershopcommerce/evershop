@@ -1,4 +1,4 @@
-import normalizePort from '../../bin/lib/normalizePort.js';
+import { normalizePort } from '../../bin/lib/normalizePort.js';
 import { getConfig } from '../util/getConfig.js';
 import { buildUrl } from './buildUrl.js';
 
