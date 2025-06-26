@@ -307,7 +307,10 @@ class Node {
     return await this._query!.execute(connection, releaseConnection);
   }
 
-  async load(connection: PoolClient, releaseConnection = true): Promise<any> {
+  async load(
+    connection: PoolClient | Pool,
+    releaseConnection = true
+  ): Promise<any> {
     if (this._query instanceof SelectQuery) {
       return await this._query!.load(connection, releaseConnection);
     } else {
@@ -544,7 +547,7 @@ class Query {
     this._where._link = 'AND';
   }
 
-  where(field: string, operator: string, value: any): Where | Node {
+  where(field: string, operator: string, value: any): Where {
     this._where = new Where(this);
     this._where._link = 'AND';
     this._where.addLeaf('AND', field, operator, value);
@@ -698,7 +701,10 @@ class SelectQuery extends Query {
       .join(' ');
   }
 
-  async load(connection: PoolClient, releaseConnection = true): Promise<any> {
+  async load(
+    connection: PoolClient | Pool,
+    releaseConnection = true
+  ): Promise<any> {
     this.limit(0, 1);
     const rows = await this.execute(connection, releaseConnection);
     return rows[0] || null;
