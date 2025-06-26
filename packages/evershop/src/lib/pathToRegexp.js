@@ -1,4 +1,4 @@
-import isarray from 'isarray';
+const isarray = (e) => Array.isArray(e);
 
 function parse(e, t) {
   for (
