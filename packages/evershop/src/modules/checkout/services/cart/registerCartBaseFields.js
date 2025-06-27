@@ -626,11 +626,17 @@ export function registerCartBaseFields(fields) {
       key: 'payment_method',
       resolvers: [
         async function resolver(paymentMethod) {
-          const methods = getAvailablePaymentMethods();
-          if (paymentMethod && methods.includes(paymentMethod)) {
+          const methods = await getAvailablePaymentMethods();
+          if (
+            paymentMethod &&
+            methods.map((m) => m.methodCode).includes(paymentMethod)
+          ) {
             this.setError('payment_method', undefined);
             return paymentMethod;
-          } else if (paymentMethod && !methods.includes(paymentMethod)) {
+          } else if (
+            paymentMethod &&
+            !methods.map((m) => m.methodCode).includes(paymentMethod)
+          ) {
             this.setError(
               'payment_method',
               `Payment method ${paymentMethod} is not available`
