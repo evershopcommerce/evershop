@@ -367,7 +367,7 @@ export default () => {
         throw new Error('Order is already closed');
       }
       const orderStatus = resolveOrderStatus(status, order.shipment_status);
-      await changeOrderStatus(order, orderStatus, connection);
+      await changeOrderStatus(orderId, orderStatus, connection);
     }
   );
 
@@ -381,7 +381,7 @@ export default () => {
         throw new Error('Order is already closed');
       }
       const orderStatus = resolveOrderStatus(order.payment_status, status);
-      await changeOrderStatus(order, orderStatus, connection);
+      await changeOrderStatus(orderId, orderStatus, connection);
     }
   );
 };

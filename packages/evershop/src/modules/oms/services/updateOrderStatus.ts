@@ -5,7 +5,9 @@ import {
   commit,
   getConnection,
   insert,
+  PoolClient,
   rollback,
+  select,
   startTransaction,
   update
 } from '@evershop/postgres-query-builder';
@@ -14,6 +16,7 @@ import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { hookable } from '../../../lib/util/hookable.js';
+import { PaymentStatus, ShipmentStatus } from '../../../types/order.js';
 
 function getOrderStatusFlow() {
   try {
@@ -34,10 +37,19 @@ function getOrderStatusFlow() {
   }
 }
 
-export function resolveOrderStatus(paymentStatus, shipmentStatus) {
+export function resolveOrderStatus(
+  paymentStatus: string,
+  shipmentStatus: string
+): string {
   const orderStatusList = getConfig('oms.order.status', {});
-  const shipmentStatusList = getConfig('oms.order.shipmentStatus', {});
-  const paymentStatusList = getConfig('oms.order.paymentStatus', {});
+  const shipmentStatusList = getConfig(
+    'oms.order.shipmentStatus',
+    {}
+  ) as ShipmentStatus[];
+  const paymentStatusList = getConfig(
+    'oms.order.paymentStatus',
+    {}
+  ) as PaymentStatus[];
   const psoMapping = getConfig('oms.order.psoMapping', {});
   const shipmentStatusDefination = shipmentStatusList[shipmentStatus];
   const paymentStatusDefination = paymentStatusList[paymentStatus];
@@ -60,7 +72,11 @@ export function resolveOrderStatus(paymentStatus, shipmentStatus) {
   return nextStatus;
 }
 
-async function updateOrderStatus(orderId, status, connection) {
+async function updateOrderStatus(
+  orderId: number,
+  status: string,
+  connection: PoolClient
+): Promise<void> {
   await update('order')
     .given({
       status
@@ -69,7 +85,12 @@ async function updateOrderStatus(orderId, status, connection) {
     .execute(connection);
 }
 
-async function addOrderStatusChangeEvents(orderId, before, after, connection) {
+async function addOrderStatusChangeEvents(
+  orderId: number,
+  before: string,
+  after: string,
+  connection: PoolClient
+): Promise<void> {
   await insert('event')
     .given({
       name: 'order_status_updated',
@@ -82,8 +103,19 @@ async function addOrderStatusChangeEvents(orderId, before, after, connection) {
     .execute(connection);
 }
 
-export async function changeOrderStatus(order, status, conn) {
+export async function changeOrderStatus(
+  orderId: number,
+  status: string,
+  conn: PoolClient
+) {
   const statusFlow = getOrderStatusFlow();
+  const order = await select()
+    .from('order')
+    .where('order_id', '=', orderId)
+    .load(conn, false);
+  if (!order) {
+    throw new Error('Order not found');
+  }
   // Do not allow to revert the status
   if (statusFlow.indexOf(order.status) > statusFlow.indexOf(status)) {
     throw new Error('Can not revert the status of the order');
@@ -102,7 +134,7 @@ export async function changeOrderStatus(order, status, conn) {
     await hookable(addOrderStatusChangeEvents, {
       order,
       status
-    })(order.order_id, order.status, status, connection);
+    })(order.order_id, order.status.toString(), status, connection);
 
     if (!conn) {
       await commit(connection);

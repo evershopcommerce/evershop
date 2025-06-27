@@ -57,6 +57,10 @@
       "import": "./dist/modules/checkout/services/index.js",
       "types": "./dist/modules/checkout/services/index.d.ts"
     },
+    "./oms/services": {
+      "import": "./dist/modules/oms/services/index.js",
+      "types": "./dist/modules/oms/services/index.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {

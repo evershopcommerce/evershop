@@ -1,6 +1,7 @@
 import {
   commit,
   getConnection,
+  PoolClient,
   rollback,
   startTransaction,
   update
@@ -9,37 +10,48 @@ import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { hookable } from '../../../lib/util/hookable.js';
+import { ShipmentStatus } from '../../../types/order.js';
 
-function validatePaymentStatusBeforeUpdate(status) {
-  const paymentStatusList = getConfig('oms.order.paymentStatus', {});
-  if (!paymentStatusList[status]) {
+function validateShipmentStatusBeforeUpdate(status: string): boolean {
+  const shipmentStatusList = getConfig(
+    'oms.order.shipmentStatus',
+    {}
+  ) as ShipmentStatus;
+  if (!shipmentStatusList[status]) {
     throw new Error('Invalid status');
   }
   return false;
 }
 
-async function changePaymentStatus(orderId, status, connection) {
+async function changeShipmentStatus(
+  orderId: number,
+  status: string,
+  connection: PoolClient
+) {
   const order = await update('order')
     .given({
-      payment_status: status
+      shipment_status: status
     })
     .where('order_id', '=', orderId)
     .execute(connection);
   return order;
 }
 
-export const updatePaymentStatus = async (orderId, status, conn) => {
+export const updateShipmentStatus = async (
+  orderId: number,
+  status: string,
+  conn: PoolClient
+): Promise<void> => {
   const connection = conn || (await getConnection(pool));
   try {
     if (!conn) {
       await startTransaction(connection);
     }
-    hookable(validatePaymentStatusBeforeUpdate, { orderId })(status);
-    await hookable(changePaymentStatus, { orderId, status })(
+    hookable(validateShipmentStatusBeforeUpdate, { orderId })(status);
+    await hookable(changeShipmentStatus, {
       orderId,
-      status,
-      connection
-    );
+      status
+    })(orderId, status, connection);
     if (!conn) {
       await commit(connection);
     }

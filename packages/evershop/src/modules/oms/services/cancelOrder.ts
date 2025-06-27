@@ -3,6 +3,7 @@ import {
   execute,
   getConnection,
   insert,
+  PoolClient,
   rollback,
   select,
   startTransaction
@@ -11,12 +12,19 @@ import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { hookable } from '../../../lib/util/hookable.js';
+import { PaymentStatus, ShipmentStatus } from '../../../types/order.js';
 import { updatePaymentStatus } from './updatePaymentStatus.js';
 import { updateShipmentStatus } from './updateShipmentStatus.js';
 
-function validateStatus(paymentStatus, shipmentStatus) {
-  const shipmentStatusList = getConfig('oms.order.shipmentStatus', {});
-  const paymentStatusList = getConfig('oms.order.paymentStatus', {});
+function validateStatus(paymentStatus: string, shipmentStatus: string) {
+  const shipmentStatusList = getConfig(
+    'oms.order.shipmentStatus',
+    {}
+  ) as ShipmentStatus[];
+  const paymentStatusList = getConfig(
+    'oms.order.paymentStatus',
+    {}
+  ) as PaymentStatus[];
 
   const paymentStatusConfig = paymentStatusList[paymentStatus];
   const shipmentStatusConfig = shipmentStatusList[shipmentStatus];
@@ -30,15 +38,21 @@ function validateStatus(paymentStatus, shipmentStatus) {
   return true;
 }
 
-async function updatePaymentStatusToCancel(orderID, connection) {
+async function updatePaymentStatusToCancel(
+  orderID: number,
+  connection: PoolClient
+) {
   await updatePaymentStatus(orderID, 'canceled', connection);
 }
 
-async function updateShipmentStatusToCancel(orderID, connection) {
+async function updateShipmentStatusToCancel(
+  orderID: number,
+  connection: PoolClient
+) {
   await updateShipmentStatus(orderID, 'canceled', connection);
 }
 
-async function reStockAfterCancel(orderID, connection) {
+async function reStockAfterCancel(orderID: number, connection: PoolClient) {
   const orderItems = await select()
     .from('order_item')
     .where('order_item_order_id', '=', orderID)
@@ -54,7 +68,11 @@ async function reStockAfterCancel(orderID, connection) {
   );
 }
 
-async function addCancellationActivity(orderID, reason, connection) {
+async function addCancellationActivity(
+  orderID: number,
+  reason: string | undefined,
+  connection: PoolClient
+): Promise<void> {
   await insert('order_activity')
     .given({
       order_activity_order_id: orderID,
@@ -64,7 +82,7 @@ async function addCancellationActivity(orderID, reason, connection) {
     .execute(connection, false);
 }
 
-async function cancelOrder(uuid, reason) {
+async function cancelOrder(uuid: string, reason: string | undefined) {
   const connection = await getConnection(pool);
   try {
     await startTransaction(connection);
@@ -107,6 +125,12 @@ async function cancelOrder(uuid, reason) {
   }
 }
 
-export default async (uuid, reason) => {
+/**
+ * Cancels an order by its UUID and adds a cancellation reason.
+ * @param uuid - The UUID of the order to cancel.
+ * @param reason - The reason for cancellation.
+ * @returns A promise that resolves when the order is canceled.
+ */
+export default async (uuid: string, reason: string | undefined) => {
   await hookable(cancelOrder, { uuid })(uuid, reason);
 };
