@@ -9,6 +9,7 @@ import { getSetting } from '../../../../modules/setting/services/setting.js';
 import { calculateTaxAmount } from '../../../../modules/tax/services/calculateTaxAmount.js';
 import { getTaxPercent } from '../../../../modules/tax/services/getTaxPercent.js';
 import { getTaxRates } from '../../../../modules/tax/services/getTaxRates.js';
+import { getAvailablePaymentMethods } from '../getAvailablePaymentMethos.js';
 import { toPrice } from '../toPrice.js';
 
 export function registerCartBaseFields(fields) {
@@ -625,10 +626,20 @@ export function registerCartBaseFields(fields) {
       key: 'payment_method',
       resolvers: [
         async function resolver(paymentMethod) {
-          this.setError('payment_method', 'Payment method is required');
-          return paymentMethod;
-          // Each payment method should handle this field
-          // by returning the payment method code and remove this error if the payment method is valid
+          const methods = getAvailablePaymentMethods();
+          if (paymentMethod && methods.includes(paymentMethod)) {
+            this.setError('payment_method', undefined);
+            return paymentMethod;
+          } else if (paymentMethod && !methods.includes(paymentMethod)) {
+            this.setError(
+              'payment_method',
+              `Payment method ${paymentMethod} is not available`
+            );
+            return null;
+          } else if (paymentMethod === null) {
+            this.setError('payment_method', 'Payment method is required');
+            return null;
+          }
         }
       ]
     },

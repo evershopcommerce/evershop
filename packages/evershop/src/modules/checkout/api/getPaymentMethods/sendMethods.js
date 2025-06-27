@@ -4,7 +4,6 @@ import { getAvailablePaymentMethods } from '../../services/getAvailablePaymentMe
 export default async (request, response, delegate, next) => {
   try {
     const paymentMethods = await getAvailablePaymentMethods();
-
     response.status(OK);
     response.json({
       data: {

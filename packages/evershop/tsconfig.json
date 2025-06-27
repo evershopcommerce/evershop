@@ -16,7 +16,7 @@
     "allowSyntheticDefaultImports": true,
     "allowArbitraryExtensions": true,
     "strictNullChecks": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "baseUrl": ".",
     "rootDir": "./src",
     "paths": {
