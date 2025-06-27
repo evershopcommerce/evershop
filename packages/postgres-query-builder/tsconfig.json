@@ -10,7 +10,6 @@
     "sourceMap": true,
     "allowJs": true,
     "checkJs": false,
-    "jsx": "preserve",
     "outDir": "./dist",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
@@ -19,10 +18,10 @@
     "baseUrl": "."
   },
   "include": [
-    "./*.ts",
-    "./fieldResolve.js",
-    "./isValueASQL.js",
-    "./toString.js"
+    "./src/*.ts",
+    "./src/fieldResolve.js",
+    "./src/isValueASQL.js",
+    "./src/toString.js"
   ],
   "exclude": ["node_modules", "dist"]
 }

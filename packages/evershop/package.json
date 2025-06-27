@@ -96,7 +96,7 @@
     "@editorjs/quote": "^2.6.0",
     "@editorjs/raw": "^2.5.0",
     "@evershop/editorjs-image": "^1.0.0",
-    "@evershop/postgres-query-builder": "^1.2.0",
+    "@evershop/postgres-query-builder": "^2.0.0",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/merge": "^8.4.2",
     "@graphql-tools/schema": "^9.0.19",

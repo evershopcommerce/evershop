@@ -15,11 +15,12 @@
     "nodejs PostgreSQL query builder"
   ],
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "README.md"
   ],
   "scripts": {
-    "build": "swc src/index.ts -o dist/index.js",
-    "test": "jest"
+    "compile": "tsc"
   },
   "author": "The Nguyen (https://evershop.io/)",
   "license": "MIT",
