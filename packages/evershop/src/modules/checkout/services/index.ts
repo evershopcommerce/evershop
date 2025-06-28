@@ -4,3 +4,7 @@ export * from './createNewCart.js';
 export * from './getCartByUUID.js';
 export * from './getCurrentCart.js';
 export * from './getAvailablePaymentMethos.js';
+export * from './saveCart.js';
+export * from './toPrice.js';
+export * from './orderCreator.js';
+export * from './orderValidator.js';

@@ -2,6 +2,7 @@ import {
   commit,
   getConnection,
   insert,
+  PoolClient,
   rollback,
   select,
   startTransaction,
@@ -11,85 +12,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { hookable } from '../../../lib/util/hookable.js';
-import { getValueSync } from '../../../lib/util/registry.js';
+import { PaymentStatus, ShipmentStatus } from '../../../types/order.js';
 import { resolveOrderStatus } from '../../oms/services/updateOrderStatus.js';
+import { Cart } from './cart/Cart.js';
+import { validateBeforeCreateOrder } from './orderValidator.js';
 
-/* Default validation rules */
-const validationServices = [
-  {
-    id: 'checkCartError',
-    /**
-     *
-     * @param {Cart} cart
-     * @param {*} validationErrors
-     * @returns
-     */
-    func: (cart, validationErrors) => {
-      if (cart.hasError()) {
-        validationErrors.push(cart.error);
-        return false;
-      } else {
-        return true;
-      }
-    }
-  },
-  {
-    id: 'checkEmpty',
-    /**
-     *
-     * @param {Cart} cart
-     * @param {*} validationErrors
-     * @returns
-     */
-    func: (cart, validationErrors) => {
-      const items = cart.getItems();
-      if (items.length === 0) {
-        validationErrors.push('Cart is empty');
-        return false;
-      } else {
-        return true;
-      }
-    }
-  },
-  {
-    id: 'shippingAddress',
-    /**
-     *
-     * @param {Cart} cart
-     * @param {*} validationErrors
-     * @returns
-     */
-    func: (cart, validationErrors) => {
-      if (!cart.getData('shipping_address_id')) {
-        validationErrors.push('Please provide a shipping address');
-        return false;
-      } else {
-        return true;
-      }
-    }
-  },
-  {
-    id: 'shippingMethod',
-    /**
-     *
-     * @param {Cart} cart
-     * @param {*} validationErrors
-     * @returns
-     */
-    func: (cart, validationErrors) => {
-      if (!cart.getData('shipping_method')) {
-        validationErrors.push('Please provide a shipping method');
-        return false;
-      } else {
-        return true;
-      }
-    }
-  }
-];
-
-const validationErrors = [];
-
-async function disableCart(cartId, connection) {
+async function disableCart(cartId: number, connection: PoolClient) {
   const cart = await update('cart')
     .given({ status: 0 })
     .where('cart_id', '=', cartId)
@@ -98,16 +26,22 @@ async function disableCart(cartId, connection) {
 }
 
 async function saveOrder(cart, connection) {
-  const shipmentStatusList = getConfig('oms.order.shipmentStatus', {});
-  const paymentStatusList = getConfig('oms.order.paymentStatus', {});
-  let defaultShipmentStatus = null;
+  const shipmentStatusList = getConfig(
+    'oms.order.shipmentStatus',
+    {}
+  ) as ShipmentStatus[];
+  const paymentStatusList = getConfig(
+    'oms.order.paymentStatus',
+    {}
+  ) as PaymentStatus[];
+  let defaultShipmentStatus;
   Object.keys(shipmentStatusList).forEach((key) => {
     if (shipmentStatusList[key].isDefault) {
       defaultShipmentStatus = key;
     }
   });
 
-  let defaultPaymentStatus = null;
+  let defaultPaymentStatus;
   Object.keys(paymentStatusList).forEach((key) => {
     if (paymentStatusList[key].isDefault) {
       defaultPaymentStatus = key;
@@ -161,7 +95,11 @@ async function saveOrder(cart, connection) {
   return order;
 }
 
-async function saveOrderItems(cart, order, connection) {
+async function saveOrderItems(
+  cart: Cart,
+  orderId: number,
+  connection: PoolClient
+) {
   // Save order items
   const items = cart.getItems();
   const savedItems = await Promise.all(
@@ -170,7 +108,7 @@ async function saveOrderItems(cart, order, connection) {
         .given({
           ...item.export(),
           uuid: uuidv4().replace(/-/g, ''),
-          order_item_order_id: order.insertId
+          order_item_order_id: orderId
         })
         .execute(connection);
     })
@@ -178,7 +116,7 @@ async function saveOrderItems(cart, order, connection) {
   return savedItems;
 }
 
-async function saveOrderActivity(orderID, connection) {
+async function saveOrderActivity(orderID: number, connection: PoolClient) {
   // Save order activities
   await insert('order_activity')
     .given({
@@ -189,27 +127,24 @@ async function saveOrderActivity(orderID, connection) {
     .execute(connection);
 }
 
-async function createOrderFunc(cart) {
+async function createOrderFunc(cart: Cart) {
   // Start creating order
   const connection = await getConnection(pool);
   try {
     await startTransaction(connection);
-    const validators = getValueSync(
-      'createOrderValidationRules',
-      validationServices
-    );
 
-    for (const rule of validators) {
-      if ((await rule.func(cart, validationErrors)) === false) {
-        throw new Error(validationErrors);
-      }
+    // Validate the cart
+    const validateResult = await validateBeforeCreateOrder(cart);
+    if (!validateResult.valid) {
+      throw new Error(
+        `Order validation failed: ${validateResult.errors.join('\r\n-- ')}`
+      );
     }
-
     // Save order to DB
     const order = await hookable(saveOrder, { cart })(cart, connection);
 
     // Save order items
-    await hookable(saveOrderItems, { cart })(cart, order, connection);
+    await hookable(saveOrderItems, { cart })(cart, order.insertId, connection);
 
     // Save order activity
     await hookable(saveOrderActivity, { cart })(order.insertId, connection);
@@ -225,7 +160,13 @@ async function createOrderFunc(cart) {
   }
 }
 
-export const createOrder = async (cart) => {
+/**
+ * Create a new order from the cart
+ * @param cart
+ * @returns {Promise<Object>} - The created order object
+ * @throws {Error} - If the order creation fails due to validation errors or database issues
+ */
+export const createOrder = async (cart: Cart) => {
   const order = await hookable(createOrderFunc, {
     cart
   })(cart);

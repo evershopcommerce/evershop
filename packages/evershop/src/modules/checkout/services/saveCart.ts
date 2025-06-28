@@ -7,15 +7,16 @@ import {
   startTransaction,
   update
 } from '@evershop/postgres-query-builder';
-import { getConnection, pool } from '../../../lib/postgres/connection.js';
+import { getConnection } from '../../../lib/postgres/connection.js';
+import { Cart } from './cart/Cart.js';
 
 /**
  * @param {Cart} cart
  * @returns {Promise<Number|null>}
  * @throws {Error}
  * */
-export const saveCart = async (cart) => {
-  const connection = await getConnection(pool);
+export const saveCart = async (cart: Cart) => {
+  const connection = await getConnection();
   await startTransaction(connection);
   try {
     const items = cart.getItems();

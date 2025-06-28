@@ -1,6 +1,13 @@
 import { hookable } from '../../../lib/util/hookable.js';
+import { Cart, Item } from './cart/Cart.js';
 
-async function updateCartItemQty(cart, uuid, qty, action, context = {}) {
+async function updateCartItemQty(
+  cart: Cart,
+  uuid: string,
+  qty: string,
+  action: 'increase' | 'decrease',
+  context: Record<string, unknown> = {}
+) {
   if (['increase', 'decrease'].indexOf(action) === -1) {
     throw new Error('Invalid action');
   }
@@ -20,7 +27,7 @@ async function updateCartItemQty(cart, uuid, qty, action, context = {}) {
     const currentQty = item.getData('qty');
     const newQty = Math.max(currentQty - parseInt(qty, 10), 0);
     if (newQty === 0) {
-      await cart.removeItem(uuid);
+      await cart.removeItem(uuid, context);
     } else {
       await item.setData('qty', newQty);
     }
@@ -29,7 +36,13 @@ async function updateCartItemQty(cart, uuid, qty, action, context = {}) {
   return item;
 }
 
-export default async (cart, uuid, qty, action, context) => {
+export default async (
+  cart: Cart,
+  uuid: string,
+  qty: string,
+  action: 'increase' | 'decrease',
+  context: Record<string, unknown> = {}
+): Promise<Item> => {
   const updatedItem = await hookable(updateCartItemQty, context)(
     cart,
     uuid,

@@ -1,11 +1,12 @@
 import { getConfig } from '../../../lib/util/getConfig.js';
 
-export function toPrice(value, forDisplay = false) {
-  let price = parseFloat(value || 0);
+export type RoundType = 'up' | 'down' | 'round';
+export function toPrice(value: string, forDisplay: boolean = false) {
+  let price = parseFloat(value || '0');
   if (Number.isNaN(price)) {
     throw new Error('Price is not a number');
   }
-  const rounding = getConfig('pricing.rounding', 'round');
+  const rounding = getConfig('pricing.rounding', 'round') as RoundType;
   const precision = getConfig('pricing.precision', 2);
   const precisionFix = 10 ** precision;
   switch (rounding) {
