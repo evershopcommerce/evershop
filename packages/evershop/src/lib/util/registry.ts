@@ -1,4 +1,5 @@
 import isEqual from 'react-fast-compare';
+import { warning } from '../log/logger.js';
 
 let locked = false;
 
@@ -52,6 +53,11 @@ class Registry {
     for (let i = 0; i < processors.length; i += 1) {
       const { callback } = processors[i];
       value = await callback.call(context, value);
+      if (value === undefined) {
+        warning(
+          `The processor for the value ${name} is not returning anything. This may cause unexpected behavior.`
+        );
+      }
       // Validate the value if the validator is provided and it is a function
       if (typeof validator === 'function') {
         const validateResult = validator(value);
@@ -117,6 +123,12 @@ class Registry {
     for (let i = 0; i < processors.length; i += 1) {
       const { callback } = processors[i];
       value = callback.call(context, value);
+      // Check if the callback function not returning anything
+      if (value === undefined) {
+        warning(
+          `The processor for the value ${name} is not returning anything. This may cause unexpected behavior.`
+        );
+      }
       // Validate the value if the validator is provided and it is a function
       const validateResult = validateFunc(value);
       if (validateResult !== true) {
