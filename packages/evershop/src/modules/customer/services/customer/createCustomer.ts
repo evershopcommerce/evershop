@@ -46,7 +46,7 @@ function validateCustomerDataBeforeInsert(data: CustomerData) {
   if (valid) {
     // Validate password
     const { password } = data;
-    verifyPassword(password);
+    verifyPassword(password || '');
     return data;
   } else {
     throw new Error(validate.errors[0].message);
@@ -78,7 +78,7 @@ async function createCustomer(data: CustomerData, context: Record<string, unknow
     validateCustomerDataBeforeInsert(customerData);
     const { email, password } = customerData;
     // Hash the password
-    const hashedPassword = hashPassword(password);
+    const hashedPassword = hashPassword(password || '');
     // Check if email is already used
     const existingCustomer = await select()
       .from('customer')

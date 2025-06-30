@@ -3,7 +3,7 @@ import type { PathLike } from 'fs';
 import path from 'path';
 import { execa } from 'execa';
 import { CONSTANTS } from '../../../lib/helpers.js';
-import { error, warning } from '../../../lib/index.js';
+import { error, warning } from '../../../lib/log/logger.js';
 
 export async function compileSwc(
   srcPath: PathLike,

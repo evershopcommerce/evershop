@@ -12,7 +12,10 @@ const port = normalizePort();
  *
  * @return  {string} The Url
  */
-export const buildAbsoluteUrl = (routeId, params = {}) => {
+export const buildAbsoluteUrl = (
+  routeId: string,
+  params: Record<string, any> = {}
+) => {
   const url = buildUrl(routeId, params).replace(/^\/|\/$/g, '');
   const homeUrl = getConfig('shop.homeUrl', `http://localhost:${port}`).replace(
     /^\/|\/$/g,

@@ -1,6 +1,6 @@
 import { basename, dirname } from 'path';
 import { Application } from 'express';
-import { warning } from '../../../../lib/index.js';
+import { warning } from '../../../../lib/log/logger.js';
 import { deleteRoute, hasRoute } from '../../../../lib/router/Router.js';
 import { Event } from '../watchHandler.js';
 

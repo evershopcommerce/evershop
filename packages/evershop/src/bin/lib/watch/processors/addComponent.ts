@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import { warning } from '../../../../lib/index.js';
+import { warning } from '../../../../lib/log/logger.js';
 import { Event } from '../watchHandler.js';
 import { justATouch } from './touch.js';
 

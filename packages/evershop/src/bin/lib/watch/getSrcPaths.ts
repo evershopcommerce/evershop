@@ -2,7 +2,7 @@ import { PathLike } from 'fs';
 import path from 'path';
 import { getEnabledExtensions } from '../../../bin/extension/index.js';
 import { CONSTANTS } from '../../../lib/helpers.js';
-import { getEnabledTheme } from '../../../lib/index.js';
+import { getEnabledTheme } from '../../../lib/util/getEnabledTheme.js';
 
 export function getSrcPaths(): PathLike[] {
   const extensions = getEnabledExtensions();

@@ -1,6 +1,6 @@
 import { dirname, join } from 'path';
 import { Application } from 'express';
-import { warning } from '../../../../lib/index.js';
+import { warning } from '../../../../lib/log/logger.js';
 import { addRoute } from '../../../../lib/router/Router.js';
 import { parseRoute } from '../../../../lib/router/scanForRoutes.js';
 import { Event } from '../watchHandler.js';

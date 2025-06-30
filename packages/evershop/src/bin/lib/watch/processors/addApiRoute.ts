@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import { warning } from '../../../../lib/index.js';
+import { warning } from '../../../../lib/log/logger.js';
 import { Handler } from '../../../../lib/middleware/Handler.js';
 import { addRoute, hasRoute } from '../../../../lib/router/Router.js';
 import { parseRoute } from '../../../../lib/router/scanForRoutes.js';

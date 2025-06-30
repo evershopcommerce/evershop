@@ -41,6 +41,29 @@ export class ValidatorManager<T> {
     };
   }
 
+  validateSync(input: T) {
+    const errors: string[] = [];
+    for (const validator of this.validators.values()) {
+      try {
+        const isValid = validator.func(input);
+        if (isValid instanceof Promise) {
+          throw new Error(
+            'Synchronous validation expected, but got async function'
+          );
+        }
+        if (!isValid) {
+          errors.push(validator.errorMessage);
+        }
+      } catch (err: any) {
+        errors.push(err.message || 'Unknown validation error');
+      }
+    }
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+
   getAllIds() {
     return Array.from(this.validators.keys());
   }

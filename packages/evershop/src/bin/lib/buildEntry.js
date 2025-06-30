@@ -7,10 +7,10 @@ import JSON5 from 'json5';
 import { getComponentsByRoute } from '../../lib/componee/getComponentsByRoute.js';
 import { CONSTANTS } from '../../lib/helpers.js';
 import { error } from '../../lib/log/logger.js';
-import { getEnabledWidgets } from '../../lib/util/getEnabledWidgets.js';
 import { getRouteBuildPath } from '../../lib/webpack/getRouteBuildPath.js';
 import { generateComponentKey } from '../../lib/webpack/util/keyGenerator.js';
 import { parseGraphql } from '../../lib/webpack/util/parseGraphql.js';
+import { getEnabledWidgets } from '../../lib/widget/widgetManager.js';
 /**
  * Only pass the page routes, not api routes
  */
@@ -69,7 +69,7 @@ export async function buildEntry(routes, clientOnly = false) {
       areas['*'] = areas['*'] || {};
       widgets.forEach((widget) => {
         const url = route.isAdmin
-          ? pathToFileURL(widget.setting_component).toString()
+          ? pathToFileURL(widget.settingComponent).toString()
           : pathToFileURL(widget.component).toString();
         imports.push(`import ${widget.type} from '${url}';`);
         areas['*'][widget.type] = {

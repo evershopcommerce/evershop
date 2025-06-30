@@ -5,8 +5,8 @@ import {
   specifiedRules,
   validateSchema
 } from 'graphql';
-import { isDevelopmentMode } from '../../../../lib/index.js';
 import { debug } from '../../../../lib/log/logger.js';
+import { isDevelopmentMode } from '../../../../lib/util/isDevelopmentMode.js';
 import adminSchema, { rebuildSchema } from '../../services/buildSchema.js';
 import storeFrontSchema, {
   rebuildStoreFrontSchema

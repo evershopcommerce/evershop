@@ -1,7 +1,7 @@
 import { PathLike, readdirSync, rmSync, statSync } from 'fs';
 import path from 'path';
 import { Application } from 'express';
-import { error } from '../../../lib/index.js';
+import { error } from '../../../lib/log/logger.js';
 import { compileSwc } from './compileSwc.js';
 import { applyEffects, detectEffect, Effect } from './effect.js';
 import { isDist } from './isDist.js';

@@ -1,7 +1,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import spawn from 'cross-spawn';
-import { debug, error } from '../../lib/index.js';
+import { debug, error } from '../../lib/log/logger.js';
 
 function startDev() {
   const __filename = fileURLToPath(import.meta.url);

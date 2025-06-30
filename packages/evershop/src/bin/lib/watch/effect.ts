@@ -3,7 +3,7 @@ import { basename, dirname } from 'path';
 import { Application } from 'express';
 import { minimatch } from 'minimatch';
 import { has } from '../../../bin/dev/register.js';
-import { debug, error } from '../../../lib/index.js';
+import { debug, error } from '../../../lib/log/logger.js';
 import { getRoute } from '../../../lib/router/Router.js';
 import { broadcast } from './broadcast.js';
 import { isRestartRequired } from './isRestartRequired.js';

@@ -17,13 +17,37 @@
       "import": "./dist/types/index.js",
       "types": "./dist/types/index.d.ts"
     },
-    "./lib": {
-      "browser": {
-        "import": "./dist/lib/index.browser.js",
-        "types": "./dist/lib/index.browser.d.ts"
-      },
-      "import": "./dist/lib/index.js",
-      "types": "./dist/lib/index.d.ts"
+    "./lib/helpers": {
+      "import": "./dist/lib/helpers.js",
+      "types": "./dist/lib/helpers.d.ts"
+    },
+    "./lib/util/*": {
+      "import": "./dist/lib/util/*.js",
+      "types": "./dist/lib/util/*.d.ts"
+    },
+    "./lib/event": {
+      "import": "./dist/lib/event/emitter.js",
+      "types": "./dist/lib/event/emitter.d.ts"
+    },
+    "./lib/locale/*": {
+      "import": "./dist/lib/locale/*.js",
+      "types": "./dist/lib/locale/*.d.ts"
+    },
+    "./lib/locale/translate/*": {
+      "import": "./dist/lib/locale/translate/*.js",
+      "types": "./dist/lib/locale/translate/*.d.ts"
+    },
+    "./lib/log": {
+      "import": "./dist/lib/log/logger.js",
+      "types": "./dist/lib/log/logger.d.ts"
+    },
+    "./lib/router": {
+      "import": "./dist/lib/router/index.js",
+      "types": "./dist/lib/router/index.d.ts"
+    },
+    "./lib/widget": {
+      "import": "./dist/lib/widget/widgetManager.js",
+      "types": "./dist/lib/widget/widgetManager.d.ts"
     },
     "./components/common": {
       "import": "./dist/components/common/index.jsx",

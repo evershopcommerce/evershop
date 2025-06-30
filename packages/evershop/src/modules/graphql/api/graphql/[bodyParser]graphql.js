@@ -1,4 +1,4 @@
-import { isDevelopmentMode } from '../../../../lib/index.js';
+import { isDevelopmentMode } from '../../../../lib/util/isDevelopmentMode.js';
 import schema, {
   rebuildStoreFrontSchema
 } from '../../services/buildStoreFrontSchema.js';

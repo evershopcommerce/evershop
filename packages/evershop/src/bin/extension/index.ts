@@ -1,9 +1,10 @@
 import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { CONSTANTS } from '../../lib/helpers.js';
-import { isDevelopmentMode, isProductionMode } from '../../lib/index.js';
 import { error, warning } from '../../lib/log/logger.js';
 import { getConfig } from '../../lib/util/getConfig.js';
+import { isDevelopmentMode } from '../../lib/util/isDevelopmentMode.js';
+import { isProductionMode } from '../../lib/util/isProductionMode.js';
 import { Extension } from '../../types/extension.js';
 import { getCoreModules } from '../lib/loadModules.js';
 

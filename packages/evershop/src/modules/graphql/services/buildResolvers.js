@@ -4,7 +4,7 @@ import { loadFiles } from '@graphql-tools/load-files';
 import { mergeResolvers } from '@graphql-tools/merge';
 import { getEnabledExtensions } from '../../../bin/extension/index.js';
 import { CONSTANTS } from '../../../lib/helpers.js';
-import { isDevelopmentMode } from '../../../lib/index.js';
+import { isDevelopmentMode } from '../../../lib/util/isDevelopmentMode.js';
 
 export async function buildResolvers(isAdmin = false) {
   const typeSources = [
