@@ -3,7 +3,7 @@ import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { CONSTANTS } from '../helpers.js';
 import { getEnabledTheme } from '../util/getEnabledTheme.js';
-import { getEnabledWidgets } from '../util/getEnabledWidgets.js';
+import { getEnabledWidgets } from '../widget/widgetManager.js';
 import { scanRouteComponents } from './scanForComponents.js';
 
 export function getComponentsByRoute(route) {
@@ -25,7 +25,7 @@ export function getComponentsByRoute(route) {
   } else {
     // Add widgets to components
     return components.concat(
-      (widgets || []).map((widget) => widget.setting_component)
+      (widgets || []).map((widget) => widget.settingComponent)
     );
   }
 }

@@ -1,8 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
 import { pool } from '../../../../lib/postgres/connection.js';
-import { getEnabledWidgets } from '../../../../lib/util/getEnabledWidgets.js';
-
+import { getEnabledWidgets } from '../../../../lib/widget/widgetManager.js';
 
 const newUUID = uuidv4();
 export async function loadWidgetInstances(request) {
@@ -25,7 +24,7 @@ export async function loadWidgetInstances(request) {
         areaId: 'widget_setting_form',
         uuid: newUUID,
         sortOrder: 0,
-        settings: widget.default_settings || {}
+        settings: widget.defaultSettings || {}
       }))
       .filter((widget) => widget.type === type);
   }

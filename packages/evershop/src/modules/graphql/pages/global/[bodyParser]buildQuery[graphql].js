@@ -6,10 +6,10 @@ import { CONSTANTS } from '../../../../lib/helpers.js';
 import { error } from '../../../../lib/log/logger.js';
 import { getRoutes } from '../../../../lib/router/Router.js';
 import { get } from '../../../../lib/util/get.js';
-import { getEnabledWidgets } from '../../../../lib/util/getEnabledWidgets.js';
 import isDevelopmentMode from '../../../../lib/util/isDevelopmentMode.js';
 import isProductionMode from '../../../../lib/util/isProductionMode.js';
 import { getRouteBuildPath } from '../../../../lib/webpack/getRouteBuildPath.js';
+import { getEnabledWidgets } from '../../../../lib/widget/widgetManager.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getContextValue } from '../../services/contextHelper.js';
 
@@ -91,7 +91,7 @@ export default async (request, response, delegate, next) => {
             (enabledWidget) => enabledWidget.type === widget.type
           );
           const componentPath = currentRoute?.isAdmin
-            ? widgetSpecs.setting_component
+            ? widgetSpecs.settingComponent
             : widgetSpecs.component;
           const componentKey = currentRoute?.isAdmin
             ? widgetSpecs.settingComponentKey

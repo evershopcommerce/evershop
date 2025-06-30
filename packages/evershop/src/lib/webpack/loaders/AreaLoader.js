@@ -2,8 +2,8 @@ import fs from 'fs';
 import { pathToFileURL } from 'url';
 import { inspect } from 'util';
 import JSON5 from 'json5';
+import { getEnabledWidgets } from '../../../lib/widget/widgetManager.js';
 import { error } from '../../log/logger.js';
-import { getEnabledWidgets } from '../../util/getEnabledWidgets.js';
 import { generateComponentKey } from '../util/keyGenerator.js';
 
 export default function AreaLoader(c) {
@@ -50,7 +50,7 @@ export default function AreaLoader(c) {
   areas['*'] = areas['*'] || {};
   widgets.forEach((widget) => {
     const url = pathToFileURL(
-      route.isAdmin ? widget.setting_component : widget.component
+      route.isAdmin ? widget.settingComponent : widget.component
     ).toString();
     imports.push(`import ${widget.type} from '${url}';`);
     areas['*'][widget.type] = {

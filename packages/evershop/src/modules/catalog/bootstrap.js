@@ -4,6 +4,7 @@ import { CONSTANTS } from '../../lib/helpers.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
+import { registerWidget } from '../../lib/widget/widgetManager.js';
 import { registerCartItemProductUrlField } from './services/registerCartItemProductUrlField.js';
 import { registerCartItemVariantOptionsField } from './services/registerCartItemVariantOptionsField.js';
 import registerDefaultAttributeCollectionFilters from './services/registerDefaultAttributeCollectionFilters.js';
@@ -172,27 +173,24 @@ export default () => {
     1
   );
 
-  // Register default widgets
-  const widgets = {
-    collection_products: {
-      setting_component: path.resolve(
-        CONSTANTS.LIBPATH,
-        '../components/admin/widgets/CollectionProductsSetting.js'
-      ),
-      component: path.resolve(
-        CONSTANTS.LIBPATH,
-        '../components/frontStore/widgets/CollectionProducts.js'
-      ),
-      name: 'Collection products',
-      description: 'A list of products from a collection',
-      default_settings: {
-        collection: null,
-        count: 4
-      },
-      enabled: true
-    }
-  };
-  config.util.setModuleDefaults('widgets', widgets);
+  registerWidget({
+    type: 'collection_products',
+    name: 'Collection products',
+    description: 'A list of products from a collection',
+    settingComponent: path.resolve(
+      CONSTANTS.LIBPATH,
+      '../components/admin/widgets/CollectionProductsSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.LIBPATH,
+      '../components/frontStore/widgets/CollectionProducts.js'
+    ),
+    defaultSettings: {
+      collection: null,
+      count: 4
+    },
+    enabled: true
+  });
 
   const parseIntCount = (data) => {
     if (data.type !== 'collection_products') {

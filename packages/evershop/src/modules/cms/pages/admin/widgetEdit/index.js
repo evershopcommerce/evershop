@@ -1,6 +1,6 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
-import { getEnabledWidgets } from '../../../../../lib/util/getEnabledWidgets.js';
+import { getEnabledWidgets } from '../../../../../lib/widget/widgetManager.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
 export default async (request, response, delegate, next) => {

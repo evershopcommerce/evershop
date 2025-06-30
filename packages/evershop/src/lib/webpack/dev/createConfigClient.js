@@ -3,7 +3,6 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack from 'webpack';
 import { getComponentsByRoute } from '../../componee/getComponentsByRoute.js';
 import { CONSTANTS } from '../../helpers.js';
-import { getEnabledWidgets } from '../../util/getEnabledWidgets.js';
 import { createBaseConfig } from '../createBaseConfig.js';
 import { GraphqlPlugin } from '../plugins/GraphqlPlugin.js';
 

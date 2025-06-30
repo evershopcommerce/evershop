@@ -1,5 +1,5 @@
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
-import { getEnabledWidgets } from '../../../../../lib/util/getEnabledWidgets.js';
+import { getEnabledWidgets } from '../../../../../lib/widget/widgetManager.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
 export default (request, response, delegate, next) => {

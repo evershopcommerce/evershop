@@ -4,6 +4,7 @@ import { CONSTANTS } from '../../lib/helpers.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
+import { registerWidget } from '../../lib/widget/widgetManager.js';
 import { registerDefaultPageCollectionFilters } from '../../modules/cms/services/registerDefaultPageCollectionFilters.js';
 import { registerDefaultWidgetCollectionFilters } from '../../modules/cms/services/registerDefaultWidgetCollectionFilters.js';
 
@@ -125,42 +126,6 @@ export default () => {
               enum: ['local']
             }
           }
-        },
-        widgets: {
-          type: 'object',
-          patternProperties: {
-            '^[a-zA-Z_]+$': {
-              type: 'object',
-              properties: {
-                setting_component: {
-                  type: 'string'
-                },
-                component: {
-                  type: 'string'
-                },
-                name: {
-                  type: 'string'
-                },
-                description: {
-                  type: 'string'
-                },
-                default_settings: {
-                  type: 'object'
-                },
-                enabled: {
-                  type: 'boolean'
-                }
-              },
-              required: [
-                'setting_component',
-                'component',
-                'name',
-                'description',
-                'enabled'
-              ],
-              additionalProperties: false
-            }
-          }
         }
       }
     });
@@ -189,39 +154,38 @@ export default () => {
     file_storage: 'local'
   });
 
-  // Register default widgets
-  const defaultWidgets = {
-    text_block: {
-      setting_component: path.resolve(
-        CONSTANTS.LIBPATH,
-        '../components/admin/widgets/TextBlockSetting.js'
-      ),
-      component: path.resolve(
-        CONSTANTS.LIBPATH,
-        '../components/frontStore/widgets/TextBlock.js'
-      ),
-      name: 'Text block',
-      description: 'A text block widget',
-      default_settings: {
-        className: 'page-width'
-      },
-      enabled: true
+  registerWidget({
+    type: 'text_block',
+    settingComponent: path.resolve(
+      CONSTANTS.LIBPATH,
+      '../components/admin/widgets/TextBlockSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.LIBPATH,
+      '../components/frontStore/widgets/TextBlock.js'
+    ),
+    name: 'Text block',
+    description: 'A text block widget',
+    defaultSettings: {
+      className: 'page-width'
     },
-    basic_menu: {
-      setting_component: path.resolve(
-        CONSTANTS.LIBPATH,
-        '../components/admin/widgets/BasicMenuSetting.js'
-      ),
-      component: path.resolve(
-        CONSTANTS.LIBPATH,
-        '../components/frontStore/widgets/BasicMenu.js'
-      ),
-      name: 'Menu',
-      description: 'A menu widget',
-      enabled: true
-    }
-  };
-  config.util.setModuleDefaults('widgets', defaultWidgets);
+    enabled: true
+  });
+
+  registerWidget({
+    type: 'basic_menu',
+    settingComponent: path.resolve(
+      CONSTANTS.LIBPATH,
+      '../components/admin/widgets/BasicMenuSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.LIBPATH,
+      '../components/frontStore/widgets/BasicMenu.js'
+    ),
+    name: 'Menu',
+    description: 'A menu widget',
+    enabled: true
+  });
 
   // Reigtering the default filters for cms page collection
   addProcessor(

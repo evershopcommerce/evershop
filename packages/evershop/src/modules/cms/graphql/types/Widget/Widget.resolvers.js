@@ -2,7 +2,7 @@ import { select } from '@evershop/postgres-query-builder';
 import uniqid from 'uniqid';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
-import { getEnabledWidgets } from '../../../../../lib/util/getEnabledWidgets.js';
+import { getEnabledWidgets } from '../../../../../lib/widget/widgetManager.js';
 import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
 import { getWidgetsBaseQuery } from '../../../services/getWidgetsBaseQuery.js';
 import { WidgetCollection } from '../../../services/WidgetCollection.js';
@@ -27,9 +27,9 @@ export default {
         code: row.type,
         name: row.name,
         description: row.description,
-        settingComponent: row.setting_component,
+        settingComponent: row.settingComponent,
         component: row.component,
-        defaultSettings: row.default_settings,
+        defaultSettings: row.defaultSettings,
         createWidgetUrl: buildUrl('widgetNew', { type: row.type })
       }));
     },
@@ -41,9 +41,9 @@ export default {
             code: type.type,
             name: type.name,
             description: type.description,
-            settingComponent: type.setting_component,
+            settingComponent: type.settingComponent,
             component: type.component,
-            defaultSettings: type.default_settings,
+            defaultSettings: type.defaultSettings,
             createWidgetUrl: buildUrl('widgetNew', { type: type.type })
           }
         : null;
