@@ -3,7 +3,9 @@ export default {
   testEnvironment: "node",
   extensionsToTreatAsEsm: [".ts"],
   moduleNameMapper: {
-    "^(\\.{1,2}/.*)\\.js$": "$1",
+    '^@evershop/postgres-query-builder$': '<rootDir>/packages/postgres-query-builder/src/index.ts',
+    '^@evershop/postgres-query-builder/(.*)$': '<rootDir>/packages/postgres-query-builder/src/$1',
+    '^(\\.{1,2}/.*)\\.js$': '$1'
   },
   transform: {
     "^.+\\.tsx?$": [

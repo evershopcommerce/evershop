@@ -175,7 +175,7 @@
     "lodash.isequalwith": "^4.4.0",
     "luxon": "^2.0.2",
     "mini-css-extract-plugin": "^2.6.1",
-    "multer": "^2.0.0",
+    "multer": "^2.0.1",
     "node-cron": "^3.0.3",
     "ora": "^5.4.1",
     "pg": "^8.11.3",

@@ -18,5 +18,4 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm install -g npm@9
       - run: npm install
-      - run: npm install @evershop/postgres-query-builder@latest
       - run: npm run test
