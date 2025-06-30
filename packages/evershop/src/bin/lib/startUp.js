@@ -87,7 +87,7 @@ export const start = async function start(context, cb) {
   child.unref();
 
   // Spawn the child process to manage scheduled jobs
-  const jobArgs = [path.resolve(__dirname, 'cronjob.js')];
+  const jobArgs = [path.resolve(__dirname, '../../lib/cronjob/cronjob.js')];
   if (isDevelopmentMode() || process.argv.includes('--debug')) {
     jobArgs.push('--debug');
   }

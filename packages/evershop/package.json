@@ -49,6 +49,10 @@
       "import": "./dist/lib/widget/widgetManager.js",
       "types": "./dist/lib/widget/widgetManager.d.ts"
     },
+    "./lib/cronjob": {
+      "import": "./dist/lib/cronjob/jobManager.js",
+      "types": "./dist/lib/cronjob/jobManager.d.ts"
+    },
     "./components/common": {
       "import": "./dist/components/common/index.jsx",
       "types": "./dist/components/common/index.d.ts"

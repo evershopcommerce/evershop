@@ -1,25 +1,32 @@
 import cron from 'node-cron';
-import { debug, error } from '../../lib/log/logger.js';
-import { getConfig } from '../../lib/util/getConfig.js';
+import { getEnabledExtensions } from '../../bin/extension/index.js';
+import { loadBootstrapScript } from '../../bin/lib/bootstrap/bootstrap.js';
+import { getCoreModules } from '../../bin/lib/loadModules.js';
+import { debug, error } from '../log/logger.js';
+import { lockHooks } from '../util/hookable.js';
+import { lockRegistry } from '../util/registry.js';
+import { getEnabledJobs } from './jobManager.js';
 
-function start() {
-  // Get the list of jobs from the configuration
-  const jobs = getConfig('system.jobs', []);
-
-  const goodJobs = [];
-  jobs.forEach((job) => {
-    if (!cron.validate(job.schedule)) {
-      error(
-        `Job ${job.name} has an invalid schedule. Please check again the 'schedule' property.`
-      );
-    } else if (job.enabled === true) {
-      goodJobs.push(job);
-    } else {
-      error(`Job ${job.name} is disabled.`);
+async function start() {
+  const modules = [...getCoreModules(), ...getEnabledExtensions()];
+  /** Loading bootstrap script from modules */
+  try {
+    for (const module of modules) {
+      await loadBootstrapScript(module, {
+        ...JSON.parse(process.env.bootstrapContext || '{}'),
+        process: 'cronjob'
+      });
     }
-  });
+    lockHooks();
+    lockRegistry();
+  } catch (e) {
+    error(e);
+    process.exit(0);
+  }
+  const jobs = getEnabledJobs();
+
   // Schedule the jobs
-  goodJobs.forEach((job) => {
+  jobs.forEach((job) => {
     cron.schedule(job.schedule, async () => {
       try {
         // Load the module
