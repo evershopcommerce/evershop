@@ -109,7 +109,7 @@ export function createBaseConfig(isServer) {
     module: {
       rules: loaders
     },
-    target: 'web',
+    target: isServer === true ? 'node' : 'web',
     output,
     plugins: [],
     cache: { type: 'memory' }
