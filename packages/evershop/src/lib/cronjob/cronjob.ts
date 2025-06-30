@@ -1,3 +1,4 @@
+import { pathToFileURL } from 'url';
 import cron from 'node-cron';
 import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { loadBootstrapScript } from '../../bin/lib/bootstrap/bootstrap.js';
@@ -30,7 +31,7 @@ async function start() {
     cron.schedule(job.schedule, async () => {
       try {
         // Load the module
-        const module = await import(job.resolve);
+        const module = await import(pathToFileURL(job.resolve).toString());
         // Make sure the module is a function or async function
         if (typeof module.default !== 'function') {
           throw new Error(
