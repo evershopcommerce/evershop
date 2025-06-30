@@ -6,7 +6,7 @@ import {
   select,
   insertOnUpdate
 } from '@evershop/postgres-query-builder';
-import stripe from 'stripe';
+import stripePgk from 'stripe';
 import { display } from 'zero-decimal-currencies';
 import { emit } from '../../../../lib/event/emitter.js';
 import { debug, error } from '../../../../lib/log/logger.js';
@@ -28,7 +28,7 @@ export default async (request, response, delegate, next) => {
     } else {
       stripeSecretKey = await getSetting('stripeSecretKey', '');
     }
-    const stripe = stripe(stripeSecretKey);
+    const stripe = stripePgk(stripeSecretKey);
 
     // Webhook enpoint secret
     let endpointSecret;
