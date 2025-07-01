@@ -109,7 +109,7 @@ async function saveProductAttributes(productId: number, attributes: ProductAttri
                 .where(
                   'attribute_option_id',
                   '=',
-                  parseInt(attribute.value, 10)
+                  parseInt(optionId, 10)
                 )
                 .load(connection);
               if (option === null) {
@@ -128,6 +128,12 @@ async function saveProductAttributes(productId: number, attributes: ProductAttri
             })()
           )
         );
+        // Delete old options that are not in the new value
+        await del('product_attribute_value_index')
+          .where('attribute_id', '=', attr.attribute_id)
+          .and('product_id', '=', productId)
+          .and('option_id', 'NOT IN', attribute.value.map((v) => parseInt(v, 10)))
+          .execute(connection);
       } else if (attr.type === 'select') {
         const option = await select()
           .from('attribute_option')
