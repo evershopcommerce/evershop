@@ -122,14 +122,14 @@ async function insertProductAttributes(attributes: ProductAttributeData[], produ
           throw new Error(`Attribute value must be an array for attribute ${attribute.attribute_code}`);
         }
         await Promise.all(
-          attribute.value.map(() =>
+          attribute.value.map((optionId) =>
             (async () => {
               const option = await select()
                 .from('attribute_option')
                 .where(
                   'attribute_option_id',
                   '=',
-                  parseInt(attribute.value, 10)
+                  parseInt(optionId, 10)
                 )
                 .load(connection);
 
@@ -150,10 +150,6 @@ async function insertProductAttributes(attributes: ProductAttributeData[], produ
           )
         );
       } else if (attr.type === 'select') {
-        // Throw error if attribute value is not a number
-        if (typeof attribute.value !== 'number') {
-          throw new Error(`Attribute value must be a number for attribute ${attribute.attribute_code}`);
-        }
         const option = await select()
           .from('attribute_option')
           .where('attribute_option_id', '=', parseInt(attribute.value, 10))
@@ -239,7 +235,6 @@ async function createProduct(data: ProductData, context: Record<string, any>) {
       product.insertId,
       connection
     );
-
     // Insert product attributes
     await hookable(insertProductAttributes, {
       ...context,
