@@ -15,9 +15,7 @@ export default {
       } else {
         return camelCase(order);
       }
-    },
-    shipmentStatusList: () => getConfig('oms.order.shipmentStatus', {}),
-    paymentStatusList: () => getConfig('oms.order.paymentStatus', {})
+    }
   },
   Order: {
     items: async ({ orderId }, _, { pool }) => {
