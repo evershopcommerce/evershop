@@ -53,6 +53,10 @@
       "import": "./dist/lib/cronjob/jobManager.js",
       "types": "./dist/lib/cronjob/jobManager.d.ts"
     },
+    "./lib/middleware/delegate": {
+      "import": "./dist/lib/middleware/delegate.js",
+      "types": "./dist/lib/middleware/delegate.d.ts"
+    },
     "./components/common": {
       "import": "./dist/components/common/index.jsx",
       "types": "./dist/components/common/index.d.ts"
