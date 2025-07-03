@@ -10,8 +10,7 @@ const semver = require('semver');
 const spawn = require('cross-spawn');
 const url = require('url');
 const validateProjectName = require('validate-npm-package-name');
-const { readFileSync } = require('fs');
-const { writeFile, mkdir } = require('fs/promises');
+const { mkdir } = require('fs/promises');
 const packageJson = require('./package.json');
 
 function isUsingYarn() {
@@ -210,6 +209,68 @@ function install(root, useYarn, dependencies, verbose, isOnline) {
   });
 }
 
+function installDevDependencies(
+  root,
+  useYarn,
+  devDependencies,
+  verbose,
+  isOnline
+) {
+  console.log(`Installing some development dependencies...`);
+  return new Promise((resolve, reject) => {
+    let command;
+    let args;
+    if (useYarn) {
+      command = 'yarnpkg';
+      args = ['add', '--exact'];
+      if (!isOnline) {
+        args.push('--offline');
+      }
+      [].push.apply(args, devDependencies);
+      args.push('--dev');
+      // Explicitly set cwd() to work around issues like
+      // https://github.com/facebook/create-react-app/issues/3326.
+      // Unfortunately we can only do this for Yarn because npm support for
+      // equivalent --prefix flag doesn't help with this issue.
+      // This is why for npm, we run checkThatNpmCanReadCwd() early instead.
+      args.push('--cwd');
+      args.push(root);
+
+      if (!isOnline) {
+        console.log(chalk.yellow('You appear to be offline.'));
+        console.log(chalk.yellow('Falling back to the local Yarn cache.'));
+        console.log();
+      }
+    } else {
+      command = 'npm';
+      args = [
+        'install',
+        '--no-audit', // https://github.com/facebook/create-evershop-app/issues/11174
+        '--save',
+        '--save-exact',
+        '--loglevel',
+        'error'
+      ].concat(devDependencies);
+      args.push('--save-dev');
+    }
+
+    if (verbose) {
+      args.push('--verbose');
+    }
+
+    const child = spawn(command, args, { stdio: 'inherit' });
+    child.on('close', (code) => {
+      if (code !== 0) {
+        reject({
+          command: `${command} ${args.join(' ')}`
+        });
+        return;
+      }
+      resolve();
+    });
+  });
+}
+
 function run(root, appName, verbose, originalDirectory, useYarn) {
   console.log(`Installing ${chalk.cyan('@evershop/evershop')}`);
   checkIfOnline(useYarn)
@@ -220,6 +281,25 @@ function run(root, appName, verbose, originalDirectory, useYarn) {
       const allDependencies = ['@evershop/evershop'];
       return install(root, useYarn, allDependencies, verbose, isOnline).then(
         async () => {
+          await installDevDependencies(
+            root,
+            useYarn,
+            [
+              '@parcel/watcher',
+              '@types/config',
+              '@types/express',
+              '@types/node',
+              '@types/pg',
+              '@types/react',
+              'execa',
+              'typescript'
+            ],
+            verbose,
+            isOnline
+          );
+          await createConfigFile(root);
+          await createSampleExtension(root);
+          await createSampleTheme(root);
           await setUpEverShop(root);
         }
       );
@@ -285,6 +365,17 @@ function checkNpmVersion() {
 
 function checkAppName(appName) {
   const validationResult = validateProjectName(appName);
+  if (appName === 'dist') {
+    console.error(
+      chalk.red(
+        `Cannot create a project named ${chalk.green(
+          `"${appName}"`
+        )} because it is reserved for the distribution files.\n` +
+          `Please choose a different project name.`
+      )
+    );
+    process.exit(1);
+  }
   if (!validationResult.validForNewPackages) {
     console.error(
       chalk.red(
@@ -515,24 +606,53 @@ async function setUpEverShop(projectDir) {
   });
 }
 
-function loadConfigTemplate(projectDir) {
-  return JSON.parse(
-    readFileSync(
-      path.resolve(
-        projectDir,
-        './node_modules/@evershop/evershop/bin/install/templates/config.json'
-      ),
-      'utf-8'
-    )
+async function createConfigFile(projectDir) {
+  console.log(
+    `Creating ${chalk.cyan('config/default.json')} in ${chalk.green(
+      projectDir
+    )}`
+  );
+  const config = {
+    shop: {
+      language: 'en',
+      currency: 'USD'
+    },
+    system: {
+      extensions: [
+        {
+          name: 'sample',
+          resolve: 'extensions/sample',
+          enabled: true
+        }
+      ],
+      theme: 'sample'
+    }
+  };
+  await mkdir(path.resolve(projectDir, 'config'), { recursive: true });
+  fs.writeFileSync(
+    path.join(projectDir, 'config', 'default.json'),
+    JSON.stringify(config, null, 2) + os.EOL
   );
 }
 
-async function createConfigFile(projectDir, data) {
-  await mkdir(path.resolve(projectDir, 'config'), { recursive: true });
-  await writeFile(
-    path.resolve(projectDir, 'config', 'default.json'),
-    JSON.stringify(data, null, 4)
+async function createSampleExtension(projectDir) {
+  console.log(
+    `Creating ${chalk.cyan('extensions/sample')} in ${chalk.green(projectDir)}`
   );
+  // Copy the extensions folder from the package to the project directory
+  const sourceDir = path.resolve(__dirname, 'sample/extensions');
+  const targetDir = path.resolve(projectDir, 'extensions');
+  await fs.copy(sourceDir, targetDir);
+}
+
+async function createSampleTheme(projectDir) {
+  console.log(
+    `Creating ${chalk.cyan('themes/sample')} in ${chalk.green(projectDir)}`
+  );
+  // Copy the themes folder from the package to the project directory
+  const sourceDir = path.resolve(__dirname, 'sample/themes');
+  const targetDir = path.resolve(projectDir, 'themes');
+  await fs.copy(sourceDir, targetDir);
 }
 
 function checkForLatestVersion() {

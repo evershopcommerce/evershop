@@ -1,0 +1,1 @@
+{"version":3,"file":"bodyParser.js","sourceRoot":"","sources":["../../../src/api/createFoo/bodyParser.ts"],"names":[],"mappings":"AAAA,OAAO,UAAU,MAAM,aAAa,CAAC;AAErC,eAAe,CAAC,OAAO,EAAE,QAAQ,EAAE,IAAI,EAAE,EAAE;IACzC,UAAU,CAAC,IAAI,CAAC,EAAE,OAAO,EAAE,KAAK,EAAE,CAAC,CAAC,OAAO,EAAE,QAAQ,EAAE,IAAI,CAAC,CAAC;AAC/D,CAAC,CAAC"}

@@ -1,6 +1,8 @@
 node_modules
 .env
 dist
+!packages/create-evershop-app/sample/extensions/sample/dist
+!packages/create-evershop-app/sample/themes/sample/dist
 /extensions/*
 !extensions/agegate
 !extensions/azure_file_storage

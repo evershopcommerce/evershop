@@ -1,8 +1,13 @@
 {
   "name": "create-evershop-app",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Create EverShop App",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "createEverShopApp.js",
+    "sample"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
