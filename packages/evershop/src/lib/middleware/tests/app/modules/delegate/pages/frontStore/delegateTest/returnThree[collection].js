@@ -1,3 +1,3 @@
 import jest from 'jest-mock';
 
-export default jest.fn((request, response, delegates) => 3);
+export default jest.fn((request, response) => 3);

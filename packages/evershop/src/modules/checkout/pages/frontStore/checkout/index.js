@@ -3,7 +3,7 @@ import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getCurrentCart } from '../../../services/getCurrentCart.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const cart = await getCurrentCart(request.sessionID);
   if (!cart) {
     response.redirect(302, buildUrl('cart'));

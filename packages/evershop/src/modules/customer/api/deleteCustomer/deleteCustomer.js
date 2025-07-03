@@ -1,7 +1,7 @@
 import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
 import deleteCustomer from '../../services/customer/deleteCustomer.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const customer = await deleteCustomer(request.params.id, {
       routeId: request.currentRoute.id

@@ -8,7 +8,7 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import updateProduct from '../../services/product/updateProduct.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { category_id } = request.params;
   const { product_id } = request.body;
   try {

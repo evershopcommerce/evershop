@@ -4,7 +4,7 @@ import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getCartByUUID } from '../../../services/getCartByUUID.js';
 import { saveCart } from '../../../services/saveCart.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   // Check if any cart is associated with the session id
   const cart = await select()
     .from('cart')

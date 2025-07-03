@@ -3,7 +3,7 @@ import { pool } from '../../../../lib/postgres/connection.js';
 import { INVALID_PAYLOAD, OK } from '../../../../lib/util/httpStatus.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { order_id } = request.body;
 
   // Validate the order;

@@ -1,8 +1,9 @@
+import { getDelegate } from '../../../../lib/middleware/delegate.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import { OK } from '../../../../lib/util/httpStatus.js';
 
-export default async (request, response, delegate, next) => {
-  const category = await delegate.updateCategory;
+export default async (request, response, next) => {
+  const category = await getDelegate('updateCategory', request);
   response.status(OK);
   response.json({
     data: {

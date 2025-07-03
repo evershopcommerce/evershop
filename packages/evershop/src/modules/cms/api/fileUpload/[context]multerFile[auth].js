@@ -3,7 +3,7 @@ import { getMulter } from '../../services/getMulter.js';
 
 const upload = getMulter();
 
-export default (request, response, delegate, next) => {
+export default (request, response, next) => {
   const path = request.params[0] || '';
 
   if (path && !/^[a-z0-9\/]+$/i.test(path)) {

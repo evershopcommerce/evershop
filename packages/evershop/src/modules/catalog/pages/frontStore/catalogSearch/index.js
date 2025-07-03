@@ -2,7 +2,7 @@ import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { get } from '../../../../../lib/util/get.js';
 import { setContextValue } from '../../../../../modules/graphql/services/contextHelper.js';
 
-export default (request, response, delegate, next) => {
+export default (request, response, next) => {
   // Get the keyword from the request query
   const keyword = get(request, 'query.keyword');
   if (!keyword) {

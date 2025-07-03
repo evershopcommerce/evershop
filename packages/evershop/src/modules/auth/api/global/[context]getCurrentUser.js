@@ -11,11 +11,10 @@ import { getAdminSessionCookieName } from '../../services/getAdminSessionCookieN
  * We do not implement session middleware on API routes, instead we only load the session from the database and set the user in the context.
  * @param {*} request
  * @param {*} response
- * @param {*} delegate
  * @param {*} next
  * @returns
  */
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   // Check if the user is authenticated, if yes we assume previous authentication middleware has set the user in the context
   let currentAdminUser = request.getCurrentUser();
   if (!currentAdminUser) {

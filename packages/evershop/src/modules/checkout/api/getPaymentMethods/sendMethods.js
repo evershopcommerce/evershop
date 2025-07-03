@@ -1,7 +1,7 @@
 import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
 import { getAvailablePaymentMethods } from '../../services/getAvailablePaymentMethos.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const paymentMethods = await getAvailablePaymentMethods();
     response.status(OK);

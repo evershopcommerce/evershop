@@ -6,7 +6,7 @@ import {
 import { getCartByUUID } from '../../../checkout/services/getCartByUUID.js';
 import { saveCart } from '../../../checkout/services/saveCart.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { cart_id } = request.params;
     const { coupon } = request.body;

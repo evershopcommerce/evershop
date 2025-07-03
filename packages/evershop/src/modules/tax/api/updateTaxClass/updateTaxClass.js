@@ -12,7 +12,7 @@ import {
   OK
 } from '../../../../lib/util/httpStatus.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { id } = request.params;
   const connection = await getConnection();
   await startTransaction(connection);

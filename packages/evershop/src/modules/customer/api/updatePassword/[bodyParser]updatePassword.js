@@ -13,7 +13,7 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import updatePassword from '../../services/customer/updatePassword.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { body } = request;
 
   try {

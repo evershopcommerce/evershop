@@ -10,7 +10,7 @@ import {
 import { getCartByUUID } from '../../services/getCartByUUID.js';
 import { createOrder } from '../../services/orderCreator.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { cart_id } = request.body;
     // Verify cart

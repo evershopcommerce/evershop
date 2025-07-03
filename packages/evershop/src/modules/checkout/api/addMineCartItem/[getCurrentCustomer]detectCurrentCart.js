@@ -3,7 +3,7 @@ import { pool } from '../../../../lib/postgres/connection.js';
 import { UNAUTHORIZED } from '../../../../lib/util/httpStatus.js';
 import { setContextValue } from '../../../graphql/services/contextHelper.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   /**
    * We firstly get the sessionID from the request.
    * This API needs the client to send the session cookie in the request.

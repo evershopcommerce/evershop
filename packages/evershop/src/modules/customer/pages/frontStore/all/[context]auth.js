@@ -2,7 +2,7 @@ import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { customerID } = request.session;
   if (!customerID) {
     delete request.locals.customer;

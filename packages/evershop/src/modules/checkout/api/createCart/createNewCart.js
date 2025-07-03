@@ -11,7 +11,7 @@ import { setContextValue } from '../../../graphql/services/contextHelper.js';
 import { Cart } from '../../services/cart/Cart.js';
 import { saveCart } from '../../services/saveCart.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { items, customer_full_name, customer_email } = request.body;
     const cartData = {

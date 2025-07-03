@@ -2,7 +2,7 @@ import { pool } from '../../../../../lib/postgres/connection.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const query = getCmsPagesBaseQuery();
     query

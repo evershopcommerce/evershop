@@ -2,7 +2,7 @@ import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { userID } = request.session;
   // Load the user from the database
   const user = await select()

@@ -11,11 +11,10 @@ import { getFrontStoreSessionCookieName } from '../../../auth/services/getFrontS
  * instead we only load the session from the database and set the customer in the context.
  * @param {*} request
  * @param {*} response
- * @param {*} delegate
  * @param {*} next
  * @returns
  */
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   // Check if the customer is authenticated
   // if yes we assume previous authentication middleware has set the customer in the context
   let currentCustomer = request.getCurrentCustomer();

@@ -14,7 +14,7 @@ import storeFrontSchema, {
 import { getContext } from '../../services/contextHelper.js';
 import { graphqlErrorMessageFormat } from '../../services/graphqlErrorMessageFormat.js';
 
-export default async function graphql(request, response, delegate, next) {
+export default async function graphql(request, response, next) {
   const { currentRoute } = request;
   let schema;
   if (isDevelopmentMode()) {

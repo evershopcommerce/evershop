@@ -8,7 +8,7 @@ import { addNotification } from '../../../../../modules/base/services/notificati
 import { updatePaymentStatus } from '../../../../../modules/oms/services/updatePaymentStatus.js';
 import { getSetting } from '../../../../../modules/setting/services/setting.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { order_id, payment_intent } = request.query;
     // Check if order exist

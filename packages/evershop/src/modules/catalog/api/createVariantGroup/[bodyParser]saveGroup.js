@@ -7,7 +7,7 @@ import {
   INVALID_PAYLOAD
 } from '../../../../lib/util/httpStatus.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { attribute_codes, attribute_group_id } = request.body;
   try {
     if (attribute_codes.length === 0) {

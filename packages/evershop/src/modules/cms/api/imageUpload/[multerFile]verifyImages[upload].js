@@ -1,6 +1,6 @@
 import { INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
 
-export default (request, response, delegate, next) => {
+export default (request, response, next) => {
   if (!request.files || request.files.length === 0) {
     next();
   } else {

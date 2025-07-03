@@ -14,7 +14,7 @@ import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../setting/services/setting.js';
 import { createAxiosInstance } from '../../services/requester.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { order_id } = request.body;
     const order = await select()

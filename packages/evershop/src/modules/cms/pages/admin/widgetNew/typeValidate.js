@@ -2,7 +2,7 @@ import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { getEnabledWidgets } from '../../../../../lib/widget/widgetManager.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-export default (request, response, delegate, next) => {
+export default (request, response, next) => {
   const { type } = request.params;
   const enabledWidgets = getEnabledWidgets();
 

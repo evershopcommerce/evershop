@@ -5,7 +5,7 @@ import {
   OK
 } from '../../../../../lib/util/httpStatus.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { body } = request;
   const { email, password } = body;
   const message = translate('Invalid email or password');

@@ -8,7 +8,7 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import updateCustomerAddress from '../../services/customer/address/updateCustomerAddress.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const customer = await select()
       .from('customer')

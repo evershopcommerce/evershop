@@ -1,6 +1,6 @@
 import { error } from '../../../../lib/log/logger.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const {
     cost,
     calculate_api,
@@ -23,8 +23,8 @@ export default async (request, response, delegate, next) => {
         throw new Error('Require weight based rates');
       }
     } else if (!cost) {
-        throw new Error('Flat rate calculation type requires cost');
-      }
+      throw new Error('Flat rate calculation type requires cost');
+    }
     return next();
   } catch (e) {
     error(e);

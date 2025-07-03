@@ -19,7 +19,7 @@ import {
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { getSetting } from '../../../setting/services/setting.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const connection = await getConnection(pool);
   try {
     await startTransaction(connection);

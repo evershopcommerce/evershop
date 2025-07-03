@@ -4,7 +4,7 @@ import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { body } = request;
 
   const { email } = body;

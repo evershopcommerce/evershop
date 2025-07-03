@@ -1,7 +1,7 @@
 import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
 import deleteCoupon from '../../services/coupon/deleteCoupon.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { id } = request.params;
     const coupon = await deleteCoupon(id, {
