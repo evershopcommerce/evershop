@@ -12,7 +12,7 @@ import {
   INVALID_PAYLOAD
 } from '../../../../lib/util/httpStatus.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { id } = request.params;
   let {
     cost,

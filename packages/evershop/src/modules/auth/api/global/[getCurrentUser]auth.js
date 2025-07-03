@@ -5,11 +5,10 @@ import { UNAUTHORIZED } from '../../../../lib/util/httpStatus.js';
  * We do not implement session middleware on API routes, instead we only load the session from the database and set the user in the context.
  * @param {*} request
  * @param {*} response
- * @param {*} delegate
  * @param {*} next
  * @returns
  */
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   // Get the current route
   const { currentRoute } = request;
   const currentAdminUser = request.getCurrentUser();

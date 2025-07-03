@@ -29,8 +29,6 @@ describe('buildMiddlewareFunction', () => {
         }
       }
     );
-    console.log(response.status);
-    console.log(response.data);
     expect(response.status).toEqual(404);
     expect(notFound).toHaveBeenCalledTimes(1);
   });

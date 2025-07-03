@@ -8,7 +8,7 @@ import {
 import { getCartByUUID } from '../../services/getCartByUUID.js';
 import { saveCart } from '../../services/saveCart.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { cart_id } = request.params;
     const { method_code } = request.body;

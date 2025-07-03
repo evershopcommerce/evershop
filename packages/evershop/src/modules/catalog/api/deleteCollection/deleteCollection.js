@@ -1,7 +1,7 @@
 import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 import deleteCollection from '../../services/collection/deleteCollection.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { id } = request.params;
     const collection = await deleteCollection(id, {

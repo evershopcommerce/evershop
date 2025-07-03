@@ -1,7 +1,7 @@
 import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
 import cancelOrder from '../../services/cancelOrder.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { reason } = request.body;
     await cancelOrder(request.params.id, reason);

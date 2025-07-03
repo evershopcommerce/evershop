@@ -15,7 +15,7 @@ import { createNewCart } from '../../services/createNewCart.js';
 import { getCartByUUID } from '../../services/getCartByUUID.js';
 import { saveCart } from '../../services/saveCart.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     let cartId = getContextValue(request, 'cartId');
     let cart;

@@ -4,7 +4,7 @@ import { pathToFileURL } from 'url';
 import { debug, error } from '../log/logger.js';
 import isDevelopmentMode from '../util/isDevelopmentMode.js';
 import isProductionMode from '../util/isProductionMode.js';
-import { getDelegates, setDelegate } from './delegate.js';
+import { hasDelegate, setDelegate } from './delegate.js';
 import eNext from './eNext.js';
 import isErrorHandlerTriggered from './isErrorHandlerTriggered.js';
 
@@ -36,9 +36,9 @@ export function buildMiddlewareFunction(id, path) {
         : await import(pathToFileURL(path));
       const func = m.default;
       if (request.currentRoute) {
-        await func(error, request, response, getDelegates(request), next);
+        await func(error, request, response, next);
       } else {
-        await func(error, request, response, [], next);
+        await func(error, request, response, next);
       }
     };
   } else {
@@ -70,20 +70,17 @@ export function buildMiddlewareFunction(id, path) {
               };
             }
           }
-          if (func.length === 4) {
-            await func(request, response, getDelegates(request), (err) => {
+          if (func.length === 3) {
+            await func(request, response, (err) => {
               const endTime = process.hrtime(startTime);
               debuging.time = endTime[1] / 1000000;
-              setDelegate(id, undefined, request);
               eNext(request, response, next)(err);
             });
           } else {
-            const returnValue = await func(
-              request,
-              response,
-              getDelegates(request)
-            );
-            setDelegate(id, returnValue, request);
+            const returnValue = await func(request, response);
+            if (!hasDelegate(id, request)) {
+              setDelegate(id, returnValue, request);
+            }
             const endTime = process.hrtime(startTime);
             debuging.time = endTime[1] / 1000000;
             eNext(request, response, next)();

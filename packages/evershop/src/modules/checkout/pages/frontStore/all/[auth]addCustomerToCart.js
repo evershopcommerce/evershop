@@ -2,7 +2,7 @@ import { select, update } from '@evershop/postgres-query-builder';
 import { error } from '../../../../../lib/log/logger.js';
 import { pool } from '../../../../../lib/postgres/connection.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { sessionID } = request;
     const customer = request.getCurrentCustomer();

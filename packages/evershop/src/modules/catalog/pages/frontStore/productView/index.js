@@ -4,7 +4,7 @@ import { get } from '../../../../../lib/util/get.js';
 import { getConfig } from '../../../../../lib/util/getConfig.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const query = select();
     query

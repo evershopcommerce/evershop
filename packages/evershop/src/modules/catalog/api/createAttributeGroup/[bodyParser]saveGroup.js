@@ -8,7 +8,7 @@ import {
 import { getConnection, pool } from '../../../../lib/postgres/connection.js';
 import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const connection = await getConnection();
   const data = request.body;
   try {

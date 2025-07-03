@@ -15,7 +15,7 @@ import { getConfig } from '../../../../lib/util/getConfig.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { getSetting } from '../../../setting/services/setting.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const sig = request.headers['stripe-signature'];
 
   let event;

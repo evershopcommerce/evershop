@@ -2,7 +2,7 @@ import { select } from '@evershop/postgres-query-builder';
 import dayjs from 'dayjs';
 import { pool } from '../../../../lib/postgres/connection.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   response.$body = [];
   const { period = 'weekly' } = request.query;
   let i = 5;

@@ -1,7 +1,7 @@
 import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 import deleteProduct from '../../services/product/deleteProduct.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { id } = request.params;
     const product = await deleteProduct(id, {

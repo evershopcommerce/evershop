@@ -7,7 +7,7 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import deleteCustomerAddress from '../../services/customer/address/deleteCustomerAddress.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const customer = await select()
       .from('customer')

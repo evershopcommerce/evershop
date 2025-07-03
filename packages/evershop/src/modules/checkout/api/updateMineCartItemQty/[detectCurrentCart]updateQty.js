@@ -9,7 +9,7 @@ import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getCartByUUID } from '../../services/getCartByUUID.js';
 import { saveCart } from '../../services/saveCart.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { item_id } = request.params;
     const cartId = getContextValue(request, 'cartId');

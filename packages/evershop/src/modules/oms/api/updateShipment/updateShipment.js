@@ -13,7 +13,7 @@ import {
   OK
 } from '../../../../lib/util/httpStatus.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const connection = await getConnection();
   await startTransaction(connection);
   const { order_id, shipment_id } = request.params;

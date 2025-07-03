@@ -5,14 +5,12 @@ import { EvershopResponse } from './response.js';
 export type SyncMiddlewareFunction<T, D> = (
   req: EvershopRequest,
   res: EvershopResponse,
-  delegate?: D,
   next?: NextFunction
 ) => T;
 
 export type AsyncMiddlewareFunction<T, D> = (
   req: EvershopRequest,
   res: EvershopResponse,
-  delegate?: D,
   next?: NextFunction
 ) => Promise<T>;
 
@@ -20,11 +18,8 @@ export type ErrorMiddlewareFunction = (
   err: Error,
   req: EvershopRequest,
   res: EvershopResponse,
-  delegate?: any,
   next?: NextFunction
 ) => void;
-
-interface Delegate {}
 
 export interface SyncMiddleware<T, D> extends Middleware {
   callback: SyncMiddlewareFunction<T, D>;

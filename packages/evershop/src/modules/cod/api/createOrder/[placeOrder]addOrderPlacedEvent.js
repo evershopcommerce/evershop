@@ -2,7 +2,7 @@ import { select } from '@evershop/postgres-query-builder';
 import { emit } from '../../../../lib/event/emitter.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   // Get the order data from $body
   const newOrder = response.$body?.data || {};
   if (newOrder.payment_method !== 'cod') {

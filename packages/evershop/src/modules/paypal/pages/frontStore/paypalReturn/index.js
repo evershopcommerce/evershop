@@ -6,7 +6,7 @@ import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { getContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../../setting/services/setting.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   // Get paypal token from query string
   const paypalToken = request.query.token;
   if (paypalToken) {

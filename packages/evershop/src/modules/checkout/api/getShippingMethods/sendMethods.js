@@ -10,7 +10,7 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import { toPrice } from '../../services/toPrice.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { cart_id } = request.params;
   const { country, province } = request.query;
   try {

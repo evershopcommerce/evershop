@@ -13,7 +13,7 @@ import { getEnabledWidgets } from '../../../../lib/widget/widgetManager.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getContextValue } from '../../services/contextHelper.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   let query;
   getContextValue(request, 'dummy', null);
   if (isDevelopmentMode()) {

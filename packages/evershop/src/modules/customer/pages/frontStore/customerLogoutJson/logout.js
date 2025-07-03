@@ -3,7 +3,7 @@ import {
   OK
 } from '../../../../../lib/util/httpStatus.js';
 
-export default (request, response, delegate, next) => {
+export default (request, response, next) => {
   try {
     request.logoutCustomer((error) => {
       if (error) {

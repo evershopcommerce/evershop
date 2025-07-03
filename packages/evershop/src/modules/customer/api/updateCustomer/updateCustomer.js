@@ -8,7 +8,7 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import { hashPassword } from '../../../../lib/util/passwordHelper.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const connection = await getConnection();
   try {
     const customer = await select()

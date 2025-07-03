@@ -1,6 +1,6 @@
 import updateWidget from '../../services/widget/updateWidget.js';
 
-export default async (request, response, delegate) => {
+export default async (request, response) => {
   const data = request.body;
   if (!data.route || (data.route.length === 1 && data.route[0] === '')) {
     data.route = [];

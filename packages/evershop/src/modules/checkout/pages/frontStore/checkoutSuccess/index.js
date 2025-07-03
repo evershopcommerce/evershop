@@ -3,7 +3,7 @@ import { pool } from '../../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { orderId } = request.params;
   const query = select().from('order');
   query.where('uuid', '=', orderId);

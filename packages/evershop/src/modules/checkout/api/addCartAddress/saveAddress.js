@@ -9,7 +9,7 @@ import { validateAddress } from '../../../customer/services/customer/address/add
 import { getCartByUUID } from '../../services/getCartByUUID.js';
 import { saveCart } from '../../services/saveCart.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { cart_id } = request.params;
     const { address, type } = request.body;

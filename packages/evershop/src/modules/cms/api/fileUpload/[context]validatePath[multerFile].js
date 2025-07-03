@@ -2,7 +2,7 @@ import { CONSTANTS } from '../../../../lib/helpers.js';
 import { INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
 import { validatePath } from '../../services/validatePath.js';
 
-export default (request, response, delegate, next) => {
+export default (request, response, next) => {
   const path = request.params[0] || '';
   // Validate the path to avoid Relative Path Traversal attack
   if (validatePath(CONSTANTS.MEDIAPATH, path) === false) {

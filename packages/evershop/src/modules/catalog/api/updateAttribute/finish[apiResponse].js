@@ -1,8 +1,9 @@
+import { getDelegate } from '../../../../lib/middleware/delegate.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import { OK } from '../../../../lib/util/httpStatus.js';
 
-export default async (request, response, delegate, next) => {
-  const attribute = await delegate.updateAttribute;
+export default async (request, response, next) => {
+  const attribute = await getDelegate('updateAttribute', request);
   response.status(OK);
   response.json({
     data: {

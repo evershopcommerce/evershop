@@ -3,18 +3,10 @@ import { OK } from '../../../lib/util/httpStatus.js';
 import { getContext } from './contextHelper.js';
 
 export const graphqlMiddleware = (schema) =>
-  async function graphqlMiddleware(request, response, delegate, next) {
+  async function graphqlMiddleware(request, response, next) {
     const { body } = request;
     const { query, variables } = body;
     try {
-      const promises = [];
-      Object.keys(delegate).forEach((id) => {
-        // Check if middleware is async
-        if (delegate[id] instanceof Promise) {
-          promises.push(delegate[id]);
-        }
-      });
-
       if (!query) {
         response.status(OK).json({
           data: {}

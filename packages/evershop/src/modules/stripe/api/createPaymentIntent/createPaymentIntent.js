@@ -6,7 +6,7 @@ import { getConfig } from '../../../../lib/util/getConfig.js';
 import { OK, INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
 import { getSetting } from '../../../setting/services/setting.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { cart_id, order_id } = request.body;
   // Check the cart
   const cart = await select()

@@ -21,7 +21,7 @@ ajv.addKeyword({
   }
 });
 
-export default (request, response, delegate, next) => {
+export default (request, response, next) => {
   // Get the current route
   const { currentRoute } = request;
   // Get the payload schema

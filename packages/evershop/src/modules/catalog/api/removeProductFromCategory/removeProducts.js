@@ -7,7 +7,7 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import updateProduct from '../../services/product/updateProduct.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { category_id, product_id } = request.params;
   try {
     // Check if the category is exists

@@ -1,8 +1,9 @@
+import { getDelegate } from '../../../../lib/middleware/delegate.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import { OK } from '../../../../lib/util/httpStatus.js';
 
-export default async (request, response, delegate, next) => {
-  const collection = await delegate.createCollection;
+export default async (request, response, next) => {
+  const collection = await getDelegate('createCollection', request);
   response.status(OK);
   response.json({
     data: {

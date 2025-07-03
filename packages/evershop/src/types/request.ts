@@ -6,6 +6,13 @@ export interface EvershopRequest extends ExpressRequest {
   session?: any;
   currentRoute?: Route;
   locals?: {
+    delegates?: {
+      setOnce: (key: string, value: any) => void;
+      get: (key: string) => any;
+      has: (key: string) => boolean;
+      keys: () => string[];
+      getAll: () => Record<string, unknown>;
+    };
     user?: {
       user_id: number;
       uuid: string;

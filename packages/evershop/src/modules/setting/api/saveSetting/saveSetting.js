@@ -7,7 +7,7 @@ import { getConnection } from '../../../../lib/postgres/connection.js';
 import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
 import { refreshSetting } from '../../services/setting.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { body } = request;
   const connection = await getConnection();
   try {

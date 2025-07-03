@@ -2,7 +2,7 @@ import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 
-export default async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const query = select();
   query
     .from('order')
