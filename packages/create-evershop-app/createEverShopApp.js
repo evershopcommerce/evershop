@@ -120,6 +120,7 @@ function createApp(name, verbose, useYarn) {
   const packageJson = {
     name: appName,
     version: '0.1.0',
+    type: 'module',
     private: true,
     scripts: {
       setup: 'evershop install',

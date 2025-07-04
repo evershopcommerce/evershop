@@ -96,17 +96,13 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "prepublishOnly": "node prepublish.js",
     "prepack": "rimraf dist && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
     "dev": "node ./dist/bin/dev/index.js",
     "start": "node ./dist/bin/start/index.js",
     "build": "node ./dist/bin/build/index.js",
-    "compile:tsc": "rimraf dist && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",
-    "test": "jest",
-    "build:watch": "tsc --watch",
-    "typecheck": "tsc --noEmit"
+    "test": "jest"
   },
   "author": "The Nguyen (https://evershop.io)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
