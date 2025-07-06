@@ -4,7 +4,7 @@ import { addProcessor } from '../../lib/util/registry.js';
 
 export default async () => {
   await loadCsv();
-  addProcessor('configuratonSchema', (schema) => {
+  addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
         shop: {

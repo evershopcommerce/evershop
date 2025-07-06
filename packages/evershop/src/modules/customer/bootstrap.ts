@@ -94,7 +94,7 @@ export default () => {
       return this.locals?.customer;
     };
 
-  addProcessor('configuratonSchema', (schema) => {
+  addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
         customer: {

@@ -10,7 +10,7 @@ import {
 } from './services/updateOrderStatus.js';
 
 export default () => {
-  addProcessor('configuratonSchema', (schema) => {
+  addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
         oms: {

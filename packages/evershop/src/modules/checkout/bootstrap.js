@@ -38,7 +38,7 @@ export default () => {
     return product;
   });
 
-  addProcessor('configuratonSchema', (schema) => {
+  addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
         checkout: {

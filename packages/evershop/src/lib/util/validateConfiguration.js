@@ -4,7 +4,7 @@ import { getValueSync } from './registry.js';
 export function validateConfiguration(config) {
   const ajv = getAjv();
   const configSchema = getValueSync(
-    'configuratonSchema',
+    'configurationSchema',
     { type: 'object' },
     null,
     (schema) => {

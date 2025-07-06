@@ -15,7 +15,7 @@ import registerDefaultProductCollectionFilters from './services/registerDefaultP
 export default () => {
   addProcessor('cartItemFields', registerCartItemProductUrlField, 0);
   addProcessor('cartItemFields', registerCartItemVariantOptionsField, 0);
-  addProcessor('configuratonSchema', (schema) => {
+  addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
         catalog: {

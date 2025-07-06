@@ -7,7 +7,7 @@ import { registerDefaultTaxClassCollectionFilters } from './services/registerDef
 
 export default () => {
   addProcessor('cartItemFields', registerCartItemTaxPercentField, 0);
-  addProcessor('configuratonSchema', (schema) => {
+  addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
         pricing: {

@@ -9,7 +9,7 @@ import { registerDefaultPageCollectionFilters } from '../../modules/cms/services
 import { registerDefaultWidgetCollectionFilters } from '../../modules/cms/services/registerDefaultWidgetCollectionFilters.js';
 
 export default () => {
-  addProcessor('configuratonSchema', (schema) => {
+  addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
         themeConfig: {
