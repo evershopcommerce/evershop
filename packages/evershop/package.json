@@ -29,6 +29,10 @@
       "import": "./dist/lib/event/emitter.js",
       "types": "./dist/lib/event/emitter.d.ts"
     },
+    "./lib/postgres": {
+      "import": "./dist/lib/postgres/connection.js",
+      "types": "./dist/lib/postgres/connection.d.ts"
+    },
     "./lib/locale/*": {
       "import": "./dist/lib/locale/*.js",
       "types": "./dist/lib/locale/*.d.ts"
