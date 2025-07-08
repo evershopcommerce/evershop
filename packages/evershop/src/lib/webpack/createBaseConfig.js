@@ -131,7 +131,7 @@ export function createBaseConfig(isServer) {
 
   // Resolve alias for extensions
   extenions.forEach((ext) => {
-    alias['@components'].push(path.resolve(ext.resolve, 'components'));
+    alias['@components'].push(path.resolve(ext.resolve, 'dist/components'));
   });
   alias['@components'].push(path.resolve(__dirname, '../../components'));
 

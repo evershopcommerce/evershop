@@ -1,4 +1,4 @@
-import { OPERATION_MAP } from '../../../lib/util/filterOperationMapp.js';
+import { OPERATION_MAP } from '../../../lib/util/filterOperationMap.js';
 import { getValueSync } from '../../../lib/util/registry.js';
 
 export default async function registerDefaultAttributeCollectionFilters() {

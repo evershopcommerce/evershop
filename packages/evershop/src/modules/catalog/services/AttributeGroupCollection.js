@@ -1,6 +1,6 @@
 import { pool } from '../../../lib/postgres/connection.js';
 import { camelCase } from '../../../lib/util/camelCase.js';
-import { OPERATION_MAP } from '../../../lib/util/filterOperationMapp.js';
+import { OPERATION_MAP } from '../../../lib/util/filterOperationMap.js';
 import { getValue, getValueSync } from '../../../lib/util/registry.js';
 
 export class AttributeGroupCollection {
