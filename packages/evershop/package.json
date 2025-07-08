@@ -62,15 +62,15 @@
       "types": "./dist/lib/middleware/delegate.d.ts"
     },
     "./components/common": {
-      "import": "./dist/components/common/index.jsx",
+      "import": "./dist/components/common/index.js",
       "types": "./dist/components/common/index.d.ts"
     },
     "./components/admin": {
-      "import": "./dist/components/admin/index.jsx",
+      "import": "./dist/components/admin/index.js",
       "types": "./dist/components/admin/index.d.ts"
     },
     "./components/frontend": {
-      "import": "./dist/components/storeFront/index.jsx",
+      "import": "./dist/components/storeFront/index.js",
       "types": "./dist/components/storeFront/index.d.ts"
     },
     "./graphql/services": {
