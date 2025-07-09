@@ -4,12 +4,23 @@ import { CONSTANTS } from '../../../lib/helpers.js';
 import { buildUrl } from '../../../lib/router/buildUrl.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { getValueSync } from '../../../lib/util/registry.js';
+import { FileBrowser } from './browFiles.js';
+
+export interface UploadedFile extends FileBrowser {
+  mimetype: string;
+  size: number;
+  url: string;
+}
 
 /**
+ * Upload files to the specified destination path.
  * @param {Array} files an array of files in the format of {name: String, data: Buffer}
  * @param {String} destinationPath the destination path
  */
-export const uploadFile = async (files, destinationPath) => {
+export const uploadFile = async (
+  files: Express.Multer.File[],
+  destinationPath: string
+): Promise<UploadedFile[]> => {
   /**
    * @type {Object} uploader
    * @property {Function} upload
@@ -30,7 +41,10 @@ export const uploadFile = async (files, destinationPath) => {
 };
 
 const localUploader = {
-  upload: async (files, destinationPath) => {
+  upload: async (
+    files: Express.Multer.File[],
+    destinationPath: string
+  ): Promise<UploadedFile[]> => {
     // Assumming the we are using MemoryStorage for multer. Now we need to write the files to disk.
     // The files argument is an array of files from multer.
     const mediaPath = CONSTANTS.MEDIAPATH;
@@ -44,7 +58,7 @@ const localUploader = {
           .writeFile(path.join(destination, file.filename), file.buffer)
           .then(() => ({
             name: file.filename,
-            type: file.minetype,
+            mimetype: file.mimetype,
             size: file.size,
             url: buildUrl('staticAsset', [
               path

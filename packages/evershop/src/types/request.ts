@@ -2,9 +2,9 @@ import { Request as ExpressRequest } from 'express';
 import { Route } from './route.js';
 
 export interface EvershopRequest extends ExpressRequest {
-  isAdmin?: boolean;
-  session?: any;
-  currentRoute?: Route;
+  isAdmin: boolean;
+  session: any;
+  currentRoute: Route;
   locals?: {
     delegates?: {
       setOnce: (key: string, value: any) => void;
@@ -33,22 +33,22 @@ export interface EvershopRequest extends ExpressRequest {
     };
     context?: Record<string, any>;
   };
-  loginCustomerWithEmail?: (
+  loginCustomerWithEmail: (
     email: string,
     password: string,
     callback: (err: Error | null, customer?: any) => void
   ) => Promise<void>;
-  logoutCustomer?: (callback: (err: Error | null) => void) => void;
-  isCustomerLoggedIn?: () => boolean;
-  getCurrentCustomer?: () => any;
-  loginUserWithEmail?: (
+  logoutCustomer: (callback: (err: Error | null) => void) => void;
+  isCustomerLoggedIn: () => boolean;
+  getCurrentCustomer: () => any;
+  loginUserWithEmail: (
     email: string,
     password: string,
     callback: (err: Error | null, user?: any) => void
   ) => Promise<void>;
-  logoutUser?: (callback: (err: Error | null) => void) => void;
-  isUserLoggedIn?: () => boolean;
-  getCurrentUser?: () => {
+  logoutUser: (callback: (err: Error | null) => void) => void;
+  isUserLoggedIn: () => boolean;
+  getCurrentUser: () => {
     user_id: number;
     uuid: string;
     email: string;

@@ -6,3 +6,4 @@ export * from './componentLayout.js';
 export * from './order.js';
 export * from './cronjob.js';
 export * from './extension.js';
+export * from './graphqlFilter.js';
