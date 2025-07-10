@@ -1,24 +1,28 @@
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
-const { getValue } = require('@evershop/evershop/src/lib/util/registry');
-const { select } = require('@evershop/postgres-query-builder');
-const sgMail = require('@sendgrid/mail');
+import { error } from "@evershop/evershop/lib/log";
+import { pool } from "@evershop/evershop/lib/postgres";
+import { getConfig } from "@evershop/evershop/lib/util/getConfig";
+import { getEnv } from "@evershop/evershop/lib/util/getEnv";
+import { getValue } from "@evershop/evershop/lib/util/registry";
+import { select } from "@evershop/postgres-query-builder";
+import sgMail from "@sendgrid/mail";
 
-module.exports = async function sendOrderConfirmationEmail(data) {
+export default async function sendOrderConfirmationEmail(data) {
   try {
     // Check if the API key is set
-    const apiKey = getEnv('SENDGRID_API_KEY', '');
-    const from = getConfig('sendgrid.from', '');
+    const apiKey = getEnv("SENDGRID_API_KEY", "");
+    const from = getConfig("sendgrid.from", "");
 
     if (!apiKey || !from) {
       return;
     }
     sgMail.setApiKey(apiKey);
     const customerRegistered = getConfig(
-      'sendgrid.events.customer_registered',
-      {}
+      "sendgrid.events.customer_registered",
+      {
+        enabled: true,
+        subject: "Welcome to Evershop",
+        templateId: undefined, // This is the SendGrid template ID
+      }
     );
 
     // Check if the we need to send the email on order placed event
@@ -34,8 +38,8 @@ module.exports = async function sendOrderConfirmationEmail(data) {
     // Build the email data
     const customerId = data.customer_id;
     const customer = await select()
-      .from('customer')
-      .where('customer_id', '=', customerId)
+      .from("customer")
+      .where("customer_id", "=", customerId)
       .load(pool);
 
     if (!customer) {
@@ -45,8 +49,8 @@ module.exports = async function sendOrderConfirmationEmail(data) {
     // Remove the password
     delete customer.password;
 
-    const emailDataFinal = await getValue(
-      'sendgrid_customer_welcome_email_data',
+    const emailDataFinal = await getValue<typeof customer>(
+      "sendgrid_customer_welcome_email_data",
       customer,
       {}
     );
@@ -58,12 +62,12 @@ module.exports = async function sendOrderConfirmationEmail(data) {
       templateId: customerRegistered.templateId,
       dynamicTemplateData: {
         ...emailDataFinal,
-        home_url: getConfig('shop.homeUrl', '')
-      }
+        home_url: getConfig("shop.homeUrl", ""),
+      },
     };
 
     await sgMail.send(msg);
   } catch (e) {
     error(e);
   }
-};
+}

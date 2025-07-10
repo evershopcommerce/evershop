@@ -1,7 +1,11 @@
 {
   "name": "@evershop/sendgrid",
-  "version": "1.2.0",
+  "version": "2.0.0",
+  "type": "module",
   "description": "A SendGrid extension for EverShop.",
+  "scripts": {
+    "compile": "tsc"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/evershopcommerce/evershop/tree/main/packages/sendgrid"
