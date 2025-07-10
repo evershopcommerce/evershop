@@ -8,7 +8,7 @@ import { addMiddleware } from './addMiddleware.js';
 import { deleteARoute } from './deleteARoute.js';
 import { removeMiddleware } from './removeMiddleware.js';
 import { restartCronJob } from './restartCronJob.js';
-import { restartSubscriberJob } from './restartSubscriberJob.js';
+import { restartSubscriber } from './restartSubscriber.js';
 import { updateAdminRoute } from './updateAdminRoute.js';
 import { updateApiRoute } from './updateApiRoute.js';
 import { updateFrontStoreRoute } from './updateFrontStoreRoute.js';
@@ -39,6 +39,6 @@ export const processors: Processor = {
     restartCronJob();
   },
   restart_event: () => {
-    restartSubscriberJob();
+    restartSubscriber();
   }
 };
