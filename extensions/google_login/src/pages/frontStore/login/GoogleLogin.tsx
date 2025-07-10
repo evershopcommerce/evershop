@@ -1,8 +1,8 @@
-
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
-import PropTypes from 'prop-types';
-import React from 'react';
-import './GoogleLogin.scss';
+import React from "react";
+import PropTypes from "prop-types";
+import { _ } from "@evershop/evershop/lib/locale/translate/_";
+import { ComponentLayout } from "@evershop/evershop";
+import "./GoogleLogin.scss";
 
 function GoogleIcon({ width, height }) {
   return (
@@ -11,8 +11,7 @@ function GoogleIcon({ width, height }) {
       className="LgbsSe-Bz112c"
       viewBox="0 0 48 48"
       width={width}
-      height={height}
-    >
+      height={height}>
       <path
         fill="#EA4335"
         d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
@@ -36,12 +35,12 @@ function GoogleIcon({ width, height }) {
 
 GoogleIcon.propTypes = {
   width: PropTypes.number,
-  height: PropTypes.number
+  height: PropTypes.number,
 };
 
 GoogleIcon.defaultProps = {
   width: 24,
-  height: 24
+  height: 24,
 };
 
 function GoogleLogin({ authUrl }) {
@@ -49,19 +48,19 @@ function GoogleLogin({ authUrl }) {
     <div>
       <a href={authUrl} className="google__login__button">
         <GoogleIcon />
-        {_('Sign in with Google')}
+        {_("Sign in with Google", {})}
       </a>
     </div>
   );
 }
 
 GoogleLogin.propTypes = {
-  authUrl: PropTypes.string.isRequired
+  authUrl: PropTypes.string.isRequired,
 };
 
-export const layout = {
-  areaId: 'loginFormInner',
-  sortOrder: 25
+export const layout: ComponentLayout = {
+  areaId: "loginFormInner",
+  sortOrder: 25,
 };
 
 export const query = `

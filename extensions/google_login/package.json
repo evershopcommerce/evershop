@@ -1,8 +1,12 @@
 {
   "name": "@evershop/google_login",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "type": "module",
   "description": "A Google authentication extension for EverShop.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/evershopcommerce/evershop/tree/main/packages/google_login"
@@ -17,6 +21,6 @@
   },
   "homepage": "https://github.com/evershopcommerce/evershop/tree/main/packages/google_login",
   "engines": {
-    "node": ">= 14.0.0"
+    "node": ">= 20.0.0"
   }
 }
