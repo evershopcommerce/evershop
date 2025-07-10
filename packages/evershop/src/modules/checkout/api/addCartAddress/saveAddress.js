@@ -5,7 +5,7 @@ import {
   INVALID_PAYLOAD,
   OK
 } from '../../../../lib/util/httpStatus.js';
-import { validateAddress } from '../../../customer/services/customer/address/addressValidator.js';
+import { validateAddress } from '../../../customer/services/customer/address/addressValidators.js';
 import { getCartByUUID } from '../../services/getCartByUUID.js';
 import { saveCart } from '../../services/saveCart.js';
 
@@ -26,7 +26,16 @@ export default async (request, response, next) => {
     }
     // Use shipping address as a billing address
     // Validate address
-    validateAddress(address);
+    const validationResult = validateAddress(address);
+    if (!validationResult.valid) {
+      response.status(INVALID_PAYLOAD);
+      return response.json({
+        error: {
+          status: INVALID_PAYLOAD,
+          message: validationResult.errors[0]
+        }
+      });
+    }
     // Save billing address
     const result = await insert('cart_address').given(address).execute(pool);
 

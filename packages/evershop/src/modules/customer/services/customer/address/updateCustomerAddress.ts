@@ -9,7 +9,7 @@ import {
 import { getConnection } from '../../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../../lib/util/hookable.js';
 import { getValue } from '../../../../../lib/util/registry.js';
-import { Address, validateAddress } from './addressValidator.js';
+import { Address, validateAddress } from './addressValidators.js';
 
 async function updateCustomerAddressData(
   uuid: string,
@@ -73,10 +73,13 @@ async function updateCustomerAddress(
       }
     });
     // Validate address data
-    validateAddress({
+    const validationResults = validateAddress({
       ...currentAddress,
       ...addressData
     });
+    if (!validationResults.valid) {
+      throw new Error(`${validationResults.errors.join(', ')}`);
+    }
     // Update address data
     const address = await hookable(updateCustomerAddressData, {
       ...context,

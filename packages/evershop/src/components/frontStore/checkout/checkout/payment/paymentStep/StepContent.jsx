@@ -37,8 +37,7 @@ const QUERY = `
   }
 `;
 export function StepContent({
-  cart: { billingAddress, addBillingAddressApi, addPaymentMethodApi },
-  customerAddressSchema
+  cart: { billingAddress, addBillingAddressApi, addPaymentMethodApi }
 }) {
   const { completeStep } = useCheckoutStepsDispatch();
   const [useShippingAddress, setUseShippingAddress] = useState(!billingAddress);
@@ -123,7 +122,6 @@ export function StepContent({
             <CustomerAddressForm
               areaId="checkoutBillingAddressForm"
               address={billingAddress || data.cart.shippingAddress}
-              customerAddressSchema={customerAddressSchema}
             />
           </div>
         )}
@@ -133,7 +131,6 @@ export function StepContent({
             <CustomerAddressForm
               areaId="checkoutBillingAddressForm"
               address={data.cart.shippingAddress}
-              customerAddressSchema={customerAddressSchema}
             />
           </div>
         )}
@@ -222,7 +219,5 @@ StepContent.propTypes = {
     }),
     addBillingAddressApi: PropTypes.string.isRequired,
     addPaymentMethodApi: PropTypes.string.isRequired
-  }).isRequired,
-
-  customerAddressSchema: PropTypes.object.isRequired
+  }).isRequired
 };

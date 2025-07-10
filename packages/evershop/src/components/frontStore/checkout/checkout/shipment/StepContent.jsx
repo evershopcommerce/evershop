@@ -37,7 +37,6 @@ export function StepContent({
   addShippingAddressApi,
   shipmentInfo,
   setShipmentInfo,
-  customerAddressSchema,
   addresses
 }) {
   const { cartId } = useCheckout();
@@ -129,7 +128,6 @@ export function StepContent({
         <CustomerAddressForm
           areaId="checkoutShippingAddressForm"
           address={shipmentInfo.address}
-          customerAddressSchema={customerAddressSchema}
         />
         <input type="hidden" name="type" value="shipping" />
       </Form>
@@ -164,8 +162,6 @@ StepContent.propTypes = {
     isCompleted: PropTypes.bool,
     isEditing: PropTypes.bool
   }).isRequired,
-
-  customerAddressSchema: PropTypes.object.isRequired,
   addresses: PropTypes.arrayOf(
     PropTypes.shape({
       uuid: PropTypes.string.isRequired,

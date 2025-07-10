@@ -7,10 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
-export default function PaymentStep({
-  cart,
-  setting: { customerAddressSchema }
-}) {
+export default function PaymentStep({ cart }) {
   const steps = useCheckoutSteps();
   const step = steps.find((e) => e.id === 'payment') || {};
   const [display, setDisplay] = React.useState(false);
@@ -33,13 +30,7 @@ export default function PaymentStep({
 
   return (
     <div className="checkout-payment checkout-step">
-      {display && (
-        <StepContent
-          cart={cart}
-          step={step}
-          customerAddressSchema={customerAddressSchema}
-        />
-      )}
+      {display && <StepContent cart={cart} step={step} />}
     </div>
   );
 }
@@ -64,9 +55,6 @@ PaymentStep.propTypes = {
       }),
       telephone: PropTypes.string
     })
-  }).isRequired,
-  setting: PropTypes.shape({
-    customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
 };
 
@@ -97,9 +85,6 @@ export const query = `
       }
       addBillingAddressApi: addAddressApi
       addPaymentMethodApi
-    }
-    setting {
-      customerAddressSchema
     }
   }
 `;

@@ -7,32 +7,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
-function isFieldRequired(schema, fieldName) {
-  if (schema && Array.isArray(schema.required)) {
-    return schema.required.includes(fieldName);
-  }
-
-  return false;
-}
-
-function getErrorMessage(schema, fieldName, defaultMessage) {
-  if (schema && schema.errorMessage) {
-    if (schema.errorMessage[fieldName]) {
-      return schema.errorMessage[fieldName];
-    } else {
-      return defaultMessage;
-    }
-  } else {
-    return defaultMessage;
-  }
-}
-
 export function CustomerAddressForm({
   allowCountries,
   address = {},
   formId = 'customerAddressForm',
-  areaId = 'customerAddressForm',
-  customerAddressSchema
+  areaId = 'customerAddressForm'
 }) {
   const [selectedCountry, setSelectedCountry] = React.useState(() => {
     const country = address?.country?.code;
@@ -55,11 +34,7 @@ export function CustomerAddressForm({
         {
           component: { default: NameAndTelephone },
           props: {
-            address,
-            getErrorMessage: (fieldName, defaultMessage) =>
-              getErrorMessage(customerAddressSchema, fieldName, defaultMessage),
-            isFieldRequired: (fieldName, defaultMessage) =>
-              isFieldRequired(customerAddressSchema, fieldName, defaultMessage)
+            address
           },
           sortOrder: 10
         },
@@ -72,18 +47,12 @@ export function CustomerAddressForm({
             formId,
             label: _('Address'),
             placeholder: _('Address'),
-            validationRules: isFieldRequired(customerAddressSchema, 'address_1')
-              ? [
-                  {
-                    rule: 'notEmpty',
-                    message: getErrorMessage(
-                      customerAddressSchema,
-                      'address_1',
-                      _('Address is required')
-                    )
-                  }
-                ]
-              : []
+            validationRules: [
+              {
+                rule: 'notEmpty',
+                message: _('Address is required')
+              }
+            ]
           },
           sortOrder: 20
         },
@@ -95,18 +64,7 @@ export function CustomerAddressForm({
             value: address?.city,
             label: _('City'),
             placeholder: _('City'),
-            validationRules: isFieldRequired(customerAddressSchema, 'city')
-              ? [
-                  {
-                    rule: 'notEmpty',
-                    message: getErrorMessage(
-                      customerAddressSchema,
-                      'city',
-                      _('City is required')
-                    )
-                  }
-                ]
-              : []
+            validationRules: []
           },
           sortOrder: 40
         },
@@ -125,11 +83,7 @@ export function CustomerAddressForm({
           props: {
             address,
             allowCountries,
-            selectedCountry,
-            getErrorMessage: (fieldName, defaultMessage) =>
-              getErrorMessage(customerAddressSchema, fieldName, defaultMessage),
-            isFieldRequired: (fieldName, defaultMessage) =>
-              isFieldRequired(customerAddressSchema, fieldName, defaultMessage)
+            selectedCountry
           },
           sortOrder: 60
         }
@@ -165,9 +119,7 @@ CustomerAddressForm.propTypes = {
     })
   ).isRequired,
   areaId: PropTypes.string,
-  formId: PropTypes.string,
-
-  customerAddressSchema: PropTypes.object.isRequired
+  formId: PropTypes.string
 };
 
 CustomerAddressForm.defaultProps = {

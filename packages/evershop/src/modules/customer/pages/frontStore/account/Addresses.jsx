@@ -7,10 +7,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
-export default function Addresses({
-  account: { addresses, addAddressApi },
-  setting: { customerAddressSchema }
-}) {
+export default function Addresses({ account: { addresses, addAddressApi } }) {
   const modal = useModal();
   const isLoading = React.useRef(false);
   const editingAddress = React.useRef(null);
@@ -173,10 +170,7 @@ export default function Addresses({
                     ...data.address
                   })}
                 >
-                  <CustomerAddressForm
-                    address={editingAddress.current}
-                    customerAddressSchema={customerAddressSchema}
-                  />
+                  <CustomerAddressForm address={editingAddress.current} />
                 </Form>
               </div>
             </div>
@@ -211,9 +205,6 @@ Addresses.propTypes = {
       })
     ).isRequired,
     addAddressApi: PropTypes.string.isRequired
-  }).isRequired,
-  setting: PropTypes.shape({
-    customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
 };
 
@@ -248,9 +239,6 @@ export const query = `
         deleteApi
       }
       addAddressApi
-    }
-    setting {
-      customerAddressSchema
     }
   }
 `;

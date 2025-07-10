@@ -14,8 +14,7 @@ export default function ShipmentStep({
     shippingMethod,
     addShippingMethodApi,
     addShippingAddressApi
-  },
-  setting: { customerAddressSchema }
+  }
 }) {
   const steps = useCheckoutSteps();
   const [shipmentInfo, setShipmentInfo] = React.useState({
@@ -55,7 +54,6 @@ export default function ShipmentStep({
         setShipmentInfo={setShipmentInfo}
         addShippingAddressApi={addShippingAddressApi}
         addShippingMethodApi={addShippingMethodApi}
-        customerAddressSchema={customerAddressSchema}
         addresses={account?.addresses || []}
       />
     </div>
@@ -97,9 +95,6 @@ ShipmentStep.propTypes = {
     shippingMethodName: PropTypes.string,
     addShippingMethodApi: PropTypes.string,
     addShippingAddressApi: PropTypes.string
-  }).isRequired,
-  setting: PropTypes.shape({
-    customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
 };
 
@@ -157,9 +152,6 @@ export const query = `
       }
       addShippingAddressApi: addAddressApi
       addShippingMethodApi
-    }
-    setting {
-      customerAddressSchema
     }
   }
 `;

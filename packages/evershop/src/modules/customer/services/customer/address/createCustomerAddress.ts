@@ -10,7 +10,7 @@ import {
 import { getConnection, pool } from '../../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../../lib/util/hookable.js';
 import { getValue } from '../../../../../lib/util/registry.js';
-import { Address, validateAddress } from './addressValidator.js';
+import { Address, validateAddress } from './addressValidators.js';
 
 async function insertCustomerAddressData(
   data: Address,
@@ -51,7 +51,10 @@ async function createCustomerAddress(
       context
     );
     // Validate customer address data
-    validateAddress(customerAddressData);
+    const validationResults = validateAddress(customerAddressData);
+    if (!validationResults.valid) {
+      throw new Error(`${validationResults.errors.join(', ')}`);
+    }
     const customer = await select()
       .from('customer')
       .where('uuid', '=', customerUUID)

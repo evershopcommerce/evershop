@@ -1,4 +1,7 @@
-import { validateAddress } from './customer/address/addressValidator.js';
+import {
+  validateAddress,
+  addAddressValidationRule
+} from './customer/address/addressValidators.js';
 import createCustomerAddress from './customer/address/createCustomerAddress.js';
 import deleteCustomerAddress from './customer/address/deleteCustomerAddress.js';
 import updateCustomerAddress from './customer/address/updateCustomerAddress.js';
@@ -17,5 +20,6 @@ export {
   updateCustomer,
   deleteCustomer,
   updatePassword,
-  validateAddress
+  validateAddress,
+  addAddressValidationRule
 };
