@@ -1,46 +1,46 @@
-const path = require('path');
-const {
+import path from "path";
+import sharp from "sharp";
+import {
   S3Client,
   GetObjectCommand,
-  PutObjectCommand
-} = require('@aws-sdk/client-s3');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
-const { update } = require('@evershop/postgres-query-builder');
-const sharp = require('sharp');
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
+import { getEnv } from "@evershop/evershop/lib/util/getEnv";
+import { getConfig } from "@evershop/evershop/lib/util/getConfig";
+import { update } from "@evershop/postgres-query-builder";
+import { pool } from "@evershop/evershop/lib/postgres";
+import { error } from "@evershop/evershop/lib/log";
 
-async function downloadObjectToBuffer(objectUrl) {
+async function downloadObjectToBuffer(objectUrl: string) {
   const parsedUrl = new URL(objectUrl);
-  const bucketName = parsedUrl.host.split('.')[0]; // Extract the bucket name
+  const bucketName = parsedUrl.host.split(".")[0]; // Extract the bucket name
   const objectKey = parsedUrl.pathname.substr(1); // Extract the object key (remove leading '/')
 
   const params = {
     Bucket: bucketName,
-    Key: objectKey
+    Key: objectKey,
   };
 
   const getObjectCommand = new GetObjectCommand(params);
-  const s3Client = new S3Client({ region: getEnv('AWS_REGION') });
+  const s3Client = new S3Client({ region: getEnv("AWS_REGION") });
   const data = await s3Client.send(getObjectCommand);
   // Get content as a buffer from the data.Body object
-  const buffer = await data.Body.transformToByteArray();
+  const buffer = await data.Body?.transformToByteArray();
   return buffer;
 }
 
 async function resizeAndUploadImage(
-  s3Client,
-  originalObjectUrl,
-  resizedObjectUrl,
-  width,
-  height
+  s3Client: S3Client,
+  originalObjectUrl: string,
+  resizedObjectUrl: string,
+  width: number,
+  height: number
 ) {
-  const bucketName = getEnv('AWS_BUCKET_NAME');
+  const bucketName = getEnv("AWS_BUCKET_NAME");
   const originalImageBuffer = await downloadObjectToBuffer(originalObjectUrl);
   // Resize the image
   const resizedImageBuffer = await sharp(originalImageBuffer)
-    .resize({ width, height, fit: 'inside' })
+    .resize({ width, height, fit: "inside" })
     .toBuffer();
 
   // Upload the resized image
@@ -50,7 +50,7 @@ async function resizeAndUploadImage(
   const uploadParams = {
     Bucket: bucketName,
     Key: objectKey,
-    Body: resizedImageBuffer
+    Body: resizedImageBuffer,
   };
 
   const uploadCommand = new PutObjectCommand(uploadParams);
@@ -58,10 +58,10 @@ async function resizeAndUploadImage(
   return resizedObjectUrl;
 }
 
-module.exports = async function awsGenerateProductImageVariant(data) {
-  if (getConfig('system.file_storage') === 's3') {
+export default async function awsGenerateProductImageVariant(data) {
+  if (getConfig("system.file_storage") === "s3") {
     try {
-      const s3Client = new S3Client({ region: getEnv('AWS_REGION') });
+      const s3Client = new S3Client({ region: getEnv("AWS_REGION") });
       const originalObjectUrl = data.origin_image;
       // The data.image is the full url of the Object, we need to get the Object path
       // by removing the container url
@@ -81,8 +81,8 @@ module.exports = async function awsGenerateProductImageVariant(data) {
         s3Client,
         originalObjectUrl,
         singleObjectUrl,
-        getConfig('catalog.product.image.single.width', 500),
-        getConfig('catalog.product.image.single.height', 500)
+        getConfig("catalog.product.image.single.width", 500),
+        getConfig("catalog.product.image.single.height", 500)
       );
 
       // Upload the listing variant
@@ -90,8 +90,8 @@ module.exports = async function awsGenerateProductImageVariant(data) {
         s3Client,
         originalObjectUrl,
         listingObjectUrl,
-        getConfig('catalog.product.image.listing.width', 250),
-        getConfig('catalog.product.image.listing.height', 250)
+        getConfig("catalog.product.image.listing.width", 250),
+        getConfig("catalog.product.image.listing.height", 250)
       );
 
       // Upload the thumbnail variant
@@ -99,22 +99,22 @@ module.exports = async function awsGenerateProductImageVariant(data) {
         s3Client,
         originalObjectUrl,
         thumbnailObjectUrl,
-        getConfig('catalog.product.image.thumbnail.width', 100),
-        getConfig('catalog.product.image.thumbnail.height', 100)
+        getConfig("catalog.product.image.thumbnail.width", 100),
+        getConfig("catalog.product.image.thumbnail.height", 100)
       );
 
       // Update the record in the database with the new URLs in the variant columns
-      await update('product_image')
+      await update("product_image")
         .given({
           single_image: singleUrl,
           listing_image: listingUrl,
-          thumb_image: thumnailUrl
+          thumb_image: thumnailUrl,
         })
-        .where('product_image_product_id', '=', data.product_image_product_id)
-        .and('origin_image', '=', data.origin_image)
+        .where("product_image_product_id", "=", data.product_image_product_id)
+        .and("origin_image", "=", data.origin_image)
         .execute(pool);
     } catch (e) {
       error(e);
     }
   }
-};
+}

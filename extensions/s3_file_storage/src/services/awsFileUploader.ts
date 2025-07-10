@@ -1,14 +1,19 @@
-const path = require('path');
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
-const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
+import path from "path";
+import {
+  S3Client,
+  PutObjectCommand,
+  PutObjectCommandOutput,
+} from "@aws-sdk/client-s3";
+import { getEnv } from "@evershop/evershop/lib/util/getEnv";
+import { UploadedFile } from "@evershop/evershop/cms/services";
 
-const s3Client = new S3Client({ region: getEnv('AWS_REGION') });
-const bucketName = getEnv('AWS_BUCKET_NAME');
+const s3Client = new S3Client({ region: getEnv("AWS_REGION") });
+const bucketName = getEnv("AWS_BUCKET_NAME");
 
-module.exports.awsFileUploader = {
-  upload: async (files, requestedPath) => {
-    const uploadedFiles = [];
-    const uploadPromises = [];
+export const awsFileUploader = {
+  upload: async (files: Express.Multer.File[], requestedPath: string) => {
+    const uploadedFiles: UploadedFile[] = [];
+    const uploadPromises: Promise<PutObjectCommandOutput>[] = [];
 
     for (const file of files) {
       const fileName = requestedPath
@@ -18,7 +23,7 @@ module.exports.awsFileUploader = {
       const params = {
         Bucket: bucketName,
         Key: fileName,
-        Body: fileContent
+        Body: fileContent,
       };
 
       const uploadCommand = new PutObjectCommand(params);
@@ -30,15 +35,15 @@ module.exports.awsFileUploader = {
     uploadResults.forEach((result, index) => {
       uploadedFiles.push({
         name: files[index].filename,
-        path: path.join(requestedPath, files[index].filename),
+        mimetype: files[index].mimetype,
         size: files[index].size,
         url: `https://${bucketName}.s3.amazonaws.com/${path.join(
           requestedPath,
           files[index].filename
-        )}`
+        )}`,
       });
     });
 
     return uploadedFiles;
-  }
+  },
 };
