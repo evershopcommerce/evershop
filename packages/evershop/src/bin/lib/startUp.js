@@ -17,6 +17,8 @@ import { getCoreModules } from './loadModules.js';
 import { normalizePort } from './normalizePort.js';
 import { onError } from './onError.js';
 import { onListening } from './onListening.js';
+import { startCronProcess } from './startCronProcess.js';
+import { startSubscriberProcess } from './startSubscriberProcess.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -67,47 +69,13 @@ export const start = async function start(context, cb) {
   server.listen(port);
 
   // Spawn the child process to manage events
-  const args = [path.resolve(__dirname, '../../lib/event/event-manager.js')];
-  if (isDevelopmentMode() || process.argv.includes('--debug')) {
-    args.push('--debug');
-  }
-  const child = spawn('node', args, {
-    stdio: 'inherit',
-    env: {
-      ...process.env,
-      bootstrapContext: JSON.stringify(context),
-      ALLOW_CONFIG_MUTATIONS: true
-    }
-  });
+  let subscriberChild = startSubscriberProcess(context);
+  let jobChild = startCronProcess(context);
 
-  child.on('error', (err) => {
-    error(`Error spawning event processor: ${err}`);
-  });
-
-  child.unref();
-
-  // Spawn the child process to manage scheduled jobs
-  const jobArgs = [path.resolve(__dirname, '../../lib/cronjob/cronjob.js')];
-  if (isDevelopmentMode() || process.argv.includes('--debug')) {
-    jobArgs.push('--debug');
-  }
-  const jobChild = spawn('node', jobArgs, {
-    stdio: 'inherit',
-    env: {
-      ...process.env,
-      bootstrapContext: JSON.stringify(context),
-      ALLOW_CONFIG_MUTATIONS: true
-    }
-  });
-  jobChild.on('error', (err) => {
-    error(`Error spawning job processor: ${err}`);
-  });
-
-  jobChild.unref();
   process.on('exit', (code) => {
     // Cleanup child processes on exit
-    if (child && child.pid) {
-      child.kill('SIGTERM');
+    if (subscriberChild && subscriberChild.pid) {
+      subscriberChild.kill('SIGTERM');
     }
     if (jobChild && jobChild.pid) {
       jobChild.kill('SIGTERM');
@@ -116,5 +84,16 @@ export const start = async function start(context, cb) {
       debug('Restarting the sever');
       process.send('RESTART_ME');
     }
+  });
+  process.on('RESTART_CRONJOB', () => {
+    debug('Restarting the cron job process');
+    jobChild.kill('SIGTERM');
+    jobChild = startCronProcess(context);
+  });
+
+  process.on('RESTART_SUBSCRIBER', () => {
+    debug('Restarting the subscriber process');
+    subscriberChild.kill('SIGTERM');
+    subscriberChild = startSubscriberProcess(context);
   });
 };

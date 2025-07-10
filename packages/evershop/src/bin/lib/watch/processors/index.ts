@@ -7,6 +7,8 @@ import { addFrontStoreRoute } from './addFrontStoreRoute.js';
 import { addMiddleware } from './addMiddleware.js';
 import { deleteARoute } from './deleteARoute.js';
 import { removeMiddleware } from './removeMiddleware.js';
+import { restartCronJob } from './restartCronJob.js';
+import { restartSubscriberJob } from './restartSubscriberJob.js';
 import { updateAdminRoute } from './updateAdminRoute.js';
 import { updateApiRoute } from './updateApiRoute.js';
 import { updateFrontStoreRoute } from './updateFrontStoreRoute.js';
@@ -32,5 +34,11 @@ export const processors: Processor = {
     // No operation for update_component, as it is handled by the compiler}
   },
   add_component: addComponent,
-  update_graphql: () => {}
+  update_graphql: () => {},
+  restart_cronjob: () => {
+    restartCronJob();
+  },
+  restart_event: () => {
+    restartSubscriberJob();
+  }
 };

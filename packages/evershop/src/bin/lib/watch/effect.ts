@@ -3,6 +3,7 @@ import { basename, dirname } from 'path';
 import { Application } from 'express';
 import { minimatch } from 'minimatch';
 import { has } from '../../../bin/dev/register.js';
+import { getEnabledJobs } from '../../../lib/cronjob/jobManager.js';
 import { debug, error } from '../../../lib/log/logger.js';
 import { getRoute } from '../../../lib/router/Router.js';
 import { broadcast } from './broadcast.js';
@@ -13,6 +14,8 @@ import { Event } from './watchHandler.js';
 
 export type Effect =
   | 'restart'
+  | 'restart_cronjob'
+  | 'restart_event'
   | 'add_middleware'
   | 'remove_middleware'
   | 'update_middleware'
@@ -38,6 +41,7 @@ function isValidRouteFolder(name: string): boolean {
 }
 
 export function detectEffect(event: Event): Effect {
+  const jobs = getEnabledJobs();
   if (isRestartRequired(event)) {
     return 'restart'; // No specific effect, just a restart required
   } else if (minimatch(event.path.toString(), '**/+(api|admin|frontStore)/*')) {
@@ -147,6 +151,19 @@ export function detectEffect(event: Event): Effect {
     minimatch(event.path.toString(), '**/*/*.resolvers.+(ts|js)')
   ) {
     return 'update_graphql'; // GraphQL schema or resolvers file
+  } else if (minimatch(event.path.toString(), '**/subscribers/**/*.+(ts|js)')) {
+    return 'restart_event';
+  }
+  // Check if the file is a job file
+  else if (
+    event.path &&
+    jobs.some(
+      (job) =>
+        job.resolve ===
+        event.path.toString().replace('src', 'dist').replace(/\.ts$/, '.js')
+    )
+  ) {
+    return 'restart_cronjob';
   } else if (isSrc(event.path.toString())) {
     const distPath = event.path
       .toString()
@@ -192,7 +209,9 @@ export function applyEffects(events: Event[], app: Application) {
   if (
     events.some(
       (e) =>
-        e.effect && e.effect !== 'unknown' && !e.effect.includes('component')
+        e.effect &&
+        !['unknown', 'restart_cronjob', 'restart_event'].includes(e.effect) &&
+        !e.effect.includes('component')
     )
   ) {
     debug('Broadcasting changes to all clients');
