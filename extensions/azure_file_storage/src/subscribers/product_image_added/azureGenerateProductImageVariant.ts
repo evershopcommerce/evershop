@@ -1,29 +1,29 @@
-const path = require('path');
-const { BlobServiceClient } = require('@azure/storage-blob');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
-const { update } = require('@evershop/postgres-query-builder');
-const sharp = require('sharp');
+import sharp from "sharp";
+import path from "path";
+import { BlobServiceClient } from "@azure/storage-blob";
+import { getConfig } from "@evershop/evershop/lib/util/getConfig";
+import { update } from "@evershop/postgres-query-builder";
+import { pool } from "@evershop/evershop/lib/postgres";
+import { error } from "@evershop/evershop/lib/log";
+import { getEnv } from "@evershop/evershop/lib/util/getEnv";
 
 async function resizeAndUploadImage(
-  containerName,
-  originalBlobUrl,
-  resizedBlobUrl,
-  width,
-  height
+  containerName: string,
+  originalBlobUrl: string,
+  resizedBlobUrl: string,
+  width: number,
+  height: number
 ) {
   // Create a service client
   const blobServiceClient = BlobServiceClient.fromConnectionString(
-    getEnv('AZURE_STORAGE_CONNECTION_STRING')
+    getEnv("AZURE_STORAGE_CONNECTION_STRING")
   );
   const containerClient = blobServiceClient.getContainerClient(containerName);
 
   // originalBlobUrl is the full url of the blob, we need to get the blob path
   const originalBlobPath = originalBlobUrl.replace(
     `${containerClient.url}/`,
-    ''
+    ""
   );
   const originalBlobClient =
     containerClient.getBlockBlobClient(originalBlobPath);
@@ -33,21 +33,21 @@ async function resizeAndUploadImage(
 
   // Resize the image
   const resizedImageBuffer = await sharp(originalImageBuffer)
-    .resize({ width, height, fit: 'inside' })
+    .resize({ width, height, fit: "inside" })
     .toBuffer();
 
   // Upload the resized image
-  const resizedBlobPath = resizedBlobUrl.replace(`${containerClient.url}/`, '');
+  const resizedBlobPath = resizedBlobUrl.replace(`${containerClient.url}/`, "");
   const resizedBlobClient = containerClient.getBlockBlobClient(resizedBlobPath);
   await resizedBlobClient.upload(resizedImageBuffer, resizedImageBuffer.length);
 
   return resizedBlobClient.url;
 }
 
-module.exports = async function azureGenerateProductImageVariant(data) {
-  if (getConfig('system.file_storage') === 'azure') {
+export default async function azureGenerateProductImageVariant(data) {
+  if (getConfig("system.file_storage") === "azure") {
     try {
-      const containerName = getEnv('AZURE_STORAGE_CONTAINER_NAME', 'images');
+      const containerName = getEnv("AZURE_STORAGE_CONTAINER_NAME", "images");
       const originalBlobUrl = data.origin_image;
       // The data.image is the full url of the blob, we need to get the blob path
       // by removing the container url
@@ -64,8 +64,8 @@ module.exports = async function azureGenerateProductImageVariant(data) {
         containerName,
         originalBlobUrl,
         singleBlobUrl,
-        getConfig('catalog.product.image.single.width', 500),
-        getConfig('catalog.product.image.single.height', 500)
+        getConfig("catalog.product.image.single.width", 500),
+        getConfig("catalog.product.image.single.height", 500)
       );
 
       // Upload the listing variant
@@ -73,8 +73,8 @@ module.exports = async function azureGenerateProductImageVariant(data) {
         containerName,
         originalBlobUrl,
         listingBlobUrl,
-        getConfig('catalog.product.image.listing.width', 250),
-        getConfig('catalog.product.image.listing.height', 250)
+        getConfig("catalog.product.image.listing.width", 250),
+        getConfig("catalog.product.image.listing.height", 250)
       );
 
       // Upload the thumbnail variant
@@ -82,22 +82,22 @@ module.exports = async function azureGenerateProductImageVariant(data) {
         containerName,
         originalBlobUrl,
         thumbnailBlobUrl,
-        getConfig('catalog.product.image.thumbnail.width', 100),
-        getConfig('catalog.product.image.thumbnail.height', 100)
+        getConfig("catalog.product.image.thumbnail.width", 100),
+        getConfig("catalog.product.image.thumbnail.height", 100)
       );
 
       // Update the record in the database with the new URLs in the variant columns
-      await update('product_image')
+      await update("product_image")
         .given({
           single_image: singleUrl,
           listing_image: listingUrl,
-          thumb_image: thumnailUrl
+          thumb_image: thumnailUrl,
         })
-        .where('product_image_product_id', '=', data.product_image_product_id)
-        .and('origin_image', '=', data.origin_image)
+        .where("product_image_product_id", "=", data.product_image_product_id)
+        .and("origin_image", "=", data.origin_image)
         .execute(pool);
     } catch (e) {
       error(e);
     }
   }
-};
+}

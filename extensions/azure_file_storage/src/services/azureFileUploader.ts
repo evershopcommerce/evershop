@@ -1,21 +1,22 @@
-const { BlobServiceClient } = require('@azure/storage-blob');
-const { getEnv } = require('@evershop/evershop/src/lib/util/getEnv');
+import { BlobServiceClient } from "@azure/storage-blob";
+import { UploadedFile } from "@evershop/evershop/cms/services";
+import { getEnv } from "@evershop/evershop/lib/util/getEnv";
 
-module.exports.azureFileUploader = {
-  upload: async (files, path) => {
+export const azureFileUploader = {
+  upload: async (files: Express.Multer.File[], path: string) => {
     const blobServiceClient = BlobServiceClient.fromConnectionString(
-      getEnv('AZURE_STORAGE_CONNECTION_STRING')
+      getEnv("AZURE_STORAGE_CONNECTION_STRING")
     );
-    const containerName = getEnv('AZURE_STORAGE_CONTAINER_NAME', 'images');
+    const containerName = getEnv("AZURE_STORAGE_CONTAINER_NAME", "images");
     // Create a container if it does not exist
     const containerClient = blobServiceClient.getContainerClient(containerName);
     // Create a container if it does not exist with access level set to public
     await containerClient.createIfNotExists({
-      access: 'blob'
+      access: "blob",
     });
 
     const requestedPath = path;
-    const uploadedFiles = [];
+    const uploadedFiles: UploadedFile[] = [];
 
     for (const file of files) {
       // Create a block blob client object that points to the blob where the image will be uploaded
@@ -29,12 +30,12 @@ module.exports.azureFileUploader = {
       // Push the uploaded image details to the uploadedFiles array
       uploadedFiles.push({
         name: file.filename,
-        type: file.minetype,
+        mimetype: file.mimetype,
         size: file.size,
-        url: blobClient.url
+        url: blobClient.url,
       });
     }
 
     return uploadedFiles;
-  }
+  },
 };
