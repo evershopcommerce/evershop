@@ -1,6 +1,5 @@
-/* eslint-disable no-undef, global-require */
-const { resolve } = require('path');
-const { getRouteFromPath } = require('../../getRouteFromPath');
+import { resolve } from 'path';
+import { getRouteFromPath } from '../../getRouteFromPath.js';
 
 describe('Test getRouteFromPath function', () => {
   it('Parse app level route', () => {

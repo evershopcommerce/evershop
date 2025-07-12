@@ -1,10 +1,10 @@
+import Area from '@components/common/Area';
+import { AppProvider } from '@components/common/context/app';
+import { Alert } from '@components/common/modal/Alert';
+import Head from '@components/common/react/Head';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createClient, Provider } from 'urql';
-import { AppProvider } from '@components/common/context/app';
-import Area from '@components/common/Area';
-import Head from '@components/common/react/Head';
-import { Alert } from '@components/common/modal/Alert';
 
 const client = createClient({
   url: '/api/graphql'

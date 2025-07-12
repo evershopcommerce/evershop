@@ -1,15 +1,14 @@
-const { UNAUTHORIZED } = require('@evershop/evershop/src/lib/util/httpStatus');
+import { UNAUTHORIZED } from '../../../../lib/util/httpStatus.js';
 
 /**
  * This is the session based authentication middleware.
  * We do not implement session middleware on API routes, instead we only load the session from the database and set the user in the context.
  * @param {*} request
  * @param {*} response
- * @param {*} delegate
  * @param {*} next
  * @returns
  */
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   // Get the current route
   const { currentRoute } = request;
   const currentAdminUser = request.getCurrentUser();

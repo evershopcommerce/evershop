@@ -1,11 +1,12 @@
+import CategoryTree from '@components/admin/catalog/productEdit/category/CategoryTree';
+import { Card } from '@components/admin/cms/Card';
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import Editor from '@components/common/form/fields/Editor';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '@components/common/Area';
-import { get } from '@evershop/evershop/src/lib/util/get';
-import { Field } from '@components/common/form/Field';
-import { Card } from '@components/admin/cms/Card';
-import CategoryTree from '@components/admin/catalog/productEdit/category/CategoryTree';
-import Editor from '@components/common/form/fields/Editor';
+import { get } from '../../../../../lib/util/get.js';
+
 
 function ParentCategory({ currentId, parent }) {
   const [selecting, setSelecting] = React.useState(false);
@@ -150,7 +151,6 @@ export default function General({
     }
   ].map((f) => {
     if (get(category, `${f.props.id}`) !== undefined) {
-      // eslint-disable-next-line no-param-reassign
       f.props.value = get(category, `${f.props.id}`);
     }
     return f;
@@ -180,7 +180,7 @@ General.propTypes = {
           PropTypes.shape({
             id: PropTypes.string.isRequired,
             size: PropTypes.number.isRequired,
-            // eslint-disable-next-line react/forbid-prop-types
+
             data: PropTypes.object.isRequired
           })
         )

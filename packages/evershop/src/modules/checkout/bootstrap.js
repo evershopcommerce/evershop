@@ -1,20 +1,13 @@
-const { error } = require('../../lib/log/logger');
-const { addProcessor, addFinalProcessor } = require('../../lib/util/registry');
-const { sortFields } = require('./services/cart/sortFields');
-const {
-  registerCartBaseFields
-} = require('./services/cart/registerCartBaseFields');
+import { error } from '../../lib/log/logger.js';
+import { pool } from '../../lib/postgres/connection.js';
+import { merge } from '../../lib/util/merge.js';
+import { addFinalProcessor, addProcessor } from '../../lib/util/registry.js';
+import { getProductsBaseQuery } from '../../modules/catalog/services/getProductsBaseQuery.js';
+import { registerCartBaseFields } from '../../modules/checkout/services/cart/registerCartBaseFields.js';
+import { registerCartItemBaseFields } from '../../modules/checkout/services/cart/registerCartItemBaseFields.js';
+import { sortFields } from '../../modules/checkout/services/cart/sortFields.js';
 
-const {
-  registerCartItemBaseFields
-} = require('./services/cart/registerCartItemBaseFields');
-const {
-  getProductsBaseQuery
-} = require('../catalog/services/getProductsBaseQuery');
-const { pool } = require('../../lib/postgres/connection');
-const { merge } = require('../../lib/util/merge');
-
-module.exports = () => {
+export default () => {
   addProcessor('cartFields', registerCartBaseFields, 0);
 
   addProcessor('cartItemFields', registerCartItemBaseFields, 0);
@@ -45,7 +38,7 @@ module.exports = () => {
     return product;
   });
 
-  addProcessor('configuratonSchema', (schema) => {
+  addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
         checkout: {

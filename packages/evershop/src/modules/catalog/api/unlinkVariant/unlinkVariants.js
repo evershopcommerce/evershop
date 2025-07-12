@@ -1,14 +1,8 @@
-const { update } = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  INTERNAL_SERVER_ERROR,
-  OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
+import { update } from '@evershop/postgres-query-builder';
+import { getConnection } from '../../../../lib/postgres/connection.js';
+import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const connection = await getConnection();
   try {
     await update('product')

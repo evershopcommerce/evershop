@@ -1,11 +1,9 @@
-const uniqid = require('uniqid');
-const { value } = require('@evershop/postgres-query-builder');
-const {
-  OPERATION_MAP
-} = require('@evershop/evershop/src/lib/util/filterOperationMapp');
-const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
+import { value } from '@evershop/postgres-query-builder';
+import uniqid from 'uniqid';
+import { OPERATION_MAP } from '../../../lib/util/filterOperationMap.js';
+import { getValueSync } from '../../../lib/util/registry.js';
 
-module.exports = async function registerDefaultProductCollectionFilters() {
+export default async function registerDefaultProductCollectionFilters() {
   // List of default supported filters
   const defaultFilters = [
     {
@@ -216,4 +214,4 @@ module.exports = async function registerDefaultProductCollectionFilters() {
   });
 
   return defaultFilters;
-};
+}

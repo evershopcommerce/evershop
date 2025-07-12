@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+
+import Area from '@components/common/Area';
 import EmailIcon from '@heroicons/react/outline/MailIcon';
 import User from '@heroicons/react/outline/UserIcon';
-import Area from '@components/common/Area';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function AccountDetails({ account }) {
   return (

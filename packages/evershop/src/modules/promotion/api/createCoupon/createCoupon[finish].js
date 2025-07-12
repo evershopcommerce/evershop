@@ -1,7 +1,6 @@
-const createCoupon = require('../../services/coupon/createCoupon');
+import createCoupon from '../../services/coupon/createCoupon.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate) => {
+export default async (request, response) => {
   const coupon = await createCoupon(request.body, {
     routeId: request.currentRoute.id
   });

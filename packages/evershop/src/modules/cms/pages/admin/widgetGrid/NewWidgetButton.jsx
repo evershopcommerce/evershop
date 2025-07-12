@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import WidgetTypes from '@components/admin/cms/widget/WidgetTypes';
 import Button from '@components/common/form/Button';
 import { useAlertContext } from '@components/common/modal/Alert';
-import WidgetTypes from '@components/admin/cms/widget/WidgetTypes';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function NewWidgetButton({ widgetTypes }) {
   const { openAlert, closeAlert } = useAlertContext();

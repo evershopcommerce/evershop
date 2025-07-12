@@ -1,6 +1,7 @@
+
+import Icon from '@heroicons/react/outline/UserIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from '@heroicons/react/outline/UserIcon';
 
 export default function UserIcon({ customer, accountUrl, loginUrl }) {
   return (

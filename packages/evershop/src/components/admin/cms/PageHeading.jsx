@@ -1,6 +1,6 @@
+import Area from '@components/common/Area';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '@components/common/Area';
 import './PageHeading.scss';
 
 function BreadcrumbIcon({ backUrl }) {

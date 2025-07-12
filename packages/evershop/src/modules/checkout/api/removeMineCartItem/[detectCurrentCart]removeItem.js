@@ -1,16 +1,14 @@
-const {
+import { translate } from '../../../../lib/locale/translate/translate.js';
+import {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const { getContextValue } = require('../../../graphql/services/contextHelper');
-const { saveCart } = require('../../services/saveCart');
-const { getCartByUUID } = require('../../services/getCartByUUID');
+} from '../../../../lib/util/httpStatus.js';
+import { getContextValue } from '../../../graphql/services/contextHelper.js';
+import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { saveCart } from '../../services/saveCart.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const cartId = getContextValue(request, 'cartId');
     const { item_id } = request.params;

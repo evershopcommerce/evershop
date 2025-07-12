@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
 import {
   useCheckout,
   useCheckoutDispatch
 } from '@components/common/context/checkout';
-import PaypalLogo from '@components/frontStore/paypal/PaypalLogo';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import RenderIfTrue from '@components/common/RenderIfTrue';
+import PaypalLogo from '@components/frontStore/paypal/PaypalLogo';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export function Paypal({ createOrderAPI, orderId, orderPlaced }) {
   const [error, setError] = useState('');

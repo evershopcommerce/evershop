@@ -1,14 +1,8 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
 
-/* eslint-disable no-unused-vars */
-module.exports = async function lifetimeSales(
-  request,
-  response,
-  delegate,
-  next
-) {
+export default async (request, response, next) => {
   const query = select();
   query
     .from('order')

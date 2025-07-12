@@ -1,7 +1,6 @@
-const updateProduct = require('../../services/product/updateProduct');
+import updateProduct from '../../services/product/updateProduct.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate) => {
+export default async (request, response) => {
   const product = await updateProduct(request.params.id, request.body, {
     routeId: request.currentRoute.id
   });

@@ -1,0 +1,10 @@
+type Foo {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type Query {
+  foo(id: ID!): Foo
+  foos: [Foo!]!
+}

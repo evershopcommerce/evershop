@@ -1,7 +1,4 @@
-const { addRoute } = require('./Router');
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+import { addRoute } from './Router.js';
 
 /**
  * Register a frontStore route
@@ -11,7 +8,7 @@ module.exports = exports = {};
  * @param   {string}  path    The path of route
  *
  */
-exports.registerFrontStoreRoute = (
+export function registerFrontStoreRoute(
   id,
   method,
   path,
@@ -20,7 +17,7 @@ exports.registerFrontStoreRoute = (
   folder = '',
   payloadSchema = null,
   access = 'private'
-) => {
+) {
   // const route = validateRoute(id, method, path);
   const route = {
     id: String(id),
@@ -34,4 +31,4 @@ exports.registerFrontStoreRoute = (
   route.folder = folder;
   route.name = name;
   addRoute(route);
-};
+}

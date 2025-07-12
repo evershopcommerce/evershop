@@ -1,11 +1,9 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-const staticMiddleware = require('serve-static');
-const { normalize, join } = require('path');
-const { existsSync } = require('fs');
-const { CONSTANTS } = require('../helpers');
+import { existsSync } from 'fs';
+import { join, normalize } from 'path';
+import staticMiddleware from 'serve-static';
+import { CONSTANTS } from '../helpers.js';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = (request, response, next) => {
+export default (request, response, next) => {
   let path;
   if (request.isAdmin === true) {
     path = normalize(request.originalUrl.replace('/admin/assets/', ''));

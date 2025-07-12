@@ -1,9 +1,9 @@
+import { useAppDispatch } from '@components/common/context/app';
+import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { useAppDispatch } from '@components/common/context/app';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
-import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 import { ItemOptions } from './ItemOptions';
 import { ItemVariantOptions } from './ItemVariantOptions';
 import './Items.scss';

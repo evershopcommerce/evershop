@@ -1,6 +1,6 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 
-module.exports = {
+export default {
   Query: {
     url: (root, { routeId, params = [] }, { homeUrl }) => {
       const queries = [];

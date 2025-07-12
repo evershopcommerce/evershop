@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Card } from '@components/admin/cms/Card';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { Rates } from './Rates';
 
 function TaxClass({ taxClass, getTaxClasses }) {

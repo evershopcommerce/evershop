@@ -1,12 +1,12 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+import { VariantType } from '@components/admin/catalog/productEdit/variants/VariantType';
+import { useAppState } from '@components/common/context/app';
+import { Input } from '@components/common/form/fields/Input';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import uniqid from 'uniqid';
-import { Input } from '@components/common/form/fields/Input';
-import { useAppState } from '@components/common/context/app';
-import { get } from '@evershop/evershop/src/lib/util/get';
-import { VariantType } from '@components/admin/catalog/productEdit/variants/VariantType';
+import { get } from '../../../../../lib/util/get.js';
+
 
 export function SearchModal({ keyword, variants, addVariant, searchAPI }) {
   const [potentialVariants, setPotentialVariants] = React.useState([]);
@@ -122,7 +122,10 @@ export function SearchModal({ keyword, variants, addVariant, searchAPI }) {
             <table className="listing">
               <tbody>
                 {potentialVariants.map((v) => (
-                  <tr className={v.selected === true ? 'selected' : ''}>
+                  <tr
+                    className={v.selected === true ? 'selected' : ''}
+                    key={v.variant_product_id}
+                  >
                     <td>{v.image.url && <img src={v.image.url} alt="" />}</td>
                     <td>
                       <a

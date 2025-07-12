@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 export default function PaypalLogo({ width = 100, height = 30 }) {
   return (
     <img

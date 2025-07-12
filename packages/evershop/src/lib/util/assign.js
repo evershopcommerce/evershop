@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /**
  * This function take 2 objects and merge the second one to the first one
  *
@@ -6,7 +5,7 @@
  * @param   {object}  data    The object to be merged
  *
  */
-function assign(object, data) {
+export function assign(object, data) {
   if (typeof object !== 'object' || object === null) {
     throw new Error('`object` must be an object');
   }
@@ -34,6 +33,3 @@ function assign(object, data) {
     }
   });
 }
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = { assign };

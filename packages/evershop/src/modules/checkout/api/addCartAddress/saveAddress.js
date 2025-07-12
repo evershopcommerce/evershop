@@ -1,19 +1,15 @@
-/* eslint-disable camelcase */
-const { insert, select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
+import { insert, select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../lib/postgres/connection.js';
+import {
+  INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD,
-  OK,
-  INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getCartByUUID } = require('../../services/getCartByUUID');
-const { saveCart } = require('../../services/saveCart');
-const {
-  validateAddress
-} = require('../../../customer/services/customer/address/addressValidator');
+  OK
+} from '../../../../lib/util/httpStatus.js';
+import { validateAddress } from '../../../customer/services/customer/address/addressValidators.js';
+import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { saveCart } from '../../services/saveCart.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { cart_id } = request.params;
     const { address, type } = request.body;
@@ -30,7 +26,16 @@ module.exports = async (request, response, delegate, next) => {
     }
     // Use shipping address as a billing address
     // Validate address
-    validateAddress(address);
+    const validationResult = validateAddress(address);
+    if (!validationResult.valid) {
+      response.status(INVALID_PAYLOAD);
+      return response.json({
+        error: {
+          status: INVALID_PAYLOAD,
+          message: validationResult.errors[0]
+        }
+      });
+    }
     // Save billing address
     const result = await insert('cart_address').given(address).execute(pool);
 

@@ -1,8 +1,9 @@
+import Error from '@components/common/form/fields/Error';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Error from '@components/common/form/fields/Error';
+
 import '../Field.scss';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '../../../../lib/locale/translate/_.js';
 
 const Select = React.forwardRef((props, ref) => {
   const {
@@ -47,14 +48,11 @@ const Select = React.forwardRef((props, ref) => {
             {placeholder || _('Please select')}
           </option>
           {options &&
-            options.map(
-              // eslint-disable-next-line react/no-array-index-key
-              (option, key) => (
-                <option key={key} value={option.value}>
-                  {option.text}
-                </option>
-              )
-            )}
+            options.map((option, key) => (
+              <option key={key} value={option.value}>
+                {option.text}
+              </option>
+            ))}
         </select>
         <div className="field-border" />
         <div className="field-suffix">

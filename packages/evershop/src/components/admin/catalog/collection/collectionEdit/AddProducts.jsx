@@ -1,7 +1,7 @@
+import ProductSkuSelector from '@components/admin/promotion/couponEdit/ProductSkuSelector';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import ProductSkuSelector from '@components/admin/promotion/couponEdit/ProductSkuSelector';
 
 function AddProducts({ addProductApi, addedProductIDs, closeModal }) {
   const [addedProducts, setAddedProducts] = React.useState(addedProductIDs);
@@ -30,7 +30,6 @@ function AddProducts({ addProductApi, addedProductIDs, closeModal }) {
       onSelect={addProduct}
       closeModal={closeModal}
       selectedChecker={(product) =>
-        // eslint-disable-next-line eqeqeq
         addedProducts.find((p) => p == product.productId)
       }
       onUnSelect={() => {}}

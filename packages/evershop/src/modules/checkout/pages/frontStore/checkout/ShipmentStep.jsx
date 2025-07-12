@@ -1,12 +1,11 @@
-/* eslint-disable no-param-reassign */
-import PropTypes from 'prop-types';
-import React from 'react';
 import {
   useCheckoutSteps,
   useCheckoutStepsDispatch
 } from '@components/common/context/checkoutSteps';
 import { StepContent } from '@components/frontStore/checkout/checkout/shipment/StepContent';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export default function ShipmentStep({
   account,
@@ -15,8 +14,7 @@ export default function ShipmentStep({
     shippingMethod,
     addShippingMethodApi,
     addShippingAddressApi
-  },
-  setting: { customerAddressSchema }
+  }
 }) {
   const steps = useCheckoutSteps();
   const [shipmentInfo, setShipmentInfo] = React.useState({
@@ -56,7 +54,6 @@ export default function ShipmentStep({
         setShipmentInfo={setShipmentInfo}
         addShippingAddressApi={addShippingAddressApi}
         addShippingMethodApi={addShippingMethodApi}
-        customerAddressSchema={customerAddressSchema}
         addresses={account?.addresses || []}
       />
     </div>
@@ -98,10 +95,6 @@ ShipmentStep.propTypes = {
     shippingMethodName: PropTypes.string,
     addShippingMethodApi: PropTypes.string,
     addShippingAddressApi: PropTypes.string
-  }).isRequired,
-  setting: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
-    customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
 };
 
@@ -159,9 +152,6 @@ export const query = `
       }
       addShippingAddressApi: addAddressApi
       addShippingMethodApi
-    }
-    setting {
-      customerAddressSchema
     }
   }
 `;

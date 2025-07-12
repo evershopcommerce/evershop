@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import './RegisterForm.scss';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 import Area from '@components/common/Area';
 
 export default function RegisterForm({ action, homeUrl, loginApi, loginUrl }) {

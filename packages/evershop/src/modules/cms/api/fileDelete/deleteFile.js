@@ -1,8 +1,7 @@
-const { OK } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { deleteFile } = require('../../services/deleteFile');
+import { OK } from '../../../../lib/util/httpStatus.js';
+import { deleteFile } from '../../services/deleteFile.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const path = request.params[0] || '';
   await deleteFile(path);
   response.status(OK).json({

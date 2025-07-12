@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
-import { get } from '@evershop/evershop/src/lib/util/get';
 import { BuyXGetY } from '@components/admin/promotion/couponEdit/BuyXGetY';
 import { TargetProducts } from '@components/admin/promotion/couponEdit/TargetProducts';
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { get } from '../../../../../lib/util/get.js';
+
 
 export default function DiscountType({ coupon = {} }) {
   const targetProducts = get(coupon, 'targetProducts', {});

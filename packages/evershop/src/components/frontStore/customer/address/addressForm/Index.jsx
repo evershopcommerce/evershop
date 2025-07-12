@@ -1,8 +1,8 @@
+import { CustomerAddressForm } from '@components/frontStore/customer/address/addressForm/AddressForm';
+import { AddressFormLoadingSkeleton } from '@components/frontStore/customer/address/addressForm/AddressFormLoadingSkeleton';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useQuery } from 'urql';
-import { CustomerAddressForm } from '@components/frontStore/customer/address/addressForm/AddressForm';
-import { AddressFormLoadingSkeleton } from '@components/frontStore/customer/address/addressForm/AddressFormLoadingSkeleton';
 
 const CountriesQuery = `
   query Country {
@@ -20,8 +20,7 @@ const CountriesQuery = `
 export default function Index({
   address = {},
   formId = 'customerAddressForm',
-  areaId = 'customerAddressForm',
-  customerAddressSchema
+  areaId = 'customerAddressForm'
 }) {
   const [result] = useQuery({
     query: CountriesQuery
@@ -45,7 +44,6 @@ export default function Index({
       formId={formId}
       areaId={areaId}
       allowCountries={data.allowedCountries}
-      customerAddressSchema={customerAddressSchema}
     />
   );
 }
@@ -65,9 +63,7 @@ Index.propTypes = {
     telephone: PropTypes.string
   }),
   areaId: PropTypes.string,
-  formId: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
-  customerAddressSchema: PropTypes.object.isRequired
+  formId: PropTypes.string
 };
 
 Index.defaultProps = {

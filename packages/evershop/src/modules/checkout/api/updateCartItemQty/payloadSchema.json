@@ -3,7 +3,7 @@
   "properties": {
     "action": {
       "type": "string",
-      "enum": ["increase", "decrease"] 
+      "enum": ["increase", "decrease"]
     },
     "qty": {
       "type": ["string", "integer"],

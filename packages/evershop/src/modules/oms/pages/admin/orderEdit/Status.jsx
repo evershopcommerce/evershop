@@ -1,6 +1,6 @@
+import Badge from '@components/common/Badge';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Badge from '@components/common/Badge';
 
 export default function Status({ order: { status } }) {
   if (status) {

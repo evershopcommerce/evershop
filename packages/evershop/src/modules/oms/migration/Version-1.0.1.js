@@ -1,9 +1,8 @@
-const { execute, select } = require('@evershop/postgres-query-builder');
-const { warning } = require('@evershop/evershop/src/lib/log/logger');
-const { resolveOrderStatus } = require('../services/updateOrderStatus');
+import { execute, select } from '@evershop/postgres-query-builder';
+import { warning } from '../../../lib/log/logger.js';
+import { resolveOrderStatus } from '../services/updateOrderStatus.js';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   await execute(
     connection,
     `ALTER TABLE "order" ADD COLUMN IF NOT EXISTS "status" varchar DEFAULT NULL;`
@@ -11,7 +10,7 @@ module.exports = exports = async (connection) => {
 
   // Mapping the order status for legacy orders
   const orders = await select().from('order').execute(connection);
-  // eslint-disable-next-line no-restricted-syntax
+
   for (const order of orders) {
     try {
       const status = resolveOrderStatus(

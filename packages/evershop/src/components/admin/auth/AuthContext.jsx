@@ -1,8 +1,8 @@
-import React from 'react';
-import { createClient, Provider } from 'urql';
 import Area from '@components/common/Area';
 import { useAppState } from '@components/common/context/app';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import React from 'react';
+import { createClient, Provider } from 'urql';
+import { get } from '../../../lib/util/get.js';
 
 const AuthContext = React.createContext();
 

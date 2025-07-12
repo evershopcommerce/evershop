@@ -1,7 +1,7 @@
+import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
+import Icon from '@heroicons/react/solid/esm/CubeIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from '@heroicons/react/solid/esm/CubeIcon';
-import NavigationItemGroup from '@components/admin/cms/NavigationItemGroup';
 
 export default function OmsMenuGroup({ orderGrid }) {
   return (

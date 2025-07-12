@@ -1,7 +1,6 @@
-const { execute } = require('@evershop/postgres-query-builder');
+import { execute } from '@evershop/postgres-query-builder';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   // Drop the layout column in the cms_page table
   await execute(connection, `ALTER TABLE cms_page DROP COLUMN layout`);
 
@@ -19,11 +18,11 @@ module.exports = exports = async (connection) => {
       menus: [
         {
           id: 'hanhk3km0m8nt2b',
-          // eslint-disable-next-line no-script-url
+
           url: 'javascript:void(0)',
           name: 'Shop ❤️',
           type: 'custom',
-          // eslint-disable-next-line no-script-url
+
           uuid: 'javascript:void(0)',
           children: [
             {

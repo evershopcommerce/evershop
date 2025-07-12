@@ -1,15 +1,15 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WebpackBar = require('webpackbar');
-const { createBaseConfig } = require('../createBaseConfig');
-const { getRouteBuildPath } = require('../getRouteBuildPath');
-const { getRouteBuildSubPath } = require('../getRouteBuildSubPath');
-const { isBuildRequired } = require('../isBuildRequired');
-const { CONSTANTS } = require('../../helpers');
-const { Tailwindcss } = require('../plugins/Tailwindcss');
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import WebpackBar from 'webpackbar';
+import { CONSTANTS } from '../../helpers.js';
+import { createBaseConfig } from '../createBaseConfig.js';
+import { getRouteBuildPath } from '../getRouteBuildPath.js';
+import { getRouteBuildSubPath } from '../getRouteBuildSubPath.js';
+import { isBuildRequired } from '../isBuildRequired.js';
+import { Tailwindcss } from '../plugins/Tailwindcss.js';
 
-module.exports.createConfigClient = function createConfigClient(routes) {
+export function createConfigClient(routes) {
   const config = createBaseConfig(false);
   const { plugins } = config;
   const entry = {};
@@ -19,7 +19,7 @@ module.exports.createConfigClient = function createConfigClient(routes) {
     }
     const subPath = getRouteBuildSubPath(route);
     entry[subPath] = [
-      path.resolve(CONSTANTS.BUILDPATH, subPath, 'client', 'entry.jsx')
+      path.resolve(CONSTANTS.BUILDPATH, subPath, 'client', 'entry.js')
     ];
     plugins.push(
       new HtmlWebpackPlugin({
@@ -67,7 +67,7 @@ module.exports.createConfigClient = function createConfigClient(routes) {
       {
         loader: 'sass-loader',
         options: {
-          implementation: require('sass'),
+          sassOptions: { implementation: 'sass' },
           api: 'modern'
         }
       }
@@ -80,22 +80,10 @@ module.exports.createConfigClient = function createConfigClient(routes) {
       filename: '[name]/client/[fullhash].css'
     })
   );
-  // plugins.push(new HtmlWebpackPlugin({
-  //   filename: 'index.json',
-  //   templateContent: ({ htmlWebpackPlugin }) => {
-  //     const isFiles = htmlWebpackPlugin.files.js;
-  //     const cssFiles = htmlWebpackPlugin.files.css;
-  //     return JSON.stringify({
-  //       js: isFiles,
-  //       css: cssFiles
-  //     });
-  //   },
-  //   inject: false
-  // }));
 
   config.entry = entry;
   config.output.filename = '[name]/client/[fullhash].js';
   config.name = 'Client';
 
   return config;
-};
+}

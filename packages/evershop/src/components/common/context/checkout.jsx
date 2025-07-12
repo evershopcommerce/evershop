@@ -1,7 +1,7 @@
+import { useCheckoutSteps } from '@components/common/context/checkoutSteps';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
-import axios from 'axios';
-import { useCheckoutSteps } from '@components/common/context/checkoutSteps';
 
 const Checkout = React.createContext();
 const CheckoutDispatch = React.createContext();

@@ -1,3 +1,3 @@
-const apiErrorHandler = require('../../../../../../../../modules/base/api/global/[apiResponse]apiErrorHandler');
+import apiErrorHandler from '../../../../../../../../modules/base/api/global/[apiResponse]apiErrorHandler.js';
 
-module.exports = apiErrorHandler;
+export default apiErrorHandler;

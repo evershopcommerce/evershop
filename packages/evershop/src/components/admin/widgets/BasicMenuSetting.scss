@@ -1,4 +1,4 @@
-.menu__container>* {
+.menu__container > * {
   margin-top: 10px;
 }
 
@@ -14,6 +14,6 @@
   color: var(--divider);
 }
 
-.menu__container .draggable-source--is-dragging>* {
+.menu__container .draggable-source--is-dragging > * {
   visibility: hidden;
 }

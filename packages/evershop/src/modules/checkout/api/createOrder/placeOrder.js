@@ -1,18 +1,16 @@
-/* eslint-disable camelcase */
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const {
-  INVALID_PAYLOAD,
+import { select } from '@evershop/postgres-query-builder';
+import { error } from '../../../../lib/log/logger.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import {
   INTERNAL_SERVER_ERROR,
+  INVALID_PAYLOAD,
   OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { getCartByUUID } = require('../../services/getCartByUUID');
-const { createOrder } = require('../../services/orderCreator');
+} from '../../../../lib/util/httpStatus.js';
+import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { createOrder } from '../../services/orderCreator.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { cart_id } = request.body;
     // Verify cart

@@ -1,21 +1,18 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { v4: uuidv4 } = require('uuid');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { select } = require('@evershop/postgres-query-builder');
-const { default: axios } = require('axios');
-const normalizePort = require('@evershop/evershop/bin/lib/normalizePort');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { getTaxPercent } = require('../../../tax/services/getTaxPercent');
-const {
-  calculateTaxAmount
-} = require('../../../tax/services/calculateTaxAmount');
-const { toPrice } = require('../toPrice');
-const { getSetting } = require('../../../setting/services/setting');
-const { getTaxRates } = require('../../../tax/services/getTaxRates');
+import { select } from '@evershop/postgres-query-builder';
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import { normalizePort } from '../../../../bin/lib/normalizePort.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
+import { getSetting } from '../../../../modules/setting/services/setting.js';
+import { calculateTaxAmount } from '../../../../modules/tax/services/calculateTaxAmount.js';
+import { getTaxPercent } from '../../../../modules/tax/services/getTaxPercent.js';
+import { getTaxRates } from '../../../../modules/tax/services/getTaxRates.js';
+import { getAvailablePaymentMethods } from '../getAvailablePaymentMethos.js';
+import { toPrice } from '../toPrice.js';
 
-module.exports.registerCartBaseFields = function registerCartBaseFields(
-  fields
-) {
+export function registerCartBaseFields(fields) {
   const newFields = fields.concat([
     {
       key: 'cart_id',
@@ -629,10 +626,26 @@ module.exports.registerCartBaseFields = function registerCartBaseFields(
       key: 'payment_method',
       resolvers: [
         async function resolver(paymentMethod) {
-          this.setError('payment_method', 'Payment method is required');
-          return paymentMethod;
-          // Each payment method should handle this field
-          // by returning the payment method code and remove this error if the payment method is valid
+          const methods = await getAvailablePaymentMethods();
+          if (
+            paymentMethod &&
+            methods.map((m) => m.methodCode).includes(paymentMethod)
+          ) {
+            this.setError('payment_method', undefined);
+            return paymentMethod;
+          } else if (
+            paymentMethod &&
+            !methods.map((m) => m.methodCode).includes(paymentMethod)
+          ) {
+            this.setError(
+              'payment_method',
+              `Payment method ${paymentMethod} is not available`
+            );
+            return null;
+          } else if (paymentMethod === null) {
+            this.setError('payment_method', 'Payment method is required');
+            return null;
+          }
         }
       ]
     },
@@ -672,4 +685,4 @@ module.exports.registerCartBaseFields = function registerCartBaseFields(
     }
   ]);
   return newFields;
-};
+}

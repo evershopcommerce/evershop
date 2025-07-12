@@ -1,23 +1,21 @@
-const { select } = require('@evershop/postgres-query-builder');
-const {
-  INVALID_PAYLOAD,
+import { select } from '@evershop/postgres-query-builder';
+import { translate } from '../../../../lib/locale/translate/translate.js';
+import { error } from '../../../../lib/log/logger.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import {
   INTERNAL_SERVER_ERROR,
+  INVALID_PAYLOAD,
   OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const {
-  setContextValue,
-  getContextValue
-} = require('../../../graphql/services/contextHelper');
-const { getCartByUUID } = require('../../services/getCartByUUID');
-const { saveCart } = require('../../services/saveCart');
-const { createNewCart } = require('../../services/createNewCart');
+} from '../../../../lib/util/httpStatus.js';
+import {
+  getContextValue,
+  setContextValue
+} from '../../../graphql/services/contextHelper.js';
+import { createNewCart } from '../../services/createNewCart.js';
+import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { saveCart } from '../../services/saveCart.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     let cartId = getContextValue(request, 'cartId');
     let cart;
@@ -60,7 +58,7 @@ module.exports = async (request, response, delegate, next) => {
     response.$body = {
       data: {
         item: item.export(),
-        count: cart.getItems().length,
+        count: cart.getData('total_qty'),
         cartId: cart.getData('uuid')
       }
     };

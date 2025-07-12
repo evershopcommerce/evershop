@@ -1,3 +1,4 @@
-const { select } = require('@evershop/postgres-query-builder');
+import { select } from '@evershop/postgres-query-builder';
 
-module.exports.getAttributeGroupsBaseQuery = () => select().from('attribute_group');
+export const getAttributeGroupsBaseQuery = () =>
+  select().from('attribute_group');

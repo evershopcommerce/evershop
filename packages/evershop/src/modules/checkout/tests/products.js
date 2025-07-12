@@ -1,4 +1,4 @@
-const products = [
+export const products = [
   {
     product_id: 1,
     name: 'Product 1',
@@ -63,5 +63,3 @@ const products = [
     tax_class: 1
   }
 ];
-
-module.exports.products = products;

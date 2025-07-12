@@ -1,3 +1,3 @@
-const uploadMiddleware = require('../fileUpload/[multerFile]upload');
+import uploadMiddleware from '../fileUpload/[multerFile]upload.js';
 
-module.exports = uploadMiddleware;
+export default uploadMiddleware;

@@ -1,6 +1,6 @@
-const path = require('path');
+import path from 'path';
 
-module.exports.generateFileName = (originalname) => {
+export const generateFileName = (originalname) => {
   const extension = path.extname(originalname);
   const name = path.basename(originalname, extension);
   // Replace special characters and white spaces with a -

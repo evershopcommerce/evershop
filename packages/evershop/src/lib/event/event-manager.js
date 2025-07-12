@@ -1,15 +1,13 @@
-const { select, del } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  loadBootstrapScript
-} = require('@evershop/evershop/bin/lib/bootstrap/bootstrap');
-const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
-const { getEnabledExtensions } = require('@evershop/evershop/bin/extension');
-const { callSubscribers } = require('./callSubscibers');
-const { loadSubscribers } = require('./loadSubscribers');
-const { error } = require('../log/logger');
-const { lockHooks } = require('../util/hookable');
-const { lockRegistry } = require('../util/registry');
+import { del, select } from '@evershop/postgres-query-builder';
+import { getEnabledExtensions } from '../../bin/extension/index.js';
+import { loadBootstrapScript } from '../../bin/lib/bootstrap/bootstrap.js';
+import { getCoreModules } from '../../bin/lib/loadModules.js';
+import { pool } from '../../lib/postgres/connection.js';
+import { debug, error } from '../log/logger.js';
+import { lockHooks } from '../util/hookable.js';
+import { lockRegistry } from '../util/registry.js';
+import { callSubscribers } from './callSubscibers.js';
+import { loadSubscribers } from './loadSubscribers.js';
 
 const loadEventInterval = 10000;
 const syncEventInterval = 2000;
@@ -17,14 +15,16 @@ const maxEvents = 10;
 let events = [];
 // Get the modules from the arguments
 const modules = [...getCoreModules(), ...getEnabledExtensions()];
-const subscribers = loadSubscribers(modules);
+const subscribers = await loadSubscribers(modules);
 
 const init = async () => {
   /** Loading bootstrap script from modules */
   try {
-    // eslint-disable-next-line no-restricted-syntax
     for (const module of modules) {
-      await loadBootstrapScript(module);
+      await loadBootstrapScript(module, {
+        ...JSON.parse(process.env.bootstrapContext || '{}'),
+        process: 'event'
+      });
     }
     lockHooks();
     lockRegistry();
@@ -97,7 +97,6 @@ async function syncEvents() {
 }
 
 async function executeSubscribers(event) {
-  // eslint-disable-next-line no-param-reassign
   event.status = 'processing';
   const eventData = event.data;
   // get subscribers for the event
@@ -106,8 +105,30 @@ async function executeSubscribers(event) {
     .map((subscriber) => subscriber.subscriber);
   // Call subscribers
   await callSubscribers(matchingSubscribers, eventData);
-  // eslint-disable-next-line no-param-reassign
+
   event.status = 'done';
 }
+
+process.on('SIGTERM', async () => {
+  debug('Event manager received SIGTERM, shutting down...');
+  try {
+    process.exit(0);
+  } catch (err) {
+    error('Error during shutdown:');
+    error(err);
+    process.exit(1); // Exit with an error code
+  }
+});
+
+process.on('SIGINT', async () => {
+  debug('Event manager received SIGINT, shutting down...');
+  try {
+    process.exit(0);
+  } catch (err) {
+    error('Error during shutdown:');
+    error(err);
+    process.exit(1); // Exit with an error code
+  }
+});
 
 init();

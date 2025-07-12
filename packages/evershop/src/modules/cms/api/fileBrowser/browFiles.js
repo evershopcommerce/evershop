@@ -1,8 +1,7 @@
-const { OK } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { browFiles } = require('../../services/browFiles');
+import { OK } from '../../../../lib/util/httpStatus.js';
+import { browFiles } from '../../services/browFiles.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const path = request.params[0] || '';
   const results = await browFiles(path);
   response.status(OK);

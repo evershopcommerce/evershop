@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   Setting: {
     defaultProductTaxClassId: (setting) => {
       const defaultProductTaxClassId = setting.find(

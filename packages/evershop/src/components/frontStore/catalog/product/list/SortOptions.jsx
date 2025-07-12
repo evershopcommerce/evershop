@@ -1,4 +1,4 @@
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 const options = [
   { code: 'price', name: _('Price') },

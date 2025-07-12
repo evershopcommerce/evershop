@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 const validator = {};
 const rules = {
   email: {
@@ -36,7 +35,6 @@ const rules = {
   },
   noSpecialChar: {
     handler(value) {
-      // eslint-disable-next-line no-useless-escape
       return !/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value);
     },
     errorMessage: 'No special character allowed'

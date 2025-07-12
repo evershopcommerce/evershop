@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Card } from '@components/admin/cms/Card';
-import { Field } from '@components/common/form/Field';
-import { Form } from '@components/common/form/Form';
-import Button from '@components/common/form/Button';
-import { Radio } from '@components/common/form/fields/Radio';
-import { Toggle } from '@components/common/form/fields/Toggle';
-import CreatableSelect from 'react-select/creatable';
-import Spinner from '@components/common/Spinner';
-import { useQuery } from 'urql';
-import { toast } from 'react-toastify';
 import PriceBasedPrice from '@components/admin/checkout/shippingSetting/PriceBasedPrice';
 import WeightBasedPrice from '@components/admin/checkout/shippingSetting/WeightBasedPrice';
+import { Card } from '@components/admin/cms/Card';
+import Button from '@components/common/form/Button';
+import { Field } from '@components/common/form/Field';
 import { Input } from '@components/common/form/fields/Input';
+import { Radio } from '@components/common/form/fields/Radio';
+import { Toggle } from '@components/common/form/fields/Toggle';
+import { Form } from '@components/common/form/Form';
+import Spinner from '@components/common/Spinner';
+import PropTypes from 'prop-types';
+import React from 'react';
+import CreatableSelect from 'react-select/creatable';
+import { toast } from 'react-toastify';
+import { useQuery } from 'urql';
 
 const MethodsQuery = `
   query Methods {

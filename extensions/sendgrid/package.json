@@ -1,0 +1,29 @@
+{
+  "name": "@evershop/sendgrid",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "A SendGrid extension for EverShop.",
+  "scripts": {
+    "compile": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evershopcommerce/evershop/tree/main/packages/sendgrid"
+  },
+  "keywords": [
+    "EverShop email",
+    "EverShop SendGrid"
+  ],
+  "author": "The Nguyen (https://evershop.io/)",
+  "license": "GNU GENERAL PUBLIC LICENSE 3.0",
+  "bugs": {
+    "url": "https://github.com/evershopcommerce/evershop/issues"
+  },
+  "homepage": "https://github.com/evershopcommerce/evershop/tree/main/packages/sendgrid",
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.4"
+  },
+  "engines": {
+    "node": ">= 14.0.0"
+  }
+}

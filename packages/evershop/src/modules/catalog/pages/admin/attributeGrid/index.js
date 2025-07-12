@@ -1,12 +1,7 @@
-const {
-  buildFilterFromUrl
-} = require('@evershop/evershop/src/lib/util/buildFilterFromUrl');
-const {
-  setContextValue
-} = require('../../../../graphql/services/contextHelper');
+import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = (request, response) => {
+export default (request, response) => {
   setContextValue(request, 'pageInfo', {
     title: 'Attributes',
     description: 'Attributes'

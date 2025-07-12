@@ -1,7 +1,7 @@
+import { Card } from '@components/admin/cms/Card';
+import Area from '@components/common/Area';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '@components/common/Area';
-import { Card } from '@components/admin/cms/Card';
 
 function Status({ status }) {
   return (
@@ -48,7 +48,6 @@ function Actions({ status, startShipUrl, completeShipUrl }) {
   const startShipment = (e) => {
     e.preventDefault();
     fetch(startShipUrl, false, 'GET', {}, null, () => {
-      // eslint-disable-next-line no-restricted-globals
       location.reload();
     });
   };
@@ -56,7 +55,6 @@ function Actions({ status, startShipUrl, completeShipUrl }) {
   const completeShipment = (e) => {
     e.preventDefault();
     fetch(completeShipUrl, false, 'GET', {}, null, () => {
-      // eslint-disable-next-line no-restricted-globals
       location.reload();
     });
   };

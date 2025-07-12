@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import Area from '@components/common/Area';
 import Button from '@components/common/form/Button';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
 import { Tax } from '@components/frontStore/checkout/checkout/summary/cart/Tax';
 import { Total } from '@components/frontStore/checkout/checkout/summary/cart/Total';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 function Subtotal({ subTotal }) {
   return (
@@ -96,7 +96,6 @@ function Summary({
               id: 'shoppingCartDiscount'
             },
             {
-              // eslint-disable-next-line react/no-unstable-nested-components
               component: {
                 default: priceIncludingTax ? () => null : Tax
               },
@@ -107,7 +106,6 @@ function Summary({
               id: 'tax'
             },
             {
-              // eslint-disable-next-line react/no-unstable-nested-components
               component: {
                 default: Total
               },

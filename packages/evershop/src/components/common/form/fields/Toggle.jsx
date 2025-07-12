@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
+import Error from '@components/common/form/fields/Error';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Error from '@components/common/form/fields/Error';
 import './Toggle.scss';
 
 function Enabled({ onClick }) {

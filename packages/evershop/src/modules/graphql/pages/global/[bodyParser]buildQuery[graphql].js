@@ -1,28 +1,21 @@
-const path = require('path');
-const JSON5 = require('json5');
-const uniqid = require('uniqid');
-const { readFileSync } = require('fs');
-const isDevelopmentMode = require('@evershop/evershop/src/lib/util/isDevelopmentMode');
-const isProductionMode = require('@evershop/evershop/src/lib/util/isProductionMode');
-const {
-  getRouteBuildPath
-} = require('@evershop/evershop/src/lib/webpack/getRouteBuildPath');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+import { readFileSync } from 'fs';
+import path from 'path';
+import JSON5 from 'json5';
+import uniqid from 'uniqid';
+import { CONSTANTS } from '../../../../lib/helpers.js';
+import { error } from '../../../../lib/log/logger.js';
+import { getRoutes } from '../../../../lib/router/Router.js';
+import { get } from '../../../../lib/util/get.js';
+import isDevelopmentMode from '../../../../lib/util/isDevelopmentMode.js';
+import isProductionMode from '../../../../lib/util/isProductionMode.js';
+import { getRouteBuildPath } from '../../../../lib/webpack/getRouteBuildPath.js';
+import { getEnabledWidgets } from '../../../../lib/widget/widgetManager.js';
+import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
+import { getContextValue } from '../../services/contextHelper.js';
 
-const {
-  getEnabledWidgets
-} = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
-const { get } = require('@evershop/evershop/src/lib/util/get');
-const {
-  loadWidgetInstances
-} = require('../../../cms/services/widget/loadWidgetInstances');
-// eslint-disable-next-line no-unused-vars
-const { getContextValue } = require('../../services/contextHelper');
-
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   let query;
+  getContextValue(request, 'dummy', null);
   if (isDevelopmentMode()) {
     let route;
     if (response.statusCode === 404) {
@@ -73,7 +66,7 @@ module.exports = async (request, response, delegate, next) => {
     query = query.replace(regex, (match, p1) => {
       const base64 = p1;
       const decoded = Buffer.from(base64, 'base64').toString('ascii');
-      // eslint-disable-next-line no-eval
+
       let value = eval(`getContextValue(request, ${decoded})`);
 
       // JSON sringify without adding double quotes to the property name
@@ -98,7 +91,7 @@ module.exports = async (request, response, delegate, next) => {
             (enabledWidget) => enabledWidget.type === widget.type
           );
           const componentPath = currentRoute?.isAdmin
-            ? widgetSpecs.setting_component
+            ? widgetSpecs.settingComponent
             : widgetSpecs.component;
           const componentKey = currentRoute?.isAdmin
             ? widgetSpecs.settingComponentKey
@@ -118,7 +111,6 @@ module.exports = async (request, response, delegate, next) => {
       const { propsMap } = json;
       let queryStr = '';
       let variables;
-
       if (applicableWidgets.length > 0) {
         applicableWidgets.forEach((widget) => {
           const widgetKey = widget.componentKey;
@@ -133,7 +125,7 @@ module.exports = async (request, response, delegate, next) => {
             const decoded = Buffer.from(base64, 'base64').toString('ascii');
             // Accept max 2 arguments from the decoded string, the fist one is the path to the setting object (a.b.c) and the second one is the default value
             // Get the actual value from the setting of the current widget
-            // eslint-disable-next-line
+
             const path = decoded.split(',')[0];
             const defaultValue = decoded.split(',')[1] || undefined;
             let value = get(widget.settings, path, defaultValue);
@@ -193,7 +185,7 @@ module.exports = async (request, response, delegate, next) => {
                     .toString('ascii')
                     .split(',')[0]
                     .replace(/['"]+/g, '');
-                  // eslint-disable-next-line no-eval
+
                   let actualValue;
                   if (!decoded.trim()) {
                     actualValue = widget.settings;
@@ -251,7 +243,6 @@ module.exports = async (request, response, delegate, next) => {
                   widget.settingComponentKey === key
               )
             ) {
-              // eslint-disable-next-line no-param-reassign
               acc += `\n${json.queries[key]} `;
             }
             return acc;
@@ -287,7 +278,6 @@ module.exports = async (request, response, delegate, next) => {
           ) {
             delete json.queries[key];
           } else {
-            // eslint-disable-next-line no-param-reassign
             acc += `\n${json.queries[key]} `;
           }
           return acc;
@@ -333,7 +323,7 @@ module.exports = async (request, response, delegate, next) => {
                 (match, p1) => p1
               );
               const decoded = Buffer.from(base64, 'base64').toString('ascii');
-              // eslint-disable-next-line no-eval
+
               const actualValue = eval(`getContextValue(request, ${decoded})`);
               variables.values[key] = actualValue;
             }

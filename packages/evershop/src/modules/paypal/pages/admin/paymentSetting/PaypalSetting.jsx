@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { Card } from '@components/admin/cms/Card';
 import { Field } from '@components/common/form/Field';
 import { Toggle } from '@components/common/form/fields/Toggle';
-import { Card } from '@components/admin/cms/Card';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function PaypalPayment({
   setting: {
     paypalPaymentStatus,
-    paypalDislayName,
+    paypalDisplayName,
     paypalClientId,
     paypalClientSecret,
     paypalEnvironment,
@@ -34,9 +34,9 @@ export default function PaypalPayment({
           <div className="col-span-2">
             <Field
               type="text"
-              name="paypalDislayName"
+              name="paypalDisplayName"
               placeholder="Dislay Name"
-              value={paypalDislayName}
+              value={paypalDisplayName}
             />
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function PaypalPayment({
 PaypalPayment.propTypes = {
   setting: PropTypes.shape({
     paypalPaymentStatus: PropTypes.number,
-    paypalDislayName: PropTypes.string,
+    paypalDisplayName: PropTypes.string,
     paypalClientId: PropTypes.string,
     paypalClientSecret: PropTypes.string,
     paypalEnvironment: PropTypes.string,
@@ -133,7 +133,7 @@ PaypalPayment.propTypes = {
 PaypalPayment.defaultProps = {
   setting: {
     paypalPaymentStatus: 0,
-    paypalDislayName: '',
+    paypalDisplayName: '',
     paypalClientId: '',
     paypalClientSecret: '',
     paypalEnvironment: '',
@@ -150,7 +150,7 @@ export const query = `
   query Query {
     setting {
       paypalPaymentStatus
-      paypalDislayName
+      paypalDisplayName
       paypalClientId
       paypalClientSecret
       paypalEnvironment

@@ -1,7 +1,7 @@
-const { DateTime } = require('luxon');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { DateTime } from 'luxon';
+import { getConfig } from '../../../../../lib/util/getConfig.js';
 
-module.exports = {
+export default {
   DateTime: {
     value: (dateTime) => dateTime,
     timezone: async () => {

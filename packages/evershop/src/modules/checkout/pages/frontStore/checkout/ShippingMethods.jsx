@@ -1,13 +1,13 @@
+import { useCheckout } from '@components/common/context/checkout';
+import { useCheckoutStepsDispatch } from '@components/common/context/checkoutSteps';
+import { Field } from '@components/common/form/Field';
+import { useFormContext } from '@components/common/form/Form';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import React from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useClient } from 'urql';
-import { useFormContext } from '@components/common/form/Form';
-import { Field } from '@components/common/form/Field';
-import { useCheckoutStepsDispatch } from '@components/common/context/checkoutSteps';
-import { useCheckout } from '@components/common/context/checkout';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 const QUERY = `
   query Query($cartId: String) {

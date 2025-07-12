@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useQuery } from 'urql';
-import { toast } from 'react-toastify';
-import { Field } from '@components/common/form/Field';
-import { Form } from '@components/common/form/Form';
 import { Card } from '@components/admin/cms/Card';
 import SettingMenu from '@components/admin/setting/SettingMenu';
 import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Form } from '@components/common/form/Form';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { toast } from 'react-toastify';
+import { useQuery } from 'urql';
 
 const ProvincesQuery = `
   query Province($countries: [String]) {
@@ -184,15 +184,17 @@ Currency.defaultProps = {
 };
 
 function StorePhoneNumber({ storePhoneNumber }) {
-  return <div>
-    <Field
-      name="storePhoneNumber"
-      label="Store Phone Number"
-      placeholder="Store Phone Number"
-      value={storePhoneNumber}
-      type="text"
-    />
-  </div>
+  return (
+    <div>
+      <Field
+        name="storePhoneNumber"
+        label="Store Phone Number"
+        placeholder="Store Phone Number"
+        value={storePhoneNumber}
+        type="text"
+      />
+    </div>
+  );
 }
 
 StorePhoneNumber.propTypes = {
@@ -204,15 +206,17 @@ StorePhoneNumber.defaultProps = {
 };
 
 function StoreEmail({ storeEmail }) {
-  return <div>
-    <Field
-      name="storeEmail"
-      label="Store Email"
-      placeholder="Store Email"
-      value={storeEmail}
-      type="text"
-    />
-  </div>
+  return (
+    <div>
+      <Field
+        name="storeEmail"
+        label="Store Email"
+        placeholder="Store Email"
+        value={storeEmail}
+        type="text"
+      />
+    </div>
+  );
 }
 
 StoreEmail.propTypes = {

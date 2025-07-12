@@ -1,6 +1,6 @@
-const { setContextValue } = require('../../services/contextHelper');
+import { setContextValue } from '../../services/contextHelper.js';
 
-module.exports = (request, response, delegate, next) => {
+export default (request, response, next) => {
   // The graphql API supposed to be public
   // We will remove user from the contex, if you want to use the user in the graphql API, you need to use the admin graphql API
   delete request.locals.user;

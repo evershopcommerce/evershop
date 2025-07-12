@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   Product: {
     inventory: async (product) => ({
       ...product,

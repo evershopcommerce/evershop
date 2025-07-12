@@ -1,8 +1,10 @@
+
+import { Card } from '@components/admin/cms/Card';
+import { useModal } from '@components/common/modal/useModal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useQuery } from 'urql';
-import { Card } from '@components/admin/cms/Card';
-import { useModal } from '@components/common/modal/useModal';
+
 import './Products.scss';
 import AddProducts from '@components/admin/catalog/collection/collectionEdit/AddProducts';
 import Spinner from '@components/common/Spinner';
@@ -192,7 +194,6 @@ export default function Products({ collection: { code, addProductApi } }) {
                 </div>
                 <div className="divide-y">
                   {data.collection.products.items.map((p) => (
-                    // eslint-disable-next-line react/no-array-index-key
                     <div
                       key={p.uuid}
                       className="grid grid-cols-8 gap-8 py-4 border-divider items-center"

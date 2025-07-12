@@ -1,10 +1,8 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  getProductsByCategoryBaseQuery
-} = require('./getProductsByCategoryBaseQuery');
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../lib/postgres/connection.js';
+import { getProductsByCategoryBaseQuery } from '../../../modules/catalog/services/getProductsByCategoryBaseQuery.js';
 
-module.exports.getFilterableAttributes = async (categoryId) => {
+export const getFilterableAttributes = async (categoryId) => {
   const productsQuery = await getProductsByCategoryBaseQuery(categoryId, true);
   productsQuery.select('product.product_id');
   // Get the list of productIds before applying pagination, sorting...etc
@@ -39,7 +37,7 @@ module.exports.getFilterableAttributes = async (categoryId) => {
   const attributeData = await query.execute(pool);
 
   const attributes = [];
-  // eslint-disable-next-line no-plusplus
+
   for (let i = 0; i < attributeData.length; i++) {
     const index = attributes.findIndex(
       (a) => a.attributeCode === attributeData[i].attribute_code
@@ -67,7 +65,6 @@ module.exports.getFilterableAttributes = async (categoryId) => {
           optionText: attributeData[i].option_text
         });
       } else {
-        // eslint-disable-next-line no-plusplus
         attributes[index].options[idx].productCount++;
       }
     }

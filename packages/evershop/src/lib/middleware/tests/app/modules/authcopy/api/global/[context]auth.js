@@ -1,3 +1,3 @@
-module.exports = (request, response) => {
+export default (request, response) => {
   // Do nothing
 };

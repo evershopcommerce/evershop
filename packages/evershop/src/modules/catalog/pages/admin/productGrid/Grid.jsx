@@ -1,23 +1,22 @@
-/* eslint-disable react/no-unstable-nested-components,no-nested-ternary */
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import axios from 'axios';
-import Area from '@components/common/Area';
-import Pagination from '@components/common/grid/Pagination';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { useAlertContext } from '@components/common/modal/Alert';
-import ProductNameRow from '@components/admin/catalog/productGrid/rows/ProductName';
-import StatusRow from '@components/common/grid/rows/StatusRow';
 import ProductPriceRow from '@components/admin/catalog/productGrid/rows/PriceRow';
-import BasicRow from '@components/common/grid/rows/BasicRow';
+import ProductNameRow from '@components/admin/catalog/productGrid/rows/ProductName';
+import QtyRow from '@components/admin/catalog/productGrid/rows/QtyRow';
 import ThumbnailRow from '@components/admin/catalog/productGrid/rows/ThumbnailRow';
 import { Card } from '@components/admin/cms/Card';
-import DummyColumnHeader from '@components/common/grid/headers/Dummy';
-import QtyRow from '@components/admin/catalog/productGrid/rows/QtyRow';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import { Form } from '@components/common/form/Form';
+import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { Form } from '@components/common/form/Form';
+import DummyColumnHeader from '@components/common/grid/headers/Dummy';
+import SortableHeader from '@components/common/grid/headers/Sortable';
+import Pagination from '@components/common/grid/Pagination';
+import BasicRow from '@components/common/grid/rows/BasicRow';
+import StatusRow from '@components/common/grid/rows/StatusRow';
 import Filter from '@components/common/list/Filter';
+import { useAlertContext } from '@components/common/modal/Alert';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 function Actions({ products = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -454,7 +453,6 @@ export default function ProductGrid({
                     sortOrder: 15
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: ({ areaProps }) => (
                         <BasicRow id="sku" areaProps={areaProps} />
@@ -463,14 +461,12 @@ export default function ProductGrid({
                     sortOrder: 20
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: () => <QtyRow qty={p.inventory?.qty} />
                     },
                     sortOrder: 25
                   },
                   {
-                    // eslint-disable-next-line react/no-unstable-nested-components
                     component: {
                       default: ({ areaProps }) => (
                         <StatusRow id="status" areaProps={areaProps} />

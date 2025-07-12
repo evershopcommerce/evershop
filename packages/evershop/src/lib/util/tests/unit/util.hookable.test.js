@@ -1,10 +1,11 @@
-const {
+import {
   hookable,
   hookBefore,
   getHooks,
   clearHooks,
   lockHooks
-} = require('../../hookable');
+} from '../../hookable.js';
+import { jest, describe, it, expect } from '@jest/globals';
 
 describe('hookBefore', () => {
   it('It should add before hook to the registry', () => {

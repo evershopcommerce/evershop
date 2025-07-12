@@ -1,3 +1,3 @@
-const validatePathMiddelware = require('../fileUpload/[context]validatePath[multerFile]');
+import validatePathMiddelware from '../fileUpload/[context]validatePath[multerFile].js';
 
-module.exports = validatePathMiddelware;
+export default validatePathMiddelware;

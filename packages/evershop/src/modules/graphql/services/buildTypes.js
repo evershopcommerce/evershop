@@ -1,12 +1,12 @@
-const path = require('path');
-const { loadFilesSync } = require('@graphql-tools/load-files');
-const { mergeTypeDefs } = require('@graphql-tools/merge');
-const { CONSTANTS } = require('@evershop/evershop/src/lib/helpers');
-const { getEnabledExtensions } = require('../../../../bin/extension');
+import path from 'path';
+import { loadFilesSync } from '@graphql-tools/load-files';
+import { mergeTypeDefs } from '@graphql-tools/merge';
+import { getEnabledExtensions } from '../../../bin/extension/index.js';
+import { CONSTANTS } from '../../../lib/helpers.js';
 
-module.exports.buildTypeDefs = function buildTypeDefs(isAdmin = false) {
+export function buildTypeDefs(isAdmin = false) {
   const typeSources = [
-    path.join(CONSTANTS.MOLDULESPATH, '*/graphql/types/**/*.graphql')
+    path.join(CONSTANTS.MODULESPATH, '*/graphql/types/**/*.graphql')
   ];
 
   const extensions = getEnabledExtensions();
@@ -22,4 +22,4 @@ module.exports.buildTypeDefs = function buildTypeDefs(isAdmin = false) {
   );
 
   return typeDefs;
-};
+}

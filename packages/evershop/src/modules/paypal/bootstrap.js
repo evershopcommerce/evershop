@@ -1,33 +1,11 @@
-const { hookAfter } = require('../../lib/util/hookable');
-const { addProcessor } = require('../../lib/util/registry');
-const { getSetting } = require('../setting/services/setting');
-const { voidPaymentTransaction } = require('./services/voidPaymentTransaction');
+import { getConfig } from '../../lib/util/getConfig.js';
+import { hookAfter } from '../../lib/util/hookable.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethos.js';
+import { getSetting } from '../setting/services/setting.js';
+import { voidPaymentTransaction } from './services/voidPaymentTransaction.js';
 
-module.exports = () => {
-  addProcessor('cartFields', (fields) => {
-    fields.push({
-      key: 'payment_method',
-      resolvers: [
-        async function resolver(paymentMethod) {
-          // Do nothing if the payment method is not paypal
-          if (paymentMethod !== 'paypal') {
-            return paymentMethod;
-          } else {
-            // Validate the payment method
-            const paypalStatus = await getSetting('paypalPaymentStatus');
-            if (parseInt(paypalStatus, 10) !== 1) {
-              return null;
-            } else {
-              this.setError('payment_method', undefined);
-              return paymentMethod;
-            }
-          }
-        }
-      ]
-    });
-    return fields;
-  });
-
+export default async () => {
   hookAfter('changePaymentStatus', async (order, orderID, status) => {
     if (status !== 'canceled') {
       return;
@@ -36,5 +14,26 @@ module.exports = () => {
       return;
     }
     await voidPaymentTransaction(orderID);
+  });
+
+  registerPaymentMethod({
+    init: async () => ({
+      methodCode: 'paypal',
+      methodName: await getSetting('paypalDisplayName', 'PayPal')
+    }),
+    validator: async () => {
+      const paypalConfig = getConfig('system.paypal', {});
+      let paypalStatus;
+      if (paypalConfig.status) {
+        paypalStatus = paypalConfig.status;
+      } else {
+        paypalStatus = await getSetting('paypalPaymentStatus', 0);
+      }
+      if (parseInt(paypalStatus, 10) === 1) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   });
 };

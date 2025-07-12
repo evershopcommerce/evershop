@@ -1,9 +1,6 @@
-const { error } = require('../log/logger');
+import { error } from '../../lib/log/logger.js';
 
-module.exports.callSubscribers = async function callSubscribers(
-  subscribers,
-  eventData
-) {
+export async function callSubscribers(subscribers, eventData) {
   const promises = subscribers.map(
     (subscriber) =>
       new Promise((resolve) => {
@@ -19,4 +16,4 @@ module.exports.callSubscribers = async function callSubscribers(
   );
 
   await Promise.all(promises);
-};
+}

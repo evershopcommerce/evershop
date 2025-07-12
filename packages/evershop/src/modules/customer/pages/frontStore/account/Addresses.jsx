@@ -1,16 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { AddressSummary } from '@components/common/customer/address/AddressSummary';
-import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
-import { useModal } from '@components/common/modal/useModal';
 import { Form } from '@components/common/form/Form';
+import { useModal } from '@components/common/modal/useModal';
+import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { toast } from 'react-toastify';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
-export default function Addresses({
-  account: { addresses, addAddressApi },
-  setting: { customerAddressSchema }
-}) {
+export default function Addresses({ account: { addresses, addAddressApi } }) {
   const modal = useModal();
   const isLoading = React.useRef(false);
   const editingAddress = React.useRef(null);
@@ -173,10 +170,7 @@ export default function Addresses({
                     ...data.address
                   })}
                 >
-                  <CustomerAddressForm
-                    address={editingAddress.current}
-                    customerAddressSchema={customerAddressSchema}
-                  />
+                  <CustomerAddressForm address={editingAddress.current} />
                 </Form>
               </div>
             </div>
@@ -211,10 +205,6 @@ Addresses.propTypes = {
       })
     ).isRequired,
     addAddressApi: PropTypes.string.isRequired
-  }).isRequired,
-  setting: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
-    customerAddressSchema: PropTypes.object.isRequired
   }).isRequired
 };
 
@@ -249,9 +239,6 @@ export const query = `
         deleteApi
       }
       addAddressApi
-    }
-    setting {
-      customerAddressSchema
     }
   }
 `;

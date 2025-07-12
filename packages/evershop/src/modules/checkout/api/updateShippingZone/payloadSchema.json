@@ -15,8 +15,5 @@
     }
   },
   "additionalProperties": true,
-  "required": [
-    "name",
-    "country"
-  ]
+  "required": ["name", "country"]
 }

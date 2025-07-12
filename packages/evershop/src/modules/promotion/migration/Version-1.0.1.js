@@ -1,7 +1,6 @@
-const { execute } = require('@evershop/postgres-query-builder');
+import { execute } from '@evershop/postgres-query-builder';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   await execute(
     connection,
     `ALTER TABLE "coupon" ALTER COLUMN "target_products" TYPE jsonb USING "target_products"::jsonb`

@@ -1,18 +1,16 @@
-const {
-  INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getMulter } = require('../../services/getMulter');
+import { INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
+import { getMulter } from '../../services/getMulter.js';
 
 const upload = getMulter();
 
-module.exports = (request, response, delegate, next) => {
+export default (request, response, next) => {
   const path = request.params[0] || '';
-  // eslint-disable-next-line no-useless-escape
-  if (path && !/^[a-z0-9\/]+$/i.test(path)) {
+  if (path && !/^[a-zA-Z0-9_\/-]+$/i.test(path)) {
     response.status(INVALID_PAYLOAD).json({
       error: {
         status: INVALID_PAYLOAD,
-        message: 'Invalid path'
+        message:
+          'Invalid path. Path must be alphanumeric and can include underscores and hyphens only.'
       }
     });
   } else {

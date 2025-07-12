@@ -1,32 +1,29 @@
-const stripePayment = require('stripe');
-const smallestUnit = require('zero-decimal-currencies');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const {
-  OK,
-  INVALID_PAYLOAD,
-  INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
+import {
   select,
   getConnection,
   startTransaction,
   insert,
   commit,
   rollback
-} = require('@evershop/postgres-query-builder');
-const { getSetting } = require('../../../setting/services/setting');
-const {
-  updatePaymentStatus
-} = require('../../../oms/services/updatePaymentStatus');
+} from '@evershop/postgres-query-builder';
+import stripePayment from 'stripe';
+import smallestUnit from 'zero-decimal-currencies';
+import { error } from '../../../../lib/log/logger.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
+import {
+  OK,
+  INVALID_PAYLOAD,
+  INTERNAL_SERVER_ERROR
+} from '../../../../lib/util/httpStatus.js';
+import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
+import { getSetting } from '../../../setting/services/setting.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const connection = await getConnection(pool);
   try {
     await startTransaction(connection);
-    // eslint-disable-next-line camelcase
+
     const { order_id, amount } = request.body;
     // Load the order
     const order = await select()

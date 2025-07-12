@@ -1,0 +1,28 @@
+{
+  "name": "@evershop/s3_file_storage",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "An extension for EverShop to use AWS S3 File Storage",
+  "scripts": {
+    "compile": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evershopcommerce/evershop/tree/main/packages/s3_file_storage"
+  },
+  "keywords": [
+    "EverShop AWS s3 file storage"
+  ],
+  "author": "The Nguyen (https://evershop.io/)",
+  "license": "GNU GENERAL PUBLIC LICENSE 3.0",
+  "bugs": {
+    "url": "https://github.com/evershopcommerce/evershop/issues"
+  },
+  "homepage": "https://github.com/evershopcommerce/evershop/tree/main/packages/s3_file_storage",
+  "engines": {
+    "node": ">= 14.0.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.438.0"
+  }
+}

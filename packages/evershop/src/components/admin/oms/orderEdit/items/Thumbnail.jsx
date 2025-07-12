@@ -1,7 +1,6 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/jsx-closing-tag-location */
 import PropTypes from 'prop-types';
 import React from 'react';
+
 
 export function Thumbnail({ imageUrl, qty }) {
   return (

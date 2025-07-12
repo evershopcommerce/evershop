@@ -1,15 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Province } from '@components/frontStore/customer/address/addressForm/Province';
 import { Field } from '@components/common/form/Field';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { Province } from '@components/frontStore/customer/address/addressForm/Province';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export function ProvinceAndPostcode({
   address,
   allowCountries,
-  selectedCountry,
-  getErrorMessage,
-  isFieldRequired
+  selectedCountry
 }) {
   return (
     <div className="grid grid-cols-2 gap-4 mt-4">
@@ -26,19 +24,12 @@ export function ProvinceAndPostcode({
           value={address?.postcode}
           label={_('Postcode')}
           placeholder={_('Postcode')}
-          validationRules={
-            isFieldRequired('postcode')
-              ? [
-                  {
-                    rule: 'notEmpty',
-                    message: getErrorMessage(
-                      'postcode',
-                      _('Postcode is required')
-                    )
-                  }
-                ]
-              : []
-          }
+          validationRules={[
+            {
+              rule: 'notEmpty',
+              message: _('Postcode is required')
+            }
+          ]}
         />
       </div>
     </div>
@@ -64,9 +55,7 @@ ProvinceAndPostcode.propTypes = {
       )
     })
   ).isRequired,
-  selectedCountry: PropTypes.string,
-  getErrorMessage: PropTypes.func.isRequired,
-  isFieldRequired: PropTypes.func.isRequired
+  selectedCountry: PropTypes.string
 };
 
 ProvinceAndPostcode.defaultProps = {

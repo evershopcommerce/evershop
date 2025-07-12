@@ -1,12 +1,10 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getSetting } = require('../../setting/services/setting');
-const { getTaxPercent } = require('./getTaxPercent');
-const { getTaxRates } = require('./getTaxRates');
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../lib/postgres/connection.js';
+import { getSetting } from '../../setting/services/setting.js';
+import { getTaxPercent } from './getTaxPercent.js';
+import { getTaxRates } from './getTaxRates.js';
 
-module.exports = exports = {};
-
-exports.registerCartItemTaxPercentField = (fields) => {
+export const registerCartItemTaxPercentField = (fields) => {
   const newFields = fields.concat([
     {
       key: 'tax_percent',

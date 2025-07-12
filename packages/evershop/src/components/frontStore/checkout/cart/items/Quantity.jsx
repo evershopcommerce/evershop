@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { useAppDispatch } from '@components/common/context/app';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { toast } from 'react-toastify';
 
 export default function Quantity({ qty, api }) {

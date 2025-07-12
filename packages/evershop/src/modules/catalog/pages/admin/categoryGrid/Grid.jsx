@@ -1,20 +1,17 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/no-unstable-nested-components */
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import axios from 'axios';
-import Area from '@components/common/Area';
-import Pagination from '@components/common/grid/Pagination';
-import { useAlertContext } from '@components/common/modal/Alert';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Card } from '@components/admin/cms/Card';
 import CategoryNameRow from '@components/admin/catalog/categoryGrid/rows/CategoryName';
+import { Card } from '@components/admin/cms/Card';
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { Form } from '@components/common/form/Form';
+import SortableHeader from '@components/common/grid/headers/Sortable';
+import Pagination from '@components/common/grid/Pagination';
 import StatusRow from '@components/common/grid/rows/StatusRow';
 import YesNoRow from '@components/common/grid/rows/YesNoRow';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import { Form } from '@components/common/form/Form';
-import { Field } from '@components/common/form/Field';
+import { useAlertContext } from '@components/common/modal/Alert';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 function Actions({ categories = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();

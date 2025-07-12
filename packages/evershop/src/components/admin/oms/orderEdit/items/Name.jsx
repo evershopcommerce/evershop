@@ -1,8 +1,6 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/jsx-closing-tag-location */
+import { ItemVariantOptions } from '@components/admin/oms/orderEdit/items/ItemVariantOptions';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ItemVariantOptions } from '@components/admin/oms/orderEdit/items/ItemVariantOptions';
 
 export function Name({ name, productSku, productUrl, variantOptions = [] }) {
   return (

@@ -1,6 +1,6 @@
-const { CONSTANTS } = require('../helpers');
+import { CONSTANTS } from '../helpers.js';
 
-const defaultPaginationFilters = [
+export const defaultPaginationFilters = [
   {
     key: 'od',
     operation: ['eq'],
@@ -98,7 +98,3 @@ const defaultPaginationFilters = [
     }
   }
 ];
-
-module.exports = {
-  defaultPaginationFilters
-};

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import './Items.scss';
 import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 
@@ -12,7 +13,6 @@ function ItemVariantOptions({ options = [] }) {
     <div className="cart-item-variant-options mt-2">
       <ul>
         {options.map((o, i) => (
-          // eslint-disable-next-line react/no-array-index-key
           <li key={i}>
             <span className="attribute-name">{o.attribute_name}: </span>
             <span>{o.option_text}</span>
@@ -42,7 +42,6 @@ function Items({ items, priceIncludingTax }) {
       <table className="listing items-table">
         <tbody>
           {items.map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
             <tr key={index}>
               <td>
                 <div className="product-thumbnail">

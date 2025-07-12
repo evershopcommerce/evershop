@@ -1,7 +1,6 @@
-const updateCoupon = require('../../services/coupon/updateCoupon');
+import updateCoupon from '../../services/coupon/updateCoupon.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate) => {
+export default async (request, response) => {
   const coupon = await updateCoupon(request.params.id, request.body, {
     routeId: request.currentRoute.id
   });

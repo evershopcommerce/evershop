@@ -1,4 +1,4 @@
-module.exports = (response) => {
+export default (response) => {
   if (!response.locals) {
     return false;
   } else {

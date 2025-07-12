@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import TaxClass from './TaxClass';
 
 export function TaxClasses({ countries, getTaxClasses, classes }) {

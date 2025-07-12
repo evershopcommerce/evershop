@@ -1,3 +1,3 @@
-const staticMiddleware = require('../../../../../../../../../modules/cms/pages/frontStore/staticAsset/[context]staticAssets[auth]');
+import staticMiddleware from '../../../../../../../../../modules/cms/pages/frontStore/staticAsset/[context]staticAssets[auth].js';
 
-module.exports = staticMiddleware;
+export default staticMiddleware;

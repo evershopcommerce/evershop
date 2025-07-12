@@ -1,8 +1,8 @@
-const { select, node } = require('@evershop/postgres-query-builder');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { node, select } from '@evershop/postgres-query-builder';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { getConfig } from '../../../../../lib/util/getConfig.js';
 
-module.exports = {
+export default {
   Query: {
     featuredProducts: async (root, { limit = 4 }, { pool }) => {
       const query = select('product.product_id')

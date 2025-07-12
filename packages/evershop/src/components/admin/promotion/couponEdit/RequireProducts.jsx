@@ -1,14 +1,14 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
+import PropTypes from 'prop-types';
+import React from 'react';
+import AttributeGroupConditionSelector from './AttributeGroupConditionSelector';
 import CategoryConditionSelector from './CategoryConditionSelector';
 import CollectionConditionSelector from './CollectionConditionSelector';
-import SkuConditionSelector from './SkuConditionSelector';
-import AttributeGroupConditionSelector from './AttributeGroupConditionSelector';
-import PriceConditionSelector from './PriceConditionSelector';
 import { compareKeyList } from './CompareKeyList';
 import { compareOperatorList } from './CompareOperatorList';
+import PriceConditionSelector from './PriceConditionSelector';
+import SkuConditionSelector from './SkuConditionSelector';
 
 export function RequiredProducts({ requiredProducts }) {
   const [products, setProducts] = React.useState(() =>
@@ -162,7 +162,6 @@ export function RequiredProducts({ requiredProducts }) {
                                 default: c.allowKeys.includes(p.key) ? (
                                   <option value={c.key}>{c.label}</option>
                                 ) : (
-                                  // eslint-disable-next-line react/jsx-no-useless-fragment
                                   <>{null}</>
                                 )
                               },

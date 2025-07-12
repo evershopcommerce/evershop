@@ -1,8 +1,8 @@
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Select from 'react-select';
-import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
 
 const customStyles = {
   container: (provided) => ({
@@ -37,7 +37,6 @@ export default function CustomerCondition({
       coreComponents={[
         {
           component: {
-            // eslint-disable-next-line react/no-unstable-nested-components
             default: () => (
               <Select
                 name="user_condition[groups][]"

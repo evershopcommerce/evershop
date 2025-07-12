@@ -2,14 +2,13 @@ body .codex-editor {
   z-index: 99;
 }
 
-
 #rows {
   .row {
     background-color: #fff;
   }
 }
 
-#rows>* {
+#rows > * {
   margin-top: 10px;
 }
 
@@ -24,7 +23,7 @@ body .codex-editor {
   color: var(--divider);
 }
 
-#rows .draggable-source--is-dragging>* {
+#rows .draggable-source--is-dragging > * {
   visibility: hidden;
 }
 

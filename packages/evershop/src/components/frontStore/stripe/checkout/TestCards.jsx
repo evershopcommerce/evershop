@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import Button from '@components/common/form/Button';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 function TestCards({ showTestCard, testSuccess, testFailure }) {
   return (

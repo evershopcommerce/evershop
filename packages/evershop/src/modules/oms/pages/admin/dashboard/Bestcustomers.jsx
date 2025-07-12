@@ -1,7 +1,7 @@
+import { Card } from '@components/admin/cms/Card';
+import { useAppState } from '@components/common/context/app';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useAppState } from '@components/common/context/app';
-import { Card } from '@components/admin/cms/Card';
 
 export default function BestCustomers({ listUrl, setting }) {
   const context = useAppState();
@@ -35,7 +35,6 @@ export default function BestCustomers({ listUrl, setting }) {
                 currency: setting.storeCurrency
               }).format(c.total);
               return (
-                // eslint-disable-next-line react/no-array-index-key
                 <tr key={i}>
                   <td>
                     <a href={c.editUrl || ''}>{c.full_name}</a>

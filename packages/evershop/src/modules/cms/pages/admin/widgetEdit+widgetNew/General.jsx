@@ -1,9 +1,9 @@
+import { Card } from '@components/admin/cms/Card';
+import { Field } from '@components/common/form/Field';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import { Field } from '@components/common/form/Field';
-import { Card } from '@components/admin/cms/Card';
 
 const components = {
   DropdownIndicator: null

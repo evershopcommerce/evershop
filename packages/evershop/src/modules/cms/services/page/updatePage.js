@@ -1,20 +1,18 @@
-const { hookable } = require('@evershop/evershop/src/lib/util/hookable');
-const {
-  getValueSync,
-  getValue
-} = require('@evershop/evershop/src/lib/util/registry');
-const {
-  startTransaction,
+import {
   commit,
   rollback,
-  update,
-  select
-} = require('@evershop/postgres-query-builder');
-const {
-  getConnection
-} = require('@evershop/evershop/src/lib/postgres/connection');
-const { getAjv } = require('../../../base/services/getAjv');
-const pageDataSchema = require('./pageDataSchema.json');
+  select,
+  startTransaction,
+  update
+} from '@evershop/postgres-query-builder';
+import { getConnection } from '../../../../lib/postgres/connection.js';
+import { hookable } from '../../../../lib/util/hookable.js';
+import {
+  getValue,
+  getValueSync
+} from '../../../../lib/util/registry.js';
+import { getAjv } from '../../../base/services/getAjv.js';
+import pageDataSchema from './pageDataSchema.json' with { type: 'json' };
 
 function validatePageDataBeforeInsert(data) {
   const ajv = getAjv();
@@ -96,7 +94,7 @@ async function updatePage(uuid, data, context) {
   }
 }
 
-module.exports = async (uuid, data, context) => {
+export default async (uuid, data, context) => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

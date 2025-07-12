@@ -1,19 +1,13 @@
-const uniqid = require('uniqid');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getEnabledWidgets
-} = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
-const { select } = require('@evershop/postgres-query-builder');
-const {
-  getWidgetsBaseQuery
-} = require('../../../services/getWidgetsBaseQuery');
-const { WidgetCollection } = require('../../../services/WidgetCollection');
-const {
-  getCmsPagesBaseQuery
-} = require('../../../services/getCmsPagesBaseQuery');
+import { select } from '@evershop/postgres-query-builder';
+import uniqid from 'uniqid';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { getEnabledWidgets } from '../../../../../lib/widget/widgetManager.js';
+import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
+import { getWidgetsBaseQuery } from '../../../services/getWidgetsBaseQuery.js';
+import { WidgetCollection } from '../../../services/WidgetCollection.js';
 
-module.exports = {
+export default {
   Query: {
     widget: async (root, { id }, { pool }) => {
       const query = getWidgetsBaseQuery();
@@ -33,9 +27,9 @@ module.exports = {
         code: row.type,
         name: row.name,
         description: row.description,
-        settingComponent: row.setting_component,
+        settingComponent: row.settingComponent,
         component: row.component,
-        defaultSettings: row.default_settings,
+        defaultSettings: row.defaultSettings,
         createWidgetUrl: buildUrl('widgetNew', { type: row.type })
       }));
     },
@@ -47,9 +41,9 @@ module.exports = {
             code: type.type,
             name: type.name,
             description: type.description,
-            settingComponent: type.setting_component,
+            settingComponent: type.settingComponent,
             component: type.component,
-            defaultSettings: type.default_settings,
+            defaultSettings: type.defaultSettings,
             createWidgetUrl: buildUrl('widgetNew', { type: type.type })
           }
         : null;
@@ -72,7 +66,7 @@ module.exports = {
       if (!menus) {
         return { menus: [] };
       }
-      // eslint-disable-next-line no-restricted-syntax
+
       for (const menu of menus) {
         if (menu.type === 'category') {
           categories.push(menu.uuid);
@@ -118,14 +112,14 @@ module.exports = {
         return {
           ...menu,
           id: uniqid(),
-          // eslint-disable-next-line no-nested-ternary
+
           url: url ? url.url : menu.type === 'custom' ? menu.url : null,
           children: menu.children.map((child) => {
             const url = urls.find((u) => u.uuid === child.uuid);
             return {
               ...child,
               id: uniqid(),
-              // eslint-disable-next-line no-nested-ternary
+
               url: url ? url.url : child.type === 'custom' ? child.url : null
             };
           })

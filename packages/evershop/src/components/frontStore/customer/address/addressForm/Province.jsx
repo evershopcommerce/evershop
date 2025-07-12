@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Field } from '@components/common/form/Field';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export function Province({
   selectedCountry,

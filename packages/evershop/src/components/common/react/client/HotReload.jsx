@@ -1,8 +1,8 @@
+import { useAppDispatch, useAppState } from '@components/common/context/app';
+import axios from 'axios';
+import produce from 'immer';
 import PropTypes from 'prop-types';
 import React from 'react';
-import produce from 'immer';
-import axios from 'axios';
-import { useAppDispatch, useAppState } from '@components/common/context/app';
 
 export function HotReload({ hot }) {
   const [isRefreshing, setIsRefreshing] = React.useState(false);
@@ -21,17 +21,23 @@ export function HotReload({ hot }) {
             return status >= 200 && status <= 500;
           }
         });
+        // get the final url incase of redirect
+        if (response.request) {
+          const finalUrl = response.request.responseURL;
+          if (finalUrl !== url.href) {
+            window.location.href = finalUrl;
+            return;
+          }
+        }
         if (response.status < 300) {
           setData(
             produce(appContext, (draff) => {
-              // eslint-disable-next-line no-param-reassign
               draff = response.data.eContext;
               return draff;
             })
           );
         } else {
-          // eslint-disable-next-line no-restricted-globals
-          location.reload();
+          window.location.reload();
         }
       }
     });

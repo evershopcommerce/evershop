@@ -1,19 +1,16 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-param-reassign */
-/* eslint-disable global-require */
-const path = require('path');
-const {
-  addDefaultMiddlewareFuncs
-} = require('@evershop/evershop/bin/lib/addDefaultMiddlewareFuncs');
-const express = require('express');
-const {
-  loadModuleRoutes
-} = require('@evershop/evershop/src/lib/router/loadModuleRoutes');
-const { once } = require('events');
-const { getModuleMiddlewares } = require('../..');
-const { getRoutes } = require('../../../router/Router');
-const { Handler } = require('../../Handler');
-const { error } = require('../../../log/logger');
+import path from 'path';
+import { addDefaultMiddlewareFuncs } from '../../../../bin/lib/addDefaultMiddlewareFuncs.js';
+import express from 'express';
+import { loadModuleRoutes } from '../../../../lib/router/loadModuleRoutes.js';
+import { once } from 'events';
+import { getModuleMiddlewares } from '../../index.js';
+import { getRoutes } from '../../../router/Router.js';
+import { Handler } from '../../Handler.js';
+import { error } from '../../../log/logger.js';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /** Create express app */
 const app = express();
@@ -75,22 +72,25 @@ const routes = getRoutes();
 addDefaultMiddlewareFuncs(app, routes);
 
 /** Hack for 'no route' case */
-routes.push({
-  id: 'noRoute',
-  path: '/*'
-});
-routes.forEach((route) => {
-  app.all(route.path, Handler.middleware());
-});
+// routes.push({
+//   id: 'noRoute',
+//   path: '/*',
+//   method: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
+// });
 
-module.exports = {
-  app,
-  bootstrap: async (server) => {
-    server.listen();
-    await once(server, 'listening');
-    return server.address().port;
-  },
-  close: (server, done) => {
-    server.close(done);
-  }
+// routes.forEach((route) => {
+//   app.all(route.path, Handler.middleware());
+// });
+app.use(Handler.middleware());
+
+const bootstrap = async (server) => {
+  server.listen();
+  await once(server, 'listening');
+  return server.address().port;
 };
+
+const close = (server, done) => {
+  server.close(done);
+};
+
+export { app, bootstrap, close };

@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useQuery } from 'urql';
-import { Card } from '@components/admin/cms/Card';
 import { CreateVariant } from '@components/admin/catalog/productEdit/variants/CreateVariant';
-import Spinner from '@components/common/Spinner';
 import { Variant } from '@components/admin/catalog/productEdit/variants/Variant';
+import { Card } from '@components/admin/cms/Card';
+import Spinner from '@components/common/Spinner';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useQuery } from 'urql';
 
 export const VariantQuery = `
 query Query($productId: ID!) {

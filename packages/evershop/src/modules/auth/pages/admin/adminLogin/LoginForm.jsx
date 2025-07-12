@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
+import PropTypes from 'prop-types';
+import React from 'react';
 import './LoginForm.scss';
 import Area from '@components/common/Area';
 

@@ -1,14 +1,14 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import Area from '@components/common/Area';
-import Circle from '@components/common/Circle';
 import { Card } from '@components/admin/cms/Card';
-import './Payment.scss';
 import { Discount } from '@components/admin/oms/orderEdit/payment/Discount';
 import { Shipping } from '@components/admin/oms/orderEdit/payment/Shipping';
 import { SubTotal } from '@components/admin/oms/orderEdit/payment/SubTotal';
 import { Tax } from '@components/admin/oms/orderEdit/payment/Tax';
 import { Total } from '@components/admin/oms/orderEdit/payment/Total';
+import Area from '@components/common/Area';
+import { Circle } from '@components/common/Circle';
+import PropTypes from 'prop-types';
+import React from 'react';
+import './Payment.scss';
 
 export default function OrderSummary({
   order: {

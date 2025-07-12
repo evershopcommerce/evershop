@@ -1,7 +1,6 @@
-const createCategory = require('../../services/category/createCategory');
+import createCategory from '../../services/category/createCategory.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate) => {
+export default async (request, response) => {
   const result = await createCategory(request.body, {
     routeId: request.currentRoute.id
   });

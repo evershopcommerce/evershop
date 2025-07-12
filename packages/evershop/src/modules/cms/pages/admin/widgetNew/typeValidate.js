@@ -1,13 +1,8 @@
-const {
-  getEnabledWidgets
-} = require('@evershop/evershop/src/lib/util/getEnabledWidgets');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const {
-  setContextValue
-} = require('../../../../graphql/services/contextHelper');
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { getEnabledWidgets } from '../../../../../lib/widget/widgetManager.js';
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = (request, response, delegate, next) => {
+export default (request, response, next) => {
   const { type } = request.params;
   const enabledWidgets = getEnabledWidgets();
 

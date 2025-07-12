@@ -1,3 +1,3 @@
-const multerFileMiddleware = require('../fileUpload/[context]multerFile[auth]');
+import multerFileMiddleware from '../fileUpload/[context]multerFile[auth].js';
 
-module.exports = multerFileMiddleware;
+export default multerFileMiddleware;

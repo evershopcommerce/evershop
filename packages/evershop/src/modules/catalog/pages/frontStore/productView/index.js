@@ -1,12 +1,10 @@
-const { select, node } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { get } = require('@evershop/evershop/src/lib/util/get');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const {
-  setContextValue
-} = require('../../../../graphql/services/contextHelper');
+import { node, select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../../lib/postgres/connection.js';
+import { get } from '../../../../../lib/util/get.js';
+import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const query = select();
     query

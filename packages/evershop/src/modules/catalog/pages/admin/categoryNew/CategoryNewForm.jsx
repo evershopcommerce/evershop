@@ -1,9 +1,9 @@
+import Area from '@components/common/Area';
+import { Form } from '@components/common/form/Form';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import Area from '@components/common/Area';
-import { Form } from '@components/common/form/Form';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import { get } from '../../../../../lib/util/get.js';
 
 export default function CategoryNewForm({ action }) {
   const id = 'categoryForm';

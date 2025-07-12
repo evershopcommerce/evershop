@@ -1,14 +1,13 @@
-/* eslint-disable camelcase */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+import { Card } from '@components/admin/cms/Card';
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Input } from '@components/common/form/fields/Input';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Select from 'react-select';
 import { useQuery } from 'urql';
-import Area from '@components/common/Area';
-import { get } from '@evershop/evershop/src/lib/util/get';
-import { Field } from '@components/common/form/Field';
-import { Card } from '@components/admin/cms/Card';
-import { Input } from '@components/common/form/fields/Input';
+import { get } from '../../../../../lib/util/get.js';
+
 
 const GroupsQuery = `
   query Query {
@@ -256,7 +255,6 @@ export default function General({ attribute, createGroupApi }) {
     }
   ].map((f) => {
     if (get(attribute, `${f.props.id}`) !== undefined) {
-      // eslint-disable-next-line no-param-reassign
       f.props.value = get(attribute, `${f.props.id}`);
     }
     return f;

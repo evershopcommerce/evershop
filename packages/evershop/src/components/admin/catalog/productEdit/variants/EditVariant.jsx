@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { toast } from 'react-toastify';
+import { VariantModal } from '@components/admin/catalog/productEdit/variants/VariantModal';
+import { Card } from '@components/admin/cms/Card';
 import Button from '@components/common/form/Button';
 import { Form } from '@components/common/form/Form';
 import { useAlertContext } from '@components/common/modal/Alert';
-import { Card } from '@components/admin/cms/Card';
-import { VariantModal } from '@components/admin/catalog/productEdit/variants/VariantModal';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { toast } from 'react-toastify';
 
 export function EditVariant({
   variant,

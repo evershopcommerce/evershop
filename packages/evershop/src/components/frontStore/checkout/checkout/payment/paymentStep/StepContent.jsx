@@ -1,17 +1,17 @@
+import Area from '@components/common/Area';
+import { useCheckout } from '@components/common/context/checkout';
+import { useCheckoutStepsDispatch } from '@components/common/context/checkoutSteps';
+import Button from '@components/common/form/Button';
+import { Field } from '@components/common/form/Field';
+import { Form } from '@components/common/form/Form';
+import Spinner from '@components/common/Spinner';
+import { BillingAddress } from '@components/frontStore/checkout/checkout/payment/paymentStep/BillingAddress';
+import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
-import Area from '@components/common/Area';
-import { useCheckoutStepsDispatch } from '@components/common/context/checkoutSteps';
-import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index';
-import { Form } from '@components/common/form/Form';
-import { BillingAddress } from '@components/frontStore/checkout/checkout/payment/paymentStep/BillingAddress';
-import { useCheckout } from '@components/common/context/checkout';
-import { Field } from '@components/common/form/Field';
-import Button from '@components/common/form/Button';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
-import Spinner from '@components/common/Spinner';
+import { _ } from '../../../../../../lib/locale/translate/_.js';
 
 const QUERY = `
   query Query($cartId: String) {
@@ -37,8 +37,7 @@ const QUERY = `
   }
 `;
 export function StepContent({
-  cart: { billingAddress, addBillingAddressApi, addPaymentMethodApi },
-  customerAddressSchema
+  cart: { billingAddress, addBillingAddressApi, addPaymentMethodApi }
 }) {
   const { completeStep } = useCheckoutStepsDispatch();
   const [useShippingAddress, setUseShippingAddress] = useState(!billingAddress);
@@ -123,7 +122,6 @@ export function StepContent({
             <CustomerAddressForm
               areaId="checkoutBillingAddressForm"
               address={billingAddress || data.cart.shippingAddress}
-              customerAddressSchema={customerAddressSchema}
             />
           </div>
         )}
@@ -133,7 +131,6 @@ export function StepContent({
             <CustomerAddressForm
               areaId="checkoutBillingAddressForm"
               address={data.cart.shippingAddress}
-              customerAddressSchema={customerAddressSchema}
             />
           </div>
         )}
@@ -222,7 +219,5 @@ StepContent.propTypes = {
     }),
     addBillingAddressApi: PropTypes.string.isRequired,
     addPaymentMethodApi: PropTypes.string.isRequired
-  }).isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  customerAddressSchema: PropTypes.object.isRequired
+  }).isRequired
 };

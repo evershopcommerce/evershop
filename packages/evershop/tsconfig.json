@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "ES2018",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "checkJs": false,
+    "jsx": "react",
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "allowArbitraryExtensions": true,
+    "strictNullChecks": true,
+    "isolatedModules": false,
+    "baseUrl": ".",
+    "rootDir": "./src",
+    "paths": {
+      "@components/*": ["./src/components/*"]
+    }
+  },
+  "include": ["src"]
+}

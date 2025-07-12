@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+
 function Name({ name, url }) {
   return (
     <div className="product-name product-list-name mt-4 mb-1">

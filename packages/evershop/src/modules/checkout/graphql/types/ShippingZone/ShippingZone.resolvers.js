@@ -1,10 +1,10 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { contries } = require('@evershop/evershop/src/lib/locale/countries');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+import { select } from '@evershop/postgres-query-builder';
+import { countries } from '../../../../../lib/locale/countries.js';
+import { pool } from '../../../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
 
-module.exports = {
+export default {
   Query: {
     shippingZones: async () => {
       const shippingZones = await select()
@@ -41,7 +41,7 @@ module.exports = {
       if (!country) {
         return null;
       } else {
-        const c = contries.find((p) => p.code === country);
+        const c = countries.find((p) => p.code === country);
         if (c) {
           return c;
         } else {

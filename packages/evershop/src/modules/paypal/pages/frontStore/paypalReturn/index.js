@@ -1,18 +1,15 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { default: axios } = require('axios');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { emit } = require('@evershop/evershop/src/lib/event/emitter');
-const {
-  getContextValue
-} = require('../../../../graphql/services/contextHelper');
-const { getSetting } = require('../../../../setting/services/setting');
+import { select } from '@evershop/postgres-query-builder';
+import axios from 'axios';
+import { emit } from '../../../../../lib/event/emitter.js';
+import { pool } from '../../../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { getContextValue } from '../../../../graphql/services/contextHelper.js';
+import { getSetting } from '../../../../setting/services/setting.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   // Get paypal token from query string
   const paypalToken = request.query.token;
   if (paypalToken) {
-    // eslint-disable-next-line camelcase
     const { order_id } = request.params;
     const query = select().from('order');
     query
@@ -38,7 +35,6 @@ module.exports = async (request, response, delegate, next) => {
               : 'paypalAuthorizePayment'
           )}`,
           {
-            // eslint-disable-next-line camelcase
             order_id
           },
           {
@@ -55,7 +51,7 @@ module.exports = async (request, response, delegate, next) => {
         // Emit event to add order placed event
         await emit('order_placed', { ...order });
         // Redirect to order success page
-        // eslint-disable-next-line camelcase
+
         response.redirect(302, `${buildUrl('checkoutSuccess')}/${order_id}`);
       } catch (e) {
         next();

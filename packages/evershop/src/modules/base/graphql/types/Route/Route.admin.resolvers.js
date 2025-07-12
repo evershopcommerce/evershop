@@ -1,6 +1,6 @@
-const { getRoutes } = require('@evershop/evershop/src/lib/router/Router');
+import { getRoutes } from '../../../../../lib/router/Router.js';
 
-module.exports = {
+export default {
   Query: {
     routes: () => {
       const routes = getRoutes();

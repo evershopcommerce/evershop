@@ -1,22 +1,31 @@
-const {
+import {
   execute,
+  NoUnusedFragmentsRule,
   parse,
   specifiedRules,
-  NoUnusedFragmentsRule
-} = require('graphql');
-const { validate } = require('graphql/validation');
-const { debug } = require('@evershop/evershop/src/lib/log/logger');
-const adminSchema = require('../../services/buildSchema');
-const storeFrontSchema = require('../../services/buildStoreFrontSchema');
-const { getContext } = require('../../services/contextHelper');
-const {
-  graphqlErrorMessageFormat
-} = require('../../services/graphqlErrorMessageFormat');
+  validateSchema
+} from 'graphql';
+import { debug } from '../../../../lib/log/logger.js';
+import { isDevelopmentMode } from '../../../../lib/util/isDevelopmentMode.js';
+import adminSchema, { rebuildSchema } from '../../services/buildSchema.js';
+import storeFrontSchema, {
+  rebuildStoreFrontSchema
+} from '../../services/buildStoreFrontSchema.js';
+import { getContext } from '../../services/contextHelper.js';
+import { graphqlErrorMessageFormat } from '../../services/graphqlErrorMessageFormat.js';
 
-module.exports = async function graphql(request, response, delegate, next) {
+export default async function graphql(request, response, next) {
   const { currentRoute } = request;
-  const schema =
-    currentRoute && currentRoute.isAdmin ? adminSchema : storeFrontSchema;
+  let schema;
+  if (isDevelopmentMode()) {
+    schema =
+      currentRoute && currentRoute.isAdmin
+        ? await rebuildSchema()
+        : await rebuildStoreFrontSchema();
+  } else {
+    schema =
+      currentRoute && currentRoute.isAdmin ? adminSchema : storeFrontSchema;
+  }
   // TODO: Should we wait for previous async middlewares?
   try {
     const { body } = request;
@@ -32,7 +41,7 @@ module.exports = async function graphql(request, response, delegate, next) {
       } else {
         const document = parse(graphqlQuery);
         // Validate the query
-        const validationErrors = validate(
+        const validationErrors = validateSchema(
           schema,
           document,
           specifiedRules.filter((rule) => rule !== NoUnusedFragmentsRule)
@@ -74,4 +83,4 @@ module.exports = async function graphql(request, response, delegate, next) {
   } catch (error) {
     next(error);
   }
-};
+}

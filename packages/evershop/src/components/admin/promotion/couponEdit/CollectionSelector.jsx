@@ -1,11 +1,11 @@
 import { Card } from '@components/admin/cms/Card';
-import Spinner from '@components/common/Spinner';
 import Button from '@components/common/form/Button';
+import { SimplePageination } from '@components/common/SimplePagination';
+import Spinner from '@components/common/Spinner';
+import CheckIcon from '@heroicons/react/outline/CheckIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useQuery } from 'urql';
-import CheckIcon from '@heroicons/react/outline/CheckIcon';
-import { SimplePageination } from '@components/common/SimplePagination';
 
 const SearchQuery = `
   query Query ($filters: [FilterInput!]) {

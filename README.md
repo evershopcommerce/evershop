@@ -11,7 +11,7 @@
 </h4>
 
 <p align="center">
-  <img src="https://github.com/nodeonline/nodejscart/actions/workflows/build.yml/badge.svg" alt="Github Action">
+  <img src="https://github.com/evershopcommerce/evershop/actions/workflows/build_test.yml/badge.svg" alt="Github Action">
   <a href="https://twitter.com/evershopjs">
     <img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/evershopjs?style=social">
   </a>
@@ -29,7 +29,7 @@
 
 ## Introduction
 
-EverShop is a GraphQL Based and React ecommerce platform with essential commerce features. Built with React, modular and fully customizable.
+EverShop is a modern, TypeScript-first eCommerce platform built with GraphQL and React. Designed for developers, it offers essential commerce features in a modular, fully customizable architecture—perfect for building tailored shopping experiences with confidence and speed.
 
 ## Installation Using Docker
 
@@ -77,14 +77,6 @@ If you like my work, feel free to:
 - [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)][tweet] about EverShop. Thank you!
 
 [tweet]: https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fevershopcommerce%2Fevershop&text=Awesome%20React%20Ecommerce%20Project&hashtags=react,ecommerce,expressjs,graphql
-
-### Sponsors
-
-<table style="text-align:center;">
-<tr>
-<td align="center" valign="middle"><a href="https://www.bountyhub.dev/" target="_blank"><img src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/sponsors/bountyhub.png" width="85" valign="middle" /></a></td>
-</tr>
-</table>
 
 ## Contributing
 

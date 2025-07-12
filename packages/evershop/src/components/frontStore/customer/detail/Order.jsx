@@ -1,7 +1,7 @@
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
+import { _ } from '../../../../lib/locale/translate/_.js';
 
 export default function Order({ order }) {
   return (
@@ -9,7 +9,10 @@ export default function Order({ order }) {
       <div className="order-inner grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="order-items col-span-2">
           {order.items.map((item) => (
-            <div className="order-item mb-4 flex gap-8 items-center">
+            <div
+              className="order-item mb-4 flex gap-8 items-center"
+              key={item.productSku}
+            >
               <div className="thumbnail border border-divider p-4 rounded">
                 {item.thumbnail && (
                   <img

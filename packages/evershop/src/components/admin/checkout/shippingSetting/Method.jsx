@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import CogIcon from '@heroicons/react/outline/CogIcon';
-import { useModal } from '@components/common/modal/useModal';
 import MethodForm from '@components/admin/checkout/shippingSetting/MethodForm';
+import { useModal } from '@components/common/modal/useModal';
+import CogIcon from '@heroicons/react/outline/CogIcon';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { toast } from 'react-toastify';
 
 function Method({ method, getZones }) {
   const modal = useModal();

@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Editor from '@components/common/form/fields/Editor';
 import { Field } from '@components/common/form/Field';
+import Editor from '@components/common/form/fields/Editor';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function TextBlockSetting({
   textWidget: { text, className },
@@ -38,7 +38,6 @@ TextBlockSetting.propTypes = {
   uploadApi: PropTypes.string.isRequired,
   folderCreateApi: PropTypes.string.isRequired,
   textWidget: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
     text: PropTypes.array,
     className: PropTypes.string
   })

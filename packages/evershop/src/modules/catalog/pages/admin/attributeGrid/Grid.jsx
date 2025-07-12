@@ -1,21 +1,19 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/no-unstable-nested-components */
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import axios from 'axios';
-import Area from '@components/common/Area';
-import Pagination from '@components/common/grid/Pagination';
-import { useAlertContext } from '@components/common/modal/Alert';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Card } from '@components/admin/cms/Card';
 import AttributeNameRow from '@components/admin/catalog/attributeGrid/rows/AttributeName';
 import GroupRow from '@components/admin/catalog/attributeGrid/rows/GroupRow';
+import { Card } from '@components/admin/cms/Card';
+import Area from '@components/common/Area';
+import { Field } from '@components/common/form/Field';
+import { Checkbox } from '@components/common/form/fields/Checkbox';
+import { Form } from '@components/common/form/Form';
+import DummyColumnHeader from '@components/common/grid/headers/Dummy';
+import SortableHeader from '@components/common/grid/headers/Sortable';
+import Pagination from '@components/common/grid/Pagination';
 import BasicRow from '@components/common/grid/rows/BasicRow';
 import YesNoRow from '@components/common/grid/rows/YesNoRow';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import DummyColumnHeader from '@components/common/grid/headers/Dummy';
-import { Form } from '@components/common/form/Form';
-import { Field } from '@components/common/form/Field';
+import { useAlertContext } from '@components/common/modal/Alert';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 function Actions({ attributes = [], selectedIds = [] }) {

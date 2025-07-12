@@ -1,6 +1,6 @@
+import { ItemVariantOptions } from '@components/frontStore/checkout/cart/items/ItemVariantOptions';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ItemVariantOptions } from '@components/frontStore/checkout/cart/items/ItemVariantOptions';
 import './Items.scss';
 import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
 
@@ -10,7 +10,6 @@ function Items({ items, priceIncludingTax }) {
       <table className="listing items-table">
         <tbody>
           {items.map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
             <tr key={index}>
               <td>
                 <div className="product-thumbnail">

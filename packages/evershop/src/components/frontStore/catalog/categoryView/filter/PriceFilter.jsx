@@ -1,7 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+
 import './PriceFilter.scss';
-import { _ } from '@evershop/evershop/src/lib/locale/translate';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export function PriceFilter({
   priceRange: { min: minPrice, max: maxPrice },
@@ -154,7 +155,6 @@ export function PriceFilter({
           <div
             className="push"
             style={{
-              // eslint-disable-next-line no-mixed-operators
               width: `calc(${
                 ((from - minPrice) / (maxPrice - minPrice)) * 100
               }% + 3px)`
@@ -174,7 +174,6 @@ export function PriceFilter({
           <div
             className="push"
             style={{
-              // eslint-disable-next-line no-mixed-operators
               width: `calc(${
                 ((to - minPrice) / (maxPrice - minPrice)) * 100
               }% - 6px)`

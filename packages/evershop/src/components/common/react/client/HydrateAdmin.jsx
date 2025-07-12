@@ -6,6 +6,6 @@ const client = createClient({
   url: '/api/admin/graphql'
 });
 
-export default function HydrateAdmin() {
+export function HydrateAdmin() {
   return <Hydrate client={client} />;
 }

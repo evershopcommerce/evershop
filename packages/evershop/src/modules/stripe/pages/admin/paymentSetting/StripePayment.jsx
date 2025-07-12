@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { Card } from '@components/admin/cms/Card';
 import { Field } from '@components/common/form/Field';
 import { Toggle } from '@components/common/form/fields/Toggle';
-import { Card } from '@components/admin/cms/Card';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function StripePayment({
   setting: {
     stripePaymentStatus,
-    stripeDislayName,
+    stripeDisplayName,
     stripePublishableKey,
     stripeSecretKey,
     stripeEndpointSecret,
@@ -34,9 +34,9 @@ export default function StripePayment({
           <div className="col-span-2">
             <Field
               type="text"
-              name="stripeDislayName"
+              name="stripeDisplayName"
               placeholder="Dislay Name"
-              value={stripeDislayName}
+              value={stripeDisplayName}
             />
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function StripePayment({
 StripePayment.propTypes = {
   setting: PropTypes.shape({
     stripePaymentStatus: PropTypes.number,
-    stripeDislayName: PropTypes.string,
+    stripeDisplayName: PropTypes.string,
     stripePublishableKey: PropTypes.string,
     stripeSecretKey: PropTypes.string,
     stripeEndpointSecret: PropTypes.string,
@@ -129,7 +129,7 @@ export const layout = {
 export const query = `
   query Query {
     setting {
-      stripeDislayName
+      stripeDisplayName
       stripePaymentStatus
       stripePublishableKey
       stripeSecretKey

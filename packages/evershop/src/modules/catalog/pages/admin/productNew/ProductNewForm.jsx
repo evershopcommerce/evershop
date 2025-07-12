@@ -1,9 +1,9 @@
+import Area from '@components/common/Area';
+import { Form } from '@components/common/form/Form';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
-import Area from '@components/common/Area';
-import { Form } from '@components/common/form/Form';
-import { get } from '@evershop/evershop/src/lib/util/get';
+import { get } from '../../../../../lib/util/get.js';
 
 export default function ProductNewForm({ action }) {
   const id = 'productForm';
@@ -13,7 +13,6 @@ export default function ProductNewForm({ action }) {
       action={action}
       dataFilter={(formData) => {
         if (formData.tax_class === '') {
-          // eslint-disable-next-line no-param-reassign
           formData.tax_class = null;
         }
         return formData;

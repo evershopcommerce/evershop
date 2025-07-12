@@ -1,13 +1,12 @@
-const { update, select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
+import { update, select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../lib/postgres/connection.js';
+import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
+} from '../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const data = request.body;
   try {
     const group = await select()
