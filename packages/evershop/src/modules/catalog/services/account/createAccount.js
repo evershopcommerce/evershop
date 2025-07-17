@@ -46,7 +46,7 @@ async function validateAccountDataBeforeInsert(data, context, connection) {
 }
 
 async function insertAccountData(data, connection, context) {
-  let accounts = [];
+  const accounts = [];
   data.forEach(async (element, index) => {
     element.product_id = context.productId;
     element.status = 'active';

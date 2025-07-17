@@ -13,7 +13,7 @@ export default function Store({
   const modal = useModal();
   const isLoading = React.useRef(false);
   const editingStore = React.useRef(null);
-  console.log("store: " + store);
+  console.log(`store: ${  store}`);
   return (
     <div>
       {store.shopName === null && (

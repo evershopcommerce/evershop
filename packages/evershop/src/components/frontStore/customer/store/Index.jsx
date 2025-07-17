@@ -26,7 +26,7 @@ Index.propTypes = {
     accessApi: PropTypes.string
   }),
   areaId: PropTypes.string,
-  formId: PropTypes.string,
+  formId: PropTypes.string
 };
 
 Index.defaultProps = {

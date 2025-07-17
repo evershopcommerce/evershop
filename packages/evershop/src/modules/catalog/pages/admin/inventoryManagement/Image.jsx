@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import Button from '@components/common/form/Button';
 import './Image.scss';
 import { Card } from '@components/admin/cms/Card';
+
 const {
   getContextValue
 } = require('../../../../graphql/services/contextHelper');
@@ -12,18 +13,12 @@ const {
 export default function Image({ product }) {
   const [loading, setLoading] = useState(false);
   const ref = useRef();
-  const productType = product.productType;
-  const validateEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  const {productType} = product;
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   
-  const validatePassword = (password) => {
-    return password.length >= 6;
-  };
+  const validatePassword = (password) => password.length >= 6;
   
-  const validateKey = (key) => {
-    return key.trim().length > 0;
-  };
+  const validateKey = (key) => key.trim().length > 0;
   
   const validateLine = (line, productType) => {
     if (!line.trim()) return { status: "Invalid", details: "Empty line" };

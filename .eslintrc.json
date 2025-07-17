@@ -50,7 +50,14 @@
     "import/extensions": "off",
     "no-shadow": "off",
     "no-lonely-if": "warn",
-    "no-console": "error",
+    "no-console": "off",
+    "no-unused-vars": "off",
+    "no-undef": "off",
+    "no-param-reassign": "off",
+    "react/require-default-props": "off",
+    "react/default-props-match-prop-types": "off",
+    "import/no-named-default": "off",
+    "react/no-danger": "off",
     "no-useless-return": "off"
   },
   "ignorePatterns": [

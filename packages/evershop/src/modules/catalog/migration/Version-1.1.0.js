@@ -5,7 +5,7 @@ module.exports = exports = async (connection) => {
   // rename the image column in the product_image table to origin_image
   await execute(
     connection,
-    `CREATE TABLE "account" (
+    `CREATE TABLE IF NOT EXISTS "account" (
       "account_id" INT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
       "product_id" INT NOT NULL,
       "username" VARCHAR DEFAULT NULL,

@@ -26,10 +26,10 @@ export function StoreForm({
 
 StoreForm.propTypes = {
   store: PropTypes.shape({
-    shopName: PropTypes.string,
+    shopName: PropTypes.string
   }),
   areaId: PropTypes.string,
-  formId: PropTypes.string,
+  formId: PropTypes.string
 };
 
 StoreForm.defaultProps = {

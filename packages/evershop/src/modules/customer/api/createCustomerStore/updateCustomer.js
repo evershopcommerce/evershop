@@ -43,7 +43,7 @@ module.exports = async (request, response, delegate, next) => {
   await insert('store')
   .given({
     customer_id: customer.customer_id,
-    shop_name: request.body.shopName,
+    shop_name: request.body.shopName
   })
   .execute(connection);
 
