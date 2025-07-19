@@ -4,6 +4,25 @@ import React from 'react';
 import './PriceFilter.scss';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
+if (typeof document !== 'undefined')
+{
+  document.addEventListener('DOMContentLoaded', function () {
+    const input = document.querySelector('input.min');
+    const part = (input.value - input.min) / (input.max - input.min);
+    const div = input.nextElementSibling;
+    const x = part * (input.getBoundingClientRect().width - div.getBoundingClientRect().width);
+    div.style.left = x + 'px';
+  });
+}
+
+function minOnMouseOut (e) {
+  e.target.style.zIndex = 0;
+}
+
+function mindivOnMouseOver(e) {
+  e.target.previousSibling.style.zIndex = 2;
+}
+
 export function PriceFilter({
   priceRange: { min: minPrice, max: maxPrice },
   currentFilters,
@@ -114,6 +133,11 @@ export function PriceFilter({
     firstRender.current = false;
     const { value } = e.target;
     if (direction === 'min') {
+      const part = (e.target.value - e.target.min) / (e.target.max - e.target.min);
+      const div = e.target.nextElementSibling;
+      const x = part * (e.target.getBoundingClientRect().width - div.getBoundingClientRect().width);
+      div.style.left = x + 'px';
+
       if (value > to - 5) {
         setFrom(to - 5);
       } else {
@@ -150,6 +174,10 @@ export function PriceFilter({
           max={maxPrice}
           value={from}
           onChange={(e) => onChange(e, 'min')}
+          onMouseOut={(e) => minOnMouseOut(e)}
+        />
+        <div className="mindiv"
+           onMouseOver={(e) => mindivOnMouseOver(e)}
         />
         <div className="tooltip min">
           <div
