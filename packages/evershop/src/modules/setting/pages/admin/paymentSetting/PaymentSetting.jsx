@@ -1,4 +1,4 @@
-import SettingMenu from '@components/admin/setting/SettingMenu';
+import { SettingMenu } from '@components/admin/SettingMenu';
 import Area from '@components/common/Area';
 import { Form } from '@components/common/form/Form';
 import PropTypes from 'prop-types';

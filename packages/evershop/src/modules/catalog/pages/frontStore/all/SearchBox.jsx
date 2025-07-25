@@ -1,5 +1,5 @@
 import { Input } from '@components/common/form/fields/Input';
-import XIcon from '@heroicons/react/solid/esm/XIcon';
+import { XIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { _ } from '../../../../../lib/locale/translate/_.js';

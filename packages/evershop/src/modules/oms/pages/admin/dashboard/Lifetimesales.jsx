@@ -1,5 +1,5 @@
-import { Card } from '@components/admin/cms/Card';
-import Dot from '@components/common/Dot';
+import { Card } from '@components/admin/Card';
+import { Dot } from '@components/admin/Dot.js';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';

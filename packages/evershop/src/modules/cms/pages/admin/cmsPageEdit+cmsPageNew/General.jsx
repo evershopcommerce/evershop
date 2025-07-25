@@ -1,19 +1,12 @@
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
-import Editor from '@components/common/form/fields/Editor';
+import { Editor } from '@components/common/form/fields/Editor.js';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { get } from '../../../../../lib/util/get.js';
 
-
-export default function General({
-  page,
-  browserApi,
-  deleteApi,
-  uploadApi,
-  folderCreateApi
-}) {
+export default function General({ page }) {
   const fields = [
     {
       component: { default: Field },
@@ -41,11 +34,7 @@ export default function General({
       props: {
         id: 'content',
         name: 'content',
-        label: 'Content',
-        browserApi,
-        deleteApi,
-        uploadApi,
-        folderCreateApi
+        label: 'Content'
       },
       sortOrder: 30
     }
@@ -83,11 +72,7 @@ General.propTypes = {
         )
       })
     )
-  }),
-  browserApi: PropTypes.string.isRequired,
-  deleteApi: PropTypes.string.isRequired,
-  folderCreateApi: PropTypes.string.isRequired,
-  uploadApi: PropTypes.string.isRequired
+  })
 };
 
 General.defaultProps = {
@@ -110,9 +95,5 @@ export const query = `
       name
       content
     }
-    browserApi: url(routeId: "fileBrowser", params: [{key: "0", value: ""}])
-    deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
-    uploadApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
-    folderCreateApi: url(routeId: "folderCreate")
   }
 `;

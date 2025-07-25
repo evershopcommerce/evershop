@@ -1,4 +1,4 @@
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
 import Area from '@components/common/Area';
 import Button from '@components/common/form/Button';
 import { useFormContext } from '@components/common/form/Form';

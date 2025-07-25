@@ -1,5 +1,5 @@
-import { Card } from '@components/admin/cms/Card';
-import SettingMenu from '@components/admin/setting/SettingMenu';
+import { Card } from '@components/admin/Card';
+import { SettingMenu } from '@components/admin/SettingMenu';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';

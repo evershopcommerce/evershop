@@ -1,20 +1,18 @@
-import { Card } from '@components/admin/cms/Card';
-import CouponName from '@components/admin/promotion/couponGrid/rows/CouponName';
-import Area from '@components/common/Area';
+import { Card } from '@components/admin/Card';
+import { Filter } from '@components/admin/grid/Filter';
+import { DummyColumnHeader } from '@components/admin/grid/header/Dummy';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
+import { Status } from '@components/admin/Status.js';
+import Area from '@components/common/Area.js';
 import { Field } from '@components/common/form/Field';
 import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Form } from '@components/common/form/Form';
-import DummyColumnHeader from '@components/common/grid/headers/Dummy';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import Pagination from '@components/common/grid/Pagination';
-import BasicRow from '@components/common/grid/rows/BasicRow';
-import StatusRow from '@components/common/grid/rows/StatusRow';
-import TextRow from '@components/common/grid/rows/TextRow';
-import Filter from '@components/common/list/Filter';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { CouponName } from './rows/CouponName.js';
 
 function Actions({ coupons = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -422,35 +420,27 @@ export default function CouponGrid({
                   },
                   {
                     component: {
-                      default: () => (
-                        <TextRow text={c.startDate?.text || '--'} />
-                      )
+                      default: () => <td>{c.startDate?.text || '--'}</td>
                     },
                     sortOrder: 20
                   },
                   {
                     component: {
-                      default: () => <TextRow text={c.endDate?.text || '--'} />
+                      default: () => <td>{c.endDate?.text || '--'}</td>
                     },
                     sortOrder: 30
                   },
                   {
                     component: {
                       default: ({ areaProps }) => (
-                        <StatusRow
-                          title="Status"
-                          id="status"
-                          areaProps={areaProps}
-                        />
+                        <Status status={parseInt(c.status, 10)} />
                       )
                     },
                     sortOrder: 40
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <BasicRow id="usedTime" areaProps={areaProps} />
-                      )
+                      default: ({ areaProps }) => <td>{c.usedTime}</td>
                     },
                     sortOrder: 50
                   }

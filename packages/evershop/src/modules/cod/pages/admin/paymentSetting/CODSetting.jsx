@@ -1,4 +1,4 @@
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
 import { Field } from '@components/common/form/Field';
 import { Toggle } from '@components/common/form/fields/Toggle';
 import PropTypes from 'prop-types';

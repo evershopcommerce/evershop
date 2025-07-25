@@ -1,9 +1,8 @@
-
-import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
-import ProductIcon from '@heroicons/react/solid/esm/ArchiveIcon';
-import AttributeIcon from '@heroicons/react/solid/esm/HashtagIcon';
-import CategoryIcon from '@heroicons/react/solid/esm/LinkIcon';
-import CollectionIcon from '@heroicons/react/solid/esm/TagIcon';
+import { NavigationItemGroup } from '@components/admin/NavigationItemGroup';
+import { ArchiveBoxIcon } from '@heroicons/react/24/solid';
+import { HashtagIcon } from '@heroicons/react/24/solid';
+import { LinkIcon } from '@heroicons/react/24/solid';
+import { TagIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -19,22 +18,22 @@ export default function CatalogMenuGroup({
       name="Catalog"
       items={[
         {
-          Icon: ProductIcon,
+          Icon: ArchiveBoxIcon,
           url: productGrid,
           title: 'Products'
         },
         {
-          Icon: CategoryIcon,
+          Icon: LinkIcon,
           url: categoryGrid,
           title: 'Categories'
         },
         {
-          Icon: CollectionIcon,
+          Icon: TagIcon,
           url: collectionGrid,
           title: 'Collections'
         },
         {
-          Icon: AttributeIcon,
+          Icon: HashtagIcon,
           url: attributeGrid,
           title: 'Attributes'
         }

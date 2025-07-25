@@ -1,5 +1,4 @@
-
-import Icon from '@heroicons/react/outline/UserIcon';
+import { UserIcon as Icon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import React from 'react';
 

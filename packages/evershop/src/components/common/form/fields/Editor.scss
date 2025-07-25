@@ -6,6 +6,23 @@ body .codex-editor {
   .row {
     background-color: #fff;
   }
+
+  .drag__icon {
+    cursor: move;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+
+    svg {
+      display: block; // Prevent extra space below svg
+    }
+  }
 }
 
 #rows > * {

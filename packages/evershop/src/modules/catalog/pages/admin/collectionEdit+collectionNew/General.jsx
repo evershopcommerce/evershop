@@ -1,19 +1,12 @@
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
-import Editor from '@components/common/form/fields/Editor';
+import { Editor } from '@components/common/form/fields/Editor.js';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { get } from '../../../../../lib/util/get.js';
 
-
-export default function General({
-  collection,
-  browserApi,
-  deleteApi,
-  uploadApi,
-  folderCreateApi
-}) {
+export default function General({ collection }) {
   const fields = [
     {
       component: { default: Field },
@@ -55,11 +48,7 @@ export default function General({
       props: {
         id: 'description',
         name: 'description',
-        label: 'Description',
-        browserApi,
-        deleteApi,
-        uploadApi,
-        folderCreateApi
+        label: 'Description'
       },
       sortOrder: 30
     }
@@ -80,10 +69,6 @@ export default function General({
 }
 
 General.propTypes = {
-  browserApi: PropTypes.string.isRequired,
-  deleteApi: PropTypes.string.isRequired,
-  folderCreateApi: PropTypes.string.isRequired,
-  uploadApi: PropTypes.string.isRequired,
   collection: PropTypes.shape({
     name: PropTypes.string,
     description: PropTypes.arrayOf(
@@ -121,9 +106,5 @@ export const query = `
       code
       description
     }
-    browserApi: url(routeId: "fileBrowser", params: [{key: "0", value: ""}])
-    deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
-    uploadApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
-    folderCreateApi: url(routeId: "folderCreate")
   }
 `;

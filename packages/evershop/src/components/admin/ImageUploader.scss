@@ -1,0 +1,188 @@
+.image-uploader-manager img {
+  max-width: 100%;
+}
+.image-uploader-manager .image-list {
+  grid-template-columns: repeat(4, 1fr);
+  display: grid;
+  grid-gap: 8px;
+  grid-auto-rows: 1fr;
+}
+
+/* Single image mode - responsive to parent */
+.image-uploader-manager .single-image-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+}
+
+.image-uploader-manager .single-image-container .image {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Position the remove icon above everything in single image mode */
+.image-uploader-manager .single-image-container .image .remove {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3; /* Higher than the Upload overlay */
+  background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+  border-radius: 50%;
+  padding: 5px;
+}
+
+/* Additional styling for the remove button in single mode */
+.single-mode-remove {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+}
+
+.image-uploader-manager .single-image-container .uploader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  background: transparent;
+  border: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+/* For small containers, adjust icon sizes */
+@media (max-width: 400px) {
+  .image-uploader-manager
+    .single-image-container
+    .uploader
+    .uploader-icon
+    label
+    svg {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .single-mode-remove {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.image-uploader-manager .single-image-container .uploader:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.image-uploader-manager .single-image-container .uploader .uploader-icon label {
+  color: white;
+  font-size: 30px;
+}
+
+/* When there's no image yet in single mode */
+.image-uploader-manager .single-image-container.no-image .uploader {
+  opacity: 1;
+  background: #f5f5f5;
+  border: 2px dashed #e1e1e1;
+}
+
+.image-uploader-manager
+  .single-image-container.no-image
+  .uploader
+  .uploader-icon
+  label {
+  color: #058c8c;
+}
+
+.image-uploader-manager .image-list .image {
+  position: relative;
+  padding: 5px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #e1e1e1;
+  background: #fff;
+  max-width: 150px;
+}
+.image-uploader-manager .image-list .uploader {
+  position: relative;
+  padding: 5px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #e1e1e1;
+  background: #fff;
+  max-width: 150px;
+}
+.image-uploader-manager .image-list .grid-item {
+  display: flex;
+}
+/* Apply special styling for the first grid item */
+.image-uploader-manager .image-list .grid-item:first-child,
+.image-uploader-manager .image-list .grid-item.first-item {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+  max-width: 100%;
+}
+
+.image-uploader-manager .image-list .grid-item:first-child:after,
+.image-uploader-manager .image-list .grid-item.first-item:after {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}
+
+.image-uploader-manager .image-list .image:first-child,
+.image-uploader-manager .image-list .image.first-item {
+  grid-row: 1 / span 2;
+}
+
+.image-uploader-manager .image-list .image:first-child img,
+.image-uploader-manager .image-list .image.first-item img {
+  max-width: 100%;
+}
+.image-uploader-manager .image-list {
+  outline: 0;
+}
+.image-uploader-manager .image-list .image .img {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image-uploader-manager .image-list .image .remove,
+.image-uploader-manager .image-list .image .zoom {
+  position: absolute;
+  top: 10px;
+}
+.image-uploader-manager .image-list .image .remove {
+  left: 10px;
+}
+.image-uploader-manager .image-list .image .zoom {
+  right: 10px;
+}
+.uploader .invisible {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.uploader .uploader-icon label {
+  cursor: pointer;
+  font-size: 20px;
+  color: #058c8c;
+}

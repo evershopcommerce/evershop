@@ -22,7 +22,7 @@
       background-color: #006e52;
     }
   }
-  &.critical {
+  &.danger {
     background-color: var(--critical);
     border: 0;
     color: white;
@@ -38,7 +38,7 @@
       background-color: #e6eef9;
     }
   }
-  &.outline.critical {
+  &.outline.danger {
     background-color: transparent;
     box-shadow: none;
     border-color: var(--critical);

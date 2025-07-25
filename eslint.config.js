@@ -81,7 +81,8 @@ export default [
       "no-useless-return": "off",
       "react/display-name": "off",
       "jsx-a11y/label-has-associated-control": "off",
-      
+      "jsx-a11y/role-supports-aria-props": "warn",
+      "jsx-a11y/no-noninteractive-element-interactions": "warn",
       // Add import sorting rules
       "import/order": ["warn", {
         "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],

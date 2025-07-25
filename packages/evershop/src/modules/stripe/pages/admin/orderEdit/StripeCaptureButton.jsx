@@ -1,4 +1,4 @@
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
 import Button from '@components/common/form/Button';
 import RenderIfTrue from '@components/common/RenderIfTrue';
 import axios from 'axios';

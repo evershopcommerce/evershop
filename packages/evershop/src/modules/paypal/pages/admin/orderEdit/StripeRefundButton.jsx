@@ -1,4 +1,4 @@
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
 import Button from '@components/common/form/Button';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';

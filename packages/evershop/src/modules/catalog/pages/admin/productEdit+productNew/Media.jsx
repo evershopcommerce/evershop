@@ -1,23 +1,46 @@
-import ProductMediaManager from '@components/admin/catalog/productEdit/media/ProductMediaManager';
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
+import { ImageUploader } from '@components/admin/ImageUploader.js';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function Media({ id, product, productImageUploadUrl }) {
-  const image = product?.image;
-  let gallery = product?.gallery || [];
+  const [images, setImages] = useState(
+    product?.image ? [product.image].concat(product?.gallery || []) : []
+  );
 
-  if (image) {
-    gallery = [image].concat(gallery);
-  }
   return (
     <Card title="Media">
       <Card.Session>
-        <ProductMediaManager
-          id={id || 'images'}
-          productImages={gallery}
-          productImageUploadUrl={productImageUploadUrl}
+        <ImageUploader
+          currentImages={images}
+          allowDelete={true}
+          allowSwap={true}
+          onDelete={(image) => {
+            setImages((prevImages) =>
+              prevImages.filter((i) => i.id !== image.id)
+            );
+          }}
+          onUpload={(images) => {
+            setImages((prevImages) => [...prevImages, ...images]);
+          }}
+          onSortEnd={(oldIndex, newIndex) => {
+            const newImages = [...images];
+            const [movedImage] = newImages.splice(oldIndex, 1);
+            newImages.splice(newIndex, 0, movedImage);
+            setImages(newImages);
+          }}
+          targetPath={`catalog/${
+            Math.floor(Math.random() * (9999 - 1000)) + 1000
+          }/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`}
         />
+        {images.map((image) => (
+          <input
+            key={image.id}
+            type="hidden"
+            name="images[]"
+            value={image.url}
+          />
+        ))}
       </Card.Session>
     </Card>
   );

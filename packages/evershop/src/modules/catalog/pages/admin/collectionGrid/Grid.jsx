@@ -1,17 +1,16 @@
-import CollectionNameRow from '@components/admin/catalog/collectionGrid/rows/CollectionNameRow';
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
+import { DummyColumnHeader } from '@components/admin/grid/header/Dummy';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
 import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Form } from '@components/common/form/Form';
-import DummyColumnHeader from '@components/common/grid/headers/Dummy';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import Pagination from '@components/common/grid/Pagination';
-import TextRow from '@components/common/grid/rows/TextRow';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { CollectionNameRow } from './rows/CollectionNameRow.js';
 
 function Actions({ collections = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -236,9 +235,7 @@ export default function CollectionGrid({
                   coreComponents={[
                     {
                       component: {
-                        default: () => (
-                          <TextRow text={c.collectionId.toString()} />
-                        )
+                        default: () => <td>{c.collectionId.toString()}</td>
                       },
                       sortOrder: 5
                     },
@@ -256,7 +253,7 @@ export default function CollectionGrid({
                     },
                     {
                       component: {
-                        default: () => <TextRow text={c.code} />
+                        default: () => <td>{c.code}</td>
                       },
                       sortOrder: 15
                     }

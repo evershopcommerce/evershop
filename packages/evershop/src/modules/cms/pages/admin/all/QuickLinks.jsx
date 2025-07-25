@@ -1,5 +1,5 @@
-import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
-import Icon from '@heroicons/react/solid/esm/HomeIcon';
+import { NavigationItemGroup } from '@components/admin/NavigationItemGroup';
+import { HomeIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -10,7 +10,7 @@ export default function QuickLinks({ dashboard }) {
       name="Quick links"
       items={[
         {
-          Icon,
+          Icon: HomeIcon,
           url: dashboard,
           title: 'Dashboard'
         }

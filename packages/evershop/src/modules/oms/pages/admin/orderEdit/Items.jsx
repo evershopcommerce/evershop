@@ -1,12 +1,12 @@
+import { Circle } from '@components/admin/Circle.js';
+import Area from '@components/common/Area';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '@components/common/Area';
-import { Circle } from '@components/common/Circle';
 import './Items.scss';
-import { Card } from '@components/admin/cms/Card';
-import { Name } from '@components/admin/oms/orderEdit/items/Name';
-import { Price } from '@components/admin/oms/orderEdit/items/Price';
-import { Thumbnail } from '@components/admin/oms/orderEdit/items/Thumbnail';
+import { Card } from '@components/admin/Card';
+import { Name } from './items/Name.js';
+import { Price } from './items/Price.js';
+import { Thumbnail } from './items/Thumbnail.js';
 
 export default function Items({ order: { items, shipmentStatus } }) {
   return (

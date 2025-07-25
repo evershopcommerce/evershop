@@ -1,4 +1,4 @@
-import Dot from '@components/common/Dot';
+import { Dot } from '@components/admin/Dot.js';
 import PropTypes from 'prop-types';
 import React from 'react';
 

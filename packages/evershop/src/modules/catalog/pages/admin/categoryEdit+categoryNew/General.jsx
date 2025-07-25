@@ -1,16 +1,17 @@
-import CategoryTree from '@components/admin/catalog/productEdit/category/CategoryTree';
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
+import { CategoryTree } from '@components/admin/CategoryTree.js';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
-import Editor from '@components/common/form/fields/Editor';
+import { Editor } from '@components/common/form/fields/Editor.js';
+import { useModal } from '@components/common/modal/useModal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { get } from '../../../../../lib/util/get.js';
 
-
 function ParentCategory({ currentId, parent }) {
   const [selecting, setSelecting] = React.useState(false);
   const [category, setCategory] = React.useState(parent || null);
+  const modal = useModal();
 
   return (
     <div className="mt-6 relative">
@@ -28,7 +29,7 @@ function ParentCategory({ currentId, parent }) {
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                setSelecting(true);
+                modal.open();
               }}
             >
               Change
@@ -59,18 +60,17 @@ function ParentCategory({ currentId, parent }) {
           Select category
         </a>
       )}
-      {selecting && (
-        <CategoryTree
-          selectedCategory={category}
-          setSelectedCategory={(c) => {
-            if (c.categoryId === currentId) {
-              return;
-            }
-            setCategory(c);
-            setSelecting(false);
-          }}
-        />
-      )}
+      <modal.Content title="Select a parent category">
+        <div className="px-3">
+          <CategoryTree
+            selectedCategory={category}
+            onSelect={(c) => {
+              setCategory(c);
+              modal.close();
+            }}
+          />
+        </div>
+      </modal.Content>
       <input
         type="hidden"
         name="parent_id"
@@ -98,13 +98,7 @@ ParentCategory.defaultProps = {
   currentId: null
 };
 
-export default function General({
-  category,
-  browserApi,
-  deleteApi,
-  uploadApi,
-  folderCreateApi
-}) {
+export default function General({ category }) {
   const fields = [
     {
       component: { default: Field },
@@ -141,11 +135,7 @@ export default function General({
       props: {
         id: 'description',
         name: 'description',
-        label: 'Description',
-        browserApi,
-        deleteApi,
-        uploadApi,
-        folderCreateApi
+        label: 'Description'
       },
       sortOrder: 30
     }
@@ -166,10 +156,6 @@ export default function General({
 }
 
 General.propTypes = {
-  browserApi: PropTypes.string.isRequired,
-  deleteApi: PropTypes.string.isRequired,
-  folderCreateApi: PropTypes.string.isRequired,
-  uploadApi: PropTypes.string.isRequired,
   category: PropTypes.shape({
     name: PropTypes.string,
     description: PropTypes.arrayOf(
@@ -223,9 +209,5 @@ export const query = `
         }
       }
     }
-    browserApi: url(routeId: "fileBrowser", params: [{key: "0", value: ""}])
-    deleteApi: url(routeId: "fileDelete", params: [{key: "0", value: ""}])
-    uploadApi: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
-    folderCreateApi: url(routeId: "folderCreate")
   }
 `;

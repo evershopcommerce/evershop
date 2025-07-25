@@ -1,20 +1,18 @@
-import AttributeNameRow from '@components/admin/catalog/attributeGrid/rows/AttributeName';
-import GroupRow from '@components/admin/catalog/attributeGrid/rows/GroupRow';
-import { Card } from '@components/admin/cms/Card';
-import Area from '@components/common/Area';
+import { Card } from '@components/admin/Card.js';
+import { DummyColumnHeader } from '@components/admin/grid/header/Dummy';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
+import Area from '@components/common/Area.js';
 import { Field } from '@components/common/form/Field';
 import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Form } from '@components/common/form/Form';
-import DummyColumnHeader from '@components/common/grid/headers/Dummy';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import Pagination from '@components/common/grid/Pagination';
-import BasicRow from '@components/common/grid/rows/BasicRow';
-import YesNoRow from '@components/common/grid/rows/YesNoRow';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { AttributeNameRow } from './rows/AttributeName.js';
+import { GroupRow } from './rows/GroupRow.js';
 
 function Actions({ attributes = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -288,21 +286,19 @@ export default function AttributeGrid({
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <BasicRow id="type" areaProps={areaProps} />
-                      )
+                      default: ({ areaProps }) => <td>{a.type}</td>
                     },
                     sortOrder: 20
                   },
                   {
                     component: {
-                      default: () => <YesNoRow value={a.isRequired} />
+                      default: () => <td>{a.isRequired ? 'Yes' : 'No'}</td>
                     },
                     sortOrder: 25
                   },
                   {
                     component: {
-                      default: () => <YesNoRow value={a.isFilterable} />
+                      default: () => <td>{a.isFilterable ? 'Yes' : 'No'}</td>
                     },
                     sortOrder: 30
                   }

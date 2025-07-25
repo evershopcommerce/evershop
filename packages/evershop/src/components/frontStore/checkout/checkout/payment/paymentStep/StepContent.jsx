@@ -1,10 +1,10 @@
+import Spinner from '@components/admin/Spinner';
 import Area from '@components/common/Area';
 import { useCheckout } from '@components/common/context/checkout';
 import { useCheckoutStepsDispatch } from '@components/common/context/checkoutSteps';
 import Button from '@components/common/form/Button';
 import { Field } from '@components/common/form/Field';
 import { Form } from '@components/common/form/Form';
-import Spinner from '@components/common/Spinner';
 import { BillingAddress } from '@components/frontStore/checkout/checkout/payment/paymentStep/BillingAddress';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index';
 import PropTypes from 'prop-types';

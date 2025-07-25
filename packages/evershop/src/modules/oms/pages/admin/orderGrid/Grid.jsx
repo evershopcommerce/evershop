@@ -1,21 +1,18 @@
-import { Card } from '@components/admin/cms/Card';
-import CreateAt from '@components/admin/customer/customerGrid/rows/CreateAt';
-import OrderNumberRow from '@components/admin/oms/orderGrid/rows/OrderNumberRow';
-import PaymentStatusRow from '@components/admin/oms/orderGrid/rows/PaymentStatus';
-import ShipmentStatusRow from '@components/admin/oms/orderGrid/rows/ShipmentStatus';
-import TotalRow from '@components/admin/oms/orderGrid/rows/TotalRow';
+import { Card } from '@components/admin/Card';
+import { Filter } from '@components/admin/grid/Filter';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
 import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Form } from '@components/common/form/Form';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import Pagination from '@components/common/grid/Pagination';
-import BasicRow from '@components/common/grid/rows/BasicRow';
-import Filter from '@components/common/list/Filter';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { OrderNumber } from './rows/OrderNumber.js';
+import { PaymentStatus } from './rows/PaymentStatus.js';
+import { ShipmentStatus } from './rows/ShipmentStatus.js';
 
 function Actions({ orders = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -369,8 +366,8 @@ export default function OrderGrid({
                   {
                     component: {
                       default: () => (
-                        <OrderNumberRow
-                          name={o.orderNumber}
+                        <OrderNumber
+                          number={o.orderNumber}
                           editUrl={o.editUrl}
                         />
                       )
@@ -379,37 +376,33 @@ export default function OrderGrid({
                   },
                   {
                     component: {
-                      default: () => <CreateAt time={o.createdAt.text} />
+                      default: () => <td>{o.createdAt.text}</td>
                     },
                     sortOrder: 10
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <BasicRow id="customerEmail" areaProps={areaProps} />
-                      )
+                      default: ({ areaProps }) => <td>{o.customerEmail}</td>
                     },
                     sortOrder: 15
                   },
                   {
                     component: {
                       default: () => (
-                        <ShipmentStatusRow status={o.shipmentStatus} />
+                        <ShipmentStatus status={o.shipmentStatus} />
                       )
                     },
                     sortOrder: 20
                   },
                   {
                     component: {
-                      default: () => (
-                        <PaymentStatusRow status={o.paymentStatus} />
-                      )
+                      default: () => <PaymentStatus status={o.paymentStatus} />
                     },
                     sortOrder: 25
                   },
                   {
                     component: {
-                      default: () => <TotalRow total={o.grandTotal.text} />
+                      default: () => <td>{o.grandTotal.text}</td>
                     },
                     sortOrder: 30
                   }

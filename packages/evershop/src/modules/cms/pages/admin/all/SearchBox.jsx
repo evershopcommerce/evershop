@@ -1,5 +1,5 @@
+import Spinner from '@components/admin/Spinner';
 import { Input } from '@components/common/form/fields/Input';
-import Spinner from '@components/common/Spinner';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { useQuery } from 'urql';

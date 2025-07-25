@@ -1,6 +1,5 @@
-
-import ChevronDoubleLeftIcon from '@heroicons/react/outline/ChevronLeftIcon';
-import ChevronDoubleRightIcon from '@heroicons/react/outline/ChevronRightIcon';
+import { ChevronLeftIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -22,12 +21,12 @@ export function SimplePageination({ total, count, page, hasNext, setPage }) {
               setPage(page - 1);
             }}
           >
-            <ChevronDoubleLeftIcon width={15} height={15} />
+            <ChevronLeftIcon width={15} height={15} />
           </a>
         )}
         {page === 1 && (
           <span className="border rounded p-[5px] border-divider text-divider">
-            <ChevronDoubleLeftIcon width={15} height={15} />
+            <ChevronLeftIcon width={15} height={15} />
           </span>
         )}
         {hasNext && (
@@ -39,12 +38,12 @@ export function SimplePageination({ total, count, page, hasNext, setPage }) {
               setPage(page + 1);
             }}
           >
-            <ChevronDoubleRightIcon width={15} height={15} />
+            <ChevronRightIcon width={15} height={15} />
           </a>
         )}
         {!hasNext && (
           <span className="border rounded p-[5px] border-divider text-divider">
-            <ChevronDoubleRightIcon width={15} height={15} />
+            <ChevronRightIcon width={15} height={15} />
           </span>
         )}
       </div>

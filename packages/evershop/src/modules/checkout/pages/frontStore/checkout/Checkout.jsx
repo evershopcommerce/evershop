@@ -5,7 +5,7 @@ import {
   useCheckoutSteps,
   useCheckoutStepsDispatch
 } from '@components/common/context/checkoutSteps';
-import Chervon from '@heroicons/react/outline/ChevronRightIcon';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -26,7 +26,7 @@ function Breadcrumb() {
         const separator =
           index < steps.length - 1 ? (
             <span className="separator">
-              <Chervon width={10} height={10} />
+              <ChevronRightIcon width={10} height={10} />
             </span>
           ) : null;
         if (step.isCompleted === true) {

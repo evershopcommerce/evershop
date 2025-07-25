@@ -1,10 +1,9 @@
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { get } from '../../../../../lib/util/get.js';
-
 
 export default function Seo({ page }) {
   const fields = [

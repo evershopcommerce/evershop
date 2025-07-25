@@ -1,5 +1,5 @@
-import { Card } from '@components/admin/cms/Card';
-import CollectionIcon from '@heroicons/react/solid/esm/TagIcon';
+import { Card } from '@components/admin/Card';
+import { TagIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -12,7 +12,7 @@ export default function Collections({ product: { collections } }) {
             className="flex justify-start gap-4 items-center align-middle"
             key={collection.uuid}
           >
-            <CollectionIcon width={16} height={16} fill="#2c6ecb" />
+            <TagIcon width={16} height={16} fill="#2c6ecb" />
             <a href={collection.editUrl} className="hover:underline">
               <span>{collection.name}</span>
             </a>

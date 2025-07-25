@@ -1,17 +1,16 @@
-import CategoryNameRow from '@components/admin/catalog/categoryGrid/rows/CategoryName';
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
+import { Status } from '@components/admin/Status.js';
 import Area from '@components/common/Area';
 import { Field } from '@components/common/form/Field';
 import { Checkbox } from '@components/common/form/fields/Checkbox';
 import { Form } from '@components/common/form/Form';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import Pagination from '@components/common/grid/Pagination';
-import StatusRow from '@components/common/grid/rows/StatusRow';
-import YesNoRow from '@components/common/grid/rows/YesNoRow';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { CategoryNameRow } from './rows/CategoryName.js';
 
 function Actions({ categories = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -240,14 +239,14 @@ export default function CategoryGrid({
                   {
                     component: {
                       default: ({ areaProps }) => (
-                        <StatusRow id="status" areaProps={areaProps} />
+                        <Status status={parseInt(c.status, 10)} />
                       )
                     },
                     sortOrder: 25
                   },
                   {
                     component: {
-                      default: () => <YesNoRow value={c.includeInNav} />
+                      default: () => <td>{c.includeInNav ? 'Yes' : 'No'}</td>
                     },
                     sortOrder: 30
                   }

@@ -66,8 +66,8 @@
       "types": "./dist/components/common/index.d.ts"
     },
     "./components/admin": {
-      "import": "./dist/components/admin/index.js",
-      "types": "./dist/components/admin/index.d.ts"
+      "import": "./dist/components/admin/*.js",
+      "types": "./dist/components/admin/*.d.ts"
     },
     "./components/frontend": {
       "import": "./dist/components/storeFront/index.js",
@@ -130,7 +130,9 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^36.0.1",
     "@ckeditor/ckeditor5-react": "^5.1.0",
-    "@editorjs/editorjs": "^2.30.2",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@editorjs/editorjs": "^2.30.8",
     "@editorjs/header": "^2.8.7",
     "@editorjs/list": "^1.10.0",
     "@editorjs/quote": "^2.6.0",
@@ -141,9 +143,8 @@
     "@graphql-tools/merge": "^8.4.2",
     "@graphql-tools/schema": "^9.0.19",
     "@hapi/topo": "^5.0.0",
-    "@heroicons/react": "^1.0.5",
+    "@heroicons/react": "^2.2.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.0",
-    "@shopify/draggable": "^1.0.0-beta.8",
     "@stripe/react-stripe-js": "^1.5.0",
     "@stripe/stripe-js": "^1.18.0",
     "@swc/cli": "^0.7.7",
@@ -177,6 +178,7 @@
     "html-entities": "^2.3.3",
     "html-webpack-plugin": "^5.5.0",
     "immer": "^9.0.3",
+    "install": "^0.13.0",
     "jsesc": "^3.0.2",
     "json5": "^2.2.1",
     "kleur": "3.0.3",
@@ -185,6 +187,7 @@
     "mini-css-extract-plugin": "^2.6.1",
     "multer": "^2.0.1",
     "node-cron": "^3.0.3",
+    "npm": "^11.4.2",
     "ora": "^5.4.1",
     "pg": "^8.11.3",
     "postcss": "^8.4.18",

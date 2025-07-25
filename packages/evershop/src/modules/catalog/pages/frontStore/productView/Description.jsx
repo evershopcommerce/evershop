@@ -7,7 +7,6 @@ export default function Description({ product: { description } }) {
     <div className="mt-8 md:mt-12">
       <div className="product-description">
         <Editor rows={description} />
-        bb
       </div>
     </div>
   );

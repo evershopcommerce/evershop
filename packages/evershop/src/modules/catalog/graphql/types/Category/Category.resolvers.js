@@ -82,6 +82,12 @@ export default {
         };
       }
     },
+    hasChildren: async (category, _, { pool }) => {
+      const query = select().from('category');
+      query.where('category.parent_id', '=', category.categoryId);
+      const results = await query.execute(pool);
+      return results.length > 0;
+    },
     children: async (category, _, { pool }) => {
       const query = select().from('category');
       query
