@@ -1,0 +1,1 @@
+{ "methods": ["GET"], "path": "/vendor/stats", "access": "vendor" }

@@ -1,0 +1,5 @@
+{
+  "path": "/admin/vendor/dashboard",
+  "component": "./vendorDashboard",
+  "roles": ["vendor"]
+}

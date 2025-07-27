@@ -6,10 +6,16 @@
                 "resolve": "extensions/momo",
                 "enabled": true,
                 "priority": 10
+            },
+            {
+                "name": "vendor-role",
+                "resolve": "extensions/vendor-role",
+                "enabled": true,
+                "priority": 5
             }
         ]
     },
-    "shop" : {
+    "shop": {
         "currency": "VND"
     }
 }
