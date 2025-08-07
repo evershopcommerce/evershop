@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import './MiniCart.scss';
 import { useAppState } from '@components/common/context/app';
-import { ShoppingBagIcon } from '@heroicons/react/outline';
+import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import { get } from '../../../../../lib/util/get.js';
 
 export default function MiniCart({ cartUrl, cart }) {

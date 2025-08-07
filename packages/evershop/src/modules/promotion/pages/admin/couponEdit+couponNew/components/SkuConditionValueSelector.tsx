@@ -1,4 +1,5 @@
 import { ProductSelector } from '@components/admin/ProductSelector.js';
+import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
 import React from 'react';
 
@@ -49,7 +50,11 @@ export const SkuConditionValueSelector: React.FC<{
         ))}
         {selectedSKUs.current.length === 0 && <span>Choose SKUs</span>}
       </a>
-      <modal.Content title="Select Products">
+      <Modal
+        title="Select Products"
+        onClose={modal.close}
+        isOpen={modal.isOpen}
+      >
         <div className="overflow-auto" style={{ maxHeight: '60vh' }}>
           <ProductSelector
             onSelect={onSelect}
@@ -61,7 +66,7 @@ export const SkuConditionValueSelector: React.FC<{
             }))}
           />
         </div>
-      </modal.Content>
+      </Modal>
     </div>
   );
 };

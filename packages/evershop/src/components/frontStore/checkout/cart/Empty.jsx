@@ -1,5 +1,5 @@
+import Button from '@components/common/Button';
 import { useAppState } from '@components/common/context/app';
-import Button from '@components/common/form/Button';
 import React from 'react';
 import { _ } from '../../../../lib/locale/translate/_.js';
 import { get } from '../../../../lib/util/get.js';

@@ -142,17 +142,19 @@ const ProductSelector: React.FC<{
   }
 
   return (
-    <div className="overflow-y-auto h-4/5 divide-y flex flex-col gap-8">
-      <div className="border rounded border-divider">
-        <input
-          type="text"
-          value={inputValue || ''}
-          placeholder="Search products"
-          onChange={(e) => {
-            setInputValue(e.target.value);
-            setLoading(true);
-          }}
-        />
+    <div>
+      <div className="p-2">
+        <div className="form-field">
+          <input
+            type="text"
+            value={inputValue || ''}
+            placeholder="Search products"
+            onChange={(e) => {
+              setInputValue(e.target.value);
+              setLoading(true);
+            }}
+          />
+        </div>
       </div>
       {(fetching || loading) && <ProductListSkeleton />}
       {!fetching && data && !loading && (

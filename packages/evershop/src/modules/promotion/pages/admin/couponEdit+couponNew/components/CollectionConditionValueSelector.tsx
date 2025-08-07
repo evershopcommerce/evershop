@@ -1,4 +1,5 @@
 import { CollectionSelector } from '@components/admin/CollectionSelector.js';
+import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
 import React from 'react';
 
@@ -56,7 +57,11 @@ export const CollectionConditionValueSelector: React.FC<{
         ))}
         {selectedIds.current.length === 0 && <span>Choose Collections</span>}
       </a>
-      <modal.Content title="Select Products">
+      <Modal
+        title="Select Products"
+        onClose={modal.close}
+        isOpen={modal.isOpen}
+      >
         <div className="overflow-auto" style={{ maxHeight: '60vh' }}>
           <CollectionSelector
             onSelect={onSelect}
@@ -67,7 +72,7 @@ export const CollectionConditionValueSelector: React.FC<{
             }))}
           />
         </div>
-      </modal.Content>
+      </Modal>
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import { Card } from '@components/admin/Card.js';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { New } from './variants/New.js';
 import { Variants } from './variants/Variants.js';
@@ -37,11 +36,14 @@ const VariantGroup: React.FC<VariantGroupProps> = ({
   createVariantGroupApi,
   createProductApi
 }) => {
-  const [group, setGroup] = React.useState(product?.variantGroup || null);
+  const [group, setGroup] = React.useState<VariantGroup | null>(
+    product?.variantGroup || null
+  );
   return (
     <Card title="Variant">
       {!group && (
         <New
+          currentProductUuid={product.uuid}
           createVariantGroupApi={createVariantGroupApi}
           setGroup={setGroup}
         />
@@ -51,40 +53,11 @@ const VariantGroup: React.FC<VariantGroupProps> = ({
           productId={product.productId}
           productUuid={product.uuid}
           variantGroup={group}
-          variantAttributes={group.attributes}
-          addVariantItemApi={group.addItemApi}
           createProductApi={createProductApi}
         />
       )}
     </Card>
   );
-};
-
-VariantGroup.propTypes = {
-  createProductApi: PropTypes.string.isRequired,
-  createVariantGroupApi: PropTypes.string.isRequired,
-  product: PropTypes.shape({
-    productId: PropTypes.number.isRequired,
-    uuid: PropTypes.string.isRequired,
-    variantGroup: PropTypes.shape({
-      variantGroupId: PropTypes.number.isRequired,
-      addItemApi: PropTypes.string.isRequired,
-      attributes: PropTypes.arrayOf(
-        PropTypes.shape({
-          attributeId: PropTypes.number.isRequired,
-          attributeCode: PropTypes.string.isRequired,
-          attributeName: PropTypes.string.isRequired,
-          options: PropTypes.arrayOf(
-            PropTypes.shape({
-              optionId: PropTypes.number.isRequired,
-              optionText: PropTypes.string.isRequired
-            })
-          ).isRequired
-        })
-      ).isRequired
-    })
-  }).isRequired,
-  productImageUploadUrl: PropTypes.string.isRequired
 };
 
 export const layout = {

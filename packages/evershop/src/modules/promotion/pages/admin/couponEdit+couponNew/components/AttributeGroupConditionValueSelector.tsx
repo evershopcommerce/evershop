@@ -1,4 +1,5 @@
 import { AttributeGroupSelector } from '@components/admin/AttributeGroupSelector.js';
+import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
 import React from 'react';
 
@@ -54,7 +55,11 @@ export const AttributeGroupConditionValueSelector: React.FC<{
           <span>Choose Attribute Groups</span>
         )}
       </a>
-      <modal.Content title="Select Attribute Groups">
+      <Modal
+        title="Select Attribute Groups"
+        onClose={modal.close}
+        isOpen={modal.isOpen}
+      >
         <div className="overflow-auto" style={{ maxHeight: '60vh' }}>
           <AttributeGroupSelector
             onSelect={onSelect}
@@ -65,7 +70,7 @@ export const AttributeGroupConditionValueSelector: React.FC<{
             }))}
           />
         </div>
-      </modal.Content>
+      </Modal>
     </div>
   );
 };

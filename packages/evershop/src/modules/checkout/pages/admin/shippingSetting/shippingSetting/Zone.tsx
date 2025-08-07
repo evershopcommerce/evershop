@@ -1,4 +1,5 @@
 import { Card } from '@components/admin/Card.js';
+import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
 import { MapPinIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
@@ -107,7 +108,11 @@ function Zone({ zone, reload }: ZoneProps) {
           </div>
         </div>
       </div>
-      <modal.Content title={`Edit Zone: ${zone.name}`}>
+      <Modal
+        title={`Edit Zone: ${zone.name}`}
+        onClose={modal.close}
+        isOpen={modal.isOpen}
+      >
         <ZoneForm
           formMethod="PATCH"
           saveZoneApi={zone.updateApi}
@@ -115,7 +120,7 @@ function Zone({ zone, reload }: ZoneProps) {
           reload={reload}
           zone={zone}
         />
-      </modal.Content>
+      </Modal>
     </Card.Session>
   );
 }

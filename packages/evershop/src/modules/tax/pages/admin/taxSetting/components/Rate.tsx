@@ -1,21 +1,23 @@
+import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
 import React from 'react';
 import { RateForm } from './RateForm.js';
 
+export interface TaxRate {
+  uuid: string;
+  name: string;
+  rate: number;
+  isCompound: boolean;
+  priority: number;
+  country: string;
+  province: string;
+  postcode: string;
+  updateApi: string;
+  deleteApi: string;
+}
 interface RateProps {
-  rate: {
-    uuid: string;
-    name: string;
-    isCompound: boolean;
-    rate: number;
-    priority: number;
-    country: string;
-    province: string;
-    postcode: string;
-    updateApi: string;
-    deleteApi: string;
-  };
-  getTaxClasses: (options?: { requestPolicy?: string }) => Promise<void>;
+  rate: TaxRate;
+  getTaxClasses: (options?: { requestPolicy?: string }) => Promise<void> | void;
 }
 
 function Rate({ rate, getTaxClasses }: RateProps) {
@@ -53,14 +55,14 @@ function Rate({ rate, getTaxClasses }: RateProps) {
           </a>
         </td>
       </>
-      <modal.Content title="Edit tax rate">
+      <Modal title="Edit tax rate" onClose={modal.close} isOpen={modal.isOpen}>
         <RateForm
           saveRateApi={rate.updateApi}
           closeModal={() => modal.close()}
           getTaxClasses={getTaxClasses}
           rate={rate}
         />
-      </modal.Content>
+      </Modal>
     </>
   );
 }

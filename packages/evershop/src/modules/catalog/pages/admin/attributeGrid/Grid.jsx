@@ -3,9 +3,8 @@ import { DummyColumnHeader } from '@components/admin/grid/header/Dummy';
 import { SortableHeader } from '@components/admin/grid/header/Sortable';
 import { Pagination } from '@components/admin/grid/Pagination';
 import Area from '@components/common/Area.js';
-import { Field } from '@components/common/form/Field';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Form } from '@components/common/form/Form';
+import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -128,17 +127,15 @@ export default function AttributeGrid({
       <Card.Session
         title={
           <Form submitBtn={false} id="attributeGridFilter">
-            <Field
-              type="text"
-              id="name"
+            <InputField
               name="name"
               placeholder="Search"
-              value={currentFilters.find((f) => f.key === 'name')?.value}
+              defaultValue={currentFilters.find((f) => f.key === 'name')?.value}
               onKeyPress={(e) => {
                 // If the user press enter, we should submit the form
                 if (e.key === 'Enter') {
                   const url = new URL(document.location);
-                  const name = document.getElementById('name')?.value;
+                  const name = e.target?.value;
                   if (name) {
                     url.searchParams.set('name[operation]', 'like');
                     url.searchParams.set('name[value]', name);
@@ -169,13 +166,16 @@ export default function AttributeGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox
-                onChange={(e) => {
-                  if (e.target.checked)
-                    setSelectedRows(attributes.map((a) => a.uuid));
-                  else setSelectedRows([]);
-                }}
-              />
+              <div className="form-field mb-0">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked)
+                      setSelectedRows(attributes.map((a) => a.uuid));
+                    else setSelectedRows([]);
+                  }}
+                />
+              </div>
             </th>
             <Area
               className=""
@@ -249,16 +249,21 @@ export default function AttributeGrid({
           {attributes.map((a) => (
             <tr key={a.attributeId}>
               <td>
-                <Checkbox
-                  isChecked={selectedRows.includes(a.uuid)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([a.uuid]));
-                    } else {
-                      setSelectedRows(selectedRows.filter((r) => r !== a.uuid));
-                    }
-                  }}
-                />
+                <div className="form-field mb-0">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(a.uuid)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(selectedRows.concat([a.uuid]));
+                      } else {
+                        setSelectedRows(
+                          selectedRows.filter((r) => r !== a.uuid)
+                        );
+                      }
+                    }}
+                  />
+                </div>
               </td>
               <Area
                 className=""

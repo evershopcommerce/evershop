@@ -1,11 +1,12 @@
 import { Card } from '@components/admin/Card.js';
 import Spinner from '@components/admin/Spinner.js';
-import Button from '@components/common/form/Button.js';
-import { Field } from '@components/common/form/Field.js';
-import { Input } from '@components/common/form/fields/Input.js';
-import { Radio } from '@components/common/form/fields/Radio.js';
-import { Toggle } from '@components/common/form/fields/Toggle.js';
-import { Form } from '@components/common/form/Form.js';
+import Button from '@components/common/Button.js';
+import { Form, useFormContext } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
+import { NumberField } from '@components/common/form/NumberField.js';
+import { RadioGroupField } from '@components/common/form/RadioGroupField.js';
+import { ToggleField } from '@components/common/form/ToggleField.js';
+import { UrlField } from '@components/common/form/UrlField.js';
 import React from 'react';
 import CreatableSelect from 'react-select/creatable';
 import { toast } from 'react-toastify';
@@ -30,23 +31,23 @@ export interface ConditionProps {
 }
 
 function Condition({ method }: ConditionProps) {
-  const [type, setType] = React.useState(method?.conditionType || 'price');
+  const { watch } = useFormContext();
+  const type = watch('condition_type');
   return (
     <div>
       <div className="mb-4">
-        <Radio
+        <RadioGroupField
           name="condition_type"
           options={[
-            { value: 'price', text: 'Based on order price' },
-            { value: 'weight', text: 'Based on order weight' }
+            { value: 'price', label: 'Based on order price' },
+            { value: 'weight', label: 'Based on order weight' }
           ]}
-          onChange={(value) => setType(value)}
-          value={type}
+          defaultValue={method?.conditionType || 'price'}
         />
       </div>
       <div className="grid grid-cols-2 gap-8">
         <div>
-          <Field
+          <NumberField
             name="min"
             label={
               type === 'price' ? 'Minimum order price' : 'Minimum order weight'
@@ -54,13 +55,14 @@ function Condition({ method }: ConditionProps) {
             placeholder={
               type === 'price' ? 'Minimum order price' : 'Minimum order weight'
             }
-            type="text"
-            value={method?.min || ''}
-            validationRules={['notEmpty']}
+            defaultValue={method?.min || 0}
+            required
+            validation={{ required: 'Min is required' }}
+            helperText="This is the minimum order price or weight to apply this condition."
           />
         </div>
         <div>
-          <Field
+          <NumberField
             name="max"
             label={
               type === 'price' ? 'Maximum order price' : 'Maximum order weight'
@@ -68,9 +70,9 @@ function Condition({ method }: ConditionProps) {
             placeholder={
               type === 'price' ? 'Maximum order price' : 'Maximum order weight'
             }
-            type="text"
-            value={method?.max || ''}
-            validationRules={['notEmpty']}
+            defaultValue={method?.max || 0}
+            validation={{ required: 'Max is required' }}
+            helperText="This is the maximum order price or weight to apply this condition."
           />
         </div>
       </div>
@@ -78,8 +80,17 @@ function Condition({ method }: ConditionProps) {
   );
 }
 
-Condition.defaultProps = {
-  method: null
+const getType = (method: ShippingMethod | null) => {
+  if (method?.calculateApi) {
+    return 'api';
+  }
+  if (method?.priceBasedCost) {
+    return 'price_based_rate';
+  }
+  if (method?.weightBasedCost) {
+    return 'weight_based_rate';
+  }
+  return 'flat_rate';
 };
 
 export interface MethodFormProps {
@@ -95,18 +106,6 @@ function MethodForm({
   reload,
   method
 }: MethodFormProps) {
-  const [type, setType] = React.useState(() => {
-    if (method?.calculateApi) {
-      return 'api';
-    }
-    if (method?.priceBasedCost) {
-      return 'price_based_rate';
-    }
-    if (method?.weightBasedCost) {
-      return 'weight_based_rate';
-    }
-    return 'flat_rate';
-  });
   const [isLoading, setIsLoading] = React.useState(false);
   const [shippingMethod, setMethod] = React.useState(
     method
@@ -125,6 +124,8 @@ function MethodForm({
   const [result, reexecuteQuery] = useQuery({
     query: MethodsQuery
   });
+  const { watch } = useFormContext();
+  const typeWatch = watch('type');
 
   const handleCreate = async (inputValue) => {
     setIsLoading(true);
@@ -183,28 +184,13 @@ function MethodForm({
           />
         ) : (
           <div className="flex gap-4 justify-start items-center">
-            <Input
+            <InputField
               name="name"
-              type="text"
               placeholder="Method name"
-              validationRules={['notEmpty']}
-              value={name}
+              required
+              defaultValue={name}
               disabled={!updatingName}
-              suffix={
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (updatingName) setName(method.name);
-                    setUpdatingName(!updatingName);
-                  }}
-                >
-                  <span className="text-interactive">
-                    {updatingName ? 'Cancel' : 'Edit'}
-                  </span>
-                </a>
-              }
-              onChange={(e) => setName(e.target.value)}
+              validation={{ required: 'Method name is required' }}
             />
             {updatingName && (
               <Button
@@ -236,55 +222,53 @@ function MethodForm({
             )}
           </div>
         )}
-        <Field
+        <InputField
           type="hidden"
           name="method_id"
-          value={shippingMethod?.value || ''}
-          validationRules={['notEmpty']}
+          defaultValue={shippingMethod?.value || ''}
         />
-        <Toggle
+        <ToggleField
           name="is_enabled"
           label="Status"
-          value={method?.isEnabled || 0}
+          defaultValue={method?.isEnabled || 0}
         />
       </Card.Session>
       <Card.Session title="Setup shipping cost">
-        <Radio
+        <RadioGroupField
           name="calculation_type"
           options={[
-            { text: 'Flat rate', value: 'flat_rate' },
-            { text: 'Price based rate', value: 'price_based_rate' },
-            { text: 'Weight based rate', value: 'weight_based_rate' },
-            { text: 'API calculate', value: 'api' }
+            { label: 'Flat rate', value: 'flat_rate' },
+            { label: 'Price based rate', value: 'price_based_rate' },
+            { label: 'Weight based rate', value: 'weight_based_rate' },
+            { label: 'API calculate', value: 'api' }
           ]}
-          value={type}
-          onChange={(value) => {
-            setType(value);
-          }}
+          defaultValue={getType(method || null)}
         />
-        {type === 'flat_rate' && (
-          <Field
+        {typeWatch === 'flat_rate' && (
+          <NumberField
+            label="Flat rate cost"
             name="cost"
-            type="text"
             placeholder="Shipping cost"
-            validationRules={['notEmpty']}
-            value={method?.cost?.value || ''}
+            required
+            validation={{ required: 'Shipping cost is required' }}
+            helperText="This is the flat rate cost for shipping."
+            defaultValue={method?.cost?.value}
           />
         )}
-        {type === 'price_based_rate' && (
+        {typeWatch === 'price_based_rate' && (
           <PriceBasedPrice lines={method?.priceBasedCost || []} />
         )}
-        {type === 'weight_based_rate' && (
+        {typeWatch === 'weight_based_rate' && (
           <WeightBasedPrice lines={method?.weightBasedCost || []} />
         )}
-        {type === 'api' && (
-          <Field
+        {typeWatch === 'api' && (
+          <UrlField
             name="calculate_api"
-            type="text"
             placeholder="Calculate API endpoint"
-            validationRules={['notEmpty']}
-            value={method?.calculateApi || ''}
-            instruction="This API will be called to calculate shipping cost. It supposed to return a number."
+            required
+            validation={{ required: 'Calculate API is required' }}
+            defaultValue={method?.calculateApi || ''}
+            helperText="This API will be called to calculate shipping cost. It supposed to return a number."
           />
         )}
         <a
@@ -323,9 +307,5 @@ function MethodForm({
     </Form>
   );
 }
-
-MethodForm.defaultProps = {
-  method: null
-};
 
 export { MethodForm };

@@ -1,5 +1,5 @@
 import { Card } from '@components/admin/Card';
-import Button from '@components/common/form/Button';
+import Button from '@components/common/Button';
 import RenderIfTrue from '@components/common/RenderIfTrue';
 import axios from 'axios';
 import PropTypes from 'prop-types';

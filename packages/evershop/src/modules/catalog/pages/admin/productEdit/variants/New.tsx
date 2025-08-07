@@ -3,9 +3,10 @@ import React from 'react';
 import { CreateVariantGroup } from './CreateVariantGroup.js';
 
 export const New: React.FC<{
+  currentProductUuid: string;
   createVariantGroupApi: string;
   setGroup: (group: any) => void;
-}> = ({ createVariantGroupApi, setGroup }) => {
+}> = ({ currentProductUuid, createVariantGroupApi, setGroup }) => {
   const [action, setAction] = React.useState<'create' | undefined>();
   return (
     <>
@@ -34,6 +35,7 @@ export const New: React.FC<{
         {action === 'create' && (
           <div>
             <CreateVariantGroup
+              currentProductUuid={currentProductUuid}
               setGroup={setGroup}
               createVariantGroupApi={createVariantGroupApi}
             />

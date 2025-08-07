@@ -76,7 +76,7 @@ type Menu {
 Return a menu Widget
 """
 type BasicMenuWidget {
-  menus: [Menu],
+  menus: [Menu]
   isMain: Boolean
   className: String
 }
@@ -87,5 +87,5 @@ extend type Query {
   widgetTypes: [WidgetType]
   widgetType(code: String!): WidgetType
   textWidget(text: String, className: String): TextBlockWidget
-  basicMenuWidget(settings: JSON ): BasicMenuWidget
+  basicMenuWidget(settings: JSON): BasicMenuWidget
 }

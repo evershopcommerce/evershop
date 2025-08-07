@@ -210,21 +210,4 @@ export default () => {
     (filters) => [...filters, ...defaultPaginationFilters],
     2
   );
-
-  const parseMenus = (data) => {
-    if (data?.type !== 'basic_menu') {
-      return data;
-    }
-
-    data.settings = data.settings || {};
-    if (data.settings.menus) {
-      data.settings.menus = JSON.parse(data.settings.menus);
-    } else {
-      data.settings.menus = [];
-    }
-    return data;
-  };
-
-  addProcessor('widgetDataBeforeCreate', parseMenus, 1);
-  addProcessor('widgetDataBeforeUpdate', parseMenus, 1);
 };

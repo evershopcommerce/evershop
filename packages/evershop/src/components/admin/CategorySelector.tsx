@@ -1,4 +1,3 @@
-import { Card } from '@components/admin/Card.js';
 import { SimplePageination } from '@components/common/SimplePagination.js';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import React from 'react';
@@ -133,10 +132,10 @@ const CategorySelector: React.FC<{
   }
 
   return (
-    <Card title="Select categories">
-      <Card.Session>
-        <div>
-          <div className="border rounded border-divider mb-8">
+    <div>
+      <div>
+        <div className="p-2">
+          <div className="form-field">
             <input
               type="text"
               value={inputValue || ''}
@@ -147,94 +146,90 @@ const CategorySelector: React.FC<{
               }}
             />
           </div>
-          {(fetching || loading) && <CategoryListSkeleton />}
-          {!fetching && data && (
-            <div className="divide-y">
-              {data.categories.items.length === 0 && (
-                <div className="p-3 border border-divider rounded flex justify-center items-center">
-                  {inputValue ? (
-                    <p>
-                      No categories found for query &quot;{inputValue}&rdquo;
-                    </p>
-                  ) : (
-                    <p>You have no categories to display</p>
+        </div>
+        {(fetching || loading) && <CategoryListSkeleton />}
+        {!fetching && data && (
+          <div className="divide-y">
+            {data.categories.items.length === 0 && (
+              <div className="p-3 border border-divider rounded flex justify-center items-center">
+                {inputValue ? (
+                  <p>No categories found for query &quot;{inputValue}&rdquo;</p>
+                ) : (
+                  <p>You have no categories to display</p>
+                )}
+              </div>
+            )}
+            {data.categories.items.map((cat) => (
+              <div
+                key={cat.uuid}
+                className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
+              >
+                <div className="col-span-5">
+                  <h3>
+                    {cat.path.map((item, index) => (
+                      <span key={item.name} className="text-gray-500">
+                        {item.name}
+                        {index < cat.path.length - 1 && ' > '}
+                      </span>
+                    ))}
+                  </h3>
+                </div>
+                <div className="col-span-3 text-right">
+                  {!isCategorySelected(cat, internalSelectedCategories) && (
+                    <button
+                      type="button"
+                      className="button secondary"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        setInternalSelectedCategories((prev) => [
+                          ...prev,
+                          {
+                            categoryId: cat.categoryId,
+                            uuid: cat.uuid,
+                            name: cat.name
+                          }
+                        ]);
+                        onSelect(cat.categoryId, cat.uuid, cat.name);
+                      }}
+                    >
+                      Select
+                    </button>
+                  )}
+                  {isCategorySelected(cat, internalSelectedCategories) && (
+                    <a
+                      className="button primary"
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setInternalSelectedCategories((prev) =>
+                          prev.filter(
+                            (c) =>
+                              c.categoryId !== cat.categoryId &&
+                              c.uuid !== cat.uuid
+                          )
+                        );
+                        onUnSelect(cat.categoryId, cat.uuid, cat.name);
+                      }}
+                    >
+                      <CheckIcon className="w-5 h-5" />
+                    </a>
                   )}
                 </div>
-              )}
-              {data.categories.items.map((cat) => (
-                <div
-                  key={cat.uuid}
-                  className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
-                >
-                  <div className="col-span-5">
-                    <h3>
-                      {cat.path.map((item, index) => (
-                        <span key={item.name} className="text-gray-500">
-                          {item.name}
-                          {index < cat.path.length - 1 && ' > '}
-                        </span>
-                      ))}
-                    </h3>
-                  </div>
-                  <div className="col-span-3 text-right">
-                    {!isCategorySelected(cat, internalSelectedCategories) && (
-                      <button
-                        type="button"
-                        className="button secondary"
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          setInternalSelectedCategories((prev) => [
-                            ...prev,
-                            {
-                              categoryId: cat.categoryId,
-                              uuid: cat.uuid,
-                              name: cat.name
-                            }
-                          ]);
-                          onSelect(cat.categoryId, cat.uuid, cat.name);
-                        }}
-                      >
-                        Select
-                      </button>
-                    )}
-                    {isCategorySelected(cat, internalSelectedCategories) && (
-                      <a
-                        className="button primary"
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setInternalSelectedCategories((prev) =>
-                            prev.filter(
-                              (c) =>
-                                c.categoryId !== cat.categoryId &&
-                                c.uuid !== cat.uuid
-                            )
-                          );
-                          onUnSelect(cat.categoryId, cat.uuid, cat.name);
-                        }}
-                      >
-                        <CheckIcon className="w-5 h-5" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </Card.Session>
-      <Card.Session>
-        <div className="flex justify-between gap-8">
-          <SimplePageination
-            total={data?.categories.total || 0}
-            count={data?.categories?.items?.length || 0}
-            page={page}
-            hasNext={limit * page < data?.categories.total}
-            setPage={setPage}
-          />
-        </div>
-      </Card.Session>
-    </Card>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="flex justify-between gap-8">
+        <SimplePageination
+          total={data?.categories.total || 0}
+          count={data?.categories?.items?.length || 0}
+          page={page}
+          hasNext={limit * page < data?.categories.total}
+          setPage={setPage}
+        />
+      </div>
+    </div>
   );
 };
 

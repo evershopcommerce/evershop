@@ -1,7 +1,8 @@
-import { Field } from '@components/common/form/Field.js';
-import PubSub from 'pubsub-js';
-import React from 'react';
-import { FORM_FIELD_UPDATED } from '../../../../../../lib/util/events.js';
+import { InputField } from '@components/common/form/InputField.js';
+import { NumberField } from '@components/common/form/NumberField.js';
+import { SelectField } from '@components/common/form/SelectField.js';
+import React, { useEffect } from 'react';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { options, operators, Operator } from './conditionCriterias.js';
 import { ValueSelector } from './ValueSelector.js';
 
@@ -17,69 +18,58 @@ function Products({
   maxQty
 }: {
   targetProducts: Product[];
-  maxQty: string;
+  maxQty: number;
 }) {
-  const [products, setProducts] = React.useState<Product[]>(() =>
-    targetProducts.map((p) => ({ ...p, editable: false }))
-  );
+  const { setValue, watch, unregister } = useFormContext();
+  const { fields, append, remove, replace } = useFieldArray<{
+    target_products: {
+      products: Product[];
+    };
+  }>({
+    name: 'target_products.products'
+  });
+  const watchDiscountType = watch('discount_type');
+  const fieldWatch = watch('target_products.products');
 
-  const addProduct = (e) => {
-    e.persist();
-    e.preventDefault();
-    setProducts(
-      products.concat({
-        key: 'category',
-        operator: Operator.EQUAL,
-        value: '',
-        editable: true
-      })
+  useEffect(() => {
+    replace(
+      targetProducts.map((product) => ({
+        key: product.key,
+        operator: product.operator,
+        value: product.value
+      }))
     );
-  };
+    return () => {
+      unregister('target_products.products');
+    };
+  }, []);
 
-  const removeProduct = (e, index) => {
-    e.persist();
-    e.preventDefault();
-    const newProducts = products.filter((_, i) => i !== index);
-    setProducts(newProducts);
-  };
-
-  const updateProduct = (e, key, index) => {
-    e.persist();
-    e.preventDefault();
-    const newProducts = products.map((p, i) => {
-      if (i === index) {
-        if (key === 'key' && e.target.value === p.key) {
-          return {
-            ...p,
-            [key]: e.target.value,
-            operator: Operator.EQUAL,
-            value: ''
-          };
-        } else {
-          return {
-            ...p,
-            [key]: e.target.value
-          };
-        }
-      } else {
-        return p;
-      }
-    });
-    setProducts(newProducts);
-  };
-
+  if (
+    watchDiscountType !== 'fixed_discount_to_specific_products' &&
+    watchDiscountType !== 'percentage_discount_to_specific_products'
+  ) {
+    return null;
+  }
   return (
     <div>
       <div className="mb-4 mt-4">
-        <div className="flex justify-start items-center mb-12">
+        <div className="flex justify-start items-center">
           <div>Maximum</div>
-          <div style={{ width: '70px', padding: '0 1rem' }}>
-            <Field
-              type="text"
-              name="target_products[maxQty]"
-              value={maxQty}
+          <div style={{ width: '100px', padding: '0 1rem' }}>
+            <NumberField
+              name="target_products.maxQty"
+              defaultValue={maxQty}
               placeholder="10"
-              validationRules={['notEmpty', 'number']}
+              required
+              validation={{
+                required: 'Maximum quantity is required',
+                min: {
+                  value: 0,
+                  message: 'Maximum quantity must be greater than or equal to 0'
+                }
+              }}
+              min={0}
+              wrapperClassName="form-field mb-0"
             />
           </div>
           <div>quantity of products are matched bellow conditions(All)</div>
@@ -101,142 +91,110 @@ function Products({
           </tr>
         </thead>
         <tbody>
-          {products.map((p, i) => (
-            <tr key={i}>
+          {fields.map((product, index) => (
+            <tr key={product.id}>
               <td>
-                <div className="form-field-container dropdown">
-                  <div className="field-wrapper">
-                    {p.editable ? (
-                      <select
-                        name={`target_products[products][${i}][key]`}
-                        className="form-control"
-                        value={p.key}
-                        onChange={(e) => updateProduct(e, 'key', i)}
-                        disabled={!p.editable}
-                      >
-                        {options.map((option) => (
-                          <option key={option.key} value={option.key}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
-                    ) : (
-                      <>
-                        <input
-                          type="hidden"
-                          name={`target_products[products][${i}][key]`}
-                          readOnly
-                          value={p.key}
-                        />
-                        <input
-                          type="text"
-                          readOnly
-                          value={
-                            options.find((c) => c.key === p.key)?.label ||
-                            'Unknown'
-                          }
-                        />
-                      </>
-                    )}
-                    <div className="field-border" />
-                    <div className="field-suffix">
-                      <svg
-                        viewBox="0 0 20 20"
-                        width="1rem"
-                        height="1.25rem"
-                        focusable="false"
-                        aria-hidden="true"
-                      >
-                        <path d="m10 16-4-4h8l-4 4zm0-12 4 4H6l4-4z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div className="form-field-container dropdown">
-                  <div className="field-wrapper">
-                    {p.editable ? (
-                      <select
-                        name={`target_products[products][${i}][operator]`}
-                        className="form-control"
-                        value={p.operator}
-                        onChange={(e) => updateProduct(e, 'operator', i)}
-                      >
-                        {operators.map((operator) => (
-                          <option key={operator.key} value={operator.key}>
-                            {operator.label}
-                          </option>
-                        ))}
-                      </select>
-                    ) : (
-                      <>
-                        <input
-                          type="hidden"
-                          name={`target_products[products][${i}][operator]`}
-                          readOnly
-                          value={p.operator}
-                        />
-                        <input
-                          type="text"
-                          readOnly
-                          value={
-                            options.find((c) => c.key === p.operator)?.label ||
-                            'Unknown'
-                          }
-                        />
-                      </>
-                    )}
-                    <div className="field-border" />
-                    <div className="field-suffix">
-                      <svg
-                        viewBox="0 0 20 20"
-                        width="1rem"
-                        height="1.25rem"
-                        focusable="false"
-                        aria-hidden="true"
-                      >
-                        <path d="m10 16-4-4h8l-4 4zm0-12 4 4H6l4-4z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                {typeof p.value === 'string' && (
-                  <input
-                    type="hidden"
-                    name={`target_products[products][${i}][value]`}
-                    value={p.value}
+                {product.editable ? (
+                  <SelectField
+                    name={`target_products.products.${index}.key`}
+                    defaultValue={product.key}
+                    disabled={!product.editable}
+                    options={options.map((option) => ({
+                      value: option.key,
+                      label: option.label
+                    }))}
                   />
-                )}
-                {Array.isArray(p.value) && (
+                ) : (
                   <>
-                    {p.value.map((v, j) => (
-                      <input
-                        key={j}
-                        type="hidden"
-                        name={`target_products[products][${i}][value][]`}
-                        value={v}
-                      />
-                    ))}
+                    <InputField
+                      type="hidden"
+                      name={`target_products.products.${index}.key`}
+                      readOnly
+                      wrapperClassName="form-field mb-0"
+                      value={product.key}
+                    />
+                    <InputField
+                      name={`target_products.products.${index}.keylabel`}
+                      readOnly
+                      wrapperClassName="form-field mb-0"
+                      value={
+                        options.find((c) => c.key === product.key)?.label ||
+                        'Unknown'
+                      }
+                    />
                   </>
                 )}
-                <ValueSelector
-                  condition={p}
-                  updateCondition={(values) => {
-                    const updatedProducts = products.map((prod, idx) =>
-                      idx === i ? { ...prod, value: values } : prod
-                    );
-                    setProducts(updatedProducts);
-                  }}
-                />
+              </td>
+              <td>
+                {product.editable ? (
+                  <SelectField
+                    name={`target_products.products.${index}.operator`}
+                    defaultValue={product.operator}
+                    options={operators.map((operator) => ({
+                      value: operator.key,
+                      label: operator.label
+                    }))}
+                    wrapperClassName="form-field mb-0"
+                    placeholder="Select operator"
+                  />
+                ) : (
+                  <>
+                    <InputField
+                      type="hidden"
+                      name={`target_products.products.${index}.operator`}
+                      readOnly
+                      wrapperClassName="form-field mb-0"
+                      value={product.operator}
+                    />
+                    <InputField
+                      name={`target_products.products.${index}.operatorlabel`}
+                      type="text"
+                      readOnly
+                      wrapperClassName="form-field mb-0"
+                      value={
+                        options.find((c) => c.key === product.operator)
+                          ?.label || 'Unknown'
+                      }
+                    />
+                  </>
+                )}
+              </td>
+              <td>
+                {fieldWatch[index].key === 'price' && (
+                  <NumberField
+                    name={`target_products.products.${index}.value`}
+                    defaultValue={product.value as number}
+                    wrapperClassName="form-field mb-0"
+                  />
+                )}
+                {fieldWatch[index].key !== 'price' && (
+                  <>
+                    <InputField
+                      type="hidden"
+                      name={`target_products.products.${index}.value`}
+                      value={product.value as string}
+                      wrapperClassName="form-field mb-0"
+                    />
+                    <ValueSelector
+                      condition={fieldWatch[index]}
+                      updateCondition={(values) => {
+                        setValue(
+                          `target_products.products.${index}.value`,
+                          values
+                        );
+                      }}
+                    />
+                  </>
+                )}
               </td>
               <td>
                 <a
                   href="#"
                   className="text-critical"
-                  onClick={(e) => removeProduct(e, i)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    remove(index);
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -278,7 +236,19 @@ function Products({
           </svg>
         </div>
         <div className="pl-4">
-          <a href="#" onClick={(e) => addProduct(e)} className="">
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              append({
+                key: 'category',
+                operator: Operator.EQUAL,
+                value: '',
+                editable: true
+              });
+            }}
+            className=""
+          >
             <span>Add product</span>
           </a>
         </div>
@@ -287,66 +257,27 @@ function Products({
   );
 }
 
-Products.defaultProps = {
-  maxQty: '',
-  targetProducts: []
-};
-
 interface TargetProductsProps {
   products: Array<Product>;
-  qty: string;
-  maxQty: string;
-  discountType: string;
+  maxQty: number;
 }
 export function TargetProducts({
   products,
-  maxQty,
-  discountType
+  maxQty
 }: TargetProductsProps): React.ReactElement | null {
-  const [active, setActive] = React.useState(() => {
-    if (
-      discountType === 'fixed_discount_to_specific_products' ||
-      discountType === 'percentage_discount_to_specific_products'
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
-  React.useEffect(() => {
-    const token = PubSub.subscribe(FORM_FIELD_UPDATED, (message, data) => {
-      if (data.name === 'discount_type') {
-        if (
-          data.value === 'fixed_discount_to_specific_products' ||
-          data.value === 'percentage_discount_to_specific_products'
-        ) {
-          setActive(true);
-        } else {
-          setActive(false);
-        }
-      }
-    });
-
-    return function cleanup() {
-      PubSub.unsubscribe(token);
-    };
-  }, []);
-
-  if (!active) {
+  const { watch } = useFormContext();
+  const watchDiscountType = watch('discount_type');
+  if (
+    watchDiscountType !== 'fixed_discount_to_specific_products' &&
+    watchDiscountType !== 'percentage_discount_to_specific_products'
+  ) {
     return null;
-  } else {
-    return (
-      <div>
-        <h2 className="card-title">Target products</h2>
-        <Products targetProducts={products} maxQty={maxQty} />
-      </div>
-    );
   }
-}
 
-TargetProducts.defaultProps = {
-  discountType: '',
-  maxQty: '',
-  products: []
-};
+  return (
+    <div>
+      <h3 className="card-title">Target products</h3>
+      <Products targetProducts={products} maxQty={maxQty} />
+    </div>
+  );
+}

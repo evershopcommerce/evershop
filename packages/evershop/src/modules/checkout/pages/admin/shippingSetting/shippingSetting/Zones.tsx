@@ -1,4 +1,5 @@
 import Spinner from '@components/admin/Spinner.jsx';
+import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
 import React from 'react';
 import { useQuery } from 'urql';
@@ -105,7 +106,11 @@ export function Zones({
           Create New Zone
         </a>
       </div>
-      <modal.Content title="Create New Shipping Zone">
+      <Modal
+        title="Create New Shipping Zone"
+        onClose={modal.close}
+        isOpen={modal.isOpen}
+      >
         <ZoneForm
           formMethod="POST"
           saveZoneApi={createShippingZoneApi}
@@ -114,7 +119,7 @@ export function Zones({
           }}
           reload={reload}
         />
-      </modal.Content>
+      </Modal>
     </>
   );
 }

@@ -1,5 +1,4 @@
-import Button from '@components/common/form/Button.js';
-import { Input } from '@components/common/form/fields/Input.js';
+import Button from '@components/common/Button.js';
 import React from 'react';
 import './FileBrowser.scss';
 import { useQuery } from 'urql';
@@ -375,11 +374,13 @@ const FileBrowser: React.FC<{
                   )}
                 </ul>
                 <div className=" justify-between">
-                  <Input
-                    type="text"
-                    placeholder="New folder"
-                    ref={newFolderRefInput}
-                  />
+                  <div className="form-field mb-0">
+                    <input
+                      type="text"
+                      placeholder="New folder"
+                      ref={newFolderRefInput}
+                    />
+                  </div>
                   <div className="mt-4">
                     <a
                       href="#"

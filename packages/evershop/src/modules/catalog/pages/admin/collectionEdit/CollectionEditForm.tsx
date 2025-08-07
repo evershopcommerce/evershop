@@ -1,41 +1,30 @@
+import { FormButtons } from '@components/admin/FormButtons.js';
 import Area from '@components/common/Area.js';
 import { Form } from '@components/common/form/Form.js';
 import React from 'react';
-import { toast } from 'react-toastify';
-import { get } from '../../../../../lib/util/get.js';
 
 interface CollectionEditFormProps {
   action: string;
+  gridUrl: string;
 }
 
 export default function CollectionEditForm({
-  action
+  action,
+  gridUrl
 }: CollectionEditFormProps) {
-  const id = 'collectionForm';
   return (
     <Form
-      method="PATCH"
       action={action}
-      onError={() => {
-        toast.error('Something wrong. Please reload the page!');
-      }}
-      onSuccess={(response) => {
-        if (response.error) {
-          toast.error(
-            get(
-              response,
-              'error.message',
-              'Something wrong. Please reload the page!'
-            )
-          );
-        } else {
-          toast.success('Collection saved successfully!');
-        }
-      }}
+      method="PATCH"
+      id="collectionEditForm"
       submitBtn={false}
-      id={id}
     >
-      <Area id={id} noOuter />
+      <div className="w-2/3" style={{ margin: '0 auto' }}>
+        <div className="grid gap-8">
+          <Area id="collectionFormInner" noOuter />
+        </div>
+        <FormButtons formId="collectionEditForm" cancelUrl={gridUrl} />
+      </div>
     </Form>
   );
 }

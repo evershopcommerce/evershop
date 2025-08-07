@@ -1,4 +1,5 @@
 import { CategorySelector } from '@components/admin/CategorySelector.js';
+import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
 import React from 'react';
 
@@ -53,7 +54,11 @@ export const CategoryConditionValueSelector: React.FC<{
         ))}
         {selectedIds.current.length === 0 && <span>Choose Categories</span>}
       </a>
-      <modal.Content title="Select Categories">
+      <Modal
+        title="Select Categories"
+        onClose={modal.close}
+        isOpen={modal.isOpen}
+      >
         <div className="overflow-auto" style={{ maxHeight: '60vh' }}>
           <CategorySelector
             onSelect={onSelect}
@@ -64,7 +69,7 @@ export const CategoryConditionValueSelector: React.FC<{
             }))}
           />
         </div>
-      </modal.Content>
+      </Modal>
     </div>
   );
 };

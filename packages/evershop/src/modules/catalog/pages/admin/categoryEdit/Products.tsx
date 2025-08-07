@@ -1,7 +1,8 @@
 import { Card } from '@components/admin/Card.js';
 import { ProductListSkeleton } from '@components/admin/ProductListSkeleton.js';
 import { ProductSelector } from '@components/admin/ProductSelector.js';
-import Button from '@components/common/form/Button.js';
+import Button from '@components/common/Button.js';
+import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -139,7 +140,7 @@ export default function Products({
         </Card.Session>
       )}
       {data && (
-        <modal.Content title="Add Products">
+        <Modal title="Add Products" onClose={modal.close} isOpen={modal.isOpen}>
           <ProductSelector
             onSelect={addProductFunction}
             selectedProducts={data.category.products.items.map((p) => ({
@@ -148,20 +149,22 @@ export default function Products({
               productId: p.productId
             }))}
           />
-        </modal.Content>
+        </Modal>
       )}
       <Card.Session>
         <div>
-          <div className="border rounded border-divider mb-8">
-            <input
-              type="text"
-              value={keyword}
-              placeholder="Search products"
-              onChange={(e) => {
-                setLoading(true);
-                setKeyword(e.target.value);
-              }}
-            />
+          <div className="mb-8">
+            <div className="form-field">
+              <input
+                type="text"
+                value={keyword}
+                placeholder="Search products"
+                onChange={(e) => {
+                  setLoading(true);
+                  setKeyword(e.target.value);
+                }}
+              />
+            </div>
           </div>
           {data && !loading && (
             <>

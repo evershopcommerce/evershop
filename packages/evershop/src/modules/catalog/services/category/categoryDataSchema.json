@@ -5,8 +5,38 @@
       "type": "string"
     },
     "description": {
-      "type": "string",
-      "skipEscape": true
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "size": {
+            "type": "number"
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "number"
+                },
+                "data": {
+                  "type": "object"
+                }
+              },
+              "required": ["id", "size", "data"]
+            }
+          }
+        },
+        "required": ["id", "size", "columns"]
+      },
+      "default": []
     },
     "image": {
       "type": "string"

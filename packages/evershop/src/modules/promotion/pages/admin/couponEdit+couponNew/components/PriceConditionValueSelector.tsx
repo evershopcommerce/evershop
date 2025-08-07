@@ -1,28 +1,34 @@
-import { Field } from '@components/common/form/Field.js';
+import { NumberField } from '@components/common/form/NumberField.js';
 import React from 'react';
+import { Operator } from './conditionCriterias.js';
 
 export const PriceConditionValueSelector = ({
-  selectedValue,
-  updateCondition
+  updateCondition,
+  condition
 }: {
-  selectedValue: number;
-  updateCondition: (value: number) => void;
+  updateCondition: (
+    values: string | number | Array<string> | Array<number>
+  ) => void;
+  condition: {
+    key: string;
+    operator: Operator;
+    value: number;
+  };
 }) => {
-  const [price, setPrice] = React.useState<number>(selectedValue || 0);
-
-  React.useEffect(() => {
-    updateCondition(price);
-  }, [price]);
-
   return (
     <div>
-      <Field
-        type="text"
-        name=""
-        value={price}
-        placeholder="Enter the price"
-        validationRules={['notEmpty']}
-        onChange={(e) => setPrice(parseFloat(e.target.value))}
+      <NumberField
+        name={`dummy__` + Math.random().toString(36).substring(2, 15)}
+        wrapperClassName="form-field mb-0"
+        defaultValue={condition.value}
+        placeholder="Value"
+        required
+        validation={{
+          required: 'Value is required'
+        }}
+        onChange={(value) => {
+          updateCondition(value || 0);
+        }}
       />
     </div>
   );

@@ -1,13 +1,13 @@
 import { Card } from '@components/admin/Card.js';
 import Spinner from '@components/admin/Spinner.js';
-import Button from '@components/common/form/Button.js';
-import { Field } from '@components/common/form/Field.js';
-import { Form } from '@components/common/form/Form.js';
+import Button from '@components/common/Button.js';
+import { Form, useFormContext } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
+import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
 import React from 'react';
 import Select from 'react-select';
 import { useQuery } from 'urql';
 import { ShippingZone } from './Zone.js';
-import { ShippingCountry } from './Zones.js';
 
 export interface ZoneFormProps {
   formMethod?: 'POST' | 'PATCH';
@@ -37,11 +37,8 @@ function ZoneForm({
   reload,
   zone
 }: ZoneFormProps) {
-  const [selectedCountry, setSelectedCountry] =
-    React.useState<ShippingCountry>();
-  const [selectedProvinces, setSelectedProvinces] =
-    React.useState<Array<{ value: string; label: string }>>();
-
+  const { watch } = useFormContext();
+  const countryWatch = watch('country');
   const [{ data, fetching, error }] = useQuery({
     query: CountriesQuery
   });
@@ -63,65 +60,34 @@ function ZoneForm({
         }}
       >
         <Card.Session title="Zone name">
-          <Field
+          <InputField
             name="name"
-            type="text"
             placeholder="Enter zone name"
-            validationRules={['notEmpty']}
+            required
+            validation={{ required: 'Zone name is required' }}
             value={zone?.name}
           />
         </Card.Session>
         <Card.Session title="Country">
-          <Select
+          <ReactSelectField
             name="country"
             options={data.countries}
             hideSelectedOptions={false}
             isMulti={false}
-            onChange={(e) => {
-              setSelectedCountry((prev) => {
-                if (e.value !== prev?.value) {
-                  setSelectedProvinces([]);
-                }
-                return data.countries.find((c) => c.value === e.value);
-              });
-            }}
             aria-label="Select country"
-            value={
-              selectedCountry ||
-              data.countries.find((c) => c.value === zone?.country?.code)
-            }
+            defaultValue={zone?.country?.code}
           />
         </Card.Session>
         <Card.Session title="Provinces/States">
           <Select
-            name="provinces[]"
+            name="provinces"
             options={
-              selectedCountry
-                ? selectedCountry?.provinces
-                : data.countries.find((c) => c.value === zone?.country?.code)
-                    ?.provinces || []
+              data.countries.find((c) => c.value === countryWatch)?.provinces ||
+              []
             }
             hideSelectedOptions
             isMulti
-            defaultValue={
-              selectedProvinces ||
-              zone?.provinces?.map((p) => ({
-                value: p.code,
-                label: p.name
-              }))
-            }
-            value={
-              selectedProvinces ||
-              zone?.provinces?.map((p) => ({
-                value: p.code,
-                label: p.name
-              }))
-            }
-            onChange={(e) => {
-              setSelectedProvinces((prev) =>
-                e.map((p) => ({ value: p.value, label: p.label }))
-              );
-            }}
+            defaultValue={zone?.provinces || []}
           />
         </Card.Session>
         <Card.Session>

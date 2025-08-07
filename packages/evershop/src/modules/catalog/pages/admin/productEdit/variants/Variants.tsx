@@ -1,10 +1,12 @@
 import { Card } from '@components/admin/Card.js';
 import { Image } from '@components/admin/ImageUploader.js';
+import { ProductListSkeleton } from '@components/admin/ProductListSkeleton.js';
 import Spinner from '@components/admin/Spinner.js';
 import React from 'react';
 import { useQuery } from 'urql';
-import { VariantGroup, VariantAttribute } from '../VariantGroup.js';
+import { VariantGroup } from '../VariantGroup.js';
 import { CreateVariant } from './CreateVariant.js';
+import { Skeleton } from './Skeleton.js';
 import { Variant } from './Variant.js';
 
 export const VariantQuery = `
@@ -24,7 +26,9 @@ query Query($productId: ID!) {
           uuid
           name
           sku
+          qty
           status
+          urlKey
           visibility
           price {
             regular {
@@ -42,11 +46,11 @@ query Query($productId: ID!) {
           editUrl
           updateApi
           image {
-            uuid
+            id: uuid
             url
           }
           gallery {
-            uuid
+            id: uuid
             url
           }
         }
@@ -61,8 +65,6 @@ export interface VariantsProps {
   productUuid: string;
   variantGroup: VariantGroup;
   createProductApi: string;
-  addVariantItemApi: string;
-  variantAttributes: Array<VariantAttribute>;
 }
 
 export interface VariantItem {
@@ -78,6 +80,7 @@ export interface VariantItem {
     uuid: string;
     name: string;
     sku: string;
+    qty: number;
     status: number;
     visibility: number;
     price: {
@@ -93,6 +96,7 @@ export interface VariantItem {
       stockAvailability: string;
       manageStock: boolean;
     };
+    urlKey: string;
     editUrl: string;
     updateApi: string;
     image: Image;
@@ -102,11 +106,8 @@ export interface VariantItem {
 
 export const Variants: React.FC<VariantsProps> = ({
   productId,
-  productUuid,
   variantGroup,
-  variantAttributes,
-  createProductApi,
-  addVariantItemApi
+  createProductApi
 }) => {
   const [result, reexecuteQuery] = useQuery({
     query: VariantQuery,
@@ -133,18 +134,13 @@ export const Variants: React.FC<VariantsProps> = ({
   if (fetching) {
     return (
       <div className="p-3 flex justify-center items-center">
-        <Spinner width={30} height={30} />
+        <Skeleton />
       </div>
     );
   }
 
   if (error) {
-    return (
-      <p>
-        Oh no...
-        {error.message}
-      </p>
-    );
+    return <p className="text-critical">{error.message}</p>;
   }
 
   return (
@@ -154,7 +150,7 @@ export const Variants: React.FC<VariantsProps> = ({
           <thead>
             <tr>
               <th>Image</th>
-              {variantAttributes.map((attribute) => (
+              {variantGroup.attributes.map((attribute) => (
                 <th key={attribute.attributeId}>{attribute.attributeName}</th>
               ))}
               <th>SKU</th>
@@ -180,10 +176,8 @@ export const Variants: React.FC<VariantsProps> = ({
       </div>
       <div className="self-center">
         <CreateVariant
-          productId={productUuid}
           variantGroup={variantGroup}
           createProductApi={createProductApi}
-          addVariantItemApi={addVariantItemApi}
           refresh={refresh}
         />
       </div>

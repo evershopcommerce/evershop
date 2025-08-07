@@ -3,9 +3,8 @@ import { DummyColumnHeader } from '@components/admin/grid/header/Dummy';
 import { SortableHeader } from '@components/admin/grid/header/Sortable';
 import { Pagination } from '@components/admin/grid/Pagination';
 import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Form } from '@components/common/form/Form';
+import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -110,17 +109,17 @@ export default function CollectionGrid({
         <Card.Session
           title={
             <Form submitBtn={false} id="collectionGridFilter">
-              <Field
-                type="text"
-                id="name"
+              <InputField
                 name="name"
                 placeholder="Search"
-                value={currentFilters.find((f) => f.key === 'name')?.value}
+                defaultValue={
+                  currentFilters.find((f) => f.key === 'name')?.value
+                }
                 onKeyPress={(e) => {
                   // If the user press enter, we should submit the form
                   if (e.key === 'Enter') {
                     const url = new URL(document.location);
-                    const name = document.getElementById('name')?.value;
+                    const name = e.target?.value;
                     if (name) {
                       url.searchParams.set('name[operation]', 'like');
                       url.searchParams.set('name[value]', name);
@@ -151,15 +150,18 @@ export default function CollectionGrid({
           <thead>
             <tr>
               <th className="align-bottom">
-                <Checkbox
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(collections.map((c) => c.uuid));
-                    } else {
-                      setSelectedRows([]);
-                    }
-                  }}
-                />
+                <div className="form-field mb-0">
+                  <input
+                    type="checkbox"
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(collections.map((c) => c.uuid));
+                      } else {
+                        setSelectedRows([]);
+                      }
+                    }}
+                  />
+                </div>
               </th>
               <Area
                 className=""
@@ -215,17 +217,20 @@ export default function CollectionGrid({
             {collections.map((c) => (
               <tr key={c.collectionId}>
                 <td style={{ width: '2rem' }}>
-                  <Checkbox
-                    isChecked={selectedRows.includes(c.uuid)}
-                    onChange={(e) => {
-                      if (e.target.checked)
-                        setSelectedRows(selectedRows.concat([c.uuid]));
-                      else
-                        setSelectedRows(
-                          selectedRows.filter((r) => r !== c.uuid)
-                        );
-                    }}
-                  />
+                  <div className="form-field mb-0">
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.includes(c.uuid)}
+                      onChange={(e) => {
+                        if (e.target.checked)
+                          setSelectedRows(selectedRows.concat([c.uuid]));
+                        else
+                          setSelectedRows(
+                            selectedRows.filter((r) => r !== c.uuid)
+                          );
+                      }}
+                    />
+                  </div>
                 </td>
                 <Area
                   className=""

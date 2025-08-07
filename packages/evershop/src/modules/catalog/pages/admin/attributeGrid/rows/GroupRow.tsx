@@ -1,7 +1,8 @@
-import { Field } from '@components/common/form/Field.js';
 import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert.js';
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 interface GroupRowProps {
@@ -12,6 +13,7 @@ interface GroupRowProps {
   }>;
 }
 export function GroupRow({ groups }: GroupRowProps) {
+  const form = useForm();
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
 
   const onEdit = (group) => {
@@ -20,6 +22,7 @@ export function GroupRow({ groups }: GroupRowProps) {
       content: (
         <div>
           <Form
+            form={form}
             id="groupEdit"
             method="PATCH"
             action={group.updateApi}
@@ -31,19 +34,14 @@ export function GroupRow({ groups }: GroupRowProps) {
                 window.location.reload();
               }
             }}
-            isJSON
           >
-            <Field
-              formId="group-edit"
-              type="text"
+            <InputField
               name="group_name"
-              value={group.groupName}
-            />
-            <Field
-              formId="group-edit"
-              type="hidden"
-              name="group_id"
-              value={group.attributeGroupId}
+              required
+              label="Group Name"
+              placeholder="Enter group name"
+              validation={{ required: 'Group name is required' }}
+              defaultValue={group.groupName}
             />
           </Form>
         </div>
@@ -58,7 +56,9 @@ export function GroupRow({ groups }: GroupRowProps) {
         onAction: () => {
           dispatchAlert({
             type: 'update',
-            payload: { secondaryAction: { isLoading: true } }
+            payload: {
+              secondaryAction: { isLoading: form.formState.isSubmitting }
+            }
           });
           (
             document.getElementById('groupEdit') as HTMLFormElement

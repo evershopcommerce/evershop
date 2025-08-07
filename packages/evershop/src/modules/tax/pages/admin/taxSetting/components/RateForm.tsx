@@ -1,12 +1,14 @@
 import { Card } from '@components/admin/Card.js';
 import Spinner from '@components/admin/Spinner.js';
-import Button from '@components/common/form/Button.js';
-import { Field } from '@components/common/form/Field.js';
-import { Toggle } from '@components/common/form/fields/Toggle.js';
+import Button from '@components/common/Button.js';
 import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
+import { NumberField } from '@components/common/form/NumberField.js';
+import { ToggleField } from '@components/common/form/ToggleField.js';
 import React from 'react';
 import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
+import { TaxRate } from './Rate.js';
 
 const MethodsQuery = `
   query Methods {
@@ -21,19 +23,8 @@ const MethodsQuery = `
 interface MethodFormProps {
   saveRateApi: string;
   closeModal: () => void;
-  getTaxClasses: (options?: { requestPolicy?: string }) => Promise<void>;
-  rate?: {
-    uuid: string;
-    name: string;
-    isCompound: boolean;
-    rate: number;
-    priority: number;
-    country: string;
-    province: string;
-    postcode: string;
-    updateApi: string;
-    deleteApi: string;
-  };
+  getTaxClasses: (options?: { requestPolicy?: string }) => Promise<void> | void;
+  rate?: TaxRate;
 }
 
 function RateForm({
@@ -55,7 +46,7 @@ function RateForm({
   }
 
   return (
-    <Card title="Tax rate">
+    <Card>
       <Form
         id="taxRateForm"
         method={rate ? 'PATCH' : 'POST'}
@@ -74,24 +65,23 @@ function RateForm({
         <Card.Session title="Basic">
           <div className="grid grid-cols-2 gap-8">
             <div>
-              <Field
+              <InputField
                 name="name"
-                type="text"
                 placeholder="Name"
-                validationRules={['notEmpty']}
+                required
+                validation={{ required: 'Name is required' }}
                 label="Name"
-                value={rate?.name}
+                defaultValue={rate?.name}
               />
             </div>
             <div>
-              <Field
+              <NumberField
                 name="rate"
-                type="text"
                 label="Rate"
                 placeholder="Rate"
-                validationRules={['notEmpty']}
-                value={rate?.rate}
-                suffix="%"
+                required
+                validation={{ required: 'Rate is required' }}
+                defaultValue={rate?.rate}
               />
             </div>
           </div>
@@ -99,55 +89,55 @@ function RateForm({
         <Card.Session title="Setup shipping cost">
           <div className="grid grid-cols-3 gap-8">
             <div>
-              <Field
+              <InputField
                 name="country"
-                type="text"
                 label="Country"
                 placeholder="Country"
-                validationRules={['notEmpty']}
-                value={rate?.country}
+                validation={{ required: 'Country is required' }}
+                defaultValue={rate?.country}
+                helperText='Country code (e.g., "US"). Use "*" for all countries.'
               />
             </div>
             <div>
-              <Field
+              <InputField
                 name="province"
-                type="text"
                 label="Provinces"
                 placeholder="Provinces"
-                validationRules={['notEmpty']}
-                value={rate?.province}
+                validation={{ required: 'Provinces is required' }}
+                defaultValue={rate?.province}
+                helperText='Province code (e.g., "CA"). Use "*" for all provinces.'
               />
             </div>
             <div>
-              <Field
+              <InputField
                 name="postcode"
-                type="text"
                 label="Postcode"
                 placeholder="Postcode"
-                validationRules={['notEmpty']}
-                value={rate?.postcode}
+                validation={{ required: 'Postcode is required' }}
+                defaultValue={rate?.postcode}
+                helperText='Postcode (e.g., "90210"). Empty for all postcodes.'
               />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-8 mt-8">
             <div>
-              <Toggle
+              <ToggleField
                 name="is_compound"
                 label="Is compound"
-                value={rate?.isCompound || false}
+                defaultValue={rate?.isCompound || false}
               />
             </div>
             <div />
           </div>
           <div className="grid grid-cols-2 gap-8 mt-8">
             <div>
-              <Field
+              <NumberField
                 name="priority"
-                type="text"
                 label="Priority"
                 placeholder="Priority"
-                validationRules={['notEmpty']}
-                value={rate?.priority}
+                validation={{ required: 'Priority is required' }}
+                required
+                defaultValue={rate?.priority}
               />
             </div>
             <div />
@@ -176,9 +166,5 @@ function RateForm({
     </Card>
   );
 }
-
-RateForm.defaultProps = {
-  rate: null
-};
 
 export { RateForm };

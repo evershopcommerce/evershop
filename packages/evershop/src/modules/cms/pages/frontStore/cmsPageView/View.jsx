@@ -1,4 +1,4 @@
-import Editor from '@components/common/Editor';
+import { Editor } from '@components/common/Editor';
 import PropTypes from 'prop-types';
 import React from 'react';
 

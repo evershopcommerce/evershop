@@ -11,7 +11,7 @@ export interface CategoryTreeItem {
   categoryId: number;
   name: string;
   hasChildren: boolean;
-  path?: Array<{ name: string }>;
+  path: Array<{ name: string }>;
   children?: Array<CategoryTreeItem>;
 }
 

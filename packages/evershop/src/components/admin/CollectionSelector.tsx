@@ -1,4 +1,3 @@
-import { Card } from '@components/admin/Card.js';
 import { SimplePageination } from '@components/common/SimplePagination.js';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import React from 'react';
@@ -132,10 +131,10 @@ const CollectionSelector: React.FC<{
   }
 
   return (
-    <Card title="Select collections">
-      <Card.Session>
-        <div>
-          <div className="border rounded border-divider mb-8">
+    <div>
+      <div>
+        <div className="p-2">
+          <div className="form-field">
             <input
               type="text"
               value={inputValue || ''}
@@ -146,87 +145,85 @@ const CollectionSelector: React.FC<{
               }}
             />
           </div>
-          {(fetching || loading) && <CollectionListSkeleton />}
-          {!fetching && data && (
-            <div className="divide-y">
-              {data.collections.items.length === 0 && (
-                <div className="p-3 border border-divider rounded flex justify-center items-center">
-                  {inputValue ? (
-                    <p>
-                      No collections found for query &quot;{inputValue}&rdquo;
-                    </p>
-                  ) : (
-                    <p>You have no collections to display</p>
+        </div>
+        {(fetching || loading) && <CollectionListSkeleton />}
+        {!fetching && data && (
+          <div className="divide-y">
+            {data.collections.items.length === 0 && (
+              <div className="p-3 border border-divider rounded flex justify-center items-center">
+                {inputValue ? (
+                  <p>
+                    No collections found for query &quot;{inputValue}&rdquo;
+                  </p>
+                ) : (
+                  <p>You have no collections to display</p>
+                )}
+              </div>
+            )}
+            {data.collections.items.map((c) => (
+              <div
+                key={c.uuid}
+                className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
+              >
+                <div className="col-span-5">
+                  <h3>{c.name}</h3>
+                </div>
+                <div className="col-span-3 text-right">
+                  {!isCollectionSelected(c, internalSelectedCollections) && (
+                    <button
+                      type="button"
+                      className="button secondary"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        setInternalSelectedCollections((prev) => [
+                          ...prev,
+                          {
+                            collectionId: c.collectionId,
+                            uuid: c.uuid,
+                            name: c.name
+                          }
+                        ]);
+                        onSelect(c.collectionId, c.uuid, c.name);
+                      }}
+                    >
+                      Select
+                    </button>
+                  )}
+                  {isCollectionSelected(c, internalSelectedCollections) && (
+                    <a
+                      className="button primary"
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setInternalSelectedCollections((prev) =>
+                          prev.filter(
+                            (c) =>
+                              c.collectionId !== c.collectionId &&
+                              c.uuid !== c.uuid
+                          )
+                        );
+                        onUnSelect(c.collectionId, c.uuid, c.name);
+                      }}
+                    >
+                      <CheckIcon width={20} height={20} />
+                    </a>
                   )}
                 </div>
-              )}
-              {data.collections.items.map((c) => (
-                <div
-                  key={c.uuid}
-                  className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
-                >
-                  <div className="col-span-5">
-                    <h3>{c.name}</h3>
-                  </div>
-                  <div className="col-span-3 text-right">
-                    {!isCollectionSelected(c, internalSelectedCollections) && (
-                      <button
-                        type="button"
-                        className="button secondary"
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          setInternalSelectedCollections((prev) => [
-                            ...prev,
-                            {
-                              collectionId: c.collectionId,
-                              uuid: c.uuid,
-                              name: c.name
-                            }
-                          ]);
-                          onSelect(c.collectionId, c.uuid, c.name);
-                        }}
-                      >
-                        Select
-                      </button>
-                    )}
-                    {isCollectionSelected(c, internalSelectedCollections) && (
-                      <a
-                        className="button primary"
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setInternalSelectedCollections((prev) =>
-                            prev.filter(
-                              (c) =>
-                                c.collectionId !== c.collectionId &&
-                                c.uuid !== c.uuid
-                            )
-                          );
-                          onUnSelect(c.collectionId, c.uuid, c.name);
-                        }}
-                      >
-                        <CheckIcon width={20} height={20} />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </Card.Session>
-      <Card.Session>
-        <div className="flex justify-between gap-8">
-          <SimplePageination
-            total={data?.collections.total || 0}
-            count={data?.collections?.items?.length || 0}
-            page={page}
-            hasNext={limit * page < data?.collections.total}
-            setPage={setPage}
-          />
-        </div>
-      </Card.Session>
-    </Card>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="flex justify-between gap-8">
+        <SimplePageination
+          total={data?.collections.total || 0}
+          count={data?.collections?.items?.length || 0}
+          page={page}
+          hasNext={limit * page < data?.collections.total}
+          setPage={setPage}
+        />
+      </div>
+    </div>
   );
 };
 

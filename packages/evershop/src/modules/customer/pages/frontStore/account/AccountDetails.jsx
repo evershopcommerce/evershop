@@ -1,5 +1,5 @@
 import Area from '@components/common/Area';
-import { MailIcon } from '@heroicons/react/24/outline';
+import { InboxIcon } from '@heroicons/react/24/outline';
 import { UserIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -30,7 +30,7 @@ export default function AccountDetails({ account }) {
                   default: () => (
                     <div className="account-details-email flex gap-4">
                       <div>
-                        <MailIcon width={20} height={20} />
+                        <InboxIcon width={20} height={20} />
                       </div>
                       <div>{account.email}</div>
                     </div>

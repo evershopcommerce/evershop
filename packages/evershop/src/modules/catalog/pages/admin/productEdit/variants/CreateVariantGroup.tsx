@@ -1,9 +1,9 @@
 import Spinner from '@components/admin/Spinner.js';
-import { Field } from '@components/common/form/Field.js';
-import { useFormContext } from '@components/common/form/Form.js';
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
+import { VariantGroup } from '../VariantGroup.js';
 
 const AttributesQuery = `
   query Query($filters: [FilterInput]) {
@@ -31,15 +31,13 @@ interface Attribute {
   }>;
 }
 export const CreateVariantGroup: React.FC<{
+  currentProductUuid: string;
   createVariantGroupApi: string;
-  setGroup: (group: any) => void;
-}> = ({ createVariantGroupApi, setGroup }) => {
+  setGroup: (group: VariantGroup) => void;
+}> = ({ currentProductUuid, createVariantGroupApi, setGroup }) => {
   const [attributes, setAttributes] = React.useState<string[]>([]);
-  const formContext = useFormContext();
-  // Get the current value of attribute_group_id from the form context
-  const groupField = (formContext?.fields || []).find(
-    (f) => f.name === 'group_id'
-  );
+  const { getValues } = useFormContext();
+  const groupId = getValues('group_id');
 
   const onCreate = async (e) => {
     e.preventDefault();
@@ -50,11 +48,26 @@ export const CreateVariantGroup: React.FC<{
       },
       body: JSON.stringify({
         attribute_codes: attributes.map((a) => a),
-        attribute_group_id: groupField?.value
+        attribute_group_id: groupId
       })
     }).then((r) => r.json());
 
     if (!response.error) {
+      // Call addItemApi to add the current product to the new variant group
+      const addItemApi = response.data.addItemApi;
+      const addItemResponse = await fetch(addItemApi, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          product_id: currentProductUuid
+        })
+      }).then((r) => r.json());
+      if (addItemResponse.error) {
+        toast.error(addItemResponse.error.message);
+        return;
+      }
       setGroup({
         variantGroupId: response.data.variant_group_id,
         addItemApi: response.data.addItemApi,
@@ -74,18 +87,15 @@ export const CreateVariantGroup: React.FC<{
     }
   };
 
-  const shouldPause =
-    groupField === undefined || groupField === null || !groupField.value;
-
   const [result] = useQuery({
     query: AttributesQuery,
     variables: {
       filters: [
         { key: 'type', operation: 'eq', value: 'select' },
-        { key: 'group', operation: 'eq', value: groupField?.value }
+        { key: 'group', operation: 'eq', value: groupId }
       ]
     },
-    pause: shouldPause
+    pause: !groupId
   });
 
   const { data, fetching, error } = result as {
@@ -118,20 +128,21 @@ export const CreateVariantGroup: React.FC<{
               <span>Select the list of attribute</span>
             </div>
             {(data?.attributes?.items || []).map((a) => (
-              <Field
-                key={a.attributeCode}
-                type="checkbox"
-                label={a.attributeName}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setAttributes(attributes.concat(a.attributeCode));
-                  } else {
-                    setAttributes(
-                      attributes.filter((attr) => a.attributeCode !== attr)
-                    );
-                  }
-                }}
-              />
+              <label key={a.attributeCode} className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setAttributes(attributes.concat(a.attributeCode));
+                    } else {
+                      setAttributes(
+                        attributes.filter((attr) => a.attributeCode !== attr)
+                      );
+                    }
+                  }}
+                />
+                <span>{a.attributeName}</span>
+              </label>
             ))}
             <div className="mt-8">
               <a

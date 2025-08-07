@@ -1,9 +1,7 @@
-import { Input } from '@components/common/form/fields/Input.js';
 import { ChevronDoubleLeftIcon } from '@heroicons/react/24/outline';
 import { ChevronDoubleRightIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import './Pagination.scss';
-import { Select } from '@components/common/form/fields/Select.js';
 
 export interface PaginationProps {
   total: number;
@@ -77,13 +75,20 @@ export function Pagination({ total, limit, page }: PaginationProps) {
   return (
     <div className="pagination flex px-8">
       <div className="flex justify-between w-full space-x-4 mt-4 mb-4">
-        <div className="flex space-x-4">
+        <div className="flex space-x-4 items-center">
           <div className="self-center">
             <span>Show</span>
           </div>
           <div className="limit">
-            <div className="" style={{ width: '5rem' }}>
-              <Input onKeyPress={(e) => onKeyPressLimit(e)} ref={limitInput} />
+            <div
+              className="form-field flex items-center"
+              style={{ width: '5rem', marginBottom: '0' }}
+            >
+              <input
+                type="number"
+                onKeyDown={(e) => onKeyPressLimit(e)}
+                ref={limitInput}
+              />
             </div>
           </div>
           <div className="self-center">
@@ -119,20 +124,22 @@ export function Pagination({ total, limit, page }: PaginationProps) {
             </>
           )}
           <div className="current" style={{ width: '5rem' }}>
-            <Select
-              placeholder={page.toString()}
-              onChange={(e) => {
-                onKeyPress(e);
-              }}
-              // List all possible page
-              options={Array.from(
-                { length: Math.ceil(total / limit) },
-                (_, i) => i + 1
-              ).map((item) => ({
-                value: item,
-                text: item.toString()
-              }))}
-            />
+            <div className="form-field mb-0">
+              <select
+                onChange={(e) => {
+                  onKeyPress(e);
+                }}
+              >
+                {Array.from(
+                  { length: Math.ceil(total / limit) },
+                  (_, i) => i + 1
+                ).map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           {page * limit < total && (
             <>

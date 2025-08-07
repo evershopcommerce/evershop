@@ -8,8 +8,38 @@
       }
     },
     "description": {
-      "type": "string",
-      "skipEscape": true
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "size": {
+            "type": "number"
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "number"
+                },
+                "data": {
+                  "type": "object"
+                }
+              },
+              "required": ["id", "size", "data"]
+            }
+          }
+        },
+        "required": ["id", "size", "columns"]
+      },
+      "default": []
     },
     "short_description": {
       "type": "string"
@@ -32,8 +62,8 @@
       "type": "string"
     },
     "status": {
-      "type": ["integer", "string"],
-      "enum": [0, 1, "0", "1"]
+      "type": ["integer", "string", "boolean"],
+      "enum": [0, 1, "0", "1", true, false]
     },
     "sku": {
       "type": "string"
@@ -65,20 +95,20 @@
       "default": null
     },
     "manage_stock": {
-      "type": ["string", "number"],
-      "enum": [0, 1, "0", "1"]
+      "type": ["integer", "string", "boolean"],
+      "enum": [0, 1, "0", "1", true, false]
     },
     "stock_availability": {
-      "type": ["string", "number"],
-      "enum": [0, 1, "0", "1"]
+      "type": ["integer", "string", "boolean"],
+      "enum": [0, 1, "0", "1", true, false]
     },
     "group_id": {
       "type": ["string", "integer"],
       "pattern": "^[0-9]+$"
     },
     "visibility": {
-      "type": ["integer", "string"],
-      "enum": [0, 1, "0", "1"]
+      "type": ["integer", "string", "boolean"],
+      "enum": [0, 1, "0", "1", true, false]
     },
     "images": {
       "type": "array",

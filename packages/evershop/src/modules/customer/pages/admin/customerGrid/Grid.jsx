@@ -4,9 +4,8 @@ import { SortableHeader } from '@components/admin/grid/header/Sortable';
 import { Pagination } from '@components/admin/grid/Pagination';
 import { Status } from '@components/admin/Status.js';
 import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Form } from '@components/common/form/Form';
+import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -142,12 +141,10 @@ export default function CustomerGrid({
                   {
                     component: {
                       default: () => (
-                        <Field
-                          type="text"
-                          id="keyword"
+                        <InputField
                           name="keyword"
                           placeholder="Search"
-                          value={
+                          defaultValue={
                             currentFilters.find((f) => f.key === 'keyword')
                               ?.value
                           }
@@ -155,8 +152,7 @@ export default function CustomerGrid({
                             // If the user press enter, we should submit the form
                             if (e.key === 'Enter') {
                               const url = new URL(document.location);
-                              const keyword =
-                                document.getElementById('keyword')?.value;
+                              const keyword = e.target?.value;
                               if (keyword) {
                                 url.searchParams.set('keyword', keyword);
                               } else {
@@ -231,13 +227,16 @@ export default function CustomerGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox
-                onChange={(e) => {
-                  if (e.target.checked)
-                    setSelectedRows(customers.map((c) => c.uuid));
-                  else setSelectedRows([]);
-                }}
-              />
+              <div className="form-field mb-0">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked)
+                      setSelectedRows(customers.map((c) => c.uuid));
+                    else setSelectedRows([]);
+                  }}
+                />
+              </div>
             </th>
             <Area
               id="customerGridHeader"
@@ -304,18 +303,21 @@ export default function CustomerGrid({
           {customers.map((c) => (
             <tr key={c.customerId}>
               <td>
-                <Checkbox
-                  isChecked={selectedRows.includes(c.uuid)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([c.uuid]));
-                    } else {
-                      setSelectedRows(
-                        selectedRows.filter((row) => row !== c.uuid)
-                      );
-                    }
-                  }}
-                />
+                <div className="form-field mb-0">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(c.uuid)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(selectedRows.concat([c.uuid]));
+                      } else {
+                        setSelectedRows(
+                          selectedRows.filter((row) => row !== c.uuid)
+                        );
+                      }
+                    }}
+                  />
+                </div>
               </td>
               <Area
                 id="customerGridRow"

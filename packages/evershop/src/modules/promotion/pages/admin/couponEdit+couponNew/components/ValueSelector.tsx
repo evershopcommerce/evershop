@@ -72,12 +72,8 @@ export const ValueSelector: React.FC<{
     case 'price':
       return (
         <PriceConditionValueSelector
-          selectedValue={parseFloat(
-            Array.isArray(condition.value)
-              ? condition.value[0].toString()
-              : condition.value.toString()
-          )}
           updateCondition={updateCondition}
+          condition={{ ...condition, value: Number(condition.value) }}
         />
       );
     default:

@@ -1,4 +1,4 @@
-import Button from '@components/common/form/Button.js';
+import Button from '@components/common/Button.js';
 import { useAlertContext } from '@components/common/modal/Alert.js';
 import React from 'react';
 

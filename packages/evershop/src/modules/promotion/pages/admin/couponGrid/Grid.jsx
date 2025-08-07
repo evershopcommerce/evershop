@@ -5,9 +5,8 @@ import { SortableHeader } from '@components/admin/grid/header/Sortable';
 import { Pagination } from '@components/admin/grid/Pagination';
 import { Status } from '@components/admin/Status.js';
 import Area from '@components/common/Area.js';
-import { Field } from '@components/common/form/Field';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Form } from '@components/common/form/Form';
+import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -182,12 +181,10 @@ export default function CouponGrid({
                   {
                     component: {
                       default: () => (
-                        <Field
-                          type="text"
-                          id="coupon"
+                        <InputField
                           name="coupon"
                           placeholder="Search"
-                          value={
+                          defaultValue={
                             currentFilters.find((f) => f.key === 'coupon')
                               ?.value
                           }
@@ -195,8 +192,7 @@ export default function CouponGrid({
                             // If the user press enter, we should submit the form
                             if (e.key === 'Enter') {
                               const url = new URL(document.location);
-                              const coupon =
-                                document.getElementById('coupon')?.value;
+                              const coupon = e.target?.value;
                               if (coupon) {
                                 url.searchParams.set(
                                   'coupon[operation]',
@@ -317,13 +313,16 @@ export default function CouponGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox
-                onChange={(e) => {
-                  if (e.target.checked)
-                    setSelectedRows(coupons.map((c) => c.uuid));
-                  else setSelectedRows([]);
-                }}
-              />
+              <div className="form-field mb-0">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked)
+                      setSelectedRows(coupons.map((c) => c.uuid));
+                    else setSelectedRows([]);
+                  }}
+                />
+              </div>
             </th>
             <Area
               id="couponGridHeader"
@@ -390,18 +389,21 @@ export default function CouponGrid({
           {coupons.map((c) => (
             <tr key={c.couponId}>
               <td>
-                <Checkbox
-                  isChecked={selectedRows.includes(c.uuid)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([c.uuid]));
-                    } else {
-                      setSelectedRows(
-                        selectedRows.filter((row) => row !== c.uuid)
-                      );
-                    }
-                  }}
-                />
+                <div className="form-field mb-0">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(c.uuid)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(selectedRows.concat([c.uuid]));
+                      } else {
+                        setSelectedRows(
+                          selectedRows.filter((row) => row !== c.uuid)
+                        );
+                      }
+                    }}
+                  />
+                </div>
               </td>
               <Area
                 id="couponGridRow"

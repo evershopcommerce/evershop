@@ -1,5 +1,5 @@
 import Area from '@components/common/Area';
-import Button from '@components/common/form/Button';
+import Button from '@components/common/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { _ } from '../../../../../lib/locale/translate/_.js';

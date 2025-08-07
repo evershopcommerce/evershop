@@ -1,4 +1,4 @@
-import { Field } from '@components/common/form/Field.js';
+import { NumberField } from '@components/common/form/NumberField.js';
 import React from 'react';
 
 export interface WeightBasedPriceProps {
@@ -30,21 +30,21 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
           {rows.map((row, index) => (
             <tr key={row.key} className="border-divider py-8">
               <td className="border-none">
-                <Field
-                  name={`weight_based_cost[${index}][min_weight]`}
+                <NumberField
+                  name={`weight_based_cost.${index}.min_weight`}
                   placeholder="Min Weight"
-                  type="text"
-                  value={row.minWeight?.value}
-                  validationRules={['notEmpty', 'number']}
+                  defaultValue={row.minWeight?.value}
+                  required
+                  validation={{ required: 'Min weight is required' }}
                 />
               </td>
               <td className="border-none">
-                <Field
-                  name={`weight_based_cost[${index}][cost]`}
+                <NumberField
+                  name={`weight_based_cost.${index}.cost`}
                   placeholder="Shipping Cost"
-                  type="text"
-                  value={row.cost?.value}
-                  validationRules={['notEmpty', 'number']}
+                  defaultValue={row.cost?.value}
+                  required
+                  validation={{ required: 'Shipping cost is required' }}
                 />
               </td>
               <td className="border-none">
@@ -87,7 +87,3 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
     </div>
   );
 }
-
-WeightBasedPrice.defaultProps = {
-  lines: []
-};

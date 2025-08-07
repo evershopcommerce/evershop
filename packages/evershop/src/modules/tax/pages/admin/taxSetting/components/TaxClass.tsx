@@ -1,21 +1,15 @@
 import { Card } from '@components/admin/Card.js';
 import React from 'react';
-import { Rates } from './Rates.jsx';
+import { TaxRate } from './Rate.js';
+import { Rates } from './Rates.js';
 
 interface TaxClassProps {
   taxClass: {
     name: string;
-    rates: Array<{
-      uuid: string;
-      country: string;
-      province: string;
-      postcode: string;
-      isCompound: boolean;
-      priority: number;
-    }>;
+    rates: Array<TaxRate>;
     addRateApi: string;
   };
-  getTaxClasses: () => Promise<void>;
+  getTaxClasses: (options?: { requestPolicy?: string }) => Promise<void> | void;
 }
 
 function TaxClass({ taxClass, getTaxClasses }: TaxClassProps) {

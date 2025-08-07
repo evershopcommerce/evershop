@@ -1,13 +1,13 @@
 import { Card } from '@components/admin/Card.js';
-import Button from '@components/common/form/Button.js';
-import { Field } from '@components/common/form/Field.js';
+import Button from '@components/common/Button.js';
 import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import React from 'react';
 
 interface TaxClassFormProps {
   saveTaxClassApi: string;
   closeModal: () => void;
-  getTaxClasses: (options?: { requestPolicy?: string }) => Promise<void>;
+  getTaxClasses: (options?: { requestPolicy?: string }) => Promise<void> | void;
 }
 
 function TaxClassForm({
@@ -28,12 +28,14 @@ function TaxClassForm({
         }}
       >
         <Card.Session title="Tax class name">
-          <Field
+          <InputField
             name="name"
             type="text"
+            label="Tax class name"
+            defaultValue=""
             placeholder="Enter tax class name"
-            validationRules={['notEmpty']}
-            value=""
+            required
+            validation={{ required: 'Tax class name is required' }}
           />
         </Card.Session>
         <Card.Session>

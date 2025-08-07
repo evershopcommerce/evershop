@@ -1,5 +1,8 @@
-import { Field } from '@components/common/form/Field.js';
-import React from 'react';
+import { InputField } from '@components/common/form/InputField.js';
+import { NumberField } from '@components/common/form/NumberField.js';
+import { SelectField } from '@components/common/form/SelectField.js';
+import React, { useEffect } from 'react';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { options, operators, Operator } from './conditionCriterias.js';
 import { ValueSelector } from './ValueSelector.js';
 
@@ -14,56 +17,24 @@ export interface RequiredProduct {
 export interface RequiredProductsProps {
   requiredProducts: Array<RequiredProduct>;
 }
+
+interface RequiredProducts {
+  condition: {
+    required_products: Array<RequiredProduct>;
+  };
+}
+
 export function RequiredProducts({ requiredProducts }: RequiredProductsProps) {
-  const [products, setProducts] = React.useState<RequiredProduct[]>(() =>
-    requiredProducts.map((p) => ({ ...p, editable: false }))
-  );
+  const { setValue, watch } = useFormContext();
+  const { fields, append, remove, replace } = useFieldArray<RequiredProducts>({
+    name: 'condition.required_products'
+  });
 
-  const addProduct = (e) => {
-    e.persist();
-    e.preventDefault();
-    setProducts(
-      products.concat({
-        key: 'category',
-        operator: Operator.EQUAL,
-        value: '',
-        qty: '',
-        editable: true
-      })
-    );
-  };
+  useEffect(() => {
+    replace(requiredProducts);
+  }, []);
 
-  const removeProduct = (e, index) => {
-    e.persist();
-    e.preventDefault();
-    const newProducts = products.filter((_, i) => i !== index);
-    setProducts(newProducts);
-  };
-
-  const updateProduct = (e, key, index) => {
-    e.persist();
-    e.preventDefault();
-    const newProducts = products.map((p, i) => {
-      if (i === index) {
-        if (key === 'key' && e.target.value === p.key) {
-          return {
-            ...p,
-            [key]: e.target.value,
-            operator: Operator.EQUAL,
-            value: ''
-          };
-        } else {
-          return {
-            ...p,
-            [key]: e.target.value
-          };
-        }
-      } else {
-        return p;
-      }
-    });
-    setProducts(newProducts);
-  };
+  const fieldsWatch = watch('condition.required_products');
 
   return (
     <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
@@ -89,147 +60,118 @@ export function RequiredProducts({ requiredProducts }: RequiredProductsProps) {
           </tr>
         </thead>
         <tbody>
-          {products.map((p, i) => (
-            <tr key={`${p.key}-${p.operator}-${p.value}-${p.qty}-${i}`}>
+          {fields.map((p, i) => (
+            <tr key={p.id}>
               <td>
-                <div className="form-field-container dropdown">
-                  <div className="field-wrapper">
-                    {p.editable ? (
-                      <select
-                        name={`condition[required_products][${i}][key]`}
-                        className="form-control"
-                        value={p.key}
-                        onChange={(e) => updateProduct(e, 'key', i)}
-                        disabled={!p.editable}
-                      >
-                        {options.map((option) => (
-                          <option key={option.key} value={option.key}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
-                    ) : (
-                      <>
-                        <input
-                          type="hidden"
-                          name={`condition[required_products][${i}][key]`}
-                          readOnly
-                          value={p.key}
-                        />
-                        <input
-                          type="text"
-                          readOnly
-                          value={
-                            options.find((c) => c.key === p.key)?.label ||
-                            'Unknown'
-                          }
-                        />
-                      </>
-                    )}
-                    <div className="field-border" />
-                    <div className="field-suffix">
-                      <svg
-                        viewBox="0 0 20 20"
-                        width="1rem"
-                        height="1.25rem"
-                        focusable="false"
-                        aria-hidden="true"
-                      >
-                        <path d="m10 16-4-4h8l-4 4zm0-12 4 4H6l4-4z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div className="form-field-container dropdown">
-                  <div className="field-wrapper">
-                    {p.editable ? (
-                      <select
-                        name={`condition[required_products][${i}][operator]`}
-                        className="form-control"
-                        value={p.operator}
-                        onChange={(e) => updateProduct(e, 'operator', i)}
-                      >
-                        {operators.map((operator) => (
-                          <option key={operator.key} value={operator.key}>
-                            {operator.label}
-                          </option>
-                        ))}
-                      </select>
-                    ) : (
-                      <>
-                        <input
-                          type="hidden"
-                          name={`condition[required_products][${i}][operator]`}
-                          readOnly
-                          value={p.operator}
-                        />
-                        <input
-                          type="text"
-                          readOnly
-                          value={
-                            operators.find((c) => c.key === p.operator)
-                              ?.label || 'Unknown'
-                          }
-                        />
-                      </>
-                    )}
-                    <div className="field-border" />
-                    <div className="field-suffix">
-                      <svg
-                        viewBox="0 0 20 20"
-                        width="1rem"
-                        height="1.25rem"
-                        focusable="false"
-                        aria-hidden="true"
-                      >
-                        <path d="m10 16-4-4h8l-4 4zm0-12 4 4H6l4-4z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                {(typeof p.value === 'string' ||
-                  typeof p.value === 'number') && (
-                  <input
-                    type="hidden"
-                    name={`condition[required_products][${i}][value]`}
-                    value={p.value}
+                {p.editable ? (
+                  <SelectField
+                    name={`condition.required_products.${i}.key`}
+                    defaultValue={p.key}
+                    options={options.map((option) => ({
+                      value: option.key,
+                      label: option.label
+                    }))}
+                    wrapperClassName="form-field mb-0"
                   />
-                )}
-                {Array.isArray(p.value) && (
+                ) : (
                   <>
-                    {p.value.map((v, j) => (
-                      <input
-                        key={j}
-                        type="hidden"
-                        name={`condition[required_products][${i}][value][]`}
-                        value={v}
-                      />
-                    ))}
+                    <InputField
+                      type="hidden"
+                      name={`condition.required_products.${i}.key`}
+                      readOnly
+                      value={p.key}
+                      wrapperClassName="form-field mb-0"
+                    />
+                    <InputField
+                      name={`condition.required_products.${i}.keylabel`}
+                      readOnly
+                      value={
+                        options.find((c) => c.key === p.key)?.label || 'Unknown'
+                      }
+                      wrapperClassName="form-field mb-0"
+                    />
                   </>
                 )}
-                <ValueSelector
-                  condition={p}
-                  updateCondition={(values) => {
-                    const updatedProducts = products.map((prod, idx) =>
-                      idx === i ? { ...prod, value: values } : prod
-                    );
-                    setProducts(updatedProducts);
-                  }}
-                />
               </td>
               <td>
-                <div style={{ width: '60px' }}>
-                  <Field
-                    type="text"
-                    name={`condition[required_products][${i}][qty]`}
-                    formId="coupon-edit-form"
-                    value={p.qty}
-                    validationRules={['notEmpty']}
+                {p.editable ? (
+                  <SelectField
+                    options={operators.map((operator) => ({
+                      value: operator.key,
+                      label: operator.label
+                    }))}
+                    name={`condition.required_products.${i}.operator`}
+                    defaultValue={p.operator}
+                    wrapperClassName="form-field mb-0"
+                  />
+                ) : (
+                  <>
+                    <InputField
+                      type="hidden"
+                      name={`condition.required_products.${i}.operator`}
+                      readOnly
+                      value={p.operator}
+                      wrapperClassName="form-field mb-0"
+                    />
+                    <InputField
+                      readOnly
+                      name={`condition.required_products.${i}.operatorlabel`}
+                      value={
+                        operators.find((c) => c.key === p.operator)?.label ||
+                        'Unknown'
+                      }
+                      wrapperClassName="form-field mb-0"
+                    />
+                  </>
+                )}
+              </td>
+              <td>
+                {fieldsWatch[i].key === 'price' && (
+                  <NumberField
+                    name={`condition.required_products.${i}.value`}
+                    defaultValue={p.value as number}
+                    wrapperClassName="form-field mb-0"
+                  />
+                )}
+                {fieldsWatch[i].key !== 'price' && (
+                  <>
+                    <InputField
+                      type="hidden"
+                      name={`condition.required_products.${i}.value`}
+                      value={p.value as number}
+                      wrapperClassName="form-field mb-0"
+                    />
+                    <ValueSelector
+                      condition={fieldsWatch[i]}
+                      updateCondition={(values) => {
+                        setValue(
+                          `condition.required_products.${i}.value`,
+                          values
+                        );
+                      }}
+                    />
+                  </>
+                )}
+              </td>
+              <td>
+                <div style={{ width: '80px' }}>
+                  <NumberField
+                    name={`condition.required_products.${i}.qty`}
+                    defaultValue={
+                      typeof p.qty === 'number'
+                        ? p.qty
+                        : parseInt(p.qty, 10) || 1
+                    }
                     placeholder="Enter the quantity"
+                    required
+                    validation={{
+                      required: 'Minimum quantity is required',
+                      min: {
+                        value: 1,
+                        message: ''
+                      }
+                    }}
+                    wrapperClassName="form-field mb-0"
                   />
                 </div>
               </td>
@@ -237,7 +179,10 @@ export function RequiredProducts({ requiredProducts }: RequiredProductsProps) {
                 <a
                   href="#"
                   className="text-critical"
-                  onClick={(e) => removeProduct(e, i)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    remove(i);
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -279,7 +224,19 @@ export function RequiredProducts({ requiredProducts }: RequiredProductsProps) {
           </svg>
         </div>
         <div className="pl-4">
-          <a href="#" onClick={(e) => addProduct(e)}>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              append({
+                key: 'category',
+                operator: Operator.EQUAL,
+                value: '',
+                qty: '',
+                editable: true
+              });
+            }}
+          >
             <span>Add product</span>
           </a>
         </div>

@@ -28,6 +28,7 @@ interface AreaProps {
   wrapper?: React.ReactNode | string;
   wrapperProps?: Record<string, any>;
   components?: Components;
+  [key: string]: unknown;
 }
 
 interface Widget extends Component {

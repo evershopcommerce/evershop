@@ -1,73 +1,57 @@
 import { Card } from '@components/admin/Card.js';
 import { CategorySelector } from '@components/admin/CategorySelector.js';
 import Area from '@components/common/Area.js';
-import { Field } from '@components/common/form/Field.js';
-import { Editor } from '@components/common/form/fields/Editor.js';
+import { Editor } from '@components/common/form/Editor.js';
+import { InputField } from '@components/common/form/InputField.js';
+import { NumberField } from '@components/common/form/NumberField.js';
+import { SelectField } from '@components/common/form/SelectField.js';
+import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { useQuery } from 'urql';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
-function SKUPriceWeight({ sku, price, weight, setting }) {
+const SKUPriceWeight: React.FC<{
+  sku: string;
+  price: {
+    value: number | undefined;
+  };
+  weight: {
+    value: number | undefined;
+  };
+  setting: {
+    storeCurrency: string;
+    weightUnit: string;
+  };
+}> = ({ sku, price, weight, setting }) => {
   return (
     <div className="grid grid-cols-3 gap-4 mt-6">
-      <div>
-        <Field
-          id="sku"
-          name="sku"
-          value={sku}
-          placeholder="SKU"
-          label="SKU"
-          type="text"
-          validationRules={['notEmpty']}
-        />
-      </div>
-      <div>
-        <Field
-          id="price"
-          name="price"
-          value={price?.value}
-          placeholder="Price"
-          label="Price"
-          type="text"
-          validationRules={['notEmpty']}
-          suffix={setting.storeCurrency}
-        />
-      </div>
-      <div>
-        <Field
-          id="weight"
-          name="weight"
-          value={weight?.value}
-          placeholder="Weight"
-          label="Weight"
-          type="text"
-          validationRules={['notEmpty']}
-          suffix={setting.weightUnit}
-        />
-      </div>
+      <InputField
+        name="sku"
+        label="SKU"
+        defaultValue={sku}
+        required
+        helperText={_('SKU must be unique')}
+      />
+      <NumberField
+        name="price"
+        label={`Price`}
+        defaultValue={price?.value}
+        unit={setting.storeCurrency}
+        min={0}
+        required
+      />
+      <NumberField
+        name="weight"
+        label={`Weight`}
+        defaultValue={weight?.value}
+        unit={setting.weightUnit}
+        required
+        validation={{ min: 1 }}
+        helperText={_('Weight must be a positive number')}
+      />
     </div>
   );
-}
-
-SKUPriceWeight.propTypes = {
-  price: PropTypes.shape({
-    value: PropTypes.number
-  }),
-  sku: PropTypes.string,
-  weight: PropTypes.shape({
-    value: PropTypes.number
-  }),
-  setting: PropTypes.shape({
-    storeCurrency: PropTypes.string,
-    weightUnit: PropTypes.string
-  }).isRequired
-};
-
-SKUPriceWeight.defaultProps = {
-  price: undefined,
-  sku: undefined,
-  weight: undefined
 };
 
 const CategoryQuery = `
@@ -137,7 +121,17 @@ const ProductCategory: React.FC<{
   );
 };
 
-function CategorySelect({ product }) {
+const CategorySelect: React.FC<{
+  product?:
+    | {
+        category?: {
+          categoryId: number;
+          name?: string;
+          path?: Array<{ name: string }>;
+        };
+      }
+    | undefined;
+}> = ({ product }) => {
   const [category, setCategory] = React.useState(
     product ? product.category : null
   );
@@ -172,44 +166,73 @@ function CategorySelect({ product }) {
           Select category
         </a>
       )}
-      <modal.Content title="Select Category">
+      <Modal
+        title="Select Category"
+        isOpen={modal.isOpen}
+        onClose={modal.close}
+      >
         <CategorySelector
           onSelect={onSelect}
           onUnSelect={() => {}}
           selectedCategories={category ? [category] : []}
         />
-      </modal.Content>
-      {category && <input type="hidden" name="category_id" value={category} />}
+      </Modal>
+      {category && (
+        <input type="hidden" name="category_id" value={category.categoryId} />
+      )}
       {!category && <input type="hidden" name="category_id" value="" />}
     </div>
   );
+};
+
+interface GeneralProps {
+  product?: {
+    description?: Array<{
+      id: string;
+      size: number;
+      columns: Array<{
+        id: string;
+        size: number;
+        data: object;
+      }>;
+    }>;
+    name: string;
+    price: {
+      regular: {
+        currency: string;
+        value: number;
+      };
+    };
+    productId: number;
+    uuid: string;
+    taxClass: number;
+    sku: string;
+    weight: {
+      unit: string;
+      value: number;
+    };
+    category?: {
+      categoryId: number;
+      name?: string;
+      path?: Array<{ name: string }>;
+    };
+  };
+  setting: {
+    storeCurrency: string;
+    weightUnit: string;
+  };
+  productTaxClasses: {
+    items: Array<{
+      value: number;
+      text: string;
+    }>;
+  };
 }
-
-CategorySelect.propTypes = {
-  product: PropTypes.shape({
-    category: PropTypes.shape({
-      categoryId: PropTypes.number.isRequired,
-      name: PropTypes.string,
-      path: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string.isRequired
-        })
-      ).isRequired
-    })
-  })
-};
-
-CategorySelect.defaultProps = {
-  product: {
-    category: {}
-  }
-};
-
 export default function General({
   product,
   setting,
   productTaxClasses: { items: taxClasses }
-}) {
+}: GeneralProps) {
   return (
     <Card title="General">
       <Card.Session>
@@ -217,71 +240,86 @@ export default function General({
           id="productEditGeneral"
           coreComponents={[
             {
-              component: { default: Field },
-              props: {
-                id: 'name',
-                name: 'name',
-                label: 'Name',
-                value: product?.name,
-                validationRules: ['notEmpty'],
-                type: 'text',
-                placeholder: 'Name'
+              component: {
+                default: (
+                  <InputField
+                    name="name"
+                    label="Product Name"
+                    defaultValue={product?.name}
+                    required
+                    helperText={_('Product name is required')}
+                  />
+                )
               },
               sortOrder: 10,
               id: 'name'
             },
             {
-              component: { default: Field },
-              props: {
-                id: 'product_id',
-                name: 'product_id',
-                value: product?.productId,
-                type: 'hidden'
+              component: {
+                default: (
+                  <InputField
+                    type="hidden"
+                    name="product_id"
+                    defaultValue={product?.uuid}
+                  />
+                )
               },
               sortOrder: 10,
               id: 'product_id'
             },
             {
-              component: { default: SKUPriceWeight },
-              props: {
-                sku: product?.sku,
-                price: product?.price.regular,
-                weight: product?.weight,
-                setting
+              component: {
+                default: (
+                  <SKUPriceWeight
+                    sku={product?.sku || ''}
+                    price={
+                      product?.price.regular || {
+                        value: undefined
+                      }
+                    }
+                    weight={product?.weight || { value: undefined }}
+                    setting={setting}
+                  />
+                )
               },
               sortOrder: 20,
               id: 'SKUPriceWeight'
             },
             {
-              component: { default: CategorySelect },
-              props: {
-                product
+              component: {
+                default: <CategorySelect product={product} />
               },
               sortOrder: 22,
               id: 'category'
             },
             {
-              component: { default: Field },
-              props: {
-                id: 'tax_class',
-                name: 'tax_class',
-                value: product?.taxClass || '',
-                type: 'select',
-                label: 'Tax class',
-                options: [...taxClasses],
-                placeholder: 'None',
-                disableDefaultOption: false
+              component: {
+                default: (
+                  <SelectField
+                    name="tax_class"
+                    label="Tax Class"
+                    options={taxClasses.map((taxClass) => ({
+                      value: taxClass.value,
+                      label: taxClass.text
+                    }))}
+                    defaultValue={product?.taxClass || ''}
+                    required
+                    validation={{ required: true }}
+                  />
+                )
               },
               sortOrder: 25,
               id: 'tax_class'
             },
             {
-              component: { default: Editor },
-              props: {
-                id: 'description',
-                name: 'description',
-                label: 'Description',
-                value: product?.description
+              component: {
+                default: (
+                  <Editor
+                    name="description"
+                    label="Description"
+                    value={product?.description}
+                  />
+                )
               },
               sortOrder: 30,
               id: 'description'
@@ -293,58 +331,6 @@ export default function General({
   );
 }
 
-General.propTypes = {
-  product: PropTypes.shape({
-    description: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        size: PropTypes.number.isRequired,
-        columns: PropTypes.arrayOf(
-          PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            size: PropTypes.number.isRequired,
-
-            data: PropTypes.object.isRequired
-          })
-        )
-      })
-    ),
-    name: PropTypes.string,
-    price: PropTypes.shape({
-      regular: PropTypes.shape({
-        currency: PropTypes.string,
-        value: PropTypes.number
-      })
-    }),
-    productId: PropTypes.number,
-    taxClass: PropTypes.number,
-    sku: PropTypes.string,
-    weight: PropTypes.shape({
-      unit: PropTypes.string,
-      value: PropTypes.number
-    })
-  }),
-  setting: PropTypes.shape({
-    storeCurrency: PropTypes.string,
-    weightUnit: PropTypes.string
-  }).isRequired,
-  productTaxClasses: PropTypes.shape({
-    items: PropTypes.arrayOf(
-      PropTypes.shape({
-        value: PropTypes.number,
-        text: PropTypes.string
-      })
-    )
-  })
-};
-
-General.defaultProps = {
-  product: undefined,
-  productTaxClasses: {
-    items: []
-  }
-};
-
 export const layout = {
   areaId: 'leftSide',
   sortOrder: 10
@@ -354,6 +340,7 @@ export const query = `
   query Query {
     product(id: getContextValue("productId", null)) {
       productId
+      uuid
       name
       description
       sku

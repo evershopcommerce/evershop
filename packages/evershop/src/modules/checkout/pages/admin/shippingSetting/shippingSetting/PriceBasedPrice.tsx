@@ -1,4 +1,4 @@
-import { Field } from '@components/common/form/Field.js';
+import { NumberField } from '@components/common/form/NumberField.js';
 import React from 'react';
 
 export interface PriceBasedPriceProps {
@@ -30,21 +30,21 @@ export function PriceBasedPrice({ lines }: PriceBasedPriceProps) {
           {rows.map((row, index) => (
             <tr key={row.key} className="border-divider py-8">
               <td className="border-none">
-                <Field
-                  name={`price_based_cost[${index}][min_price]`}
+                <NumberField
+                  name={`price_based_cost.${index}.min_price`}
                   placeholder="Min Price"
-                  type="text"
-                  value={row.minPrice?.value}
-                  validationRules={['notEmpty', 'number']}
+                  defaultValue={row.minPrice?.value}
+                  required
+                  validation={{ required: 'Min price is required' }}
                 />
               </td>
               <td className="border-none">
-                <Field
-                  name={`price_based_cost[${index}][cost]`}
+                <NumberField
+                  name={`price_based_cost.${index}.cost`}
                   placeholder="Shipping Cost"
-                  type="text"
-                  value={row.cost?.value}
-                  validationRules={['notEmpty', 'number']}
+                  defaultValue={row.cost?.value}
+                  required
+                  validation={{ required: 'Shipping cost is required' }}
                 />
               </td>
               <td className="border-none">
@@ -87,7 +87,3 @@ export function PriceBasedPrice({ lines }: PriceBasedPriceProps) {
     </div>
   );
 }
-
-PriceBasedPrice.defaultProps = {
-  lines: []
-};

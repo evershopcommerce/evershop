@@ -1,3 +1,4 @@
+import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
 import { CogIcon } from '@heroicons/react/24/outline';
 import React from 'react';
@@ -105,14 +106,18 @@ function Method({ method, reload }: MethodProps) {
           </a>
         </td>
       </>
-      <modal.Content title={`Edit ${method.name} Method`}>
+      <Modal
+        title={`Edit ${method.name} Method`}
+        onClose={modal.close}
+        isOpen={modal.isOpen}
+      >
         <MethodForm
           saveMethodApi={method.updateApi}
           onSuccess={() => modal.close()}
           reload={reload}
           method={method}
         />
-      </modal.Content>
+      </Modal>
     </>
   );
 }
