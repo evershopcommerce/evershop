@@ -62,12 +62,12 @@ export default function ShippingMethods({
       );
       if (selectedCountry && selectedCountry.provinces) {
         if (province && !province.value) {
-          check = false;
+          check = true;
           setAddressProvided(false);
           setMethods([]);
         }
       } else {
-        check = true;
+        check = false;
       }
 
       if (check === true) {
