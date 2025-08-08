@@ -28,7 +28,7 @@ export default function CmsPageNewForm({
       id="cmsPageNewForm"
       submitBtn={false}
     >
-      <div className="grid gap-8 grid-cols-1 w-2/3 mx-auto">
+      <div className="grid gap-5 grid-cols-1 w-2/3 mx-auto">
         <Area id="wideScreen" noOuter />
       </div>
       <FormButtons formId="cmsPageNewForm" cancelUrl={gridUrl} />

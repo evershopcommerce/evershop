@@ -1,3 +1,4 @@
+import React from 'react';
 import { Card } from '@components/admin/Card.js';
 import {
   CategoryTree,
@@ -8,7 +9,7 @@ import { Editor } from '@components/common/form/Editor.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
-import React from 'react';
+import './General.scss';
 
 const ParentCategory: React.FC<{
   parent: CategoryTreeItem;
@@ -20,17 +21,17 @@ const ParentCategory: React.FC<{
   const modal = useModal();
 
   return (
-    <div className="mt-6 relative">
-      <div className="mb-4">Parent category</div>
+    <div className="mt-4 relative">
+      <div className="mb-2">Parent category</div>
       {category && (
-        <div className="border rounded border-[#c9cccf] mb-4 p-4">
+        <div className="border rounded border-[#c9cccf] mb-2 p-2">
           {category.path.map((item, index) => (
             <span key={item.name} className="text-gray-500">
               {item.name}
               {index < category.path.length - 1 && ' > '}
             </span>
           ))}
-          <span className="text-interactive pl-8 hover:underline">
+          <span className="text-interactive pl-5 hover:underline">
             <a
               href="#"
               onClick={(e) => {
@@ -41,7 +42,7 @@ const ParentCategory: React.FC<{
               Change
             </a>
           </span>
-          <span className="text-critical pl-8 hover:underline">
+          <span className="text-critical pl-5 hover:underline">
             <a
               href="#"
               onClick={(e) => {
@@ -71,7 +72,7 @@ const ParentCategory: React.FC<{
         onClose={modal.close}
         isOpen={modal.isOpen}
       >
-        <div className="px-3">
+        <div className="px-2">
           <CategoryTree
             selectedCategories={category ? [category] : []}
             onSelect={(c) => {

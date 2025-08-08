@@ -8,14 +8,14 @@ export default function AccountDetails({ account }) {
   return (
     <div className="account-details">
       <div className="account-details-inner">
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 gap-2">
           <Area
             id="accountDetails"
             coreComponents={[
               {
                 component: {
                   default: () => (
-                    <div className="account-details-name flex gap-4">
+                    <div className="account-details-name flex gap-2">
                       <div>
                         <UserIcon width={20} height={20} />
                       </div>
@@ -28,7 +28,7 @@ export default function AccountDetails({ account }) {
               {
                 component: {
                   default: () => (
-                    <div className="account-details-email flex gap-4">
+                    <div className="account-details-email flex gap-2">
                       <div>
                         <InboxIcon width={20} height={20} />
                       </div>

@@ -12,7 +12,7 @@ export default function Items({ order: { items, shipmentStatus } }) {
   return (
     <Card
       title={
-        <div className="flex space-x-4">
+        <div className="flex space-x-2">
           <Circle variant={shipmentStatus.badge || 'new'} />
           <span className="block self-center">
             {shipmentStatus.name || 'Unknown'}
@@ -71,7 +71,7 @@ export default function Items({ order: { items, shipmentStatus } }) {
         </table>
       </Card.Session>
       <Card.Session>
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-end gap-2">
           <Area id="order_actions" noOuter />
         </div>
       </Card.Session>

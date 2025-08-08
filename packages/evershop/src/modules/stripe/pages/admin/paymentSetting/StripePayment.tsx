@@ -27,7 +27,7 @@ export default function StripePayment({
   return (
     <Card title="Stripe Payment">
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Enable?</h4>
           </div>
@@ -42,7 +42,7 @@ export default function StripePayment({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Dislay Name</h4>
           </div>
@@ -57,7 +57,7 @@ export default function StripePayment({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Publishable Key</h4>
           </div>
@@ -72,7 +72,7 @@ export default function StripePayment({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Secret Key</h4>
           </div>
@@ -87,7 +87,7 @@ export default function StripePayment({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Webhook Secret Key</h4>
           </div>
@@ -103,7 +103,7 @@ export default function StripePayment({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Payment mode</h4>
           </div>

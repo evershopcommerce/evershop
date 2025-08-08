@@ -14,8 +14,8 @@ export const New: React.FC<{
         {action === undefined && (
           <div>
             <div className="justify-center text-center">
-              <div className="mb-16">
-                <span className="pr-4">
+              <div className="mb-10">
+                <span className="pr-2">
                   This product has some variants like color or size?
                 </span>
                 <a

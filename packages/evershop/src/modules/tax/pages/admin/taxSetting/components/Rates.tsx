@@ -12,7 +12,7 @@ interface RatesProps {
 export function Rates({ getTaxClasses, rates, addRateApi }: RatesProps) {
   const modal = useModal();
   return (
-    <div className="my-8">
+    <div className="my-5">
       <table className="border-collapse divide-y">
         <thead>
           <tr>
@@ -25,13 +25,13 @@ export function Rates({ getTaxClasses, rates, addRateApi }: RatesProps) {
         </thead>
         <tbody>
           {rates.map((rate) => (
-            <tr key={rate.uuid} className="border-divider py-8">
+            <tr key={rate.uuid} className="border-divider py-5">
               <Rate rate={rate} getTaxClasses={getTaxClasses} />
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="mt-4">
+      <div className="mt-2">
         <a
           href="#"
           className="text-interactive"

@@ -1,7 +1,7 @@
 .search-box {
   align-self: center;
-  margin-left: 23.3rem;
-  width: 55rem;
+  margin-left: 14.563rem;
+  width: 34.375rem;
   position: relative;
   .field-wrapper {
     background-color: #f1f2f3;
@@ -11,7 +11,7 @@
     border-color: #f1f2f3 !important;
   }
   .field-prefix {
-    padding-left: 0.85rem;
+    padding-left: 0.531rem;
   }
   .search-result {
     position: absolute;
@@ -21,7 +21,7 @@
     border-radius: 5px;
     width: 100%;
     color: #999fa4;
-    padding: 2rem 1rem;
+    padding: 1.25rem 0.625rem;
     .loading {
       color: var(--primary);
       position: absolute;
@@ -31,22 +31,22 @@
   }
   .no-result {
     h3 {
-      font-size: 2.6rem;
+      font-size: 1.625rem;
       color: white;
     }
   }
   .results {
-    max-height: 20rem;
+    max-height: 12.5rem;
     overflow-y: auto;
     h3 {
       color: white;
-      font-size: 2.6rem;
+      font-size: 1.625rem;
     }
     .result-category {
       text-transform: uppercase;
     }
     .item-list {
-      margin-top: 1rem;
+      margin-top: 0.625rem;
       .result-category {
         margin-bottom: 5px;
       }

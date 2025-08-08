@@ -153,7 +153,7 @@ export default function Products({
       )}
       <Card.Session>
         <div>
-          <div className="mb-8">
+          <div className="mb-5">
             <div className="form-field">
               <input
                 type="text"
@@ -177,7 +177,7 @@ export default function Products({
                 </div>
                 <div>
                   {data.category.products.total > 10 && (
-                    <div className="flex justify-between gap-4">
+                    <div className="flex justify-between gap-2">
                       {page > 1 && (
                         <a
                           className="text-interactive"
@@ -210,10 +210,10 @@ export default function Products({
                 {data.category.products.items.map((p) => (
                   <div
                     key={p.uuid}
-                    className="flex justify-between py-4 border-divider items-center"
+                    className="flex justify-between py-2 border-divider items-center"
                   >
-                    <div className="flex justify-items-start gap-8">
-                      <div className="grid-thumbnail text-border border border-divider p-3 rounded flex justify-center w-16 h-16">
+                    <div className="flex justify-items-start gap-5">
+                      <div className="grid-thumbnail text-border border border-divider p-2 rounded flex justify-center w-10 h-10">
                         {p.image?.url && (
                           <img
                             className="self-center"

@@ -26,7 +26,7 @@ export default function General({ attribute }: GeneralProps) {
           validation={{
             required: 'This field is required'
           }}
-          defaultValue={attribute?.isRequired}
+          defaultValue={attribute?.isRequired === 0 ? 0 : 1}
         />
       </Card.Session>
       <Card.Session>
@@ -41,7 +41,7 @@ export default function General({ attribute }: GeneralProps) {
           validation={{
             required: 'This field is required'
           }}
-          defaultValue={attribute?.isFilterable}
+          defaultValue={attribute?.isFilterable === 1 ? 1 : 0}
         />
       </Card.Session>
       <Card.Session>
@@ -56,13 +56,14 @@ export default function General({ attribute }: GeneralProps) {
           validation={{
             required: 'This field is required'
           }}
-          defaultValue={attribute?.displayOnFrontend}
+          defaultValue={attribute?.displayOnFrontend === 1 ? 1 : 0}
         />
       </Card.Session>
       <Card.Session>
         <NumberField
           name="sort_order"
           label="Sort Order"
+          placeholder="Sort order"
           required
           validation={{
             required: 'Sort order is required',

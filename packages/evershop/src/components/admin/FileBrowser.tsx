@@ -41,7 +41,7 @@ const File: React.FC<{
             <svg
               style={{ width: '2rem' }}
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-4 w-4"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -292,7 +292,7 @@ const FileBrowser: React.FC<{
               <svg
                 style={{ width: '2rem' }}
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-4 w-4"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -307,11 +307,11 @@ const FileBrowser: React.FC<{
             </a>
           </div>
           <div>
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-4 gap-5">
               <div className="col-span-1">
-                <div className="current-path mb-16">
+                <div className="current-path mb-10">
                   <div className="flex">
-                    <div className="pr-4">You are here:</div>
+                    <div className="pr-2">You are here:</div>
                     <div>
                       <a
                         href="#"
@@ -337,7 +337,7 @@ const FileBrowser: React.FC<{
                     ))}
                   </div>
                 </div>
-                <ul className="mt-6 mb-6">
+                <ul className="mt-4 mb-4">
                   {folders.map((f, i) => (
                     <li
                       key={i}
@@ -346,7 +346,7 @@ const FileBrowser: React.FC<{
                       <svg
                         style={{ width: '2rem', height: '2rem' }}
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
+                        className="h-4 w-4"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -381,7 +381,7 @@ const FileBrowser: React.FC<{
                       ref={newFolderRefInput}
                     />
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-2">
                     <a
                       href="#"
                       onClick={(e) =>
@@ -395,8 +395,8 @@ const FileBrowser: React.FC<{
                 </div>
               </div>
               <div className="col-span-3">
-                <div className="error text-critical mb-8">{error}</div>
-                <div className="tool-bar grid grid-cols-3 gap-4 mb-8">
+                <div className="error text-critical mb-5">{error}</div>
+                <div className="tool-bar grid grid-cols-3 gap-2 mb-5">
                   <Button
                     variant="danger"
                     outline
@@ -435,7 +435,7 @@ const FileBrowser: React.FC<{
                   </label>
                 </div>
                 {files.length === 0 && <div>There is no file to display.</div>}
-                <div className="grid grid-cols-9 gap-4">
+                <div className="grid grid-cols-9 gap-2">
                   {files.map((f) => (
                     <File file={f} select={onSelectFile} key={f.name} />
                   ))}

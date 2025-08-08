@@ -7,6 +7,7 @@ import { useFormContext, Controller, useFieldArray } from 'react-hook-form';
 import Select from 'react-select';
 import { useQuery } from 'urql';
 import { get } from '../../../../../lib/util/get.js';
+import './General.scss';
 
 const GroupsQuery = `
   query Query {
@@ -85,8 +86,8 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
 
   return (
     <div>
-      <div className="mb-4">Select groups the attribute belongs to</div>
-      <div className="grid gap-8 grid-cols-2">
+      <div className="mb-2">Select groups the attribute belongs to</div>
+      <div className="grid gap-5 grid-cols-2">
         <div>
           <Controller
             name="groups"
@@ -110,9 +111,9 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
             )}
           />
         </div>
-        <div className="grid gap-8 grid-cols-1">
+        <div className="grid gap-5 grid-cols-1">
           <div>
-            <div className="flex gap-8">
+            <div className="flex gap-5">
               <input
                 type="text"
                 placeholder="Create a new group"
@@ -125,7 +126,7 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
                   e.preventDefault();
                   createGroup();
                 }}
-                className="px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                className="px-2 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
               >
                 <svg
                   width="1.5rem"
@@ -135,7 +136,7 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-4 h-4"
                 >
                   <path
                     strokeLinecap="round"
@@ -146,7 +147,7 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
               </button>
             </div>
             {createGroupError && (
-              <p className="text-red-500 text-sm mt-1">{createGroupError}</p>
+              <p className="text-red-500 text-xs mt-1">{createGroupError}</p>
             )}
           </div>
         </div>
@@ -189,7 +190,7 @@ const Options: React.FC<{
     <div className="attribute-edit-options">
       {fields.map((field, index) => {
         return (
-          <div key={field.id} className="flex items-center mb-2 space-x-8">
+          <div key={field.id} className="flex items-center mb-2 space-x-5">
             <div className="flex-1">
               <InputField
                 name={`options.${index}.option_text`}
@@ -218,7 +219,7 @@ const Options: React.FC<{
           </div>
         );
       })}
-      <div className="mt-4">
+      <div className="mt-2">
         <button
           type="button"
           onClick={addOption}
@@ -259,10 +260,11 @@ export default function General({ attribute, createGroupApi }: GeneralProps) {
   return (
     <Card title="General">
       <Card.Session>
-        <div className="space-y-4">
+        <div className="space-y-2">
           <InputField
             name="attribute_name"
             label="Name"
+            placeholder="Enter attribute name"
             required
             defaultValue={attribute?.attributeName}
             validation={{ required: 'Attribute name is required' }}
@@ -271,6 +273,7 @@ export default function General({ attribute, createGroupApi }: GeneralProps) {
           <InputField
             name="attribute_code"
             label="Code"
+            placeholder="Enter attribute code"
             required
             defaultValue={attribute?.attributeCode}
             validation={{ required: 'Attribute code is required' }}

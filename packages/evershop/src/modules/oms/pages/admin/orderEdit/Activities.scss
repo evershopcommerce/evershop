@@ -1,15 +1,15 @@
 .order-activities {
-  margin-top: 2rem;
+  margin-top: 1.25rem;
   h3.title {
-    font-size: 1.6rem;
-    padding-bottom: 2rem;
+    font-size: 1rem;
+    padding-bottom: 1.25rem;
     border-bottom: 1px solid var(--divider);
     font-weight: 600;
   }
   span.dot {
     display: block;
-    width: 1.3rem;
-    height: 1.3rem;
+    width: 0.813rem;
+    height: 0.813rem;
     background-color: var(--border);
     border-radius: 100%;
     z-index: 51;
@@ -28,23 +28,23 @@
     color: var(--border);
   }
   li.group {
-    margin-top: 5rem;
+    margin-top: 3.125rem;
     :first-child {
       margin-top: 0;
     }
     > span {
       text-transform: uppercase;
-      padding-left: 2.8rem;
+      padding-left: 1.75rem;
       color: var(--border);
     }
     ul {
-      margin-top: 2rem;
+      margin-top: 1.25rem;
     }
   }
   > ul {
     position: relative;
-    padding: 2rem 0;
-    margin-top: 2rem;
+    padding: 1.25rem 0;
+    margin-top: 1.25rem;
   }
   > ul::after {
     content: '';

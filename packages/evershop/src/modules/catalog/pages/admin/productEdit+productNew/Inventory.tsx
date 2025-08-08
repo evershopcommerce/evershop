@@ -30,7 +30,7 @@ export default function Inventory({ product }: InventoryProps) {
             { value: 1, label: 'Yes' },
             { value: 0, label: 'No' }
           ]}
-          defaultValue={inventory.manageStock}
+          defaultValue={inventory.manageStock === 0 ? 0 : 1}
           required
         />
       </Card.Session>
@@ -42,7 +42,7 @@ export default function Inventory({ product }: InventoryProps) {
             { value: 1, label: 'In Stock' },
             { value: 0, label: 'Out of Stock' }
           ]}
-          defaultValue={inventory.stockAvailability}
+          defaultValue={inventory.stockAvailability === 0 ? 0 : 1}
           required
         />
       </Card.Session>

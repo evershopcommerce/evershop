@@ -63,7 +63,7 @@ export function CategoryFilter({ currentFilters, categories, updateFilter }) {
   }
 
   return (
-    <div className="category-filter mt-8">
+    <div className="category-filter mt-5">
       <div className="filter-item-title">
         <span className="font-medium">{_('Category')}</span>
       </div>

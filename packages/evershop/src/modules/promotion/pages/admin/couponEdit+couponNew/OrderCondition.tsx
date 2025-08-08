@@ -18,7 +18,7 @@ export default function OrderCondition({ coupon = {} }: OrderConditionProps) {
   const condition = coupon?.condition || {};
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       <NumberField
         name="condition.order_total"
         label="Minimum purchase amount"

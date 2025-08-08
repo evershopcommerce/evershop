@@ -191,7 +191,7 @@ export default function StoreSetting({
 
   return (
     <div className="main-content-inner">
-      <div className="grid grid-cols-6 gap-x-8 grid-flow-row ">
+      <div className="grid grid-cols-6 gap-x-5 grid-flow-row ">
         <div className="col-span-2">
           <SettingMenu />
         </div>
@@ -257,7 +257,7 @@ export default function StoreSetting({
                       sortOrder: 20
                     }
                   ]}
-                  className="grid grid-cols-2 gap-8 mt-8"
+                  className="grid grid-cols-2 gap-5 mt-5"
                 />
               </Card.Session>
               <Card.Session title="Address">
@@ -271,7 +271,7 @@ export default function StoreSetting({
                   defaultValue={storeAddress}
                   placeholder="Store Address"
                 />
-                <div className="grid grid-cols-3 gap-8 mt-8">
+                <div className="grid grid-cols-3 gap-5 mt-5">
                   <div>
                     <InputField
                       name="storeCity"

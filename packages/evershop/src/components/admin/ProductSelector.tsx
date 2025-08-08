@@ -160,7 +160,7 @@ const ProductSelector: React.FC<{
       {!fetching && data && !loading && (
         <div className="divide-y">
           {data.products.items.length === 0 && (
-            <div className="p-3 border border-divider rounded flex justify-center items-center">
+            <div className="p-2 border border-divider rounded flex justify-center items-center">
               {inputValue ? (
                 <p>No products found for query &quot;{inputValue}&rdquo;</p>
               ) : (
@@ -171,10 +171,10 @@ const ProductSelector: React.FC<{
           {data.products.items.map((product) => (
             <div
               key={product.uuid}
-              className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
+              className="grid grid-cols-8 gap-5 py-2 border-divider items-center"
             >
               <div className="col-span-1">
-                <div className="text-border border border-divider p-3 rounded flex justify-center w-16 h-16">
+                <div className="text-border border border-divider p-2 rounded flex justify-center w-10 h-10">
                   {product.image?.url && (
                     <img src={product.image?.url} alt={product.name} />
                   )}
@@ -239,7 +239,7 @@ const ProductSelector: React.FC<{
           ))}
         </div>
       )}
-      <div className="flex justify-between gap-8 pt-8">
+      <div className="flex justify-between gap-5 pt-5">
         <SimplePageination
           total={data?.products.total || 0}
           count={data?.products?.items?.length || 0}

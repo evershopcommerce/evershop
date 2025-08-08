@@ -74,15 +74,15 @@ export function StepContent({
 
   return (
     <div>
-      <h4 className="mb-4 mt-12">{_('Shipping Address')}</h4>
-      <div className="grid grid-cols-2 gap-5 mb-5">
+      <h4 className="mb-2 mt-7">{_('Shipping Address')}</h4>
+      <div className="grid grid-cols-2 gap-3 mb-3">
         {addresses.map((address) => (
           <div
-            className="border rounded border-gray-300 p-5"
+            className="border rounded border-gray-300 p-3"
             key={address.uuid}
           >
             <AddressSummary key={address.uuid} address={address} />
-            <div className="flex justify-end gap-5">
+            <div className="flex justify-end gap-3">
               <a
                 href="#"
                 className="text-interactive underline"

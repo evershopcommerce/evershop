@@ -6,15 +6,15 @@
   }
 }
 .card-title {
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 .card-header {
-  padding: 2rem;
+  padding: 1.25rem;
 }
 .card-section {
   border-color: var(--divider);
-  padding: 2rem;
+  padding: 1.25rem;
   > .card-section {
     padding: 0;
   }
@@ -26,12 +26,12 @@
   padding-top: 0;
 }
 .card-session-title {
-  font-size: 1.2rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   font-weight: 600;
 }
 .card-session-title + .card-session-content {
-  padding-top: 0.85rem;
+  padding-top: 0.531rem;
 }
 .card-action a:hover {
   text-decoration: underline;

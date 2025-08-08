@@ -14,7 +14,7 @@ export function Results({ keyword, results = {} }) {
       </h3>
       <div className="item-list">
         {products.items.length > 0 && (
-          <div className="item-category flex flex-col space-x-4">
+          <div className="item-category flex flex-col space-x-2">
             <div className="result-category">Products</div>
             {products.items.map((product, index) => (
               <a href={product.url} key={index}>
@@ -25,7 +25,7 @@ export function Results({ keyword, results = {} }) {
           </div>
         )}
         {customers.items.length > 0 && (
-          <div className="item-category flex flex-col space-x-4">
+          <div className="item-category flex flex-col space-x-2">
             <div className="result-category">Customers</div>
             {customers.items.map((customer, index) => (
               <a href={customer.url} key={index}>
@@ -36,7 +36,7 @@ export function Results({ keyword, results = {} }) {
           </div>
         )}
         {orders.items.length > 0 && (
-          <div className="item-category flex flex-col space-x-4">
+          <div className="item-category flex flex-col space-x-2">
             <div className="result-category">Orders</div>
             {orders.items.map((order, index) => (
               <a href={order.url} key={index}>

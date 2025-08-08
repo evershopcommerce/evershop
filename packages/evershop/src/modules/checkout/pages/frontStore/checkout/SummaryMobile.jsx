@@ -9,7 +9,7 @@ export default function Summary({ cart, setting: { priceIncludingTax } }) {
   return (
     <Area
       id="checkoutSummary"
-      className="checkout-summary checkout__summary__mobile md:hidden divide-y border rounded border-divider px-8 mb-8"
+      className="checkout-summary checkout__summary__mobile md:hidden divide-y border rounded border-divider px-5 mb-5"
       coreComponents={[
         {
           component: { default: Items },

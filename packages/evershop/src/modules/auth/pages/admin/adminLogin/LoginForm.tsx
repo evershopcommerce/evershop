@@ -16,7 +16,7 @@ const SubmitButton: React.FC<{ formId: string }> = ({ formId }) => {
     formState: { isSubmitting }
   } = useFormContext();
   return (
-    <div className="form-submit-button flex border-t border-divider mt-6 pt-6 justify-between">
+    <div className="form-submit-button flex border-t border-divider mt-4 pt-4 justify-between">
       <Button
         title="SIGN IN"
         onAction={() => {
@@ -43,7 +43,7 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
 
   return (
     <div className="admin-login-form">
-      <div className="flex items-center justify-center mb-12">
+      <div className="flex items-center justify-center mb-7">
         <svg
           width="60"
           height="61"
@@ -65,7 +65,7 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
           />
         </svg>
       </div>
-      {error && <div className="text-critical py-4">{error}</div>}
+      {error && <div className="text-critical py-2">{error}</div>}
       <Form
         action={authUrl}
         method="POST"

@@ -73,16 +73,16 @@ export function Pagination({ total, limit, page }: PaginationProps) {
   };
 
   return (
-    <div className="pagination flex px-8">
-      <div className="flex justify-between w-full space-x-4 mt-4 mb-4">
-        <div className="flex space-x-4 items-center">
+    <div className="pagination flex px-5">
+      <div className="flex justify-between w-full space-x-2 mt-2 mb-2">
+        <div className="flex space-x-2 items-center">
           <div className="self-center">
             <span>Show</span>
           </div>
           <div className="limit">
             <div
               className="form-field flex items-center"
-              style={{ width: '5rem', marginBottom: '0' }}
+              style={{ width: '4rem', marginBottom: '0' }}
             >
               <input
                 type="number"
@@ -95,7 +95,7 @@ export function Pagination({ total, limit, page }: PaginationProps) {
             <span>per page</span>
           </div>
         </div>
-        <div className="flex space-x-4">
+        <div className="flex space-x-2">
           {page > 1 && (
             <>
               <div className="first self-center">
@@ -107,7 +107,7 @@ export function Pagination({ total, limit, page }: PaginationProps) {
                 <a href="#" onClick={(e) => onPrev(e)}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
+                    className="h-4 w-4"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -147,7 +147,7 @@ export function Pagination({ total, limit, page }: PaginationProps) {
                 <a href="#" onClick={(e) => onNext(e)}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
+                    className="h-4 w-4"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"

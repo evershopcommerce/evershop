@@ -1,15 +1,15 @@
 .badge {
   border-radius: 30px;
-  padding: 0.16rem 0.85rem;
-  font-size: 1.3rem;
+  padding: 0.1rem 0.531rem;
+  font-size: 0.813rem;
   display: inline-flex;
   .title {
     color: var(--text);
-    padding-left: 0.5rem;
+    padding-left: 0.313rem;
   }
   .progress {
-    width: 1rem;
-    height: 1rem;
+    width: 0.625rem;
+    height: 0.625rem;
     display: block;
     align-self: center;
     background-color: currentColor;

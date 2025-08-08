@@ -17,7 +17,7 @@ export default function Layout() {
               component: { default: Area },
               props: {
                 id: 'icon-wrapper',
-                className: 'icon-wrapper flex justify-end space-x-4'
+                className: 'icon-wrapper flex justify-end space-x-2'
               },
               sortOrder: 20
             }

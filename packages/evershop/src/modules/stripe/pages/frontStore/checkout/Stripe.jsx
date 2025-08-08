@@ -70,7 +70,7 @@ export default function StripeMethod({
 
   return (
     <div>
-      <div className="flex justify-start items-center gap-4">
+      <div className="flex justify-start items-center gap-2">
         {(!selectedPaymentMethod ||
           selectedPaymentMethod.code !== 'stripe') && (
           <a
@@ -135,7 +135,7 @@ export default function StripeMethod({
       </div>
       <div>
         {selectedPaymentMethod && selectedPaymentMethod.code === 'stripe' && (
-          <div className="mt-5">
+          <div className="mt-3">
             <StripeApp
               total={grandTotal.value}
               currency={currency}

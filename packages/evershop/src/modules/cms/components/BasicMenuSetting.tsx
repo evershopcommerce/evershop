@@ -108,9 +108,9 @@ const SortableMenuItem: React.FC<SortableMenuItemProps> = ({
     <div
       ref={setNodeRef}
       style={style}
-      className="flex justify-between py-2 px-3 bg-white border rounded mb-2"
+      className="flex justify-between py-2 px-2 bg-white border rounded mb-2"
     >
-      <div className="flex justify-start gap-5 items-center">
+      <div className="flex justify-start gap-3 items-center">
         <button
           type="button"
           className="cursor-move p-1"
@@ -135,7 +135,7 @@ const SortableMenuItem: React.FC<SortableMenuItemProps> = ({
         </button>
         <div>{item.name}</div>
       </div>
-      <div className="flex justify-end gap-5 items-center">
+      <div className="flex justify-end gap-3 items-center">
         <button
           type="button"
           className="text-interactive"
@@ -253,7 +253,7 @@ const MenuSettingPopup: React.FC<{
   return (
     <Card title="Menu item">
       <Card.Session>
-        <div className="grid grid-flow-row gap-8">
+        <div className="grid grid-flow-row gap-5">
           <div>
             <label htmlFor="menuName" className="block mb-2 font-medium">
               Name
@@ -446,7 +446,7 @@ export default function BasicMenuSetting({
                     deleteItem={deleteItem}
                   />
                   {menu.children && menu.children.length > 0 && (
-                    <div className="ml-8 mt-2">
+                    <div className="ml-5 mt-2">
                       <DndContext
                         sensors={sensors}
                         collisionDetection={closestCenter}
@@ -485,7 +485,7 @@ export default function BasicMenuSetting({
           value={JSON.stringify(items)}
         />
 
-        <div className="mt-5">
+        <div className="mt-3">
           <button
             type="button"
             className="text-interactive"
@@ -517,7 +517,7 @@ export default function BasicMenuSetting({
         </Modal>
       </Card.Session>
       <Card.Session title="Setting">
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div>
             <CheckboxField
               label="Is Main Menu?"

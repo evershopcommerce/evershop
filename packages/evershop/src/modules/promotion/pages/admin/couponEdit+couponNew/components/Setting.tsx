@@ -8,7 +8,7 @@ export const Setting: React.FC<{
   endDate?: string;
 }> = ({ discountAmount, startDate, endDate }) => {
   return (
-    <div className="grid grid-cols-3 gap-8 form-field-container">
+    <div className="grid grid-cols-3 gap-5 form-field-container">
       <div>
         <NumberField
           name="discount_amount"

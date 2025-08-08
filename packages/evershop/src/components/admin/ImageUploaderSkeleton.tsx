@@ -17,7 +17,7 @@ export const ImageUploaderSkeleton: React.FC<ImageUploaderSkeletonProps> = ({
           style={{ aspectRatio: '1/1', width: '300px', height: '300px' }}
         >
           <div className="absolute top-2 right-2">
-            <div className="w-6 h-6 rounded-full bg-gray-200"></div>
+            <div className="w-4 h-4 rounded-full bg-gray-200"></div>
           </div>
           <svg
             style={{ width: '30px', height: '30px' }}

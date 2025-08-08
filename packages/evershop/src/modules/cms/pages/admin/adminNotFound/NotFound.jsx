@@ -5,7 +5,7 @@ import React from 'react';
 
 function Name() {
   return (
-    <h1 className="page-name text-center mt-10 mb-6">404 Page Not Found</h1>
+    <h1 className="page-name text-center mt-6 mb-4">404 Page Not Found</h1>
   );
 }
 
@@ -13,7 +13,7 @@ function Content({ dashboardUrl }) {
   return (
     <div className="page-content">
       <div className="text-center">The page you requested does not exist.</div>
-      <div className="mt-8 text-center">
+      <div className="mt-5 text-center">
         <Button title="Back To Dashboard" url={dashboardUrl} outline />
       </div>
     </div>
@@ -26,8 +26,8 @@ Content.propTypes = {
 
 export default function NotFound({ dashboardUrl }) {
   return (
-    <div className="page-width mt-10">
-      <div className="pt-6">
+    <div className="page-width mt-6">
+      <div className="pt-4">
         <Area
           id="notfound-page"
           coreComponents={[

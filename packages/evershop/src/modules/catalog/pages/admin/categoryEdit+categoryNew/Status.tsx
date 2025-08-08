@@ -23,7 +23,7 @@ export default function Status({ category }: CategoryStatusProps) {
             { label: 'Disabled', value: 0 },
             { label: 'Enabled', value: 1 }
           ]}
-          defaultValue={category?.status}
+          defaultValue={category?.status === 0 ? 0 : 1}
           validation={{
             required: 'This field is required'
           }}
@@ -36,7 +36,7 @@ export default function Status({ category }: CategoryStatusProps) {
             { label: 'No', value: 0 },
             { label: 'Yes', value: 1 }
           ]}
-          defaultValue={category?.includeInNav}
+          defaultValue={category?.includeInNav === 0 ? 0 : 1}
           validation={{
             required: 'This field is required'
           }}
@@ -49,7 +49,7 @@ export default function Status({ category }: CategoryStatusProps) {
             { label: 'No', value: 0 },
             { label: 'Yes', value: 1 }
           ]}
-          defaultValue={category?.showProducts}
+          defaultValue={category?.showProducts === 0 ? 0 : 1}
           validation={{
             required: 'This field is required'
           }}

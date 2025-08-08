@@ -76,7 +76,7 @@ export default function TaxSetting({
   if (countriesQueryData.fetching || taxClassesQueryData.fetching) {
     return (
       <div className="main-content-inner">
-        <div className="grid grid-cols-6 gap-x-8 grid-flow-row ">
+        <div className="grid grid-cols-6 gap-x-5 grid-flow-row ">
           <div className="col-span-2">
             <SettingMenu />
           </div>
@@ -94,11 +94,11 @@ export default function TaxSetting({
 
   return (
     <div className="main-content-inner">
-      <div className="grid grid-cols-6 gap-x-8 grid-flow-row ">
+      <div className="grid grid-cols-6 gap-x-5 grid-flow-row ">
         <div className="col-span-2">
           <SettingMenu />
         </div>
-        <div className="col-span-4 grid grid-cols-1 gap-8">
+        <div className="col-span-4 grid grid-cols-1 gap-5">
           <Card>
             <Card.Session title="Tax">
               <div>
@@ -113,7 +113,7 @@ export default function TaxSetting({
                 action={saveSettingApi}
                 successMessage="Tax setting has been saved successfully!"
               >
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-2 gap-5">
                   <div>
                     <SelectField
                       name="defaultShippingTaxClassId"

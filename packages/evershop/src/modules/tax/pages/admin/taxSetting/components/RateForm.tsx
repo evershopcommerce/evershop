@@ -39,7 +39,7 @@ function RateForm({
 
   if (result.fetching) {
     return (
-      <div className="flex justify-center p-3">
+      <div className="flex justify-center p-2">
         <Spinner width={25} height={25} />
       </div>
     );
@@ -63,7 +63,7 @@ function RateForm({
         }}
       >
         <Card.Session title="Basic">
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-2 gap-5">
             <div>
               <InputField
                 name="name"
@@ -87,7 +87,7 @@ function RateForm({
           </div>
         </Card.Session>
         <Card.Session title="Setup shipping cost">
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-5">
             <div>
               <InputField
                 name="country"
@@ -119,7 +119,7 @@ function RateForm({
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8 mt-8">
+          <div className="grid grid-cols-2 gap-5 mt-5">
             <div>
               <ToggleField
                 name="is_compound"
@@ -129,7 +129,7 @@ function RateForm({
             </div>
             <div />
           </div>
-          <div className="grid grid-cols-2 gap-8 mt-8">
+          <div className="grid grid-cols-2 gap-5 mt-5">
             <div>
               <NumberField
                 name="priority"
@@ -144,7 +144,7 @@ function RateForm({
           </div>
         </Card.Session>
         <Card.Session>
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-2">
             <Button title="Cancel" variant="secondary" onAction={closeModal} />
             <Button
               title="Save"

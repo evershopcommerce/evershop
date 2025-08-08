@@ -31,7 +31,7 @@ export default function RegisterForm({
       <div className="register-form flex justify-center items-center">
         <div className="register-form-inner">
           <h1 className="text-center">{_('Create A New Account')}</h1>
-          {error && <div className="text-critical mb-4">{error}</div>}
+          {error && <div className="text-critical mb-2">{error}</div>}
           <Form
             id="registerForm"
             action={action}
@@ -107,7 +107,7 @@ export default function RegisterForm({
               ]}
             />
           </Form>
-          <div className="text-center mt-4">
+          <div className="text-center mt-2">
             <span>
               {_('Already have an account?')}
               <a className="text-interactive" href={loginUrl}>

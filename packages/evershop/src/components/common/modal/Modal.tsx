@@ -91,13 +91,13 @@ export const Modal: React.FC<ModalProps> = ({
         role="dialog"
         aria-modal="true"
         onTransitionEnd={handleTransitionEnd}
-        className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg z-50 w-full max-w-2xl max-h-[80vh] overflow-auto overscroll-contain transition-all duration-300 ${
+        className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg z-50 w-full max-w-lg max-h-[80vh] overflow-auto overscroll-contain transition-all duration-300 ${
           isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
         } ${className || ''}`}
         {...restProps}
       >
         <Card title={title}>
-          <div className="p-4">{children}</div>
+          <div className="p-2">{children}</div>
         </Card>
       </div>
     </>

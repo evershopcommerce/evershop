@@ -4,7 +4,7 @@
       padding-top: 0px;
       border-top: 0;
       button.button {
-        padding: 2rem;
+        padding: 1.25rem;
         font-weight: 400;
       }
     }
@@ -13,9 +13,9 @@
     }
   }
   a.button {
-    padding: 2rem;
+    padding: 1.25rem;
     font-weight: 400;
-    letter-spacing: 0.05rem;
+    letter-spacing: 0.031rem;
   }
 }
 .wrapper {
@@ -27,20 +27,20 @@
   }
 }
 .checkout-success-customer-info {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 3.125rem;
+  padding-bottom: 3.125rem;
 }
 
 .customer-info {
   border: 1px solid var(--divider);
   border-radius: 5px;
-  padding: 2rem;
+  padding: 1.25rem;
 }
 .thank-you {
   .check {
     border: 2px solid var(--interactive);
     border-radius: 100%;
-    padding: 0.5rem;
+    padding: 0.313rem;
   }
 }
 

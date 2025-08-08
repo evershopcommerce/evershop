@@ -7,29 +7,29 @@ interface SkeletonProps {
 
 const SkeletonRow: React.FC = () => (
   <tr className="border-b border-gray-200">
-    <td className="p-4">
-      <div className="w-12 h-12 bg-gray-200 rounded animate-pulse" />
+    <td className="p-2">
+      <div className="w-7 h-7 bg-gray-200 rounded animate-pulse" />
     </td>
-    <td className="p-4">
-      <div className="w-8 h-4 bg-gray-200 rounded animate-pulse" />
+    <td className="p-2">
+      <div className="w-5 h-4 bg-gray-200 rounded animate-pulse" />
     </td>
-    <td className="p-4">
-      <div className="w-12 h-4 bg-gray-200 rounded animate-pulse" />
+    <td className="p-2">
+      <div className="w-7 h-4 bg-gray-200 rounded animate-pulse" />
     </td>
-    <td className="p-4">
-      <div className="w-24 h-4 bg-gray-200 rounded animate-pulse" />
-    </td>
-    <td className="p-4">
+    <td className="p-2">
       <div className="w-16 h-4 bg-gray-200 rounded animate-pulse" />
     </td>
-    <td className="p-4">
-      <div className="w-6 h-4 bg-gray-200 rounded animate-pulse" />
+    <td className="p-2">
+      <div className="w-10 h-4 bg-gray-200 rounded animate-pulse" />
     </td>
-    <td className="p-4">
-      <div className="w-16 h-4 bg-gray-200 rounded animate-pulse" />
+    <td className="p-2">
+      <div className="w-4 h-4 bg-gray-200 rounded animate-pulse" />
     </td>
-    <td className="p-4">
-      <div className="w-12 h-8 bg-gray-200 rounded animate-pulse" />
+    <td className="p-2">
+      <div className="w-10 h-4 bg-gray-200 rounded animate-pulse" />
+    </td>
+    <td className="p-2">
+      <div className="w-7 h-5 bg-gray-200 rounded animate-pulse" />
     </td>
   </tr>
 );

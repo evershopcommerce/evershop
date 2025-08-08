@@ -18,11 +18,11 @@ export function NoResult({ keyword = '', resourseLinks = [] }: NoResultProps) {
         &quot;
       </h3>
       <div>TRY OTHER RESOURCES</div>
-      <div className="grid grid-cols-2 mt-4">
+      <div className="grid grid-cols-2 mt-2">
         {resourseLinks.map((link, index) => (
           <div
             key={index}
-            className="flex space-x-4 justify-center items-center"
+            className="flex space-x-2 justify-center items-center"
           >
             <Dot variant="info" />
             <a href={link.url} className="text-divider hover:underline">

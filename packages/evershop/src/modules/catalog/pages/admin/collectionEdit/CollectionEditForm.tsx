@@ -20,7 +20,7 @@ export default function CollectionEditForm({
       submitBtn={false}
     >
       <div className="w-2/3" style={{ margin: '0 auto' }}>
-        <div className="grid gap-8">
+        <div className="grid gap-5">
           <Area id="collectionFormInner" noOuter />
         </div>
         <FormButtons formId="collectionEditForm" cancelUrl={gridUrl} />

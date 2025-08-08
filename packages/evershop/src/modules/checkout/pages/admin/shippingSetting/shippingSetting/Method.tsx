@@ -39,11 +39,11 @@ function Method({ method, reload }: MethodProps) {
   return (
     <>
       <>
-        <td className="border-none py-4">{method.name}</td>
-        <td className="border-none py-4">
+        <td className="border-none py-2">{method.name}</td>
+        <td className="border-none py-2">
           {method.isEnabled ? 'Enabled' : 'Disabled'}
         </td>
-        <td className="border-none py-4">
+        <td className="border-none py-2">
           {method.cost?.text || (
             <a
               href="#"
@@ -57,14 +57,14 @@ function Method({ method, reload }: MethodProps) {
             </a>
           )}
         </td>
-        <td className="border-none py-4">
+        <td className="border-none py-2">
           {method.conditionType
             ? `${method.min || 0} <= ${method.conditionType} <= ${
                 method.max || '∞'
               }`
             : 'None'}
         </td>
-        <td className="border-none py-4">
+        <td className="border-none py-2">
           <a
             href="#"
             className="text-interactive"
@@ -77,7 +77,7 @@ function Method({ method, reload }: MethodProps) {
           </a>
           <a
             href="#"
-            className="text-critical ml-8"
+            className="text-critical ml-5"
             onClick={async (e) => {
               e.preventDefault();
               try {

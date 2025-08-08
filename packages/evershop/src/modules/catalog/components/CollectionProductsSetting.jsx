@@ -80,7 +80,7 @@ function CollectionProductsSetting({
     <div>
       <Card.Session title="Select a collection">
         <div>
-          <div className="border rounded border-divider mb-8">
+          <div className="border rounded border-divider mb-5">
             <input
               type="text"
               value={inputValue}
@@ -94,14 +94,14 @@ function CollectionProductsSetting({
             />
           </div>
           {fetching && (
-            <div className="p-3 border border-divider rounded flex justify-center items-center">
+            <div className="p-2 border border-divider rounded flex justify-center items-center">
               <Spinner width={25} height={25} />
             </div>
           )}
           {!fetching && data && (
             <div className="divide-y">
               {data.collections.items.length === 0 && (
-                <div className="p-3 border border-divider rounded flex justify-center items-center">
+                <div className="p-2 border border-divider rounded flex justify-center items-center">
                   {inputValue ? (
                     <p>
                       No collections found for query &quot;{inputValue}&rdquo;
@@ -114,7 +114,7 @@ function CollectionProductsSetting({
               {data.collections.items.map((collection) => (
                 <div
                   key={collection.uuid}
-                  className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
+                  className="grid grid-cols-8 gap-5 py-2 border-divider items-center"
                 >
                   <div className="col-span-6">
                     <h3>{collection.name}</h3>
@@ -146,7 +146,7 @@ function CollectionProductsSetting({
         </div>
       </Card.Session>
       <Card.Session title="Number of products to display">
-        <div className="flex justify-between gap-8">
+        <div className="flex justify-between gap-5">
           <label>
             <span className="block mb-2 font-medium">Number of products</span>
             <input
@@ -162,7 +162,7 @@ function CollectionProductsSetting({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="flex justify-between gap-8">
+        <div className="flex justify-between gap-5">
           <SimplePageination
             total={data?.collections.total}
             count={data?.collections?.items?.length || 0}

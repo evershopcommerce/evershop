@@ -13,7 +13,7 @@ export default function CmsPageEditForm({
 }: CmsPageEditFormProps) {
   return (
     <Form method="PATCH" action={action} id="cmsPageEditForm" submitBtn={false}>
-      <div className="grid gap-8 grid-cols-1 w-2/3 mx-auto">
+      <div className="grid gap-5 grid-cols-1 w-2/3 mx-auto">
         <Area id="wideScreen" noOuter />
       </div>
       <FormButtons formId="cmsPageEditForm" cancelUrl={gridUrl} />

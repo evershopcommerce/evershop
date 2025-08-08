@@ -16,7 +16,7 @@ export default function CouponForm({
 }: CouponFormProps) {
   const AppContextDispatch = useAppDispatch();
   return (
-    <div className="mt-16">
+    <div className="mt-10">
       <Form
         method="POST"
         action={applyCouponApi}
@@ -38,7 +38,7 @@ export default function CouponForm({
         id="couponForm"
       >
         <p style={{ fontWeight: 600 }}>{_('Promotion code?')}</p>
-        <div className="grid grid-cols-3 gap-8" style={{ width: '300px' }}>
+        <div className="grid grid-cols-3 gap-5" style={{ width: '300px' }}>
           <div className="col-span-2">
             <InputField name="coupon" placeholder={_('Enter coupon code')} />
           </div>

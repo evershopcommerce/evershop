@@ -21,7 +21,7 @@ export function ProvinceAndPostcode({
   getFieldName
 }: ProvinceAndPostcodeProps) {
   return (
-    <div className="grid grid-cols-2 gap-4 mt-4">
+    <div className="grid grid-cols-2 gap-2 mt-2">
       <div>
         <SelectField
           defaultValue={province?.code}

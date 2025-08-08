@@ -13,7 +13,7 @@ const FormButton: React.FC<{
     formState: { isSubmitting }
   } = useFormContext();
   return (
-    <div className="form-submit-button flex border-t border-divider mt-6 pt-6 justify-between">
+    <div className="form-submit-button flex border-t border-divider mt-4 pt-4 justify-between">
       <Button
         title="Cancel"
         variant="danger"
@@ -78,11 +78,11 @@ export default function ProductEditForm({
       id="productEditForm"
       onSubmit={submit}
     >
-      <div className="grid grid-cols-3 gap-x-8 grid-flow-row ">
-        <div className="col-span-2 grid grid-cols-1 gap-8 auto-rows-max">
+      <div className="grid grid-cols-3 gap-x-5 grid-flow-row ">
+        <div className="col-span-2 grid grid-cols-1 gap-5 auto-rows-max">
           <Area id="leftSide" noOuter />
         </div>
-        <div className="col-span-1 grid grid-cols-1 gap-8 auto-rows-max">
+        <div className="col-span-1 grid grid-cols-1 gap-5 auto-rows-max">
           <Area id="rightSide" noOuter />
         </div>
       </div>

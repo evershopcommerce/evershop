@@ -100,15 +100,15 @@ export default function SearchBox({ resourceLinks }: SearchBoxProps) {
   }, [keyword]);
 
   return (
-    <div className="search-box max-w-2xl">
-      <div className="form-field flex items-center justify-start relative">
+    <div className="search-box max-w-lg">
+      <div className="form-field flex items-center justify-start relative mb-0">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           style={{ width: '1rem', height: '1rem' }}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          className="absolute left-4 pointer-events-none"
+          className="absolute left-2 pointer-events-none"
         >
           <path
             strokeLinecap="round"
@@ -120,7 +120,7 @@ export default function SearchBox({ resourceLinks }: SearchBoxProps) {
         <input
           type="text"
           placeholder="Search"
-          className="!pl-12"
+          className="!pl-7 bg-gray-50 focus:bg-white"
           ref={InputRef}
           onChange={(e) => setKeyword(e.target.value)}
         />
@@ -128,7 +128,7 @@ export default function SearchBox({ resourceLinks }: SearchBoxProps) {
       {showResult && (
         <div className="search-result" ref={clickRef}>
           {(loading || fetching) && (
-            <div className="p-3 flex justify-center items-center">
+            <div className="p-2 flex justify-center items-center">
               <Spinner width={25} height={25} />
             </div>
           )}

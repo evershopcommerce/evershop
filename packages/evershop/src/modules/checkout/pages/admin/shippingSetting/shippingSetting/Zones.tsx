@@ -94,7 +94,7 @@ export function Zones({
       {data.shippingZones.map((zone) => (
         <Zone zone={zone} reload={reload} key={zone.uuid} />
       ))}
-      <div className="flex justify-end p-8">
+      <div className="flex justify-end p-5">
         <a
           href="#"
           className="text-interactive button primary"

@@ -132,7 +132,7 @@ export default function Attributes({
                 defaultValue={product?.groupId}
                 name="group_id"
               />
-              <div className="border rounded border-divider p-4">
+              <div className="border rounded border-divider p-2">
                 <span>{getGroup(items, product?.groupId).groupName}</span>
               </div>
               <div className="italic text-textSubdued">

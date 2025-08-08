@@ -8,7 +8,7 @@ import { _ } from '../../../../../lib/locale/translate/_.js';
 
 function Subtotal({ subTotal }) {
   return (
-    <div className="flex justify-between gap-12">
+    <div className="flex justify-between gap-7">
       <div>{_('Sub total')}</div>
       <div className="text-right">{subTotal.text}</div>
     </div>
@@ -34,7 +34,7 @@ function Discount({ discountAmount, coupon }) {
     return null;
   }
   return (
-    <div className="flex justify-between gap-12">
+    <div className="flex justify-between gap-7">
       <div>{_('Discount(${coupon})', { coupon })}</div>
       <div className="text-right">{discountAmount.text}</div>
     </div>
@@ -75,7 +75,7 @@ function Summary({
   }
   return (
     <div className="summary">
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 gap-5">
         <h4>{_('Order summary')}</h4>
         <Area
           id="shoppingCartSummary"
@@ -120,7 +120,7 @@ function Summary({
           ]}
         />
       </div>
-      <div className="shopping-cart-checkout-btn flex justify-between mt-8">
+      <div className="shopping-cart-checkout-btn flex justify-between mt-5">
         <Button url={checkoutUrl} title={_('CHECKOUT')} variant="primary" />
       </div>
     </div>

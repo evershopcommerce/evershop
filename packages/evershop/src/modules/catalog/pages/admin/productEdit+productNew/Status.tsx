@@ -21,7 +21,7 @@ export default function Status({ product }: StatusProps) {
             { value: 0, label: 'Disabled' },
             { value: 1, label: 'Enabled' }
           ]}
-          defaultValue={product?.status}
+          defaultValue={product?.status === 0 ? 0 : 1}
           required
           helperText="Disabled products will not be visible in the store and cannot be purchased."
         />
@@ -34,7 +34,7 @@ export default function Status({ product }: StatusProps) {
             { value: 0, label: 'Not visible individually' },
             { value: 1, label: 'Catalog, Search' }
           ]}
-          defaultValue={product?.visibility}
+          defaultValue={product?.visibility === 0 ? 0 : 1}
           required
           helperText="Visibility determines where the product appears in the store. It does not affect the saleability of the product."
         />

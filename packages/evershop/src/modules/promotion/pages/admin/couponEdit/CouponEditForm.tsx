@@ -14,7 +14,7 @@ export default function CouponEditForm({
 }: CouponEditFormProps) {
   return (
     <Form method="PATCH" action={action} submitBtn={false} id="couponEditForm">
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 gap-5">
         <Card title="General">
           <Card.Session>
             <Area id="couponEditGeneral" noOuter />
@@ -25,15 +25,15 @@ export default function CouponEditForm({
             <Area id="couponEditDiscountType" noOuter />
           </Card.Session>
         </Card>
-        <div className="grid grid-cols-3 gap-x-8 grid-flow-row ">
-          <div className="col-span-2 grid grid-cols-1 gap-8 auto-rows-max">
+        <div className="grid grid-cols-3 gap-x-5 grid-flow-row ">
+          <div className="col-span-2 grid grid-cols-1 gap-5 auto-rows-max">
             <Card title="Order conditions">
               <Card.Session>
                 <Area id="couponEditLeft" noOuter className="col-8" />
               </Card.Session>
             </Card>
           </div>
-          <div className="col-span-1 grid grid-cols-1 gap-8 auto-rows-max">
+          <div className="col-span-1 grid grid-cols-1 gap-5 auto-rows-max">
             <Card title="Customer conditions">
               <Card.Session>
                 <Area id="couponEditRight" className="col-4" noOuter />

@@ -33,7 +33,7 @@ const ToastMessage: React.FC<{
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-4 w-4"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -86,7 +86,7 @@ const AddToCart: React.FC<{ stockAvaibility: boolean; error?: string }> = ({
 }) => {
   const { formState } = useFormContext();
   return (
-    <div className="add-to-cart mt-8">
+    <div className="add-to-cart mt-5">
       <div style={{ width: '8rem' }}>
         <NumberField
           defaultValue={1}
@@ -101,8 +101,8 @@ const AddToCart: React.FC<{ stockAvaibility: boolean; error?: string }> = ({
           placeholder={_('Qty')}
         />
       </div>
-      {error && <div className="text-critical mt-4">{error}</div>}
-      <div className="mt-4">
+      {error && <div className="text-critical mt-2">{error}</div>}
+      <div className="mt-2">
         {stockAvaibility === true && (
           <Button
             title={_('ADD TO CART')}

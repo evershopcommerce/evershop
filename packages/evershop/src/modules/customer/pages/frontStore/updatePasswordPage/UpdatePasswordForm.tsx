@@ -41,8 +41,8 @@ const UpdateForm: React.FC<{ action: string; onSuccess: () => void }> = ({
     <div className="flex justify-center items-center">
       <div className="update-password-form flex justify-center items-center">
         <div className="update-password-form-inner">
-          <h2 className="text-center mb-8">{_('Enter your new password')}</h2>
-          {error && <div className="text-critical mb-4">{error}</div>}
+          <h2 className="text-center mb-5">{_('Enter your new password')}</h2>
+          {error && <div className="text-critical mb-2">{error}</div>}
           <Form
             form={form}
             id="updatePasswordForm"
@@ -66,7 +66,7 @@ const UpdateForm: React.FC<{ action: string; onSuccess: () => void }> = ({
               }}
             />
             <InputField name="token" type="hidden" defaultValue={token} />
-            <div className="form-submit-button flex border-t border-divider mt-4 pt-4">
+            <div className="form-submit-button flex border-t border-divider mt-2 pt-2">
               <Button
                 title={_('UPDATE PASSWORD')}
                 type="submit"

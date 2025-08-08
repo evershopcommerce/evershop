@@ -16,12 +16,12 @@ export default function CustomerInfo({
 }) {
   return (
     <div className="checkout-success-customer-info">
-      <h3 className="thank-you flex justify-start space-x-8">
+      <h3 className="thank-you flex justify-start space-x-5">
         <div className="check flex justify-center self-center text-interactive">
           <svg
             style={{ width: '3rem', height: '3rem' }}
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-4 w-4"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -46,10 +46,10 @@ export default function CustomerInfo({
         </div>
       </h3>
 
-      <div className="customer-info mt-12 mb-8">
-        <div className="grid grid-cols-2 gap-12">
+      <div className="customer-info mt-7 mb-5">
+        <div className="grid grid-cols-2 gap-7">
           <div>
-            <div className="mb-3">
+            <div className="mb-2">
               <h3>{_('Contact information')}</h3>
             </div>
             <div className="text-textSubdued">
@@ -58,7 +58,7 @@ export default function CustomerInfo({
             <div className="text-textSubdued">{customerEmail}</div>
           </div>
           <div>
-            <div className="mb-3">
+            <div className="mb-2">
               <h3>{_('Shipping Address')}</h3>
             </div>
             <div className="text-textSubdued">
@@ -66,13 +66,13 @@ export default function CustomerInfo({
             </div>
           </div>
           <div>
-            <div className="mb-3">
+            <div className="mb-2">
               <h3>{_('Payment Method')}</h3>
             </div>
             <div className="text-textSubdued">{paymentMethodName}</div>
           </div>
           <div>
-            <div className="mb-3">
+            <div className="mb-2">
               <h3>{_('Billing Address')}</h3>
             </div>
             <div className="text-textSubdued">

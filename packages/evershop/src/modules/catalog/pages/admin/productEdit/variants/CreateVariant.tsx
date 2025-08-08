@@ -17,7 +17,7 @@ export const CreateVariant: React.FC<{
   });
   return (
     <div>
-      <div className="mt-8">
+      <div className="mt-5">
         <Button
           title="Add Variant"
           onAction={() => {

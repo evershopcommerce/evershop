@@ -12,7 +12,7 @@ const SubmitButton: React.FC<{ formId: string }> = ({ formId }) => {
     formState: { isSubmitting }
   } = useFormContext();
   return (
-    <div className="form-submit-button flex border-t border-divider mt-6 pt-6 justify-between">
+    <div className="form-submit-button flex border-t border-divider mt-4 pt-4 justify-between">
       <Button
         title="SIGN IN"
         onAction={() => {
@@ -46,7 +46,7 @@ export default function LoginForm({
       <div className="login-form flex justify-center items-center">
         <div className="login-form-inner">
           <h1 className="text-center">{_('Login')}</h1>
-          {error && <div className="text-critical mb-4">{error}</div>}
+          {error && <div className="text-critical mb-2">{error}</div>}
           <Form
             id="loginForm"
             action={action}
@@ -104,7 +104,7 @@ export default function LoginForm({
               ]}
             />
           </Form>
-          <div className="text-center mt-4 gap-8 flex justify-center">
+          <div className="text-center mt-2 gap-5 flex justify-center">
             <a className="text-interactive" href={registerUrl}>
               {_('Create an account')}
             </a>

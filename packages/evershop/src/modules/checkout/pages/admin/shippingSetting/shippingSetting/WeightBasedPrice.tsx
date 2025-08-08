@@ -17,7 +17,7 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
     }))
   );
   return (
-    <div className="my-8">
+    <div className="my-5">
       <table className="border-collapse divide-y">
         <thead>
           <tr>
@@ -28,7 +28,7 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
         </thead>
         <tbody>
           {rows.map((row, index) => (
-            <tr key={row.key} className="border-divider py-8">
+            <tr key={row.key} className="border-divider py-5">
               <td className="border-none">
                 <NumberField
                   name={`weight_based_cost.${index}.min_weight`}

@@ -29,7 +29,7 @@ export default function OrderSummary({
   return (
     <Card
       title={
-        <div className="flex space-x-4">
+        <div className="flex space-x-2">
           <Circle variant={paymentStatus.badge} />
           <span className="block self-center">
             {`${paymentStatus.name || 'Unknown'} - ${

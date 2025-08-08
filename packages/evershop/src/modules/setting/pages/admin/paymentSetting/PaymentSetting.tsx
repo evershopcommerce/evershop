@@ -12,7 +12,7 @@ export default function PaymentSetting({
 }: PaymentSettingProps) {
   return (
     <div className="main-content-inner">
-      <div className="grid grid-cols-6 gap-x-8 grid-flow-row ">
+      <div className="grid grid-cols-6 gap-x-5 grid-flow-row ">
         <div className="col-span-2">
           <SettingMenu />
         </div>
@@ -23,7 +23,7 @@ export default function PaymentSetting({
             action={saveSettingApi}
             successMessage="Payment setting saved"
           >
-            <Area id="paymentSetting" className="grid gap-8" />
+            <Area id="paymentSetting" className="grid gap-5" />
           </Form>
         </div>
       </div>

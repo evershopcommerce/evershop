@@ -36,12 +36,12 @@ const AttributeGroupListSkeleton: React.FC = () => {
         >
           <div className="flex items-center">
             <div>
-              <div className="skeleton-title h-5 w-48 bg-gray-200 rounded skeleton-pulse mb-2"></div>
-              <div className="skeleton-id h-4 w-32 bg-gray-200 rounded skeleton-pulse"></div>
+              <div className="skeleton-title h-5 w-30 bg-gray-200 rounded skeleton-pulse mb-2"></div>
+              <div className="skeleton-id h-4 w-20 bg-gray-200 rounded skeleton-pulse"></div>
             </div>
           </div>
           <div className="select-button">
-            <div className="skeleton-button h-10 w-20 bg-gray-200 rounded skeleton-pulse"></div>
+            <div className="skeleton-button h-6 w-12 bg-gray-200 rounded skeleton-pulse"></div>
           </div>
         </div>
       ))}
@@ -135,7 +135,7 @@ const AttributeGroupSelector: React.FC<{
     <Card title="Select Attribute Groups">
       <Card.Session>
         <div>
-          <div className="border rounded border-divider mb-8">
+          <div className="border rounded border-divider mb-5">
             <input
               type="text"
               value={inputValue || ''}
@@ -150,7 +150,7 @@ const AttributeGroupSelector: React.FC<{
           {!fetching && data && (
             <div className="divide-y">
               {data.attributeGroups.items.length === 0 && (
-                <div className="p-3 border border-divider rounded flex justify-center items-center">
+                <div className="p-2 border border-divider rounded flex justify-center items-center">
                   {inputValue ? (
                     <p>
                       No attribute groups found for query &quot;{inputValue}
@@ -164,7 +164,7 @@ const AttributeGroupSelector: React.FC<{
               {data.attributeGroups.items.map((a) => (
                 <div
                   key={a.uuid}
-                  className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
+                  className="grid grid-cols-8 gap-5 py-2 border-divider items-center"
                 >
                   <div className="col-span-5">
                     <h3>{a.groupName}</h3>
@@ -223,7 +223,7 @@ const AttributeGroupSelector: React.FC<{
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="flex justify-between gap-8">
+        <div className="flex justify-between gap-5">
           <SimplePageination
             total={data?.attributeGroups.total || 0}
             count={data?.attributeGroups?.items?.length || 0}

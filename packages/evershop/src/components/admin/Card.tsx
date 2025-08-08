@@ -20,7 +20,7 @@ function Card({ title, actions = [], subdued = false, children }: CardProps) {
         <div className="flex justify-between card-header">
           {title && <h2 className="card-title">{title}</h2>}
           {actions.length > 0 && (
-            <div className="flex space-x-3">
+            <div className="flex space-x-2">
               {actions.map((action, index) => {
                 const className = {
                   primary: 'text-primary',
@@ -80,10 +80,10 @@ const Session = function Session({
   return (
     <div className="card-section border-b box-border">
       {(title || actions.length > 0) && (
-        <div className="flex justify-between card-section-header mb-4">
+        <div className="flex justify-between card-section-header mb-2">
           {title && <h3 className="card-session-title">{title}</h3>}
           {actions.length > 0 && (
-            <div className="flex space-x-3">
+            <div className="flex space-x-2">
               {actions.map((action, index) => {
                 const className = {
                   primary: 'text-primary',

@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  body {
+    @apply text-sm;
+  }
   .required-indicator {
     @apply text-red-500 ml-1;
   }

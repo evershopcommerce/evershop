@@ -12,7 +12,7 @@ function Title({ title }) {
   if (items.length <= 0) return null;
 
   return (
-    <div className="mb-12 text-center shopping-cart-heading">
+    <div className="mb-7 text-center shopping-cart-heading">
       <h1 className="shopping-cart-title mb-2">{title}</h1>
       <a href="/" className="underline">
         {_('Continue Shopping')}
@@ -46,7 +46,7 @@ export default function ShoppingCart({ cart, setting }) {
             ]}
           />
           <div className="cart-page-middle">
-            <div className="grid gap-16 grid-cols-1 md:grid-cols-4">
+            <div className="grid gap-10 grid-cols-1 md:grid-cols-4">
               <Area
                 id="shoppingCartLeft"
                 className="col-span-1 md:col-span-3"

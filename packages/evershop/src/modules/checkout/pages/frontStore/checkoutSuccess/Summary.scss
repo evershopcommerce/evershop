@@ -1,9 +1,9 @@
 .checkout-summary {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 3.125rem;
+  padding-bottom: 3.125rem;
   border-left: 1px solid var(--divider);
   position: relative;
-  padding-left: 2rem;
+  padding-left: 1.25rem;
   min-height: calc(100vh - 50px);
   &::after {
     content: '';
@@ -23,29 +23,29 @@ body {
 
 .summary-row {
   display: grid;
-  margin-bottom: 1rem;
-  grid-gap: 1rem;
-  grid-template-columns: 14rem auto;
+  margin-bottom: 0.625rem;
+  grid-gap: 0.625rem;
+  grid-template-columns: 8.75rem auto;
   > div {
     display: grid;
-    grid-gap: 1rem;
+    grid-gap: 0.625rem;
     grid-template-columns: 1fr auto;
   }
   &.grand-total {
     border-top: 1px solid var(--divider);
-    margin-top: 1rem;
-    padding-top: 1rem;
+    margin-top: 0.625rem;
+    padding-top: 0.625rem;
     .grand-total-value {
-      font-size: 2rem;
+      font-size: 1.25rem;
       font-weight: bold;
     }
   }
 }
 .summary-wrapper {
   display: grid;
-  grid-row-gap: 1rem;
+  grid-row-gap: 0.625rem;
 }
 .checkout-summary-block {
   border-top: 1px solid var(--divider);
-  padding-top: 1rem;
+  padding-top: 0.625rem;
 }
