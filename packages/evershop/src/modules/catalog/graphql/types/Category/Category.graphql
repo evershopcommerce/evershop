@@ -21,6 +21,7 @@ type Category {
   url: String
   availableAttributes: [FilterAttribute]
   priceRange: PriceRange
+  hasChildren: Boolean!
 }
 
 """
@@ -96,7 +97,7 @@ type PriceRange {
 }
 
 extend type Product {
-  category: Category,
+  category: Category
 }
 
 extend type Query {

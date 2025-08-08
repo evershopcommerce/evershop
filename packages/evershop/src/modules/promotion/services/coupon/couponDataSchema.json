@@ -17,8 +17,8 @@
       "pattern": "^\\d*\\.?\\d*$"
     },
     "free_shipping": {
-      "type": ["string", "integer"],
-      "enum": ["0", "1", 0, 1]
+      "type": ["string", "integer", "boolean"],
+      "enum": ["0", "1", 0, 1, true, false]
     },
     "discount_type": {
       "type": "string"
@@ -140,9 +140,11 @@
             "pattern": "^[0-9]*$"
           }
         },
-        "email": {
-          "type": "string",
-          "format": "email"
+        "emails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "purchased": {
           "type": ["string", "integer"],

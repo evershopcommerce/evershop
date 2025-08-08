@@ -157,12 +157,12 @@ export default () => {
   registerWidget({
     type: 'text_block',
     settingComponent: path.resolve(
-      CONSTANTS.LIBPATH,
-      '../components/admin/widgets/TextBlockSetting.js'
+      CONSTANTS.MODULESPATH,
+      'cms/components/TextBlockSetting.js'
     ),
     component: path.resolve(
-      CONSTANTS.LIBPATH,
-      '../components/frontStore/widgets/TextBlock.js'
+      CONSTANTS.MODULESPATH,
+      'cms/components/TextBlock.js'
     ),
     name: 'Text block',
     description: 'A text block widget',
@@ -175,12 +175,12 @@ export default () => {
   registerWidget({
     type: 'basic_menu',
     settingComponent: path.resolve(
-      CONSTANTS.LIBPATH,
-      '../components/admin/widgets/BasicMenuSetting.js'
+      CONSTANTS.MODULESPATH,
+      'cms/components/BasicMenuSetting.js'
     ),
     component: path.resolve(
-      CONSTANTS.LIBPATH,
-      '../components/frontStore/widgets/BasicMenu.js'
+      CONSTANTS.MODULESPATH,
+      'cms/components/BasicMenu.js'
     ),
     name: 'Menu',
     description: 'A menu widget',
@@ -210,21 +210,4 @@ export default () => {
     (filters) => [...filters, ...defaultPaginationFilters],
     2
   );
-
-  const parseMenus = (data) => {
-    if (data?.type !== 'basic_menu') {
-      return data;
-    }
-
-    data.settings = data.settings || {};
-    if (data.settings.menus) {
-      data.settings.menus = JSON.parse(data.settings.menus);
-    } else {
-      data.settings.menus = [];
-    }
-    return data;
-  };
-
-  addProcessor('widgetDataBeforeCreate', parseMenus, 1);
-  addProcessor('widgetDataBeforeUpdate', parseMenus, 1);
 };

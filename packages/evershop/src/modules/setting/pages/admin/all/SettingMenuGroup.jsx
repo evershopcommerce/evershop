@@ -1,5 +1,5 @@
-import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
-import CogIcon from '@heroicons/react/solid/esm/CogIcon';
+import { NavigationItemGroup } from '@components/admin/NavigationItemGroup';
+import { CogIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import React from 'react';
 

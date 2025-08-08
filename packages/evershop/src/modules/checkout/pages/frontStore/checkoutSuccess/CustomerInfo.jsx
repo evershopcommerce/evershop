@@ -1,5 +1,5 @@
+import Button from '@components/common/Button';
 import { AddressSummary } from '@components/common/customer/address/AddressSummary';
-import Button from '@components/common/form/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { _ } from '../../../../../lib/locale/translate/_.js';

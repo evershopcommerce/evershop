@@ -178,12 +178,12 @@ export default () => {
     name: 'Collection products',
     description: 'A list of products from a collection',
     settingComponent: path.resolve(
-      CONSTANTS.LIBPATH,
-      '../components/admin/widgets/CollectionProductsSetting.js'
+      CONSTANTS.MODULESPATH,
+      'catalog/components/CollectionProductsSetting.js'
     ),
     component: path.resolve(
-      CONSTANTS.LIBPATH,
-      '../components/frontStore/widgets/CollectionProducts.js'
+      CONSTANTS.MODULESPATH,
+      'catalog/components/CollectionProducts.js'
     ),
     defaultSettings: {
       collection: null,

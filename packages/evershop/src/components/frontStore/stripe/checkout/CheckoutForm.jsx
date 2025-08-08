@@ -14,7 +14,7 @@ import { useQuery } from 'urql';
 
 import './CheckoutForm.scss';
 import RenderIfTrue from '@components/common/RenderIfTrue';
-import Spinner from '@components/common/Spinner';
+import Spinner from '@components/admin/Spinner';
 import { _ } from '../../../../lib/locale/translate/_.js';
 import TestCards from './TestCards';
 

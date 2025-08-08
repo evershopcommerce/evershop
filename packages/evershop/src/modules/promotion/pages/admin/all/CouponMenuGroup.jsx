@@ -1,5 +1,5 @@
-import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
-import Icon from '@heroicons/react/solid/esm/GiftIcon';
+import { NavigationItemGroup } from '@components/admin/NavigationItemGroup';
+import { GiftIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -10,7 +10,7 @@ export default function CatalogMenuGroup({ couponGrid }) {
       name="Promotion"
       items={[
         {
-          Icon,
+          Icon: GiftIcon,
           url: couponGrid,
           title: 'Coupons'
         }

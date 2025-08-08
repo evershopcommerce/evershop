@@ -1,5 +1,5 @@
-import { NavigationItemGroup } from '@components/admin/cms/NavigationItemGroup';
-import Icon from '@heroicons/react/solid/esm/CubeIcon';
+import { NavigationItemGroup } from '@components/admin/NavigationItemGroup.js';
+import { CubeIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -10,7 +10,7 @@ export default function OmsMenuGroup({ orderGrid }) {
       name="Sale"
       items={[
         {
-          Icon,
+          Icon: CubeIcon,
           url: orderGrid,
           title: 'Orders'
         }

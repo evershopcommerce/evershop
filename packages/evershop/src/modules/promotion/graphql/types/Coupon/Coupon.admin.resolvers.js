@@ -43,7 +43,12 @@ export default {
       if (!userCondition) {
         return null;
       } else {
-        return camelCase(userCondition);
+        return {
+          ...camelCase(userCondition),
+          emails: Array.isArray(userCondition.emails) // For backward compatibility
+            ? userCondition.emails
+            : userCondition.emails.split(',').map((email) => email.trim())
+        };
       }
     },
     buyxGety: ({ buyxGety }) => {

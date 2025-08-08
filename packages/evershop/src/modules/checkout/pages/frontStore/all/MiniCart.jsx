@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import './MiniCart.scss';
 import { useAppState } from '@components/common/context/app';
-import Bag from '@heroicons/react/outline/ShoppingBagIcon';
+import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import { get } from '../../../../../lib/util/get.js';
 
 export default function MiniCart({ cartUrl, cart }) {
@@ -12,7 +11,7 @@ export default function MiniCart({ cartUrl, cart }) {
   return (
     <div className="mini-cart-wrapper self-center">
       <a className="mini-cart-icon" href={cartUrl}>
-        <Bag width={20} height={20} />
+        <ShoppingBagIcon width={20} height={20} />
         {miniCart.totalQty > 0 && <span>{miniCart.totalQty}</span>}
       </a>
     </div>

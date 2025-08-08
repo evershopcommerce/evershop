@@ -1,4 +1,4 @@
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
 import { useAppState } from '@components/common/context/app';
 import PropTypes from 'prop-types';
 import React from 'react';

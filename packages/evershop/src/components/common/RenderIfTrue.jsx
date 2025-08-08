@@ -6,5 +6,5 @@ RenderIfTrue.propTypes = {
 };
 
 export default function RenderIfTrue({ condition, children }) {
-  return condition ? children : null;
+  return condition === true ? children : null;
 }

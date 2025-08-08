@@ -1,6 +1,6 @@
-import Area from '@components/common/Area';
-import EmailIcon from '@heroicons/react/outline/MailIcon';
-import User from '@heroicons/react/outline/UserIcon';
+import Area from '@components/common/Area.js';
+import { EmailIcon } from '@heroicons/react/24/outline';
+import { UserIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { _ } from '../../../../../lib/locale/translate/_.js';
@@ -18,7 +18,7 @@ export default function AccountDetails({ account }) {
                   default: () => (
                     <div className="account-details-name flex gap-4">
                       <div>
-                        <User width={20} height={20} />
+                        <UserIcon width={20} height={20} />
                       </div>
                       <div>{account.fullName}</div>
                     </div>

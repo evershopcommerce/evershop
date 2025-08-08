@@ -1,22 +1,18 @@
-import ProductPriceRow from '@components/admin/catalog/productGrid/rows/PriceRow';
-import ProductNameRow from '@components/admin/catalog/productGrid/rows/ProductName';
-import QtyRow from '@components/admin/catalog/productGrid/rows/QtyRow';
-import ThumbnailRow from '@components/admin/catalog/productGrid/rows/ThumbnailRow';
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
+import { Filter } from '@components/admin/grid/Filter';
+import { DummyColumnHeader } from '@components/admin/grid/header/Dummy';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
+import { Thumbnail } from '@components/admin/grid/Thumbnail.js';
+import { Status } from '@components/admin/Status.js';
 import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Form } from '@components/common/form/Form';
-import DummyColumnHeader from '@components/common/grid/headers/Dummy';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import Pagination from '@components/common/grid/Pagination';
-import BasicRow from '@components/common/grid/rows/BasicRow';
-import StatusRow from '@components/common/grid/rows/StatusRow';
-import Filter from '@components/common/list/Filter';
+import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { ProductNameRow } from './rows/ProductName.js';
 
 function Actions({ products = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -185,12 +181,10 @@ export default function ProductGrid({
                   {
                     component: {
                       default: () => (
-                        <Field
+                        <InputField
                           name="keyword"
-                          type="text"
-                          id="keyword"
                           placeholder="Search"
-                          value={
+                          defaultValue={
                             currentFilters.find((f) => f.key === 'keyword')
                               ?.value
                           }
@@ -198,8 +192,7 @@ export default function ProductGrid({
                             // If the user press enter, we should submit the form
                             if (e.key === 'Enter') {
                               const url = new URL(document.location);
-                              const keyword =
-                                document.getElementById('keyword')?.value;
+                              const keyword = e.target?.value;
                               if (keyword) {
                                 url.searchParams.set('keyword', keyword);
                               } else {
@@ -309,15 +302,18 @@ export default function ProductGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedRows(products.map((p) => p.uuid));
-                  } else {
-                    setSelectedRows([]);
-                  }
-                }}
-              />
+              <div className="form-field mb-0">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedRows(products.map((p) => p.uuid));
+                    } else {
+                      setSelectedRows([]);
+                    }
+                  }}
+                />
+              </div>
             </th>
             <Area
               id="productGridHeader"
@@ -404,18 +400,21 @@ export default function ProductGrid({
           {products.map((p) => (
             <tr key={p.uuid}>
               <td>
-                <Checkbox
-                  isChecked={selectedRows.includes(p.uuid)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([p.uuid]));
-                    } else {
-                      setSelectedRows(
-                        selectedRows.filter((row) => row !== p.uuid)
-                      );
-                    }
-                  }}
-                />
+                <div className="form-field mb-0">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(p.uuid)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(selectedRows.concat([p.uuid]));
+                      } else {
+                        setSelectedRows(
+                          selectedRows.filter((row) => row !== p.uuid)
+                        );
+                      }
+                    }}
+                  />
+                </div>
               </td>
               <Area
                 id="productGridRow"
@@ -427,7 +426,7 @@ export default function ProductGrid({
                   {
                     component: {
                       default: () => (
-                        <ThumbnailRow src={p.image?.thumb} name={p.name} />
+                        <Thumbnail src={p.image?.thumb} name={p.name} />
                       )
                     },
                     sortOrder: 5
@@ -446,30 +445,26 @@ export default function ProductGrid({
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <ProductPriceRow areaProps={areaProps} />
-                      )
+                      default: () => <td>{p.price?.regular.text}</td>
                     },
                     sortOrder: 15
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <BasicRow id="sku" areaProps={areaProps} />
-                      )
+                      default: () => <td>{p.sku}</td>
                     },
                     sortOrder: 20
                   },
                   {
                     component: {
-                      default: () => <QtyRow qty={p.inventory?.qty} />
+                      default: () => <td>{p.inventory?.qty}</td>
                     },
                     sortOrder: 25
                   },
                   {
                     component: {
                       default: ({ areaProps }) => (
-                        <StatusRow id="status" areaProps={areaProps} />
+                        <Status id="status" status={parseInt(p.status, 10)} />
                       )
                     },
                     sortOrder: 30
