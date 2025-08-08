@@ -18,7 +18,7 @@ export default function General({ page }: CmsPageGeneralProps) {
   return (
     <Card title="General">
       <Card.Session>
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div>
             <InputField
               id="cms_page_name"

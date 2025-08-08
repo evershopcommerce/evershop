@@ -4,7 +4,7 @@ import React from 'react';
 
 function Breadcrumb({ pageInfo: { breadcrumbs } }) {
   return breadcrumbs.length ? (
-    <div className="breadcrumb page-width my-8">
+    <div className="breadcrumb page-width my-5">
       {breadcrumbs.map((breadcrumb, index) =>
         index === breadcrumbs.length - 1 ? (
           <span key={index}>{breadcrumb.title}</span>

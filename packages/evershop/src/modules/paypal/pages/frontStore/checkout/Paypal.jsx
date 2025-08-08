@@ -40,8 +40,8 @@ export function Paypal({ createOrderAPI, orderId, orderPlaced }) {
 
   return (
     <div>
-      {error && <div className="text-critical mb-4">{error}</div>}
-      <div className="p-8 text-center border rounded mt-4 border-divider">
+      {error && <div className="text-critical mb-2">{error}</div>}
+      <div className="p-5 text-center border rounded mt-2 border-divider">
         {_('You will be redirected to PayPal')}
       </div>
     </div>
@@ -82,7 +82,7 @@ export default function PaypalMethod({ createOrderAPI }) {
 
   return (
     <div>
-      <div className="flex justify-start items-center gap-4">
+      <div className="flex justify-start items-center gap-2">
         <RenderIfTrue
           condition={
             !selectedPaymentMethod || selectedPaymentMethod.code !== 'paypal'

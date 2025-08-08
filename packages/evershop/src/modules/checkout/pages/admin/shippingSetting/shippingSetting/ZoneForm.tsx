@@ -91,7 +91,7 @@ function ZoneForm({
           />
         </Card.Session>
         <Card.Session>
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-2">
             <Button
               title="Save"
               variant="primary"

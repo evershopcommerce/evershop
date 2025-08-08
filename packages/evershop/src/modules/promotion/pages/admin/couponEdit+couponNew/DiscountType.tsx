@@ -54,7 +54,7 @@ export default function DiscountType({ coupon }: DiscountTypeProps) {
           ]}
         />
       </div>
-      <div className="mt-4">
+      <div className="mt-2">
         <TargetProducts
           products={get(targetProducts, 'products', [])}
           maxQty={get<number>(targetProducts, 'maxQty', 0)}

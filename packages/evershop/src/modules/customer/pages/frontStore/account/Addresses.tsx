@@ -47,7 +47,7 @@ export default function Addresses({
           {_('You have no addresses saved')}
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {addresses.map((address) => (
           <Address key={address.uuid} address={address} />
         ))}
@@ -72,9 +72,9 @@ export default function Addresses({
         onClose={modal.close}
         isOpen={modal.isOpen}
       >
-        <div className="bg-white p-8">
-          <div className="flex justify-between items-center mb-5">
-            <h2 className="mb-3">
+        <div className="bg-white p-5">
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="mb-2">
               {editingAddress ? _('Edit address') : _('Add new address')}
             </h2>
             <a

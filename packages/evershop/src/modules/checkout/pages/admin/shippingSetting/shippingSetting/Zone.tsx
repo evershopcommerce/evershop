@@ -36,9 +36,9 @@ function Zone({ zone, reload }: ZoneProps) {
   return (
     <Card.Session
       title={
-        <div className="flex justify-between items-center gap-8">
+        <div className="flex justify-between items-center gap-5">
           <div>{zone.name}</div>
-          <div className="flex justify-between gap-8">
+          <div className="flex justify-between gap-5">
             <a
               href="#"
               className="text-interactive"
@@ -81,11 +81,11 @@ function Zone({ zone, reload }: ZoneProps) {
       }
     >
       <div className="divide-y border rounded border-divider">
-        <div className="flex justify-start items-center border-divider mt-8">
-          <div className="p-8">
+        <div className="flex justify-start items-center border-divider mt-5">
+          <div className="p-5">
             <MapPinIcon width={25} height={25} fill="#008060" />
           </div>
-          <div className="flex-grow px-4">
+          <div className="flex-grow px-2">
             <div>
               <b>{zone.country?.name || 'Worldwide'}</b>
             </div>
@@ -98,8 +98,8 @@ function Zone({ zone, reload }: ZoneProps) {
             </div>
           </div>
         </div>
-        <div className="flex justify-start items-center border-divider mt-8">
-          <div className="flex-grow px-4">
+        <div className="flex justify-start items-center border-divider mt-5">
+          <div className="flex-grow px-2">
             <Methods
               methods={zone.methods}
               reload={reload}

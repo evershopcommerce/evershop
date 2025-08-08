@@ -9,7 +9,7 @@
     border-color: #f1f2f3 !important;
   }
   .field-prefix {
-    padding-left: 0.85rem;
+    padding-left: 0.531rem;
   }
   .search-input-container {
     position: fixed;
@@ -22,7 +22,7 @@
     width: 100%;
     .search-input {
       background-color: white;
-      padding: 5rem;
+      padding: 3.125rem;
       display: flex;
       justify-content: center;
       .form-field-container {
@@ -30,9 +30,9 @@
       }
       .close-icon {
         position: absolute;
-        top: 2rem;
-        right: 2rem;
-        font-size: 2rem;
+        top: 1.25rem;
+        right: 1.25rem;
+        font-size: 1.25rem;
         cursor: pointer;
       }
     }

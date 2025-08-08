@@ -119,8 +119,8 @@ export function SortableHeader({
 
   return (
     <th className="column">
-      <div className="table-header flex justify-start gap-4 content-center">
-        <div className="font-medium uppercase text-xl">
+      <div className="table-header flex justify-start gap-2 content-center">
+        <div className="font-medium uppercase text-xs">
           <span>{title}</span>
         </div>
         <div className="sort">

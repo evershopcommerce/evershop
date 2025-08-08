@@ -19,9 +19,9 @@
   --formFieldBorderShadow: #aeb4b9;
 }
 
-$font-size-sm: 1.4rem;
-$font-size-md: 1.4rem;
-$font-size-lg: 1.6rem;
+$font-size-sm: 0.875rem;
+$font-size-md: 0.875rem;
+$font-size-lg: 1rem;
 
 $line-height-sm: 1.25;
 $line-height-md: 1.5;
@@ -36,7 +36,7 @@ $h5-font-size: $font-size-base * 1.15;
 $h6-font-size: $font-size-base;
 
 html {
-  font-size: 62.5%;
+  font-size: 100%;
 
   input[type='email'],
   input[type='password'],
@@ -44,11 +44,11 @@ html {
   input[type='text'],
   select,
   textarea {
-    padding: 1rem 1.2rem;
+    padding: 0.625rem 0.75rem;
   }
 
   .button {
-    padding: 1rem 2rem;
+    padding: 0.625rem 1.25rem;
     font-weight: 400;
     border-radius: 2px;
   }
@@ -57,7 +57,7 @@ body {
   color: #3a3a3a;
 }
 p {
-  margin-bottom: 1rem;
+  margin-bottom: 0.625rem;
 }
 @media screen and (max-width: 767px) {
   $font-size-base: $font-size-sm;
@@ -180,9 +180,9 @@ h6 {
   min-height: calc(100vh - 50px);
 }
 .header {
-  padding: 2.5rem;
+  padding: 1.563rem;
   border-bottom: 1px solid #ebebeb;
-  margin-bottom: 3rem;
+  margin-bottom: 1.875rem;
   @media only screen and (min-width: 1200px) {
     padding-left: 50px;
     padding-right: 50px;
@@ -203,13 +203,13 @@ h6 {
 
 .footer {
   background-color: #f6f6f6;
-  margin-top: 9rem;
-  padding-top: 1rem;
-  padding-block-end: 1rem;
+  margin-top: 5.625rem;
+  padding-top: 0.625rem;
+  padding-block-end: 0.625rem;
   border-top: 1px solid #ddd;
   .card-icons {
     svg {
-      height: 4rem;
+      height: 2.5rem;
     }
   }
   .copyright {
@@ -222,7 +222,7 @@ table {
   td,
   th {
     border: 1px solid var(--divider);
-    padding: 0.5rem;
+    padding: 0.313rem;
     text-align: left;
   }
   th {
@@ -233,12 +233,12 @@ table {
     th {
       border-left: 0;
       border-right: 0;
-      padding: 1rem;
+      padding: 0.625rem;
     }
     th {
       border: 0;
-      padding-top: 2rem;
-      padding-bottom: 2rem;
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
     }
   }
 }

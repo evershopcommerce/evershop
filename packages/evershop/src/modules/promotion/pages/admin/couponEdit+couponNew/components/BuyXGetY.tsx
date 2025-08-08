@@ -217,7 +217,7 @@ const BuyXGetYList: React.FC<{
           ))}
         </tbody>
       </table>
-      <div className="mt-4 flex justify-start">
+      <div className="mt-2 flex justify-start">
         <div className="items-center flex">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -235,7 +235,7 @@ const BuyXGetYList: React.FC<{
             />
           </svg>
         </div>
-        <div className="pl-4">
+        <div className="pl-2">
           <a
             href="#"
             onClick={(e) => {

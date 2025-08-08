@@ -4,7 +4,7 @@ import React from 'react';
 
 function Title({ step }) {
   return (
-    <div className="flex space-x-4 step-title mb-4 mt-4">
+    <div className="flex space-x-2 step-title mb-2 mt-2">
       {step.isCompleted === true && (
         <svg
           className="self-center"

@@ -7,7 +7,7 @@ export default function ShippingNote({
   order: { shippingNote }
 }) {
   return showShippingNote ? (
-    <div className="shipping-note mt-8">
+    <div className="shipping-note mt-5">
       <p className="italic">{shippingNote}</p>
     </div>
   ) : null;

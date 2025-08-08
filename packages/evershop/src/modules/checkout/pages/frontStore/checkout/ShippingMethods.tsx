@@ -156,19 +156,19 @@ export default function ShippingMethods({
           </svg>
         </div>
       )}
-      <h4 className="mt-12 mb-4">{_('Shipping Method')}</h4>
+      <h4 className="mt-7 mb-2">{_('Shipping Method')}</h4>
       {country && province && methods.length === 0 && (
-        <div className="text-center p-3 border border-divider rounded text-textSubdued">
+        <div className="text-center p-2 border border-divider rounded text-textSubdued">
           {_('Sorry, there is no available method for your address')}
         </div>
       )}
       {(!country || !province) && (
-        <div className="text-center p-3 border border-divider rounded text-textSubdued">
+        <div className="text-center p-2 border border-divider rounded text-textSubdued">
           {_('Please select your country and province first')}
         </div>
       )}
       {methods.length > 0 && (
-        <div className="divide-y border rounded border-divider p-4 mb-8">
+        <div className="divide-y border rounded border-divider p-2 mb-5">
           <RadioGroupField
             name="method"
             required

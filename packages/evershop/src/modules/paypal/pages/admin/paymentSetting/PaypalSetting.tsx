@@ -27,7 +27,7 @@ export default function PaypalPayment({
   return (
     <Card title="Paypal Payment">
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Enable?</h4>
           </div>
@@ -42,7 +42,7 @@ export default function PaypalPayment({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Dislay Name</h4>
           </div>
@@ -57,7 +57,7 @@ export default function PaypalPayment({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Client ID</h4>
           </div>
@@ -72,7 +72,7 @@ export default function PaypalPayment({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Client Secret</h4>
           </div>
@@ -87,7 +87,7 @@ export default function PaypalPayment({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Environment</h4>
           </div>
@@ -111,7 +111,7 @@ export default function PaypalPayment({
         </div>
       </Card.Session>
       <Card.Session>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
             <h4>Payment mode</h4>
           </div>

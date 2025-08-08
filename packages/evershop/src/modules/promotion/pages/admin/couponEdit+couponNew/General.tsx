@@ -6,6 +6,7 @@ import { TextareaField } from '@components/common/form/TextareaField.js';
 import React from 'react';
 import { get } from '../../../../../lib/util/get.js';
 import { Setting } from './components/Setting.js';
+import './General.scss';
 
 export interface Coupon {
   coupon: string;
@@ -99,7 +100,7 @@ export default function General({ coupon }: { coupon?: Coupon }) {
                   { label: 'Enabled', value: 1 },
                   { label: 'Disabled', value: 0 }
                 ]}
-                defaultValue={get(coupon, 'status', 1).toString()}
+                defaultValue={coupon?.status === 0 ? 0 : 1}
                 required
                 validation={{
                   required: 'Status is required',

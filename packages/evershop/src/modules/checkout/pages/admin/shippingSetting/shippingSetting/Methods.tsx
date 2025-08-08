@@ -13,7 +13,7 @@ export interface MethodsProps {
 export function Methods({ reload, methods, addMethodApi }: MethodsProps) {
   const modal = useModal();
   return (
-    <div className="my-8">
+    <div className="my-5">
       <table className="border-collapse divide-y">
         <thead>
           <tr>
@@ -26,13 +26,13 @@ export function Methods({ reload, methods, addMethodApi }: MethodsProps) {
         </thead>
         <tbody>
           {methods.map((method) => (
-            <tr key={method.methodId} className="border-divider py-8">
+            <tr key={method.methodId} className="border-divider py-5">
               <Method method={method} reload={reload} />
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="mt-4">
+      <div className="mt-2">
         <a
           href="#"
           className="text-interactive"

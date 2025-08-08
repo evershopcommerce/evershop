@@ -133,7 +133,7 @@ export const Variants: React.FC<VariantsProps> = ({
   };
   if (fetching) {
     return (
-      <div className="p-3 flex justify-center items-center">
+      <div className="p-2 flex justify-center items-center">
         <Skeleton />
       </div>
     );

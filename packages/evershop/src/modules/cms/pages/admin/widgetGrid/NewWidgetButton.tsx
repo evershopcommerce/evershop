@@ -12,14 +12,14 @@ const WidgetTypes: React.FC<{
   types: Array<WidgetType>;
 }> = ({ types }) => {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-2">
       {types.map((type) => (
         <a
           key={type.code}
           href={type.createWidgetUrl}
-          className="border border-gray-200 rounded p-4 text-center"
+          className="border border-gray-200 rounded p-2 text-center"
         >
-          <div className="text-lg font-bold">{type.name}</div>
+          <div className="text-base font-bold">{type.name}</div>
         </a>
       ))}
     </div>

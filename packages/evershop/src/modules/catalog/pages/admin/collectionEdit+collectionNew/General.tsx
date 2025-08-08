@@ -2,6 +2,7 @@ import { Card } from '@components/admin/Card.js';
 import Area from '@components/common/Area.js';
 import { Editor, Row } from '@components/common/form/Editor.js';
 import { InputField } from '@components/common/form/InputField.js';
+import './General.scss';
 import React from 'react';
 
 interface GeneralProps {

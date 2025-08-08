@@ -28,7 +28,7 @@ table {
   td,
   th {
     border: 1px solid var(--divider);
-    padding: 0.5rem;
+    padding: 0.313rem;
     text-align: left;
   }
   th {
@@ -39,12 +39,12 @@ table {
     th {
       border-left: 0;
       border-right: 0;
-      padding: 1rem;
+      padding: 0.625rem;
     }
     th {
       border: 0;
-      padding-top: 1.5rem;
-      padding-bottom: 1.5rem;
+      padding-top: 0.938rem;
+      padding-bottom: 0.938rem;
       align-content: center;
     }
   }
@@ -53,7 +53,7 @@ table {
   background-color: rgba(246, 246, 247, 0.9882352941);
 }
 .header {
-  height: 5.6rem;
+  height: 3.5rem;
   width: 100%;
   padding: 0 1rem;
   box-sizing: border-box;
@@ -66,22 +66,22 @@ table {
   z-index: 100;
 }
 .content-wrapper {
-  margin-top: 5.6rem;
+  margin-top: 3.5rem;
   min-height: 100vh;
   .main-content {
     overflow: hidden;
-    margin-left: 24rem;
+    margin-left: 15rem;
     .main-content-inner {
-      padding: 2rem 3rem;
+      padding: 1.25rem 1.875rem;
       min-height: 100vh;
     }
   }
 }
 .footer {
-  padding-left: 3rem;
-  margin-top: 2rem;
+  padding-left: 1.875rem;
+  margin-top: 1.25rem;
   color: var(--border);
-  padding-bottom: 1rem;
+  padding-bottom: 0.625rem;
   border-top: 1px solid var(--divider);
-  padding-top: 1rem;
+  padding-top: 0.625rem;
 }

@@ -7,7 +7,7 @@ function BackIcon({ backUrl }: { backUrl?: string }) {
   return (
     <a
       href={backUrl}
-      className="breadcrum-icon border block border-border rounded mr-3"
+      className="breadcrum-icon border block border-border rounded mr-2"
     >
       <span className="flex items-center justify-center">
         <svg
@@ -47,7 +47,7 @@ function PageHeading({ backUrl, heading }: PageHeadingProps) {
 
   return (
     <div className="page-heading flex justify-between items-center">
-      <div className="flex justify-start space-x-4 items-center">
+      <div className="flex justify-start space-x-2 items-center">
         <Area
           id="pageHeadingLeft"
           noOuter
@@ -71,7 +71,7 @@ function PageHeading({ backUrl, heading }: PageHeadingProps) {
           ]}
         />
       </div>
-      <div className="flex justify-end space-x-4 items-center">
+      <div className="flex justify-end space-x-2 items-center">
         <Area id="pageHeadingRight" noOuter coreComponents={[]} />
       </div>
     </div>

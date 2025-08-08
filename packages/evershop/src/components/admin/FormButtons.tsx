@@ -11,7 +11,7 @@ const FormButtons: React.FC<{
   } = useFormContext();
 
   return (
-    <div className="form-submit-button flex border-t border-divider mt-6 pt-6 justify-between">
+    <div className="form-submit-button flex border-t border-divider mt-4 pt-4 justify-between">
       <Button
         title="Cancel"
         variant="danger"

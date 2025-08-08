@@ -16,7 +16,7 @@ export default function Seo({ page }: CmsPageSeoProps) {
   return (
     <Card title="Search Engine Optimization">
       <Card.Session>
-        <div className="space-y-4">
+        <div className="space-y-2">
           <InputField
             id="urlKey"
             name="url_key"

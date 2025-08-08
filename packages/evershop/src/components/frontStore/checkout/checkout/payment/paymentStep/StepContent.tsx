@@ -117,13 +117,13 @@ export function StepContent({
 
   if (fetching) {
     return (
-      <div className="flex justify-center items-center p-3">
+      <div className="flex justify-center items-center p-2">
         <Spinner width={25} height={25} />
       </div>
     );
   }
   if (queryError) {
-    return <div className="p-8 text-critical">{error.message}</div>;
+    return <div className="p-5 text-critical">{error.message}</div>;
   }
   return (
     <div>
@@ -135,7 +135,7 @@ export function StepContent({
         id="checkoutPaymentForm"
         submitBtn={false}
       >
-        <h4 className="mb-4 mt-12">{_('Billing Address')}</h4>
+        <h4 className="mb-2 mt-7">{_('Billing Address')}</h4>
         <BillingAddress
           useShippingAddress={useShippingAddress}
           setUseShippingAddress={setUseShippingAddress}
@@ -158,16 +158,16 @@ export function StepContent({
           </div>
         )}
 
-        <h4 className="mb-4 mt-12">{_('Payment Method')}</h4>
+        <h4 className="mb-2 mt-7">{_('Payment Method')}</h4>
         {paymentMethods && paymentMethods.length > 0 && (
           <>
-            <div className="divide-y border rounded border-divider px-8 mb-8">
+            <div className="divide-y border rounded border-divider px-5 mb-5">
               {paymentMethods.map((method) => (
                 <div
                   key={method.code}
                   className="border-divider payment-method-list"
                 >
-                  <div className="py-8">
+                  <div className="py-5">
                     <Area id={`checkoutPaymentMethod${method.code}`} />
                   </div>
                 </div>

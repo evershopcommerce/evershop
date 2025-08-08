@@ -7,9 +7,9 @@ export default function CollectionProducts({ collection }) {
     return null;
   }
   return (
-    <div className="pt-12">
+    <div className="pt-7">
       <div className="page-width">
-        <h3 className="mt-12 mb-12 text-center uppercase h5 tracking-widest">
+        <h3 className="mt-7 mb-7 text-center uppercase h5 tracking-widest">
           {collection?.name}
         </h3>
         <ProductList products={collection?.products?.items} countPerRow={4} />

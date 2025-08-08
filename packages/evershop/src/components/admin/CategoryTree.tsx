@@ -90,7 +90,7 @@ function CategoryItem({
     ? 'flex justify-start gap-2 items-center p-2 rounded-md bg-green-100 transition-colors duration-500'
     : 'flex justify-start gap-2 items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-500';
   return (
-    <li className="[&_ul]:pl-4">
+    <li className="[&_ul]:pl-2">
       <div className={className}>
         {category.hasChildren && (
           <a
@@ -121,7 +121,7 @@ function CategoryItem({
         >
           <div className="flex gap-2 justify-start items-center cursor-pointer">
             <Folder width={20} height={20} />
-            <span className="text-base">{category.name}</span>
+            <span className="text-sm">{category.name}</span>
           </div>
         </a>
       </div>

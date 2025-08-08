@@ -29,12 +29,12 @@ export default function BasicMenu({
   };
 
   const listingClasses = isMain
-    ? 'md:flex md:justify-center md:space-x-10 absolute md:relative left-[-2.5rem] md:left-0 top-full md:top-auto mt-2 md:mt-0 w-screen md:w-auto md:bg-transparent p-4 md:p-0 min-w-[250px] bg-white z-30 divide-y md:divide-y-0'
-    : 'flex justify-center space-x-10 relative left-[-2.5rem] md:left-0 top-full md:top-auto mt-2 md:mt-0 w-screen md:w-auto md:bg-transparent p-4 md:p-0 min-w-[250px] bg-white z-30';
+    ? 'md:flex md:justify-center md:space-x-6 absolute md:relative left-[-2.5rem] md:left-0 top-full md:top-auto mt-2 md:mt-0 w-screen md:w-auto md:bg-transparent p-2 md:p-0 min-w-[250px] bg-white z-30 divide-y md:divide-y-0'
+    : 'flex justify-center space-x-6 relative left-[-2.5rem] md:left-0 top-full md:top-auto mt-2 md:mt-0 w-screen md:w-auto md:bg-transparent p-2 md:p-0 min-w-[250px] bg-white z-30';
   return (
     <div className={className}>
-      <div className="flex justify-start gap-6 items-center">
-        <nav className="p-4 relative md:flex md:justify-center">
+      <div className="flex justify-start gap-4 items-center">
+        <nav className="p-2 relative md:flex md:justify-center">
           <div className="flex justify-between items-center">
             {isMain && (
               <div className="md:hidden">
@@ -47,7 +47,7 @@ export default function BasicMenu({
                   className="text-black focus:outline-none"
                 >
                   <svg
-                    className="w-9 h-9"
+                    className="w-6 h-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -68,17 +68,17 @@ export default function BasicMenu({
                 <li key={index} className="relative group">
                   <a
                     href={item.url}
-                    className="hover:text-gray-300 transition-colors block md:inline-block px-4 py-4 md:px-0 md:py-0"
+                    className="hover:text-gray-300 transition-colors block md:inline-block px-2 py-2 md:px-0 md:py-0"
                   >
                     {item.name}
                   </a>
                   {item.children.length > 0 && (
-                    <ul className="md:absolute left-0 top-full mt-0 md:mt-3 w-48 bg-white md:shadow-lg rounded-md md:opacity-0 md:group-hover:opacity-100 md:group-hover:translate-y-0 transform transition-all duration-300 ease-in-out min-w-full md:min-w-[250px] z-30 md:border-t-4">
+                    <ul className="md:absolute left-0 top-full mt-0 md:mt-2 w-30 bg-white md:shadow-lg rounded-md md:opacity-0 md:group-hover:opacity-100 md:group-hover:translate-y-0 transform transition-all duration-300 ease-in-out min-w-full md:min-w-[250px] z-30 md:border-t-4">
                       {item.children.map((subItem, subIndex) => (
                         <li key={subIndex}>
                           <a
                             href={subItem.url}
-                            className="block px-8 md:px-4 py-3 text-gray-700 hover:bg-gray-100"
+                            className="block px-5 md:px-2 py-2 text-gray-700 hover:bg-gray-100"
                           >
                             {subItem.name}
                           </a>

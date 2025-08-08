@@ -11,7 +11,7 @@ export default function ShippingSetting({
 }) {
   return (
     <div className="main-content-inner">
-      <div className="grid grid-cols-6 gap-x-8 grid-flow-row ">
+      <div className="grid grid-cols-6 gap-x-5 grid-flow-row ">
         <div className="col-span-2">
           <SettingMenu />
         </div>

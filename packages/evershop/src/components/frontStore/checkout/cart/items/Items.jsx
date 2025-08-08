@@ -53,7 +53,7 @@ function Items({ items, setting: { priceIncludingTax } }) {
           {items.map((item) => (
             <tr key={item.cartItemId}>
               <td>
-                <div className="flex justify-start space-x-4 product-info">
+                <div className="flex justify-start space-x-2 product-info">
                   <div className="product-image flex justify-center items-center">
                     {item.thumbnail && (
                       <img

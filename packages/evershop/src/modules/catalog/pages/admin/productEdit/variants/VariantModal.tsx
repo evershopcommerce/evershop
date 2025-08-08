@@ -152,7 +152,7 @@ export const VariantModal: React.FC<
   const { data, fetching, error } = result;
   if (fetching) {
     return (
-      <div className="p-3 flex justify-center items-center">
+      <div className="p-2 flex justify-center items-center">
         <Spinner width={30} height={30} />
       </div>
     );
@@ -163,7 +163,7 @@ export const VariantModal: React.FC<
   }
   return (
     <div className="divide-y border-divider">
-      <div className="grid grid-cols-2 gap-x-4 pb-8">
+      <div className="grid grid-cols-2 gap-x-2 pb-5">
         <div className="col-span-1">
           <ImageUploader
             currentImages={
@@ -199,9 +199,9 @@ export const VariantModal: React.FC<
           />
         </div>
         <div className="col-span-1">
-          <div className="grid grid-cols-2 gap-x-4 border-b border-divider pb-6 mb-6">
+          <div className="grid grid-cols-2 gap-x-2 border-b border-divider pb-4 mb-4">
             {data.attributes.items.map((a) => (
-              <div key={a.attributeCode} className="mt-4 col">
+              <div key={a.attributeCode} className="mt-2 col">
                 <div>
                   <label>{a.attributeName}</label>
                 </div>
@@ -222,7 +222,7 @@ export const VariantModal: React.FC<
               </div>
             ))}
           </div>
-          <div className="grid grid-cols-3 gap-x-4 border-b border-divider pb-6 mb-6">
+          <div className="grid grid-cols-3 gap-x-2 border-b border-divider pb-4 mb-4">
             <div>
               <div>SKU</div>
               <InputField
@@ -249,7 +249,7 @@ export const VariantModal: React.FC<
               />
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-x-4">
+          <div className="grid grid-cols-3 gap-x-2">
             <div>
               <div>Status</div>
               <ToggleField
@@ -271,8 +271,8 @@ export const VariantModal: React.FC<
           </div>
         </div>
       </div>
-      <div className="flex justify-end pt-8">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="flex justify-end pt-5">
+        <div className="grid grid-cols-2 gap-2">
           <Button
             title="Cancel"
             variant="danger"

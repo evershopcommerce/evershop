@@ -52,7 +52,7 @@ function Products({
   }
   return (
     <div>
-      <div className="mb-4 mt-4">
+      <div className="mb-2 mt-2">
         <div className="flex justify-start items-center">
           <div>Maximum</div>
           <div style={{ width: '100px', padding: '0 1rem' }}>
@@ -217,7 +217,7 @@ function Products({
           ))}
         </tbody>
       </table>
-      <div className="mt-4 flex justify-start">
+      <div className="mt-2 flex justify-start">
         <div className="items-center flex">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -235,7 +235,7 @@ function Products({
             />
           </svg>
         </div>
-        <div className="pl-4">
+        <div className="pl-2">
           <a
             href="#"
             onClick={(e) => {

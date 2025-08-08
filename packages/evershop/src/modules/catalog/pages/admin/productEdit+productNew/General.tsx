@@ -9,6 +9,7 @@ import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
 import React from 'react';
 import { useQuery } from 'urql';
+import './General.scss';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
 const SKUPriceWeight: React.FC<{
@@ -25,16 +26,18 @@ const SKUPriceWeight: React.FC<{
   };
 }> = ({ sku, price, weight, setting }) => {
   return (
-    <div className="grid grid-cols-3 gap-4 mt-6">
+    <div className="grid grid-cols-3 gap-2 mt-4">
       <InputField
         name="sku"
         label="SKU"
+        placeholder="Enter SKU"
         defaultValue={sku}
         required
         helperText={_('SKU must be unique')}
       />
       <NumberField
         name="price"
+        placeholder="Enter price"
         label={`Price`}
         defaultValue={price?.value}
         unit={setting.storeCurrency}
@@ -43,6 +46,7 @@ const SKUPriceWeight: React.FC<{
       />
       <NumberField
         name="weight"
+        placeholder="Enter weight"
         label={`Weight`}
         defaultValue={weight?.value}
         unit={setting.weightUnit}
@@ -96,7 +100,7 @@ const ProductCategory: React.FC<{
           {index < data.category.path.length - 1 && ' > '}
         </span>
       ))}
-      <span className="text-interactive pl-8">
+      <span className="text-interactive pl-5">
         <a
           href="#"
           onClick={(e) => {
@@ -112,7 +116,7 @@ const ProductCategory: React.FC<{
             e.preventDefault();
             onUnassign();
           }}
-          className="text-critical ml-8"
+          className="text-critical ml-5"
         >
           Unassign
         </a>
@@ -143,10 +147,10 @@ const CategorySelect: React.FC<{
   };
 
   return (
-    <div className="mt-6 relative">
-      <div className="mb-4">Category</div>
+    <div className="mt-4 relative">
+      <div className="mb-2">Category</div>
       {category && (
-        <div className="border rounded border-[#c9cccf] mb-4 p-4">
+        <div className="border rounded border-[#c9cccf] mb-2 p-2">
           <ProductCategory
             categoryId={category.categoryId}
             onChange={() => modal.open()}
@@ -244,6 +248,7 @@ export default function General({
                 default: (
                   <InputField
                     name="name"
+                    placeholder="Enter product name"
                     label="Product Name"
                     defaultValue={product?.name}
                     required
@@ -253,19 +258,6 @@ export default function General({
               },
               sortOrder: 10,
               id: 'name'
-            },
-            {
-              component: {
-                default: (
-                  <InputField
-                    type="hidden"
-                    name="product_id"
-                    defaultValue={product?.uuid}
-                  />
-                )
-              },
-              sortOrder: 10,
-              id: 'product_id'
             },
             {
               component: {

@@ -15,14 +15,14 @@ export function Empty() {
         <div className="text-center">
           <h2>{_('Shopping cart')}</h2>
         </div>
-        <div className="mt-8 text-center">
+        <div className="mt-5 text-center">
           <span>{_('Your cart is empty!')}</span>
         </div>
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-5">
           <Button
             url="/"
             title={
-              <span className="flex space-x-4">
+              <span className="flex space-x-2">
                 <span className="self-center">{_('CONTINUE SHOPPING')}</span>{' '}
                 <svg
                   className="self-center"

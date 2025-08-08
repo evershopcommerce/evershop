@@ -38,12 +38,12 @@ const CategoryListSkeleton: React.FC = () => {
         >
           <div className="flex items-center">
             <div>
-              <div className="skeleton-title h-5 w-48 bg-gray-200 rounded skeleton-pulse mb-2"></div>
-              <div className="skeleton-id h-4 w-32 bg-gray-200 rounded skeleton-pulse"></div>
+              <div className="skeleton-title h-5 w-30 bg-gray-200 rounded skeleton-pulse mb-2"></div>
+              <div className="skeleton-id h-4 w-20 bg-gray-200 rounded skeleton-pulse"></div>
             </div>
           </div>
           <div className="select-button">
-            <div className="skeleton-button h-10 w-20 bg-gray-200 rounded skeleton-pulse"></div>
+            <div className="skeleton-button h-6 w-12 bg-gray-200 rounded skeleton-pulse"></div>
           </div>
         </div>
       ))}
@@ -151,7 +151,7 @@ const CategorySelector: React.FC<{
         {!fetching && data && (
           <div className="divide-y">
             {data.categories.items.length === 0 && (
-              <div className="p-3 border border-divider rounded flex justify-center items-center">
+              <div className="p-2 border border-divider rounded flex justify-center items-center">
                 {inputValue ? (
                   <p>No categories found for query &quot;{inputValue}&rdquo;</p>
                 ) : (
@@ -162,7 +162,7 @@ const CategorySelector: React.FC<{
             {data.categories.items.map((cat) => (
               <div
                 key={cat.uuid}
-                className="grid grid-cols-8 gap-8 py-4 border-divider items-center"
+                className="grid grid-cols-8 gap-5 py-2 border-divider items-center"
               >
                 <div className="col-span-5">
                   <h3>
@@ -220,7 +220,7 @@ const CategorySelector: React.FC<{
           </div>
         )}
       </div>
-      <div className="flex justify-between gap-8">
+      <div className="flex justify-between gap-5">
         <SimplePageination
           total={data?.categories.total || 0}
           count={data?.categories?.items?.length || 0}

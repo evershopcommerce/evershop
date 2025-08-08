@@ -14,7 +14,7 @@ export function NameAndTelephone({
   getFieldName
 }: NameAndTelephoneProps) {
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-2">
       <div>
         <InputField
           name={getFieldName ? getFieldName('full_name') : 'full_name'}

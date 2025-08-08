@@ -7,7 +7,7 @@ export default function CategoryView({ category }) {
     return null;
   }
   return (
-    <div className="page-width grid grid-cols-1 md:grid-cols-4 gap-8">
+    <div className="page-width grid grid-cols-1 md:grid-cols-4 gap-5">
       <Area id="leftColumn" className="md:col-span-1" />
       <Area id="rightColumn" className="md:col-span-3" />
     </div>

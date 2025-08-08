@@ -53,7 +53,7 @@ export default function Images({ product: { uuid, image, gallery = [] } }) {
   return (
     <div className="product-single-media">
       <Current image={current} />
-      <ul className="more-view-thumbnail product-gallery mt-8 grid grid-cols-4 gap-4">
+      <ul className="more-view-thumbnail product-gallery mt-5 grid grid-cols-4 gap-2">
         {thumbs.map((i, j) => (
           <li key={j} className="flex justify-center items-center">
             <a

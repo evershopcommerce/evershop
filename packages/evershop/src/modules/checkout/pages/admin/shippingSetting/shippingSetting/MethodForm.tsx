@@ -35,7 +35,7 @@ function Condition({ method }: ConditionProps) {
   const type = watch('condition_type');
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-2">
         <RadioGroupField
           name="condition_type"
           options={[
@@ -45,7 +45,7 @@ function Condition({ method }: ConditionProps) {
           defaultValue={method?.conditionType || 'price'}
         />
       </div>
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-5">
         <div>
           <NumberField
             name="min"
@@ -145,7 +145,7 @@ function MethodForm({
 
   if (result.fetching) {
     return (
-      <div className="flex justify-center p-3">
+      <div className="flex justify-center p-2">
         <Spinner width={25} height={25} />
       </div>
     );
@@ -183,7 +183,7 @@ function MethodForm({
             value={shippingMethod}
           />
         ) : (
-          <div className="flex gap-4 justify-start items-center">
+          <div className="flex gap-2 justify-start items-center">
             <InputField
               name="name"
               placeholder="Method name"
@@ -287,7 +287,7 @@ function MethodForm({
         {hasCondition && <Condition method={method} />}
       </Card.Session>
       <Card.Session>
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-end gap-2">
           <Button
             title="Save"
             variant="primary"

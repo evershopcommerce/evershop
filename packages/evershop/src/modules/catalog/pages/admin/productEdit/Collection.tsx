@@ -19,7 +19,7 @@ export default function Collections({
       <Card.Session>
         {collections.map((collection) => (
           <div
-            className="flex justify-start gap-4 items-center align-middle"
+            className="flex justify-start gap-2 items-center align-middle"
             key={collection.uuid}
           >
             <TagIcon width={16} height={16} fill="#2c6ecb" />

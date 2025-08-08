@@ -69,7 +69,7 @@ export default function SearchBox({ searchPageUrl }: SearchBoxProps) {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                className="absolute left-4 pointer-events-none"
+                className="absolute left-2 pointer-events-none"
               >
                 <path
                   strokeLinecap="round"

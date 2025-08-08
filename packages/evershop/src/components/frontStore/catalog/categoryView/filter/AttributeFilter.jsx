@@ -67,7 +67,7 @@ export function AttributeFilter({
   return (
     <>
       {availableAttributes.map((a) => (
-        <div key={a.attributeCode} className="attribute-filter mt-8">
+        <div key={a.attributeCode} className="attribute-filter mt-5">
           <div className="filter-item-title">
             <span className="font-medium">{a.attributeName}</span>
           </div>

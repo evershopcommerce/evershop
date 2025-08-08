@@ -19,11 +19,11 @@ function TestCards({ showTestCard, testSuccess, testFailure }) {
             <div>
               <b>Test success:</b>
             </div>
-            <div className="text-sm text-gray-600">
+            <div className="text-xs text-gray-600">
               Test card number: 4242 4242 4242 4242
             </div>
-            <div className="text-sm text-gray-600">Test card expiry: 04/26</div>
-            <div className="text-sm text-gray-600">Test card CVC: 242</div>
+            <div className="text-xs text-gray-600">Test card expiry: 04/26</div>
+            <div className="text-xs text-gray-600">Test card CVC: 242</div>
           </div>
         )}
         {showTestCard === 'failure' && (
@@ -31,11 +31,11 @@ function TestCards({ showTestCard, testSuccess, testFailure }) {
             <div>
               <b>Test failure:</b>
             </div>
-            <div className="text-sm text-gray-600">
+            <div className="text-xs text-gray-600">
               Test card number: 4000 0000 0000 9995
             </div>
-            <div className="text-sm text-gray-600">Test card expiry: 04/26</div>
-            <div className="text-sm text-gray-600">Test card CVC: 242</div>
+            <div className="text-xs text-gray-600">Test card expiry: 04/26</div>
+            <div className="text-xs text-gray-600">Test card CVC: 242</div>
           </div>
         )}
       </div>
@@ -68,7 +68,7 @@ function TestCards({ showTestCard, testSuccess, testFailure }) {
             <rect x="116.25" y="12.61" width="2.73" height="9.64" />
           </svg>
         </div>
-        <div className="self-center flex space-x-4">
+        <div className="self-center flex space-x-2">
           <Button
             onAction={testSuccess}
             title="Test success"

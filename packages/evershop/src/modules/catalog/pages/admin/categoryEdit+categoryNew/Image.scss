@@ -1,6 +1,6 @@
 .image-uploader {
   border: 2px dashed var(--border);
-  padding: 2rem 3rem;
+  padding: 1.25rem 1.875rem;
   border-radius: 5px;
   cursor: pointer;
   position: relative;
@@ -13,14 +13,14 @@
     bottom: 0;
     z-index: 11;
     svg {
-      width: 3rem;
-      height: 3rem;
+      width: 1.875rem;
+      height: 1.875rem;
       fill: var(--primary);
     }
   }
 }
 .category-image {
-  height: 20rem;
+  height: 12.5rem;
   border: 1px solid var(--divider);
   text-align: center;
   img {

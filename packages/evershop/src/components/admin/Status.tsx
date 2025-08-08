@@ -8,8 +8,8 @@ export function Status({ status }: StatusProps) {
   return (
     <td>
       <div>
-        {status === 0 && <Dot variant="default" size="1.2rem" />}
-        {status === 1 && <Dot variant="success" size="1.2rem" />}
+        {status === 0 && <Dot variant="default" size="1rem" />}
+        {status === 1 && <Dot variant="success" size="1rem" />}
       </div>
     </td>
   );

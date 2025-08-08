@@ -144,7 +144,7 @@ export const CreateVariantGroup: React.FC<{
                 <span>{a.attributeName}</span>
               </label>
             ))}
-            <div className="mt-8">
+            <div className="mt-5">
               <a
                 className="text-interactive hover:underline"
                 href="#"

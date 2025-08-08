@@ -14,7 +14,7 @@ export default function OrderHistory({ customer: { orders = [] } }) {
         <>
           {orders.map((order) => (
             <Card.Session key={order.uuid}>
-              <div className="flex justify-between items-center gap-4">
+              <div className="flex justify-between items-center gap-2">
                 <div>
                   <a
                     className="font-semibold text-interactive"

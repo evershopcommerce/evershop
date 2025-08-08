@@ -119,7 +119,7 @@ function Actions({ products = [], selectedIds = [] }) {
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
-            <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
+            <a href="#" className="font-semibold pt-2 pb-2 pl-4 pr-4">
               {selectedIds.length} selected
             </a>
             {actions.map((action, i) => (
@@ -130,7 +130,7 @@ function Actions({ products = [], selectedIds = [] }) {
                   e.preventDefault();
                   action.onAction();
                 }}
-                className="font-semibold pt-3 pb-3 pl-6 pr-6 block border-l border-divider self-center"
+                className="font-semibold pt-2 pb-2 pl-4 pr-4 block border-l border-divider self-center"
               >
                 <span>{action.name}</span>
               </a>
@@ -173,7 +173,7 @@ export default function ProductGrid({
       <Card.Session
         title={
           <Form submitBtn={false} id="productGridFilter">
-            <div className="flex gap-8 justify-center items-center">
+            <div className="flex gap-5 justify-center items-center">
               <Area
                 id="productGridFilter"
                 noOuter
@@ -324,7 +324,7 @@ export default function ProductGrid({
                     default: () => (
                       <th className="column">
                         <div className="table-header id-header">
-                          <div className="font-medium uppercase text-xl">
+                          <div className="font-medium uppercase text-xs">
                             <span>Thumbnail</span>
                           </div>
                         </div>

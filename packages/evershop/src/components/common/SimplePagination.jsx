@@ -5,13 +5,13 @@ import React from 'react';
 
 export function SimplePageination({ total, count, page, hasNext, setPage }) {
   return (
-    <div className="simple__pagination flex gap-4 items-center">
+    <div className="simple__pagination flex gap-2 items-center">
       <div>
         <span>
           {count} of {total}
         </span>
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-2">
         {page > 1 && (
           <a
             className="hover:text-interactive border rounded p-[5px] border-divider"

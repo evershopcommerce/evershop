@@ -1,7 +1,7 @@
 .product-thumbnail {
   position: relative;
-  width: 6rem;
-  height: 6rem;
+  width: 3.75rem;
+  height: 3.75rem;
   display: flex;
   justify-content: center;
   border: 1px solid var(--divider);
@@ -12,12 +12,12 @@
   }
   .qty {
     display: block;
-    width: 2rem;
-    height: 2rem;
-    font-size: 1.2rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 0.75rem;
     position: absolute;
-    top: -1.2rem;
-    right: -1.2rem;
+    top: -0.8rem;
+    right: -0.8rem;
     background-color: var(--divider);
     border-radius: 100%;
     text-align: center;
@@ -25,10 +25,10 @@
 }
 table.items-table {
   td {
-    padding: 1.5rem 1rem;
+    padding: 0.938rem 0.625rem;
     &:first-child {
       padding-left: 0px;
-      width: 5rem;
+      width: 3.125rem;
     }
     &:nth-child(2) {
       width: 60%;
