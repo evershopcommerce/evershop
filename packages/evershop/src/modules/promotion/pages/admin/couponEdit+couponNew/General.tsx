@@ -41,7 +41,7 @@ export interface Coupon {
   };
   userCondition?: {
     groups?: number[] | string[];
-    emails?: string;
+    emails?: string[];
     purchased: number;
   };
 }

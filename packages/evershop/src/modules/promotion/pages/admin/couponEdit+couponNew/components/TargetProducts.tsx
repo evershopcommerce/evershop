@@ -97,6 +97,7 @@ function Products({
                 {product.editable ? (
                   <SelectField
                     name={`target_products.products.${index}.key`}
+                    wrapperClassName="form-field mb-0"
                     defaultValue={product.key}
                     disabled={!product.editable}
                     options={options.map((option) => ({
