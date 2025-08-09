@@ -1,5 +1,4 @@
 import Area from '@components/common/Area.js';
-import { InputField } from '@components/common/form/InputField.js';
 import { NumberField } from '@components/common/form/NumberField.js';
 import { ReactSelectCreatableField } from '@components/common/form/ReactSelectCreatableField.js';
 import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
@@ -63,8 +62,11 @@ export default function CustomerCondition({
                 label="Customer emails"
                 placeholder="Enter customer emails"
                 isMulti={true}
-                options={[]}
-                defaultValue={condition?.emails || ''}
+                options={(condition?.emails || []).map((email) => ({
+                  value: email as string,
+                  label: email as string
+                }))}
+                defaultValue={condition?.emails || []}
               />
             )
           },

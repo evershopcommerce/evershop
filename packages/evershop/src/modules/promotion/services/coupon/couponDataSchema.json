@@ -147,8 +147,7 @@
           }
         },
         "purchased": {
-          "type": ["string", "integer"],
-          "pattern": "^\\d*\\.?\\d*$"
+          "type": "number"
         }
       },
       "additionalProperties": true
