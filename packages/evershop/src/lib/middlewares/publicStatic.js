@@ -7,21 +7,29 @@ export default async function publicStatic(request, response, next) {
   // Get the request path
   const { path } = request;
   try {
+    // If no file extension, skip to next middleware early
     if (!path.includes('.')) {
-      throw new Error('No file extension');
+      return next();
     }
-    // Asynchoronously check if the path is a file and exists in the public folder
-    const test = await fs.stat(join(CONSTANTS.ROOTPATH, 'public', path));
-    if (test.isFile()) {
+
+    // Use promises API instead of callback-based fs.stat
+    const { promises: fsp } = fs;
+    const filePath = join(CONSTANTS.ROOTPATH, 'public', path);
+    const stat = await fsp.stat(filePath);
+
+    if (stat.isFile()) {
       // If it is a file, serve it
-      staticMiddleware(join(CONSTANTS.ROOTPATH, 'public'))(
+      return staticMiddleware(join(CONSTANTS.ROOTPATH, 'public'))(
         request,
         response,
         next
       );
     }
+
+    // Not a file, continue
+    return next();
   } catch (e) {
     // If the path is not a file or does not exist in the public folder, call next
-    next();
+    return next();
   }
 }
