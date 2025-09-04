@@ -21,6 +21,9 @@ export default {
       }
     },
     description: ({ description }) => {
+      if (!description) {
+        return [];
+      }
       try {
         return JSON.parse(description);
       } catch (e) {
