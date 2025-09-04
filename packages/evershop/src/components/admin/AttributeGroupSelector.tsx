@@ -1,5 +1,5 @@
 import { Card } from '@components/admin/Card.js';
-import { SimplePageination } from '@components/common/SimplePagination.js';
+import { SimplePagination } from '@components/common/SimplePagination.js';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { useQuery } from 'urql';
@@ -224,7 +224,7 @@ const AttributeGroupSelector: React.FC<{
       </Card.Session>
       <Card.Session>
         <div className="flex justify-between gap-5">
-          <SimplePageination
+          <SimplePagination
             total={data?.attributeGroups.total || 0}
             count={data?.attributeGroups?.items?.length || 0}
             page={page}

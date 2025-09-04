@@ -1,0 +1,11 @@
+"""
+Represents an available payment method for a cart based on the payment details.
+"""
+type AvailablePaymentMethod {
+  code: String!
+  name: String!
+}
+
+extend type Cart {
+  availablePaymentMethods: [AvailablePaymentMethod]
+}

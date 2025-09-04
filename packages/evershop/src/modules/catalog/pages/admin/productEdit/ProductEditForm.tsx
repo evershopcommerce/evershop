@@ -1,6 +1,6 @@
 import Area from '@components/common/Area.js';
+import Button from '@components/common/Button.js';
 import { Form, useFormContext } from '@components/common/form/Form.js';
-import { Button } from '@components/frontStore/index.js';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';

@@ -1,6 +1,6 @@
-import ProductList from '@components/frontStore/catalog/product/list/List.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
+import ProductList from '../components/product/list/List.jsx';
 
 export default function CollectionProducts({ collection }) {
   if (!collection) {

@@ -54,8 +54,8 @@ export default async () => {
 
   registerPaymentMethod({
     init: async () => ({
-      methodCode: 'stripe',
-      methodName: await getSetting('stripeDisplayName', 'Stripe')
+      code: 'stripe',
+      name: await getSetting('stripeDisplayName', 'Stripe')
     }),
     validator: async () => {
       const stripeConfig = getConfig('system.stripe', {});

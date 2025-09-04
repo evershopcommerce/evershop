@@ -53,7 +53,7 @@ interface ShoppingCartItem {
   lineTotalWithDiscountInclTax: Price!
   lineTotalInclTax: Price!
   variantGroupId: Int
-  variantOptions: String
+  variantOptions: [VariantOption]
   productCustomOptions: String
   productUrl: String!
 }
@@ -88,6 +88,13 @@ type CartAddress implements Address {
   address2: String
 }
 
+type VariantOption {
+  attributeCode: String!
+  attributeName: String!
+  attributeId: Int!
+  optionId: Int!
+  optionText: String!
+}
 """
 Represent a Cart Item
 """
@@ -118,7 +125,7 @@ type CartItem implements ShoppingCartItem {
   lineTotalInclTax: Price!
   total: Price! # Deprecated, this field is equivalent to lineTotalInclTax
   variantGroupId: Int
-  variantOptions: String
+  variantOptions: [VariantOption]
   productCustomOptions: String
   productUrl: String!
   errors: [String!]
@@ -167,8 +174,10 @@ type Cart implements ShoppingCart {
   addContactInfoApi: String!
   addAddressApi: String!
   addNoteApi: String!
+  checkoutApi: String!
 }
 
 extend type Query {
-  cart(id: String): Cart
+  cart(id: String!): Cart
+  myCart: Cart
 }

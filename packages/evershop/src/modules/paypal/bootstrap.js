@@ -18,8 +18,8 @@ export default async () => {
 
   registerPaymentMethod({
     init: async () => ({
-      methodCode: 'paypal',
-      methodName: await getSetting('paypalDisplayName', 'PayPal')
+      code: 'paypal',
+      name: await getSetting('paypalDisplayName', 'PayPal')
     }),
     validator: async () => {
       const paypalConfig = getConfig('system.paypal', {});

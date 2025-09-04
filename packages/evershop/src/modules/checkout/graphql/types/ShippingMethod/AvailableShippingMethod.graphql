@@ -1,0 +1,17 @@
+"""
+Represents an available shipping method for a cart based on the shipping address.
+"""
+type AvailableShippingMethod {
+  id: String!
+  code: String!
+  name: String!
+  cost: Price!
+}
+
+extend type Cart {
+  availableShippingMethods(
+    country: String
+    province: String
+    postcode: String
+  ): [AvailableShippingMethod]
+}

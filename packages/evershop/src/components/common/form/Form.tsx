@@ -15,7 +15,7 @@ interface FormProps<T extends FieldValues = FieldValues>
     'onSubmit' | 'onError'
   > {
   form?: UseFormReturn<T>;
-  action: string;
+  action?: string;
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   formOptions?: UseFormProps<T>;
   onSubmit?: SubmitHandler<T>;
@@ -59,6 +59,9 @@ export function Form<T extends FieldValues = FieldValues>({
   } = methods;
 
   const defaultSubmit: SubmitHandler<T> = async (data) => {
+    if (!action) {
+      return;
+    }
     try {
       const response = await fetch(action, {
         method,

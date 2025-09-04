@@ -18,19 +18,19 @@ export function NameAndTelephone({
       <div>
         <InputField
           name={getFieldName ? getFieldName('full_name') : 'full_name'}
-          value={fullName}
+          defaultValue={fullName}
           label={_('Full name')}
           placeholder={_('Full name')}
           required
           validation={{
-            required: _(`'Full name is required`)
+            required: _('Full name is required')
           }}
         />
       </div>
       <div>
         <TelField
           name={getFieldName ? getFieldName('telephone') : 'telephone'}
-          value={telephone}
+          defaultValue={telephone}
           label={_('Telephone')}
           placeholder={_('Telephone')}
           required

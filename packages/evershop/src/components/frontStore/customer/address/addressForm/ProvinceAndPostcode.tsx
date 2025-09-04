@@ -38,7 +38,7 @@ export function ProvinceAndPostcode({
       <div>
         <InputField
           name={getFieldName ? getFieldName('postcode') : 'postcode'}
-          value={postcode}
+          defaultValue={postcode}
           label={_('Postcode')}
           placeholder={_('Postcode')}
           required

@@ -6,7 +6,7 @@ import { ProvinceAndPostcode } from '@components/frontStore/customer/address/add
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { _ } from '../../../../../lib/locale/translate/_.js';
-import { Address } from './Index.js';
+import { CustomerAddressGraphql } from '../../../../../types/customerAddress.js';
 
 interface CustomerAddressFormProps {
   allowCountries: {
@@ -17,7 +17,7 @@ interface CustomerAddressFormProps {
       label: string;
     }[];
   }[];
-  address?: Address;
+  address?: CustomerAddressGraphql;
   areaId?: string;
   fieldNamePrefix?: string;
 }
@@ -27,7 +27,7 @@ export function CustomerAddressForm({
   areaId = 'customerAddressForm',
   fieldNamePrefix = 'address'
 }: CustomerAddressFormProps) {
-  const { watch } = useFormContext();
+  const { watch, setValue } = useFormContext();
 
   const getFieldName = (fieldName: string) => {
     return fieldNamePrefix ? `${fieldNamePrefix}.${fieldName}` : fieldName;
@@ -45,8 +45,8 @@ export function CustomerAddressForm({
           component: {
             default: (
               <NameAndTelephone
-                fullName={address?.fullName}
-                telephone={address?.telephone}
+                fullName={address?.fullName || ''}
+                telephone={address?.telephone || ''}
                 getFieldName={getFieldName}
               />
             )
@@ -60,7 +60,7 @@ export function CustomerAddressForm({
                 name={getFieldName('address_1')}
                 label={_('Address')}
                 placeholder={_('Address')}
-                defaultValue={address?.address1}
+                defaultValue={address?.address1 || ''}
                 required
                 validation={{
                   required: _('Address is required')
@@ -77,7 +77,7 @@ export function CustomerAddressForm({
                 name={getFieldName('address_2')}
                 label={_('Address 2')}
                 placeholder={_('Address 2')}
-                defaultValue={address?.address2}
+                defaultValue={address?.address2 || ''}
               />
             )
           },
@@ -91,6 +91,10 @@ export function CustomerAddressForm({
                 label={_('Country')}
                 name={getFieldName('country')}
                 placeholder={_('Country')}
+                onChange={(value) => {
+                  setValue(getFieldName('country'), value.target.value);
+                  setValue(getFieldName('province'), '');
+                }}
                 required
                 validation={{ required: _('Country is required') }}
                 options={allowCountries}
@@ -108,8 +112,8 @@ export function CustomerAddressForm({
                     (country) => country.value === selectedCountry
                   )?.provinces || []
                 }
-                province={address?.province}
-                postcode={address?.postcode}
+                province={address?.province || { code: '' }}
+                postcode={address?.postcode || ''}
                 getFieldName={getFieldName}
               />
             )

@@ -5,6 +5,7 @@ import { normalizePort } from '../../../../bin/lib/normalizePort.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
+import { validateAddress } from '../../../../modules/customer/services/index.js';
 import { getSetting } from '../../../../modules/setting/services/setting.js';
 import { calculateTaxAmount } from '../../../../modules/tax/services/calculateTaxAmount.js';
 import { getTaxPercent } from '../../../../modules/tax/services/getTaxPercent.js';
@@ -157,89 +158,69 @@ export function registerCartBaseFields(fields) {
     {
       key: 'shipping_zone_id',
       resolvers: [
-        async function resolver(shippingZoneId) {
-          if (!shippingZoneId) {
+        async function resolver() {
+          const addressData = this.getData('shipping_address');
+          if (!addressData?.country) {
+            return null;
+          }
+          const shippingZoneQuery = select().from('shipping_zone');
+          shippingZoneQuery
+            .leftJoin('shipping_zone_province')
+            .on(
+              'shipping_zone_province.zone_id',
+              '=',
+              'shipping_zone.shipping_zone_id'
+            );
+          shippingZoneQuery.where(
+            'shipping_zone.country',
+            '=',
+            addressData.country
+          );
+
+          const shippingZoneProvinces = await shippingZoneQuery.execute(pool);
+          const shippingZone = shippingZoneProvinces.find(
+            (zone) =>
+              zone.province === addressData.province || zone.province === null
+          );
+          if (!shippingZone) {
+            this.setError('shipping_address', 'We do not ship to this address');
             return null;
           } else {
-            const zone = await select()
-              .from('shipping_zone')
-              .where('shipping_zone_id', '=', shippingZoneId)
-              .load(pool);
-            if (!zone) {
-              return null;
-            } else {
-              return zone.shipping_zone_id;
-            }
+            this.setError('shipping_address', undefined);
+            return shippingZone.shipping_zone_id;
           }
         }
       ],
-      dependencies: ['cart_id']
+      dependencies: ['shipping_address']
     },
     {
       key: 'shipping_address_id',
       resolvers: [
         async function resolver(shippingAddressId) {
-          if (!shippingAddressId || !this.getData('shipping_zone_id')) {
-            return null;
-          } else {
-            // validate country and province with shipping zone
-            const shippingAddress = await select()
-              .from('cart_address')
-              .where('cart_address_id', '=', shippingAddressId)
-              .load(pool);
-            if (!shippingAddress) {
-              return null;
-            }
-            const shippingZoneQuery = select().from('shipping_zone');
-            shippingZoneQuery
-              .leftJoin('shipping_zone_province')
-              .on(
-                'shipping_zone_province.zone_id',
-                '=',
-                'shipping_zone.shipping_zone_id'
-              );
-            shippingZoneQuery.where(
-              'shipping_zone.country',
-              '=',
-              shippingAddress.country
-            );
-
-            const shippingZoneProvinces = await shippingZoneQuery.execute(pool);
-            if (shippingZoneProvinces.length === 0) {
-              return null;
-            } else {
-              const check = shippingZoneProvinces.find(
-                (p) =>
-                  p.province === shippingAddress.province || p.province === null
-              );
-              if (!check) {
-                return null;
-              } else {
-                return shippingAddress.cart_address_id;
-              }
-            }
-          }
+          return shippingAddressId;
         }
       ],
-      dependencies: ['cart_id', 'shipping_zone_id']
+      dependencies: ['cart_id']
     },
     {
-      key: 'shippingAddress',
+      key: 'shipping_address',
       resolvers: [
-        async function resolver() {
+        async function resolver(address) {
           if (!this.getData('shipping_address_id')) {
+            if (validateAddress(address)) {
+              return address;
+            }
             return undefined;
           } else {
-            return {
-              ...(await select()
-                .from('cart_address')
-                .where(
-                  'cart_address_id',
-                  '=',
-                  this.getData('shipping_address_id')
-                )
-                .load(pool))
-            };
+            const shippingAddress = await select()
+              .from('cart_address')
+              .where(
+                'cart_address_id',
+                '=',
+                this.getData('shipping_address_id')
+              )
+              .load(pool);
+            return shippingAddress;
           }
         }
       ],
@@ -252,7 +233,10 @@ export function registerCartBaseFields(fields) {
           if (!shippingMethod) {
             return null;
           }
-          if (!this.getData('shipping_address_id')) {
+          if (
+            !this.getData('shipping_address') ||
+            !this.getData('shipping_zone_id')
+          ) {
             return null;
           }
           // By default, EverShop supports free shipping and flat rate shipping method
@@ -309,7 +293,8 @@ export function registerCartBaseFields(fields) {
         }
       ],
       dependencies: [
-        'shipping_address_id',
+        'shipping_zone_id',
+        'shipping_address',
         'sub_total',
         'total_weight',
         'total_qty'
@@ -459,7 +444,7 @@ export function registerCartBaseFields(fields) {
               if (!taxClass) {
                 return 0;
               } else {
-                const shippingAddress = this.getData('shippingAddress');
+                const shippingAddress = this.getData('shipping_address');
                 const percentage = getTaxPercent(
                   await getTaxRates(
                     shippingTaxClass,
@@ -601,22 +586,20 @@ export function registerCartBaseFields(fields) {
       dependencies: ['cart_id']
     },
     {
-      key: 'billingAddress',
+      key: 'billing_address',
       resolvers: [
-        async function resolver() {
+        async function resolver(address) {
           if (!this.getData('billing_address_id')) {
+            if (validateAddress(address)) {
+              return address;
+            }
             return undefined;
           } else {
-            return {
-              ...(await select()
-                .from('cart_address')
-                .where(
-                  'cart_address_id',
-                  '=',
-                  this.getData('billing_address_id')
-                )
-                .load(pool))
-            };
+            const billingAddress = await select()
+              .from('cart_address')
+              .where('cart_address_id', '=', this.getData('billing_address_id'))
+              .load(pool);
+            return billingAddress;
           }
         }
       ],
@@ -629,13 +612,13 @@ export function registerCartBaseFields(fields) {
           const methods = await getAvailablePaymentMethods();
           if (
             paymentMethod &&
-            methods.map((m) => m.methodCode).includes(paymentMethod)
+            methods.map((m) => m.code).includes(paymentMethod)
           ) {
             this.setError('payment_method', undefined);
             return paymentMethod;
           } else if (
             paymentMethod &&
-            !methods.map((m) => m.methodCode).includes(paymentMethod)
+            !methods.map((m) => m.code).includes(paymentMethod)
           ) {
             this.setError(
               'payment_method',

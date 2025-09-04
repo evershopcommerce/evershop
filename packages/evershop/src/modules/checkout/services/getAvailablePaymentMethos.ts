@@ -1,9 +1,8 @@
 import { addProcessor, getValue } from '../../../lib/util/registry.js';
 
 export type PaymentMethodInfo = {
-  methodCode: string;
-  methodName: string;
-  meta?: Record<string, any>;
+  code: string;
+  name: string;
 };
 
 export type PaymentMethodFactory = {
@@ -38,10 +37,8 @@ export async function getAvailablePaymentMethods(): Promise<
   const applicableMethods: PaymentMethodInfo[] = [];
   for (const method of methods) {
     const methodInfo = await method.init();
-    if (applicableMethods.some((m) => m.methodCode === methodInfo.methodCode)) {
-      throw new Error(
-        `Duplicate payment method code: ${methodInfo.methodCode}`
-      );
+    if (applicableMethods.some((m) => m.code === methodInfo.code)) {
+      throw new Error(`Duplicate payment method code: ${methodInfo.code}`);
     }
     if (!method.validator || (await method.validator())) {
       applicableMethods.push(methodInfo);
