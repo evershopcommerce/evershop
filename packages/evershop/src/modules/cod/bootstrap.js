@@ -6,8 +6,8 @@ import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentM
 export default async () => {
   registerPaymentMethod({
     init: async () => ({
-      methodCode: 'cod',
-      methodName: await getSetting('codDisplayName', 'Cash on Delivery')
+      code: 'cod',
+      name: await getSetting('codDisplayName', 'Cash on Delivery')
     }),
     validator: async () => {
       const codConfig = getConfig('system.cod', {});

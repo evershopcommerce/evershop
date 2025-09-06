@@ -1,4 +1,4 @@
-import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
+import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 

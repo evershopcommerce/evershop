@@ -1,4 +1,4 @@
-import { SimplePageination } from '@components/common/SimplePagination.js';
+import { SimplePagination } from '@components/common/SimplePagination.js';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { useQuery } from 'urql';
@@ -215,7 +215,7 @@ const CollectionSelector: React.FC<{
         )}
       </div>
       <div className="flex justify-between gap-5">
-        <SimplePageination
+        <SimplePagination
           total={data?.collections.total || 0}
           count={data?.collections?.items?.length || 0}
           page={page}

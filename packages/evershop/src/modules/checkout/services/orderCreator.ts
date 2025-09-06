@@ -17,15 +17,60 @@ import { resolveOrderStatus } from '../../oms/services/updateOrderStatus.js';
 import { Cart } from './cart/Cart.js';
 import { validateBeforeCreateOrder } from './orderValidator.js';
 
+export interface OrderCreateResult {
+  insertId: number;
+  order_id: number;
+  sid: string | null; // Nullable
+  intergration_order_id: string | null; // Nullable
+  uuid: string;
+  order_number: string;
+  cart_id: number;
+  currency: string;
+  customer_id: number;
+  customer_email: string;
+  customer_full_name: string;
+  user_ip: string;
+  user_agent: string;
+  coupon: string;
+  shipping_fee_excl_tax: number;
+  shipping_fee_incl_tax: number;
+  discount_amount: number;
+  sub_total: number;
+  sub_total_incl_tax: number;
+  sub_total_with_discount: number;
+  sub_total_with_discount_incl_tax: number;
+  total_qty: number;
+  total_weight: number;
+  tax_amount: number;
+  tax_amount_before_discount: number;
+  shipping_tax_amount: number;
+  shipping_note: string;
+  grand_total: number;
+  shipping_method: string;
+  shipping_method_name: string;
+  shipping_address_id: number;
+  payment_method: string | null; // Nullable
+  billing_address_id: number;
+  shipment_status: string;
+  payment_status: string;
+  created_at: string; // timestamp with timezone
+  updated_at: string; // timestamp with timezone
+  total_tax_amount: number;
+  status: string;
+}
+
 async function disableCart(cartId: number, connection: PoolClient) {
   const cart = await update('cart')
-    .given({ status: 0 })
+    .given({ status: false })
     .where('cart_id', '=', cartId)
     .execute(connection);
   return cart;
 }
 
-async function saveOrder(cart, connection) {
+async function saveOrder<T = OrderCreateResult>(
+  cart: Cart,
+  connection: PoolClient
+): Promise<T> {
   const shipmentStatusList = getConfig(
     'oms.order.shipmentStatus',
     {}
@@ -127,7 +172,7 @@ async function saveOrderActivity(orderID: number, connection: PoolClient) {
     .execute(connection);
 }
 
-async function createOrderFunc(cart: Cart) {
+async function createOrderFunc<T extends OrderCreateResult>(cart: Cart) {
   // Start creating order
   const connection = await getConnection(pool);
   try {
@@ -141,7 +186,7 @@ async function createOrderFunc(cart: Cart) {
       );
     }
     // Save order to DB
-    const order = await hookable(saveOrder, { cart })(cart, connection);
+    const order = await hookable(saveOrder<T>, { cart })(cart, connection);
 
     // Save order items
     await hookable(saveOrderItems, { cart })(cart, order.insertId, connection);
@@ -166,8 +211,10 @@ async function createOrderFunc(cart: Cart) {
  * @returns {Promise<Object>} - The created order object
  * @throws {Error} - If the order creation fails due to validation errors or database issues
  */
-export const createOrder = async (cart: Cart) => {
-  const order = await hookable(createOrderFunc, {
+export const createOrder = async <T extends OrderCreateResult>(
+  cart: Cart
+): Promise<T> => {
+  const order = await hookable(createOrderFunc<T>, {
     cart
   })(cart);
   return order;

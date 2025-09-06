@@ -100,6 +100,44 @@ export interface MethodFormProps {
   method?: ShippingMethod;
 }
 
+const CostSetting: React.FC<{
+  method: ShippingMethod | null;
+}> = ({ method }) => {
+  const { watch } = useFormContext();
+  const typeWatch = watch('calculation_type');
+  return (
+    <>
+      {typeWatch === 'flat_rate' && (
+        <NumberField
+          label="Flat rate cost"
+          name="cost"
+          placeholder="Shipping cost"
+          required
+          validation={{ required: 'Shipping cost is required' }}
+          helperText="This is the flat rate cost for shipping."
+          defaultValue={method?.cost?.value}
+        />
+      )}
+      {typeWatch === 'price_based_rate' && (
+        <PriceBasedPrice lines={method?.priceBasedCost || []} />
+      )}
+      {typeWatch === 'weight_based_rate' && (
+        <WeightBasedPrice lines={method?.weightBasedCost || []} />
+      )}
+      {typeWatch === 'api' && (
+        <UrlField
+          name="calculate_api"
+          placeholder="Calculate API endpoint"
+          required
+          validation={{ required: 'Calculate API is required' }}
+          defaultValue={method?.calculateApi || ''}
+          helperText="This API will be called to calculate shipping cost. It supposed to return a number."
+        />
+      )}
+    </>
+  );
+};
+
 function MethodForm({
   saveMethodApi,
   onSuccess,
@@ -124,8 +162,6 @@ function MethodForm({
   const [result, reexecuteQuery] = useQuery({
     query: MethodsQuery
   });
-  const { watch } = useFormContext();
-  const typeWatch = watch('type');
 
   const handleCreate = async (inputValue) => {
     setIsLoading(true);
@@ -244,33 +280,8 @@ function MethodForm({
           ]}
           defaultValue={getType(method || null)}
         />
-        {typeWatch === 'flat_rate' && (
-          <NumberField
-            label="Flat rate cost"
-            name="cost"
-            placeholder="Shipping cost"
-            required
-            validation={{ required: 'Shipping cost is required' }}
-            helperText="This is the flat rate cost for shipping."
-            defaultValue={method?.cost?.value}
-          />
-        )}
-        {typeWatch === 'price_based_rate' && (
-          <PriceBasedPrice lines={method?.priceBasedCost || []} />
-        )}
-        {typeWatch === 'weight_based_rate' && (
-          <WeightBasedPrice lines={method?.weightBasedCost || []} />
-        )}
-        {typeWatch === 'api' && (
-          <UrlField
-            name="calculate_api"
-            placeholder="Calculate API endpoint"
-            required
-            validation={{ required: 'Calculate API is required' }}
-            defaultValue={method?.calculateApi || ''}
-            helperText="This API will be called to calculate shipping cost. It supposed to return a number."
-          />
-        )}
+
+        <CostSetting method={method || null} />
         <a
           href="#"
           className="text-interactive"
@@ -282,7 +293,7 @@ function MethodForm({
           {hasCondition ? 'Remove condition' : 'Add condition'}
         </a>
         {!hasCondition && (
-          <input name="condition_type" type="hidden" value="none" />
+          <InputField name="condition_type" type="hidden" value="none" />
         )}
         {hasCondition && <Condition method={method} />}
       </Card.Session>

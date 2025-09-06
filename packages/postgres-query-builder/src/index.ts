@@ -301,7 +301,7 @@ class Node {
   }
 
   async execute(
-    connection: PoolClient,
+    connection: PoolClient | Pool,
     releaseConnection = true
   ): Promise<any[]> {
     return await this._query!.execute(connection, releaseConnection);

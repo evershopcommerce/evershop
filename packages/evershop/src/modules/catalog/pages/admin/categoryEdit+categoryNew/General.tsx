@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card } from '@components/admin/Card.js';
 import {
   CategoryTree,
@@ -9,6 +8,7 @@ import { Editor } from '@components/common/form/Editor.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
+import React from 'react';
 import './General.scss';
 
 const ParentCategory: React.FC<{

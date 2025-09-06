@@ -10,7 +10,6 @@
   "additionalProperties": true,
   "errorMessage": {
     "properties": {
-      "cart_id": "Cart id is required",
       "email": "Email is required"
     }
   }

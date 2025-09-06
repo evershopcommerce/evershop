@@ -224,6 +224,7 @@
     "@parcel/watcher": "^2.5.1",
     "@types/config": "^3.3.5",
     "@types/express": "^5.0.1",
+    "@types/express-session": "^1.18.2",
     "@types/multer": "^2.0.0",
     "@types/node": "^22.14.1",
     "@types/pg": "^8.15.2",

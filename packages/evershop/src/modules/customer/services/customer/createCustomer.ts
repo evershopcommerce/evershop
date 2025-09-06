@@ -30,7 +30,6 @@ export type CustomerData = {
   password?: string,
   group_id?: number,
   status?: number,
-  [key: string]: unknown
 };
 
 function validateCustomerDataBeforeInsert(data: CustomerData) {

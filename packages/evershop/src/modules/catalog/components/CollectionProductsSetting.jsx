@@ -1,6 +1,6 @@
 import { Card } from '@components/admin/Card.js';
 import Spinner from '@components/admin/Spinner';
-import { SimplePageination } from '@components/common/SimplePagination';
+import { SimplePagination } from '@components/common/SimplePagination';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -163,7 +163,7 @@ function CollectionProductsSetting({
       </Card.Session>
       <Card.Session>
         <div className="flex justify-between gap-5">
-          <SimplePageination
+          <SimplePagination
             total={data?.collections.total}
             count={data?.collections?.items?.length || 0}
             page={page}

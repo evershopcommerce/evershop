@@ -2,6 +2,7 @@ import { CustomerAddressForm } from '@components/frontStore/customer/address/add
 import { AddressFormLoadingSkeleton } from '@components/frontStore/customer/address/addressForm/AddressFormLoadingSkeleton.js';
 import React from 'react';
 import { useQuery } from 'urql';
+import { CustomerAddressGraphql } from '../../../../../types/customerAddress.js';
 
 const CountriesQuery = `
   query Country {
@@ -16,24 +17,8 @@ const CountriesQuery = `
   }
 `;
 
-export interface Address {
-  id?: number;
-  address1?: string;
-  address2?: string;
-  city?: string;
-  country?: {
-    code: string;
-  };
-  fullName?: string;
-  postcode?: string;
-  province?: {
-    code: string;
-  };
-  telephone?: string;
-}
-
 interface IndexProps {
-  address?: Address;
+  address?: CustomerAddressGraphql;
   areaId?: string;
   fieldNamePrefix?: string;
 }

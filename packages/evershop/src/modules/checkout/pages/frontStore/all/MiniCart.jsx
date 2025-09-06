@@ -37,7 +37,7 @@ export const layout = {
 export const query = `
   query Query {
     cartUrl: url(routeId: "cart"),
-    cart(id: getContextValue("cartId", null)) {
+    cart: myCart {
       totalQty
     }
   }
