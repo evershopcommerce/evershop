@@ -1,9 +1,12 @@
-import { NavigationItemGroup } from '@components/admin/NavigationItemGroup';
+import { NavigationItemGroup } from '@components/admin/NavigationItemGroup.js';
 import { GiftIcon } from '@heroicons/react/24/solid';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function CatalogMenuGroup({ couponGrid }) {
+interface CouponMenuGroupProps {
+  couponGrid: string;
+}
+
+export default function CatalogMenuGroup({ couponGrid }: CouponMenuGroupProps) {
   return (
     <NavigationItemGroup
       id="couponMenuGroup"
@@ -18,10 +21,6 @@ export default function CatalogMenuGroup({ couponGrid }) {
     />
   );
 }
-
-CatalogMenuGroup.propTypes = {
-  couponGrid: PropTypes.string.isRequired
-};
 
 export const layout = {
   areaId: 'adminMenu',

@@ -1,18 +1,19 @@
-import { Card } from '@components/admin/Card';
-import PropTypes from 'prop-types';
+import { Card } from '@components/admin/Card.js';
 import React from 'react';
 
-export default function PaymentSettingMenu({ paymentSettingUrl }) {
+interface PaymentSettingMenuProps {
+  paymentSettingUrl: string;
+}
+
+export default function PaymentSettingMenu({
+  paymentSettingUrl
+}: PaymentSettingMenuProps) {
   return (
     <Card.Session title={<a href={paymentSettingUrl}>Payment Setting</a>}>
       <div>Configure the available payment methods</div>
     </Card.Session>
   );
 }
-
-PaymentSettingMenu.propTypes = {
-  paymentSettingUrl: PropTypes.string.isRequired
-};
 
 export const layout = {
   areaId: 'settingPageMenu',

@@ -1,18 +1,17 @@
-import { Card } from '@components/admin/Card';
-import PropTypes from 'prop-types';
+import { Card } from '@components/admin/Card.js';
 import React from 'react';
 
-export default function TaxSettingMenu({ taxSettingUrl }) {
+interface TaxSettingMenuProps {
+  taxSettingUrl: string;
+}
+
+export default function TaxSettingMenu({ taxSettingUrl }: TaxSettingMenuProps) {
   return (
     <Card.Session title={<a href={taxSettingUrl}>Tax Setting</a>}>
       <div>Configure tax classes and tax rates</div>
     </Card.Session>
   );
 }
-
-TaxSettingMenu.propTypes = {
-  taxSettingUrl: PropTypes.string.isRequired
-};
 
 export const layout = {
   areaId: 'settingPageMenu',

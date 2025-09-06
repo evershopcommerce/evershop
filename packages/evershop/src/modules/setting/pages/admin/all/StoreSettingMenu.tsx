@@ -1,18 +1,19 @@
-import { Card } from '@components/admin/Card';
-import PropTypes from 'prop-types';
+import { Card } from '@components/admin/Card.js';
 import React from 'react';
 
-export default function StoreSettingMenu({ storeSettingUrl }) {
+interface StoreSettingMenuProps {
+  storeSettingUrl: string;
+}
+
+export default function StoreSettingMenu({
+  storeSettingUrl
+}: StoreSettingMenuProps) {
   return (
     <Card.Session title={<a href={storeSettingUrl}>Store Setting</a>}>
       <div>Configure your store information</div>
     </Card.Session>
   );
 }
-
-StoreSettingMenu.propTypes = {
-  storeSettingUrl: PropTypes.string.isRequired
-};
 
 export const layout = {
   areaId: 'settingPageMenu',
