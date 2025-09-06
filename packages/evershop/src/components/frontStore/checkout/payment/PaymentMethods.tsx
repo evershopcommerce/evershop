@@ -106,6 +106,9 @@ export function PaymentMethods({
                           className="font-normal text-gray-900 w-full cursor-pointer"
                           onClick={(e) => {
                             e.preventDefault();
+                            if (formState.disabled) {
+                              return;
+                            }
                             // Set selected payment method
                             setValue('paymentMethod', method.code);
                           }}

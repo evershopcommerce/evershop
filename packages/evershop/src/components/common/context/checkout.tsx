@@ -50,8 +50,7 @@ interface ShippingAddressParams {
 interface CheckoutError {
   type:
     | 'PLACE_ORDER_ERROR'
-    | 'PAYMENT_METHODS_ERROR'
-    | 'SHIPPING_METHODS_ERROR'
+    | 'PAYMENT_ERROR'
     | 'CHECKOUT_STEP_ERROR'
     | 'GENERIC_ERROR';
   message: string;
@@ -213,6 +212,8 @@ interface CheckoutDispatchContextValue {
     code: string,
     component: PaymentMethodComponent
   ) => void;
+  enableForm: () => void;
+  disableForm: () => void;
 }
 
 // Contexts
@@ -230,6 +231,8 @@ interface CheckoutProviderProps {
   checkoutSuccessUrl: string;
   allowGuestCheckout?: boolean; // Optional, defaults to false
   form: UseFormReturn<any>; // React Hook Form instance passed from outside
+  enableForm: () => void;
+  disableForm: () => void;
 }
 
 // Retry utility (similar to cart context)
@@ -254,7 +257,9 @@ export function CheckoutProvider({
   placeOrderApi,
   checkoutSuccessUrl,
   allowGuestCheckout = false,
-  form
+  form,
+  enableForm,
+  disableForm
 }: CheckoutProviderProps) {
   const [state, dispatch] = useReducer(checkoutReducer, {
     ...initialState,
@@ -473,6 +478,7 @@ export function CheckoutProvider({
         return;
       }
 
+      disableForm();
       dispatch({ type: 'SET_PLACING_ORDER', payload: true });
       dispatch({ type: 'CLEAR_ERROR' });
 
@@ -512,7 +518,7 @@ export function CheckoutProvider({
             ? (error as any).status
             : undefined
       };
-
+      enableForm();
       dispatch({ type: 'SET_ERROR', payload: checkoutError });
       throw error;
     }
@@ -591,7 +597,9 @@ export function CheckoutProvider({
       setCheckoutData,
       updateCheckoutData,
       clearCheckoutData,
-      registerPaymentComponent
+      registerPaymentComponent,
+      enableForm,
+      disableForm
     }),
     [
       placeOrder,
@@ -610,7 +618,9 @@ export function CheckoutProvider({
       setCheckoutData,
       updateCheckoutData,
       clearCheckoutData,
-      registerPaymentComponent
+      registerPaymentComponent,
+      enableForm,
+      disableForm
     ]
   );
 

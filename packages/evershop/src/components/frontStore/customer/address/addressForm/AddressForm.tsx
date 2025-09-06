@@ -81,8 +81,21 @@ export function CustomerAddressForm({
               />
             )
           },
-          sortOrder: 40
+          sortOrder: 30
         },
+        // {
+        //   component: {
+        //     default: (
+        //       <InputField
+        //         name={getFieldName('city')}
+        //         label={_('City')}
+        //         placeholder={_('City')}
+        //         defaultValue={address?.city || ''}
+        //       />
+        //     )
+        //   },
+        //   sortOrder: 40
+        // },
         {
           component: {
             default: (

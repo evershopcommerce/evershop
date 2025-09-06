@@ -18,4 +18,5 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm install -g npm@9
       - run: npm install
+      - run: npm run compile
       - run: npm run test

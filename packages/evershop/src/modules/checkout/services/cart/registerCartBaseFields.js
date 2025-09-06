@@ -636,8 +636,9 @@ export function registerCartBaseFields(fields) {
       key: 'payment_method_name',
       resolvers: [
         async function resolver(methodName) {
-          // TODO: This field should be handled by each of payment method
-          return methodName;
+          const methods = await getAvailablePaymentMethods();
+          const method = methods.find((m) => m.code === methodName);
+          return method ? method.name : methodName;
         }
       ],
       dependencies: ['payment_method']

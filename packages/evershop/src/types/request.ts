@@ -25,7 +25,7 @@ export interface EvershopRequest extends ExpressRequest {
   isAdmin: boolean;
   currentRoute: Route;
   locals: {
-    sessionID: string;
+    sessionID: string | null;
     delegates: {
       setOnce: (key: string, value: any) => void;
       get: (key: string) => any;

@@ -65,7 +65,7 @@ export function ShippingMethods({
       return;
     }
 
-    if (isProcessing) {
+    if (isProcessing || formState.disabled) {
       return;
     }
 

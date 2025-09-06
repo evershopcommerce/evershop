@@ -11,7 +11,7 @@ import { saveCart } from '../../services/saveCart.js';
 export default async (request: EvershopRequest, response, next) => {
   try {
     const { sessionID, customer } = request.locals;
-    const myCart = await getMyCart(sessionID, customer?.customer_id);
+    const myCart = await getMyCart(sessionID || ' ', customer?.customer_id);
     const { item_id } = request.params;
     if (!myCart) {
       response.status(INVALID_PAYLOAD);

@@ -33,7 +33,12 @@ export function CheckoutForm({
   );
   const stripe = useStripe();
   const elements = useElements();
-  const { cartId, orderId, orderPlaced } = useCheckout();
+  const {
+    cartId,
+    orderId,
+    orderPlaced,
+    checkoutData: { paymentMethod }
+  } = useCheckout();
   const { setError } = useCheckoutDispatch();
 
   const {
@@ -45,7 +50,7 @@ export function CheckoutForm({
       if (!stripe || !elements) {
         setError({
           message: _('Stripe is not loaded. Please try again.'),
-          type: 'PAYMENT_METHODS_ERROR'
+          type: 'PAYMENT_ERROR'
         });
         return false;
       }
@@ -56,7 +61,7 @@ export function CheckoutForm({
           message:
             submit.error.message ||
             _('Can not process payment. Please try again later.'),
-          type: 'PAYMENT_METHODS_ERROR'
+          type: 'PAYMENT_ERROR'
         });
         return false;
       }
@@ -77,7 +82,7 @@ export function CheckoutForm({
   }, [stripe, elements, setError]);
 
   useEffect(() => {
-    if (orderId && orderPlaced) {
+    if (orderId && orderPlaced && paymentMethod === 'stripe') {
       window
         .fetch(createPaymentIntentApi, {
           method: 'POST',

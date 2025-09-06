@@ -15,7 +15,12 @@ export function BillingAddress({
 }) {
   const { form, checkoutData } = useCheckout();
   const { updateCheckoutData } = useCheckoutDispatch();
-  const { setValue, getValues } = form;
+  const {
+    register,
+    setValue,
+    getValues,
+    formState: { disabled }
+  } = form;
 
   // Watch shipping address changes
   const shippingAddress = useWatch({
@@ -51,7 +56,7 @@ export function BillingAddress({
 
   const handleAddressOptionChange = (value: string) => {
     const isSameAddress = value === 'same';
-    if (isSameAddress === useSameAddress) {
+    if (isSameAddress === useSameAddress || disabled) {
       return;
     }
     setUseSameAddress(isSameAddress);
@@ -112,6 +117,7 @@ export function BillingAddress({
             <div className="flex items-center space-x-3">
               <input
                 type="radio"
+                {...register('useSameAddres')}
                 id="different-address"
                 value="different"
                 checked={!useSameAddress}

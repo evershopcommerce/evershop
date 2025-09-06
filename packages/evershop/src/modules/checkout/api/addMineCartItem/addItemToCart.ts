@@ -16,10 +16,10 @@ import { saveCart } from '../../services/saveCart.js';
 export default async (request: EvershopRequest, response, next) => {
   try {
     const { sessionID, customer } = request.locals;
-    let myCart = await getMyCart(sessionID, customer?.customer_id);
+    let myCart = await getMyCart(sessionID || '', customer?.customer_id);
     if (!myCart) {
       // Create a new cart
-      myCart = await createNewCart(sessionID, customer || {});
+      myCart = await createNewCart(sessionID || '', customer || {});
     }
     const { sku, qty } = request.body;
 

@@ -8,7 +8,6 @@ import { CheckoutButton } from '@components/frontStore/checkout/CheckoutButton.j
 import { ContactInformation } from '@components/frontStore/checkout/ContactInformation.js';
 import { Payment } from '@components/frontStore/checkout/Payment.js';
 import { Shipment } from '@components/frontStore/checkout/Shipment.js';
-import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import './Checkout.scss';
 import { useForm } from 'react-hook-form';
@@ -23,19 +22,25 @@ interface CheckoutPageProps {
   getShippingMethodApi: string;
   checkoutSuccessUrl: string;
 }
+
 export default function CheckoutPage({
   setting,
   placeOrderApi,
   checkoutSuccessUrl
 }: CheckoutPageProps) {
+  const [disabled, setDisabled] = React.useState(false);
   const form = useForm({
+    disabled: disabled,
     mode: 'onBlur',
     reValidateMode: 'onBlur',
     defaultValues: {}
   });
+
   return (
     <CheckoutProvider
       form={form}
+      enableForm={() => setDisabled(false)}
+      disableForm={() => setDisabled(true)}
       allowGuestCheckout={true}
       placeOrderApi={placeOrderApi}
       checkoutSuccessUrl={checkoutSuccessUrl}
