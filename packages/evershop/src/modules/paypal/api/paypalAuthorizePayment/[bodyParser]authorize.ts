@@ -46,9 +46,7 @@ export default async (
       );
 
       if (responseData.data.status === 'COMPLETED') {
-        // Update payment status
-        const connection = await getConnection(pool);
-        await updatePaymentStatus(order.order_id, 'authorized', connection);
+        await updatePaymentStatus(order.order_id, 'authorized');
         // Add transaction data to database
         await insert('payment_transaction')
           .given({

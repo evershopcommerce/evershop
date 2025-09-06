@@ -40,7 +40,7 @@ async function changePaymentStatus(
 export const updatePaymentStatus = async (
   orderId: number,
   status: string,
-  conn: PoolClient
+  conn?: PoolClient
 ): Promise<void> => {
   const connection = conn || (await getConnection(pool));
   try {

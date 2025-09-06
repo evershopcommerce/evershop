@@ -39,8 +39,6 @@ export default async (
         }
       });
     } else {
-      // Update payment status
-      const connection = await getConnection(pool);
       // Get the payment transaction
       const transaction = await select()
         .from('payment_transaction')
@@ -62,7 +60,7 @@ export default async (
         `/v2/payments/authorizations/${transaction.transaction_id}`
       );
       if (transactionDetails.data.status === 'CAPTURED') {
-        await updatePaymentStatus(order.order_id, 'paid', connection);
+        await updatePaymentStatus(order.order_id, 'paid');
         // Save order activities
         await insert('order_activity')
           .given({
@@ -83,7 +81,7 @@ export default async (
         );
         if (responseData.data.status === 'COMPLETED') {
           // Update payment status
-          await updatePaymentStatus(order.order_id, 'paid', connection);
+          await updatePaymentStatus(order.order_id, 'paid');
           // Save order activities
           await insert('order_activity')
             .given({
