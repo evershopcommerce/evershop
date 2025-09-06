@@ -1,4 +1,8 @@
-import { insert, select } from '@evershop/postgres-query-builder';
+import {
+  getConnection,
+  insert,
+  select
+} from '@evershop/postgres-query-builder';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import {
@@ -8,8 +12,14 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { createAxiosInstance } from '../../services/requester.js';
+import { EvershopRequest } from '../../../../types/request.js';
+import { EvershopResponse } from '../../../../types/response.js';
 
-export default async (request, response, next) => {
+export default async (
+  request: EvershopRequest,
+  response: EvershopResponse,
+  next
+) => {
   try {
     const { order_id } = request.body;
     // Validate the order;
@@ -35,7 +45,8 @@ export default async (request, response, next) => {
 
       if (responseData.data.status === 'COMPLETED') {
         // Update payment status
-        await updatePaymentStatus(order.order_id, 'paid');
+        const connection = await getConnection(pool);
+        await updatePaymentStatus(order.order_id, 'paid', connection);
         // Add transaction data to database
         await insert('payment_transaction')
           .given({

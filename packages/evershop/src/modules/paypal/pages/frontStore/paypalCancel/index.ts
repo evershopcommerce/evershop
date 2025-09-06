@@ -1,8 +1,10 @@
 import { select, update } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { EvershopRequest } from '../../../../../types/request.js';
+import { EvershopResponse } from '../../../../../types/response.js';
 
-export default async (request, response) => {
+export default async (request: EvershopRequest, response: EvershopResponse) => {
   // When the user cancelled the payment from PayPal
   // he/she will be redirected to the checkout page.
   // We need to check if the cart is still valid.

@@ -1,4 +1,3 @@
-import * as Topo from '@hapi/topo';
 import { produce } from 'immer';
 import React, {
   createContext,
@@ -47,33 +46,13 @@ interface ShippingAddressParams {
   postcode?: string;
 }
 
-interface CheckoutError {
-  type:
-    | 'PLACE_ORDER_ERROR'
-    | 'PAYMENT_ERROR'
-    | 'CHECKOUT_STEP_ERROR'
-    | 'GENERIC_ERROR';
-  message: string;
-  code?: number;
-}
-
-// Checkout step types
-interface CheckoutStep {
-  id: string;
-  isCompleted: boolean;
-  dependencies: string[]; // Array of step IDs that this step depends on
-  onComplete: () => Promise<boolean> | boolean;
-}
-
 interface CheckoutState {
   orderPlaced: boolean;
   orderId?: string;
-  error: CheckoutError | null;
   loadingStates: {
     placingOrder: boolean;
   };
   allowGuestCheckout: boolean;
-  steps: Record<string, CheckoutStep>; // Use Record instead of Map
   checkoutData: CheckoutData; // Add checkout data to state
   // Payment method component registry
   registeredPaymentComponents: Record<string, PaymentMethodComponent>; // code -> component
@@ -84,16 +63,6 @@ interface CheckoutState {
 type CheckoutAction =
   | { type: 'SET_PLACING_ORDER'; payload: boolean }
   | { type: 'SET_ORDER_PLACED'; payload: { orderId: string } }
-  | { type: 'SET_ERROR'; payload: CheckoutError | null }
-  | { type: 'CLEAR_ERROR' }
-  | { type: 'RESET_CHECKOUT' }
-  | { type: 'ADD_STEP'; payload: CheckoutStep }
-  | { type: 'REMOVE_STEP'; payload: string }
-  | {
-      type: 'UPDATE_STEP_COMPLETED';
-      payload: { id: string; isCompleted: boolean };
-    }
-  | { type: 'CLEAR_STEPS' }
   | { type: 'SET_CHECKOUT_DATA'; payload: CheckoutData }
   | { type: 'UPDATE_CHECKOUT_DATA'; payload: Partial<CheckoutData> }
   | { type: 'CLEAR_CHECKOUT_DATA' }
@@ -107,12 +76,10 @@ type CheckoutAction =
 const initialState: CheckoutState = {
   orderPlaced: false,
   orderId: undefined,
-  error: null,
   loadingStates: {
     placingOrder: false
   },
   allowGuestCheckout: false, // Default to false, will be set by provider
-  steps: {}, // Initialize empty steps object
   checkoutData: {}, // Initialize empty checkout data
   registeredPaymentComponents: {} // Initialize empty payment component registry
 };
@@ -131,34 +98,6 @@ const checkoutReducer = (
         draft.orderPlaced = true;
         draft.orderId = action.payload.orderId;
         draft.loadingStates.placingOrder = false;
-        draft.error = null;
-        break;
-      case 'SET_ERROR':
-        draft.error = action.payload;
-        draft.loadingStates.placingOrder = false;
-        break;
-      case 'CLEAR_ERROR':
-        draft.error = null;
-        break;
-      case 'RESET_CHECKOUT':
-        return {
-          ...initialState,
-          allowGuestCheckout: draft.allowGuestCheckout
-        };
-      case 'ADD_STEP':
-        draft.steps[action.payload.id] = action.payload;
-        break;
-      case 'REMOVE_STEP':
-        delete draft.steps[action.payload];
-        break;
-      case 'UPDATE_STEP_COMPLETED':
-        const step = draft.steps[action.payload.id];
-        if (step) {
-          step.isCompleted = action.payload.isCompleted;
-        }
-        break;
-      case 'CLEAR_STEPS':
-        draft.steps = {};
         break;
       case 'SET_CHECKOUT_DATA':
         draft.checkoutData = action.payload;
@@ -193,16 +132,6 @@ interface CheckoutDispatchContextValue {
   getShippingMethods: (
     params?: ShippingAddressParams
   ) => Promise<ShippingMethod[]>;
-  setError: (error: CheckoutError | null) => void;
-  clearError: () => void;
-  resetCheckout: () => void;
-  // Checkout steps management
-  addStep: (step: CheckoutStep) => void;
-  removeStep: (id: string) => void;
-  completeStep: (id: string) => Promise<boolean>;
-  clearSteps: () => void;
-  getSteps: () => CheckoutStep[];
-  getIncompleteSteps: () => CheckoutStep[];
   // Checkout data management
   setCheckoutData: (data: CheckoutData) => void;
   updateCheckoutData: (data: Partial<CheckoutData>) => void;
@@ -271,92 +200,6 @@ export function CheckoutProvider({
   const cartDispatch = useCartDispatch();
   const cartId = cartState?.data?.uuid;
 
-  // Checkout steps management
-  const addStep = useCallback((step: CheckoutStep) => {
-    dispatch({ type: 'ADD_STEP', payload: step });
-  }, []);
-
-  const removeStep = useCallback((id: string) => {
-    dispatch({ type: 'REMOVE_STEP', payload: id });
-  }, []);
-
-  const completeStep = useCallback(
-    async (id: string): Promise<boolean> => {
-      const step = state.steps[id];
-      if (!step) {
-        throw new Error(`Step with id '${id}' not found`);
-      }
-
-      try {
-        const result = await step.onComplete();
-        if (result) {
-          dispatch({
-            type: 'UPDATE_STEP_COMPLETED',
-            payload: { id, isCompleted: true }
-          });
-        }
-        return result;
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : `Step '${id}' completion failed`;
-        dispatch({
-          type: 'SET_ERROR',
-          payload: {
-            type: 'CHECKOUT_STEP_ERROR',
-            message: errorMessage
-          }
-        });
-        return false;
-      }
-    },
-    [state.steps]
-  );
-
-  const clearSteps = useCallback(() => {
-    dispatch({ type: 'CLEAR_STEPS' });
-  }, []);
-
-  const getSteps = useCallback((): CheckoutStep[] => {
-    return Object.values(state.steps);
-  }, [state.steps]);
-
-  const getIncompleteSteps = useCallback((): CheckoutStep[] => {
-    return Object.values(state.steps).filter((step) => !step.isCompleted);
-  }, [state.steps]);
-
-  // Sort steps by dependencies using @hapi/topo
-  const sortStepsByDependencies = useCallback(
-    (steps: CheckoutStep[]): CheckoutStep[] => {
-      try {
-        const topo = new Topo.Sorter();
-
-        // Add all steps to the sorter
-        for (const step of steps) {
-          topo.add(step, {
-            after: step.dependencies.length > 0 ? step.dependencies : undefined,
-            group: step.id
-          });
-        }
-
-        // Return the sorted steps with proper typing
-        return topo.nodes as CheckoutStep[];
-      } catch (error) {
-        // @hapi/topo throws errors for circular dependencies
-        throw new Error(
-          `Dependency sorting failed: ${
-            error instanceof Error ? error.message : 'Unknown error'
-          }`
-        );
-      }
-    },
-    []
-  );
-
-  // Special onSubmit function that executes all steps in dependency order
-  // REMOVED - not needed for now
-
   // Get payment methods - return the list from cart context
   const getPaymentMethods = useCallback((): PaymentMethod[] => {
     return (cartState.data?.availablePaymentMethods || []).map((method) => ({
@@ -409,138 +252,83 @@ export function CheckoutProvider({
 
   // Place order with loading state and error handling (original API - expects data already in cart)
   const placeOrder = useCallback(async () => {
-    try {
-      if (!cartId) {
-        throw new Error('Cart ID is required to place order');
-      }
-
-      // Check if all steps are completed
-      const incompleteSteps = getIncompleteSteps();
-      if (incompleteSteps.length > 0) {
-        const stepIds = incompleteSteps.map((step) => step.id).join(', ');
-        throw new Error(`Cannot place order: incomplete steps [${stepIds}]`);
-      }
-
-      dispatch({ type: 'SET_PLACING_ORDER', payload: true });
-      dispatch({ type: 'CLEAR_ERROR' });
-
-      const response = await retry(() =>
-        fetch(placeOrderApi, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ cart_id: cartId })
-        })
-      );
-
-      const json = await response.json();
-
-      if (!response.ok) {
-        throw new Error(json.error?.message || _('Failed to place order'));
-      }
-
-      dispatch({
-        type: 'SET_ORDER_PLACED',
-        payload: { orderId: json.data.uuid }
-      });
-
-      return json.data;
-    } catch (error) {
-      const checkoutError: CheckoutError = {
-        type:
-          error instanceof Error && error.message.includes('incomplete steps')
-            ? 'CHECKOUT_STEP_ERROR'
-            : 'PLACE_ORDER_ERROR',
-        message:
-          error instanceof Error ? error.message : _('Failed to place order'),
-        code:
-          error instanceof Error && 'status' in error
-            ? (error as any).status
-            : undefined
-      };
-
-      dispatch({ type: 'SET_ERROR', payload: checkoutError });
-      throw error;
+    if (!cartId) {
+      throw new Error('Cart ID is required to place order');
     }
-  }, [placeOrderApi, cartId, getIncompleteSteps]);
+
+    dispatch({ type: 'SET_PLACING_ORDER', payload: true });
+
+    const response = await retry(() =>
+      fetch(placeOrderApi, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cart_id: cartId })
+      })
+    );
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      throw new Error(json.error?.message || _('Failed to place order'));
+    }
+
+    dispatch({
+      type: 'SET_ORDER_PLACED',
+      payload: { orderId: json.data.uuid }
+    });
+
+    return json.data;
+  }, [placeOrderApi, cartId]);
 
   // New checkout method with all data submission (cart.checkoutApi)
   const checkout = useCallback(async () => {
-    try {
-      if (!cartId) {
-        throw new Error(_('Cart ID is required to checkout'));
-      }
-
-      // Trigger form validation
-      const isValid = await form.trigger(undefined, {
-        shouldFocus: true
-      });
-      if (!isValid) {
-        return;
-      }
-
-      disableForm();
-      dispatch({ type: 'SET_PLACING_ORDER', payload: true });
-      dispatch({ type: 'CLEAR_ERROR' });
-
-      const response = await retry(() =>
-        fetch(cartState.data?.checkoutApi, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            cart_id: cartId,
-            ...state.checkoutData
-          })
-        })
-      );
-
-      const json = await response.json();
-
-      if (!response.ok) {
-        throw new Error(json.error?.message || _('Failed to checkout'));
-      }
-
-      dispatch({
-        type: 'SET_ORDER_PLACED',
-        payload: { orderId: json.data.uuid }
-      });
-
-      return json.data;
-    } catch (error) {
-      const checkoutError: CheckoutError = {
-        type:
-          error instanceof Error && error.message.includes('incomplete steps')
-            ? 'CHECKOUT_STEP_ERROR'
-            : 'PLACE_ORDER_ERROR',
-        message:
-          error instanceof Error ? error.message : _('Failed to checkout'),
-        code:
-          error instanceof Error && 'status' in error
-            ? (error as any).status
-            : undefined
-      };
-      enableForm();
-      dispatch({ type: 'SET_ERROR', payload: checkoutError });
-      throw error;
+    if (!cartId) {
+      throw new Error(_('Cart ID is required to checkout'));
     }
+
+    // Trigger form validation
+    const isValid = await form.trigger(undefined, {
+      shouldFocus: true
+    });
+    if (!isValid) {
+      return;
+    }
+
+    disableForm();
+    dispatch({ type: 'SET_PLACING_ORDER', payload: true });
+
+    const response = await retry(() =>
+      fetch(cartState.data?.checkoutApi, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cart_id: cartId,
+          ...state.checkoutData
+        })
+      })
+    );
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      enableForm();
+      throw new Error(json.error?.message || _('Failed to checkout'));
+    }
+
+    dispatch({
+      type: 'SET_ORDER_PLACED',
+      payload: { orderId: json.data.uuid }
+    });
+
+    return json.data;
   }, [
     cartState.data?.checkoutApi,
     cartId,
-    getIncompleteSteps,
-    state.checkoutData
+    state.checkoutData,
+    form,
+    enableForm,
+    disableForm
   ]);
-
-  // Error management
-  const setError = useCallback((error: CheckoutError | null) => {
-    dispatch({ type: 'SET_ERROR', payload: error });
-  }, []);
-
-  const clearError = useCallback(() => {
-    dispatch({ type: 'CLEAR_ERROR' });
-  }, []);
-
-  const resetCheckout = useCallback(() => {
-    dispatch({ type: 'RESET_CHECKOUT' });
-  }, []);
 
   // Checkout data management
   const setCheckoutData = useCallback((data: CheckoutData) => {
@@ -585,15 +373,6 @@ export function CheckoutProvider({
       checkout,
       getPaymentMethods,
       getShippingMethods,
-      setError,
-      clearError,
-      resetCheckout,
-      addStep,
-      removeStep,
-      completeStep,
-      clearSteps,
-      getSteps,
-      getIncompleteSteps,
       setCheckoutData,
       updateCheckoutData,
       clearCheckoutData,
@@ -606,15 +385,6 @@ export function CheckoutProvider({
       checkout,
       getPaymentMethods,
       getShippingMethods,
-      setError,
-      clearError,
-      resetCheckout,
-      addStep,
-      removeStep,
-      completeStep,
-      clearSteps,
-      getSteps,
-      getIncompleteSteps,
       setCheckoutData,
       updateCheckoutData,
       clearCheckoutData,
@@ -657,7 +427,5 @@ export type {
   PaymentMethod,
   ShippingMethod,
   ShippingAddressParams,
-  CheckoutError,
-  CheckoutState,
-  CheckoutStep
+  CheckoutState
 };

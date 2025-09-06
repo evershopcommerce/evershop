@@ -13,8 +13,15 @@ import { toPrice } from '../../../checkout/services/toPrice.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../setting/services/setting.js';
 import { createAxiosInstance } from '../../services/requester.js';
+import { EvershopRequest } from '../../../../types/request.js';
+import { EvershopResponse } from '../../../../types/response.js';
+import type { PurchaseUnit, CreateOrderRequestBody } from '@paypal/paypal-js';
 
-export default async (request, response, next) => {
+export default async (
+  request: EvershopRequest,
+  response: EvershopResponse,
+  next
+) => {
   try {
     const { order_id } = request.body;
     const order = await select()
@@ -60,15 +67,15 @@ export default async (request, response, next) => {
           discount: {
             currency_code: order.currency,
             value: toPrice(order.discount_amount)
-          }
+          },
+          tax_total: !catalogPriceInclTax
+            ? {
+                currency_code: order.currency,
+                value: toPrice(order.total_tax_amount)
+              }
+            : undefined
         }
-      };
-      if (!catalogPriceInclTax) {
-        amount.breakdown.tax_total = {
-          currency_code: order.currency,
-          value: toPrice(order.total_tax_amount)
-        };
-      }
+      } as PurchaseUnit['amount'];
 
       const finalAmount = getValueSync('paypalFinalAmount', amount, {
         order,
@@ -94,19 +101,21 @@ export default async (request, response, next) => {
           }
         ],
         application_context: {
-          cancel_url: `${getContextValue(request, 'homeUrl')}${buildUrl(
-            'paypalCancel',
-            { order_id }
-          )}`,
-          return_url: `${getContextValue(request, 'homeUrl')}${buildUrl(
-            'paypalReturn',
-            { order_id }
-          )}`,
+          cancel_url: `${getContextValue<string>(
+            request,
+            'homeUrl',
+            ''
+          )}${buildUrl('paypalCancel', { order_id })}`,
+          return_url: `${getContextValue<string>(
+            request,
+            'homeUrl',
+            ''
+          )}${buildUrl('paypalReturn', { order_id })}`,
           shipping_preference: 'SET_PROVIDED_ADDRESS',
           user_action: 'PAY_NOW',
           brand_name: await getSetting('storeName', 'Evershop')
         }
-      };
+      } as CreateOrderRequestBody;
       const shippingAddress = await select()
         .from('order_address')
         .where('order_address_id', '=', order.shipping_address_id)
@@ -114,7 +123,7 @@ export default async (request, response, next) => {
 
       // Add shipping address
       if (shippingAddress) {
-        const address = {
+        const address: any = {
           address_line_1: shippingAddress.address_1,
           address_line_2: shippingAddress.address_2,
           admin_area_2: shippingAddress.city,
@@ -125,6 +134,10 @@ export default async (request, response, next) => {
           address.admin_area_1 = shippingAddress.province.split('-').pop();
         }
         orderData.purchase_units[0].shipping = {
+          name: {
+            full_name: `${shippingAddress.full_name}`
+          },
+          type: 'SHIPPING',
           address
         };
       } else {
@@ -141,36 +154,13 @@ export default async (request, response, next) => {
         };
       }
 
-      const billingAddress = await select()
-        .from('order_address')
-        .where('order_address_id', '=', order.billing_address_id)
-        .load(pool);
-
-      // Add billing address
-      if (billingAddress) {
-        const address = {
-          address_line_1: billingAddress.address,
-          address_line_2: billingAddress.address2,
-          admin_area_2: billingAddress.city,
-          postal_code: billingAddress.postcode,
-          country_code: billingAddress.country
-        };
-        if (billingAddress.province) {
-          address.admin_area_1 = billingAddress.province.split('-').pop();
-        }
-        orderData.purchase_units[0].billing = {
-          address
-        };
-      }
-
-      const finalPaypalOrderData = getValueSync(
+      const finalPaypalOrderData = getValueSync<CreateOrderRequestBody>(
         'finalPaypalOrderData',
         orderData,
         {
           order,
           items,
-          shippingAddress,
-          billingAddress
+          shippingAddress
         }
       );
       // Call PayPal API to create order using axios
@@ -198,6 +188,11 @@ export default async (request, response, next) => {
           }
         });
       } else {
+        // Re-active the cart
+        await update('cart')
+          .given({ status: true })
+          .where('cart_id', '=', order.cart_id)
+          .execute(pool);
         response.status(INTERNAL_SERVER_ERROR);
         return response.json({
           error: {

@@ -5,7 +5,7 @@ interface PaypalLogoProps {
   height?: number;
 }
 
-export function PaypalLogo({ width = 100, height = 30 }: PaypalLogoProps) {
+export function PaypalLogo({ width = 70, height = 30 }: PaypalLogoProps) {
   return (
     <img
       width={width}

@@ -1,7 +1,4 @@
-import {
-  useCheckout,
-  useCheckoutDispatch
-} from '@components/common/context/checkout.js';
+import { useCheckout } from '@components/common/context/checkout.js';
 import {
   PaymentElement,
   useElements,
@@ -39,7 +36,6 @@ export function CheckoutForm({
     orderPlaced,
     checkoutData: { paymentMethod }
   } = useCheckout();
-  const { setError } = useCheckoutDispatch();
 
   const {
     data: { billingAddress, shippingAddress, customerFullName, customerEmail }
@@ -48,21 +44,16 @@ export function CheckoutForm({
   useEffect(() => {
     const validateStripe = async () => {
       if (!stripe || !elements) {
-        setError({
-          message: _('Stripe is not loaded. Please try again.'),
-          type: 'PAYMENT_ERROR'
-        });
+        toast.error(_('Stripe is not loaded. Please try again.'));
         return false;
       }
 
       const submit = await elements.submit();
       if (submit?.error) {
-        setError({
-          message:
-            submit.error.message ||
-            _('Can not process payment. Please try again later.'),
-          type: 'PAYMENT_ERROR'
-        });
+        toast.error(
+          submit.error.message ||
+            _('Can not process payment. Please try again later.')
+        );
         return false;
       }
 
@@ -79,7 +70,7 @@ export function CheckoutForm({
         delete (window as any).validateStripePayment;
       }
     };
-  }, [stripe, elements, setError]);
+  }, [stripe, elements]);
 
   useEffect(() => {
     if (orderId && orderPlaced && paymentMethod === 'stripe') {

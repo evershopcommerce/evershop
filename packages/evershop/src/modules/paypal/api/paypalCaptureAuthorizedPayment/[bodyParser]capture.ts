@@ -1,4 +1,8 @@
-import { insert, select } from '@evershop/postgres-query-builder';
+import {
+  getConnection,
+  insert,
+  select
+} from '@evershop/postgres-query-builder';
 import { AxiosError } from 'axios';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
@@ -9,8 +13,14 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { createAxiosInstance } from '../../services/requester.js';
+import { EvershopRequest } from '../../../../types/request.js';
+import { EvershopResponse } from '../../../../types/response.js';
 
-export default async (request, response, next) => {
+export default async (
+  request: EvershopRequest,
+  response: EvershopResponse,
+  next
+) => {
   try {
     const { order_id } = request.body;
     // Validate the order;
@@ -29,6 +39,8 @@ export default async (request, response, next) => {
         }
       });
     } else {
+      // Update payment status
+      const connection = await getConnection(pool);
       // Get the payment transaction
       const transaction = await select()
         .from('payment_transaction')
@@ -50,8 +62,7 @@ export default async (request, response, next) => {
         `/v2/payments/authorizations/${transaction.transaction_id}`
       );
       if (transactionDetails.data.status === 'CAPTURED') {
-        // Update payment status
-        await updatePaymentStatus(order.order_id, 'paid');
+        await updatePaymentStatus(order.order_id, 'paid', connection);
         // Save order activities
         await insert('order_activity')
           .given({
@@ -72,7 +83,7 @@ export default async (request, response, next) => {
         );
         if (responseData.data.status === 'COMPLETED') {
           // Update payment status
-          await updatePaymentStatus(order.order_id, 'paid');
+          await updatePaymentStatus(order.order_id, 'paid', connection);
           // Save order activities
           await insert('order_activity')
             .given({
@@ -101,11 +112,13 @@ export default async (request, response, next) => {
   } catch (err) {
     error(err);
     if (err instanceof AxiosError) {
-      response.status(err.response.status);
+      response.status(
+        err.response?.status ? err.response?.status : INTERNAL_SERVER_ERROR
+      );
       response.json({
         error: {
-          status: err.response.status,
-          message: err.response.data.message
+          status: err.response?.status,
+          message: err.response?.data.message
         }
       });
     } else {
