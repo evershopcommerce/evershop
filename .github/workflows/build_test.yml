@@ -19,4 +19,5 @@ jobs:
       - run: npm install -g npm@9
       - run: npm install
       - run: npm run compile
+      - run: npm run compile:db
       - run: npm run test
