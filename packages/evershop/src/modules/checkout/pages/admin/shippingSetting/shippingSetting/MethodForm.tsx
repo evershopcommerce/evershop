@@ -7,13 +7,14 @@ import { NumberField } from '@components/common/form/NumberField.js';
 import { RadioGroupField } from '@components/common/form/RadioGroupField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
 import { UrlField } from '@components/common/form/UrlField.js';
-import React from 'react';
-import CreatableSelect from 'react-select/creatable';
+import React, { useEffect } from 'react';
+import { ReactSelectCreatableField } from '@components/common/form/ReactSelectCreatableField.js';
 import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 import { ShippingMethod } from './Method.js';
 import { PriceBasedPrice } from './PriceBasedPrice.js';
 import { WeightBasedPrice } from './WeightBasedPrice.js';
+import { useForm } from 'react-hook-form';
 
 const MethodsQuery = `
   query Methods {
@@ -31,8 +32,13 @@ export interface ConditionProps {
 }
 
 function Condition({ method }: ConditionProps) {
-  const { watch } = useFormContext();
-  const type = watch('condition_type');
+  const { watch, setValue } = useFormContext();
+  const type = watch('condition_type', method?.conditionType || 'price');
+
+  useEffect(() => {
+    setValue('condition_type', method?.conditionType || 'price');
+  }, [method]);
+
   return (
     <div>
       <div className="mb-2">
@@ -42,7 +48,7 @@ function Condition({ method }: ConditionProps) {
             { value: 'price', label: 'Based on order price' },
             { value: 'weight', label: 'Based on order weight' }
           ]}
-          defaultValue={method?.conditionType || 'price'}
+          defaultValue={type}
         />
       </div>
       <div className="grid grid-cols-2 gap-5">
@@ -55,7 +61,7 @@ function Condition({ method }: ConditionProps) {
             placeholder={
               type === 'price' ? 'Minimum order price' : 'Minimum order weight'
             }
-            defaultValue={method?.min || 0}
+            defaultValue={method?.min}
             required
             validation={{ required: 'Min is required' }}
             helperText="This is the minimum order price or weight to apply this condition."
@@ -70,7 +76,7 @@ function Condition({ method }: ConditionProps) {
             placeholder={
               type === 'price' ? 'Maximum order price' : 'Maximum order weight'
             }
-            defaultValue={method?.max || 0}
+            defaultValue={method?.max}
             validation={{ required: 'Max is required' }}
             helperText="This is the maximum order price or weight to apply this condition."
           />
@@ -144,15 +150,11 @@ function MethodForm({
   reload,
   method
 }: MethodFormProps) {
+  const form = useForm({
+    shouldUnregister: true
+  });
+  const [shippingMethod, setShippingMethod] = React.useState(method);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [shippingMethod, setMethod] = React.useState(
-    method
-      ? {
-          value: method.methodId,
-          label: method.name
-        }
-      : null
-  );
   const [hasCondition, setHasCondition] = React.useState(
     !!method?.conditionType
   );
@@ -165,7 +167,7 @@ function MethodForm({
 
   const handleCreate = async (inputValue) => {
     setIsLoading(true);
-    await fetch(result.data.createShippingMethodApi, {
+    const response = await fetch(result.data.createShippingMethodApi, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -175,7 +177,12 @@ function MethodForm({
         name: inputValue
       })
     });
-    reexecuteQuery({ requestPolicy: 'network-only' });
+    const data = await response.json();
+    if (response.ok) {
+      form.setValue('method_id', data.data.uuid);
+    } else {
+      toast.error(data.error.message);
+    }
     setIsLoading(false);
   };
 
@@ -188,7 +195,7 @@ function MethodForm({
   }
 
   const currentMethod = result.data.shippingMethods.find(
-    (m) => m.value === shippingMethod?.value
+    (m) => m.value === shippingMethod
   );
 
   return (
@@ -206,17 +213,19 @@ function MethodForm({
           toast.error(response.error.message);
         }
       }}
+      form={form}
     >
       <Card.Session title="Method name">
         {!method ? (
-          <CreatableSelect
+          <ReactSelectCreatableField
+            name="shippingMethod"
             isClearable
             isDisabled={isLoading}
             isLoading={isLoading}
-            onChange={(newValue) => setMethod(newValue)}
             onCreateOption={handleCreate}
             options={result.data.shippingMethods}
-            value={shippingMethod}
+            required
+            validation={{ required: 'Shipping method is required' }}
           />
         ) : (
           <div className="flex gap-2 justify-start items-center">
@@ -261,7 +270,7 @@ function MethodForm({
         <InputField
           type="hidden"
           name="method_id"
-          defaultValue={shippingMethod?.value || ''}
+          defaultValue={method?.uuid || ''}
         />
         <ToggleField
           name="is_enabled"
