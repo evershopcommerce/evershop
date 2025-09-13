@@ -61,7 +61,7 @@ export default async (request, response, next) => {
 
     const method = await select()
       .from('shipping_method')
-      .where('shipping_method_id', '=', method_id)
+      .where('uuid', '=', method_id)
       .load(connection);
 
     if (!method) {

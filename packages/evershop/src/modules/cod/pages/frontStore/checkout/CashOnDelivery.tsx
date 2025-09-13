@@ -20,10 +20,10 @@ export default function CashOnDeliveryMethod({
   const { registerPaymentComponent } = useCheckoutDispatch();
 
   useEffect(() => {
-    // if (orderPlaced && checkoutData.paymentMethod === 'cod') {
-    //   // Redirect to the checkout success page
-    //   window.location.href = `${checkoutSuccessUrl}/${orderId}`;
-    // }
+    if (orderPlaced && checkoutData.paymentMethod === 'cod') {
+      // Redirect to the checkout success page
+      window.location.href = `${checkoutSuccessUrl}/${orderId}`;
+    }
   }, [orderPlaced, checkoutSuccessUrl, orderId]);
 
   useEffect(() => {

@@ -1,13 +1,13 @@
 import { Card } from '@components/admin/Card.js';
 import Spinner from '@components/admin/Spinner.js';
 import Button from '@components/common/Button.js';
-import { Form, useFormContext } from '@components/common/form/Form.js';
+import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
 import React from 'react';
-import Select from 'react-select';
 import { useQuery } from 'urql';
 import { ShippingZone } from './Zone.js';
+import { useForm } from 'react-hook-form';
 
 export interface ZoneFormProps {
   formMethod?: 'POST' | 'PATCH';
@@ -37,8 +37,8 @@ function ZoneForm({
   reload,
   zone
 }: ZoneFormProps) {
-  const { watch } = useFormContext();
-  const countryWatch = watch('country');
+  const form = useForm();
+  const countryWatch = form.watch('country', zone?.country?.code);
   const [{ data, fetching, error }] = useQuery({
     query: CountriesQuery
   });
@@ -58,6 +58,7 @@ function ZoneForm({
           await reload();
           onSuccess();
         }}
+        form={form}
       >
         <Card.Session title="Zone name">
           <InputField
@@ -79,7 +80,7 @@ function ZoneForm({
           />
         </Card.Session>
         <Card.Session title="Provinces/States">
-          <Select
+          <ReactSelectField
             name="provinces"
             options={
               data.countries.find((c) => c.value === countryWatch)?.provinces ||
@@ -87,7 +88,9 @@ function ZoneForm({
             }
             hideSelectedOptions
             isMulti
-            defaultValue={zone?.provinces || []}
+            defaultValue={(zone?.provinces || []).map(
+              (province) => province.code
+            )}
           />
         </Card.Session>
         <Card.Session>

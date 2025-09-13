@@ -635,10 +635,12 @@ export function registerCartBaseFields(fields) {
     {
       key: 'payment_method_name',
       resolvers: [
-        async function resolver(methodName) {
+        async function resolver() {
           const methods = await getAvailablePaymentMethods();
-          const method = methods.find((m) => m.code === methodName);
-          return method ? method.name : methodName;
+          const method = methods.find(
+            (m) => m.code === this.getData('payment_method')
+          );
+          return method ? method.name : this.getData('payment_method');
         }
       ],
       dependencies: ['payment_method']

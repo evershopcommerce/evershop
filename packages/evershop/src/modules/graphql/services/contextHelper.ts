@@ -5,7 +5,7 @@ import { EvershopRequest } from '../../../types/request.js';
 export function getContextValue<T>(
   request: EvershopRequest,
   key: string,
-  defaultValue: T,
+  defaultValue?: T,
   toString: boolean = false
 ): T {
   // We check if the request have it, if not we try to get it from the app

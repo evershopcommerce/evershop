@@ -9,7 +9,6 @@ import {
   AddToCartActions,
   AddToCartState
 } from '@components/frontStore/AddToCart.js';
-import { produce } from 'immer';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -100,9 +99,6 @@ interface ProductFormProps {
 }
 export default function ProductForm({ product }: ProductFormProps) {
   const [toastId, setToastId] = useState();
-  const [error, setError] = useState();
-  const appContext = useAppState();
-  const { setData } = useAppDispatch();
   const form = useForm();
   const qty = form.watch('qty');
 

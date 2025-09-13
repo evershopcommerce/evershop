@@ -5,8 +5,14 @@ import { pool } from '../../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { getContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../../setting/services/setting.js';
+import { EvershopRequest } from '../../../../../types/request.js';
+import { EvershopResponse } from '../../../../../types/response.js';
 
-export default async (request, response, next) => {
+export default async (
+  request: EvershopRequest,
+  response: EvershopResponse,
+  next
+) => {
   // Get paypal token from query string
   const paypalToken = request.query.token;
   if (paypalToken) {

@@ -1,15 +1,25 @@
-import { Card } from '@components/admin/Card';
-import Button from '@components/common/Button';
-import RenderIfTrue from '@components/common/RenderIfTrue';
+import { Card } from '@components/admin/Card.js';
+import Button from '@components/common/Button.js';
+import RenderIfTrue from '@components/common/RenderIfTrue.js';
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
+
+interface Props {
+  captureAPI: string;
+  order: {
+    paymentStatus: {
+      code: string;
+    };
+    uuid: string;
+    paymentMethod: string;
+  };
+}
 
 export default function PaypalCaptureButton({
   captureAPI,
   order: { paymentStatus, uuid, paymentMethod }
-}) {
+}: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const onAction = async () => {
@@ -44,17 +54,6 @@ export default function PaypalCaptureButton({
     </RenderIfTrue>
   );
 }
-
-PaypalCaptureButton.propTypes = {
-  captureAPI: PropTypes.string.isRequired,
-  order: PropTypes.shape({
-    paymentStatus: PropTypes.shape({
-      code: PropTypes.string.isRequired
-    }).isRequired,
-    uuid: PropTypes.string.isRequired,
-    paymentMethod: PropTypes.string.isRequired
-  }).isRequired
-};
 
 export const layout = {
   areaId: 'orderPaymentActions',

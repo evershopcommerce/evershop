@@ -106,13 +106,14 @@ async function addOrderStatusChangeEvents(
 export async function changeOrderStatus(
   orderId: number,
   status: string,
-  conn: PoolClient
+  conn?: PoolClient
 ) {
   const statusFlow = getOrderStatusFlow();
+  const connection = conn || (await getConnection(pool));
   const order = await select()
     .from('order')
     .where('order_id', '=', orderId)
-    .load(conn, false);
+    .load(connection, false);
   if (!order) {
     throw new Error('Order not found');
   }
@@ -120,7 +121,7 @@ export async function changeOrderStatus(
   if (statusFlow.indexOf(order.status) > statusFlow.indexOf(status)) {
     throw new Error('Can not revert the status of the order');
   }
-  const connection = conn || (await getConnection(pool));
+
   try {
     if (!conn) {
       await startTransaction(connection);

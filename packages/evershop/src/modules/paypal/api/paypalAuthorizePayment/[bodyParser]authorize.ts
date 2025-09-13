@@ -1,4 +1,8 @@
-import { insert, select } from '@evershop/postgres-query-builder';
+import {
+  getConnection,
+  insert,
+  select
+} from '@evershop/postgres-query-builder';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import {
@@ -8,14 +12,22 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { createAxiosInstance } from '../../services/requester.js';
+import { EvershopRequest } from '../../../../types/request.js';
+import { EvershopResponse } from '../../../../types/response.js';
 
-export default async (request, response, next) => {
+export default async (
+  request: EvershopRequest,
+  response: EvershopResponse,
+  next
+) => {
   try {
     const { order_id } = request.body;
     // Validate the order;
     const order = await select()
       .from('order')
       .where('uuid', '=', order_id)
+      .and('payment_method', '=', 'paypal')
+      .and('payment_status', '=', 'pending')
       .load(pool);
 
     if (!order) {
@@ -23,34 +35,34 @@ export default async (request, response, next) => {
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: 'Invalid order id'
+          message: 'Invalid order'
         }
       });
     } else {
       // Call API to authorize the paypal order using axios
       const axiosInstance = await createAxiosInstance(request);
       const responseData = await axiosInstance.post(
-        `/v2/checkout/orders/${order.integration_order_id}/capture`
+        `/v2/checkout/orders/${order.integration_order_id}/authorize`
       );
 
       if (responseData.data.status === 'COMPLETED') {
-        // Update payment status
-        await updatePaymentStatus(order.order_id, 'paid');
+        await updatePaymentStatus(order.order_id, 'authorized');
         // Add transaction data to database
         await insert('payment_transaction')
           .given({
             payment_transaction_order_id: order.order_id,
             transaction_id:
-              responseData.data.purchase_units[0].payments.captures[0].id,
+              responseData.data.purchase_units[0].payments.authorizations[0].id,
             amount:
-              responseData.data.purchase_units[0].payments.captures[0].amount
-                .value,
+              responseData.data.purchase_units[0].payments.authorizations[0]
+                .amount.value,
             currency:
-              responseData.data.purchase_units[0].payments.captures[0].amount
-                .currency_code,
+              responseData.data.purchase_units[0].payments.authorizations[0]
+                .amount.currency_code,
             status:
-              responseData.data.purchase_units[0].payments.captures[0].status,
-            payment_action: 'capture',
+              responseData.data.purchase_units[0].payments.authorizations[0]
+                .status,
+            payment_action: 'authorize',
             transaction_type: 'online',
             additional_information: JSON.stringify(responseData.data)
           })
@@ -60,7 +72,7 @@ export default async (request, response, next) => {
         await insert('order_activity')
           .given({
             order_activity_order_id: order.order_id,
-            comment: `Customer paid using PayPal. Transaction ID: ${responseData.data.purchase_units[0].payments.captures[0].id}`,
+            comment: `Customer authorized the payment using PayPal. Transaction ID: ${responseData.data.purchase_units[0].payments.authorizations[0].id}`,
             customer_notified: 0
           })
           .execute(pool);
@@ -85,7 +97,7 @@ export default async (request, response, next) => {
     response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,
-        message: 'Internal server error'
+        message: err.message
       }
     });
   }

@@ -222,6 +222,7 @@
   },
   "devDependencies": {
     "@parcel/watcher": "^2.5.1",
+    "@paypal/paypal-js": "^8.4.2",
     "@types/config": "^3.3.5",
     "@types/express": "^5.0.1",
     "@types/express-session": "^1.18.2",
