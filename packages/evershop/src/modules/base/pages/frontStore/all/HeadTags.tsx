@@ -1,3 +1,4 @@
+import { Og } from '@components/frontStore/Og.js';
 import React, {
   LinkHTMLAttributes,
   MetaHTMLAttributes,
@@ -8,6 +9,22 @@ interface HeadTagsProps {
   pageInfo: {
     title: string;
     description: string;
+    keywords: string[];
+    canonicalUrl: string;
+    robots: string;
+    ogInfo: {
+      locale: string;
+      title: string;
+      description: string;
+      image: string;
+      url: string;
+      type: 'website' | 'article' | 'product' | string;
+      siteName: string;
+      twitterCard: 'summary' | 'summary_large_image' | 'app' | 'player';
+      twitterSite: string;
+      twitterCreator: string;
+      twitterImage: string;
+    };
   };
   themeConfig: {
     headTags: {
@@ -22,7 +39,7 @@ interface HeadTagsProps {
   };
 }
 export default function HeadTags({
-  pageInfo: { title, description },
+  pageInfo: { title, description, keywords, canonicalUrl, robots, ogInfo },
   themeConfig: {
     headTags: { metas, links, scripts, base }
   }
@@ -55,6 +72,19 @@ export default function HeadTags({
         <script key={index} {...script} />
       ))}
       {base && <base {...base} />}
+      <Og
+        type={ogInfo.type}
+        title={title}
+        description={description}
+        url={ogInfo.url}
+        siteName={ogInfo.siteName}
+        image={ogInfo.image}
+        locale={ogInfo.locale}
+        twitterCard={ogInfo.twitterCard}
+        twitterSite={ogInfo.twitterSite}
+        twitterCreator={ogInfo.twitterCreator}
+        twitterImage={ogInfo.twitterImage}
+      />
     </>
   );
 }
@@ -69,6 +99,22 @@ export const query = `
     pageInfo {
       title
       description
+      keywords
+      canonicalUrl
+      robots
+      ogInfo {
+        locale
+        title
+        description
+        image
+        url
+        type
+        siteName
+        twitterCard
+        twitterSite
+        twitterCreator
+        twitterImage
+      }
     }
     themeConfig {
       headTags {

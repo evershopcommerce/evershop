@@ -1,17 +1,16 @@
 import React from 'react';
-
 import './General.scss';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export default function SearchInfo() {
-  const [key, setKey] = React.useState('');
+  const [key, setKey] = React.useState<string>('');
 
   React.useEffect(() => {
     // Get the key from the URL
     const url = new URL(window.location.href);
     const keyParam = url.searchParams.get('keyword');
-    setKey(keyParam);
-  });
+    setKey(keyParam || '');
+  }, []);
 
   return (
     <div className="page-width">

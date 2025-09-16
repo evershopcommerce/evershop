@@ -1,8 +1,8 @@
 import React from 'react';
-import Sorting from '../../../components/product/list/Sorting.js';
+import { ProductSorting } from '@components/frontStore/ProductSorting.js';
 
 export default function SortingWrapper() {
-  return <Sorting />;
+  return <ProductSorting />;
 }
 
 export const layout = {

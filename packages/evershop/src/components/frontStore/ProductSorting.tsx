@@ -1,13 +1,13 @@
 import { useAppDispatch } from '@components/common/context/app.js';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/_.js';
+import { _ } from '../../lib/locale/translate/_.js';
 
 const options = [
   { code: 'price', name: _('Price') },
   { code: 'name', name: _('Name') }
 ];
 
-export default function Sorting() {
+export function ProductSorting() {
   const AppContextDispatch = useAppDispatch();
   const [sortBy, setSortBy] = React.useState(() => {
     // Check if this is browser or server

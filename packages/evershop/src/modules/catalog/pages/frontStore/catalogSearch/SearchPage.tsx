@@ -1,4 +1,4 @@
-import Area from '@components/common/Area';
+import Area from '@components/common/Area.js';
 import React from 'react';
 
 export default function SearchPage() {

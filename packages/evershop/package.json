@@ -194,6 +194,7 @@
     "react-dom": "^17.0.1",
     "react-fast-compare": "^3.2.0",
     "react-hook-form": "^7.61.1",
+    "react-range-slider-input": "^3.2.1",
     "react-refresh": "^0.14.0",
     "react-select": "^5.4.0",
     "react-toastify": "^6.2.0",

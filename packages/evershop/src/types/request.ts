@@ -36,6 +36,7 @@ export interface EvershopRequest extends ExpressRequest {
     user: CurrentUser | null;
     customer: CurrentCustomer | null;
     context: Record<string, any>;
+    webpackMatchedRoute: Route | null;
   };
   loginCustomerWithEmail: (
     email: string,

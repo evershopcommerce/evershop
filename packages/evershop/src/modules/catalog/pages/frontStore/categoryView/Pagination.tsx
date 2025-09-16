@@ -1,5 +1,8 @@
 import React from 'react';
-import { Pagination } from '../../../components/product/list/Pagination.js';
+import {
+  Pagination,
+  DefaultPaginationRenderer
+} from '@components/frontStore/Pagination.js';
 
 interface PaginationWrapperProps {
   products: {
@@ -25,13 +28,16 @@ export default function PaginationWrapper({
   }
   const page = currentFilters.find((filter) => filter.key === 'page');
   const limit = currentFilters.find((filter) => filter.key === 'limit');
-
   return (
     <Pagination
       total={total}
-      limit={parseInt(limit?.value || '20', 10)}
+      limit={limit ? parseInt(limit.value, 10) : 20}
       currentPage={parseInt(page?.value || '1', 10)}
-    />
+    >
+      {(paginationProps) => (
+        <DefaultPaginationRenderer renderProps={paginationProps} />
+      )}
+    </Pagination>
   );
 }
 
@@ -41,10 +47,10 @@ export const layout = {
 };
 
 export const query = `
-  query Query($filters: [FilterInput]) {
-    products: category(id: getContextValue('categoryId')) {
+  query Query {
+    products: currentCategory {
       showProducts
-      products(filters: $filters) {
+      products {
         total
         currentFilters {
           key
@@ -54,8 +60,3 @@ export const query = `
       }
     }
   }`;
-
-export const variables = `
-{
-  filters: getContextValue('filtersFromUrl')
-}`;

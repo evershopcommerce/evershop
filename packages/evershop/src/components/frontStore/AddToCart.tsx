@@ -5,13 +5,11 @@ import {
 import React, { useState, useCallback } from 'react';
 import { _ } from '../../lib/locale/translate/_.js';
 
-// Product information required for adding to cart
 export interface ProductInfo {
   sku: string;
   isInStock: boolean;
 }
 
-// State information passed to the render function
 export interface AddToCartState {
   isLoading: boolean;
   error: string | null;
@@ -19,16 +17,14 @@ export interface AddToCartState {
   isInStock: boolean;
 }
 
-// Actions available to the render function
 export interface AddToCartActions {
   addToCart: () => Promise<void>;
   clearError: () => void;
 }
 
-// Props for the AddToCart component
 export interface AddToCartProps {
   product: ProductInfo;
-  qty: number; // The quantity to be added to cart
+  qty: number; // Quantity to add to cart
   onSuccess?: (quantity: number) => void;
   onError?: (error: string) => void;
   children: (
@@ -46,22 +42,16 @@ export const AddToCart: React.FC<AddToCartProps> = ({
 }) => {
   const cartDispatch = useCartDispatch();
   const cartState = useCartState();
-
   const [localError, setLocalError] = useState<string | null>(null);
+  const canAddToCart = product.isInStock && qty > 0 && !!cartState.data;
 
-  // Check if we can add to cart
-  const canAddToCart = product.isInStock && qty > 0 && !!cartState.data; // Cart must be initialized
-
-  // Determine if we're currently loading
   const isLoading = cartState.loading;
 
-  // Clear error function
   const clearError = useCallback(() => {
     setLocalError(null);
     cartDispatch.clearError();
   }, [cartDispatch]);
 
-  // Add to cart function
   const addToCart = useCallback(async () => {
     if (!canAddToCart) {
       const errorMsg = !product.isInStock
@@ -102,7 +92,6 @@ export const AddToCart: React.FC<AddToCartProps> = ({
     onError
   ]);
 
-  // Prepare state and actions for render prop
   const state: AddToCartState = {
     isLoading,
     error: localError || cartState.data?.error || null,

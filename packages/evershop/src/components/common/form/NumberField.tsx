@@ -54,10 +54,21 @@ export function NumberField({
   const fieldId = `field-${name}`;
 
   const validationRules: RegisterOptions = {
-    valueAsNumber: true
+    setValueAs: (value) => {
+      // Handle empty or null values
+      if (value === '' || value === null || value === undefined) {
+        return null;
+      }
+
+      // Convert string to number
+      const numValue = allowDecimals ? parseFloat(value) : parseInt(value, 10);
+
+      // Return null if conversion resulted in NaN
+      return isNaN(numValue) ? null : numValue;
+    }
   };
 
-  if (defaultValue !== undefined) {
+  if (defaultValue !== undefined && !isNaN(defaultValue)) {
     validationRules.value = defaultValue;
   }
 

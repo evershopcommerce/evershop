@@ -2,26 +2,49 @@ import { execute, select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
-import { CategoryCollection } from '../../../../../modules/catalog/services/CategoryCollection.js';
-import { getCategoriesBaseQuery } from '../../../../../modules/catalog/services/getCategoriesBaseQuery.js';
-import { getFilterableAttributes } from '../../../../../modules/catalog/services/getFilterableAttributes.js';
-import { getProductsByCategoryBaseQuery } from '../../../../../modules/catalog/services/getProductsByCategoryBaseQuery.js';
-import { ProductCollection } from '../../../../../modules/catalog/services/ProductCollection.js';
+import { CategoryCollection } from '../../../services/CategoryCollection.js';
+import { getCategoriesBaseQuery } from '../../../services/getCategoriesBaseQuery.js';
+import { getFilterableAttributes } from '../../../services/getFilterableAttributes.js';
+import { getProductsByCategoryBaseQuery } from '../../../services/getProductsByCategoryBaseQuery.js';
+import { ProductCollection } from '../../../services/ProductCollection.js';
+import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
 
 export default {
   Query: {
     category: async (_, { id }, { pool }) => {
-      const query = select().from('category');
-      query
-        .leftJoin('category_description')
-        .on(
-          'category_description.category_description_category_id',
-          '=',
-          'category.category_id'
-        );
-      query.where('category_id', '=', id);
+      const query = getCategoriesBaseQuery();
+      query.where('category.category_id', '=', id);
       const result = await query.load(pool);
       return result ? camelCase(result) : null;
+    },
+    currentCategory: async (_, args, { currentUrl, currentRoute, pool }) => {
+      if (currentRoute.id !== 'categoryView') {
+        return null;
+      }
+      const { params } = currentRoute;
+      if (!params || !params.uuid) {
+        return null;
+      }
+      const query = getCategoriesBaseQuery();
+      query.where('uuid', '=', params.uuid);
+      const filtersFromUrl = buildFilterFromUrl(currentUrl);
+      const result = await query.load(pool);
+      return result
+        ? {
+            ...camelCase(result),
+            products: async (_, { filters = [] }) => {
+              const query = await getProductsByCategoryBaseQuery(
+                result.category_id,
+                true
+              );
+              const root = new ProductCollection(query);
+              // Can we merge 2 filters here and the filters take higher priority. Each is an array [{key, operation, value}]
+              const mergedFilters = [...filtersFromUrl, ...filters];
+              await root.init(mergedFilters, false);
+              return root;
+            }
+          }
+        : null;
     },
     categories: async (_, { filters = [] }, { user }) => {
       const query = getCategoriesBaseQuery();
@@ -32,6 +55,10 @@ export default {
   },
   Category: {
     products: async (category, { filters = [] }, { user }) => {
+      // This is a hack for mycategory
+      if (typeof category.products === 'function') {
+        return await category.products(category, { filters });
+      }
       const query = await getProductsByCategoryBaseQuery(
         category.categoryId,
         !user

@@ -1,6 +1,6 @@
 import { Card } from '@components/admin/Card.js';
-import Spinner from '@components/admin/Spinner';
-import { SimplePagination } from '@components/common/SimplePagination';
+import Spinner from '@components/admin/Spinner.js';
+import { SimplePagination } from '@components/common/SimplePagination.js';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -21,11 +21,17 @@ const SearchQuery = `
   }
 `;
 
+interface CollectionProductsSettingProps {
+  collectionProductsWidget: {
+    collection: string;
+    count: number;
+  };
+}
 function CollectionProductsSetting({
-  collectionProductsWidget: { collection, count }
-}) {
+  collectionProductsWidget: { collection, count = 5 }
+}: CollectionProductsSettingProps) {
   const limit = 10;
-  const [inputValue, setInputValue] = React.useState(null);
+  const [inputValue, setInputValue] = React.useState<string | null>(null);
   const [selectedCollection, setSelectedCollection] =
     React.useState(collection);
   const [page, setPage] = React.useState(1);
@@ -83,7 +89,7 @@ function CollectionProductsSetting({
           <div className="border rounded border-divider mb-5">
             <input
               type="text"
-              value={inputValue}
+              value={inputValue || ''}
               placeholder="Search collections"
               onChange={(e) => setInputValue(e.target.value)}
             />
@@ -175,20 +181,6 @@ function CollectionProductsSetting({
     </div>
   );
 }
-
-CollectionProductsSetting.propTypes = {
-  collectionProductsWidget: PropTypes.shape({
-    collection: PropTypes.string,
-    count: PropTypes.number
-  })
-};
-
-CollectionProductsSetting.defaultProps = {
-  collectionProductsWidget: {
-    collection: '',
-    count: 5
-  }
-};
 
 export default CollectionProductsSetting;
 

@@ -1,14 +1,18 @@
 import { select } from '@evershop/postgres-query-builder';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { get } from '../../../../../lib/util/get.js';
+import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { OgInfo } from '../../../../../types/pageMeta.js';
+import { getValueSync } from '../../../../../lib/util/registry.js';
+import { normalizePort } from '../../../../../bin/lib/normalizePort.js';
 
 export default {
   Query: {
     pageInfo: (root, args, context) => ({
       url: get(context, 'currentUrl'),
-      title: get(context, 'pageInfo.title', ''),
+      title: get(context, 'pageInfo.title', getConfig('shop.name', 'Evershop')),
       description: get(context, 'pageInfo.description', ''),
-      keywords: get(context, 'pageInfo.keywords', '')
+      keywords: get(context, 'pageInfo.keywords', [])
     })
   },
   PageInfo: {
@@ -83,6 +87,52 @@ export default {
 
         return breadcrumbs;
       }
+    },
+    ogInfo: (root, args, context): OgInfo => {
+      let logo = getConfig<string>('themeConfig.logo.src');
+      const port = normalizePort();
+      const baseUrl = getConfig('shop.homeUrl', `http://localhost:${port}`);
+      // Check if logo is a full URL
+      // If logo is not set, use default /images/logo.png
+      if (logo && !logo.startsWith('http')) {
+        // If logo is a relative path, convert to absolute URL
+        logo = `${baseUrl}${logo}`;
+      }
+      let image = get(
+        context,
+        'pageInfo.ogInfo.image',
+        logo ? `${baseUrl}/images?src=${logo}&w=1200&q=80&h=675&f=png` : ''
+      );
+
+      return getValueSync<OgInfo>(
+        'ogInfo',
+        {
+          title: get(context, 'pageInfo.ogTitle', root.title),
+          description: get(
+            context,
+            'pageInfo.ogInfo.description',
+            root.description
+          ),
+          image: image ? image : root.image,
+          url: get(context, 'pageInfo.ogInfo.url', root.url),
+          siteName: get(context, 'pageInfo.ogInfo.siteName', root.siteName),
+          type: get(context, 'pageInfo.ogInfo.type', 'website'),
+          locale: get(context, 'pageInfo.ogInfo.locale', root.locale),
+          twitterCard: get(context, 'pageInfo.ogInfo.twitterCard', 'summary'),
+          twitterSite: get(
+            context,
+            'pageInfo.ogInfo.twitterSite',
+            getConfig('shop.name', 'Evershop')
+          ),
+          twitterCreator: get(
+            context,
+            'pageInfo.ogInfo.twitterCreator',
+            getConfig('shop.name', 'Evershop')
+          ),
+          twitterImage: get(context, 'pageInfo.ogInfo.twitterImage', image)
+        },
+        context
+      );
     }
   }
 };

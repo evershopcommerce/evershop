@@ -6,5 +6,9 @@ export default (request, response) => {
     title: 'Products',
     description: 'Products'
   });
-  setContextValue(request, 'filtersFromUrl', buildFilterFromUrl(request));
+  setContextValue(
+    request,
+    'filtersFromUrl',
+    buildFilterFromUrl(request.originalUrl)
+  );
 };

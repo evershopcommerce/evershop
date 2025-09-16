@@ -46,7 +46,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    category(id: getContextValue('categoryId')) {
+    category: currentCategory {
       name
       description
       image {
