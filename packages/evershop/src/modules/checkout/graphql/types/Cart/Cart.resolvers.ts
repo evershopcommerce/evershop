@@ -5,6 +5,8 @@ import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { getFrontStoreSessionCookieName } from '../../../../auth/services/getFrontStoreSessionCookieName.js';
 import { getMyCart } from '../../../../checkout/services/getMyCart.js';
 import { getCartByUUID } from '../../../services/getCartByUUID.js';
+import { normalizePort } from '../../../../../bin/lib/normalizePort.js';
+import { getConfig } from '../../../../../lib/util/getConfig.js';
 
 export default {
   Query: {
@@ -71,6 +73,12 @@ export default {
     checkoutApi: (cart) => buildUrl('cartCheckout', { cart_id: cart.uuid })
   },
   CartItem: {
+    thumbnail: ({ thumbnail }) => {
+      const port = normalizePort();
+      const baseUrl = getConfig('shop.homeUrl', `http://localhost:${port}`);
+      const thumbnailUrl = `${baseUrl}${thumbnail}`;
+      return thumbnail ? thumbnailUrl : null;
+    },
     total: ({ lineTotalInclTax }) =>
       // This field is deprecated, use lineTotalInclTax instead
       lineTotalInclTax,

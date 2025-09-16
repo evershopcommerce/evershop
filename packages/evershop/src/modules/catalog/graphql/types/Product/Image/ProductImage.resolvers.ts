@@ -1,17 +1,21 @@
 import { select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
+import { getConfig } from '../../../../../../lib/util/getConfig.js';
+import { normalizePort } from '../../../../../../bin/lib/normalizePort.js';
 
 export default {
   Product: {
     image: async (product) => {
-      const mainImage = product.originImage;
+      const port = normalizePort();
+      const baseUrl = getConfig('shop.homeUrl', `http://localhost:${port}`);
+      const mainImage = `${baseUrl}${product.originImage}`;
       return mainImage
         ? {
-            thumb: product.thumbImage || null,
-            single: product.singleImage || null,
-            listing: product.listingImage || null,
             alt: product.name,
-            url: mainImage,
+            url:
+              product.originImage && product.originImage.startsWith('http')
+                ? product.originImage
+                : mainImage,
             uuid: uuidv4(),
             origin: mainImage
           }

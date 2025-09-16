@@ -35,9 +35,11 @@ const Quote: React.FC<{ data: { text: string; caption?: string } }> = ({
   );
 };
 
+import { Image as ResponsiveImage } from '../frontStore/Image.js';
+
 const Image: React.FC<{
   data: {
-    file: { url: string };
+    file: { url: string; width?: number; height?: number };
     caption?: string;
     withBorder?: boolean;
     withBackground?: boolean;
@@ -56,12 +58,31 @@ const Image: React.FC<{
     margin: '0 auto'
   };
 
+  // Determine image dimensions
+  // Use original dimensions if available, or reasonable defaults
+  const imageWidth = file.width || 800;
+  const imageHeight =
+    file.height || (file.width ? Math.round(file.width * 0.75) : 600);
+
+  // Set responsive sizes attribute based on the editor's column layouts
+  // Account for different column configurations: full-width, 50-50, 30-70, 40-60, 1/3-1/3-1/3, 1/4-1/2-1/4
+  const responsiveSizes = stretched
+    ? '100vw' // Full width when stretched
+    : '(max-width: 640px) 100vw, (max-width: 768px) 80vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw'; // Responsive breakpoints for various column widths
+
   const imageElement = (
-    <img src={file.url} alt={caption || 'Image'} style={imageStyles} />
+    <ResponsiveImage
+      src={file.url}
+      alt={caption || 'Image'}
+      width={imageWidth}
+      height={imageHeight}
+      sizes={responsiveSizes}
+      style={{ ...imageStyles }}
+    />
   );
 
   return (
-    <div>
+    <div className="editor-image-container">
       {url ? (
         <a href={url} target="_blank" rel="noopener noreferrer">
           {imageElement}

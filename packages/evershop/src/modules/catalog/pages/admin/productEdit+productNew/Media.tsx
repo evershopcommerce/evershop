@@ -1,17 +1,17 @@
 import { Card } from '@components/admin/Card.js';
-import { ImageUploader } from '@components/admin/ImageUploader.js';
+import { Image, ImageUploader } from '@components/admin/ImageUploader.js';
 import React, { useEffect, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 interface MediaProps {
   product?: {
     image?: {
-      id: string;
+      uuid: string;
       path: string;
       url: string;
     };
     gallery?: {
-      id: string;
+      uuid: string;
       path: string;
       url: string;
     }[];
@@ -22,7 +22,7 @@ export default function Media({ product }: MediaProps) {
   const { fields, append, remove, replace } = useFieldArray({
     name: 'images',
     control
-  });
+  }) as ReturnType<typeof useFieldArray>;
   useEffect(() => {
     const images = product?.image
       ? [product.image].concat(product?.gallery || [])
@@ -39,7 +39,7 @@ export default function Media({ product }: MediaProps) {
           allowDelete={true}
           allowSwap={true}
           onDelete={(image) => {
-            const index = fields.findIndex((img) => img.id === image.id);
+            const index = fields.findIndex((img) => img.uuid === image.uuid);
             if (index !== -1) {
               remove(index);
             }
@@ -71,12 +71,12 @@ export const query = `
   query Query {
     product(id: getContextValue("productId", null)) {
       image {
-        id: uuid
+        uuid
         path
         url
       }
       gallery {
-        id: uuid
+        uuid
         path
         url
       }

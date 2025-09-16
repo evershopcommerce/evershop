@@ -1,4 +1,5 @@
 import React from 'react';
+import { Image } from '@components/frontStore/Image.js';
 
 export interface ThumbnailProps {
   src?: string;
@@ -12,7 +13,15 @@ export function Thumbnail({ src, name }: ThumbnailProps) {
         className="grid-thumbnail text-border border border-divider p-2 rounded flex justify-center"
         style={{ width: '4rem', height: '4rem' }}
       >
-        {src && <img className="self-center" src={src} alt={name} />}
+        {src && (
+          <Image
+            className="self-center"
+            src={src}
+            alt={name || ''}
+            width={100}
+            height={100}
+          />
+        )}
         {!src && (
           <svg
             className="self-center"

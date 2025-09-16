@@ -24,7 +24,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 
 export interface Image {
-  id: string;
+  uuid: string;
   url: string;
   path?: string;
 }
@@ -127,6 +127,16 @@ const Image: React.FC<{
   isSingleMode?: boolean;
 }> = ({ image, allowDelete, onDelete, isFirst, isSingleMode }) => {
   const [deleting, setDeleting] = React.useState(false);
+  // Use ref to track if component is mounted
+  const isMounted = React.useRef(true);
+
+  // Set up effect for cleanup
+  React.useEffect(() => {
+    return () => {
+      // When component unmounts, set ref to false
+      isMounted.current = false;
+    };
+  }, []);
 
   // Assign classes based on mode
   const classes = isSingleMode
@@ -134,7 +144,7 @@ const Image: React.FC<{
     : `image grid-item ${isFirst ? 'first-item' : ''}`;
 
   return (
-    <div className={classes} id={image.id}>
+    <div className={classes} id={image.uuid}>
       <div className="img">
         <img src={image.url} alt="" />
       </div>
@@ -148,7 +158,10 @@ const Image: React.FC<{
           onClick={async () => {
             setDeleting(true);
             await onDelete(image);
-            setDeleting(false);
+            // Only update state if component is still mounted
+            if (isMounted.current) {
+              setDeleting(false);
+            }
           }}
           onKeyDown={() => {}}
         >
@@ -188,7 +201,7 @@ const SortableImage: React.FC<{
 }> = (props) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
-      id: props.image.id
+      id: props.image.uuid
     });
 
   const style = {
@@ -259,8 +272,8 @@ const Images: React.FC<ImagesProps> = ({
     const { active, over } = event;
 
     if (active.id !== over?.id && onSortEnd && currentImages) {
-      const oldIndex = currentImages.findIndex((img) => img.id === active.id);
-      const newIndex = currentImages.findIndex((img) => img.id === over?.id);
+      const oldIndex = currentImages.findIndex((img) => img.uuid === active.id);
+      const newIndex = currentImages.findIndex((img) => img.uuid === over?.id);
 
       if (oldIndex !== -1 && newIndex !== -1) {
         onSortEnd(oldIndex, newIndex);
@@ -275,7 +288,7 @@ const Images: React.FC<ImagesProps> = ({
       <div className={`single-image-container ${!hasImage ? 'no-image' : ''}`}>
         {hasImage ? (
           <Image
-            key={currentImages[0].id}
+            key={currentImages[0].uuid}
             image={currentImages[0]}
             onDelete={onDelete}
             allowDelete={allowDelete}
@@ -297,10 +310,10 @@ const Images: React.FC<ImagesProps> = ({
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <SortableContext items={currentImages.map((img) => img.id)}>
+        <SortableContext items={currentImages.map((img) => img.uuid)}>
           {currentImages.map((image, index) => (
             <SortableImage
-              key={image.id}
+              key={image.uuid}
               image={image}
               onDelete={onDelete}
               allowDelete={allowDelete}
@@ -322,7 +335,7 @@ const Images: React.FC<ImagesProps> = ({
     <>
       {(currentImages || []).map((image, index) => (
         <Image
-          key={image.id}
+          key={image.uuid}
           image={image}
           onDelete={onDelete}
           allowDelete={allowDelete}
@@ -350,7 +363,7 @@ export function ImageUploader({
 }: ImageUploaderProps) {
   const [images, setImages] = React.useState<Image[]>(
     currentImages.map((image) => ({
-      id: image.id || uniqid(),
+      uuid: image.uuid,
       url: image.url,
       path: image.path
     }))
@@ -374,15 +387,15 @@ export function ImageUploader({
     }
   };
 
-  const removeImage = (imageId) => {
-    setImages(images.filter((i) => i.id !== imageId));
+  const removeImage = (imageUuid) => {
+    setImages(images.filter((i) => i.uuid !== imageUuid));
   };
 
   const onDeleteFn = async (image: Image) => {
     if (onDelete) {
       await onDelete(image);
     }
-    removeImage(image.id);
+    removeImage(image.uuid);
   };
 
   const onUploadFn = async (imageArray: Image[]) => {
