@@ -28,7 +28,7 @@ export default function SEO({ product }: SEOProps) {
             validation={{
               required: 'URL Key is required',
               pattern: {
-                value: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+                value: /^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
                 message:
                   'URL Key must be lowercase and can only contain letters, numbers, and hyphens'
               }

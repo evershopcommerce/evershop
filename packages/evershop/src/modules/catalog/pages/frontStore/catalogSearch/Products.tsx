@@ -1,16 +1,16 @@
 import React from 'react';
 import { _ } from '../../../../../lib/locale/translate/_.js';
-import ProductList, { Product } from '../../../components/product/list/List.js';
+import { ProductList } from '@components/frontStore/ProductList.js';
 
 interface ProductsProps {
   products: {
-    items: Array<Product>;
+    items: Array<React.ComponentProps<typeof ProductList>['products'][0]>;
   };
 }
 export default function Products({ products: { items } }: ProductsProps) {
   return (
     <div>
-      <ProductList products={items} countPerRow={4} />
+      <ProductList products={items} gridColumns={3} />
       <span className="product-count italic block mt-5">
         {_('${count} products', { count: items.length.toString() })}
       </span>
@@ -47,9 +47,12 @@ export const fragments = `
         text
       }
     }
+    inventory {
+      isInStock
+    }
     image {
       alt
-      url: listing
+      url
     }
     url
   }

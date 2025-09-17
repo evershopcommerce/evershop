@@ -38,4 +38,9 @@ export default (request, response) => {
   setContextValue(request, 'subdomains', request.subdomains);
   setContextValue(request, 'xhr', request.xhr);
   setContextValue(request, 'sid', request.sessionID);
+  setContextValue(request, 'currentRoute', {
+    id: request.currentRoute.id,
+    path: request.currentRoute.path,
+    params: request.params
+  });
 };

@@ -45,11 +45,13 @@ export class ProductCollection {
         filterableAttributes
       }
     );
-
+    console.log('applied filters', filters);
     productCollectionFilters.forEach((filter) => {
-      const check = filters.find(
-        (f) => f.key === filter.key && filter.operation.includes(f.operation)
-      );
+      const check =
+        filters &&
+        filters.find(
+          (f) => f.key === filter.key && filter.operation.includes(f.operation)
+        );
       if (filter.key === '*' || check) {
         filter.callback(
           this.baseQuery,

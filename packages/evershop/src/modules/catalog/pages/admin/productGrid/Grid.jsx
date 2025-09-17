@@ -426,7 +426,7 @@ export default function ProductGrid({
                   {
                     component: {
                       default: () => (
-                        <Thumbnail src={p.image?.thumb} name={p.name} />
+                        <Thumbnail src={p.image?.url} name={p.name} />
                       )
                     },
                     sortOrder: 5
@@ -535,7 +535,8 @@ export const query = `
         uuid
         name
         image {
-          thumb
+          url
+          alt
         }
         sku
         status

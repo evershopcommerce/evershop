@@ -4,7 +4,6 @@ import React from 'react';
 import { _ } from '../../lib/locale/translate/_.js';
 import { CouponForm } from './CouponForm.js';
 
-// Skeleton for individual values that preserves layout
 const SkeletonValue: React.FC<{
   children: React.ReactNode;
   loading?: boolean;
@@ -60,7 +59,7 @@ const Tax: React.FC<{
   loading?: boolean;
 }> = ({ showPriceIncludingTax, amount, loading = false }) => {
   if (showPriceIncludingTax) {
-    return null; // Do not show tax if price is including tax
+    return null;
   }
 
   return (
@@ -209,7 +208,6 @@ function CartTotalSummary({
 }: CartTotalSummaryProps) {
   const { data: cart, loadingStates } = useCartState();
 
-  // Prepare all the data for the render prop
   const subTotal = showPriceIncludingTax
     ? cart?.subTotalInclTax?.text || ''
     : cart?.subTotal?.text || '';

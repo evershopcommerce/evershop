@@ -1,3 +1,7 @@
+import {
+  getPageMetaInfo,
+  setPageMetaInfo
+} from '../../../../modules/cms/services/pageMetaInfo.js';
 import isErrorHandlerTriggered from '../../../../lib/middleware/isErrorHandlerTriggered.js';
 import { render } from '../../../../lib/response/render.js';
 import { get } from '../../../../lib/util/get.js';
@@ -24,6 +28,14 @@ export default async (request, response, next) => {
           isApi: route.isApi,
           isAdmin: route.isAdmin
         };
+        setPageMetaInfo(request, {
+          route: {
+            id: route.id,
+            path: route.path,
+            url: request.originalUrl,
+            params: request.params
+          }
+        });
         let widgetInstances;
         // Check if we are in the test mode
         if (process.env.NODE_ENV === 'test') {
@@ -50,10 +62,16 @@ export default async (request, response, next) => {
             request.query.fashRefresh === 'true') ||
           (request.query && request.query.ajax === 'true')
         ) {
+          const pageMeta = getPageMetaInfo(request);
+          const pageData = Object.assign(
+            {},
+            get(response, 'locals.graphqlResponse', {}),
+            { pageMeta }
+          );
           response.json({
             success: true,
             eContext: {
-              graphqlResponse: get(response, 'locals.graphqlResponse', {}),
+              graphqlResponse: pageData,
               propsMap: get(response, 'locals.propsMap', {}),
               widgets: widgetInstances,
               notifications: getNotifications(request)

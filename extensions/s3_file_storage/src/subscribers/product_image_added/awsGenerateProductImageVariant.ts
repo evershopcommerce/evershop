@@ -58,63 +58,68 @@ async function resizeAndUploadImage(
   return resizedObjectUrl;
 }
 
+/**
+ * @deprecated This function is deprecated and will be removed in future releases.
+ * We do not generate product image variants anymore. Instead we use Image component
+ * to handle image resizing and optimization on the fly.
+ */
 export default async function awsGenerateProductImageVariant(data) {
-  if (getConfig("system.file_storage") === "s3") {
-    try {
-      const s3Client = new S3Client({ region: getEnv("AWS_REGION") });
-      const originalObjectUrl = data.origin_image;
-      // The data.image is the full url of the Object, we need to get the Object path
-      // by removing the container url
-      const ext = path.extname(originalObjectUrl);
-      // Target path for single variant by adding a '-single' just before the extension
-      const singleObjectUrl = originalObjectUrl.replace(ext, `-single${ext}`);
-      // Target path for listing variant by adding a '-listing' just before the extension
-      const listingObjectUrl = originalObjectUrl.replace(ext, `-listing${ext}`);
-      // Target path for thumbnail variant by adding a '-thumbnail' just before the extension
-      const thumbnailObjectUrl = originalObjectUrl.replace(
-        ext,
-        `-thumbnail${ext}`
-      );
+  // if (getConfig("system.file_storage") === "s3") {
+  //   try {
+  //     const s3Client = new S3Client({ region: getEnv("AWS_REGION") });
+  //     const originalObjectUrl = data.origin_image;
+  //     // The data.image is the full url of the Object, we need to get the Object path
+  //     // by removing the container url
+  //     const ext = path.extname(originalObjectUrl);
+  //     // Target path for single variant by adding a '-single' just before the extension
+  //     const singleObjectUrl = originalObjectUrl.replace(ext, `-single${ext}`);
+  //     // Target path for listing variant by adding a '-listing' just before the extension
+  //     const listingObjectUrl = originalObjectUrl.replace(ext, `-listing${ext}`);
+  //     // Target path for thumbnail variant by adding a '-thumbnail' just before the extension
+  //     const thumbnailObjectUrl = originalObjectUrl.replace(
+  //       ext,
+  //       `-thumbnail${ext}`
+  //     );
 
-      // Upload the single variant
-      const singleUrl = await resizeAndUploadImage(
-        s3Client,
-        originalObjectUrl,
-        singleObjectUrl,
-        getConfig("catalog.product.image.single.width", 500),
-        getConfig("catalog.product.image.single.height", 500)
-      );
+  //     // Upload the single variant
+  //     const singleUrl = await resizeAndUploadImage(
+  //       s3Client,
+  //       originalObjectUrl,
+  //       singleObjectUrl,
+  //       getConfig("catalog.product.image.single.width", 500),
+  //       getConfig("catalog.product.image.single.height", 500)
+  //     );
 
-      // Upload the listing variant
-      const listingUrl = await resizeAndUploadImage(
-        s3Client,
-        originalObjectUrl,
-        listingObjectUrl,
-        getConfig("catalog.product.image.listing.width", 250),
-        getConfig("catalog.product.image.listing.height", 250)
-      );
+  //     // Upload the listing variant
+  //     const listingUrl = await resizeAndUploadImage(
+  //       s3Client,
+  //       originalObjectUrl,
+  //       listingObjectUrl,
+  //       getConfig("catalog.product.image.listing.width", 250),
+  //       getConfig("catalog.product.image.listing.height", 250)
+  //     );
 
-      // Upload the thumbnail variant
-      const thumnailUrl = await resizeAndUploadImage(
-        s3Client,
-        originalObjectUrl,
-        thumbnailObjectUrl,
-        getConfig("catalog.product.image.thumbnail.width", 100),
-        getConfig("catalog.product.image.thumbnail.height", 100)
-      );
+  //     // Upload the thumbnail variant
+  //     const thumnailUrl = await resizeAndUploadImage(
+  //       s3Client,
+  //       originalObjectUrl,
+  //       thumbnailObjectUrl,
+  //       getConfig("catalog.product.image.thumbnail.width", 100),
+  //       getConfig("catalog.product.image.thumbnail.height", 100)
+  //     );
 
-      // Update the record in the database with the new URLs in the variant columns
-      await update("product_image")
-        .given({
-          single_image: singleUrl,
-          listing_image: listingUrl,
-          thumb_image: thumnailUrl,
-        })
-        .where("product_image_product_id", "=", data.product_image_product_id)
-        .and("origin_image", "=", data.origin_image)
-        .execute(pool);
-    } catch (e) {
-      error(e);
-    }
-  }
+  //     // Update the record in the database with the new URLs in the variant columns
+  //     await update("product_image")
+  //       .given({
+  //         single_image: singleUrl,
+  //         listing_image: listingUrl,
+  //         thumb_image: thumnailUrl,
+  //       })
+  //       .where("product_image_product_id", "=", data.product_image_product_id)
+  //       .and("origin_image", "=", data.origin_image)
+  //       .execute(pool);
+  //   } catch (e) {
+  //     error(e);
+  //   }
+  // }
 }

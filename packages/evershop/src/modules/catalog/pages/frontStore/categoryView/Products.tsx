@@ -1,13 +1,15 @@
 import React from 'react';
-import { Product } from 'src/modules/catalog/components/product/list/List.js';
 import { _ } from '../../../../../lib/locale/translate/_.js';
-import ProductList from '../../../components/product/list/List.js';
+import {
+  ProductList,
+  ProductListProps
+} from '@components/frontStore/ProductList.js';
 
 interface ProductsProps {
   products: {
     showProducts: number;
     products: {
-      items: Array<Product>;
+      items: Array<ProductListProps['products'][0]>;
     };
   };
 }
@@ -22,7 +24,12 @@ export default function Products({
   }
   return (
     <div>
-      <ProductList products={items} countPerRow={3} />
+      <ProductList
+        products={items}
+        layout="grid"
+        gridColumns={3}
+        showAddToCart={true}
+      />
       <span className="product-count italic block mt-5">
         {_('${count} products', { count: items.length.toString() })}
       </span>
@@ -36,10 +43,10 @@ export const layout = {
 };
 
 export const query = `
-  query Query($filters: [FilterInput]) {
-    products: category(id: getContextValue('categoryId')) {
+  query Query {
+    products: currentCategory {
       showProducts
-      products(filters: $filters) {
+      products {
         items {
           ...Product
         }
@@ -62,15 +69,13 @@ export const fragments = `
         text
       }
     }
+    inventory {
+      isInStock
+    }
     image {
       alt
-      url: listing
+      url
     }
     url
   }
 `;
-
-export const variables = `
-{
-  filters: getContextValue('filtersFromUrl')
-}`;

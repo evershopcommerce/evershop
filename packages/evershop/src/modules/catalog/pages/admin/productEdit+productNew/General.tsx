@@ -11,6 +11,7 @@ import React from 'react';
 import { useQuery } from 'urql';
 import './General.scss';
 import { _ } from '../../../../../lib/locale/translate/_.js';
+import { useFormContext } from 'react-hook-form';
 
 const SKUPriceWeight: React.FC<{
   sku: string;
@@ -61,6 +62,7 @@ const SKUPriceWeight: React.FC<{
 const CategoryQuery = `
   query Query ($id: Int!) {
     category(id: $id) {
+      categoryId
       name
       path {
         name
@@ -74,6 +76,7 @@ const ProductCategory: React.FC<{
   onChange: () => void;
   onUnassign: () => void;
 }> = ({ categoryId, onChange, onUnassign }) => {
+  const { register } = useFormContext();
   const [result] = useQuery({
     query: CategoryQuery,
     variables: {
@@ -121,6 +124,7 @@ const ProductCategory: React.FC<{
           Unassign
         </a>
       </span>
+      <input type="hidden" {...register('category_id')} value={categoryId} />
     </div>
   );
 };
@@ -181,10 +185,6 @@ const CategorySelect: React.FC<{
           selectedCategories={category ? [category] : []}
         />
       </Modal>
-      {category && (
-        <input type="hidden" name="category_id" value={category.categoryId} />
-      )}
-      {!category && <input type="hidden" name="category_id" value="" />}
     </div>
   );
 };

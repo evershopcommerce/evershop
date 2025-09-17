@@ -1,39 +1,57 @@
 import React from 'react';
-import { Pagination } from '../../../components/product/list/Pagination.js';
+import {
+  Pagination,
+  DefaultPaginationRenderer
+} from '@components/frontStore/Pagination.js';
 
 interface PaginationWrapperProps {
   products: {
-    currentFilters: Array<{
-      key: string;
-      operation: string;
-      value: string;
-    }>;
-    total: number;
+    showProducts: number;
+    products: {
+      total: number;
+      currentFilters: Array<{
+        key: string;
+        operation: string;
+        value: string;
+      }>;
+    };
   };
 }
 export default function PaginationWrapper({
-  products: { total, currentFilters }
+  products: {
+    showProducts,
+    products: { total, currentFilters }
+  }
 }: PaginationWrapperProps) {
+  if (!showProducts) {
+    return null;
+  }
   const page = currentFilters.find((filter) => filter.key === 'page');
   const limit = currentFilters.find((filter) => filter.key === 'limit');
-
+  console.log(limit);
   return (
     <Pagination
       total={total}
-      limit={parseInt(limit?.value || '20', 10)}
+      limit={2}
       currentPage={parseInt(page?.value || '1', 10)}
-    />
+    >
+      {(paginationProps) => (
+        <DefaultPaginationRenderer renderProps={paginationProps} />
+      )}
+    </Pagination>
   );
 }
 
 export const layout = {
-  areaId: 'oneColumn',
+  areaId: 'rightColumn',
   sortOrder: 30
 };
 
 export const query = `
-  query Query($filtersFromUrl: [FilterInput]) {
-    products(filters: $filtersFromUrl) {
+  query Query {
+    products: currentCategory {
+      showProducts
+      products {
         total
         currentFilters {
           key
@@ -41,8 +59,5 @@ export const query = `
           value
         }
       }
+    }
   }`;
-
-export const variables = `{
-  filtersFromUrl: getContextValue("filtersFromUrl")
-}`;

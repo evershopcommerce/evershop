@@ -6,6 +6,7 @@ import {
 import React from 'react';
 import { _ } from '../../lib/locale/translate/_.js';
 import { ItemQuantity } from './ItemQuantity.js';
+import { Image } from '@components/frontStore/Image.js';
 
 export interface ItemProps {
   id: string;
@@ -126,10 +127,12 @@ const CartItemComponent: React.FC<{
         {/* Product Image */}
         <div className="flex-shrink-0">
           {item.thumbnail ? (
-            <img
+            <Image
               src={item.thumbnail}
               alt={item.name}
               className="w-16 h-16 object-cover rounded"
+              width={80}
+              height={80}
             />
           ) : (
             <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">

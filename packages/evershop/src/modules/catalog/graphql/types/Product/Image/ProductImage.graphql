@@ -6,10 +6,10 @@ type Image {
   uuid: String!
   alt: String
   url: String
-  listing: String
-  single: String
-  thumb: String
-  origin: String
+  listing: String # @deprecated(reason: "Use 'Image' component instead")
+  single: String # @deprecated(reason: "Use 'Image' component instead")
+  thumb: String # @deprecated(reason: "Use 'Image' component instead")
+  origin: String # @deprecated(reason: "Use 'Image' component instead")
 }
 
 extend type Product {

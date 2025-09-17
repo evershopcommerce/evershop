@@ -81,10 +81,14 @@ export function ReactSelectField<T extends FieldValues = FieldValues>({
                 value={
                   isMulti
                     ? options.filter((option) =>
-                        field.value?.includes(option.value)
+                        (field.value || defaultValue || [])?.includes(
+                          option.value
+                        )
                       )
-                    : options.find((option) => option.value === field.value) ||
-                      null
+                    : options.find(
+                        (option) =>
+                          option.value === (field.value ?? defaultValue)
+                      ) || null
                 }
                 onChange={(selectedOption) => {
                   if (isMulti) {
