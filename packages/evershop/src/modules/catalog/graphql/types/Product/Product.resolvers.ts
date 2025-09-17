@@ -68,6 +68,23 @@ export default {
         return camelCase(result);
       }
     },
+    currentProduct: async (
+      _,
+      args,
+      { currentRoute, currentProductId, pool }
+    ) => {
+      if (currentRoute.id !== 'productView') {
+        return null;
+      }
+      const query = getProductsBaseQuery();
+      query.where('product.product_id', '=', currentProductId);
+      const product = await query.load(pool);
+      if (!product) {
+        return null;
+      } else {
+        return camelCase(product);
+      }
+    },
     products: async (_, { filters = [] }, { user }) => {
       const query = getProductsBaseQuery();
       const root = new ProductCollection(query);

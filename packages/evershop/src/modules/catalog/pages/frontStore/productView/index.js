@@ -36,6 +36,7 @@ export default async (request, response, next) => {
         Object.values(queries).length === 0
       ) {
         setContextValue(request, 'productId', product.product_id);
+        setContextValue(request, 'currentProductId', product.product_id);
         setContextValue(request, 'pageInfo', {
           title: product.meta_title || product.name,
           description: product.meta_description || product.short_description
@@ -130,12 +131,14 @@ export default async (request, response, next) => {
             variantQuery.where('product_id', '=', variants[0].product_id);
             const pv = await variantQuery.load(pool);
             setContextValue(request, 'productId', pv.product_id);
+            setContextValue(request, 'currentProductId', pv.product_id);
             setContextValue(request, 'pageInfo', {
               title: pv.meta_title || pv.name,
               description: pv.meta_description || pv.short_description
             });
           } else {
             setContextValue(request, 'productId', product.product_id);
+            setContextValue(request, 'currentProductId', product.product_id);
             setContextValue(request, 'pageInfo', {
               title: product.meta_title || product.name,
               description: product.meta_description || product.short_description
@@ -143,6 +146,7 @@ export default async (request, response, next) => {
           }
         } else {
           setContextValue(request, 'productId', product.product_id);
+          setContextValue(request, 'currentProductId', product.product_id);
           setContextValue(request, 'pageInfo', {
             title: product.meta_title || product.name,
             description: product.meta_description || product.short_description

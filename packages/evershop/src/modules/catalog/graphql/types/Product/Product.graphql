@@ -32,5 +32,6 @@ type ProductCollection {
 
 extend type Query {
   product(id: ID): Product
+  currentProduct: Product
   products(filters: [FilterInput]): ProductCollection
 }

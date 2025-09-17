@@ -30,7 +30,7 @@ function Attributes({ product: { attributes } }: AttributesProps) {
 
 export const query = `
   query Query {
-    product (id: getContextValue('productId')) {
+    product: currentProduct {
       attributes: attributeIndex {
         attributeName
         attributeCode
