@@ -1,11 +1,11 @@
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
-import React, { useEffect } from 'react';
-import smallUnit from 'zero-decimal-currencies';
 import {
   useCheckout,
   useCheckoutDispatch
 } from '@components/common/context/checkout.js';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
+import React, { useEffect } from 'react';
+import smallUnit from 'zero-decimal-currencies';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 import { Cards } from '../../../components/Cards.js';
 import { CheckoutForm } from '../../../components/checkout/CheckoutForm.js';

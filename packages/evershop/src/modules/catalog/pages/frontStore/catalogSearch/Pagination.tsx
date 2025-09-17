@@ -1,8 +1,8 @@
-import React from 'react';
 import {
   Pagination,
   DefaultPaginationRenderer
 } from '@components/frontStore/Pagination.js';
+import React from 'react';
 
 interface PaginationWrapperProps {
   products: {
@@ -28,7 +28,6 @@ export default function PaginationWrapper({
   }
   const page = currentFilters.find((filter) => filter.key === 'page');
   const limit = currentFilters.find((filter) => filter.key === 'limit');
-  console.log(limit);
   return (
     <Pagination
       total={total}

@@ -43,7 +43,7 @@ export const VariantModal: React.FC<
   const { fields, append, remove, replace } = useFieldArray({
     name: 'variant_images',
     control
-  });
+  }) as ReturnType<typeof useFieldArray>;
   const variantData = watch([
     'url_key',
     'variant_sku',
@@ -129,6 +129,7 @@ export const VariantModal: React.FC<
         : [];
       replace(
         images.map((image) => ({
+          uuid: image.uuid,
           path: image.path,
           url: image.url
         }))
@@ -174,14 +175,16 @@ export const VariantModal: React.FC<
             allowDelete={true}
             allowSwap={true}
             onDelete={(image) => {
-              const index = fields.findIndex((field) => field.id === image.id);
+              const index = fields.findIndex(
+                (field) => field.uuid === image.uuid
+              );
               if (index !== -1) {
                 remove(index);
               }
             }}
             onUpload={(images) => {
               const newImages = images.map((image) => ({
-                id: image.id,
+                id: image.uuid,
                 path: image.path,
                 url: image.url
               }));

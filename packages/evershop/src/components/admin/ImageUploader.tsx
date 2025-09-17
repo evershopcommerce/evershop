@@ -64,7 +64,7 @@ const Upload: React.FC<{
         if (!response.error) {
           await onUpload(
             get(response, 'data.files', []).map((i) => ({
-              id: uniqid(),
+              uuid: uniqid(),
               url: i.url,
               path: i.path
             }))

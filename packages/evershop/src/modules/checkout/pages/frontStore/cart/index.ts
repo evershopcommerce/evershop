@@ -1,8 +1,8 @@
+import { setPageMetaInfo } from 'src/modules/cms/services/pageMetaInfo.js';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
-import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
 export default (request, response) => {
-  setContextValue(request, 'pageInfo', {
+  setPageMetaInfo(request, {
     title: translate('Shopping cart'),
     description: translate('Shopping cart')
   });

@@ -108,7 +108,7 @@ export default function SearchBox({ searchPageUrl }: SearchBoxProps) {
 }
 
 export const layout = {
-  areaId: 'icon-wrapper',
+  areaId: 'content',
   sortOrder: 5
 };
 

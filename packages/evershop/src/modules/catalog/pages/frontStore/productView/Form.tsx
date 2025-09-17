@@ -191,7 +191,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    product(id: getContextValue('productId')) {
+    product: currentProduct {
       productId
       sku
       name

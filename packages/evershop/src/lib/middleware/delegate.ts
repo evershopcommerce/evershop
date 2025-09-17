@@ -97,7 +97,8 @@ export function setDelegate<T>(
       customer: null,
       context: {},
       delegates: createWriteOnceMap(),
-      sessionID: null
+      sessionID: null,
+      webpackMatchedRoute: null
     };
   }
   if (!request.locals.delegates) {

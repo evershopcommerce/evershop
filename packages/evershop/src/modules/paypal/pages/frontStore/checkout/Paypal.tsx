@@ -3,13 +3,13 @@ import {
   useCheckoutDispatch
 } from '@components/common/context/checkout.js';
 import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 import {
   ApiResponse,
   isSuccessResponse
 } from '../../../../../types/apiResponse.js';
 import { PaypalLogo } from '../../../components/PaypalLogo.js';
-import { toast } from 'react-toastify';
 
 interface PaypalMethodProps {
   createOrderAPI: string;

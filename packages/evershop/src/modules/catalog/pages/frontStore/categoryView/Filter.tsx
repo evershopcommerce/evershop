@@ -1,9 +1,30 @@
-import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/_.js';
 import {
   ProductFilter,
-  DefaultProductFilterRenderer
+  DefaultProductFilterRenderer,
+  FilterableAttribute,
+  FilterInput,
+  CategoryFilter
 } from '@components/frontStore/ProductFilter.js';
+import React from 'react';
+import { _ } from '../../../../../lib/locale/translate/_.js';
+
+interface FilterProps {
+  category: {
+    products: {
+      currentFilters: FilterInput[];
+    };
+    availableAttributes: FilterableAttribute[];
+    children: CategoryFilter[];
+    priceRange: {
+      min: number;
+      max: number;
+    };
+  };
+  setting: {
+    storeLanguage: string;
+    storeCurrency: string;
+  };
+}
 
 export default function Filter({
   category: {
@@ -13,7 +34,7 @@ export default function Filter({
     priceRange
   },
   setting
-}) {
+}: FilterProps) {
   return (
     <ProductFilter
       currentFilters={currentFilters}

@@ -1,7 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
-import { getConfig } from '../../../../../../lib/util/getConfig.js';
 import { normalizePort } from '../../../../../../bin/lib/normalizePort.js';
+import { getConfig } from '../../../../../../lib/util/getConfig.js';
 
 export default {
   Product: {

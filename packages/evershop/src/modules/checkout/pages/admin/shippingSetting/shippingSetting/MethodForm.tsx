@@ -5,16 +5,16 @@ import { Form, useFormContext } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { NumberField } from '@components/common/form/NumberField.js';
 import { RadioGroupField } from '@components/common/form/RadioGroupField.js';
+import { ReactSelectCreatableField } from '@components/common/form/ReactSelectCreatableField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
 import { UrlField } from '@components/common/form/UrlField.js';
 import React, { useEffect } from 'react';
-import { ReactSelectCreatableField } from '@components/common/form/ReactSelectCreatableField.js';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 import { ShippingMethod } from './Method.js';
 import { PriceBasedPrice } from './PriceBasedPrice.js';
 import { WeightBasedPrice } from './WeightBasedPrice.js';
-import { useForm } from 'react-hook-form';
 
 const MethodsQuery = `
   query Methods {

@@ -1,5 +1,5 @@
-import path from 'path';
 import fs from 'fs/promises';
+import path from 'path';
 import sharp from 'sharp';
 import { CONSTANTS } from '../../../lib/helpers.js';
 import { debug } from '../../../lib/log/logger.js';

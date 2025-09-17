@@ -1,7 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
-import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
 export default async (request, response, next) => {
   try {
@@ -24,8 +24,7 @@ export default async (request, response, next) => {
       setContextValue(request, 'categoryId', category.category_id);
       setPageMetaInfo(request, {
         title: category.meta_title || category.name,
-        description: category.meta_description || category.short_description,
-        url: request.url
+        description: category.meta_description || category.short_description
       });
       next();
     }

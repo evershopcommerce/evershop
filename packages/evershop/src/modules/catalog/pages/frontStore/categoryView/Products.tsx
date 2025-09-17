@@ -1,9 +1,9 @@
-import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/_.js';
 import {
   ProductList,
   ProductListProps
 } from '@components/frontStore/ProductList.js';
+import React from 'react';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 interface ProductsProps {
   products: {

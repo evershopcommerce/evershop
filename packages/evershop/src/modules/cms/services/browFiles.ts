@@ -1,9 +1,9 @@
 import { existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { CONSTANTS } from '../../../lib/helpers.js';
+import { buildAbsoluteUrl } from '../../../lib/router/buildAbsoluteUrl.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { getValueSync } from '../../../lib/util/registry.js';
-import { buildAbsoluteUrl } from '../../../lib/router/buildAbsoluteUrl.js';
 
 export interface FileBrowser {
   name: string;

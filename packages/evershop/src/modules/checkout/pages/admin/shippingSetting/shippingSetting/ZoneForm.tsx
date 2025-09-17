@@ -5,9 +5,9 @@ import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import { useQuery } from 'urql';
 import { ShippingZone } from './Zone.js';
-import { useForm } from 'react-hook-form';
 
 export interface ZoneFormProps {
   formMethod?: 'POST' | 'PATCH';

@@ -3,16 +3,16 @@ import path from 'path';
 import { pathToFileURL } from 'url';
 import jsesc from 'jsesc';
 import { getNotifications } from '../../modules/base/services/notifications.js';
+import { getPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
+import { EvershopRequest } from '../../types/request.js';
+import { EvershopResponse } from '../../types/response.js';
 import { error } from '../log/logger.js';
 import { getRoutes } from '../router/Router.js';
 import { get } from '../util/get.js';
 import { getConfig } from '../util/getConfig.js';
 import isProductionMode from '../util/isProductionMode.js';
-import { getRouteBuildPath } from '../webpack/getRouteBuildPath.js';
-import { getPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
-import { EvershopRequest } from '../../types/request.js';
-import { EvershopResponse } from '../../types/response.js';
 import { processPreloadImages } from '../util/preloadScan.js';
+import { getRouteBuildPath } from '../webpack/getRouteBuildPath.js';
 
 function normalizeAssets(assets) {
   if (typeof assets === 'object' && !Array.isArray(assets) && assets !== null) {

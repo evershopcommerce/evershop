@@ -1,7 +1,5 @@
 import { Card } from '@components/admin/Card.js';
 import { Image } from '@components/admin/ImageUploader.js';
-import { ProductListSkeleton } from '@components/admin/ProductListSkeleton.js';
-import Spinner from '@components/admin/Spinner.js';
 import React from 'react';
 import { useQuery } from 'urql';
 import { VariantGroup } from '../VariantGroup.js';
@@ -46,11 +44,11 @@ query Query($productId: ID!) {
           editUrl
           updateApi
           image {
-            id: uuid
+            uuid
             url
           }
           gallery {
-            id: uuid
+            uuid
             url
           }
         }

@@ -1,11 +1,11 @@
 import { translate } from '../../../../lib/locale/translate/translate.js';
-import { setContextValue } from '../../../graphql/services/contextHelper.js';
+import { setPageMetaInfo } from '../../../cms/services/pageMetaInfo.js';
 
 export default async (request, response, next) => {
   if (response.statusCode !== 404) {
     next();
   } else {
-    setContextValue(request, 'pageInfo', {
+    setPageMetaInfo(request, {
       title: translate('Not found'),
       description: translate('Page not found')
     });

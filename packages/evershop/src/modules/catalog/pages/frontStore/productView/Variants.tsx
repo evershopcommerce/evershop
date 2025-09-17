@@ -235,7 +235,7 @@ query Query {
   pageInfo {
     url
   }
-  product(id: getContextValue('productId')) {
+  product: currentProduct {
     variantGroup {
       variantAttributes {
         attributeId

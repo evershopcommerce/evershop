@@ -1,4 +1,5 @@
 import { select, update } from '@evershop/postgres-query-builder';
+import type { PurchaseUnit, CreateOrderRequestBody } from '@paypal/paypal-js';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
@@ -9,13 +10,12 @@ import {
   OK
 } from '../../../../lib/util/httpStatus.js';
 import { getValueSync } from '../../../../lib/util/registry.js';
+import { EvershopRequest } from '../../../../types/request.js';
+import { EvershopResponse } from '../../../../types/response.js';
 import { toPrice } from '../../../checkout/services/toPrice.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../setting/services/setting.js';
 import { createAxiosInstance } from '../../services/requester.js';
-import { EvershopRequest } from '../../../../types/request.js';
-import { EvershopResponse } from '../../../../types/response.js';
-import type { PurchaseUnit, CreateOrderRequestBody } from '@paypal/paypal-js';
 
 export default async (
   request: EvershopRequest,
