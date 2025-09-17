@@ -9,6 +9,9 @@ export type ImageProps = {
   quality?: number;
   priority?: boolean;
   sizes?: string;
+  loading?: 'eager' | 'lazy' | undefined;
+  decoding?: 'async' | 'auto' | 'sync' | undefined;
+  style?: React.CSSProperties;
 } & React.ImgHTMLAttributes<HTMLImageElement>;
 
 export function Image({

@@ -1,8 +1,8 @@
 import React, { useMemo, useState, useContext, useCallback } from 'react';
+import RangeSlider from 'react-range-slider-input';
+import { _ } from '../../lib/locale/translate/_.js';
 import Area from '../common/Area.js';
 import { useAppDispatch } from '../common/context/app.js';
-import { _ } from '../../lib/locale/translate/_.js';
-import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 
 export interface FilterInput {
@@ -357,20 +357,18 @@ export const AttributeFilterRenderer: React.FC<{
           value: optionId
         });
       }
-    } else {
-      if (existingFilterIndex !== -1) {
-        const existingFilter = newFilters[existingFilterIndex];
-        const values = existingFilter.value
-          .split(',')
-          .filter((v) => v !== optionId);
-        if (values.length === 0) {
-          newFilters = newFilters.filter((f) => f.key !== attributeCode);
-        } else {
-          newFilters[existingFilterIndex] = {
-            ...existingFilter,
-            value: values.join(',')
-          };
-        }
+    } else if (existingFilterIndex !== -1) {
+      const existingFilter = newFilters[existingFilterIndex];
+      const values = existingFilter.value
+        .split(',')
+        .filter((v) => v !== optionId);
+      if (values.length === 0) {
+        newFilters = newFilters.filter((f) => f.key !== attributeCode);
+      } else {
+        newFilters[existingFilterIndex] = {
+          ...existingFilter,
+          value: values.join(',')
+        };
       }
     }
 
@@ -577,16 +575,14 @@ export const CategoryFilterRenderer: React.FC<{
           value: categoryId
         });
       }
-    } else {
-      if (existingFilter) {
-        const values = existingFilter.value
-          .split(',')
-          .filter((v) => v !== categoryId);
-        if (values.length === 0) {
-          newFilters = newFilters.filter((f) => f.key !== 'cat');
-        } else {
-          existingFilter.value = values.join(',');
-        }
+    } else if (existingFilter) {
+      const values = existingFilter.value
+        .split(',')
+        .filter((v) => v !== categoryId);
+      if (values.length === 0) {
+        newFilters = newFilters.filter((f) => f.key !== 'cat');
+      } else {
+        existingFilter.value = values.join(',');
       }
     }
 
@@ -779,6 +775,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
 
       history.pushState(null, '', url);
     } catch (error) {
+      //eslint-disable-next-line no-console
       console.error('Failed to update filters:', error);
     } finally {
       setIsLoading(false);

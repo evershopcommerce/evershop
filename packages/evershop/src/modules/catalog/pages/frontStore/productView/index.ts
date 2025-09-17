@@ -2,6 +2,7 @@ import { node, select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { get } from '../../../../../lib/util/get.js';
 import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
 export default async (request, response, next) => {
@@ -37,7 +38,7 @@ export default async (request, response, next) => {
       ) {
         setContextValue(request, 'productId', product.product_id);
         setContextValue(request, 'currentProductId', product.product_id);
-        setContextValue(request, 'pageInfo', {
+        setPageMetaInfo(request, {
           title: product.meta_title || product.name,
           description: product.meta_description || product.short_description
         });
@@ -132,14 +133,14 @@ export default async (request, response, next) => {
             const pv = await variantQuery.load(pool);
             setContextValue(request, 'productId', pv.product_id);
             setContextValue(request, 'currentProductId', pv.product_id);
-            setContextValue(request, 'pageInfo', {
+            setPageMetaInfo(request, {
               title: pv.meta_title || pv.name,
               description: pv.meta_description || pv.short_description
             });
           } else {
             setContextValue(request, 'productId', product.product_id);
             setContextValue(request, 'currentProductId', product.product_id);
-            setContextValue(request, 'pageInfo', {
+            setPageMetaInfo(request, {
               title: product.meta_title || product.name,
               description: product.meta_description || product.short_description
             });
@@ -147,7 +148,7 @@ export default async (request, response, next) => {
         } else {
           setContextValue(request, 'productId', product.product_id);
           setContextValue(request, 'currentProductId', product.product_id);
-          setContextValue(request, 'pageInfo', {
+          setPageMetaInfo(request, {
             title: product.meta_title || product.name,
             description: product.meta_description || product.short_description
           });

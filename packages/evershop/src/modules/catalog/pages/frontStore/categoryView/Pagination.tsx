@@ -1,8 +1,8 @@
-import React from 'react';
 import {
   Pagination,
   DefaultPaginationRenderer
 } from '@components/frontStore/Pagination.js';
+import React from 'react';
 
 interface PaginationWrapperProps {
   products: {

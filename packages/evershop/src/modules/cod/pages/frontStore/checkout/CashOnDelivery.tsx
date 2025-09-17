@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
 import {
   useCheckout,
   useCheckoutDispatch
 } from '@components/common/context/checkout.js';
-import { CODLogo } from '../../../components/CODLogo.js';
+import React, { useEffect } from 'react';
 import { _ } from '../../../../../lib/locale/translate/_.js';
+import { CODLogo } from '../../../components/CODLogo.js';
 
 interface CashOnDeliveryMethodProps {
   setting: {

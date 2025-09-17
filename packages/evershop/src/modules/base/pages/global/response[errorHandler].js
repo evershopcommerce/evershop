@@ -1,11 +1,11 @@
-import {
-  getPageMetaInfo,
-  setPageMetaInfo
-} from '../../../../modules/cms/services/pageMetaInfo.js';
 import isErrorHandlerTriggered from '../../../../lib/middleware/isErrorHandlerTriggered.js';
 import { render } from '../../../../lib/response/render.js';
 import { get } from '../../../../lib/util/get.js';
 import isDevelopmentMode from '../../../../lib/util/isDevelopmentMode.js';
+import {
+  getPageMetaInfo,
+  setPageMetaInfo
+} from '../../../../modules/cms/services/pageMetaInfo.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getNotifications } from '../../services/notifications.js';
 

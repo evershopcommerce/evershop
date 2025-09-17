@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
 import { useAppDispatch } from '@components/common/context/app.js';
+import React, { useState, useEffect, useCallback } from 'react';
 
 export interface PaginationProps {
   total: number;
@@ -100,8 +100,7 @@ export const usePaginationLogic = (
 
         onPageChange?.(validPage);
       } catch (error) {
-        console.error('Failed to navigate to page:', error);
-        setPage(page); // Revert on error
+        setPage(page);
       } finally {
         setIsLoading(false);
       }
@@ -145,7 +144,7 @@ export const usePaginationLogic = (
       const half = Math.floor(range / 2);
 
       let start = Math.max(1, page - half);
-      let end = Math.min(totalPages, start + range - 1);
+      const end = Math.min(totalPages, start + range - 1);
 
       // Adjust start if we're near the end
       if (end - start + 1 < range) {

@@ -45,7 +45,6 @@ export class ProductCollection {
         filterableAttributes
       }
     );
-    console.log('applied filters', filters);
     productCollectionFilters.forEach((filter) => {
       const check =
         filters &&

@@ -98,9 +98,6 @@ export function injectPreloadLinksAfterCharset(html: string): string {
 
   if (charsetRegex.test(html)) {
     const modifiedHtml = html.replace(charsetRegex, `$1\n${preloadLinks}`);
-    console.log(
-      `Injected ${preloadImages.length} preload link(s) after charset meta tag`
-    );
     return modifiedHtml;
   }
 

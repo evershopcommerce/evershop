@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import { Image } from './Image.js';
 import { AddToCart } from './AddToCart.js';
+import { Image } from './Image.js';
 
 export interface Product {
   productId: string;
@@ -241,7 +241,17 @@ const DefaultProductItem = ({
   );
 };
 
-const LoadingSkeleton = ({ count = 4, gridColumns = 4, layout = 'grid' }) => {
+interface LoadingSkeletonProps {
+  count?: number;
+  gridColumns?: number;
+  layout?: 'grid' | 'list';
+}
+
+const LoadingSkeleton = ({
+  count = 4,
+  gridColumns = 4,
+  layout = 'grid'
+}: LoadingSkeletonProps) => {
   if (layout === 'list') {
     return (
       <div

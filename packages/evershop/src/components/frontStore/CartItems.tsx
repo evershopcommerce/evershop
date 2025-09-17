@@ -3,10 +3,10 @@ import {
   useCartState,
   useCartDispatch
 } from '@components/common/context/cart.js';
+import { Image } from '@components/frontStore/Image.js';
 import React from 'react';
 import { _ } from '../../lib/locale/translate/_.js';
 import { ItemQuantity } from './ItemQuantity.js';
-import { Image } from '@components/frontStore/Image.js';
 
 export interface ItemProps {
   id: string;

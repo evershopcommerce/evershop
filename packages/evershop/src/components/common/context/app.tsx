@@ -1,7 +1,6 @@
 import { produce } from 'immer';
-import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
-import { PageMetaInfo } from 'src/types/pageMeta.js';
+import { PageMetaInfo } from '../../../types/pageMeta.js';
 
 // Define the shape of the app state context
 interface AppStateContextValue {
@@ -9,6 +8,8 @@ interface AppStateContextValue {
     pageMeta: PageMetaInfo;
     [key: string]: any;
   };
+  propsMap: Record<string, any[]>;
+  widgets?: any[];
   fetching: boolean;
 }
 
@@ -52,7 +53,6 @@ export function AppProvider({ value, children }: AppProviderProps) {
         })
       );
     } catch (error) {
-      console.error('Failed to fetch page data:', error);
     } finally {
       setFetching(false);
     }
@@ -84,15 +84,6 @@ export function AppProvider({ value, children }: AppProviderProps) {
     </AppContextDispatch.Provider>
   );
 }
-
-AppProvider.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired,
-
-  value: PropTypes.object.isRequired
-};
 
 export const useAppState = (): AppStateContextValue =>
   React.useContext(AppStateContext);

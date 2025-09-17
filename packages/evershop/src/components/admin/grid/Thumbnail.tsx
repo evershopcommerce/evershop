@@ -1,5 +1,5 @@
-import React from 'react';
 import { Image } from '@components/frontStore/Image.js';
+import React from 'react';
 
 export interface ThumbnailProps {
   src?: string;

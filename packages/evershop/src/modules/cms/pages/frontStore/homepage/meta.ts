@@ -1,5 +1,5 @@
-import { setPageMetaInfo } from '../../../services/pageMetaInfo.js';
 import { getSetting } from '../../../../setting/services/setting.js';
+import { setPageMetaInfo } from '../../../services/pageMetaInfo.js';
 
 export default async (request, response, next) => {
   setPageMetaInfo(request, {

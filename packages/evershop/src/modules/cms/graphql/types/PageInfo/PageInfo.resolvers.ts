@@ -1,10 +1,10 @@
 import { select } from '@evershop/postgres-query-builder';
+import { normalizePort } from '../../../../../bin/lib/normalizePort.js';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { get } from '../../../../../lib/util/get.js';
 import { getConfig } from '../../../../../lib/util/getConfig.js';
-import { OgInfo } from '../../../../../types/pageMeta.js';
 import { getValueSync } from '../../../../../lib/util/registry.js';
-import { normalizePort } from '../../../../../bin/lib/normalizePort.js';
+import { OgInfo } from '../../../../../types/pageMeta.js';
 
 export default {
   Query: {
@@ -98,7 +98,7 @@ export default {
         // If logo is a relative path, convert to absolute URL
         logo = `${baseUrl}${logo}`;
       }
-      let image = get(
+      const image = get(
         context,
         'pageInfo.ogInfo.image',
         logo ? `${baseUrl}/images?src=${logo}&w=1200&q=80&h=675&f=png` : ''

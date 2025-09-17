@@ -1,5 +1,5 @@
-import React from 'react';
 import { ProductList } from '@components/frontStore/ProductList.js';
+import React from 'react';
 
 interface CollectionProductsProps {
   collection: {

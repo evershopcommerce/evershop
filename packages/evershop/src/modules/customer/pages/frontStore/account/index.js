@@ -1,6 +1,6 @@
-import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
 export default (request, response, next) => {

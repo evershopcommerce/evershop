@@ -10,10 +10,10 @@ import {
   INVALID_PAYLOAD,
   OK
 } from '../../../../lib/util/httpStatus.js';
-import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
-import { createAxiosInstance } from '../../services/requester.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
+import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
+import { createAxiosInstance } from '../../services/requester.js';
 
 export default async (
   request: EvershopRequest,

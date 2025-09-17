@@ -1,13 +1,13 @@
 import { execute, select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { CategoryCollection } from '../../../services/CategoryCollection.js';
 import { getCategoriesBaseQuery } from '../../../services/getCategoriesBaseQuery.js';
 import { getFilterableAttributes } from '../../../services/getFilterableAttributes.js';
 import { getProductsByCategoryBaseQuery } from '../../../services/getProductsByCategoryBaseQuery.js';
 import { ProductCollection } from '../../../services/ProductCollection.js';
-import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
 
 export default {
   Query: {
