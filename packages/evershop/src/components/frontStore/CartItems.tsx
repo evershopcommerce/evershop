@@ -6,7 +6,7 @@ import {
 import { Image } from '@components/common/Image.js';
 import React from 'react';
 import { _ } from '../../lib/locale/translate/_.js';
-import { ItemQuantity } from './ItemQuantity.js';
+import { ItemQuantity } from '@components/frontStore/ItemQuantity.js';
 
 export interface ItemProps {
   id: string;

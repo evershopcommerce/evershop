@@ -1,8 +1,8 @@
 import React, { useMemo, useState, useContext, useCallback } from 'react';
 import RangeSlider from 'react-range-slider-input';
 import { _ } from '../../lib/locale/translate/_.js';
-import Area from '../common/Area.js';
-import { useAppDispatch } from '../common/context/app.js';
+import Area from '@components/common/Area.js';
+import { useAppDispatch } from '@components/common/context/app.js';
 import 'react-range-slider-input/dist/style.css';
 
 export interface FilterInput {
