@@ -24,4 +24,5 @@ export interface PageMetaInfo {
   robots: string;
   canonicalUrl: string;
   keywords: string[];
+  baseUrl: string;
 }
