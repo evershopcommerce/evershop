@@ -1,5 +1,4 @@
-// Define your desired image breakpoints. Consider putting this in a config file.
-const deviceSizes = [320, 640, 768, 1080, 1200, 1920];
+const deviceSizes = [320, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
 
 const isValidCondition = (condition: string): boolean => {
   if (!condition || typeof condition !== 'string') {

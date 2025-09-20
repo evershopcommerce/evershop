@@ -3,14 +3,15 @@ import { parseImageSizes } from '../../lib/util/parseImageSizes.js';
 
 export type ImageProps = {
   src: string;
-  width: number;
-  height: number;
+  width: number; // Intrinsic width of the image
+  height: number; // Intrinsic height of the image
   alt: string;
   quality?: number;
   priority?: boolean;
   sizes?: string;
   loading?: 'eager' | 'lazy' | undefined;
   decoding?: 'async' | 'auto' | 'sync' | undefined;
+  objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down' | 'unset';
   style?: React.CSSProperties;
 } & React.ImgHTMLAttributes<HTMLImageElement>;
 
@@ -24,6 +25,7 @@ export function Image({
   decoding = 'async',
   priority = false,
   sizes = '100vw',
+  objectFit = 'unset',
   ...props
 }: ImageProps): React.ReactElement | null {
   const generateSrcSet = (): string => {
@@ -65,6 +67,14 @@ export function Image({
     src
   )}&w=${width}&q=${quality}`;
 
+  // Prepare the base style with responsive behavior
+  const baseStyle = {
+    // Modern responsive image approach
+    maxWidth: '100%', // Ensure image doesn't exceed its container
+    height: 'auto', // Maintain aspect ratio
+    objectFit: objectFit
+  };
+
   return (
     <img
       {...props}
@@ -72,13 +82,11 @@ export function Image({
       srcSet={srcset}
       sizes={sizes}
       alt={alt}
+      // Set intrinsic dimensions to help browser calculate aspect ratio
       width={width}
       height={height}
       style={{
-        maxInlineSize: '100%',
-        blockSize: 'auto',
-        objectFit: 'contain',
-        aspectRatio: `${width} / ${height}`,
+        ...baseStyle,
         ...props.style
       }}
       loading={loading}
