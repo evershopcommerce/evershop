@@ -187,6 +187,33 @@ export default () => {
     enabled: true
   });
 
+  registerWidget({
+    type: 'banner',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/BannerSetting.js'
+    ),
+    component: path.resolve(CONSTANTS.MODULESPATH, 'cms/components/Banner.js'),
+    name: 'Banner',
+    description: 'A banner widget',
+    enabled: true
+  });
+
+  registerWidget({
+    type: 'simple_slider',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/SlideshowSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/Slideshow.js'
+    ),
+    name: 'Simple Slideshow',
+    description: 'A simple slideshow widget',
+    enabled: true
+  });
+
   // Reigtering the default filters for cms page collection
   addProcessor(
     'cmsPageCollectionFilters',
