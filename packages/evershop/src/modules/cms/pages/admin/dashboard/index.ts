@@ -1,8 +1,8 @@
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 
-export default (request) => {
+export default (request, response) => {
   setPageMetaInfo(request, {
-    title: 'Payment Setting',
-    description: 'Payment Setting'
+    title: 'Dashboard',
+    description: 'dashboard'
   });
 };

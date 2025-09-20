@@ -1,8 +1,10 @@
+import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
+import { EvershopResponse } from '../../../../../types/response.js';
 
-export default async (request, response, next) => {
+export default async (request, response: EvershopResponse, next) => {
   try {
     const query = getCmsPagesBaseQuery();
     query
@@ -14,10 +16,9 @@ export default async (request, response, next) => {
       next();
     } else {
       setContextValue(request, 'pageId', page.cms_page_id);
-      setContextValue(request, 'pageInfo', {
+      setPageMetaInfo(request, {
         title: page.meta_title || page.name,
-        description: page.meta_description || page.meta_title,
-        url: request.url
+        description: page.meta_description || page.meta_title
       });
       next();
     }

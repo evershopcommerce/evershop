@@ -1,8 +1,10 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
+import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
+import { EvershopResponse } from '../../../../../types/response.js';
 
-export default async (request, response, next) => {
+export default async (request, response: EvershopResponse, next) => {
   try {
     const query = select();
     query.from('cms_page');
@@ -23,7 +25,7 @@ export default async (request, response, next) => {
     } else {
       setContextValue(request, 'cmsPageId', cmsPage.cms_page_id);
       setContextValue(request, 'cmsPageUuid', cmsPage.uuid);
-      setContextValue(request, 'pageInfo', {
+      setPageMetaInfo(request, {
         title: cmsPage.name,
         description: cmsPage.name
       });

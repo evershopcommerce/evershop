@@ -1,7 +1,7 @@
-import { setContextValue } from '../../../../graphql/services/contextHelper.js';
+import { setPageMetaInfo } from '../../../services/pageMetaInfo.js';
 
 export default (request, response) => {
-  setContextValue(request, 'pageInfo', {
+  setPageMetaInfo(request, {
     title: 'Create a new widget',
     description: 'Create a new widget'
   });

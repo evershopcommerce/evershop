@@ -1,9 +1,8 @@
-import crypto from 'crypto';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { EvershopRequest } from '../../../../../types/request.js';
-import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getMyCart } from '../../../services/getMyCart.js';
+import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 
 declare module 'express-session' {
   interface SessionData {
@@ -27,7 +26,7 @@ export default async (request: EvershopRequest, response, next) => {
   if (items.length === 0 || cart.hasItemError()) {
     response.redirect(302, buildUrl('cart'));
   } else {
-    setContextValue(request, 'pageInfo', {
+    setPageMetaInfo(request, {
       title: translate('Checkout'),
       description: translate('Checkout')
     });

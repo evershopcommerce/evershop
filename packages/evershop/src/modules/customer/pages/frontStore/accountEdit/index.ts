@@ -1,6 +1,6 @@
+import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
-import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
 export default (request, response, next) => {
   // Check if the customer is logged in
@@ -8,7 +8,7 @@ export default (request, response, next) => {
     // Redirect to admin dashboard
     response.redirect(buildUrl('login'));
   } else {
-    setContextValue(request, 'pageInfo', {
+    setPageMetaInfo(request, {
       title: translate('Account edit'),
       description: translate('Account edit')
     });

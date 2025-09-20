@@ -1,8 +1,15 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
+import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
+import { EvershopRequest } from '../../../../../types/request.js';
+import { EvershopResponse } from '../../../../../types/response.js';
 
-export default async (request, response, next) => {
+export default async (
+  request: EvershopRequest,
+  response: EvershopResponse,
+  next
+) => {
   try {
     const query = select();
     query.from('order');
@@ -15,7 +22,7 @@ export default async (request, response, next) => {
     } else {
       setContextValue(request, 'orderId', order.uuid);
       setContextValue(request, 'orderCurrency', order.currency);
-      setContextValue(request, 'pageInfo', {
+      setPageMetaInfo(request, {
         title: `Order #${order.order_number}`,
         description: `Order #${order.order_number}`
       });

@@ -4,6 +4,7 @@ import { pool } from '../../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { EvershopRequest } from '../../../../../types/request.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
+import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 
 export default async (request: EvershopRequest, response, next) => {
   const { orderId } = request.params;
@@ -16,9 +17,9 @@ export default async (request: EvershopRequest, response, next) => {
     response.redirect(302, buildUrl('homepage'));
     return;
   } else {
-    setContextValue(request, 'pageInfo', {
+    setPageMetaInfo(request, {
       title: translate('Checkout success'),
-      description: 'Checkout success'
+      description: translate('Checkout success')
     });
     setContextValue(request, 'orderId', order.uuid);
     next();
