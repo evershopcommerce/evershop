@@ -63,7 +63,8 @@ const File: React.FC<{
 const FileBrowser: React.FC<{
   onInsert: (url: string) => void;
   isMultiple: boolean;
-}> = ({ onInsert, isMultiple }) => {
+  close: () => void;
+}> = ({ onInsert, isMultiple, close }) => {
   const [error, setError] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [folders, setFolders] = React.useState<string[]>([]);
@@ -122,8 +123,9 @@ const FileBrowser: React.FC<{
     }
   };
 
-  const close = (e) => {
+  const closeFileBrowser = (e) => {
     e.preventDefault();
+    close();
   };
 
   const createFolder = (e, folder) => {
@@ -230,10 +232,14 @@ const FileBrowser: React.FC<{
       .finally(() => setLoading(false));
   };
 
-  React.useEffect(() => {
-    if (browserApiRef.current === '') {
+  // Create a function to fetch files and folders to avoid code duplication
+  const [apiReady, setApiReady] = React.useState(false);
+
+  const fetchFilesAndFolders = React.useCallback(() => {
+    if (!browserApiRef.current) {
       return;
     }
+
     const path = currentPath.map((f) => f.name);
     setLoading(true);
     fetch(browserApiRef.current + path.join('/'), {
@@ -250,7 +256,21 @@ const FileBrowser: React.FC<{
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, [currentPath, browserApiRef.current]);
+  }, [currentPath]);
+
+  // Track when the browserApiRef becomes available
+  React.useEffect(() => {
+    if (browserApiRef.current && browserApiRef.current !== '' && !apiReady) {
+      setApiReady(true);
+    }
+  }, [browserApiRef.current, apiReady]);
+
+  // Fetch data when either the path changes or the API becomes ready
+  React.useEffect(() => {
+    if (apiReady) {
+      fetchFilesAndFolders();
+    }
+  }, [apiReady, currentPath, fetchFilesAndFolders]);
 
   const [result] = useQuery({
     query: GetApisQuery
@@ -286,7 +306,7 @@ const FileBrowser: React.FC<{
           <div className="flex justify-end">
             <a
               href="#"
-              onClick={(e) => close(e)}
+              onClick={(e) => closeFileBrowser(e)}
               className="text-interactive fill-current"
             >
               <svg

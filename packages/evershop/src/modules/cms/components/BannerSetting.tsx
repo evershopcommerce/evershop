@@ -61,8 +61,8 @@ export default function BannerSetting({
             onInsert={(file) => {
               setValue('settings.src', file);
               setOpenFileBrowser(false);
-              // Dimensions will be detected automatically by the useEffect
             }}
+            close={() => setOpenFileBrowser(false)}
           />
         )}
       </div>
