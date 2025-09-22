@@ -10,6 +10,7 @@ import {
 import type { PoolClient } from '@evershop/postgres-query-builder';
 import { JSONSchemaType } from 'ajv';
 import { getConnection } from '../../../../lib/postgres/connection.js';
+import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 import { hookable } from '../../../../lib/util/hookable.js';
 import {
   getValue,
@@ -17,7 +18,6 @@ import {
 } from '../../../../lib/util/registry.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import productDataSchema from './productDataSchema.json'  with { type: 'json' };
-import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 
 export type ProductData = ProductInventoryData & {
   name: string,

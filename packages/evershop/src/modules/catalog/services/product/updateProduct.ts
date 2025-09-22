@@ -12,6 +12,7 @@ import {
 import { JSONSchemaType } from 'ajv';
 import { error } from '../../../../lib/log/logger.js';
 import { getConnection } from '../../../../lib/postgres/connection.js';
+import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 import { hookable } from '../../../../lib/util/hookable.js';
 import {
   getValue,
@@ -20,7 +21,6 @@ import {
 import { getAjv } from '../../../base/services/getAjv.js';
 import type { ProductAttributeData, ProductData, ProductInventoryData } from './createProduct.js';
 import productDataSchema from './productDataSchema.json' with { type: 'json' };
-import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 
 function validateProductDataBeforeUpdate(data: ProductData) {
   const ajv = getAjv();

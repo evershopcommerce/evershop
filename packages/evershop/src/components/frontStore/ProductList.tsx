@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
 import { Image } from '@components/common/Image.js';
 import { AddToCart } from '@components/frontStore/AddToCart.js';
+import React, { ReactNode } from 'react';
 
 export interface Product {
   productId: string;

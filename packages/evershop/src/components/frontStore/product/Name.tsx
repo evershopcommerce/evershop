@@ -1,6 +1,6 @@
-import React from 'react';
-import { useProduct } from '@components/frontStore/product/productContext.js';
 import Area from '@components/common/Area.js';
+import { useProduct } from '@components/frontStore/product/productContext.js';
+import React from 'react';
 
 export const ProductName = () => {
   const { name } = useProduct();

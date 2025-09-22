@@ -1,9 +1,9 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { getEnabledWidgets } from '../../../../../lib/widget/widgetManager.js';
+import { EvershopResponse } from '../../../../../types/response.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { setPageMetaInfo } from '../../../services/pageMetaInfo.js';
-import { EvershopResponse } from '../../../../../types/response.js';
 
 export default async (request, response: EvershopResponse, next) => {
   try {

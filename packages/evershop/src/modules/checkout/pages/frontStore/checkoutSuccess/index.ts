@@ -3,8 +3,8 @@ import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { EvershopRequest } from '../../../../../types/request.js';
-import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
+import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
 export default async (request: EvershopRequest, response, next) => {
   const { orderId } = request.params;

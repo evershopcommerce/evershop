@@ -1,9 +1,9 @@
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { EvershopResponse } from '../../../../../types/response.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
-import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
-export default (request, response, next) => {
+export default (request, response: EvershopResponse, next) => {
   // Check if the customer is logged in
   if (!request.isCustomerLoggedIn()) {
     // Redirect to admin dashboard

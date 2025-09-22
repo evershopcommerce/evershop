@@ -1,8 +1,8 @@
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { EvershopRequest } from '../../../../../types/request.js';
-import { getMyCart } from '../../../services/getMyCart.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
+import { getMyCart } from '../../../services/getMyCart.js';
 
 declare module 'express-session' {
   interface SessionData {

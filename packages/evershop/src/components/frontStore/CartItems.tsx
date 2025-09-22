@@ -4,9 +4,9 @@ import {
   useCartDispatch
 } from '@components/common/context/cart.js';
 import { Image } from '@components/common/Image.js';
+import { ItemQuantity } from '@components/frontStore/ItemQuantity.js';
 import React from 'react';
 import { _ } from '../../lib/locale/translate/_.js';
-import { ItemQuantity } from '@components/frontStore/ItemQuantity.js';
 
 export interface ItemProps {
   id: string;

@@ -3,12 +3,14 @@ import { ProductAttributes } from '@components/frontStore/product/Attributes.js'
 import { ProductDescription } from '@components/frontStore/product/Description.js';
 import { Media } from '@components/frontStore/product/Media.js';
 import { ProductName } from '@components/frontStore/product/Name.js';
-import { ProductProvider } from '@components/frontStore/product/productContext.js';
+import {
+  ProductData,
+  ProductProvider
+} from '@components/frontStore/product/productContext.js';
 import { ProductForm } from '@components/frontStore/product/ProductForm.js';
-import { ProductSku } from '@components/frontStore/product/Sku.js';
 import React from 'react';
 
-export default function ProductView({ product }) {
+export default function ProductView({ product }: ProductData) {
   return (
     <ProductProvider product={product}>
       <div className="product__detail">
