@@ -27,15 +27,14 @@ export default {
         .where('product_image_product_id', '=', product.productId)
         .and('is_main', '=', false)
         .execute(pool);
+      const port = normalizePort();
+      const baseUrl = getConfig('shop.homeUrl', `http://localhost:${port}`);
       return gallery.map((image) => ({
         id: image.product_image_id,
         alt: product.name,
-        url: image.origin_image,
+        url: `${baseUrl}${image.origin_image}`,
         uuid: uuidv4(),
-        origin: image.origin_image,
-        thumb: image.thumb_image,
-        single: image.single_image,
-        listing: image.listing_image
+        origin: image.origin_image
       }));
     }
   }

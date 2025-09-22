@@ -113,7 +113,11 @@ export default {
             'pageInfo.ogInfo.description',
             root.description
           ),
-          image: image ? image : root.image,
+          image: get(
+            context,
+            'pageInfo.ogInfo.image',
+            image ? image : root.image
+          ),
           url: get(context, 'pageInfo.ogInfo.url', root.url),
           siteName: get(context, 'pageInfo.ogInfo.siteName', root.siteName),
           type: get(context, 'pageInfo.ogInfo.type', 'website'),

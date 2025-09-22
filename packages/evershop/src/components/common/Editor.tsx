@@ -43,11 +43,11 @@ const Image: React.FC<{
     withBorder?: boolean;
     withBackground?: boolean;
     stretched?: boolean;
-    url?: string;
+    link?: string;
   };
   columnSize: number;
 }> = ({ data, columnSize }) => {
-  const { file, caption, withBorder, withBackground, stretched, url } = data;
+  const { file, caption, withBorder, withBackground, stretched, link } = data;
 
   const imageStyles = {
     border: withBorder ? '1px solid #ccc' : 'none',
@@ -66,26 +66,20 @@ const Image: React.FC<{
   // columnSize represents the fraction of the row that this column occupies (e.g., 1/2, 1/3, 2/3, etc.)
   let sizesValue: string;
 
-  if (stretched) {
-    sizesValue = '100vw'; // On mobile, always full viewport width
+  sizesValue = '100vw'; // On mobile, always full viewport width
 
-    if (columnSize <= 0.25) {
-      sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 25vw';
-    } else if (columnSize <= 0.33) {
-      sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 33vw';
-    } else if (columnSize <= 0.5) {
-      sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw';
-    } else if (columnSize <= 0.67) {
-      sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 67vw';
-    } else if (columnSize <= 0.75) {
-      sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 75vw';
-    } else {
-      sizesValue = '(max-width: 640px) 100vw, 100vw';
-    }
+  if (columnSize <= 0.25) {
+    sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 25vw';
+  } else if (columnSize <= 0.34) {
+    sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 33vw';
+  } else if (columnSize <= 0.5) {
+    sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw';
+  } else if (columnSize <= 0.67) {
+    sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 67vw';
+  } else if (columnSize <= 0.75) {
+    sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 75vw';
   } else {
-    // If not stretched, the image will be constrained by its intrinsic dimensions
-    // but still needs appropriate sizes for different viewports
-    sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, auto';
+    sizesValue = '(max-width: 640px) 100vw, 100vw';
   }
 
   const responsiveSizes = sizesValue;
@@ -103,8 +97,8 @@ const Image: React.FC<{
 
   return (
     <div className="editor-image-container">
-      {url ? (
-        <a href={url} target="_blank" rel="noopener noreferrer">
+      {link ? (
+        <a href={link} target="_blank" rel="noopener noreferrer">
           {imageElement}
         </a>
       ) : (

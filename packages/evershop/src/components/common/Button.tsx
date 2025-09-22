@@ -9,6 +9,7 @@ export interface ButtonProps {
   url?: string;
   isLoading?: boolean;
   type?: 'button' | 'submit' | 'reset';
+  className?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,11 +19,13 @@ const Button: React.FC<ButtonProps> = ({
   onAction,
   url = undefined,
   isLoading = false,
-  type = 'button'
+  type = 'button',
+  className: _className = ''
 }) => {
   const className = ['button', variant];
   if (outline === true) className.push('outline');
   if (isLoading === true) className.push('loading');
+  if (_className) className.push(_className);
 
   const onActionFunc = (e) => {
     e.preventDefault();

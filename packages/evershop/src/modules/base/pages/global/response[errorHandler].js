@@ -1,3 +1,4 @@
+import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import isErrorHandlerTriggered from '../../../../lib/middleware/isErrorHandlerTriggered.js';
 import { render } from '../../../../lib/response/render.js';
 import { get } from '../../../../lib/util/get.js';
@@ -32,7 +33,7 @@ export default async (request, response, next) => {
           route: {
             id: route.id,
             path: route.path,
-            url: request.originalUrl,
+            url: getContextValue(request, 'currentUrl'),
             params: request.params
           }
         });

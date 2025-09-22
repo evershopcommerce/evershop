@@ -17,6 +17,7 @@ import {
 } from '../../../../lib/util/registry.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import productDataSchema from './productDataSchema.json'  with { type: 'json' };
+import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 
 export type ProductData = ProductInventoryData & {
   name: string,
@@ -183,11 +184,18 @@ async function insertProductAttributes(attributes: ProductAttributeData[], produ
 }
 
 async function insertProductImages(images: string[], productId: number, connection: PoolClient) {
+  const baseUrl = getBaseUrl()
   await Promise.all(
     images.map((f, index) =>
       (async () => {
+        // Remove baseUrl from the image path if it exists
+        let imagePath = f;
+        if (imagePath.startsWith(baseUrl)) {
+          imagePath = imagePath.substring(baseUrl.length);
+        }
+        
         await insert('product_image')
-          .given({ origin_image: f, is_main: index === 0 })
+          .given({ origin_image: imagePath, is_main: index === 0 })
           .prime('product_image_product_id', productId)
           .execute(connection);
       })()

@@ -20,7 +20,7 @@ export interface PageMetaInfo {
   };
   title: string;
   description: string;
-  ogInfo: OgInfo;
+  ogInfo: Partial<OgInfo>;
   robots: string;
   canonicalUrl: string;
   keywords: string[];

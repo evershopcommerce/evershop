@@ -9,14 +9,16 @@ describe('parseImageSizes', () => {
   describe('parseImageSizes function', () => {
     test('should handle fixed pixel values', () => {
       const result = parseImageSizes('500px');
-      expect(result).toEqual([320, 640, 768, 1080]); // Based on actual implementation: sizes >= 500*0.5, slice(0,4)
+      expect(result).toEqual([320, 640, 750, 828]); // Based on actual implementation: sizes >= 500*0.5, slice(0,4)
       expect(result.length).toBe(4);
     });
 
     test('should handle simple 100vw value', () => {
       const result = parseImageSizes('100vw');
-      expect(result).toEqual([320, 640, 768, 1080, 1200, 1920]);
-      expect(result.length).toBe(6);
+      expect(result).toEqual([
+        320, 640, 750, 828, 1080, 1200, 1920, 2048, 3840
+      ]);
+      expect(result.length).toBe(9);
     });
 
     test('should handle complex media queries with multiple conditions', () => {
@@ -28,11 +30,11 @@ describe('parseImageSizes', () => {
     });
 
     test('should handle single condition with viewport width', () => {
-      const sizes = '(max-width: 768px) 100vw, 50vw';
+      const sizes = '(max-width: 750px) 100vw, 50vw';
       const result = parseImageSizes(sizes);
       expect(result).toContain(320);
       expect(result).toContain(640);
-      expect(result).toContain(768);
+      expect(result).toContain(750);
     });
 
     test('should ensure minimum variety of sizes', () => {
@@ -167,20 +169,20 @@ describe('parseImageSizes', () => {
     });
 
     test('should handle max-device-width queries', () => {
-      expect(evaluateMediaQuery('max-device-width: 768px', 600)).toBe(true);
-      expect(evaluateMediaQuery('max-device-width: 768px', 768)).toBe(true);
-      expect(evaluateMediaQuery('max-device-width: 768px', 1000)).toBe(false);
+      expect(evaluateMediaQuery('max-device-width: 750px', 600)).toBe(true);
+      expect(evaluateMediaQuery('max-device-width: 750px', 750)).toBe(true);
+      expect(evaluateMediaQuery('max-device-width: 750px', 800)).toBe(false);
     });
 
     test('should handle min-device-width queries', () => {
-      expect(evaluateMediaQuery('min-device-width: 768px', 1000)).toBe(true);
-      expect(evaluateMediaQuery('min-device-width: 768px', 768)).toBe(true);
-      expect(evaluateMediaQuery('min-device-width: 768px', 600)).toBe(false);
+      expect(evaluateMediaQuery('min-device-width: 750px', 1000)).toBe(true);
+      expect(evaluateMediaQuery('min-device-width: 750px', 750)).toBe(true);
+      expect(evaluateMediaQuery('min-device-width: 750px', 600)).toBe(false);
     });
 
     test('should handle decimal values in media queries', () => {
-      expect(evaluateMediaQuery('max-width: 767.5px', 767)).toBe(true);
-      expect(evaluateMediaQuery('max-width: 767.5px', 768)).toBe(false);
+      expect(evaluateMediaQuery('max-width: 749.5px', 749)).toBe(true);
+      expect(evaluateMediaQuery('max-width: 749.5px', 750)).toBe(false);
     });
 
     test('should handle orientation landscape', () => {
@@ -231,7 +233,7 @@ describe('parseImageSizes', () => {
     });
 
     test('should convert vh values', () => {
-      expect(convertToPixels(25, 'vh', 800)).toBe(120); // For 800px: assumedHeight = 800*1.5=1200, 25vh = 300, but for desktop (>768) it's 800*0.6=480, so 25vh=120
+      expect(convertToPixels(25, 'vh', 800)).toBe(120); // For 800px: assumedHeight = 800*1.5=1200, 25vh = 300, but for desktop (>750) it's 800*0.6=480, so 25vh=120
     });
 
     test('should convert vmin values', () => {
@@ -279,7 +281,7 @@ describe('parseImageSizes', () => {
 
     test('should maintain performance with many conditions', () => {
       const sizes =
-        '(max-width: 320px) 100vw, (max-width: 640px) 90vw, (max-width: 768px) 80vw, (max-width: 1024px) 70vw, (max-width: 1200px) 60vw, 50vw';
+        '(max-width: 320px) 100vw, (max-width: 640px) 90vw, (max-width: 750px) 80vw, (max-width: 1080px) 70vw, (max-width: 1200px) 60vw, 50vw';
 
       const startTime = performance.now();
       const result = parseImageSizes(sizes);
@@ -430,7 +432,7 @@ describe('parseImageSizes', () => {
 
   describe('complex media query combinations', () => {
     test('should handle multiple media features', () => {
-      const sizes = '(min-width: 768px) and (max-width: 1024px) 50vw, 100vw';
+      const sizes = '(min-width: 750px) and (max-width: 1080px) 50vw, 100vw';
       const result = parseImageSizes(sizes);
       expect(Array.isArray(result)).toBe(true);
     });
@@ -551,7 +553,7 @@ describe('parseImageSizes', () => {
 
     test('should handle Tailwind CSS breakpoints', () => {
       const sizes =
-        '(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw';
+        '(max-width: 640px) 100vw, (max-width: 750px) 100vw, (max-width: 1080px) 50vw, (max-width: 1200px) 33vw, 25vw';
       const result = parseImageSizes(sizes);
       expect(Array.isArray(result)).toBe(true);
       expect(result.length).toBeGreaterThanOrEqual(4);
