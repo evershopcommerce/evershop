@@ -260,6 +260,134 @@ describe('Path safety validation', () => {
       // Ignore errors
     }
   });
+
+  // Test for assets path handling with dynamic path resolution
+  test('Should locate asset in media directory first', async () => {
+    // Create a test image in the media directory
+    const mediaTestImagePath = 'media/asset-test.png';
+    const mediaFullPath = path.join(ROOTPATH, mediaTestImagePath);
+
+    // Ensure the test image exists in media
+    try {
+      await fs.access(mediaFullPath);
+    } catch {
+      // Create a test image if it doesn't exist
+      await sharp({
+        create: {
+          width: 100,
+          height: 100,
+          channels: 4,
+          background: { r: 255, g: 100, b: 100, alpha: 1 }
+        }
+      })
+        .png()
+        .toFile(mediaFullPath);
+    }
+
+    // Use the path with leading slash
+    const assetsPath = '/assets/asset-test.png';
+    const result = await imageProcessor(assetsPath, 75, 80, 'webp');
+
+    expect(result).toBeTruthy();
+    expect(result.metadata.width).toBe(75);
+    expect(result.metadata.format).toBe('webp');
+  });
+
+  // Test fallback to public directory when file doesn't exist in media
+  test('Should fallback to public directory when asset not in media', async () => {
+    // Create a test image only in the public directory
+    const publicTestImagePath = 'public/public-only-asset.png';
+    const publicFullPath = path.join(ROOTPATH, publicTestImagePath);
+
+    // Ensure the test image exists in public but not in media
+    try {
+      // Try to remove from media if it exists
+      await fs
+        .unlink(path.join(ROOTPATH, 'media/public-only-asset.png'))
+        .catch(() => {});
+
+      // Ensure it exists in public
+      try {
+        await fs.access(publicFullPath);
+      } catch {
+        // Create a test image if it doesn't exist
+        await sharp({
+          create: {
+            width: 100,
+            height: 100,
+            channels: 4,
+            background: { r: 100, g: 255, b: 100, alpha: 1 }
+          }
+        })
+          .png()
+          .toFile(publicFullPath);
+      }
+    } catch (error) {
+      console.error('Test setup failed:', error);
+    }
+
+    // Use the assets path format
+    const assetsPath = '/assets/public-only-asset.png';
+    const result = await imageProcessor(assetsPath, 80, 80, 'webp');
+
+    expect(result).toBeTruthy();
+    expect(result.metadata.width).toBe(80);
+    expect(result.metadata.format).toBe('webp');
+  });
+
+  // Test default behavior when asset not found in any directory
+  test('Should default to media path and throw appropriate error when asset not found', async () => {
+    // Use a non-existent asset path
+    const nonExistentPath = '/assets/non-existent-asset-' + Date.now() + '.png';
+
+    // Should try media path by default and throw the standard error
+    await expect(
+      imageProcessor(nonExistentPath, 80, 80, 'webp')
+    ).rejects.toThrow(/not found/);
+  });
+
+  // Test for regular assets path with leading slash handling
+  test('Should convert /assets path to public path', async () => {
+    // Create a test file in public directory
+    const testImagePath = 'public/assets-test.png';
+    const fullPath = path.join(ROOTPATH, testImagePath);
+
+    // Ensure the test image exists
+    try {
+      await fs.access(fullPath);
+    } catch {
+      // Create a simple test image if it doesn't exist
+      await sharp({
+        create: {
+          width: 100,
+          height: 100,
+          channels: 4,
+          background: { r: 100, g: 255, b: 100, alpha: 1 }
+        }
+      })
+        .png()
+        .toFile(fullPath);
+    }
+
+    // Use the path with leading slash - this matches the implementation
+    const assetsPath = '/assets/assets-test.png';
+    const result = await imageProcessor(assetsPath, 80, 80, 'webp');
+
+    expect(result).toBeTruthy();
+    expect(result.metadata.width).toBe(80);
+    expect(result.metadata.format).toBe('webp');
+  });
+
+  // Test for assets path with leading slash handling
+  test('Should convert /assets path to public path', async () => {
+    // Use the path with leading slash - this matches the implementation
+    const assetsPath = '/assets/assets-test.png';
+    const result = await imageProcessor(assetsPath, 80, 80, 'webp');
+
+    expect(result).toBeTruthy();
+    expect(result.metadata.width).toBe(80);
+    expect(result.metadata.format).toBe('webp');
+  });
 });
 
 // Format handling tests
