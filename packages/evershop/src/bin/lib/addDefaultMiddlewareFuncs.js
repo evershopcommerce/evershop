@@ -20,8 +20,8 @@ import { isBuildRequired } from '../../lib/webpack/isBuildRequired.js';
 import { getAdminSessionCookieName } from '../../modules/auth/services/getAdminSessionCookieName.js';
 import { getCookieSecret } from '../../modules/auth/services/getCookieSecret.js';
 import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
-import { setContextValue } from '../../modules/graphql/services/contextHelper.js';
 import { findRoute } from './findRoute.js';
+import { setPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
 
 export function addDefaultMiddlewareFuncs(app) {
   app.use((request, response, next) => {
@@ -282,7 +282,7 @@ export function addDefaultMiddlewareFuncs(app) {
       response.status(404);
       const routes = getRoutes();
       request.currentRoute = routes.find((r) => r.id === 'notFound');
-      setContextValue(request, 'pageInfo', {
+      setPageMetaInfo(request, {
         title: translate('Not found'),
         description: translate('Not found')
       });

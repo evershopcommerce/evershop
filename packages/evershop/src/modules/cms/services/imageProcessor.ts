@@ -75,7 +75,49 @@ export const imageProcessor = async (
   const isExternalUrl = src.startsWith('http://') || src.startsWith('https://');
 
   if (!isExternalUrl) {
-    // Validate internal path - these are relative to project root
+    // Special case: Handle assets path format like "/assets/media/image.png" or "/assets/image.png"
+    if (src.startsWith('/assets/')) {
+      // Extract the filename after '/assets/'
+      const assetsPattern = /\/assets\/(.+)$|^assets\/(.+)$/;
+      const matches = src.match(assetsPattern);
+
+      if (matches) {
+        const assetPath = matches[1] || matches[2]; // Use the matched group
+
+        // Try multiple possible locations in order of priority
+        const possiblePaths = [
+          `media/${assetPath}`,
+          `public/${assetPath}`
+          // For themes, we need to check each theme's public directory
+          // This is more complex and would require listing themes
+        ];
+
+        let fileExists = false;
+        for (const possiblePath of possiblePaths) {
+          try {
+            // Check if the file exists in this location
+            await fs.access(path.join(CONSTANTS.ROOTPATH, possiblePath));
+            // If we get here, the file exists in this location
+            src = possiblePath;
+            debug(`[imageProcessor] Found asset at: ${src}`);
+            fileExists = true;
+            break;
+          } catch {
+            // File doesn't exist in this location, continue to next one
+            continue;
+          }
+        }
+
+        // If file wasn't found in any of the standard locations,
+        // default to media directory and let the normal error handling take over
+        if (!fileExists) {
+          src = `media/${assetPath}`;
+          debug(`[imageProcessor] Defaulting to media path: ${src}`);
+        }
+      }
+    }
+
+    // Now continue with regular path validation
     // Remove leading slash if present for consistent handling
     const normalized = path.normalize(src);
     const cleanPath = normalized.startsWith('/')
@@ -95,7 +137,7 @@ export const imageProcessor = async (
     const normalizedPath = cleanPath.replace(/\\/g, '/');
 
     // Only allow specific directories from project root
-    const allowedPaths = ['media/', 'public/', 'themes/', 'assets/'];
+    const allowedPaths = ['media/', 'public/', 'themes/'];
 
     const isAllowedPath = allowedPaths.some((allowedPath) => {
       if (allowedPath === 'themes/') {

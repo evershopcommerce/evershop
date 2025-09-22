@@ -1,5 +1,5 @@
 // Define your desired image breakpoints. Consider putting this in a config file.
-const deviceSizes = [320, 640, 768, 1080, 1200, 1920];
+const deviceSizes = [320, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
 
 const isValidCondition = (condition: string): boolean => {
   if (!condition || typeof condition !== 'string') {
@@ -9,6 +9,11 @@ const isValidCondition = (condition: string): boolean => {
   const trimmed = condition.trim();
   if (!trimmed) {
     return false;
+  }
+
+  // Special case: handle 'auto' keyword
+  if (trimmed === 'auto') {
+    return true;
   }
 
   // Check for valid CSS units pattern - allow some whitespace between value and unit
@@ -149,6 +154,13 @@ export const evaluateCondition = (
 
     return null; // Media query doesn't match
   } else {
+    // Special case: handle 'auto' keyword
+    if (condition.trim() === 'auto') {
+      // For 'auto', use a reasonable default based on the device size
+      // We'll use 25% of the viewport width as a reasonable approximation
+      return Math.round(deviceSize * 0.25);
+    }
+
     // No media query, this is a fallback value - comprehensive regex for all CSS units
     const valueMatch = condition.match(
       /(\d+(?:\.\d+)?)\s*(vw|vh|px|rem|em|%|ch|vmin|vmax|pt|pc|in|cm|mm|ex|ic|lh|vi|vb|cqw|cqh|cqi|cqb|cqmin|cqmax)\s*$/

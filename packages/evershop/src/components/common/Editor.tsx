@@ -1,3 +1,4 @@
+import { Image as ResponsiveImage } from '@components/common/Image.js';
 import React from 'react';
 import { getColumnClasses } from './form/editor/GetColumnClasses.js';
 import { getRowClasses } from './form/editor/GetRowClasses.js';
@@ -35,8 +36,6 @@ const Quote: React.FC<{ data: { text: string; caption?: string } }> = ({
   );
 };
 
-import { Image as ResponsiveImage } from '../frontStore/Image.js';
-
 const Image: React.FC<{
   data: {
     file: { url: string; width?: number; height?: number };
@@ -44,10 +43,11 @@ const Image: React.FC<{
     withBorder?: boolean;
     withBackground?: boolean;
     stretched?: boolean;
-    url?: string;
+    link?: string;
   };
-}> = ({ data }) => {
-  const { file, caption, withBorder, withBackground, stretched, url } = data;
+  columnSize: number;
+}> = ({ data, columnSize }) => {
+  const { file, caption, withBorder, withBackground, stretched, link } = data;
 
   const imageStyles = {
     border: withBorder ? '1px solid #ccc' : 'none',
@@ -58,17 +58,31 @@ const Image: React.FC<{
     margin: '0 auto'
   };
 
-  // Determine image dimensions
-  // Use original dimensions if available, or reasonable defaults
   const imageWidth = file.width || 800;
   const imageHeight =
     file.height || (file.width ? Math.round(file.width * 0.75) : 600);
 
-  // Set responsive sizes attribute based on the editor's column layouts
-  // Account for different column configurations: full-width, 50-50, 30-70, 40-60, 1/3-1/3-1/3, 1/4-1/2-1/4
-  const responsiveSizes = stretched
-    ? '100vw' // Full width when stretched
-    : '(max-width: 640px) 100vw, (max-width: 768px) 80vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw'; // Responsive breakpoints for various column widths
+  // Calculate responsive sizes based on the columnSize prop
+  // columnSize represents the fraction of the row that this column occupies (e.g., 1/2, 1/3, 2/3, etc.)
+  let sizesValue: string;
+
+  sizesValue = '100vw'; // On mobile, always full viewport width
+
+  if (columnSize <= 0.25) {
+    sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 25vw';
+  } else if (columnSize <= 0.34) {
+    sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 33vw';
+  } else if (columnSize <= 0.5) {
+    sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 50vw';
+  } else if (columnSize <= 0.67) {
+    sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 67vw';
+  } else if (columnSize <= 0.75) {
+    sizesValue = '(max-width: 640px) 100vw, (max-width: 768px) 80vw, 75vw';
+  } else {
+    sizesValue = '(max-width: 640px) 100vw, 100vw';
+  }
+
+  const responsiveSizes = sizesValue;
 
   const imageElement = (
     <ResponsiveImage
@@ -83,8 +97,8 @@ const Image: React.FC<{
 
   return (
     <div className="editor-image-container">
-      {url ? (
-        <a href={url} target="_blank" rel="noopener noreferrer">
+      {link ? (
+        <a href={link} target="_blank" rel="noopener noreferrer">
           {imageElement}
         </a>
       ) : (
@@ -103,7 +117,8 @@ const RawHtml: React.FC<{ data: { html: string } }> = ({ data }) => {
 
 const RenderEditorJS: React.FC<{
   blocks: Array<{ type: string; data: any }>;
-}> = ({ blocks }) => {
+  columnSize: number; // Renamed from 'size' to 'columnSize' for clarity
+}> = ({ blocks, columnSize }) => {
   return (
     <div className="prose prose-base max-w-none">
       {blocks.map((block, index) => {
@@ -115,7 +130,9 @@ const RenderEditorJS: React.FC<{
           case 'list':
             return <List key={index} data={block.data} />;
           case 'image':
-            return <Image key={index} data={block.data} />;
+            return (
+              <Image key={index} data={block.data} columnSize={columnSize} />
+            );
           case 'quote':
             return <Quote key={index} data={block.data} />;
           case 'raw':
@@ -150,7 +167,10 @@ export function Editor({ rows }: EditorProps) {
                   key={index}
                 >
                   {column.data?.blocks && (
-                    <RenderEditorJS blocks={column.data?.blocks} />
+                    <RenderEditorJS
+                      blocks={column.data?.blocks}
+                      columnSize={column.size / row.size}
+                    />
                   )}
                 </div>
               );

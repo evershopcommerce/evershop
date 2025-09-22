@@ -1,7 +1,7 @@
-import { setContextValue } from '../../../../graphql/services/contextHelper.js';
+import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 
 export default (request) => {
-  setContextValue(request, 'pageInfo', {
+  setPageMetaInfo(request, {
     title: 'Create a new coupon',
     description: 'Create a new coupon'
   });

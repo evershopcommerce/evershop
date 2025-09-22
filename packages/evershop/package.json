@@ -197,6 +197,7 @@
     "react-range-slider-input": "^3.2.1",
     "react-refresh": "^0.14.0",
     "react-select": "^5.4.0",
+    "react-slick": "^0.31.0",
     "react-toastify": "^6.2.0",
     "recharts": "^2.0.9",
     "sass": "^1.53.0",

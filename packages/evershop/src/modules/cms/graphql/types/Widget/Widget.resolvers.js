@@ -58,6 +58,35 @@ export default {
         : '[]';
       return { text: JSON.parse(jsonText), className };
     },
+    bannerWidget(_, { src, alignment, width, height, alt }) {
+      return { src, alignment, width, height, alt };
+    },
+    slideshowWidget(
+      _,
+      {
+        slides,
+        autoplay,
+        autoplaySpeed,
+        arrows,
+        dots,
+        fullWidth,
+        widthValue,
+        heightValue,
+        heightType
+      }
+    ) {
+      return {
+        slides: slides || [],
+        autoplay: autoplay !== undefined ? autoplay : true,
+        autoplaySpeed: autoplaySpeed || 3000,
+        arrows: arrows !== undefined ? arrows : true,
+        dots: dots !== undefined ? dots : true,
+        fullWidth: fullWidth !== undefined ? fullWidth : true,
+        widthValue: widthValue || 1920,
+        heightValue: heightValue || 800,
+        heightType: heightType || 'auto'
+      };
+    },
     basicMenuWidget: async (_, { settings }, { pool }) => {
       const categories = [];
       const pages = [];
