@@ -156,14 +156,14 @@ export function Editor({ rows }: EditorProps) {
         const rowClasses = getRowClasses(row.size);
         return (
           <div
-            className={`row__container mt-7 grid md:${rowClasses} grid-cols-1 gap-5`}
+            className={`row__container mt-7 grid ${rowClasses} grid-cols-1 gap-5`}
             key={index}
           >
             {row.columns.map((column, index) => {
               const columnClasses = getColumnClasses(column.size);
               return (
                 <div
-                  className={`column__container md:${columnClasses} col-span-1`}
+                  className={`column__container ${columnClasses} col-span-1`}
                   key={index}
                 >
                   {column.data?.blocks && (
