@@ -12,6 +12,7 @@ import { AtLeastOne } from 'src/types/atLeastOne.js';
 import { useQuery } from 'urql';
 import { VariantGroup } from '../VariantGroup.js';
 import { VariantItem } from './Variants.js';
+import { Card } from '@components/admin/Card.js';
 
 const AttributesQuery = `
   query Query($filters: [FilterInput]) {
@@ -163,138 +164,139 @@ export const VariantModal: React.FC<
     return <p className="text-critical">{error.message}</p>;
   }
   return (
-    <div className="divide-y border-divider">
-      <div className="grid grid-cols-2 gap-x-2 pb-5">
-        <div className="col-span-1">
-          <ImageUploader
-            currentImages={
-              variant?.product.image
-                ? [variant.product.image].concat(variant.product.gallery || [])
-                : []
-            }
-            allowDelete={true}
-            allowSwap={true}
-            onDelete={(image) => {
-              const index = fields.findIndex(
-                (field) => field.uuid === image.uuid
-              );
-              if (index !== -1) {
-                remove(index);
+    <Card title={variant ? 'Edit Variant' : 'New Variant'}>
+      <Card.Session>
+        <div className="grid grid-cols-2 gap-x-5">
+          <div className="col-span-1">
+            <ImageUploader
+              currentImages={
+                variant?.product.image
+                  ? [variant.product.image].concat(
+                      variant.product.gallery || []
+                    )
+                  : []
               }
-            }}
-            onUpload={(images) => {
-              const newImages = images.map((image) => ({
-                id: image.uuid,
-                path: image.path,
-                url: image.url
-              }));
-              append(newImages);
-            }}
-            onSortEnd={(oldIndex, newIndex) => {
-              const newImages = [...fields];
-              const [movedImage] = newImages.splice(oldIndex, 1);
-              newImages.splice(newIndex, 0, movedImage);
-              replace(newImages);
-            }}
-            targetPath={`catalog/${
-              Math.floor(Math.random() * (9999 - 1000)) + 1000
-            }/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`}
-          />
-        </div>
-        <div className="col-span-1">
-          <div className="grid grid-cols-2 gap-x-2 border-b border-divider pb-4 mb-4">
-            {data.attributes.items.map((a) => (
-              <div key={a.attributeCode} className="mt-2 col">
-                <div>
-                  <label>{a.attributeName}</label>
+              allowDelete={true}
+              allowSwap={true}
+              onDelete={(image) => {
+                const index = fields.findIndex(
+                  (field) => field.uuid === image.uuid
+                );
+                if (index !== -1) {
+                  remove(index);
+                }
+              }}
+              onUpload={(images) => {
+                const newImages = images.map((image) => ({
+                  id: image.uuid,
+                  path: image.path,
+                  url: image.url
+                }));
+                append(newImages);
+              }}
+              onSortEnd={(oldIndex, newIndex) => {
+                const newImages = [...fields];
+                const [movedImage] = newImages.splice(oldIndex, 1);
+                newImages.splice(newIndex, 0, movedImage);
+                replace(newImages);
+              }}
+              targetPath={`catalog/${
+                Math.floor(Math.random() * (9999 - 1000)) + 1000
+              }/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`}
+            />
+          </div>
+          <div className="col-span-1">
+            <div className="grid grid-cols-2 gap-x-2 border-b border-divider pb-4 mb-4">
+              {data.attributes.items.map((a) => (
+                <div key={a.attributeCode} className="mt-2 col">
+                  <div>
+                    <label>{a.attributeName}</label>
+                  </div>
+                  <SelectField
+                    name={`variant_attributes.${a.attributeCode}`}
+                    placeholder="Select an option"
+                    required
+                    validation={{
+                      required: 'This field is required'
+                    }}
+                    defaultValue={
+                      variant?.attributes
+                        .find((attr) => attr.attributeCode === a.attributeCode)
+                        ?.optionId.toString() || ''
+                    }
+                    options={a.options}
+                  />
                 </div>
-                <SelectField
-                  name={`variant_attributes.${a.attributeCode}`}
-                  placeholder="Select an option"
+              ))}
+            </div>
+            <div className="grid grid-cols-3 gap-x-2 border-b border-divider pb-4 mb-4">
+              <div>
+                <div>SKU</div>
+                <InputField
+                  name="variant_sku"
+                  placeholder="Enter SKU"
                   required
                   validation={{
-                    required: 'This field is required'
+                    required: 'SKU is required'
                   }}
-                  defaultValue={
-                    variant?.attributes
-                      .find((attr) => attr.attributeCode === a.attributeCode)
-                      ?.optionId.toString() || ''
-                  }
-                  options={a.options}
+                  defaultValue={variant?.product?.sku}
                 />
               </div>
-            ))}
-          </div>
-          <div className="grid grid-cols-3 gap-x-2 border-b border-divider pb-4 mb-4">
-            <div>
-              <div>SKU</div>
-              <InputField
-                name="variant_sku"
-                placeholder="Enter SKU"
-                required
-                validation={{
-                  required: 'SKU is required'
-                }}
-                defaultValue={variant?.product?.sku}
-              />
+              <div>
+                <div>Qty</div>
+                <NumberField
+                  name="variant_qty"
+                  required
+                  placeholder="Enter quantity"
+                  validation={{
+                    required: 'Qty is required'
+                  }}
+                  allowDecimals={false}
+                  defaultValue={variant?.product?.qty || 0}
+                />
+              </div>
             </div>
-            <div>
-              <div>Qty</div>
-              <NumberField
-                name="variant_qty"
-                required
-                placeholder="Enter quantity"
-                validation={{
-                  required: 'Qty is required'
-                }}
-                allowDecimals={false}
-                defaultValue={variant?.product?.qty || 0}
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-3 gap-x-2">
-            <div>
-              <div>Status</div>
-              <ToggleField
-                name="variant_status"
-                trueValue={true}
-                falseValue={false}
-                defaultValue={variant?.product.status === 1}
-              />
-            </div>
-            <div>
-              <div>Visibility</div>
-              <ToggleField
-                name="variant_visibility"
-                trueValue={true}
-                falseValue={false}
-                defaultValue={variant?.product.visibility === 1}
-              />
+            <div className="grid grid-cols-3 gap-x-2">
+              <div>
+                <div>Status</div>
+                <ToggleField
+                  name="variant_status"
+                  trueValue={true}
+                  falseValue={false}
+                  defaultValue={variant?.product.status === 1}
+                />
+              </div>
+              <div>
+                <div>Visibility</div>
+                <ToggleField
+                  name="variant_visibility"
+                  trueValue={true}
+                  falseValue={false}
+                  defaultValue={variant?.product.visibility === 1}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex justify-end pt-5">
-        <div className="grid grid-cols-2 gap-2">
-          <Button
-            title="Cancel"
-            variant="danger"
-            onAction={closeModal}
-            outline
-          />
-          <Button
-            title="Save"
-            variant="primary"
-            isLoading={saving}
-            onAction={async () => {
-              const isValid = await trigger();
-              if (isValid) {
-                await saveVariant();
-              }
-            }}
-          />
+      </Card.Session>
+      <Card.Session>
+        <div className="flex justify-end">
+          <div className="grid grid-cols-2 gap-2">
+            <Button title="Cancel" variant="danger" onAction={closeModal} />
+            <Button
+              title="Save"
+              variant="primary"
+              isLoading={saving}
+              onAction={async () => {
+                const isValid = await trigger();
+                if (isValid) {
+                  await saveVariant();
+                }
+              }}
+            />
+          </div>
         </div>
-      </div>
-    </div>
+      </Card.Session>
+    </Card>
   );
 };

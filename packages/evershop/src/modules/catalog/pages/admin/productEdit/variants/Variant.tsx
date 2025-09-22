@@ -17,11 +17,16 @@ export const Variant: React.FC<{
           alt=""
         />
       </td>
-      {variant.attributes.map((a) => (
-        <td key={a.attributeId}>
-          <label>{a.optionText || '--'}</label>
-        </td>
-      ))}
+      {variantGroup.attributes.map((a) => {
+        const option = variant.attributes.find(
+          (attr) => attr.attributeCode === a.attributeCode
+        );
+        return (
+          <td key={a.attributeId}>
+            <label>{option?.optionText || '--'}</label>
+          </td>
+        );
+      })}
       <td>
         <a href={variant.product.editUrl} className="hover:text-interactive">
           {variant.product?.sku}
