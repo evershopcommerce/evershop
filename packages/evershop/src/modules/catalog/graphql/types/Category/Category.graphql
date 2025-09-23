@@ -93,7 +93,9 @@ type CategoryCollection {
 
 type PriceRange {
   min: Float!
+  minText: String!
   max: Float!
+  maxText: String!
 }
 
 extend type Product {

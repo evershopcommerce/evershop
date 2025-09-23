@@ -23,7 +23,9 @@ export interface FilterableAttribute {
 
 export interface PriceRange {
   min: number;
+  minText: string;
   max: number;
+  maxText: string;
 }
 
 export interface CategoryFilter {
@@ -66,8 +68,6 @@ export interface ProductFilterRenderProps {
 
   hasFilter: (key: string) => boolean;
   getFilterValue: (key: string) => string | undefined;
-  formatPrice: (price: number) => string;
-
   isLoading: boolean;
   activeFilterCount: number;
   filterSummary: string[];
@@ -81,7 +81,7 @@ export interface ProductFilterRenderProps {
 export interface ProductFilterProps {
   currentFilters: FilterInput[];
   availableAttributes?: FilterableAttribute[];
-  priceRange?: PriceRange;
+  priceRange: PriceRange;
   categories?: CategoryFilter[];
   setting?: {
     storeLanguage: string;
@@ -90,6 +90,12 @@ export interface ProductFilterProps {
   onFilterUpdate?: (filters: FilterInput[]) => void;
   children: (props: ProductFilterRenderProps) => React.ReactNode;
 }
+
+const formatPrice = (oldFormatted: string, price: number) => {
+  const match = oldFormatted.match(/^[^\d.,]+/);
+  const currencySymbol = match ? match[0] : '';
+  return currencySymbol + price;
+};
 
 // Create a context for filter dispatch
 export const ProductFilterDispatch = React.createContext<{
@@ -289,14 +295,6 @@ export const PriceFilterRenderer: React.FC<{
     debouncedUpdate(min, max);
   };
 
-  const formatPrice = (price: number) => {
-    if (!setting) return `$${price}`;
-    return new Intl.NumberFormat(setting.storeLanguage, {
-      style: 'currency',
-      currency: setting.storeCurrency
-    }).format(price);
-  };
-
   return (
     <DefaultFilterRenderer title={_('Price')}>
       <div className="price-filter border-b border-gray-200 pb-2 mb-2">
@@ -310,8 +308,8 @@ export const PriceFilterRenderer: React.FC<{
         </div>
 
         <div className="flex justify-between text-small text-gray-500 mt-2">
-          <span>{formatPrice(priceRange.min)}</span>
-          <span>{formatPrice(priceRange.max)}</span>
+          <span>{priceRange.minText}</span>
+          <span>{priceRange.maxText}</span>
         </div>
       </div>
       <style>{`.range-slider .range-slider__thumb { width: 1rem; height: 1rem} .range-slider {height:6px}`}</style>
@@ -916,17 +914,6 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
     [currentFilters]
   );
 
-  const formatPrice = useCallback(
-    (price: number) => {
-      if (!setting) return `$${price}`;
-      return new Intl.NumberFormat(setting.storeLanguage, {
-        style: 'currency',
-        currency: setting.storeCurrency
-      }).format(price);
-    },
-    [setting]
-  );
-
   const isOptionSelected = useCallback(
     (attributeCode: string, optionId: string) => {
       const filter = currentFilters.find((f) => f.key === attributeCode);
@@ -973,7 +960,10 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       const max = maxPrice?.value || priceRange?.max.toString() || '∞';
       summaries.push(
         _('Price: ${value}', {
-          value: `${formatPrice(parseInt(min))} - ${formatPrice(parseInt(max))}`
+          value: `${formatPrice(
+            priceRange.minText,
+            parseInt(min)
+          )} - ${formatPrice(priceRange.maxText, parseInt(max))}`
         })
       );
     }
@@ -1031,7 +1021,6 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
 
     hasFilter,
     getFilterValue,
-    formatPrice,
 
     isLoading,
     activeFilterCount,

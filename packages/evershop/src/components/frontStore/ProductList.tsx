@@ -1,6 +1,8 @@
 import { Image } from '@components/common/Image.js';
+import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { AddToCart } from '@components/frontStore/AddToCart.js';
 import React, { ReactNode } from 'react';
+import { ProductData } from './product/productContext.js';
 
 export interface Product {
   productId: string;
@@ -28,7 +30,7 @@ export interface Product {
 }
 
 export interface ProductListProps {
-  products: Product[];
+  products: ProductData[];
   imageWidth?: number;
   imageHeight?: number;
   isLoading?: boolean;
@@ -37,8 +39,8 @@ export interface ProductListProps {
   layout?: 'grid' | 'list';
   gridColumns?: number;
   showAddToCart?: boolean;
-  customAddToCartRenderer?: (product: Product) => ReactNode;
-  renderItem?: (product: Product) => ReactNode;
+  customAddToCartRenderer?: (product: ProductData) => ReactNode;
+  renderItem?: (product: ProductData) => ReactNode;
 }
 const DefaultProductItem = ({
   product,
@@ -48,136 +50,153 @@ const DefaultProductItem = ({
   showAddToCart = false,
   customAddToCartRenderer
 }: {
-  product: Product;
+  product: ProductData;
   imageWidth?: number;
   imageHeight?: number;
   layout?: 'grid' | 'list';
   showAddToCart?: boolean;
-  customAddToCartRenderer?: (product: Product) => ReactNode;
+  customAddToCartRenderer?: (product: ProductData) => ReactNode;
 }) => {
   if (layout === 'list') {
     return (
-      <div className="product__list__item__inner">
-        <div
-          className="product__list__image"
-          style={{
-            flexShrink: 0,
-            maxWidth: `${imageWidth || 120}px`
-          }}
-        >
+      <div className="product__list__item__inner group relative overflow-hidden flex gap-4 p-4">
+        <div className="product__list__image flex-shrink-0">
           <a href={product.url}>
-            <Image
-              src={product.image.url}
-              alt={product.image.alt || product.name}
-              width={imageWidth || 120}
-              height={imageHeight || 120}
-              sizes="(max-width: 768px) 120px, 120px"
-            />
+            {product.image && (
+              <Image
+                src={product.image.url}
+                alt={product.image.alt || product.name}
+                width={imageWidth || 120}
+                height={imageHeight || 120}
+                sizes="(max-width: 768px) 100vw, 33vw" // Assume 3 columns on larger screens
+                className="transition-transform duration-300 ease-in-out group-hover:scale-105 rounded-lg"
+              />
+            )}
+            {!product.image && (
+              <ProductNoThumbnail width={imageWidth} height={imageHeight} />
+            )}
           </a>
         </div>
 
-        <div className="product__list__info" style={{ flex: 1 }}>
-          <h3 className="product__list__name">
-            <a href={product.url}>{product.name}</a>
-          </h3>
+        <div className="product__list__info flex-1 flex flex-col justify-between">
+          <div>
+            <h3 className="product__list__name text-lg font-medium mb-2">
+              <a
+                href={product.url}
+                className="hover:text-primary transition-colors"
+              >
+                {product.name}
+              </a>
+            </h3>
 
-          <div className="product__list__sku">SKU: {product.sku}</div>
+            <div className="product__list__sku text-sm text-gray-600 mb-2">
+              SKU: {product.sku}
+            </div>
 
-          <div className="product__list__price">
-            {product.price.special ? (
-              <>
-                <span
-                  className="regular-price"
-                  style={{ textDecoration: 'line-through', color: '#777' }}
-                >
-                  {product.price.regular.text}
-                </span>{' '}
-                <span
-                  className="special-price"
-                  style={{ fontWeight: 'bold', color: '#e53e3e' }}
-                >
-                  {product.price.special.text}
-                </span>
-              </>
-            ) : (
-              <span className="regular-price" style={{ fontWeight: 'bold' }}>
-                {product.price.regular.text}
-              </span>
-            )}
-          </div>
-
-          <div className="product__list__stock">
-            {product.inventory.isInStock ? (
-              <span style={{ color: 'green' }}>In Stock</span>
-            ) : (
-              <span style={{ color: 'red' }}>Out of Stock</span>
-            )}
-          </div>
-
-          {showAddToCart && (
-            <div
-              className="product__list__actions"
-              style={{ marginTop: '10px' }}
-            >
-              {customAddToCartRenderer ? (
-                customAddToCartRenderer(product)
+            <div className="product__list__price mb-2">
+              {product.price.special &&
+              product.price.regular < product.price.special ? (
+                <div className="flex items-center gap-2">
+                  <span
+                    className="regular-price text-sm"
+                    style={{ textDecoration: 'line-through', color: '#777' }}
+                  >
+                    {product.price.regular.text}
+                  </span>
+                  <span
+                    className="special-price text-lg font-bold"
+                    style={{ color: '#e53e3e' }}
+                  >
+                    {product.price.special.text}
+                  </span>
+                </div>
               ) : (
-                <AddToCart
-                  product={{
-                    sku: product.sku,
-                    isInStock: product.inventory.isInStock
-                  }}
-                  qty={1}
-                >
-                  {(state, actions) => (
-                    <button
-                      className="product__list__add-to-cart"
-                      style={{
-                        padding: '8px 16px',
-                        backgroundColor: state.isInStock
-                          ? '#3182ce'
-                          : '#a0aec0',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: state.canAddToCart ? 'pointer' : 'not-allowed',
-                        opacity: state.isLoading ? 0.7 : 1
-                      }}
-                      disabled={!state.canAddToCart || state.isLoading}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        actions.addToCart();
-                      }}
-                    >
-                      {state.isLoading ? 'Adding...' : 'Add to Cart'}
-                    </button>
-                  )}
-                </AddToCart>
+                <span className="regular-price text-lg font-bold">
+                  {product.price.regular.text}
+                </span>
               )}
             </div>
-          )}
+
+            <div className="product__list__stock mb-3">
+              {product.inventory.isInStock ? (
+                <span className="text-green-600 text-sm font-medium">
+                  In Stock
+                </span>
+              ) : (
+                <span className="text-red-600 text-sm font-medium">
+                  Out of Stock
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="product__list__actions invisible transform translate-y-2 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0">
+            {customAddToCartRenderer ? (
+              customAddToCartRenderer(product)
+            ) : (
+              <AddToCart
+                product={{
+                  sku: product.sku,
+                  isInStock: product.inventory.isInStock
+                }}
+                qty={1}
+              >
+                {(state, actions) => (
+                  <button
+                    className="product__list__add-to-cart transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-lg rounded-full"
+                    style={{
+                      padding: '10px 20px',
+                      backgroundColor: state.isInStock ? '#3182ce' : '#a0aec0',
+                      color: 'white',
+                      border: 'none',
+                      cursor: state.canAddToCart ? 'pointer' : 'not-allowed',
+                      opacity: state.isLoading ? 0.7 : 1,
+                      fontSize: '14px',
+                      fontWeight: '500'
+                    }}
+                    disabled={!state.canAddToCart || state.isLoading}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      actions.addToCart();
+                    }}
+                  >
+                    {state.isLoading ? 'Adding...' : 'Add to Cart'}
+                  </button>
+                )}
+              </AddToCart>
+            )}
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="product__list__item__inner">
-      <a href={product.url} className="product__list__link">
-        <div className="product__list__image">
-          <Image
-            src={product.image.url}
-            alt={product.image.alt || product.name}
-            width={imageWidth || 300}
-            height={imageHeight || 300}
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          />
+    <div className="product__list__item__inner group overflow-hidden">
+      <a href={product.url} className="product__list__link block">
+        <div className="product__list__image overflow-hidden">
+          {product.image && (
+            <Image
+              src={product.image.url}
+              alt={product.image.alt || product.name}
+              width={imageWidth || 120}
+              height={imageHeight || 120}
+              sizes="(max-width: 768px) 100vw, 33vw" // Assume 3 columns on larger screens
+              className="transition-transform duration-500 ease-in-out group-hover:scale-110"
+            />
+          )}
+          {!product.image && (
+            <ProductNoThumbnail width={imageWidth} height={imageHeight} />
+          )}
         </div>
-        <div className="product__list__info">
-          <h3 className="product__list__name">{product.name}</h3>
+        <div className="product__list__info mt-3">
+          <h3 className="product__list__name text-lg font-medium">
+            {product.name}
+          </h3>
           <div className="product__list__price">
-            {product.price.special ? (
+            {product.price.special &&
+            product.price.regular < product.price.special ? (
               <>
                 <span className="regular-price">
                   {product.price.regular.text}
@@ -192,51 +211,35 @@ const DefaultProductItem = ({
               </span>
             )}
           </div>
-          {showAddToCart && (
-            <div
-              className="product__list__actions"
-              style={{ marginTop: '10px' }}
-            >
-              {customAddToCartRenderer ? (
-                customAddToCartRenderer(product)
-              ) : (
-                <AddToCart
-                  product={{
-                    sku: product.sku,
-                    isInStock: product.inventory.isInStock
-                  }}
-                  qty={1}
-                >
-                  {(state, actions) => (
-                    <button
-                      className="product__list__add-to-cart"
-                      style={{
-                        padding: '8px 16px',
-                        backgroundColor: state.isInStock
-                          ? '#3182ce'
-                          : '#a0aec0',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: state.canAddToCart ? 'pointer' : 'not-allowed',
-                        opacity: state.isLoading ? 0.7 : 1
-                      }}
-                      disabled={!state.canAddToCart || state.isLoading}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        actions.addToCart();
-                      }}
-                    >
-                      {state.isLoading ? 'Adding...' : 'Add to Cart'}
-                    </button>
-                  )}
-                </AddToCart>
-              )}
-            </div>
-          )}
         </div>
       </a>
+      <div className="product__list__actions p-4 bg-gradient-to-t from-white via-white/90 to-transparent invisible transform translate-y-4 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0">
+        {customAddToCartRenderer ? (
+          customAddToCartRenderer(product)
+        ) : (
+          <AddToCart
+            product={{
+              sku: product.sku,
+              isInStock: product.inventory.isInStock
+            }}
+            qty={1}
+          >
+            {(state, actions) => (
+              <button
+                className="product__list__add-to-cart bg-primary p-2 text-center text-white w-full rounded-full transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-lg active:scale-95"
+                disabled={!state.canAddToCart || state.isLoading}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  actions.addToCart();
+                }}
+              >
+                {state.isLoading ? 'Adding...' : 'Add to Cart'}
+              </button>
+            )}
+          </AddToCart>
+        )}
+      </div>
     </div>
   );
 };
