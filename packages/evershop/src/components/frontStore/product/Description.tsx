@@ -1,7 +1,7 @@
-import React from 'react';
+import Area from '@components/common/Area.js';
 import { Editor } from '@components/common/Editor.js';
 import { useProduct } from '@components/frontStore/product/productContext.js';
-import Area from '@components/common/Area.js';
+import React from 'react';
 import { _ } from '../../../lib/locale/translate/_.js';
 
 export const ProductDescription = () => {

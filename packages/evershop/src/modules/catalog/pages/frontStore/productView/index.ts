@@ -1,10 +1,10 @@
 import { node, select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { get } from '../../../../../lib/util/get.js';
+import { getBaseUrl } from '../../../../../lib/util/getBaseUrl.js';
 import { getConfig } from '../../../../../lib/util/getConfig.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
-import { normalizePort } from '../../../../../bin/lib/normalizePort.js';
 
 export default async (request, response, next) => {
   let currentProduct;
@@ -148,9 +148,7 @@ export default async (request, response, next) => {
         .and('is_main', '=', true)
         .load(pool);
       if (productImage) {
-        console.log(productImage.origin_image);
-        const port = normalizePort();
-        const baseUrl = getConfig('shop.homeUrl', `http://localhost:${port}`);
+        const baseUrl = getBaseUrl();
         setPageMetaInfo(request, {
           ogInfo: {
             image: `${baseUrl}/images?src=${baseUrl}${productImage.origin_image}&w=1200&q=80&h=675&f=png`

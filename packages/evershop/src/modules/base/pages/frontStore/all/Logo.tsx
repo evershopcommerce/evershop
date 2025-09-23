@@ -6,14 +6,14 @@ interface LogoProps {
     logo: {
       src?: string;
       alt?: string;
-      width?: string;
-      height?: string;
+      width?: number;
+      height?: number;
     };
   };
 }
 export default function Logo({
   themeConfig: {
-    logo: { src, alt = 'Evershop', width = '128px', height = '128px' }
+    logo: { src, alt = 'Evershop', width = 128, height = 128 }
   }
 }: LogoProps) {
   return (

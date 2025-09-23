@@ -55,11 +55,11 @@ export interface VariantGroup {
 
 export interface ProductData {
   productId: number;
+  uuid: string;
   name: string;
   description: Array<Row>;
   sku: string;
   price: ProductPriceData;
-  qty?: number;
   inventory: {
     isInStock: boolean;
   };

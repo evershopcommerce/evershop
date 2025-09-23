@@ -2,13 +2,13 @@ import Area from '@components/common/Area.js';
 import Button from '@components/common/Button.js';
 import { Form } from '@components/common/form/Form.js';
 import { NumberField } from '@components/common/form/NumberField.js';
-import { useProduct } from '@components/frontStore/product/productContext.js';
-import Variants from '@components/frontStore/product/Variants.js';
 import {
   AddToCart,
   AddToCartActions,
   AddToCartState
 } from '@components/frontStore/AddToCart.js';
+import { useProduct } from '@components/frontStore/product/productContext.js';
+import Variants from '@components/frontStore/product/Variants.js';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';

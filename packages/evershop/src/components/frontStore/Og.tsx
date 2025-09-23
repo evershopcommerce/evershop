@@ -1,5 +1,5 @@
-import React from 'react';
 import { Meta } from '@components/common/Meta.js';
+import React from 'react';
 
 export interface OgProps {
   type?: 'website' | 'article' | 'product' | string;

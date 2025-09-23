@@ -70,6 +70,10 @@ export default () => {
             },
             showOutOfStockProduct: {
               type: 'boolean'
+            },
+            collectionPageSize: {
+              type: 'integer',
+              minimum: 1
             }
           }
         },
@@ -107,7 +111,8 @@ export default () => {
         placeHolder: '/default/image/placeholder.png'
       }
     },
-    showOutOfStockProduct: false
+    showOutOfStockProduct: false,
+    collectionPageSize: 20
   };
   config.util.setModuleDefaults('catalog', defaultCatalogConfig);
 

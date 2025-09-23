@@ -181,7 +181,11 @@ export default function SlideshowSetting({
     <div className="slideshow-widget">
       {openFileBrowser && (
         <div className="max-h-96">
-          <FileBrowser isMultiple={false} onInsert={handleImageSelect} />
+          <FileBrowser
+            isMultiple={false}
+            onInsert={handleImageSelect}
+            close={() => setOpenFileBrowser(false)}
+          />
         </div>
       )}
 

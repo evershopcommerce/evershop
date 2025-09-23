@@ -52,12 +52,12 @@ export class ProductCollection {
           (f) => f.key === filter.key && filter.operation.includes(f.operation)
         );
       if (filter.key === '*' || check) {
-        filter.callback(
+        filter.callback.apply({ isAdmin }, [
           this.baseQuery,
           check?.operation,
           check?.value,
           currentFilters
-        );
+        ]);
       }
     });
 

@@ -1,4 +1,3 @@
-import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import isErrorHandlerTriggered from '../../../../lib/middleware/isErrorHandlerTriggered.js';
 import { render } from '../../../../lib/response/render.js';
 import { get } from '../../../../lib/util/get.js';
@@ -8,6 +7,7 @@ import {
   setPageMetaInfo
 } from '../../../../modules/cms/services/pageMetaInfo.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
+import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getNotifications } from '../../services/notifications.js';
 
 export default async (request, response, next) => {

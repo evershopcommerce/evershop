@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { toPrice } from '../../../../checkout/services/toPrice.js';
 import { CategoryCollection } from '../../../services/CategoryCollection.js';
 import { getCategoriesBaseQuery } from '../../../services/getCategoriesBaseQuery.js';
 import { getFilterableAttributes } from '../../../services/getFilterableAttributes.js';
@@ -82,7 +83,9 @@ export default {
       const result = await query.load(pool);
       return {
         min: result.min || 0,
-        max: result.max || 0
+        minText: toPrice(result.min || 0, true),
+        max: result.max || 0,
+        maxText: toPrice(result.max || 0, true)
       };
     },
     url: async (category, _, { pool }) => {

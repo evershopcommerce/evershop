@@ -20,8 +20,8 @@ import { isBuildRequired } from '../../lib/webpack/isBuildRequired.js';
 import { getAdminSessionCookieName } from '../../modules/auth/services/getAdminSessionCookieName.js';
 import { getCookieSecret } from '../../modules/auth/services/getCookieSecret.js';
 import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
-import { findRoute } from './findRoute.js';
 import { setPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
+import { findRoute } from './findRoute.js';
 
 export function addDefaultMiddlewareFuncs(app) {
   app.use((request, response, next) => {

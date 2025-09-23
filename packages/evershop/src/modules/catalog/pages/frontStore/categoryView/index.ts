@@ -1,5 +1,6 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
+import { getBaseUrl } from '../../../../../lib/util/getBaseUrl.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
@@ -26,6 +27,15 @@ export default async (request, response, next) => {
         title: category.meta_title || category.name,
         description: category.meta_description || category.short_description
       });
+
+      if (category.image) {
+        const baseUrl = getBaseUrl();
+        setPageMetaInfo(request, {
+          ogInfo: {
+            image: `${baseUrl}/images?src=${category.image}&w=1200&q=80&h=675&f=png`
+          }
+        });
+      }
       next();
     }
   } catch (e) {

@@ -1,4 +1,5 @@
 import { CONSTANTS } from '../helpers.js';
+import { getConfig } from './getConfig.js';
 
 export const defaultPaginationFilters = [
   {
@@ -76,18 +77,18 @@ export const defaultPaginationFilters = [
   {
     key: '*',
     operation: ['eq'],
-    callback: (query, operation, value, currentFilters) => {
+    callback: function (query, operation, value, currentFilters) {
       const page = currentFilters.find((f) => f.key === 'page');
       const limit = currentFilters.find((f) => f.key === 'limit');
       const defaultPage = 1;
-      const defaultLimit = CONSTANTS.ADMIN_COLLECTION_SIZE;
-      if (!page) {
-        currentFilters.push({
-          key: 'page',
-          operation: 'eq',
-          value: defaultPage
-        });
-      }
+      const defaultLimit = this.isAdmin
+        ? CONSTANTS.ADMIN_COLLECTION_SIZE
+        : getConfig('catalog.collectionPageSize', 12);
+      currentFilters.push({
+        key: 'page',
+        operation: 'eq',
+        value: defaultPage
+      });
       if (!limit) {
         currentFilters.push({
           key: 'limit',
