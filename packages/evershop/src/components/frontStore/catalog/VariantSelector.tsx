@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
-import './Variants.scss';
+import './VariantSelector.scss';
 import { useAppDispatch, useAppState } from '@components/common/context/app.js';
 import { _ } from '../../../lib/locale/translate/_.js';
 import {
@@ -8,7 +8,7 @@ import {
   VariantAttribute,
   VariantGroup,
   AttributeOption
-} from '@components/frontStore/product/productContext.js';
+} from '@components/frontStore/catalog/productContext.js';
 
 interface SelectedOption {
   attributeCode: string;
@@ -196,7 +196,7 @@ interface VariantsProps {
   OptionRenderer?: React.ComponentType<VariantOptionItemProps>;
 }
 
-export default function Variants({
+export function VariantSelector({
   AttributeRenderer = DefaultVariantAttributeGroup,
   OptionRenderer = DefaultVariantOptionItem
 }: VariantsProps) {

@@ -1,8 +1,8 @@
 import Area from '@components/common/Area.js';
-import { useProduct } from '@components/frontStore/product/productContext.js';
+import { useProduct } from '@components/frontStore/catalog/productContext.js';
 import React from 'react';
 
-export const ProductAttributes = () => {
+export const ProductSingleAttributes = () => {
   const { attributes, sku } = useProduct();
   const list = attributes
     ? [

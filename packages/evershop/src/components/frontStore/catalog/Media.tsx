@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Image } from '@components/common/Image.js';
-import { useProduct } from './productContext.js';
+import { useProduct } from '@components/frontStore/catalog/productContext.js';
 import './Media.scss';
 
 const SliderComponent = Slider as any;

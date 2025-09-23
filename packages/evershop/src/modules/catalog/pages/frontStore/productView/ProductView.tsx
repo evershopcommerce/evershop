@@ -1,13 +1,13 @@
 import Area from '@components/common/Area.js';
-import { ProductAttributes } from '@components/frontStore/product/Attributes.js';
-import { ProductDescription } from '@components/frontStore/product/Description.js';
-import { Media } from '@components/frontStore/product/Media.js';
-import { ProductName } from '@components/frontStore/product/Name.js';
+import { Media } from '@components/frontStore/catalog/Media.js';
 import {
   ProductData,
   ProductProvider
-} from '@components/frontStore/product/productContext.js';
-import { ProductForm } from '@components/frontStore/product/ProductForm.js';
+} from '@components/frontStore/catalog/productContext.js';
+import { ProductSingleAttributes } from '@components/frontStore/catalog/ProductSingleAttributes.js';
+import { ProductSingleDescription } from '@components/frontStore/catalog/ProductSingleDescription.js';
+import { ProductSingleForm } from '@components/frontStore/catalog/ProductSingleForm.js';
+import { ProductSingleName } from '@components/frontStore/catalog/ProductSingleName.js';
 import React from 'react';
 
 export default function ProductView({ product }: ProductData) {
@@ -33,24 +33,24 @@ export default function ProductView({ product }: ProductData) {
               className="product__detail__right"
               coreComponents={[
                 {
-                  component: { default: <ProductName /> },
+                  component: { default: <ProductSingleName /> },
                   sortOrder: 10,
                   id: 'name'
                 },
                 {
-                  component: { default: <ProductAttributes /> },
+                  component: { default: <ProductSingleAttributes /> },
                   sortOrder: 20,
                   id: 'attributes'
                 },
                 {
-                  component: { default: <ProductForm /> },
+                  component: { default: <ProductSingleForm /> },
                   sortOrder: 30,
                   id: 'productForm'
                 }
               ]}
             />
           </div>
-          <ProductDescription />
+          <ProductSingleDescription />
         </div>
         <Area id="productPageBottom" className="product__page__bottom" />
       </div>

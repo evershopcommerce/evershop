@@ -1,8 +1,8 @@
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { AddToCart } from '@components/frontStore/AddToCart.js';
+import { ProductData } from '@components/frontStore/catalog/productContext.js';
 import React, { ReactNode } from 'react';
-import { ProductData } from './product/productContext.js';
 
 export interface Product {
   productId: string;
@@ -68,6 +68,7 @@ const DefaultProductItem = ({
                 alt={product.image.alt || product.name}
                 width={imageWidth || 120}
                 height={imageHeight || 120}
+                loading="lazy"
                 sizes="(max-width: 768px) 100vw, 33vw" // Assume 3 columns on larger screens
                 className="transition-transform duration-300 ease-in-out group-hover:scale-105 rounded-lg"
               />

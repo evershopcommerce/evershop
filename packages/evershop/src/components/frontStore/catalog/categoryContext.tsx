@@ -1,10 +1,10 @@
 import { Row } from '@components/common/form/Editor.js';
-import { ProductData } from '@components/frontStore/product/productContext.js';
+import { ProductData } from '@components/frontStore/catalog/productContext.js';
 import {
   CategoryFilter,
   FilterableAttribute,
   FilterInput
-} from '@components/frontStore/ProductFilter.js';
+} from '@components/frontStore/catalog/ProductFilter.js';
 import React, { createContext, useContext, ReactNode } from 'react';
 
 export interface CategoryProducts {

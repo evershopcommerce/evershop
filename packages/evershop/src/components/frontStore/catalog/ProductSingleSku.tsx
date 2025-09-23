@@ -1,9 +1,9 @@
 import Area from '@components/common/Area.js';
-import { useProduct } from '@components/frontStore/product/productContext.js';
+import { useProduct } from '@components/frontStore/catalog/productContext.js';
 import React from 'react';
 import { _ } from '../../../lib/locale/translate/_.js';
 
-export const ProductSku = () => {
+export const ProductSingleSku = () => {
   const { sku } = useProduct();
   return (
     <>

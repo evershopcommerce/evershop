@@ -1,20 +1,19 @@
 import Area from '@components/common/Area.js';
 import Button from '@components/common/Button.js';
 import { Form } from '@components/common/form/Form.js';
-import { NumberField } from '@components/common/form/NumberField.js';
 import {
   AddToCart,
   AddToCartActions,
   AddToCartState
 } from '@components/frontStore/AddToCart.js';
-import { useProduct } from '@components/frontStore/product/productContext.js';
-import Variants from '@components/frontStore/product/Variants.js';
+import { useProduct } from '@components/frontStore/catalog/productContext.js';
+import { VariantSelector } from '@components/frontStore/catalog/VariantSelector.js';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { _ } from '../../../lib/locale/translate/_.js';
 
-export function ProductForm() {
+export function ProductSingleForm() {
   const {
     sku,
     inventory: { isInStock }
@@ -29,10 +28,10 @@ export function ProductForm() {
         coreComponents={[
           {
             component: {
-              default: <Variants />
+              default: <VariantSelector />
             },
             sortOrder: 10,
-            id: 'variants'
+            id: 'variantSelector'
           },
           {
             component: {

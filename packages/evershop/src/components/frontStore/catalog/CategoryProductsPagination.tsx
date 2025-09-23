@@ -1,11 +1,11 @@
-import { useCategory } from '@components/frontStore/category/categoryContext.js';
+import { useCategory } from '@components/frontStore/catalog/categoryContext.js';
 import {
   Pagination,
   DefaultPaginationRenderer
 } from '@components/frontStore/Pagination.js';
 import React from 'react';
 
-export function PaginationWrapper() {
+export function CategoryProductsPagination() {
   const { showProducts, products } = useCategory();
   if (!showProducts) {
     return null;

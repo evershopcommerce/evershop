@@ -2,13 +2,14 @@ import Area from '@components/common/Area.js';
 import {
   CategoryData,
   CategoryProvider
-} from '@components/frontStore/category/categoryContext.js';
-import { CategoryInfo } from '@components/frontStore/category/CategoryInfo.js';
-import { Filter } from '@components/frontStore/category/Filter.js';
-import { PaginationWrapper } from '@components/frontStore/category/Pagination.js';
-import { Products } from '@components/frontStore/category/Products.js';
-import { ProductSorting } from '@components/frontStore/ProductSorting.js';
+} from '@components/frontStore/catalog/categoryContext.js';
+import { CategoryInfo } from '@components/frontStore/catalog/CategoryInfo.js';
+import { CategoryProducts } from '@components/frontStore/catalog/CategoryProducts.js';
+import { CategoryProductsFilter } from '@components/frontStore/catalog/CategoryProductsFilter.js';
+import { CategoryProductsPagination } from '@components/frontStore/catalog/CategoryProductsPagination.js';
+import { ProductSorting } from '@components/frontStore/catalog/ProductSorting.js';
 import React from 'react';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 interface CategoryViewProps {
   category: CategoryData;
@@ -17,41 +18,54 @@ interface CategoryViewProps {
 export default function CategoryView({ category }: CategoryViewProps) {
   return (
     <CategoryProvider category={category}>
+      <Area id="categoryPageTop" className="category__page__top" />
       <CategoryInfo />
       <div className="page-width grid grid-cols-1 md:grid-cols-4 gap-5">
         <Area
-          id="leftColumn"
+          id="categoryLeftColumn"
           className="md:col-span-1"
           coreComponents={[
             {
-              component: { default: <Filter /> },
+              component: { default: <CategoryProductsFilter /> },
               sortOrder: 10,
               id: 'productFilter'
             }
           ]}
         />
         <Area
-          id="rightColumn"
+          id="categoryRightColumn"
           className="md:col-span-3"
           coreComponents={[
             {
-              component: { default: <Products /> },
+              component: {
+                default: (
+                  <div className="flex justify-between items-center border-b border-gray-300 mb-8">
+                    <div>
+                      {_('${count} Products', {
+                        count: category.products.total.toString()
+                      })}
+                    </div>
+                    <ProductSorting className="flex justify-start" />
+                  </div>
+                )
+              },
               sortOrder: 10,
+              id: 'categoryProductsSorting'
+            },
+            {
+              component: { default: <CategoryProducts /> },
+              sortOrder: 20,
               id: 'categoryProducts'
             },
             {
-              component: { default: <PaginationWrapper /> },
-              sortOrder: 20,
-              id: 'categoryProductsPagination'
-            },
-            {
-              component: { default: <ProductSorting /> },
+              component: { default: <CategoryProductsPagination /> },
               sortOrder: 30,
-              id: 'categoryProductsSorting'
+              id: 'categoryProductsPagination'
             }
           ]}
         />
       </div>
+      <Area id="categoryPageBottom" className="category__page__bottom" />
     </CategoryProvider>
   );
 }
