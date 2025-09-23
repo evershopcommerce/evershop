@@ -1,3 +1,4 @@
+import { Card } from '@components/admin/Card.js';
 import { ImageUploader } from '@components/admin/ImageUploader.js';
 import Spinner from '@components/admin/Spinner.js';
 import Button from '@components/common/Button.js';
@@ -12,7 +13,6 @@ import { AtLeastOne } from 'src/types/atLeastOne.js';
 import { useQuery } from 'urql';
 import { VariantGroup } from '../VariantGroup.js';
 import { VariantItem } from './Variants.js';
-import { Card } from '@components/admin/Card.js';
 
 const AttributesQuery = `
   query Query($filters: [FilterInput]) {

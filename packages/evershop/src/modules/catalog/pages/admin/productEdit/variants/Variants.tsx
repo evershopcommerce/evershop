@@ -143,7 +143,7 @@ export const Variants: React.FC<VariantsProps> = ({
 
   return (
     <Card.Session>
-      <div className="variant-list">
+      <div className="variant-list overflow-x-scroll">
         <table>
           <thead>
             <tr>
