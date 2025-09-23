@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Image.scss';
 import { Card } from '@components/admin/Card.js';
 import { Image, ImageUploader } from '@components/admin/ImageUploader.js';
+import { InputField } from '@components/common/form/InputField.js';
+import { useFormContext } from 'react-hook-form';
 
 interface ImageProps {
   category?: {
@@ -11,21 +13,18 @@ interface ImageProps {
 
 export default function Image({ category }: ImageProps) {
   const [image, setImage] = useState(category?.image);
+  const { setValue } = useFormContext();
+
+  useEffect(() => {
+    if (image) {
+      setValue('image', image.url);
+    } else {
+      setValue('image', '');
+    }
+  }, [image, setValue]);
+
   return (
-    <Card
-      title="Category banner"
-      actions={
-        image
-          ? [
-              {
-                name: 'Remove',
-                variant: 'critical',
-                onAction: () => setImage(undefined)
-              }
-            ]
-          : []
-      }
-    >
+    <Card title="Category banner">
       <Card.Session>
         <ImageUploader
           onUpload={(images) => {
@@ -34,14 +33,16 @@ export default function Image({ category }: ImageProps) {
             }
           }}
           isMultiple={false}
-          allowDelete={false}
+          allowDelete={true}
+          onDelete={() => {
+            setImage(undefined);
+          }}
           currentImages={image ? [image] : []}
           targetPath={`catalog/${
             Math.floor(Math.random() * (9999 - 1000)) + 1000
           }/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`}
         />
-        {image && <input type="hidden" value={image.url} name="image" />}
-        {!image && <input type="hidden" value="" name="image" />}
+        <InputField type="hidden" defaultValue={image?.url} name="image" />
       </Card.Session>
     </Card>
   );
