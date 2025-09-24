@@ -11,12 +11,17 @@ import {
   CustomerProvider,
   Customer
 } from '@components/frontStore/customer/customerContext.js';
+import { Header } from '@components/frontStore/Header.js';
+import { Footer } from '@components/frontStore/Footer.js';
 
 interface BaseProps {
   myCart: CartData;
   customer: Customer;
   setting: {
     priceIncludingTax: boolean;
+  };
+  themeConfig: {
+    copyRight: string;
   };
   addMineCartItemApi: string;
   loginApi: string;
@@ -27,6 +32,7 @@ export default function Base({
   myCart,
   customer,
   setting,
+  themeConfig,
   addMineCartItemApi,
   loginApi,
   logoutApi,
@@ -46,15 +52,11 @@ export default function Base({
         addMineCartItemApi={addMineCartItemApi}
       >
         <LoadingBar />
-        <div className="header">
-          <Area id="header" noOuter />
-        </div>
+        <Header />
         <main className="content">
           <Area id="content" noOuter />
         </main>
-        <div className="footer">
-          <Area id="footer" noOuter />
-        </div>
+        <Footer copyRight={themeConfig.copyRight} />
       </CartProvider>
     </CustomerProvider>
   );
@@ -236,6 +238,9 @@ export const query = `
     }
     setting {
       priceIncludingTax
+    }
+    themeConfig {
+      copyRight
     }
     addMineCartItemApi: url(routeId: "addMineCartItem")
     loginApi: url(routeId: "customerLoginJson")

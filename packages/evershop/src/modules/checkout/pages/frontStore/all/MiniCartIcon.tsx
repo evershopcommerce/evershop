@@ -9,7 +9,7 @@ export default function MiniCartIcon({ cartUrl }: MiniCartIconProps) {
 }
 
 export const layout = {
-  areaId: 'header',
+  areaId: 'headerMiddleRight',
   sortOrder: 10
 };
 
