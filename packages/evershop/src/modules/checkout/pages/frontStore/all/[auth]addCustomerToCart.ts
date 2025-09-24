@@ -1,8 +1,9 @@
 import { select, update } from '@evershop/postgres-query-builder';
 import { error } from '../../../../../lib/log/logger.js';
 import { pool } from '../../../../../lib/postgres/connection.js';
+import { EvershopRequest } from '../../../../../types/request.js';
 
-export default async (request, response, next) => {
+export default async (request: EvershopRequest, response, next) => {
   try {
     const { sessionID } = request;
     const customer = request.getCurrentCustomer();

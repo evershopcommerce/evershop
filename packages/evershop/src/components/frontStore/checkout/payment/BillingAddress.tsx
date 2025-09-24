@@ -1,7 +1,7 @@
 import {
   useCheckout,
   useCheckoutDispatch
-} from '@components/common/context/checkout.js';
+} from '@components/frontStore/checkout/checkoutContext.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
 import React, { useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';

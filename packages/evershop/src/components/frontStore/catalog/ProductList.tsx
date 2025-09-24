@@ -1,6 +1,6 @@
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
-import { AddToCart } from '@components/frontStore/AddToCart.js';
+import { AddToCart } from '@components/frontStore/cart/AddToCart.js';
 import { ProductData } from '@components/frontStore/catalog/productContext.js';
 import React, { ReactNode } from 'react';
 

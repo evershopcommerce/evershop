@@ -1,6 +1,6 @@
-import { ItemProps } from '@components/frontStore/CartItems.js';
+import { ItemProps } from '@components/frontStore/cart/CartItems.js';
 import React from 'react';
-import { _ } from '../../lib/locale/translate/_.js';
+import { _ } from '../../../lib/locale/translate/_.js';
 
 const CartSummarySkeleton: React.FC<{ rows?: number }> = ({ rows = 2 }) => {
   return (

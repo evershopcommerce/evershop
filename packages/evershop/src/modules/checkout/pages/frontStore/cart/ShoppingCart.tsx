@@ -1,9 +1,9 @@
 import Area from '@components/common/Area.js';
 import Button from '@components/common/Button.js';
-import { useCartState } from '@components/common/context/cart.js';
-import { CartItems } from '@components/frontStore/CartItems.js';
-import { CartTotalSummary } from '@components/frontStore/CartTotalSummary.js';
-import { ShoppingCartEmpty } from '@components/frontStore/ShoppingCartEmpty.js';
+import { useCartState } from '@components/frontStore/cart/cartContext.js';
+import { CartItems } from '@components/frontStore/cart/CartItems.js';
+import { CartTotalSummary } from '@components/frontStore/cart/CartTotalSummary.js';
+import { ShoppingCartEmpty } from '@components/frontStore/cart/ShoppingCartEmpty.js';
 import React from 'react';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
@@ -18,15 +18,9 @@ const Title: React.FC<{ title: string }> = ({ title }) => {
   );
 };
 interface ShoppingCartProps {
-  setting: {
-    priceIncludingTax: boolean;
-  };
   checkoutUrl: string;
 }
-export default function ShoppingCart({
-  setting,
-  checkoutUrl
-}: ShoppingCartProps) {
+export default function ShoppingCart({ checkoutUrl }: ShoppingCartProps) {
   const { data: cart } = useCartState();
   return (
     <div className="cart page-width">
@@ -36,16 +30,14 @@ export default function ShoppingCart({
           <div className="grid gap-10 grid-cols-1 md:grid-cols-4">
             <div className="col-span-1 md:col-span-3">
               <Area id="shoppingCartBeforeItems" noOuter />
-              <CartItems productPriceInclTax={setting.priceIncludingTax} />
+              <CartItems />
               <Area id="shoppingCartAfterItems" noOuter />
             </div>
             <div className="col-span-1 md:col-span-1">
               <Area id="shoppingCartBeforeSummary" noOuter />
               <div className="grid grid-cols-1 gap-5 cart-summary">
                 <h4>{_('Order summary')}</h4>
-                <CartTotalSummary
-                  showPriceIncludingTax={setting.priceIncludingTax}
-                />
+                <CartTotalSummary />
               </div>
               <Area id="shoppingCartBeforeCheckoutButton" noOuter />
               <div className="shopping-cart-checkout-btn flex justify-between mt-5">
@@ -73,9 +65,6 @@ export const layout = {
 
 export const query = `
   query Query {
-    setting {
-      priceIncludingTax
-    }
     checkoutUrl: url(routeId: "checkout")
   }
 `;

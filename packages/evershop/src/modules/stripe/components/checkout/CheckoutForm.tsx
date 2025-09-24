@@ -1,4 +1,4 @@
-import { useCheckout } from '@components/common/context/checkout.js';
+import { useCheckout } from '@components/frontStore/checkout/checkoutContext.js';
 import {
   PaymentElement,
   useElements,
@@ -11,7 +11,7 @@ import RenderIfTrue from '@components/common/RenderIfTrue.js';
 import Spinner from '@components/admin/Spinner.js';
 import { _ } from '../../../../lib/locale/translate/_.js';
 import { TestCards } from './TestCards.js';
-import { useCartState } from '@components/common/context/cart.js';
+import { useCartState } from '@components/frontStore/cart/cartContext.js';
 
 interface CheckoutFormProps {
   stripePublishableKey: string;

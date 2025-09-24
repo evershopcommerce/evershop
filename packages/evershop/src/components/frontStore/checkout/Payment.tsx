@@ -1,8 +1,8 @@
-import { useCartState } from '@components/common/context/cart.js';
+import { useCartState } from '@components/frontStore/cart/cartContext.js';
 import {
   useCheckout,
   useCheckoutDispatch
-} from '@components/common/context/checkout.js';
+} from '@components/frontStore/checkout/checkoutContext.js';
 import React, { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';

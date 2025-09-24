@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-import { useCheckout } from '@components/common/context/checkout.js';
+import { useCheckout } from '@components/frontStore/checkout/checkoutContext.js';
 import React from 'react';
 import { _ } from '../../../../lib/locale/translate/_.js';
 

@@ -1,8 +1,8 @@
 import Area from '@components/common/Area.js';
-import { CartData, useCartState } from '@components/common/context/cart.js';
+import { useCartState } from '@components/frontStore/cart/cartContext.js';
 import { CouponForm } from '@components/frontStore/CouponForm.js';
 import React from 'react';
-import { _ } from '../../lib/locale/translate/_.js';
+import { _ } from '../../../lib/locale/translate/_.js';
 
 const SkeletonValue: React.FC<{
   children: React.ReactNode;
@@ -188,7 +188,6 @@ const DefaultCartSummary: React.FC<{
 );
 
 interface CartTotalSummaryProps {
-  showPriceIncludingTax: boolean;
   children?: (props: {
     loading: boolean;
     showPriceIncludingTax: boolean;
@@ -202,13 +201,14 @@ interface CartTotalSummaryProps {
   }) => React.ReactNode;
 }
 
-function CartTotalSummary({
-  showPriceIncludingTax,
-  children
-}: CartTotalSummaryProps) {
-  const { data: cart, loadingStates } = useCartState();
+function CartTotalSummary({ children }: CartTotalSummaryProps) {
+  const {
+    data: cart,
+    loadingStates,
+    setting: { priceIncludingTax }
+  } = useCartState();
 
-  const subTotal = showPriceIncludingTax
+  const subTotal = priceIncludingTax
     ? cart?.subTotalInclTax?.text || ''
     : cart?.subTotal?.text || '';
 
@@ -216,7 +216,7 @@ function CartTotalSummary({
   const coupon = cart?.coupon;
 
   const shippingMethod = cart?.shippingMethodName;
-  const shippingCost = showPriceIncludingTax
+  const shippingCost = priceIncludingTax
     ? cart?.shippingFeeInclTax?.text || ''
     : cart?.shippingFeeExclTax?.text || '';
 
@@ -231,7 +231,7 @@ function CartTotalSummary({
             (state) =>
               state === true || (typeof state === 'string' && state !== null)
           ),
-          showPriceIncludingTax,
+          showPriceIncludingTax: priceIncludingTax,
           subTotal,
           discountAmount,
           coupon,
@@ -246,7 +246,7 @@ function CartTotalSummary({
             (state) =>
               state === true || (typeof state === 'string' && state !== null)
           )}
-          showPriceIncludingTax={showPriceIncludingTax}
+          showPriceIncludingTax={priceIncludingTax}
           subTotal={subTotal}
           discountAmount={discountAmount}
           coupon={coupon}

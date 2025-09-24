@@ -1,9 +1,9 @@
 import {
   useCartDispatch,
   useCartState
-} from '@components/common/context/cart.js';
+} from '@components/frontStore/cart/cartContext.js';
 import React, { useState, useCallback } from 'react';
-import { _ } from '../../lib/locale/translate/_.js';
+import { _ } from '../../../lib/locale/translate/_.js';
 
 export interface ProductInfo {
   sku: string;

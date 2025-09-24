@@ -1,12 +1,12 @@
 import Area from '@components/common/Area.js';
+import { Image } from '@components/common/Image.js';
 import {
   useCartState,
   useCartDispatch
-} from '@components/common/context/cart.js';
-import { Image } from '@components/common/Image.js';
-import { ItemQuantity } from '@components/frontStore/ItemQuantity.js';
+} from '@components/frontStore/cart/cartContext.js';
+import { ItemQuantity } from '@components/frontStore/cart/ItemQuantity.js';
 import React from 'react';
-import { _ } from '../../lib/locale/translate/_.js';
+import { _ } from '../../../lib/locale/translate/_.js';
 
 export interface ItemProps {
   id: string;
@@ -65,17 +65,14 @@ export const SkeletonCartItem: React.FC = () => (
       </div>
     </div>
 
-    {/* Custom Columns Area - Developers can add skeleton columns here */}
     <Area id="cartTableRowColumns" noOuter />
 
-    {/* PRICE Column */}
     <div className="text-center">
       <SkeletonValue loading={true}>
         <span>$904.00</span>
       </SkeletonValue>
     </div>
 
-    {/* QUANTITY Column */}
     <div className="flex justify-center">
       <div className="flex items-center border rounded">
         <span className="px-3 py-2">−</span>
@@ -106,7 +103,6 @@ const CartTableHeader: React.FC = () => (
   </div>
 );
 
-// Individual cart item component
 const CartItemComponent: React.FC<{
   item: ItemProps;
   loading?: boolean;
@@ -122,9 +118,7 @@ const CartItemComponent: React.FC<{
     <div className="grid grid-cols-4 gap-4 p-4 border-b items-center">
       <Area id="cartItemBefore" item={item} noOuter />
 
-      {/* PRODUCT Column */}
       <div className="flex gap-4 items-center">
-        {/* Product Image */}
         <div className="flex-shrink-0">
           {item.thumbnail ? (
             <Image
@@ -143,7 +137,6 @@ const CartItemComponent: React.FC<{
 
         <Area id="cartItemAfterImage" item={item} noOuter />
 
-        {/* Product Details */}
         <div className="min-w-0">
           <div className="mb-1">
             {item.url ? (
@@ -160,7 +153,6 @@ const CartItemComponent: React.FC<{
 
           <Area id="cartItemAfterName" item={item} noOuter />
 
-          {/* Variant Options */}
           {item.variantOptions && item.variantOptions.length > 0 && (
             <div className="text-sm text-gray-500">
               {item.variantOptions.map((option) => (
@@ -173,7 +165,6 @@ const CartItemComponent: React.FC<{
 
           <Area id="cartItemAfterVariants" item={item} noOuter />
 
-          {/* Remove Button */}
           <div className="mt-2">
             <button
               onClick={handleRemove}
@@ -186,17 +177,14 @@ const CartItemComponent: React.FC<{
         </div>
       </div>
 
-      {/* Custom Columns Area - Developers can add columns here */}
       <Area id="cartTableRowColumns" item={item} noOuter />
 
-      {/* PRICE Column */}
       <div className="text-center">
         <div className="font-medium">
           <SkeletonValue loading={loading}>{item.price}</SkeletonValue>
         </div>
       </div>
 
-      {/* QUANTITY Column */}
       <div className="flex justify-center">
         <ItemQuantity
           initialValue={item.qty}
@@ -228,7 +216,6 @@ const CartItemComponent: React.FC<{
         </ItemQuantity>
       </div>
 
-      {/* TOTAL Column */}
       <div className="text-center">
         <div className="font-medium">
           <SkeletonValue loading={loading}>{item.lineTotal}</SkeletonValue>
@@ -238,7 +225,6 @@ const CartItemComponent: React.FC<{
       <Area id="cartItemAfterQuantity" item={item} noOuter />
       <Area id="cartItemAfterPrice" item={item} noOuter />
 
-      {/* Item Errors */}
       {!loading && item.errors && item.errors.length > 0 && (
         <div className="col-span-4 mt-2 text-sm text-red-600">
           {item.errors.map((error, index) => (
@@ -253,7 +239,6 @@ const CartItemComponent: React.FC<{
   );
 };
 
-// Empty cart component
 const EmptyCart: React.FC<{ loading?: boolean }> = ({ loading = false }) => {
   return (
     <div className="text-center py-8 text-gray-500">
@@ -271,7 +256,6 @@ const EmptyCart: React.FC<{ loading?: boolean }> = ({ loading = false }) => {
   );
 };
 
-// Default cart items component
 const DefaultCartItems: React.FC<{
   items: ItemProps[];
   loading: boolean;
@@ -322,11 +306,14 @@ interface CartItemsProps {
       onRemoveItem?: (itemId: string) => Promise<void>;
     }>;
   }) => React.ReactNode;
-  productPriceInclTax: boolean;
 }
 
-function CartItems({ children, productPriceInclTax }: CartItemsProps) {
-  const { data: cart, loading } = useCartState();
+function CartItems({ children }: CartItemsProps) {
+  const {
+    data: cart,
+    loading,
+    setting: { priceIncludingTax }
+  } = useCartState();
   const { removeItem } = useCartDispatch();
 
   const items = (cart?.items || []).map((item) => ({
@@ -337,10 +324,10 @@ function CartItems({ children, productPriceInclTax }: CartItemsProps) {
     sku: item.productSku,
     url: item.productUrl,
     variantOptions: item.variantOptions || [],
-    price: productPriceInclTax
+    price: priceIncludingTax
       ? item.productPriceInclTax.text
       : item.productPrice.text,
-    lineTotal: productPriceInclTax
+    lineTotal: priceIncludingTax
       ? item.lineTotalInclTax.text
       : item.lineTotal.text,
     errors: item.errors || []

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Summary.scss';
-import { CartSummaryItemsList } from '@components/frontStore/CartSummaryItems.js';
-import { DefaultCartSummary } from '@components/frontStore/CartTotalSummary.js';
+import { CartSummaryItemsList } from '@components/frontStore/cart/CartSummaryItems.js';
+import { DefaultCartSummary } from '@components/frontStore/cart/CartTotalSummary.js';
 
 interface SummaryProps {
   order: {

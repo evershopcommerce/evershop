@@ -1,6 +1,6 @@
 import Button from '@components/common/Button.js';
 import React from 'react';
-import { _ } from '../../lib/locale/translate/_.js';
+import { _ } from '../../../lib/locale/translate/_.js';
 
 export function ShoppingCartEmpty() {
   return (

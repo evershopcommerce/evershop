@@ -1,10 +1,10 @@
 import Area from '@components/common/Area.js';
-import { CheckoutProvider } from '@components/common/context/checkout.js';
 import { Form } from '@components/common/form/Form.js';
-import { CartItems } from '@components/frontStore/CartItems.js';
-import { CartSummaryItemsList } from '@components/frontStore/CartSummaryItems.js';
-import { CartTotalSummary } from '@components/frontStore/CartTotalSummary.js';
+import { CartItems } from '@components/frontStore/cart/CartItems.js';
+import { CartSummaryItemsList } from '@components/frontStore/cart/CartSummaryItems.js';
+import { CartTotalSummary } from '@components/frontStore/cart/CartTotalSummary.js';
 import { CheckoutButton } from '@components/frontStore/checkout/CheckoutButton.js';
+import { CheckoutProvider } from '@components/frontStore/checkout/checkoutContext.js';
 import { ContactInformation } from '@components/frontStore/checkout/ContactInformation.js';
 import { Payment } from '@components/frontStore/checkout/Payment.js';
 import { Shipment } from '@components/frontStore/checkout/Shipment.js';
@@ -14,9 +14,6 @@ import { useForm } from 'react-hook-form';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
 interface CheckoutPageProps {
-  setting: {
-    priceIncludingTax: boolean;
-  };
   placeOrderApi: string;
   getPaymentMethodApi: string;
   getShippingMethodApi: string;
@@ -24,7 +21,6 @@ interface CheckoutPageProps {
 }
 
 export default function CheckoutPage({
-  setting,
   placeOrderApi,
   checkoutSuccessUrl
 }: CheckoutPageProps) {
@@ -56,12 +52,12 @@ export default function CheckoutPage({
           <Area id="checkoutForm" noOuter />
         </Form>
         <div>
-          <CartItems productPriceInclTax={setting.priceIncludingTax}>
+          <CartItems>
             {({ items, loading }) => (
               <CartSummaryItemsList items={items} loading={loading} />
             )}
           </CartItems>
-          <CartTotalSummary showPriceIncludingTax={true} />
+          <CartTotalSummary />
         </div>
       </div>
     </CheckoutProvider>
@@ -75,9 +71,6 @@ export const layout = {
 
 export const query = `
   query Query {
-    setting {
-      priceIncludingTax
-    }
     placeOrderApi: url(routeId: "createOrder")
     checkoutSuccessUrl: url(routeId: "checkoutSuccess")
   }

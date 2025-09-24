@@ -5,7 +5,7 @@ import {
   AddToCart,
   AddToCartActions,
   AddToCartState
-} from '@components/frontStore/AddToCart.js';
+} from '@components/frontStore/cart/AddToCart.js';
 import { useProduct } from '@components/frontStore/catalog/productContext.js';
 import { VariantSelector } from '@components/frontStore/catalog/VariantSelector.js';
 import React from 'react';

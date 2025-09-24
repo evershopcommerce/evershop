@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import { _ } from '../../../lib/locale/translate/_.js';
 import { CustomerAddressGraphql } from '../../../types/customerAddress.js';
-import { useAppDispatch } from './app.js';
+import { useAppDispatch } from '../../common/context/app.js';
 
 // Types
 // Extend CustomerAddress to include isDefault flag and API endpoints

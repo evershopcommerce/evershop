@@ -188,10 +188,10 @@ async function getCart(uuid) {
   }
   const cartObject = new Cart(cart);
   // Get the cart items
-  const items = await select()
-    .from('cart_item')
-    .where('cart_id', '=', cart.cart_id)
-    .execute(pool);
+  const itemsQuery = await select().from('cart_item');
+  itemsQuery.where('cart_id', '=', cart.cart_id);
+  itemsQuery.orderBy('created_at', 'DESC');
+  const items = await itemsQuery.execute(pool);
   // Build the cart items
   const cartItems = [];
   await Promise.all(

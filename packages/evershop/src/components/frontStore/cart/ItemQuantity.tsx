@@ -1,7 +1,7 @@
 import {
   useCartDispatch,
   useCartState
-} from '@components/common/context/cart.js';
+} from '@components/frontStore/cart/cartContext.js';
 import React, {
   useState,
   useCallback,
@@ -15,23 +15,9 @@ interface UseItemQuantityProps {
   min?: number;
   max?: number;
   onChange?: (quantity: number) => void;
-  /**
-   * Cart item ID for updating cart items via cart context.
-   */
   cartItemId: string;
-  /**
-   * Debounce time in milliseconds to wait before calling the API.
-   * Defaults to 500ms.
-   */
   debounce?: number;
-  /**
-   * Callback function to execute on successful update.
-   */
   onSuccess?: () => void;
-  /**
-   * Callback function to execute on failed update.
-   * It receives the error object.
-   */
   onFailure?: (error: Error) => void;
 }
 
@@ -192,28 +178,3 @@ export function ItemQuantity({
   const quantityControls = useItemQuantity(props);
   return children(quantityControls);
 }
-
-/*
- * EXAMPLE USAGE WITH CART CONTEXT:
- *
- * <ItemQuantity
- *   initialValue={item.qty}
- *   cartItemId={item.cartItemId}
- *   max={10}
- *   onSuccess={() => console.log('Updated!')}
- *   onFailure={(error) => console.error('Failed:', error)}
- * >
- *   {({ quantity, increase, decrease, inputProps, loading }) => (
- *     <div className="flex items-center border rounded">
- *       <button onClick={decrease} disabled={inputProps.disabled}>-</button>
- *       <input {...inputProps} className="w-16 text-center" />
- *       <button onClick={increase} disabled={inputProps.disabled}>+</button>
- *       {loading && <span>Updating...</span>}
- *     </div>
- *   )}
- * </ItemQuantity>
- *
- * Note: The 'loading' state comes from the cart context and indicates
- * when any cart operation is in progress, providing consistent loading
- * behavior across all cart components.
- */

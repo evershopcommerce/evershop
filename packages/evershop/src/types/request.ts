@@ -3,6 +3,7 @@ import { Route } from './route.js';
 
 export interface CurrentCustomer {
   customer_id: number;
+  group_id: number;
   uuid: string;
   email: string;
   full_name: string;

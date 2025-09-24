@@ -10,16 +10,14 @@ import React, {
 import { UseFormReturn } from 'react-hook-form';
 import { _ } from '../../../lib/locale/translate/_.js';
 import { CheckoutData } from '../../../types/checkoutData.js';
-import { useCartState, useCartDispatch } from './cart.js';
+import { useCartState, useCartDispatch } from '../cart/cartContext.js';
 
-// Types
 interface PaymentMethod {
   code: string;
   name: string;
   [key: string]: any;
 }
 
-// Payment method component types
 interface PaymentMethodRendererProps {
   isSelected: boolean;
 }
@@ -54,10 +52,7 @@ interface CheckoutState {
   };
   allowGuestCheckout: boolean;
   checkoutData: CheckoutData; // Add checkout data to state
-  // Payment method component registry
-  registeredPaymentComponents: Record<string, PaymentMethodComponent>; // code -> component
-  // requiresShipment is now computed from cart items, not stored in state
-  // paymentMethods and shippingMethods are now accessed directly from cart context
+  registeredPaymentComponents: Record<string, PaymentMethodComponent>;
 }
 
 type CheckoutAction =
@@ -72,7 +67,6 @@ type CheckoutAction =
       payload: { code: string; component: PaymentMethodComponent };
     };
 
-// Initial state
 const initialState: CheckoutState = {
   orderPlaced: false,
   orderId: undefined,
@@ -354,7 +348,6 @@ export function CheckoutProvider({
     []
   );
 
-  // Context values
   const contextValue = useMemo(
     (): CheckoutContextValue => ({
       ...state,
@@ -403,7 +396,6 @@ export function CheckoutProvider({
   );
 }
 
-// Custom hooks
 export const useCheckout = (): CheckoutContextValue => {
   const context = useContext(CheckoutContext);
   if (context === undefined) {
@@ -422,7 +414,6 @@ export const useCheckoutDispatch = (): CheckoutDispatchContextValue => {
   return context;
 };
 
-// Export types for consumers
 export type {
   PaymentMethod,
   ShippingMethod,
