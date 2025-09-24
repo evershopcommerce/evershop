@@ -1,8 +1,16 @@
-import { Editor } from '@components/common/Editor';
-import PropTypes from 'prop-types';
+import { Editor } from '@components/common/Editor.js';
+import { Row } from '@components/common/form/Editor.js';
 import React from 'react';
 
-export default function Page({ page }) {
+interface CmsPage {
+  name: string;
+  content: Row[];
+}
+
+interface CmsPageViewProps {
+  page: CmsPage;
+}
+export default function CmsPageView({ page }: CmsPageViewProps) {
   return (
     <div className="page-width">
       <div className="prose prose-base max-w-none">
@@ -13,13 +21,6 @@ export default function Page({ page }) {
   );
 }
 
-Page.propTypes = {
-  page: PropTypes.shape({
-    content: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
-  }).isRequired
-};
-
 export const layout = {
   areaId: 'content',
   sortOrder: 1
@@ -27,7 +28,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    page: cmsPage(id: getContextValue("pageId")) {
+    page: currentCmsPage {
       name
       content
     }

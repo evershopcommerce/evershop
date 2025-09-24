@@ -1,6 +1,5 @@
-import Area from '@components/common/Area';
-import Button from '@components/common/Button';
-import PropTypes from 'prop-types';
+import Area from '@components/common/Area.js';
+import Button from '@components/common/Button.js';
 import React from 'react';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
@@ -12,7 +11,11 @@ function Name() {
   );
 }
 
-function Content({ continueShoppingUrl }) {
+interface ContentProps {
+  continueShoppingUrl: string;
+}
+
+function Content({ continueShoppingUrl }: ContentProps) {
   return (
     <div className="page-content">
       <div className="text-center">
@@ -28,12 +31,10 @@ function Content({ continueShoppingUrl }) {
     </div>
   );
 }
-
-Content.propTypes = {
-  continueShoppingUrl: PropTypes.string.isRequired
-};
-
-export default function NotFound({ continueShoppingUrl }) {
+interface NotFoundProps {
+  continueShoppingUrl: string;
+}
+export default function NotFound({ continueShoppingUrl }: NotFoundProps) {
   return (
     <div className="page-width mt-6">
       <div className="pt-4">
@@ -58,10 +59,6 @@ export default function NotFound({ continueShoppingUrl }) {
     </div>
   );
 }
-
-NotFound.propTypes = {
-  continueShoppingUrl: PropTypes.string.isRequired
-};
 
 export const layout = {
   areaId: 'content',

@@ -17,6 +17,19 @@ export default {
       const root = new CMSPageCollection(query);
       await root.init(filters, !!user);
       return root;
+    },
+    currentCmsPage: async (_, args, { currentRoute, pool }) => {
+      if (currentRoute?.id !== 'cmsPageView') {
+        return null;
+      }
+      const { params } = currentRoute;
+      if (!params || !params.url_key) {
+        return null;
+      }
+      const query = getCmsPagesBaseQuery();
+      query.where('cms_page_description.url_key', '=', params.url_key);
+      const page = await query.load(pool);
+      return page ? camelCase(page) : null;
     }
   },
   CmsPage: {
