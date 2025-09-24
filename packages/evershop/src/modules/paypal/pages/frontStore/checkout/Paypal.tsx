@@ -1,7 +1,7 @@
 import {
   useCheckout,
   useCheckoutDispatch
-} from '@components/common/context/checkout.js';
+} from '@components/frontStore/checkout/checkoutContext.js';
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { _ } from '../../../../../lib/locale/translate/_.js';

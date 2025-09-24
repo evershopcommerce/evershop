@@ -19,7 +19,7 @@ export default {
       return result ? camelCase(result) : null;
     },
     currentCategory: async (_, args, { currentUrl, currentRoute, pool }) => {
-      if (currentRoute.id !== 'categoryView') {
+      if (currentRoute?.id !== 'categoryView') {
         return null;
       }
       const { params } = currentRoute;

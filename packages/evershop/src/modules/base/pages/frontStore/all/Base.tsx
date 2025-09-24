@@ -3,23 +3,30 @@ import { LoadingBar } from '@components/common/LoadingBar.js';
 import React from 'react';
 import './Layout.scss';
 import './tailwind.scss';
-import { CartProvider, CartData } from '@components/common/context/cart.js';
+import {
+  CartProvider,
+  CartData
+} from '@components/frontStore/cart/cartContext.js';
 import {
   CustomerProvider,
   Customer
-} from '@components/common/context/customer.js';
+} from '@components/frontStore/customer/customerContext.js';
 
 interface BaseProps {
-  cart: CartData;
+  myCart: CartData;
   customer: Customer;
+  setting: {
+    priceIncludingTax: boolean;
+  };
   addMineCartItemApi: string;
   loginApi: string;
   logoutApi: string;
   loginUrl: string;
 }
 export default function Base({
-  cart,
+  myCart,
   customer,
+  setting,
   addMineCartItemApi,
   loginApi,
   logoutApi,
@@ -32,7 +39,12 @@ export default function Base({
       logoutAPI={logoutApi}
       loginUrl={loginUrl}
     >
-      <CartProvider cart={cart} addMineCartItemApi={addMineCartItemApi}>
+      <CartProvider
+        cart={myCart}
+        setting={setting}
+        query={query}
+        addMineCartItemApi={addMineCartItemApi}
+      >
         <LoadingBar />
         <div className="header">
           <Area id="header" noOuter />
@@ -55,7 +67,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    cart: myCart {
+    myCart {
       uuid
       totalQty
       customerId
@@ -221,6 +233,9 @@ export const query = `
         updateApi
         deleteApi
       }
+    }
+    setting {
+      priceIncludingTax
     }
     addMineCartItemApi: url(routeId: "addMineCartItem")
     loginApi: url(routeId: "customerLoginJson")

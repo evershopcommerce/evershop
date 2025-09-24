@@ -1,9 +1,10 @@
 import { select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
-import { getProductsBaseQuery } from '../../../../../modules/catalog/services/getProductsBaseQuery.js';
-import { ProductCollection } from '../../../../../modules/catalog/services/ProductCollection.js';
+import { getProductsBaseQuery } from '../../../services/getProductsBaseQuery.js';
+import { ProductCollection } from '../../../services/ProductCollection.js';
 
 export default {
   Product: {
@@ -90,6 +91,22 @@ export default {
       const root = new ProductCollection(query);
       await root.init(filters, !!user);
       return root;
+    },
+    productSearch: async (_, args, { currentUrl, currentRoute }) => {
+      if (currentRoute?.id !== 'catalogSearch') {
+        return null;
+      }
+      // Parse the keyword from the url
+      const url = new URL(currentUrl);
+      const keyword = url.searchParams.get('keyword') || undefined;
+      const query = getProductsBaseQuery();
+      const filtersFromUrl = buildFilterFromUrl(currentUrl);
+      const root = new ProductCollection(query);
+      await root.init(filtersFromUrl, false);
+      return {
+        products: root,
+        keyword: keyword
+      };
     }
   }
 };

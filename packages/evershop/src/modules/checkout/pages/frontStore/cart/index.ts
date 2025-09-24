@@ -1,5 +1,5 @@
-import { setPageMetaInfo } from 'src/modules/cms/services/pageMetaInfo.js';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
+import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 
 export default (request, response) => {
   setPageMetaInfo(request, {

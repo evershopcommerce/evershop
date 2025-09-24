@@ -2,7 +2,6 @@ import { produce } from 'immer';
 import React, { useMemo } from 'react';
 import { PageMetaInfo } from '../../../types/pageMeta.js';
 
-// Define the shape of the app state context
 interface AppStateContextValue {
   graphqlResponse: {
     pageMeta: PageMetaInfo;
@@ -13,7 +12,6 @@ interface AppStateContextValue {
   fetching: boolean;
 }
 
-// Define the shape of the app dispatch context
 interface AppContextDispatchValue {
   setData: React.Dispatch<React.SetStateAction<AppStateContextValue>>;
   fetchPageData: (url: string | URL) => Promise<void>;

@@ -315,6 +315,7 @@ export const Editor: React.FC<EditorProps> = ({ name, value = [], label }) => {
             fileBrowser && fileBrowser.onUpload(url);
             setOpenFileBrowser(false);
           }}
+          close={() => setOpenFileBrowser(false)}
           isMultiple={false}
         />
       )}

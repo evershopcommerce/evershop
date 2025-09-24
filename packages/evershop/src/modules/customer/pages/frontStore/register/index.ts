@@ -1,13 +1,11 @@
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { EvershopRequest } from '../../../../../types/request.js';
+import { EvershopResponse } from '../../../../../types/response.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
-import { getContextValue } from '../../../../graphql/services/contextHelper.js';
 
-export default (request, response, next) => {
-  // Check if the user is logged in
-  const customerTokenPayload = getContextValue(request, 'customerTokenPayload');
-  if (customerTokenPayload && customerTokenPayload.customer?.customerId) {
-    // Redirect to admin dashboard
+export default (request: EvershopRequest, response: EvershopResponse, next) => {
+  if (request.getCurrentCustomer()) {
     response.redirect(buildUrl('homepage'));
   } else {
     setPageMetaInfo(request, {

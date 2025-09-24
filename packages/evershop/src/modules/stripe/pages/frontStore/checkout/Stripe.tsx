@@ -1,7 +1,7 @@
 import {
   useCheckout,
   useCheckoutDispatch
-} from '@components/common/context/checkout.js';
+} from '@components/frontStore/checkout/checkoutContext.js';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import React, { useEffect } from 'react';

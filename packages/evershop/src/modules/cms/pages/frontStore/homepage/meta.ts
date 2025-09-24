@@ -6,7 +6,7 @@ export default async (request, response, next) => {
     title: await getSetting('storeName', 'EverShop'),
     description: await getSetting(
       'storeDescription',
-      'An e-commerce platform with Node and Postgres'
+      'The best eCommerce platform'
     )
   });
   next();

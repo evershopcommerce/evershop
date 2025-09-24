@@ -1,4 +1,4 @@
-import { ProductList } from '@components/frontStore/ProductList.js';
+import { ProductList } from '@components/frontStore/catalog/ProductList.js';
 import React from 'react';
 
 interface CollectionProductsProps {
