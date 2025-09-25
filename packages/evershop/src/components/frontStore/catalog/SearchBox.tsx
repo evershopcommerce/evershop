@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+ 
 import { Image } from '@components/common/Image.js';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import React, { useRef, useState, ReactNode, useCallback } from 'react';
