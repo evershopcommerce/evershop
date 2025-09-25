@@ -1,4 +1,4 @@
-import { setPageMetaInfo } from 'src/modules/cms/services/pageMetaInfo.js';
+import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 
 export default (request) => {
   setPageMetaInfo(request, {

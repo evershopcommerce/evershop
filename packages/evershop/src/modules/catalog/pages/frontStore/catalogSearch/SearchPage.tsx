@@ -6,7 +6,7 @@ import {
 import { SearchInfo } from '@components/frontStore/catalog/SearchInfo.js';
 import { SearchProducts } from '@components/frontStore/catalog/SearchProducts.js';
 import React from 'react';
-import { _ } from 'src/lib/locale/index.js';
+import { _ } from '../../../../../lib/locale/translate/_.js';
 
 interface SearchPageProps {
   search: SearchPageData;

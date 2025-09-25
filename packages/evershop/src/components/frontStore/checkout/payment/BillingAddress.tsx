@@ -5,8 +5,8 @@ import {
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
 import React, { useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
-import { CustomerAddressGraphql } from 'src/types/customerAddress.js';
 import { _ } from '../../../../lib/locale/translate/_.js';
+import { CustomerAddressGraphql } from '../../../../types/customerAddress.js';
 
 export function BillingAddress({
   billingAddress
