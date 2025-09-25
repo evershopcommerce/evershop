@@ -79,48 +79,7 @@ function CustomDot(props: any) {
 
 // Only keep minimal CSS for slick slider overrides
 const customSliderStyles = `
-.slick-slide {
-    height: auto; // ← that must not be ignored
-  }
-  .slick-track {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: stretch;
-  }
-  /* Hide the default button appearance but keep functionality */
-  .slideshow-widget .slick-dots li button:before {
-    content: "";
-    display: none;
-  }
-  
-  /* Remove default slick-dots styling */
-  .slideshow-widget .slick-dots li {
-    margin: 0;
-    width: auto;
-    height: auto;
-  }
-  
-  /* Custom dots container styling */
-  .slideshow-widget .custom-dots-container {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    z-index: 10;
-  }
-  
-  /* Ensure dots stay inside the slide on all screen sizes */
-  @media (max-width: 767px) {
-    .slideshow-widget .custom-dots-container {
-      bottom: 15px;
-    }
-  }
+
 `;
 
 const SliderComponent = Slider as any;
@@ -165,14 +124,12 @@ export default function Slideshow({
     autoplay: Boolean(autoplay),
     autoplaySpeed: Number(autoplaySpeed) || 3000,
     arrows: Boolean(arrows),
-    fade: false, // Always use fade: false to allow smooth transitions
+    fade: true,
     pauseOnHover: true,
-    adaptiveHeight: true, // Always use adaptiveHeight: true to adjust to slide dimensions
+    adaptiveHeight: true,
     nextArrow: arrows ? <NextArrow /> : undefined,
     prevArrow: arrows ? <PrevArrow /> : undefined,
     customPaging: function (i: number) {
-      // We can't directly determine active state here, as it's managed by react-slick
-      // The component will receive the active prop from the Slider
       return <CustomDot active={false} />;
     },
     appendDots: (dots: React.ReactNode) => (
@@ -187,16 +144,11 @@ export default function Slideshow({
     return null;
   }
 
-  const containerClasses = [
-    'slideshow-widget',
-    'relative',
-    'w-full' // Always take full width of parent container
-  ].join(' ');
+  const containerClasses = ['slideshow-widget', 'relative', 'w-full'].join(' ');
 
-  // Simple styles for adaptive slideshow
   const containerStyle: React.CSSProperties = {
-    height: 'auto', // Always adaptive height
-    maxWidth: '100%' // Always respect parent container width
+    height: 'auto',
+    maxWidth: '100%'
   };
 
   const sliderStyle: React.CSSProperties = {
@@ -217,7 +169,11 @@ export default function Slideshow({
     <div className={containerClasses} style={containerStyle}>
       <SliderComponent {...settings} style={sliderStyle}>
         {slides.map((slide) => (
-          <div key={slide.id} className="relative h-auto">
+          <div
+            key={slide.id}
+            className="relative h-auto slide__wrapper"
+            style={{ display: 'block' }}
+          >
             <div className="relative w-full">
               <Image
                 src={slide.image}

@@ -16,7 +16,7 @@ export default async function registerDefaultProductCollectionFilters() {
           'AND',
           `to_tsvector('simple', product_description.name || ' ' || product_description.description) @@ websearch_to_tsquery('simple', :${bindingKey})`,
           {
-            [bindingKey]: value
+            [bindingKey]: `%${value}%`
           }
         );
         currentFilters.push({
