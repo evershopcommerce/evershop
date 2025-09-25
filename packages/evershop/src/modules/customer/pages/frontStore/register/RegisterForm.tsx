@@ -5,59 +5,42 @@ import { EmailField } from '@components/common/form/EmailField.js';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
+import { useCustomerDispatch } from '@components/frontStore/customer/customerContext.js';
 import { useForm } from 'react-hook-form';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
 interface RegisterFormProps {
-  action: string;
   homeUrl: string;
-  loginApi: string;
   loginUrl: string;
 }
-export default function RegisterForm({
-  action,
-  homeUrl,
-  loginApi,
-  loginUrl
-}: RegisterFormProps) {
+export default function RegisterForm({ homeUrl, loginUrl }: RegisterFormProps) {
+  const { register } = useCustomerDispatch();
   const [error, setError] = React.useState(null);
   const form = useForm();
-  const { watch } = form;
-  const email = watch('email');
-  const password = watch('password');
 
   return (
     <div className="flex justify-center items-center">
-      <div className="register-form flex justify-center items-center">
-        <div className="register-form-inner">
+      <div className="register__form flex justify-center items-center">
+        <div className="register__form__inner">
           <h1 className="text-center">{_('Create A New Account')}</h1>
           {error && <div className="text-critical mb-2">{error}</div>}
           <Form
             id="registerForm"
-            action={action}
             form={form}
             method="POST"
-            onSuccess={async (response) => {
-              if (!response.error) {
-                const loginResponse = await fetch(loginApi, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
+            onSubmit={async (data) => {
+              try {
+                await register(
+                  {
+                    full_name: data.full_name,
+                    email: data.email,
+                    password: data.password
                   },
-                  body: JSON.stringify({
-                    email,
-                    password
-                  })
-                });
-
-                const loginResponseJson = await loginResponse.json();
-                if (loginResponseJson.error) {
-                  setError(loginResponseJson.error.message);
-                } else {
-                  window.location.href = homeUrl;
-                }
-              } else {
-                setError(response.error.message);
+                  true,
+                  homeUrl
+                );
+              } catch (error) {
+                setError(error.message);
               }
             }}
             submitBtnText={_('SIGN UP')}
@@ -70,6 +53,7 @@ export default function RegisterForm({
                     default: (
                       <InputField
                         name="full_name"
+                        label={_('Full Name')}
                         placeholder={_('Full Name')}
                         required
                         validation={{ required: _('Full Name is required') }}
@@ -83,6 +67,7 @@ export default function RegisterForm({
                     default: (
                       <EmailField
                         name="email"
+                        label={_('Email')}
                         placeholder={_('Email')}
                         required
                         validation={{ required: _('Email is required') }}
@@ -96,6 +81,7 @@ export default function RegisterForm({
                     default: (
                       <PasswordField
                         name="password"
+                        label={_('Password')}
                         placeholder={_('Password')}
                         required
                         validation={{ required: _('Password is required') }}
@@ -130,8 +116,6 @@ export const layout = {
 export const query = `
   query Query {
     homeUrl: url(routeId: "homepage")
-    action: url(routeId: "createCustomer")
-    loginApi: url(routeId: "customerLoginJson")
     loginUrl: url(routeId: "login")
   }
 `;

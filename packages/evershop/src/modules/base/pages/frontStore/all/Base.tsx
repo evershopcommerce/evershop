@@ -11,8 +11,8 @@ import {
   CustomerProvider,
   Customer
 } from '@components/frontStore/customer/customerContext.js';
-import { Header } from '@components/frontStore/Header.js';
 import { Footer } from '@components/frontStore/Footer.js';
+import { Header } from '@components/frontStore/Header.js';
 
 interface BaseProps {
   myCart: CartData;
@@ -26,7 +26,7 @@ interface BaseProps {
   addMineCartItemApi: string;
   loginApi: string;
   logoutApi: string;
-  loginUrl: string;
+  registerApi: string;
 }
 export default function Base({
   myCart,
@@ -36,14 +36,14 @@ export default function Base({
   addMineCartItemApi,
   loginApi,
   logoutApi,
-  loginUrl
+  registerApi
 }: BaseProps) {
   return (
     <CustomerProvider
       initialCustomer={customer}
       loginAPI={loginApi}
       logoutAPI={logoutApi}
-      loginUrl={loginUrl}
+      registerAPI={registerApi}
     >
       <CartProvider
         cart={myCart}
@@ -235,6 +235,38 @@ export const query = `
         updateApi
         deleteApi
       }
+      orders {
+        orderId
+        orderNumber
+        createdAt {
+          value
+          text
+        }
+        shipmentStatus {
+          name
+          code
+          badge
+        }
+        paymentStatus {
+          name
+          code
+          badge
+        }
+        grandTotal {
+          value
+          text
+        }
+        items {
+          productName
+          thumbnail
+          productPrice {
+            value
+            text
+          }
+          productSku
+          qty
+        }
+      }
     }
     setting {
       priceIncludingTax
@@ -244,7 +276,7 @@ export const query = `
     }
     addMineCartItemApi: url(routeId: "addMineCartItem")
     loginApi: url(routeId: "customerLoginJson")
+    registerApi: url(routeId: "createCustomer")
     logoutApi: url(routeId: "customerLogoutJson")
-    loginUrl: url(routeId: "login")
   }
 `;

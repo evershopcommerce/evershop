@@ -1,29 +1,13 @@
+import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
+import {
+  Order,
+  useCustomer
+} from '@components/frontStore/customer/customerContext.js';
 import React from 'react';
 import { _ } from '../../../lib/locale/translate/_.js';
 
-interface OrderProps {
-  order: {
-    createdAt: {
-      text: string;
-    };
-    grandTotal: {
-      text: string;
-    };
-    items: {
-      productPrice: {
-        text: string;
-      };
-      productSku: string;
-      productName: string;
-      thumbnail?: string;
-      qty: number;
-    }[];
-    orderNumber: string;
-  };
-}
-
-export function OrderDetail({ order }: OrderProps) {
+const OrderDetail: React.FC<{ order: Order }> = ({ order }) => {
   return (
     <div className="order border-divider">
       <div className="order-inner grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -35,7 +19,9 @@ export function OrderDetail({ order }: OrderProps) {
             >
               <div className="thumbnail border border-divider p-2 rounded">
                 {item.thumbnail && (
-                  <img
+                  <Image
+                    width={100}
+                    height={100}
                     style={{ maxWidth: '6rem' }}
                     src={item.thumbnail}
                     alt={item.productName}
@@ -73,6 +59,29 @@ export function OrderDetail({ order }: OrderProps) {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+export default function OrderHistory({ title }: { title?: string }) {
+  const { customer } = useCustomer();
+  const orders = customer?.orders || [];
+  return (
+    <div className="order-history divide-y">
+      {title && <h2 className="order-history-title">{title}</h2>}
+      {orders.length === 0 && (
+        <div className="order-history-empty">
+          {_('You have not placed any orders yet')}
+        </div>
+      )}
+      {orders.map((order) => (
+        <div
+          className="order-history-order border-divider py-5"
+          key={order.orderId}
+        >
+          <OrderDetail order={order} key={order.orderId} />
+        </div>
+      ))}
     </div>
   );
 }

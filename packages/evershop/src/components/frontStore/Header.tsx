@@ -16,7 +16,7 @@ export function Header() {
         />
         <Area
           id="headerMiddleRight"
-          className="header__middle__right flex justify-end items-center"
+          className="header__middle__right flex justify-end items-center gap-3"
         />
       </div>
       <Area id="headerBottom" className="header__bottom" />

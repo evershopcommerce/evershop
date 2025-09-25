@@ -97,7 +97,7 @@ export const Modal: React.FC<ModalProps> = ({
         {...restProps}
       >
         <Card title={title}>
-          <div className="p-2">{children}</div>
+          <Card.Session>{children}</Card.Session>
         </Card>
       </div>
     </>
