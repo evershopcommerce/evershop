@@ -1,9 +1,14 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import { join } from 'path';
 import staticMiddleware from 'serve-static';
+import { EvershopRequest, EvershopResponse } from '../../types/index.js';
 import { CONSTANTS } from '../helpers.js';
 
-export default async function publicStatic(request, response, next) {
+export default async function publicStatic(
+  request: EvershopRequest,
+  response: EvershopResponse,
+  next
+) {
   // Get the request path
   const { path } = request;
   try {

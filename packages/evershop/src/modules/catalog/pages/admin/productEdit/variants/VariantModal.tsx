@@ -9,8 +9,8 @@ import { ToggleField } from '@components/common/form/ToggleField.js';
 import React, { useEffect, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { AtLeastOne } from 'src/types/atLeastOne.js';
 import { useQuery } from 'urql';
+import { AtLeastOne } from '../../../../../../types/atLeastOne.js';
 import { VariantGroup } from '../VariantGroup.js';
 import { VariantItem } from './Variants.js';
 

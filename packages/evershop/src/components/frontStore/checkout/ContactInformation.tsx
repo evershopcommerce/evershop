@@ -136,7 +136,7 @@ const Guest: React.FC<{
       const formData = form.getValues();
       const loginEmail = formData?.contact?.email;
       const password = formData?.contact?.password;
-      await login(loginEmail, password);
+      await login(loginEmail, password, window.location.href);
       toast.success(_('Successfully logged in'));
       setShowLogin(false);
     } catch (error) {

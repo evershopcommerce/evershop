@@ -1,6 +1,8 @@
 import { existsSync, statSync } from 'fs';
 import { join, normalize, extname } from 'path';
 import staticMiddleware from 'serve-static';
+import { EvershopRequest } from '../..//types/request.js';
+import { EvershopResponse } from '../../types/response.js';
 import { CONSTANTS } from '../helpers.js';
 
 // Define allowed file extensions (whitelist)
@@ -64,7 +66,15 @@ const isValidFile = (fullPath) => {
   }
 };
 
-export default (request, response, next) => {
+const staticMiddlewareOptions = {
+  maxAge: '1y',
+  immutable: true,
+  setHeaders: (res) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+  }
+};
+
+export default (request: EvershopRequest, response: EvershopResponse, next) => {
   let path;
   if (request.isAdmin === true) {
     path = normalize(request.originalUrl.replace('/admin/assets/', ''));
@@ -92,27 +102,29 @@ export default (request, response, next) => {
   // Check build path
   const buildPath = join(CONSTANTS.ROOTPATH, '.evershop/build', path);
   if (existsSync(buildPath) && isValidFile(buildPath)) {
-    return staticMiddleware(join(CONSTANTS.ROOTPATH, '.evershop/build'))(
-      request,
-      response,
-      next
-    );
+    return staticMiddleware(
+      join(CONSTANTS.ROOTPATH, '.evershop/build'),
+      staticMiddlewareOptions
+    )(request, response, next);
   }
 
   // Check media path
   const mediaPath = join(CONSTANTS.MEDIAPATH, path);
   if (existsSync(mediaPath) && isValidFile(mediaPath)) {
-    return staticMiddleware(CONSTANTS.MEDIAPATH)(request, response, next);
+    return staticMiddleware(CONSTANTS.MEDIAPATH, staticMiddlewareOptions)(
+      request,
+      response,
+      next
+    );
   }
 
   // Check public path
   const publicPath = join(CONSTANTS.ROOTPATH, 'public', path);
   if (existsSync(publicPath) && isValidFile(publicPath)) {
-    return staticMiddleware(join(CONSTANTS.ROOTPATH, 'public'))(
-      request,
-      response,
-      next
-    );
+    return staticMiddleware(
+      join(CONSTANTS.ROOTPATH, 'public'),
+      staticMiddlewareOptions
+    )(request, response, next);
   }
 
   // If none of the above conditions are met

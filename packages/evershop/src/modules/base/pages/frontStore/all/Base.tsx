@@ -11,6 +11,8 @@ import {
   CustomerProvider,
   Customer
 } from '@components/frontStore/customer/customerContext.js';
+import { Footer } from '@components/frontStore/Footer.js';
+import { Header } from '@components/frontStore/Header.js';
 
 interface BaseProps {
   myCart: CartData;
@@ -18,26 +20,30 @@ interface BaseProps {
   setting: {
     priceIncludingTax: boolean;
   };
+  themeConfig: {
+    copyRight: string;
+  };
   addMineCartItemApi: string;
   loginApi: string;
   logoutApi: string;
-  loginUrl: string;
+  registerApi: string;
 }
 export default function Base({
   myCart,
   customer,
   setting,
+  themeConfig,
   addMineCartItemApi,
   loginApi,
   logoutApi,
-  loginUrl
+  registerApi
 }: BaseProps) {
   return (
     <CustomerProvider
       initialCustomer={customer}
       loginAPI={loginApi}
       logoutAPI={logoutApi}
-      loginUrl={loginUrl}
+      registerAPI={registerApi}
     >
       <CartProvider
         cart={myCart}
@@ -46,15 +52,11 @@ export default function Base({
         addMineCartItemApi={addMineCartItemApi}
       >
         <LoadingBar />
-        <div className="header">
-          <Area id="header" noOuter />
-        </div>
+        <Header />
         <main className="content">
           <Area id="content" noOuter />
         </main>
-        <div className="footer">
-          <Area id="footer" noOuter />
-        </div>
+        <Footer copyRight={themeConfig.copyRight} />
       </CartProvider>
     </CustomerProvider>
   );
@@ -233,13 +235,48 @@ export const query = `
         updateApi
         deleteApi
       }
+      orders {
+        orderId
+        orderNumber
+        createdAt {
+          value
+          text
+        }
+        shipmentStatus {
+          name
+          code
+          badge
+        }
+        paymentStatus {
+          name
+          code
+          badge
+        }
+        grandTotal {
+          value
+          text
+        }
+        items {
+          productName
+          thumbnail
+          productPrice {
+            value
+            text
+          }
+          productSku
+          qty
+        }
+      }
     }
     setting {
       priceIncludingTax
     }
+    themeConfig {
+      copyRight
+    }
     addMineCartItemApi: url(routeId: "addMineCartItem")
     loginApi: url(routeId: "customerLoginJson")
+    registerApi: url(routeId: "createCustomer")
     logoutApi: url(routeId: "customerLogoutJson")
-    loginUrl: url(routeId: "login")
   }
 `;

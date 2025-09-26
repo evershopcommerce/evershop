@@ -1,3 +1,4 @@
+import { useAppDispatch } from '@components/common/context/app.js';
 import { produce } from 'immer';
 import React, {
   createContext,
@@ -10,16 +11,106 @@ import React, {
 } from 'react';
 import { _ } from '../../../lib/locale/translate/_.js';
 import { CustomerAddressGraphql } from '../../../types/customerAddress.js';
-import { useAppDispatch } from '../../common/context/app.js';
 
-// Types
-// Extend CustomerAddress to include isDefault flag and API endpoints
 type ExtendedCustomerAddress = CustomerAddressGraphql & {
-  addressId?: string | number;
+  addressId: string | number;
   isDefault?: boolean;
   updateApi?: string;
   deleteApi?: string;
 };
+
+export interface OrderItem {
+  orderItemId: string;
+  qty: number;
+  productSku: string;
+  productName: string;
+  thumbnail?: string;
+  variantOptions?: {
+    attributeCode: string;
+    attributeName: string;
+    attributeId: number;
+    optionId: number;
+    optionText: string;
+  }[];
+  productPrice: {
+    value: number;
+    text: string;
+  };
+  productPriceInclTax: {
+    value: number;
+    text: string;
+  };
+  finalPrice: {
+    value: number;
+    text: string;
+  };
+  finalPriceInclTax: {
+    value: number;
+    text: string;
+  };
+  lineTotal: {
+    value: number;
+    text: string;
+  };
+  lineTotalInclTax: {
+    value: number;
+    text: string;
+  };
+  virtual?: boolean;
+}
+
+export interface Order {
+  orderId: number;
+  uuid: string;
+  orderNumber: string;
+  customerId?: number;
+  customerGroupId?: number;
+  customerEmail?: string;
+  customerFullName?: string;
+  coupon?: string;
+  shippingMethod?: string;
+  shippingMethodName?: string;
+  paymentMethod?: string;
+  paymentMethodName?: string;
+  currency: string;
+  shippingNote: string | null;
+  items: OrderItem[];
+  createdAt: {
+    value: string;
+    text: string;
+  };
+  subTotal: {
+    value: number;
+    text: string;
+  };
+  subTotalInclTax: {
+    value: number;
+    text: string;
+  };
+  grandTotal: {
+    value: number;
+    text: string;
+  };
+  taxAmount: {
+    value: number;
+    text: string;
+  };
+  discountAmount: {
+    value: number;
+    text: string;
+  };
+  shippingFeeExclTax: {
+    value: number;
+    text: string;
+  };
+  shippingFeeInclTax: {
+    value: number;
+    text: string;
+  };
+  billingAddress?: CustomerAddressGraphql;
+  shippingAddress?: CustomerAddressGraphql;
+  [extendedFields: string]: any;
+}
 
 interface Customer {
   uuid: string;
@@ -27,8 +118,9 @@ interface Customer {
   fullName: string;
   groupId: string;
   addresses: ExtendedCustomerAddress[];
+  orders: Order[];
   addAddressApi: string;
-  [key: string]: any; // Allow additional customer properties
+  [key: string]: any;
 }
 
 interface CustomerState {
@@ -41,13 +133,11 @@ type CustomerAction =
   | { type: 'SET_CUSTOMER'; payload: Customer | undefined }
   | { type: 'LOGOUT' };
 
-// Initial state
 const initialState: CustomerState = {
   customer: undefined,
   isLoading: false
 };
 
-// Reducer with Immer for immutable updates
 const customerReducer = (
   state: CustomerState,
   action: CustomerAction
@@ -69,11 +159,23 @@ const customerReducer = (
   });
 };
 
-// Context types
 interface CustomerContextValue extends CustomerState {}
 
 interface CustomerDispatchContextValue {
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (
+    email: string,
+    password: string,
+    redirectUrl: string
+  ) => Promise<boolean>;
+  register: (
+    data: {
+      full_name: string;
+      email: string;
+      password: string;
+    },
+    loginIfSuccess: boolean,
+    redirectUrl: string
+  ) => Promise<boolean>;
   logout: () => Promise<void>;
   setCustomer: (customer: Customer | undefined) => void;
   addAddress: (
@@ -86,7 +188,6 @@ interface CustomerDispatchContextValue {
   deleteAddress: (addressId: string | number) => Promise<void>;
 }
 
-// Contexts
 const CustomerContext = createContext<CustomerContextValue | undefined>(
   undefined
 );
@@ -94,16 +195,14 @@ const CustomerDispatchContext = createContext<
   CustomerDispatchContextValue | undefined
 >(undefined);
 
-// Provider props
 interface CustomerProviderProps {
   children: ReactNode;
   loginAPI: string;
   logoutAPI: string;
-  loginUrl: string; // Optional, used for redirect after login
-  initialCustomer?: Customer; // Initial customer data if logged in
+  registerAPI: string;
+  initialCustomer?: Customer;
 }
 
-// Retry utility
 const retry = async (
   fn: () => Promise<Response>,
   retries = 3,
@@ -123,8 +222,8 @@ const retry = async (
 export function CustomerProvider({
   children,
   loginAPI,
+  registerAPI,
   logoutAPI,
-  loginUrl,
   initialCustomer
 }: CustomerProviderProps) {
   const [state, dispatch] = useReducer(customerReducer, {
@@ -154,7 +253,11 @@ export function CustomerProvider({
 
   // Login function
   const login = useCallback(
-    async (email: string, password: string): Promise<boolean> => {
+    async (
+      email: string,
+      password: string,
+      redirectUrl: string
+    ): Promise<boolean> => {
       dispatch({ type: 'SET_LOADING', payload: true });
 
       try {
@@ -174,7 +277,9 @@ export function CustomerProvider({
 
         // Trigger page data refresh which will update customer via useEffect
         await appDispatch.fetchPageData(getCurrentAjaxUrl());
-
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        }
         return true;
       } catch (error) {
         dispatch({ type: 'SET_LOADING', payload: false });
@@ -182,6 +287,51 @@ export function CustomerProvider({
       }
     },
     [loginAPI, appDispatch, getCurrentAjaxUrl]
+  );
+
+  const register = useCallback(
+    async (
+      data: {
+        full_name: string;
+        email: string;
+        password: string;
+      },
+      loginIfSuccess: boolean,
+      redirectUrl: string
+    ): Promise<boolean> => {
+      if (state.customer) {
+        throw new Error(_('You are already logged in'));
+      }
+      dispatch({ type: 'SET_LOADING', payload: true });
+
+      try {
+        const response = await retry(() =>
+          fetch(registerAPI, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          })
+        );
+
+        const json = await response.json();
+
+        if (!response.ok) {
+          throw new Error(json.error?.message || _('Registration failed'));
+        }
+
+        // Trigger page data refresh which will update customer via useEffect
+        await appDispatch.fetchPageData(getCurrentAjaxUrl());
+        if (loginIfSuccess) {
+          // Auto login after successful registration
+          await login(data.email, data.password, redirectUrl);
+        }
+        return true;
+      } catch (error) {
+        dispatch({ type: 'SET_LOADING', payload: false });
+        throw error;
+      }
+    },
+    [registerAPI, appDispatch, getCurrentAjaxUrl]
   );
 
   // Logout function
@@ -245,7 +395,7 @@ export function CustomerProvider({
       await appDispatch.fetchPageData(getCurrentAjaxUrl());
 
       // Return the address from the API response for immediate use
-      const newAddress = json.data?.address;
+      const newAddress = json.data;
       if (!newAddress) {
         throw new Error(_('No address data received'));
       }
@@ -272,7 +422,7 @@ export function CustomerProvider({
 
       const response = await retry(() =>
         fetch(address.updateApi!, {
-          method: 'PUT',
+          method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(addressData)
         })
@@ -292,7 +442,7 @@ export function CustomerProvider({
       await appDispatch.fetchPageData(getCurrentAjaxUrl());
 
       // Return the address from the API response for immediate use
-      const updatedAddress = json.data?.address;
+      const updatedAddress = json.data;
       if (!updatedAddress) {
         throw new Error(_('No address data received'));
       }
@@ -331,13 +481,11 @@ export function CustomerProvider({
         throw new Error(json.error.message || _('Failed to delete address'));
       }
 
-      // Sync with server to get fresh customer data with the address removed
       await appDispatch.fetchPageData(getCurrentAjaxUrl());
     },
     [state.customer, appDispatch, getCurrentAjaxUrl]
   );
 
-  // Context values
   const contextValue = useMemo(
     (): CustomerContextValue => ({
       ...state
@@ -348,6 +496,7 @@ export function CustomerProvider({
   const dispatchMethods = useMemo(
     (): CustomerDispatchContextValue => ({
       login,
+      register,
       logout,
       setCustomer,
       addAddress,
@@ -366,7 +515,6 @@ export function CustomerProvider({
   );
 }
 
-// Custom hooks
 export const useCustomer = (): CustomerContextValue => {
   const context = useContext(CustomerContext);
   if (context === undefined) {
@@ -385,5 +533,4 @@ export const useCustomerDispatch = (): CustomerDispatchContextValue => {
   return context;
 };
 
-// Export types for consumers
 export type { Customer, CustomerState, ExtendedCustomerAddress };

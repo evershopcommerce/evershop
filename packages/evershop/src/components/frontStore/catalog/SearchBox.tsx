@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+ 
 import { Image } from '@components/common/Image.js';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import React, { useRef, useState, ReactNode, useCallback } from 'react';
@@ -111,8 +111,8 @@ export function SearchBox({
               filters: [
                 {
                   key: 'keyword',
-                  operation: 'like',
-                  value: `%${query}%`
+                  operation: 'eq',
+                  value: query
                 },
                 {
                   key: 'limit',
@@ -175,10 +175,9 @@ export function SearchBox({
       try {
         const results = await searchFunction(query);
         setSearchResults(results.slice(0, maxResults));
-        setShowResults(results.length > 0);
+        setShowResults(true);
       } catch (error) {
         setSearchResults([]);
-        setShowResults(false);
       } finally {
         setIsSearching(false);
       }
@@ -268,106 +267,6 @@ export function SearchBox({
 
   const defaultCloseIcon = () => <XMarkIcon width="1.5rem" height="1.5rem" />;
 
-  const defaultSearchInput = (props: {
-    value: string;
-    onChange: (value: string) => void;
-    onKeyDown: (event: React.KeyboardEvent) => void;
-    onFocus: () => void;
-    onBlur: () => void;
-    placeholder: string;
-    ref: React.RefObject<HTMLInputElement | null>;
-  }) => (
-    <div className="form__field flex items-center justify-center relative flex-grow">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ width: '1rem', height: '1rem' }}
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        className="absolute left-2 pointer-events-none"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-        />
-      </svg>
-      <input
-        ref={props.ref}
-        placeholder={props.placeholder}
-        value={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
-        onKeyDown={props.onKeyDown}
-        onFocus={props.onFocus}
-        onBlur={props.onBlur}
-        enterKeyHint="done"
-        className="pl-8 p-3 border border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-      />
-    </div>
-  );
-
-  const defaultSearchResults = (props: {
-    results: SearchResult[];
-    query: string;
-    onSelect: (result: SearchResult) => void;
-    isLoading: boolean;
-  }) => (
-    <div className="search__results absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-b-lg shadow-lg z-50 max-h-64 overflow-y-auto">
-      {props.isLoading && (
-        <div className="p-3 text-center text-gray-500">
-          <span>Searching...</span>
-        </div>
-      )}
-      {!props.isLoading &&
-        props.results.length === 0 &&
-        props.query.length >= minSearchLength && (
-          <div className="p-3 text-center text-gray-500">
-            <span>No results found for &ldquo;{props.query}&rdquo;</span>
-          </div>
-        )}
-      {!props.isLoading &&
-        props.results.map((result) => (
-          <div
-            key={result.id}
-            className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
-            onClick={() => props.onSelect(result)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                props.onSelect(result);
-              }
-            }}
-            role="button"
-            tabIndex={0}
-          >
-            {result.image && (
-              <Image
-                src={result.image}
-                alt={result.title}
-                width={100}
-                height={100}
-                className="w-10 h-10 object-cover rounded mr-3 flex-shrink-0"
-              />
-            )}
-            <div className="flex-1 min-w-0">
-              <div className="font-medium text-gray-900 truncate">
-                {result.title}
-              </div>
-              {result.price && (
-                <div className="text-sm text-gray-600">{result.price}</div>
-              )}
-              {result.type && (
-                <div className="text-xs text-gray-400 capitalize">
-                  {result.type}
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-    </div>
-  );
-
   return (
     <div className="search__box">
       <a
@@ -434,3 +333,106 @@ export function SearchBox({
     </div>
   );
 }
+
+const defaultSearchInput = (props: {
+  value: string;
+  onChange: (value: string) => void;
+  onKeyDown: (event: React.KeyboardEvent) => void;
+  onFocus: () => void;
+  onBlur: () => void;
+  placeholder: string;
+  ref: React.RefObject<HTMLInputElement | null>;
+}) => (
+  <div className="form__field flex items-center justify-center relative flex-grow">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ width: '1rem', height: '1rem' }}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      className="absolute left-2 pointer-events-none"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+      />
+    </svg>
+    <input
+      ref={props.ref}
+      placeholder={props.placeholder}
+      value={props.value}
+      onChange={(e) => props.onChange(e.target.value)}
+      onKeyDown={props.onKeyDown}
+      onFocus={props.onFocus}
+      onBlur={props.onBlur}
+      enterKeyHint="done"
+      className="pl-8 p-3 border border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+    />
+  </div>
+);
+
+const defaultSearchResults = (props: {
+  results: SearchResult[];
+  query: string;
+  onSelect: (result: SearchResult) => void;
+  isLoading: boolean;
+}) => {
+  return (
+    <div className="search__results absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-b-lg shadow-lg z-50 max-h-64 overflow-y-auto">
+      {props.isLoading && (
+        <div className="p-3 text-center text-gray-500">
+          <span>Searching...</span>
+        </div>
+      )}
+      {!props.isLoading && props.results.length === 0 && (
+        <div className="p-3 text-center text-gray-500">
+          <span>No results found for &ldquo;{props.query}&rdquo;</span>
+        </div>
+      )}
+      {!props.isLoading &&
+        props.results.map((result) => (
+          <div
+            key={result.id}
+            className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+            onClick={(e) => {
+              e.preventDefault();
+              props.onSelect(result);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                props.onSelect(result);
+              }
+            }}
+            role="button"
+            tabIndex={0}
+          >
+            {result.image && (
+              <Image
+                src={result.image}
+                alt={result.title}
+                width={100}
+                height={100}
+                className="w-10 h-10 object-cover rounded mr-3 flex-shrink-0"
+              />
+            )}
+            <div className="flex-1 min-w-0">
+              <div className="font-medium text-gray-900 truncate">
+                {result.title}
+              </div>
+              {result.price && (
+                <div className="text-sm text-gray-600">{result.price}</div>
+              )}
+              {result.type && (
+                <div className="text-xs text-gray-400 capitalize">
+                  {result.type}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+    </div>
+  );
+};

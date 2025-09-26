@@ -12,7 +12,7 @@ export default function SearchBox({ searchPageUrl }: SearchBoxProps) {
 }
 
 export const layout = {
-  areaId: 'header',
+  areaId: 'headerMiddleRight',
   sortOrder: 5
 };
 

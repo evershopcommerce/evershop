@@ -3,7 +3,7 @@ export default {
     extend: {
       colors: {
         white: '#ffffff',
-        primary: '#3a3a3a',
+        primary: '#008060',
         secondary: '#111213',
         surface: '#111213',
         onSurface: '#111213',
@@ -17,7 +17,7 @@ export default {
         icon: '#5c5f62',
         divider: '#e1e3e5',
         textSubdued: '#737373',
-        button: '#3a3a3a'
+        button: '#008060'
       },
       boxShadow: {
         DEFAULT: '0 0 0 1px rgba(63,63,68,.05),0 1px 3px 0 rgba(63,63,68,.15)'

@@ -38,8 +38,12 @@ const Button: React.FC<ButtonProps> = ({
       <button
         type={type}
         onClick={(e) => {
-          e.preventDefault();
-          onActionFunc(e);
+          if (type !== 'submit') {
+            e.preventDefault();
+            onActionFunc(e);
+          } else {
+            e.stopPropagation();
+          }
         }}
         className={className.join(' ')}
       >

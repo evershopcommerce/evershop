@@ -72,7 +72,7 @@ export default function LoginForm({
                         placeholder="Email"
                         required
                         validation={{
-                          required: 'Email is required'
+                          required: _('Email is required')
                         }}
                       />
                     )
@@ -88,7 +88,7 @@ export default function LoginForm({
                         placeholder="Password"
                         required
                         validation={{
-                          required: 'Password is required'
+                          required: _('Password is required')
                         }}
                       />
                     )
