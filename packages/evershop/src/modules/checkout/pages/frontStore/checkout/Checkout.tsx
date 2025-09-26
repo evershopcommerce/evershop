@@ -41,7 +41,7 @@ export default function CheckoutPage({
       placeOrderApi={placeOrderApi}
       checkoutSuccessUrl={checkoutSuccessUrl}
     >
-      <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-7">
+      <div className="page-width grid grid-cols-1 md:grid-cols-2 gap-7 pt-8 pb-8">
         <Form form={form} submitBtn={false}>
           <div>
             <ContactInformation />
