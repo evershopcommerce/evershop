@@ -60,7 +60,6 @@ function NextArrow(props: any) {
 
 function CustomDot(props: any) {
   const { onClick, active, className } = props;
-
   const isActive = active || (className && className.includes('active'));
 
   return (
@@ -76,11 +75,6 @@ function CustomDot(props: any) {
     />
   );
 }
-
-// Only keep minimal CSS for slick slider overrides
-const customSliderStyles = `
-
-`;
 
 const SliderComponent = Slider as any;
 
@@ -155,23 +149,13 @@ export default function Slideshow({
     height: 'auto' // Adaptive height for slider
   };
 
-  React.useEffect(() => {
-    const styleElement = document.createElement('style');
-    styleElement.innerHTML = customSliderStyles;
-    document.head.appendChild(styleElement);
-
-    return () => {
-      document.head.removeChild(styleElement);
-    };
-  }, []);
-
   return (
     <div className={containerClasses} style={containerStyle}>
       <SliderComponent {...settings} style={sliderStyle}>
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className="relative h-auto slide__wrapper"
+            className="relative h-auto slide__wrapper !block"
             style={{ display: 'block' }}
           >
             <div className="relative w-full">
@@ -227,10 +211,10 @@ export default function Slideshow({
 export const query = `
   query Query($slides: [SlideInput], $autoplay: Boolean, $autoplaySpeed: Int, $arrows: Boolean, $dots: Boolean) {
     slideshowWidget(
-      slides: $slides, 
-      autoplay: $autoplay, 
-      autoplaySpeed: $autoplaySpeed, 
-      arrows: $arrows, 
+      slides: $slides,
+      autoplay: $autoplay,
+      autoplaySpeed: $autoplaySpeed,
+      arrows: $arrows,
       dots: $dots
     ) {
       slides {
