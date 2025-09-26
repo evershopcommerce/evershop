@@ -1,10 +1,15 @@
 import fs from 'fs/promises';
 import { join } from 'path';
 import staticMiddleware from 'serve-static';
-import { getConfig } from '../util/getConfig.js';
+import { EvershopRequest } from '../../types/request.js';
+import { EvershopResponse } from '../../types/response.js';
 import { getEnabledTheme } from '../util/getEnabledTheme.js';
 
-export default async function themePublicStatic(request, response, next) {
+export default async function themePublicStatic(
+  request: EvershopRequest,
+  response: EvershopResponse,
+  next
+) {
   // Get the request path
   const { path } = request;
   const theme = getEnabledTheme();
