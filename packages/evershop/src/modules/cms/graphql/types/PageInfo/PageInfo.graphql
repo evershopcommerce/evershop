@@ -13,6 +13,7 @@ type OgInfo {
   url: String
   siteName: String
   type: String
+  twitterImage: String
   twitterCard: String
   twitterSite: String
   twitterCreator: String
@@ -29,6 +30,8 @@ type PageInfo {
   keywords: [String!]
   ogInfo: OgInfo
   breadcrumbs: [Breadcrumb!]
+  favicon: String
+  canonicalUrl: String
 }
 
 extend type Query {

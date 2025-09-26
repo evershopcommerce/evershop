@@ -1,7 +1,11 @@
+import { access } from 'fs/promises';
+import path from 'path';
 import { select } from '@evershop/postgres-query-builder';
 import { normalizePort } from '../../../../../bin/lib/normalizePort.js';
+import { CONSTANTS } from '../../../../../lib/helpers.js';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { get } from '../../../../../lib/util/get.js';
+import { getBaseUrl } from '../../../../../lib/util/getBaseUrl.js';
 import { getConfig } from '../../../../../lib/util/getConfig.js';
 import { getValueSync } from '../../../../../lib/util/registry.js';
 import { OgInfo } from '../../../../../types/pageMeta.js';
@@ -12,7 +16,21 @@ export default {
       url: get(context, 'currentUrl'),
       title: get(context, 'pageInfo.title', getConfig('shop.name', 'Evershop')),
       description: get(context, 'pageInfo.description', ''),
-      keywords: get(context, 'pageInfo.keywords', [])
+      keywords: get(context, 'pageInfo.keywords', []),
+      canonicalUrl: get(
+        context,
+        'pageInfo.canonicalUrl',
+        get(context, 'currentUrl')
+      ),
+      favicon: async () => {
+        // Check if a file named favicon.ico exists in the public folder
+        try {
+          await access(path.resolve(CONSTANTS.PUBLICPATH, 'favicon.ico'));
+          return getBaseUrl() + '/assets/favicon.ico';
+        } catch (error) {
+          return null;
+        }
+      }
     })
   },
   PageInfo: {
