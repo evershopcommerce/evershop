@@ -11,7 +11,7 @@ interface HeadTagsProps {
     description: string;
     keywords: string[];
     canonicalUrl: string;
-    robots: string;
+    favicon: string;
     ogInfo: {
       locale: string;
       title: string;
@@ -39,7 +39,7 @@ interface HeadTagsProps {
   };
 }
 export default function HeadTags({
-  pageInfo: { title, description, keywords, canonicalUrl, robots, ogInfo },
+  pageInfo: { title, description, keywords, canonicalUrl, ogInfo, favicon },
   themeConfig: {
     headTags: { metas, links, scripts, base }
   }
@@ -71,6 +71,11 @@ export default function HeadTags({
       {scripts.map((script, index) => (
         <script key={index} {...script} />
       ))}
+      {favicon && <link rel="icon" href={favicon} />}
+      {keywords && keywords.length > 0 && (
+        <meta name="keywords" content={keywords.join(', ')} />
+      )}
+      {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
       {base && <base {...base} />}
       <Og
         type={ogInfo.type}
@@ -101,7 +106,7 @@ export const query = `
       description
       keywords
       canonicalUrl
-      robots
+      favicon
       ogInfo {
         locale
         title

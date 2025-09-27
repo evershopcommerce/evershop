@@ -50,7 +50,6 @@
   "dependencies": {
     "@types/react-slick": "^0.23.13",
     "@types/uuid": "^10.0.0",
-    "slick-carousel": "^1.8.1",
     "uuid": "^13.0.0"
   }
 }

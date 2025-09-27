@@ -214,7 +214,7 @@ const DefaultProductItem = ({
           </div>
         </div>
       </a>
-      <div className="product__list__actions p-4 bg-gradient-to-t from-white via-white/90 to-transparent invisible transform translate-y-4 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0">
+      <div className="product__list__actions p-4 invisible transform translate-y-4 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0">
         {customAddToCartRenderer ? (
           customAddToCartRenderer(product)
         ) : (
@@ -227,7 +227,7 @@ const DefaultProductItem = ({
           >
             {(state, actions) => (
               <button
-                className="product__list__add-to-cart bg-primary p-2 text-center text-white w-full rounded-full transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-lg active:scale-95"
+                className="product__list__add-to-cart bg-primary p-2 text-center text-white w-full rounded-full transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
                 disabled={!state.canAddToCart || state.isLoading}
                 onClick={(e) => {
                   e.preventDefault();

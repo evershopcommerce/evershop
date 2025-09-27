@@ -2,7 +2,8 @@ import React from 'react';
 import './ResetPasswordForm.scss';
 import Button from '@components/common/Button.js';
 import { EmailField } from '@components/common/form/EmailField.js';
-import { Form, useFormContext } from '@components/common/form/Form.js';
+import { Form } from '@components/common/form/Form.js';
+import { useForm } from 'react-hook-form';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
 function Success() {
@@ -26,9 +27,10 @@ const ResetForm: React.FC<{ action: string; onSuccess: () => void }> = ({
   onSuccess
 }) => {
   const [error, setError] = React.useState(null);
+  const form = useForm();
   const {
     formState: { isSubmitting: loading }
-  } = useFormContext();
+  } = form;
   return (
     <div className="flex justify-center items-center">
       <div className="reset-password-form flex justify-center items-center">
@@ -37,6 +39,7 @@ const ResetForm: React.FC<{ action: string; onSuccess: () => void }> = ({
           {error && <div className="text-critical mb-2">{error}</div>}
           <Form
             id="resetPasswordForm"
+            form={form}
             action={action}
             method="POST"
             onSuccess={(response) => {

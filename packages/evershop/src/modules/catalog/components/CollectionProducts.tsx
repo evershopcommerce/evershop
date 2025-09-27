@@ -5,6 +5,7 @@ interface CollectionProductsProps {
   collection: {
     collectionId: number;
     name: string;
+    countPerRow?: number;
     products: {
       items: Array<React.ComponentProps<typeof ProductList>['products'][0]>;
     };
@@ -22,17 +23,21 @@ export default function CollectionProducts({
         <h3 className="mt-7 mb-7 text-center uppercase h5 tracking-widest">
           {collection?.name}
         </h3>
-        <ProductList products={collection?.products?.items} gridColumns={4} />
+        <ProductList
+          products={collection?.products?.items}
+          gridColumns={collection?.countPerRow}
+        />
       </div>
     </div>
   );
 }
 
 export const query = `
-  query Query($collection: String, $count: ID) {
+  query Query($collection: String, $count: Int, $countPerRow: Int) {
     collection (code: $collection) {
       collectionId
       name
+      countPerRow
       products (filters: [{key: "limit", operation: eq, value: $count}]) {
         items {
           ...Product
@@ -70,5 +75,6 @@ export const fragments = `
 
 export const variables = `{
   collection: getWidgetSetting("collection"),
-  count: getWidgetSetting("count")
+  count: getWidgetSetting("count"),
+  countPerRow: getWidgetSetting("countPerRow", 4)
 }`;

@@ -1,16 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import './Logo.scss';
-
 export default function Logo({
   themeConfig: {
-    logo: { src, alt = 'Evershop', width = '128px', height = '128px' }
+    logo: { src, alt = 'Evershop', width = '50', height = '50' }
   },
   dashboardUrl
 }) {
   return (
-    <div className="logo">
+    <div className="logo w-9 h-auto flex items-center">
       {src && (
         <a href={dashboardUrl} className="flex items-end">
           <img src={src} alt={alt} width={width} height={height} />
