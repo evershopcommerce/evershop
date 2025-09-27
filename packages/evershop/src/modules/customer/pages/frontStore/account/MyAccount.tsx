@@ -3,7 +3,6 @@ import AccountInfo from '@components/frontStore/customer/AccountInfo.js';
 import { MyAddresses } from '@components/frontStore/customer/MyAddresses.js';
 import OrderHistory from '@components/frontStore/customer/OrderHistory.js';
 import React from 'react';
-import { toast } from 'react-toastify';
 import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export default function MyAccount() {
