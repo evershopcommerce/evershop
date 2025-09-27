@@ -1,8 +1,7 @@
 import { Card } from '@components/admin/Card.js';
 import Spinner from '@components/admin/Spinner.js';
+import { NumberField } from '@components/common/form/NumberField.js';
 import { SimplePagination } from '@components/common/SimplePagination.js';
-import { CheckIcon } from '@heroicons/react/24/outline';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useQuery } from 'urql';
@@ -25,10 +24,11 @@ interface CollectionProductsSettingProps {
   collectionProductsWidget: {
     collection: string;
     count: number;
+    countPerRow?: number;
   };
 }
 function CollectionProductsSetting({
-  collectionProductsWidget: { collection, count = 5 }
+  collectionProductsWidget: { collection, count = 5, countPerRow = 4 }
 }: CollectionProductsSettingProps) {
   const limit = 10;
   const [inputValue, setInputValue] = React.useState<string | null>(null);
@@ -86,13 +86,16 @@ function CollectionProductsSetting({
     <div>
       <Card.Session title="Select a collection">
         <div>
-          <div className="border rounded border-divider mb-5">
-            <input
-              type="text"
-              value={inputValue || ''}
-              placeholder="Search collections"
-              onChange={(e) => setInputValue(e.target.value)}
-            />
+          <div className="">
+            <div className="form-field">
+              <input
+                type="text"
+                value={inputValue || ''}
+                placeholder="Search collections"
+                onChange={(e) => setInputValue(e.target.value)}
+              />
+            </div>
+
             <input
               type="hidden"
               {...register('settings[collection]')}
@@ -126,23 +129,20 @@ function CollectionProductsSetting({
                     <h3>{collection.name}</h3>
                   </div>
                   <div className="col-span-2 text-right">
-                    <div className="flex items-center">
-                      {!(collection.code === selectedCollection) && (
-                        <button
-                          type="button"
-                          className="button secondary"
-                          onClick={(e) => {
-                            e.preventDefault();
+                    <div className="flex items-center radio-item form-field">
+                      <input
+                        type="radio"
+                        checked={collection.code === selectedCollection}
+                        onChange={(e) => {
+                          if (e.target.checked) {
                             setSelectedCollection(collection.code);
-                            setValue('settings[collection]', collection.code);
-                          }}
-                        >
-                          Select
-                        </button>
-                      )}
-                      {collection.code === selectedCollection && (
-                        <CheckIcon width={20} height={20} />
-                      )}
+                            setValue('settings[collection]', collection.code, {
+                              shouldDirty: true
+                            });
+                          }
+                        }}
+                        className="ml-2"
+                      />
                     </div>
                   </div>
                 </div>
@@ -151,20 +151,28 @@ function CollectionProductsSetting({
           )}
         </div>
       </Card.Session>
-      <Card.Session title="Number of products to display">
-        <div className="flex justify-between gap-5">
-          <label>
-            <span className="block mb-2 font-medium">Number of products</span>
-            <input
-              type="text"
-              {...register('settings[count]', {
-                required: 'Count is required',
-                valueAsNumber: true
-              })}
-              defaultValue={count}
-              placeholder="Number of products"
+      <Card.Session title="Settings">
+        <div className="mt-3">
+          <NumberField
+            name="settings[count]"
+            label="Total products"
+            defaultValue={count}
+            required
+            validation={{ min: 1, required: 'Count is required' }}
+            min={1}
+            placeholder="Number of products"
+          />
+          <div className="form-field">
+            <NumberField
+              name="settings[countPerRow]"
+              label="Products per row"
+              min={1}
+              validation={{ min: 1, required: 'Count per row is required' }}
+              required
+              defaultValue={countPerRow}
+              placeholder="Number of products per row"
             />
-          </label>
+          </div>
         </div>
       </Card.Session>
       <Card.Session>
@@ -185,10 +193,11 @@ function CollectionProductsSetting({
 export default CollectionProductsSetting;
 
 export const query = `
-  query Query($collection: String, $count: Int) {
-    collectionProductsWidget(collection: $collection, count: $count) {
+  query Query($collection: String, $count: Int, $countPerRow: Int) {
+    collectionProductsWidget(collection: $collection, count: $count, countPerRow: $countPerRow) {
       collection
       count
+      countPerRow
     }
   }
 `;
