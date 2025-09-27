@@ -1,6 +1,6 @@
 {
   "name": "@evershop/evershop",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "type": "module",
   "description": "The React Ecommerce platform. Built with Typescript, React and Postgres. Open-source and free. Fast and customizable.",
   "files": [
@@ -62,16 +62,16 @@
       "types": "./dist/lib/middleware/delegate.d.ts"
     },
     "./components/common": {
-      "import": "./dist/components/common/index.js",
-      "types": "./dist/components/common/index.d.ts"
+      "import": "./dist/components/common/*.js",
+      "types": "./dist/components/common/*.d.ts"
     },
     "./components/admin": {
       "import": "./dist/components/admin/*.js",
       "types": "./dist/components/admin/*.d.ts"
     },
     "./components/frontend": {
-      "import": "./dist/components/storeFront/index.js",
-      "types": "./dist/components/storeFront/index.d.ts"
+      "import": "./dist/components/storeFront/*.js",
+      "types": "./dist/components/storeFront/*.d.ts"
     },
     "./graphql/services": {
       "import": "./dist/modules/graphql/services/index.js",
@@ -137,7 +137,7 @@
     "@editorjs/list": "^1.10.0",
     "@editorjs/quote": "^2.6.0",
     "@editorjs/raw": "^2.5.0",
-    "@evershop/editorjs-image": "^1.0.0",
+    "@evershop/editorjs-image": "^1.1.0",
     "@evershop/postgres-query-builder": "^2.0.0",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/merge": "^8.4.2",
@@ -149,7 +149,6 @@
     "@stripe/stripe-js": "^1.18.0",
     "@swc/cli": "^0.7.7",
     "@swc/core": "^1.11.29",
-    "@tailwindcss/postcss": "^4.1.13",
     "@tailwindcss/typography": "^0.5.13",
     "ajv": "^8.12.0",
     "ajv-errors": "^3.0.0",
@@ -208,6 +207,7 @@
     "serve-static": "^1.15.0",
     "session-file-store": "^1.5.0",
     "sharp": "^0.33.5",
+    "slick-carousel": "^1.8.1",
     "stripe": "^8.176.0",
     "style-loader": "^3.3.1",
     "swc-minify-webpack-plugin": "^2.1.3",
