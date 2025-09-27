@@ -6,6 +6,7 @@ const ProductNoThumbnail: React.FC<{ width?: number; height?: number }> = ({
 }) => {
   return (
     <svg
+      className="max-w-full"
       width={width || 100}
       height={height || 100}
       viewBox="0 0 251 276"
