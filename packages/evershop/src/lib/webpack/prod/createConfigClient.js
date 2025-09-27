@@ -2,6 +2,7 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import WebpackBar from 'webpackbar';
+import { getEnabledExtensions } from '../../../bin/extension/index.js';
 import { CONSTANTS } from '../../helpers.js';
 import { createBaseConfig } from '../createBaseConfig.js';
 import { getRouteBuildPath } from '../getRouteBuildPath.js';
@@ -10,6 +11,7 @@ import { isBuildRequired } from '../isBuildRequired.js';
 import { Tailwindcss } from '../plugins/Tailwindcss.js';
 
 export function createConfigClient(routes) {
+  const extenions = getEnabledExtensions();
   const config = createBaseConfig(false);
   const { plugins } = config;
   const entry = {};
@@ -70,14 +72,6 @@ export function createConfigClient(routes) {
         }
       },
       {
-        loader: 'postcss-loader',
-        options: {
-          postcssOptions: {
-            plugins: ['autoprefixer']
-          }
-        }
-      },
-      {
         loader: 'sass-loader',
         options: {
           sassOptions: { implementation: 'sass' },
@@ -106,7 +100,22 @@ export function createConfigClient(routes) {
       cacheGroups: {
         // Vendor chunk for all node_modules
         vendor: {
-          test: /[\\/]node_modules[\\/]/,
+          test: (module) => {
+            if (module.resource && module.resource.includes('node_modules')) {
+              // Exclude @evershop/evershop and all extensions from vendor chunk
+              if (module.resource.includes('node_modules/@evershop/evershop')) {
+                return false;
+              }
+              // Check if module is from any enabled extension
+              for (const ext of extenions) {
+                if (ext.resolve && module.resource.includes(ext.resolve)) {
+                  return false;
+                }
+              }
+              return true;
+            }
+            return false;
+          },
           name: 'vendor',
           chunks: 'all',
           enforce: true,
