@@ -1,7 +1,7 @@
 import Area from '@components/common/Area.js';
 import Button from '@components/common/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/_.js';
 
 function Name() {
   return (

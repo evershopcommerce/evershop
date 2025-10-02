@@ -1,8 +1,8 @@
 import Area from '@components/common/Area.js';
 import { Editor } from '@components/common/Editor.js';
 import { useProduct } from '@components/frontStore/catalog/productContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 export const ProductSingleDescription = () => {
   const { description } = useProduct();

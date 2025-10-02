@@ -1,8 +1,8 @@
 import Area from '@components/common/Area.js';
 import { useCartState } from '@components/frontStore/cart/cartContext.js';
 import { CouponForm } from '@components/frontStore/CouponForm.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 const SkeletonValue: React.FC<{
   children: React.ReactNode;

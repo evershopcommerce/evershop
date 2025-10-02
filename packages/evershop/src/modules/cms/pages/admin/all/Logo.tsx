@@ -22,6 +22,7 @@ export default function Logo({
             height="292"
             fill="none"
             viewBox="0 0 254 292"
+            className="w-9 h-9"
           >
             <path
               fill="url(#paint0_linear_375_2)"

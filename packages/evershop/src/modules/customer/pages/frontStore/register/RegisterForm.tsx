@@ -1,13 +1,12 @@
-import React from 'react';
-import './RegisterForm.scss';
 import Area from '@components/common/Area.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
 import { useCustomerDispatch } from '@components/frontStore/customer/customerContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { _ } from '../../../../../lib/locale/translate/_.js';
 
 interface RegisterFormProps {
   homeUrl: string;
@@ -20,9 +19,9 @@ export default function RegisterForm({ homeUrl, loginUrl }: RegisterFormProps) {
 
   return (
     <div className="flex justify-center items-center">
-      <div className="register__form flex justify-center items-center">
+      <div className="register__form flex justify-center items-center w-[30rem] max-w-[80%] bg-white rounded-3xl px-5 py-16 shadow-lg border border-divider">
         <div className="register__form__inner">
-          <h1 className="text-center">{_('Create A New Account')}</h1>
+          <h1 className="text-center mb-6">{_('Create A New Account')}</h1>
           {error && <div className="text-critical mb-2">{error}</div>}
           <Form
             id="registerForm"

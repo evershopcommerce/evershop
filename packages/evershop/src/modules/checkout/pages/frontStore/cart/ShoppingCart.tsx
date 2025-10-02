@@ -4,8 +4,8 @@ import { useCartState } from '@components/frontStore/cart/cartContext.js';
 import { CartItems } from '@components/frontStore/cart/CartItems.js';
 import { CartTotalSummary } from '@components/frontStore/cart/CartTotalSummary.js';
 import { ShoppingCartEmpty } from '@components/frontStore/cart/ShoppingCartEmpty.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/_.js';
 
 const Title: React.FC<{ title: string }> = ({ title }) => {
   return (

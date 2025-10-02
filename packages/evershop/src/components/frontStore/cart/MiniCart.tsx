@@ -14,9 +14,9 @@ import {
 } from '@components/frontStore/cart/CartItems.js';
 import { CartTotalSummary } from '@components/frontStore/cart/CartTotalSummary.js';
 import { ItemQuantity } from '@components/frontStore/cart/ItemQuantity.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import React, { ReactNode, useCallback, useState, useEffect } from 'react';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 interface MiniCartProps {
   cartUrl?: string;

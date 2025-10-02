@@ -20,7 +20,8 @@
     "baseUrl": ".",
     "rootDir": "./src",
     "paths": {
-      "@components/*": ["./src/components/*"]
+      "@components/*": ["./src/components/*"],
+      "@evershop/evershop/*": ["./src/*"]
     }
   },
   "include": ["src"]

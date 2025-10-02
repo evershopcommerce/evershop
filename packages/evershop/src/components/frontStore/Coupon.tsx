@@ -2,8 +2,8 @@ import {
   useCartDispatch,
   useCartState
 } from '@components/frontStore/cart/cartContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useState, useCallback } from 'react';
-import { _ } from '../../lib/locale/translate/_.js';
 
 export interface CouponState {
   isLoading: boolean;

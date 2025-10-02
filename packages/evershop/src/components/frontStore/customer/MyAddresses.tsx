@@ -9,9 +9,9 @@ import {
   useCustomer,
   useCustomerDispatch
 } from '@components/frontStore/customer/customerContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 const Address: React.FC<{
   address: ExtendedCustomerAddress;

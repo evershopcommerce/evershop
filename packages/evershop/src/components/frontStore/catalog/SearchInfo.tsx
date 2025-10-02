@@ -1,7 +1,7 @@
 import Area from '@components/common/Area.js';
+import { useSearch } from '@components/frontStore/catalog/searchContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../lib/locale/translate/_.js';
-import { useSearch } from './searchContext.js';
 
 export function SearchInfo() {
   const { keyword } = useSearch();

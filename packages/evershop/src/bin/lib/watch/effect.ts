@@ -44,6 +44,27 @@ export function detectEffect(event: Event): Effect {
   const jobs = getEnabledJobs();
   if (isRestartRequired(event)) {
     return 'restart'; // No specific effect, just a restart required
+  } else if (minimatch(event.path.toString(), '**/*/[A-Z]*.+(jsx|tsx)')) {
+    const routeFolder = basename(dirname(event.path.toString()));
+    if (!isValidRouteFolder(routeFolder)) {
+      return 'unknown'; // Not a valid route folder, skip
+    }
+    if (event.type === 'create') {
+      if (
+        minimatch(
+          event.path.toString(),
+          '**/pages/+(admin|frontStore)/[A-Z]*.+(jsx|tsx)'
+        )
+      ) {
+        return 'update_component';
+      } else {
+        return 'add_component';
+      }
+    } else if (event.type === 'delete') {
+      return 'remove_component';
+    } else {
+      return 'update_component';
+    }
   } else if (minimatch(event.path.toString(), '**/+(api|admin|frontStore)/*')) {
     const fileName = basename(event.path.toString());
     if (!isValidRouteFolder(fileName)) {
@@ -133,18 +154,6 @@ export function detectEffect(event: Event): Effect {
       return 'remove_front_store_route';
     } else {
       return 'update_front_store_route';
-    }
-  } else if (minimatch(event.path.toString(), '**/*/[A-Z]*.+(jsx|tsx)')) {
-    const routeFolder = basename(dirname(event.path.toString()));
-    if (!isValidRouteFolder(routeFolder)) {
-      return 'unknown'; // Not a valid route folder, skip
-    }
-    if (event.type === 'create') {
-      return 'add_component';
-    } else if (event.type === 'delete') {
-      return 'remove_component';
-    } else {
-      return 'update_component';
     }
   } else if (
     minimatch(event.path.toString(), '**/*/*.graphql') ||

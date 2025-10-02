@@ -1,3 +1,9 @@
+import {
+  useCartState,
+  useCartDispatch
+} from '@components/frontStore/cart/cartContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { CheckoutData } from '@evershop/evershop/types/checkoutData.js';
 import { produce } from 'immer';
 import React, {
   createContext,
@@ -8,9 +14,6 @@ import React, {
   useMemo
 } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { _ } from '../../../lib/locale/translate/_.js';
-import { CheckoutData } from '../../../types/checkoutData.js';
-import { useCartState, useCartDispatch } from '../cart/cartContext.js';
 
 interface PaymentMethod {
   code: string;

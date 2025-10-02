@@ -1,11 +1,10 @@
-import React from 'react';
-import './LoginForm.scss';
 import Area from '@components/common/Area.js';
 import Button from '@components/common/Button.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { Form, useFormContext } from '@components/common/form/Form.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
-import { _ } from '../../../../../lib/locale/translate/_.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import React from 'react';
 
 const SubmitButton: React.FC<{ formId: string }> = ({ formId }) => {
   const {
@@ -43,9 +42,9 @@ export default function LoginForm({
 
   return (
     <div className="flex justify-center items-center">
-      <div className="login-form flex justify-center items-center">
-        <div className="login-form-inner">
-          <h1 className="text-center">{_('Login')}</h1>
+      <div className="login__form flex justify-center items-center w-[30rem] max-w-[80%] bg-white rounded-3xl px-5 py-16 shadow-lg border border-divider">
+        <div className="login__form__inner">
+          <h1 className="text-center mb-6">{_('Login')}</h1>
           {error && <div className="text-critical mb-2">{error}</div>}
           <Form
             id="loginForm"

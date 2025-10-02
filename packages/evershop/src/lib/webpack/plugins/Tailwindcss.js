@@ -76,7 +76,7 @@ export class Tailwindcss {
   async processCSSWithTailwind(cssAssetName, jsContent, route, assets) {
     const originalCSS = assets[cssAssetName].source();
 
-    const tailwindConfig = await getTailwindConfig(route);
+    const tailwindConfig = await getTailwindConfig(route.isAdmin);
     Object.assign(tailwindConfig, {
       content: [{ raw: jsContent, extension: 'js' }]
     });

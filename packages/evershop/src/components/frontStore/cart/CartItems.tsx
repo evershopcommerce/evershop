@@ -5,8 +5,8 @@ import {
   useCartDispatch
 } from '@components/frontStore/cart/cartContext.js';
 import { ItemQuantity } from '@components/frontStore/cart/ItemQuantity.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 export interface ItemProps {
   id: string;

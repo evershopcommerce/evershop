@@ -2,8 +2,8 @@ import Area from '@components/common/Area.js';
 import AccountInfo from '@components/frontStore/customer/AccountInfo.js';
 import { MyAddresses } from '@components/frontStore/customer/MyAddresses.js';
 import OrderHistory from '@components/frontStore/customer/OrderHistory.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/_.js';
 
 export default function MyAccount() {
   return (

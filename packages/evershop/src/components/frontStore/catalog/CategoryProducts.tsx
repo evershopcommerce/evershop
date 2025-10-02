@@ -1,8 +1,8 @@
 import Area from '@components/common/Area.js';
 import { useCategory } from '@components/frontStore/catalog/categoryContext.js';
 import { ProductList } from '@components/frontStore/catalog/ProductList.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 export function CategoryProducts() {
   const { showProducts, products } = useCategory();

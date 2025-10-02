@@ -1,3 +1,6 @@
+import { Tooltip } from '@components/common/form/Tooltip.js';
+import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import {
   useFormContext,
@@ -5,9 +8,6 @@ import {
   FieldPath,
   FieldValues
 } from 'react-hook-form';
-import { _ } from '../../../lib/locale/translate/_.js';
-import { Tooltip } from './Tooltip.js';
-import { getNestedError } from './utils/getNestedError.js';
 
 interface TelFieldProps<T extends FieldValues = FieldValues>
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'name' | 'type'> {

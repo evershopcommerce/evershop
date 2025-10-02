@@ -1,6 +1,5 @@
-import Area from '@components/common/Area';
-import Button from '@components/common/Button';
-import PropTypes from 'prop-types';
+import Area from '@components/common/Area.js';
+import Button from '@components/common/Button.js';
 import React from 'react';
 
 function Name() {
@@ -9,7 +8,10 @@ function Name() {
   );
 }
 
-function Content({ dashboardUrl }) {
+interface ContentProps {
+  dashboardUrl: string;
+}
+function Content({ dashboardUrl }: ContentProps) {
   return (
     <div className="page-content">
       <div className="text-center">The page you requested does not exist.</div>
@@ -20,11 +22,7 @@ function Content({ dashboardUrl }) {
   );
 }
 
-Content.propTypes = {
-  dashboardUrl: PropTypes.string.isRequired
-};
-
-export default function NotFound({ dashboardUrl }) {
+export default function NotFound({ dashboardUrl }: ContentProps) {
   return (
     <div className="page-width mt-6">
       <div className="pt-4">
@@ -49,10 +47,6 @@ export default function NotFound({ dashboardUrl }) {
     </div>
   );
 }
-
-NotFound.propTypes = {
-  dashboardUrl: PropTypes.string.isRequired
-};
 
 export const layout = {
   areaId: 'content',

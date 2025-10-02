@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import './VariantSelector.scss';
 import { useAppDispatch, useAppState } from '@components/common/context/app.js';
-import { _ } from '../../../lib/locale/translate/_.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import {
   useProduct,
   VariantAttribute,

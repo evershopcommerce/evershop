@@ -1,7 +1,7 @@
 import { useAppState } from '@components/common/context/app.js';
+import { get } from '@evershop/evershop/lib/util/get';
 import React from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-import { get } from '../../lib/util/get.js';
 import './Notification.scss';
 
 export default function Notification() {

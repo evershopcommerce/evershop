@@ -1,4 +1,7 @@
 import { FileBrowser } from '@components/admin/FileBrowser.js';
+import { getColumnClasses } from '@components/common/form/editor/GetColumnClasses.js';
+import { getRowClasses } from '@components/common/form/editor/GetRowClasses.js';
+import { RowTemplates } from '@components/common/form/editor/RowTemplates.js';
 import {
   DndContext,
   closestCenter,
@@ -18,9 +21,6 @@ import { XCircleIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-import { getColumnClasses } from './editor/GetColumnClasses.js';
-import { getRowClasses } from './editor/GetRowClasses.js';
-import { RowTemplates } from './editor/RowTemplates.js';
 import './Editor.scss';
 
 async function loadEditorJS(): Promise<any> {

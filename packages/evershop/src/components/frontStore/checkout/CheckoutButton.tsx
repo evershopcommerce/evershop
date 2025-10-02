@@ -1,7 +1,7 @@
 import { useCheckout } from '@components/frontStore/checkout/checkoutContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useWatch } from 'react-hook-form';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 export function CheckoutButton() {
   const { form, registeredPaymentComponents } = useCheckout();

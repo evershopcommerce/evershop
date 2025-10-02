@@ -5,8 +5,8 @@ import {
 } from '@components/frontStore/catalog/searchContext.js';
 import { SearchInfo } from '@components/frontStore/catalog/SearchInfo.js';
 import { SearchProducts } from '@components/frontStore/catalog/SearchProducts.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/_.js';
 
 interface SearchPageProps {
   search: SearchPageData;

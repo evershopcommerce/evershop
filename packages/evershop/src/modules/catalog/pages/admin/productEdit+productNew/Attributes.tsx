@@ -4,9 +4,9 @@ import { DateTimeLocalField } from '@components/common/form/DateTimeLocalField.j
 import { InputField } from '@components/common/form/InputField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { _ } from '../../../../../lib/locale/translate/_.js';
 
 interface Field {
   attribute_id: string;
