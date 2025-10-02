@@ -1,7 +1,7 @@
 import { InputField } from '@components/common/form/InputField.js';
 import { TelField } from '@components/common/form/TelField.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/_.js';
 
 interface NameAndTelephoneProps {
   fullName?: string;

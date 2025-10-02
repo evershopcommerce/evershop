@@ -1,7 +1,7 @@
 import { useCheckout } from '@components/frontStore/checkout/checkoutContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress.js';
 import React from 'react';
-import { _ } from '../../../../lib/locale/translate/_.js';
-import { CustomerAddressGraphql } from '../../../../types/customerAddress.js';
 
 interface ShippingMethod {
   code: string;

@@ -4,8 +4,8 @@ import {
   Order,
   useCustomer
 } from '@components/frontStore/customer/customerContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 const OrderDetail: React.FC<{ order: Order }> = ({ order }) => {
   return (

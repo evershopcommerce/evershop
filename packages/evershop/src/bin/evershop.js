@@ -17,6 +17,12 @@ try {
     await import('./user/create.js');
   } else if (command === 'user:changePassword') {
     await import('./user/changePassword.js');
+  } else if (command === 'theme:active') {
+    await import('./theme/active.js');
+  } else if (command === 'theme:twizz') {
+    await import('./theme/twizz.js');
+  } else if (command === 'theme:create') {
+    await import('./theme/create.js');
   } else {
     throw new Error('Invalid command');
   }

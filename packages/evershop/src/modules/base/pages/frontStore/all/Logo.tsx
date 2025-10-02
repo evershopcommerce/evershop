@@ -1,5 +1,4 @@
 import React from 'react';
-import './Logo.scss';
 
 interface LogoProps {
   themeConfig: {
@@ -30,6 +29,7 @@ export default function Logo({
             height="146"
             viewBox="0 0 128 146"
             fill="none"
+            className="w-10 h-10"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path

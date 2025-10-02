@@ -3,11 +3,11 @@ import {
   useCustomer,
   useCustomerDispatch
 } from '@components/frontStore/customer/customerContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { AtSymbolIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 interface AccountInfoProps {
   title?: string;

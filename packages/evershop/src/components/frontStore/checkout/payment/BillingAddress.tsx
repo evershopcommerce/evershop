@@ -3,10 +3,10 @@ import {
   useCheckoutDispatch
 } from '@components/frontStore/checkout/checkoutContext.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress.js';
 import React, { useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
-import { _ } from '../../../../lib/locale/translate/_.js';
-import { CustomerAddressGraphql } from '../../../../types/customerAddress.js';
 
 export function BillingAddress({
   billingAddress

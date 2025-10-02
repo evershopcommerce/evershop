@@ -1,4 +1,6 @@
 import { useAppDispatch } from '@components/common/context/app.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress.js';
 import { produce } from 'immer';
 import React, {
   createContext,
@@ -9,8 +11,6 @@ import React, {
   useMemo,
   useEffect
 } from 'react';
-import { _ } from '../../../lib/locale/translate/_.js';
-import { CustomerAddressGraphql } from '../../../types/customerAddress.js';
 
 type ExtendedCustomerAddress = CustomerAddressGraphql & {
   addressId: string | number;

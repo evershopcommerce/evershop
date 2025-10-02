@@ -6,10 +6,10 @@ import {
   CouponActions,
   CouponState
 } from '@components/frontStore/Coupon.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { _ } from '../../lib/locale/translate/_.js';
 
 export function CouponForm() {
   const form = useForm<{ coupon: string }>();

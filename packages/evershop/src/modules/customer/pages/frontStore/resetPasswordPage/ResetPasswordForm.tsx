@@ -1,10 +1,9 @@
-import React from 'react';
-import './ResetPasswordForm.scss';
 import Button from '@components/common/Button.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { Form } from '@components/common/form/Form.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { _ } from '../../../../../lib/locale/translate/_.js';
 
 function Success() {
   return (
@@ -33,9 +32,9 @@ const ResetForm: React.FC<{ action: string; onSuccess: () => void }> = ({
   } = form;
   return (
     <div className="flex justify-center items-center">
-      <div className="reset-password-form flex justify-center items-center">
-        <div className="reset-password-form-inner">
-          <h1 className="text-center">{_('Enter your email address')}</h1>
+      <div className="reset__password__form flex justify-center items-center w-[30rem] max-w-[80%] bg-white rounded-3xl px-5 py-16 shadow-lg border border-divider">
+        <div className="reset__password__form__inner">
+          <h1 className="text-center mb-6">{_('Enter your email address')}</h1>
           {error && <div className="text-critical mb-2">{error}</div>}
           <Form
             id="resetPasswordForm"

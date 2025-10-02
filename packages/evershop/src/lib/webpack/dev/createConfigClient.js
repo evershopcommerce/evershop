@@ -5,8 +5,9 @@ import { getComponentsByRoute } from '../../componee/getComponentsByRoute.js';
 import { CONSTANTS } from '../../helpers.js';
 import { createBaseConfig } from '../createBaseConfig.js';
 import { GraphqlPlugin } from '../plugins/GraphqlPlugin.js';
+import { ThemeWatcherPlugin } from '../plugins/ThemeWatcherPlugin.js';
 
-export function createConfigClient(route) {
+export function createConfigClient(route, tailwindConfig) {
   const config = createBaseConfig(false);
   config.name = route.id;
 
@@ -41,13 +42,19 @@ export function createConfigClient(route) {
         }
       },
       {
-        loader: path.resolve(
-          CONSTANTS.LIBPATH,
-          'webpack/loaders/TailwindLoader.js'
-        ),
+        loader: 'postcss-loader',
         options: {
-          getComponents: () => getComponentsByRoute(route),
-          route
+          postcssOptions: {
+            plugins: [
+              [
+                'tailwindcss',
+                {
+                  config: tailwindConfig
+                }
+              ],
+              'autoprefixer'
+            ]
+          }
         }
       },
       {
@@ -84,6 +91,7 @@ export function createConfigClient(route) {
       overlay: false
     })
   );
+  plugins.push(new ThemeWatcherPlugin());
 
   config.entry = () => {
     const entry = {};
@@ -96,21 +104,20 @@ export function createConfigClient(route) {
       ),
       `webpack-hot-middleware/client?path=/eHot/${route.id}&reload=true&overlay=true`
     ];
-    // Widgets
-    // const widgets = getEnabledWidgets();
-    // if (!route.isAdmin) {
-    //   Object.keys(widgets).forEach((widget) => {
-    //     entry[route.id].push(widgets[widget].component);
-    //   });
-    // }
     return entry;
   };
   config.watchOptions = {
     aggregateTimeout: 300,
+    ignored: new RegExp('(^|/)[a-z][^/]*.js$'),
     poll: 1000
   };
 
   // Enable source maps
   config.devtool = 'eval-cheap-module-source-map';
+  config.snapshot = {
+    managedPaths: [
+      /^(.+?[\\/]node_modules[\\/](?!(@evershop[\\/]evershop))(@.+?[\\/])?.+?)[\\/]/
+    ]
+  };
   return config;
 }

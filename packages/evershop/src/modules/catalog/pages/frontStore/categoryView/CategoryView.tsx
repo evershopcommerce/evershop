@@ -8,8 +8,8 @@ import { CategoryProducts } from '@components/frontStore/catalog/CategoryProduct
 import { CategoryProductsFilter } from '@components/frontStore/catalog/CategoryProductsFilter.js';
 import { CategoryProductsPagination } from '@components/frontStore/catalog/CategoryProductsPagination.js';
 import { ProductSorting } from '@components/frontStore/catalog/ProductSorting.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../../../lib/locale/translate/_.js';
 
 interface CategoryViewProps {
   category: CategoryData;

@@ -33,6 +33,9 @@ export const processors: Processor = {
   update_component: () => {
     // No operation for update_component, as it is handled by the compiler}
   },
+  remove_component: () => {
+    // No operation for update_component, as it is handled by the compiler}
+  },
   add_component: addComponent,
   update_graphql: () => {},
   restart_cronjob: () => {

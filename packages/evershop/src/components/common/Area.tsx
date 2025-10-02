@@ -1,4 +1,4 @@
-import { useAppState } from '@components/common/context/app.jsx';
+import { useAppState } from '@components/common/context/app.js';
 import React from 'react';
 import type { ElementType } from 'react';
 

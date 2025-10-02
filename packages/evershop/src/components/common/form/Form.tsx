@@ -1,3 +1,4 @@
+import Button from '@components/common/Button.js';
 import React from 'react';
 import {
   useForm,
@@ -8,7 +9,6 @@ import {
   UseFormReturn
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import Button from '../Button.js';
 
 interface FormProps<T extends FieldValues = FieldValues>
   extends Omit<

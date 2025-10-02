@@ -1,5 +1,5 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../../../../lib/locale/translate/_.js';
 
 interface TaxProps {
   taxClass: string;

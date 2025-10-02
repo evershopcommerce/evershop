@@ -1,3 +1,9 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { ApiResponse } from '@evershop/evershop/types/apiResponse.js';
+import {
+  CustomerAddressGraphql,
+  Address
+} from '@evershop/evershop/types/customerAddress.js';
 import { produce } from 'immer';
 import React, {
   createContext,
@@ -7,12 +13,6 @@ import React, {
   useCallback
 } from 'react';
 import { useQuery, useClient } from 'urql';
-import { _ } from '../../../lib/locale/translate/_.js';
-import { ApiResponse } from '../../../types/apiResponse.js';
-import {
-  CustomerAddressGraphql,
-  Address
-} from '../../../types/customerAddress.js';
 
 const ShippingMethodsQuery = `
   query GetCartShippingMethods($country: String!, $province: String, $postcode: String) {

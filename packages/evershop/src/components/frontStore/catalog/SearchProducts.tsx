@@ -1,8 +1,8 @@
 import { Area } from '@components/common/index.js';
 import { ProductList } from '@components/frontStore/catalog/ProductList.js';
 import { useSearch } from '@components/frontStore/catalog/searchContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 export function SearchProducts() {
   const { products } = useSearch();

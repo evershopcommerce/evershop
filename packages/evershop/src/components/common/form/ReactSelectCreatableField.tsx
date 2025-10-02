@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import {
   Controller,
@@ -7,7 +8,6 @@ import {
   useFormContext
 } from 'react-hook-form';
 import CreatableSelect, { CreatableProps } from 'react-select/creatable';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 interface SelectOption {
   value: any;

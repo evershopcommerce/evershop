@@ -5,6 +5,7 @@
   "description": "The React Ecommerce platform. Built with Typescript, React and Postgres. Open-source and free. Fast and customizable.",
   "files": [
     "dist",
+    "src",
     ".swcrc"
   ],
   "bin": {
@@ -61,15 +62,15 @@
       "import": "./dist/lib/middleware/delegate.js",
       "types": "./dist/lib/middleware/delegate.d.ts"
     },
-    "./components/common": {
+    "./components/common/*": {
       "import": "./dist/components/common/*.js",
       "types": "./dist/components/common/*.d.ts"
     },
-    "./components/admin": {
+    "./components/admin/*": {
       "import": "./dist/components/admin/*.js",
       "types": "./dist/components/admin/*.d.ts"
     },
-    "./components/frontend": {
+    "./components/frontend/*": {
       "import": "./dist/components/storeFront/*.js",
       "types": "./dist/components/storeFront/*.d.ts"
     },
@@ -171,6 +172,7 @@
     "enquirer": "^2.3.6",
     "express": "^4.21.2",
     "express-session": "^1.17.3",
+    "fast-glob": "^3.3.3",
     "flatpickr": "^4.6.9",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",

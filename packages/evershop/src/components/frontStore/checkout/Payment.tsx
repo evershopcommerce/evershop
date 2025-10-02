@@ -3,12 +3,12 @@ import {
   useCheckout,
   useCheckoutDispatch
 } from '@components/frontStore/checkout/checkoutContext.js';
+import { BillingAddress } from '@components/frontStore/checkout/payment/BillingAddress.js';
+import { PaymentMethods } from '@components/frontStore/checkout/payment/PaymentMethods.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { _ } from '../../../lib/locale/translate/_.js';
-import { BillingAddress } from './payment/BillingAddress.js';
-import { PaymentMethods } from './payment/PaymentMethods.js';
 
 export function Payment() {
   const {

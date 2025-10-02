@@ -1,9 +1,8 @@
- 
 import { Image } from '@components/common/Image.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import React, { useRef, useState, ReactNode, useCallback } from 'react';
 import { useClient } from 'urql';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 const SEARCH_PRODUCTS_QUERY = `
   query Query($filters: [FilterInput]) {

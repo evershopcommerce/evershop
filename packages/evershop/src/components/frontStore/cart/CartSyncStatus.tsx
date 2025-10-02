@@ -1,5 +1,8 @@
+import {
+  useCartState,
+  CartSyncTrigger
+} from '@components/frontStore/cart/cartContext.js';
 import React from 'react';
-import { useCartState, CartSyncTrigger } from './cartContext.js';
 
 /**
  * CartSyncStatus Component

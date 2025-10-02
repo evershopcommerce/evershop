@@ -6,12 +6,12 @@ import {
   useCheckout,
   useCheckoutDispatch
 } from '@components/frontStore/checkout/checkoutContext.js';
+import { ShippingMethods } from '@components/frontStore/checkout/shipment/ShippingMethods.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { _ } from '../../../lib/locale/translate/_.js';
-import { ShippingMethods } from './shipment/ShippingMethods.js';
 
 export function Shipment() {
   const {

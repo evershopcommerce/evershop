@@ -8,10 +8,10 @@ import {
 } from '@components/frontStore/cart/AddToCart.js';
 import { useProduct } from '@components/frontStore/catalog/productContext.js';
 import { VariantSelector } from '@components/frontStore/catalog/VariantSelector.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { _ } from '../../../lib/locale/translate/_.js';
 
 export function ProductSingleForm() {
   const {

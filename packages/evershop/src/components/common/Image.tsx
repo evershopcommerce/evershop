@@ -1,5 +1,5 @@
+import { parseImageSizes } from '@evershop/evershop/lib/util/parseImageSizes';
 import React from 'react';
-import { parseImageSizes } from '../../lib/util/parseImageSizes.js';
 
 export type ImageProps = {
   src: string;

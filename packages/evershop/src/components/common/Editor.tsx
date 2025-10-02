@@ -1,8 +1,8 @@
+import { getColumnClasses } from '@components/common/form/editor/GetColumnClasses.js';
+import { getRowClasses } from '@components/common/form/editor/GetRowClasses.js';
+import { Row } from '@components/common/form/Editor.js';
 import { Image as ResponsiveImage } from '@components/common/Image.js';
 import React from 'react';
-import { getColumnClasses } from './form/editor/GetColumnClasses.js';
-import { getRowClasses } from './form/editor/GetRowClasses.js';
-import { Row } from './form/Editor.js';
 
 const Paragraph: React.FC<{ data: { text: string } }> = ({ data }) => {
   return <p dangerouslySetInnerHTML={{ __html: data.text }} />;

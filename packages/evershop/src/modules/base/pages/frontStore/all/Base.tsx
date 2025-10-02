@@ -1,8 +1,8 @@
 import Area from '@components/common/Area.js';
 import { LoadingBar } from '@components/common/LoadingBar.js';
 import React from 'react';
-import './Layout.scss';
 import './tailwind.scss';
+import './Layout.scss';
 import {
   CartProvider,
   CartData

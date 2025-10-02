@@ -1,8 +1,8 @@
+import { Tooltip } from '@components/common/form/Tooltip.js';
+import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useFormContext, RegisterOptions } from 'react-hook-form';
-import { _ } from '../../../lib/locale/translate/_.js';
-import { Tooltip } from './Tooltip.js';
-import { getNestedError } from './utils/getNestedError.js';
 
 interface PasswordFieldProps {
   name: string;
