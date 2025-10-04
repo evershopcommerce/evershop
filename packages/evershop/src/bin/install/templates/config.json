@@ -1,8 +1,8 @@
 {
   "shop": {
-    "currency": "USD",
+    "currency": "INR",
     "language": "en",
-    "weightUnit": "kg",
+    "weightUnit": "grams",
     "timezone": "UTC"
   },
   "system": {
