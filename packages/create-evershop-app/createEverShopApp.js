@@ -616,7 +616,7 @@ async function createConfigFile(projectDir) {
   const config = {
     shop: {
       language: 'en',
-      currency: 'USD'
+      currency: 'INR'
     },
     system: {
       extensions: [
