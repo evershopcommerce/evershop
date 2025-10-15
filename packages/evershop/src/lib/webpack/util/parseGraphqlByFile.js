@@ -83,13 +83,13 @@ export function parseGraphqlByFile(module) {
         });
       });
     }
-
-    // Relace all variable in graphql query
+    // Replace all variable in graphql query
     variables.forEach((variable) => {
-      const regex = new RegExp(`\\$${variable.origin}`, 'g');
+      // Use word boundary to ensure we match the complete variable name only
+      // This prevents partial matches like 'count' matching inside 'countPerRow'
+      const regex = new RegExp(`\\$${variable.origin}\\b`, 'g');
       queryBody = queryBody.replace(regex, `$${variable.alias}`);
     });
-
     // Use slice function to get everything between the first '{' and the last '}' in the query
     queryBody = queryBody.slice(
       queryBody.indexOf('{') + 1,

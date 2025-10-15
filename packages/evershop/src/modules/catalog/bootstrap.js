@@ -192,25 +192,9 @@ export default () => {
     ),
     defaultSettings: {
       collection: null,
-      count: 4
+      count: 4,
+      countPerRow: 4
     },
     enabled: true
   });
-
-  const parseIntCount = (data) => {
-    if (data.type !== 'collection_products') {
-      return data;
-    }
-
-    data.settings = data.settings || {};
-    if (data.settings.count) {
-      data.settings.count = parseInt(data.settings.count, 10);
-    } else {
-      data.settings.count = 4;
-    }
-    return data;
-  };
-
-  addProcessor('widgetDataBeforeCreate', parseIntCount, 1);
-  addProcessor('widgetDataBeforeUpdate', parseIntCount, 1);
 };
