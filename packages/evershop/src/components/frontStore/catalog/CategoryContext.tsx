@@ -1,5 +1,5 @@
 import { Row } from '@components/common/form/Editor.js';
-import { ProductData } from '@components/frontStore/catalog/productContext.js';
+import { ProductData } from '@components/frontStore/catalog/ProductContext.js';
 import {
   CategoryFilter,
   FilterableAttribute,

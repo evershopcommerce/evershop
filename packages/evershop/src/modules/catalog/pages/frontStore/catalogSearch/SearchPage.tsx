@@ -2,7 +2,7 @@ import Area from '@components/common/Area.js';
 import {
   SearchPageData,
   SearchProvider
-} from '@components/frontStore/catalog/searchContext.js';
+} from '@components/frontStore/catalog/SearchContext.js';
 import { SearchInfo } from '@components/frontStore/catalog/SearchInfo.js';
 import { SearchProducts } from '@components/frontStore/catalog/SearchProducts.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';

@@ -7,7 +7,7 @@ interface FooterProps {
 
 export function Footer({ copyRight }: FooterProps) {
   return (
-    <footer className="footer">
+    <footer className="footer bg-gray-100 mt-24 pt-2.5 pb-2.5 border-t border-gray-300">
       <Area id="footerTop" className="footer__top" />
       <div className="footer__middle flex justify-between items-center">
         <Area id="footerMiddleLeft" className="footer__middle__left" />
@@ -31,6 +31,7 @@ export function Footer({ copyRight }: FooterProps) {
                           height="24"
                           aria-labelledby="pi-visa"
                           viewBox="0 0 38 24"
+                          className="h-10"
                         >
                           <path
                             d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"
@@ -53,6 +54,7 @@ export function Footer({ copyRight }: FooterProps) {
                           height="24"
                           aria-labelledby="pi-master"
                           viewBox="0 0 38 24"
+                          className="h-10"
                         >
                           <path
                             d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"
@@ -78,6 +80,7 @@ export function Footer({ copyRight }: FooterProps) {
                           height="24"
                           role="img"
                           aria-labelledby="pi-paypal"
+                          className="h-10"
                         >
                           <title id="pi-paypal">PayPal</title>
                           <path

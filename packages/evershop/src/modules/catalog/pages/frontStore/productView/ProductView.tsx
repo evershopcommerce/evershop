@@ -3,7 +3,7 @@ import { Media } from '@components/frontStore/catalog/Media.js';
 import {
   ProductData,
   ProductProvider
-} from '@components/frontStore/catalog/productContext.js';
+} from '@components/frontStore/catalog/ProductContext.js';
 import { ProductSingleAttributes } from '@components/frontStore/catalog/ProductSingleAttributes.js';
 import { ProductSingleDescription } from '@components/frontStore/catalog/ProductSingleDescription.js';
 import { ProductSingleForm } from '@components/frontStore/catalog/ProductSingleForm.js';

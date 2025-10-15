@@ -36,7 +36,7 @@ export function ToggleField<T extends FieldValues = FieldValues>({
   helperText,
   required,
   validation,
-  wrapperClassName = 'form-field',
+  wrapperClassName,
   disabled = false,
   defaultValue = false,
   trueValue = true,
@@ -104,7 +104,7 @@ export function ToggleField<T extends FieldValues = FieldValues>({
   const variantClass = variantClasses[variant];
 
   return (
-    <div className={wrapperClassName}>
+    <div className={`form-field ${wrapperClassName}`}>
       {label && (
         <label
           htmlFor={fieldId}

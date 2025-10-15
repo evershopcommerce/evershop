@@ -38,10 +38,6 @@
       "import": "./dist/lib/locale/*.js",
       "types": "./dist/lib/locale/*.d.ts"
     },
-    "./lib/locale/translate/*": {
-      "import": "./dist/lib/locale/translate/*.js",
-      "types": "./dist/lib/locale/translate/*.d.ts"
-    },
     "./lib/log": {
       "import": "./dist/lib/log/logger.js",
       "types": "./dist/lib/log/logger.d.ts"

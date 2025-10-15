@@ -28,7 +28,7 @@ interface CollectionProductsSettingProps {
   };
 }
 function CollectionProductsSetting({
-  collectionProductsWidget: { collection, count = 5, countPerRow = 4 }
+  collectionProductsWidget: { collection, count, countPerRow }
 }: CollectionProductsSettingProps) {
   const limit = 10;
   const [inputValue, setInputValue] = React.useState<string | null>(null);
@@ -204,5 +204,6 @@ export const query = `
 
 export const variables = `{
   collection: getWidgetSetting("collection"),
-  count: getWidgetSetting("count")
+  count: getWidgetSetting("count"),
+  countPerRow: getWidgetSetting("countPerRow")
 }`;

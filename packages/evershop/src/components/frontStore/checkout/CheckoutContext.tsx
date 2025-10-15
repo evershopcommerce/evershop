@@ -1,7 +1,7 @@
 import {
   useCartState,
   useCartDispatch
-} from '@components/frontStore/cart/cartContext.js';
+} from '@components/frontStore/cart/CartContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { CheckoutData } from '@evershop/evershop/types/checkoutData.js';
 import { produce } from 'immer';

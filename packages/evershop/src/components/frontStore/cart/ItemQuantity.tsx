@@ -1,7 +1,7 @@
 import {
   useCartDispatch,
   useCartState
-} from '@components/frontStore/cart/cartContext.js';
+} from '@components/frontStore/cart/CartContext.js';
 import React, {
   useState,
   useCallback,

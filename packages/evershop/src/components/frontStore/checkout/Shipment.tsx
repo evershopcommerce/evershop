@@ -1,11 +1,11 @@
 import {
   useCartDispatch,
   useCartState
-} from '@components/frontStore/cart/cartContext.js';
+} from '@components/frontStore/cart/CartContext.js';
 import {
   useCheckout,
   useCheckoutDispatch
-} from '@components/frontStore/checkout/checkoutContext.js';
+} from '@components/frontStore/checkout/CheckoutContext.js';
 import { ShippingMethods } from '@components/frontStore/checkout/shipment/ShippingMethods.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';

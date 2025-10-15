@@ -1,7 +1,7 @@
 import {
   useCheckout,
   useCheckoutDispatch
-} from '@components/frontStore/checkout/checkoutContext.js';
+} from '@components/frontStore/checkout/CheckoutContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ApiResponse } from '@evershop/evershop/types/apiResponse.js';
 import React, { useEffect } from 'react';

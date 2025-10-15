@@ -1,3 +1,5 @@
+import { Editor } from '@components/common/Editor.js';
+import { Row } from '@components/common/form/Editor.js';
 import { ProductList } from '@components/frontStore/catalog/ProductList.js';
 import React from 'react';
 
@@ -5,27 +7,32 @@ interface CollectionProductsProps {
   collection: {
     collectionId: number;
     name: string;
-    countPerRow?: number;
+    description?: Row[];
     products: {
       items: Array<React.ComponentProps<typeof ProductList>['products'][0]>;
     };
   } | null;
+  collectionProductsWidget?: {
+    countPerRow?: number;
+  };
 }
 export default function CollectionProducts({
-  collection
+  collection,
+  collectionProductsWidget: { countPerRow } = {}
 }: CollectionProductsProps) {
   if (!collection) {
     return null;
   }
   return (
-    <div className="pt-7">
+    <div className="pt-7 collection__products__widget">
       <div className="page-width">
         <h3 className="mt-7 mb-7 text-center uppercase h5 tracking-widest">
           {collection?.name}
         </h3>
+        {collection?.description && <Editor rows={collection?.description} />}
         <ProductList
           products={collection?.products?.items}
-          gridColumns={collection?.countPerRow}
+          gridColumns={countPerRow}
         />
       </div>
     </div>
@@ -37,12 +44,15 @@ export const query = `
     collection (code: $collection) {
       collectionId
       name
-      countPerRow
+      description
       products (filters: [{key: "limit", operation: eq, value: $count}]) {
         items {
           ...Product
         }
       }
+    }
+    collectionProductsWidget(collection: $collection, count: $count, countPerRow: $countPerRow) {
+      countPerRow
     }
   }
 `;

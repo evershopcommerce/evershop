@@ -1,5 +1,5 @@
 import Area from '@components/common/Area.js';
-import { useSearch } from '@components/frontStore/catalog/searchContext.js';
+import { useSearch } from '@components/frontStore/catalog/SearchContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 

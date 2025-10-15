@@ -1,8 +1,9 @@
 import Area from '@components/common/Area.js';
 import Button from '@components/common/Button.js';
-import { useCartState } from '@components/frontStore/cart/cartContext.js';
+import { useCartState } from '@components/frontStore/cart/CartContext.js';
 import { CartItems } from '@components/frontStore/cart/CartItems.js';
 import { CartTotalSummary } from '@components/frontStore/cart/CartTotalSummary.js';
+import { DefaultCartItemList } from '@components/frontStore/cart/DefaultCartItemList.js';
 import { ShoppingCartEmpty } from '@components/frontStore/cart/ShoppingCartEmpty.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
@@ -30,7 +31,16 @@ export default function ShoppingCart({ checkoutUrl }: ShoppingCartProps) {
           <div className="grid gap-10 grid-cols-1 md:grid-cols-4">
             <div className="col-span-1 md:col-span-3">
               <Area id="shoppingCartBeforeItems" noOuter />
-              <CartItems />
+              <CartItems>
+                {({ items, showPriceIncludingTax, loading, onRemoveItem }) => (
+                  <DefaultCartItemList
+                    items={items}
+                    showPriceIncludingTax={showPriceIncludingTax}
+                    loading={loading}
+                    onRemoveItem={onRemoveItem}
+                  />
+                )}
+              </CartItems>
               <Area id="shoppingCartAfterItems" noOuter />
             </div>
             <div className="col-span-1 md:col-span-1">

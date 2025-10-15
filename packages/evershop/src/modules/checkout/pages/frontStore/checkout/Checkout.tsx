@@ -4,7 +4,7 @@ import { CartItems } from '@components/frontStore/cart/CartItems.js';
 import { CartSummaryItemsList } from '@components/frontStore/cart/CartSummaryItems.js';
 import { CartTotalSummary } from '@components/frontStore/cart/CartTotalSummary.js';
 import { CheckoutButton } from '@components/frontStore/checkout/CheckoutButton.js';
-import { CheckoutProvider } from '@components/frontStore/checkout/checkoutContext.js';
+import { CheckoutProvider } from '@components/frontStore/checkout/CheckoutContext.js';
 import { ContactInformation } from '@components/frontStore/checkout/ContactInformation.js';
 import { Payment } from '@components/frontStore/checkout/Payment.js';
 import { Shipment } from '@components/frontStore/checkout/Shipment.js';
@@ -53,8 +53,12 @@ export default function CheckoutPage({
         </Form>
         <div>
           <CartItems>
-            {({ items, loading }) => (
-              <CartSummaryItemsList items={items} loading={loading} />
+            {({ items, loading, showPriceIncludingTax }) => (
+              <CartSummaryItemsList
+                items={items}
+                loading={loading}
+                showPriceIncludingTax={showPriceIncludingTax}
+              />
             )}
           </CartItems>
           <CartTotalSummary />

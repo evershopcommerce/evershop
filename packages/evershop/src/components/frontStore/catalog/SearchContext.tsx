@@ -1,4 +1,4 @@
-import { ProductData } from '@components/frontStore/catalog/productContext.js';
+import { ProductData } from '@components/frontStore/catalog/ProductContext.js';
 import { FilterInput } from '@components/frontStore/catalog/ProductFilter.js';
 import React, { createContext, useContext, ReactNode } from 'react';
 

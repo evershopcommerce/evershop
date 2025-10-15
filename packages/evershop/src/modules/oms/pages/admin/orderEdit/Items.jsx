@@ -43,7 +43,7 @@ export default function Items({ order: { items, shipmentStatus } }) {
                         name: i.productName,
                         productSku: i.productSku,
                         productUrl: i.productUrl,
-                        variantOptions: JSON.parse(i.variantOptions || '[]')
+                        variantOptions: i.variantOptions
                       }, // TODO: Implement custom options
                       sortOrder: 20,
                       id: 'productName'
@@ -152,7 +152,13 @@ export const query = `
         productSku
         productUrl
         thumbnail
-        variantOptions
+        variantOptions {
+          attributeCode
+          attributeName
+          attributeId
+          optionId
+          optionText
+        }
         productPrice {
           value
           text

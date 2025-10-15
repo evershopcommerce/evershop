@@ -254,9 +254,6 @@ interface CartDispatch {
   syncCartWithServer: (trigger?: string) => Promise<void>; // Added trigger parameter
 }
 
-// --- INITIAL STATE ---
-
-// Simple reducer with detailed loading states
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   return produce(state, (draft) => {
     switch (action.type) {
@@ -331,7 +328,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         break;
     }
   });
-}; // --- CONTEXT DEFINITION ---
+};
 
 const CartStateContext = createContext<CartState | undefined>(undefined);
 const CartDispatchContext = createContext<CartDispatch | undefined>(undefined);
@@ -346,6 +343,58 @@ interface CartProviderProps {
   addMineCartItemApi: string;
 }
 
+const initialEmptyState: CartState = {
+  data: {
+    currency: 'USD',
+    addItemApi: '', // initial addItemApi
+    items: [],
+    totalQty: 0,
+    billingAddress: undefined,
+    shippingAddress: undefined,
+    errors: [],
+    error: null,
+    subTotal: { value: 0, text: '0.00' },
+    subTotalInclTax: { value: 0, text: '0.00' },
+    shippingFeeExclTax: { value: 0, text: '0.00' },
+    shippingFeeInclTax: { value: 0, text: '0.00' },
+    grandTotal: { value: 0, text: '0.00' },
+    taxAmount: { value: 0, text: '0.00' },
+    discountAmount: { value: 0, text: '0.00' },
+    coupon: '',
+    addPaymentMethodApi: '', // Will be set by server
+    addShippingMethodApi: '', // Will be set by server
+    addAddressApi: '', // Will be set by server
+    applyCouponApi: '', // Will be set by server
+    addNoteApi: '', // Will be set by server
+    addContactInfoApi: '', // Will be set by server
+    checkoutApi: '', // Will be set by server
+    availablePaymentMethods: [],
+    availableShippingMethods: []
+  },
+  setting: {
+    priceIncludingTax: false
+  },
+  loading: false,
+  loadingStates: {
+    addingItem: false,
+    removingItem: null,
+    updatingItem: null,
+    addingPaymentMethod: false,
+    addingShippingMethod: false,
+    addingShippingAddress: false,
+    addingBillingAddress: false,
+    addingContactInfo: false,
+    applyingCoupon: false,
+    removingCoupon: false,
+    fetchingShippingMethods: false
+  },
+  syncStatus: {
+    syncing: false,
+    synced: false,
+    trigger: undefined
+  }
+};
+
 export const CartProvider = ({
   children,
   query,
@@ -355,67 +404,28 @@ export const CartProvider = ({
 }: CartProviderProps) => {
   const client = useClient(); // Get urql client for GraphQL queries
 
-  const hydratedInitialState: CartState = {
-    data: cart
-      ? cart
-      : {
-          currency: 'USD',
-          items: [],
-          totalQty: 0,
-          billingAddress: undefined,
-          shippingAddress: undefined,
-          errors: [],
-          error: null,
-          subTotal: { value: 0, text: '0.00' },
-          subTotalInclTax: { value: 0, text: '0.00' },
-          shippingFeeExclTax: { value: 0, text: '0.00' },
-          shippingFeeInclTax: { value: 0, text: '0.00' },
-          grandTotal: { value: 0, text: '0.00' },
-          taxAmount: { value: 0, text: '0.00' },
-          discountAmount: { value: 0, text: '0.00' },
-          coupon: '',
-          addItemApi: addMineCartItemApi, // API endpoint to add items to cart
-          addPaymentMethodApi: '', // Will be set by server
-          addShippingMethodApi: '', // Will be set by server
-          addAddressApi: '', // Will be set by server
-          applyCouponApi: '', // Will be set by server
-          addNoteApi: '', // Will be set by server
-          addContactInfoApi: '', // Will be set by server
-          checkoutApi: '', // Will be set by server
-          availablePaymentMethods: [],
-          availableShippingMethods: []
-        },
-    loading: false,
-    loadingStates: {
-      addingItem: false,
-      removingItem: null,
-      updatingItem: null,
-      addingPaymentMethod: false,
-      addingShippingMethod: false,
-      addingShippingAddress: false,
-      addingBillingAddress: false,
-      addingContactInfo: false,
-      applyingCoupon: false,
-      removingCoupon: false,
-      fetchingShippingMethods: false
-    },
-    syncStatus: {
-      syncing: false,
-      synced: false,
-      trigger: undefined
-    },
-    setting: { priceIncludingTax: false }
+  const hydratedInitialState: Partial<CartState> = {
+    setting: setting,
+    loading: initialEmptyState.loading,
+    loadingStates: { ...initialEmptyState.loadingStates },
+    syncStatus: { ...initialEmptyState.syncStatus }
   };
+  if (cart) {
+    hydratedInitialState.data = cart;
+  } else {
+    hydratedInitialState.data = {
+      ...initialEmptyState.data,
+      addItemApi: addMineCartItemApi
+    };
+  }
 
   const [state, dispatch] = useReducer(cartReducer, hydratedInitialState);
 
   // Use urql to query cart data
   const [cartQueryResult, refetchCart] = useQuery({
     query: query,
-    pause: !state.data?.uuid // Only query if we have a cart UUID
+    pause: true
   });
-
-  // --- UTILITY FUNCTIONS ---
 
   const retry = async function <T>(
     fn: () => Promise<T>,
@@ -468,14 +478,37 @@ export const CartProvider = ({
 
   // Effect to update cart when GraphQL query result changes
   React.useEffect(() => {
-    if (cartQueryResult.data?.myCart) {
-      const serverCart = cartQueryResult.data.myCart;
-      dispatch({
-        type: 'SET_CART',
-        payload: serverCart
-      });
+    // Only process if we have fetched data (either successful or error state)
+    if (cartQueryResult.fetching === false) {
+      if (cartQueryResult.data?.myCart) {
+        const serverCart = cartQueryResult.data.myCart;
+        dispatch({
+          type: 'SET_CART',
+          payload: serverCart
+        });
+      } else if (cartQueryResult.error) {
+        // Handle error case
+        dispatch({
+          type: 'SET_ERROR',
+          payload: cartQueryResult.error.message || 'Failed to fetch cart data'
+        });
+      } else if (cartQueryResult.operation) {
+        // Query executed but returned no data - initialize empty cart
+        dispatch({
+          type: 'SET_CART',
+          payload: {
+            ...initialEmptyState.data,
+            addItemApi: addMineCartItemApi
+          }
+        });
+      }
     }
-  }, [cartQueryResult.data]);
+  }, [
+    cartQueryResult.data,
+    cartQueryResult.error,
+    cartQueryResult.fetching,
+    cartQueryResult.operation
+  ]);
 
   React.useEffect(() => {
     if (cart && JSON.stringify(cart) !== JSON.stringify(state.data)) {
@@ -1089,7 +1122,7 @@ export const CartProvider = ({
   };
 
   return (
-    <CartStateContext.Provider value={state}>
+    <CartStateContext.Provider value={state as CartState}>
       <CartDispatchContext.Provider value={cartDispatch}>
         {children}
       </CartDispatchContext.Provider>
@@ -1097,11 +1130,9 @@ export const CartProvider = ({
   );
 };
 
-// --- CUSTOM HOOKS ---
-
 export const useCartState = (): CartState => {
   const context = useContext(CartStateContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useCartState must be used within a CartProvider');
   }
   return context;
@@ -1109,7 +1140,7 @@ export const useCartState = (): CartState => {
 
 export const useCartDispatch = (): CartDispatch => {
   const context = useContext(CartDispatchContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useCartDispatch must be used within a CartProvider');
   }
   return context;

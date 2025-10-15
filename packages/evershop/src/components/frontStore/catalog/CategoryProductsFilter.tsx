@@ -1,9 +1,7 @@
 import Area from '@components/common/Area.js';
-import { useCategory } from '@components/frontStore/catalog/categoryContext.js';
-import {
-  ProductFilter,
-  DefaultProductFilterRenderer
-} from '@components/frontStore/catalog/ProductFilter.js';
+import { useCategory } from '@components/frontStore/catalog/CategoryContext.js';
+import { DefaultProductFilterRender } from '@components/frontStore/catalog/DefaultProductFilterRender.js';
+import { ProductFilter } from '@components/frontStore/catalog/ProductFilter.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
@@ -19,7 +17,7 @@ export function CategoryProductsFilter() {
         priceRange={category.priceRange}
       >
         {(renderProps) => (
-          <DefaultProductFilterRenderer
+          <DefaultProductFilterRender
             renderProps={renderProps}
             title="Product Filters"
             className="my-custom-class"

@@ -6,12 +6,8 @@ interface NameProps {
   productSku: string;
   productUrl: string;
   variantOptions?: Array<{
-    attribute_name: string;
-    option_text: string;
-    values: Array<{
-      value_text: string;
-      extra_price: number;
-    }>;
+    attributeName: string;
+    optionText: string;
   }>;
 }
 

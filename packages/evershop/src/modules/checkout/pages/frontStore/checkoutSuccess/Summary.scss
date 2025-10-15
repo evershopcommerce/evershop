@@ -1,4 +1,4 @@
-.checkout-summary {
+.checkout__summary {
   padding-top: 3.125rem;
   padding-bottom: 3.125rem;
   border-left: 1px solid var(--divider);
@@ -21,7 +21,7 @@ body {
   overflow-x: hidden;
 }
 
-.summary-row {
+.summary__row {
   display: grid;
   margin-bottom: 0.625rem;
   grid-gap: 0.625rem;

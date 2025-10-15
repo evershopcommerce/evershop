@@ -11,8 +11,8 @@
       text-align: center;
     }
     &.selected {
-      background-color: var(--success);
-      border-color: var(--success);
+      background-color: var(--primary);
+      border-color: var(--primary);
       color: #fff;
     }
     &.un-available {

@@ -2,8 +2,8 @@ import React from 'react';
 
 interface ItemVariantOptionsProps {
   options?: Array<{
-    attribute_name: string;
-    option_text: string;
+    attributeName: string;
+    optionText: string;
   }>;
 }
 
@@ -18,9 +18,9 @@ export function ItemVariantOptions({ options = [] }: ItemVariantOptionsProps) {
         {options.map((o, i) => (
           <li key={i}>
             <span className="attribute-name font-semibold">
-              {o.attribute_name}:{' '}
+              {o.attributeName}:{' '}
             </span>
-            <span>{o.option_text}</span>
+            <span>{o.optionText}</span>
           </li>
         ))}
       </ul>

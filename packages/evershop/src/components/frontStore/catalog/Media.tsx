@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Image } from '@components/common/Image.js';
-import { useProduct } from '@components/frontStore/catalog/productContext.js';
+import { useProduct } from '@components/frontStore/catalog/ProductContext.js';
 import './Media.scss';
 
 const SliderComponent = Slider as any;
@@ -148,7 +148,7 @@ export const Media: React.FC<MediaProps> = ({
       return (
         <div className="thumbnail-wrapper">
           <Image
-            src={allImages[i].url}
+            src={allImages[i]?.url}
             alt={`Thumbnail ${i + 1}`}
             width={thumbnailSize.width}
             height={thumbnailSize.height}
@@ -180,7 +180,7 @@ export const Media: React.FC<MediaProps> = ({
       return (
         <div className="thumbnail-wrapper">
           <Image
-            src={allImages[i].url}
+            src={allImages[i]?.url}
             alt={`Thumbnail ${i + 1}`}
             width={thumbnailSize.width}
             height={thumbnailSize.height}

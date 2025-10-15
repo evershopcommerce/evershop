@@ -22,7 +22,7 @@ interface CustomerAddressFormProps {
   fieldNamePrefix?: string;
 }
 export function CustomerAddressForm({
-  allowCountries,
+  allowCountries = [],
   address = {},
   areaId = 'customerAddressForm',
   fieldNamePrefix = 'address'

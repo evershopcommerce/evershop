@@ -1,5 +1,5 @@
 import Area from '@components/common/Area.js';
-import { useCartState } from '@components/frontStore/cart/cartContext.js';
+import { useCartState } from '@components/frontStore/cart/CartContext.js';
 import { CouponForm } from '@components/frontStore/CouponForm.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
@@ -28,18 +28,16 @@ const Total: React.FC<{
   loading?: boolean;
 }> = ({ total, totalTaxAmount, priceIncludingTax, loading = false }) => {
   return (
-    <div className="summary-row grand-total flex justify-between py-2">
+    <div className="summary__row grand-total flex justify-between py-2">
       {(priceIncludingTax && (
         <div>
+          <div className="font-bold">
+            <span>{_('Total')}</span>
+          </div>
           <div>
-            <div className="font-bold">
-              <span>{_('Total')}</span>
-            </div>
-            <div>
-              <span className="italic font-normal">
-                ({_('Inclusive of tax ${totalTaxAmount}', { totalTaxAmount })})
-              </span>
-            </div>
+            <span className="italic font-normal">
+              ({_('Inclusive of tax ${totalTaxAmount}', { totalTaxAmount })})
+            </span>
           </div>
         </div>
       )) || <span className="self-center font-bold">{_('Total')}</span>}

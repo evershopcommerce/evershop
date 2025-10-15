@@ -1,4 +1,4 @@
-import { useCategory } from '@components/frontStore/catalog/categoryContext.js';
+import { useCategory } from '@components/frontStore/catalog/CategoryContext.js';
 import {
   Pagination,
   DefaultPaginationRenderer

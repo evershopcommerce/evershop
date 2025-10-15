@@ -38,7 +38,7 @@ export function SelectField<T extends FieldValues = FieldValues>({
   validation,
   options,
   placeholder,
-  wrapperClassName = 'form-field',
+  wrapperClassName,
   className,
   defaultValue,
   multiple = false,
@@ -79,7 +79,9 @@ export function SelectField<T extends FieldValues = FieldValues>({
   };
 
   return (
-    <div className={`${wrapperClassName} ${fieldError ? 'error' : ''}`}>
+    <div
+      className={`form-field ${wrapperClassName} ${fieldError ? 'error' : ''}`}
+    >
       {label && (
         <label htmlFor={fieldId}>
           {label}

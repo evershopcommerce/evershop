@@ -17,6 +17,8 @@ interface EmailFieldProps {
   validation?: RegisterOptions;
   onChange?: (value: string) => void;
   wrapperClassName?: string;
+  prefixIcon?: React.ReactNode;
+  suffixIcon?: React.ReactNode;
 }
 
 export function EmailField({
@@ -24,7 +26,7 @@ export function EmailField({
   label,
   placeholder,
   className = '',
-  wrapperClassName = 'form-field',
+  wrapperClassName,
   required = false,
   disabled = false,
   defaultValue,
@@ -32,6 +34,8 @@ export function EmailField({
   helperText,
   validation,
   onChange,
+  prefixIcon,
+  suffixIcon,
   ...props
 }: EmailFieldProps) {
   const {
@@ -77,8 +81,35 @@ export function EmailField({
     }
   };
 
+  const hasIcons = prefixIcon || suffixIcon;
+  const inputClassName = `${fieldError !== undefined ? 'error' : ''} ${
+    className || ''
+  } ${hasIcons ? '!pr-3' : ''} ${prefixIcon ? '!pl-10' : ''} ${
+    suffixIcon ? '!pr-10' : ''
+  }`.trim();
+
+  const renderInput = () => (
+    <input
+      id={fieldId}
+      type="email"
+      placeholder={placeholder}
+      disabled={disabled}
+      className={inputClassName}
+      aria-invalid={fieldError !== undefined ? 'true' : 'false'}
+      aria-describedby={
+        fieldError !== undefined ? `${fieldId}-error` : undefined
+      }
+      {...register(name, validationRules)}
+      onChange={(e) => {
+        register(name).onChange(e);
+        handleChange(e);
+      }}
+      {...props}
+    />
+  );
+
   return (
-    <div className={wrapperClassName}>
+    <div className={`form-field ${wrapperClassName || ''}`.trim()}>
       {label && (
         <label htmlFor={fieldId}>
           {label}
@@ -87,25 +118,25 @@ export function EmailField({
         </label>
       )}
 
-      <input
-        id={fieldId}
-        type="email"
-        placeholder={placeholder}
-        disabled={disabled}
-        className={`${fieldError !== undefined ? 'error' : ''} ${
-          className || ''
-        }`}
-        aria-invalid={fieldError !== undefined ? 'true' : 'false'}
-        aria-describedby={
-          fieldError !== undefined ? `${fieldId}-error` : undefined
-        }
-        {...register(name, validationRules)}
-        onChange={(e) => {
-          register(name).onChange(e);
-          handleChange(e);
-        }}
-        {...props}
-      />
+      {hasIcons ? (
+        <div
+          className={`input__wrapper relative flex group items-center`.trim()}
+        >
+          {prefixIcon && (
+            <div className="prefix absolute left-3 z-10 flex items-center justify-center">
+              {prefixIcon}
+            </div>
+          )}
+          {renderInput()}
+          {suffixIcon && (
+            <div className="suffix absolute right-3 z-10 flex items-center justify-center">
+              {suffixIcon}
+            </div>
+          )}
+        </div>
+      ) : (
+        renderInput()
+      )}
 
       {fieldError && (
         <p id={`${fieldId}-error`} className="field-error">

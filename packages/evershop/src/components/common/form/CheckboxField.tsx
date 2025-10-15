@@ -37,7 +37,7 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
   name,
   label,
   error,
-  wrapperClassName = 'form-field',
+  wrapperClassName,
   helperText,
   required,
   validation,
@@ -68,7 +68,11 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
 
   if (!options || options.length === 0) {
     return (
-      <div className={`${wrapperClassName} ${fieldError ? 'error' : ''}`}>
+      <div
+        className={`form-field ${wrapperClassName} ${
+          fieldError ? 'error' : ''
+        }`}
+      >
         <div className={containerClass}>
           <div className="checkbox-item">
             <Controller

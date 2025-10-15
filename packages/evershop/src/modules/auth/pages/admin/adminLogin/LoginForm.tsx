@@ -5,6 +5,7 @@ import Button from '@components/common/Button.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { Form, useFormContext } from '@components/common/form/Form.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
+import { EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 
 interface LoginFormProps {
   authUrl: string;
@@ -80,6 +81,7 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
               component: {
                 default: (
                   <EmailField
+                    prefixIcon={<EnvelopeIcon className="h-5 w-5" />}
                     label="Email"
                     name="email"
                     placeholder="Email"
@@ -96,6 +98,7 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
               component: {
                 default: (
                   <PasswordField
+                    prefixIcon={<LockClosedIcon className="h-5 w-5" />}
                     label="Password"
                     name="password"
                     placeholder="Password"
@@ -103,6 +106,7 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
                     validation={{
                       required: 'Password is required'
                     }}
+                    showToggle
                   />
                 )
               },

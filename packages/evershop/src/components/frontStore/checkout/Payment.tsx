@@ -1,8 +1,8 @@
-import { useCartState } from '@components/frontStore/cart/cartContext.js';
+import { useCartState } from '@components/frontStore/cart/CartContext.js';
 import {
   useCheckout,
   useCheckoutDispatch
-} from '@components/frontStore/checkout/checkoutContext.js';
+} from '@components/frontStore/checkout/CheckoutContext.js';
 import { BillingAddress } from '@components/frontStore/checkout/payment/BillingAddress.js';
 import { PaymentMethods } from '@components/frontStore/checkout/payment/PaymentMethods.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';

@@ -1,11 +1,11 @@
 import Spinner from '@components/admin/Spinner.js';
 import Button from '@components/common/Button.js';
 import RenderIfTrue from '@components/common/RenderIfTrue.js';
-import { useCartState } from '@components/frontStore/cart/cartContext.js';
+import { useCartState } from '@components/frontStore/cart/CartContext.js';
 import {
   useCheckout,
   useCheckoutDispatch
-} from '@components/frontStore/checkout/checkoutContext.js';
+} from '@components/frontStore/checkout/CheckoutContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Elements } from '@stripe/react-stripe-js';
 import {

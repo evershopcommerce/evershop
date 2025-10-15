@@ -1,4 +1,5 @@
-import { ItemProps } from '@components/frontStore/cart/CartItems.js';
+import { CartItem } from '@components/frontStore/cart/CartContext.js';
+import { OrderItem } from '@components/frontStore/customer/CustomerContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
@@ -27,9 +28,10 @@ const CartSummarySkeleton: React.FC<{ rows?: number }> = ({ rows = 2 }) => {
 };
 
 const CartSummaryItemsList: React.FC<{
-  items: ItemProps[];
+  items: CartItem[] | OrderItem[];
   loading: boolean;
-}> = ({ items, loading }) => {
+  showPriceIncludingTax?: boolean;
+}> = ({ items, loading, showPriceIncludingTax }) => {
   if (loading) {
     return <CartSummarySkeleton rows={items.length} />;
   }
@@ -44,14 +46,14 @@ const CartSummaryItemsList: React.FC<{
   }
 
   return (
-    <ul className="divide-y divide-gray-200 border-b mb-3">
+    <ul className="item__summary__list divide-y divide-gray-200 border-b mb-3">
       {items.map((item) => (
-        <li key={item.id} className="flex items-start py-3">
+        <li key={item.uuid} className="flex items-start py-3">
           <div className="relative mr-4 self-center">
             {item.thumbnail && (
               <img
                 src={item.thumbnail}
-                alt={item.name}
+                alt={item.productName}
                 className="w-16 h-16 object-cover rounded border p-2 box-border"
               />
             )}
@@ -60,13 +62,13 @@ const CartSummaryItemsList: React.FC<{
             </span>
           </div>
           <div className="flex-1 min-w-0 items-start align-top">
-            <div className="font-semibold text-sm mb-1">{item.name}</div>
+            <div className="font-semibold text-sm mb-1">{item.productName}</div>
             {item.variantOptions && item.variantOptions.length > 0 && (
               <div className="space-y-1">
                 {item.variantOptions.map((option) => (
                   <div
                     key={option.attributeCode}
-                    className="text-sm text-gray-700"
+                    className="text-xs text-gray-700"
                   >
                     {option.attributeName}: {option.optionText}
                   </div>
@@ -75,7 +77,11 @@ const CartSummaryItemsList: React.FC<{
             )}
           </div>
           <div className="ml-auto text-right self-center">
-            <div className="">{item.lineTotal}</div>
+            <div className="font-semibold">
+              {showPriceIncludingTax
+                ? item.lineTotalInclTax.text
+                : item.lineTotal.text}
+            </div>
           </div>
         </li>
       ))}

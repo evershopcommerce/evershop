@@ -39,7 +39,7 @@ export function RadioGroupField<T extends FieldValues = FieldValues>({
   options,
   label,
   error,
-  wrapperClassName = 'form-field',
+  wrapperClassName,
   helperText,
   className = '',
   direction = 'vertical',
@@ -69,7 +69,9 @@ export function RadioGroupField<T extends FieldValues = FieldValues>({
     direction === 'horizontal' ? 'radio-group horizontal' : 'radio-group';
 
   return (
-    <div className={`${wrapperClassName} ${fieldError ? 'error' : ''}`}>
+    <div
+      className={`form-field ${wrapperClassName} ${fieldError ? 'error' : ''}`}
+    >
       {label && (
         <fieldset>
           <legend>

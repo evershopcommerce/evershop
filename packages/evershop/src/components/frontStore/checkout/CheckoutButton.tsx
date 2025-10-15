@@ -1,4 +1,4 @@
-import { useCheckout } from '@components/frontStore/checkout/checkoutContext.js';
+import { useCheckout } from '@components/frontStore/checkout/CheckoutContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useWatch } from 'react-hook-form';

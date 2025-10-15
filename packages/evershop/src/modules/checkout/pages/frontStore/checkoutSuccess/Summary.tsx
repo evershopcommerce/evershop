@@ -2,87 +2,26 @@ import React from 'react';
 import './Summary.scss';
 import { CartSummaryItemsList } from '@components/frontStore/cart/CartSummaryItems.js';
 import { DefaultCartSummary } from '@components/frontStore/cart/CartTotalSummary.js';
+import { Order } from '@components/frontStore/customer/CustomerContext.jsx';
 
 interface SummaryProps {
-  order: {
-    items: Array<{
-      uuid: string;
-      productName: string;
-      productSku: string;
-      qty: number;
-      productUrl: string;
-      productPrice: {
-        text: string;
-      };
-      productPriceInclTax: {
-        text: string;
-      };
-      thumbnail: string;
-      variantOptions?: {
-        attributeCode: string;
-        attributeName: string;
-        attributeId: number;
-        optionId: number;
-        optionText: string;
-      }[];
-      lineTotalInclTax: {
-        text: string;
-      };
-      lineTotal: {
-        text: string;
-      };
-    }>;
-    shippingMethodName: string;
-    shippingFeeInclTax: {
-      text: string;
-    };
-    shippingFeeExclTax: {
-      text: string;
-    };
-    totalTaxAmount: {
-      text: string;
-    };
-    discountAmount: {
-      text: string;
-    };
-    coupon?: string;
-    subTotal: {
-      text: string;
-    };
-    subTotalInclTax: {
-      text: string;
-    };
-    grandTotal: {
-      text: string;
-    };
-  };
+  order: Order;
   setting: {
     priceIncludingTax: boolean;
   };
 }
+
 export default function Summary({
   order,
   setting: { priceIncludingTax }
 }: SummaryProps) {
-  const items = order.items.map((item) => ({
-    id: item.uuid,
-    name: item.productName,
-    sku: item.productSku,
-    qty: item.qty,
-    url: item.productUrl,
-    price: priceIncludingTax
-      ? item.productPriceInclTax.text
-      : item.productPrice.text,
-    thumbnail: item.thumbnail,
-    variantOptions: item.variantOptions || [],
-    lineTotal: priceIncludingTax
-      ? item.lineTotalInclTax.text
-      : item.lineTotal.text,
-    errors: []
-  }));
   return (
-    <div className="checkout-summary h-full hidden md:block">
-      <CartSummaryItemsList items={items} loading={false} />
+    <div className="checkout__summary h-full hidden md:block">
+      <CartSummaryItemsList
+        items={order.items}
+        loading={false}
+        showPriceIncludingTax={priceIncludingTax}
+      />
       <DefaultCartSummary
         loading={false}
         showPriceIncludingTax={priceIncludingTax}
@@ -140,7 +79,13 @@ export const query = `
         productPriceInclTax {
           text
         }
-        variantOptions
+        variantOptions {
+          attributeCode
+          attributeName
+          attributeId
+          optionId
+          optionText
+        }
         lineTotalInclTax {
           text
         }
