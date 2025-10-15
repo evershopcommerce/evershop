@@ -25,7 +25,7 @@ export function FileField<T extends FieldValues = FieldValues>({
   name,
   label,
   error,
-  wrapperClassName = 'form-field',
+  wrapperClassName,
   helperText,
   required,
   validation,
@@ -77,7 +77,9 @@ export function FileField<T extends FieldValues = FieldValues>({
   };
 
   return (
-    <div className={`${wrapperClassName} ${fieldError ? 'error' : ''}`}>
+    <div
+      className={`form-field ${wrapperClassName} ${fieldError ? 'error' : ''}`}
+    >
       {label && (
         <label htmlFor={fieldId}>
           {label}

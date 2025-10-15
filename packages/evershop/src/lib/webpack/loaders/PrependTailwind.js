@@ -1,7 +1,7 @@
 export default function PrependTailwindDirectives(source) {
   // Use regex to check for @layer or @apply directives.
   // The 'g' flag finds all occurrences, and the test() method returns a boolean.
-  const hasTailwindDirectives = /@(layer|apply)/.test(source);
+  const hasTailwindDirectives = /@(layer|apply|theme)/.test(source);
 
   // If the file does not contain @layer or @apply, return the source as is.
   if (!hasTailwindDirectives) {

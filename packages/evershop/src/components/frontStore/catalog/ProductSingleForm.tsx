@@ -6,7 +6,7 @@ import {
   AddToCartActions,
   AddToCartState
 } from '@components/frontStore/cart/AddToCart.js';
-import { useProduct } from '@components/frontStore/catalog/productContext.js';
+import { useProduct } from '@components/frontStore/catalog/ProductContext.js';
 import { VariantSelector } from '@components/frontStore/catalog/VariantSelector.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
@@ -15,17 +15,28 @@ import { toast } from 'react-toastify';
 
 export function ProductSingleForm() {
   const {
+    price,
     sku,
     inventory: { isInStock }
   } = useProduct();
   const form = useForm();
-  const qty = form.watch('qty');
 
   return (
     <Form id="productForm" method="POST" submitBtn={false} form={form}>
       <Area
         id="productSinglePageForm"
         coreComponents={[
+          {
+            component: {
+              default: (
+                <div className="product__single__price text-2xl">
+                  {price.regular.text}
+                </div>
+              )
+            },
+            sortOrder: 5,
+            id: 'price'
+          },
           {
             component: {
               default: <VariantSelector />

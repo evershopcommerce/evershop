@@ -1,14 +1,14 @@
 import { EmailField } from '@components/common/form/EmailField.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
-import { useCartState } from '@components/frontStore/cart/cartContext.js';
+import { useCartState } from '@components/frontStore/cart/CartContext.js';
 import {
   useCheckout,
   useCheckoutDispatch
-} from '@components/frontStore/checkout/checkoutContext.js';
+} from '@components/frontStore/checkout/CheckoutContext.js';
 import {
   useCustomer,
   useCustomerDispatch
-} from '@components/frontStore/customer/customerContext.js';
+} from '@components/frontStore/customer/CustomerContext.jsx';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';

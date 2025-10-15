@@ -2,7 +2,7 @@ import Area from '@components/common/Area.js';
 import {
   useCustomer,
   useCustomerDispatch
-} from '@components/frontStore/customer/customerContext.js';
+} from '@components/frontStore/customer/CustomerContext.jsx';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { AtSymbolIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/outline';

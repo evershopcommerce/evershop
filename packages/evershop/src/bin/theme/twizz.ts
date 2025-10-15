@@ -10,7 +10,147 @@ import { getConfig } from '../../lib/util/getConfig.js';
 
 const { prompt } = enquirer;
 
-// Utility: Recursively scan a directory and return files matching given extensions (.jsx, .tsx)
+function parseRelativeImports(content: string): string[] {
+  const relativeImports: string[] = [];
+
+  const importRegex =
+    /import\s+(?:(?:\{[^}]*\}|\*\s+as\s+\w+|\w+)(?:\s*,\s*(?:\{[^}]*\}|\*\s+as\s+\w+|\w+))*\s+from\s+)?['"`]([^'"`]+)['"`]/g;
+
+  let match;
+  while ((match = importRegex.exec(content)) !== null) {
+    const importPath = match[1];
+    // Check if it's a relative import (starts with ./ or ../)
+    if (importPath.startsWith('./') || importPath.startsWith('../')) {
+      relativeImports.push(importPath);
+    }
+  }
+
+  return relativeImports;
+}
+
+function resolveImportPath(
+  currentFilePath: string,
+  importPath: string
+): string {
+  const currentDir = path.dirname(currentFilePath);
+  const resolvedPath = path.resolve(currentDir, importPath);
+
+  const extensions = ['.tsx', '.jsx', '.ts', '.js'];
+
+  if (path.extname(resolvedPath)) {
+    return resolvedPath;
+  }
+
+  for (const ext of extensions) {
+    const pathWithExt = resolvedPath + ext;
+    try {
+      return pathWithExt;
+    } catch {
+      continue;
+    }
+  }
+
+  for (const ext of extensions) {
+    const indexPath = path.join(resolvedPath, `index${ext}`);
+    try {
+      return indexPath;
+    } catch {
+      continue;
+    }
+  }
+
+  return resolvedPath;
+}
+
+// Utility: Recursively find all dependencies of a file
+async function findAllDependencies(
+  filePath: string,
+  visited: Set<string> = new Set(),
+  baseDir: string
+): Promise<string[]> {
+  if (visited.has(filePath)) {
+    return [];
+  }
+
+  visited.add(filePath);
+  const dependencies: string[] = [];
+
+  try {
+    const content = await fs.readFile(filePath, 'utf8');
+    const relativeImports = parseRelativeImports(content);
+
+    for (const importPath of relativeImports) {
+      const resolvedPath = resolveImportPath(filePath, importPath);
+
+      // Check if the resolved file exists and is within our base directory
+      try {
+        await fs.access(resolvedPath);
+
+        // Only include files that are within our component structure
+        if (resolvedPath.startsWith(baseDir)) {
+          dependencies.push(resolvedPath);
+
+          // Recursively find dependencies of this file
+          const nestedDeps = await findAllDependencies(
+            resolvedPath,
+            visited,
+            baseDir
+          );
+          dependencies.push(...nestedDeps);
+        }
+      } catch {
+        // File doesn't exist, try other extensions
+        const extensions = ['.tsx', '.jsx', '.ts', '.js'];
+        let found = false;
+
+        for (const ext of extensions) {
+          const pathWithExt = resolvedPath + ext;
+          try {
+            await fs.access(pathWithExt);
+            if (pathWithExt.startsWith(baseDir)) {
+              dependencies.push(pathWithExt);
+              const nestedDeps = await findAllDependencies(
+                pathWithExt,
+                visited,
+                baseDir
+              );
+              dependencies.push(...nestedDeps);
+              found = true;
+              break;
+            }
+          } catch {
+            continue;
+          }
+        }
+
+        // Try index files if still not found
+        if (!found) {
+          for (const ext of extensions) {
+            const indexPath = path.join(resolvedPath, `index${ext}`);
+            try {
+              await fs.access(indexPath);
+              if (indexPath.startsWith(baseDir)) {
+                dependencies.push(indexPath);
+                const nestedDeps = await findAllDependencies(
+                  indexPath,
+                  visited,
+                  baseDir
+                );
+                dependencies.push(...nestedDeps);
+                break;
+              }
+            } catch {
+              continue;
+            }
+          }
+        }
+      }
+    }
+  } catch (err) {}
+
+  return [...new Set(dependencies)];
+}
+
 async function scanDirectory(dir: string): Promise<string[]> {
   let results: string[] = [];
   try {
@@ -32,7 +172,6 @@ async function scanDirectory(dir: string): Promise<string[]> {
   return results;
 }
 
-// Scan modules/*/pages/frontStore directory
 async function scanModulesFrontStore(): Promise<string[]> {
   const evershopDir = path.join(
     process.cwd(),
@@ -59,9 +198,7 @@ async function scanModulesFrontStore(): Promise<string[]> {
         results = results.concat(files);
       }
     }
-  } catch (err) {
-    // ignore modules directory errors
-  }
+  } catch (err) {}
   return results;
 }
 
@@ -117,7 +254,6 @@ async function getOverrideCandidates(): Promise<string[]> {
   return [...files1, ...files2, ...files3];
 }
 
-// Read config/default.json to get the current theme from config.system.theme
 function getCurrentTheme(): string {
   const theme = getConfig<string>('system.theme');
   if (theme) {
@@ -196,32 +332,90 @@ async function createOverrideFile() {
 
   // Get current theme
   const theme = getCurrentTheme();
-  const destPath = getDestinationPath(selectedFile, theme);
 
-  // Read content from selected file
-  let content: string;
-  try {
-    content = await fs.readFile(selectedFile, 'utf8');
-  } catch (err) {
-    console.error(kleur.red('Error reading selected file:'), err);
-    process.exit(1);
+  // Determine the base directory for dependency tracking
+  const evershopDir = path.join(
+    process.cwd(),
+    'node_modules',
+    '@evershop',
+    'evershop'
+  );
+  const baseDir = (await isRealDirectory(evershopDir))
+    ? path.join(evershopDir, 'src')
+    : path.join(process.cwd(), 'packages', 'evershop', 'src');
+
+  // Find all dependencies of the selected file
+  console.log(kleur.yellow('Analyzing dependencies...'));
+  const dependencies = await findAllDependencies(
+    selectedFile,
+    new Set(),
+    baseDir
+  );
+  const allFiles = [selectedFile, ...dependencies];
+
+  console.log(kleur.cyan(`Found ${dependencies.length} dependencies:`));
+  dependencies.forEach((dep) => {
+    console.log(kleur.gray(`  ${path.relative(process.cwd(), dep)}`));
+  });
+
+  // Ask user if they want to copy dependencies
+  if (dependencies.length > 0) {
+    const confirmResponse: any = await prompt({
+      type: 'confirm',
+      name: 'copyDependencies',
+      message: `Copy ${dependencies.length} dependency files along with the main file?`,
+      initial: true
+    });
+
+    if (!confirmResponse.copyDependencies) {
+      // Only copy the main file
+      allFiles.splice(1); // Remove all dependencies, keep only the main file
+    }
   }
 
-  // Ensure destination directory exists
-  const destDir = path.dirname(destPath);
-  await ensureDir(destDir);
+  // Copy all files (main + dependencies if confirmed)
+  const copiedFiles: string[] = [];
 
-  // Write content to new file
-  try {
-    await fs.writeFile(destPath, content, 'utf8');
+  for (const filePath of allFiles) {
+    const destPath = getDestinationPath(filePath, theme);
+
+    // Read content from file
+    let content: string;
+    try {
+      content = await fs.readFile(filePath, 'utf8');
+    } catch (err) {
+      console.error(kleur.red(`Error reading file ${filePath}:`), err);
+      continue;
+    }
+
+    // Ensure destination directory exists
+    const destDir = path.dirname(destPath);
+    await ensureDir(destDir);
+
+    // Write content to new file
+    try {
+      await fs.writeFile(destPath, content, 'utf8');
+      copiedFiles.push(destPath);
+    } catch (err) {
+      console.error(kleur.red(`Error writing file ${destPath}:`), err);
+    }
+  }
+
+  // Display results
+  if (copiedFiles.length > 0) {
     console.log(
-      boxen(kleur.green(`Override file created at: ${destPath}`), {
-        padding: 1,
-        borderColor: 'green'
-      })
+      boxen(
+        kleur.green(
+          `Successfully created ${copiedFiles.length} override file(s):\n`
+        ) + copiedFiles.map((file) => kleur.white(`• ${file}`)).join('\n'),
+        {
+          padding: 1,
+          borderColor: 'green'
+        }
+      )
     );
-  } catch (err) {
-    console.error(kleur.red('Error writing override file:'), err);
+  } else {
+    console.error(kleur.red('No files were copied.'));
     process.exit(1);
   }
 }

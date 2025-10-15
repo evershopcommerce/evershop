@@ -24,7 +24,7 @@ export function DateField<T extends FieldValues = FieldValues>({
   name,
   label,
   error,
-  wrapperClassName = 'form-field',
+  wrapperClassName,
   helperText,
   required,
   validation,
@@ -74,7 +74,7 @@ export function DateField<T extends FieldValues = FieldValues>({
   };
 
   return (
-    <div className={wrapperClassName}>
+    <div className={`form-field ${wrapperClassName}`}>
       {label && (
         <label htmlFor={fieldId}>
           {label}

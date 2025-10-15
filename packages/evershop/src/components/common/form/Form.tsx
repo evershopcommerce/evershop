@@ -1,4 +1,5 @@
 import Button from '@components/common/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import {
   useForm,
@@ -21,7 +22,7 @@ interface FormProps<T extends FieldValues = FieldValues>
   formOptions?: UseFormProps<T>;
   onSubmit?: SubmitHandler<T>;
   onSuccess?: (response: any, data: T) => void;
-  onError?: (error: any, data: T) => void;
+  onError?: (error: string, data: T) => void;
   successMessage?: string;
   errorMessage?: string;
   submitBtn?: boolean;
@@ -38,10 +39,10 @@ export function Form<T extends FieldValues = FieldValues>({
   onSubmit,
   onSuccess,
   onError,
-  successMessage = 'Saved successfully!',
-  errorMessage = 'Something went wrong! Please try again.',
+  successMessage = _('Saved successfully!'),
+  errorMessage = _('Something went wrong! Please try again.'),
   submitBtn = true,
-  submitBtnText = 'Save',
+  submitBtnText = _('Save'),
   loading = false,
   children,
   className,
@@ -87,9 +88,14 @@ export function Form<T extends FieldValues = FieldValues>({
       }
     } catch (error) {
       if (onError) {
-        onError(error, data);
+        onError(
+          errorMessage || (error instanceof Error ? error.message : ''),
+          data
+        );
       } else {
-        toast.error(errorMessage);
+        toast.error(
+          errorMessage || (error instanceof Error ? error.message : '')
+        );
       }
     }
   };

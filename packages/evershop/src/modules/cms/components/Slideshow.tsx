@@ -155,17 +155,22 @@ export default function Slideshow({
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className="relative h-auto slide__wrapper !block"
+            className="relative h-[28rem] lg:h-auto slide__wrapper !block"
             style={{ display: 'block' }}
           >
-            <div className="relative w-full">
+            <div className="relative w-full h-full">
               <Image
                 src={slide.image}
                 alt={slide.headline || 'Slideshow image'}
                 width={slide.width || 1920} // Use individual slide width if available
                 height={slide.height || 0} // Use individual slide height if available
-                className={`w-full`}
-                style={{ objectFit: 'contain', maxWidth: '100%' }}
+                style={{
+                  objectFit: 'cover',
+                  width: '100%',
+                  height: '100%',
+                  objectPosition: 'center'
+                }}
+                sizes="100vw"
                 priority={true}
               />
 

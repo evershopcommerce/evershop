@@ -3,7 +3,7 @@ import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import {
   Order,
   useCustomer
-} from '@components/frontStore/customer/customerContext.js';
+} from '@components/frontStore/customer/CustomerContext.jsx';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 

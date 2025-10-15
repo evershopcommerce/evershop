@@ -1,14 +1,17 @@
-import React, { useEffect, useMemo } from 'react';
-import { useFormContext } from 'react-hook-form';
-import './VariantSelector.scss';
 import { useAppDispatch, useAppState } from '@components/common/context/app.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import {
+  DefaultVariantAttribute,
+  DefaultVariantOptionItem
+} from '@components/frontStore/catalog/DefaultVariantSelectorRender.js';
 import {
   useProduct,
   VariantAttribute,
   VariantGroup,
   AttributeOption
-} from '@components/frontStore/catalog/productContext.js';
+} from '@components/frontStore/catalog/ProductContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import React, { useEffect, useMemo } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 interface SelectedOption {
   attributeCode: string;
@@ -117,79 +120,19 @@ const processAttributes = (
   return newAttributes;
 };
 
-interface VariantOptionItemProps {
+export interface VariantOptionItemProps {
   option: AttributeOption & { available: boolean };
   attribute: ProcessedAttribute;
   isSelected: boolean;
-  onClick: (attributeCode: string, optionId: number) => Promise<void>;
+  onSelect: (attributeCode: string, optionId: number) => Promise<void>;
 }
 
-const DefaultVariantOptionItem: React.FC<VariantOptionItemProps> = ({
-  option,
-  attribute,
-  isSelected,
-  onClick
-}) => {
-  let className = '';
-  if (isSelected) {
-    className = 'selected';
-  }
-  if (option.available === false) {
-    className = 'un-available';
-  }
-
-  return (
-    <li key={option.optionId} className={className}>
-      <a
-        href="#"
-        onClick={async (e) => {
-          e.preventDefault();
-          if (option.available === false) {
-            return;
-          }
-          await onClick(attribute.attributeCode, option.optionId);
-        }}
-      >
-        {option.optionText}
-      </a>
-    </li>
-  );
-};
-
-interface VariantAttributeGroupProps {
+export interface VariantAttributeGroupProps {
   attribute: ProcessedAttribute;
   options: (AttributeOption & { available: boolean })[];
-  onClick: (attributeCode: string, optionId: number) => Promise<void>;
+  onSelect: (attributeCode: string, optionId: number) => Promise<void>;
   OptionItem?: React.ComponentType<VariantOptionItemProps>;
 }
-
-const DefaultVariantAttributeGroup: React.FC<VariantAttributeGroupProps> = ({
-  attribute,
-  options,
-  onClick,
-  OptionItem = DefaultVariantOptionItem
-}) => {
-  return (
-    <div key={attribute.attributeCode}>
-      <div className="mb-2 text-textSubdued uppercase">
-        <span>{attribute.attributeName}</span>
-      </div>
-      <ul className="variant-option-list flex justify-start gap-2 flex-wrap">
-        {options.map((option) => (
-          <OptionItem
-            key={option.optionId}
-            option={option}
-            attribute={attribute}
-            isSelected={
-              attribute.selected && attribute.selectedOption === option.optionId
-            }
-            onClick={onClick}
-          />
-        ))}
-      </ul>
-    </div>
-  );
-};
 
 interface VariantsProps {
   AttributeRenderer?: React.ComponentType<VariantAttributeGroupProps>;
@@ -197,10 +140,10 @@ interface VariantsProps {
 }
 
 export function VariantSelector({
-  AttributeRenderer = DefaultVariantAttributeGroup,
+  AttributeRenderer = DefaultVariantAttribute,
   OptionRenderer = DefaultVariantOptionItem
 }: VariantsProps) {
-  const { variantGroup: vs } = useProduct();
+  const { variantGroup: vs, productId } = useProduct();
   const {
     graphqlResponse: {
       pageMeta: {
@@ -228,22 +171,18 @@ export function VariantSelector({
   };
 
   useEffect(() => {
-    const handlePopState = () => {
+    const handleProductChange = () => {
       const newAttributes = processAttributes(
         vs,
         vs?.variantAttributes || [],
-        window.location.href
+        currentProductUrl
       );
       setAttributes(newAttributes);
       attributeRef.current = newAttributes;
     };
 
-    window.addEventListener('popstate', handlePopState);
-
-    return function cleanup() {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [vs]);
+    handleProductChange();
+  }, [vs, productId]);
 
   const handleOptionClick = async (
     attributeCode: string,
@@ -256,8 +195,6 @@ export function VariantSelector({
     url.searchParams.delete('ajax');
 
     history.pushState(null, '', url);
-    const popStateEvent = new PopStateEvent('popstate');
-    dispatchEvent(popStateEvent);
   };
 
   if (!vs || attributes.length === 0) {
@@ -265,9 +202,8 @@ export function VariantSelector({
   }
 
   return (
-    <div className="variant variant-container grid grid-cols-1 gap-2 mt-5">
+    <div className="variant variant__container grid grid-cols-1 gap-2 mt-5">
       {attributes.map((attribute) => {
-        // Filter unique options with product IDs
         const options = attribute.options.filter(
           (v, j, s) =>
             s.findIndex((o) => o.optionId === v.optionId) === j && v.productId
@@ -278,7 +214,7 @@ export function VariantSelector({
             key={attribute.attributeCode}
             attribute={attribute}
             options={options}
-            onClick={handleOptionClick}
+            onSelect={handleOptionClick}
             OptionItem={OptionRenderer}
           />
         );

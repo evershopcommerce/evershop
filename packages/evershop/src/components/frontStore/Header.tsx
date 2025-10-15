@@ -3,7 +3,7 @@ import React from 'react';
 
 export function Header() {
   return (
-    <header className="header">
+    <header className="header px-6">
       <Area id="headerTop" className="header__top" />
       <div className="header__middle grid grid-cols-3">
         <Area

@@ -32,6 +32,7 @@ export interface ImageData {
 export interface AttributeIndexItem {
   attributeName: string;
   attributeCode: string;
+  optionId: number;
   optionText: string;
 }
 

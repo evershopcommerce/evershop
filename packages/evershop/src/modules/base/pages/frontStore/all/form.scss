@@ -1,7 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+.logih {
+  .btn {
+  }
+}
 @layer base {
   .required-indicator {
     @apply text-red-500 ml-1;

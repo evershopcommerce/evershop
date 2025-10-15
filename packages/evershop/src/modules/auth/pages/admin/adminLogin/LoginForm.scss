@@ -1,7 +1,9 @@
-#app {
+@layer components {
   .header {
-    display: none;
+    @apply hidden #{!important};
   }
+}
+#app {
   .content-wrapper {
     margin-top: 0;
   }

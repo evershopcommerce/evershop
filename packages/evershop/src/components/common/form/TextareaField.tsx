@@ -25,7 +25,7 @@ export function TextareaField<T extends FieldValues = FieldValues>({
   label,
   error,
   helperText,
-  wrapperClassName = 'form-field',
+  wrapperClassName,
   required,
   validation,
   className,
@@ -49,7 +49,7 @@ export function TextareaField<T extends FieldValues = FieldValues>({
   };
 
   return (
-    <div className={wrapperClassName}>
+    <div className={`form-field ${wrapperClassName}`}>
       {label && (
         <label htmlFor={fieldId}>
           {label}

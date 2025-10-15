@@ -2,7 +2,7 @@ import Area from '@components/common/Area.js';
 import {
   CategoryData,
   CategoryProvider
-} from '@components/frontStore/catalog/categoryContext.js';
+} from '@components/frontStore/catalog/CategoryContext.js';
 import { CategoryInfo } from '@components/frontStore/catalog/CategoryInfo.js';
 import { CategoryProducts } from '@components/frontStore/catalog/CategoryProducts.js';
 import { CategoryProductsFilter } from '@components/frontStore/catalog/CategoryProductsFilter.js';

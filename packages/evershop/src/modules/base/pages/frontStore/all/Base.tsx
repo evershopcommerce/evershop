@@ -1,18 +1,16 @@
 import Area from '@components/common/Area.js';
 import { LoadingBar } from '@components/common/LoadingBar.js';
-import React from 'react';
-import './tailwind.scss';
-import './Layout.scss';
 import {
   CartProvider,
   CartData
-} from '@components/frontStore/cart/cartContext.js';
+} from '@components/frontStore/cart/CartContext.js';
 import {
   CustomerProvider,
   Customer
-} from '@components/frontStore/customer/customerContext.js';
+} from '@components/frontStore/customer/CustomerContext.jsx';
 import { Footer } from '@components/frontStore/Footer.js';
 import { Header } from '@components/frontStore/Header.js';
+import React from 'react';
 
 interface BaseProps {
   myCart: CartData;
@@ -257,14 +255,43 @@ export const query = `
           text
         }
         items {
-          productName
+          uuid
           thumbnail
+          qty
+          productName
+          productSku
+          variantOptions {
+            attributeCode
+            attributeName
+            attributeId
+            optionId
+            optionText
+          }
+          productUrl
           productPrice {
             value
             text
           }
-          productSku
-          qty
+          productPriceInclTax {
+            value
+            text
+          }
+          finalPrice {
+            value
+            text
+          }
+          finalPriceInclTax {
+            value
+            text
+          }
+          lineTotal {
+            value
+            text
+          }
+          lineTotalInclTax {
+            value
+            text
+          }
         }
       }
     }

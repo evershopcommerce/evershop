@@ -1,5 +1,5 @@
 import Area from '@components/common/Area.js';
-import { useProduct } from '@components/frontStore/catalog/productContext.js';
+import { useProduct } from '@components/frontStore/catalog/ProductContext.js';
 import React from 'react';
 
 export const ProductSingleAttributes = () => {

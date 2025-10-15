@@ -23,6 +23,8 @@ interface NumberFieldProps {
   validation?: RegisterOptions;
   onChange?: (value: number | null) => void;
   wrapperClassName?: string;
+  prefixIcon?: React.ReactNode;
+  suffixIcon?: React.ReactNode;
 }
 
 export function NumberField({
@@ -30,7 +32,7 @@ export function NumberField({
   label,
   placeholder,
   className = '',
-  wrapperClassName = 'form-field',
+  wrapperClassName,
   required = false,
   disabled = false,
   min,
@@ -44,6 +46,8 @@ export function NumberField({
   helperText,
   validation,
   onChange,
+  prefixIcon,
+  suffixIcon,
   ...props
 }: NumberFieldProps) {
   const {
@@ -138,8 +142,39 @@ export function NumberField({
 
   const inputStep = step !== undefined ? step : allowDecimals ? 'any' : '1';
 
+  const hasIcons = prefixIcon || suffixIcon;
+  const baseInputClassName = `${fieldError ? 'error' : ''} ${
+    unit ? 'has-unit' : ''
+  } ${className || ''}`;
+  const iconInputClassName = `${fieldError !== undefined ? 'error' : ''} ${
+    className || ''
+  } ${hasIcons ? '!pr-3' : ''} ${prefixIcon ? '!pl-10' : ''} ${
+    suffixIcon ? '!pr-10' : ''
+  }`.trim();
+
+  const renderInput = (useIconStyles = false) => (
+    <input
+      id={fieldId}
+      type="number"
+      placeholder={placeholder}
+      disabled={disabled}
+      min={min}
+      max={max}
+      step={inputStep}
+      className={useIconStyles ? iconInputClassName : baseInputClassName}
+      aria-invalid={fieldError ? 'true' : 'false'}
+      aria-describedby={fieldError ? `${fieldId}-error` : undefined}
+      {...register(name, validationRules)}
+      onChange={(e) => {
+        register(name).onChange(e);
+        handleChange(e);
+      }}
+      {...props}
+    />
+  );
+
   return (
-    <div className={wrapperClassName}>
+    <div className={`form-field ${wrapperClassName || ''}`.trim()}>
       {label && (
         <label htmlFor={fieldId}>
           {label}
@@ -148,58 +183,34 @@ export function NumberField({
         </label>
       )}
 
-      {unit ? (
+      {hasIcons ? (
+        <div
+          className={`input__wrapper relative flex group items-center`.trim()}
+        >
+          {prefixIcon && (
+            <div className="prefix absolute left-3 z-10 flex items-center justify-center">
+              {prefixIcon}
+            </div>
+          )}
+          {renderInput(true)}
+          {suffixIcon && (
+            <div className="suffix absolute right-3 z-10 flex items-center justify-center">
+              {suffixIcon}
+            </div>
+          )}
+        </div>
+      ) : unit ? (
         <div className="number-field-container">
           {unitPosition === 'left' && (
             <span className="number-unit">{unit}</span>
           )}
-          <input
-            id={fieldId}
-            type="number"
-            placeholder={placeholder}
-            disabled={disabled}
-            min={min}
-            max={max}
-            step={inputStep}
-            className={`${fieldError ? 'error' : ''} ${
-              unit ? 'has-unit' : ''
-            } ${className || ''}`}
-            aria-invalid={fieldError ? 'true' : 'false'}
-            aria-describedby={fieldError ? `${fieldId}-error` : undefined}
-            {...register(name, validationRules)}
-            onChange={(e) => {
-              register(name).onChange(e);
-              handleChange(e);
-            }}
-            {...props}
-          />
+          {renderInput()}
           {unitPosition === 'right' && (
             <span className="number-unit">{unit}</span>
           )}
         </div>
       ) : (
-        <input
-          id={fieldId}
-          type="number"
-          placeholder={placeholder}
-          disabled={disabled}
-          min={min}
-          max={max}
-          step={inputStep}
-          className={`${fieldError !== undefined ? 'error' : ''} ${
-            className || ''
-          }`}
-          aria-invalid={fieldError !== undefined ? 'true' : 'false'}
-          aria-describedby={
-            fieldError !== undefined ? `${fieldId}-error` : undefined
-          }
-          {...register(name, validationRules)}
-          onChange={(e) => {
-            register(name).onChange(e);
-            handleChange(e);
-          }}
-          {...props}
-        />
+        renderInput()
       )}
 
       {fieldError && (

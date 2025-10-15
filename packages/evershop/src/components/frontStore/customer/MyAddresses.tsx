@@ -8,7 +8,7 @@ import {
   ExtendedCustomerAddress,
   useCustomer,
   useCustomerDispatch
-} from '@components/frontStore/customer/customerContext.js';
+} from '@components/frontStore/customer/CustomerContext.jsx';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { toast } from 'react-toastify';

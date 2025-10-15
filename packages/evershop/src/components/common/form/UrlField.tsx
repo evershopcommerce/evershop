@@ -19,18 +19,22 @@ interface UrlFieldProps<T extends FieldValues = FieldValues>
   validation?: RegisterOptions<T>;
   defaultValue?: string;
   wrapperClassName?: string;
+  prefixIcon?: React.ReactNode;
+  suffixIcon?: React.ReactNode;
 }
 
 export function UrlField<T extends FieldValues = FieldValues>({
   name,
   label,
   error,
-  wrapperClassName = 'form-field',
+  wrapperClassName,
   helperText,
   required,
   validation,
   defaultValue,
   className,
+  prefixIcon,
+  suffixIcon,
   ...props
 }: UrlFieldProps<T>) {
   const {
@@ -53,8 +57,29 @@ export function UrlField<T extends FieldValues = FieldValues>({
     }
   };
 
+  const hasIcons = prefixIcon || suffixIcon;
+  const inputClassName = `${fieldError !== undefined ? 'error' : ''} ${
+    className || ''
+  } ${hasIcons ? '!pr-3' : ''} ${prefixIcon ? '!pl-10' : ''} ${
+    suffixIcon ? '!pr-10' : ''
+  }`.trim();
+
+  const renderInput = () => (
+    <input
+      id={fieldId}
+      type="url"
+      {...register(name, validationRules)}
+      className={inputClassName}
+      aria-invalid={fieldError !== undefined ? 'true' : 'false'}
+      aria-describedby={
+        fieldError !== undefined ? `${fieldId}-error` : undefined
+      }
+      {...props}
+    />
+  );
+
   return (
-    <div className={wrapperClassName}>
+    <div className={`form-field ${wrapperClassName || ''}`.trim()}>
       {label && (
         <label htmlFor={fieldId}>
           {label}
@@ -63,19 +88,25 @@ export function UrlField<T extends FieldValues = FieldValues>({
         </label>
       )}
 
-      <input
-        id={fieldId}
-        type="url"
-        {...register(name, validationRules)}
-        className={`${fieldError !== undefined ? 'error' : ''} ${
-          className || ''
-        }`}
-        aria-invalid={fieldError !== undefined ? 'true' : 'false'}
-        aria-describedby={
-          fieldError !== undefined ? `${fieldId}-error` : undefined
-        }
-        {...props}
-      />
+      {hasIcons ? (
+        <div
+          className={`input__wrapper relative flex group items-center`.trim()}
+        >
+          {prefixIcon && (
+            <div className="prefix absolute left-3 z-10 flex items-center justify-center">
+              {prefixIcon}
+            </div>
+          )}
+          {renderInput()}
+          {suffixIcon && (
+            <div className="suffix absolute right-3 z-10 flex items-center justify-center">
+              {suffixIcon}
+            </div>
+          )}
+        </div>
+      ) : (
+        renderInput()
+      )}
 
       {fieldError && (
         <p id={`${fieldId}-error`} className="field-error">

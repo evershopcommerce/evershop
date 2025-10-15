@@ -1,6 +1,7 @@
 import { Card } from '@components/admin/Card.js';
 import Area from '@components/common/Area.js';
 import { InputField } from '@components/common/form/InputField.js';
+import { TextareaField } from '@components/common/form/TextareaField.js';
 import React from 'react';
 
 interface CategorySeoProps {
@@ -54,7 +55,7 @@ export default function Seo({ category }: CategorySeoProps) {
     {
       component: {
         default: (
-          <InputField
+          <TextareaField
             name="meta_description"
             label="Meta description"
             placeholder="Enter Meta description"

@@ -26,7 +26,7 @@ export function RangeField<T extends FieldValues = FieldValues>({
   name,
   label,
   error,
-  wrapperClassName = 'form-field',
+  wrapperClassName,
   helperText,
   required,
   validation,
@@ -57,7 +57,9 @@ export function RangeField<T extends FieldValues = FieldValues>({
   } as const;
 
   return (
-    <div className={`${wrapperClassName} ${fieldError ? 'error' : ''}`}>
+    <div
+      className={`form-field ${wrapperClassName} ${fieldError ? 'error' : ''}`}
+    >
       {label && (
         <label htmlFor={fieldId}>
           {label}

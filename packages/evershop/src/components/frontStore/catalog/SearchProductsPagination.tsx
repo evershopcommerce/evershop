@@ -1,5 +1,5 @@
 import { Area } from '@components/common/index.js';
-import { useSearch } from '@components/frontStore/catalog/searchContext.js';
+import { useSearch } from '@components/frontStore/catalog/SearchContext.js';
 import {
   Pagination,
   DefaultPaginationRenderer

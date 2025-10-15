@@ -120,7 +120,7 @@ const RenderEditorJS: React.FC<{
   columnSize: number; // Renamed from 'size' to 'columnSize' for clarity
 }> = ({ blocks, columnSize }) => {
   return (
-    <div className="prose prose-base max-w-none">
+    <div className="prose prose-base max-w-none text-base">
       {blocks.map((block, index) => {
         switch (block.type) {
           case 'paragraph':

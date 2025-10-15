@@ -1,7 +1,7 @@
 import Area from '@components/common/Area.js';
 import { Editor } from '@components/common/Editor.js';
 import { Image } from '@components/common/Image.js';
-import { useCategory } from '@components/frontStore/catalog/categoryContext.js';
+import { useCategory } from '@components/frontStore/catalog/CategoryContext.js';
 import React from 'react';
 
 export function CategoryInfo() {

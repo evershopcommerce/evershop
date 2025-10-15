@@ -11,7 +11,7 @@ interface BreadcrumbProps {
 
 function Breadcrumb({ pageInfo: { breadcrumbs } }: BreadcrumbProps) {
   return breadcrumbs.length ? (
-    <div className="breadcrumb page-width my-5">
+    <div className="breadcrumb page-width py-5">
       {breadcrumbs.map((breadcrumb, index) =>
         index === breadcrumbs.length - 1 ? (
           <span key={index}>{breadcrumb.title}</span>

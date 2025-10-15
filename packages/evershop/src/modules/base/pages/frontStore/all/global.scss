@@ -179,14 +179,6 @@ h6 {
 .wrapper .content {
   min-height: calc(100vh - 50px);
 }
-.header {
-  padding: 1rem;
-  border-bottom: 1px solid #ebebeb;
-  @media only screen and (min-width: 1200px) {
-    padding-left: 50px;
-    padding-right: 50px;
-  }
-}
 
 .container {
   margin: 0 auto;
@@ -200,21 +192,6 @@ h6 {
   }
 }
 
-.footer {
-  background-color: #f6f6f6;
-  margin-top: 5.625rem;
-  padding-top: 0.625rem;
-  padding-block-end: 0.625rem;
-  border-top: 1px solid #ddd;
-  .card-icons {
-    svg {
-      height: 2.5rem;
-    }
-  }
-  .copyright {
-    font-size: 13px;
-  }
-}
 table {
   width: 100%;
   border-collapse: collapse;
@@ -240,21 +217,4 @@ table {
       padding-bottom: 1.25rem;
     }
   }
-}
-
-button.outline {
-  outline: none;
-}
-
-.editor__html {
-  a {
-    color: var(--interactive);
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-html .prose {
-  font-size: 100%;
 }
