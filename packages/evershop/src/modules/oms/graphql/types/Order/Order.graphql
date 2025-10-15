@@ -42,7 +42,7 @@ type OrderItem {
   lineTotalInclTax: Price!
   total: Price! # Deprecated, this field is equivalent to lineTotalInclTax
   variantGroupId: Int
-  variantOptions: String
+  variantOptions: [VariantOption]
   productCustomOptions: String
   productUrl: String
 }

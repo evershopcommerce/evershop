@@ -120,6 +120,17 @@ export default {
       lineTotalInclTax,
     subTotal: ({ lineTotal }) =>
       // This field is deprecated, use lineTotal instead
-      lineTotal
+      lineTotal,
+    variantOptions: ({ variantOptions }) => {
+      try {
+        return JSON.parse(variantOptions || '[]').map((option) => ({
+          ...camelCase(option),
+          attributeId: parseInt(option.attribute_id, 10),
+          optionId: parseInt(option.option_id, 10)
+        }));
+      } catch (error) {
+        return [];
+      }
+    }
   }
 };
