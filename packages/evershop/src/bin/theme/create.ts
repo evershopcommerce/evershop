@@ -109,8 +109,11 @@ async function createTheme() {
           '@components/*': (await isRealDirectory(
             path.join(process.cwd(), 'node_modules', '@evershop', 'evershop')
           ))
-            ? ['../../node_modules/@evershop/evershop/src/components/*']
-            : ['../../packages/evershop/src/components/*']
+            ? [
+                './src/components/*',
+                '../../node_modules/@evershop/evershop/src/components/*'
+              ]
+            : ['./src/components/*', '../../packages/evershop/src/components/*']
         }
       },
       include: ['src']
