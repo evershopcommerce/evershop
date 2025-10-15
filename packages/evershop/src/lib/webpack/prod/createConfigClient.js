@@ -84,7 +84,8 @@ export function createConfigClient(routes) {
   plugins.push(new WebpackBar({ name: 'Client' }));
   plugins.push(
     new MiniCssExtractPlugin({
-      filename: '[name]/client/[fullhash].css'
+      filename: '[name]/client/[contenthash].css',
+      chunkFilename: '[name]/client/[id].[contenthash].css'
     })
   );
 
@@ -144,7 +145,10 @@ export function createConfigClient(routes) {
           chunks: 'all',
           enforce: true,
           priority: 10
-        }
+        },
+        // Default group to prevent CSS duplication across chunks
+        default: false,
+        defaultVendors: false
       }
     }
   };
