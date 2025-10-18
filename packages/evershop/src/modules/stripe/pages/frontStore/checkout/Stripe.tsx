@@ -88,7 +88,7 @@ const TestCards: React.FC<{
             <rect x="116.25" y="12.61" width="2.73" height="9.64" />
           </svg>
         </div>
-        <div className="self-center flex space-x-2">
+        <div className="self-center flex space-x-2 pb-2">
           <Button
             onAction={testSuccess}
             title="Test success"
