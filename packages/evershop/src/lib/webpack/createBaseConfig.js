@@ -169,10 +169,6 @@ export function createBaseConfig(isServer) {
     CONSTANTS.ROOTPATH,
     'node_modules/react-dom'
   );
-  alias['@test'] = [
-    path.resolve(theme.path, 'dist/components'),
-    path.resolve(CONSTANTS.ROOTPATH, 'node_modules/simple-react-package/dist')
-  ];
   alias['webpack-hot-middleware'] = path.resolve(
     CONSTANTS.ROOTPATH,
     'node_modules/webpack-hot-middleware'

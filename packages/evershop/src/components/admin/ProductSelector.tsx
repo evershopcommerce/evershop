@@ -20,7 +20,7 @@ const SearchQuery = `
           }
         }
         image {
-          url: thumb
+          url
         }
       }
       total

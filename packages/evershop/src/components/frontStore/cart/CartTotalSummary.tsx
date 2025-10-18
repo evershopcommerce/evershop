@@ -117,16 +117,21 @@ const Shipping: React.FC<{
 }> = ({ method, cost, loading = false }) => {
   return (
     <div className="summary-row flex justify-between gap-7 py-2">
-      <span>{_('Shipping')}</span>
       {method && (
-        <div>
-          <SkeletonValue loading={loading}>{cost}</SkeletonValue>
-        </div>
+        <>
+          <span>{_('Shipping (${method})', { method })}</span>
+          <div>
+            <SkeletonValue loading={loading}>{cost}</SkeletonValue>
+          </div>
+        </>
       )}
       {!method && (
-        <span className="text-gray-500 italic font-normal">
-          {_('Select shipping method')}
-        </span>
+        <>
+          <span>{_('Shipping')}</span>
+          <span className="text-gray-500 italic font-normal">
+            {_('Select shipping method')}
+          </span>
+        </>
       )}
     </div>
   );

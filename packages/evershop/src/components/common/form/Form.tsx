@@ -113,14 +113,16 @@ export function Form<T extends FieldValues = FieldValues>({
         <fieldset disabled={loading}>{children}</fieldset>
 
         {submitBtn && (
-          <Button
-            title={submitBtnText}
-            type="submit"
-            onAction={() => {
-              handleSubmit(handleFormSubmit);
-            }}
-            isLoading={isSubmitting || loading}
-          />
+          <div className="mt-4">
+            <Button
+              title={submitBtnText}
+              type="submit"
+              onAction={() => {
+                handleSubmit(handleFormSubmit);
+              }}
+              isLoading={isSubmitting || loading}
+            />
+          </div>
         )}
       </form>
     </FormProvider>

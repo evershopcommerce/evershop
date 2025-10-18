@@ -1,12 +1,13 @@
 import React from 'react';
 
-const ProductNoThumbnail: React.FC<{ width?: number; height?: number }> = ({
-  width,
-  height
-}) => {
+const ProductNoThumbnail: React.FC<{
+  width?: number;
+  height?: number;
+  className?: string;
+}> = ({ width, height, className }) => {
   return (
     <svg
-      className="max-w-full"
+      className={`max-w-full ${className}`}
       width={width || 100}
       height={height || 100}
       viewBox="0 0 251 276"
