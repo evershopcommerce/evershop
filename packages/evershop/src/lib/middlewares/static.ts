@@ -1,4 +1,5 @@
-import { existsSync, statSync } from 'fs';
+import { constants } from 'fs';
+import { access, stat } from 'fs/promises';
 import { join, normalize, extname } from 'path';
 import staticMiddleware from 'serve-static';
 import { EvershopRequest } from '../..//types/request.js';
@@ -45,14 +46,28 @@ const ALLOWED_EXTENSIONS = [
 ];
 
 /**
+ * Checks if a path exists and is accessible
+ * @param {string} path - Path to check
+ * @returns {Promise<boolean>} True if the path exists and is accessible
+ */
+const pathExists = async (path: string): Promise<boolean> => {
+  try {
+    await access(path, constants.F_OK);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+/**
  * Validates if the path is a valid file and its extension is allowed
  * @param {string} fullPath - Full path to the file
- * @returns {boolean} True if the path is valid and allowed
+ * @returns {Promise<boolean>} True if the path is valid and allowed
  */
-const isValidFile = (fullPath) => {
+const isValidFile = async (fullPath: string): Promise<boolean> => {
   try {
     // Check if file exists and is a file (not a directory)
-    const stats = statSync(fullPath);
+    const stats = await stat(fullPath);
     if (!stats.isFile()) {
       return false;
     }
@@ -74,7 +89,11 @@ const staticMiddlewareOptions = {
   }
 };
 
-export default (request: EvershopRequest, response: EvershopResponse, next) => {
+export default async (
+  request: EvershopRequest,
+  response: EvershopResponse,
+  next
+) => {
   let path;
   if (request.isAdmin === true) {
     path = normalize(request.originalUrl.replace('/admin/assets/', ''));
@@ -101,7 +120,7 @@ export default (request: EvershopRequest, response: EvershopResponse, next) => {
 
   // Check build path
   const buildPath = join(CONSTANTS.ROOTPATH, '.evershop/build', path);
-  if (existsSync(buildPath) && isValidFile(buildPath)) {
+  if ((await pathExists(buildPath)) && (await isValidFile(buildPath))) {
     return staticMiddleware(
       join(CONSTANTS.ROOTPATH, '.evershop/build'),
       staticMiddlewareOptions
@@ -110,7 +129,7 @@ export default (request: EvershopRequest, response: EvershopResponse, next) => {
 
   // Check media path
   const mediaPath = join(CONSTANTS.MEDIAPATH, path);
-  if (existsSync(mediaPath) && isValidFile(mediaPath)) {
+  if ((await pathExists(mediaPath)) && (await isValidFile(mediaPath))) {
     return staticMiddleware(CONSTANTS.MEDIAPATH, staticMiddlewareOptions)(
       request,
       response,
@@ -120,7 +139,7 @@ export default (request: EvershopRequest, response: EvershopResponse, next) => {
 
   // Check public path
   const publicPath = join(CONSTANTS.ROOTPATH, 'public', path);
-  if (existsSync(publicPath) && isValidFile(publicPath)) {
+  if ((await pathExists(publicPath)) && (await isValidFile(publicPath))) {
     return staticMiddleware(
       join(CONSTANTS.ROOTPATH, 'public'),
       staticMiddlewareOptions

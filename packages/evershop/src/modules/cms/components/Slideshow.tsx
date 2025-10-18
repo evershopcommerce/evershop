@@ -2,7 +2,6 @@ import { Image } from '@components/common/Image.js';
 import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 function PrevArrow(props: any) {
   const { onClick } = props;
@@ -118,7 +117,7 @@ export default function Slideshow({
     autoplay: Boolean(autoplay),
     autoplaySpeed: Number(autoplaySpeed) || 3000,
     arrows: Boolean(arrows),
-    fade: true,
+    fade: false,
     pauseOnHover: true,
     adaptiveHeight: true,
     nextArrow: arrows ? <NextArrow /> : undefined,
@@ -155,7 +154,7 @@ export default function Slideshow({
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className="relative h-[28rem] lg:h-auto slide__wrapper !block"
+            className="relative lg:h-auto slide__wrapper !block"
             style={{ display: 'block' }}
           >
             <div className="relative w-full h-full">

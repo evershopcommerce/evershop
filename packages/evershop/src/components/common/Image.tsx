@@ -72,7 +72,8 @@ export function Image({
     // Modern responsive image approach
     maxWidth: '100%', // Ensure image doesn't exceed its container
     height: 'auto', // Maintain aspect ratio
-    objectFit: objectFit
+    objectFit: objectFit,
+    aspectRatio: `${width} / ${height}` // Maintain aspect ratio
   };
 
   return (

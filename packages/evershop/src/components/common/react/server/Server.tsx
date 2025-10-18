@@ -13,8 +13,8 @@ function ServerHtml({ css, js, appContext }: ServerHtmlProps) {
       <head>
         <meta charSet="utf-8" />
         <script dangerouslySetInnerHTML={{ __html: appContext }} />
-        {css.map((src, index) => (
-          <link href={src} rel="stylesheet" key={index} />
+        {css.map((source, index) => (
+          <style key={index} dangerouslySetInnerHTML={{ __html: source }} />
         ))}
         <Area noOuter id="head" />
       </head>

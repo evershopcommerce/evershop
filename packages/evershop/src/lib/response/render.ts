@@ -114,6 +114,19 @@ function renderProduction(request, response) {
     get(response, 'locals.graphqlResponse', {}),
     { pageMeta }
   );
+  const cssList = [] as string[];
+  for (let i = 0; i < assets.css.length; i++) {
+    const cssFilePath = path.resolve(
+      getRouteBuildPath(route),
+      'client',
+      path.basename(assets.css[i])
+    );
+    if (fs.existsSync(cssFilePath)) {
+      const cssContent = fs.readFileSync(cssFilePath, 'utf8');
+      // Inline the css content to reduce the number of requests
+      cssList.push(cssContent);
+    }
+  }
   const contextValue = {
     graphqlResponse: pageData,
     propsMap: get(response, 'locals.propsMap', {}),
@@ -127,7 +140,7 @@ function renderProduction(request, response) {
   import(pathToFileURL(serverIndexPath).toString())
     .then((module) => {
       const source = processPreloadImages(
-        module.default(assets.js, assets.css, safeContextValue, langCode)
+        module.default(assets.js, cssList, safeContextValue, langCode)
       );
       response.send(source);
     })
