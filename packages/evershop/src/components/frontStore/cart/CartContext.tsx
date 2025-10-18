@@ -44,6 +44,7 @@ export enum CartSyncTrigger {
 
 export interface CartItem {
   cartItemId: string;
+  uuid: string;
   qty: number;
   productSku: string;
   productName: string;

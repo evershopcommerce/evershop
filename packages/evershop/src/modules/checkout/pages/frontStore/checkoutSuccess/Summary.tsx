@@ -1,7 +1,7 @@
 import React from 'react';
 import './Summary.scss';
-import { CartSummaryItemsList } from '@components/frontStore/cart/CartSummaryItems.js';
-import { DefaultCartSummary } from '@components/frontStore/cart/CartTotalSummary.js';
+import { OrderSummaryItems } from '@components/frontStore/checkout/OrderSummaryItems.js';
+import { OrderTotalSummary } from '@components/frontStore/checkout/OrderTotalSummary.js';
 import { Order } from '@components/frontStore/customer/CustomerContext.jsx';
 
 interface SummaryProps {
@@ -17,13 +17,11 @@ export default function Summary({
 }: SummaryProps) {
   return (
     <div className="checkout__summary h-full hidden md:block">
-      <CartSummaryItemsList
+      <OrderSummaryItems
         items={order.items}
-        loading={false}
         showPriceIncludingTax={priceIncludingTax}
       />
-      <DefaultCartSummary
-        loading={false}
+      <OrderTotalSummary
         showPriceIncludingTax={priceIncludingTax}
         shippingCost={order.shippingFeeInclTax.text}
         subTotal={order.subTotal.text}

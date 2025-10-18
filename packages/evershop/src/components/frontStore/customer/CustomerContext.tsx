@@ -21,6 +21,7 @@ type ExtendedCustomerAddress = CustomerAddressGraphql & {
 
 export interface OrderItem {
   orderItemId: string;
+  uuid: string;
   qty: number;
   productSku: string;
   productName: string;
