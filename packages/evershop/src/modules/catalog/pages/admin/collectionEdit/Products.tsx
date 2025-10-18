@@ -23,7 +23,7 @@ const ProductsQuery = `
             }
           }
           image {
-            url: thumb
+            url
           }
           editUrl
           removeFromCollectionUrl
