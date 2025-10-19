@@ -1,7 +1,6 @@
 import { Card } from '@components/admin/Card.js';
 import Spinner from '@components/admin/Spinner.js';
 import { NumberField } from '@components/common/form/NumberField.js';
-import { SimplePagination } from '@components/common/SimplePagination.js';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useQuery } from 'urql';
@@ -123,27 +122,25 @@ function CollectionProductsSetting({
               {data.collections.items.map((collection) => (
                 <div
                   key={collection.uuid}
-                  className="grid grid-cols-8 gap-5 py-2 border-divider items-center"
+                  className="grid grid-cols-8 gap-5 py-3 border-divider items-center"
                 >
                   <div className="col-span-6">
                     <h3>{collection.name}</h3>
                   </div>
-                  <div className="col-span-2 text-right">
-                    <div className="flex items-center radio-item form-field">
-                      <input
-                        type="radio"
-                        checked={collection.code === selectedCollection}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedCollection(collection.code);
-                            setValue('settings[collection]', collection.code, {
-                              shouldDirty: true
-                            });
-                          }
-                        }}
-                        className="ml-2"
-                      />
-                    </div>
+                  <div className="col-span-2 flex items-center justify-end">
+                    <input
+                      type="radio"
+                      checked={collection.code === selectedCollection}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedCollection(collection.code);
+                          setValue('settings[collection]', collection.code, {
+                            shouldDirty: true
+                          });
+                        }
+                      }}
+                      className="ml-2 w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
                   </div>
                 </div>
               ))}
@@ -173,17 +170,6 @@ function CollectionProductsSetting({
               placeholder="Number of products per row"
             />
           </div>
-        </div>
-      </Card.Session>
-      <Card.Session>
-        <div className="flex justify-between gap-5">
-          <SimplePagination
-            total={data?.collections.total}
-            count={data?.collections?.items?.length || 0}
-            page={page}
-            hasNext={limit * page < data?.collections.total}
-            setPage={setPage}
-          />
         </div>
       </Card.Session>
     </div>
