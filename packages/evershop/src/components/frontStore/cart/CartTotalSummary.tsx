@@ -1,4 +1,5 @@
 import Area from '@components/common/Area.js';
+import { useAppState } from '@components/common/context/app.js';
 import { useCartState } from '@components/frontStore/cart/CartContext.js';
 import { CouponForm } from '@components/frontStore/CouponForm.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
@@ -205,11 +206,12 @@ interface CartTotalSummaryProps {
 }
 
 function CartTotalSummary({ children }: CartTotalSummaryProps) {
+  const { data: cart, loadingStates } = useCartState();
   const {
-    data: cart,
-    loadingStates,
-    setting: { priceIncludingTax }
-  } = useCartState();
+    config: {
+      tax: { priceIncludingTax }
+    }
+  } = useAppState();
 
   const subTotal = priceIncludingTax
     ? cart?.subTotalInclTax?.text || ''

@@ -1,4 +1,5 @@
 import Area from '@components/common/Area.js';
+import { useAppState } from '@components/common/context/app.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
@@ -100,7 +101,6 @@ const Shipping: React.FC<{
 };
 
 const OrderTotalSummary: React.FC<{
-  showPriceIncludingTax: boolean;
   subTotal: string;
   discountAmount: string;
   coupon: string | undefined;
@@ -109,7 +109,6 @@ const OrderTotalSummary: React.FC<{
   taxAmount: string;
   total: string;
 }> = ({
-  showPriceIncludingTax,
   subTotal,
   discountAmount,
   coupon,
@@ -117,28 +116,35 @@ const OrderTotalSummary: React.FC<{
   shippingCost,
   taxAmount,
   total
-}) => (
-  <div className="order__total__summary font-semibold">
-    <Area id="orderSummaryBeforeSubTotal" noOuter />
-    <Subtotal subTotal={subTotal} />
-    <Area id="orderSummaryAfterSubTotal" noOuter />
-    <Area id="orderSummaryBeforeDiscount" noOuter />
-    <Discount discountAmount={discountAmount} coupon={coupon} />
-    <Area id="orderSummaryAfterDiscount" noOuter />
-    <Area id="orderSummaryBeforeShipping" noOuter />
-    <Shipping method={shippingMethod} cost={shippingCost} />
-    <Area id="orderSummaryAfterShipping" noOuter />
-    <Area id="orderSummaryBeforeTax" noOuter />
-    <Tax amount={taxAmount} showPriceIncludingTax={showPriceIncludingTax} />
-    <Area id="orderSummaryAfterTax" noOuter />
-    <Area id="orderSummaryBeforeTotal" noOuter />
-    <Total
-      total={total}
-      totalTaxAmount={taxAmount}
-      priceIncludingTax={showPriceIncludingTax}
-    />
-    <Area id="orderSummaryAfterTotal" noOuter />
-  </div>
-);
+}) => {
+  const {
+    config: {
+      tax: { priceIncludingTax }
+    }
+  } = useAppState();
+  return (
+    <div className="order__total__summary font-semibold">
+      <Area id="orderSummaryBeforeSubTotal" noOuter />
+      <Subtotal subTotal={subTotal} />
+      <Area id="orderSummaryAfterSubTotal" noOuter />
+      <Area id="orderSummaryBeforeDiscount" noOuter />
+      <Discount discountAmount={discountAmount} coupon={coupon} />
+      <Area id="orderSummaryAfterDiscount" noOuter />
+      <Area id="orderSummaryBeforeShipping" noOuter />
+      <Shipping method={shippingMethod} cost={shippingCost} />
+      <Area id="orderSummaryAfterShipping" noOuter />
+      <Area id="orderSummaryBeforeTax" noOuter />
+      <Tax amount={taxAmount} showPriceIncludingTax={priceIncludingTax} />
+      <Area id="orderSummaryAfterTax" noOuter />
+      <Area id="orderSummaryBeforeTotal" noOuter />
+      <Total
+        total={total}
+        totalTaxAmount={taxAmount}
+        priceIncludingTax={priceIncludingTax}
+      />
+      <Area id="orderSummaryAfterTotal" noOuter />
+    </div>
+  );
+};
 
 export { OrderTotalSummary, Subtotal, Discount, Shipping, Tax, Total };

@@ -1,16 +1,20 @@
 import isErrorHandlerTriggered from '../../../../lib/middleware/isErrorHandlerTriggered.js';
 import { render } from '../../../../lib/response/render.js';
 import { get } from '../../../../lib/util/get.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
 import isDevelopmentMode from '../../../../lib/util/isDevelopmentMode.js';
+import { getValueSync } from '../../../../lib/util/registry.js';
 import {
   getPageMetaInfo,
   setPageMetaInfo
 } from '../../../../modules/cms/services/pageMetaInfo.js';
+import { AppStateContextValue, Config } from '../../../../types/appContext.js';
+import { EvershopRequest } from '../../../../types/request.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getNotifications } from '../../services/notifications.js';
 
-export default async (request, response, next) => {
+export default async (request: EvershopRequest, response, next) => {
   try {
     /** If a rejected middleware called next(error) without throwing an error */
     if (isErrorHandlerTriggered(response)) {
@@ -48,9 +52,9 @@ export default async (request, response, next) => {
           const newWidget = {
             sortOrder: widget.sortOrder,
             areaId: widget.areaId,
-            type: widget.type
+            type: widget.type,
+            id: `e${widget.uuid.replace(/-/g, '')}`
           };
-          newWidget.id = `e${widget.uuid.replace(/-/g, '')}`;
           if (route.isAdmin) {
             newWidget.areaId = 'widget_setting_form';
           }
@@ -64,19 +68,44 @@ export default async (request, response, next) => {
           (request.query && request.query.ajax === 'true')
         ) {
           const pageMeta = getPageMetaInfo(request);
-          const pageData = Object.assign(
-            {},
-            get(response, 'locals.graphqlResponse', {}),
-            { pageMeta }
+          const appConfig = getValueSync<Config>(
+            'appConfig',
+            {
+              tax: {
+                priceIncludingTax: getConfig<boolean>(
+                  'pricing.tax.price_including_tax',
+                  false
+                )
+              },
+              catalog: {
+                imageDimensions: {
+                  width: getConfig<number>('catalog.product.image.width', 1200),
+                  height: getConfig<number>(
+                    'catalog.product.image.height',
+                    1200
+                  )
+                }
+              },
+              pageMeta: pageMeta
+            },
+            { request, response },
+            (value) =>
+              value && typeof value === 'object' && !Array.isArray(value)
           );
+          const config = Object.assign({}, appConfig, { pageMeta });
+
           response.json({
             success: true,
             eContext: {
-              graphqlResponse: pageData,
+              graphqlResponse: get<Record<string, any>>(
+                response,
+                'locals.graphqlResponse',
+                {}
+              ),
+              config: config,
               propsMap: get(response, 'locals.propsMap', {}),
-              widgets: widgetInstances,
-              notifications: getNotifications(request)
-            }
+              widgets: widgetInstances
+            } as AppStateContextValue
           });
         } else {
           render(request, response);

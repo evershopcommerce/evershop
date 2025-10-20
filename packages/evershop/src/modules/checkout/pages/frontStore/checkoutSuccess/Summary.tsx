@@ -6,23 +6,13 @@ import { Order } from '@components/frontStore/customer/CustomerContext.jsx';
 
 interface SummaryProps {
   order: Order;
-  setting: {
-    priceIncludingTax: boolean;
-  };
 }
 
-export default function Summary({
-  order,
-  setting: { priceIncludingTax }
-}: SummaryProps) {
+export default function Summary({ order }: SummaryProps) {
   return (
     <div className="checkout__summary h-full hidden md:block">
-      <OrderSummaryItems
-        items={order.items}
-        showPriceIncludingTax={priceIncludingTax}
-      />
+      <OrderSummaryItems items={order.items} />
       <OrderTotalSummary
-        showPriceIncludingTax={priceIncludingTax}
         shippingCost={order.shippingFeeInclTax.text}
         subTotal={order.subTotal.text}
         total={order.grandTotal.text}
@@ -91,9 +81,6 @@ export const query = `
           text
         }
       }
-    }
-    setting {
-      priceIncludingTax
     }
   }
 `;
