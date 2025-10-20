@@ -1,6 +1,6 @@
 import { CustomerAddressForm } from '@components/frontStore/customer/address/addressForm/AddressForm.js';
 import { AddressFormLoadingSkeleton } from '@components/frontStore/customer/address/addressForm/AddressFormLoadingSkeleton.js';
-import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress.js';
+import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress';
 import React from 'react';
 import { useQuery } from 'urql';
 

@@ -1,6 +1,6 @@
 import { useCheckout } from '@components/frontStore/checkout/CheckoutContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress.js';
+import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress';
 import React from 'react';
 
 interface ShippingMethod {

@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@components/common/context/app.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress.js';
+import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress';
 import { produce } from 'immer';
 import React, {
   createContext,
@@ -63,6 +63,7 @@ export interface OrderItem {
 export interface Order {
   orderId: number;
   uuid: string;
+  status: string;
   orderNumber: string;
   customerId?: number;
   customerGroupId?: number;
@@ -121,6 +122,10 @@ interface Customer {
   addresses: ExtendedCustomerAddress[];
   orders: Order[];
   addAddressApi: string;
+  createdAt: {
+    value: string;
+    text: string;
+  };
   [key: string]: any;
 }
 

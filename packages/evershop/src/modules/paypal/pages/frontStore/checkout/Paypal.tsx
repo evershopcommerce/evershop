@@ -3,7 +3,7 @@ import {
   useCheckoutDispatch
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { ApiResponse } from '@evershop/evershop/types/apiResponse.js';
+import { ApiResponse } from '@evershop/evershop/types/apiResponse';
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
