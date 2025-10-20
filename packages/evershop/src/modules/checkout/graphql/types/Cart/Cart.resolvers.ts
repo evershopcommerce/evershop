@@ -74,10 +74,7 @@ export default {
   },
   CartItem: {
     thumbnail: ({ thumbnail }) => {
-      const port = normalizePort();
-      const baseUrl = getConfig('shop.homeUrl', `http://localhost:${port}`);
-      const thumbnailUrl = `${baseUrl}${thumbnail}`;
-      return thumbnail ? thumbnailUrl : null;
+      return thumbnail;
     },
     total: ({ lineTotalInclTax }) =>
       // This field is deprecated, use lineTotalInclTax instead

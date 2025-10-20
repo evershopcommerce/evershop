@@ -1,9 +1,9 @@
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { ApiResponse } from '@evershop/evershop/types/apiResponse.js';
+import { ApiResponse } from '@evershop/evershop/types/apiResponse';
 import {
   CustomerAddressGraphql,
   Address
-} from '@evershop/evershop/types/customerAddress.js';
+} from '@evershop/evershop/types/customerAddress';
 import { produce } from 'immer';
 import React, {
   createContext,
@@ -188,9 +188,6 @@ export interface CartData {
 export interface CartState {
   data: CartData; // Cart data, can be undefined if not initialized
   loading: boolean; // Overall loading state (true if any operation is loading) - derived from loadingStates
-  setting: {
-    priceIncludingTax: boolean;
-  };
   loadingStates: {
     addingItem: boolean;
     removingItem: string | null; // Item ID being removed, null if none
@@ -338,9 +335,6 @@ interface CartProviderProps {
   children: ReactNode;
   query: string;
   cart?: CartData;
-  setting: {
-    priceIncludingTax: boolean;
-  };
   addMineCartItemApi: string;
 }
 
@@ -372,9 +366,6 @@ const initialEmptyState: CartState = {
     availablePaymentMethods: [],
     availableShippingMethods: []
   },
-  setting: {
-    priceIncludingTax: false
-  },
   loading: false,
   loadingStates: {
     addingItem: false,
@@ -400,13 +391,11 @@ export const CartProvider = ({
   children,
   query,
   cart,
-  setting,
   addMineCartItemApi
 }: CartProviderProps) => {
   const client = useClient(); // Get urql client for GraphQL queries
 
   const hydratedInitialState: Partial<CartState> = {
-    setting: setting,
     loading: initialEmptyState.loading,
     loadingStates: { ...initialEmptyState.loadingStates },
     syncStatus: { ...initialEmptyState.syncStatus }

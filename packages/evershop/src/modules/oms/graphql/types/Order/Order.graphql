@@ -68,6 +68,7 @@ type Order implements ShoppingCart {
   coupon: String
   shippingFeeExclTax: Price!
   shippingFeeInclTax: Price!
+  shippingTaxAmount: Price!
   discountAmount: Price!
   subTotal: Price!
   subTotalInclTax: Price!
@@ -87,7 +88,7 @@ type Order implements ShoppingCart {
   paymentStatus: PaymentStatus
   shippingNote: String
   createdAt: Date!
-  updatedAt: String!
+  updatedAt: Date!
   activities: [Activity]
   shipment: Shipment
 }

@@ -45,6 +45,26 @@ export function registerCartBaseFields(fields) {
       ]
     },
     {
+      key: 'created_at',
+      resolvers: [
+        async function resolver() {
+          const createdAt = this.getData('created_at');
+          return createdAt;
+        }
+      ],
+      dependencies: ['cart_id']
+    },
+    {
+      key: 'updated_at',
+      resolvers: [
+        async function resolver() {
+          const updatedAt = this.getData('updated_at');
+          return updatedAt;
+        }
+      ],
+      dependencies: ['cart_id']
+    },
+    {
       key: 'user_ip',
       resolvers: [
         async function resolver(ip) {
