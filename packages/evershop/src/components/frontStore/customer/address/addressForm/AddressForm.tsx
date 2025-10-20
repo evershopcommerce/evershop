@@ -4,7 +4,7 @@ import { SelectField } from '@components/common/form/SelectField.js';
 import { NameAndTelephone } from '@components/frontStore/customer/address/addressForm/NameAndTelephone.js';
 import { ProvinceAndPostcode } from '@components/frontStore/customer/address/addressForm/ProvinceAndPostcode.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress.js';
+import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 

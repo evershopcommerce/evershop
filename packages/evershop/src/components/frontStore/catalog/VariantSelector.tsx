@@ -145,7 +145,7 @@ export function VariantSelector({
 }: VariantsProps) {
   const { variantGroup: vs, productId } = useProduct();
   const {
-    graphqlResponse: {
+    config: {
       pageMeta: {
         route: { url: currentProductUrl }
       }

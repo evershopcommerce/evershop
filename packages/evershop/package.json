@@ -11,12 +11,13 @@
   "bin": {
     "evershop": "./dist/bin/evershop.js"
   },
-  "main": "./dist/types/index.js",
-  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/types/index.js",
       "types": "./dist/types/index.d.ts"
+    },
+    "./types/*": {
+      "types": "./dist/types/*.d.ts"
     },
     "./lib/helpers": {
       "import": "./dist/lib/helpers.js",

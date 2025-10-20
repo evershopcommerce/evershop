@@ -4,6 +4,7 @@ import { pathToFileURL } from 'url';
 import jsesc from 'jsesc';
 import { getNotifications } from '../../modules/base/services/notifications.js';
 import { getPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
+import { Config } from '../../types/appContext.js';
 import { EvershopRequest } from '../../types/request.js';
 import { EvershopResponse } from '../../types/response.js';
 import { error } from '../log/logger.js';
@@ -12,6 +13,7 @@ import { get } from '../util/get.js';
 import { getConfig } from '../util/getConfig.js';
 import isProductionMode from '../util/isProductionMode.js';
 import { processPreloadImages } from '../util/preloadScan.js';
+import { getValueSync } from '../util/registry.js';
 import { getRouteBuildPath } from '../webpack/getRouteBuildPath.js';
 
 function normalizeAssets(assets) {
@@ -20,6 +22,42 @@ function normalizeAssets(assets) {
   }
 
   return Array.isArray(assets) ? assets : [assets];
+}
+
+function buildContextData(
+  request: EvershopRequest,
+  response: EvershopResponse
+) {
+  const pageMeta = getPageMetaInfo(request);
+  const appConfig = getValueSync<Config>(
+    'appConfig',
+    {
+      tax: {
+        priceIncludingTax: getConfig<boolean>(
+          'pricing.tax.price_including_tax',
+          false
+        )
+      },
+      catalog: {
+        imageDimensions: {
+          width: getConfig<number>('catalog.product.image.width', 1200),
+          height: getConfig<number>('catalog.product.image.height', 1200)
+        }
+      },
+      pageMeta: pageMeta
+    },
+    { request, response },
+    (value) => value && typeof value === 'object' && !Array.isArray(value)
+  );
+  const config = Object.assign({}, appConfig, { pageMeta });
+  const contextValue = {
+    graphqlResponse: get(response, 'locals.graphqlResponse', {}),
+    config: config,
+    propsMap: get(response, 'locals.propsMap', {}),
+    widgets: get(response, 'locals.widgets', []),
+    notifications: getNotifications(request)
+  };
+  return contextValue;
 }
 
 function renderDevelopment(
@@ -44,18 +82,8 @@ function renderDevelopment(
   }
   // We can not get devMiddleware from response.locals
   // because there are 2 build (current route, and notFound)
-  const pageMeta = getPageMetaInfo(request);
-  const pageData = Object.assign(
-    {},
-    get(response, 'locals.graphqlResponse', {}),
-    { pageMeta }
-  );
-  const contextValue = {
-    graphqlResponse: pageData,
-    propsMap: get(response, 'locals.propsMap', {}),
-    widgets: get(response, 'locals.widgets', []),
-    notifications: getNotifications(request)
-  };
+
+  const contextValue = buildContextData(request, response);
   const safeContextValue = jsesc(contextValue, {
     json: true,
     isScriptContext: true
@@ -108,12 +136,6 @@ function renderProduction(request, response) {
     'index.json'
   );
   const assets = JSON.parse(fs.readFileSync(assetsPath, 'utf8'));
-  const pageMeta = getPageMetaInfo(request);
-  const pageData = Object.assign(
-    {},
-    get(response, 'locals.graphqlResponse', {}),
-    { pageMeta }
-  );
   const cssList = [] as string[];
   for (let i = 0; i < assets.css.length; i++) {
     const cssFilePath = path.resolve(
@@ -127,12 +149,7 @@ function renderProduction(request, response) {
       cssList.push(cssContent);
     }
   }
-  const contextValue = {
-    graphqlResponse: pageData,
-    propsMap: get(response, 'locals.propsMap', {}),
-    widgets: get(response, 'locals.widgets', []),
-    notifications: getNotifications(request)
-  };
+  const contextValue = buildContextData(request, response);
   const safeContextValue = jsesc(contextValue, {
     json: true,
     isScriptContext: true

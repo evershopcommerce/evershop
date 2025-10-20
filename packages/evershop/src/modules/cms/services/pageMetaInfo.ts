@@ -14,8 +14,6 @@ export function setPageMetaInfo(
   setContextValue(request, 'pageInfo', newInfo);
 }
 
-export function getPageMetaInfo(
-  request: EvershopRequest
-): Partial<PageMetaInfo> {
-  return getContextValue(request, 'pageInfo', {});
+export function getPageMetaInfo(request: EvershopRequest): PageMetaInfo {
+  return getContextValue(request, 'pageInfo', {}) as PageMetaInfo;
 }

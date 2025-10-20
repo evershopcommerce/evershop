@@ -15,9 +15,6 @@ import React from 'react';
 interface BaseProps {
   myCart: CartData;
   customer: Customer;
-  setting: {
-    priceIncludingTax: boolean;
-  };
   themeConfig: {
     copyRight: string;
   };
@@ -29,7 +26,6 @@ interface BaseProps {
 export default function Base({
   myCart,
   customer,
-  setting,
   themeConfig,
   addMineCartItemApi,
   loginApi,
@@ -45,8 +41,7 @@ export default function Base({
     >
       <CartProvider
         cart={myCart}
-        setting={setting}
-        query={query}
+        query={`${query}\n${fragments}`}
         addMineCartItemApi={addMineCartItemApi}
       >
         <LoadingBar />
@@ -68,19 +63,7 @@ export const layout = {
 export const query = `
   query Query {
     myCart {
-      uuid
-      totalQty
-      customerId
-      customerGroupId
-      customerEmail
-      customerFullName
-      coupon
-      shippingMethod
-      shippingMethodName
-      paymentMethod
-      paymentMethodName
-      currency
-      shippingNote
+      ...ShoppingCart
       addItemApi
       addPaymentMethodApi
       addShippingMethodApi
@@ -90,34 +73,6 @@ export const query = `
       checkoutApi
       applyCouponApi
       removeCouponApi
-      taxAmount {
-        value
-        text
-      } 
-      discountAmount {
-        value
-        text
-      }
-      shippingFeeExclTax {
-        value
-        text
-      }
-      shippingFeeInclTax {
-        value
-        text
-      }
-      subTotal {
-        value
-        text
-      }
-      subTotalInclTax {
-        value
-        text
-      }
-      grandTotal {
-        value
-        text
-      }
       availableShippingMethods {
         code
         name
@@ -130,76 +85,9 @@ export const query = `
         code
         name
       }
-      billingAddress {
-        fullName
-        telephone
-        address1
-        address2
-        city
-        province {
-          name
-          code
-        }
-        country {
-          name
-          code
-        }
-        postcode
-      }
-      shippingAddress {
-        fullName
-        telephone
-        address1
-        address2
-        city
-        province {
-          name
-          code
-        }
-        country {
-          name
-          code
-        }
-        postcode
-      }
       items {
+        ...ShoppingCartItem
         cartItemId
-        thumbnail
-        qty
-        productName
-        productSku
-        variantOptions {
-          attributeCode
-          attributeName
-          attributeId
-          optionId
-          optionText
-        }
-        productUrl
-        productPrice {
-          value
-          text
-        }
-        productPriceInclTax {
-          value
-          text
-        }
-        finalPrice {
-          value
-          text
-        }
-        finalPriceInclTax {
-          value
-          text
-        }
-        lineTotal {
-          value
-          text
-        }
-        lineTotalInclTax {
-          value
-          text
-        }
         removeApi
         updateQtyApi
         errors
@@ -211,6 +99,10 @@ export const query = `
       email
       fullName
       groupId
+      createdAt {
+        value
+        text
+      }
       addAddressApi
       addresses {
         addressId
@@ -234,12 +126,10 @@ export const query = `
         deleteApi
       }
       orders {
+        ...ShoppingCart
         orderId
+        status
         orderNumber
-        createdAt {
-          value
-          text
-        }
         shipmentStatus {
           name
           code
@@ -250,53 +140,11 @@ export const query = `
           code
           badge
         }
-        grandTotal {
-          value
-          text
-        }
         items {
-          uuid
-          thumbnail
-          qty
-          productName
-          productSku
-          variantOptions {
-            attributeCode
-            attributeName
-            attributeId
-            optionId
-            optionText
-          }
-          productUrl
-          productPrice {
-            value
-            text
-          }
-          productPriceInclTax {
-            value
-            text
-          }
-          finalPrice {
-            value
-            text
-          }
-          finalPriceInclTax {
-            value
-            text
-          }
-          lineTotal {
-            value
-            text
-          }
-          lineTotalInclTax {
-            value
-            text
-          }
+          ...ShoppingCartItem
+          orderItemId
         }
       }
-    }
-    setting {
-      priceIncludingTax
     }
     themeConfig {
       copyRight
@@ -305,5 +153,187 @@ export const query = `
     loginApi: url(routeId: "customerLoginJson")
     registerApi: url(routeId: "createCustomer")
     logoutApi: url(routeId: "customerLogoutJson")
+  }
+`;
+
+export const fragments = `
+  fragment ShoppingCart on ShoppingCart {
+    uuid
+    currency
+    customerId
+    customerGroupId
+    customerEmail
+    customerFullName
+    coupon
+    shippingMethod
+    shippingMethodName
+    paymentMethod
+    paymentMethodName
+    shippingNote
+    taxAmount {
+      value
+      text
+    }
+    totalTaxAmount {
+      value
+      text
+    }
+    discountAmount {
+      value
+      text
+    }
+    shippingFeeExclTax {
+      value
+      text
+    }
+    shippingFeeInclTax {
+      value
+      text
+    }
+    shippingTaxAmount {
+      value
+      text
+    }
+    subTotal {
+      value
+      text
+    }
+    subTotalInclTax {
+      value
+      text
+    }
+    subTotalWithDiscount {
+      value
+      text
+    }
+    subTotalWithDiscountInclTax {
+      value
+      text
+    }
+    totalQty
+    totalWeight {
+      value
+      unit
+    }
+    taxAmountBeforeDiscount {
+      value
+      text
+    }
+    grandTotal {
+      value
+      text
+    }
+    billingAddress {
+      fullName
+      telephone
+      address1
+      address2
+      city
+      province {
+        name
+        code
+      }
+      country {
+        name
+        code
+      }
+      postcode
+    }
+    shippingAddress {
+      fullName
+      telephone
+      address1
+      address2
+      city
+      province {
+        name
+        code
+      }
+      country {
+        name
+        code
+      }
+      postcode
+    }
+    createdAt {
+      value
+      text
+    }
+    updatedAt
+  }
+
+  fragment ShoppingCartItem on ShoppingCartItem {
+    uuid
+    productId
+    productSku
+    productName
+    thumbnail
+    productWeight {
+      value
+      unit
+    }
+    productPrice {
+      value
+      text
+    }
+    productPriceInclTax {
+      value
+      text
+    }
+    qty
+    finalPrice {
+      value
+      text
+    }
+    finalPriceInclTax {
+      value
+      text
+    }
+    taxPercent
+    taxAmount {
+      value
+      text
+    }
+    taxAmountBeforeDiscount {
+      value
+      text
+    }
+    discountAmount {
+      value
+      text
+    }
+    lineTotal {
+      value
+      text
+    }
+    subTotal {
+      value
+      text
+    }
+    lineTotalWithDiscount {
+      value
+      text
+    }
+    lineTotalWithDiscountInclTax {
+      value
+      text
+    }
+    lineTotalInclTax {
+      value
+      text
+    }
+    total {
+      value
+      text
+    }
+    variantGroupId
+    variantOptions {
+      attributeCode
+      attributeName
+      attributeId
+      optionId
+      optionText
+    }
+    productUrl
   }
 `;

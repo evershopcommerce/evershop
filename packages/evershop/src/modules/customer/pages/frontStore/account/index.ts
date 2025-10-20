@@ -10,8 +10,8 @@ export default (request, response: EvershopResponse, next) => {
     response.redirect(buildUrl('login'));
   } else {
     setPageMetaInfo(request, {
-      title: translate('Account details'),
-      description: translate('Account details')
+      title: translate('My Account'),
+      description: translate('My Account')
     });
     next();
   }

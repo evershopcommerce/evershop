@@ -1,21 +1,9 @@
 import { produce } from 'immer';
 import React, { useMemo } from 'react';
-import { PageMetaInfo } from '../../../types/pageMeta.js';
-
-interface AppStateContextValue {
-  graphqlResponse: {
-    pageMeta: PageMetaInfo;
-    [key: string]: any;
-  };
-  propsMap: Record<string, any[]>;
-  widgets?: any[];
-  fetching: boolean;
-}
-
-interface AppContextDispatchValue {
-  setData: React.Dispatch<React.SetStateAction<AppStateContextValue>>;
-  fetchPageData: (url: string | URL) => Promise<void>;
-}
+import {
+  AppContextDispatchValue,
+  AppStateContextValue
+} from '../../../types/appContext.js';
 
 const AppStateContext = React.createContext<AppStateContextValue>(
   {} as AppStateContextValue

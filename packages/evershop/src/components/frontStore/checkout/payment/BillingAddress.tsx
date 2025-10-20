@@ -4,7 +4,7 @@ import {
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress.js';
+import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress';
 import React, { useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 

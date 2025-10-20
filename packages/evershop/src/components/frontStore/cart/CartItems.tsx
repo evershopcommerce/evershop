@@ -1,4 +1,5 @@
 import Area from '@components/common/Area.js';
+import { useAppState } from '@components/common/context/app.js';
 import {
   useCartState,
   useCartDispatch,
@@ -19,11 +20,12 @@ interface CartItemsProps {
 }
 
 function CartItems({ children }: CartItemsProps) {
+  const { data: cart, loading } = useCartState();
   const {
-    data: cart,
-    loading,
-    setting: { priceIncludingTax }
-  } = useCartState();
+    config: {
+      tax: { priceIncludingTax }
+    }
+  } = useAppState();
   const { removeItem } = useCartDispatch();
 
   const isEmpty = cart?.totalQty === 0;

@@ -27,42 +27,11 @@ export default () => {
                 image: {
                   type: 'object',
                   properties: {
-                    thumbnail: {
-                      type: 'object',
-                      properties: {
-                        width: {
-                          type: 'integer'
-                        },
-                        height: {
-                          type: 'integer'
-                        }
-                      }
+                    width: {
+                      type: 'integer'
                     },
-                    listing: {
-                      type: 'object',
-                      properties: {
-                        width: {
-                          type: 'integer'
-                        },
-                        height: {
-                          type: 'integer'
-                        }
-                      }
-                    },
-                    single: {
-                      type: 'object',
-                      properties: {
-                        width: {
-                          type: 'integer'
-                        },
-                        height: {
-                          type: 'integer'
-                        }
-                      }
-                    },
-                    placeHolder: {
-                      type: 'string',
-                      format: 'uri-reference'
+                    height: {
+                      type: 'integer'
                     }
                   }
                 }
@@ -96,19 +65,8 @@ export default () => {
   const defaultCatalogConfig = {
     product: {
       image: {
-        thumbnail: {
-          width: 100,
-          height: 100
-        },
-        listing: {
-          width: 300,
-          height: 300
-        },
-        single: {
-          width: 500,
-          height: 500
-        },
-        placeHolder: '/default/image/placeholder.png'
+        width: 1200,
+        height: 1200
       }
     },
     showOutOfStockProduct: false,
