@@ -1,6 +1,6 @@
 import CleanCSS from 'clean-css';
 import postcss from 'postcss';
-import tailwindcss from 'tailwindcss';
+import tailwindcss from '@tailwindcss/postcss';
 import webpack from 'webpack';
 import { Route } from '../../../types/route.js';
 import { error } from '../../log/logger.js';
@@ -99,23 +99,10 @@ export class Tailwindcss {
         ? originalCSSSource
         : originalCSSSource.toString();
 
-    const tailwindDirectives = `
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-`;
-    const cssWithDirectives = tailwindDirectives + originalCSS;
-    const tailwindConfig = await getTailwindConfig(route.isAdmin);
-    Object.assign(tailwindConfig, {
-      content: [{ raw: jsContent, extension: 'js' }]
-    });
-
     try {
-      const result = await postcss([tailwindcss(tailwindConfig)]).process(
-        cssAssetName.includes(route.id) ? cssWithDirectives : originalCSS,
-        { from: undefined }
-      );
+      const result = await postcss([tailwindcss()]).process(originalCSS, {
+        from: undefined
+      });
       const cleanCSS = new CleanCSS({
         level: 2, // Advanced optimizations
         returnPromise: true

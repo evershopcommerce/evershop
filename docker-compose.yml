@@ -9,15 +9,15 @@ services:
       DB_PORT: 5432
       DB_PASSWORD: postgres
       DB_USER: postgres
-      DB_NAME: postgres
+      DB_NAME: evershop
     networks:
       - myevershop
     depends_on:
       - database
     ports:
       - 3000:3000
-  
-  #The postgres database: 
+
+  #The postgres database:
   database:
     image: postgres:16
     restart: unless-stopped
@@ -26,7 +26,8 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_DB: evershop
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"
     networks:

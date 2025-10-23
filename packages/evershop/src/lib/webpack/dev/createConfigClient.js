@@ -47,15 +47,7 @@ export function createConfigClient(route, tailwindConfig) {
         loader: 'postcss-loader',
         options: {
           postcssOptions: {
-            plugins: [
-              [
-                'tailwindcss',
-                {
-                  config: tailwindConfig
-                }
-              ],
-              'autoprefixer'
-            ]
+            plugins: ['@tailwindcss/postcss', 'autoprefixer']
           }
         }
       },

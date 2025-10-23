@@ -1,7 +1,7 @@
 import { join } from 'path';
 import autoprefixer from 'autoprefixer';
 import postcss from 'postcss';
-import tailwindcss from 'tailwindcss';
+import tailwindcss from '@tailwindcss/postcss';
 import { getEnabledExtensions } from '../../../bin/extension/index.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { getEnabledTheme } from '../../../lib/util/getEnabledTheme.js';
@@ -26,33 +26,7 @@ export default async function TailwindLoader(c) {
   if (!this.resourcePath.includes('tailwind.scss')) {
     return c;
   }
-  const mergedTailwindConfig = await getTailwindConfig(route);
-  const enabledExtensions = getEnabledExtensions();
-  mergedTailwindConfig.content = [
-    // All file in packages/evershop/dist and name is capitalized
-    join(CONSTANTS.ROOTPATH, 'packages', 'evershop', 'dist', '**', '[A-Z]*.js'),
-    // All file in node_modules/@evershop/evershop/dist and name is capitalized
-    join(
-      CONSTANTS.ROOTPATH,
-      'node_modules',
-      '@evershop',
-      'evershop',
-      'dist',
-      '**',
-      '[A-Z]*.js'
-    ),
-    ...enabledExtensions.map((extension) =>
-      join(extension.path, 'dist', '**', '[A-Z]*.js')
-    )
-  ];
-  const theme = getEnabledTheme();
-  if (theme) {
-    mergedTailwindConfig.content.push(
-      join(theme.path, 'dist', '**', '[A-Z]*.js')
-    );
-  }
-
-  return postcss([tailwindcss(mergedTailwindConfig), autoprefixer])
+  return postcss([tailwindcss(), autoprefixer])
     .process(c, { from: undefined })
     .then((result) => result.css);
 }
