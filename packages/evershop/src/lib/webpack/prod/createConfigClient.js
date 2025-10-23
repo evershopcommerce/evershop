@@ -111,14 +111,33 @@ export function createConfigClient(routes) {
     splitChunks: {
       chunks: 'all',
       cacheGroups: {
-        // Admin vendor chunk - includes ALL node_modules used by admin routes
+        // Admin vendor chunk - includes third-party node_modules used by admin routes
+        // Excludes @evershop/evershop core and extensions
         adminVendor: {
           test: (module) => {
             // Only match JS modules from node_modules, exclude CSS
             if (module.type === 'css/mini-extract') {
               return false;
             }
-            return module.resource && module.resource.includes('node_modules');
+
+            // Must be from node_modules
+            if (!module.resource || !module.resource.includes('node_modules')) {
+              return false;
+            }
+
+            // Exclude @evershop/evershop core package
+            if (module.resource.includes('node_modules/@evershop/evershop')) {
+              return false;
+            }
+
+            // Exclude extensions (they may be npm packages in node_modules)
+            for (const ext of extenions) {
+              if (ext.resolve && module.resource.includes(ext.resolve)) {
+                return false;
+              }
+            }
+
+            return true;
           },
           chunks: (chunk) => {
             // Only split from admin route chunks
@@ -132,14 +151,33 @@ export function createConfigClient(routes) {
           enforce: true,
           priority: 20
         },
-        // FrontStore vendor chunk - includes ALL node_modules used by frontStore routes
+        // FrontStore vendor chunk - includes third-party node_modules used by frontStore routes
+        // Excludes @evershop/evershop core and extensions
         frontStoreVendor: {
           test: (module) => {
             // Only match JS modules from node_modules, exclude CSS
             if (module.type === 'css/mini-extract') {
               return false;
             }
-            return module.resource && module.resource.includes('node_modules');
+
+            // Must be from node_modules
+            if (!module.resource || !module.resource.includes('node_modules')) {
+              return false;
+            }
+
+            // Exclude @evershop/evershop core package
+            if (module.resource.includes('node_modules/@evershop/evershop')) {
+              return false;
+            }
+
+            // Exclude extensions (they may be npm packages in node_modules)
+            for (const ext of extenions) {
+              if (ext.resolve && module.resource.includes(ext.resolve)) {
+                return false;
+              }
+            }
+
+            return true;
           },
           chunks: (chunk) => {
             // Only split from frontStore route chunks
