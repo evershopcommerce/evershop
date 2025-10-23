@@ -213,7 +213,7 @@ export function addDefaultMiddlewareFuncs(app) {
           '[A-Z]*.js'
         ),
         ...enabledExtensions.map((extension) =>
-          path.join(extension.path, 'dist', '**', '[A-Z]*.js')
+          path.join(extension.path, '**', '[A-Z]*.js')
         )
       ];
       const theme = getEnabledTheme();

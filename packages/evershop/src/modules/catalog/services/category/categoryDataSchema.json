@@ -2,7 +2,12 @@
   "type": "object",
   "properties": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "Category name must be a string",
+        "minLength": "Category name is required and cannot be empty"
+      }
     },
     "description": {
       "type": "array",
@@ -10,10 +15,16 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "errorMessage": {
+              "type": "Description block ID must be a string"
+            }
           },
           "size": {
-            "type": "number"
+            "type": "number",
+            "errorMessage": {
+              "type": "Description block size must be a number"
+            }
           },
           "columns": {
             "type": "array",
@@ -21,60 +32,119 @@
               "type": "object",
               "properties": {
                 "id": {
-                  "type": "string"
+                  "type": "string",
+                  "errorMessage": {
+                    "type": "Column ID must be a string"
+                  }
                 },
                 "size": {
-                  "type": "number"
+                  "type": "number",
+                  "errorMessage": {
+                    "type": "Column size must be a number"
+                  }
                 },
                 "data": {
-                  "type": "object"
+                  "type": "object",
+                  "errorMessage": {
+                    "type": "Column data must be an object"
+                  }
                 }
               },
-              "required": ["id", "size", "data"]
+              "required": ["id", "size", "data"],
+              "errorMessage": {
+                "required": {
+                  "id": "Column ID is required",
+                  "size": "Column size is required",
+                  "data": "Column data is required"
+                }
+              }
+            },
+            "errorMessage": {
+              "type": "Columns must be an array"
             }
           }
         },
-        "required": ["id", "size", "columns"]
+        "required": ["id", "size", "columns"],
+        "errorMessage": {
+          "required": {
+            "id": "Description block ID is required",
+            "size": "Description block size is required",
+            "columns": "Description block columns are required"
+          }
+        }
       },
-      "default": []
+      "default": [],
+      "errorMessage": {
+        "type": "Description must be an array"
+      }
     },
     "image": {
-      "type": "string"
+      "type": "string",
+      "errorMessage": {
+        "type": "Image path must be a string"
+      }
     },
     "meta_title": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "Meta title must be a string",
+        "minLength": "Meta title is required and cannot be empty"
+      }
     },
     "meta_description": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "Meta description must be a string",
+        "minLength": "Meta description is required and cannot be empty"
+      }
     },
     "meta_keywords": {
-      "type": "string"
+      "type": "string",
+      "errorMessage": {
+        "type": "Meta keywords must be a string"
+      }
     },
     "url_key": {
       "type": "string",
       "pattern": "^\\S+$",
       "errorMessage": {
-        "pattern": "Url key should not contain spaces"
+        "type": "URL key must be a string",
+        "pattern": "URL key cannot contain spaces"
       }
     },
     "status": {
       "type": ["integer", "string"],
-      "enum": [0, 1, "0", "1"]
+      "enum": [0, 1, "0", "1"],
+      "errorMessage": {
+        "type": "Status must be a number or string",
+        "enum": "Status must be either 0, 1, '0', or '1'"
+      }
     },
     "include_in_nav": {
       "type": ["integer", "string"],
-      "enum": [0, 1, "0", "1"]
+      "enum": [0, 1, "0", "1"],
+      "errorMessage": {
+        "type": "Include in navigation must be a number or string",
+        "enum": "Include in navigation must be either 0, 1, '0', or '1'"
+      }
     },
     "parent_id": {
       "type": ["string", "number", "null"],
       "pattern": "^[0-9]+$",
-      "default": null
+      "default": null,
+      "errorMessage": {
+        "type": "Parent ID must be a string, number, or null",
+        "pattern": "Parent ID must be a valid numeric ID"
+      }
     },
     "position": {
       "type": ["string", "integer"],
       "pattern": "^[0-9]*$",
       "errorMessage": {
-        "pattern": "Position should be a number"
+        "type": "Position must be a string or number",
+        "pattern": "Position must be a valid number (e.g., 0, 1, 10)"
       }
     }
   },
@@ -85,5 +155,14 @@
     "meta_title",
     "meta_description"
   ],
-  "additionalProperties": true
+  "additionalProperties": true,
+  "errorMessage": {
+    "required": {
+      "name": "Category name is required",
+      "description": "Category description is required",
+      "status": "Category status is required",
+      "meta_title": "Meta title is required",
+      "meta_description": "Meta description is required"
+    }
+  }
 }

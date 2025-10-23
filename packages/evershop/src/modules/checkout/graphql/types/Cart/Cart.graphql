@@ -64,7 +64,7 @@ interface ShoppingCartItem {
   variantGroupId: Int
   variantOptions: [VariantOption]
   productCustomOptions: String
-  productUrl: String!
+  productUrl: String
 }
 
 """
@@ -136,7 +136,7 @@ type CartItem implements ShoppingCartItem {
   variantGroupId: Int
   variantOptions: [VariantOption]
   productCustomOptions: String
-  productUrl: String!
+  productUrl: String
   errors: [String!]
 }
 

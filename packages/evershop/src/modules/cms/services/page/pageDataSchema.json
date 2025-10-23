@@ -3,10 +3,19 @@
   "properties": {
     "status": {
       "type": ["string", "integer"],
-      "enum": ["0", "1", 0, 1]
+      "enum": ["0", "1", 0, 1],
+      "errorMessage": {
+        "type": "Status must be a string or number",
+        "enum": "Status must be either 0, 1, '0', or '1'"
+      }
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "Page name must be a string",
+        "minLength": "Page name is required and cannot be empty"
+      }
     },
     "content": {
       "type": "array",
@@ -14,10 +23,16 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "errorMessage": {
+              "type": "Content block ID must be a string"
+            }
           },
           "size": {
-            "type": "number"
+            "type": "number",
+            "errorMessage": {
+              "type": "Content block size must be a number"
+            }
           },
           "columns": {
             "type": "array",
@@ -25,38 +40,77 @@
               "type": "object",
               "properties": {
                 "id": {
-                  "type": "string"
+                  "type": "string",
+                  "errorMessage": {
+                    "type": "Column ID must be a string"
+                  }
                 },
                 "size": {
-                  "type": "number"
+                  "type": "number",
+                  "errorMessage": {
+                    "type": "Column size must be a number"
+                  }
                 },
                 "data": {
-                  "type": "object"
+                  "type": "object",
+                  "errorMessage": {
+                    "type": "Column data must be an object"
+                  }
                 }
               },
-              "required": ["id", "size", "data"]
+              "required": ["id", "size", "data"],
+              "errorMessage": {
+                "required": {
+                  "id": "Column ID is required",
+                  "size": "Column size is required",
+                  "data": "Column data is required"
+                }
+              }
+            },
+            "errorMessage": {
+              "type": "Columns must be an array"
             }
           }
         },
-        "required": ["id", "size", "columns"]
+        "required": ["id", "size", "columns"],
+        "errorMessage": {
+          "required": {
+            "id": "Content block ID is required",
+            "size": "Content block size is required",
+            "columns": "Content block columns are required"
+          }
+        }
       },
-      "default": []
+      "default": [],
+      "errorMessage": {
+        "type": "Content must be an array"
+      }
     },
     "url_key": {
       "type": "string",
       "pattern": "^\\S+$",
       "errorMessage": {
-        "pattern": "Url key should not contain spaces"
+        "type": "URL key must be a string",
+        "pattern": "URL key cannot contain spaces"
       }
     },
     "meta_title": {
-      "type": "string"
+      "type": "string",
+      "errorMessage": {
+        "type": "Meta title must be a string"
+      }
     },
     "meta_description": {
-      "type": "string"
+      "type": "string",
+      "errorMessage": {
+        "type": "Meta description must be a string"
+      }
     },
     "meta_keywords": {
-      "type": "string"
+      "type": "string",
+      "errorMessage": {
+        "type": "Meta keywords must be a string"
+      }
     }
   },
   "additionalProperties": true

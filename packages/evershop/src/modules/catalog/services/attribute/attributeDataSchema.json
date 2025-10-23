@@ -2,36 +2,71 @@
   "type": "object",
   "properties": {
     "attribute_name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "Attribute name must be a string",
+        "minLength": "Attribute name is required and cannot be empty"
+      }
     },
     "attribute_code": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "Attribute code must be a string",
+        "minLength": "Attribute code is required and cannot be empty"
+      }
     },
     "is_required": {
       "type": ["integer", "string"],
-      "enum": [0, 1, "0", "1"]
+      "enum": [0, 1, "0", "1"],
+      "errorMessage": {
+        "type": "Is required must be a number or string",
+        "enum": "Is required must be either 0, 1, '0', or '1'"
+      }
     },
     "display_on_frontend": {
       "type": ["integer", "string"],
-      "enum": [0, 1, "0", "1"]
+      "enum": [0, 1, "0", "1"],
+      "errorMessage": {
+        "type": "Display on frontend must be a number or string",
+        "enum": "Display on frontend must be either 0, 1, '0', or '1'"
+      }
     },
     "sort_order": {
       "type": ["string", "integer"],
-      "pattern": "^[0-9]*$"
+      "pattern": "^[0-9]*$",
+      "errorMessage": {
+        "type": "Sort order must be a string or number",
+        "pattern": "Sort order must be a valid number (e.g., 0, 1, 10)"
+      }
     },
     "is_filterable": {
       "type": ["integer", "string"],
-      "enum": [0, 1, "0", "1"]
+      "enum": [0, 1, "0", "1"],
+      "errorMessage": {
+        "type": "Is filterable must be a number or string",
+        "enum": "Is filterable must be either 0, 1, '0', or '1'"
+      }
     },
     "groups": {
       "type": "array",
+      "minItems": 1,
       "items": [
         {
           "type": ["string", "integer"],
           "pattern": "^[1-9][0-9]*$",
-          "default": 100000
+          "default": 100000,
+          "errorMessage": {
+            "type": "Group ID must be a string or number",
+            "pattern": "Group ID must be a valid positive number (e.g., 1, 10, 100)"
+          }
         }
-      ]
+      ],
+      "errorMessage": {
+        "type": "Groups must be an array",
+        "minItems": "At least one group is required"
+      }
     },
     "options": {
       "type": "array",
@@ -39,14 +74,32 @@
         "type": "object",
         "properties": {
           "option_text": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "errorMessage": {
+              "type": "Option text must be a string",
+              "minLength": "Option text is required and cannot be empty"
+            }
           },
           "option_id": {
             "type": ["string", "integer"],
-            "pattern": "^[1-9][0-9]*$"
+            "pattern": "^[1-9][0-9]*$",
+            "errorMessage": {
+              "type": "Option ID must be a string or number",
+              "pattern": "Option ID must be a valid positive number (e.g., 1, 10, 100)"
+            }
           }
         },
-        "required": ["option_text"]
+        "required": ["option_text"],
+        "errorMessage": {
+          "type": "Option must be an object",
+          "required": {
+            "option_text": "Option text is required"
+          }
+        }
+      },
+      "errorMessage": {
+        "type": "Options must be an array"
       }
     }
   },
@@ -58,5 +111,15 @@
     "display_on_frontend",
     "groups"
   ],
-  "additionalProperties": true
+  "additionalProperties": true,
+  "errorMessage": {
+    "required": {
+      "attribute_code": "Attribute code is required",
+      "attribute_name": "Attribute name is required",
+      "type": "Attribute type is required",
+      "is_required": "Is required field is required",
+      "display_on_frontend": "Display on frontend field is required",
+      "groups": "At least one group must be assigned"
+    }
+  }
 }

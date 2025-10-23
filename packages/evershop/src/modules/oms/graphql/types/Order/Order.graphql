@@ -17,7 +17,7 @@ type OrderAddress implements Address {
 """
 Represents an Order Item.
 """
-type OrderItem {
+type OrderItem implements ShoppingCartItem {
   orderItemId: ID!
   uuid: String!
   orderId: ID!

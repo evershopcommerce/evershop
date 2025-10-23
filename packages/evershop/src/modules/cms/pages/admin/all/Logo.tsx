@@ -1,106 +1,37 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function Logo({
-  themeConfig: {
-    logo: { src, alt = 'Evershop', width = '50', height = '50' }
-  },
-  dashboardUrl
-}) {
+interface LogoProps {
+  dashboardUrl: string;
+}
+export default function Logo({ dashboardUrl }: LogoProps) {
   return (
     <div className="logo w-9 h-auto flex items-center">
-      {src && (
-        <a href={dashboardUrl} className="flex items-end">
-          <img src={src} alt={alt} width={width} height={height} />
-        </a>
-      )}
-      {!src && (
-        <a href={dashboardUrl} className="flex items-end">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="254"
-            height="292"
-            fill="none"
-            viewBox="0 0 254 292"
-            className="w-9 h-9"
-          >
-            <path
-              fill="url(#paint0_linear_375_2)"
-              d="M62.982 36.256L.333 72.512l-.2 72.913L0 218.403l63.048 36.39c34.657 19.994 63.249 36.389 63.582 36.389.333 0 17.595-9.863 38.456-21.86 20.794-12.063 49.185-28.392 63.048-36.389l25.126-14.53v-31.257l-1.466.8c-.867.466-29.258 16.795-63.115 36.389-33.924 19.594-61.982 35.456-62.382 35.39-.467-.133-22.86-12.93-49.852-28.525l-49.12-28.325V88.241L49.52 75.445c12.13-6.998 34.39-19.794 49.386-28.459 14.929-8.664 27.458-15.728 27.725-15.728.267 0 17.662 9.93 38.655 22.06l61.183 34.923 9.649-5.678 17.143-10.05-26.792-15.263C205.274 44.72 127.097-.067 126.43 0c-.4 0-28.992 16.329-63.448 36.256z"
-            />
-            <path
-              fill="url(#paint1_linear_375_2)"
-              d="M190.611 108.702c-34.256 19.794-62.781 36.189-63.381 36.323-.667.2-17.395-9.131-39.189-21.661l-38.055-21.993v15.795l.066 15.729 36.99 21.327c20.327 11.73 37.655 21.594 38.522 21.927 1.333.467 10.663-4.665 64.114-35.523 34.39-19.928 62.782-36.389 63.115-36.656.267-.267.4-7.398.334-15.862l-.2-15.396-62.316 35.99z"
-            />
-            <path
-              fill="url(#paint2_linear_375_2)"
-              d="M246.262 133.828c-3.666 2.066-31.924 18.395-62.848 36.256-30.925 17.862-56.451 32.457-56.784 32.457-.333 0-17.595-9.863-38.456-21.86l-37.855-21.86-.2 15.329c-.133 11.73.066 15.528.666 16.128 1.267 1.133 75.045 43.588 75.845 43.588.667 0 125.097-71.646 126.164-72.579.266-.267.399-7.398.333-15.929l-.2-15.396-6.665 3.866z"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear_375_2"
-                x1="126.63"
-                x2="126.63"
-                y1="291.182"
-                y2="0"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#00546B" />
-                <stop offset="1" stopColor="#27BEA3" />
-              </linearGradient>
-              <linearGradient
-                id="paint1_linear_375_2"
-                x1="151.565"
-                x2="151.565"
-                y1="176.177"
-                y2="72.712"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#00546B" />
-                <stop offset="1" stopColor="#27BEA3" />
-              </linearGradient>
-              <linearGradient
-                id="paint2_linear_375_2"
-                x1="151.612"
-                x2="151.612"
-                y1="233.866"
-                y2="129.962"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#00546B" />
-                <stop offset="1" stopColor="#27BEA3" />
-              </linearGradient>
-            </defs>
-          </svg>
-          <span className="font-bold">EVERSHOP</span>
-        </a>
-      )}
+      <a href={dashboardUrl} className="flex items-end">
+        <svg
+          width="256"
+          height="282"
+          viewBox="0 0 256 282"
+          fill="none"
+          className="w-8 h-auto"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M63.6632 35.0703L0.336842 70.1406L0.134737 140.668L0 211.26L63.7305 246.459C98.7621 265.799 127.663 281.658 128 281.658C128.337 281.658 145.785 272.117 166.872 260.513C187.891 248.844 216.589 233.05 230.602 225.314L256 211.26V196.174V181.024L254.518 181.798C253.642 182.249 224.943 198.044 190.72 216.997C156.429 235.951 128.067 251.294 127.663 251.229C127.192 251.101 104.556 238.723 77.2716 223.637L27.6211 196.239V140.797V85.3549L50.0547 72.9771C62.3158 66.2081 84.8168 53.8303 99.9747 45.4496C115.065 37.0688 127.731 30.2353 128 30.2353C128.269 30.2353 145.853 39.8409 167.074 51.574L228.918 85.3549L238.672 79.8626L256 70.1406L228.918 55.3775C207.495 43.2577 128.472 -0.0643921 127.798 9.15527e-05C127.394 9.15527e-05 98.4926 15.7946 63.6632 35.0703Z"
+            fill="#008060"
+          />
+          <path
+            d="M192.674 105.146C158.046 124.293 129.213 140.152 128.606 140.281C127.933 140.475 111.023 131.449 88.9937 119.329L50.5263 98.055V113.334L50.5937 128.548L87.9832 149.178C108.531 160.524 126.046 170.065 126.922 170.387C128.269 170.839 137.701 165.875 191.731 136.026C226.493 116.751 255.192 100.827 255.528 100.569C255.798 100.311 255.933 93.4133 255.865 85.226L255.663 70.334L192.674 105.146Z"
+            fill="#008060"
+          />
+          <path
+            d="M248.926 129.451C245.221 131.449 216.657 147.244 185.398 164.521C154.139 181.798 128.337 195.917 128 195.917C127.663 195.917 110.215 186.375 89.1284 174.771L50.8632 153.626L50.6611 168.453C50.5263 179.8 50.7284 183.474 51.3347 184.055C52.6147 185.15 127.192 226.216 128 226.216C128.674 226.216 254.451 156.914 255.528 156.011C255.798 155.753 255.933 148.855 255.865 140.603L255.663 125.712L248.926 129.451Z"
+            fill="#008060"
+          />
+        </svg>
+      </a>
     </div>
   );
 }
-
-Logo.propTypes = {
-  themeConfig: PropTypes.shape({
-    logo: PropTypes.shape({
-      src: PropTypes.string,
-      alt: PropTypes.string,
-      width: PropTypes.string,
-      height: PropTypes.string
-    })
-  }),
-  dashboardUrl: PropTypes.string.isRequired
-};
-
-Logo.defaultProps = {
-  themeConfig: {
-    logo: {
-      src: '',
-      alt: 'Evershop',
-      width: '128',
-      height: '128'
-    }
-  }
-};
 
 export const layout = {
   areaId: 'header',
@@ -109,12 +40,6 @@ export const layout = {
 
 export const query = `
   query query {
-    themeConfig {
-      logo {
-        src
-        alt
-      }
-    }
     dashboardUrl: url(routeId:"dashboard")
   }
 `;

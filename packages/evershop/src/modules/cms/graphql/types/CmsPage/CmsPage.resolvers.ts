@@ -39,7 +39,14 @@ export default {
     deleteApi: (page) => buildUrl('deleteCmsPage', { id: page.uuid }),
     content: ({ content }) => {
       try {
-        return JSON.parse(content);
+        const replacements = {
+          '&lt;': '<',
+          '&gt;': '>'
+        };
+        const jsonText = content
+          ? content.replace(/&lt;|&gt;/g, (match) => replacements[match])
+          : '[]';
+        return JSON.parse(jsonText);
       } catch (e) {
         // This is for backward compatibility. If the content is not a JSON string then it is a raw HTML block
         const rowId = `r__${uuidv4()}`;

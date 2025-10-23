@@ -3,17 +3,35 @@
   "properties": {
     "status": {
       "type": ["string", "integer"],
-      "enum": ["0", "1", 0, 1]
+      "enum": ["0", "1", 0, 1],
+      "errorMessage": {
+        "type": "Status must be a string or number",
+        "enum": "Status must be either 0, 1, '0', or '1'"
+      }
     },
     "email": {
       "type": "string",
-      "format": "email"
+      "format": "email",
+      "errorMessage": {
+        "type": "Email must be a string",
+        "format": "Email must be a valid email address (e.g., user@example.com)"
+      }
     },
     "password": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "Password must be a string",
+        "minLength": "Password is required and cannot be empty"
+      }
     },
     "full_name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "Full name must be a string",
+        "minLength": "Full name is required and cannot be empty"
+      }
     }
   },
   "additionalProperties": true
