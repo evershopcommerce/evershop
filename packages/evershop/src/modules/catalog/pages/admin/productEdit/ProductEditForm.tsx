@@ -48,7 +48,7 @@ export default function ProductEditForm({
   const submit: SubmitHandler<any> = async (data) => {
     try {
       const images = (data.images || []).map(
-        (image: { id: string; url: string }) => image.url
+        (image: { uuid: string; url: string }) => image.url
       );
       data.images = images;
       const response = await fetch(action, {
