@@ -8,18 +8,26 @@ interface WidgetType {
   description: string;
   createWidgetUrl: string;
 }
+
 const WidgetTypes: React.FC<{
   types: Array<WidgetType>;
 }> = ({ types }) => {
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-2 gap-4 p-2">
       {types.map((type) => (
         <a
           key={type.code}
           href={type.createWidgetUrl}
-          className="border border-gray-200 rounded p-2 text-center"
+          className="group relative flex flex-col items-center justify-center p-4 border-2 border-gray-200 rounded-lg hover:border-primary hover:shadow-md transition-all duration-200 ease-in-out bg-white hover:bg-gray-50"
         >
-          <div className="text-base font-bold">{type.name}</div>
+          <div className="text-base font-semibold text-gray-900 group-hover:text-primary transition-colors">
+            {type.name}
+          </div>
+          {type.description && (
+            <div className="mt-2 text-sm text-gray-500 text-center">
+              {type.description}
+            </div>
+          )}
         </a>
       ))}
     </div>

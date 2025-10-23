@@ -165,7 +165,7 @@ export default () => {
       'cms/components/TextBlock.js'
     ),
     name: 'Text block',
-    description: 'A text block widget',
+    description: 'Add rich text content',
     defaultSettings: {
       className: 'page-width'
     },
@@ -183,7 +183,7 @@ export default () => {
       'cms/components/BasicMenu.js'
     ),
     name: 'Menu',
-    description: 'A menu widget',
+    description: 'Navigation links',
     enabled: true
   });
 
@@ -195,7 +195,7 @@ export default () => {
     ),
     component: path.resolve(CONSTANTS.MODULESPATH, 'cms/components/Banner.js'),
     name: 'Banner',
-    description: 'A banner widget',
+    description: 'Image with call-to-action',
     enabled: true
   });
 
@@ -210,7 +210,7 @@ export default () => {
       'cms/components/Slideshow.js'
     ),
     name: 'Simple Slideshow',
-    description: 'A simple slideshow widget',
+    description: 'Rotating image carousel',
     enabled: true
   });
 
