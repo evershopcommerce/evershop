@@ -2,27 +2,51 @@
   "type": "object",
   "properties": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "Widget name must be a string",
+        "minLength": "Widget name is required and cannot be empty"
+      }
     },
     "status": {
       "type": ["string", "integer"],
-      "enum": ["0", "1", 0, 1]
+      "enum": ["0", "1", 0, 1],
+      "errorMessage": {
+        "type": "Status must be a string or number",
+        "enum": "Status must be either 0, 1, '0', or '1'"
+      }
     },
     "area": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "errorMessage": {
+          "type": "Area item must be a string"
+        }
+      },
+      "errorMessage": {
+        "type": "Area must be an array"
       }
     },
     "route": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "errorMessage": {
+          "type": "Route item must be a string"
+        }
+      },
+      "errorMessage": {
+        "type": "Route must be an array"
       }
     },
     "settings": {
       "type": "object",
-      "additionalProperties": true
+      "additionalProperties": true,
+      "errorMessage": {
+        "type": "Settings must be an object"
+      }
     }
   },
   "additionalProperties": true
