@@ -128,7 +128,11 @@ export const query = `
       orders {
         ...ShoppingCart
         orderId
-        status
+        status {
+          name
+          code
+          badge
+        }
         orderNumber
         shipmentStatus {
           name
@@ -259,7 +263,10 @@ export const fragments = `
       value
       text
     }
-    updatedAt
+    updatedAt  {
+      value
+      text
+    }
   }
 
   fragment ShoppingCartItem on ShoppingCartItem {

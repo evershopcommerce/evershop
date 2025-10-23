@@ -45,18 +45,23 @@ export enum CartSyncTrigger {
 export interface CartItem {
   cartItemId: string;
   uuid: string;
+  productId: string;
   qty: number;
   productSku: string;
   productName: string;
   productUrl: string;
-  thumbnail?: string; // Added from GraphQL response
+  thumbnail?: string;
+  productWeight: {
+    value: number;
+    unit: string;
+  };
   variantOptions?: {
     attributeCode: string;
     attributeName: string;
     attributeId: number;
     optionId: number;
     optionText: string;
-  }[]; // Changed from 'string' to match GraphQL response
+  }[];
   productPrice: {
     value: number;
     text: string;
@@ -73,7 +78,32 @@ export interface CartItem {
     value: number;
     text: string;
   };
+  taxPercent: number;
+  taxAmount: {
+    value: number;
+    text: string;
+  };
+  taxAmountBeforeDiscount: {
+    value: number;
+    text: string;
+  };
+  discountAmount: {
+    value: number;
+    text: string;
+  };
   lineTotal: {
+    value: number;
+    text: string;
+  };
+  subTotal: {
+    value: number;
+    text: string;
+  };
+  lineTotalWithDiscount: {
+    value: number;
+    text: string;
+  };
+  lineTotalWithDiscountInclTax: {
     value: number;
     text: string;
   };
@@ -81,10 +111,14 @@ export interface CartItem {
     value: number;
     text: string;
   };
+  total: {
+    value: number;
+    text: string;
+  };
+  variantGroupId?: number;
   removeApi: string; // API endpoint to remove item from cart
   updateQtyApi: string; // API endpoint to update item quantity
-  errors?: any[]; // Added from GraphQL response
-  virtual?: boolean; // Virtual products don't require shipping
+  errors?: any[]; // Validation errors for this item
 }
 
 export interface PaymentMethod {
@@ -114,42 +148,33 @@ export interface CartError {
 
 // Extensible cart data interface - third-party extensions can add any fields from server-side cart data
 export interface CartData {
-  uuid?: string; // Cart unique identifier (changed from 'id' to match GraphQL)
-  totalQty: number; // Changed from 'totalItems' to match GraphQL
+  uuid?: string; // Cart unique identifier
+  currency: string; // Currency code
+  totalQty: number; // Total quantity of items
+  totalWeight: {
+    value: number;
+    unit: string;
+  }; // Total weight of items
   customerId?: number; // Optional customer ID
   customerGroupId?: number; // Optional customer group ID
   customerEmail?: string; // Optional customer email
   customerFullName?: string; // Optional customer full name
   coupon?: string; // Coupon code applied to cart
-  shippingMethod?: string; // Selected shipping method ID
+  shippingMethod?: string; // Selected shipping method code
   shippingMethodName?: string; // Selected shipping method name
-  paymentMethod?: string; // Selected payment method ID
+  paymentMethod?: string; // Selected payment method code
   paymentMethodName?: string; // Selected payment method name
-  currency: string; // Currency code
   shippingNote?: string; // Shipping note
-  addItemApi: string; // API endpoint to add item to cart
-  addPaymentMethodApi: string; // API endpoint to add payment method
-  addShippingMethodApi: string; // API endpoint to add shipping method
-  addContactInfoApi: string; // API endpoint to add contact info
-  addAddressApi: string; // API endpoint to add address
-  addNoteApi: string; // API endpoint to add note
-  applyCouponApi: string; // API endpoint to apply coupon
-  checkoutApi: string; // API endpoint to perform checkout
-  removeCouponApi?: string; // API endpoint to remove coupon
   items: CartItem[];
-  subTotal: {
-    value: number;
-    text: string;
-  };
-  subTotalInclTax: {
-    value: number;
-    text: string;
-  };
-  grandTotal: {
-    value: number;
-    text: string;
-  };
   taxAmount: {
+    value: number;
+    text: string;
+  };
+  totalTaxAmount: {
+    value: number;
+    text: string;
+  };
+  taxAmountBeforeDiscount: {
     value: number;
     text: string;
   };
@@ -165,10 +190,55 @@ export interface CartData {
     value: number;
     text: string;
   };
+  shippingTaxAmount: {
+    value: number;
+    text: string;
+  };
+  subTotal: {
+    value: number;
+    text: string;
+  };
+  subTotalInclTax: {
+    value: number;
+    text: string;
+  };
+  subTotalWithDiscount: {
+    value: number;
+    text: string;
+  };
+  subTotalWithDiscountInclTax: {
+    value: number;
+    text: string;
+  };
+  grandTotal: {
+    value: number;
+    text: string;
+  };
+  billingAddress?: CustomerAddressGraphql;
+  shippingAddress?: CustomerAddressGraphql;
+  createdAt: {
+    value: string;
+    text: string;
+  };
+  updatedAt: {
+    value: string;
+    text: string;
+  };
+  // API endpoints
+  addItemApi: string;
+  addPaymentMethodApi: string;
+  addShippingMethodApi: string;
+  addContactInfoApi: string;
+  addAddressApi: string;
+  addNoteApi: string;
+  applyCouponApi: string;
+  checkoutApi: string;
+  removeCouponApi?: string;
+  // Available methods
   availablePaymentMethods: {
     code: string;
     name: string;
-  }[]; // Available payment methods from GraphQL
+  }[];
   availableShippingMethods: {
     code: string;
     name: string;
@@ -176,9 +246,8 @@ export interface CartData {
       value: number;
       text: string;
     };
-  }[]; // Available shipping methods from GraphQL (requires country/province)
-  billingAddress?: CustomerAddressGraphql;
-  shippingAddress?: CustomerAddressGraphql;
+  }[];
+  // Errors
   errors: CartError[];
   error: string | null;
   [extendedFields: string]: any; // Allow third-party extensions to add fields
@@ -344,17 +413,25 @@ const initialEmptyState: CartState = {
     addItemApi: '', // initial addItemApi
     items: [],
     totalQty: 0,
+    totalWeight: { value: 0, unit: 'kg' },
     billingAddress: undefined,
     shippingAddress: undefined,
     errors: [],
     error: null,
-    subTotal: { value: 0, text: '0.00' },
-    subTotalInclTax: { value: 0, text: '0.00' },
+    taxAmount: { value: 0, text: '0.00' },
+    totalTaxAmount: { value: 0, text: '0.00' },
+    taxAmountBeforeDiscount: { value: 0, text: '0.00' },
+    discountAmount: { value: 0, text: '0.00' },
     shippingFeeExclTax: { value: 0, text: '0.00' },
     shippingFeeInclTax: { value: 0, text: '0.00' },
+    shippingTaxAmount: { value: 0, text: '0.00' },
+    subTotal: { value: 0, text: '0.00' },
+    subTotalInclTax: { value: 0, text: '0.00' },
+    subTotalWithDiscount: { value: 0, text: '0.00' },
+    subTotalWithDiscountInclTax: { value: 0, text: '0.00' },
     grandTotal: { value: 0, text: '0.00' },
-    taxAmount: { value: 0, text: '0.00' },
-    discountAmount: { value: 0, text: '0.00' },
+    createdAt: { value: '', text: '' },
+    updatedAt: { value: '', text: '' },
     coupon: '',
     addPaymentMethodApi: '', // Will be set by server
     addShippingMethodApi: '', // Will be set by server
@@ -1004,9 +1081,13 @@ export const CartProvider = ({
   }, [state.data?.removeCouponApi, syncCartWithServer]);
 
   // Check if shipping is required
+  // Note: Currently assumes all items require shipping
+  // If you need to support virtual/downloadable products, add a 'virtual' or 'requiresShipping' field to CartItem
   const isShippingRequired = useCallback(() => {
     if (!state.data) return false;
-    return state.data.items.some((item) => !item.virtual);
+    // If there are items in the cart, shipping is required
+    // This can be enhanced with a virtual/downloadable product check if needed
+    return state.data.items.length > 0;
   }, [state.data?.items]);
 
   // Check if cart is ready for checkout

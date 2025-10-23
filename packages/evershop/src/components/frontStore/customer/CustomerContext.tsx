@@ -22,10 +22,16 @@ type ExtendedCustomerAddress = CustomerAddressGraphql & {
 export interface OrderItem {
   orderItemId: string;
   uuid: string;
+  productId: string;
   qty: number;
   productSku: string;
   productName: string;
+  productUrl: string;
   thumbnail?: string;
+  productWeight: {
+    value: number;
+    unit: string;
+  };
   variantOptions?: {
     attributeCode: string;
     attributeName: string;
@@ -49,7 +55,32 @@ export interface OrderItem {
     value: number;
     text: string;
   };
+  taxPercent: number;
+  taxAmount: {
+    value: number;
+    text: string;
+  };
+  taxAmountBeforeDiscount: {
+    value: number;
+    text: string;
+  };
+  discountAmount: {
+    value: number;
+    text: string;
+  };
   lineTotal: {
+    value: number;
+    text: string;
+  };
+  subTotal: {
+    value: number;
+    text: string;
+  };
+  lineTotalWithDiscount: {
+    value: number;
+    text: string;
+  };
+  lineTotalWithDiscountInclTax: {
     value: number;
     text: string;
   };
@@ -57,14 +88,18 @@ export interface OrderItem {
     value: number;
     text: string;
   };
-  virtual?: boolean;
+  total: {
+    value: number;
+    text: string;
+  };
+  variantGroupId?: number;
 }
 
 export interface Order {
   orderId: number;
   uuid: string;
-  status: string;
   orderNumber: string;
+  currency: string;
   customerId?: number;
   customerGroupId?: number;
   customerEmail?: string;
@@ -74,26 +109,37 @@ export interface Order {
   shippingMethodName?: string;
   paymentMethod?: string;
   paymentMethodName?: string;
-  currency: string;
-  shippingNote: string | null;
+  shippingNote?: string;
+  status: {
+    name: string;
+    code: string;
+    badge: string;
+  };
+  shipmentStatus?: {
+    name: string;
+    code: string;
+    badge: string;
+  };
+  paymentStatus?: {
+    name: string;
+    code: string;
+    badge: string;
+  };
   items: OrderItem[];
-  createdAt: {
-    value: string;
-    text: string;
-  };
-  subTotal: {
+  totalQty: number;
+  totalWeight: {
     value: number;
-    text: string;
-  };
-  subTotalInclTax: {
-    value: number;
-    text: string;
-  };
-  grandTotal: {
-    value: number;
-    text: string;
+    unit: string;
   };
   taxAmount: {
+    value: number;
+    text: string;
+  };
+  totalTaxAmount: {
+    value: number;
+    text: string;
+  };
+  taxAmountBeforeDiscount: {
     value: number;
     text: string;
   };
@@ -109,9 +155,40 @@ export interface Order {
     value: number;
     text: string;
   };
+  shippingTaxAmount: {
+    value: number;
+    text: string;
+  };
+  subTotal: {
+    value: number;
+    text: string;
+  };
+  subTotalInclTax: {
+    value: number;
+    text: string;
+  };
+  subTotalWithDiscount: {
+    value: number;
+    text: string;
+  };
+  subTotalWithDiscountInclTax: {
+    value: number;
+    text: string;
+  };
+  grandTotal: {
+    value: number;
+    text: string;
+  };
   billingAddress?: CustomerAddressGraphql;
   shippingAddress?: CustomerAddressGraphql;
-  [extendedFields: string]: any;
+  createdAt: {
+    value: string;
+    text: string;
+  };
+  updatedAt: {
+    value: string;
+    text: string;
+  };
 }
 
 interface Customer {

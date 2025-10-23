@@ -8,9 +8,11 @@ export interface CustomerAddressGraphql {
   postcode?: string | null;
   province?: {
     code: string;
+    name: string;
   } | null;
   country?: {
     code: string;
+    name: string;
   };
 }
 
