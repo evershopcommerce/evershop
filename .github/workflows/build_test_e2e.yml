@@ -22,31 +22,26 @@ jobs:
           npm pack
           VERSION=$(node -p "require('./package.json').version")
           FILE_NAME="evershop-evershop-$VERSION.tgz"
-          echo "file_name=$FILE_NAME" >> $GITHUB_OUTPUT
+          echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
           echo "✅ Built package: $FILE_NAME"
-          echo "---- Directory listing ----"
-          ls -lh *.tgz || echo "⚠️ No .tgz file found!"
 
-      - name: 📤 Copy package to VPS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SELF_HOSTED_RUNNER_102_VPS_IP }}
-          username: ${{ secrets.SELF_HOSTED_RUNNER_102_USER }}
-          key: ${{ secrets.SELF_HOSTED_RUNNER_102_PRIVATE_KEY }}
-          port: 22
-          source: "*.tgz"
-          target: "/home/github-runner/e2e-ecommerce-evershop/source"
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SELF_HOSTED_RUNNER_102_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+
+          echo "Uploading $FILE_NAME to VPS..."
+          scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no "$FILE_NAME" \
+          ${{ secrets.SELF_HOSTED_RUNNER_102_USER }}@${{ secrets.SELF_HOSTED_RUNNER_102_VPS_IP }}:/home/github-runner/e2e-ecommerce-evershop/source
 
       - name: 🚀 Deploy to VPS
-        uses: appleboy/ssh-action@v1.1.0
-        with:
-          host: ${{ secrets.SELF_HOSTED_RUNNER_102_VPS_IP }}
-          username: ${{ secrets.SELF_HOSTED_RUNNER_102_USER }}
-          key: ${{ secrets.SELF_HOSTED_RUNNER_102_PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd /home/github-runner/e2e-ecommerce-evershop/source
-            rm -rf ./node_modules package-lock.json
-            npm install
-            npm install "file:./${{ env.FILE_NAME }}"
-            npm run build
+        run: |
+          FILE_NAME=${{ env.FILE_NAME }}
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+            ${{ secrets.SELF_HOSTED_RUNNER_102_USER }}@${{ secrets.SELF_HOSTED_RUNNER_102_VPS_IP }} << EOF
+              cd /home/github-runner/e2e-ecommerce-evershop/source
+              rm -rf ./node_modules package-lock.json
+              npm install
+              npm install "file:./$FILE_NAME"
+              npm run build
+          EOF
