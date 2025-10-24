@@ -24,6 +24,8 @@ jobs:
           FILE_NAME="evershop-evershop-$VERSION.tgz"
           echo "file_name=$FILE_NAME" >> $GITHUB_OUTPUT
           echo "✅ Built package: $FILE_NAME"
+          echo "---- Directory listing ----"
+          ls -lh *.tgz || echo "⚠️ No .tgz file found!"
 
       - name: 📤 Copy package to VPS
         uses: appleboy/scp-action@v0.1.7
@@ -32,7 +34,7 @@ jobs:
           username: ${{ secrets.SELF_HOSTED_RUNNER_102_USER }}
           key: ${{ secrets.SELF_HOSTED_RUNNER_102_PRIVATE_KEY }}
           port: 22
-          source: "${{ steps.build.outputs.file_name }}"
+          source: "*.tgz"
           target: "/home/github-runner/e2e-ecommerce-evershop/source"
 
       - name: 🚀 Deploy to VPS
