@@ -15,12 +15,12 @@ jobs:
 
       - name: 🧩 Prepare source
         run: |
-          VERSION=$(node -p "require('./package.json').version")
           npm install
           cd packages/postgres-query-builder
           npm run compile
           cd ../evershop
           npm pack
+          VERSION=$(node -p "require('./package.json').version")
           FILE_NAME="evershop-evershop-$VERSION.tgz"
           echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
           echo "✅ Built package: $FILE_NAME"
