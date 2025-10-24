@@ -7,8 +7,6 @@ on:
 jobs:
   package:
     runs-on: self-hosted
-    container:
-      image: node:20-bullseye
     steps:
       - name: 📦 Checkout source code
         uses: actions/checkout@v4
