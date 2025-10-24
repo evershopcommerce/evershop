@@ -7,6 +7,8 @@ on:
 jobs:
   package:
     runs-on: self-hosted
+    container:
+      image: node:20-bullseye
     steps:
       - name: 📦 Checkout source code
         uses: actions/checkout@v4
@@ -15,8 +17,9 @@ jobs:
         run: |
           VERSION=$(node -p "require('./package.json').version")
           npm install
-          npm run compile:db
-          cd packages/evershop
+          cd packages/postgres-query-builder
+          npm run compile
+          cd ../evershop
           npm pack
           FILE_NAME="evershop-evershop-$VERSION.tgz"
           echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
