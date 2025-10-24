@@ -44,4 +44,5 @@ jobs:
               npm install "file:./$FILE_NAME"
               npm install
               npm run build
+              pm2 restart e2e-evershop
           EOF
