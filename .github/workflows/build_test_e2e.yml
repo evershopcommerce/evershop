@@ -22,7 +22,7 @@ jobs:
           npm pack
           VERSION=$(node -p "require('./package.json').version")
           FILE_NAME="evershop-evershop-$VERSION.tgz"
-          echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
+          echo "file_name=$FILE_NAME" >> $GITHUB_OUTPUT
           echo "✅ Built package: $FILE_NAME"
 
       - name: 📤 Copy package to VPS
@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.SELF_HOSTED_RUNNER_102_USER }}
           key: ${{ secrets.SELF_HOSTED_RUNNER_102_PRIVATE_KEY }}
           port: 22
-          source: "${{ env.FILE_NAME }}"
+          source: "${{ steps.build.outputs.file_name }}"
           target: "/home/github-runner/e2e-ecommerce-evershop/source"
 
       - name: 🚀 Deploy to VPS
