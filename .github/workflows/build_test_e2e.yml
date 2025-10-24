@@ -4,27 +4,46 @@ on:
   push:
     branches:
       - e2e-integrate
-  workflow_dispatch:
-
 jobs:
-  test:
+  package:
     runs-on: self-hosted
+    container:
+      image: node:20-bullseye
     steps:
-      - name: 🧩 Check runner environment
-        run: |
-          echo "✅ Workflow is running on a self-hosted runner!"
-          echo "Runner user: $(whoami)"
-          echo "OS info:"
-          uname -a
-          echo "Current directory:"
-          pwd
+      - name: 📦 Checkout source code
+        uses: actions/checkout@v4
 
-      - name: 🗂️ Check working directory contents
-        run: ls -la
-
-      - name: 🧰 Test a simple build command
+      - name: 🧩 Prepare source
         run: |
-          echo "Building something..."
-          sleep 2
-          echo "Done ✅"
-          
+          VERSION=$(node -p "require('./package.json').version")
+          npm install
+          npm run compile:db
+          cd packages/evershop
+          npm pack
+          FILE_NAME="evershop-evershop-$VERSION.tgz"
+          echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
+          echo "✅ Built package: $FILE_NAME"
+
+      - name: 📤 Copy package to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SELF_HOSTED_RUNNER_102_VPS_IP }}
+          username: ${{ secrets.SELF_HOSTED_RUNNER_102_USER }}
+          key: ${{ secrets.SELF_HOSTED_RUNNER_102_PRIVATE_KEY }}
+          port: 22
+          source: "${{ env.FILE_NAME }}"
+          target: "/home/github-runner/e2e-ecommerce-evershop/source"
+
+      - name: 🚀 Deploy to VPS
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SELF_HOSTED_RUNNER_102_VPS_IP }}
+          username: ${{ secrets.SELF_HOSTED_RUNNER_102_USER }}
+          key: ${{ secrets.SELF_HOSTED_RUNNER_102_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /home/github-runner/e2e-ecommerce-evershop/source
+            rm -rf ./node_modules package-lock.json
+            npm install
+            npm install "file:./${{ env.FILE_NAME }}"
+            npm run build
