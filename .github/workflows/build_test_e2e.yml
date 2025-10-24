@@ -1,0 +1,29 @@
+name: 🧪 Test Self-Hosted Runner
+
+on:
+  push:
+    branches:
+      - e2e-integrate
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+      - name: 🧩 Check runner environment
+        run: |
+          echo "✅ Workflow is running on a self-hosted runner!"
+          echo "Runner user: $(whoami)"
+          echo "OS info:"
+          uname -a
+          echo "Current directory:"
+          pwd
+
+      - name: 🗂️ Check working directory contents
+        run: ls -la
+
+      - name: 🧰 Test a simple build command
+        run: |
+          echo "Building something..."
+          sleep 2
+          echo "Done ✅"
