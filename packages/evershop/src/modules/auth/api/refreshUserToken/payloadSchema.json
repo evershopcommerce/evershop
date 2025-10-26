@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "refreshToken": {
+      "type": "string",
+      "errorMessage": {
+        "type": "Refresh token must be a string"
+      }
+    }
+  },
+  "required": ["refreshToken"],
+  "errorMessage": {
+    "required": {
+      "refreshToken": "Refresh token is required"
+    }
+  }
+}

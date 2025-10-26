@@ -51,6 +51,9 @@ export default async (request, response, next) => {
       .from('order')
       .where('uuid', '=', order_id)
       .load(connection);
+    if (!order) {
+      throw new Error(`Order with id ${order_id} not found`);
+    }
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded': {

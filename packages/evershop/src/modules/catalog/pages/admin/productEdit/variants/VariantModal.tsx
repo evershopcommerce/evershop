@@ -83,10 +83,10 @@ export const VariantModal: React.FC<
       images: (variantData[6] || []).map((image) => image.url),
       attributes:
         productFormData.attributes?.map((attr) => {
-          if (variantData[5]?.[attr.attributeCode]) {
+          if (variantData[5]?.[attr.attribute_code]) {
             return {
               ...attr,
-              value: variantData[5][attr.attributeCode]
+              value: variantData[5][attr.attribute_code]
             };
           }
           return attr;

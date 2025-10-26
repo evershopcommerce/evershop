@@ -99,7 +99,8 @@ function Alert({ children }) {
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="2rem"
+                    width="1.5rem"
+                    className="w-6 h-6"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >

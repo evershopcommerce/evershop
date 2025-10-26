@@ -3,6 +3,7 @@ import { select } from '@evershop/postgres-query-builder';
 import sessionStorage from 'connect-pg-simple';
 import session from 'express-session';
 import { pool } from '../../../../lib/postgres/connection.js';
+import { EvershopRequest } from '../../../../types/request.js';
 import { setContextValue } from '../../../graphql/services/contextHelper.js';
 import { getAdminSessionCookieName } from '../../services/getAdminSessionCookieName.js';
 
@@ -14,7 +15,7 @@ import { getAdminSessionCookieName } from '../../services/getAdminSessionCookieN
  * @param {*} next
  * @returns
  */
-export default async (request, response, next) => {
+export default async (request: EvershopRequest, response, next) => {
   // Check if the user is authenticated, if yes we assume previous authentication middleware has set the user in the context
   let currentAdminUser = request.getCurrentUser();
   if (!currentAdminUser) {
@@ -40,8 +41,10 @@ export default async (request, response, next) => {
             .load(pool);
 
           if (currentAdminUser) {
-            // Delete the password field
-            delete currentAdminUser.password;
+            // Delete the password field if present (cast to any to avoid TS error)
+            if ('password' in currentAdminUser) {
+              delete (currentAdminUser as any).password;
+            }
             request.locals.user = currentAdminUser;
             setContextValue(request, 'user', currentAdminUser);
           }
