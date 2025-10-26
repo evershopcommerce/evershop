@@ -4,6 +4,7 @@ import sessionStorage from 'connect-pg-simple';
 import session from 'express-session';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getFrontStoreSessionCookieName } from '../../../auth/services/getFrontStoreSessionCookieName.js';
+import { setContextValue } from '../../../graphql/services/contextHelper.js';
 
 /**
  * This is the session based authentication middleware.
@@ -44,6 +45,7 @@ export default async (request, response, next) => {
             // Delete the password field
             delete currentCustomer.password;
             request.locals.customer = currentCustomer;
+            setContextValue(request, 'customer', currentCustomer);
           }
         }
         // We also keep the session id in the request.
@@ -53,6 +55,8 @@ export default async (request, response, next) => {
     } catch (e) {
       // Do nothing, the customer is not logged in
     }
+  } else {
+    setContextValue(request, 'customer', currentCustomer);
   }
   next();
 };

@@ -7,7 +7,10 @@ import { comparePassword } from '../../../lib/util/passwordHelper.js';
  * @param {string} email
  * @param {string} password
  */
-async function loginUserWithEmail(email, password) {
+async function loginUserWithEmail(
+  email: string,
+  password: string
+): Promise<void> {
   // Escape the email to prevent SQL injection
   const userEmail = email.replace(/%/g, '\\%');
   const user = await select()
@@ -19,11 +22,13 @@ async function loginUserWithEmail(email, password) {
   if (!user || !result) {
     throw new Error('Invalid email or password');
   }
-  this.session.userID = user.admin_user_id;
+  if (this.session) {
+    this.session.userID = user.admin_user_id;
+  }
   // Delete the password field
   delete user.password;
   // Save the user in the request
   this.locals.user = user;
 }
 
-export default loginUserWithEmail;
+export { loginUserWithEmail };

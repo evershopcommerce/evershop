@@ -73,12 +73,16 @@ export default () => {
     callback
   ) {
     await hookable(loginCustomerWithEmail.bind(this))(email, password);
-    this.session.save(callback);
+    if (this.session) {
+      this.session.save(callback);
+    }
   };
 
   (request as EvershopRequest).logoutCustomer = function logout(callback) {
     hookable(logoutCustomer.bind(this))();
-    this.session.save(callback);
+    if (this.session) {
+      this.session.save(callback);
+    }
   };
 
   (request as EvershopRequest).isCustomerLoggedIn =
