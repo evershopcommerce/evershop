@@ -41,6 +41,8 @@ jobs:
             ${{ secrets.SELF_HOSTED_RUNNER_102_USER }}@${{ secrets.SELF_HOSTED_RUNNER_102_VPS_IP }} << EOF
               cd /home/github-runner/e2e-ecommerce-evershop/source
               rm -rf ./node_modules package-lock.json
+              npm cache clean --force
+              npm uninstall @evershop/evershop || true
               npm install "file:./$FILE_NAME"
               npm install
               npm run build
