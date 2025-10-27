@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "errorMessage": {
+        "type": "Email must be a string"
+      }
+    },
+    "password": {
+      "type": "string",
+      "errorMessage": {
+        "type": "Password must be a string"
+      }
+    }
+  },
+  "required": ["email", "password"],
+  "errorMessage": {
+    "required": {
+      "email": "Email is required",
+      "password": "Password is required"
+    }
+  }
+}

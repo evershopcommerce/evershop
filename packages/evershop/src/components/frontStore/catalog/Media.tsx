@@ -7,6 +7,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Image } from '@components/common/Image.js';
 import { useProduct } from '@components/frontStore/catalog/ProductContext.js';
 import './Media.scss';
+import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 
 const SliderComponent = Slider as any;
 
@@ -121,15 +122,6 @@ export const Media: React.FC<MediaProps> = ({
     });
   }
 
-  if (allImages.length === 0) {
-    allImages.push({
-      url: '/default-product-image.png',
-      alt: product.name,
-      width: imageSize.width,
-      height: imageSize.height
-    });
-  }
-
   const mainSliderSettings = {
     dots: allImages.length > 1,
     dotsClass: 'slick-dots slick-thumb',
@@ -224,28 +216,35 @@ export const Media: React.FC<MediaProps> = ({
   return (
     <div className="product-media-container">
       <div className="main-image-container">
-        <SliderComponent.default
-          ref={mainSliderRef}
-          {...mainSliderSettings}
-          className="product-slider"
-        >
-          {allImages.map((image, index) => (
-            <div
-              key={index}
-              className="product-image"
-              onClick={() => openModal(index)}
-              style={{ width: imageSize.width, height: imageSize.height }}
-            >
-              <Image
-                src={image.url}
-                alt={image.alt || 'Product image'}
-                width={imageSize.width}
-                height={imageSize.height}
-                objectFit="scale-down"
-              />
-            </div>
-          ))}
-        </SliderComponent.default>
+        {allImages.length > 0 && (
+          <SliderComponent.default
+            ref={mainSliderRef}
+            {...mainSliderSettings}
+            className="product-slider"
+          >
+            {allImages.map((image, index) => (
+              <div
+                key={index}
+                className="product-image"
+                onClick={() => openModal(index)}
+                style={{ width: imageSize.width, height: imageSize.height }}
+              >
+                <Image
+                  src={image.url}
+                  alt={image.alt || 'Product image'}
+                  width={imageSize.width}
+                  height={imageSize.height}
+                  objectFit="scale-down"
+                />
+              </div>
+            ))}
+          </SliderComponent.default>
+        )}
+        {allImages.length === 0 && (
+          <div className="w-full h-full flex items-center justify-center py-24 bg-gray-100">
+            <ProductNoThumbnail className="w-48 h-48" />
+          </div>
+        )}
       </div>
 
       {isModalOpen && (

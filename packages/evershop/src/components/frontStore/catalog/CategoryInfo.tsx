@@ -20,7 +20,7 @@ export function CategoryInfo() {
             priority={true}
           />
         )}
-        <div className="category__info prose prose-base max-w-none">
+        <div className="category__info prose prose-base page-width">
           <h1 className="category__name">{name}</h1>
           <div className="category__description">
             <Editor rows={description} />

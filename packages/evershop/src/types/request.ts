@@ -13,11 +13,12 @@ export interface CurrentCustomer {
 }
 
 export interface CurrentUser {
-  user_id: number;
+  admin_user_id: number;
   uuid: string;
   email: string;
   full_name: string;
   status: number;
+  roles: string;
   created_at: Date;
   updated_at: Date;
 }

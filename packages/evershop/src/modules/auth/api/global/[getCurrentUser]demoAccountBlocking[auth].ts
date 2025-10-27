@@ -1,7 +1,8 @@
 import { getEnv } from '../../../../lib/util/getEnv.js';
 import { UNAUTHORIZED } from '../../../../lib/util/httpStatus.js';
+import { EvershopRequest } from '../../../../types/request.js';
 
-export default (request, response, next) => {
+export default (request: EvershopRequest, response, next) => {
   const { currentRoute } = request;
   if (
     request.method === 'GET' ||
@@ -14,7 +15,11 @@ export default (request, response, next) => {
     const currentUserEmail = user?.email;
     const demoUserEmails = getEnv('DEMO_USER_EMAILS', '').split(',');
 
-    if (demoUserEmails && demoUserEmails.includes(currentUserEmail)) {
+    if (
+      user &&
+      demoUserEmails &&
+      demoUserEmails.includes(currentUserEmail || '')
+    ) {
       response.status(UNAUTHORIZED).json({
         error: {
           status: UNAUTHORIZED,
