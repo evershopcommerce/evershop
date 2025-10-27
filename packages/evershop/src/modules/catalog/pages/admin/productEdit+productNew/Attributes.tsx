@@ -228,7 +228,12 @@ export default function Attributes({
               }
               return (
                 <tr key={attribute.id}>
-                  <td>{attribute.attribute_name}</td>
+                  <td>
+                    <span>{attribute.attribute_name}</span>
+                    {attribute.is_required === 1 && (
+                      <span className="required-indicator">*</span>
+                    )}
+                  </td>
                   <td>
                     <InputField
                       type="hidden"

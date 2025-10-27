@@ -1,4 +1,5 @@
 import { UNAUTHORIZED } from '../../../../lib/util/httpStatus.js';
+import { EvershopRequest } from '../../../../types/request.js';
 
 /**
  * This is the session based authentication middleware.
@@ -8,7 +9,7 @@ import { UNAUTHORIZED } from '../../../../lib/util/httpStatus.js';
  * @param {*} next
  * @returns
  */
-export default async (request, response, next) => {
+export default async (request: EvershopRequest, response, next) => {
   // Get the current route
   const { currentRoute } = request;
   const currentAdminUser = request.getCurrentUser();
@@ -30,12 +31,12 @@ export default async (request, response, next) => {
     });
   } else {
     // Get user roles
-    let userRoles = currentAdminUser.roles || '*';
+    const userRoles = currentAdminUser.roles || '*';
     if (userRoles === '*') {
       next();
     } else {
-      userRoles = userRoles.split(',');
-      if (userRoles.includes(currentRoute.id)) {
+      const roles = userRoles.split(',');
+      if (roles.includes(currentRoute.id)) {
         next();
       } else {
         response.status(UNAUTHORIZED);

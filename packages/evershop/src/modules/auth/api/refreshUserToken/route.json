@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/user/token/refresh",
+  "access": "public"
+}

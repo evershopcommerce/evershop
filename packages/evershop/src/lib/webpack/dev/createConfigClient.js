@@ -1,12 +1,12 @@
 import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack from 'webpack';
+import { getEnabledExtensions } from '../../../bin/extension/index.js';
 import { getComponentsByRoute } from '../../componee/getComponentsByRoute.js';
 import { CONSTANTS } from '../../helpers.js';
 import { createBaseConfig } from '../createBaseConfig.js';
 import { GraphqlPlugin } from '../plugins/GraphqlPlugin.js';
 import { ThemeWatcherPlugin } from '../plugins/ThemeWatcherPlugin.js';
-import { getEnabledExtensions } from '../../../bin/extension/index.js';
 
 export function createConfigClient(route, tailwindConfig) {
   const extensions = getEnabledExtensions();

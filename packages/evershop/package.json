@@ -179,6 +179,7 @@
     "immer": "^10.1.1",
     "jsesc": "^3.0.2",
     "json5": "^2.2.1",
+    "jsonwebtoken": "^9.0.2",
     "kleur": "3.0.3",
     "lodash.isequalwith": "^4.4.0",
     "luxon": "^2.0.2",
