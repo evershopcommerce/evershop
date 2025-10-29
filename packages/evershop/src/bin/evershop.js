@@ -23,6 +23,8 @@ try {
     await import('./theme/twizz.js');
   } else if (command === 'theme:create') {
     await import('./theme/create.js');
+  } else if (command === 'seed') {
+    await import('./seed/index.js');
   } else {
     throw new Error('Invalid command');
   }

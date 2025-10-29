@@ -1,0 +1,42 @@
+[
+  {
+    "attribute_code": "color",
+    "attribute_name": "Color",
+    "type": "select",
+    "is_required": 1,
+    "display_on_frontend": 1,
+    "sort_order": 10,
+    "is_filterable": 1,
+    "groups": [],
+    "options": [
+      { "option_text": "Black" },
+      { "option_text": "White" },
+      { "option_text": "Red" },
+      { "option_text": "Blue" },
+      { "option_text": "Green" },
+      { "option_text": "Yellow" },
+      { "option_text": "Pink" },
+      { "option_text": "Gray" },
+      { "option_text": "Navy" },
+      { "option_text": "Beige" }
+    ]
+  },
+  {
+    "attribute_code": "size",
+    "attribute_name": "Size",
+    "type": "select",
+    "is_required": 1,
+    "display_on_frontend": 1,
+    "sort_order": 20,
+    "is_filterable": 1,
+    "groups": [],
+    "options": [
+      { "option_text": "XS" },
+      { "option_text": "S" },
+      { "option_text": "M" },
+      { "option_text": "L" },
+      { "option_text": "XL" },
+      { "option_text": "XXL" }
+    ]
+  }
+]
