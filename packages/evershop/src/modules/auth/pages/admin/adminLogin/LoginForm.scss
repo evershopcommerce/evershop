@@ -1,7 +1,5 @@
-@layer components {
-  .header {
-    @apply hidden #{!important};
-  }
+.header {
+  display: none !important;
 }
 #app {
   .content-wrapper {

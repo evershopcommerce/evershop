@@ -65,13 +65,6 @@ export function createConfigClient(route, tailwindConfig) {
           implementation: 'sass',
           api: 'modern'
         }
-      },
-      {
-        loader: path.resolve(
-          CONSTANTS.LIBPATH,
-          'webpack/loaders/PrependTailwind.js'
-        ),
-        options: {}
       }
     ]
   });
