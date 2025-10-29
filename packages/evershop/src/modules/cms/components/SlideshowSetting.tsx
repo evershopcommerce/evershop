@@ -240,8 +240,7 @@ export default function SlideshowSetting({
                 Show Navigation Arrows
               </label>
             </div>
-
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <input
                 type="checkbox"
                 id="dots"
@@ -255,7 +254,7 @@ export default function SlideshowSetting({
               <label htmlFor="dots" className="text-sm">
                 Show Navigation Dots
               </label>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
