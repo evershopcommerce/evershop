@@ -109,7 +109,7 @@ export default function Slideshow({
   }
 }: SlideshowProps) {
   const settings = {
-    dots: Boolean(dots),
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
