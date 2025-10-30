@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Accessories",
+    "url_key": "accessories",
+    "description": [
+      {
+        "id": "r__accessories",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__accessories",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "acc_block_1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Complete your look with our stylish accessories"
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "meta_title": "Fashion Accessories",
+    "meta_description": "Browse our collection of fashion accessories",
+    "meta_keywords": "accessories, fashion accessories, style",
+    "status": 1,
+    "include_in_nav": 1
+  }
+]
