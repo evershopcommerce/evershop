@@ -49,7 +49,7 @@
       "slides": [
         {
           "id": "slide-1",
-          "image": "https://raw.githubusercontent.com/vercel/next.js/refs/heads/canary/examples/blog/public/images/photo.jpg",
+          "image": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/banner-one.jpg",
           "width": 2400,
           "height": 800,
           "subText": "Discover our exquisite collection of ceramic and stainless steel products",
@@ -60,7 +60,7 @@
         },
         {
           "id": "slide-2",
-          "image": "https://raw.githubusercontent.com/vercel/next.js/refs/heads/canary/examples/blog/public/images/photo2.jpg",
+          "image": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/banner-two.jpg",
           "width": 2400,
           "height": 800,
           "subText": "Elegant designs that enhance your daily life, from morning coffee to home organization",
@@ -74,6 +74,18 @@
       "fullWidth": true,
       "heightType": "auto",
       "autoplaySpeed": 3000
+    },
+    "status": true
+  },
+  {
+    "name": "Featured Products",
+    "type": "collection_products",
+    "route": ["homepage"],
+    "area": ["content"],
+    "sort_order": 20,
+    "settings": {
+      "count": 4,
+      "collection": "homepage"
     },
     "status": true
   }

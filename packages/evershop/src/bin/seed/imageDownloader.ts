@@ -102,7 +102,7 @@ export function convertToMediaPath(localPath: string): string {
   // e.g., /path/to/media/widgets/slide-1.jpg -> /media/widgets/slide-1.jpg
   const mediaMatch = localPath.match(/media\/(.+)$/);
   if (mediaMatch) {
-    return `/media/${mediaMatch[1]}`;
+    return `/assets/${mediaMatch[1]}`;
   }
   return localPath;
 }

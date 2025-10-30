@@ -14,11 +14,11 @@
               "time": 1729900000000,
               "blocks": [
                 {
-                  "id": "about_us_h1",
+                  "id": "about_us_h2",
                   "type": "header",
                   "data": {
                     "text": "Welcome to Our Store",
-                    "level": 1
+                    "level": 2
                   }
                 },
                 {
@@ -41,7 +41,7 @@
                   "type": "image",
                   "data": {
                     "file": {
-                      "url": "https://raw.githubusercontent.com/vercel/next.js/refs/heads/canary/examples/blog/public/images/photo.jpg"
+                      "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/banner-one.jpg"
                     },
                     "caption": "Our carefully curated collection",
                     "withBorder": false,
