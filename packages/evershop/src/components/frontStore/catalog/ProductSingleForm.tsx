@@ -76,14 +76,14 @@ export function ProductSingleForm() {
                               }
                             });
                           }}
-                          className="w-full py-3 text-lg font-medium !rounded-full mt-8"
+                          className="w-full py-3 text-lg font-base !rounded-full mt-8"
                         />
                       )}
                       {state.isInStock === false && (
                         <Button
                           title={_('SOLD OUT')}
                           onAction={() => {}}
-                          className="w-full py-3 text-lg font-medium !rounded-full"
+                          className="w-full py-3 text-lg font-base !rounded-full"
                         />
                       )}
                     </>
