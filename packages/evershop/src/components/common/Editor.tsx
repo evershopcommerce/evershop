@@ -152,12 +152,12 @@ interface EditorProps {
 
 export function Editor({ rows }: EditorProps) {
   return (
-    <div className="editor__html">
+    <div className="editor__html space-y-6">
       {rows.map((row, index) => {
         const rowClasses = getRowClasses(row.size);
         return (
           <div
-            className={`row__container mt-7 grid ${rowClasses} grid-cols-1 gap-5`}
+            className={`row__container grid ${rowClasses} grid-cols-1 gap-5`}
             key={index}
           >
             {row.columns.map((column, index) => {
