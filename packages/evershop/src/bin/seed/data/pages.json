@@ -41,7 +41,9 @@
                   "type": "image",
                   "data": {
                     "file": {
-                      "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/banner-one.jpg"
+                      "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/banner-one.jpg",
+                      "width": 2400,
+                      "height": 1200
                     },
                     "caption": "Our carefully curated collection",
                     "withBorder": false,

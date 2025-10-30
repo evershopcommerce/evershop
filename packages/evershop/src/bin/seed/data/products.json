@@ -107,7 +107,12 @@
     "collections": ["homepage", "best-sellers"],
     "category": "accessories",
     "variant_group": "ceramic-coffee-cup",
-    "images": [],
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/cup-black.jpg",
+        "isMain": true
+      }
+    ],
     "attributes": [
       {
         "attribute_code": "color",
