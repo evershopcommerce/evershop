@@ -29,7 +29,7 @@ export function CouponForm() {
       {(state: CouponState, actions: CouponActions) => (
         <div className="coupon-form">
           <Form form={form} method="POST" submitBtn={false}>
-            <div className="flex justify-between gap-7">
+            <div className="flex justify-between gap-3">
               <div className="w-4/5">
                 <InputField
                   name="coupon"
@@ -61,6 +61,7 @@ export function CouponForm() {
                     }
                   }}
                   variant={state.appliedCoupon ? 'danger' : 'primary'}
+                  className="text-base"
                 />
               </div>
             </div>

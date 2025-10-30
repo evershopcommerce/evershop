@@ -39,17 +39,19 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
           : row.productPrice?.text;
         return (
           <div className="flex justify-start gap-4">
-            {row.thumbnail ? (
-              <Image
-                src={row.thumbnail}
-                alt={row.productName}
-                width={80}
-                height={80}
-                className="rounded-md"
-              />
-            ) : (
-              <ProductNoThumbnail />
-            )}
+            <div>
+              {row.thumbnail ? (
+                <Image
+                  src={row.thumbnail}
+                  alt={row.productName}
+                  width={80}
+                  height={80}
+                  className="rounded-md"
+                />
+              ) : (
+                <ProductNoThumbnail width={80} height={80} />
+              )}
+            </div>
             <div className="font-medium flex flex-col gap-1 items-start h-full">
               <span className="font-semibold">{row.productName}</span>
               {row.variantOptions?.map((option) => (

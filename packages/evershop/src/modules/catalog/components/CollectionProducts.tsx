@@ -26,14 +26,18 @@ export default function CollectionProducts({
   return (
     <div className="pt-7 collection__products__widget">
       <div className="page-width">
-        <h3 className="mt-7 mb-7 text-center uppercase h5 tracking-widest">
+        <h3 className="text-center uppercase h5 tracking-widest">
           {collection?.name}
         </h3>
-        {collection?.description && <Editor rows={collection?.description} />}
-        <ProductList
-          products={collection?.products?.items}
-          gridColumns={countPerRow}
-        />
+        <div className="flex justify-center">
+          {collection?.description && <Editor rows={collection?.description} />}
+        </div>
+        <div className="mt-3">
+          <ProductList
+            products={collection?.products?.items}
+            gridColumns={countPerRow}
+          />
+        </div>
       </div>
     </div>
   );

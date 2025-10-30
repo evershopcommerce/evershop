@@ -5,7 +5,9 @@ interface MiniCartIconProps {
   cartUrl: string;
 }
 export default function MiniCartIcon({ cartUrl }: MiniCartIconProps) {
-  return <MiniCart cartUrl={cartUrl} />;
+  return (
+    <MiniCart className="flex justify-center items-center" cartUrl={cartUrl} />
+  );
 }
 
 export const layout = {
