@@ -1,15 +1,15 @@
-import { insert, select } from '@evershop/postgres-query-builder';
-import { getConnection } from '../../lib/postgres/connection.js';
-import { error, info, success } from '../../lib/log/logger.js';
 import { readFileSync, existsSync, mkdirSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { insert, select } from '@evershop/postgres-query-builder';
+import { CONSTANTS } from '../../lib/helpers.js';
+import { error, info, success } from '../../lib/log/logger.js';
+import { getConnection } from '../../lib/postgres/connection.js';
 import {
   downloadImage,
   getFilenameFromUrl,
   convertToMediaPath
 } from './imageDownloader.js';
-import { CONSTANTS } from '../../lib/helpers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

@@ -1,10 +1,10 @@
-import { insert, select } from '@evershop/postgres-query-builder';
-import { getConnection } from '../../lib/postgres/connection.js';
-import { error, info, success } from '../../lib/log/logger.js';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { insert, select } from '@evershop/postgres-query-builder';
+import { error, info, success } from '../../lib/log/logger.js';
+import { getConnection } from '../../lib/postgres/connection.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

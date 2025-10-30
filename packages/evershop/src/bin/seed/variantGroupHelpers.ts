@@ -1,7 +1,7 @@
-import { info, success, error } from '../../lib/log/logger.js';
-import { pool } from '../../lib/postgres/connection.js';
 import { insert, select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
+import { info, success, error } from '../../lib/log/logger.js';
+import { pool } from '../../lib/postgres/connection.js';
 
 /**
  * Create variant groups for products

@@ -15,8 +15,8 @@ import { Pool } from 'pg';
 import { CONSTANTS } from '../../lib/helpers.js';
 import { error, success } from '../../lib/log/logger.js';
 import { hashPassword } from '../../lib/util/passwordHelper.js';
-import { getCoreModules } from '../lib/loadModules.js';
 import { migrate } from '../lib/bootstrap/migrate.js';
+import { getCoreModules } from '../lib/loadModules.js';
 
 // The installation command will create a .env file in the root directory of the project.
 // If you are using docker, do not run this command. Instead, you should set the environment variables in the docker-compose.yml file and run `npm run start`

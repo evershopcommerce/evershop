@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import './initEnvDev.js';
 import 'dotenv/config';
 import yargs from 'yargs';
@@ -6,9 +7,9 @@ import { error, success, info } from '../../lib/log/logger.js';
 import { seedAttributeGroup, seedAttributes } from './seedAttributes.js';
 import { seedCategories } from './seedCategories.js';
 import { seedCollections } from './seedCollections.js';
+import { seedPages } from './seedPages.js';
 import { seedProducts } from './seedProducts.js';
 import { seedWidgets } from './seedWidgets.js';
-import { seedPages } from './seedPages.js';
 
 const { argv } = yargs(hideBin(process.argv))
   .option('attributes', {
