@@ -9,6 +9,7 @@ import {
   getFilenameFromUrl,
   convertToMediaPath
 } from './imageDownloader.js';
+import { CONSTANTS } from '../../lib/helpers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -53,8 +54,12 @@ async function downloadSlideshowImages(
           const slideId = slide.id || `slide-${Date.now()}`;
 
           // Create local path
-          const projectRoot = resolve(__dirname, '../../../../..');
-          const mediaDir = join(projectRoot, 'media', 'widgets', slideId);
+          const mediaDir = join(
+            CONSTANTS.ROOTPATH,
+            'media',
+            'widgets',
+            slideId
+          );
 
           // Ensure directory exists
           if (!existsSync(mediaDir)) {
@@ -126,7 +131,7 @@ export async function seedWidgets(): Promise<void> {
 
       // Process settings - download slideshow images if needed
       let processedSettings = widgetData.settings;
-      if (widgetData.type === 'slideshow') {
+      if (widgetData.type === 'simple_slider') {
         info(`  → Processing slideshow images for: ${widgetData.name}`);
         processedSettings = await downloadSlideshowImages(widgetData.settings);
       }
