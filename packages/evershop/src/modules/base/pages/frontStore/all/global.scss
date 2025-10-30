@@ -50,12 +50,6 @@ html {
     padding: 0.625rem 0.75rem;
   }
 
-  .button {
-    padding: 0.2rem 1.25rem;
-    font-weight: 400;
-    border-radius: 2px;
-  }
-
   main.content {
     padding-top: 2rem;
     padding-bottom: 2rem;
@@ -68,6 +62,13 @@ body {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+
+@media (max-width: 640px) {
+  .slide__wrapper {
+    height: 30rem !important;
+  }
+}
+
 @media screen and (max-width: 767px) {
   $font-size-base: $font-size-sm;
   body {
