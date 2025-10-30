@@ -1,3 +1,5 @@
+import plugin from '@tailwindcss/typography';
+
 export default {
   theme: {
     extend: {
@@ -30,5 +32,6 @@ export default {
       margin: ['first', 'last'],
       padding: ['first', 'last']
     }
-  }
+  },
+  plugins: [plugin]
 };
