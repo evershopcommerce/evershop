@@ -132,11 +132,11 @@ const ${capitalize(name)}: React.FC = () => {
     <div className="p-5 text-center text-2xl border border-dashed border-gray-300 my-5 mx-2 bg-blue-50 text-blue-800">
       <h3 className="mb-3">
         Welcome to the <span className="text-pink-500">&#9829; </span>
-        sweetdreambakery <span className="text-pink-500">&#9829; </span> theme!
+        ${name} <span className="text-pink-500">&#9829; </span> theme!
       </h3>
       <code className="text-sm break-all">
         You can edit this file at:
-        /Users/thenguyenhuu/vscode/releaseLocalTest/themes/sweetdreambakery/src/pages/homepage/Sweetdreambakery.tsx
+        ${componentFile}
       </code>
     </div>
   );
