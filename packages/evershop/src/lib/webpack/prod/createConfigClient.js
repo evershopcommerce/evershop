@@ -121,19 +121,31 @@ export function createConfigClient(routes) {
             }
 
             // Must be from node_modules
-            if (!module.resource || !module.resource.includes('node_modules')) {
+            if (!module.resource) {
+              return false;
+            }
+
+            // Normalize path separators for cross-platform compatibility
+            const normalizedResource = module.resource.replace(/\\/g, '/');
+
+            if (!normalizedResource.includes('node_modules')) {
               return false;
             }
 
             // Exclude @evershop/evershop core package
-            if (module.resource.includes('node_modules/@evershop/evershop')) {
+            if (
+              normalizedResource.includes('node_modules/@evershop/evershop')
+            ) {
               return false;
             }
 
             // Exclude extensions (they may be npm packages in node_modules)
             for (const ext of extenions) {
-              if (ext.resolve && module.resource.includes(ext.resolve)) {
-                return false;
+              if (ext.resolve) {
+                const normalizedExtResolve = ext.resolve.replace(/\\/g, '/');
+                if (normalizedResource.includes(normalizedExtResolve)) {
+                  return false;
+                }
               }
             }
 
@@ -161,19 +173,31 @@ export function createConfigClient(routes) {
             }
 
             // Must be from node_modules
-            if (!module.resource || !module.resource.includes('node_modules')) {
+            if (!module.resource) {
+              return false;
+            }
+
+            // Normalize path separators for cross-platform compatibility
+            const normalizedResource = module.resource.replace(/\\/g, '/');
+
+            if (!normalizedResource.includes('node_modules')) {
               return false;
             }
 
             // Exclude @evershop/evershop core package
-            if (module.resource.includes('node_modules/@evershop/evershop')) {
+            if (
+              normalizedResource.includes('node_modules/@evershop/evershop')
+            ) {
               return false;
             }
 
             // Exclude extensions (they may be npm packages in node_modules)
             for (const ext of extenions) {
-              if (ext.resolve && module.resource.includes(ext.resolve)) {
-                return false;
+              if (ext.resolve) {
+                const normalizedExtResolve = ext.resolve.replace(/\\/g, '/');
+                if (normalizedResource.includes(normalizedExtResolve)) {
+                  return false;
+                }
               }
             }
 

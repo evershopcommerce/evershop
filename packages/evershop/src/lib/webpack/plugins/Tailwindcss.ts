@@ -63,9 +63,12 @@ export class Tailwindcss {
   getRouteJSContent(assets: WebpackAssets, route: Route): string {
     let combinedJSContent = '';
     const jsFiles = Object.keys(assets).filter((name) => {
+      // Normalize path separators for cross-platform compatibility
+      const normalizedName = name.replace(/\\/g, '/');
       return (
-        (name.includes(route.id + '/') || /^\d/.test(name)) &&
-        name.endsWith('.js')
+        (normalizedName.includes(route.id + '/') ||
+          /^\d/.test(normalizedName)) &&
+        normalizedName.endsWith('.js')
       );
     });
     for (const jsFile of jsFiles) {
@@ -78,9 +81,12 @@ export class Tailwindcss {
 
   getRouteCSSAssets(assets: WebpackAssets, route: Route): string[] {
     const results = Object.keys(assets).filter((name) => {
+      // Normalize path separators for cross-platform compatibility
+      const normalizedName = name.replace(/\\/g, '/');
       return (
-        (name.includes(route.id + '/') || /^\d/.test(name)) &&
-        name.endsWith('.css')
+        (normalizedName.includes(route.id + '/') ||
+          /^\d/.test(normalizedName)) &&
+        normalizedName.endsWith('.css')
       );
     });
 

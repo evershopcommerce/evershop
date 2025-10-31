@@ -99,8 +99,13 @@ export function getFilenameFromUrl(url: string): string {
  */
 export function convertToMediaPath(localPath: string): string {
   // Convert absolute path to relative media path
-  // e.g., /path/to/media/widgets/slide-1.jpg -> /media/widgets/slide-1.jpg
-  const mediaMatch = localPath.match(/media\/(.+)$/);
+  // e.g., /path/to/media/widgets/slide-1.jpg -> /assets/widgets/slide-1.jpg
+  // or on Windows: C:\path\to\media\widgets\slide-1.jpg -> /assets/widgets/slide-1.jpg
+
+  // Normalize to forward slashes for consistent matching
+  const normalizedPath = localPath.replace(/\\/g, '/');
+
+  const mediaMatch = normalizedPath.match(/media\/(.+)$/);
   if (mediaMatch) {
     return `/assets/${mediaMatch[1]}`;
   }
