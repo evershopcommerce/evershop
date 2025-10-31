@@ -1,10 +1,10 @@
-import { info, success, error, warning } from '../../lib/log/logger.js';
-import { pool } from '../../lib/postgres/connection.js';
-import createProduct from '../../modules/catalog/services/product/createProduct.js';
-import { insert, select } from '@evershop/postgres-query-builder';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { insert, select } from '@evershop/postgres-query-builder';
+import { info, success, error, warning } from '../../lib/log/logger.js';
+import { pool } from '../../lib/postgres/connection.js';
+import createProduct from '../../modules/catalog/services/product/createProduct.js';
 import { seedProductImages } from './seedImages.js';
 import {
   createVariantGroups,

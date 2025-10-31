@@ -1,9 +1,9 @@
 import { createWriteStream, existsSync, mkdirSync } from 'fs';
+import http from 'http';
+import https from 'https';
 import { dirname } from 'path';
 import { pipeline } from 'stream/promises';
 import { info, warning } from '../../lib/log/logger.js';
-import https from 'https';
-import http from 'http';
 
 /**
  * Download an image from a URL and save it to a local file

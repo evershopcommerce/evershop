@@ -22,7 +22,6 @@ export default async (request, response, next) => {
     } else {
       // Save payment method
       await cart.setData('payment_method', method_code);
-      await cart.setData('payment_method_name', method_name);
 
       // Save the cart
       await saveCart(cart);

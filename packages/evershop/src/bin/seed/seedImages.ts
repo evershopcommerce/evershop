@@ -1,10 +1,10 @@
-import { info, success, warning, error } from '../../lib/log/logger.js';
-import { pool } from '../../lib/postgres/connection.js';
-import { insert, select } from '@evershop/postgres-query-builder';
 import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
-import { downloadImage, getFilenameFromUrl } from './imageDownloader.js';
+import { insert, select } from '@evershop/postgres-query-builder';
 import { CONSTANTS } from '../../lib/helpers.js';
+import { info, success, warning, error } from '../../lib/log/logger.js';
+import { pool } from '../../lib/postgres/connection.js';
+import { downloadImage, getFilenameFromUrl } from './imageDownloader.js';
 
 /**
  * Seed product images by downloading from GitHub raw URLs

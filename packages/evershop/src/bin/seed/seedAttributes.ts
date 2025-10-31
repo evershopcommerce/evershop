@@ -1,10 +1,10 @@
-import { info, success, error } from '../../lib/log/logger.js';
-import { pool } from '../../lib/postgres/connection.js';
-import createProductAttribute from '../../modules/catalog/services/attribute/createProductAttribute.js';
-import { insert, select } from '@evershop/postgres-query-builder';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { insert, select } from '@evershop/postgres-query-builder';
+import { info, success, error } from '../../lib/log/logger.js';
+import { pool } from '../../lib/postgres/connection.js';
+import createProductAttribute from '../../modules/catalog/services/attribute/createProductAttribute.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

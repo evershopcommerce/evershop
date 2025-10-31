@@ -124,17 +124,13 @@ export const imageProcessor = async (
       ? normalized.substring(1)
       : normalized;
 
+    // Normalize to forward slashes for consistent checking across platforms
+    const normalizedPath = cleanPath.replace(/\\/g, '/');
+
     // Prevent directory traversal attacks
-    if (
-      cleanPath.includes('..') ||
-      cleanPath.includes('\\') ||
-      cleanPath.includes('\0')
-    ) {
+    if (normalizedPath.includes('..') || normalizedPath.includes('\0')) {
       throw new Error('Invalid characters in image path');
     }
-
-    // Normalize path to prevent bypasses like //media or /./media
-    const normalizedPath = cleanPath.replace(/\\/g, '/');
 
     // Only allow specific directories from project root
     const allowedPaths = ['media/', 'public/', 'themes/'];
