@@ -36,14 +36,33 @@ async function selectTheme() {
 }
 
 async function updateConfig(theme: string) {
-  const configPath = path.join(process.cwd(), 'config', 'default.json');
+  const configDir = path.join(process.cwd(), 'config');
+  const configPath = path.join(configDir, 'default.json');
   try {
-    const configData = await fs.readFile(configPath, 'utf8');
-    const config = JSON.parse(configData);
+    // Ensure config directory exists
+    try {
+      await fs.access(configDir);
+    } catch {
+      await fs.mkdir(configDir, { recursive: true });
+    }
+
+    // Read existing config or create new one
+    let config: any = {};
+    try {
+      const configData = await fs.readFile(configPath, 'utf8');
+      config = JSON.parse(configData);
+    } catch (err: any) {
+      // If file doesn't exist, start with empty config
+      if (err.code !== 'ENOENT') {
+        throw err;
+      }
+    }
+
+    // Update theme
     config.system = config.system || {};
     config.system.theme = theme;
     await fs.writeFile(configPath, JSON.stringify(config, null, 2), 'utf8');
-     
+
     console.log(
       boxen(kleur.green(`Theme updated to "${theme}" in config/default.json`), {
         padding: 1,
@@ -51,7 +70,6 @@ async function updateConfig(theme: string) {
       })
     );
   } catch (err) {
-     
     console.error(kleur.red('Error updating config:'), err);
     process.exit(1);
   }
