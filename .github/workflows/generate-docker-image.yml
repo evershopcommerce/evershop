@@ -35,8 +35,7 @@ jobs:
           RUN npm install -g npm
 
           COPY package*.json .
-          RUN npm install
-          RUN npm ls @evershop/postgres-query-builder
+          RUN npm install --legacy-peer-deps
           RUN npm run build
 
           EXPOSE 80
