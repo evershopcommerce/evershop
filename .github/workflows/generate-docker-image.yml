@@ -1,0 +1,75 @@
+name: Build and Push Multi-Arch Docker Image
+
+on:
+  push:
+    branches: [feature/cicd/generate-docker-image ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout source
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Get version from tag or fallback to short SHA
+      - name: Extract version
+        id: vars
+        run: |
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            VERSION=${GITHUB_REF_NAME}
+          else
+            VERSION=$(echo "${GITHUB_SHA}" | cut -c1-7)
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      # Generate package.json dynamically
+      - name: Generate package.json
+        run: |
+          echo "{
+            \"name\": \"@evershop/evershop\",
+            \"version\": \"${{ steps.vars.outputs.version }}\",
+            \"dependencies\": {
+              \"@evershop/evershop\": \"${{ steps.vars.outputs.version }}\"
+            },
+            \"devDependencies\": {
+              \"esbuild\": \"^0.20.1\",
+              \"tsx\": \"^4.19.3\",
+              \"typescript\": \"^5.8.3\"
+            },
+            \"type\": \"module\",
+            \"scripts\": {
+              \"start\": \"evershop start\",
+              \"build\": \"evershop build\",
+              \"setup\": \"evershop install\",
+              \"seed\": \"evershop seed\",
+              \"user:create\": \"evershop user:create\",
+              \"user:changePassword\": \"evershop user:changePassword\"
+            }
+          }" > package.json
+
+      # Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Set up Docker Buildx for multi-platform build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Build and push multi-platform image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/evershop:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/evershop:${{ steps.vars.outputs.version }}
