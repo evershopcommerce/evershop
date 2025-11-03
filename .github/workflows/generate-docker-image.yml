@@ -29,7 +29,7 @@ jobs:
       - name: Generate Dockerfile
         run: |
           cat << 'EOF' > Dockerfile
-          FROM node:20-alpine
+          FROM node:20
           WORKDIR /app
 
           RUN npm install -g npm
