@@ -26,6 +26,22 @@ jobs:
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Generate Dockerfile
+        run: |
+          cat << 'EOF' > Dockerfile
+          FROM node:20-alpine
+          WORKDIR /app
+
+          RUN npm install -g npm
+
+          COPY package*.json .
+          RUN npm install
+          RUN npm run build
+
+          EXPOSE 80
+          CMD ["npm", "run", "start"]
+          EOF
+          echo "✅ Dockerfile created"
       # Generate package.json dynamically
       - name: Generate package.json
         run: |
