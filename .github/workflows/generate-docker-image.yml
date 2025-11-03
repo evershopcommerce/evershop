@@ -32,7 +32,7 @@ jobs:
           FROM node:20
           WORKDIR /app
 
-          RUN npm install -g npm
+          RUN npm install -g npm@10
 
           COPY package*.json .
           RUN npm cache clean --force 
