@@ -22,7 +22,7 @@ jobs:
           if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
             VERSION=${GITHUB_REF_NAME}
           else
-            VERSION=$(echo "${GITHUB_SHA}" | cut -c1-7)
+            VERSION=2.0.1
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
