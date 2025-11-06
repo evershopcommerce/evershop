@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: nexcommerce-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: nexcommerce
+      POSTGRES_PASSWORD: nexcommerce_password
+      POSTGRES_DB: nexcommerce
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U nexcommerce']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Next.js App
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nexcommerce-app
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://nexcommerce:nexcommerce_password@postgres:5432/nexcommerce?schema=public
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-change-this-secret-key}
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: sh -c "npx prisma migrate deploy && node server.js"
+
+volumes:
+  postgres_data:
+    driver: local

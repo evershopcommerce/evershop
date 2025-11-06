@@ -1,0 +1,61 @@
+{
+  "name": "nexcommerce",
+  "version": "1.0.0",
+  "description": "Modern, production-ready e-commerce platform built with Next.js 14",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "@prisma/client": "^5.20.0",
+    "next-auth": "^4.24.0",
+    "@next-auth/prisma-adapter": "^1.0.7",
+    "bcryptjs": "^2.4.3",
+    "stripe": "^14.25.0",
+    "zustand": "^4.5.0",
+    "framer-motion": "^11.0.0",
+    "react-hook-form": "^7.51.0",
+    "zod": "^3.23.0",
+    "@hookform/resolvers": "^3.3.0",
+    "react-hot-toast": "^2.4.1",
+    "lucide-react": "^0.363.0",
+    "date-fns": "^3.6.0",
+    "next-themes": "^0.3.0",
+    "sharp": "^0.33.0",
+    "recharts": "^2.12.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/bcryptjs": "^2.4.6",
+    "typescript": "^5.4.0",
+    "prisma": "^5.20.0",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.0",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.12",
+    "ts-node": "^10.9.0"
+  },
+  "engines": {
+    "node": ">=18.17.0",
+    "npm": ">=9.0.0"
+  }
+}

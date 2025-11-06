@@ -1,0 +1,406 @@
+// Prisma Schema for NexCommerce E-commerce Platform
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String
+  role          UserRole  @default(CUSTOMER)
+  emailVerified DateTime?
+  image         String?
+
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  orders        Order[]
+  addresses     Address[]
+  cartItems     CartItem[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([email])
+  @@map("users")
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+  SUPER_ADMIN
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ============================================
+// ADDRESS
+// ============================================
+
+model Address {
+  id          String  @id @default(cuid())
+  userId      String
+  fullName    String
+  addressLine1 String
+  addressLine2 String?
+  city        String
+  state       String?
+  country     String
+  postalCode  String
+  phone       String
+  isDefault   Boolean @default(false)
+
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relations
+  shippingOrders Order[] @relation("ShippingAddress")
+  billingOrders  Order[] @relation("BillingAddress")
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@map("addresses")
+}
+
+// ============================================
+// PRODUCT CATALOG
+// ============================================
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?   @db.Text
+  image       String?
+  parentId    String?
+  parent      Category? @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+
+  // Relations
+  products    Product[]
+
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+
+  isActive    Boolean   @default(true)
+  displayOrder Int      @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([parentId])
+  @@map("categories")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String   @db.Text
+  price       Decimal  @db.Decimal(10, 2)
+  compareAtPrice Decimal? @db.Decimal(10, 2)
+  sku         String   @unique
+
+  // Inventory
+  stock       Int      @default(0)
+  lowStockThreshold Int @default(5)
+  trackInventory Boolean @default(true)
+
+  // Media
+  images      ProductImage[]
+  thumbnail   String?
+
+  // Categorization
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  // Variants
+  hasVariants Boolean  @default(false)
+  variants    ProductVariant[]
+
+  // Relations
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+
+  // Status
+  isActive    Boolean  @default(true)
+  isFeatured  Boolean  @default(false)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([categoryId])
+  @@index([isActive, isFeatured])
+  @@map("products")
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String?
+  position  Int     @default(0)
+
+  @@index([productId])
+  @@map("product_images")
+}
+
+model ProductVariant {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  name      String
+  sku       String   @unique
+  price     Decimal  @db.Decimal(10, 2)
+  stock     Int      @default(0)
+
+  // Variant attributes (e.g., color, size)
+  attributes Json    // { "color": "Red", "size": "L" }
+
+  image     String?
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@index([sku])
+  @@map("product_variants")
+}
+
+// ============================================
+// SHOPPING CART
+// ============================================
+
+model CartItem {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  quantity   Int      @default(1)
+  variantId  String?
+  attributes Json?    // Store variant attributes
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, productId, variantId])
+  @@index([userId])
+  @@map("cart_items")
+}
+
+// ============================================
+// ORDERS & CHECKOUT
+// ============================================
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+
+  // Order totals
+  subtotal        Decimal     @db.Decimal(10, 2)
+  shippingCost    Decimal     @db.Decimal(10, 2) @default(0)
+  tax             Decimal     @db.Decimal(10, 2) @default(0)
+  discount        Decimal     @db.Decimal(10, 2) @default(0)
+  total           Decimal     @db.Decimal(10, 2)
+
+  // Order status
+  status          OrderStatus @default(PENDING)
+  paymentStatus   PaymentStatus @default(PENDING)
+  shippingStatus  ShippingStatus @default(NOT_SHIPPED)
+
+  // Addresses
+  shippingAddressId String
+  shippingAddress   Address @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
+  billingAddressId  String
+  billingAddress    Address @relation("BillingAddress", fields: [billingAddressId], references: [id])
+
+  // Payment
+  paymentMethod   PaymentMethod @default(STRIPE)
+  paymentIntentId String?
+
+  // Shipping
+  shippingMethod  String?
+  trackingNumber  String?
+
+  // Relations
+  items           OrderItem[]
+
+  // Notes
+  customerNotes   String?       @db.Text
+  adminNotes      String?       @db.Text
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([orderNumber])
+  @@index([status])
+  @@map("orders")
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum ShippingStatus {
+  NOT_SHIPPED
+  PROCESSING
+  SHIPPED
+  IN_TRANSIT
+  DELIVERED
+}
+
+enum PaymentMethod {
+  STRIPE
+  PAYPAL
+  CASH_ON_DELIVERY
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product @relation(fields: [productId], references: [id])
+
+  name        String
+  sku         String
+  quantity    Int
+  price       Decimal @db.Decimal(10, 2)
+  total       Decimal @db.Decimal(10, 2)
+
+  // Variant info (if applicable)
+  variantId   String?
+  attributes  Json?
+
+  createdAt   DateTime @default(now())
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+// ============================================
+// SETTINGS & CONFIGURATION
+// ============================================
+
+model SiteSettings {
+  id                String   @id @default(cuid())
+  siteName          String   @default("NexCommerce")
+  siteDescription   String?  @db.Text
+  logo              String?
+  favicon           String?
+
+  // Contact
+  email             String?
+  phone             String?
+  address           String?  @db.Text
+
+  // Social media
+  facebook          String?
+  twitter           String?
+  instagram         String?
+
+  // SEO
+  metaTitle         String?
+  metaDescription   String?
+  metaKeywords      String?
+
+  // Stripe
+  stripePublicKey   String?
+  stripeSecretKey   String?
+
+  // Email
+  emailFrom         String?
+  smtpHost          String?
+  smtpPort          Int?
+  smtpUser          String?
+  smtpPassword      String?
+
+  // Shipping
+  freeShippingThreshold Decimal? @db.Decimal(10, 2)
+  flatShippingRate      Decimal? @db.Decimal(10, 2)
+
+  // Tax
+  taxRate           Decimal? @db.Decimal(5, 2)
+  taxEnabled        Boolean  @default(false)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("site_settings")
+}

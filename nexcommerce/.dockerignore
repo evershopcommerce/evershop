@@ -1,0 +1,14 @@
+.git
+.gitignore
+.next
+node_modules
+npm-debug.log
+README.md
+.env
+.env.local
+.env*.local
+.vscode
+.idea
+*.swp
+*.swo
+*~
