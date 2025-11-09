@@ -29,3 +29,4 @@ cypress
 .prettierignore
 .prettierrc
 mysqlToPostgres.js
+/docs

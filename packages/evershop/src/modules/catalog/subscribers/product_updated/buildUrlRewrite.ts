@@ -1,7 +1,8 @@
 import { insertOnUpdate, select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../lib/postgres/connection.js';
+import { EventSubscriber } from '../../../../lib/event/subscriber.js';
 
-export default async function buildUrlReWrite(data) {
+const buildUrlReWrite: EventSubscriber<'product_updated'> = async (data) => {
   const productId = data.product_id;
   const productUuid = data.uuid;
   const categoryId = data.category_id;
@@ -52,4 +53,6 @@ export default async function buildUrlReWrite(data) {
       })
       .execute(pool);
   }
-}
+};
+
+export default buildUrlReWrite;

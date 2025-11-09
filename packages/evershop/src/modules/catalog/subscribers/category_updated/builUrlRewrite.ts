@@ -5,8 +5,9 @@ import {
 } from '@evershop/postgres-query-builder';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
+import { EventSubscriber } from '../../../../lib/event/subscriber.js';
 
-export default async function buildUrlReWrite(data) {
+const buildUrlReWrite: EventSubscriber<'category_updated'> = async (data) => {
   try {
     const categoryUUid = data.uuid;
     const categoryId = data.category_id;
@@ -68,4 +69,6 @@ export default async function buildUrlReWrite(data) {
   } catch (err) {
     error(err);
   }
-}
+};
+
+export default buildUrlReWrite;
