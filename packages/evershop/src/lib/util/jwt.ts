@@ -18,14 +18,14 @@ function getJwtConfig() {
     admin: {
       secret: process.env.JWT_ADMIN_SECRET,
       refreshSecret: process.env.JWT_ADMIN_REFRESH_SECRET,
-      expiry: process.env.JWT_ADMIN_TOKEN_EXPIRY || 28800,
-      refreshExpiry: process.env.JWT_ADMIN_REFRESH_TOKEN_EXPIRY || 900
+      expiry: process.env.JWT_ADMIN_TOKEN_EXPIRY || 900,
+      refreshExpiry: process.env.JWT_ADMIN_REFRESH_TOKEN_EXPIRY || 54000
     },
     customer: {
       secret: process.env.JWT_CUSTOMER_SECRET,
       refreshSecret: process.env.JWT_CUSTOMER_REFRESH_SECRET,
       expiry: process.env.JWT_CUSTOMER_TOKEN_EXPIRY || 1800,
-      refreshExpiry: process.env.JWT_CUSTOMER_REFRESH_TOKEN_EXPIRY || 2592000
+      refreshExpiry: process.env.JWT_CUSTOMER_REFRESH_TOKEN_EXPIRY || 108000
     }
   };
 }
