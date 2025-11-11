@@ -226,7 +226,8 @@
     "webpackbar": "^5.0.2",
     "winston": "^3.3.3",
     "yargs": "^17.7.2",
-    "zero-decimal-currencies": "^1.2.0"
+    "zero-decimal-currencies": "^1.2.0",
+    "execa": "^9.6.0"
   },
   "devDependencies": {
     "@parcel/watcher": "^2.5.1",
@@ -239,7 +240,6 @@
     "@types/pg": "^8.15.2",
     "@types/react": "^19.1.2",
     "copyfiles": "^2.4.1",
-    "execa": "^9.6.0",
     "typescript": "^5.8.3"
   }
 }
