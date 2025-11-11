@@ -41,7 +41,7 @@ export function createBaseConfig(isServer) {
       }
     },
     {
-      test: /^[A-Z].*\.js$/,
+      test: /\.js$/,
       exclude: {
         and: [/node_modules/],
         not: [
