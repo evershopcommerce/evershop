@@ -2,7 +2,7 @@ export { Cart, Item } from './cart/Cart.js';
 export * from './getMyCart.js';
 export * from './createNewCart.js';
 export * from './getCartByUUID.js';
-export * from './getAvailablePaymentMethos.js';
+export * from './getAvailablePaymentMethods.js';
 export * from './saveCart.js';
 export * from './toPrice.js';
 export * from './orderCreator.js';

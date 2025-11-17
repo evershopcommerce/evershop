@@ -10,7 +10,7 @@ import { getSetting } from '../../../../modules/setting/services/setting.js';
 import { calculateTaxAmount } from '../../../../modules/tax/services/calculateTaxAmount.js';
 import { getTaxPercent } from '../../../../modules/tax/services/getTaxPercent.js';
 import { getTaxRates } from '../../../../modules/tax/services/getTaxRates.js';
-import { getAvailablePaymentMethods } from '../getAvailablePaymentMethos.js';
+import { getAvailablePaymentMethods } from '../getAvailablePaymentMethods.js';
 import { toPrice } from '../toPrice.js';
 
 export function registerCartBaseFields(fields) {

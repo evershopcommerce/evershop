@@ -1,7 +1,7 @@
 import { getConfig } from '../../lib/util/getConfig.js';
 import { addProcessor } from '../../lib/util/registry.js';
 import { getSetting } from '../../modules/setting/services/setting.js';
-import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethos.js';
+import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethods.js';
 
 export default async () => {
   registerPaymentMethod({
