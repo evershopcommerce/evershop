@@ -27,42 +27,11 @@ export default () => {
                 image: {
                   type: 'object',
                   properties: {
-                    thumbnail: {
-                      type: 'object',
-                      properties: {
-                        width: {
-                          type: 'integer'
-                        },
-                        height: {
-                          type: 'integer'
-                        }
-                      }
+                    width: {
+                      type: 'integer'
                     },
-                    listing: {
-                      type: 'object',
-                      properties: {
-                        width: {
-                          type: 'integer'
-                        },
-                        height: {
-                          type: 'integer'
-                        }
-                      }
-                    },
-                    single: {
-                      type: 'object',
-                      properties: {
-                        width: {
-                          type: 'integer'
-                        },
-                        height: {
-                          type: 'integer'
-                        }
-                      }
-                    },
-                    placeHolder: {
-                      type: 'string',
-                      format: 'uri-reference'
+                    height: {
+                      type: 'integer'
                     }
                   }
                 }
@@ -70,6 +39,10 @@ export default () => {
             },
             showOutOfStockProduct: {
               type: 'boolean'
+            },
+            collectionPageSize: {
+              type: 'integer',
+              minimum: 1
             }
           }
         },
@@ -92,22 +65,12 @@ export default () => {
   const defaultCatalogConfig = {
     product: {
       image: {
-        thumbnail: {
-          width: 100,
-          height: 100
-        },
-        listing: {
-          width: 300,
-          height: 300
-        },
-        single: {
-          width: 500,
-          height: 500
-        },
-        placeHolder: '/default/image/placeholder.png'
+        width: 1200,
+        height: 1200
       }
     },
-    showOutOfStockProduct: false
+    showOutOfStockProduct: false,
+    collectionPageSize: 20
   };
   config.util.setModuleDefaults('catalog', defaultCatalogConfig);
 
@@ -178,34 +141,18 @@ export default () => {
     name: 'Collection products',
     description: 'A list of products from a collection',
     settingComponent: path.resolve(
-      CONSTANTS.LIBPATH,
-      '../components/admin/widgets/CollectionProductsSetting.js'
+      CONSTANTS.MODULESPATH,
+      'catalog/components/CollectionProductsSetting.js'
     ),
     component: path.resolve(
-      CONSTANTS.LIBPATH,
-      '../components/frontStore/widgets/CollectionProducts.js'
+      CONSTANTS.MODULESPATH,
+      'catalog/components/CollectionProducts.js'
     ),
     defaultSettings: {
       collection: null,
-      count: 4
+      count: 4,
+      countPerRow: 4
     },
     enabled: true
   });
-
-  const parseIntCount = (data) => {
-    if (data.type !== 'collection_products') {
-      return data;
-    }
-
-    data.settings = data.settings || {};
-    if (data.settings.count) {
-      data.settings.count = parseInt(data.settings.count, 10);
-    } else {
-      data.settings.count = 4;
-    }
-    return data;
-  };
-
-  addProcessor('widgetDataBeforeCreate', parseIntCount, 1);
-  addProcessor('widgetDataBeforeUpdate', parseIntCount, 1);
 };

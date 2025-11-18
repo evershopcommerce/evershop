@@ -67,7 +67,7 @@ Represents the user condition of a coupon.
 """
 type UserCondition {
   groups: [String]
-  emails: String
+  emails: [String]
   purchased: String
 }
 

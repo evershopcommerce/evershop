@@ -1,4 +1,4 @@
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -14,7 +14,7 @@ export default function OrderHistory({ customer: { orders = [] } }) {
         <>
           {orders.map((order) => (
             <Card.Session key={order.uuid}>
-              <div className="flex justify-between items-center gap-4">
+              <div className="flex justify-between items-center gap-2">
                 <div>
                   <a
                     className="font-semibold text-interactive"

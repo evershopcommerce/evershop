@@ -8,7 +8,7 @@ import {
 } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../../lib/util/hookable.js';
-import { Address } from './addressValidators.js';
+import { Address } from '../../../../../types/customerAddress.js';
 
 async function deleteCustomerAddressData(uuid: string, connection: PoolClient) {
   await del('customer_address').where('uuid', '=', uuid).execute(connection);

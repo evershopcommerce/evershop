@@ -83,13 +83,13 @@ export function parseGraphqlByFile(module) {
         });
       });
     }
-
-    // Relace all variable in graphql query
+    // Replace all variable in graphql query
     variables.forEach((variable) => {
-      const regex = new RegExp(`\\$${variable.origin}`, 'g');
+      // Use word boundary to ensure we match the complete variable name only
+      // This prevents partial matches like 'count' matching inside 'countPerRow'
+      const regex = new RegExp(`\\$${variable.origin}\\b`, 'g');
       queryBody = queryBody.replace(regex, `$${variable.alias}`);
     });
-
     // Use slice function to get everything between the first '{' and the last '}' in the query
     queryBody = queryBody.slice(
       queryBody.indexOf('{') + 1,
@@ -138,9 +138,18 @@ export function parseGraphqlByFile(module) {
   ).concat(
     result.fragments.source.match(/\.\.\.([ ]+)?([a-zA-Z0-9_]+)/g) || []
   );
-  if (fragmentConsumptions.length > 0) {
-    fragmentConsumptions.forEach((fragmentConsumption) => {
-      const fragmentName = fragmentConsumption.replace(/\.\.\.([ ]+)?/, '');
+
+  // Deduplicate fragment consumptions to handle multiple usages of the same fragment
+  const uniqueFragmentNames = [
+    ...new Set(
+      fragmentConsumptions.map((consumption) =>
+        consumption.replace(/\.\.\.([ ]+)?/, '')
+      )
+    )
+  ];
+
+  if (uniqueFragmentNames.length > 0) {
+    uniqueFragmentNames.forEach((fragmentName) => {
       const fragment = fragmentNames.find((f) => f.name === fragmentName);
       if (!fragment) {
         throw new Error(
@@ -149,7 +158,7 @@ export function parseGraphqlByFile(module) {
       } else {
         result.fragments.pairs = result.fragments.pairs || [];
         const alias = `${fragmentName}_${uniqid()}`;
-        const regex = new RegExp(`\\.\\.\\.([ ]+)?${fragmentName}`, 'g');
+        const regex = new RegExp(`\\.\\.\\.([ ]+)?${fragmentName}\\b`, 'g');
         // Replace in query source with alias
         result.query.source = result.query.source.replace(regex, `...${alias}`);
         // Replace in fragment source with alias

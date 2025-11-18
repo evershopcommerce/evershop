@@ -1,0 +1,19 @@
+.page-heading {
+  margin: 1rem auto 2rem;
+  h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+.breadcrum-icon {
+  width: 2.125rem;
+  height: 2.125rem;
+  span {
+    width: 100%;
+    height: 100%;
+    svg {
+      fill: var(--icon);
+      width: 65%;
+    }
+  }
+}

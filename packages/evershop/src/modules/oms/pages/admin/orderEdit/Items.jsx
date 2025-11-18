@@ -1,18 +1,18 @@
+import { Circle } from '@components/admin/Circle.js';
+import Area from '@components/common/Area';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '@components/common/Area';
-import { Circle } from '@components/common/Circle';
 import './Items.scss';
-import { Card } from '@components/admin/cms/Card';
-import { Name } from '@components/admin/oms/orderEdit/items/Name';
-import { Price } from '@components/admin/oms/orderEdit/items/Price';
-import { Thumbnail } from '@components/admin/oms/orderEdit/items/Thumbnail';
+import { Card } from '@components/admin/Card';
+import { Name } from './items/Name.js';
+import { Price } from './items/Price.js';
+import { Thumbnail } from './items/Thumbnail.js';
 
 export default function Items({ order: { items, shipmentStatus } }) {
   return (
     <Card
       title={
-        <div className="flex space-x-4">
+        <div className="flex space-x-2">
           <Circle variant={shipmentStatus.badge || 'new'} />
           <span className="block self-center">
             {shipmentStatus.name || 'Unknown'}
@@ -43,7 +43,7 @@ export default function Items({ order: { items, shipmentStatus } }) {
                         name: i.productName,
                         productSku: i.productSku,
                         productUrl: i.productUrl,
-                        variantOptions: JSON.parse(i.variantOptions || '[]')
+                        variantOptions: i.variantOptions
                       }, // TODO: Implement custom options
                       sortOrder: 20,
                       id: 'productName'
@@ -71,7 +71,7 @@ export default function Items({ order: { items, shipmentStatus } }) {
         </table>
       </Card.Session>
       <Card.Session>
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-end gap-2">
           <Area id="order_actions" noOuter />
         </div>
       </Card.Session>
@@ -152,7 +152,13 @@ export const query = `
         productSku
         productUrl
         thumbnail
-        variantOptions
+        variantOptions {
+          attributeCode
+          attributeName
+          attributeId
+          optionId
+          optionText
+        }
         productPrice {
           value
           text

@@ -1,4 +1,4 @@
-import Button from '@components/common/form/Button';
+import Button from '@components/common/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';

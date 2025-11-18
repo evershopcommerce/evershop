@@ -1,20 +1,17 @@
-import { Card } from '@components/admin/cms/Card';
-import CouponName from '@components/admin/promotion/couponGrid/rows/CouponName';
-import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Form } from '@components/common/form/Form';
-import DummyColumnHeader from '@components/common/grid/headers/Dummy';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import Pagination from '@components/common/grid/Pagination';
-import BasicRow from '@components/common/grid/rows/BasicRow';
-import StatusRow from '@components/common/grid/rows/StatusRow';
-import TextRow from '@components/common/grid/rows/TextRow';
-import Filter from '@components/common/list/Filter';
+import { Card } from '@components/admin/Card';
+import { Filter } from '@components/admin/grid/Filter';
+import { DummyColumnHeader } from '@components/admin/grid/header/Dummy';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
+import { Status } from '@components/admin/Status.js';
+import Area from '@components/common/Area.js';
+import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { CouponName } from './rows/CouponName.js';
 
 function Actions({ coupons = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -122,7 +119,7 @@ function Actions({ coupons = [], selectedIds = [] }) {
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
-            <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
+            <a href="#" className="font-semibold pt-2 pb-2 pl-4 pr-4">
               {selectedIds.length} selected
             </a>
             {actions.map((action, i) => (
@@ -133,7 +130,7 @@ function Actions({ coupons = [], selectedIds = [] }) {
                   e.preventDefault();
                   action.onAction();
                 }}
-                className="font-semibold pt-3 pb-3 pl-6 pr-6 block border-l border-divider self-center"
+                className="font-semibold pt-2 pb-2 pl-4 pr-4 block border-l border-divider self-center"
               >
                 <span>{action.name}</span>
               </a>
@@ -176,7 +173,7 @@ export default function CouponGrid({
       <Card.Session
         title={
           <Form submitBtn={false} id="couponGridFilter">
-            <div className="flex gap-8 justify-center items-center">
+            <div className="flex gap-5 justify-center items-center">
               <Area
                 id="couponGridFilter"
                 noOuter
@@ -184,12 +181,10 @@ export default function CouponGrid({
                   {
                     component: {
                       default: () => (
-                        <Field
-                          type="text"
-                          id="coupon"
+                        <InputField
                           name="coupon"
                           placeholder="Search"
-                          value={
+                          defaultValue={
                             currentFilters.find((f) => f.key === 'coupon')
                               ?.value
                           }
@@ -197,8 +192,7 @@ export default function CouponGrid({
                             // If the user press enter, we should submit the form
                             if (e.key === 'Enter') {
                               const url = new URL(document.location);
-                              const coupon =
-                                document.getElementById('coupon')?.value;
+                              const coupon = e.target?.value;
                               if (coupon) {
                                 url.searchParams.set(
                                   'coupon[operation]',
@@ -319,13 +313,16 @@ export default function CouponGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox
-                onChange={(e) => {
-                  if (e.target.checked)
-                    setSelectedRows(coupons.map((c) => c.uuid));
-                  else setSelectedRows([]);
-                }}
-              />
+              <div className="form-field mb-0">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked)
+                      setSelectedRows(coupons.map((c) => c.uuid));
+                    else setSelectedRows([]);
+                  }}
+                />
+              </div>
             </th>
             <Area
               id="couponGridHeader"
@@ -392,18 +389,21 @@ export default function CouponGrid({
           {coupons.map((c) => (
             <tr key={c.couponId}>
               <td>
-                <Checkbox
-                  isChecked={selectedRows.includes(c.uuid)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([c.uuid]));
-                    } else {
-                      setSelectedRows(
-                        selectedRows.filter((row) => row !== c.uuid)
-                      );
-                    }
-                  }}
-                />
+                <div className="form-field mb-0">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(c.uuid)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(selectedRows.concat([c.uuid]));
+                      } else {
+                        setSelectedRows(
+                          selectedRows.filter((row) => row !== c.uuid)
+                        );
+                      }
+                    }}
+                  />
+                </div>
               </td>
               <Area
                 id="couponGridRow"
@@ -422,35 +422,27 @@ export default function CouponGrid({
                   },
                   {
                     component: {
-                      default: () => (
-                        <TextRow text={c.startDate?.text || '--'} />
-                      )
+                      default: () => <td>{c.startDate?.text || '--'}</td>
                     },
                     sortOrder: 20
                   },
                   {
                     component: {
-                      default: () => <TextRow text={c.endDate?.text || '--'} />
+                      default: () => <td>{c.endDate?.text || '--'}</td>
                     },
                     sortOrder: 30
                   },
                   {
                     component: {
                       default: ({ areaProps }) => (
-                        <StatusRow
-                          title="Status"
-                          id="status"
-                          areaProps={areaProps}
-                        />
+                        <Status status={parseInt(c.status, 10)} />
                       )
                     },
                     sortOrder: 40
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <BasicRow id="usedTime" areaProps={areaProps} />
-                      )
+                      default: ({ areaProps }) => <td>{c.usedTime}</td>
                     },
                     sortOrder: 50
                   }

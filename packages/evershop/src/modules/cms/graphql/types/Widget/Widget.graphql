@@ -76,9 +76,61 @@ type Menu {
 Return a menu Widget
 """
 type BasicMenuWidget {
-  menus: [Menu],
+  menus: [Menu]
   isMain: Boolean
   className: String
+}
+
+"""
+Return a banner Widget
+"""
+type BasicBannerWidget {
+  src: String
+  alignment: String
+  width: Float
+  height: Float
+  alt: String
+}
+
+"""
+Input for a slide in a slideshow
+"""
+input SlideInput {
+  id: String!
+  image: String!
+  headline: String
+  subText: String
+  buttonText: String
+  buttonLink: String
+  buttonColor: String
+  width: Float
+  height: Float
+}
+
+"""
+A slide in a slideshow
+"""
+type Slide {
+  id: String!
+  image: String!
+  headline: String
+  subText: String
+  buttonText: String
+  buttonLink: String
+  buttonColor: String
+  width: Float
+  height: Float
+}
+
+"""
+Return a slideshow Widget
+"""
+type SlideshowWidget {
+  slides: [Slide!]
+  autoplay: Boolean
+  autoplaySpeed: Int
+  arrows: Boolean
+  dots: Boolean
 }
 
 extend type Query {
@@ -87,5 +139,19 @@ extend type Query {
   widgetTypes: [WidgetType]
   widgetType(code: String!): WidgetType
   textWidget(text: String, className: String): TextBlockWidget
-  basicMenuWidget(settings: JSON ): BasicMenuWidget
+  basicMenuWidget(settings: JSON): BasicMenuWidget
+  bannerWidget(
+    src: String
+    alignment: String
+    width: String
+    height: String
+    alt: String
+  ): BasicBannerWidget
+  slideshowWidget(
+    slides: [SlideInput]
+    autoplay: Boolean
+    autoplaySpeed: Int
+    arrows: Boolean
+    dots: Boolean
+  ): SlideshowWidget
 }

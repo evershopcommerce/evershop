@@ -13,12 +13,12 @@ import { error } from '../../../lib/log/logger.js';
 import { getConnection, pool } from '../../../lib/postgres/connection.js';
 import { createMigrationTable } from '../../install/createMigrationTable.js';
 
-async function getCurrentInstalledVersion(module) {
+async function getCurrentInstalledVersion(module, connection = null) {
   /** Check for current installed version */
   const check = await select()
     .from('migration')
     .where('module', '=', module)
-    .load(pool);
+    .load(connection || pool);
   if (!check) {
     return '0.0.1';
   } else {
@@ -26,7 +26,7 @@ async function getCurrentInstalledVersion(module) {
   }
 }
 
-async function migrateModule(module) {
+async function migrateModule(module, connection = null) {
   /** Check if the module has migration folder, if not ignore it */
   if (!existsSync(path.resolve(module.path, 'migration'))) {
     return;
@@ -42,15 +42,20 @@ async function migrateModule(module) {
     .map((dirent) => dirent.name.replace('Version-', '').replace('.js', ''))
     .sort((first, second) => semver.lt(first, second));
 
-  const currentInstalledVersion = await getCurrentInstalledVersion(module.name);
+  const currentInstalledVersion = await getCurrentInstalledVersion(
+    module.name,
+    connection
+  );
 
   for (const version of migrations) {
     /** If the version is lower or equal the installed version, ignore it */
     if (semver.lte(version, currentInstalledVersion)) {
       continue;
     }
-    const connection = await getConnection();
-    await startTransaction(connection);
+    const migrationConnection = connection || (await getConnection());
+    if (!connection) {
+      await startTransaction(migrationConnection);
+    }
 
     /** We expect the migration script to provide a function as a default export */
     try {
@@ -59,17 +64,21 @@ async function migrateModule(module) {
           path.resolve(module.path, 'migration', `Version-${version}.js`)
         )
       );
-      await versionModule.default(connection);
+      await versionModule.default(migrationConnection);
 
       await insertOnUpdate('migration', ['module'])
         .given({
           module: module.name,
           version
         })
-        .execute(connection, false);
-      await commit(connection);
+        .execute(migrationConnection, false);
+      if (!connection) {
+        await commit(migrationConnection);
+      }
     } catch (e) {
-      await rollback(connection);
+      if (!connection) {
+        await rollback(migrationConnection);
+      }
       throw new Error(
         `Migration failed for module ${module.name}, version ${version}\n${e}`
       );
@@ -77,14 +86,14 @@ async function migrateModule(module) {
   }
 }
 
-export async function migrate(modules) {
+export async function migrate(modules, connection = null) {
   try {
-    const connection = await getConnection();
+    const psqlConnection = connection || (await getConnection());
     // Create a migration table if not exists. This is for the first time installation
-    await createMigrationTable(connection);
+    await createMigrationTable(psqlConnection);
 
     for (const module of modules) {
-      await migrateModule(module);
+      await migrateModule(module, connection);
     }
   } catch (e) {
     error(e);

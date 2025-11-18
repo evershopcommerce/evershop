@@ -1,5 +1,4 @@
-
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';

@@ -6,20 +6,7 @@ import {
   Validator,
   ValidatorManager
 } from '../../../../../lib/util/validator.js';
-
-export type Address = {
-  uuid?: string;
-  customer_id?: number;
-  full_name?: string;
-  address_1?: string;
-  address_2?: string;
-  city?: string;
-  province?: string;
-  country?: string;
-  postcode?: string;
-  telephone?: string | number;
-  is_default?: number | string;
-};
+import { Address } from '../../../../../types/customerAddress.js';
 
 const initialValidators: Validator<Address>[] = [
   {

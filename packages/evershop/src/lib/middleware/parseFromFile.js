@@ -50,7 +50,7 @@ export function parseFromFile(path) {
   if (route.region === 'api') {
     if (m.id !== 'context' && m.id !== 'apiErrorHandler') {
       m.before = !m.before ? ['apiResponse'] : m.before;
-      m.after = !m.after ? ['escapeHtml'] : m.after;
+      m.after = !m.after ? ['escapeHtml', 'auth'] : m.after;
     }
   } else if (m.id !== 'context' && m.id !== 'errorHandler') {
     m.before = !m.before ? ['buildQuery'] : m.before;

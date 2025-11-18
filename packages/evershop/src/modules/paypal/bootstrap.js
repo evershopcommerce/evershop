@@ -1,7 +1,7 @@
 import { getConfig } from '../../lib/util/getConfig.js';
 import { hookAfter } from '../../lib/util/hookable.js';
 import { addProcessor } from '../../lib/util/registry.js';
-import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethos.js';
+import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethods.js';
 import { getSetting } from '../setting/services/setting.js';
 import { voidPaymentTransaction } from './services/voidPaymentTransaction.js';
 
@@ -18,8 +18,8 @@ export default async () => {
 
   registerPaymentMethod({
     init: async () => ({
-      methodCode: 'paypal',
-      methodName: await getSetting('paypalDisplayName', 'PayPal')
+      code: 'paypal',
+      name: await getSetting('paypalDisplayName', 'PayPal')
     }),
     validator: async () => {
       const paypalConfig = getConfig('system.paypal', {});

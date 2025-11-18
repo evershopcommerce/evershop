@@ -389,7 +389,9 @@ export function registerDefaultValidators() {
     },
     async function customerPurchasesAmountValidator(cart, coupon) {
       const conditions = coupon.user_condition;
-      const purchasedAmount = parseFloat(conditions.purchased.trim()) || null;
+      const purchasedAmount = conditions.purchased
+        ? parseFloat(conditions.purchased.trim()) || null
+        : null;
 
       // Null means no condition
       if (purchasedAmount === null) {

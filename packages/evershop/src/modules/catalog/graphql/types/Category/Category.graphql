@@ -21,6 +21,7 @@ type Category {
   url: String
   availableAttributes: [FilterAttribute]
   priceRange: PriceRange
+  hasChildren: Boolean!
 }
 
 """
@@ -92,14 +93,17 @@ type CategoryCollection {
 
 type PriceRange {
   min: Float!
+  minText: String!
   max: Float!
+  maxText: String!
 }
 
 extend type Product {
-  category: Category,
+  category: Category
 }
 
 extend type Query {
   categories(filters: [FilterInput]): CategoryCollection
   category(id: Int): Category
+  currentCategory: Category
 }

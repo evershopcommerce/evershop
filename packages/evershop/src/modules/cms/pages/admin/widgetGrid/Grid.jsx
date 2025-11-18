@@ -1,17 +1,16 @@
-import { Card } from '@components/admin/cms/Card';
-import PageName from '@components/admin/cms/cmsPageGrid/rows/PageName';
-import WidgetTypeRow from '@components/admin/cms/widget/grid/WidgetTypeRow';
+import { Card } from '@components/admin/Card';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
+import { Status } from '@components/admin/Status.js';
 import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Form } from '@components/common/form/Form';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import Pagination from '@components/common/grid/Pagination';
-import StatusRow from '@components/common/grid/rows/StatusRow';
+import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { Name } from './rows/Name.js';
+import { WidgetTypeRow } from './rows/WidgetTypeRow.js';
 
 function Actions({ widgets = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -118,7 +117,7 @@ function Actions({ widgets = [], selectedIds = [] }) {
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
-            <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
+            <a href="#" className="font-semibold pt-2 pb-2 pl-4 pr-4">
               {selectedIds.length} selected
             </a>
             {actions.map((action, i) => (
@@ -129,7 +128,7 @@ function Actions({ widgets = [], selectedIds = [] }) {
                   e.preventDefault();
                   action.onAction();
                 }}
-                className="font-semibold pt-3 pb-3 pl-6 pr-6 block border-l border-divider self-center"
+                className="font-semibold pt-2 pb-2 pl-4 pr-4 block border-l border-divider self-center"
               >
                 <span>{action.name}</span>
               </a>
@@ -180,19 +179,17 @@ export default function WidgetGrid({
                 {
                   component: {
                     default: () => (
-                      <Field
-                        type="text"
-                        id="name"
+                      <InputField
                         name="name"
                         placeholder="Search"
-                        value={
+                        defaultValue={
                           currentFilters.find((f) => f.key === 'name')?.value
                         }
                         onKeyPress={(e) => {
                           // If the user press enter, we should submit the form
                           if (e.key === 'Enter') {
                             const url = new URL(document.location);
-                            const name = document.getElementById('name')?.value;
+                            const name = e.target?.value;
                             if (name) {
                               url.searchParams.set('name[operation]', 'like');
                               url.searchParams.set('name[value]', name);
@@ -229,15 +226,18 @@ export default function WidgetGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedRows(items.map((p) => p.uuid));
-                  } else {
-                    setSelectedRows([]);
-                  }
-                }}
-              />
+              <div className="form-field mb-0">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedRows(items.map((p) => p.uuid));
+                    } else {
+                      setSelectedRows([]);
+                    }
+                  }}
+                />
+              </div>
             </th>
             <Area
               className=""
@@ -293,18 +293,21 @@ export default function WidgetGrid({
           {items.map((w, i) => (
             <tr key={i}>
               <td style={{ width: '2rem' }}>
-                <Checkbox
-                  isChecked={selectedRows.includes(w.uuid)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([w.uuid]));
-                    } else {
-                      setSelectedRows(
-                        selectedRows.filter((row) => row !== w.uuid)
-                      );
-                    }
-                  }}
-                />
+                <div className="form-field mb-0">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(w.uuid)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(selectedRows.concat([w.uuid]));
+                      } else {
+                        setSelectedRows(
+                          selectedRows.filter((row) => row !== w.uuid)
+                        );
+                      }
+                    }}
+                  />
+                </div>
               </td>
               <Area
                 className=""
@@ -314,7 +317,7 @@ export default function WidgetGrid({
                 coreComponents={[
                   {
                     component: {
-                      default: () => <PageName url={w.editUrl} name={w.name} />
+                      default: () => <Name url={w.editUrl} name={w.name} />
                     },
                     sortOrder: 10
                   },
@@ -329,7 +332,7 @@ export default function WidgetGrid({
                   {
                     component: {
                       default: ({ areaProps }) => (
-                        <StatusRow id="status" areaProps={areaProps} />
+                        <Status status={parseInt(w.status, 10)} />
                       )
                     },
                     sortOrder: 20

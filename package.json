@@ -12,11 +12,25 @@
     "start": "node ./packages/evershop/dist/bin/start/index.js",
     "build": "node ./packages/evershop/dist/bin/build/index.js",
     "setup": "evershop install",
+    "build": "evershop build",
+    "build-fast": "evershop build -- --skip-minify",
+    "start": "evershop start",
+    "user:create": "evershop user:create",
+    "user:changePassword": "evershop user:changePassword",
+    "start:debug": "evershop start --debug",
+    "test": "jest --workspace=@evershop/evershop",
+    "cypress": "cypress run",
+    "lint": "eslint --fix --ext .js,.jsx .",
+    "seed": "evershop seed",
+    "theme:active": "evershop theme:active",
+    "theme:twizz": "evershop theme:twizz",
+    "theme:create": "evershop theme:create",
     "compile": "rimraf ./packages/evershop/dist && cd ./packages/evershop && swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths",
+    "compile:db": "rimraf ./packages/postgres-query-builder/dist && cd ./packages/postgres-query-builder && swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths",
     "compile:tsc": "rimraf ./packages/evershop/dist && cd ./packages/evershop && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
     "start:debug": "node ./packages/evershop/dist/bin/start/index.js --debug",
     "test": "ALLOW_CONFIG_MUTATIONS=true NODE_OPTIONS=--experimental-vm-modules node_modules/jest/bin/jest.js",
-    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
+    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx ./packages",
     "prepare": "husky install"
   },
   "author": "The Nguyen (https://evershop.io)",
@@ -26,6 +40,7 @@
     "@swc/cli": "^0.7.7",
     "@swc/core": "^1.11.29",
     "@types/jest": "^29.5.14",
+    "@types/jsonwebtoken": "^9.0.10",
     "@typescript-eslint/eslint-plugin": "^8.32.0",
     "@typescript-eslint/parser": "^8.32.0",
     "copyfiles": "^2.4.1",
@@ -43,8 +58,12 @@
     "rimraf": "^6.0.1",
     "swc-minify-webpack-plugin": "^2.1.3",
     "tailwindcss": "^3.2.1",
-    "ts-jest": "^29.3.2",
     "typescript": "^5.8.3",
-    "webpack-bundle-analyzer": "^4.5.0"
+    "webpack-bundle-analyzer": "^4.10.2"
+  },
+  "dependencies": {
+    "@types/react-slick": "^0.23.13",
+    "@types/uuid": "^10.0.0",
+    "uuid": "^13.0.0"
   }
 }

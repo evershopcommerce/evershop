@@ -1,0 +1,23 @@
+.variant-option-list {
+  li {
+    border: 1px solid var(--divider);
+    border-radius: 2px;
+    background-color: #fff;
+    font-size: 12px;
+    a,
+    span {
+      padding: 0.625rem 0.938rem;
+      display: block;
+      text-align: center;
+    }
+    &.selected {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    &.un-available {
+      background-color: var(--border);
+      color: #fff;
+    }
+  }
+}

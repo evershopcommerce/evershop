@@ -1,0 +1,46 @@
+Total, Нийт
+Order, Захиалга
+Sku, SKU
+Continue to shipping, Хүргэлт рүү үргэлжлүүлэх
+Continue shopping, Худалдан авалтаа үргэлжлүүлэх
+Continue Shopping, Худалдан авалтаа үргэлжлүүлэх
+CONTINUE SHOPPING, ХУДАЛДАН АВАЛТАА ҮРГЭЛЖЛҮҮЛЭХ
+Shopping cart, Сагс
+Product, Бүтээгдэхүүн
+Price, Үнэ
+Quantity, Тоо хэмжээ
+Remove, Устгах
+Qty, Тоо
+Sub total, Дүнгийн дүн
+Discount(${coupon}), Хөнгөлөлт(${coupon})
+Order summary, Захиалгын тойм
+Taxes and shipping calculated at checkout, Татвар болон хүргэлт нь захиалга баталгаажуулах үед тооцогдоно
+CHECKOUT, ТӨЛӨЛТ
+Change, Өөрчлөх
+Payment Method, Төлбөрийн арга
+Shipping Method, Хүргэлтийн төрөл
+No payment methods available, Авах боломжтой төлбөрийн арга байхгүй
+Place Order, ЗАХИАЛГА ӨГӨХ
+My billing address is same as shipping address, Миний төлбөрийн хаяг нь хүргэлтийн хаягтай ижил
+${count} items, ${count} ширхэг
+Discount, Хөнгөлөлт
+Shipping, Хүргэлт
+No tax, Татваргүй
+Tax, Татвар
+Sorry, there is no available method for your address, Уучлаарай, таны хаягт боломжтой арга байхгүй байна
+Please enter a shipping address in order to see shipping quotes, Хүргэлтийн үнэ үзэхийн тулд хүргэлтийн хаяг оруулна уу
+Continue to payment, Төлбөр рүү шилжих
+No payment method available, Төлбөр хийх боломжгүй
+Ship to, Илгээх хаяг
+Shipment, Ачилт
+Thank you ${name}!, Баярлалаа ${name}!
+Contact information, Холбоо барих мэдээлэл
+Order #${orderNumber}, Захиалга #${orderNumber}
+ADD TO CART, САГСАД НЭМЭХ
+Please select variant options, Хувилбарын сонголтыг сонгоно уу
+VIEW CART (${count}), САГСЫГ ХАРАХ (${count})
+JUST ADDED TO YOUR CART, Сагс руу зүгээр шинэ нэмэгдсэн
+Promotion code?, Хөнгөлөлтийн код?
+Enter coupon code, Купоны код оруулна уу
+Apply, Оруулах
+Your cart is empty!, Таны сагс хоосон байна!

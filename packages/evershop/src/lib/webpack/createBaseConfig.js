@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { SwcMinifyWebpackPlugin } from 'swc-minify-webpack-plugin';
@@ -12,6 +13,21 @@ import { loadCsvTranslationFiles } from './loaders/loadTranslationFromCsv.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+function isRealDirectorySync(path) {
+  try {
+    const stats = fs.lstatSync(path);
+    if (stats.isSymbolicLink()) {
+      return false;
+    }
+    return stats.isDirectory();
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      return false;
+    }
+    throw err;
+  }
+}
+
 export function createBaseConfig(isServer) {
   const extenions = getEnabledExtensions();
   const coreModules = getCoreModules();
@@ -25,7 +41,7 @@ export function createBaseConfig(isServer) {
       }
     },
     {
-      test: /^[A-Z].*\.js$/,
+      test: /\.js$/,
       exclude: {
         and: [/node_modules/],
         not: [
@@ -129,28 +145,30 @@ export function createBaseConfig(isServer) {
     alias['@components'] = [];
   }
 
+  if (
+    !isRealDirectorySync(
+      path.resolve(CONSTANTS.ROOTPATH, 'node_modules', '@evershop', 'evershop')
+    )
+  ) {
+    alias['@evershop/evershop'] = path.resolve(
+      CONSTANTS.ROOTPATH,
+      'packages',
+      'evershop',
+      'dist'
+    );
+  }
+
   // Resolve alias for extensions
   extenions.forEach((ext) => {
     alias['@components'].push(path.resolve(ext.resolve, 'dist/components'));
   });
   alias['@components'].push(path.resolve(__dirname, '../../components'));
-
-  // Resolve alias for core components
-  alias['@components-origin'] = path.resolve(__dirname, '../../components');
-
   // Avoid multiple react instances
   alias['react'] = path.resolve(CONSTANTS.ROOTPATH, 'node_modules/react');
   alias['react-dom'] = path.resolve(
     CONSTANTS.ROOTPATH,
     'node_modules/react-dom'
   );
-  // Resolve alias for core module pages
-  coreModules.forEach((mod) => {
-    alias[`@default-theme/${mod.name.toLowerCase()}`] = path.resolve(
-      mod.path,
-      'pages'
-    );
-  });
   alias['webpack-hot-middleware'] = path.resolve(
     CONSTANTS.ROOTPATH,
     'node_modules/webpack-hot-middleware'
@@ -160,7 +178,8 @@ export function createBaseConfig(isServer) {
     extensions: ['.js', '.json', '.wasm'],
     extensionAlias: {
       '.jsx': ['.js']
-    }
+    },
+    fullySpecified: true
   };
 
   config.optimization = {};

@@ -97,8 +97,8 @@ export function registerCartItemBaseFields(fields) {
       resolvers: [
         async function resolver() {
           const product = await this.getProduct();
-          if (product.thumb_image) {
-            return product.thumb_image;
+          if (product.origin_image) {
+            return product.origin_image;
           } else {
             return null;
           }

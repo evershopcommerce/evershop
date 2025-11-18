@@ -12,6 +12,7 @@ import {
 import { JSONSchemaType } from 'ajv';
 import { error } from '../../../../lib/log/logger.js';
 import { getConnection } from '../../../../lib/postgres/connection.js';
+import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 import { hookable } from '../../../../lib/util/hookable.js';
 import {
   getValue,
@@ -235,37 +236,41 @@ async function updateProductImages(images, productId, connection) {
       .execute(connection);
   }
   if (Array.isArray(images) && images.length > 0) {
-     
+    const baseUrl = getBaseUrl();
     try {
       // Delete all images that not in the gallery anymore
       await del('product_image')
         .where('product_image_product_id', '=', productId)
         .and('origin_image', 'NOT IN', images)
         .execute(connection);
+
       await Promise.all(
         images.map((f, index) =>
           (async () => {
-            const image = await select()
-              .from('product_image')
-              .where('product_image_product_id', '=', productId)
-              .and('origin_image', '=', f)
-              .load(connection);
+        // Remove baseUrl from the image path if it exists
+        const imagePath = f.startsWith(baseUrl) ? f.substring(baseUrl.length) : f;
+        
+        const image = await select()
+          .from('product_image')
+          .where('product_image_product_id', '=', productId)
+          .and('origin_image', '=', imagePath)
+          .load(connection);
 
-            if (!image) {
-              await insert('product_image')
-                .given({
-                  product_image_product_id: productId,
-                  origin_image: f,
-                  is_main: index === 0
-                })
-                .execute(connection);
-            } else {
-              await update('product_image')
-                .given({ is_main: index === 0 })
-                .where('product_image_product_id', '=', productId)
-                .and('origin_image', '=', f)
-                .execute(connection);
-            }
+        if (!image) {
+          await insert('product_image')
+            .given({
+          product_image_product_id: productId,
+          origin_image: imagePath,
+          is_main: index === 0
+            })
+            .execute(connection);
+        } else {
+          await update('product_image')
+            .given({ is_main: index === 0 })
+            .where('product_image_product_id', '=', productId)
+            .and('origin_image', '=', imagePath)
+            .execute(connection);
+        }
           })()
         )
       );

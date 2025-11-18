@@ -11,7 +11,12 @@ export function getSrcPaths(): PathLike[] {
     .filter((ext) => ext.srcPath)
     .map((ext) => ext.srcPath as PathLike)
     .concat(
-      path.resolve(CONSTANTS.ROOTPATH, 'packages/evershop/src/') as PathLike
+      !CONSTANTS.MODULESPATH.includes('node_modules')
+        ? (path.resolve(
+            CONSTANTS.ROOTPATH,
+            'packages/evershop/src/'
+          ) as PathLike)
+        : []
     )
     .concat(theme?.srcPath ? (theme.srcPath as PathLike) : []);
 }

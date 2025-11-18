@@ -1,19 +1,16 @@
-import { Card } from '@components/admin/cms/Card';
-import CreateAt from '@components/admin/customer/customerGrid/rows/CreateAt';
-import CustomerNameRow from '@components/admin/customer/customerGrid/rows/CustomerName';
+import { Card } from '@components/admin/Card';
+import { Filter } from '@components/admin/grid/Filter';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
+import { Status } from '@components/admin/Status.js';
 import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Form } from '@components/common/form/Form';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import Pagination from '@components/common/grid/Pagination';
-import BasicRow from '@components/common/grid/rows/BasicRow';
-import StatusRow from '@components/common/grid/rows/StatusRow';
-import Filter from '@components/common/list/Filter';
+import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { CustomerName } from './rows/CustomerName.js';
 
 function Actions({ customers = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -84,7 +81,7 @@ function Actions({ customers = [], selectedIds = [] }) {
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
-            <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
+            <a href="#" className="font-semibold pt-2 pb-2 pl-4 pr-4">
               {selectedIds.length} selected
             </a>
             {actions.map((action, i) => (
@@ -95,7 +92,7 @@ function Actions({ customers = [], selectedIds = [] }) {
                   e.preventDefault();
                   action.onAction();
                 }}
-                className="font-semibold pt-3 pb-3 pl-6 pr-6 block border-l border-divider self-center"
+                className="font-semibold pt-2 pb-2 pl-4 pr-4 block border-l border-divider self-center"
               >
                 <span>{action.name}</span>
               </a>
@@ -136,7 +133,7 @@ export default function CustomerGrid({
       <Card.Session
         title={
           <Form submitBtn={false} id="customerGridFilter">
-            <div className="flex gap-8 justify-center items-center">
+            <div className="flex gap-5 justify-center items-center">
               <Area
                 id="customerGridFilter"
                 noOuter
@@ -144,12 +141,10 @@ export default function CustomerGrid({
                   {
                     component: {
                       default: () => (
-                        <Field
-                          type="text"
-                          id="keyword"
+                        <InputField
                           name="keyword"
                           placeholder="Search"
-                          value={
+                          defaultValue={
                             currentFilters.find((f) => f.key === 'keyword')
                               ?.value
                           }
@@ -157,8 +152,7 @@ export default function CustomerGrid({
                             // If the user press enter, we should submit the form
                             if (e.key === 'Enter') {
                               const url = new URL(document.location);
-                              const keyword =
-                                document.getElementById('keyword')?.value;
+                              const keyword = e.target?.value;
                               if (keyword) {
                                 url.searchParams.set('keyword', keyword);
                               } else {
@@ -233,13 +227,16 @@ export default function CustomerGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox
-                onChange={(e) => {
-                  if (e.target.checked)
-                    setSelectedRows(customers.map((c) => c.uuid));
-                  else setSelectedRows([]);
-                }}
-              />
+              <div className="form-field mb-0">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked)
+                      setSelectedRows(customers.map((c) => c.uuid));
+                    else setSelectedRows([]);
+                  }}
+                />
+              </div>
             </th>
             <Area
               id="customerGridHeader"
@@ -306,18 +303,21 @@ export default function CustomerGrid({
           {customers.map((c) => (
             <tr key={c.customerId}>
               <td>
-                <Checkbox
-                  isChecked={selectedRows.includes(c.uuid)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([c.uuid]));
-                    } else {
-                      setSelectedRows(
-                        selectedRows.filter((row) => row !== c.uuid)
-                      );
-                    }
-                  }}
-                />
+                <div className="form-field mb-0">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(c.uuid)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(selectedRows.concat([c.uuid]));
+                      } else {
+                        setSelectedRows(
+                          selectedRows.filter((row) => row !== c.uuid)
+                        );
+                      }
+                    }}
+                  />
+                </div>
               </td>
               <Area
                 id="customerGridRow"
@@ -329,34 +329,28 @@ export default function CustomerGrid({
                   {
                     component: {
                       default: () => (
-                        <CustomerNameRow
-                          id="name"
-                          name={c.fullName}
-                          url={c.editUrl}
-                        />
+                        <CustomerName name={c.fullName} url={c.editUrl} />
                       )
                     },
                     sortOrder: 10
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <BasicRow id="email" areaProps={areaProps} />
-                      )
+                      default: ({ areaProps }) => <td>{c.email}</td>
                     },
                     sortOrder: 15
                   },
                   {
                     component: {
                       default: ({ areaProps }) => (
-                        <StatusRow id="status" areaProps={areaProps} />
+                        <Status status={parseInt(c.status, 10)} />
                       )
                     },
                     sortOrder: 20
                   },
                   {
                     component: {
-                      default: () => <CreateAt time={c.createdAt.text} />
+                      default: () => <td>{c.createdAt.text}</td>
                     },
                     sortOrder: 25
                   }

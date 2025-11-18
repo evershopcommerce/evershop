@@ -1,17 +1,15 @@
-import CollectionNameRow from '@components/admin/catalog/collectionGrid/rows/CollectionNameRow';
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
+import { DummyColumnHeader } from '@components/admin/grid/header/Dummy';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
 import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Form } from '@components/common/form/Form';
-import DummyColumnHeader from '@components/common/grid/headers/Dummy';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import Pagination from '@components/common/grid/Pagination';
-import TextRow from '@components/common/grid/rows/TextRow';
+import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { CollectionNameRow } from './rows/CollectionNameRow.js';
 
 function Actions({ collections = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -59,7 +57,7 @@ function Actions({ collections = [], selectedIds = [] }) {
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
-            <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
+            <a href="#" className="font-semibold pt-2 pb-2 pl-4 pr-4">
               {selectedIds.length} selected
             </a>
             {actions.map((action, index) => (
@@ -70,7 +68,7 @@ function Actions({ collections = [], selectedIds = [] }) {
                   e.preventDefault();
                   action.onAction();
                 }}
-                className="font-semibold pt-3 pb-3 pl-6 pr-6 block border-l border-divider self-center"
+                className="font-semibold pt-2 pb-2 pl-4 pr-4 block border-l border-divider self-center"
               >
                 <span>{action.name}</span>
               </a>
@@ -111,17 +109,17 @@ export default function CollectionGrid({
         <Card.Session
           title={
             <Form submitBtn={false} id="collectionGridFilter">
-              <Field
-                type="text"
-                id="name"
+              <InputField
                 name="name"
                 placeholder="Search"
-                value={currentFilters.find((f) => f.key === 'name')?.value}
+                defaultValue={
+                  currentFilters.find((f) => f.key === 'name')?.value
+                }
                 onKeyPress={(e) => {
                   // If the user press enter, we should submit the form
                   if (e.key === 'Enter') {
                     const url = new URL(document.location);
-                    const name = document.getElementById('name')?.value;
+                    const name = e.target?.value;
                     if (name) {
                       url.searchParams.set('name[operation]', 'like');
                       url.searchParams.set('name[value]', name);
@@ -152,15 +150,18 @@ export default function CollectionGrid({
           <thead>
             <tr>
               <th className="align-bottom">
-                <Checkbox
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(collections.map((c) => c.uuid));
-                    } else {
-                      setSelectedRows([]);
-                    }
-                  }}
-                />
+                <div className="form-field mb-0">
+                  <input
+                    type="checkbox"
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(collections.map((c) => c.uuid));
+                      } else {
+                        setSelectedRows([]);
+                      }
+                    }}
+                  />
+                </div>
               </th>
               <Area
                 className=""
@@ -216,17 +217,20 @@ export default function CollectionGrid({
             {collections.map((c) => (
               <tr key={c.collectionId}>
                 <td style={{ width: '2rem' }}>
-                  <Checkbox
-                    isChecked={selectedRows.includes(c.uuid)}
-                    onChange={(e) => {
-                      if (e.target.checked)
-                        setSelectedRows(selectedRows.concat([c.uuid]));
-                      else
-                        setSelectedRows(
-                          selectedRows.filter((r) => r !== c.uuid)
-                        );
-                    }}
-                  />
+                  <div className="form-field mb-0">
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.includes(c.uuid)}
+                      onChange={(e) => {
+                        if (e.target.checked)
+                          setSelectedRows(selectedRows.concat([c.uuid]));
+                        else
+                          setSelectedRows(
+                            selectedRows.filter((r) => r !== c.uuid)
+                          );
+                      }}
+                    />
+                  </div>
                 </td>
                 <Area
                   className=""
@@ -236,9 +240,7 @@ export default function CollectionGrid({
                   coreComponents={[
                     {
                       component: {
-                        default: () => (
-                          <TextRow text={c.collectionId.toString()} />
-                        )
+                        default: () => <td>{c.collectionId.toString()}</td>
                       },
                       sortOrder: 5
                     },
@@ -256,7 +258,7 @@ export default function CollectionGrid({
                     },
                     {
                       component: {
-                        default: () => <TextRow text={c.code} />
+                        default: () => <td>{c.code}</td>
                       },
                       sortOrder: 15
                     }

@@ -92,7 +92,14 @@ export function setDelegate<T>(
   request: EvershopRequest
 ): void {
   if (!request.locals) {
-    request.locals = {};
+    request.locals = {
+      user: null,
+      customer: null,
+      context: {},
+      delegates: createWriteOnceMap(),
+      sessionID: null,
+      webpackMatchedRoute: null
+    };
   }
   if (!request.locals.delegates) {
     request.locals.delegates = createWriteOnceMap();

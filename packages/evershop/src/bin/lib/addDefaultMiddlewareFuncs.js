@@ -1,3 +1,4 @@
+import path from 'path';
 import { select } from '@evershop/postgres-query-builder';
 import sessionStorage from 'connect-pg-simple';
 import cookieParser from 'cookie-parser';
@@ -6,6 +7,7 @@ import pathToRegexp from 'path-to-regexp';
 import webpack from 'webpack';
 import middleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import { CONSTANTS } from '../../lib/helpers.js';
 import { translate } from '../../lib/locale/translate/translate.js';
 import { debug, warning } from '../../lib/log/logger.js';
 import publicStatic from '../../lib/middlewares/publicStatic.js';
@@ -13,14 +15,17 @@ import themePublicStatic from '../../lib/middlewares/themePublicStatic.js';
 import { pool } from '../../lib/postgres/connection.js';
 import { getRoutes } from '../../lib/router/Router.js';
 import { getConfig } from '../../lib/util/getConfig.js';
+import { getEnabledTheme } from '../../lib/util/getEnabledTheme.js';
 import isDevelopmentMode from '../../lib/util/isDevelopmentMode.js';
 import isProductionMode from '../../lib/util/isProductionMode.js';
 import { createConfigClient } from '../../lib/webpack/dev/createConfigClient.js';
 import { isBuildRequired } from '../../lib/webpack/isBuildRequired.js';
+import { getTailwindConfig } from '../../lib/webpack/util/getTailwindConfig.js';
 import { getAdminSessionCookieName } from '../../modules/auth/services/getAdminSessionCookieName.js';
 import { getCookieSecret } from '../../modules/auth/services/getCookieSecret.js';
 import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
-import { setContextValue } from '../../modules/graphql/services/contextHelper.js';
+import { setPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
+import { getEnabledExtensions } from '../extension/index.js';
 import { findRoute } from './findRoute.js';
 
 export function addDefaultMiddlewareFuncs(app) {
@@ -172,10 +177,11 @@ export function addDefaultMiddlewareFuncs(app) {
     }
   });
 
-  app.use((request, response, next) => {
+  app.use(async (request, response, next) => {
     if (!isDevelopmentMode()) {
       return next();
     }
+
     const routes = getRoutes();
     const route = findRoute(request);
     request.locals = request.locals || {};
@@ -183,8 +189,46 @@ export function addDefaultMiddlewareFuncs(app) {
     if (!route || !isBuildRequired(route)) {
       next();
     } else {
+      const adminTailwindConfig = await getTailwindConfig(true);
+      const frontStoreTailwindConfig = await getTailwindConfig(false);
+      const enabledExtensions = getEnabledExtensions();
+      adminTailwindConfig.content = frontStoreTailwindConfig.content = [
+        // All file in packages/evershop/dist and name is capitalized
+        path.join(
+          CONSTANTS.ROOTPATH,
+          'packages',
+          'evershop',
+          'dist',
+          '**',
+          '[A-Z]*.js'
+        ),
+        // All file in node_modules/@evershop/evershop/dist and name is capitalized
+        path.join(
+          CONSTANTS.ROOTPATH,
+          'node_modules',
+          '@evershop',
+          'evershop',
+          'dist',
+          '**',
+          '[A-Z]*.js'
+        ),
+        ...enabledExtensions.map((extension) =>
+          path.join(extension.path, '**', '[A-Z]*.js')
+        )
+      ];
+      const theme = getEnabledTheme();
+      if (theme) {
+        frontStoreTailwindConfig.content.push(
+          path.join(theme.path, 'dist', '**', '[A-Z]*.js')
+        );
+      }
       if (!route.webpackCompiler) {
-        route.webpackCompiler = webpack(createConfigClient(route));
+        route.webpackCompiler = webpack(
+          createConfigClient(
+            route,
+            route.isAdmin ? adminTailwindConfig : frontStoreTailwindConfig
+          )
+        );
       }
       const { webpackCompiler } = route;
       let middlewareFunc;
@@ -207,7 +251,7 @@ export function addDefaultMiddlewareFuncs(app) {
       const notFoundRoute = routes.find((r) => r.id === 'notFound');
       if (!notFoundRoute.webpackCompiler) {
         notFoundRoute.webpackCompiler = webpack(
-          createConfigClient(notFoundRoute)
+          createConfigClient(notFoundRoute, frontStoreTailwindConfig)
         );
       }
       const notFoundWebpackCompiler = notFoundRoute.webpackCompiler;
@@ -230,7 +274,7 @@ export function addDefaultMiddlewareFuncs(app) {
       const adminNotFoundRoute = routes.find((r) => r.id === 'adminNotFound');
       if (!adminNotFoundRoute.webpackCompiler) {
         adminNotFoundRoute.webpackCompiler = webpack(
-          createConfigClient(adminNotFoundRoute)
+          createConfigClient(adminNotFoundRoute, adminTailwindConfig)
         );
       }
       const adminNotFoundWebpackCompiler = adminNotFoundRoute.webpackCompiler;
@@ -282,7 +326,7 @@ export function addDefaultMiddlewareFuncs(app) {
       response.status(404);
       const routes = getRoutes();
       request.currentRoute = routes.find((r) => r.id === 'notFound');
-      setContextValue(request, 'pageInfo', {
+      setPageMetaInfo(request, {
         title: translate('Not found'),
         description: translate('Not found')
       });

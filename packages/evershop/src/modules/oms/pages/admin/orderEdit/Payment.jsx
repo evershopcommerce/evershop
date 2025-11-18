@@ -1,13 +1,13 @@
-import { Card } from '@components/admin/cms/Card';
-import { Discount } from '@components/admin/oms/orderEdit/payment/Discount';
-import { Shipping } from '@components/admin/oms/orderEdit/payment/Shipping';
-import { SubTotal } from '@components/admin/oms/orderEdit/payment/SubTotal';
-import { Tax } from '@components/admin/oms/orderEdit/payment/Tax';
-import { Total } from '@components/admin/oms/orderEdit/payment/Total';
-import Area from '@components/common/Area';
-import { Circle } from '@components/common/Circle';
+import { Card } from '@components/admin/Card';
+import { Circle } from '@components/admin/Circle.js';
+import Area from '@components/common/Area.js';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Discount } from './payment/Discount.js';
+import { Shipping } from './payment/Shipping.js';
+import { SubTotal } from './payment/SubTotal.js';
+import { Tax } from './payment/Tax.js';
+import { Total } from './payment/Total.js';
 import './Payment.scss';
 
 export default function OrderSummary({
@@ -29,7 +29,7 @@ export default function OrderSummary({
   return (
     <Card
       title={
-        <div className="flex space-x-4">
+        <div className="flex space-x-2">
           <Circle variant={paymentStatus.badge} />
           <span className="block self-center">
             {`${paymentStatus.name || 'Unknown'} - ${

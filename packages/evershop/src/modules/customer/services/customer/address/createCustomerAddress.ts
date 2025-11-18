@@ -10,7 +10,8 @@ import {
 import { getConnection, pool } from '../../../../../lib/postgres/connection.js';
 import { hookable } from '../../../../../lib/util/hookable.js';
 import { getValue } from '../../../../../lib/util/registry.js';
-import { Address, validateAddress } from './addressValidators.js';
+import { Address } from '../../../../../types/customerAddress.js';
+import { validateAddress } from './addressValidators.js';
 
 async function insertCustomerAddressData(
   data: Address,

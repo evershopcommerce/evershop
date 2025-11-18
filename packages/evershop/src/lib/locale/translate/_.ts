@@ -1,4 +1,4 @@
-export function _(text: string, values: Record<string, string>): string {
+export function _(text: string, values?: Record<string, string>): string {
   // Check if the data is null, undefined or empty object
   if (!values || Object.keys(values).length === 0) {
     return text;

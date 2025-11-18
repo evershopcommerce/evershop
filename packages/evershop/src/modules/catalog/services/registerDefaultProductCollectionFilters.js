@@ -16,7 +16,7 @@ export default async function registerDefaultProductCollectionFilters() {
           'AND',
           `to_tsvector('simple', product_description.name || ' ' || product_description.description) @@ websearch_to_tsquery('simple', :${bindingKey})`,
           {
-            [bindingKey]: value
+            [bindingKey]: `%${value}%`
           }
         );
         currentFilters.push({
@@ -191,24 +191,40 @@ export default async function registerDefaultProductCollectionFilters() {
   filterableAttributes.forEach((attribute) => {
     defaultFilters.push({
       key: attribute.attribute_code,
-      operation: ['in'],
+      operation: ['in', 'eq'],
       callback: (query, operation, val, currentFilters) => {
         const alias = `attribute_${uniqid()}`;
         // Split the value by comma and only get the positive integer
-        const values = val
-          .split(',')
-          .map((v) => parseInt(v, 10))
-          .filter((v) => v > 0);
-        query
-          .innerJoin('product_attribute_value_index', alias)
-          .on(`${alias}.product_id`, '=', 'product.product_id')
-          .and(`${alias}.attribute_id`, '=', value(attribute.attribute_id))
-          .and(`${alias}.option_id`, 'IN', value(values));
-        currentFilters.push({
-          key: attribute.attribute_code,
-          operation,
-          value: val
-        });
+        if (operation === 'in') {
+          const values = val
+            .split(',')
+            .map((v) => parseInt(v, 10))
+            .filter((v) => v > 0);
+          query
+            .innerJoin('product_attribute_value_index', alias)
+            .on(`${alias}.product_id`, '=', 'product.product_id')
+            .and(`${alias}.attribute_id`, '=', value(attribute.attribute_id))
+            .and(`${alias}.option_id`, 'IN', value(values));
+          currentFilters.push({
+            key: attribute.attribute_code,
+            operation,
+            value: val
+          });
+        } else if (operation === 'eq') {
+          const valueInt = parseInt(val, 10);
+          if (valueInt > 0) {
+            query
+              .innerJoin('product_attribute_value_index', alias)
+              .on(`${alias}.product_id`, '=', 'product.product_id')
+              .and(`${alias}.attribute_id`, '=', value(attribute.attribute_id))
+              .and(`${alias}.option_id`, '=', value(valueInt));
+            currentFilters.push({
+              key: attribute.attribute_code,
+              operation,
+              value: val
+            });
+          }
+        }
       }
     });
   });

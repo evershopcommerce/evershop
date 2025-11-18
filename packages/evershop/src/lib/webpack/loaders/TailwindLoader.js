@@ -42,7 +42,7 @@ export default async function TailwindLoader(c) {
       '[A-Z]*.js'
     ),
     ...enabledExtensions.map((extension) =>
-      join(extension.path, '**', '[A-Z]*.js')
+      join(extension.path, 'dist', '**', '[A-Z]*.js')
     )
   ];
   const theme = getEnabledTheme();

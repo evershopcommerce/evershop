@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "cart_id": {
+      "type": "string"
+    }
+  },
+  "required": ["cart_id"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "cart_id": "Cart id is required"
+    }
+  }
+}

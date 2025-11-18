@@ -6,14 +6,32 @@ type Breadcrumb {
   title: String!
 }
 
+type OgInfo {
+  title: String
+  description: String
+  image: String
+  url: String
+  siteName: String
+  type: String
+  twitterImage: String
+  twitterCard: String
+  twitterSite: String
+  twitterCreator: String
+}
+
 """
 Represents a page information.
 """
 type PageInfo {
   url: String!
   title: String!
-  description: String!,
+  description: String!
+  locale: String
+  keywords: [String!]
+  ogInfo: OgInfo
   breadcrumbs: [Breadcrumb!]
+  favicon: String
+  canonicalUrl: String
 }
 
 extend type Query {

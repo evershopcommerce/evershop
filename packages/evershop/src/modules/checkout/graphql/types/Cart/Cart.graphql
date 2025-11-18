@@ -2,6 +2,7 @@
 Shopping Cart interface
 """
 interface ShoppingCart {
+  uuid: String!
   currency: String!
   customerId: Int
   customerGroupId: Int
@@ -12,14 +13,17 @@ interface ShoppingCart {
   coupon: String
   shippingFeeExclTax: Price!
   shippingFeeInclTax: Price!
+  shippingTaxAmount: Price!
   discountAmount: Price!
   subTotal: Price!
+  subTotalInclTax: Price!
   subTotalWithDiscount: Price!
   subTotalWithDiscountInclTax: Price!
   totalQty: Int!
   totalWeight: Weight!
   taxAmount: Price!
   taxAmountBeforeDiscount: Price!
+  totalTaxAmount: Price!
   grandTotal: Price!
   shippingMethod: String
   shippingMethodName: String
@@ -28,12 +32,15 @@ interface ShoppingCart {
   paymentMethodName: String
   billingAddress: Address
   shippingNote: String
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 """
 Shopping Cart Item interface
 """
 interface ShoppingCartItem {
+  uuid: String!
   productId: ID!
   productSku: String!
   productName: String
@@ -49,13 +56,15 @@ interface ShoppingCartItem {
   taxAmountBeforeDiscount: Price!
   discountAmount: Price!
   lineTotal: Price!
+  subTotal: Price! # Deprecated, this field is equivalent to lineTotal
   lineTotalWithDiscount: Price!
   lineTotalWithDiscountInclTax: Price!
   lineTotalInclTax: Price!
+  total: Price! # Deprecated, this field is equivalent to lineTotalInclTax
   variantGroupId: Int
-  variantOptions: String
+  variantOptions: [VariantOption]
   productCustomOptions: String
-  productUrl: String!
+  productUrl: String
 }
 
 """
@@ -88,6 +97,13 @@ type CartAddress implements Address {
   address2: String
 }
 
+type VariantOption {
+  attributeCode: String!
+  attributeName: String!
+  attributeId: Int!
+  optionId: Int!
+  optionText: String!
+}
 """
 Represent a Cart Item
 """
@@ -118,9 +134,9 @@ type CartItem implements ShoppingCartItem {
   lineTotalInclTax: Price!
   total: Price! # Deprecated, this field is equivalent to lineTotalInclTax
   variantGroupId: Int
-  variantOptions: String
+  variantOptions: [VariantOption]
   productCustomOptions: String
-  productUrl: String!
+  productUrl: String
   errors: [String!]
 }
 
@@ -167,8 +183,12 @@ type Cart implements ShoppingCart {
   addContactInfoApi: String!
   addAddressApi: String!
   addNoteApi: String!
+  checkoutApi: String!
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 extend type Query {
-  cart(id: String): Cart
+  cart(id: String!): Cart
+  myCart: Cart
 }

@@ -1,21 +1,17 @@
-import { Card } from '@components/admin/cms/Card';
-import CreateAt from '@components/admin/customer/customerGrid/rows/CreateAt';
-import OrderNumberRow from '@components/admin/oms/orderGrid/rows/OrderNumberRow';
-import PaymentStatusRow from '@components/admin/oms/orderGrid/rows/PaymentStatus';
-import ShipmentStatusRow from '@components/admin/oms/orderGrid/rows/ShipmentStatus';
-import TotalRow from '@components/admin/oms/orderGrid/rows/TotalRow';
+import { Card } from '@components/admin/Card';
+import { Filter } from '@components/admin/grid/Filter';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
 import Area from '@components/common/Area';
-import { Field } from '@components/common/form/Field';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Form } from '@components/common/form/Form';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import Pagination from '@components/common/grid/Pagination';
-import BasicRow from '@components/common/grid/rows/BasicRow';
-import Filter from '@components/common/list/Filter';
+import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { OrderNumber } from './rows/OrderNumber.js';
+import { PaymentStatus } from './rows/PaymentStatus.js';
+import { ShipmentStatus } from './rows/ShipmentStatus.js';
 
 function Actions({ orders = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -40,11 +36,14 @@ function Actions({ orders = [], selectedIds = [] }) {
         openAlert({
           heading: `Fullfill ${selectedIds.length} orders`,
           content: (
-            <Checkbox
-              name="notify_customer"
-              label="Send notification to the customer"
-              onChange={() => {}}
-            />
+            <div className="form-field mb-0">
+              <input
+                type="checkbox"
+                name="notify_customer"
+                label="Send notification to the customer"
+                onChange={() => {}}
+              />
+            </div>
           ),
           primaryAction: {
             title: 'Cancel',
@@ -70,7 +69,7 @@ function Actions({ orders = [], selectedIds = [] }) {
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
-            <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
+            <a href="#" className="font-semibold pt-2 pb-2 pl-4 pr-4">
               {selectedIds.length} selected
             </a>
             {actions.map((action, i) => (
@@ -81,7 +80,7 @@ function Actions({ orders = [], selectedIds = [] }) {
                   e.preventDefault();
                   action.onAction();
                 }}
-                className="font-semibold pt-3 pb-3 pl-6 pr-6 block border-l border-divider self-center"
+                className="font-semibold pt-2 pb-2 pl-4 pr-4 block border-l border-divider self-center"
               >
                 <span>{action.name}</span>
               </a>
@@ -126,7 +125,7 @@ export default function OrderGrid({
       <Card.Session
         title={
           <Form submitBtn={false} id="orderGridFilter">
-            <div className="flex gap-8 justify-center items-center">
+            <div className="flex gap-5 justify-center items-center">
               <Area
                 id="orderGridFilter"
                 noOuter
@@ -134,12 +133,10 @@ export default function OrderGrid({
                   {
                     component: {
                       default: () => (
-                        <Field
-                          type="text"
+                        <InputField
                           name="keyword"
-                          id="keyword"
                           placeholder="Search"
-                          value={
+                          defaultValue={
                             currentFilters.find((f) => f.key === 'keyword')
                               ?.value
                           }
@@ -147,8 +144,7 @@ export default function OrderGrid({
                             // If the user press enter, we should submit the form
                             if (e.key === 'Enter') {
                               const url = new URL(document.location);
-                              const keyword =
-                                document.getElementById('keyword')?.value;
+                              const keyword = e.target?.value;
                               if (keyword) {
                                 url.searchParams.set('keyword', keyword);
                               } else {
@@ -247,15 +243,18 @@ export default function OrderGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedRows(orders.map((o) => o.uuid));
-                  } else {
-                    setSelectedRows([]);
-                  }
-                }}
-              />
+              <div className="form-field mb-0">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedRows(orders.map((o) => o.uuid));
+                    } else {
+                      setSelectedRows([]);
+                    }
+                  }}
+                />
+              </div>
             </th>
             <Area
               className=""
@@ -347,18 +346,21 @@ export default function OrderGrid({
           {orders.map((o) => (
             <tr key={o.orderId}>
               <td>
-                <Checkbox
-                  isChecked={selectedRows.includes(o.uuid)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([o.uuid]));
-                    } else {
-                      setSelectedRows(
-                        selectedRows.filter((row) => row !== o.uuid)
-                      );
-                    }
-                  }}
-                />
+                <div className="form-field mb-0">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(o.uuid)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(selectedRows.concat([o.uuid]));
+                      } else {
+                        setSelectedRows(
+                          selectedRows.filter((row) => row !== o.uuid)
+                        );
+                      }
+                    }}
+                  />
+                </div>
               </td>
               <Area
                 className=""
@@ -369,8 +371,8 @@ export default function OrderGrid({
                   {
                     component: {
                       default: () => (
-                        <OrderNumberRow
-                          name={o.orderNumber}
+                        <OrderNumber
+                          number={o.orderNumber}
                           editUrl={o.editUrl}
                         />
                       )
@@ -379,37 +381,33 @@ export default function OrderGrid({
                   },
                   {
                     component: {
-                      default: () => <CreateAt time={o.createdAt.text} />
+                      default: () => <td>{o.createdAt.text}</td>
                     },
                     sortOrder: 10
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <BasicRow id="customerEmail" areaProps={areaProps} />
-                      )
+                      default: ({ areaProps }) => <td>{o.customerEmail}</td>
                     },
                     sortOrder: 15
                   },
                   {
                     component: {
                       default: () => (
-                        <ShipmentStatusRow status={o.shipmentStatus} />
+                        <ShipmentStatus status={o.shipmentStatus} />
                       )
                     },
                     sortOrder: 20
                   },
                   {
                     component: {
-                      default: () => (
-                        <PaymentStatusRow status={o.paymentStatus} />
-                      )
+                      default: () => <PaymentStatus status={o.paymentStatus} />
                     },
                     sortOrder: 25
                   },
                   {
                     component: {
-                      default: () => <TotalRow total={o.grandTotal.text} />
+                      default: () => <td>{o.grandTotal.text}</td>
                     },
                     sortOrder: 30
                   }

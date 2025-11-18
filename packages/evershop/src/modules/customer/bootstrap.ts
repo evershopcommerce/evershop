@@ -1,15 +1,12 @@
-import config from 'config';
 import { request } from 'express';
-import type { EvershopRequest } from 'src/types/request.js';
-import { translate } from '../../lib/locale/translate/translate.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { hookable } from '../../lib/util/hookable.js';
-import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
-import loginCustomerWithEmail from '../../modules/customer/services/customer/loginCustomerWithEmail.js';
-import logoutCustomer from '../../modules/customer/services/customer/logoutCustomer.js';
-import { registerDefaultCustomerCollectionFilters } from '../../modules/customer/services/registerDefaultCustomerCollectionFilters.js';
-import { registerDefaultCustomerGroupCollectionFilters } from '../../modules/customer/services/registerDefaultCustomerGroupCollectionFilters.js';
+import type { EvershopRequest } from '../../types/request.js';
+import loginCustomerWithEmail from './services/customer/loginCustomerWithEmail.js';
+import logoutCustomer from './services/customer/logoutCustomer.js';
+import { registerDefaultCustomerCollectionFilters } from './services/registerDefaultCustomerCollectionFilters.js';
+import { registerDefaultCustomerGroupCollectionFilters } from './services/registerDefaultCustomerGroupCollectionFilters.js';
 
 export default () => {
   addProcessor('cartFields', (fields: any[]) => {
@@ -76,12 +73,16 @@ export default () => {
     callback
   ) {
     await hookable(loginCustomerWithEmail.bind(this))(email, password);
-    this.session.save(callback);
+    if (this.session) {
+      this.session.save(callback);
+    }
   };
 
   (request as EvershopRequest).logoutCustomer = function logout(callback) {
     hookable(logoutCustomer.bind(this))();
-    this.session.save(callback);
+    if (this.session) {
+      this.session.save(callback);
+    }
   };
 
   (request as EvershopRequest).isCustomerLoggedIn =

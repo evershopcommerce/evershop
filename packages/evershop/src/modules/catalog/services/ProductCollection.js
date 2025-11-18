@@ -45,18 +45,19 @@ export class ProductCollection {
         filterableAttributes
       }
     );
-
     productCollectionFilters.forEach((filter) => {
-      const check = filters.find(
-        (f) => f.key === filter.key && filter.operation.includes(f.operation)
-      );
+      const check =
+        filters &&
+        filters.find(
+          (f) => f.key === filter.key && filter.operation.includes(f.operation)
+        );
       if (filter.key === '*' || check) {
-        filter.callback(
+        filter.callback.apply({ isAdmin }, [
           this.baseQuery,
           check?.operation,
           check?.value,
           currentFilters
-        );
+        ]);
       }
     });
 

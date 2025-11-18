@@ -1,4 +1,4 @@
-import { useAppState } from '@components/common/context/app.jsx';
+import { useAppState } from '@components/common/context/app.js';
 import React from 'react';
 import type { ElementType } from 'react';
 
@@ -28,6 +28,7 @@ interface AreaProps {
   wrapper?: React.ReactNode | string;
   wrapperProps?: Record<string, any>;
   components?: Components;
+  [key: string]: unknown;
 }
 
 interface Widget extends Component {
