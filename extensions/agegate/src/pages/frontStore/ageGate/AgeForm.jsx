@@ -20,7 +20,7 @@ function AgeForm({ action, homeUrl, failurePageUrl, setting: { minAge } }) {
               window.location.href = failurePageUrl;
             }
           } else {
-            toast.error('Something wront. Please try again later');
+            toast.error('Something wrong. Please try again later');
           }
         }}
         btnText="Submit"
