@@ -1,14 +1,12 @@
-/* eslint-disable react/jsx-closing-tag-location */
-/* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable react/jsx-props-no-spreading */
+import Button from '@components/common/Button';
+import { assign } from '@evershop/evershop/lib/util/assign';
+import { produce } from 'immer';
 import PropTypes from 'prop-types';
 import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom';
-import produce from 'immer';
-import Button from '@components/common/form/Button';
-import { assign } from '@evershop/evershop/src/lib/util/assign';
+
 import './Alert.scss';
-import { Card } from '@components/admin/cms/Card';
+import { Card } from '@components/admin/Card';
 
 const AlertContext = React.createContext();
 export const useAlertContext = () => React.useContext(AlertContext);
@@ -29,7 +27,6 @@ function reducer(state, action) {
 const alertReducer = produce((draff, action) => {
   switch (action.type) {
     case 'open':
-      // eslint-disable-next-line no-param-reassign
       draff = { ...action.payload };
       return draff;
     case 'remove':
@@ -102,7 +99,8 @@ function Alert({ children }) {
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="2rem"
+                    width="1.5rem"
+                    className="w-6 h-6"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -118,7 +116,7 @@ function Alert({ children }) {
                   {(alert.primaryAction !== undefined ||
                     alert.secondaryAction !== undefined) && (
                     <Card.Session>
-                      <div className="flex justify-end space-x-4">
+                      <div className="flex justify-end space-x-2">
                         {alert.primaryAction && (
                           <Button {...alert.primaryAction} />
                         )}

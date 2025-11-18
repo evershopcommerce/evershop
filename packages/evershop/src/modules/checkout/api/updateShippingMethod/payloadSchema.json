@@ -6,7 +6,5 @@
     }
   },
   "additionalProperties": true,
-  "required": [
-    "name"
-  ]
+  "required": ["name"]
 }

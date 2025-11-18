@@ -1,10 +1,9 @@
-const {
+import {
   INTERNAL_SERVER_ERROR,
   OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
+} from '../../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = (request, response, delegate, next) => {
+export default (request, response, next) => {
   try {
     request.logoutCustomer((error) => {
       if (error) {

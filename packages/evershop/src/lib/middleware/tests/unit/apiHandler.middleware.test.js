@@ -1,8 +1,12 @@
-/* eslint-disable no-undef, global-require */
-const http = require('http');
-const axios = require('axios').default;
-const { app, bootstrap, close } = require('../app/app');
+import http from 'http';
+import axios from 'axios';
+import { app, bootstrap, close } from '../app/app.js';
+import createA from '../app/modules/api/api/createA/index.js';
+import afterIndex from '../app/modules/authcopy/api/createA/[index]afterIndex.js';
+import createAGlobal from '../app/modules/api/api/global/apiGlobal.js';
+import authApiGlobal from '../app/modules/authcopy/api/global/apiAuthGlobal.js';
 
+import { jest, describe, it, expect, beforeAll, afterAll } from '@jest/globals';
 jest.setTimeout(80000);
 describe('test API middleware', () => {
   const server = http.createServer(app);
@@ -22,10 +26,6 @@ describe('test API middleware', () => {
     } catch (e) {
       console.log(e.response.data);
     }
-    const createA = require('../app/modules/api/api/createA/index');
-    const afterIndex = require('../app/modules/authcopy/api/createA/[index]afterIndex');
-    const createAGlobal = require('../app/modules/api/api/global/apiGlobal');
-    const authApiGlobal = require('../app/modules/authcopy/api/global/apiAuthGlobal');
     expect(createA).toHaveBeenCalledTimes(1);
     expect(afterIndex).toHaveBeenCalledTimes(1);
     expect(createAGlobal).toHaveBeenCalledTimes(1);

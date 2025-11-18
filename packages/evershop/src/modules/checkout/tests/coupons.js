@@ -1,4 +1,4 @@
-const coupons = [
+export const coupons = [
   {
     coupon_id: 1,
     uuid: '511b3def-bfe0-4cff-91ce-667586939bdb',
@@ -78,5 +78,3 @@ const coupons = [
     updated_at: '2020-04-24 00:45:33+07'
   }
 ];
-
-module.exports.coupons = coupons;

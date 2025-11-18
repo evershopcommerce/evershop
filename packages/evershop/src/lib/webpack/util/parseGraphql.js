@@ -1,12 +1,11 @@
-const fs = require('fs');
-const uniqid = require('uniqid');
-const JSON5 = require('json5');
-const isResolvable = require('is-resolvable');
-const { CONSTANTS } = require('../../helpers');
-const { parseGraphqlByFile } = require('./parseGraphqlByFile');
-const { generateComponentKey } = require('./keyGenerator');
+import fs from 'fs';
+import JSON5 from 'json5';
+import uniqid from 'uniqid';
+import { isResolvable } from '../../util/isResolvable.js';
+import { generateComponentKey } from './keyGenerator.js';
+import { parseGraphqlByFile } from './parseGraphqlByFile.js';
 
-module.exports.parseGraphql = function parseGraphql(modules) {
+export function parseGraphql(modules) {
   let inUsedFragments = [];
   const propsMap = {};
   let queries = {};
@@ -24,13 +23,11 @@ module.exports.parseGraphql = function parseGraphql(modules) {
     let moduleKey;
     // If the module is resolvable, get the apsolute path
     if (!fs.existsSync(module)) {
-      modulePath = require.resolve(module);
+      modulePath = new URL(import.meta.resolve(module)).pathname;
       moduleKey = generateComponentKey(module);
     } else {
       modulePath = module;
-      moduleKey = generateComponentKey(
-        modulePath.replace(CONSTANTS.ROOTPATH, '')
-      );
+      moduleKey = generateComponentKey(modulePath);
     }
     const moduleGraphqlData = parseGraphqlByFile(modulePath);
     queries[moduleKey] = moduleGraphqlData.query.source;
@@ -99,4 +96,4 @@ module.exports.parseGraphql = function parseGraphql(modules) {
     variables: variableList,
     propsMap
   };
-};
+}

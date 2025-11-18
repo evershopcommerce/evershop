@@ -1,10 +1,8 @@
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { select } = require('@evershop/postgres-query-builder');
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../lib/router/buildUrl.js';
 
-module.exports = exports = {};
-
-exports.registerCartItemProductUrlField = (fields) => {
+export const registerCartItemProductUrlField = (fields) => {
   const newFields = fields.concat([
     {
       key: 'productUrl',

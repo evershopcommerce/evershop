@@ -1,0 +1,587 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --primary: #3a3a3a;
+  --secondary: #111213;
+  --surface: #111213;
+  --onSurface: #111213;
+  --interactive: #2c6ecb;
+  --critical: #d72c0d;
+  --warning: #ffc453;
+  --highlight: #5bcdda;
+  --success: #008060;
+  --decorative: #ffc96b;
+  --border: #8c9196;
+  --background: #f6f6f7fc;
+  --icon: #5c5f62;
+  --textSubdued: #6d7175;
+  --divider: #e1e3e5;
+  --text: #202223;
+  --formFieldBorder: #c9cccf;
+  --formFieldBorderShadow: #aeb4b9;
+}
+
+$font-size-sm: 0.875rem;
+$font-size-md: 0.875rem;
+$font-size-lg: 1rem;
+
+$line-height-sm: 1.25;
+$line-height-md: 1.5;
+$line-height-lg: 2;
+
+$font-size-base: $font-size-sm;
+$h1-font-size: $font-size-base * 2.1;
+$h2-font-size: $font-size-base * 1.9;
+$h3-font-size: $font-size-base * 1.65;
+$h4-font-size: $font-size-base * 1.45;
+$h5-font-size: $font-size-base * 1.15;
+$h6-font-size: $font-size-base;
+
+html {
+  font-size: 100%;
+
+  input[type='email'],
+  input[type='password'],
+  input[type='tel'],
+  input[type='text'],
+  select,
+  textarea {
+    padding: 0.625rem 0.75rem;
+  }
+
+  main.content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+body {
+  color: #3a3a3a;
+}
+.header {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .slide__wrapper {
+    height: 30rem !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  $font-size-base: $font-size-sm;
+  body {
+    font-size: $font-size-base;
+    line-height: $line-height-sm;
+    .h1,
+    h1 {
+      font-size: $h1-font-size;
+    }
+    .h2,
+    h2 {
+      font-size: $h2-font-size;
+    }
+    .h3,
+    h3 {
+      font-size: $h3-font-size;
+    }
+    .h4,
+    h4 {
+      font-size: $h4-font-size;
+    }
+    .h5,
+    h5 {
+      font-size: $h5-font-size;
+    }
+    .h6,
+    h6 {
+      font-size: $h6-font-size;
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1535px) {
+  $font-size-base: $font-size-md;
+  $h1-font-size: $font-size-base * 2.1;
+  $h2-font-size: $font-size-base * 1.9;
+  $h3-font-size: $font-size-base * 1.65;
+  $h4-font-size: $font-size-base * 1.45;
+  $h5-font-size: $font-size-base * 1.15;
+  $h6-font-size: $font-size-base;
+
+  body {
+    font-size: $font-size-base;
+    line-height: $line-height-md;
+    .h1,
+    h1 {
+      font-size: $h1-font-size;
+    }
+    .h2,
+    h2 {
+      font-size: $h2-font-size;
+    }
+    .h3,
+    h3 {
+      font-size: $h3-font-size;
+    }
+    .h4,
+    h4 {
+      font-size: $h4-font-size;
+    }
+    .h5,
+    h5 {
+      font-size: $h5-font-size;
+    }
+    .h6,
+    h6 {
+      font-size: $h6-font-size;
+    }
+  }
+}
+
+@media (min-width: 1536px) {
+  $font-size-base: $font-size-lg;
+  $h1-font-size: $font-size-base * 2.1;
+  $h2-font-size: $font-size-base * 1.9;
+  $h3-font-size: $font-size-base * 1.65;
+  $h4-font-size: $font-size-base * 1.45;
+  $h5-font-size: $font-size-base * 1.15;
+  $h6-font-size: $font-size-base;
+
+  body {
+    font-size: $font-size-base;
+    line-height: $line-height-lg;
+    .h1,
+    h1 {
+      font-size: $h1-font-size;
+    }
+    .h2,
+    h2 {
+      font-size: $h2-font-size;
+    }
+    .h3,
+    h3 {
+      font-size: $h3-font-size;
+    }
+    .h4,
+    h4 {
+      font-size: $h4-font-size;
+    }
+    .h5,
+    h5 {
+      font-size: $h5-font-size;
+    }
+    .h6,
+    h6 {
+      font-size: $h6-font-size;
+    }
+  }
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+.wrapper .content {
+  min-height: calc(100vh - 50px);
+}
+
+.container {
+  margin: 0 auto;
+}
+.page-width {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 22px;
+  @media screen and (min-width: 1200px) {
+    padding: 0 55px;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  td,
+  th {
+    border: 1px solid var(--divider);
+    padding: 0.313rem;
+    text-align: left;
+  }
+  th {
+    vertical-align: top;
+  }
+  &.listing {
+    td,
+    th {
+      border-left: 0;
+      border-right: 0;
+      padding: 0.625rem;
+    }
+    th {
+      border: 0;
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+  }
+}
+
+/* FORM */
+@layer base {
+  .required-indicator {
+    @apply text-red-500 ml-1;
+  }
+
+  .form-field {
+    @apply mb-4;
+
+    label {
+      @apply flex items-center mb-2 font-medium text-gray-700;
+
+      .field-unit {
+        @apply ml-2 text-sm text-gray-500;
+      }
+    }
+
+    fieldset {
+      legend {
+        @apply flex items-center mb-2 font-medium text-gray-700;
+      }
+    }
+
+    input[type='text'],
+    input[type='email'],
+    input[type='password'],
+    input[type='number'],
+    input[type='search'],
+    input[type='tel'],
+    input[type='url'],
+    input[type='date'],
+    input[type='time'],
+    input[type='datetime-local'],
+    input[type='color'],
+    input[type='range'],
+    input[type='file'],
+    textarea,
+    select {
+      @apply block w-full px-3 py-2 text-base text-gray-900 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:border-gray-300 sm:text-sm transition-colors;
+
+      &:focus {
+        box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.1),
+          0 0 0 2px rgb(59, 130, 246);
+      }
+
+      &.error {
+        @apply border-red-500;
+
+        &:focus {
+          box-shadow: 0 0 0 5px rgba(239, 68, 68, 0.1),
+            0 0 0 2px rgb(239, 68, 68);
+        }
+      }
+    }
+
+    select {
+      @apply appearance-none bg-no-repeat bg-right pr-10;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.75rem center;
+      background-size: 1.25em 1.25em;
+
+      &:focus {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%233b82f6' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      }
+
+      & ~ .field-suffix {
+        margin-left: -1.85rem;
+      }
+    }
+
+    &.error {
+      select {
+        @apply border-red-500;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ef4444' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+
+        &:focus {
+          box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1),
+            0 0 0 1px rgb(239, 68, 68);
+          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ef4444' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+        }
+      }
+
+      input[type='checkbox'],
+      input[type='radio'] {
+        @apply border-red-500;
+      }
+    }
+
+    input[type='range'] {
+      @apply py-1;
+    }
+
+    input[type='file'] {
+      @apply file:mr-3 file:py-2 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100;
+    }
+
+    input[type='color'] {
+      @apply h-10 w-16 cursor-pointer;
+    }
+
+    input[type='checkbox'],
+    input[type='radio'] {
+      @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded;
+
+      &:focus {
+        @apply outline-none border-blue-500;
+      }
+    }
+
+    input[type='radio'] {
+      @apply rounded-full;
+    }
+
+    .checkbox-group,
+    .radio-group {
+      @apply space-y-2;
+
+      &.horizontal {
+        @apply flex flex-wrap items-center gap-4 space-y-0;
+      }
+
+      .checkbox-item,
+      .radio-item {
+        @apply flex items-center;
+
+        input {
+          @apply mr-2;
+        }
+
+        label {
+          @apply mb-0 font-normal cursor-pointer text-sm text-gray-700;
+
+          &.disabled {
+            @apply text-gray-400 cursor-not-allowed;
+          }
+        }
+      }
+    }
+
+    .field-error {
+      @apply text-red-600 text-sm mt-1;
+    }
+
+    input[readonly],
+    textarea[readonly],
+    select[readonly] {
+      @apply bg-gray-50 text-gray-600 cursor-not-allowed border-gray-200;
+
+      &:focus {
+        @apply ring-0 border-gray-200 outline-none;
+      }
+    }
+
+    &.readonly-field {
+      input,
+      textarea,
+      select {
+        @apply bg-gray-50 text-gray-600 cursor-not-allowed border-gray-200;
+
+        &:focus {
+          @apply ring-0 border-gray-200 outline-none;
+        }
+      }
+
+      label {
+        @apply text-gray-500;
+      }
+
+      .field-helper {
+        @apply text-gray-400;
+      }
+    }
+
+    input[disabled],
+    textarea[disabled],
+    select[disabled] {
+      @apply bg-gray-100 text-gray-400 cursor-not-allowed opacity-60;
+    }
+
+    .field-helper {
+      @apply text-gray-500 text-sm mt-1;
+    }
+
+    .field-tooltip {
+      @apply relative inline-block ml-1;
+
+      .tooltip-trigger {
+        @apply w-4 h-4 text-gray-400 cursor-help;
+      }
+
+      .tooltip-content {
+        @apply absolute z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-md shadow-lg opacity-0 invisible transition-all duration-200;
+        @apply bottom-full left-1/2 transform -translate-x-1/2 mb-2;
+        @apply min-w-max max-w-xs;
+
+        &::after {
+          content: '';
+          @apply absolute top-full left-1/2 transform -translate-x-1/2;
+          border: 4px solid transparent;
+          border-top-color: #111827;
+        }
+
+        &.show {
+          @apply opacity-100 visible;
+        }
+      }
+    }
+
+    .color-field-container {
+      @apply flex items-center gap-2;
+
+      input[type='text'] {
+        @apply flex-1;
+      }
+
+      input[type='color'] {
+        @apply flex-shrink-0;
+      }
+    }
+
+    .number-field-container {
+      @apply relative;
+
+      .number-unit {
+        @apply absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 pointer-events-none;
+      }
+
+      input {
+        &.has-unit {
+          @apply pr-12;
+        }
+      }
+    }
+
+    .file-field-info {
+      @apply text-xs text-gray-500 mt-1;
+    }
+
+    .color-input-group {
+      @apply flex items-center space-x-2;
+
+      .color-picker {
+        @apply w-16 h-10 p-1 border rounded cursor-pointer;
+      }
+
+      .color-input {
+        @apply flex-1 px-3 py-2 border rounded-md;
+      }
+    }
+
+    .range-value {
+      @apply ml-2 text-sm text-gray-500;
+    }
+
+    .range-labels {
+      @apply flex justify-between text-xs text-gray-500 mt-1;
+    }
+
+    .file-size-hint {
+      @apply mt-1 text-sm text-gray-500;
+    }
+
+    .file-list {
+      @apply mt-2;
+
+      .file-list-label {
+        @apply text-sm text-gray-600;
+      }
+
+      .file-items {
+        @apply text-sm text-gray-500 list-disc list-inside;
+      }
+    }
+
+    .react-select {
+      &__control {
+        @apply border border-gray-300 rounded-md transition-colors;
+
+        &--is-focused {
+          @apply border-blue-500;
+          box-shadow: 0 0 0 1px rgb(59, 130, 246);
+        }
+      }
+
+      &__menu {
+        @apply bg-white border border-gray-300 rounded-md shadow-lg mt-1;
+      }
+
+      &__option {
+        @apply px-3 py-2 cursor-pointer;
+
+        &--is-focused {
+          @apply bg-blue-50;
+        }
+
+        &--is-selected {
+          @apply bg-blue-600 text-white;
+        }
+      }
+
+      &__multi-value {
+        @apply bg-blue-100 rounded;
+
+        &__label {
+          @apply text-blue-800;
+        }
+
+        &__remove {
+          @apply text-blue-600 hover:bg-red-500 hover:text-white rounded-r;
+        }
+      }
+    }
+
+    &.error .react-select {
+      &__control {
+        @apply border-red-500;
+
+        &--is-focused {
+          @apply border-red-500;
+          box-shadow: 0 0 0 2px rgb(239, 68, 68);
+        }
+      }
+    }
+
+    .react-select {
+      &__input {
+        input {
+          &:focus {
+            @apply shadow-none !important;
+            box-shadow: none !important;
+            outline: none !important;
+          }
+        }
+      }
+
+      &__control {
+        &:focus-within {
+          @apply shadow-none;
+          box-shadow: none !important;
+        }
+      }
+    }
+  }
+}
+
+.react-select__input input:focus,
+.react-select__input input:focus-visible,
+.react-select__input input {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+div[class*='react-select'] input:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}

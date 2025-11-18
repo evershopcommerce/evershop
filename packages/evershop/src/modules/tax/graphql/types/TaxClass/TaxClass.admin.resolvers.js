@@ -1,10 +1,10 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { TaxClassCollection } = require('../../../services/TaxClassCollection');
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../../../lib/postgres/connection.js';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { TaxClassCollection } from '../../../services/TaxClassCollection.js';
 
-module.exports = {
+export default {
   Query: {
     taxClasses: async (_, { filters }) => {
       const query = select().from('tax_class');

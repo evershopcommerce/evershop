@@ -1,5 +1,5 @@
-const { info } = require('@evershop/evershop/src/lib/log/logger');
-const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
+import { info } from '../../../lib/log/logger.js';
+import { getValueSync } from '../../../lib/util/registry.js';
 
 /**
  * This method validate a coupon.
@@ -7,7 +7,7 @@ const { getValueSync } = require('@evershop/evershop/src/lib/util/registry');
  * @param {String} couponCode
  * @returns {Boolean}
  */
-async function validateCoupon(cart, couponCode) {
+export async function validateCoupon(cart, couponCode) {
   const validatorFunctions = getValueSync('couponValidatorFunctions', []);
   const couponLoader = getValueSync('couponLoaderFunction');
   let flag = true;
@@ -31,7 +31,3 @@ async function validateCoupon(cart, couponCode) {
   );
   return flag;
 }
-
-module.exports = {
-  validateCoupon
-};

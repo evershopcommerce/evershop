@@ -1,7 +1,6 @@
-const createWidget = require('../../services/widget/createWidget');
+import createWidget from '../../services/widget/createWidget.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate) => {
+export default async (request, response) => {
   const data = request.body;
   if (!data.route || (data.route.length === 1 && data.route[0] === '')) {
     data.route = [];

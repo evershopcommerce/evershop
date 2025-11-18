@@ -1,33 +1,23 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('../../lib/postgres/connection');
-const {
-  defaultPaginationFilters
-} = require('../../lib/util/defaultPaginationFilters');
-const { addProcessor } = require('../../lib/util/registry');
-const {
-  registerCartItemPromotionFields
-} = require('./services/registerCartItemPromotionFields');
-const {
-  registerCartPromotionFields
-} = require('./services/registerCartPromotionFields');
-const {
-  registerDefaultCalculators
-} = require('./services/registerDefaultCalculators');
-const registerDefaultCouponCollectionFilters = require('./services/registerDefaultCouponCollectionFilters');
-const {
-  registerDefaultValidators
-} = require('./services/registerDefaultValidators');
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '../../lib/postgres/connection.js';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { registerCartItemPromotionFields } from './services/registerCartItemPromotionFields.js';
+import { registerCartPromotionFields } from './services/registerCartPromotionFields.js';
+import { registerDefaultCalculators } from './services/registerDefaultCalculators.js';
+import { registerDefaultCouponCollectionFilters } from './services/registerDefaultCouponCollectionFilters.js';
+import { registerDefaultValidators } from './services/registerDefaultValidators.js';
 
-module.exports = () => {
+export default () => {
   addProcessor(
     'couponLoaderFunction',
     () => async (couponCode) => {
-        const coupon = await select()
-          .from('coupon')
-          .where('coupon', '=', couponCode)
-          .load(pool);
-        return coupon;
-      },
+      const coupon = await select()
+        .from('coupon')
+        .where('coupon', '=', couponCode)
+        .load(pool);
+      return coupon;
+    },
     0
   );
   addProcessor('cartFields', registerCartPromotionFields, 0);

@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+import { sortRoutes } from './sortRoutes.js';
 
 class Router {
   constructor() {
@@ -15,7 +14,7 @@ class Router {
   }
 
   getRoutes() {
-    return this.routes;
+    return sortRoutes(this.routes);
   }
 
   addRoute(route) {
@@ -27,14 +26,25 @@ class Router {
     }
   }
 
+  hasRoute(id) {
+    return this.routes.some((r) => r.id === id);
+  }
+
+  deleteRoute(id) {
+    this.routes = this.routes.filter((r) => r.id !== id);
+  }
+
   empty() {
     this.routes = [];
   }
 }
 
 const router = new Router();
-exports.addRoute = (route) => router.addRoute(route);
-exports.getFrontStoreRoutes = () => router.getFrontStoreRoutes();
-exports.getAdminRoutes = () => router.getAdminRoutes();
-exports.getRoutes = () => router.getRoutes();
-exports.empty = () => router.empty();
+export const addRoute = (route) => router.addRoute(route);
+export const getFrontStoreRoutes = () => router.getFrontStoreRoutes();
+export const getAdminRoutes = () => router.getAdminRoutes();
+export const getRoutes = () => router.getRoutes();
+export const hasRoute = (id) => router.hasRoute(id);
+export const deleteRoute = (id) => router.deleteRoute(id);
+export const getRoute = (id) => router.getRoutes().find((r) => r.id === id);
+export const empty = () => router.empty();

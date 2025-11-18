@@ -1,22 +1,19 @@
-const { resolve } = require('path');
-const { getCoreModules } = require('@evershop/evershop/bin/lib/loadModules');
-const { getEnabledExtensions } = require('../../../bin/extension');
-const { scanRouteComponents } = require('./scanForComponents');
-const { getConfig } = require('../util/getConfig');
-const { CONSTANTS } = require('../helpers');
-const { getEnabledWidgets } = require('../util/getEnabledWidgets');
+import { resolve } from 'path';
+import { getEnabledExtensions } from '../../bin/extension/index.js';
+import { getCoreModules } from '../../bin/lib/loadModules.js';
+import { CONSTANTS } from '../helpers.js';
+import { getEnabledTheme } from '../util/getEnabledTheme.js';
+import { getEnabledWidgets } from '../widget/widgetManager.js';
+import { scanRouteComponents } from './scanForComponents.js';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
-
-exports.getComponentsByRoute = function getComponentsByRoute(route) {
+export function getComponentsByRoute(route) {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
-  const theme = getConfig('system.theme');
+  const theme = getEnabledTheme();
 
   let components;
   if (theme) {
     components = Object.values(
-      scanRouteComponents(route, modules, resolve(CONSTANTS.THEMEPATH, theme))
+      scanRouteComponents(route, modules, resolve(theme.path, 'dist'))
     );
   } else {
     components = Object.values(scanRouteComponents(route, modules));
@@ -28,7 +25,7 @@ exports.getComponentsByRoute = function getComponentsByRoute(route) {
   } else {
     // Add widgets to components
     return components.concat(
-      (widgets || []).map((widget) => widget.setting_component)
+      (widgets || []).map((widget) => widget.settingComponent)
     );
   }
-};
+}

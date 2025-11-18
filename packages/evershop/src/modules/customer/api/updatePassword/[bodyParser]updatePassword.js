@@ -1,20 +1,19 @@
-const { select, del } = require('@evershop/postgres-query-builder');
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
-const crypto = require('crypto');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
+import crypto from 'crypto';
+import { select, del } from '@evershop/postgres-query-builder';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+import { error } from '../../../../lib/log/logger.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getConfig } from '../../../../lib/util/getConfig.js';
+import {
   OK,
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const updatePassword = require('../../services/customer/updatePassword');
+} from '../../../../lib/util/httpStatus.js';
+import updatePassword from '../../services/customer/updatePassword.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { body } = request;
 
   try {

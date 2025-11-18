@@ -1,25 +1,22 @@
-const { resolve } = require('path');
-const { existsSync, readdirSync } = require('fs');
-const { scanForMiddlewareFunctions } = require('./scanForMiddlewareFunctions');
-const { sortMiddlewares } = require('./sort');
-const { Handler } = require('./Handler');
-const { addMiddleware } = require('./addMiddleware');
-
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+import { existsSync, readdirSync } from 'fs';
+import { resolve } from 'path';
+import { addMiddleware } from './addMiddleware.js';
+import { Handler } from './Handler.js';
+import { scanForMiddlewareFunctions } from './scanForMiddlewareFunctions.js';
+import { sortMiddlewares } from './sort.js';
 
 const middlewareList = Handler.middlewares;
 
-exports.getAdminMiddlewares = function getAdminMiddlewares(routeId) {
+export function getAdminMiddlewares(routeId) {
   return sortMiddlewares(
     middlewareList.filter(
       (m) =>
         m.routeId === 'admin' || m.routeId === routeId || m.routeId === null
     )
   );
-};
+}
 
-exports.getFrontMiddlewares = function getFrontMiddlewares(routeId) {
+export function getFrontMiddlewares(routeId) {
   return sortMiddlewares(
     middlewareList.filter(
       (m) =>
@@ -28,7 +25,7 @@ exports.getFrontMiddlewares = function getFrontMiddlewares(routeId) {
         m.routeId === null
     )
   );
-};
+}
 
 /**
  * This function scan and load all middleware function of a module base on module path
@@ -36,7 +33,7 @@ exports.getFrontMiddlewares = function getFrontMiddlewares(routeId) {
  * @param   {string}  path  The path of the module
  *
  */
-exports.getModuleMiddlewares = function getModuleMiddlewares(path) {
+export function getModuleMiddlewares(path) {
   if (existsSync(resolve(path, 'pages'))) {
     // Scan for the application level middleware
     if (existsSync(resolve(path, 'pages', 'global'))) {
@@ -90,13 +87,13 @@ exports.getModuleMiddlewares = function getModuleMiddlewares(path) {
       });
     });
   }
-};
+}
 
 /**
  * This function return a list of sorted middleware functions (all)
  *
  * @return  {array}  List of sorted middleware functions
  */
-exports.getAllSortedMiddlewares = function getAllSortedMiddlewares() {
+export function getAllSortedMiddlewares() {
   return sortMiddlewares(middlewareList);
-};
+}

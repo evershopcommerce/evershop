@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Main menu",
+    "type": "basic_menu",
+    "route": ["all"],
+    "area": ["headerMiddleLeft"],
+    "sort_order": 1,
+    "settings": {
+      "menus": [
+        {
+          "id": "hanhk3km0m8nt2b",
+          "url": "#",
+          "name": "Shop",
+          "type": "custom",
+          "uuid": "#",
+          "children": [
+            {
+              "id": "hanhk3km0m8nt2c",
+              "url": "/accessories",
+              "name": "Accessories",
+              "type": "custom",
+              "uuid": "/accessories"
+            }
+          ]
+        },
+        {
+          "id": "hanhk3km0m8nt2e",
+          "url": "/page/about-us",
+          "name": "About us",
+          "type": "custom",
+          "uuid": "/page/about-us",
+          "children": []
+        }
+      ],
+      "isMain": "1",
+      "className": ""
+    },
+    "status": true
+  },
+  {
+    "name": "Homepage Slideshow",
+    "type": "simple_slider",
+    "route": ["homepage"],
+    "area": ["content"],
+    "sort_order": 5,
+    "settings": {
+      "dots": true,
+      "arrows": true,
+      "slides": [
+        {
+          "id": "slide-1",
+          "image": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/banner-one.jpg",
+          "width": 2400,
+          "height": 1200,
+          "subText": "Discover our exquisite collection of ceramic and stainless steel products",
+          "headline": "Premium Quality Products",
+          "buttonLink": "/accessories",
+          "buttonText": "Shop Now",
+          "buttonColor": "#3a3a3a"
+        },
+        {
+          "id": "slide-2",
+          "image": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/banner-two.jpg",
+          "width": 2400,
+          "height": 1200,
+          "subText": "Elegant designs that enhance your daily life, from morning coffee to home organization",
+          "headline": "Crafted With Care",
+          "buttonLink": "/accessories",
+          "buttonText": "View Collection",
+          "buttonColor": "#3a3a3a"
+        }
+      ],
+      "autoplay": true,
+      "fullWidth": true,
+      "heightType": "auto",
+      "autoplaySpeed": 3000
+    },
+    "status": true
+  },
+  {
+    "name": "Featured Products",
+    "type": "collection_products",
+    "route": ["homepage"],
+    "area": ["content"],
+    "sort_order": 20,
+    "settings": {
+      "count": 4,
+      "collection": "homepage"
+    },
+    "status": true
+  }
+]

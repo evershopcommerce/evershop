@@ -1,0 +1,892 @@
+[
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "CUP-001-WHT",
+    "name": "Ceramic Coffee Cup - White",
+    "url_key": "ceramic-coffee-cup-white",
+    "price": 15,
+    "weight": 300,
+    "meta_title": "Ceramic Coffee Cup - White",
+    "meta_description": "Modern ceramic coffee cup in white color, perfect for your morning coffee",
+    "meta_keywords": "coffee cup, ceramic cup, white cup, drinkware",
+    "description": [
+      {
+        "id": "r__cup_white",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__cup_white",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "cup_white_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Start your day right with our elegant Ceramic Coffee Cup. Crafted from high-quality ceramic, this cup features a smooth finish and comfortable grip."
+                  }
+                },
+                {
+                  "id": "cup_white_p2",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "The classic design makes it perfect for both home and office use. Holds 12oz of your favorite beverage and is both microwave and dishwasher safe."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 100,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "best-sellers"],
+    "category": "accessories",
+    "variant_group": "ceramic-coffee-cup",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/cup-white.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "White"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "CUP-001-BLK",
+    "name": "Ceramic Coffee Cup - Black",
+    "url_key": "ceramic-coffee-cup-black",
+    "price": 15,
+    "weight": 300,
+    "meta_title": "Ceramic Coffee Cup - Black",
+    "meta_description": "Modern ceramic coffee cup in black color, perfect for your morning coffee",
+    "meta_keywords": "coffee cup, ceramic cup, black cup, drinkware",
+    "description": [
+      {
+        "id": "r__cup_black",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__cup_black",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "cup_black_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Start your day right with our elegant Ceramic Coffee Cup. Crafted from high-quality ceramic, this cup features a smooth finish and comfortable grip."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 100,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "best-sellers"],
+    "category": "accessories",
+    "variant_group": "ceramic-coffee-cup",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/cup-black.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "Black"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "CUP-001-YEL",
+    "name": "Ceramic Coffee Cup - Yellow",
+    "url_key": "ceramic-coffee-cup-yellow",
+    "price": 15,
+    "weight": 300,
+    "meta_title": "Ceramic Coffee Cup - Yellow",
+    "meta_description": "Modern ceramic coffee cup in yellow color, perfect for your morning coffee",
+    "meta_keywords": "coffee cup, ceramic cup, yellow cup, drinkware",
+    "description": [
+      {
+        "id": "r__cup_yellow",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__cup_yellow",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "cup_yellow_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Start your day right with our elegant Ceramic Coffee Cup. Crafted from high-quality ceramic, this cup features a smooth finish and comfortable grip."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 100,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "best-sellers"],
+    "category": "accessories",
+    "variant_group": "ceramic-coffee-cup",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/cup-yellow.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "Yellow"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "PEN-002-WHT",
+    "name": "Desk Pen Holder - White",
+    "url_key": "desk-pen-holder-white",
+    "price": 12,
+    "weight": 200,
+    "meta_title": "Desk Pen Holder - White",
+    "meta_description": "Stylish desk pen holder to keep your workspace organized",
+    "meta_keywords": "pen holder, desk organizer, office supplies, white",
+    "description": [
+      {
+        "id": "r__pen_white",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__pen_white",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "pen_white_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Keep your desk tidy and organized with our modern Desk Pen Holder. Features multiple compartments for pens, pencils, scissors, and other office supplies."
+                  }
+                },
+                {
+                  "id": "pen_white_p2",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Made from durable materials with a sleek finish that complements any workspace. Perfect for home office or corporate settings."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 150,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "new-arrivals"],
+    "category": "accessories",
+    "variant_group": "desk-pen-holder",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/pen-holder-white.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "White"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "PEN-002-BLK",
+    "name": "Desk Pen Holder - Black",
+    "url_key": "desk-pen-holder-black",
+    "price": 12,
+    "weight": 200,
+    "meta_title": "Desk Pen Holder - Black",
+    "meta_description": "Stylish desk pen holder to keep your workspace organized",
+    "meta_keywords": "pen holder, desk organizer, office supplies, black",
+    "description": [
+      {
+        "id": "r__pen_black",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__pen_black",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "pen_black_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Keep your desk tidy and organized with our modern Desk Pen Holder. Features multiple compartments for pens, pencils, scissors, and other office supplies."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 150,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "new-arrivals"],
+    "category": "accessories",
+    "variant_group": "desk-pen-holder",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/pen-holder-black.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "Black"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "PEN-002-YEL",
+    "name": "Desk Pen Holder - Yellow",
+    "url_key": "desk-pen-holder-yellow",
+    "price": 12,
+    "weight": 200,
+    "meta_title": "Desk Pen Holder - Yellow",
+    "meta_description": "Stylish desk pen holder to keep your workspace organized",
+    "meta_keywords": "pen holder, desk organizer, office supplies, yellow",
+    "description": [
+      {
+        "id": "r__pen_yellow",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__pen_yellow",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "pen_yellow_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Keep your desk tidy and organized with our modern Desk Pen Holder. Features multiple compartments for pens, pencils, scissors, and other office supplies."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 150,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "new-arrivals"],
+    "category": "accessories",
+    "variant_group": "desk-pen-holder",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/pen-holder-yellow.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "Yellow"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "BOWL-003-WHT",
+    "name": "Ceramic Candy Bowl - White",
+    "url_key": "ceramic-candy-bowl-white",
+    "price": 18,
+    "weight": 400,
+    "meta_title": "Ceramic Candy Bowl - White",
+    "meta_description": "Elegant ceramic bowl perfect for candy, snacks, or decorative use",
+    "meta_keywords": "candy bowl, ceramic bowl, serving bowl, white",
+    "description": [
+      {
+        "id": "r__bowl_white",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__bowl_white",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "bowl_white_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Add a touch of elegance to your table with our Ceramic Candy Bowl. Perfect for serving candy, nuts, or small snacks at parties and gatherings."
+                  }
+                },
+                {
+                  "id": "bowl_white_p2",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "The smooth ceramic finish and timeless design make it both functional and decorative. Also great for holding keys, jewelry, or other small items."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 80,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "best-sellers"],
+    "category": "accessories",
+    "variant_group": "ceramic-candy-bowl",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/bowl-white.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "White"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "BOWL-003-BLK",
+    "name": "Ceramic Candy Bowl - Black",
+    "url_key": "ceramic-candy-bowl-black",
+    "price": 18,
+    "weight": 400,
+    "meta_title": "Ceramic Candy Bowl - Black",
+    "meta_description": "Elegant ceramic bowl perfect for candy, snacks, or decorative use",
+    "meta_keywords": "candy bowl, ceramic bowl, serving bowl, black",
+    "description": [
+      {
+        "id": "r__bowl_black",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__bowl_black",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "bowl_black_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Add a touch of elegance to your table with our Ceramic Candy Bowl. Perfect for serving candy, nuts, or small snacks at parties and gatherings."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 80,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "best-sellers"],
+    "category": "accessories",
+    "variant_group": "ceramic-candy-bowl",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/bowl-black.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "Black"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "BOWL-003-YEL",
+    "name": "Ceramic Candy Bowl - Yellow",
+    "url_key": "ceramic-candy-bowl-yellow",
+    "price": 18,
+    "weight": 400,
+    "meta_title": "Ceramic Candy Bowl - Yellow",
+    "meta_description": "Elegant ceramic bowl perfect for candy, snacks, or decorative use",
+    "meta_keywords": "candy bowl, ceramic bowl, serving bowl, yellow",
+    "description": [
+      {
+        "id": "r__bowl_yellow",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__bowl_yellow",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "bowl_yellow_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Add a touch of elegance to your table with our Ceramic Candy Bowl. Perfect for serving candy, nuts, or small snacks at parties and gatherings."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 80,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "best-sellers"],
+    "category": "accessories",
+    "variant_group": "ceramic-candy-bowl",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/bowl-yellow.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "Yellow"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "VASE-004-WHT",
+    "name": "Modern Ceramic Vase - White",
+    "url_key": "modern-ceramic-vase-white",
+    "price": 25,
+    "weight": 500,
+    "meta_title": "Modern Ceramic Vase - White",
+    "meta_description": "Contemporary ceramic vase perfect for fresh or dried flowers",
+    "meta_keywords": "vase, ceramic vase, flower vase, white, home decor",
+    "description": [
+      {
+        "id": "r__vase_white",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__vase_white",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "vase_white_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Elevate your home decor with our Modern Ceramic Vase. The sleek, contemporary design complements any interior style, from minimalist to traditional."
+                  }
+                },
+                {
+                  "id": "vase_white_p2",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Perfect for displaying fresh flowers, dried arrangements, or as a standalone decorative piece. The sturdy ceramic construction ensures long-lasting beauty."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 60,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "new-arrivals"],
+    "category": "accessories",
+    "variant_group": "modern-ceramic-vase",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/vase-white.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "White"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "VASE-004-BLK",
+    "name": "Modern Ceramic Vase - Black",
+    "url_key": "modern-ceramic-vase-black",
+    "price": 25,
+    "weight": 500,
+    "meta_title": "Modern Ceramic Vase - Black",
+    "meta_description": "Contemporary ceramic vase perfect for fresh or dried flowers",
+    "meta_keywords": "vase, ceramic vase, flower vase, black, home decor",
+    "description": [
+      {
+        "id": "r__vase_black",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__vase_black",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "vase_black_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Elevate your home decor with our Modern Ceramic Vase. The sleek, contemporary design complements any interior style, from minimalist to traditional."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 60,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "new-arrivals"],
+    "category": "accessories",
+    "variant_group": "modern-ceramic-vase",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/vase-black.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "Black"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "VASE-004-YEL",
+    "name": "Modern Ceramic Vase - Green",
+    "url_key": "modern-ceramic-vase-green",
+    "price": 25,
+    "weight": 500,
+    "meta_title": "Modern Ceramic Vase - Green",
+    "meta_description": "Contemporary ceramic vase perfect for fresh or dried flowers",
+    "meta_keywords": "vase, ceramic vase, flower vase, green, home decor",
+    "description": [
+      {
+        "id": "r__vase_green",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__vase_green",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "vase_green_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Elevate your home decor with our Modern Ceramic Vase. The sleek, contemporary design complements any interior style, from minimalist to traditional."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 60,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "new-arrivals"],
+    "category": "accessories",
+    "variant_group": "modern-ceramic-vase",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/vase-green.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "Green"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "THERMO-005-WHT",
+    "name": "Stainless Steel Thermos - White",
+    "url_key": "stainless-steel-thermos-white",
+    "price": 35,
+    "weight": 350,
+    "meta_title": "Stainless Steel Thermos - White",
+    "meta_description": "Insulated stainless steel thermos keeps drinks hot or cold for hours",
+    "meta_keywords": "thermos, insulated bottle, water bottle, white, drinkware",
+    "description": [
+      {
+        "id": "r__thermo_white",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__thermo_white",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "thermo_white_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Keep your beverages at the perfect temperature with our Stainless Steel Thermos. Double-wall vacuum insulation keeps drinks hot for 12 hours or cold for 24 hours."
+                  }
+                },
+                {
+                  "id": "thermo_white_p2",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "The leak-proof lid and durable stainless steel construction make it perfect for travel, work, or outdoor activities. BPA-free and easy to clean."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 120,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "best-sellers"],
+    "category": "accessories",
+    "variant_group": "stainless-steel-thermos",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/thermos-white.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "White"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "THERMO-005-BLK",
+    "name": "Stainless Steel Thermos - Black",
+    "url_key": "stainless-steel-thermos-black",
+    "price": 35,
+    "weight": 350,
+    "meta_title": "Stainless Steel Thermos - Black",
+    "meta_description": "Insulated stainless steel thermos keeps drinks hot or cold for hours",
+    "meta_keywords": "thermos, insulated bottle, water bottle, black, drinkware",
+    "description": [
+      {
+        "id": "r__thermo_black",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__thermo_black",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "thermo_black_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Keep your beverages at the perfect temperature with our Stainless Steel Thermos. Double-wall vacuum insulation keeps drinks hot for 12 hours or cold for 24 hours."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 120,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "best-sellers"],
+    "category": "accessories",
+    "variant_group": "stainless-steel-thermos",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/thermos-black.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "Black"
+      }
+    ]
+  },
+  {
+    "type": "simple",
+    "visibility": true,
+    "status": true,
+    "sku": "THERMO-005-YEL",
+    "name": "Stainless Steel Thermos - Yellow",
+    "url_key": "stainless-steel-thermos-yellow",
+    "price": 35,
+    "weight": 350,
+    "meta_title": "Stainless Steel Thermos - Yellow",
+    "meta_description": "Insulated stainless steel thermos keeps drinks hot or cold for hours",
+    "meta_keywords": "thermos, insulated bottle, water bottle, yellow, drinkware",
+    "description": [
+      {
+        "id": "r__thermo_yellow",
+        "columns": [
+          {
+            "size": 1,
+            "id": "c__thermo_yellow",
+            "data": {
+              "time": 1729900000000,
+              "blocks": [
+                {
+                  "id": "thermo_yellow_p1",
+                  "type": "paragraph",
+                  "data": {
+                    "text": "Keep your beverages at the perfect temperature with our Stainless Steel Thermos. Double-wall vacuum insulation keeps drinks hot for 12 hours or cold for 24 hours."
+                  }
+                }
+              ],
+              "version": "2.31.0"
+            }
+          }
+        ],
+        "size": 1,
+        "className": "md:grid-cols-1"
+      }
+    ],
+    "qty": 120,
+    "manage_stock": true,
+    "stock_availability": true,
+    "collections": ["homepage", "best-sellers"],
+    "category": "accessories",
+    "variant_group": "stainless-steel-thermos",
+    "images": [
+      {
+        "url": "https://raw.githubusercontent.com/evershopcommerce/evershop/refs/heads/dev/seed/images/thermos-yellow.jpg",
+        "isMain": true
+      }
+    ],
+    "attributes": [
+      {
+        "attribute_code": "color",
+        "value": "Yellow"
+      }
+    ]
+  }
+]

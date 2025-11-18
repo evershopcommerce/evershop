@@ -1,27 +1,27 @@
-const { addProcessor } = require('../../lib/util/registry');
-const { getSetting } = require('../setting/services/setting');
+import { getConfig } from '../../lib/util/getConfig.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { getSetting } from '../../modules/setting/services/setting.js';
+import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethods.js';
 
-module.exports = () => {
-  addProcessor('cartFields', (fields) => {
-    fields.push({
-      key: 'payment_method',
-      resolvers: [
-        async function resolver(paymentMethod) {
-          if (paymentMethod !== 'cod') {
-            return paymentMethod;
-          } else {
-            // Validate the payment method
-            const codStatus = await getSetting('codPaymentStatus');
-            if (parseInt(codStatus, 10) !== 1) {
-              return null;
-            } else {
-              this.setError('payment_method', undefined);
-              return paymentMethod;
-            }
-          }
-        }
-      ]
-    });
-    return fields;
+export default async () => {
+  registerPaymentMethod({
+    init: async () => ({
+      code: 'cod',
+      name: await getSetting('codDisplayName', 'Cash on Delivery')
+    }),
+    validator: async () => {
+      const codConfig = getConfig('system.cod', {});
+      let codStatus;
+      if (codConfig.status) {
+        codStatus = codConfig.status;
+      } else {
+        codStatus = await getSetting('codPaymentStatus', 0);
+      }
+      if (parseInt(codStatus, 10) === 1) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   });
 };

@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/customer/tokens",
+  "access": "public"
+}

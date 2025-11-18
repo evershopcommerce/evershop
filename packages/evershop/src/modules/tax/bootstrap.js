@@ -1,17 +1,13 @@
-const config = require('config');
-const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const { addProcessor } = require('../../lib/util/registry');
-const registerDefaultTaxClassCollectionFilters = require('./services/registerDefaultTaxClassCollectionFilters');
-const {
-  defaultPaginationFilters
-} = require('../../lib/util/defaultPaginationFilters');
-const {
-  registerCartItemTaxPercentField
-} = require('./services/registerCartItemTaxPercentField');
+import config from 'config';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
+import { merge } from '../../lib/util/merge.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { registerCartItemTaxPercentField } from './services/registerCartItemTaxPercentField.js';
+import { registerDefaultTaxClassCollectionFilters } from './services/registerDefaultTaxClassCollectionFilters.js';
 
-module.exports = () => {
+export default () => {
   addProcessor('cartItemFields', registerCartItemTaxPercentField, 0);
-  addProcessor('configuratonSchema', (schema) => {
+  addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
         pricing: {

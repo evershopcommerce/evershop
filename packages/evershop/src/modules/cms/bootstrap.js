@@ -1,14 +1,15 @@
-const config = require('config');
-const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const registerDefaultPageCollectionFilters = require('./services/registerDefaultPageCollectionFilters');
-const {
-  defaultPaginationFilters
-} = require('../../lib/util/defaultPaginationFilters');
-const { addProcessor } = require('../../lib/util/registry');
-const registerDefaultWidgetCollectionFilters = require('./services/registerDefaultWidgetCollectionFilters');
+import path from 'path';
+import config from 'config';
+import { CONSTANTS } from '../../lib/helpers.js';
+import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
+import { merge } from '../../lib/util/merge.js';
+import { addProcessor } from '../../lib/util/registry.js';
+import { registerWidget } from '../../lib/widget/widgetManager.js';
+import { registerDefaultPageCollectionFilters } from '../../modules/cms/services/registerDefaultPageCollectionFilters.js';
+import { registerDefaultWidgetCollectionFilters } from '../../modules/cms/services/registerDefaultWidgetCollectionFilters.js';
 
-module.exports = () => {
-  addProcessor('configuratonSchema', (schema) => {
+export default () => {
+  addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
         themeConfig: {
@@ -125,42 +126,6 @@ module.exports = () => {
               enum: ['local']
             }
           }
-        },
-        widgets: {
-          type: 'object',
-          patternProperties: {
-            '^[a-zA-Z_]+$': {
-              type: 'object',
-              properties: {
-                setting_component: {
-                  type: 'string'
-                },
-                component: {
-                  type: 'string'
-                },
-                name: {
-                  type: 'string'
-                },
-                description: {
-                  type: 'string'
-                },
-                default_settings: {
-                  type: 'object'
-                },
-                enabled: {
-                  type: 'boolean'
-                }
-              },
-              required: [
-                'setting_component',
-                'component',
-                'name',
-                'description',
-                'enabled'
-              ],
-              additionalProperties: false
-            }
-          }
         }
       }
     });
@@ -189,31 +154,65 @@ module.exports = () => {
     file_storage: 'local'
   });
 
-  // Register default widgets
-  const defaultWidgets = {
-    text_block: {
-      setting_component:
-        '@evershop/evershop/src/components/admin/widgets/TextBlockSetting.jsx',
-      component:
-        '@evershop/evershop/src/components/frontStore/widgets/TextBlock.jsx',
-      name: 'Text block',
-      description: 'A text block widget',
-      default_settings: {
-        className: 'page-width'
-      },
-      enabled: true
+  registerWidget({
+    type: 'text_block',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/TextBlockSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/TextBlock.js'
+    ),
+    name: 'Text block',
+    description: 'Add rich text content',
+    defaultSettings: {
+      className: 'page-width'
     },
-    basic_menu: {
-      setting_component:
-        '@evershop/evershop/src/components/admin/widgets/BasicMenuSetting.jsx',
-      component:
-        '@evershop/evershop/src/components/frontStore/widgets/BasicMenu.jsx',
-      name: 'Menu',
-      description: 'A menu widget',
-      enabled: true
-    }
-  };
-  config.util.setModuleDefaults('widgets', defaultWidgets);
+    enabled: true
+  });
+
+  registerWidget({
+    type: 'basic_menu',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/BasicMenuSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/BasicMenu.js'
+    ),
+    name: 'Menu',
+    description: 'Navigation links',
+    enabled: true
+  });
+
+  registerWidget({
+    type: 'banner',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/BannerSetting.js'
+    ),
+    component: path.resolve(CONSTANTS.MODULESPATH, 'cms/components/Banner.js'),
+    name: 'Banner',
+    description: 'Image with call-to-action',
+    enabled: true
+  });
+
+  registerWidget({
+    type: 'simple_slider',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/SlideshowSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/Slideshow.js'
+    ),
+    name: 'Simple Slideshow',
+    description: 'Rotating image carousel',
+    enabled: true
+  });
 
   // Reigtering the default filters for cms page collection
   addProcessor(
@@ -238,23 +237,4 @@ module.exports = () => {
     (filters) => [...filters, ...defaultPaginationFilters],
     2
   );
-
-  const parseMenus = (data) => {
-    if (data?.type !== 'basic_menu') {
-      return data;
-    }
-    // eslint-disable-next-line no-param-reassign
-    data.settings = data.settings || {};
-    if (data.settings.menus) {
-      // eslint-disable-next-line no-param-reassign
-      data.settings.menus = JSON.parse(data.settings.menus);
-    } else {
-      // eslint-disable-next-line no-param-reassign
-      data.settings.menus = [];
-    }
-    return data;
-  };
-
-  addProcessor('widgetDataBeforeCreate', parseMenus, 1);
-  addProcessor('widgetDataBeforeUpdate', parseMenus, 1);
 };

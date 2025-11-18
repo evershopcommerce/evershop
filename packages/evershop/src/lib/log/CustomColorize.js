@@ -1,6 +1,6 @@
 // Extend the default winston colorize format and add color to the stack trace
-const { format } = require('winston');
-const { LEVEL } = require('triple-beam');
+import { LEVEL } from 'triple-beam';
+import { format } from 'winston';
 
 const { colorize } = format;
 
@@ -12,11 +12,10 @@ class CustomColorize extends colorize.Colorizer {
   transform(info, opts) {
     super.transform(info, opts);
     if (info.stack) {
-      // eslint-disable-next-line no-param-reassign
       info.stack = this.colorize(info[LEVEL], info.level, info.stack);
     }
     return info;
   }
 }
 
-module.exports = (opts) => new CustomColorize(opts);
+export default (opts) => new CustomColorize(opts);

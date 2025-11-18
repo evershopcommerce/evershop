@@ -1,6 +1,6 @@
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
+import { getConfig } from '../../../../../lib/util/getConfig.js';
 
-module.exports = {
+export default {
   Setting: {
     stripePaymentStatus: (setting) => {
       const stripeConfig = getConfig('system.stripe', {});
@@ -16,12 +16,12 @@ module.exports = {
         return 0;
       }
     },
-    stripeDislayName: (setting) => {
-      const stripeDislayName = setting.find(
-        (s) => s.name === 'stripeDislayName'
+    stripeDisplayName: (setting) => {
+      const stripeDisplayName = setting.find(
+        (s) => s.name === 'stripeDisplayName'
       );
-      if (stripeDislayName) {
-        return stripeDislayName.value;
+      if (stripeDisplayName) {
+        return stripeDisplayName.value;
       } else {
         return 'Credit Card';
       }
@@ -38,6 +38,16 @@ module.exports = {
         return stripePublishableKey.value;
       } else {
         return null;
+      }
+    },
+    stripePaymentMode: (setting) => {
+      const stripePaymentMode = setting.find(
+        (s) => s.name === 'stripePaymentMode'
+      );
+      if (stripePaymentMode) {
+        return stripePaymentMode.value;
+      } else {
+        return 'capture';
       }
     }
   }

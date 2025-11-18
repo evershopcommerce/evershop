@@ -1,0 +1,37 @@
+/* FILE BROWSER */
+.file-browser {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 1000;
+  padding: 20px;
+}
+.file-browser .loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -40px;
+  margin-left: -40px;
+}
+.file-browser img {
+  max-width: 100%;
+}
+.file-browser .image-item .inner {
+  padding: 3px;
+  box-sizing: border-box;
+  border: 1px solid #e1e1e1;
+  position: relative;
+}
+.file-browser .image-item .inner .select {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 20px;
+}
+.image-tool__image-picture {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}

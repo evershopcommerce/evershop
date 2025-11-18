@@ -31,13 +31,13 @@
     animation-name: fadeOut;
   }
   .modal {
-    min-width: 50rem;
+    min-width: 31.25rem;
     max-width: 50%;
     position: relative;
     .modal-close-button {
       position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
+      top: 0.938rem;
+      right: 0.938rem;
     }
   }
 }

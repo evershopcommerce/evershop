@@ -1,18 +1,12 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable max-classes-per-file */
-const {
-  getValueSync,
-  getValue
-} = require('@evershop/evershop/src/lib/util/registry');
-const { select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { v4: uuidv4 } = require('uuid');
-const {
-  translate
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const { DataObject } = require('./DataObject');
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = {};
+import { select } from '@evershop/postgres-query-builder';
+import { v4 as uuidv4 } from 'uuid';
+import { translate } from '../../../../lib/locale/translate/translate.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getValue, getValueSync } from '../../../../lib/util/registry.js';
+import addCartItem from '../../../../modules/checkout/services/addCartItem.js';
+import { DataObject } from '../../../../modules/checkout/services/cart/DataObject.js';
+import removeCartItem from '../../../../modules/checkout/services/removeCartItem.js';
+import updateCartItemQty from '../../../../modules/checkout/services/updateCartItemQty.js';
 
 class Item extends DataObject {
   #cart;
@@ -61,79 +55,71 @@ class Cart extends DataObject {
   }
 
   /**
-   *
-   * @param {string} productID | product_id
-   * @param {number} qty
-   * @returns
-   */
-  async addItem(productID, qty) {
-    const item = await this.createItem(productID, parseInt(qty, 10));
-    if (item.hasError()) {
-      // Get the first error from the item.getErrors() object
-      throw new Error(Object.values(item.getErrors())[0]);
-    } else {
-      let items = this.getItems();
-      let duplicateItem;
-      for (let i = 0; i < items.length; i += 1) {
-        if (items[i].getData('product_sku') === item.getData('product_sku')) {
-          // eslint-disable-next-line no-await-in-loop
-          await items[i].setData(
-            'qty',
-            item.getData('qty') + items[i].getData('qty')
-          );
-          if (items[i].hasError()) {
-            throw new Error(Object.values(items[i].getErrors())[0]);
-          }
-          duplicateItem = items[i];
-        }
-      }
-
-      if (!duplicateItem) {
-        items = items.concat(item);
-      }
-      await this.setData('items', items, true);
-      return duplicateItem || item;
-    }
-  }
-
-  /**
-   * @param {string||int} uuid
+   * @param {string||int} productID
+   * @param {int} qty
+   * @param {object} context
    * @returns {Item}
    * @throws {Error}
    */
-  async removeItem(uuid) {
-    const items = this.getItems();
-    const item = this.getItem(uuid);
-    const newItems = items.filter((i) => i.getData('uuid') !== uuid);
-    if (item) {
-      await this.setData('items', newItems);
-      return item;
-    } else {
-      throw new Error('Item not found');
-    }
+  async addItem(productID, qty, context) {
+    const addedItem = await addCartItem(this, productID, qty, context);
+    return addedItem;
   }
 
-  async updateItemQty(uuid, qty, action) {
-    if (['increase', 'decrease'].indexOf(action) === -1) {
-      throw new Error('Invalid action');
+  /**
+   * @param {string} uuid
+   * @returns {Item}
+   * @throws {Error}
+   */
+  async removeItem(uuid, context) {
+    const removedItem = await removeCartItem(this, uuid, context);
+    return removedItem;
+  }
+
+  /**
+   * @param {string} sku
+   * @returns {Item}
+   * @throws {Error}
+   */
+  async removeItemBySku(sku, context) {
+    const items = this.getItems();
+    const item = items.find((i) => i.getData('product_sku') === sku);
+    if (item) {
+      const removedItem = await removeCartItem(
+        this,
+        item.getData('uuid'),
+        context
+      );
+      return removedItem;
     }
-    const item = this.getItem(uuid);
-    if (!item) {
-      throw new Error('Item not found');
+    throw new Error('Item not found');
+  }
+
+  async updateItemQty(uuid, qty, action, context) {
+    const updatedItem = await updateCartItemQty(
+      this,
+      uuid,
+      qty,
+      action,
+      context
+    );
+    return updatedItem;
+  }
+
+  async updateItemQtyBySku(sku, qty, action, context) {
+    const items = this.getItems();
+    const item = items.find((i) => i.getData('product_sku') === sku);
+    if (item) {
+      const updatedItem = await updateCartItemQty(
+        this,
+        item.getData('uuid'),
+        qty,
+        action,
+        context
+      );
+      return updatedItem;
     }
-    if (action === 'increase') {
-      await item.setData('qty', item.getData('qty') + parseInt(qty, 10));
-    } else {
-      const currentQty = item.getData('qty');
-      const newQty = Math.max(currentQty - parseInt(qty, 10), 0);
-      if (newQty === 0) {
-        await this.removeItem(uuid);
-      } else {
-        await item.setData('qty', newQty);
-      }
-    }
-    await this.build();
-    return item;
+    throw new Error('Item not found');
   }
 
   async createItem(productId, qty) {
@@ -189,44 +175,40 @@ class Cart extends DataObject {
   }
 }
 
-module.exports = {
-  Cart,
-  createNewCart: async (initialData) => {
-    const cart = new Cart(initialData);
-    await cart.build();
-    return cart;
-  },
-  getCart: async (uuid) => {
-    const cart = await select()
-      .from('cart')
-      .where('uuid', '=', uuid)
-      .load(pool);
-    if (!cart || cart.status !== true) {
-      throw new Error('Cart not found');
-    }
-    const cartObject = new Cart(cart);
-    // Get the cart items
-    const items = await select()
-      .from('cart_item')
-      .where('cart_id', '=', cart.cart_id)
-      .execute(pool);
-    // Build the cart items
-    const cartItems = [];
-    await Promise.all(
-      items.map(async (item) => {
-        const cartItem = new Item(cartObject, {
-          ...item
-        });
-        await cartItem.build();
-        cartItems.push(cartItem);
-      })
-    );
+async function createNewCart(initialData) {
+  const cart = new Cart(initialData);
+  await cart.build();
+  return cart;
+}
 
-    const finalItems = await getValue('cartInitialItems', cartItems, {
-      cart: cartObject,
-      unique: uuidv4() // To make sure the value will not be cached
-    });
-    await cartObject.setData('items', finalItems);
-    return cartObject;
+async function getCart(uuid) {
+  const cart = await select().from('cart').where('uuid', '=', uuid).load(pool);
+  if (!cart || cart.status !== true) {
+    throw new Error('Cart not found');
   }
-};
+  const cartObject = new Cart(cart);
+  // Get the cart items
+  const itemsQuery = await select().from('cart_item');
+  itemsQuery.where('cart_id', '=', cart.cart_id);
+  itemsQuery.orderBy('cart_item_id', 'DESC');
+  const items = await itemsQuery.execute(pool);
+  // Build the cart items
+  const cartItems = await Promise.all(
+    items.map(async (item) => {
+      const cartItem = new Item(cartObject, {
+        ...item
+      });
+      await cartItem.build();
+      return cartItem;
+    })
+  );
+
+  const finalItems = await getValue('cartInitialItems', cartItems, {
+    cart: cartObject,
+    unique: uuidv4() // To make sure the value will not be cached
+  });
+  await cartObject.setData('items', finalItems);
+  return cartObject;
+}
+
+export { Cart, Item, createNewCart, getCart };

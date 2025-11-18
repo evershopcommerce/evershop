@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/orders/:id/cancel",
+  "access": "private"
+}

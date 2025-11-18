@@ -29,5 +29,6 @@ type CmsPageCollection {
 
 extend type Query {
   cmsPage(id: Int): CmsPage
+  currentCmsPage: CmsPage
   cmsPages(filters: [FilterInput]): CmsPageCollection
 }

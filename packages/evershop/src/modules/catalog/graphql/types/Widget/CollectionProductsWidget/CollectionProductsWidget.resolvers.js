@@ -1,8 +1,12 @@
-module.exports = {
+export default {
   Query: {
-    collectionProductsWidget: async (root, { collection, count }) => ({
+    collectionProductsWidget: async (
+      root,
+      { collection, count, countPerRow }
+    ) => ({
       collection,
-      count: count ? parseInt(count, 10) : 5
+      count: count ? parseInt(count, 10) : 5,
+      countPerRow: countPerRow ? parseInt(countPerRow, 10) : 4
     })
   }
 };

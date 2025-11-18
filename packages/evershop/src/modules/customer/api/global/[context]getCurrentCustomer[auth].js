@@ -1,11 +1,10 @@
-const sessionStorage = require('connect-pg-simple');
-const util = require('util');
-const { select } = require('@evershop/postgres-query-builder');
-const session = require('express-session');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  getFrontStoreSessionCookieName
-} = require('../../../auth/services/getFrontStoreSessionCookieName');
+import util from 'util';
+import { select } from '@evershop/postgres-query-builder';
+import sessionStorage from 'connect-pg-simple';
+import session from 'express-session';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { getFrontStoreSessionCookieName } from '../../../auth/services/getFrontStoreSessionCookieName.js';
+import { setContextValue } from '../../../graphql/services/contextHelper.js';
 
 /**
  * This is the session based authentication middleware.
@@ -13,11 +12,10 @@ const {
  * instead we only load the session from the database and set the customer in the context.
  * @param {*} request
  * @param {*} response
- * @param {*} delegate
  * @param {*} next
  * @returns
  */
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   // Check if the customer is authenticated
   // if yes we assume previous authentication middleware has set the customer in the context
   let currentCustomer = request.getCurrentCustomer();
@@ -47,6 +45,7 @@ module.exports = async (request, response, delegate, next) => {
             // Delete the password field
             delete currentCustomer.password;
             request.locals.customer = currentCustomer;
+            setContextValue(request, 'customer', currentCustomer);
           }
         }
         // We also keep the session id in the request.
@@ -56,6 +55,8 @@ module.exports = async (request, response, delegate, next) => {
     } catch (e) {
       // Do nothing, the customer is not logged in
     }
+  } else {
+    setContextValue(request, 'customer', currentCustomer);
   }
   next();
 };

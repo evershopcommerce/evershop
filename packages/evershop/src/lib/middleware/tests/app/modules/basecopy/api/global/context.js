@@ -1,8 +1,6 @@
-const {
-  setContextValue
-} = require('../../../../../../../../modules/graphql/services/contextHelper');
+import { setContextValue } from '../../../../../../../../modules/graphql/services/contextHelper.js';
 
-module.exports = (request, response) => {
+export default (request, response) => {
   response.context = {}; // TODO: Fix this
 
   setContextValue(

@@ -1,12 +1,10 @@
-const {
-  loadCsv
-} = require('@evershop/evershop/src/lib/locale/translate/translate');
-const { merge } = require('@evershop/evershop/src/lib/util/merge');
-const { addProcessor } = require('../../lib/util/registry');
+import { loadCsv } from '../../lib/locale/translate/translate.js';
+import { merge } from '../../lib/util/merge.js';
+import { addProcessor } from '../../lib/util/registry.js';
 
-module.exports = async () => {
+export default async () => {
   await loadCsv();
-  addProcessor('configuratonSchema', (schema) => {
+  addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
         shop: {
@@ -54,29 +52,9 @@ module.exports = async () => {
                 required: ['name', 'enabled', 'resolve']
               }
             },
-            jobs: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  name: {
-                    type: 'string'
-                  },
-                  resolve: {
-                    type: 'string'
-                  },
-                  enabled: {
-                    type: 'boolean'
-                  },
-                  schedule: {
-                    type: 'string'
-                  }
-                },
-                required: ['name', 'enabled', 'resolve', 'schedule']
-              }
-            },
             theme: {
-              type: 'string'
+              type: 'string',
+              required: ['name']
             },
             session: {
               type: 'object',

@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "rating": {
+      "type": ["number", "string"],
+      "pattern": "^[0-5]$"
+    },
+    "comment": {
+      "type": "string"
+    }
+  },
+  "required": ["product_id", "rating", "customer_name", "comment"],
+  "additionalProperties": true
+}

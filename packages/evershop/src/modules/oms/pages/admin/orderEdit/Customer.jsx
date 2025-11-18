@@ -1,7 +1,7 @@
+import { Card } from '@components/admin/Card';
+import { AddressSummary } from '@components/common/customer/address/AddressSummary';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Card } from '@components/admin/cms/Card';
-import { AddressSummary } from '@components/common/customer/address/AddressSummary';
 
 export default function Customer({
   order: {

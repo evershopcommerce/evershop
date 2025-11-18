@@ -1,12 +1,10 @@
-const { GraphQLJSON } = require('graphql-type-json');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getCouponsBaseQuery
-} = require('../../../services/getCouponsBaseQuery');
-const { CouponCollection } = require('../../../services/CouponCollection');
+import { GraphQLJSON } from 'graphql-type-json';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { CouponCollection } from '../../../services/CouponCollection.js';
+import { getCouponsBaseQuery } from '../../../services/getCouponsBaseQuery.js';
 
-module.exports = {
+export default {
   JSON: GraphQLJSON,
   Query: {
     coupon: async (root, { id }, { pool }) => {
@@ -45,7 +43,12 @@ module.exports = {
       if (!userCondition) {
         return null;
       } else {
-        return camelCase(userCondition);
+        return {
+          ...camelCase(userCondition),
+          emails: Array.isArray(userCondition.emails) // For backward compatibility
+            ? userCondition.emails
+            : userCondition.emails.split(',').map((email) => email.trim())
+        };
       }
     },
     buyxGety: ({ buyxGety }) => {

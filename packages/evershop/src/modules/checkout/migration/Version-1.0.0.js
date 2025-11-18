@@ -1,7 +1,6 @@
-const { execute } = require('@evershop/postgres-query-builder');
+import { execute } from '@evershop/postgres-query-builder';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   await execute(
     connection,
     `CREATE TABLE "cart" (
@@ -112,6 +111,7 @@ module.exports = exports = async (connection) => {
   "integration_order_id" varchar DEFAULT NULL,
   "sid" varchar DEFAULT NULL,
   "order_number" varchar NOT NULL,
+  "status" varchar NOT NULL DEFAULT NULL,
   "cart_id" INT NOT NULL,
   "currency" varchar NOT NULL,
   "customer_id" INT DEFAULT NULL,

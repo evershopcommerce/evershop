@@ -1,13 +1,12 @@
-/* eslint-disable camelcase */
-const {
+import {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { getCartByUUID } = require('../../services/getCartByUUID');
-const { saveCart } = require('../../services/saveCart');
+} from '../../../../lib/util/httpStatus.js';
+import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { saveCart } from '../../services/saveCart.js';
 
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const { cart_id, item_id } = request.params;
     const cart = await getCartByUUID(cart_id);

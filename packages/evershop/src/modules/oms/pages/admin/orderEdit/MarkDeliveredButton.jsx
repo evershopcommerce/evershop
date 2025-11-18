@@ -1,8 +1,6 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/jsx-closing-tag-location */
+import Button from '@components/common/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Button from '@components/common/form/Button';
 import { toast } from 'react-toastify';
 
 export default function MarkDeliveredButton({
@@ -52,7 +50,7 @@ MarkDeliveredButton.propTypes = {
     }).isRequired,
     shipment: PropTypes.shape({
       shipmentId: PropTypes.number
-    }).isRequired
+    })
   }).isRequired,
   markDeliveredApi: PropTypes.string.isRequired
 };

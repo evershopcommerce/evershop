@@ -1,6 +1,6 @@
+import { Card } from '@components/admin/Card';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Card } from '@components/admin/cms/Card';
 
 export default function OrderHistory({ customer: { orders = [] } }) {
   return (
@@ -13,8 +13,8 @@ export default function OrderHistory({ customer: { orders = [] } }) {
       {orders.length > 0 && (
         <>
           {orders.map((order) => (
-            <Card.Session>
-              <div className="flex justify-between items-center gap-4">
+            <Card.Session key={order.uuid}>
+              <div className="flex justify-between items-center gap-2">
                 <div>
                   <a
                     className="font-semibold text-interactive"
@@ -64,6 +64,7 @@ export const query = `
     customer(id: getContextValue("customerUuid", null)) {
       orders {
         orderNumber
+        uuid
         editUrl
         createdAt {
           text

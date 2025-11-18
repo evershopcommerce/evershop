@@ -1,7 +1,7 @@
-const { Handler } = require('./Handler');
-const { findDublicatedMiddleware } = require('./findDublicatedMiddleware');
+import { findDublicatedMiddleware } from './findDublicatedMiddleware.js';
+import { Handler } from './Handler.js';
 
-module.exports.addMiddleware = function addMiddleware(middleware) {
+export function addMiddleware(middleware) {
   const index = findDublicatedMiddleware(Handler.middlewares, middleware);
   if (index === -1) {
     Handler.addMiddleware(middleware);
@@ -11,4 +11,4 @@ module.exports.addMiddleware = function addMiddleware(middleware) {
       `Found two middleware with the same id: ${middleware.path} and ${addedMiddleware.path}`
     );
   }
-};
+}

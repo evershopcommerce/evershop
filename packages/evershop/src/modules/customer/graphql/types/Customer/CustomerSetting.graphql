@@ -1,3 +1,0 @@
-extend type Setting {
-  customerAddressSchema: JSON
-}

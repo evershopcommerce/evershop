@@ -1,0 +1,19 @@
+.menu__container > * {
+  margin-top: 10px;
+}
+
+.item {
+  padding: 10px;
+  border: 1px dashed var(--border);
+  margin-top: 10px;
+  background-color: #fff;
+}
+
+.menu__container .draggable-source--is-dragging {
+  background: var(--divider);
+  color: var(--divider);
+}
+
+.menu__container .draggable-source--is-dragging > * {
+  visibility: hidden;
+}

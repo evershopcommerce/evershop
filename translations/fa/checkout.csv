@@ -1,0 +1,46 @@
+Total, مجموع
+Order, سفارش
+Sku, شناسه کالا (SKU)
+Continue to shipping, ادامه به مرحله ارسال
+Continue shopping, ادامه خرید
+Continue Shopping, ادامه خرید
+CONTINUE SHOPPING, ادامه خرید
+Shopping cart, سبد خرید
+Product, محصول
+Price, قیمت
+Quantity, تعداد
+Remove, حذف
+Qty, تعداد
+Sub total, جمع جزئی
+Discount(${coupon}), تخفیف (${coupon})
+Order summary, خلاصه سفارش
+Taxes and shipping calculated at checkout, مالیات و هزینه ارسال در مرحله پرداخت محاسبه می‌شود
+CHECKOUT, ادامه فرایند پرداخت
+Change, تغییر
+Payment Method, روش پرداخت
+Shipping Method, روش ارسال
+No payment methods available, هیچ روش پرداختی در دسترس نیست
+Place Order, ثبت سفارش
+My billing address is same as shipping address, آدرس صورتحساب من با آدرس ارسال یکسان است
+${count} items, ${count} کالا
+Discount, تخفیف
+Shipping, ارسال
+No tax, بدون مالیات
+Tax, مالیات
+"Sorry, there is no available method for your address", "متأسفیم، برای آدرس شما هیچ روش ارسال در دسترس نیست"
+Please enter a shipping address in order to see shipping quotes, برای مشاهده هزینه ارسال، لطفاً آدرس ارسال را وارد کنید
+Continue to payment, ادامه به مرحله پرداخت
+No payment method available, هیچ روش پرداختی در دسترس نیست
+Ship to, ارسال به
+Shipment, ارسال
+Thank you ${name}!, متشکریم ${name}!
+Contact information, اطلاعات تماس
+Order #${orderNumber}, سفارش شماره ${orderNumber}
+ADD TO CART, افزودن به سبد خرید
+Please select variant options, لطفاً گزینه‌های محصول را انتخاب کنید
+VIEW CART (${count}), مشاهده سبد خرید (${count})
+JUST ADDED TO YOUR CART, به‌تازگی به سبد خرید شما افزوده شد
+Promotion code?, کد تخفیف؟
+Enter coupon code, کد تخفیف را وارد کنید
+Apply, اعمال
+Your cart is empty!, سبد خرید شما خالی است!

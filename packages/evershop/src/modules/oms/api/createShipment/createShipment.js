@@ -1,24 +1,19 @@
-/* eslint-disable camelcase */
-const {
-  rollback,
-  insert,
+import {
   commit,
+  insert,
+  rollback,
   select,
-  update,
   startTransaction
-} = require('@evershop/postgres-query-builder');
-const {
-  getConnection,
-  pool
-} = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  OK,
+} from '@evershop/postgres-query-builder';
+import { getConnection, pool } from '../../../../lib/postgres/connection.js';
+import {
   INTERNAL_SERVER_ERROR,
-  INVALID_PAYLOAD
-} = require('@evershop/evershop/src/lib/util/httpStatus');
+  INVALID_PAYLOAD,
+  OK
+} from '../../../../lib/util/httpStatus.js';
+import { updateShipmentStatus } from '../../services/updateShipmentStatus.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, deledate, next) => {
+export default async (request, response, next) => {
   const connection = await getConnection();
   await startTransaction(connection);
   const { id } = request.params;
@@ -39,6 +34,7 @@ module.exports = async (request, response, deledate, next) => {
       });
       return;
     }
+
     const shipment = await select()
       .from('shipment')
       .where('shipment_order_id', '=', order.order_id)
@@ -63,10 +59,7 @@ module.exports = async (request, response, deledate, next) => {
       .execute(connection);
 
     /* Update Shipment status to shipped */
-    await update('order')
-      .given({ shipment_status: 'shipped' })
-      .where('order_id', '=', order.order_id)
-      .execute(connection);
+    await updateShipmentStatus(order.order_id, 'shipped', connection);
 
     /* Add an activity log message */
     await insert('order_activity')

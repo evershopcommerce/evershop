@@ -1,20 +1,5 @@
-/* eslint-disable func-names */
-/* eslint-disable no-shadow */
-/* eslint-disable no-param-reassign */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable max-len */
-/* eslint-disable no-useless-escape */
-/* eslint-disable no-sequences */
-/* eslint-disable block-scoped-var */
-/* eslint-disable no-return-assign */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-continue */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-var */
-/* eslint-disable vars-on-top */
-/* eslint-disable no-cond-assign */
+const isarray = (e) => Array.isArray(e);
+
 function parse(e, t) {
   for (
     var r, n = [], o = 0, a = 0, i = '', p = (t && t.delimiter) || '/';
@@ -199,7 +184,6 @@ function pathToRegexp(e, t, r) {
       : stringToRegexp(e, t, r)
   );
 }
-var isarray = require('isarray');
 
 var PATH_REGEXP = new RegExp(
   [
@@ -208,8 +192,5 @@ var PATH_REGEXP = new RegExp(
   ].join('|'),
   'g'
 );
-(module.exports = pathToRegexp),
-  (module.exports.parse = parse),
-  (module.exports.compile = compile),
-  (module.exports.tokensToFunction = tokensToFunction),
-  (module.exports.tokensToRegExp = tokensToRegExp);
+
+export { pathToRegexp, parse, compile, tokensToFunction, tokensToRegExp };

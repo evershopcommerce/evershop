@@ -1,7 +1,6 @@
-const updateCategory = require('../../services/category/updateCategory');
+import updateCategory from '../../services/category/updateCategory.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate) => {
+export default async (request, response) => {
   const category = await updateCategory(request.params.id, request.body, {
     routeId: request.currentRoute.id
   });

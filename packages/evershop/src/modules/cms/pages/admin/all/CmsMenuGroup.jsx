@@ -1,8 +1,8 @@
+import { NavigationItemGroup } from '@components/admin/NavigationItemGroup';
+import { DocumentIcon } from '@heroicons/react/24/solid';
+import { PuzzlePieceIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import React from 'react';
-import PageIcon from '@heroicons/react/solid/esm/DocumentIcon';
-import WidgetIcon from '@heroicons/react/solid/esm/PuzzleIcon';
-import NavigationItemGroup from '@components/admin/cms/NavigationItemGroup';
 
 export default function CmsMenuGroup({ cmsPageGrid, widgetGrid }) {
   return (
@@ -11,12 +11,12 @@ export default function CmsMenuGroup({ cmsPageGrid, widgetGrid }) {
       name="CMS"
       items={[
         {
-          Icon: PageIcon,
+          Icon: DocumentIcon,
           url: cmsPageGrid,
           title: 'Pages'
         },
         {
-          Icon: WidgetIcon,
+          Icon: PuzzlePieceIcon,
           url: widgetGrid,
           title: 'Widgets'
         }

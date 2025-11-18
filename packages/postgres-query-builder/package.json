@@ -1,8 +1,9 @@
 {
   "name": "@evershop/postgres-query-builder",
-  "version": "1.2.0",
+  "version": "2.0.1",
+  "type": "module",
   "description": "A PostgreSQL query builder for NodeJS",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/evershopcommerce/evershop/tree/main/packages/postgres-query-builder"
@@ -14,11 +15,13 @@
     "nodejs PostgreSQL query builder"
   ],
   "files": [
-    "index.js",
-    "fieldResolve.js",
-    "isValueASQL.js",
-    "toString.js"
+    "dist",
+    "LICENSE",
+    "README.md"
   ],
+  "scripts": {
+    "compile": "tsc"
+  },
   "author": "The Nguyen (https://evershop.io/)",
   "license": "MIT",
   "bugs": {
@@ -30,6 +33,6 @@
     "uniqid": "^5.3.0"
   },
   "engines": {
-    "node": ">= 12.0.0"
+    "node": ">= 18.0.0"
   }
 }

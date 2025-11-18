@@ -1,19 +1,16 @@
-const {
-  OK,
-  INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const createCustomer = require('../../services/customer/createCustomer');
+import { error } from '../../../../lib/log/logger.js';
+import { setDelegate } from '../../../../lib/middleware/delegate.js';
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
+import createCustomer from '../../services/customer/createCustomer.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   try {
     const customer = await createCustomer(request.body, {
       routeId: request.currentRoute.id
     });
-    // eslint-disable-next-line no-param-reassign
-    delegate.createCustomer = customer;
+
+    setDelegate('createCustomer', customer, request);
     response.status(OK);
     response.$body = {
       data: {

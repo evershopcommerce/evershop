@@ -17,7 +17,7 @@ type OrderAddress implements Address {
 """
 Represents an Order Item.
 """
-type OrderItem {
+type OrderItem implements ShoppingCartItem {
   orderItemId: ID!
   uuid: String!
   orderId: ID!
@@ -42,7 +42,7 @@ type OrderItem {
   lineTotalInclTax: Price!
   total: Price! # Deprecated, this field is equivalent to lineTotalInclTax
   variantGroupId: Int
-  variantOptions: String
+  variantOptions: [VariantOption]
   productCustomOptions: String
   productUrl: String
 }
@@ -54,6 +54,7 @@ type Order implements ShoppingCart {
   orderId: ID!
   uuid: String!
   orderNumber: String!
+  status: Status
   items: [OrderItem]
   shippingAddress: OrderAddress
   billingAddress: OrderAddress
@@ -64,10 +65,10 @@ type Order implements ShoppingCart {
   customerFullName: String
   userIp: String
   userId: String
-  status: Int!
   coupon: String
   shippingFeeExclTax: Price!
   shippingFeeInclTax: Price!
+  shippingTaxAmount: Price!
   discountAmount: Price!
   subTotal: Price!
   subTotalInclTax: Price!
@@ -87,7 +88,7 @@ type Order implements ShoppingCart {
   paymentStatus: PaymentStatus
   shippingNote: String
   createdAt: Date!
-  updatedAt: String!
+  updatedAt: Date!
   activities: [Activity]
   shipment: Shipment
 }

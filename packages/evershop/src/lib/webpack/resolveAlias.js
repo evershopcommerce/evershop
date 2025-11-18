@@ -1,5 +1,5 @@
-const path = require('path');
-const fs = require('fs');
+import fs from 'fs';
+import path from 'path';
 
 function getAllFilesInFolder(folderPath) {
   if (!fs.existsSync(folderPath)) {
@@ -12,7 +12,7 @@ function getAllFilesInFolder(folderPath) {
   const contents = fs.readdirSync(folderPath);
 
   // Loop through each item in the folder
-  // eslint-disable-next-line no-restricted-syntax
+
   for (const item of contents) {
     const itemPath = path.join(folderPath, item);
 
@@ -21,35 +21,29 @@ function getAllFilesInFolder(folderPath) {
       // Recursively call the function to get the files in the subdirectory
       const subResults = getAllFilesInFolder(itemPath);
       results = { ...results, ...subResults };
-    } else {
-      // Add the file path to the results array if it is a Component or SCSS file
-      if (
-        (/.js$/.test(item) && /^[A-Z]/.test(item[0])) ||
-        /\.(css|scss)$/i.test(item)
-      ) {
-        const pathParts = itemPath.split(path.sep);
+    } else if (
+      (/.js$/.test(item) && /^[A-Z]/.test(item[0])) ||
+      /\.(css|scss)$/i.test(item)
+    ) {
+      const pathParts = itemPath.split(path.sep);
 
-        // Find the index of the "components" directory
-        const componentsIndex = pathParts.indexOf('components');
+      // Find the index of the "components" directory
+      const componentsIndex = pathParts.indexOf('components');
 
-        // Return the part of the path after the "components" directory
-        const alias = path
-          .join('@components', ...pathParts.slice(componentsIndex + 1))
-          .replace('.js', '')
-          .replace('.scss', '')
-          .replace('.css', '');
-        results[alias] = itemPath;
-      }
+      // Return the part of the path after the "components" directory
+      const alias = path
+        .join('@components', ...pathParts.slice(componentsIndex + 1))
+        .replace('.js', '')
+        .replace('.scss', '')
+        .replace('.css', '');
+      results[alias] = itemPath;
     }
   }
 
   return results;
 }
 
-exports.resolveAlias = function resolveAlias(
-  extensions = [],
-  themePath = null
-) {
+export function resolveAlias(extensions = [], themePath = null) {
   let resolves = {};
 
   if (themePath) {
@@ -66,6 +60,6 @@ exports.resolveAlias = function resolveAlias(
   });
 
   return resolves;
-};
+}
 
-exports.alias = {};
+export const alias = {};

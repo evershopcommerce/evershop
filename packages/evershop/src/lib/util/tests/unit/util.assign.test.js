@@ -1,5 +1,4 @@
-/* eslint-disable no-undef, global-require */
-const { assign } = require('../../assign');
+import { assign } from '../../assign.js';
 
 describe('assign', () => {
   it('It should assign an object to the main object', () => {

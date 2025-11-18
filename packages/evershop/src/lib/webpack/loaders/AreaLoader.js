@@ -1,18 +1,17 @@
-const fs = require('fs');
-const { inspect } = require('util');
-const JSON5 = require('json5');
-const { CONSTANTS } = require('../../helpers');
-const { error } = require('../../log/logger');
-const { getEnabledWidgets } = require('../../util/getEnabledWidgets');
-const { generateComponentKey } = require('../util/keyGenerator');
+import fs from 'fs';
+import { pathToFileURL } from 'url';
+import { inspect } from 'util';
+import JSON5 from 'json5';
+import { getEnabledWidgets } from '../../../lib/widget/widgetManager.js';
+import { error } from '../../log/logger.js';
+import { generateComponentKey } from '../util/keyGenerator.js';
 
-/* eslint-disable no-multi-assign */
-/* eslint-disable global-require */
-module.exports = exports = function AreaLoader(c) {
+export default function AreaLoader(c) {
   this.cacheable(false);
   const components = this.getOptions().getComponents();
   const { route } = this.getOptions();
   const areas = {};
+  const imports = [];
   components.forEach((module) => {
     this.addDependency(module);
     if (!fs.existsSync(module)) {
@@ -30,12 +29,16 @@ module.exports = exports = function AreaLoader(c) {
         .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
       try {
         const layout = JSON5.parse(check);
-        const id = generateComponentKey(module.replace(CONSTANTS.ROOTPATH, ''));
+        const id = generateComponentKey(module);
+        const url = pathToFileURL(module).toString();
+        imports.push(`import ${id} from '${url}';`);
         areas[layout.areaId] = areas[layout.areaId] || {};
         areas[layout.areaId][id] = {
           id,
           sortOrder: layout.sortOrder,
-          component: `---require('${module}')---`
+          component: {
+            default: `---${id}---`
+          }
         };
       } catch (e) {
         error(`Error parsing layout from ${module}`);
@@ -46,18 +49,27 @@ module.exports = exports = function AreaLoader(c) {
   const widgets = getEnabledWidgets();
   areas['*'] = areas['*'] || {};
   widgets.forEach((widget) => {
+    const url = pathToFileURL(
+      route.isAdmin ? widget.settingComponent : widget.component
+    ).toString();
+    imports.push(`import ${widget.type} from '${url}';`);
     areas['*'][widget.type] = {
       id: widget.type,
       sortOrder: widget.sortOrder || 0,
-      component: route.isAdmin
-        ? `---require('${widget.setting_component}')---`
-        : `---require('${widget.component}')---`
+      component: {
+        default: `---${widget.type}---`
+      }
     };
   });
-  const content = `Area.defaultProps.components = ${inspect(areas, { depth: 5 })
+  const content = `${imports.join(
+    '\r\n'
+  )}\r\nArea.defaultProps.components = ${inspect(areas, { depth: 5 })
     .replace(/"---/g, '')
-    .replace(/---"/g, '')} `;
-  return c
+    .replace(/---"/g, '')
+    .replace(/'---/g, '')
+    .replace(/---'/g, '')} ;`;
+  const result = c
     .replace('/** render */', content)
     .replace('/eHot', `/eHot/${route.id}`);
-};
+  return result;
+}

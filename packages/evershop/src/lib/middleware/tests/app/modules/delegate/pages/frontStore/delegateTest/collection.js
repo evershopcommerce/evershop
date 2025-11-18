@@ -1,9 +1,11 @@
-const jest = require('jest-mock');
+import { getDelegates, setDelegate } from '../../../../../../../delegate.js';
 
-const test = jest.fn((delegates) => delegates);
-function collection(request, response, delegates) {
-  test(delegates);
+let delegates;
+function collection(request, response, next) {
+  delegates = getDelegates(request);
+  return response.status(200).json({
+    ok: true
+  });
 }
-const myModule = (module.exports = collection);
-
-myModule.test = test;
+export default collection;
+export { delegates };

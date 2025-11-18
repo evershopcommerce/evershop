@@ -1,12 +1,11 @@
-const { select } = require('@evershop/postgres-query-builder');
-const uniqid = require('uniqid');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const {
-  getProductsBaseQuery
-} = require('../../../../services/getProductsBaseQuery');
+import { select, node } from '@evershop/postgres-query-builder';
+import uniqid from 'uniqid';
+import { buildUrl } from '../../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../../lib/util/camelCase.js';
+import { getConfig } from '../../../../../../lib/util/getConfig.js';
+import { getProductsBaseQuery } from '../../../../services/getProductsBaseQuery.js';
 
-module.exports = {
+export default {
   Product: {
     variantGroup: async (product, _, { pool, user }) => {
       const { variantGroupId } = product;
@@ -42,6 +41,13 @@ module.exports = {
             'product_attribute_value_index.product_id'
           );
         query
+          .innerJoin('product_inventory')
+          .on(
+            'product.product_id',
+            '=',
+            'product_inventory.product_inventory_product_id'
+          );
+        query
           .leftJoin('attribute')
           .on(
             'product_attribute_value_index.attribute_id',
@@ -49,7 +55,22 @@ module.exports = {
             'attribute.attribute_id'
           );
 
-        query.where('variant_group_id', '=', variantGroupId);
+        if (!user && getConfig('catalog.showOutOfStockProduct') === false) {
+          query
+            .andWhere('product_inventory.manage_stock', '=', false)
+            .addNode(
+              node('OR')
+                .addLeaf('AND', 'product_inventory.qty', '>', 0)
+                .addLeaf(
+                  'AND',
+                  'product_inventory.stock_availability',
+                  '=',
+                  true
+                )
+            );
+        }
+
+        query.andWhere('variant_group_id', '=', variantGroupId);
         query.andWhere(
           'product_attribute_value_index.attribute_id',
           'IN',
@@ -58,6 +79,7 @@ module.exports = {
         if (!user) {
           query.andWhere('status', '=', 1);
         }
+        query.orderBy('product_attribute_value_index.option_id', 'ASC');
         const vs = await query.execute(pool);
         const attributes = await select()
           .from('attribute')

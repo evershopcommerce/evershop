@@ -1,9 +1,9 @@
-const { getSetting } = require('../../setting/services/setting');
+import { getSetting } from '../../setting/services/setting.js';
 
-module.exports.getApiBaseUrl = async function getApiBaseUrl() {
+export async function getApiBaseUrl() {
   const url = await getSetting(
     'paypalEnvironment',
     'https://api-m.sandbox.paypal.com'
   );
   return url;
-};
+}

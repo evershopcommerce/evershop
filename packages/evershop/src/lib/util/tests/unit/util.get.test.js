@@ -1,5 +1,4 @@
-/* eslint-disable no-undef, global-require */
-const { get } = require('../../get');
+import { get } from '../../get.js';
 
 describe('Test until get', () => {
   it('It should return the value if path is valid', () => {

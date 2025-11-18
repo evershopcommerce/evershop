@@ -1,0 +1,49 @@
+body .codex-editor {
+  z-index: 99;
+}
+
+#rows {
+  .row {
+    background-color: #fff;
+  }
+
+  .drag__icon {
+    cursor: move;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+
+    svg {
+      display: block; // Prevent extra space below svg
+    }
+  }
+}
+
+#rows > * {
+  margin-top: 10px;
+}
+
+.item {
+  padding: 10px;
+  background: var(--divider);
+  border: 2px solid var(--border);
+}
+
+#rows .draggable-source--is-dragging {
+  background: var(--divider);
+  color: var(--divider);
+}
+
+#rows .draggable-source--is-dragging > * {
+  visibility: hidden;
+}
+
+.ce-rawtool__textarea {
+  z-index: 0;
+}

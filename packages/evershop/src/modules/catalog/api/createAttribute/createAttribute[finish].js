@@ -1,7 +1,6 @@
-const createProductAttribute = require('../../services/attribute/createProductAttribute');
+import createProductAttribute from '../../services/attribute/createProductAttribute.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate) => {
+export default async (request, response) => {
   const attribute = await createProductAttribute(request.body, {
     routeId: request.currentRoute.id
   });

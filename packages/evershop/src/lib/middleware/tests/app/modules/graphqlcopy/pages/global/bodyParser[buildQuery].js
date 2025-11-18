@@ -1,6 +1,6 @@
-const bodyParser = require('body-parser');
+import bodyParser from 'body-parser';
 
-module.exports = (request, response, stack, next) => {
+export default (request, response, next) => {
   bodyParser.json({ inflate: false })(request, response, () => {
     bodyParser.urlencoded({ extended: true })(request, response, next);
   });

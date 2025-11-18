@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   Product: {
     price: (product) => {
       const price = parseFloat(product.price);

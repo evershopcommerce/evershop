@@ -1,8 +1,8 @@
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const { getValue } = require('@evershop/evershop/src/lib/util/registry');
+import { pool } from '../../../lib/postgres/connection.js';
+import { camelCase } from '../../../lib/util/camelCase.js';
+import { getValue } from '../../../lib/util/registry.js';
 
-class WidgetCollection {
+export class WidgetCollection {
   constructor(baseQuery) {
     this.baseQuery = baseQuery;
   }
@@ -58,5 +58,3 @@ class WidgetCollection {
     return this.currentFilters;
   }
 }
-
-module.exports.WidgetCollection = WidgetCollection;

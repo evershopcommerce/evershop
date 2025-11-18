@@ -1,18 +1,12 @@
-const { v4: uuidv4 } = require('uuid');
-const { select } = require('@evershop/postgres-query-builder');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { ProductCollection } = require('../../../services/ProductCollection');
-const {
-  getProductsByCollectionBaseQuery
-} = require('../../../services/getProductsByCollectionBaseQuery');
-const {
-  getCollectionsBaseQuery
-} = require('../../../services/getCollectionsBaseQuery');
-const {
-  CollectionCollection
-} = require('../../../services/CollectionCollection');
+import { select } from '@evershop/postgres-query-builder';
+import { v4 as uuidv4 } from 'uuid';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { CollectionCollection } from '../../../../../modules/catalog/services/CollectionCollection.js';
+import { getCollectionsBaseQuery } from '../../../../../modules/catalog/services/getCollectionsBaseQuery.js';
+import { getProductsByCollectionBaseQuery } from '../../../../../modules/catalog/services/getProductsByCollectionBaseQuery.js';
+import { ProductCollection } from '../../../../../modules/catalog/services/ProductCollection.js';
 
-module.exports = {
+export default {
   Query: {
     collection: async (_, { code }, { pool }) => {
       const query = select().from('collection');

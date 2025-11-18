@@ -1,6 +1,6 @@
+import Button from '@components/common/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Button from '@components/common/form/Button';
 
 export default function NewAttributeButton({ newAttributeUrl }) {
   return <Button url={newAttributeUrl} title="New Attribute" />;

@@ -30,7 +30,17 @@ type ProductCollection {
   currentFilters: [Filter]
 }
 
+"""
+Returns a search.
+"""
+type ProductSearch {
+  products: ProductCollection
+  keyword: String
+}
+
 extend type Query {
   product(id: ID): Product
+  currentProduct: Product
   products(filters: [FilterInput]): ProductCollection
+  productSearch: ProductSearch
 }

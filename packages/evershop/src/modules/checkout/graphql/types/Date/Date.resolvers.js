@@ -1,6 +1,6 @@
-const dayjs = require('dayjs');
+import dayjs from 'dayjs';
 
-module.exports = {
+export default {
   Date: {
     value: (raw) => raw,
     text: (raw) => dayjs(raw).format('MMM D, YYYY')

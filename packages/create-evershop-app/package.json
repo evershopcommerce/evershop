@@ -1,8 +1,13 @@
 {
   "name": "create-evershop-app",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Create EverShop App",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "createEverShopApp.js",
+    "sample"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,7 +30,7 @@
     "commander": "^9.4.1",
     "cross-spawn": "^7.0.3",
     "fs-extra": "^10.0.0",
-    "semver": "^7.3.8",
+    "semver": "^7.6.3",
     "validate-npm-package-name": "^4.0.0"
   }
 }

@@ -1,11 +1,11 @@
-const fs = require('fs');
-const { parse } = require('graphql');
-const uniqid = require('uniqid');
-const { print } = require('graphql/language/printer');
-const JSON5 = require('json5');
+import fs from 'fs';
+import { parse } from 'graphql';
+import { print } from 'graphql/language/printer.js';
+import JSON5 from 'json5';
+import uniqid from 'uniqid';
 
 // This function should return an object { query, fragments, variables }.
-module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
+export function parseGraphqlByFile(module) {
   const result = {
     query: {},
     fragments: {},
@@ -48,13 +48,11 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
         const alias = selection.alias ? selection.alias.value : name;
         const newAlias = `e${uniqid()}`;
         if (!selection.alias) {
-          // eslint-disable-next-line no-param-reassign
           selection.alias = {
             kind: 'Name',
             value: newAlias
           };
         } else {
-          // eslint-disable-next-line no-param-reassign
           selection.alias.value = newAlias;
         }
 
@@ -69,12 +67,11 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
     queryBody = print(queryAst);
 
     // Regex to find all variable name and type ($name: Type!) in graphql query
-    // eslint-disable-next-line no-useless-escape
+
     const variableRegex = /\$([a-zA-Z0-9]+)\s*:\s*([a-zA-Z0-9\[\]!]+)/g;
     const variableMatch = queryBody.match(variableRegex);
     if (variableMatch) {
       variableMatch.forEach((variable) => {
-        // eslint-disable-next-line no-useless-escape
         const varRegex = /\$([a-zA-Z0-9]+)\s*:\s*([a-zA-Z0-9\[\]!]+)/;
         const varMatch = varRegex.exec(variable);
         const name = varMatch[1];
@@ -86,13 +83,13 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
         });
       });
     }
-
-    // Relace all variable in graphql query
+    // Replace all variable in graphql query
     variables.forEach((variable) => {
-      const regex = new RegExp(`\\$${variable.origin}`, 'g');
+      // Use word boundary to ensure we match the complete variable name only
+      // This prevents partial matches like 'count' matching inside 'countPerRow'
+      const regex = new RegExp(`\\$${variable.origin}\\b`, 'g');
       queryBody = queryBody.replace(regex, `$${variable.alias}`);
     });
-
     // Use slice function to get everything between the first '{' and the last '}' in the query
     queryBody = queryBody.slice(
       queryBody.indexOf('{') + 1,
@@ -141,9 +138,18 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
   ).concat(
     result.fragments.source.match(/\.\.\.([ ]+)?([a-zA-Z0-9_]+)/g) || []
   );
-  if (fragmentConsumptions.length > 0) {
-    fragmentConsumptions.forEach((fragmentConsumption) => {
-      const fragmentName = fragmentConsumption.replace(/\.\.\.([ ]+)?/, '');
+
+  // Deduplicate fragment consumptions to handle multiple usages of the same fragment
+  const uniqueFragmentNames = [
+    ...new Set(
+      fragmentConsumptions.map((consumption) =>
+        consumption.replace(/\.\.\.([ ]+)?/, '')
+      )
+    )
+  ];
+
+  if (uniqueFragmentNames.length > 0) {
+    uniqueFragmentNames.forEach((fragmentName) => {
       const fragment = fragmentNames.find((f) => f.name === fragmentName);
       if (!fragment) {
         throw new Error(
@@ -152,7 +158,7 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
       } else {
         result.fragments.pairs = result.fragments.pairs || [];
         const alias = `${fragmentName}_${uniqid()}`;
-        const regex = new RegExp(`\\.\\.\\.([ ]+)?${fragmentName}`, 'g');
+        const regex = new RegExp(`\\.\\.\\.([ ]+)?${fragmentName}\\b`, 'g');
         // Replace in query source with alias
         result.query.source = result.query.source.replace(regex, `...${alias}`);
         // Replace in fragment source with alias
@@ -215,4 +221,4 @@ module.exports.parseGraphqlByFile = function parseGraphqlByFile(module) {
     result.variables.definitions = [];
   }
   return result;
-};
+}

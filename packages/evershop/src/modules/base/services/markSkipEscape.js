@@ -1,6 +1,6 @@
-const secret = require('./secret');
+import secret from './secret.js';
 
-module.exports = function markSkipEscape(obj, path) {
+export default function markSkipEscape(obj, path) {
   const keys = path.split('/');
   let result = obj;
   const lastKeyIndex = keys.length - 1;
@@ -27,4 +27,4 @@ module.exports = function markSkipEscape(obj, path) {
   } else {
     result[lastKey] += secret;
   }
-};
+}

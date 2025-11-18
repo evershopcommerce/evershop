@@ -1,8 +1,7 @@
-/* eslint-disable no-underscore-dangle */
-const isEqualWith = require('lodash/isEqualWith');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
+import isEqualWith from 'lodash.isequalwith';
+import { error } from '../../../../lib/log/logger.js';
 
-module.exports.DataObject = class DataObject {
+export class DataObject {
   #fields;
 
   #data = {};
@@ -40,7 +39,7 @@ module.exports.DataObject = class DataObject {
         // Execute the list of resolvers
         for (let j = 0; j < field.resolvers.length; j += 1) {
           const resolver = field.resolvers[j];
-          // eslint-disable-next-line no-await-in-loop
+
           value = await resolver.call(_this, value);
         }
         this.#data[field.key] = value;
@@ -118,7 +117,7 @@ module.exports.DataObject = class DataObject {
   export() {
     const data = {};
     this.#fields.forEach((f) => {
-      data[f.key] = this.#data[f.key];
+      data[f.key] = structuredClone(this.#data[f.key]);
     });
     if (this.hasError()) {
       data.errors = Object.values(this.#errors);
@@ -127,4 +126,4 @@ module.exports.DataObject = class DataObject {
     }
     return data;
   }
-};
+}

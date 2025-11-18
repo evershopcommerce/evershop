@@ -1,9 +1,9 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { OK } = require('@evershop/evershop/src/lib/util/httpStatus');
+import { getDelegate } from '../../../../lib/middleware/delegate.js';
+import { buildUrl } from '../../../../lib/router/buildUrl.js';
+import { OK } from '../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
-  const coupon = await delegate.createCoupon;
+export default async (request, response, next) => {
+  const coupon = await getDelegate('createCoupon', request);
   response.status(OK);
   response.json({
     data: {

@@ -1,33 +1,33 @@
-const fs = require('fs');
-const { join } = require('path');
-const { getConfig } = require('../../util/getConfig');
-const { CONSTANTS } = require('../../helpers');
+import fs from 'fs';
+import { join } from 'path';
+import { pathToFileURL } from 'url';
+import { getEnabledTheme } from '../../../lib/util/getEnabledTheme.js';
 
-module.exports.getTailwindConfig = function getTailwindConfig(route) {
-  const defaultTailwindConfig = route.isAdmin
-    ? require('@evershop/evershop/src/modules/cms/services/tailwind.admin.config.js')
-    : require('@evershop/evershop/src/modules/cms/services/tailwind.frontStore.config.js');
+export async function getTailwindConfig(isAdmin = false) {
+  const defaultTailwindConfig = isAdmin
+    ? await import('../../../modules/cms/services/tailwind.admin.config.js')
+    : await import(
+        '../../../modules/cms/services/tailwind.frontStore.config.js'
+      );
 
   let tailwindConfig = {};
-  if (!route.isAdmin) {
+  if (!isAdmin) {
     // Get the current theme
-    const theme = getConfig('system.theme');
+    const theme = getEnabledTheme();
     if (
       theme &&
-      fs.existsSync(join(CONSTANTS.THEMEPATH, theme, 'tailwind.config.js'))
+      fs.existsSync(join(theme.path, 'dist', 'tailwind.config.js'))
     ) {
-      tailwindConfig = require(join(
-        CONSTANTS.THEMEPATH,
-        theme,
-        'tailwind.config.js'
-      ));
+      tailwindConfig = await import(
+        pathToFileURL(join(theme.path, 'dist', 'tailwind.config.js'))
+      );
     }
   }
   // Merge defaultTailwindConfig with tailwindConfigJs
   const mergedTailwindConfig = Object.assign(
-    defaultTailwindConfig,
-    tailwindConfig
+    defaultTailwindConfig.default,
+    tailwindConfig.default
   );
 
   return mergedTailwindConfig;
-};
+}

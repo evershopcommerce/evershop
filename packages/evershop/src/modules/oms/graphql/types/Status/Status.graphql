@@ -1,11 +1,23 @@
 """
 Represents a payment status.
 """
+type Status {
+  name: String
+  code: String
+  badge: String
+  progress: String
+}
+
+"""
+Represents a payment status.
+"""
 type PaymentStatus {
   name: String
   code: String
   badge: String
   progress: String
+  isDefault: Boolean
+  isCancelable: Boolean
 }
 
 """
@@ -16,9 +28,12 @@ type ShipmentStatus {
   code: String
   badge: String
   progress: String
+  isDefault: Boolean
+  isCancelable: Boolean
 }
 
 extend type Query {
   shipmentStatusList: [ShipmentStatus]
   paymentStatusList: [PaymentStatus]
+  statusList: [Status]
 }

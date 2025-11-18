@@ -1,10 +1,10 @@
-const { select } = require('@evershop/postgres-query-builder');
-const { camelCase } = require('@evershop/evershop/src/lib/util/camelCase');
-const { getConfig } = require('@evershop/evershop/src/lib/util/getConfig');
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
-const { getOrdersBaseQuery } = require('../../../services/getOrdersBaseQuery');
+import { select } from '@evershop/postgres-query-builder';
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { getOrdersBaseQuery } from '../../../services/getOrdersBaseQuery.js';
 
-module.exports = {
+export default {
   Query: {
     order: async (_, { uuid }, { pool }) => {
       const query = getOrdersBaseQuery();
@@ -15,9 +15,7 @@ module.exports = {
       } else {
         return camelCase(order);
       }
-    },
-    shipmentStatusList: () => getConfig('oms.order.shipmentStatus', {}),
-    paymentStatusList: () => getConfig('oms.order.paymentStatus', {})
+    }
   },
   Order: {
     items: async ({ orderId }, _, { pool }) => {
@@ -84,6 +82,20 @@ module.exports = {
         ...status,
         code: paymentStatus
       };
+    },
+    status: ({ status }) => {
+      const statusList = getConfig('oms.order.status', {});
+      const statusObj = statusList[status] || {
+        name: 'Unknown',
+        code: status,
+        badge: 'default',
+        progress: 'incomplete'
+      };
+
+      return {
+        ...statusObj,
+        code: status
+      };
     }
   },
   Customer: {
@@ -108,6 +120,17 @@ module.exports = {
       lineTotalInclTax,
     subTotal: ({ lineTotal }) =>
       // This field is deprecated, use lineTotal instead
-      lineTotal
+      lineTotal,
+    variantOptions: ({ variantOptions }) => {
+      try {
+        return JSON.parse(variantOptions || '[]').map((option) => ({
+          ...camelCase(option),
+          attributeId: parseInt(option.attribute_id, 10),
+          optionId: parseInt(option.option_id, 10)
+        }));
+      } catch (error) {
+        return [];
+      }
+    }
   }
 };

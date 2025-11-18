@@ -1,7 +1,6 @@
-const { execute } = require('@evershop/postgres-query-builder');
+import { execute } from '@evershop/postgres-query-builder';
 
-// eslint-disable-next-line no-multi-assign
-module.exports = exports = async (connection) => {
+export default async (connection) => {
   // Remove user_token_secret table
   await execute(connection, `DROP TABLE IF EXISTS user_token_secret;`);
 

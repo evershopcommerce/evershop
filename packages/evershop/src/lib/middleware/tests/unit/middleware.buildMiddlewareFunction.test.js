@@ -1,9 +1,6 @@
-/* eslint-disable no-undef, global-require */
-const { buildMiddlewareFunction } = require('../../buildMiddlewareFunction');
-
-require('@babel/register')({
-  presets: ['@babel/preset-env']
-});
+import { buildMiddlewareFunction } from '../../buildMiddlewareFunction.js';
+import path from 'path';
+import { jest, describe, it, expect } from '@jest/globals';
 
 expect.extend({
   nullOrAny(received, expected) {

@@ -1,16 +1,12 @@
-const { insert, select } = require('@evershop/postgres-query-builder');
-const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
-const {
-  OK,
-  INTERNAL_SERVER_ERROR
-} = require('@evershop/evershop/src/lib/util/httpStatus');
-const { error } = require('@evershop/evershop/src/lib/log/logger');
-const crypto = require('crypto');
+import crypto from 'crypto';
+import { insert, select } from '@evershop/postgres-query-builder';
+import { error } from '../../../../lib/log/logger.js';
+import { pool } from '../../../../lib/postgres/connection.js';
+import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+export default async (request, response, next) => {
   const { body } = request;
-  // eslint-disable-next-line camelcase
+
   const { email } = body;
   try {
     // Generate a random token using crypto module

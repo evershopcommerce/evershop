@@ -1,8 +1,8 @@
-const { buildUrl } = require('@evershop/evershop/src/lib/router/buildUrl');
+import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 
-module.exports = {
+export default {
   Query: {
-    url: (root, { routeId, params = [] }) => {
+    url: (root, { routeId, params = [] }, { homeUrl }) => {
       const queries = [];
       params.forEach((param) => {
         // Check if the key is a string number
@@ -12,7 +12,7 @@ module.exports = {
           queries[param.key] = param.value;
         }
       });
-      return buildUrl(routeId, queries);
+      return `${homeUrl}${buildUrl(routeId, queries)}`;
     }
   }
 };

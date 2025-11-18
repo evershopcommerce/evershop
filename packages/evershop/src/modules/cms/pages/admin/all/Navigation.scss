@@ -1,13 +1,13 @@
 .admin-navigation {
-  width: 24rem;
+  width: 15rem;
   float: left;
   height: 100vh;
   border-right: 1px solid var(--divider);
   position: fixed;
   left: 0;
-  top: 5.6rem;
+  top: 3.5rem;
   padding-right: 4px;
-  padding-bottom: 15rem;
+  padding-bottom: 9.375rem;
   overflow-y: scroll;
 }
 .admin-navigation .top-bar {
@@ -42,8 +42,8 @@
 }
 .nav-item > a,
 .nav-item .root-label {
-  padding-left: 1rem;
-  margin-left: 1rem;
+  padding-left: 0.625rem;
+  margin-left: 0.625rem;
 }
 .nav-item > a:hover {
   background-color: #edeeef;
@@ -69,7 +69,7 @@
   }
 }
 .admin-nav > ul > li {
-  margin-top: 1rem;
+  margin-top: 0.625rem;
 }
 .admin-navigation::-webkit-scrollbar {
   width: 5px;

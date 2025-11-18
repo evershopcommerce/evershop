@@ -1,0 +1,23 @@
+.collection-list-skeleton {
+  width: 100%;
+
+  .collection-skeleton-item {
+    padding: 0.625rem 0;
+  }
+
+  .skeleton-pulse {
+    animation: skeletonPulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@keyframes skeletonPulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}

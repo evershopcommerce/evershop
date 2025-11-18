@@ -1,8 +1,8 @@
-const { basename } = require('path');
-const { OK } = require('@evershop/evershop/src/lib/util/httpStatus');
-const { createFolder } = require('../../services/createFolder');
-// eslint-disable-next-line no-unused-vars
-module.exports = async (request, response, delegate, next) => {
+import { basename } from 'path';
+import { OK } from '../../../../lib/util/httpStatus.js';
+import { createFolder } from '../../services/createFolder.js';
+
+export default async (request, response, next) => {
   const { path } = request.body || '';
   await createFolder(path);
   response.status(OK).json({

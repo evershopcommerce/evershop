@@ -1,5 +1,4 @@
-/* eslint-disable no-undef, global-require */
-const { noDublicateId } = require('../../noDuplicateId');
+import { noDublicateId } from '../../noDuplicateId.js';
 
 describe('Test noDublicateId function', () => {
   it('It should return false if routed middlewareID is existed', () => {

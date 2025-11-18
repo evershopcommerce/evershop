@@ -1,22 +1,17 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/no-unstable-nested-components */
+import { Card } from '@components/admin/Card.js';
+import { DummyColumnHeader } from '@components/admin/grid/header/Dummy';
+import { SortableHeader } from '@components/admin/grid/header/Sortable';
+import { Pagination } from '@components/admin/grid/Pagination';
+import Area from '@components/common/Area.js';
+import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
+import { useAlertContext } from '@components/common/modal/Alert';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import axios from 'axios';
-import Area from '@components/common/Area';
-import Pagination from '@components/common/grid/Pagination';
-import { useAlertContext } from '@components/common/modal/Alert';
-import { Checkbox } from '@components/common/form/fields/Checkbox';
-import { Card } from '@components/admin/cms/Card';
-import AttributeNameRow from '@components/admin/catalog/attributeGrid/rows/AttributeName';
-import GroupRow from '@components/admin/catalog/attributeGrid/rows/GroupRow';
-import BasicRow from '@components/common/grid/rows/BasicRow';
-import YesNoRow from '@components/common/grid/rows/YesNoRow';
-import SortableHeader from '@components/common/grid/headers/Sortable';
-import DummyColumnHeader from '@components/common/grid/headers/Dummy';
-import { Form } from '@components/common/form/Form';
-import { Field } from '@components/common/form/Field';
 import { toast } from 'react-toastify';
+import { AttributeNameRow } from './rows/AttributeName.js';
+import { GroupRow } from './rows/GroupRow.js';
 
 function Actions({ attributes = [], selectedIds = [] }) {
   const { openAlert, closeAlert } = useAlertContext();
@@ -80,17 +75,18 @@ function Actions({ attributes = [], selectedIds = [] }) {
       {selectedIds.length > 0 && (
         <td style={{ borderTop: 0 }} colSpan="100">
           <div className="inline-flex border border-divider rounded justify-items-start">
-            <a href="#" className="font-semibold pt-3 pb-3 pl-6 pr-6">
+            <a href="#" className="font-semibold pt-2 pb-2 pl-4 pr-4">
               {selectedIds.length} selected
             </a>
-            {actions.map((action) => (
+            {actions.map((action, i) => (
               <a
+                key={i}
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
                   action.onAction();
                 }}
-                className="font-semibold pt-3 pb-3 pl-6 pr-6 block border-l border-divider self-center"
+                className="font-semibold pt-2 pb-2 pl-4 pr-4 block border-l border-divider self-center"
               >
                 <span>{action.name}</span>
               </a>
@@ -116,10 +112,13 @@ export default function AttributeGrid({
   attributes: { items: attributes, total, currentFilters = [] }
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
-    ? currentFilters.find((filter) => filter.key === 'page').value
+    ? parseInt(currentFilters.find((filter) => filter.key === 'page').value, 10)
     : 1;
   const limit = currentFilters.find((filter) => filter.key === 'limit')
-    ? currentFilters.find((filter) => filter.key === 'limit').value
+    ? parseInt(
+        currentFilters.find((filter) => filter.key === 'limit').value,
+        10
+      )
     : 20;
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -127,17 +126,16 @@ export default function AttributeGrid({
     <Card>
       <Card.Session
         title={
-          <Form submitBtn={false}>
-            <Field
-              type="text"
-              id="name"
+          <Form submitBtn={false} id="attributeGridFilter">
+            <InputField
+              name="name"
               placeholder="Search"
-              value={currentFilters.find((f) => f.key === 'name')?.value}
+              defaultValue={currentFilters.find((f) => f.key === 'name')?.value}
               onKeyPress={(e) => {
                 // If the user press enter, we should submit the form
                 if (e.key === 'Enter') {
                   const url = new URL(document.location);
-                  const name = document.getElementById('name')?.value;
+                  const name = e.target?.value;
                   if (name) {
                     url.searchParams.set('name[operation]', 'like');
                     url.searchParams.set('name[value]', name);
@@ -168,13 +166,16 @@ export default function AttributeGrid({
         <thead>
           <tr>
             <th className="align-bottom">
-              <Checkbox
-                onChange={(e) => {
-                  if (e.target.checked)
-                    setSelectedRows(attributes.map((a) => a.uuid));
-                  else setSelectedRows([]);
-                }}
-              />
+              <div className="form-field mb-0">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked)
+                      setSelectedRows(attributes.map((a) => a.uuid));
+                    else setSelectedRows([]);
+                  }}
+                />
+              </div>
             </th>
             <Area
               className=""
@@ -248,16 +249,21 @@ export default function AttributeGrid({
           {attributes.map((a) => (
             <tr key={a.attributeId}>
               <td>
-                <Checkbox
-                  isChecked={selectedRows.includes(a.uuid)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(selectedRows.concat([a.uuid]));
-                    } else {
-                      setSelectedRows(selectedRows.filter((r) => r !== a.uuid));
-                    }
-                  }}
-                />
+                <div className="form-field mb-0">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(a.uuid)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(selectedRows.concat([a.uuid]));
+                      } else {
+                        setSelectedRows(
+                          selectedRows.filter((r) => r !== a.uuid)
+                        );
+                      }
+                    }}
+                  />
+                </div>
               </td>
               <Area
                 className=""
@@ -285,25 +291,19 @@ export default function AttributeGrid({
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <BasicRow id="type" areaProps={areaProps} />
-                      )
+                      default: ({ areaProps }) => <td>{a.type}</td>
                     },
                     sortOrder: 20
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <YesNoRow id="isRequired" areaProps={areaProps} />
-                      )
+                      default: () => <td>{a.isRequired ? 'Yes' : 'No'}</td>
                     },
                     sortOrder: 25
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <YesNoRow id="isFilterable" areaProps={areaProps} />
-                      )
+                      default: () => <td>{a.isFilterable ? 'Yes' : 'No'}</td>
                     },
                     sortOrder: 30
                   }
@@ -328,12 +328,12 @@ AttributeGrid.propTypes = {
     items: PropTypes.arrayOf(
       PropTypes.shape({
         uuid: PropTypes.string.isRequired,
-        attributeId: PropTypes.number.isRequired,
+        attributeId: PropTypes.string.isRequired,
         attributeName: PropTypes.string.isRequired,
         attributeCode: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
-        isRequired: PropTypes.bool.isRequired,
-        isFilterable: PropTypes.bool.isRequired,
+        isRequired: PropTypes.number.isRequired,
+        isFilterable: PropTypes.number.isRequired,
         editUrl: PropTypes.string.isRequired,
         updateApi: PropTypes.string.isRequired,
         deleteApi: PropTypes.string.isRequired

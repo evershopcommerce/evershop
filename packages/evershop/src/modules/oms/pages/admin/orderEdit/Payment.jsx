@@ -1,15 +1,14 @@
+import { Card } from '@components/admin/Card';
+import { Circle } from '@components/admin/Circle.js';
+import Area from '@components/common/Area.js';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Area from '@components/common/Area';
-import Circle from '@components/common/Circle';
-import { Card } from '@components/admin/cms/Card';
+import { Discount } from './payment/Discount.js';
+import { Shipping } from './payment/Shipping.js';
+import { SubTotal } from './payment/SubTotal.js';
+import { Tax } from './payment/Tax.js';
+import { Total } from './payment/Total.js';
 import './Payment.scss';
-import { Discount } from '@components/admin/oms/orderEdit/payment/Discount';
-import { Shipping } from '@components/admin/oms/orderEdit/payment/Shipping';
-import { SubTotal } from '@components/admin/oms/orderEdit/payment/SubTotal';
-import { Tax } from '@components/admin/oms/orderEdit/payment/Tax';
-import { Total } from '@components/admin/oms/orderEdit/payment/Total';
-import { Transactions } from '@components/admin/oms/orderEdit/payment/Transactions';
 
 export default function OrderSummary({
   order: {
@@ -24,17 +23,18 @@ export default function OrderSummary({
     subTotal,
     shippingFeeInclTax,
     currency,
-    paymentStatus,
-    transactions
+    paymentStatus
   }
 }) {
   return (
     <Card
       title={
-        <div className="flex space-x-4">
+        <div className="flex space-x-2">
           <Circle variant={paymentStatus.badge} />
           <span className="block self-center">
-            {paymentMethodName || 'Unknown'}
+            {`${paymentStatus.name || 'Unknown'} - ${
+              paymentMethodName || 'Unknown'
+            }`}
           </span>
         </div>
       }
@@ -82,10 +82,7 @@ export default function OrderSummary({
           ]}
         />
       </Card.Session>
-      <Card.Session>
-        <Transactions transactions={transactions} />
-      </Card.Session>
-      <Area id="orderPaymentActions" noOuter />
+      <Area id="orderPaymentActions" />
     </Card>
   );
 }
@@ -117,20 +114,9 @@ OrderSummary.propTypes = {
     paymentStatus: PropTypes.shape({
       code: PropTypes.string,
       badge: PropTypes.string,
-      progress: PropTypes.number,
+      progress: PropTypes.string,
       name: PropTypes.string
-    }).isRequired,
-    transactions: PropTypes.arrayOf(
-      PropTypes.shape({
-        paymentTransactionId: PropTypes.string.isRequired,
-        amount: PropTypes.shape({
-          text: PropTypes.string.isRequired,
-          value: PropTypes.number.isRequired
-        }).isRequired,
-        paymentAction: PropTypes.string.isRequired,
-        transactionType: PropTypes.string.isRequired
-      })
-    ).isRequired
+    }).isRequired
   }).isRequired
 };
 
@@ -169,15 +155,6 @@ export const query = `
         badge
         progress
         name
-      }
-      transactions: paymentTransactions {
-        paymentTransactionId
-        amount {
-          text(currency: getContextValue("orderCurrency"))
-          value
-        }
-        paymentAction
-        transactionType
       }
     }
   }
