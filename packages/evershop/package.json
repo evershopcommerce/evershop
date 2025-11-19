@@ -106,16 +106,11 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "prepublishOnly": "node prepublish.js",
-    "prepack": "node prepublish.js",
-    "dev": "evershop dev",
-    "build": "evershop build",
-    "build-fast": "evershop build -- --skip-minify",
-    "start": "evershop start",
     "prepack": "rimraf dist && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
     "dev": "node ./dist/bin/dev/index.js",
     "start": "node ./dist/bin/start/index.js",
     "build": "node ./dist/bin/build/index.js",
+    "build-fast": "evershop build -- --skip-minify",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",
     "test": "jest"
