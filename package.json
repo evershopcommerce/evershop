@@ -1,6 +1,6 @@
 {
   "name": "evershop",
-  "version": "1.2.2",
+  "version": "2.1.0",
   "type": "module",
   "description": "A shopping cart platform with Express, React and Postgres",
   "workspaces": [
