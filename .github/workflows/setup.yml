@@ -1,0 +1,61 @@
+name: Project setup
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Setup PostgreSQL
+        uses: ikalnytskyi/action-setup-postgres@v5
+        with: 
+          port: 5432
+          database: evershop
+          username: postgres
+          password: pgAdmin12345
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Setup database schema
+        env:
+          NODE_ENV: production
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: evershop
+          DB_USER: postgres
+          DB_TABLE: admin_user
+          ADMIN_EMAIL: admin@admin.com
+          ADMIN_PASSWORD: a1234578
+          SUPPRESS_NO_CONFIG_WARNING: "true"
+          PGPASSWORD: pgAdmin12345
+        run: |
+          ./tests/setupDB.sh
+          npm run user:create -- --name admin --email $ADMIN_EMAIL --password $ADMIN_PASSWORD 
+          npm run dev &
+
+      - name: Wait for development server
+        run: |
+          sudo apt-get install wait-for-it -y
+          wait-for-it -h localhost -p 3000 -t 10
+
+      - name: Run e2e tests
+        working-directory: tests
+        run: |
+          npm install
+          npx playwright install chromium
+          npm run test:e2e e2e
