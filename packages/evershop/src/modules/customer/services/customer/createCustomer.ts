@@ -24,7 +24,7 @@ import {
 import { getAjv } from '../../../base/services/getAjv.js';
 import customerDataSchema from './customerDataSchema.json' with { type: 'json' };
 
-export type CustomerData = {
+export interface CustomerData {
   email?: string,
   full_name?: string,
   password?: string,
@@ -32,7 +32,7 @@ export type CustomerData = {
   status?: number,
 };
 
-function validateCustomerDataBeforeInsert(data: CustomerData) {
+function validateCustomerDataBeforeInsert<T extends CustomerData>(data: T): T {
   const ajv = getAjv();
   (customerDataSchema as JSONSchemaType<any>).required = ['email', 'password', 'full_name'];
   const jsonSchema = getValueSync(
@@ -52,7 +52,7 @@ function validateCustomerDataBeforeInsert(data: CustomerData) {
   }
 }
 
-async function insertCustomerData(data: CustomerData, connection: PoolClient) {
+async function insertCustomerData<T extends CustomerData>(data: T, connection: PoolClient) {
   const customer = await insert('customer').given(data).execute(connection);
   // Delete password from customer object
   delete customer.password;
@@ -64,7 +64,7 @@ async function insertCustomerData(data: CustomerData, connection: PoolClient) {
  * @param {Object} data
  * @param {Object} context
  */
-async function createCustomer(data: CustomerData, context: Record<string, unknown> = {}) {
+async function createCustomer<T extends CustomerData>(data: T, context: Record<string, unknown> = {}) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -118,7 +118,7 @@ async function createCustomer(data: CustomerData, context: Record<string, unknow
  * @param {Object} data
  * @param {Object} context
  */
-export default async (data: CustomerData, context: Record<string, unknown> ): Promise<CustomerData> => {
+export default async <T extends CustomerData>(data: T, context: Record<string, unknown> = {}): Promise<T> => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');

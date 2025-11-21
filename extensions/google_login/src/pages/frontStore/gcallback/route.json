@@ -1,4 +1,0 @@
-{
-  "methods": ["GET"],
-  "path": "/auth/google/callback"
-}
