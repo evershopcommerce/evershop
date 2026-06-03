@@ -83,3 +83,9 @@ View Cart (${totalQty}), Ver carrito (${totalQty})
 Cash On Delivery, Contra reembolso
 Conveniently pay with cash at your doorstep when your order is delivered., Pague cómodamente con efectivo en su puerta cuando se entregue su pedido.
 Please select a shipping method, Por favor seleccione un método de envío
+Shipping ($method), Envío ($method)
+Shipping (${method}), Envío (${method})
+Shipping, Envío
+Checkout success, Compra exitosa
+Thank you ${name}!, ¡Gracias ${name}!
+Order #${orderNumber}, Pedido #${orderNumber}
