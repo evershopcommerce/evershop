@@ -28,7 +28,7 @@ Discount, Descuento
 Shipping, Envío
 No tax, Sin impuestos
 Tax, Impuesto
-"Sorry, there is no available method for your address", "Lo sentimos, no hay un método disponible para su dirección"
+"Sorry, there is no available method for your address", Lo sentimos no hay un método disponible para su dirección
 Please enter a shipping address in order to see shipping quotes, Por favor ingrese una dirección de envío para ver presupuestos de envío
 Continue to payment, Continuar al pago
 No payment method available, No hay métodos de pago disponibles
@@ -51,7 +51,7 @@ Address, Dirección
 City, Ciudad
 Country, País
 Postcode, Código postal
-"Sorry, there is no available method for your address", "Lo sentimos, no hay un método disponible para su dirección"
+"Sorry, there is no available method for your address", Lo sentimos no hay un método disponible para su dirección
 Full name is required, Se requiere el nombre completo
 Telephone is required, Se requiere el teléfono
 Address is required, Se requiere la dirección
