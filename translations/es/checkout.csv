@@ -28,7 +28,7 @@ Discount, Descuento
 Shipping, Envío
 No tax, Sin impuestos
 Tax, Impuesto
-Sorry, there is no available method for your address, Lo sentimos, no hay un método disponible para su dirección
+"Sorry, there is no available method for your address", Lo sentimos no hay un método disponible para su dirección
 Please enter a shipping address in order to see shipping quotes, Por favor ingrese una dirección de envío para ver presupuestos de envío
 Continue to payment, Continuar al pago
 No payment method available, No hay métodos de pago disponibles
@@ -51,8 +51,7 @@ Address, Dirección
 City, Ciudad
 Country, País
 Postcode, Código postal
-Inclusive of tax, Impuestos incluidos
-Sorry, there is no available method for your address, Lo sentimos, no hay un método disponible para su dirección
+"Sorry, there is no available method for your address", Lo sentimos no hay un método disponible para su dirección
 Full name is required, Se requiere el nombre completo
 Telephone is required, Se requiere el teléfono
 Address is required, Se requiere la dirección
@@ -60,3 +59,33 @@ City is required, Se requiere la ciudad
 Country is required, Se requiere el país
 Postcode is required, Se requiere el código postal
 Contact, Contacto
+Your cart is empty, Su carrito está vacío
+Your Cart, Tu carrito
+Shopping Cart, Carrito de compras
+Select shipping method, Seleccionar método de envío
+Inclusive of tax ${totalTaxAmount}, Impuestos incluidos ${totalTaxAmount}
+Available shipping methods will appear once you provide your address details, Los métodos de envío disponibles aparecerán una vez que proporcione los detalles de su dirección
+Payment Information, Información de pago
+Same as shipping address, Igual que la dirección de envío
+Use a different billing address, Usar una dirección de facturación diferente
+Pick a payment method, Elige un método de pago
+Select a payment method, Seleccione un método de pago
+Contact Information, Información de contacto
+Logged in as, Conectado como
+Checkout, Finalizar compra
+Log in, Iniciar sesión
+Enter your password, Ingrese su contraseña
+Password must be at least 6 characters long, La contraseña debe tener al menos 6 caracteres
+Successfully logged out, Sesión cerrada correctamente
+Enter your email, Ingrese su correo electrónico
+Cancel, Cancelar
+View Cart (${totalQty}), Ver carrito (${totalQty})
+Cash On Delivery, Contra reembolso
+Conveniently pay with cash at your doorstep when your order is delivered., Pague cómodamente con efectivo en su puerta cuando se entregue su pedido.
+Please select a shipping method, Por favor seleccione un método de envío
+Shipping ($method), Envío ($method)
+Shipping (${method}), Envío (${method})
+Shipping, Envío
+Checkout success, Compra exitosa
+Thank you ${name}!, ¡Gracias ${name}!
+Order #${orderNumber}, Pedido #${orderNumber}
