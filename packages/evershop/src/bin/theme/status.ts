@@ -17,7 +17,7 @@ import { getActiveTheme } from '../../lib/util/getActiveTheme.js';
  *   - With arg: dry-run diff of the theme's manifest vs its install snapshot.
  * CI-safe — no prompts, no writes.
  */
-const { argv } = yargs(hideBin(process.argv)).help();
+const argv = yargs(hideBin(process.argv)).help().parseSync();
 const themeId = argv._[1] != null ? String(argv._[1]) : null;
 
 function themeDir(id: string): string {

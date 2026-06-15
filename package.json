@@ -21,7 +21,7 @@
     "theme:export-content": "evershop theme:export-content",
     "compile": "rimraf ./packages/evershop/dist && cd ./packages/evershop && swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths",
     "compile:db": "rimraf ./packages/postgres-query-builder/dist && cd ./packages/postgres-query-builder && swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths",
-    "compile:tsc": "rimraf ./packages/evershop/dist && cd ./packages/evershop && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,css,json}\" dist",
+    "compile:tsc": "rimraf ./packages/evershop/dist && cd ./packages/evershop && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,css,json}\" dist && chmod +x ./dist/bin/evershop.js",
     "start:debug": "node ./packages/evershop/dist/bin/start/index.js --debug",
     "test": "ALLOW_CONFIG_MUTATIONS=true NODE_OPTIONS=--experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:e2e": "npm test --prefix tests/e2e",

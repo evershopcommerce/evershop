@@ -22,7 +22,7 @@ import { assertValidVersion } from '../../lib/theme/version.js';
  * rejected if malformed. The version may be the second positional argument or
  * `--set-version <x.y.z>`.
  */
-const { argv } = yargs(hideBin(process.argv))
+const argv = yargs(hideBin(process.argv))
   .version(false)
   .option('force', { type: 'boolean', default: false })
   // `--set-version`, not `--version`: the top-level `evershop` yargs reserves
@@ -31,7 +31,8 @@ const { argv } = yargs(hideBin(process.argv))
     type: 'string',
     description: 'the SemVer version to stamp into theme.json (required)'
   })
-  .help();
+  .help()
+  .parseSync();
 const rawThemeId = argv._[1] != null ? String(argv._[1]) : undefined;
 // Version: second positional (`theme:export-content boutique 1.2.0`) or the
 // explicit `--set-version` flag.
