@@ -252,6 +252,7 @@ export interface CategoryRow {
   include_in_nav: boolean;
   position: number | null;
   show_products: boolean;
+  meta_data: Record<string, unknown>;
   created_at: Date;
   updated_at: Date;
 }
@@ -338,6 +339,7 @@ export interface CollectionRow {
   name: string;
   description: string | null;
   code: string;
+  meta_data: Record<string, unknown>;
   created_at: Date;
   updated_at: Date;
 }
@@ -392,6 +394,7 @@ export interface CustomerRow {
   email: string;
   password: string;
   full_name: string | null;
+  meta_data: Record<string, unknown>;
   created_at: Date;
   updated_at: Date;
   is_google_login: boolean;
@@ -534,6 +537,7 @@ export interface OrderRow {
   total_tax_amount: string | null;
   status: string | null;
   no_shipping_required: boolean;
+  meta_data: Record<string, unknown>;
 }
 
 export type OrderInsert = Omit<
@@ -682,6 +686,7 @@ export interface ProductRow {
   updated_at: Date;
   category_id: number | null;
   no_shipping_required: boolean;
+  meta_data: Record<string, unknown>;
 }
 
 export type ProductInsert = Omit<

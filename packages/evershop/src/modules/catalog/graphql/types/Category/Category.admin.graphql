@@ -3,6 +3,7 @@ extend type Category {
   updateApi: String!
   deleteApi: String!
   addProductUrl: String
+  metaData: JSON
 }
 
 extend type Product {

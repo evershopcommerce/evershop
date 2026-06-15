@@ -1,0 +1,80 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["ownerType", "fieldKey", "name", "fieldType"],
+  "properties": {
+    "ownerType": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "ownerType must be a string",
+        "minLength": "ownerType is required"
+      }
+    },
+    "namespace": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "errorMessage": {
+        "type": "namespace must be a string",
+        "pattern": "namespace must start with a letter and contain only lowercase letters, digits, or underscores"
+      }
+    },
+    "fieldKey": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "errorMessage": {
+        "type": "fieldKey must be a string",
+        "pattern": "fieldKey must start with a letter and contain only lowercase letters, digits, or underscores"
+      }
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "name must be a string",
+        "minLength": "Field name is required"
+      }
+    },
+    "description": { "type": "string" },
+    "fieldType": {
+      "type": "string",
+      "enum": [
+        "short_text",
+        "long_text",
+        "rich_text",
+        "integer",
+        "number",
+        "boolean",
+        "date",
+        "color",
+        "url",
+        "money",
+        "json",
+        "reference",
+        "group"
+      ],
+      "errorMessage": {
+        "type": "fieldType must be a string",
+        "enum": "fieldType must be one of the supported metafield types"
+      }
+    },
+    "referenceType": { "type": "string" },
+    "isList": { "type": "boolean" },
+    "required": { "type": "boolean" },
+    "translatable": { "type": "boolean" },
+    "visibleToCustomer": { "type": "boolean" },
+    "validations": { "type": "array" },
+    "appearance": { "type": "object" },
+    "subFields": { "type": "array" },
+    "position": { "type": "integer" }
+  },
+  "errorMessage": {
+    "required": {
+      "ownerType": "ownerType is required",
+      "fieldKey": "fieldKey is required",
+      "name": "Field name is required",
+      "fieldType": "fieldType is required"
+    },
+    "additionalProperties": "Unknown property in body — check the payload keys"
+  }
+}

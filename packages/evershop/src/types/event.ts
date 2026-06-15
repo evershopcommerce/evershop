@@ -190,6 +190,28 @@ export interface EventDataRegistry {
     orderId: number;
     trackingNumber: string;
   };
+
+  /**
+   * Fired when a metafield definition is created.
+   * Data: the created metafield_definition (API shape).
+   */
+  metafield_definition_created: Record<string, any>;
+
+  /**
+   * Fired when a metafield definition is updated.
+   * Data: the updated metafield_definition (API shape).
+   */
+  metafield_definition_updated: Record<string, any>;
+
+  /**
+   * Fired when a metafield definition is deleted. Drives per-entity prune
+   * subscribers that strip the key from each owner table's `meta_data`.
+   */
+  metafield_definition_deleted: {
+    ownerType: string;
+    namespace: string;
+    fieldKey: string;
+  };
 }
 
 /**

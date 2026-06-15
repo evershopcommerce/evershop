@@ -1,6 +1,7 @@
 import path from 'path';
 import config from 'config';
 import { CONSTANTS } from '../../lib/helpers.js';
+import { validateMetafields } from '../../lib/metafield/index.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
@@ -12,7 +13,28 @@ import registerDefaultCategoryCollectionFilters from './services/registerDefault
 import registerDefaultCollectionCollectionFilters from './services/registerDefaultCollectionCollectionFilters.js';
 import registerDefaultProductCollectionFilters from './services/registerDefaultProductCollectionFilters.js';
 
+// Fold an entity's submitted `metafields` into its `meta_data` column on save.
+// Runs only when `metafields` is explicitly provided (the edit form sends it),
+// so plain API updates that omit it leave `meta_data` untouched.
+function makeMetafieldFolder(ownerType) {
+  return async function foldMetafields(data) {
+    if (data && data.metafields !== undefined) {
+      data.meta_data = await validateMetafields(ownerType, data.metafields);
+    }
+    return data;
+  };
+}
+
 export default () => {
+  const foldProductMetafields = makeMetafieldFolder('product');
+  addProcessor('productDataBeforeCreate', foldProductMetafields);
+  addProcessor('productDataBeforeUpdate', foldProductMetafields);
+  const foldCategoryMetafields = makeMetafieldFolder('category');
+  addProcessor('categoryDataBeforeCreate', foldCategoryMetafields);
+  addProcessor('categoryDataBeforeUpdate', foldCategoryMetafields);
+  const foldCollectionMetafields = makeMetafieldFolder('collection');
+  addProcessor('collectionDataBeforeCreate', foldCollectionMetafields);
+  addProcessor('collectionDataBeforeUpdate', foldCollectionMetafields);
   addProcessor('cartItemFields', registerCartItemProductUrlField, 0);
   addProcessor('cartItemFields', registerCartItemVariantOptionsField, 0);
   addProcessor('configurationSchema', (schema) => {

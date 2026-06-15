@@ -5,6 +5,7 @@ export { default as updateProduct } from './product/updateProduct.js';
 export * from './product/updateProduct.js';
 export { default as deleteProduct } from './product/deleteProduct.js';
 export * from './product/deleteProduct.js';
+export * from './product/productMetafield.js';
 
 // Categories
 export { default as createCategory } from './category/createCategory.js';
@@ -13,6 +14,7 @@ export { default as updateCategory } from './category/updateCategory.js';
 export * from './category/updateCategory.js';
 export { default as deleteCategory } from './category/deleteCategory.js';
 export * from './category/deleteCategory.js';
+export * from './category/categoryMetafield.js';
 
 // Collections
 export { default as createCollection } from './collection/createCollection.js';
@@ -21,6 +23,7 @@ export { default as updateCollection } from './collection/updateCollection.js';
 export * from './collection/updateCollection.js';
 export { default as deleteCollection } from './collection/deleteCollection.js';
 export * from './collection/deleteCollection.js';
+export * from './collection/collectionMetafield.js';
 
 // Attributes
 // AttributeData is exported from createProductAttribute only to avoid name conflict
