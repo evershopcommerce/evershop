@@ -1,3 +1,4 @@
+import { StandaloneMetafieldCard } from '@components/admin/metafield/StandaloneMetafieldCard.js';
 import { SettingMenu } from '@components/admin/SettingMenu.js';
 import Spinner from '@components/admin/Spinner.js';
 import Area from '@components/common/Area.js';
@@ -7,10 +8,12 @@ import { InputField } from '@components/common/form/InputField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
 import { TelField } from '@components/common/form/TelField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
+import { Button } from '@components/common/ui/Button.js';
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
@@ -18,6 +21,29 @@ import { Item } from '@components/common/ui/Item.js';
 import { Skeleton } from '@components/common/ui/Skeleton.js';
 import React, { useEffect } from 'react';
 import { useQuery } from 'urql';
+
+function ShopCustomFields({
+  setting
+}: {
+  setting?: {
+    metaData?: Record<string, unknown>;
+    storeCurrency?: string;
+    shopMetafieldsApi?: string;
+  } | null;
+}): React.ReactElement | null {
+  // Store-wide custom fields. Rendered as a sibling card BELOW the store-settings
+  // form (same `content` area, higher sortOrder) so its own form doesn't nest
+  // inside the settings form. Values live in the `metafield_shop` singleton.
+  if (!setting?.shopMetafieldsApi) return null;
+  return (
+    <StandaloneMetafieldCard
+      ownerType="shop"
+      values={setting.metaData}
+      currency={setting.storeCurrency ?? 'USD'}
+      saveUrl={setting.shopMetafieldsApi}
+    />
+  );
+}
 
 const ProvincesQuery = `
   query Province($countries: [String]) {
@@ -183,6 +209,9 @@ interface StoreSettingProps {
     storeCity: string;
     storeProvince: string;
     storePostalCode: string;
+    metaData?: Record<string, unknown>;
+    storeCurrency?: string;
+    shopMetafieldsApi?: string;
   };
 }
 
@@ -197,7 +226,10 @@ export default function StoreSetting({
     storeAddress,
     storeCity,
     storeProvince,
-    storePostalCode
+    storePostalCode,
+    metaData,
+    storeCurrency,
+    shopMetafieldsApi
   }
 }: StoreSettingProps) {
   const [selectedCountry, setSelectedCountry] = React.useState(() => {
@@ -216,7 +248,12 @@ export default function StoreSetting({
           <SettingMenu />
         </div>
         <div className="col-span-4">
-          <Form method="POST" id="storeSetting" action={saveSettingApi}>
+          <Form
+            method="POST"
+            id="storeSetting"
+            action={saveSettingApi}
+            submitBtn={false}
+          >
             <Card>
               <CardHeader>
                 <CardTitle>Store Settings</CardTitle>
@@ -324,8 +361,28 @@ export default function StoreSetting({
                   </div>
                 </div>
               </CardContent>
+              <CardFooter>
+                <div className="flex justify-end w-full">
+                  <Button
+                    type="submit"
+                    className="btn btn-primary"
+                    form="storeSetting"
+                  >
+                    Save Settings
+                  </Button>
+                </div>
+              </CardFooter>
             </Card>
           </Form>
+          <div className="mt-6">
+            <ShopCustomFields
+              setting={{
+                metaData,
+                storeCurrency,
+                shopMetafieldsApi
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -351,6 +408,9 @@ export const query = `
       storeCity
       storeProvince
       storePostalCode
+      metaData
+      storeCurrency
+      shopMetafieldsApi
     }
   }
 `;

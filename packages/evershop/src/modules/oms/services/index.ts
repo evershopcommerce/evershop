@@ -2,6 +2,7 @@ import addOrderActivityLog from './addOrderActivityLog.js';
 import cancelOrder from './cancelOrder.js';
 import createShipment from './createShipment.js';
 import markDelivered from './markDelivered.js';
+export * from './orderMetafield.js';
 export {
   voidShipmentLabel,
   hookBeforeVoidShipmentLabel,

@@ -6,6 +6,8 @@ extend type Order {
   shipment: Shipment
   """Items still to ship (shippable items with remaining qty > 0). Admin-only."""
   unshippedItems: [UnshippedOrderItem!]!
+  metaData: JSON
+  updateMetafieldsApi: String!
 }
 
 """

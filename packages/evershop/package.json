@@ -67,6 +67,10 @@
       "import": "./dist/lib/urn/index.js",
       "types": "./dist/lib/urn/index.d.ts"
     },
+    "./lib/metafield": {
+      "import": "./dist/lib/metafield/index.js",
+      "types": "./dist/lib/metafield/index.d.ts"
+    },
     "./lib/cronjob": {
       "import": "./dist/lib/cronjob/jobManager.js",
       "types": "./dist/lib/cronjob/jobManager.d.ts"

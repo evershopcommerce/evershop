@@ -1,4 +1,3 @@
-
 import { Label } from '@components/common/ui/Label.js';
 import { Separator } from '@components/common/ui/Separator.js';
 import { cn } from '@evershop/evershop/lib/util/cn';
@@ -50,7 +49,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 const fieldVariants = cva(
-  'data-[invalid=true]:text-destructive gap-3 group/field flex w-full',
+  'data-[invalid=true]:text-destructive gap-1 group/field flex w-full',
   {
     variants: {
       orientation: {
