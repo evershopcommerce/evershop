@@ -88,6 +88,11 @@
         "pattern": "Collection code cannot contain spaces",
         "minLength": "Collection code is required and cannot be empty"
       }
+    },
+    "metafields": {
+      "type": "object",
+      "skipEscape": true,
+      "errorMessage": { "type": "Custom fields must be an object" }
     }
   },
   "additionalProperties": true

@@ -70,6 +70,10 @@
       "errorMessage": {
         "type": "Description must be an array"
       }
+    },
+    "metafields": {
+      "type": "object",
+      "skipEscape": true
     }
   },
   "additionalProperties": true

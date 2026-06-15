@@ -10,6 +10,9 @@ export * from './customer/updateCustomer.js';
 export { default as deleteCustomer } from './customer/deleteCustomer.js';
 export * from './customer/deleteCustomer.js';
 
+// customer metafields
+export * from './customer/customerMetafield.js';
+
 // updatePassword: default + 4 hooks
 export { default as updatePassword } from './customer/updatePassword.js';
 export * from './customer/updatePassword.js';

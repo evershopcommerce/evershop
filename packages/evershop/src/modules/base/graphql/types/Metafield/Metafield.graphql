@@ -1,0 +1,29 @@
+scalar JSON
+
+enum MetafieldType {
+  SHORT_TEXT
+  LONG_TEXT
+  RICH_TEXT
+  INTEGER
+  NUMBER
+  BOOLEAN
+  DATE
+  COLOR
+  URL
+  MONEY
+  JSON
+  REFERENCE
+  GROUP
+}
+
+"""
+A resolved metafield value on an entity. Shared shape that entity modules expose
+via `extend type <Entity> { metafields }`. The `value` is opaque JSON — a scalar,
+an array, or nested group object(s) — interpreted via the field's definition.
+"""
+type Metafield {
+  namespace: String!
+  key: String!
+  type: MetafieldType!
+  value: JSON
+}

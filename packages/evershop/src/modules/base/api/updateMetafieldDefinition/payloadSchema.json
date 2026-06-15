@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ownerType": { "type": "string" },
+    "namespace": { "type": "string" },
+    "fieldKey": { "type": "string" },
+    "fieldType": { "type": "string" },
+    "isList": { "type": "boolean" },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": { "minLength": "Field name cannot be empty" }
+    },
+    "description": { "type": "string" },
+    "required": { "type": "boolean" },
+    "translatable": { "type": "boolean" },
+    "visibleToCustomer": { "type": "boolean" },
+    "referenceType": { "type": "string" },
+    "validations": { "type": "array" },
+    "appearance": { "type": "object" },
+    "subFields": { "type": "array" },
+    "position": { "type": "integer" }
+  },
+  "errorMessage": {
+    "additionalProperties": "Unknown property in body — check the payload keys"
+  }
+}

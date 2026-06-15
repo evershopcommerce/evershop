@@ -1,0 +1,26 @@
+"""
+The typed, reusable declaration of a metafield. Admin-only: it exposes internal
+config (validations, appearance, hidden fields). Definition WRITES go through REST
+(`/api/metafield-definitions`) — there are no GraphQL mutations.
+"""
+type MetafieldDefinition {
+  uuid: ID!
+  ownerType: String!
+  namespace: String!
+  key: String!
+  name: String!
+  description: String
+  type: MetafieldType!
+  isList: Boolean!
+  required: Boolean!
+  visibleToCustomer: Boolean!
+  referenceType: String
+  validations: JSON
+  subFields: JSON
+  appearance: JSON
+  position: Int!
+}
+
+extend type Query {
+  metafieldDefinitions(ownerType: String!): [MetafieldDefinition!]!
+}
