@@ -14,9 +14,10 @@ import { applyUninstall, previewUninstall } from '../../lib/theme/uninstall.js';
  * theme's content (widgets, placements, drafts, rollouts) after a previewed,
  * confirmed prompt. Refuses non-interactively without `--yes`.
  */
-const { argv } = yargs(hideBin(process.argv))
+const argv = yargs(hideBin(process.argv))
   .option('yes', { alias: 'y', type: 'boolean', default: false })
-  .help();
+  .help()
+  .parseSync();
 const rawThemeId = argv._[1] != null ? String(argv._[1]) : undefined;
 
 async function main(): Promise<void> {

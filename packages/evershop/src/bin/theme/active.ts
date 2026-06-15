@@ -23,7 +23,7 @@ import {
 import { assertValidThemeId } from '../../lib/theme/themeId.js';
 
 const { prompt } = enquirer;
-const { argv } = yargs(hideBin(process.argv))
+const argv = yargs(hideBin(process.argv))
   .option('dry-run', { type: 'boolean', default: false })
   .option('content-only', {
     type: 'boolean',
@@ -36,7 +36,8 @@ const { argv } = yargs(hideBin(process.argv))
     default: false,
     description: 'Skip the post-activation build prompt'
   })
-  .help();
+  .help()
+  .parseSync();
 
 function themeDir(id: string): string {
   return path.join(process.cwd(), 'themes', id);
