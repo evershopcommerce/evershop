@@ -1,5 +1,6 @@
  
 import { FileBrowser } from '@components/admin/FileBrowser.js';
+import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
 import {
   useScopedFieldName,
   useScopedFormContext
@@ -465,7 +466,6 @@ export default function SlideshowSetting({
   // the auto-save doesn't have to wait for a user edit to capture them.
   // Uses an empty dep array intentionally; subsequent renders read live
   // values via watch().
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setValue(
       'settings.slides',
@@ -753,11 +753,9 @@ export default function SlideshowSetting({
               />
             </Field>
             <Field label="Link">
-              <input
-                type="text"
-                {...register(`settings.slides.${idx}.buttonLink` as any)}
-                placeholder="/c/sale"
-                className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              <LinkPicker
+                value={slide.buttonLink || ''}
+                onChange={({ url }) => updateSlide(idx, { buttonLink: url })}
               />
             </Field>
             <Field label="Style">
@@ -803,11 +801,11 @@ export default function SlideshowSetting({
                   />
                 </Field>
                 <Field label="Link">
-                  <input
-                    type="text"
-                    {...register(`settings.slides.${idx}.button2Link` as any)}
-                    placeholder="/about"
-                    className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                  <LinkPicker
+                    value={slide.button2Link || ''}
+                    onChange={({ url }) =>
+                      updateSlide(idx, { button2Link: url })
+                    }
                   />
                 </Field>
                 <Field label="Style">

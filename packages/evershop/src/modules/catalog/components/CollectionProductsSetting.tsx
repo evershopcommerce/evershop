@@ -153,7 +153,6 @@ function CollectionProductsSetting({
 
   useEffect(() => {
     reexecuteQuery({ requestPolicy: 'network-only' });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -163,7 +162,6 @@ function CollectionProductsSetting({
       }
     }, 800);
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
 
   const { data, fetching, error } = result;

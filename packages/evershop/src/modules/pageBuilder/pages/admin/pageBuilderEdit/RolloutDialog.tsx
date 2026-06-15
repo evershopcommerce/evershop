@@ -305,7 +305,6 @@ export function RolloutDialog({
           </label>
           <input
             type="text"
-            autoFocus
             value={name}
             onChange={(e) => setName(e.target.value)}
             onBlur={() => setTouched((t) => ({ ...t, name: true }))}

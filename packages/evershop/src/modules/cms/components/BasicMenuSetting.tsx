@@ -1,4 +1,8 @@
-import Spinner from '@components/admin/Spinner.js';
+import { asArray } from '@components/common/page-builder/drawer/arraySetting.js';
+import {
+  LinkPicker,
+  type LinkKind
+} from '@components/common/page-builder/pickers/LinkPicker.js';
 import { useWidgetSettings } from '@components/common/page-builder/WidgetContext.js';
 import { useScopedFormContext } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Button } from '@components/common/ui/Button.js';
@@ -27,6 +31,7 @@ import {
   verticalListSortingStrategy
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { CatalogUrn, CmsUrn, UrnService } from '@evershop/evershop/lib/urn';
 import {
   ChevronDown,
   GripVertical,
@@ -35,9 +40,7 @@ import {
   Trash2
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import CreatableSelect from 'react-select/creatable';
 import uniqid from 'uniqid';
-import { useQuery } from 'urql';
 
 // ---------------------------------------------------------------------------
 // Drawer-style helpers (mirrored from SlideshowSetting so both widget
@@ -130,30 +133,6 @@ function Section({
     </div>
   );
 }
-
-// ---------------------------------------------------------------------------
-// Data layer.
-// ---------------------------------------------------------------------------
-
-const menuQuery = `
-  query Query ($filters: [FilterInput]) {
-    categories (filters: $filters) {
-      items {
-        value: uuid,
-        label: name
-        path {
-          name
-        }
-      }
-    }
-    cmsPages (filters: $filters) {
-      items {
-        value: uuid,
-        label: name
-      }
-    }
-  }
-`;
 
 interface MenuItem {
   id: string;
@@ -280,7 +259,7 @@ const SortableMenuItem: React.FC<SortableMenuItemProps> = ({
         <Trash2 className="h-3.5 w-3.5" />
       </button>
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="text-sm font-medium">
               {item.id === itemInEdit.id
@@ -300,6 +279,24 @@ const SortableMenuItem: React.FC<SortableMenuItemProps> = ({
 // so we keep the form fields at the usual full-width admin density.
 // ---------------------------------------------------------------------------
 
+// Map a menu item to the value LinkPicker understands: its stored URN or
+// custom URL — or, for items saved before the LinkPicker switch, a URN
+// synthesized from the legacy { type, uuid } shape so the picker re-opens
+// on the right tab with the right entity already selected.
+function toLinkValue(item: MenuItem): string {
+  if (item.url && UrnService.isValid(item.url)) return item.url;
+  if (item.type === 'category' && item.uuid) {
+    return CatalogUrn.category(item.uuid);
+  }
+  if (item.type === 'page' && item.uuid) {
+    return CmsUrn.page(item.uuid);
+  }
+  if (item.type === 'product' && item.uuid) {
+    return CatalogUrn.product(item.uuid);
+  }
+  return item.url || '';
+}
+
 const MenuSettingPopup: React.FC<{
   item: MenuItem;
   updateItem: (item: MenuItem) => void;
@@ -307,63 +304,16 @@ const MenuSettingPopup: React.FC<{
   const [currentItem, setCurrentItem] = React.useState(item);
   const [err, setErr] = React.useState<string | null>(null);
 
-  const [result] = useQuery({
-    query: menuQuery,
-    variables: {
-      filters: []
-    }
-  });
-  const { data, fetching, error } = result;
-
-  if (fetching) {
-    return (
-      <div className="flex items-center justify-center py-6">
-        <Spinner width={25} height={25} />
-      </div>
-    );
-  }
-  if (error) {
-    return <div className="py-4 text-sm text-destructive">{error.message}</div>;
-  }
-
-  const groupOptions = [
-    {
-      label: 'Categories',
-      options: data.categories.items.map((i: any) => ({
-        ...i,
-        label: i.path.map((p: any) => p.name).join(' > ')
-      }))
-    },
-    {
-      label: 'CMS Pages',
-      options: data.cmsPages.items
-    },
-    {
-      label: 'Custom',
-      options:
-        currentItem.type === 'custom'
-          ? [
-              {
-                value: currentItem.uuid,
-                label: currentItem.uuid
-              }
-            ]
-          : []
-    }
-  ];
-
-  const handleCreate = (inputValue: string) => {
-    setCurrentItem({
-      ...item,
-      uuid: inputValue,
-      name: inputValue,
-      url: inputValue,
-      type: 'custom'
-    });
-  };
+  const linkValue = toLinkValue(currentItem);
+  const initialKind: LinkKind =
+    currentItem.type === 'category' ||
+    currentItem.type === 'page' ||
+    currentItem.type === 'product'
+      ? (currentItem.type as LinkKind)
+      : 'custom';
 
   return (
-    <div className="grid grid-flow-row gap-4">
+    <div className="flex min-w-0 flex-col gap-4">
       <Field label="Display name">
         <Input
           id="menuName"
@@ -381,42 +331,41 @@ const MenuSettingPopup: React.FC<{
       </Field>
       <Field
         label="Target"
-        hint="Pick an existing category or page, or type a custom URL."
+        hint="Link to a page, category, product, or a custom URL."
       >
-        <CreatableSelect
-          isClearable
-          onChange={(newValue: any) => {
-            setCurrentItem({
-              ...currentItem,
-              uuid: newValue?.value || '',
-              name: newValue?.label || '',
-              type: newValue?.__typename === 'Category' ? 'category' : 'page'
-            });
-          }}
-          onCreateOption={handleCreate}
-          options={groupOptions}
-          value={{
-            value: currentItem.uuid,
-            label:
-              currentItem.type === 'custom'
-                ? currentItem.uuid
-                : [
-                    ...groupOptions[0].options,
-                    ...groupOptions[1].options
-                  ].find((option: any) => option.value === currentItem.uuid)
-                    ?.label || ''
-          }}
+        <LinkPicker
+          value={linkValue}
+          initialKind={initialKind}
+          onChange={(next) =>
+            setCurrentItem((prev) => ({
+              ...prev,
+              url: next.url,
+              type: next.kind,
+              // Keep uuid aligned with the picked entity. The URN already
+              // carries the id, but a populated uuid keeps the resolver's
+              // legacy fallback (and any older reader) working.
+              uuid: UrnService.isValid(next.url)
+                ? UrnService.parse(next.url).uuid
+                : next.url,
+              // Seed the display name from the entity on first pick; never
+              // clobber a name the merchant has already typed.
+              name:
+                prev.name && prev.name.trim()
+                  ? prev.name
+                  : next.label ?? prev.name
+            }))
+          }
         />
       </Field>
       {err && <div className="text-xs text-destructive">{err}</div>}
       <div className="flex justify-end">
         <Button
           onClick={() => {
-            if (currentItem.uuid === '') {
-              setErr('Please select a menu item');
+            if (!currentItem.url) {
+              setErr('Please choose a link target');
               return;
             }
-            if (currentItem.name === '') {
+            if (!currentItem.name) {
               setErr('Please enter a name');
               return;
             }
@@ -452,9 +401,13 @@ export default function BasicMenuSetting({
   // both `<WidgetChrome>` and the storefront's `<WidgetContextProvider>`
   // expose them, so this is reliable in both contexts.
   const widgetSettings = useWidgetSettings();
-  const menus: MenuItem[] =
-    basicMenuWidget?.menus ??
-    ((widgetSettings.menus as MenuItem[] | undefined) ?? []);
+  // Coerce to an array: the legacy editor seeds list settings as a JSON
+  // string, and a half-added widget can persist a stray "[]" — either would
+  // crash the array consumers below (`items.map`).
+  const menus: MenuItem[] = asArray<MenuItem>(
+    basicMenuWidget?.menus ?? widgetSettings.menus,
+    []
+  );
   const isMain: boolean =
     basicMenuWidget?.isMain ?? Boolean(widgetSettings.isMain ?? false);
   const className: string =
@@ -557,7 +510,6 @@ export default function BasicMenuSetting({
       return;
     }
     setValue('settings.menus', items);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
   return (
@@ -574,7 +526,7 @@ export default function BasicMenuSetting({
                 </Button>
               }
             />
-            <DialogContent>
+            <DialogContent className="sm:max-w-lg">
               <DialogHeader>
                 <DialogTitle className="text-sm font-medium">
                   Add menu item

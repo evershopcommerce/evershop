@@ -10,6 +10,25 @@ import {
 import { cn } from '@evershop/evershop/lib/util/cn';
 import React from 'react';
 
+/**
+ * Coerce a list setting into an array. Menu settings normally arrive as a
+ * real array, but a half-configured widget can persist them as a JSON
+ * string (the legacy editor seeds list fields as stringified hidden
+ * inputs) — guard so `.map`/`.length` never run on a string.
+ */
+function toMenuArray<T>(value: unknown): T[] {
+  if (Array.isArray(value)) return value as T[];
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? (parsed as T[]) : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
 interface BasicMenuProps {
   basicMenuWidget: {
     menus: {
@@ -30,6 +49,8 @@ interface BasicMenuProps {
   };
 }
 
+type BasicMenuNode = BasicMenuProps['basicMenuWidget']['menus'][number];
+
 export default function BasicMenu({
   basicMenuWidget: { menus, isMain, className }
 }: BasicMenuProps) {
@@ -40,6 +61,11 @@ export default function BasicMenu({
   React.useEffect(() => {
     setCurrentPath(window.location.pathname);
   }, []);
+
+  const menuItems = toMenuArray<BasicMenuNode>(menus).map((item) => ({
+    ...item,
+    children: toMenuArray<BasicMenuNode['children'][number]>(item.children)
+  }));
 
   const isActive = (url: string) => {
     if (url === '/') {
@@ -96,7 +122,7 @@ export default function BasicMenu({
             >
               <NavigationMenu className="evershop-basic-menu__menu w-full max-w-full">
                 <NavigationMenuList className="evershop-basic-menu__items flex-col md:flex-row items-start md:items-center w-full md:w-auto">
-                  {menus.map((item) => (
+                  {menuItems.map((item) => (
                     <NavigationMenuItem
                       key={item.uuid}
                       className="evershop-basic-menu__item w-full md:w-auto"

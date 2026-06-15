@@ -520,6 +520,10 @@ export default function Slideshow({
           // contenteditable child so editing the headline / button doesn't
           // navigate.
           const inner = (
+            // Mouse-only edit guard: cancels navigation when a click lands on
+            // a contenteditable child (inline headline/button editing). Not a
+            // keyboard-interactive control — the wrapping <a> handles activation.
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div
               className={`evershop-slideshow__view relative w-full overflow-hidden ${aspectClass}`}
               onClick={(e) => {

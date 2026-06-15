@@ -41,8 +41,12 @@ export default function RoutePicker({ routes, editUrlBase }: RoutePickerProps) {
               No routes have opted into page-builder editing yet.
             </p>
             <p className="text-sm text-muted-foreground">
-              Add <code className="text-xs bg-muted/40 px-1 rounded">"editable": true</code>{' '}
-              to a storefront route's <code className="text-xs">route.json</code> to make it appear here.
+              Add{' '}
+              <code className="text-xs bg-muted/40 px-1 rounded">
+                {'"editable": true'}
+              </code>{' '}
+              to a storefront route&apos;s{' '}
+              <code className="text-xs">route.json</code> to make it appear here.
             </p>
           </div>
         ) : (
