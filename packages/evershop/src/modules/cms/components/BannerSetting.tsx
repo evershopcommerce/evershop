@@ -9,6 +9,7 @@ import { CtaField } from '@components/common/page-builder/fields/CtaField.js';
 import type { CtaValue } from '@components/common/page-builder/fields/CtaField.js';
 import { ImagePickerField } from '@components/common/page-builder/fields/ImagePickerField.js';
 import { MarkdownBodyField } from '@components/common/page-builder/fields/MarkdownBodyField.js';
+import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
 import { useScopedFormContext } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Button } from '@components/common/ui/Button.js';
 import {
@@ -231,6 +232,7 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
   const cta2V = (watch('settings.cta2') as CtaValue | null) ?? cta2 ?? null;
   const mobileImageV =
     (watch('settings.mobileImage') as string) ?? mobileImage ?? '';
+  const linkV = (watch('settings.link') as string) ?? link ?? '';
 
   const [openFileBrowser, setOpenFileBrowser] = useState(false);
   const [imageDimensions, setImageDimensions] = useState({
@@ -610,12 +612,11 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
           label="Banner link"
           hint="Optional. Clicking the banner navigates here."
         >
-          <input
-            type="text"
-            {...register('settings.link')}
-            defaultValue={link ?? ''}
-            placeholder="/c/sale or https://example.com"
-            className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+          <LinkPicker
+            value={linkV}
+            onChange={({ url }) =>
+              setValue('settings.link', url, { shouldDirty: true })
+            }
           />
         </Field>
       </Section>
@@ -654,6 +655,11 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
         type="hidden"
         {...register('settings.mobileImageHeight', { valueAsNumber: true })}
         defaultValue={mobileImageHeight ?? 0}
+      />
+      <input
+        type="hidden"
+        {...register('settings.link')}
+        defaultValue={link ?? ''}
       />
     </div>
   );

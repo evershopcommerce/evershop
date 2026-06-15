@@ -71,7 +71,7 @@ export function EntitySearchList({
         </div>
       )}
       {!loading && items.length > 0 && (
-        <ul className="space-y-1">
+        <ul className="max-h-72 space-y-1 overflow-y-auto overflow-x-hidden pr-1">
           {items.map((it) => {
             const active = selectedId === it.id;
             return (

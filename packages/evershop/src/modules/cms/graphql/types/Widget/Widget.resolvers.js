@@ -3,6 +3,11 @@ import sanitizeHtml from 'sanitize-html';
 import uniqid from 'uniqid';
 import { error } from '../../../../../lib/log/logger.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import {
+  CatalogUrn,
+  CmsUrn,
+  UrnService
+} from '../../../../../lib/urn/index.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { getActiveTheme } from '../../../../../lib/util/getActiveTheme.js';
 import { resolveLink } from '../../../../../lib/widget/linkResolver.js';
@@ -12,7 +17,6 @@ import {
 } from '../../../../../lib/widget/widgetManager.js';
 import { applyOverlayToWidgets } from '../../../../pageBuilder/services/applyOverlayToWidgets.js';
 import { loadActiveOps } from '../../../../pageBuilder/services/loadActiveOps.js';
-import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js';
 import { getWidgetsBaseQuery } from '../../../services/getWidgetsBaseQuery.js';
 import { WidgetCollection } from '../../../services/WidgetCollection.js';
 
@@ -913,73 +917,68 @@ export default {
         divider: divider !== undefined ? Boolean(divider) : false
       };
     },
-    basicMenuWidget: async (_, { settings }, { pool }) => {
-      const categories = [];
-      const pages = [];
-      const menus = settings?.menus || undefined;
+    basicMenuWidget: async (_, { settings }, { linkLoaders }) => {
+      // Menu list settings arrive as a real array from the page-builder
+      // drawer, but the legacy widget editor seeds list fields as a JSON
+      // *string* (a stringified hidden input). A half-added widget can even
+      // persist a stray "[]" string — truthy, so it sneaks past a plain
+      // `if (!menus)` and then `menus.map` throws "is not a function".
+      // Coerce so `.map` never sees a string.
+      const toArray = (value) => {
+        if (Array.isArray(value)) return value;
+        if (typeof value === 'string') {
+          try {
+            const parsed = JSON.parse(value);
+            return Array.isArray(parsed) ? parsed : [];
+          } catch {
+            return [];
+          }
+        }
+        return [];
+      };
+      const menus = toArray(settings?.menus);
       const isMain = [1, '1', 'true', true].includes(settings?.isMain) || false;
-      if (!menus) {
+      if (menus.length === 0) {
         return { menus: [] };
       }
 
-      for (const menu of menus) {
-        if (menu.type === 'category') {
-          categories.push(menu.uuid);
+      // Each menu item now stores its link as a URN (or a custom URL) in
+      // `url`, resolved at request time via the shared link loaders — same
+      // as every other widget. Items saved before the LinkPicker switch
+      // only carry the legacy { type, uuid } shape, so synthesize a URN
+      // from that when no URN is present. No data migration needed.
+      const linkValueOf = (item) => {
+        if (item.url && UrnService.isValid(item.url)) return item.url;
+        if (item.type === 'category' && item.uuid) {
+          return CatalogUrn.category(item.uuid);
         }
-        if (menu.type === 'page') {
-          pages.push(menu.uuid);
+        if (item.type === 'page' && item.uuid) {
+          return CmsUrn.page(item.uuid);
         }
-        menu.children.forEach((child) => {
-          if (child.type === 'category') {
-            categories.push(child.uuid);
-          }
-          if (child.type === 'page') {
-            pages.push(child.uuid);
-          }
-        });
-      }
-      let urls = [];
-      if (categories.length > 0) {
-        const rewrites = await select()
-          .from('url_rewrite')
-          .where('entity_uuid', 'IN', categories)
-          .execute(pool);
-        urls = urls.concat(
-          rewrites.map((r) => ({
-            uuid: r.entity_uuid,
-            url: r.request_path
-          }))
-        );
-      }
-      if (pages.length > 0) {
-        const query = getCmsPagesBaseQuery();
-        query.where('uuid', 'IN', pages);
-        const cmsPages = await query.execute(pool);
-        urls = urls.concat(
-          cmsPages.map((p) => ({
-            uuid: p.uuid,
-            url: buildUrl('cmsPageView', { url_key: p.url_key })
-          }))
-        );
-      }
-      const items = menus.map((menu) => {
-        const url = urls.find((u) => u.uuid === menu.uuid);
-        return {
-          ...menu,
-          id: uniqid(),
+        if (item.type === 'product' && item.uuid) {
+          return CatalogUrn.product(item.uuid);
+        }
+        return item.url || null; // custom URL (or already-resolved legacy url)
+      };
 
-          url: url ? url.url : menu.type === 'custom' ? menu.url : null,
-          children: menu.children.map((child) => {
-            const url = urls.find((u) => u.uuid === child.uuid);
-            return {
-              ...child,
-              id: uniqid(),
-
-              url: url ? url.url : child.type === 'custom' ? child.url : null
-            };
-          })
-        };
+      const resolveItem = async (item) => ({
+        ...item,
+        id: uniqid(),
+        url:
+          (await resolveLink(linkValueOf(item), linkLoaders)) ??
+          (item.type === 'custom' ? item.url : null),
+        children: await Promise.all(
+          toArray(item.children).map(async (child) => ({
+            ...child,
+            id: uniqid(),
+            url:
+              (await resolveLink(linkValueOf(child), linkLoaders)) ??
+              (child.type === 'custom' ? child.url : null)
+          }))
+        )
       });
+
+      const items = await Promise.all(menus.map(resolveItem));
       return { menus: items, isMain, className: settings?.className };
     }
   },

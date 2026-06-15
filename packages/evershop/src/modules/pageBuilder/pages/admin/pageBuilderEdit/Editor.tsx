@@ -474,7 +474,6 @@ export default function Editor({
   // to surface (we need to know if the existing draft has any ops).
   useEffect(() => {
     refetchOps({ requestPolicy: 'network-only' });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Exit-confirm state. `pendingSavesCount` is incremented when an op
@@ -726,7 +725,6 @@ export default function Editor({
       { ...(current as any), block: nextBlock },
       { keepDirtyValues: true, keepTouched: true, keepErrors: true }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedWidget?.uid]);
 
   const [pagesResult] = useQuery({ query: PAGES_QUERY });
@@ -2607,6 +2605,7 @@ export default function Editor({
           {/* Canvas — iframe (relative so the drawer can absolute-position over it).
             Click on the padding area (target === currentTarget) deselects the
             current widget when the drawer isn't pinned. Spec § 7.5. */}
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- click-empty-canvas-to-deselect is a mouse convenience; keyboard users deselect via the layers panel / Escape */}
           <main
             className="flex-1 bg-muted/20 p-4 overflow-hidden relative"
             onClick={(e) => {
