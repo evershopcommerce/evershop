@@ -311,6 +311,77 @@ export default () => {
   });
 
   registerWidget({
+    type: 'footer_menu',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/FooterMenuSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/FooterMenu.js'
+    ),
+    previewComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/FooterMenuPreview.js'
+    ),
+    name: 'Footer menu',
+    description:
+      'Multi-column list of footer links — a titled column of navigation links per group.',
+    category: 'navigation',
+    icon: 'Columns',
+    defaultSettings: {
+      columns: [
+        {
+          id: 'col-1',
+          title: 'Shop',
+          links: [
+            { id: 'lnk-1-1', label: 'New arrivals', url: '/' },
+            { id: 'lnk-1-2', label: 'Coffee', url: '/' },
+            { id: 'lnk-1-3', label: 'Tea', url: '/' },
+            { id: 'lnk-1-4', label: 'Equipment', url: '/' }
+          ]
+        },
+        {
+          id: 'col-2',
+          title: 'Learn',
+          links: [
+            { id: 'lnk-2-1', label: 'Brew guides', url: '/' },
+            { id: 'lnk-2-2', label: 'Our sourcing', url: '/' },
+            { id: 'lnk-2-3', label: 'The journal', url: '/' }
+          ]
+        },
+        {
+          id: 'col-3',
+          title: 'Care',
+          links: [
+            { id: 'lnk-3-1', label: 'Shipping & returns', url: '/' },
+            { id: 'lnk-3-2', label: 'Track an order', url: '/' },
+            { id: 'lnk-3-3', label: 'Contact us', url: '/' }
+          ]
+        }
+      ]
+    },
+    enabled: true,
+    schema: {
+      type: 'object',
+      additionalProperties: true,
+      properties: {
+        // Columns are deeply nested ({ title, links: [{ label, url }] });
+        // allow any object payload and let the resolver coerce.
+        columns: { type: 'array', items: { type: 'object' } as any }
+      }
+    },
+    graphql: {
+      typeDefs: `
+        type FooterMenuWidgetSettings {
+          columns: JSON
+        }
+      `,
+      settingsType: 'FooterMenuWidgetSettings'
+    }
+  });
+
+  registerWidget({
     type: 'banner',
     settingComponent: path.resolve(
       CONSTANTS.MODULESPATH,

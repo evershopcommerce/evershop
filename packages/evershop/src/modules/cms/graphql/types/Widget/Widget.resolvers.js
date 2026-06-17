@@ -625,6 +625,29 @@ export default {
           showParentLink !== undefined ? Boolean(showParentLink) : true
       };
     },
+    footerMenuWidget: async (_, { columns }, { linkLoaders }) => {
+      const safeColumns = (Array.isArray(columns) ? columns : []).filter(
+        (c) => c && typeof c === 'object'
+      );
+      // Resolve every link url (URN → current URL). Promise.all keeps them in
+      // the same microtask so the link loaders batch across all rows.
+      const resolvedColumns = await Promise.all(
+        safeColumns.map(async (c) => ({
+          ...c,
+          links: Array.isArray(c.links)
+            ? await Promise.all(
+                c.links.map(async (l) => ({
+                  ...l,
+                  url: l
+                    ? (await resolveLink(l.url, linkLoaders)) ?? null
+                    : null
+                }))
+              )
+            : []
+        }))
+      );
+      return { columns: resolvedColumns };
+    },
     separatorWidget(_, { size, showLine, lineColor }) {
       const allowedSizes = ['xs', 'sm', 'md', 'lg', 'xl'];
       return {
@@ -961,19 +984,27 @@ export default {
         return item.url || null; // custom URL (or already-resolved legacy url)
       };
 
+      // Cast the link-attribute flags to booleans: legacy items predate them
+      // (undefined → false) and JSON-stored values can be stringy.
       const resolveItem = async (item) => ({
         ...item,
         id: uniqid(),
         url:
           (await resolveLink(linkValueOf(item), linkLoaders)) ??
           (item.type === 'custom' ? item.url : null),
+        newTab: Boolean(item.newTab),
+        nofollow: Boolean(item.nofollow),
+        noReferrer: Boolean(item.noReferrer),
         children: await Promise.all(
           toArray(item.children).map(async (child) => ({
             ...child,
             id: uniqid(),
             url:
               (await resolveLink(linkValueOf(child), linkLoaders)) ??
-              (child.type === 'custom' ? child.url : null)
+              (child.type === 'custom' ? child.url : null),
+            newTab: Boolean(child.newTab),
+            nofollow: Boolean(child.nofollow),
+            noReferrer: Boolean(child.noReferrer)
           }))
         )
       });

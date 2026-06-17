@@ -189,6 +189,9 @@ type Menu {
   children: [Menu]
   type: String!
   uuid: String
+  newTab: Boolean
+  nofollow: Boolean
+  noReferrer: Boolean
 }
 
 """
@@ -487,6 +490,16 @@ type TieredCategoriesWidget {
 }
 
 """
+Footer menu widget — a row of titled columns, each holding a flat list of
+links. `columns` JSON: [{ id, title, links: [{ id, label, url }] }]. Each
+link `url` is resolved from its stored value (URN → current URL) at request
+time.
+"""
+type FooterMenuWidget {
+  columns: JSON
+}
+
+"""
 Bento grid widget — asymmetric mosaic of CTA tiles. First tile is the
 hero; remaining tiles are supporting (max 4). `tiles` JSON:
 { id, image, imageAlt, backgroundColor, eyebrow, heading, body, link, textColor, size }.
@@ -700,6 +713,7 @@ extend type Query {
     imageAspect: String
     showParentLink: Boolean
   ): TieredCategoriesWidget
+  footerMenuWidget(columns: JSON): FooterMenuWidget
   bentoGridWidget(
     tiles: JSON
     gap: String
