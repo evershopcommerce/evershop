@@ -9,28 +9,37 @@ interface FooterProps {
 export function Footer({ copyRight }: FooterProps) {
   return (
     <footer className="footer bg-gray-100 mt-24 pt-2.5 pb-2.5 border-t border-gray-300">
-      <Area id="footerTop" className="footer__top" isGlobal />
+      <Area
+        id="footerTop"
+        className="footer__top"
+        isGlobal
+        editableInPageBuilder
+      />
       <div className="footer__middle flex justify-between items-center">
         <Area
           id="footerMiddleLeft"
           className="footer__middle__left"
           isGlobal
+          editableInPageBuilder
         />
         <Area
           id="footerMiddleCenter"
           className="footer__middle__center"
           isGlobal
+          editableInPageBuilder
         />
         <Area
           id="footerMiddleRight"
           className="footer__middle__right"
           isGlobal
+          editableInPageBuilder
         />
       </div>
       <Area
         id="footerBottom"
         className="footer__bottom"
         isGlobal
+        editableInPageBuilder
         coreComponents={[
           {
             component: {
