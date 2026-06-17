@@ -2,6 +2,9 @@ extend type Setting {
   storeName: String
   storeDescription: String
   storeLanguage: String
+  storeLanguages: [String]
+  adminLanguage: String
+  installedLocales: [String]
   storeCurrency: String
   storeTimeZone: String
   storePhoneNumber: String

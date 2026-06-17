@@ -2,6 +2,12 @@ import { access } from 'fs/promises';
 import path from 'path';
 import { select } from '@evershop/postgres-query-builder';
 import { CONSTANTS } from '../../../../../lib/helpers.js';
+import {
+  getActiveLocale,
+  getLocaleContext,
+  localizeUrl
+} from '../../../../../lib/locale/localeContext.js';
+import { buildHreflangAlternates } from '../../../../../lib/locale/localeResolution.js';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { get } from '../../../../../lib/util/get.js';
 import { getBaseUrl } from '../../../../../lib/util/getBaseUrl.js';
@@ -14,6 +20,9 @@ export default {
   Query: {
     pageInfo: async (root, args, context) => ({
       url: get(context, 'currentUrl'),
+      // Resolved request locale — feeds <html lang>-parity for og:locale (root.locale
+      // fallback in the ogInfo resolver) and the PageInfo.locale field.
+      locale: getActiveLocale(),
       title: get(
         context,
         'pageInfo.title',
@@ -38,11 +47,39 @@ export default {
     })
   },
   PageInfo: {
+    // hreflang alternates (spec §6.17): one absolute URL per enabled locale (prefix swap,
+    // shared slugs) + x-default. [] for single-locale / admin (available is [locale] there).
+    alternates: (root, args, context) => {
+      const ctx = getLocaleContext();
+      if (!ctx) {
+        return [];
+      }
+      // Pass the full request URL (query included) so each alternate matches the page's
+      // own query-bearing canonical (canonicalUrl = currentUrl = baseUrl + originalUrl).
+      return buildHreflangAlternates(
+        context.originalUrl || '/',
+        ctx.defaultLocale,
+        ctx.available,
+        getBaseUrl()
+      );
+    },
     breadcrumbs: async (root, args, context) => {
       // Strip query string first — in page-builder preview the URL carries
       // `?changeset=…&ajax=true`, so `originalUrl === '/'` would never match
       // and the homepage would render a breadcrumb that production doesn't.
-      const urlPath = (context.originalUrl ?? '').split('?')[0];
+      let urlPath = (context.originalUrl ?? '').split('?')[0];
+      // Strip the /<locale> prefix so the url_rewrite lookup matches the canonical
+      // (unprefixed) request_path on a non-default-locale page (spec §6.18). No-op for
+      // the default locale / off-request. NOTE: breadcrumb item URLs are localized in P6.
+      const localeCtx = getLocaleContext();
+      if (localeCtx && localeCtx.locale !== localeCtx.defaultLocale) {
+        const prefix = `/${localeCtx.locale}`;
+        if (urlPath === prefix) {
+          urlPath = '/';
+        } else if (urlPath.startsWith(`${prefix}/`)) {
+          urlPath = urlPath.slice(prefix.length);
+        }
+      }
       // Check if the current page is home page
       if (urlPath === '/' || urlPath === '') {
         return [];
@@ -59,7 +96,7 @@ export default {
         return [
           {
             title: translate('Home'),
-            url: '/'
+            url: localizeUrl('/')
           },
           {
             title: get(context, 'pageInfo.title', ''),
@@ -75,7 +112,7 @@ export default {
         const breadcrumbs = [
           {
             title: translate('Home'),
-            url: '/'
+            url: localizeUrl('/')
           }
         ];
         for (let i = 0; i < paths.length; i += 1) {
@@ -96,7 +133,8 @@ export default {
           if (category) {
             breadcrumbs.push({
               title: category.name,
-              url: `${paths.slice(0, i + 1).join('/')}`
+              // Canonical (unprefixed) url_rewrite path → add the locale prefix.
+              url: localizeUrl(`${paths.slice(0, i + 1).join('/')}`)
             });
           } else {
             continue;

@@ -1,17 +1,46 @@
 import Handlebars from 'handlebars';
-import { getSetting } from '../../modules/setting/services/setting.js';
+import {
+  getSetting,
+  getStoreLanguage
+} from '../../modules/setting/services/setting.js';
 import { countries } from '../locale/countries.js';
 import { provinces } from '../locale/provinces.js';
 import { getBaseUrl } from '../util/getBaseUrl.js';
 import { getConfig } from '../util/getConfig.js';
 import { addProcessor, getValue, getValueSync } from '../util/registry.js';
 
+/**
+ * A locale string `Intl.*` will accept. Malformed tags — the underscore form (`en_US`),
+ * a stray `translations/` folder name, a single char — make `Intl.NumberFormat`/
+ * `DateTimeFormat` throw `RangeError`, which inside a Handlebars helper aborts the whole
+ * email render and silently drops the message. Validate once; fall back to the config
+ * language, then `'en'` (always valid). (P7b — the currency helper was throw-proof when
+ * it hardcoded `'en-US'`; resolving the locale dynamically reintroduced the risk.)
+ */
+function safeLocale(candidate: unknown): string {
+  const locale =
+    (typeof candidate === 'string' && candidate) ||
+    getConfig('shop.language', 'en');
+  try {
+    Intl.getCanonicalLocales(locale);
+    return locale;
+  } catch {
+    return 'en';
+  }
+}
+
 Handlebars.registerHelper('currency', function (value) {
   if (value == null) return '';
 
   const number = Number(value);
 
-  return new Intl.NumberFormat('en-US', {
+  // Handlebars always passes its options hash as the last argument; the per-render
+  // locale is injected via the `data` frame in buildEmailBodyFromTemplate. Falls back
+  // to the config language (was a hardcoded 'en-US' — P7b).
+  const options = arguments[arguments.length - 1];
+  const locale = safeLocale(options?.data?.locale);
+
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: getConfig('shop.currency', 'USD'),
     minimumFractionDigits: 0,
@@ -34,7 +63,11 @@ Handlebars.registerHelper('date', function (value, format = 'MMM DD, YYYY') {
 
   if (isNaN(date.getTime())) return '';
 
-  return new Intl.DateTimeFormat(getConfig('shop.language', 'en'), {
+  // Same per-render locale as the currency helper (was config-only).
+  const options = arguments[arguments.length - 1];
+  const locale = safeLocale(options?.data?.locale);
+
+  return new Intl.DateTimeFormat(locale, {
     year: 'numeric',
     month: 'short',
     day: '2-digit'
@@ -48,6 +81,13 @@ export type SendEmailArguments = {
   body?: string;
   template: string;
   data: EmailData;
+  /**
+   * Locale to render this email in (subject is translated by the caller; this drives the
+   * body's currency/date formatting). Off-request (D7) there is no ALS locale, so callers
+   * resolve it explicitly. Defaults to `getStoreLanguage()` when omitted. Forward-compat:
+   * a caller can pass an order/customer's preferred locale once that is persisted.
+   */
+  locale?: string;
   [key: string]: unknown;
 };
 
@@ -181,9 +221,13 @@ export async function sendEmail(
   }
   validateSendEmailArguments(finalArgs);
   if (!finalArgs.body) {
+    // Off-request renders have no ALS locale (D7): use the caller-supplied locale, else
+    // the store default. Drives the currency/date helpers in the template.
+    const locale = finalArgs.locale ?? (await getStoreLanguage());
     const body = await buildEmailBodyFromTemplate(
       finalArgs.template,
-      finalArgs.data || {}
+      finalArgs.data || {},
+      locale
     );
     finalArgs.body = body;
   }
@@ -221,11 +265,16 @@ export interface EmailData {
  */
 export async function buildEmailBodyFromTemplate(
   template: string,
-  data: EmailData
+  data: EmailData,
+  locale?: string
 ): Promise<string> {
   try {
     const preparedData = await prepareData(data);
-    const body = Handlebars.compile(template)(preparedData);
+    // Pass the locale through Handlebars' private `data` frame so the currency/date
+    // helpers can read it (`options.data.locale`) without polluting the template context.
+    const body = Handlebars.compile(template)(preparedData, {
+      data: { locale: locale || getConfig('shop.language', 'en') }
+    });
     return body;
   } catch (error) {
     throw new Error(`Failed to build email body from template: ${error}`);

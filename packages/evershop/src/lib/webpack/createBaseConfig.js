@@ -7,7 +7,6 @@ import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { CONSTANTS } from '../helpers.js';
 import { getEnabledTheme } from '../util/getEnabledTheme.js';
 import isProductionMode from '../util/isProductionMode.js';
-import { loadCsvTranslationFiles } from './loaders/loadTranslationFromCsv.js';
 
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -66,18 +65,6 @@ export function createBaseConfig(isServer) {
             CONSTANTS.LIBPATH,
             'webpack/loaders/GraphqlLoader.js'
           )
-        },
-        {
-          loader: path.resolve(
-            CONSTANTS.LIBPATH,
-            'webpack/loaders/TranslationLoader.js'
-          ),
-          options: {
-            getTranslateData: async () => {
-              const result = await loadCsvTranslationFiles();
-              return result;
-            }
-          }
         }
       ]
     }

@@ -259,4 +259,61 @@ describe('createEventProcessor', () => {
       expect(storage.markDoneAndDelete).toHaveBeenCalledWith('uuid-3');
     });
   });
+
+  // --- beforeBatch hook (per-batch settings refresh) ---
+
+  describe('beforeBatch hook', () => {
+    it('runs once before subscribers on a non-empty batch', async () => {
+      const calls = [];
+      const beforeBatch = jest.fn(async () => calls.push('refresh'));
+      callSubscribers.mockImplementation(async () => calls.push('subscribers'));
+      storage.claimBatch.mockResolvedValue([makeEvent('order_placed', 'u1')]);
+      const { loadAndProcess } = createEventProcessor({
+        storage,
+        subscribers: makeSubscribers('order_placed', jest.fn()),
+        beforeBatch
+      });
+
+      await loadAndProcess();
+      await new Promise((r) => setImmediate(r));
+
+      expect(beforeBatch).toHaveBeenCalledTimes(1);
+      // refresh happens before subscribers run
+      expect(calls[0]).toBe('refresh');
+    });
+
+    it('does NOT run on an empty batch (no idle refresh)', async () => {
+      const beforeBatch = jest.fn().mockResolvedValue(undefined);
+      storage.claimBatch.mockResolvedValue([]);
+      const { loadAndProcess } = createEventProcessor({
+        storage,
+        subscribers: [],
+        beforeBatch
+      });
+
+      await loadAndProcess();
+
+      expect(beforeBatch).not.toHaveBeenCalled();
+    });
+
+    it('logs and continues processing when beforeBatch rejects (never drops events)', async () => {
+      const beforeBatch = jest
+        .fn()
+        .mockRejectedValue(new Error('refresh failed'));
+      storage.claimBatch.mockResolvedValue([makeEvent('order_placed', 'u1')]);
+      const { loadAndProcess } = createEventProcessor({
+        storage,
+        subscribers: makeSubscribers('order_placed', jest.fn()),
+        beforeBatch
+      });
+
+      await loadAndProcess();
+      await new Promise((r) => setImmediate(r));
+
+      expect(error).toHaveBeenCalled();
+      // events still processed despite the refresh failure
+      expect(callSubscribers).toHaveBeenCalledTimes(1);
+      expect(storage.markDoneAndDelete).toHaveBeenCalledWith('u1');
+    });
+  });
 });

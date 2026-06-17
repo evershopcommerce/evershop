@@ -5,6 +5,7 @@ import Area from '@components/common/Area.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { Form, useFormContext } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
+import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
 import { TelField } from '@components/common/form/TelField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
@@ -19,7 +20,9 @@ import {
 } from '@components/common/ui/Card.js';
 import { Item } from '@components/common/ui/Item.js';
 import { Skeleton } from '@components/common/ui/Skeleton.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 
 function ShopCustomFields({
@@ -169,6 +172,61 @@ const Country: React.FC<{
   );
 };
 
+/** Native display name for a locale code (autonym), falling back to the upper-cased code. */
+function localeLabel(code: string): string {
+  try {
+    return new Intl.DisplayNames([code], { type: 'language' }).of(code) ?? code;
+  } catch {
+    return code.toUpperCase();
+  }
+}
+
+const LanguageSettings: React.FC<{
+  storeLanguage: string;
+  storeLanguages: string[];
+  adminLanguage: string;
+  installedLocales: string[];
+}> = ({ storeLanguage, storeLanguages, adminLanguage, installedLocales }) => {
+  const options = installedLocales.map((code) => ({
+    value: code,
+    label: localeLabel(code)
+  }));
+  // "Additional languages" never lists the default — it's always included implicitly
+  // (enabled set = default + additional), so offering it here would be confusing.
+  const additionalOptions = options.filter((o) => o.value !== storeLanguage);
+  return (
+    <CardContent className="pt-3 border-t border-border">
+      <CardTitle>Languages</CardTitle>
+      <div className="space-y-3 mt-5">
+        <SelectField
+          name="storeLanguage"
+          label="Default language"
+          defaultValue={storeLanguage}
+          required
+          options={options}
+          helperText="The storefront's primary language. Pages in this language have no URL prefix."
+        />
+        <ReactSelectField
+          name="storeLanguages"
+          label="Additional languages"
+          isMulti
+          defaultValue={storeLanguages}
+          options={additionalOptions}
+          helperText="Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here."
+        />
+        <SelectField
+          name="adminLanguage"
+          label="Admin panel language"
+          defaultValue={adminLanguage}
+          required
+          options={options}
+          helperText="The language of the admin panel, independent of the storefront."
+        />
+      </div>
+    </CardContent>
+  );
+};
+
 const StorePhoneNumber: React.FC<{ storePhoneNumber: string }> = ({
   storePhoneNumber
 }) => {
@@ -202,6 +260,10 @@ interface StoreSettingProps {
   setting: {
     storeName: string;
     storeDescription: string;
+    storeLanguage: string;
+    storeLanguages: string[];
+    adminLanguage: string;
+    installedLocales: string[];
     storePhoneNumber: string;
     storeEmail: string;
     storeCountry: string;
@@ -220,6 +282,10 @@ export default function StoreSetting({
   setting: {
     storeName,
     storeDescription,
+    storeLanguage,
+    storeLanguages,
+    adminLanguage,
+    installedLocales,
     storePhoneNumber,
     storeEmail,
     storeCountry,
@@ -241,6 +307,14 @@ export default function StoreSetting({
     }
   });
 
+  // The save succeeded; surface any non-blocking warnings (e.g. an enabled language with
+  // no translations yet) alongside the success toast. Defining onSuccess overrides the
+  // Form's default success toast, so we raise it here.
+  const onSuccess = (result: { warnings?: string[] }) => {
+    toast.success(_('Saved successfully!'));
+    (result?.warnings ?? []).forEach((message) => toast.warn(message));
+  };
+
   return (
     <div className="main-content-inner">
       <div className="grid grid-cols-6 gap-x-5 grid-flow-row ">
@@ -252,6 +326,7 @@ export default function StoreSetting({
             method="POST"
             id="storeSetting"
             action={saveSettingApi}
+            onSuccess={onSuccess}
             submitBtn={false}
           >
             <Card>
@@ -361,6 +436,12 @@ export default function StoreSetting({
                   </div>
                 </div>
               </CardContent>
+              <LanguageSettings
+                storeLanguage={storeLanguage}
+                storeLanguages={storeLanguages}
+                adminLanguage={adminLanguage}
+                installedLocales={installedLocales}
+              />
               <CardFooter>
                 <div className="flex justify-end w-full">
                   <Button
@@ -400,6 +481,10 @@ export const query = `
     setting {
       storeName
       storeDescription
+      storeLanguage
+      storeLanguages
+      adminLanguage
+      installedLocales
       storeTimeZone
       storePhoneNumber
       storeEmail

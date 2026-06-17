@@ -10,6 +10,7 @@ import {
 import { buildAbsoluteUrl } from '../../../lib/router/buildAbsoluteUrl.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { getValue } from '../../../lib/util/registry.js';
+import { getStoreLanguage } from '../../setting/services/setting.js';
 
 const TEMPLATE = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" lang="en">
@@ -151,7 +152,10 @@ const TEMPLATE = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 </html>`;
 
 export async function sendResetPasswordEmail(email, existingCustomer, token) {
-  const subject = translate('Reset your password');
+  // Triggered from an /api route, which the locale middleware skips — no ALS locale (D7).
+  // Resolve the store default explicitly.
+  const locale = await getStoreLanguage();
+  const subject = translate('Reset your password', {}, locale);
   const url = buildAbsoluteUrl('resetPasswordPage');
   const resetPasswordUrl = `${url}?token=${token}`;
   let template = '';
@@ -182,7 +186,8 @@ export async function sendResetPasswordEmail(email, existingCustomer, token) {
       to: email,
       subject,
       template,
-      data: dynamicData
+      data: dynamicData,
+      locale
     },
     { customer: existingCustomer, token }
   );

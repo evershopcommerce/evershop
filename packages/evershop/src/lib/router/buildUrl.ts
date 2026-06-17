@@ -1,14 +1,27 @@
+import {
+  applyLocalePrefix,
+  getLocaleContextIso
+} from '../locale/activeDictionary.js';
 import { compile } from '../pathToRegexp.js';
 import { getRoutes } from './Router.js';
 
 /**
- * This function take a route ID, list of params and return the url
+ * Build a URL from a route ID + params, **localized** to the current request locale
+ * (a `/<locale>` prefix is added for a non-default storefront locale; never for admin
+ * routes or the default locale — spec §6.10). Isomorphic: safe during SSR and on the
+ * client.
+ *
+ * Use this for **route-based** links (cart, checkout, account, a route you have an id
+ * for). For an **already-built URL string** — e.g. a `url_rewrite` entity path inside a
+ * GraphQL resolver — use `localizeUrl` instead (`buildUrl` needs a route id, and its
+ * locale source isn't populated during GraphQL resolution). Both delegate to the same
+ * `applyLocalePrefix` primitive.
  *
  * @param   {string}  routeId
  * @param   {object}  params   Key-Pair value of route params
  * @param   {object}  query    Key-Pair value of query parameters
  *
- * @return  {string} The Url
+ * @return  {string} The localized Url
  */
 export const buildUrl = (
   routeId: string,
@@ -23,7 +36,14 @@ export const buildUrl = (
 
   const toPath = compile(route.path);
   try {
-    const url = toPath(params);
+    // Prefix static-route URLs with /<locale> (spec §6.10). No-op for admin routes,
+    // the default locale, and an admin context — and dormant until the locale context
+    // is populated (per-render setSSRContext / client eContext, P6).
+    const url = applyLocalePrefix(
+      toPath(params),
+      getLocaleContextIso(),
+      route.isAdmin
+    );
 
     if (Object.keys(query).length > 0) {
       const queryPairs: string[] = [];
