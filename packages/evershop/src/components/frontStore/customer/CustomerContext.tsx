@@ -199,6 +199,7 @@ interface Customer {
   addresses: ExtendedCustomerAddress[];
   orders: Order[];
   addAddressApi: string;
+  updateProfileApi?: string;
   createdAt: {
     value: string;
     text: string;
@@ -273,6 +274,10 @@ interface CustomerDispatchContextValue {
     addressData: Partial<ExtendedCustomerAddress>
   ) => Promise<ExtendedCustomerAddress>;
   deleteAddress: (addressId: string | number) => Promise<void>;
+  updateProfile: (data: {
+    full_name?: string;
+    email?: string;
+  }) => Promise<Customer>;
 }
 
 const CustomerContext = createContext<CustomerContextValue | undefined>(
@@ -580,6 +585,46 @@ export function CustomerProvider({
     [state.customer, appDispatch, getCurrentAjaxUrl]
   );
 
+  // Update the current customer's own profile (full name / email). The endpoint
+  // identifies the customer from the session/JWT, so no id is sent.
+  const updateProfile = useCallback(
+    async (data: {
+      full_name?: string;
+      email?: string;
+    }): Promise<Customer> => {
+      if (!state.customer?.updateProfileApi) {
+        throw new Error(_('Update profile API not available'));
+      }
+
+      dispatch({ type: 'SET_LOADING', payload: true });
+
+      try {
+        const response = await retry(() =>
+          fetch(state.customer!.updateProfileApi!, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          })
+        );
+
+        const json = await response.json();
+
+        if (!response.ok || json.error) {
+          throw new Error(json.error?.message || _('Failed to update profile'));
+        }
+
+        // Sync with server to get fresh customer data.
+        await appDispatch.fetchPageData(getCurrentAjaxUrl());
+
+        return json.data;
+      } catch (error) {
+        dispatch({ type: 'SET_LOADING', payload: false });
+        throw error;
+      }
+    },
+    [state.customer, appDispatch, getCurrentAjaxUrl]
+  );
+
   const contextValue = useMemo(
     (): CustomerContextValue => ({
       ...state
@@ -595,9 +640,19 @@ export function CustomerProvider({
       setCustomer,
       addAddress,
       updateAddress,
-      deleteAddress
+      deleteAddress,
+      updateProfile
     }),
-    [login, logout, setCustomer, addAddress, updateAddress, deleteAddress]
+    [
+      login,
+      register,
+      logout,
+      setCustomer,
+      addAddress,
+      updateAddress,
+      deleteAddress,
+      updateProfile
+    ]
   );
 
   return (

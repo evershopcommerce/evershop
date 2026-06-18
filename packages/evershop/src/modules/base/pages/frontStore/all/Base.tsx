@@ -109,6 +109,7 @@ export const query = `
         text
       }
       addAddressApi
+      updateProfileApi
       addresses {
         addressId
         uuid

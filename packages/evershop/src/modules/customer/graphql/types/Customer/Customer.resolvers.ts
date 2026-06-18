@@ -29,6 +29,9 @@ export default {
     addAddressApi: (customer) =>
       buildUrl('createCustomerAddress', {
         customer_id: customer.uuid
-      })
+      }),
+    // Self-service profile update. The endpoint derives the customer from the
+    // authenticated session/JWT, so no id is needed in the URL.
+    updateProfileApi: () => buildUrl('updateCustomerProfile')
   }
 };
