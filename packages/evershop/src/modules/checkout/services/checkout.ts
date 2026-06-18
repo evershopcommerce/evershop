@@ -93,9 +93,14 @@ const _checkout = async function checkout(
     });
   }
 
-  // Add Note (use cart.setData)
-  if (data.note) {
-    await cart.setData('note', data.note);
+  // Add shipping note. The registered cart field is `shipping_note` (see
+  // registerCartBaseFields.js) and `orderCreator` copies it to the order's
+  // `shipping_note` column via cart.exportData(). NOTE: the key must be
+  // `shipping_note`, not `note` — DataObject.setData throws
+  // "Field note not existed" for an unregistered key, which would abort the
+  // whole order placement the moment a note is submitted.
+  if (typeof data.note === 'string') {
+    await cart.setData('shipping_note', data.note);
   }
   await saveCart(cart);
   const order = await createOrder(cart);
