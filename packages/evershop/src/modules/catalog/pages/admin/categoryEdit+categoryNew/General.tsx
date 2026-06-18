@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
-import React from 'react';
 import './General.scss';
 import {
   Dialog,
@@ -22,6 +21,8 @@ import {
 } from '@components/common/ui/Dialog.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Label } from '@components/common/ui/Label.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 const ParentCategory: React.FC<{
@@ -41,7 +42,7 @@ const ParentCategory: React.FC<{
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <div className="my-3 space-y-3">
-        <Label>Parent category</Label>
+        <Label>{_('Parent category')}</Label>
         {category && (
           <div className="border rounded border-border mb-2 p-2">
             {category.path.map((item, index) => (
@@ -58,7 +59,7 @@ const ParentCategory: React.FC<{
                   setDialogOpen(true);
                 }}
               >
-                Change
+                {_('Change')}
               </a>
             </span>
             <span className="text-destructive pl-5 hover:underline">
@@ -69,7 +70,7 @@ const ParentCategory: React.FC<{
                   handleCategoryChange(null);
                 }}
               >
-                Unlink
+                {_('Unlink')}
               </a>
             </span>
           </div>
@@ -83,12 +84,12 @@ const ParentCategory: React.FC<{
               setDialogOpen(true);
             }}
           >
-            Select category
+            {_('Select category')}
           </Button>
         )}
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Select Parent Category</DialogTitle>
+            <DialogTitle>{_('Select Parent Category')}</DialogTitle>
           </DialogHeader>
           <CategoryTree
             selectedCategories={category ? [category] : []}
@@ -138,12 +139,12 @@ export default function General({ category }: GeneralProps) {
         default: (
           <InputField
             name="name"
-            label="Category Name"
-            placeholder="Enter Category Name"
+            label={_('Category Name')}
+            placeholder={_('Enter Category Name')}
             defaultValue={category?.name || ''}
             required
             validation={{
-              required: 'Category name is required'
+              required: _('Category name is required')
             }}
           />
         )
@@ -165,7 +166,7 @@ export default function General({ category }: GeneralProps) {
         default: (
           <Editor
             name="description"
-            label="Description"
+            label={_('Description')}
             value={category?.description || []}
           />
         )
@@ -177,9 +178,9 @@ export default function General({ category }: GeneralProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>General</CardTitle>
+        <CardTitle>{_('General')}</CardTitle>
         <CardDescription>
-          Manage the general information of the category.
+          {_('Manage the general information of the category.')}
         </CardDescription>
       </CardHeader>
       <CardContent>

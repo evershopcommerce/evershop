@@ -3,6 +3,7 @@ import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { NumberField } from '@components/common/form/NumberField.js';
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -64,7 +65,9 @@ export function PackageForm({
         toast.error(response.data.error.message);
       } else {
         toast.success(
-          formMethod === 'POST' ? 'Package created' : 'Package saved'
+          formMethod === 'POST'
+            ? _('Package created')
+            : _('Package saved')
         );
         onSuccess(response.data?.data);
         if (reload) reload();
@@ -89,77 +92,83 @@ export function PackageForm({
     >
       <div className="space-y-3">
         <h3 className="text-lg font-semibold">
-          {formMethod === 'POST' ? 'Create a new package' : 'Edit package'}
+          {formMethod === 'POST'
+            ? _('Create a new package')
+            : _('Edit package')}
         </h3>
         <InputField
           name="name"
-          label="Name"
-          placeholder="e.g. Small Box"
+          label={_('Name')}
+          placeholder={_('e.g. Small Box')}
           required
-          validation={{ required: 'Name is required' }}
+          validation={{ required: _('Name is required') }}
           defaultValue={pkg?.name}
         />
         <div className="grid grid-cols-3 gap-x-3">
           <NumberField
             name="length"
-            label="Length"
+            label={_('Length')}
             unit={dimensionUnit}
             required
             validation={{
-              required: 'Length is required',
-              min: { value: 0.01, message: 'Length must be greater than 0' }
+              required: _('Length is required'),
+              min: { value: 0.01, message: _('Length must be greater than 0') }
             }}
             defaultValue={pkg?.length}
           />
           <NumberField
             name="width"
-            label="Width"
+            label={_('Width')}
             unit={dimensionUnit}
             required
             validation={{
-              required: 'Width is required',
-              min: { value: 0.01, message: 'Width must be greater than 0' }
+              required: _('Width is required'),
+              min: { value: 0.01, message: _('Width must be greater than 0') }
             }}
             defaultValue={pkg?.width}
           />
           <NumberField
             name="height"
-            label="Height"
+            label={_('Height')}
             unit={dimensionUnit}
             required
             validation={{
-              required: 'Height is required (0 for envelopes)',
-              min: { value: 0, message: 'Height must be 0 or greater' }
+              required: _('Height is required (0 for envelopes)'),
+              min: { value: 0, message: _('Height must be 0 or greater') }
             }}
-            helperText="0 for flat envelopes"
+            helperText={_('0 for flat envelopes')}
             defaultValue={pkg?.height}
           />
         </div>
         <NumberField
           name="weight"
-          label="Empty package weight"
+          label={_('Empty package weight')}
           unit={weightUnit}
           validation={{
-            min: { value: 0, message: 'Weight must be 0 or greater' }
+            min: { value: 0, message: _('Weight must be 0 or greater') }
           }}
-          helperText="Optional. Added to the shipping weight for quotes and labels."
+          helperText={_(
+            'Optional. Added to the shipping weight for quotes and labels.'
+          )}
           defaultValue={pkg?.weight?.value ?? 0}
         />
         <CheckboxField
           name="is_default"
-          label="Default package"
+          label={_('Default package')}
           defaultValue={pkg?.isDefault === true}
-          helperText="Preselected for new products. Exactly one package is the default."
+          helperText={_(
+            'Preselected for new products. Exactly one package is the default.'
+          )}
         />
         <div className="flex justify-end gap-2 pt-2">
           <Button
-            title="Save"
+            title={_('Save')}
             variant="default"
             type="button"
             disabled={saving}
             onClick={onSubmit}
           >
-            {saving ? 'Saving…' : 'Save'}
+            {saving ? _('Saving…') : _('Save')}
           </Button>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { Button } from '@components/common/ui/Button.js';
 import { Card, CardContent } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { CreateVariantGroup } from './CreateVariantGroup.js';
 
@@ -16,7 +17,9 @@ export const New: React.FC<{
           <div>
             <div className="justify-left text-left">
               <div className="space-y-2">
-                <div>This product has some variants like color or size?</div>
+                <div>
+                  {_('This product has some variants like color or size?')}
+                </div>
                 <Button
                   variant={'secondary'}
                   onClick={(e) => {
@@ -24,7 +27,7 @@ export const New: React.FC<{
                     setAction('create');
                   }}
                 >
-                  Create a variant group
+                  {_('Create a variant group')}
                 </Button>
               </div>
             </div>

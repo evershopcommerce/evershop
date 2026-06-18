@@ -9,6 +9,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import type { CouponBorderStyle } from './CouponBlock.js';
 
@@ -31,21 +32,28 @@ const BORDER_OPTIONS: ReadonlyArray<{
   value: CouponBorderStyle;
   label: string;
 }> = [
-  { value: 'solid', label: 'Solid' },
-  { value: 'dashed', label: 'Dashed' },
-  { value: 'none', label: 'None' }
+  { value: 'solid', label: _('Solid') },
+  { value: 'dashed', label: _('Dashed') },
+  { value: 'none', label: _('None') }
 ];
 
 function formatCountdown(iso: string): string {
   const t = Date.parse(iso);
   if (!Number.isFinite(t)) return '';
   const diff = t - Date.now();
-  if (diff <= 0) return 'Already expired';
+  if (diff <= 0) return _('Already expired');
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  if (days >= 1) return `Expires in ${days}d ${hours}h`;
+  if (days >= 1)
+    return _('Expires in ${days}d ${hours}h', {
+      days: String(days),
+      hours: String(hours)
+    });
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  return `Expires in ${hours}h ${minutes}m`;
+  return _('Expires in ${hours}h ${minutes}m', {
+    hours: String(hours),
+    minutes: String(minutes)
+  });
 }
 
 export default function CouponBlockSetting({
@@ -97,8 +105,8 @@ export default function CouponBlockSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Offer">
-        <Field label="Eyebrow" hint='Urgency line. Optional. E.g. "Limited · Ends Sunday".'>
+      <Section title={_('Offer')}>
+        <Field label={_('Eyebrow')} hint={_('Urgency line. Optional. E.g. "Limited · Ends Sunday".')}>
           <input
             type="text"
             value={eyebrowV}
@@ -107,11 +115,11 @@ export default function CouponBlockSetting({
                 shouldDirty: true
               })
             }
-            placeholder="Limited · Ends Sunday"
+            placeholder={_('Limited · Ends Sunday')}
             className={drawerInputClass}
           />
         </Field>
-        <Field label="Headline">
+        <Field label={_('Headline')}>
           <input
             type="text"
             value={headingV}
@@ -120,13 +128,13 @@ export default function CouponBlockSetting({
                 shouldDirty: true
               })
             }
-            placeholder="Take 20% off your order"
+            placeholder={_('Take 20% off your order')}
             className={drawerInputClass}
           />
         </Field>
         <Field
-          label="Body"
-          hint="Optional. One short instructional line."
+          label={_('Body')}
+          hint={_('Optional. One short instructional line.')}
         >
           <input
             type="text"
@@ -134,11 +142,11 @@ export default function CouponBlockSetting({
             onChange={(e) =>
               setValue('settings.body', e.target.value, { shouldDirty: true })
             }
-            placeholder="Use code at checkout"
+            placeholder={_('Use code at checkout')}
             className={drawerInputClass}
           />
         </Field>
-        <Field label="Promo code" hint="Displayed in uppercase to shoppers.">
+        <Field label={_('Promo code')} hint={_('Displayed in uppercase to shoppers.')}>
           <input
             type="text"
             value={codeV}
@@ -150,11 +158,11 @@ export default function CouponBlockSetting({
           />
         </Field>
         <Field
-          label="Expires"
+          label={_('Expires')}
           hint={
             expiresV
               ? formatCountdown(expiresV)
-              : 'Optional. The block auto-hides after this time for live visitors.'
+              : _('Optional. The block auto-hides after this time for live visitors.')
           }
         >
           <input
@@ -170,8 +178,8 @@ export default function CouponBlockSetting({
         </Field>
       </Section>
 
-      <Section title="Call to action">
-        <Field label="Button label">
+      <Section title={_('Call to action')}>
+        <Field label={_('Button label')}>
           <input
             type="text"
             value={ctaLabelV}
@@ -180,11 +188,11 @@ export default function CouponBlockSetting({
                 shouldDirty: true
               })
             }
-            placeholder="Shop now →"
+            placeholder={_('Shop now →')}
             className={drawerInputClass}
           />
         </Field>
-        <Field label="Button link">
+        <Field label={_('Button link')}>
           <LinkPicker
             value={ctaLinkV}
             onChange={({ url }) =>
@@ -193,7 +201,7 @@ export default function CouponBlockSetting({
           />
         </Field>
         <Toggle
-          label="Open in new tab"
+          label={_('Open in new tab')}
           checked={ctaNewTabV}
           onChange={(v) =>
             setValue('settings.ctaNewTab', v, { shouldDirty: true })
@@ -201,8 +209,8 @@ export default function CouponBlockSetting({
         />
       </Section>
 
-      <Section title="Appearance">
-        <Field label="Border">
+      <Section title={_('Appearance')}>
+        <Field label={_('Border')}>
           <Segmented<CouponBorderStyle>
             value={borderStyleV}
             options={BORDER_OPTIONS}
@@ -211,7 +219,7 @@ export default function CouponBlockSetting({
             }
           />
         </Field>
-        <Field label="Background">
+        <Field label={_('Background')}>
           <ColorSwatchField
             value={backgroundColorV}
             onChange={(v) =>

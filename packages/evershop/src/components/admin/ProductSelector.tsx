@@ -1,6 +1,7 @@
 import { SimplePagination } from '@components/common/SimplePagination.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Input } from '@components/common/ui/Input.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Check } from 'lucide-react';
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -137,7 +138,7 @@ const ProductSelector: React.FC<{
   if (error) {
     return (
       <p className="text-destructive">
-        There was an error fetching products.
+        {_('There was an error fetching products.')}
         {error.message}
       </p>
     );
@@ -149,7 +150,7 @@ const ProductSelector: React.FC<{
         <Input
           type="text"
           value={inputValue || ''}
-          placeholder="Search products"
+          placeholder={_('Search products')}
           onChange={(e) => {
             setInputValue(e.target.value);
             setLoading(true);
@@ -162,9 +163,13 @@ const ProductSelector: React.FC<{
           {data.products.items.length === 0 && (
             <div className="p-2 border border-divider rounded flex justify-center items-center">
               {inputValue ? (
-                <p>No products found for query &quot;{inputValue}&rdquo;</p>
+                <p>
+                  {_('No products found for query "${query}"', {
+                    query: inputValue
+                  })}
+                </p>
               ) : (
-                <p>You have no products to display</p>
+                <p>{_('You have no products to display')}</p>
               )}
             </div>
           )}
@@ -214,7 +219,7 @@ const ProductSelector: React.FC<{
                       );
                     }}
                   >
-                    Select
+                    {_('Select')}
                   </Button>
                 )}
                 {isProductSelected(product, internalSelectedProducts) && (

@@ -1,28 +1,30 @@
-import { loadCsvTranslationFiles } from '../../webpack/loaders/loadTranslationFromCsv.js';
-
-let csvData: Record<string, string> | undefined;
+import { getConfig } from '../../util/getConfig.js';
+import { getDictionary } from '../dictionary.js';
+import { interpolate } from '../interpolate.js';
+import { getLocaleContext } from '../localeContext.js';
 
 /**
- * This function is used to translate the text form server side, like from middleware. For templating use the _ function
+ * Server-side translation (spec §6.6). Resolves the dictionary by precedence:
+ *   1. an explicit `locale` — off-request callers (emails, cron jobs) that must pick a
+ *      specific language regardless of the ambient request (§6.16 / D7);
+ *   2. the current request's ALS dictionary, set by the locale middleware (P4);
+ *   3. the default store language's dictionary from the registry — the off-request
+ *      fallback (and the behavior before the P4 middleware exists).
+ *
+ * Server-only: imports `localeContext` (which owns `AsyncLocalStorage`). For client /
+ * template strings use `_` instead. Missing OR empty entries fall back to the source.
  */
-export function translate(enText: string, values: Record<string, string> = {}) {
-  const translatedText =
-    csvData && csvData[enText] !== undefined ? csvData[enText] : enText;
-  // Check if the data is null, undefined or empty object
-  if (!values || Object.keys(values).length === 0) {
-    return translatedText;
+export function translate(
+  enText: string,
+  values: Record<string, string> = {},
+  locale?: string
+): string {
+  let dict: Record<string, string>;
+  if (locale) {
+    dict = getDictionary(locale);
   } else {
-    const template = `${translatedText}`;
-    return template.replace(/\${(.*?)}/g, (match, key) =>
-      values[key.trim()] !== undefined ? values[key.trim()] : match
-    );
+    dict =
+      getLocaleContext()?.dict ?? getDictionary(getConfig('shop.language', 'en'));
   }
-}
-
-export async function loadCsv(): Promise<Record<string, string>> {
-  // Only load the csv files once
-  if (csvData === undefined) {
-    csvData = await loadCsvTranslationFiles();
-  }
-  return csvData;
+  return interpolate(dict[enText] || enText, values);
 }

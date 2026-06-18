@@ -1,0 +1,1679 @@
+Welcome Back!,С возвращением!
+Please sign in to your account ,"Пожалуйста, войдите в свой аккаунт "
+Join us for exclusive offers and order tracking,"Присоединяйтесь к нам, чтобы получать эксклюзивные предложения и отслеживать заказы"
+Sign Up,Регистрация
+Signing Up...,Регистрация...
+Signing In...,Вход...
+Recent Orders,Недавние заказы
+Address Book,Адресная книга
+You have no addresses saved,У вас нет сохранённых адресов
+Add new address,Добавить новый адрес
+Address 2,Адрес 2
+Set as default,Сделать основным
+Save,Сохранить
+Edit,Изменить
+Delete,Удалить
+Edit Address,Изменить адрес
+Product Filters,Фильтры товаров
+No products found,Товары не найдены
+${count} Products,${count} товаров
+Contact Information,Контактная информация
+Your Cart,Ваша корзина
+Your cart is empty,Ваша корзина пуста
+Subtotal,Промежуточный итог
+View Cart (${totalQty}),Посмотреть корзину (${totalQty})
+Shopping Cart,Корзина покупок
+Logged in as,Вы вошли как
+Payment Information,Платёжная информация
+Same as shipping address,Совпадает с адресом доставки
+Use a different billing address,Использовать другой платёжный адрес
+Pick a payment method,Выберите способ оплаты
+Select a payment method,Выберите способ оплаты
+Complete Order,Оформить заказ
+Add to Cart,В корзину
+${count} orders,${count} заказов
+${field} is required,${field} обязательно для заполнения
+${pct}% of orders cancelled,${pct}% заказов отменено
+${pct}% of orders completed,${pct}% заказов выполнено
+${qty} sold,продано ${qty}
+${total} lifetime sale,${total} продаж за всё время
+(Guest Checkout),(Гостевое оформление)
+(list),(список)
+(optional),(необязательно)
+A coupon is already applied,Купон уже применён
+A group needs at least one sub-field,Группа должна содержать хотя бы одно подполе
+A list of best selling products,Список самых продаваемых товаров
+A list of customers who have placed the most orders,"Список клиентов, оформивших больше всего заказов"
+A regular expression the value must match.,"Регулярное выражение, которому должно соответствовать значение."
+Accepted values,Допустимые значения
+Active,Активно
+Active Filters,Активные фильтры
+Add address API not available,API добавления адреса недоступно
+Add custom field,Добавить пользовательское поле
+Add field,Добавить поле
+Add item,Добавить элемент
+Add option,Добавить вариант
+Add product,Добавить товар
+Add some items to get started,"Добавьте товары, чтобы начать"
+Add sub-field,Добавить подполе
+Adding...,Добавление...
+Address has been deleted successfully!,Адрес успешно удалён!
+Address has been saved successfully!,Адрес успешно сохранён!
+Address has been updated successfully!,Адрес успешно обновлён!
+Adds target=_blank rel=noopener noreferrer.,Добавляет target=_blank rel=noopener noreferrer.
+All items fulfilled,Все позиции выполнены
+All orders,Все заказы
+All your past orders,Все ваши прошлые заказы
+Allow multiple,Разрешить несколько
+An unexpected error occurred. Please try again.,"Произошла непредвиденная ошибка. Пожалуйста, попробуйте снова."
+Apply Filters,Применить фильтры
+Are you sure you want to mark the selected orders as shipped?,"Вы уверены, что хотите отметить выбранные заказы как отправленные?"
+Are you sure?,Вы уверены?
+Attribute Group,Группа атрибутов
+Attribute code is used in API and must be unique,Код атрибута используется в API и должен быть уникальным
+Attribute options,Варианты атрибута
+Attributes,Атрибуты
+Available shipping methods will appear once you provide your address details,Доступные способы доставки появятся после ввода данных вашего адреса
+Best Sellers,Хиты продаж
+Best customers,Лучшие клиенты
+Billing address,Платёжный адрес
+Black,Чёрный
+Buy qty,Кол-во для покупки
+Buy qty is required,Кол-во для покупки обязательно
+Can not process payment. Please try again later.,"Не удалось обработать платёж. Пожалуйста, попробуйте позже."
+Can't be undone,Невозможно отменить
+Cancel,Отмена
+Cancel Order,Отменить заказ
+Cancel shipment,Отменить отправление
+Cancel this shipment?,Отменить это отправление?
+Canceled,Отменено
+Cancelled,Отменено
+Cannot add billing address: cart not initialized,Невозможно добавить платёжный адрес: корзина не инициализирована
+Cannot add contact info: cart not initialized,Невозможно добавить контактные данные: корзина не инициализирована
+Cannot add payment method: cart not initialized,Невозможно добавить способ оплаты: корзина не инициализирована
+Cannot add shipping address: cart not initialized,Невозможно добавить адрес доставки: корзина не инициализирована
+Cannot add shipping method: cart not initialized,Невозможно добавить способ доставки: корзина не инициализирована
+Cannot add shipping method: providerCode is required,Невозможно добавить способ доставки: требуется providerCode
+Cannot apply coupon: cart not initialized,Невозможно применить купон: корзина не инициализирована
+Cannot remove coupon: cart not initialized,Невозможно удалить купон: корзина не инициализирована
+Carrier,Перевозчик
+Carrier is required,Перевозчик обязателен
+Cart ID is required to checkout,Для оформления заказа требуется ID корзины
+Cart is not initialized,Корзина не инициализирована
+Catalog,Каталог
+Categories,Категории
+Charcoal,Угольный
+Checkout success,Оформление заказа выполнено
+Choose Product SKU,Выберите SKU товара
+Choose SKU,Выберите SKU
+Clear All,Очистить всё
+Clear Filters,Сбросить фильтры
+Clear all,Очистить всё
+Clear categories,Очистить категории
+Close fullscreen view,Закрыть полноэкранный режим
+Code,Код
+Collections,Коллекции
+Comma-separated; renders the value as a dropdown.,Через запятую; отображает значение в виде раскрывающегося списка.
+Completed,Выполнено
+Configurable,Конфигурируемый
+Configure tax classes and tax rates,Настройте налоговые классы и налоговые ставки
+Confirm,Подтвердить
+Contact for pricing,Свяжитесь для уточнения цены
+Conveniently pay with cash at your doorstep when your order is delivered.,Удобно оплатить наличными у двери при доставке заказа.
+Coupon applied successfully!,Купон успешно применён!
+Coupon code is required,Код купона обязателен
+Coupon does not match,Купон не подходит
+Coupon removed successfully!,Купон успешно удалён!
+Cream,Кремовый
+Create,Создать
+Create a new attribute,Создать новый атрибут
+Create a new group,Создать новую группу
+Create a new package,Создать новую упаковку
+Create shipment,Создать отправление
+Created,Создано
+Custom URL,Произвольный URL
+Custom field created,Пользовательское поле создано
+Custom field updated,Пользовательское поле обновлено
+Custom fields,Пользовательские поля
+Custom fields (JSON),Пользовательские поля (JSON)
+Custom fields saved,Пользовательские поля сохранены
+Customer Information,Информация о клиенте
+Customer does not have any order yet.,У клиента пока нет ни одного заказа.
+Customer notes,Заметки клиента
+Daily,Ежедневно
+Date and time must be after ${min},Дата и время должны быть позже ${min}
+Date and time must be before ${max},Дата и время должны быть раньше ${max}
+Date must be after ${min},Дата должна быть позже ${min}
+Date must be before ${max},Дата должна быть раньше ${max}
+Delete ${count} coupons,Удалить ${count} купонов
+Delete ${count} products,Удалить ${count} товаров
+Delete address API not available,API удаления адреса недоступно
+Delivered,Доставлено
+Description,Описание
+Disable,Отключить
+Disable ${count} coupons,Отключить ${count} купонов
+Disable ${count} customers,Отключить ${count} клиентов
+Disable ${count} products,Отключить ${count} товаров
+Disabled,Отключено
+Discount percent,Процент скидки
+Discount percent is required,Процент скидки обязателен
+Display on Frontend?,Показывать на витрине?
+Displays the mobile sidebar.,Отображает мобильную боковую панель.
+Done,Готово
+Drag to reorder,Перетащите для изменения порядка
+Duplicate,Дублировать
+Edit custom field,Изменить пользовательское поле
+Edit field settings,Изменить настройки поля
+Edit package,Изменить упаковку
+Edit tracking info,Изменить данные отслеживания
+Editing ${name},Редактирование ${name}
+Email a shipment confirmation,Отправить подтверждение отгрузки по email
+Email a shipment confirmation with tracking details,Отправить подтверждение отгрузки с данными отслеживания по email
+Email is required,Email обязателен
+Enable,Включить
+Enable ${count} coupons,Включить ${count} купонов
+Enable ${count} customers,Включить ${count} клиентов
+Enable ${count} products,Включить ${count} товаров
+Enabled,Включено
+Enter attribute code,Введите код атрибута
+Enter attribute name,Введите имя атрибута
+Enter text,Введите текст
+Enter value for ${attribute},Введите значение для ${attribute}
+Enter your email,Введите ваш email
+Enter your new password,Введите новый пароль
+Enter your password,Введите ваш пароль
+Error,Ошибка
+Failed to add address,Не удалось добавить адрес
+Failed to add billing address,Не удалось добавить адрес оплаты
+Failed to add billing address.,Не удалось добавить адрес оплаты.
+Failed to add contact info,Не удалось добавить контактную информацию
+Failed to add contact info.,Не удалось добавить контактную информацию.
+Failed to add item to cart,Не удалось добавить товар в корзину
+Failed to add payment method,Не удалось добавить способ оплаты
+Failed to add payment method.,Не удалось добавить способ оплаты.
+Failed to add product to cart,Не удалось добавить товар в корзину
+Failed to add shipping address,Не удалось добавить адрес доставки
+Failed to add shipping address.,Не удалось добавить адрес доставки.
+Failed to add shipping method,Не удалось добавить способ доставки
+Failed to add shipping method.,Не удалось добавить способ доставки.
+Failed to apply coupon,Не удалось применить купон
+Failed to cancel shipment,Не удалось отменить отгрузку
+Failed to checkout,Не удалось оформить заказ
+Failed to create field,Не удалось создать поле
+Failed to create shipment,Не удалось создать отгрузку
+Failed to delete address,Не удалось удалить адрес
+Failed to load custom fields,Не удалось загрузить пользовательские поля
+Failed to mark delivered,Не удалось отметить как доставлено
+Failed to place order,Не удалось оформить заказ
+Failed to place order. Please try again.,"Не удалось оформить заказ. Пожалуйста, попробуйте снова."
+Failed to remove coupon,Не удалось удалить купон
+Failed to remove coupon.,Не удалось удалить купон.
+Failed to save custom fields,Не удалось сохранить пользовательские поля
+Failed to set shipping method,Не удалось установить способ доставки
+Failed to set shipping note,Не удалось установить примечание к доставке
+Failed to update address,Не удалось обновить адрес
+Failed to update field,Не удалось обновить поле
+Failed to update shipment,Не удалось обновить отгрузку
+Failed to update tracking info,Не удалось обновить данные отслеживания
+Failed to void label,Не удалось аннулировать ярлык
+Failed!,Ошибка!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,"Поля, применимые к данному типу сущности. Добавление поля применяет его ко всем сущностям этого типа."
+File size must be less than ${maxSize},Размер файла должен быть меньше ${maxSize}
+Filter Products,Фильтровать товары
+Filters,Фильтры
+First,Первая
+Free,Бесплатно
+Free shipping,Бесплатная доставка
+Free shipping ?,Бесплатная доставка?
+Fulfill ${count} orders,Выполнить ${count} заказов
+Full Name is required,Полное имя обязательно
+Fully shipped,Полностью отгружено
+General,Общие
+Get qty,Получаемое количество
+Get qty is required,Получаемое количество обязательно
+Ghost,Призрачная
+Go,Перейти
+Go to Login,Перейти к входу
+Go to next page,Перейти на следующую страницу
+Go to previous page,Перейти на предыдущую страницу
+Hello,Привет
+Hide from storefront,Скрыть с витрины
+ID,ID
+In Stock,В наличии
+Inactive,Неактивно
+Inclusive of tax ${totalTaxAmount},Включая налог ${totalTaxAmount}
+Insert,Вставить
+Invalid address,Неверный адрес
+Invalid cart,Неверная корзина
+Invalid cart id,Неверный ID корзины
+Invalid coupon,Неверный купон
+Invalid customer,Неверный клиент
+Invalid customer id,Неверный ID клиента
+Invalid email or password,Неверный email или пароль
+Invalid format,Неверный формат
+Invalid quantity,Неверное количество
+Is Filterable?,Можно фильтровать?
+Is Required?,Обязательно?
+Item,Позиция
+Items,Позиции
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,Позиции этой отгрузки вернутся в пул неотгруженных товаров заказа. Это действие нельзя отменить.
+Key,Ключ
+Key is required,Ключ обязателен
+Label,Метка
+Label voided,Ярлык аннулирован
+Language,Язык
+Last,Последняя
+Lifetime Sales,Продажи за всё время
+Light gray,Светло-серый
+Limit,Лимит
+Link,Ссылка
+Loading,Загрузка
+Log in,Войти
+Logging in...,Вход...
+Logging out...,Выход...
+Login failed,Не удалось войти
+Logout failed,Не удалось выйти
+Look like you just started. No bestsellers yet.,"Похоже, вы только начали. Бестселлеров пока нет."
+"Lowercase letters, digits, underscore. Immutable.","Строчные буквы, цифры, подчёркивание. Неизменяемо."
+Manage the general information of the attribute.,Управление общей информацией об атрибуте.
+Manage the setting of the attribute.,Управление настройками атрибута.
+Mark as shipped,Отметить как отгружено
+Mark delivered,Отметить как доставлено
+Mark shipment as delivered?,Отметить отгрузку как доставленную?
+Max length,Макс. длина
+Max of Y,Максимум Y
+Max of Y is required,Максимум Y обязателен
+Max value,Макс. значение
+Min length,Мин. длина
+Min value,Мин. значение
+Minimum quantity,Минимальное количество
+Mint,Мятный
+Monthly,Ежемесячно
+More,Ещё
+More pages,Ещё страницы
+Move down,Переместить вниз
+Move up,Переместить вверх
+Multiselect,Множественный выбор
+Must be at least ${n},Должно быть не менее ${n}
+Must be at least ${n} characters,Должно быть не менее ${n} символов
+Must be at most ${n},Должно быть не более ${n}
+Must be at most ${n} characters,Должно быть не более ${n} символов
+"Must start with a letter; lowercase letters, digits, underscore only","Должно начинаться с буквы; только строчные буквы, цифры и подчёркивание"
+Name is required,Имя обязательно
+New Product,Новый товар
+New Widget,Новый виджет
+New folder,Новая папка
+Next,Далее
+Next slide,Следующий слайд
+No,Нет
+No address data received,Данные адреса не получены
+"No attribute groups found for query ""${query}""","Группы атрибутов по запросу ""${query}"" не найдены"
+No carriers registered,Перевозчики не зарегистрированы
+"No categories found for ""${term}""","Категории по запросу ""${term}"" не найдены"
+"No categories found for query ""${query}""","Категории по запросу ""${query}"" не найдены"
+"No collections found for query ""${query}""","Коллекции по запросу ""${query}"" не найдены"
+No coupon to remove,Нет купона для удаления
+No custom fields yet.,Пока нет пользовательских полей.
+No data available,Нет доступных данных
+No free shipping,Бесплатная доставка недоступна
+No limit,Без ограничения
+No maximum,Без максимума
+No minimum,Без минимума
+No notes from customer,Примечаний от клиента нет
+"No options found for ""${code}""","Опции для ""${code}"" не найдены"
+"No products found for query ""${query}""","Товары по запросу ""${query}"" не найдены"
+No shipments yet — your order is being prepared.,Отправлений пока нет — ваш заказ готовится.
+No shipping is required for this order,Для этого заказа доставка не требуется
+No shipping methods available,Нет доступных способов доставки
+No shipping options are available for your location,Для вашего местоположения нет доступных вариантов доставки
+No shipping required,Доставка не требуется
+No widgets match your search.,Виджеты по вашему запросу не найдены.
+None,Нет
+Not set,Не задано
+Not visible to customers,Не видно клиентам
+Notify customer,Уведомить клиента
+Open in new tab,Открыть в новой вкладке
+Operator,Оператор
+Option text,Текст опции
+Optional help text shown to admins.,Необязательный текст подсказки для администраторов.
+Order Placed,Заказ оформлен
+Order detail,Детали заказа
+Order must contain products matching all conditions below,"Заказ должен содержать товары, соответствующие всем условиям ниже"
+Order not found,Заказ не найден
+Orders,Заказы
+Others,Прочее
+Out of Stock,Нет в наличии
+Outline,Контур
+Overview of sales data over selected periods,Обзор данных о продажах за выбранные периоды
+Overview of total sales and order status over the lifetime of your store,Обзор общих продаж и статусов заказов за всё время работы магазина
+Page,Страница
+Page ${currentPage} of ${totalPages},Страница ${currentPage} из ${totalPages}
+Page not found,Страница не найдена
+Password is required,Пароль обязателен
+Password must be at least ${minLength} characters long,Пароль должен содержать не менее ${minLength} символов
+Paste a URL or a relative path starting with ,"Вставьте URL или относительный путь, начинающийся с "
+Pattern (regex),Шаблон (regex)
+Pay with PayPal,Оплатить через PayPal
+Pay with Stripe,Оплатить через Stripe
+Payment Status,Статус оплаты
+Placing Order...,Оформление заказа...
+Please enter a coupon code,Введите код купона
+Please enter a valid URL,Введите корректный URL
+Please enter a valid email address,Введите корректный адрес электронной почты
+Please enter your email to receive a reset link,"Введите ваш email, чтобы получить ссылку для сброса"
+Please provide billing address to proceed,"Укажите адрес для выставления счёта, чтобы продолжить"
+Please select a payment method,Выберите способ оплаты
+Please select a shipping method,Выберите способ доставки
+Please sign in to your account,Войдите в свою учётную запись
+Position,Позиция
+Previous,Назад
+Previous slide,Предыдущий слайд
+Price: ${value},Цена: ${value}
+Primary,Основной
+Print Label,Печать этикетки
+Processing Payment...,Обработка платежа...
+Product Description,Описание товара
+Product is out of stock,Товара нет в наличии
+Product name is required,Название товара обязательно
+Product not found,Товар не найден
+Product type,Тип товара
+Products,Товары
+Reason for cancellation,Причина отмены
+Reason is required,Причина обязательна
+Recently placed orders by this customer,Недавние заказы этого клиента
+Redirecting to PayPal...,Перенаправление на PayPal...
+Reference type,Тип ссылки
+Registration failed,Регистрация не удалась
+Remove item,Удалить позицию
+Remove sub-field,Удалить вложенное поле
+Required,Обязательно
+Requires at least one item to create a cart,Для создания корзины требуется хотя бы одна позиция
+Reset Password,Сбросить пароль
+Reset Your Password,Сбросьте ваш пароль
+Reset password,Сбросить пароль
+Reset your password,Сбросьте ваш пароль
+Root,Корень
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,SKU должен быть уникальным
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,Статистика продаж
+Save custom fields,Сохранить пользовательские поля
+Save field,Сохранить поле
+Saved successfully!,Успешно сохранено!
+Search attribute groups,Поиск групп атрибутов
+Search categories,Поиск категорий
+Search collections,Поиск коллекций
+"Search for products, orders, and other resources","Поиск товаров, заказов и других ресурсов"
+Search products,Поиск товаров
+Search results for: ${keyword},Результаты поиска по: ${keyword}
+Search widgets…,Поиск виджетов…
+Searching...,Поиск...
+Search…,Поиск…
+See all orders →,Все заказы →
+Select,Выбрать
+Select a carrier,Выберите перевозчика
+Select at least one item to ship,Выберите хотя бы одну позицию для отправки
+Select groups the attribute belongs to,"Выберите группы, к которым относится атрибут"
+Select shipping method,Выберите способ доставки
+Select sort,Выберите сортировку
+"Select the items going in this shipment, then add the carrier & tracking.","Выберите позиции для этого отправления, затем добавьте перевозчика и трек-номер."
+Setting,Настройка
+Settings,Настройки
+Shipment Status,Статус отправления
+Shipment canceled,Отправление отменено
+Shipment created,Отправление создано
+Shipment marked delivered,Отправление отмечено как доставленное
+Shipments,Отправления
+Shipped,Отправлено
+Shipping (${method}),Доставка (${method})
+Shipping Setting,Настройка доставки
+Show,Показать
+Show all ${count} options,Показать все опции (${count})
+Show on storefront,Показывать в витрине
+Showing ${showing} of ${total},Показано ${showing} из ${total}
+Showing ${start}-${end} of ${total} results,Показано ${start}-${end} из ${total} результатов
+Sidebar,Боковая панель
+Sign in to view your orders,"Войдите, чтобы просмотреть свои заказы"
+Simple,Простой
+Sky,Небесный
+Sold out,Распродано
+Some error occurred. Please try again later.,Произошла ошибка. Повторите попытку позже.
+Some products are not available,Некоторые товары недоступны
+Something went wrong! Please try again.,Что-то пошло не так! Повторите попытку.
+Something went wrong. Please try again later.,Что-то пошло не так. Повторите попытку позже.
+Something wrong. Please try again,Что-то пошло не так. Повторите попытку
+Sort Order,Порядок сортировки
+Sort order,Порядок сортировки
+Status,Статус
+Stock,Запас
+Stripe is not loaded. Please try again.,Stripe не загружен. Повторите попытку.
+Style,Стиль
+Sub-fields,Вложенные поля
+Submit Cancellation,Подтвердить отмену
+Successfully logged in,Вход выполнен успешно
+Successfully logged out,Выход выполнен успешно
+Tax Setting,Настройка налогов
+Test failure,Тест не пройден
+Test failure:,Тест не пройден:
+Test success,Тест пройден
+Test success:,Тест пройден:
+Text,Текст
+Textarea,Текстовая область
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,"Перевозчик пометит трек-номер как недействительный. Вам потребуется приобрести новую этикетку, если вы всё же намерены отправить заказ."
+The customer will receive a delivery confirmation email.,Клиент получит письмо с подтверждением доставки.
+There is no category,Нет категорий
+There is no file to display.,Нет файлов для отображения.
+There is no sub folder.,Нет вложенных папок.
+There was an error:,Произошла ошибка:
+This tracking link has expired,Срок действия этой ссылки отслеживания истёк
+This tracking link is no longer valid,Эта ссылка отслеживания больше недействительна
+Thumbnail,Миниатюра
+Time must be after ${min},Время должно быть позже ${min}
+Time must be before ${max},Время должно быть раньше ${max}
+Toggle Sidebar,Переключить боковую панель
+Token is invalid or expired,Токен недействителен или истёк
+Too many items requested,Запрошено слишком много элементов
+Track,Отследить
+Track shipment →,Отследить отправление →
+Track your order,Отследить заказ
+Tracking info updated,Данные отслеживания обновлены
+Tracking link,Ссылка отслеживания
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,"Ссылки отслеживания действуют ограниченное время. Войдите в свою учётную запись, чтобы узнать текущий статус заказа."
+Tracking number,Трек-номер
+Type,Тип
+Type / to see the available blocks,"Введите /, чтобы увидеть доступные блоки"
+UPDATE PASSWORD,ОБНОВИТЬ ПАРОЛЬ
+Update address API not available,API обновления адреса недоступно
+Update field,Обновить поле
+Upload,Загрузить
+Validation,Проверка
+Value,Значение
+Value must be a whole number,Значение должно быть целым числом
+Value must be at least ${min},Значение должно быть не менее ${min}
+Value must be at most ${max},Значение должно быть не более ${max}
+View All Products,Посмотреть все товары
+View JSON,Посмотреть JSON
+View all customers,Посмотреть всех клиентов
+Visible to customer,Видно клиенту
+Void Label,Аннулировать этикетку
+Void label,Аннулировать этикетку
+Void this shipping label?,Аннулировать эту транспортную этикетку?
+"We could not find this order. It may have been removed, or it may belong to a different account.","Не удалось найти этот заказ. Возможно, он был удалён или принадлежит другой учётной записи."
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.","Не удалось проверить эту ссылку. Если вы получили её в письме от нас, попробуйте снова из самого последнего сообщения или войдите в свою учётную запись."
+We have sent you an email with a link to reset your password. Please check your inbox.,Мы отправили вам письмо со ссылкой для сброса пароля. Проверьте свой почтовый ящик.
+Weekly,Еженедельно
+Welcome to our store!,Добро пожаловать в наш магазин!
+"Where you ship, shipping methods and delivery fee","Куда вы доставляете, способы доставки и стоимость доставки"
+White,Белый
+Yes,Да
+You are already logged in,Вы уже вошли в систему
+You are here:,Вы здесь:
+You have no attribute groups to display,Нет групп атрибутов для отображения
+You have no categories to display,Нет категорий для отображения
+You have no collections to display,Нет коллекций для отображения
+You have no products to display,Нет товаров для отображения
+You have not placed any orders yet.,Вы ещё не оформили ни одного заказа.
+You paid for,Вы оплатили
+You will be redirected to PayPal for payment processing.,Вы будете перенаправлены в PayPal для обработки платежа.
+Your Orders,Ваши заказы
+Your order #${number} has been delivered,Ваш заказ №${number} доставлен
+Your order #${number} is on the way,Ваш заказ №${number} в пути
+Your order has been confirmed!,Ваш заказ подтверждён!
+Your password has been updated successfully.,Ваш пароль успешно обновлён.
+across,по
+available to ship,доступно к отправке
+breadcrumb,хлебные крошки
+e.g. Care instructions,напр. Инструкции по уходу
+"e.g. New, Sale, Limited","напр. Новинка, Распродажа, Ограниченная серия"
+e.g. Question,напр. Вопрос
+e.g. care_instructions,напр. care_instructions
+e.g. question,напр. question
+item,товар
+items,товары
+left to ship,осталось отправить
+of,из
+of ${count},из ${count}
+unit,единица
+units,единицы
+${count} changes published.,Опубликовано изменений: ${count}.
+${count} child widgets,${count} дочерних виджетов
+${count} countries,${count} стран
+${count} on ${route},${count} на ${route}
+${count} ops total,всего операций: ${count}
+${count} pending ops,${count} ожидающих операций
+${count} pending ops on,${count} ожидающих операций на
+${count} routes,${count} маршрутов
+${direction} failed,${direction} не выполнено
+${method} — ${zone} rate,${method} — тариф для ${zone}
+${method} — new rate,${method} — новый тариф
+${name} attached to ${zone},${name} привязан к ${zone}
+${name} configuration for ${zone},Конфигурация ${name} для ${zone}
+${name} configuration for this zone,Конфигурация ${name} для этой зоны
+${name} configuration saved for ${zone},Конфигурация ${name} сохранена для ${zone}
+${name} detached,${name} отвязан
+${name} is required,${name} обязателен
+${title} settings,Настройки ${title}
+${total} changes will go live immediately.,${total} изменений вступят в силу немедленно.
+${total} items,${total} элементов
+(envelope),(конверт)
++ Add Line,+ Добавить строку
++ Add Method,+ Добавить способ
++ Add Rate,+ Добавить тариф
++ Add placement,+ Добавить размещение
++ Attach Provider,+ Привязать поставщика
++ New package,+ Новая упаковка
++${count} more,+ещё ${count}
+", +${count} more",", +ещё ${count}"
+", last updated",", последнее обновление"
+0 for flat envelopes,0 для плоских конвертов
+1 change published.,Опубликовано 1 изменение.
+1 change will go live immediately.,1 изменение вступит в силу немедленно.
+1 child widget,1 дочерний виджет
+1 op total,всего 1 операция
+1 pending op,1 ожидающая операция
+1 pending op on,1 ожидающая операция на
+A package is required for shippable products,"Для товаров, подлежащих отправке, требуется упаковка"
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,План развёртывания сохраняет ваши текущие изменения как снимок и применяет их автоматически в запланированный период.
+Action,Действие
+Actions,Действия
+Add,Добавить
+Add Products,Добавить товары
+Add Rate,Добавить тариф
+Add Shipping Method,Добавить способ доставки
+Add Tax Rate,Добавить налоговую ставку
+Add Variant,Добавить вариант
+Add products to this category by selecting them from the list below.,"Добавьте товары в эту категорию, выбрав их из списка ниже."
+Add rate,Добавить тариф
+Added,Добавлено
+Adding to Column ${number},Добавление в столбец ${number}
+Additional languages,Дополнительные языки
+Admin panel language,Язык панели администратора
+Affects ${count} pages,Затрагивает ${count} страниц
+Affects 1 page,Затрагивает 1 страницу
+All pages,Все страницы
+All registered providers are already attached to this zone.,Все зарегистрированные поставщики уже привязаны к этой зоне.
+All routes,Все маршруты
+Also shown on ${routes},Также отображается на ${routes}
+Also shown on ${routes} +${count},Также отображается на ${routes} +${count}
+Amount must be greater than or equal to 0,Сумма должна быть больше или равна 0
+Amount must be less than or equal to ${value} ${currency},Сумма должна быть меньше или равна ${value} ${currency}
+Apply a condition?,Применить условие?
+Area,Область
+Area is required,Область обязательна
+At least one country is required,Требуется хотя бы одна страна
+Attach,Прикрепить
+Attach Provider to ${zone},Прикрепить провайдера к ${zone}
+Attached Providers,Прикреплённые провайдеры
+Attribute Name,Название атрибута
+Attribute code is required,Код атрибута обязателен
+Attribute created successfully!,Атрибут успешно создан!
+Attribute group,Группа атрибутов
+Attribute name is required,Название атрибута обязательно
+Authorize only,Только авторизация
+Auto-saves while you edit,Автосохранение во время редактирования
+Back To Dashboard,Назад к панели управления
+Base calculation address,Базовый адрес для расчёта
+Based on cart subtotal,На основе промежуточной суммы корзины
+Based on cart weight,На основе веса корзины
+Basic configuration,Базовая настройка
+Boolean,Логическое значение
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,Встроенные способы доставки с тарифами по зонам. Сначала прикрепите Core к зоне в разделе Настройки → Доставка; затем добавьте способы здесь и настройте их тарифы по зонам.
+Buy X get Y,Купи X получи Y
+CMS,CMS
+Calculation type,Тип расчёта
+Can not change the attribute group of a product that is already in a variant group.,"Невозможно изменить группу атрибутов товара, который уже находится в группе вариантов."
+Cancel rollout,Отменить развёртывание
+Cancel rollout plan?,Отменить план развёртывания?
+Canvas device width,Ширина устройства холста
+Capture,Списать
+Capture Payment,Списать платёж
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,Подсказка по перевозчику для выполнения заказа — никогда не отображается при оформлении. NewShipmentDialog использует её для предварительного выбора перевозчика.
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,"Код услуги, специфичный для перевозчика, используемый при покупке этикетки (CreateLabelInput.serviceCode). Свободный формат — проверьте точный токен в документации API перевозчика. Оставьте пустым, чтобы перевозчик выбрал услугу по умолчанию."
+Cash On Delivery Payment,Оплата при доставке
+"Catalog, Search","Каталог, поиск"
+Category Image,Изображение категории
+Category Name,Название категории
+Category created successfully!,Категория успешно создана!
+Category name is required,Название категории обязательно
+Choose Attribute Groups,Выберите группы атрибутов
+Choose Categories,Выберите категории
+Choose Collections,Выберите коллекции
+Choose SKUs,Выберите SKU
+Choose how much of your unpublished work to discard. The published storefront is not affected.,"Выберите, какую часть неопубликованной работы отменить. На опубликованную витрину это не влияет."
+Choose where you ship and how much you charge for shipping.,"Выберите, куда вы осуществляете доставку и сколько берёте за неё."
+Clear filter,Очистить фильтр
+Clear filters,Очистить фильтры
+Client ID,Client ID
+Client Secret,Client Secret
+Close,Закрыть
+Close settings,Закрыть настройки
+Close — continue draft,Закрыть — продолжить черновик
+Cms Pages,Страницы CMS
+Collapse left rail,Свернуть левую панель
+Collapse panel,Свернуть панель
+Collection Code,Код коллекции
+Collection Name,Название коллекции
+Collection code is required,Код коллекции обязателен
+Collection code must be alphanumeric and can include underscores or dashes.,Код коллекции должен быть буквенно-цифровым и может содержать подчёркивания или дефисы.
+Collection created successfully!,Коллекция успешно создана!
+Color,Цвет
+Commerce,Коммерция
+Compound,Составной
+Condition,Условие
+Configure,Настроить
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,Настройте стоимость и условия по зонам. Зоны без тарифа не предлагают этот способ.
+Configure rate,Настроить тариф
+Configure the available payment methods,Настройте доступные способы оплаты
+Configure the settings for the ${name} widget.,Настройте параметры виджета ${name}.
+Configure the tax classes that will be available to your customers at checkout.,"Настройте налоговые классы, которые будут доступны вашим клиентам при оформлении заказа."
+Configure your Cash On Delivery payment gateway settings,Настройте параметры платёжного шлюза «Оплата при доставке»
+Configure your Paypal payment gateway settings,Настройте параметры платёжного шлюза PayPal
+Configure your Stripe payment gateway settings,Настройте параметры платёжного шлюза Stripe
+Configure your store information,Настройте информацию о вашем магазине
+"Conflicts with ${plan1}, ${plan2}","Конфликтует с ${plan1}, ${plan2}"
+Conflicts with ${plan},Конфликтует с ${plan}
+Conflicts with ${plan} +${count},Конфликтует с ${plan} +${count}
+Conflicts with:,Конфликтует с:
+Content,Содержимое
+Continue a saved rollout plan,Продолжить сохранённый план развёртывания
+Continue your draft,Продолжить черновик
+Core Shipping,Доставка Core
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,Core ещё не прикреплён ни к одной зоне. Сначала прикрепите его в разделе Настройки → Доставка.
+Cost,Стоимость
+Cost is required,Стоимость обязательна
+Could not start fresh,Не удалось начать заново
+Countries,Страны
+"Country code (e.g., ""US""). Use ""*"" for all countries.","Код страны (например, «US»). Используйте «*» для всех стран."
+Coupon Code,Код купона
+"Coupon code can only contain letters, numbers, underscores, and hyphens","Код купона может содержать только буквы, цифры, подчёркивания и дефисы"
+Coupon created successfully!,Купон успешно создан!
+Coupons,Купоны
+Create A New Customer,Создать нового клиента
+Create New Package,Создать новую упаковку
+Create New Tax Class,Создать новый налоговый класс
+Create New Zone,Создать новую зону
+Create a new category,Создать новую категорию
+Create a new collection,Создать новую коллекцию
+Create a new coupon,Создать новый купон
+Create a new page,Создать новую страницу
+Create a new product,Создать новый товар
+Create a new variant for this product.,Создать новый вариант для этого товара.
+Create a new widget,Создать новый виджет
+Create a variant group,Создать группу вариантов
+Create method,Создать способ
+Create new tax class,Создать новый налоговый класс
+Create rollout plan,Создать план развёртывания
+Created At,Дата создания
+Current,Текущий
+Customer,Клиент
+Customer Email,Email клиента
+Customer conditions,Условия клиента
+Customer emails,Email-адреса клиентов
+Customer groups,Группы клиентов
+Customer's purchase,Покупка клиента
+Customers,Клиенты
+Customers (${count}),Клиенты (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,Клиенты в зоне ${zone} больше не будут видеть способы ${name} при оформлении заказа. Вы можете прикрепить его снова позже.
+Dashboard,Панель управления
+Date,Дата
+Decrease,Уменьшить
+Default carrier,Перевозчик по умолчанию
+Default language,Язык по умолчанию
+Default package,Упаковка по умолчанию
+Default service code,Код услуги по умолчанию
+"Delete ""${name}""?",Удалить «${name}»?
+Delete ${count} attributes,Удалить ${count} атрибутов
+Delete ${count} categories,Удалить ${count} категорий
+Delete ${count} collections,Удалить ${count} коллекций
+Delete ${count} pages,Удалить ${count} страниц
+Delete ${count} widgets,Удалить ${count} виджетов
+Delete container widget?,Удалить виджет-контейнер?
+Delete image,Удалить изображение
+"Delete package ""${name}""?",Удалить упаковку «${name}»?
+Delete this,Удалить это
+Delete this widget? This will be saved as a pending change you can publish or discard.,"Удалить этот виджет? Это будет сохранено как ожидающее изменение, которое вы можете опубликовать или отменить."
+Delete widget?,Удалить виджет?
+Delete zone,Удалить зону
+"Delete zone ""${name}""?",Удалить зону «${name}»?
+Deleted ${name},Удалено: ${name}
+Deleting this,Удаление этого
+Deleting this container will also hide,Удаление этого контейнера также скроет
+Description is required,Описание обязательно
+Desktop,Компьютер
+Detach,Открепить
+Detach ${name}?,Открепить ${name}?
+Disable ${count} pages,Отключить ${count} страниц
+Disable ${count} widgets,Отключить ${count} виджетов
+Disabled products will not be visible in the store and cannot be purchased.,Отключённые товары не будут видны в магазине и не могут быть куплены.
+Discard changes on this page only,Отменить изменения только на этой странице
+Discard everything,Отменить всё
+Discard everything in this draft,Отменить всё в этом черновике
+Discard failed,Не удалось отменить
+Discard pending changes?,Отменить несохранённые изменения?
+Discard this page,Отменить эту страницу
+Discarding…,Отмена…
+Discount Type,Тип скидки
+Discount amount,Сумма скидки
+Discount amount is required,Сумма скидки обязательна
+Discount type is required,Тип скидки обязателен
+Dislay Name,Отображаемое имя
+Display Name,Отображаемое имя
+Draft,Черновик
+Draft — not scheduled,Черновик — не запланирован
+Drag to resize,Потяните для изменения размера
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.","Каждая строка размещает этот виджет на одной странице, в одной области, со своим порядком сортировки. Меньшие значения отображаются первыми."
+Edit ${name},Редактировать ${name}
+Edit Shipping Zone,Редактировать зону доставки
+Edit Tax Rate,Редактировать налоговую ставку
+Edit Variant,Редактировать вариант
+Edit Zone,Редактировать зону
+Edit against the live storefront. Publish immediately or save as a rollout plan.,Редактируйте на живой витрине. Опубликуйте сразу или сохраните как план развёртывания.
+Edit rollout schedule,Редактировать расписание развёртывания
+Editable routes,Редактируемые маршруты
+Editing ${coupon},Редактирование ${coupon}
+Editing ${fullName},Редактирование ${fullName}
+Editing widget ${name},Редактирование виджета ${name}
+Edits to a shared widget update every route it appears on.,"Изменения общего виджета обновляют все маршруты, на которых он отображается."
+Empty package weight,Вес пустой упаковки
+Empty weight,Вес пустого
+Enable ${count} pages,Включить ${count} страниц
+Enable ${count} widgets,Включить ${count} виджетов
+Enable this page to make it visible on the frontend.,"Включите эту страницу, чтобы сделать её видимой на витрине."
+Enable?,Включить?
+End,Конец
+End Date,Дата окончания
+End date,Дата окончания
+End time is invalid.,Время окончания недопустимо.
+End time must be after start time.,Время окончания должно быть позже времени начала.
+Enter Category Name,Введите название категории
+Enter Collection Name,Введите название коллекции
+Enter Meta Description,Введите Meta описание
+Enter Meta Title,Введите Meta заголовок
+Enter Meta description,Введите Meta описание
+Enter Meta title,Введите Meta заголовок
+Enter SKU,Введите SKU
+Enter URL Key,Введите URL-ключ
+Enter URL key,Введите URL-ключ
+Enter customer emails,Введите эл. почты клиентов
+Enter description,Введите описание
+Enter group name,Введите название группы
+Enter meta description,Введите meta описание
+Enter meta title,Введите meta заголовок
+Enter page name,Введите название страницы
+Enter price,Введите цену
+Enter product name,Введите название товара
+Enter purchased amount,Введите сумму покупки
+Enter quantity,Введите количество
+Enter tax class name,Введите название налогового класса
+Enter the quantity,Введите количество
+Enter weight,Введите вес
+Environment,Окружение
+Error loading countries,Ошибка загрузки стран
+Error loading methods,Ошибка загрузки методов
+Error loading packages,Ошибка загрузки упаковок
+Error loading providers,Ошибка загрузки провайдеров
+Error loading zones,Ошибка загрузки зон
+EverShop · Back to page builder,EverShop · Назад к конструктору страниц
+Every page rolls back to the rollout’s saved state.,Каждая страница откатывается к сохранённому состоянию развёртывания.
+Every page rolls back to what the rollout had saved.,"Каждая страница откатывается к тому, что было сохранено в развёртывании."
+Existing rollout plan: ${plan},Существующий план развёртывания: ${plan}
+Expand,Развернуть
+Expand left rail,Развернуть левую панель
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.","Дополнительные языки, на которые покупатели могут переключиться, помимо языка по умолчанию. Язык по умолчанию всегда доступен — здесь его добавлять не нужно."
+Failed to attach provider,Не удалось прикрепить провайдера
+Failed to delete ${name},Не удалось удалить ${name}
+Failed to detach ${name},Не удалось открепить ${name}
+Failed to remove rate,Не удалось удалить ставку
+Failed to remove zone,Не удалось удалить зону
+Failed to save change,Не удалось сохранить изменение
+Failed to save rate,Не удалось сохранить ставку
+Failed to save zone,Не удалось сохранить зону
+Failed to update rollout schedule,Не удалось обновить расписание развёртывания
+Fixed discount to entire order,Фиксированная скидка на весь заказ
+Fixed discount to specific products,Фиксированная скидка на определённые товары
+Flat rate,Фиксированная ставка
+"Flat rate in cart currency, tax-exclusive.","Фиксированная ставка в валюте корзины, без учёта налога."
+Free shipping?,Бесплатная доставка?
+General Information,Общая информация
+Give Feedback,Оставить отзыв
+Global,Глобальный
+Globals,Глобальные
+Group,Группа
+Group Name,Название группы
+Group name is required,Название группы обязательно
+Groups,Группы
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,Полуоткрытый интервал — корзина ровно на значении Max исключается (эту точку охватывает Min следующего уровня).
+Has conflicts,Есть конфликты
+Heads up — ,Обратите внимание — 
+Height,Высота
+Height is required (0 for envelopes),Высота обязательна (0 для конвертов)
+Height must be 0 or greater,Высота должна быть 0 или больше
+Hide global areas,Скрыть глобальные области
+Higest tax rate based on cart items,Наивысшая налоговая ставка на основе товаров в корзине
+Highlight global areas on canvas,Выделить глобальные области на холсте
+Image,Изображение
+Include In Menu,Включить в меню
+Include in Store Menu?,Включить в меню магазина?
+Increase,Увеличить
+Insert image,Вставить изображение
+Integer,Целое число
+Invalid folder name,Недопустимое имя папки
+Invalid start,Недопустимое начало
+Invalid window,Недопустимый интервал
+Inventory,Запасы
+Is compound,Составной
+Its rates will be removed too. This cannot be undone.,Его ставки также будут удалены. Это нельзя отменить.
+Languages,Языки
+Layers,Слои
+Layout,Макет
+Leave,Покинуть
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,"Оставьте список страны пустым, чтобы охватить всю страну. Добавьте регионы, чтобы ограничить доставку конкретными областями."
+Leaving now may drop the most recent edits that haven’t reached the server yet.,"Если уйти сейчас, можно потерять последние изменения, которые ещё не дошли до сервера."
+Length,Длина
+Length is required,Длина обязательна
+Length must be greater than 0,Длина должна быть больше 0
+Live,Активно
+Loading...,Загрузка...
+Long text,Длинный текст
+Lower values appear first.,Меньшие значения отображаются первыми.
+Manage Stock,Управление складом
+Manage general information about the collection.,Управление общей информацией о коллекции.
+Manage product images and gallery. Drag and drop to reorder images.,"Управление изображениями товара и галереей. Перетаскивайте, чтобы изменить порядок изображений."
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","Управление интеграциями доставки и их методами (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,Управление налоговыми классами и налоговыми ставками для разных регионов.
+Manage the SEO settings of the category.,Управление настройками SEO категории.
+Manage the SEO settings.,Управление настройками SEO.
+Manage the attributes.,Управление атрибутами.
+Manage the collections associated with this product.,"Управление коллекциями, связанными с этим товаром."
+Manage the general information of the category.,Управление общей информацией категории.
+Manage the general information of the product.,Управление общей информацией товара.
+Manage the inventory settings of the product.,Управление настройками запасов товара.
+Manage the products assigned to this category.,"Управление товарами, назначенными этой категории."
+Manage the products assigned to this collection.,"Управление товарами, назначенными этой коллекции."
+Manage the shipping settings of the product.,Управление настройками доставки товара.
+Manage the status settings of the category.,Управление настройками статуса категории.
+Manage the variant group of the product.,Управление группой вариантов товара.
+Marketing,Маркетинг
+Max ${unit},Макс. ${unit}
+Max is required,Макс. обязательно
+Maximum,Максимум
+Maximum amount is ${value} ${currency},Максимальная сумма — ${value} ${currency}
+Maximum quantity is required,Требуется максимальное количество
+Maximum quantity must be greater than or equal to 0,Максимальное количество должно быть больше или равно 0
+Media,Медиа
+Meta Description,Meta-описание
+Meta Title,Meta-заголовок
+Meta Title is required,Требуется Meta-заголовок
+Meta description,Meta-описание
+Meta description is required,Требуется Meta-описание
+Meta title,Meta-заголовок
+Meta title is required,Требуется Meta-заголовок
+Method,Метод
+Method created,Метод создан
+Method name,Название метода
+Method name is required,Требуется название метода
+Method updated,Метод обновлён
+Methods →,Методы →
+Min ${unit},Мин. ${unit}
+Min Price,Мин. цена
+Min Weight,Мин. вес
+Min is required,Требуется минимум
+Min price is required,Требуется минимальная цена
+Min weight is required,Требуется минимальный вес
+Minimum purchase amount,Минимальная сумма покупки
+Minimum purchase qty,Мин. кол-во покупки
+Minimum purchase quantity,Минимальное количество покупки
+Minimum purchased amount. This only applies to registered customers.,Минимальная сумма покупки. Применяется только к зарегистрированным клиентам.
+Minimum quantity is required,Требуется минимальное количество
+Missing name,Отсутствует название
+Money,Деньги
+Name is required.,Требуется название.
+Navigation,Навигация
+New Attribute,Новый атрибут
+New Category,Новая категория
+New Collection,Новая коллекция
+New Coupon,Новый купон
+New Page,Новая страница
+New Variant,Новый вариант
+New coupon,Новый купон
+New rate,Новый тариф
+No collections,Нет коллекций
+No editable routes.,Нет редактируемых маршрутов.
+No file selected,Файл не выбран
+No methods yet — add one to start offering Core shipping.,"Пока нет методов — добавьте один, чтобы начать предлагать доставку Core."
+No packages yet. Create one — shippable products require a package.,Пока нет упаковок. Создайте одну — для отгружаемых товаров требуется упаковка.
+No product to display.,Нет товаров для отображения.
+"No providers attached. Click ""Attach Provider"" to add one.","Нет привязанных провайдеров. Нажмите «Привязать провайдера», чтобы добавить."
+"No rates yet — click ""Add Rate"" to offer this method in a zone.","Пока нет тарифов — нажмите «Добавить тариф», чтобы предложить этот метод в зоне."
+"No results for ""${keyword}""",Нет результатов по запросу «${keyword}»
+No routes have opted into page-builder editing yet.,Пока ни один маршрут не подключён к редактированию в конструкторе страниц.
+No shipping required?,Доставка не требуется?
+No subdivisions available — whole country is covered.,Нет доступных регионов — охвачена вся страна.
+No widgets available.,Нет доступных виджетов.
+"No widgets match ""${query}"".",Нет виджетов по запросу «${query}».
+No widgets on this route yet.,Пока нет виджетов на этом маршруте.
+No zones,Нет зон
+No zones found,Зоны не найдены
+Not visible individually,Не отображается отдельно
+Nothing to publish,Нечего публиковать
+Nothing to redo on this page,Нечего повторять на этой странице
+Nothing to undo on this page,Нечего отменять на этой странице
+Number,Число
+Option text is required,Требуется текст варианта
+Optional. Added to the shipping weight for quotes and labels.,Необязательно. Добавляется к весу доставки для расчётов и этикеток.
+Order Number,Номер заказа
+Order conditions,Условия заказа
+Orders (${count}),Заказы (${count})
+Other,Другое
+Other pages keep their pending changes.,Другие страницы сохраняют свои незавершённые изменения.
+Overlaps with existing rollout: ${plans}.,Пересекается с существующим развёртыванием: ${plans}.
+Overlaps with existing rollouts: ${plans}.,Пересекается с существующими развёртываниями: ${plans}.
+Package,Упаковка
+Package created,Упаковка создана
+Package deleted,Упаковка удалена
+Package saved,Упаковка сохранена
+Packages,Упаковки
+Page Name,Название страницы
+Page Not Found,Страница не найдена
+Page builder,Конструктор страниц
+Page builder canvas,Холст конструктора страниц
+Page created successfully!,Страница успешно создана!
+Page is required,Требуется страница
+Page name is required,Требуется название страницы
+Pages,Страницы
+Parent category,Родительская категория
+Payment Setting,Настройки оплаты
+Payment mode,Режим оплаты
+Payment setting saved,Настройки оплаты сохранены
+Paypal Payment,Оплата PayPal
+Pending start time,Ожидается время начала
+Percentage discount to entire order,Процентная скидка на весь заказ
+Percentage discount to specific products,Процентная скидка на конкретные товары
+Phone,Телефон
+Pick a start time to schedule this rollout.,"Выберите время начала, чтобы запланировать это развёртывание."
+Pick a widget below to insert as a child.,"Выберите виджет ниже, чтобы вставить как дочерний."
+Pick up where you left off — ${count} pending changes,"Продолжите с того места, где остановились — ${count} незавершённых изменений"
+Pick up where you left off — 1 pending change,"Продолжите с того места, где остановились — 1 незавершённое изменение"
+Pin drawer open,Закрепить панель открытой
+Pin — keep drawer open across canvas clicks,Закрепить — оставлять панель открытой при кликах по холсту
+Placed on: ${routes},Размещено на: ${routes}
+Placements,Размещения
+Postal Code,Почтовый индекс
+"Postcode (e.g., ""90210""). Empty for all postcodes.","Почтовый индекс (например, «90210»). Пусто — для всех индексов."
+Preselected for new products. Exactly one package is the default.,Выбрано по умолчанию для новых товаров. По умолчанию ровно одна упаковка.
+Preview,Предпросмотр
+Price-based tiers,Уровни на основе цены
+Priority,Приоритет
+Priority is required,Требуется приоритет
+Product Name,Название товара
+Product Status,Статус товара
+Product created successfully,Товар успешно создан
+Product updated successfully,Товар успешно обновлён
+Products (${count}),Товары (${count})
+Promotion,Акция
+Proportional allocation based on cart items,Пропорциональное распределение по товарам в корзине
+Provide the SEO details for the CMS page.,Укажите SEO-данные для страницы CMS.
+Provide the basic information for the CMS page.,Укажите основную информацию для страницы CMS.
+Provider,Провайдер
+Province Restrictions,Ограничения по регионам
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.","Код региона (например, «CA»). Используйте «*» для всех регионов."
+Provinces,Регионы
+Provinces is required,Требуются регионы
+Provinces:,Регионы:
+Publish failed,Не удалось опубликовать
+Publish now,Опубликовать сейчас
+Publish to the live storefront,Опубликовать в действующую витрину
+Publishable Key,Публикуемый ключ
+Publishing…,Публикация…
+Qty is required,Требуется количество
+Quick links,Быстрые ссылки
+Rate,Тариф
+Rate added,Тариф добавлен
+Rate is required,Требуется тариф
+Rate removed,Тариф удалён
+Rate status,Статус тарифа
+Rate updated,Тариф обновлён
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,Повторить (⇧⌘Z) — повторно применяет последнее отменённое изменение на этой странице
+Redo last undone change on this page,Повторить последнее отменённое изменение на этой странице
+Reference,Ссылка
+Refund,Возврат средств
+Refund amount,Сумма возврата
+Remove Zone,Удалить зону
+Remove placement,Удалить размещение
+Remove rate,Удалить тариф
+Remove this rate?,Удалить этот тариф?
+Removed,Удалено
+Resize settings drawer,Изменить размер панели настроек
+"Results for ""${keyword}""",Результаты по запросу «${keyword}»
+Revert all pages to saved state,Вернуть все страницы к сохранённому состоянию
+Revert everything,Откатить всё
+Revert this page,Откатить эту страницу
+Revert this page only,Откатить только эту страницу
+Revert to saved state?,Откатить к сохранённому состоянию?
+Reverting…,Откат…
+Rich text,Форматированный текст
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,"Отменить изменения, сделанные с момента последнего сохранения этого развёртывания. Действующая витрина не затрагивается — она уже отражает сохранённое состояние."
+SEO,SEO
+SEO Information,Информация SEO
+SKU is required,SKU обязателен
+Sale,Распродажа
+Sandbox,Песочница
+Save Settings,Сохранить настройки
+Save as rollout plan,Сохранить как план развёртывания
+Save as rollout plan and leave,Сохранить как план развёртывания и выйти
+Save changes,Сохранить изменения
+Save failed,Сохранение не удалось
+Save method,Сохранить способ
+Save rate,Сохранить ставку
+Saving…,Сохранение…
+Schedule failed,Планирование не удалось
+Scheduled,Запланировано
+Search engine optimize,Оптимизация для поисковых систем
+Search widgets,Поиск виджетов
+Secret Key,Секретный ключ
+Select Category,Выбрать категорию
+Select Parent Category,Выбрать родительскую категорию
+Select Products by SKU,Выбрать товары по SKU
+Select a provider first,Сначала выберите поставщика
+Select a provider…,Выберите поставщика…
+Select an option,Выберите вариант
+Select category,Выбрать категорию
+Select countries,Выберите страны
+Select operator,Выберите оператор
+Select options,Выберите варианты
+Select page,Выбрать страницу
+Select products to add to this collection.,Выберите товары для добавления в эту коллекцию.
+Select the list of attribute,Выберите список атрибутов
+Select this option if the product is a digital product or service that does not require shipping.,"Выберите этот вариант, если товар является цифровым продуктом или услугой, не требующей доставки."
+Set a start time to schedule.,Укажите время начала для планирования.
+Set the status and visibility of the product.,Задайте статус и видимость товара.
+Share,Поделиться
+Shipping Cost,Стоимость доставки
+Shipping Providers,Поставщики доставки
+Shipping address,Адрес доставки
+Shipping cost is required,Стоимость доставки обязательна
+Shipping provider setting saved,Настройки поставщика доставки сохранены
+Shipping tax class,Налоговый класс доставки
+Short text,Короткий текст
+Show global areas,Показать глобальные области
+Show on routes,Показывать на маршрутах
+Show products?,Показывать товары?
+Show this widget on every page,Показывать этот виджет на каждой странице
+Size (L × W × H),Размер (Д × Ш × В)
+Sort,Сортировка
+Sort order is required,Порядок сортировки обязателен
+Sort order must be a positive number,Порядок сортировки должен быть положительным числом
+Start,Начать
+Start a page-builder session,Запустить сеанс конструктора страниц
+Start date,Дата начала
+Start new changeset,Начать новый набор изменений
+Start time is invalid.,Время начала недействительно.
+State Date,Дата состояния
+Status is required,Статус обязателен
+Stay,Остаться
+Stay on this page,Остаться на этой странице
+Stock Availability,Наличие на складе
+Stop highlighting global areas,Прекратить выделение глобальных областей
+Store Address,Адрес магазина
+Store Description,Описание магазина
+Store Email,Эл. почта магазина
+Store Name,Название магазина
+Store Phone Number,Телефон магазина
+Store Setting,Настройка магазина
+Store Settings,Настройки магазина
+Store address,Адрес магазина
+Storefront,Витрина
+Stripe Payment,Оплата Stripe
+Tablet,Планшет
+Take our survey,Пройдите наш опрос
+Target Products,Целевые товары
+Tax Class,Налоговый класс
+Tax calculation configuration,Настройка расчёта налогов
+Tax class name,Название налогового класса
+Tax class name is required,Название налогового класса обязательно
+Tax classes,Налоговые классы
+Tax rate has been saved successfully!,Налоговая ставка успешно сохранена!
+Tax setting has been saved successfully!,Налоговые настройки успешно сохранены!
+The box or envelope this product ships in. Applies to all variants of this product.,"Коробка или конверт, в котором отправляется этот товар. Применяется ко всем вариантам этого товара."
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,"Коробки и конверты, которые вы используете для отправки. Каждый отправляемый товар ссылается на один из них — его размеры и вес пустой упаковки определяют расчёт стоимости доставки и этикетки."
+The conditions related to the customer for the coupon to be applied.,"Условия, связанные с покупателем, при которых применяется купон."
+The conditions related to the order for the coupon to be applied.,"Условия, связанные с заказом, при которых применяется купон."
+The default package cannot be deleted,Упаковку по умолчанию нельзя удалить
+The draft holds ${count} saved changes you can publish later.,"Черновик содержит ${count} сохранённых изменений, которые можно опубликовать позже."
+The draft holds 1 saved change you can publish later.,"Черновик содержит 1 сохранённое изменение, которое можно опубликовать позже."
+The draft is deleted.,Черновик удалён.
+The draft itself is deleted.,Сам черновик удалён.
+The general information about the coupon.,Общая информация о купоне.
+"The language of the admin panel, independent of the storefront.","Язык панели администратора, независимый от витрины."
+The method will no longer apply to this zone.,Этот способ больше не будет применяться к этой зоне.
+The minimum quantity of items required in the order to qualify for this coupon.,"Минимальное количество товаров в заказе, необходимое для применения этого купона."
+The minimum total amount required for the order to qualify for this coupon.,"Минимальная общая сумма заказа, необходимая для применения этого купона."
+The rollout plan,План развёртывания
+The storefront's primary language. Pages in this language have no URL prefix.,Основной язык витрины. Страницы на этом языке не имеют префикса в URL.
+The type of discount applied by the coupon.,"Тип скидки, применяемой купоном."
+The zone this rate applies to.,"Зона, к которой применяется эта ставка."
+"There is no ""Select"" attribute available.",Нет доступного атрибута типа «Select».
+There is no attribute to display,Нет атрибутов для отображения
+There is no category to display,Нет категорий для отображения
+There is no collections to display,Нет коллекций для отображения
+There is no coupon to display,Нет купонов для отображения
+There is no customer to display,Нет покупателей для отображения
+There is no order to display,Нет заказов для отображения
+There is no page to display,Нет страниц для отображения
+There is no widget to display,Нет виджетов для отображения
+There was an error fetching attribute groups.,Произошла ошибка при загрузке групп атрибутов.
+There was an error fetching categories.,Произошла ошибка при загрузке категорий.
+There was an error fetching collections.,Произошла ошибка при загрузке коллекций.
+There was an error fetching file browser APIs.,Произошла ошибка при загрузке API файлового браузера.
+There was an error fetching products.,Произошла ошибка при загрузке товаров.
+This cannot be undone. Packages still assigned to products can't be removed.,"Это действие нельзя отменить. Упаковки, всё ещё назначенные товарам, удалить нельзя."
+This changeset has no operations yet.,В этом наборе изменений пока нет операций.
+This field is required,Это поле обязательно
+This is the URL path for the CMS page.,Это путь URL для CMS-страницы.
+This is the address used to calculate tax rates.,"Это адрес, используемый для расчёта налоговых ставок."
+This is the meta title for the CMS page.,Это мета-заголовок для CMS-страницы.
+This is the name of the CMS page that will be displayed in the admin panel.,"Это название CMS-страницы, которое будет отображаться в панели администратора."
+This is the tax class applied to shipping costs.,"Это налоговый класс, применяемый к стоимости доставки."
+This product has some variants like color or size?,"У этого товара есть варианты, например цвет или размер?"
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,У этого поставщика нет настроек по зонам. Способы и ставки по зонам управляются в собственной административной области поставщика.
+This removes the zone along with its provider attachments and rates. This cannot be undone.,Это удалит зону вместе с привязанными к ней поставщиками и ставками. Это действие нельзя отменить.
+This route has unpublished changes in your draft,У этого маршрута есть неопубликованные изменения в вашем черновике
+This will be saved as a pending change you can publish or discard.,"Это будет сохранено как ожидающее изменение, которое можно опубликовать или отменить."
+Tiered,Многоуровневый
+Type is required,Тип обязателен
+URL Key,URL-ключ
+URL Key is required,URL-ключ обязателен
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens","URL-ключ должен быть в нижнем регистре и может содержать только буквы, цифры и дефисы"
+URL key,URL-ключ
+URL key is required,URL-ключ обязателен
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,URL-ключ должен быть в нижнем регистре и может содержать только буквенно-цифровые символы и дефисы
+Unassign,Отменить назначение
+Undo (⌘Z) — undoes your last edit on this page,Отменить (⌘Z) — отменяет последнее изменение на этой странице
+Undo / Redo,Отменить / Повторить
+Undo last change on this page,Отменить последнее изменение на этой странице
+Unknown,Неизвестно
+Unlink,Отсоединить
+Unpin drawer,Открепить панель
+Unpin — drawer will close when you click empty canvas,Открепить — панель закроется при клике по пустому холсту
+Unpublished changes,Неопубликованные изменения
+Unsaved changes,Несохранённые изменения
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,Обновите название и период действия для этого плана развёртывания. Изменения содержимого управляются отдельно в редакторе.
+Update the variant details and attributes here.,Обновите данные и атрибуты варианта здесь.
+Updated,Обновлено
+Upload an image for the category.,Загрузите изображение для категории.
+Used Times,Использовано раз
+Value is required,Значение обязательно
+Variant Group,Группа вариантов
+Variant created successfully,Вариант успешно создан
+Variant updated successfully,Вариант успешно обновлён
+Version ${version},Версия ${version}
+Visibility,Видимость
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,"Видимость определяет, где товар отображается в магазине. На возможность продажи товара это не влияет."
+Visitors will see the new layout on their next page load.,Посетители увидят новый макет при следующей загрузке страницы.
+Webhook Secret Key,Секретный ключ вебхука
+Weight,Вес
+Weight must be 0 or greater,Вес должен быть 0 или больше
+Weight must be a positive number,Вес должен быть положительным числом
+Weight-based tiers,Уровни на основе веса
+Widget Settings,Настройки виджета
+Widget created successfully!,Виджет успешно создан!
+Widgets,Виджеты
+Width,Ширина
+Width is required,Ширина обязательна
+Width must be greater than 0,Ширина должна быть больше 0
+Will roll out automatically: ${range},Будет развёрнуто автоматически: ${range}
+Working…,Выполняется…
+Worldwide,Весь мир
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,"В этом черновике есть ${count} изменений, которые ещё не опубликованы."
+You have ${count} changes still saving.,У вас ещё сохраняется ${count} изменений.
+You have 1 change in this draft that hasn’t been published yet.,"В этом черновике есть 1 изменение, которое ещё не опубликовано."
+You have 1 change still saving.,У вас ещё сохраняется 1 изменение.
+Your draft is safe on the server — you can come back and publish it any time.,Ваш черновик в безопасности на сервере — вы можете вернуться и опубликовать его в любое время.
+Your edits on other pages stay in the draft.,Ваши изменения на других страницах остаются в черновике.
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,URL вашего вебхука должен быть: https://yourdomain.com/api/stripe/webhook
+Zone,Зона
+Zone Name,Название зоны
+Zone Rates,Тарифы зоны
+Zone created,Зона создана
+Zone is required,Зона обязательна
+Zone name is required,Название зоны обязательно
+Zone removed,Зона удалена
+Zone updated,Зона обновлена
+Zones served,Обслуживаемые зоны
+and ${count} more,и ещё ${count}
+container will also hide,контейнер также будет скрыт
+current page,текущая страница
+e.g. Small Box,напр. Маленькая коробка
+e.g. Summer Sale 2026,напр. Летняя распродажа 2026
+e.g. content,напр. content
+"e.g., 10.00","напр., 10.00"
+"e.g., EU, US-West","напр., EU, US-West"
+"e.g., Express","напр., Экспресс"
+"e.g., FEDEX_GROUND, usps_priority","напр., FEDEX_GROUND, usps_priority"
+every page,каждая страница
+indefinite,бессрочно
+open,открыть
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.","публикация выполняется мгновенно и не может быть отменена с этого экрана. Чтобы вместо этого подготовить к выпуску, отмените и выберите «Запланировать развёртывание»."
+quantity of products are matched bellow conditions(All),количество товаров соответствует приведённым ниже условиям (Все)
+subtotal,промежуточный итог
+to a storefront route's,к маршруту витрины
+to make it appear here.,чтобы оно появилось здесь.
+weight,вес
+widget? This will be saved as a pending change you can publish or discard.,"виджет? Это будет сохранено как ожидающее изменение, которое вы можете опубликовать или отменить."
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,"будет удалён, и действующая витрина перестанет применять его изменения. Базовый набор изменений и его ожидающие правки содержимого сохраняются."
+— None —,— Нет —
+Cash On Delivery,Наложенный платёж
+Please select a valid payment method,"Пожалуйста, выберите допустимый способ оплаты"
+Show ${label} width,Показать ширину ${label}
+Column ${index},Столбец ${index}
+Switch page,Сменить страницу
+Search pages…,Поиск страниц…
+Search pages,Поиск страниц
+Save your pending edits — the live storefront will catch up,Сохраните ожидающие правки — действующая витрина подхватит их
+No changes to save — the rollout matches the editor,Нет изменений для сохранения — развёртывание совпадает с редактором
+More rollout actions,Дополнительные действия развёртывания
+Revert to saved state…,Вернуться к сохранённому состоянию…
+Roll back the editor to what the rollout currently shows on the storefront,"Откатить редактор к тому, что развёртывание сейчас показывает на витрине"
+Nothing to revert — the editor matches the saved state,Нечего откатывать — редактор совпадает с сохранённым состоянием
+Cancel rollout plan…,Отменить план развёртывания…
+Remove the schedule — the changeset is preserved,Удалить расписание — набор изменений сохраняется
+Publish,Опубликовать
+More publish options,Дополнительные параметры публикации
+Apply all edits to the live storefront immediately,Немедленно применить все правки к действующей витрине
+Save as rollout plan…,Сохранить как план развёртывания…
+Schedule these edits to roll out at a future time,Запланировать развёртывание этих правок на будущее время
+Discard pending changes…,Отменить ожидающие изменения…
+Choose between discarding the whole draft or just this page,Выберите: отменить весь черновик или только эту страницу
+Switch session,Сменить сеанс
+New changeset,Новый набор изменений
+Rollout: ${name},Развёртывание: ${name}
+Click or drag to add,"Нажмите или перетащите, чтобы добавить"
+Background color,Цвет фона
+Text color,Цвет текста
+Dwell time,Время показа
+Time each announcement stays visible (in addition to the 400ms slide transition).,"Время, в течение которого каждое объявление остаётся видимым (в дополнение к 400ms переходу слайда)."
+Announcements,Объявления
+Add announcement,Добавить объявление
+Untitled,Без названия
+Free shipping on orders over $50,Бесплатная доставка при заказе от $50
+Optional. Makes the entire row a clickable link.,Необязательно. Делает всю строку кликабельной ссылкой.
+Link label,Текст ссылки
+Optional. Displayed after the content; defaults to the content itself.,Необязательно. Отображается после содержимого; по умолчанию совпадает с самим содержимым.
+Shop now,Купить сейчас
+Dark,Тёмный
+Light,Светлый
+Gradient,Градиент
+Left,Слева
+Center,По центру
+Right,Справа
+Selected image,Выбранное изображение
+No image selected,Изображение не выбрано
+Replace,Заменить
+Clear,Очистить
+Reflects the alignment below.,Отражает выравнивание ниже.
+Banner Image,Изображение баннера
+Mobile image,Мобильное изображение
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,Необязательно. Подставляется ниже контрольной точки 768px. При пустом значении используется изображение выше — обычно это портретная обрезка той же сцены.
+Alignment,Выравнивание
+Overlay copy,Текст наложения
+Eyebrow,Надзаголовок
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".",Небольшая надпись заглавными буквами над заголовком. Напр. «LIMITED EDITION».
+LIMITED EDITION,ОГРАНИЧЕННАЯ СЕРИЯ
+Heading,Заголовок
+The Summer Edit,Летняя подборка
+Sub-text,Подзаголовок
+One short supporting sentence.,Одно короткое поясняющее предложение.
+Overlay placement,Расположение наложения
+Content position,Позиция содержимого
+Where the overlay text sits on the image.,Где текст наложения располагается на изображении.
+Tint,Затемнение
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,Подложка за текстом наложения для читаемости. Тёмный / градиент автоматически делают текст белым.
+Tint opacity,Непрозрачность затемнения
+Call to actions,Призывы к действию
+Remove primary CTA,Удалить основной CTA
++ Add a primary CTA,+ Добавить основной CTA
+Secondary,Второстепенный
+Remove secondary CTA,Удалить второстепенный CTA
+Learn more,Подробнее
++ Add a secondary CTA,+ Добавить второстепенный CTA
+Details,Подробности
+Alt text,Альтернативный текст
+Describes the banner for screen readers and SEO.,Описывает баннер для программ чтения с экрана и SEO.
+"e.g. ""Summer sale promotional banner""",напр. «Рекламный баннер летней распродажи»
+Banner link,Ссылка баннера
+Optional. Clicking the banner navigates here.,Необязательно. Клик по баннеру ведёт сюда.
+Display name,Отображаемое имя
+Shop,Магазин
+Target,Цель
+"Page, category, product, or a custom URL.","Страница, категория, товар или пользовательский URL."
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO: не передавать вес ранжирования по этой ссылке (rel=nofollow).
+No referrer,Без реферера
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,Конфиденциальность: убрать URL источника перехода (rel=noreferrer). Ссылки в новой вкладке всегда содержат это.
+Menu items,Пункты меню
+Add menu item,Добавить пункт меню
+Sub-items,Подпункты
+Optional dropdown links (1 level).,Необязательные ссылки выпадающего меню (1 уровень).
+Add sub-item,Добавить подпункт
+Options,Параметры
+Use as main menu,Использовать как главное меню
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.","Основная навигация — на мобильных устройствах сворачивается в меню-гамбургер. Отключите для простого списка ссылок (например, в подвале), который остаётся встроенным на мобильных."
+Custom CSS classes,Пользовательские классы CSS
+Applied to the rendered menu element.,Применяются к отображаемому элементу меню.
+e.g. main-nav font-semibold,"например, main-nav font-semibold"
+S,S
+M,M
+L,L
+Tiles,Плитки
+Add tile,Добавить плитку
+Hero · ,Баннер · 
+Used when no image is set.,"Используется, если изображение не задано."
+Small label above the heading.,Небольшая надпись над заголовком.
+THE SUMMER EDIT,ЛЕТНЯЯ ПОДБОРКА
+New Arrivals,Новинки
+Body,Текст
+Big card — the headline of the grid.,Большая карточка — главный акцент сетки.
+Link URL,URL ссылки
+Gap,Отступ
+Minimum block height,Минимальная высота блока
+Image left,Изображение слева
+Image right,Изображение справа
+Centered,По центру
+Pull quote,Выноска
+Variant,Вариант
+Image column size,Размер колонки изображения
+Describe the image,Опишите изображение
+Copy,Текст
+"Small all-caps label. E.g. ""OUR STORY"".","Небольшая надпись заглавными буквами. Например, ""НАША ИСТОРИЯ""."
+Our story,Наша история
+"Made by hand, in small batches","Сделано вручную, малыми партиями"
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.",Обязательно для варианта с выноской. Отображается крупно в стиле цитаты.
+"A short, quotable line.",Короткая цитируемая фраза.
+Three or four sentences of brand narrative.,Три-четыре предложения о бренде.
+Second body paragraph (optional),Второй абзац текста (необязательно)
+A second short paragraph if the story needs it.,"Второй короткий абзац, если требуется для истории."
+Read more link,Ссылка «Подробнее»
+Read more,Подробнее
+URL,URL
+Remove read-more link,Удалить ссылку «Подробнее»
++ Add a read-more link,+ Добавить ссылку «Подробнее»
+Square,Квадрат
+Landscape,Горизонтальное
+Portrait,Вертикальное
+Overlay,Поверх изображения
+Below,Под изображением
+New category,Новая категория
+Section heading,Заголовок раздела
+Optional. Shown above the grid.,Необязательно. Отображается над сеткой.
+Shop by category,Покупки по категориям
+Women,Женщины
+Columns,Колонки
+Auto,Авто
+Asymmetric makes the first tile span 2 columns.,Асимметричный режим растягивает первую плитку на 2 колонки.
+Uniform,Равномерно
+Asymmetric,Асимметрично
+Image aspect,Соотношение сторон изображения
+Label position,Положение подписи
+Blush,Пудровый
+XL,XL
+Position ${c},Позиция ${c}
+Column layout,Макет колонок
+Drag widgets into each column. Children re-flow when you change the ratio.,Перетащите виджеты в каждую колонку. Дочерние элементы перестраиваются при изменении соотношения.
+Space between columns.,Расстояние между колонками.
+Where content sits within each column. Applied uniformly to every column.,Расположение содержимого внутри каждой колонки. Применяется одинаково ко всем колонкам.
+Row appearance,Оформление строки
+Background,Фон
+Custom color,Пользовательский цвет
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","Любой цвет CSS (например, ""#0a0a0a"" или ""rgb(10,10,10)""). Оставьте пустым, чтобы использовать образец выше."
+Padding,Внутренние отступы
+Outer spacing around the row. Scales down on mobile.,Внешние отступы вокруг строки. Уменьшаются на мобильных устройствах.
+Solid,Сплошная
+Dashed,Пунктирная
+Already expired,Срок уже истёк
+Expires in ${days}d ${hours}h,Истекает через ${days}д ${hours}ч
+Expires in ${hours}h ${minutes}m,Истекает через ${hours}ч ${minutes}м
+Offer,Предложение
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".","Строка срочности. Необязательно. Например, ""Ограничено · Заканчивается в воскресенье""."
+Limited · Ends Sunday,Ограничено · Заканчивается в воскресенье
+Headline,Заголовок
+Take 20% off your order,Скидка 20% на ваш заказ
+Optional. One short instructional line.,Необязательно. Одна короткая поясняющая строка.
+Use code at checkout,Введите код при оформлении заказа
+Promo code,Промокод
+Displayed in uppercase to shoppers.,Отображается покупателям заглавными буквами.
+Expires,Истекает
+Optional. The block auto-hides after this time for live visitors.,Необязательно. После этого времени блок автоматически скрывается для посетителей.
+Call to action,Призыв к действию
+Button label,Текст кнопки
+Shop now →,Купить сейчас →
+Button link,Ссылка кнопки
+Appearance,Оформление
+Border,Граница
+Narrow,Узкий
+Normal,Обычный
+Wide,Широкий
+Shown above all content. Optional.,Отображается над всем содержимым. Необязательно.
+e.g. Frequently asked,"например, Часто задаваемые"
+Prose,Текст
+FAQ group · ${count} items,Группа FAQ · ${count} элементов
+Group heading,Заголовок группы
+Optional sub-heading.,Необязательный подзаголовок.
+e.g. Shipping,"например, Доставка"
+Add question,Добавить вопрос
+Question,Вопрос
+e.g. How long does shipping take?,"например, Сколько времени занимает доставка?"
+Answer,Ответ
+"Supports **bold**, _italic_, and line breaks.","Поддерживает **жирный**, _курсив_ и переносы строк."
+e.g. Orders ship within 24 hours…,"например, Заказы отправляются в течение 24 часов…"
+Add prose,Добавить текст
+Add FAQ group,Добавить группу FAQ
+Max width,Максимальная ширина
+Content column width.,Ширина колонки содержимого.
+Allow multiple open,Разрешить несколько открытых
+"When off, opening one FAQ item closes the others in the same group.","Если выключено, открытие одного элемента FAQ закрывает остальные в этой же группе."
+New link,Новая ссылка
+New column,Новая колонка
+Add column,Добавить колонку
+${title} · ${count} links,${title} · ${count} ссылок
+Column title,Заголовок колонки
+Links,Ссылки
+"Min 1, max 12.","Мин. 1, макс. 12."
+Add link,Добавить ссылку
+New arrivals,Новинки
+Boxed,В контейнере
+Wide (full bleed),Широкий (на всю ширину)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,В контейнере содержимое остаётся внутри контейнера страницы (максимальную ширину задаёт тема). Широкий растягивается от края до края.
+Scales down on mobile.,Уменьшается на мобильных устройствах.
+Optional. Painted behind content. Combine with a tint below for legibility.,Необязательно. Отображается за содержимым. Сочетайте с затемнением ниже для читаемости.
+XS,XS
+Spacing,Отступы
+Size,Размер
+Mobile scales down ~⅔ automatically.,На мобильных уменьшается примерно до ⅔ автоматически.
+Divider line,Разделительная линия
+Show divider line,Показывать разделительную линию
+A horizontal rule centred in the spacing band.,Горизонтальная линия по центру области отступа.
+Line color,Цвет линии
+Default uses the theme's divider color.,По умолчанию используется цвет разделителя темы.
+Sides,Стороны
+Bottom,Снизу
+Dots,Точки
+Bars,Полосы
+Mobile image (optional),Изображение для мобильных (необязательно)
+Used at ≤ 767 px. Falls back to the main image.,Используется при ≤ 767 px. По умолчанию берётся основное изображение.
+e.g. New collection,напр. Новая коллекция
+e.g. Summer Sale,напр. Летняя распродажа
+Sub text,Подзаголовок
+Check out our latest products with special discounts.,Ознакомьтесь с нашими новинками со специальными скидками.
+Primary button,Основная кнопка
+Secondary button,Дополнительная кнопка
++ Add secondary button,+ Добавить дополнительную кнопку
+Overrides,Переопределения
+Leaves slide-specific anchor; falls back to the slideshow's default.,"Оставляет якорь, заданный для слайда; по умолчанию используется настройка слайд-шоу."
+Overlay tint,Оттенок наложения
+Overlay opacity,Непрозрачность наложения
+Make whole slide clickable,Сделать весь слайд кликабельным
+Behavior,Поведение
+Transition,Переход
+Slide,Слайд
+Fade,Затухание
+Transition speed,Скорость перехода
+Autoplay,Автовоспроизведение
+Autoplay delay,Задержка автовоспроизведения
+${seconds} s between slides,${seconds} с между слайдами
+Pause on hover,Пауза при наведении
+Pause for 20 s after user nav,Пауза на 20 с после переключения пользователем
+Arrows,Стрелки
+Aspect ratio,Соотношение сторон
+`Auto` matches the natural image height (jumps between slides).,`Auto` подстраивается под естественную высоту изображения (скачки между слайдами).
+Default content position,Положение контента по умолчанию
+Per-slide overrides win.,Приоритет у настроек отдельного слайда.
+Default overlay tint,Оттенок наложения по умолчанию
+Default overlay opacity,Непрозрачность наложения по умолчанию
+Slides (${count}),Слайды (${count})
+No slides yet.,Слайдов пока нет.
+Add your first slide,Добавьте первый слайд
+Slide ${number},Слайд ${number}
+Image only,Только изображение
+Empty,Пусто
+Show slide,Показать слайд
+Hide slide,Скрыть слайд
+Move slide up,Переместить слайд вверх
+Move slide down,Переместить слайд вниз
+Delete slide,Удалить слайд
+Top,Сверху
+Cover,Заполнение
+Contain,Вписать
+Required for accessibility.,Обязательно для доступности.
+Image fit,Подгонка изображения
+"Small all-caps label. E.g. ""LIMITED EDITION"".",Небольшая надпись заглавными буквами. Напр. «LIMITED EDITION».
+Limited edition,Ограниченная серия
+One strong line,Одна яркая строка
+Two lines of supporting copy.,Две строки поясняющего текста.
+Image position,Положение изображения
+Vertical alignment,Вертикальное выравнивание
+Aligns the copy panel content.,Выравнивает содержимое текстовой панели.
+Remove call to action,Удалить призыв к действию
+Add a call to action,Добавить призыв к действию
+Custom CSS classes for the text block,Пользовательские CSS-классы для текстового блока
+Add group,Добавить группу
+${label} · ${count} subs,${label} · ${count} подкат.
+Parent label,Название родительской категории
+Parent link,Ссылка родительской категории
+Image alt text,Альтернативный текст изображения
+Sub-categories,Подкатегории
+"Min 1, max 8.","Мин. 1, макс. 8."
+Add sub-category,Добавить подкатегорию
+Dresses,Платья
+Columns (desktop),Столбцы (десктоп)
+On tablets the layout is always 2 columns.,На планшетах макет всегда в 2 столбца.
+Make parent image a link,Сделать родительское изображение ссылкой
+"When off, only the sub-chips and parent label are interactive.","Когда выключено, интерактивны только чипы подкатегорий и название родительской категории."
+Title,Заголовок
+e.g. Free shipping,напр. Бесплатная доставка
+Optional supporting line below the title.,Необязательная поясняющая строка под заголовком.
+Icon,Значок
+Optional. SVG or raster image. Hidden when icons are turned off globally.,"Необязательно. SVG или растровое изображение. Скрывается, когда значки отключены глобально."
+Optional. Makes the whole cell clickable.,Необязательно. Делает всю ячейку кликабельной.
+"Auto matches the item count, capped at 4.","Auto подстраивается под количество элементов, но не более 4."
+3,3
+4,4
+Icon size,Размер значка
+Show icons,Показывать значки
+Master switch. Items without an icon URL are unaffected.,Главный переключатель. На элементы без URL значка не влияет.
+Show divider,Показывать разделитель
+Vertical line between cells.,Вертикальная линия между ячейками.
+Collection,Коллекция
+Search collections…,Поиск коллекций…
+No collections match “${value}”.,"Нет коллекций, соответствующих «${value}»."
+You have no collections yet.,У вас пока нет коллекций.
+Please select a collection,"Пожалуйста, выберите коллекцию"
+"Defaults to ""${name}"" (the collection's name).",По умолчанию «${name}» (название коллекции).
+Defaults to the picked collection's name.,По умолчанию название выбранной коллекции.
+Collection name,Название коллекции
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,По умолчанию описание коллекции. Установка этого значения заменяет форматированное описание обычным текстом.
+e.g. Hand-picked styles for the season.,напр. Отобранные вручную стили сезона.
+View all link,Ссылка «Смотреть все»
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.","Необязательно. Скрывается, если пусто. Выберите категорию, товар, страницу или вставьте собственный URL."
+"Optional. Defaults to ""View all →"".",Необязательно. По умолчанию «Смотреть все →».
+View all →,Смотреть все →
+Total products,Всего товаров
+Number of products to display.,Количество отображаемых товаров.
+Products per row,Товаров в строке
+Grid columns (1–6 typical).,Столбцы сетки (обычно 1–6).
+Count is required,Количество обязательно
+e.g. 8,напр. 8
+Count per row is required,Количество в строке обязательно
+e.g. 4,напр. 4
+Cover image,Обложка
+COLLECTION,КОЛЛЕКЦИЯ
+"Defaults to ""${pickedName}"".",По умолчанию «${pickedName}».
+Defaults to the picked collection name.,По умолчанию название выбранной коллекции.
+Optional. One or two sentences of editorial copy.,Необязательно. Одно-два предложения редакционного текста.
+"Linen, cotton, easy stuff.","Лён, хлопок, лёгкие ткани."
+Preview product count,Количество товаров в предпросмотре
+2 (1×2),2 (1×2)
+4 (2×2),4 (2×2)
+Please pick a collection,"Пожалуйста, выберите коллекцию"
+Add collection,Добавить коллекцию
+Row heading,Заголовок строки
+The Linen Edit,The Linen Edit
+Optional. Hidden when empty.,"Необязательно. Скрывается, если пусто."
+View all label,Текст ссылки «Смотреть все»
+Show price,Показывать цену
+Show divider between rows,Показывать разделитель между строками
+Selected:,Выбрано:
+Image override,Переопределение изображения
+Override image,Переопределить изображение
+Override image (optional),Переопределить изображение (необязательно)
+Leave empty to use the product's primary image.,"Оставьте пустым, чтобы использовать основное изображение товара."
+Small label above the product name. Optional.,Небольшая надпись над названием товара. Необязательно.
+FEATURED,РЕКОМЕНДУЕМОЕ
+Editorial copy,Редакционный текст
+Overrides the product's own description in this context. Leave blank to hide.,"Переопределяет собственное описание товара в этом контексте. Оставьте пустым, чтобы скрыть."
+Two lines of copy explaining why this product is being spotlighted right now.,"Две строки текста, объясняющие, почему этот товар выделен именно сейчас."
+Please pick a product,"Пожалуйста, выберите товар"
+e.g. On orders over $50,напр. При заказах от $50
+Text block,Текстовый блок
+Menu,Меню
+Footer menu,Меню в подвале
+Banner,Баннер
+Simple Slideshow,Простое слайд-шоу
+Brand story,История бренда
+Category mosaic,Мозаика категорий
+Tiered categories,Многоуровневые категории
+Bento grid,Сетка бенто
+Separator,Разделитель
+Section,Секция
+Split feature,Разделённый блок
+Announcement bar,Панель объявлений
+Coupon block,Блок купона
+FAQ block,Блок FAQ
+Trust strip,Полоса доверия
+Collection products,Товары коллекции
+Collection stack,Стек коллекций
+Collection spotlight,Витрина коллекции
+Product hero,Главный товар
+Layout container with 1–4 columns for nesting widgets.,Контейнер макета с 1–4 колонками для вложенных виджетов.
+Add rich text content,Добавить форматированный текст
+Navigation links,Ссылки навигации
+Multi-column list of footer links — a titled column of navigation links per group.,Многоколоночный список ссылок в подвале — отдельная колонка навигационных ссылок с заголовком для каждой группы.
+A single hero image with optional overlay copy and CTAs.,Одно главное изображение с необязательным наложенным текстом и CTA.
+Rotating image carousel,Вращающаяся карусель изображений
+Editorial block combining an image and long-form brand narrative. Four layout variants.,"Редакторский блок, сочетающий изображение и развёрнутый рассказ о бренде. Четыре варианта макета."
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.",Сетка из 3–6 плиток категорий для основного входа «Покупки по категориям».
+A two-level nav block: parent category image plus a row of sub-category chips.,Двухуровневый навигационный блок: изображение родительской категории и ряд чипов подкатегорий.
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,Асимметричная мозаика плиток CTA — одна большая главная плитка и 1–4 дополнительных.
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.",Вертикальный отступ между виджетами с необязательной разделительной линией. На мобильных уменьшается автоматически.
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,"Стилизованная полоса для перетаскивания, оборачивающая другие виджеты. Переключение между широким (во всю ширину) и блочным (контейнер темы) режимами."
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,Промо-блок 50/50 с изображением и текстом и необязательным CTA. Классический виджет промо-момента.
+A thin top-of-page bar with one or more rotating announcements.,Тонкая полоса вверху страницы с одним или несколькими сменяющимися объявлениями.
+A promo panel with a copyable discount code and CTA.,Промо-панель с копируемым промокодом и CTA.
+Flexible content block mixing prose sections and accordion FAQ groups.,"Гибкий контентный блок, сочетающий текстовые разделы и группы FAQ в виде аккордеона."
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.","Ряд преимуществ (бесплатная доставка, лёгкий возврат и т. д.) для усиления под главным блоком или над подвалом."
+A list of products from a collection,Список товаров из коллекции
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Сложенные ряды коллекций, каждый с заголовком, ссылкой «Смотреть все» и полосой товаров."
+"A featured collection with cover image, editorial copy, and a small product preview grid.","Избранная коллекция с обложкой, редакторским текстом и небольшой сеткой превью товаров."
+"A single-product spotlight — image, name, price, and a link to the full product page.","Витрина одного товара — изображение, название, цена и ссылка на полную страницу товара."

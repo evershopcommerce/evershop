@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface CODPaymentProps {
@@ -21,15 +22,15 @@ export default function CODPayment({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Cash On Delivery Payment</CardTitle>
+        <CardTitle>{_('Cash On Delivery Payment')}</CardTitle>
         <CardDescription>
-          Configure your Cash On Delivery payment gateway settings
+          {_('Configure your Cash On Delivery payment gateway settings')}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Enable?</h4>
+            <h4>{_('Enable?')}</h4>
           </div>
           <div className="col-span-2 flex justify-start">
             <ToggleField
@@ -44,12 +45,12 @@ export default function CODPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Dislay Name</h4>
+            <h4>{_('Dislay Name')}</h4>
           </div>
           <div className="col-span-2">
             <InputField
               name="codDisplayName"
-              placeholder="Display Name"
+              placeholder={_('Display Name')}
               defaultValue={codDisplayName}
             />
           </div>

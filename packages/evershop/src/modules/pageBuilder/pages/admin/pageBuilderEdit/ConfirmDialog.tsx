@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@components/common/ui/AlertDialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export interface ConfirmDialogProps {
@@ -32,8 +33,8 @@ export function ConfirmDialog({
   open,
   title,
   description,
-  confirmLabel = 'Confirm',
-  cancelLabel = 'Cancel',
+  confirmLabel = _('Confirm'),
+  cancelLabel = _('Cancel'),
   destructive = false,
   busy = false,
   onConfirm,
@@ -68,7 +69,7 @@ export function ConfirmDialog({
               void onConfirm();
             }}
           >
-            {busy ? 'Working…' : confirmLabel}
+            {busy ? _('Working…') : confirmLabel}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

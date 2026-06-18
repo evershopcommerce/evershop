@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { toast } from 'react-toastify';
 import uniqid from 'uniqid';
@@ -55,7 +56,7 @@ const Upload: React.FC<{
       .then((response) => {
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
-          throw new TypeError('Something wrong. Please try again');
+          throw new TypeError(_('Something wrong. Please try again'));
         }
 
         return response.json();
@@ -70,7 +71,7 @@ const Upload: React.FC<{
             }))
           );
         } else {
-          toast.error(get(response, 'error.message', 'Failed!'));
+          toast.error(get(response, 'error.message', _('Failed!')));
         }
       })
       .catch((error) => {
@@ -413,7 +414,10 @@ export function ImageUploader({
 
   if (error) {
     return (
-      <p className="text-destructive">There was an error:{error.message}</p>
+      <p className="text-destructive">
+        {_('There was an error:')}
+        {error.message}
+      </p>
     );
   } else if (fetching) {
     return <ImageUploaderSkeleton itemCount={isMultiple ? 5 : 1} />;

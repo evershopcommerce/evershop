@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export type DeviceMode = 'desktop' | 'tablet' | 'phone';
@@ -21,7 +22,7 @@ export function DeviceButton({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      aria-label={`Show ${label} width`}
+      aria-label={_('Show ${label} width', { label })}
       title={label}
       className={`p-1.5 rounded transition-colors ${
         active

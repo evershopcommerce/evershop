@@ -7,6 +7,7 @@ import {
   Slider,
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import type {
   SectionPadding,
@@ -28,26 +29,26 @@ interface SectionSettingProps {
 }
 
 const WIDTH_OPTIONS: ReadonlyArray<{ value: SectionWidth; label: string }> = [
-  { value: 'boxed', label: 'Boxed' },
-  { value: 'wide', label: 'Wide (full bleed)' }
+  { value: 'boxed', label: _('Boxed') },
+  { value: 'wide', label: _('Wide (full bleed)') }
 ];
 
 const PADDING_OPTIONS: ReadonlyArray<{
   value: SectionPadding;
   label: string;
 }> = [
-  { value: 'none', label: 'None' },
-  { value: 'sm', label: 'S' },
-  { value: 'md', label: 'M' },
-  { value: 'lg', label: 'L' },
-  { value: 'xl', label: 'XL' }
+  { value: 'none', label: _('None') },
+  { value: 'sm', label: _('S') },
+  { value: 'md', label: _('M') },
+  { value: 'lg', label: _('L') },
+  { value: 'xl', label: _('XL') }
 ];
 
 const TINT_OPTIONS: ReadonlyArray<{ value: SectionTint; label: string }> = [
-  { value: 'none', label: 'None' },
-  { value: 'dark', label: 'Dark' },
-  { value: 'light', label: 'Light' },
-  { value: 'gradient', label: 'Gradient' }
+  { value: 'none', label: _('None') },
+  { value: 'dark', label: _('Dark') },
+  { value: 'light', label: _('Light') },
+  { value: 'gradient', label: _('Gradient') }
 ];
 
 export default function SectionSetting({
@@ -84,10 +85,12 @@ export default function SectionSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Layout">
+      <Section title={_('Layout')}>
         <Field
-          label="Width"
-          hint="Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge."
+          label={_('Width')}
+          hint={_(
+            "Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge."
+          )}
         >
           <Segmented<SectionWidth>
             value={widthV}
@@ -97,7 +100,7 @@ export default function SectionSetting({
             }
           />
         </Field>
-        <Field label="Padding" hint="Scales down on mobile.">
+        <Field label={_('Padding')} hint={_('Scales down on mobile.')}>
           <Segmented<SectionPadding>
             value={paddingV}
             options={PADDING_OPTIONS}
@@ -108,8 +111,8 @@ export default function SectionSetting({
         </Field>
       </Section>
 
-      <Section title="Background">
-        <Field label="Color">
+      <Section title={_('Background')}>
+        <Field label={_('Color')}>
           <ColorSwatchField
             value={backgroundV}
             onChange={(v) =>
@@ -118,8 +121,10 @@ export default function SectionSetting({
           />
         </Field>
         <Field
-          label="Image"
-          hint="Optional. Painted behind content. Combine with a tint below for legibility."
+          label={_('Image')}
+          hint={_(
+            'Optional. Painted behind content. Combine with a tint below for legibility.'
+          )}
         >
           <ImagePickerField
             value={backgroundImageV}
@@ -148,7 +153,7 @@ export default function SectionSetting({
         </Field>
         {backgroundImageV && (
           <>
-            <Field label="Tint">
+            <Field label={_('Tint')}>
               <Segmented<SectionTint>
                 value={tintV}
                 options={TINT_OPTIONS}
@@ -158,7 +163,7 @@ export default function SectionSetting({
               />
             </Field>
             {tintV !== 'none' && (
-              <Field label="Tint opacity">
+              <Field label={_('Tint opacity')}>
                 <Slider
                   value={Math.round(opacityV * 100)}
                   min={0}

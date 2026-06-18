@@ -219,8 +219,8 @@ export function ShippingMethods({
                                   <div className="text-sm text-gray-500 line-through">
                                     {method.cost.text}
                                   </div>
-                                  <div className="font-medium text-primary">
-                                    {_('FREE')}
+                                  <div className="font-medium text-primary uppercase">
+                                    {_('Free')}
                                   </div>
                                 </>
                               )}

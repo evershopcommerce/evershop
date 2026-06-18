@@ -3,6 +3,7 @@ import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -98,7 +99,8 @@ export function ZoneForm({
   const [{ data, fetching, error }] = useQuery({ query: CountriesQuery });
 
   if (fetching) return <Spinner width={20} height={20} />;
-  if (error) return <p className="text-destructive">Error loading countries</p>;
+  if (error)
+    return <p className="text-destructive">{_('Error loading countries')}</p>;
   if (!data) return null;
 
   const countriesByCode = new Map<string, CountryOption>(
@@ -126,13 +128,13 @@ export function ZoneForm({
         data: { name, countries, provinces }
       };
       await axios.request(config);
-      toast.success(zone ? 'Zone updated' : 'Zone created');
+      toast.success(zone ? _('Zone updated') : _('Zone created'));
       reload();
       onSuccess();
     } catch (e: unknown) {
       const msg =
         (e as { response?: { data?: { error?: { message?: string } } } })
-          ?.response?.data?.error?.message ?? 'Failed to save zone';
+          ?.response?.data?.error?.message ?? _('Failed to save zone');
       toast.error(msg);
     }
   };
@@ -151,24 +153,24 @@ export function ZoneForm({
       <div className="space-y-3">
         <InputField
           name="name"
-          label="Zone Name"
-          aria-label="Zone Name"
-          placeholder="e.g., EU, US-West"
+          label={_('Zone Name')}
+          aria-label={_('Zone Name')}
+          placeholder={_('e.g., EU, US-West')}
           required
-          validation={{ required: 'Zone name is required' }}
+          validation={{ required: _('Zone name is required') }}
           defaultValue={zone?.name}
         />
         <ReactSelectField
           name="countries"
-          label="Countries"
-          aria-label="Countries"
-          placeholder="Select countries"
+          label={_('Countries')}
+          aria-label={_('Countries')}
+          placeholder={_('Select countries')}
           required
           validation={{
-            required: 'At least one country is required',
+            required: _('At least one country is required'),
             validate: (v: unknown) =>
               (Array.isArray(v) && v.length > 0) ||
-              'At least one country is required'
+              _('At least one country is required')
           }}
           options={data.countries}
           hideSelectedOptions
@@ -178,10 +180,13 @@ export function ZoneForm({
 
         {selectedCountries.length > 0 && (
           <div className="border-t pt-3 border-border">
-            <label className="text-sm font-medium">Province Restrictions</label>
+            <label className="text-sm font-medium">
+              {_('Province Restrictions')}
+            </label>
             <p className="text-xs text-muted-foreground mb-2">
-              Leave a country&apos;s list empty to cover the whole country. Add
-              provinces to restrict shipping to specific regions.
+              {_(
+                "Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions."
+              )}
             </p>
             <div className="space-y-3">
               {selectedCountries.map((cc: string) => {
@@ -199,7 +204,9 @@ export function ZoneForm({
                     </div>
                     {options.length === 0 ? (
                       <p className="text-xs italic text-muted-foreground">
-                        No subdivisions available — whole country is covered.
+                        {_(
+                          'No subdivisions available — whole country is covered.'
+                        )}
                       </p>
                     ) : (
                       <PerCountryProvinces
@@ -222,12 +229,12 @@ export function ZoneForm({
 
         <div className="flex justify-end gap-2 pt-2">
           <Button
-            title="Save"
+            title={_('Save')}
             variant="default"
             type="button"
             onClick={onSubmit}
           >
-            Save
+            {_('Save')}
           </Button>
         </div>
       </div>

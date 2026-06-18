@@ -1,5 +1,6 @@
  
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import {
   ChevronDown,
   Eye,
@@ -137,7 +138,7 @@ export function RepeatableAccordion<T extends RepeatableItem>({
               <div className="flex items-center gap-2 px-2 py-2">
                 <div
                   className="cursor-grab text-muted-foreground hover:text-foreground active:cursor-grabbing"
-                  title="Drag to reorder"
+                  title={_('Drag to reorder')}
                   aria-hidden="true"
                 >
                   <GripVertical className="h-3.5 w-3.5" />
@@ -162,7 +163,11 @@ export function RepeatableAccordion<T extends RepeatableItem>({
                       type="button"
                       onClick={() => onToggleHidden(index)}
                       className="rounded p-1 text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                      title={hidden ? 'Show on storefront' : 'Hide from storefront'}
+                      title={
+                        hidden
+                          ? _('Show on storefront')
+                          : _('Hide from storefront')
+                      }
                     >
                       {hidden ? (
                         <EyeOff className="h-3.5 w-3.5" />
@@ -177,7 +182,7 @@ export function RepeatableAccordion<T extends RepeatableItem>({
                       onClick={() => onRemove(index)}
                       disabled={safeItems.length <= minItems}
                       className="rounded p-1 text-muted-foreground hover:bg-destructive/10 hover:text-destructive disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-muted-foreground"
-                      title="Remove"
+                      title={_('Remove')}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>

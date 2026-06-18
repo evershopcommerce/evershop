@@ -1,5 +1,6 @@
  
 import { useScopedFormContext } from '@components/common/page-builder/WidgetSettingsScope.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ChevronDown } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
@@ -222,23 +223,23 @@ function RatioTile({
 // ---------------------------------------------------------------------------
 
 const BG_SWATCHES: ReadonlyArray<{ value: string; label: string }> = [
-  { value: '', label: 'None' },
-  { value: '#ffffff', label: 'White' },
-  { value: '#f7f7f7', label: 'Light gray' },
-  { value: '#111827', label: 'Charcoal' },
-  { value: '#fef3c7', label: 'Cream' },
-  { value: '#dbeafe', label: 'Sky' },
-  { value: '#dcfce7', label: 'Mint' },
-  { value: '#fee2e2', label: 'Blush' }
+  { value: '', label: _('None') },
+  { value: '#ffffff', label: _('White') },
+  { value: '#f7f7f7', label: _('Light gray') },
+  { value: '#111827', label: _('Charcoal') },
+  { value: '#fef3c7', label: _('Cream') },
+  { value: '#dbeafe', label: _('Sky') },
+  { value: '#dcfce7', label: _('Mint') },
+  { value: '#fee2e2', label: _('Blush') }
 ];
 
 const PADDING_OPTIONS: ReadonlyArray<{ value: PaddingPreset; label: string }> =
   [
-    { value: 'none', label: 'None' },
-    { value: 'sm', label: 'S' },
-    { value: 'md', label: 'M' },
-    { value: 'lg', label: 'L' },
-    { value: 'xl', label: 'XL' }
+    { value: 'none', label: _('None') },
+    { value: 'sm', label: _('S') },
+    { value: 'md', label: _('M') },
+    { value: 'lg', label: _('L') },
+    { value: 'xl', label: _('XL') }
   ];
 
 type PaddingPreset = 'none' | 'sm' | 'md' | 'lg' | 'xl';
@@ -285,7 +286,7 @@ function AnchorPicker({
             key={c}
             type="button"
             onClick={() => onChange(c)}
-            aria-label={`Position ${c.toUpperCase()}`}
+            aria-label={_('Position ${c}', { c: c.toUpperCase() })}
             title={c.toUpperCase()}
             className={`h-6 w-6 rounded transition-colors ${
               active
@@ -392,10 +393,12 @@ export default function ColumnsSetting({
   return (
     <div className="space-y-3">
       {/* Layout (ratio) */}
-      <Section title="Layout">
+      <Section title={_('Layout')}>
         <Field
-          label="Column layout"
-          hint="Drag widgets into each column. Children re-flow when you change the ratio."
+          label={_('Column layout')}
+          hint={_(
+            'Drag widgets into each column. Children re-flow when you change the ratio.'
+          )}
         >
           <div className="grid grid-cols-3 gap-2">
             {RATIO_PRESETS.map((p) => (
@@ -408,7 +411,7 @@ export default function ColumnsSetting({
             ))}
           </div>
         </Field>
-        <Field label="Gap" hint="Space between columns.">
+        <Field label={_('Gap')} hint={_('Space between columns.')}>
           <Slider
             value={effectiveGap}
             min={0}
@@ -420,8 +423,10 @@ export default function ColumnsSetting({
           />
         </Field>
         <Field
-          label="Content position"
-          hint="Where content sits within each column. Applied uniformly to every column."
+          label={_('Content position')}
+          hint={_(
+            'Where content sits within each column. Applied uniformly to every column.'
+          )}
         >
           <AnchorPicker
             value={watchedAnchor}
@@ -433,8 +438,8 @@ export default function ColumnsSetting({
       </Section>
 
       {/* Row appearance */}
-      <Section title="Row appearance">
-        <Field label="Background">
+      <Section title={_('Row appearance')}>
+        <Field label={_('Background')}>
           <div className="grid grid-cols-4 gap-2">
             {BG_SWATCHES.map((s) => {
               const active = (watchedBg || '') === s.value;
@@ -475,8 +480,10 @@ export default function ColumnsSetting({
           </div>
         </Field>
         <Field
-          label="Custom color"
-          hint='Any CSS color (e.g. "#0a0a0a" or "rgb(10,10,10)"). Leave empty to use the swatch above.'
+          label={_('Custom color')}
+          hint={_(
+            'Any CSS color (e.g. "#0a0a0a" or "rgb(10,10,10)"). Leave empty to use the swatch above.'
+          )}
         >
           <div className="flex items-center gap-2">
             <input
@@ -495,8 +502,8 @@ export default function ColumnsSetting({
           </div>
         </Field>
         <Field
-          label="Padding"
-          hint="Outer spacing around the row. Scales down on mobile."
+          label={_('Padding')}
+          hint={_('Outer spacing around the row. Scales down on mobile.')}
         >
           <Segmented<PaddingPreset>
             value={effectivePadding}

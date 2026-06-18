@@ -4,6 +4,7 @@ import { InputField } from '@components/common/form/InputField.js';
 import { NumberField } from '@components/common/form/NumberField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -64,7 +65,7 @@ function RateForm({
         if (!response.error) {
           await getTaxClasses({ requestPolicy: 'network-only' });
           closeModal();
-          toast.success('Tax rate has been saved successfully!');
+          toast.success(_('Tax rate has been saved successfully!'));
         } else {
         }
         setSaving(false);
@@ -75,20 +76,20 @@ function RateForm({
           <div>
             <InputField
               name="name"
-              placeholder="Name"
+              placeholder={_('Name')}
               required
-              validation={{ required: 'Name is required' }}
-              label="Name"
+              validation={{ required: _('Name is required') }}
+              label={_('Name')}
               defaultValue={rate?.name}
             />
           </div>
           <div>
             <NumberField
               name="rate"
-              label="Rate"
-              placeholder="Rate"
+              label={_('Rate')}
+              placeholder={_('Rate')}
               required
-              validation={{ required: 'Rate is required' }}
+              validation={{ required: _('Rate is required') }}
               defaultValue={rate?.rate}
             />
           </div>
@@ -99,34 +100,40 @@ function RateForm({
           <div>
             <InputField
               name="country"
-              label="Country"
-              placeholder="Country"
+              label={_('Country')}
+              placeholder={_('Country')}
               required
-              validation={{ required: 'Country is required' }}
+              validation={{ required: _('Country is required') }}
               defaultValue={rate?.country}
-              helperText='Country code (e.g., "US"). Use "*" for all countries.'
+              helperText={_(
+                'Country code (e.g., "US"). Use "*" for all countries.'
+              )}
             />
           </div>
           <div>
             <InputField
               name="province"
-              label="Provinces"
-              placeholder="Provinces"
+              label={_('Provinces')}
+              placeholder={_('Provinces')}
               required
-              validation={{ required: 'Provinces is required' }}
+              validation={{ required: _('Provinces is required') }}
               defaultValue={rate?.province}
-              helperText='Province code (e.g., "CA"). Use "*" for all provinces.'
+              helperText={_(
+                'Province code (e.g., "CA"). Use "*" for all provinces.'
+              )}
             />
           </div>
           <div>
             <InputField
               name="postcode"
-              label="Postcode"
-              placeholder="Postcode"
+              label={_('Postcode')}
+              placeholder={_('Postcode')}
               required
-              validation={{ required: 'Postcode is required' }}
+              validation={{ required: _('Postcode is required') }}
               defaultValue={rate?.postcode}
-              helperText='Postcode (e.g., "90210"). Empty for all postcodes.'
+              helperText={_(
+                'Postcode (e.g., "90210"). Empty for all postcodes.'
+              )}
             />
           </div>
         </div>
@@ -134,7 +141,7 @@ function RateForm({
           <div>
             <ToggleField
               name="is_compound"
-              label="Is compound"
+              label={_('Is compound')}
               defaultValue={rate?.isCompound || false}
             />
           </div>
@@ -144,9 +151,9 @@ function RateForm({
           <div>
             <NumberField
               name="priority"
-              label="Priority"
-              placeholder="Priority"
-              validation={{ required: 'Priority is required' }}
+              label={_('Priority')}
+              placeholder={_('Priority')}
+              validation={{ required: _('Priority is required') }}
               required
               defaultValue={rate?.priority}
             />
@@ -155,11 +162,11 @@ function RateForm({
         </div>
       </div>
       <div className="flex justify-end gap-2">
-        <Button title="Cancel" variant="secondary" onClick={closeModal}>
-          Cancel
+        <Button title={_('Cancel')} variant="secondary" onClick={closeModal}>
+          {_('Cancel')}
         </Button>
         <Button
-          title="Save"
+          title={_('Save')}
           variant="default"
           onClick={async () => {
             const result = await form.trigger();
@@ -178,7 +185,7 @@ function RateForm({
           }}
           isLoading={saving}
         >
-          Save
+          {_('Save')}
         </Button>
       </div>
     </Form>

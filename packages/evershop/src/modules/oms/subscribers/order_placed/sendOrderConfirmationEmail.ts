@@ -15,6 +15,7 @@ import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getValue } from '../../../../lib/util/registry.js';
 import { EventData } from '../../../../types/event.js';
+import { getStoreLanguage } from '../../../setting/services/setting.js';
 
 const TEMPLATE = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" lang="en">
@@ -697,7 +698,10 @@ export default async function sendOrderConfirmationEmail(
       shippingAddress,
       billingAddress
     });
-    const subject = translate('Your order has been confirmed!');
+    // Off-request (event subscriber) — resolve the store locale explicitly (D7), use it
+    // for the subject and pass it to sendEmail so the body's currency/date format match.
+    const locale = await getStoreLanguage();
+    const subject = translate('Your order has been confirmed!', {}, locale);
     if (data.customer_email) {
       const args = await getValue(
         'orderConfirmationEmailArguments',
@@ -705,7 +709,8 @@ export default async function sendOrderConfirmationEmail(
           to: data.customer_email,
           subject,
           template,
-          data: dynamicData
+          data: dynamicData,
+          locale
         },
         { order }
       );

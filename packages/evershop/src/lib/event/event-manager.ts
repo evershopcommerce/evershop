@@ -3,6 +3,7 @@ import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { loadBootstrapScript } from '../../bin/lib/bootstrap/bootstrap.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { pool, connectionSetting } from '../../lib/postgres/connection.js';
+import { refreshSetting } from '../../modules/setting/services/setting.js';
 import { debug, error } from '../log/logger.js';
 import { lockHooks } from '../util/hookable.js';
 import { lockRegistry } from '../util/registry.js';
@@ -16,7 +17,14 @@ const modules = [...getCoreModules(), ...getEnabledExtensions()];
 const subscribers = await loadSubscribers(modules);
 
 const storage = new EventStorage(pool);
-const { loadAndProcess } = createEventProcessor({ storage, subscribers });
+// Refresh this process's settings cache before each non-empty batch so emails reflect
+// admin setting changes (locale/store name/address) without a restart. (Upgrade path:
+// a pg_notify('setting_changed') channel for real-time, all-process invalidation.)
+const { loadAndProcess } = createEventProcessor({
+  storage,
+  subscribers,
+  beforeBatch: refreshSetting
+});
 
 const init = async () => {
   try {

@@ -10,6 +10,7 @@ import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getValue } from '../../../../lib/util/registry.js';
 import { EventData } from '../../../../types/event.js';
+import { getStoreLanguage } from '../../../setting/services/setting.js';
 import { signTrackingToken } from '../../services/anonymousTrackingToken.js';
 import { getCarrier } from '../../services/carrier/registry.js';
 
@@ -157,16 +158,23 @@ export default async function sendShipmentCreatedEmail(
       trackingUrl,
       trackOrderUrl
     });
-    const subject = translate('Your order #{{number}} is on the way', {
-      number: String(order.order_number)
-    });
+    // Off-request (event subscriber) — resolve the store locale explicitly (D7).
+    const locale = await getStoreLanguage();
+    const subject = translate(
+      'Your order #${number} is on the way',
+      {
+        number: String(order.order_number)
+      },
+      locale
+    );
     const args = await getValue(
       'shipmentCreatedEmailArguments',
       {
         to: order.customer_email,
         subject,
         template,
-        data: dynamicData
+        data: dynamicData,
+        locale
       },
       { order, shipment }
     );

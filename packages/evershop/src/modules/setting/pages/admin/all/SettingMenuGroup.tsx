@@ -1,4 +1,5 @@
 import { NavigationItemGroup } from '@components/admin/NavigationItemGroup.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Settings } from 'lucide-react';
 import React from 'react';
 
@@ -10,7 +11,7 @@ export default function CmsMenuGroup({ storeSetting }: CmsMenuGroupProps) {
   return (
     <NavigationItemGroup
       id="settingMenuGroup"
-      name="Setting"
+      name={_('Setting')}
       Icon={() => <Settings width={15} height={15} />}
       url={storeSetting}
     />

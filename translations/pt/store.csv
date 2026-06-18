@@ -1,0 +1,1683 @@
+Welcome Back!,Bem-vindo de volta!
+Please sign in to your account ,Inicie sessão na sua conta 
+Join us for exclusive offers and order tracking,Junte-se a nós para ofertas exclusivas e rastreamento de pedidos
+Sign Up,Criar conta
+Signing Up...,A criar conta...
+Signing In...,A iniciar sessão...
+Recent Orders,Pedidos recentes
+Address Book,Livro de endereços
+You have no addresses saved,Não tem endereços guardados
+Add new address,Adicionar novo endereço
+Address 2,Endereço 2
+Set as default,Definir como predefinido
+Save,Guardar
+Edit,Editar
+Delete,Eliminar
+Edit Address,Editar endereço
+Product Filters,Filtros de produtos
+No products found,Nenhum produto encontrado
+${count} Products,${count} produtos
+Default,Predefinido
+Name,Nome
+Contact Information,Informações de contacto
+Your Cart,O seu carrinho
+Your cart is empty,O seu carrinho está vazio
+Subtotal,Subtotal
+View Cart (${totalQty}),Ver carrinho (${totalQty})
+Shopping Cart,Carrinho de compras
+Logged in as,Sessão iniciada como
+Payment Information,Informações de pagamento
+Same as shipping address,Igual ao endereço de envio
+Use a different billing address,Usar um endereço de faturação diferente
+Pick a payment method,Escolha um método de pagamento
+Select a payment method,Selecione um método de pagamento
+Complete Order,Concluir pedido
+Add to Cart,Adicionar ao carrinho
+Search,Pesquisar
+${count} orders,${count} pedidos
+${field} is required,${field} é obrigatório
+${pct}% of orders cancelled,${pct}% dos pedidos cancelados
+${pct}% of orders completed,${pct}% dos pedidos concluídos
+${qty} sold,${qty} vendidos
+${total} lifetime sale,${total} de vendas totais
+(Guest Checkout),(Compra como convidado)
+(list),(lista)
+(optional),(opcional)
+A coupon is already applied,Já existe um cupão aplicado
+A group needs at least one sub-field,Um grupo precisa de pelo menos um subcampo
+A list of best selling products,Uma lista dos produtos mais vendidos
+A list of customers who have placed the most orders,Uma lista dos clientes que fizeram mais pedidos
+A regular expression the value must match.,Uma expressão regular que o valor deve corresponder.
+Accepted values,Valores aceites
+Active,Ativo
+Active Filters,Filtros ativos
+Add address API not available,API de adição de endereço não disponível
+Add custom field,Adicionar campo personalizado
+Add field,Adicionar campo
+Add item,Adicionar item
+Add option,Adicionar opção
+Add product,Adicionar produto
+Add some items to get started,Adicione alguns itens para começar
+Add sub-field,Adicionar subcampo
+Adding...,A adicionar...
+Address has been deleted successfully!,O endereço foi eliminado com sucesso!
+Address has been saved successfully!,O endereço foi guardado com sucesso!
+Address has been updated successfully!,O endereço foi atualizado com sucesso!
+Adds target=_blank rel=noopener noreferrer.,Adiciona target=_blank rel=noopener noreferrer.
+All items fulfilled,Todos os itens processados
+All orders,Todos os pedidos
+All your past orders,Todos os seus pedidos anteriores
+Allow multiple,Permitir múltiplos
+An unexpected error occurred. Please try again.,Ocorreu um erro inesperado. Tente novamente.
+Apply Filters,Aplicar filtros
+Are you sure you want to mark the selected orders as shipped?,Tem a certeza de que quer marcar os pedidos selecionados como enviados?
+Are you sure?,Tem a certeza?
+Attribute Group,Grupo de atributos
+Attribute code is used in API and must be unique,O código do atributo é usado na API e deve ser único
+Attribute options,Opções de atributo
+Attributes,Atributos
+Available shipping methods will appear once you provide your address details,Os métodos de envio disponíveis aparecerão assim que fornecer os detalhes do seu endereço
+Best Sellers,Mais vendidos
+Best customers,Melhores clientes
+Billing address,Endereço de faturação
+Black,Preto
+Buy qty,Qtd. de compra
+Buy qty is required,A qtd. de compra é obrigatória
+Can not process payment. Please try again later.,Não é possível processar o pagamento. Tente novamente mais tarde.
+Can't be undone,Não pode ser desfeito
+Cancel,Cancelar
+Cancel Order,Cancelar pedido
+Cancel shipment,Cancelar envio
+Cancel this shipment?,Cancelar este envio?
+Canceled,Cancelado
+Cancelled,Cancelado
+Cannot add billing address: cart not initialized,Não é possível adicionar endereço de faturação: carrinho não inicializado
+Cannot add contact info: cart not initialized,Não é possível adicionar informações de contacto: carrinho não inicializado
+Cannot add payment method: cart not initialized,Não é possível adicionar método de pagamento: carrinho não inicializado
+Cannot add shipping address: cart not initialized,Não é possível adicionar endereço de envio: carrinho não inicializado
+Cannot add shipping method: cart not initialized,Não é possível adicionar método de envio: carrinho não inicializado
+Cannot add shipping method: providerCode is required,Não é possível adicionar método de envio: providerCode é obrigatório
+Cannot apply coupon: cart not initialized,Não é possível aplicar cupão: carrinho não inicializado
+Cannot remove coupon: cart not initialized,Não é possível remover cupão: carrinho não inicializado
+Carrier,Transportadora
+Carrier is required,A transportadora é obrigatória
+Cart ID is required to checkout,O ID do carrinho é obrigatório para finalizar a compra
+Cart is not initialized,O carrinho não está inicializado
+Catalog,Catálogo
+Categories,Categorias
+Category,Categoria
+Charcoal,Carvão
+Checkout success,Compra concluída com sucesso
+Choose Product SKU,Escolher SKU do produto
+Choose SKU,Escolher SKU
+Clear All,Limpar tudo
+Clear Filters,Limpar filtros
+Clear all,Limpar tudo
+Clear categories,Limpar categorias
+Close fullscreen view,Fechar vista de ecrã inteiro
+Code,Código
+Collections,Coleções
+Comma-separated; renders the value as a dropdown.,Separados por vírgula; apresenta o valor como uma lista pendente.
+Completed,Concluído
+Configurable,Configurável
+Configure tax classes and tax rates,Configure classes de imposto e taxas de imposto
+Confirm,Confirmar
+Contact for pricing,Contacte para preços
+Conveniently pay with cash at your doorstep when your order is delivered.,Pague comodamente em dinheiro à porta de casa quando o seu pedido for entregue.
+Coupon applied successfully!,Cupão aplicado com sucesso!
+Coupon code is required,O código do cupão é obrigatório
+Coupon does not match,O cupão não corresponde
+Coupon removed successfully!,Cupão removido com sucesso!
+Cream,Creme
+Create,Criar
+Create a new attribute,Criar um novo atributo
+Create a new group,Criar um novo grupo
+Create a new package,Criar um novo pacote
+Create shipment,Criar envio
+Created,Criado
+Custom URL,URL personalizado
+Custom field created,Campo personalizado criado
+Custom field updated,Campo personalizado atualizado
+Custom fields,Campos personalizados
+Custom fields (JSON),Campos personalizados (JSON)
+Custom fields saved,Campos personalizados guardados
+Customer Information,Informações do cliente
+Customer does not have any order yet.,O cliente ainda não tem nenhum pedido.
+Customer notes,Notas do cliente
+Daily,Diariamente
+Date and time must be after ${min},A data e hora devem ser posteriores a ${min}
+Date and time must be before ${max},A data e hora devem ser anteriores a ${max}
+Date must be after ${min},A data deve ser posterior a ${min}
+Date must be before ${max},A data deve ser anterior a ${max}
+Delete ${count} coupons,Excluir ${count} cupons
+Delete ${count} products,Excluir ${count} produtos
+Delete address API not available,API de exclusão de endereço indisponível
+Delivered,Entregue
+Description,Descrição
+Disable,Desativar
+Disable ${count} coupons,Desativar ${count} cupons
+Disable ${count} customers,Desativar ${count} clientes
+Disable ${count} products,Desativar ${count} produtos
+Disabled,Desativado
+Discount percent,Percentual de desconto
+Discount percent is required,O percentual de desconto é obrigatório
+Display on Frontend?,Exibir na loja?
+Displays the mobile sidebar.,Exibe a barra lateral móvel.
+Done,Concluído
+Drag to reorder,Arraste para reordenar
+Duplicate,Duplicar
+Edit custom field,Editar campo personalizado
+Edit field settings,Editar configurações do campo
+Edit package,Editar pacote
+Edit tracking info,Editar informações de rastreamento
+Editing ${name},Editando ${name}
+Email a shipment confirmation,Enviar confirmação de envio por e-mail
+Email a shipment confirmation with tracking details,Enviar por e-mail uma confirmação de envio com detalhes de rastreamento
+Email is required,O e-mail é obrigatório
+Enable,Ativar
+Enable ${count} coupons,Ativar ${count} cupons
+Enable ${count} customers,Ativar ${count} clientes
+Enable ${count} products,Ativar ${count} produtos
+Enabled,Ativado
+Enter attribute code,Digite o código do atributo
+Enter attribute name,Digite o nome do atributo
+Enter text,Digite o texto
+Enter value for ${attribute},Digite o valor para ${attribute}
+Enter your email,Digite seu e-mail
+Enter your new password,Digite sua nova senha
+Enter your password,Digite sua senha
+Error,Erro
+Failed to add address,Falha ao adicionar endereço
+Failed to add billing address,Falha ao adicionar endereço de cobrança
+Failed to add billing address.,Falha ao adicionar endereço de cobrança.
+Failed to add contact info,Falha ao adicionar informações de contato
+Failed to add contact info.,Falha ao adicionar informações de contato.
+Failed to add item to cart,Falha ao adicionar item ao carrinho
+Failed to add payment method,Falha ao adicionar método de pagamento
+Failed to add payment method.,Falha ao adicionar método de pagamento.
+Failed to add product to cart,Falha ao adicionar produto ao carrinho
+Failed to add shipping address,Falha ao adicionar endereço de entrega
+Failed to add shipping address.,Falha ao adicionar endereço de entrega.
+Failed to add shipping method,Falha ao adicionar método de envio
+Failed to add shipping method.,Falha ao adicionar método de envio.
+Failed to apply coupon,Falha ao aplicar cupom
+Failed to cancel shipment,Falha ao cancelar envio
+Failed to checkout,Falha ao finalizar a compra
+Failed to create field,Falha ao criar campo
+Failed to create shipment,Falha ao criar envio
+Failed to delete address,Falha ao excluir endereço
+Failed to load custom fields,Falha ao carregar campos personalizados
+Failed to mark delivered,Falha ao marcar como entregue
+Failed to place order,Falha ao realizar o pedido
+Failed to place order. Please try again.,Falha ao realizar o pedido. Tente novamente.
+Failed to remove coupon,Falha ao remover cupom
+Failed to remove coupon.,Falha ao remover cupom.
+Failed to save custom fields,Falha ao salvar campos personalizados
+Failed to set shipping method,Falha ao definir método de envio
+Failed to set shipping note,Falha ao definir nota de envio
+Failed to update address,Falha ao atualizar endereço
+Failed to update field,Falha ao atualizar campo
+Failed to update shipment,Falha ao atualizar envio
+Failed to update tracking info,Falha ao atualizar informações de rastreamento
+Failed to void label,Falha ao anular etiqueta
+Failed!,Falhou!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,Campos aplicáveis a este tipo de entidade. Adicionar um campo o aplica a todas as entidades deste tipo.
+File size must be less than ${maxSize},O tamanho do arquivo deve ser menor que ${maxSize}
+Filter Products,Filtrar produtos
+Filters,Filtros
+First,Primeiro
+Free,Grátis
+Free shipping,Frete grátis
+Free shipping ?,Frete grátis?
+Fulfill ${count} orders,Atender ${count} pedidos
+Full Name is required,O nome completo é obrigatório
+Fully shipped,Totalmente enviado
+General,Geral
+Get qty,Qtd. recebida
+Get qty is required,A qtd. recebida é obrigatória
+Ghost,Fantasma
+Go,Ir
+Go to Login,Ir para o login
+Go to next page,Ir para a próxima página
+Go to previous page,Ir para a página anterior
+Hello,Olá
+Hide from storefront,Ocultar da loja
+ID,ID
+In Stock,Em estoque
+Inactive,Inativo
+Inclusive of tax ${totalTaxAmount},Impostos incluídos ${totalTaxAmount}
+Insert,Inserir
+Invalid address,Endereço inválido
+Invalid cart,Carrinho inválido
+Invalid cart id,ID de carrinho inválido
+Invalid coupon,Cupom inválido
+Invalid customer,Cliente inválido
+Invalid customer id,ID de cliente inválido
+Invalid email or password,E-mail ou senha inválidos
+Invalid format,Formato inválido
+Invalid quantity,Quantidade inválida
+Is Filterable?,É filtrável?
+Is Required?,É obrigatório?
+Item,Item
+Items,Itens
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,Os itens deste envio retornarão ao conjunto de itens não enviados do pedido. Esta ação não pode ser desfeita.
+Key,Chave
+Key is required,A chave é obrigatória
+Label,Etiqueta
+Label voided,Etiqueta anulada
+Language,Idioma
+Last,Último
+Lifetime Sales,Vendas totais
+Light gray,Cinza claro
+Limit,Limite
+Link,Link
+Loading,Carregando
+Log in,Entrar
+Logging in...,Entrando...
+Logging out...,Saindo...
+Login failed,Falha no login
+Logout failed,Falha ao sair
+Look like you just started. No bestsellers yet.,Parece que você acabou de começar. Ainda não há mais vendidos.
+"Lowercase letters, digits, underscore. Immutable.","Letras minúsculas, dígitos, sublinhado. Imutável."
+Manage the general information of the attribute.,Gerencie as informações gerais do atributo.
+Manage the setting of the attribute.,Gerencie as configurações do atributo.
+Mark as shipped,Marcar como enviado
+Mark delivered,Marcar como entregue
+Mark shipment as delivered?,Marcar envio como entregue?
+Max length,Comprimento máximo
+Max of Y,Máximo de Y
+Max of Y is required,O máximo de Y é obrigatório
+Max value,Valor máximo
+Min length,Comprimento mínimo
+Min value,Valor mínimo
+Minimum quantity,Quantidade mínima
+Mint,Verde-menta
+Monthly,Mensal
+More,Mais
+More pages,Mais páginas
+Move down,Mover para baixo
+Move up,Mover para cima
+Multiselect,Seleção múltipla
+Must be at least ${n},Deve ser pelo menos ${n}
+Must be at least ${n} characters,Deve ter pelo menos ${n} caracteres
+Must be at most ${n},Deve ser no máximo ${n}
+Must be at most ${n} characters,Deve ter no máximo ${n} caracteres
+"Must start with a letter; lowercase letters, digits, underscore only","Deve começar com uma letra; apenas letras minúsculas, dígitos e sublinhado"
+Name is required,O nome é obrigatório
+New Product,Novo produto
+New Widget,Novo widget
+New folder,Nova pasta
+Next,Próximo
+Next slide,Próximo slide
+No,Não
+No address data received,Nenhum dado de endereço recebido
+"No attribute groups found for query ""${query}""","Nenhum grupo de atributos encontrado para a consulta ""${query}"""
+No carriers registered,Nenhuma transportadora registada
+"No categories found for ""${term}""","Nenhuma categoria encontrada para ""${term}"""
+"No categories found for query ""${query}""","Nenhuma categoria encontrada para a consulta ""${query}"""
+"No collections found for query ""${query}""","Nenhuma coleção encontrada para a consulta ""${query}"""
+No coupon to remove,Nenhum cupão para remover
+No custom fields yet.,Ainda não há campos personalizados.
+No data available,Nenhum dado disponível
+No free shipping,Sem envio gratuito
+No limit,Sem limite
+No maximum,Sem máximo
+No minimum,Sem mínimo
+No notes from customer,Sem notas do cliente
+"No options found for ""${code}""","Nenhuma opção encontrada para ""${code}"""
+"No products found for query ""${query}""","Nenhum produto encontrado para a consulta ""${query}"""
+No shipments yet — your order is being prepared.,Ainda não há envios — o seu pedido está a ser preparado.
+No shipping is required for this order,Não é necessário envio para este pedido
+No shipping methods available,Nenhum método de envio disponível
+No shipping options are available for your location,Não há opções de envio disponíveis para a sua localização
+No shipping required,Envio não necessário
+No widgets match your search.,Nenhum widget corresponde à sua pesquisa.
+None,Nenhum
+Not set,Não definido
+Not visible to customers,Não visível para os clientes
+Notify customer,Notificar cliente
+Open in new tab,Abrir num novo separador
+Operator,Operador
+Option text,Texto da opção
+Optional help text shown to admins.,Texto de ajuda opcional mostrado aos administradores.
+Order Placed,Pedido efetuado
+Order detail,Detalhe do pedido
+Order must contain products matching all conditions below,O pedido deve conter produtos que correspondam a todas as condições abaixo
+Order not found,Pedido não encontrado
+Orders,Pedidos
+Others,Outros
+Out of Stock,Esgotado
+Outline,Contorno
+Overview of sales data over selected periods,Visão geral dos dados de vendas ao longo dos períodos selecionados
+Overview of total sales and order status over the lifetime of your store,Visão geral do total de vendas e estado dos pedidos ao longo da vida da sua loja
+Page,Página
+Page ${currentPage} of ${totalPages},Página ${currentPage} de ${totalPages}
+Page not found,Página não encontrada
+Password is required,A palavra-passe é obrigatória
+Password must be at least ${minLength} characters long,A palavra-passe deve ter pelo menos ${minLength} caracteres
+Paste a URL or a relative path starting with ,Cole um URL ou um caminho relativo começando com 
+Pattern (regex),Padrão (regex)
+Pay with PayPal,Pagar com PayPal
+Pay with Stripe,Pagar com Stripe
+Payment Status,Estado do pagamento
+Placing Order...,A efetuar pedido...
+Please enter a coupon code,Introduza um código de cupão
+Please enter a valid URL,Introduza um URL válido
+Please enter a valid email address,Introduza um endereço de email válido
+Please enter your email to receive a reset link,Introduza o seu email para receber um link de redefinição
+Please provide billing address to proceed,Forneça o endereço de faturação para continuar
+Please select a payment method,Selecione um método de pagamento
+Please select a shipping method,Selecione um método de envio
+Please sign in to your account,Inicie sessão na sua conta
+Position,Posição
+Previous,Anterior
+Previous slide,Slide anterior
+Price: ${value},Preço: ${value}
+Primary,Principal
+Print Label,Imprimir etiqueta
+Processing Payment...,A processar pagamento...
+Product Description,Descrição do produto
+Product is out of stock,O produto está esgotado
+Product name is required,O nome do produto é obrigatório
+Product not found,Produto não encontrado
+Product type,Tipo de produto
+Products,Produtos
+Reason for cancellation,Motivo do cancelamento
+Reason is required,O motivo é obrigatório
+Recently placed orders by this customer,Pedidos efetuados recentemente por este cliente
+Redirecting to PayPal...,A redirecionar para o PayPal...
+Reference type,Tipo de referência
+Registration failed,Falha no registo
+Remove item,Remover item
+Remove sub-field,Remover subcampo
+Required,Obrigatório
+Requires at least one item to create a cart,Requer pelo menos um item para criar um carrinho
+Reset Password,Redefinir palavra-passe
+Reset Your Password,Redefina a sua palavra-passe
+Reset password,Redefinir palavra-passe
+Reset your password,Redefina a sua palavra-passe
+Root,Raiz
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,O SKU deve ser único
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,Estatísticas de vendas
+Save custom fields,Guardar campos personalizados
+Save field,Guardar campo
+Saved successfully!,Guardado com sucesso!
+Search attribute groups,Pesquisar grupos de atributos
+Search categories,Pesquisar categorias
+Search collections,Pesquisar coleções
+"Search for products, orders, and other resources","Pesquisar produtos, pedidos e outros recursos"
+Search products,Pesquisar produtos
+Search results for: ${keyword},Resultados da pesquisa para: ${keyword}
+Search widgets…,Pesquisar widgets…
+Searching...,A pesquisar...
+Search…,Pesquisar…
+See all orders →,Ver todos os pedidos →
+Select,Selecionar
+Select a carrier,Selecione uma transportadora
+Select at least one item to ship,Selecione pelo menos um item para enviar
+Select groups the attribute belongs to,Selecione os grupos a que o atributo pertence
+Select shipping method,Selecionar método de envio
+Select sort,Selecionar ordenação
+"Select the items going in this shipment, then add the carrier & tracking.",Selecione os itens que vão neste envio e depois adicione a transportadora e o rastreio.
+Setting,Definição
+Settings,Definições
+Shipment Status,Estado do envio
+Shipment canceled,Envio cancelado
+Shipment created,Envio criado
+Shipment marked delivered,Envio marcado como entregue
+Shipments,Envios
+Shipped,Enviado
+Shipping (${method}),Envio (${method})
+Shipping Setting,Definição de envio
+Show,Mostrar
+Show all ${count} options,Mostrar todas as ${count} opções
+Show on storefront,Mostrar na loja
+Showing ${showing} of ${total},A mostrar ${showing} de ${total}
+Showing ${start}-${end} of ${total} results,A mostrar ${start}-${end} de ${total} resultados
+Sidebar,Barra lateral
+Sign in to view your orders,Inicie sessão para ver os seus pedidos
+Simple,Simples
+Sky,Céu
+Sold out,Esgotado
+Some error occurred. Please try again later.,Ocorreu um erro. Tente novamente mais tarde.
+Some products are not available,Alguns produtos não estão disponíveis
+Something went wrong! Please try again.,Algo correu mal! Tente novamente.
+Something went wrong. Please try again later.,Algo correu mal. Tente novamente mais tarde.
+Something wrong. Please try again,Algo correu mal. Tente novamente
+Sort Order,Ordem de classificação
+Sort order,Ordem de classificação
+Status,Status
+Stock,Estoque
+Stripe is not loaded. Please try again.,O Stripe não foi carregado. Tente novamente.
+Style,Estilo
+Sub-fields,Subcampos
+Submit Cancellation,Enviar cancelamento
+Successfully logged in,Login realizado com sucesso
+Successfully logged out,Logout realizado com sucesso
+Tax Setting,Configuração de impostos
+Test failure,Falha no teste
+Test failure:,Falha no teste:
+Test success,Teste bem-sucedido
+Test success:,Teste bem-sucedido:
+Text,Texto
+Textarea,Área de texto
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,A transportadora marcará o número de rastreamento como inválido. Você precisará comprar uma nova etiqueta se ainda pretender enviar.
+The customer will receive a delivery confirmation email.,O cliente receberá um e-mail de confirmação de entrega.
+There is no category,Não há nenhuma categoria
+There is no file to display.,Não há nenhum arquivo para exibir.
+There is no sub folder.,Não há nenhuma subpasta.
+There was an error:,Ocorreu um erro:
+This tracking link has expired,Este link de rastreamento expirou
+This tracking link is no longer valid,Este link de rastreamento não é mais válido
+Thumbnail,Miniatura
+Time must be after ${min},O horário deve ser posterior a ${min}
+Time must be before ${max},O horário deve ser anterior a ${max}
+Toggle Sidebar,Alternar barra lateral
+Token is invalid or expired,O token é inválido ou expirou
+Too many items requested,Muitos itens solicitados
+Track,Rastrear
+Track shipment →,Rastrear envio →
+Track your order,Rastreie seu pedido
+Tracking info updated,Informações de rastreamento atualizadas
+Tracking link,Link de rastreamento
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,Os links de rastreamento são válidos por tempo limitado. Entre na sua conta para ver o status atual do seu pedido.
+Tracking number,Número de rastreamento
+Type,Tipo
+Type / to see the available blocks,Digite / para ver os blocos disponíveis
+UPDATE PASSWORD,ATUALIZAR SENHA
+Update address API not available,API de atualização de endereço indisponível
+Update field,Atualizar campo
+Upload,Enviar
+Validation,Validação
+Value,Valor
+Value must be a whole number,O valor deve ser um número inteiro
+Value must be at least ${min},O valor deve ser no mínimo ${min}
+Value must be at most ${max},O valor deve ser no máximo ${max}
+View All Products,Ver todos os produtos
+View JSON,Ver JSON
+View all customers,Ver todos os clientes
+Visible to customer,Visível para o cliente
+Void Label,Anular etiqueta
+Void label,Anular etiqueta
+Void this shipping label?,Anular esta etiqueta de envio?
+"We could not find this order. It may have been removed, or it may belong to a different account.",Não foi possível encontrar este pedido. Ele pode ter sido removido ou pode pertencer a outra conta.
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.","Não foi possível verificar este link. Se você o recebeu em um e-mail nosso, tente novamente a partir da mensagem mais recente ou entre na sua conta."
+We have sent you an email with a link to reset your password. Please check your inbox.,Enviamos um e-mail com um link para redefinir sua senha. Verifique sua caixa de entrada.
+Weekly,Semanalmente
+Welcome to our store!,Bem-vindo à nossa loja!
+"Where you ship, shipping methods and delivery fee","Para onde você envia, métodos de envio e taxa de entrega"
+White,Branco
+Yes,Sim
+You are already logged in,Você já está conectado
+You are here:,Você está aqui:
+You have no attribute groups to display,Você não tem grupos de atributos para exibir
+You have no categories to display,Você não tem categorias para exibir
+You have no collections to display,Você não tem coleções para exibir
+You have no products to display,Você não tem produtos para exibir
+You have not placed any orders yet.,Você ainda não fez nenhum pedido.
+You paid for,Você pagou por
+You will be redirected to PayPal for payment processing.,Você será redirecionado para o PayPal para o processamento do pagamento.
+Your Orders,Seus pedidos
+Your order #${number} has been delivered,Seu pedido #${number} foi entregue
+Your order #${number} is on the way,Seu pedido #${number} está a caminho
+Your order has been confirmed!,Seu pedido foi confirmado!
+Your password has been updated successfully.,Sua senha foi atualizada com sucesso.
+across,em
+available to ship,disponível para envio
+breadcrumb,trilha de navegação
+e.g. Care instructions,ex.: Instruções de cuidado
+"e.g. New, Sale, Limited","ex.: Novo, Promoção, Limitado"
+e.g. Question,ex.: Pergunta
+e.g. care_instructions,ex.: care_instructions
+e.g. question,ex.: question
+item,item
+items,itens
+left to ship,restante para enviar
+of,de
+of ${count},de ${count}
+unit,unidade
+units,unidades
+${count} changes published.,${count} alterações publicadas.
+${count} child widgets,${count} widgets filhos
+${count} countries,${count} países
+${count} on ${route},${count} em ${route}
+${count} ops total,${count} operações no total
+${count} pending ops,${count} operações pendentes
+${count} pending ops on,${count} operações pendentes em
+${count} routes,${count} rotas
+${direction} failed,${direction} falhou
+${method} — ${zone} rate,${method} — tarifa de ${zone}
+${method} — new rate,${method} — nova tarifa
+${name} attached to ${zone},${name} anexado a ${zone}
+${name} configuration for ${zone},Configuração de ${name} para ${zone}
+${name} configuration for this zone,Configuração de ${name} para esta zona
+${name} configuration saved for ${zone},Configuração de ${name} salva para ${zone}
+${name} detached,${name} desanexado
+${name} is required,${name} é obrigatório
+${title} settings,Configurações de ${title}
+${total} changes will go live immediately.,${total} alterações entrarão em vigor imediatamente.
+${total} items,${total} itens
+(envelope),(envelope)
++ Add Line,+ Adicionar linha
++ Add Method,+ Adicionar método
++ Add Rate,+ Adicionar tarifa
++ Add placement,+ Adicionar posicionamento
++ Attach Provider,+ Anexar provedor
++ New package,+ Novo pacote
++${count} more,+${count} mais
+", +${count} more",", +${count} mais"
+", last updated",", última atualização"
+0 for flat envelopes,0 para envelopes planos
+1 change published.,1 alteração publicada.
+1 change will go live immediately.,1 alteração entrará em vigor imediatamente.
+1 child widget,1 widget filho
+1 op total,1 operação no total
+1 pending op,1 operação pendente
+1 pending op on,1 operação pendente em
+A package is required for shippable products,É necessário um pacote para produtos enviáveis
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,Um plano de implantação salva suas edições atuais como um instantâneo e as aplica automaticamente durante uma janela agendada.
+Action,Ação
+Actions,Ações
+Add,Adicionar
+Add Products,Adicionar produtos
+Add Rate,Adicionar tarifa
+Add Shipping Method,Adicionar método de envio
+Add Tax Rate,Adicionar taxa de imposto
+Add Variant,Adicionar variante
+Add products to this category by selecting them from the list below.,Adicione produtos a esta categoria selecionando-os na lista abaixo.
+Add rate,Adicionar tarifa
+Added,Adicionado
+Adding to Column ${number},Adicionando à coluna ${number}
+Additional languages,Idiomas adicionais
+Admin panel language,Idioma do painel de administração
+Affects ${count} pages,Afeta ${count} páginas
+Affects 1 page,Afeta 1 página
+All pages,Todas as páginas
+All registered providers are already attached to this zone.,Todos os provedores registrados já estão anexados a esta zona.
+All routes,Todas as rotas
+Also shown on ${routes},Também exibido em ${routes}
+Also shown on ${routes} +${count},Também exibido em ${routes} +${count}
+Amount must be greater than or equal to 0,O valor deve ser maior ou igual a 0
+Amount must be less than or equal to ${value} ${currency},O valor deve ser menor ou igual a ${value} ${currency}
+Apply a condition?,Aplicar uma condição?
+Area,Área
+Area is required,A área é obrigatória
+At least one country is required,É obrigatório pelo menos um país
+Attach,Anexar
+Attach Provider to ${zone},Anexar provedor a ${zone}
+Attached Providers,Provedores anexados
+Attribute Name,Nome do atributo
+Attribute code is required,O código do atributo é obrigatório
+Attribute created successfully!,Atributo criado com sucesso!
+Attribute group,Grupo de atributos
+Attribute name is required,O nome do atributo é obrigatório
+Authorize only,Apenas autorizar
+Auto-saves while you edit,Salva automaticamente enquanto você edita
+Back To Dashboard,Voltar ao painel
+Base calculation address,Endereço base de cálculo
+Based on cart subtotal,Com base no subtotal do carrinho
+Based on cart weight,Com base no peso do carrinho
+Basic configuration,Configuração básica
+Boolean,Booleano
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,Métodos de envio integrados com tarifas por zona. Primeiro anexe o Core a uma zona em Configurações → Envio; depois adicione métodos aqui e configure suas tarifas por zona.
+Buy X get Y,Compre X leve Y
+CMS,CMS
+Calculation type,Tipo de cálculo
+Can not change the attribute group of a product that is already in a variant group.,Não é possível alterar o grupo de atributos de um produto que já está em um grupo de variantes.
+Cancel rollout,Cancelar implantação
+Cancel rollout plan?,Cancelar plano de implantação?
+Canvas device width,Largura do dispositivo da tela
+Capture,Capturar
+Capture Payment,Capturar pagamento
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,Dica de transportadora para o processamento — nunca exibida no checkout. O NewShipmentDialog usa isto para pré-selecionar a transportadora.
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,Código de serviço específico da transportadora usado ao comprar uma etiqueta (CreateLabelInput.serviceCode). Formato livre — verifique o token exato na documentação da API da transportadora. Deixe em branco para permitir que a transportadora escolha seu serviço padrão.
+Cash On Delivery Payment,Pagamento na entrega
+"Catalog, Search","Catálogo, Pesquisa"
+Category Image,Imagem da categoria
+Category Name,Nome da categoria
+Category created successfully!,Categoria criada com sucesso!
+Category name is required,O nome da categoria é obrigatório
+Choose Attribute Groups,Escolher grupos de atributos
+Choose Categories,Escolher categorias
+Choose Collections,Escolher coleções
+Choose SKUs,Escolher SKUs
+Choose how much of your unpublished work to discard. The published storefront is not affected.,Escolha quanto do seu trabalho não publicado descartar. A loja publicada não é afetada.
+Choose where you ship and how much you charge for shipping.,Escolha para onde você envia e quanto cobra pelo envio.
+Clear filter,Limpar filtro
+Clear filters,Limpar filtros
+Client ID,ID do cliente
+Client Secret,Segredo do cliente
+Close,Fechar
+Close settings,Fechar configurações
+Close — continue draft,Fechar — continuar rascunho
+Cms Pages,Páginas CMS
+Collapse left rail,Recolher barra esquerda
+Collapse panel,Recolher painel
+Collection Code,Código da coleção
+Collection Name,Nome da coleção
+Collection code is required,O código da coleção é obrigatório
+Collection code must be alphanumeric and can include underscores or dashes.,O código da coleção deve ser alfanumérico e pode incluir sublinhados ou hífens.
+Collection created successfully!,Coleção criada com sucesso!
+Color,Cor
+Commerce,Comércio
+Compound,Composto
+Condition,Condição
+Configure,Configurar
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,Configure o custo e as condições por zona. Zonas sem tarifa não oferecem este método.
+Configure rate,Configurar tarifa
+Configure the available payment methods,Configurar os métodos de pagamento disponíveis
+Configure the settings for the ${name} widget.,Configure as opções do widget ${name}.
+Configure the tax classes that will be available to your customers at checkout.,Configure as classes de imposto que estarão disponíveis para seus clientes no checkout.
+Configure your Cash On Delivery payment gateway settings,Configure as opções do gateway de pagamento na entrega
+Configure your Paypal payment gateway settings,Configure as opções do gateway de pagamento PayPal
+Configure your Stripe payment gateway settings,Configure as opções do gateway de pagamento Stripe
+Configure your store information,Configure as informações da sua loja
+"Conflicts with ${plan1}, ${plan2}","Conflita com ${plan1}, ${plan2}"
+Conflicts with ${plan},Conflita com ${plan}
+Conflicts with ${plan} +${count},Conflita com ${plan} +${count}
+Conflicts with:,Conflita com:
+Content,Conteúdo
+Continue a saved rollout plan,Continuar um plano de implantação salvo
+Continue your draft,Continuar seu rascunho
+Core Shipping,Envio Core
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,O Core ainda não está anexado a nenhuma zona. Anexe-o primeiro em Configurações → Envio.
+Cost,Custo
+Cost is required,O custo é obrigatório
+Could not start fresh,Não foi possível recomeçar
+Countries,Países
+"Country code (e.g., ""US""). Use ""*"" for all countries.","Código do país (ex.: ""US""). Use ""*"" para todos os países."
+Coupon Code,Código do cupom
+"Coupon code can only contain letters, numbers, underscores, and hyphens","O código do cupom só pode conter letras, números, sublinhados e hífens"
+Coupon created successfully!,Cupom criado com sucesso!
+Coupons,Cupons
+Create A New Customer,Criar um novo cliente
+Create New Package,Criar novo pacote
+Create New Tax Class,Criar nova classe de imposto
+Create New Zone,Criar nova zona
+Create a new category,Criar uma nova categoria
+Create a new collection,Criar uma nova coleção
+Create a new coupon,Criar um novo cupom
+Create a new page,Criar uma nova página
+Create a new product,Criar um novo produto
+Create a new variant for this product.,Criar uma nova variante para este produto.
+Create a new widget,Criar um novo widget
+Create a variant group,Criar um grupo de variantes
+Create method,Criar método
+Create new tax class,Criar nova classe de imposto
+Create rollout plan,Criar plano de implantação
+Created At,Criado em
+Current,Atual
+Customer,Cliente
+Customer Email,E-mail do cliente
+Customer conditions,Condições do cliente
+Customer emails,E-mails do cliente
+Customer groups,Grupos de clientes
+Customer's purchase,Compra do cliente
+Customers,Clientes
+Customers (${count}),Clientes (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,Os clientes em ${zone} não verão mais os métodos de ${name} no checkout. Você pode reanexá-lo mais tarde.
+Dashboard,Painel
+Date,Data
+Decrease,Diminuir
+Default carrier,Transportadora padrão
+Default language,Idioma padrão
+Default package,Pacote padrão
+Default service code,Código de serviço padrão
+"Delete ""${name}""?","Excluir ""${name}""?"
+Delete ${count} attributes,Excluir ${count} atributos
+Delete ${count} categories,Excluir ${count} categorias
+Delete ${count} collections,Excluir ${count} coleções
+Delete ${count} pages,Excluir ${count} páginas
+Delete ${count} widgets,Excluir ${count} widgets
+Delete container widget?,Excluir widget de contêiner?
+Delete image,Excluir imagem
+"Delete package ""${name}""?","Excluir pacote ""${name}""?"
+Delete this,Excluir isto
+Delete this widget? This will be saved as a pending change you can publish or discard.,Excluir este widget? Isto será salvo como uma alteração pendente que você pode publicar ou descartar.
+Delete widget?,Excluir widget?
+Delete zone,Excluir zona
+"Delete zone ""${name}""?","Excluir zona ""${name}""?"
+Deleted ${name},${name} excluído
+Deleting this,Excluir isto
+Deleting this container will also hide,Excluir este contêiner também ocultará
+Description is required,A descrição é obrigatória
+Desktop,Desktop
+Detach,Desanexar
+Detach ${name}?,Desanexar ${name}?
+Disable ${count} pages,Desativar ${count} páginas
+Disable ${count} widgets,Desativar ${count} widgets
+Disabled products will not be visible in the store and cannot be purchased.,Produtos desativados não ficarão visíveis na loja e não poderão ser comprados.
+Discard changes on this page only,Descartar alterações apenas nesta página
+Discard everything,Descartar tudo
+Discard everything in this draft,Descartar tudo neste rascunho
+Discard failed,Falha ao descartar
+Discard pending changes?,Descartar alterações pendentes?
+Discard this page,Descartar esta página
+Discarding…,Descartando…
+Discount Type,Tipo de desconto
+Discount amount,Valor do desconto
+Discount amount is required,O valor do desconto é obrigatório
+Discount type is required,O tipo de desconto é obrigatório
+Dislay Name,Nome de exibição
+Display Name,Nome de exibição
+Draft,Rascunho
+Draft — not scheduled,Rascunho — não agendado
+Drag to resize,Arraste para redimensionar
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.","Cada linha posiciona este widget em uma página, em uma área, com sua própria ordem de classificação. Números menores aparecem primeiro."
+Edit ${name},Editar ${name}
+Edit Shipping Zone,Editar zona de envio
+Edit Tax Rate,Editar alíquota de imposto
+Edit Variant,Editar variante
+Edit Zone,Editar zona
+Edit against the live storefront. Publish immediately or save as a rollout plan.,Edite na loja ao vivo. Publique imediatamente ou salve como um plano de implantação.
+Edit rollout schedule,Editar cronograma de implantação
+Editable routes,Rotas editáveis
+Editing ${coupon},Editando ${coupon}
+Editing ${fullName},Editando ${fullName}
+Editing widget ${name},Editando widget ${name}
+Edits to a shared widget update every route it appears on.,As edições em um widget compartilhado atualizam todas as rotas em que ele aparece.
+Empty package weight,Peso do pacote vazio
+Empty weight,Peso vazio
+Enable ${count} pages,Ativar ${count} páginas
+Enable ${count} widgets,Ativar ${count} widgets
+Enable this page to make it visible on the frontend.,Ative esta página para torná-la visível no frontend.
+Enable?,Ativar?
+End,Fim
+End Date,Data de término
+End date,Data de término
+End time is invalid.,O horário de término é inválido.
+End time must be after start time.,O horário de término deve ser posterior ao horário de início.
+Enter Category Name,Informe o nome da categoria
+Enter Collection Name,Informe o nome da coleção
+Enter Meta Description,Informe a Meta descrição
+Enter Meta Title,Informe o Meta título
+Enter Meta description,Informe a Meta descrição
+Enter Meta title,Informe o Meta título
+Enter SKU,Informe o SKU
+Enter URL Key,Informe a chave de URL
+Enter URL key,Informe a chave de URL
+Enter customer emails,Informe os e-mails dos clientes
+Enter description,Informe a descrição
+Enter group name,Informe o nome do grupo
+Enter meta description,Informe a meta descrição
+Enter meta title,Informe o meta título
+Enter page name,Informe o nome da página
+Enter price,Informe o preço
+Enter product name,Informe o nome do produto
+Enter purchased amount,Informe o valor da compra
+Enter quantity,Informe a quantidade
+Enter tax class name,Informe o nome da classe de imposto
+Enter the quantity,Informe a quantidade
+Enter weight,Informe o peso
+Environment,Ambiente
+Error loading countries,Erro ao carregar países
+Error loading methods,Erro ao carregar métodos
+Error loading packages,Erro ao carregar pacotes
+Error loading providers,Erro ao carregar provedores
+Error loading zones,Erro ao carregar zonas
+EverShop · Back to page builder,EverShop · Voltar ao construtor de páginas
+Every page rolls back to the rollout’s saved state.,Cada página é revertida para o estado salvo da implantação.
+Every page rolls back to what the rollout had saved.,Cada página é revertida para o que a implantação havia salvo.
+Existing rollout plan: ${plan},Plano de implantação existente: ${plan}
+Expand,Expandir
+Expand left rail,Expandir barra lateral esquerda
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.","Idiomas adicionais para os quais os clientes podem alternar, além do padrão. O idioma padrão está sempre disponível — você não o adiciona aqui."
+Failed to attach provider,Falha ao anexar o provedor
+Failed to delete ${name},Falha ao excluir ${name}
+Failed to detach ${name},Falha ao desanexar ${name}
+Failed to remove rate,Falha ao remover a alíquota
+Failed to remove zone,Falha ao remover a zona
+Failed to save change,Falha ao salvar a alteração
+Failed to save rate,Falha ao salvar a alíquota
+Failed to save zone,Falha ao salvar a zona
+Failed to update rollout schedule,Falha ao atualizar o cronograma de implantação
+Fixed discount to entire order,Desconto fixo no pedido inteiro
+Fixed discount to specific products,Desconto fixo em produtos específicos
+Flat rate,Taxa fixa
+"Flat rate in cart currency, tax-exclusive.","Taxa fixa na moeda do carrinho, sem impostos."
+Free shipping?,Frete grátis?
+General Information,Informações gerais
+Give Feedback,Enviar feedback
+Global,Global
+Globals,Globais
+Group,Grupo
+Group Name,Nome do grupo
+Group name is required,O nome do grupo é obrigatório
+Groups,Grupos
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,Intervalo semiaberto — um carrinho exatamente no Máx é excluído (o Mín do próximo nível possui esse ponto).
+Has conflicts,Tem conflitos
+Heads up — ,Atenção — 
+Height,Altura
+Height is required (0 for envelopes),A altura é obrigatória (0 para envelopes)
+Height must be 0 or greater,A altura deve ser 0 ou maior
+Hide global areas,Ocultar áreas globais
+Higest tax rate based on cart items,Maior alíquota de imposto com base nos itens do carrinho
+Highlight global areas on canvas,Destacar áreas globais na tela
+Image,Imagem
+Include In Menu,Incluir no menu
+Include in Store Menu?,Incluir no menu da loja?
+Increase,Aumentar
+Insert image,Inserir imagem
+Integer,Inteiro
+Invalid folder name,Nome de pasta inválido
+Invalid start,Início inválido
+Invalid window,Janela inválida
+Inventory,Estoque
+Is compound,É composto
+Its rates will be removed too. This cannot be undone.,As suas alíquotas também serão removidas. Isso não pode ser desfeito.
+Languages,Idiomas
+Layers,Camadas
+Layout,Layout
+Leave,Sair
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,Deixe a lista de um país vazia para cobrir o país inteiro. Adicione províncias para restringir o envio a regiões específicas.
+Leaving now may drop the most recent edits that haven’t reached the server yet.,Sair agora pode descartar as edições mais recentes que ainda não chegaram ao servidor.
+Length,Comprimento
+Length is required,O comprimento é obrigatório
+Length must be greater than 0,O comprimento deve ser maior que 0
+Live,Ao vivo
+Loading...,Carregando...
+Long text,Texto longo
+Lower values appear first.,Valores menores aparecem primeiro.
+Manage Stock,Gerenciar estoque
+Manage general information about the collection.,Gerencie as informações gerais sobre a coleção.
+Manage product images and gallery. Drag and drop to reorder images.,Gerencie as imagens e a galeria do produto. Arraste e solte para reordenar as imagens.
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","Gerencie integrações de envio e seus métodos (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,Gerencie classes de imposto e alíquotas para diferentes regiões.
+Manage the SEO settings of the category.,Gerencie as configurações de SEO da categoria.
+Manage the SEO settings.,Gerencie as configurações de SEO.
+Manage the attributes.,Gerencie os atributos.
+Manage the collections associated with this product.,Gerencie as coleções associadas a este produto.
+Manage the general information of the category.,Gerencie as informações gerais da categoria.
+Manage the general information of the product.,Gerencie as informações gerais do produto.
+Manage the inventory settings of the product.,Gerencie as configurações de estoque do produto.
+Manage the products assigned to this category.,Gerencie os produtos atribuídos a esta categoria.
+Manage the products assigned to this collection.,Gerencie os produtos atribuídos a esta coleção.
+Manage the shipping settings of the product.,Gerencie as configurações de envio do produto.
+Manage the status settings of the category.,Gerencie as configurações de status da categoria.
+Manage the variant group of the product.,Gerencie o grupo de variantes do produto.
+Marketing,Marketing
+Max ${unit},Máx ${unit}
+Max is required,Máximo é obrigatório
+Maximum,Máximo
+Maximum amount is ${value} ${currency},O valor máximo é ${value} ${currency}
+Maximum quantity is required,A quantidade máxima é obrigatória
+Maximum quantity must be greater than or equal to 0,A quantidade máxima deve ser maior ou igual a 0
+Media,Mídia
+Meta Description,Meta Descrição
+Meta Title,Meta Título
+Meta Title is required,Meta Título é obrigatório
+Meta description,Meta descrição
+Meta description is required,Meta descrição é obrigatória
+Meta title,Meta título
+Meta title is required,Meta título é obrigatório
+Method,Método
+Method created,Método criado
+Method name,Nome do método
+Method name is required,O nome do método é obrigatório
+Method updated,Método atualizado
+Methods →,Métodos →
+Min ${unit},Mín ${unit}
+Min Price,Preço Mín
+Min Weight,Peso Mín
+Min is required,Mínimo é obrigatório
+Min price is required,O preço mínimo é obrigatório
+Min weight is required,O peso mínimo é obrigatório
+Minimum purchase amount,Valor mínimo de compra
+Minimum purchase qty,Qtd mínima de compra
+Minimum purchase quantity,Quantidade mínima de compra
+Minimum purchased amount. This only applies to registered customers.,Valor mínimo de compra. Isto só se aplica a clientes registrados.
+Minimum quantity is required,A quantidade mínima é obrigatória
+Missing name,Nome ausente
+Money,Dinheiro
+Name is required.,O nome é obrigatório.
+Navigation,Navegação
+New Attribute,Novo Atributo
+New Category,Nova Categoria
+New Collection,Nova Coleção
+New Coupon,Novo Cupom
+New Page,Nova Página
+New Variant,Nova Variação
+New coupon,Novo cupom
+New rate,Nova tarifa
+No collections,Nenhuma coleção
+No editable routes.,Nenhuma rota editável.
+No file selected,Nenhum arquivo selecionado
+No methods yet — add one to start offering Core shipping.,Ainda não há métodos — adicione um para começar a oferecer envio Core.
+No packages yet. Create one — shippable products require a package.,Ainda não há embalagens. Crie uma — produtos enviáveis exigem uma embalagem.
+No product to display.,Nenhum produto para exibir.
+"No providers attached. Click ""Attach Provider"" to add one.","Nenhum provedor anexado. Clique em ""Anexar Provedor"" para adicionar um."
+"No rates yet — click ""Add Rate"" to offer this method in a zone.","Ainda não há tarifas — clique em ""Adicionar Tarifa"" para oferecer este método em uma zona."
+"No results for ""${keyword}""","Nenhum resultado para ""${keyword}"""
+No routes have opted into page-builder editing yet.,Nenhuma rota optou pela edição do construtor de páginas ainda.
+No shipping required?,Não requer envio?
+No subdivisions available — whole country is covered.,Nenhuma subdivisão disponível — todo o país está coberto.
+No widgets available.,Nenhum widget disponível.
+"No widgets match ""${query}"".","Nenhum widget corresponde a ""${query}""."
+No widgets on this route yet.,Ainda não há widgets nesta rota.
+No zones,Nenhuma zona
+No zones found,Nenhuma zona encontrada
+Not visible individually,Não visível individualmente
+Nothing to publish,Nada para publicar
+Nothing to redo on this page,Nada para refazer nesta página
+Nothing to undo on this page,Nada para desfazer nesta página
+Number,Número
+Option text is required,O texto da opção é obrigatório
+Optional. Added to the shipping weight for quotes and labels.,Opcional. Adicionado ao peso de envio para cotações e etiquetas.
+Order Number,Número do Pedido
+Order conditions,Condições do pedido
+Orders (${count}),Pedidos (${count})
+Other,Outro
+Other pages keep their pending changes.,Outras páginas mantêm suas alterações pendentes.
+Overlaps with existing rollout: ${plans}.,Sobrepõe-se ao lançamento existente: ${plans}.
+Overlaps with existing rollouts: ${plans}.,Sobrepõe-se aos lançamentos existentes: ${plans}.
+Package,Embalagem
+Package created,Embalagem criada
+Package deleted,Embalagem excluída
+Package saved,Embalagem salva
+Packages,Embalagens
+Page Name,Nome da Página
+Page Not Found,Página Não Encontrada
+Page builder,Construtor de páginas
+Page builder canvas,Tela do construtor de páginas
+Page created successfully!,Página criada com sucesso!
+Page is required,A página é obrigatória
+Page name is required,O nome da página é obrigatório
+Pages,Páginas
+Parent category,Categoria pai
+Payment Setting,Configuração de Pagamento
+Payment mode,Modo de pagamento
+Payment setting saved,Configuração de pagamento salva
+Paypal Payment,Pagamento Paypal
+Pending start time,Hora de início pendente
+Percentage discount to entire order,Desconto percentual sobre todo o pedido
+Percentage discount to specific products,Desconto percentual sobre produtos específicos
+Phone,Telefone
+Pick a start time to schedule this rollout.,Escolha uma hora de início para agendar este lançamento.
+Pick a widget below to insert as a child.,Escolha um widget abaixo para inserir como filho.
+Pick up where you left off — ${count} pending changes,Continue de onde parou — ${count} alterações pendentes
+Pick up where you left off — 1 pending change,Continue de onde parou — 1 alteração pendente
+Pin drawer open,Fixar gaveta aberta
+Pin — keep drawer open across canvas clicks,Fixar — manter a gaveta aberta entre cliques na tela
+Placed on: ${routes},Colocado em: ${routes}
+Placements,Posicionamentos
+Postal Code,Código Postal
+"Postcode (e.g., ""90210""). Empty for all postcodes.","Código postal (ex.: ""90210""). Vazio para todos os códigos postais."
+Preselected for new products. Exactly one package is the default.,Pré-selecionado para novos produtos. Exatamente uma embalagem é a padrão.
+Preview,Visualizar
+Price-based tiers,Faixas baseadas em preço
+Priority,Prioridade
+Priority is required,A prioridade é obrigatória
+Product Name,Nome do Produto
+Product Status,Status do Produto
+Product created successfully,Produto criado com sucesso
+Product updated successfully,Produto atualizado com sucesso
+Products (${count}),Produtos (${count})
+Promotion,Promoção
+Proportional allocation based on cart items,Alocação proporcional com base nos itens do carrinho
+Provide the SEO details for the CMS page.,Forneça os detalhes de SEO para a página CMS.
+Provide the basic information for the CMS page.,Forneça as informações básicas para a página CMS.
+Provider,Provedor
+Province Restrictions,Restrições de Província
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.","Código da província (ex.: ""CA""). Use ""*"" para todas as províncias."
+Provinces,Províncias
+Provinces is required,As províncias são obrigatórias
+Provinces:,Províncias:
+Publish failed,Falha na publicação
+Publish now,Publicar agora
+Publish to the live storefront,Publicar na loja ao vivo
+Publishable Key,Chave Publicável
+Publishing…,Publicando…
+Qty is required,A quantidade é obrigatória
+Quick links,Links rápidos
+Rate,Tarifa
+Rate added,Tarifa adicionada
+Rate is required,A tarifa é obrigatória
+Rate removed,Tarifa removida
+Rate status,Status da tarifa
+Rate updated,Tarifa atualizada
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,Refazer (⇧⌘Z) — reaplica a última edição desfeita nesta página
+Redo last undone change on this page,Refazer a última alteração desfeita nesta página
+Reference,Referência
+Refund,Reembolso
+Refund amount,Valor do reembolso
+Remove Zone,Remover Zona
+Remove placement,Remover posicionamento
+Remove rate,Remover tarifa
+Remove this rate?,Remover esta tarifa?
+Removed,Removido
+Resize settings drawer,Redimensionar gaveta de configurações
+"Results for ""${keyword}""","Resultados para ""${keyword}"""
+Revert all pages to saved state,Reverter todas as páginas para o estado salvo
+Revert everything,Reverter tudo
+Revert this page,Reverter esta página
+Revert this page only,Reverter apenas esta página
+Revert to saved state?,Reverter para o estado salvo?
+Reverting…,Revertendo…
+Rich text,Texto formatado
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,Desfaça as alterações que você fez desde a última vez que este lançamento foi salvo. A loja online ativa não é afetada — ela já reflete o estado salvo.
+SEO,SEO
+SEO Information,Informações de SEO
+SKU is required,O SKU é obrigatório
+Sale,Promoção
+Sandbox,Sandbox
+Save Settings,Salvar configurações
+Save as rollout plan,Salvar como plano de lançamento
+Save as rollout plan and leave,Salvar como plano de lançamento e sair
+Save changes,Salvar alterações
+Save failed,Falha ao salvar
+Save method,Salvar método
+Save rate,Salvar taxa
+Saving…,Salvando…
+Schedule failed,Falha ao agendar
+Scheduled,Agendado
+Search engine optimize,Otimizar para mecanismos de busca
+Search widgets,Buscar widgets
+Secret Key,Chave secreta
+Select Category,Selecionar categoria
+Select Parent Category,Selecionar categoria pai
+Select Products by SKU,Selecionar produtos por SKU
+Select a provider first,Selecione um provedor primeiro
+Select a provider…,Selecione um provedor…
+Select an option,Selecione uma opção
+Select category,Selecionar categoria
+Select countries,Selecionar países
+Select operator,Selecionar operador
+Select options,Selecionar opções
+Select page,Selecionar página
+Select products to add to this collection.,Selecione produtos para adicionar a esta coleção.
+Select the list of attribute,Selecione a lista de atributos
+Select this option if the product is a digital product or service that does not require shipping.,Selecione esta opção se o produto for um produto ou serviço digital que não requer envio.
+Set a start time to schedule.,Defina um horário de início para agendar.
+Set the status and visibility of the product.,Defina o status e a visibilidade do produto.
+Share,Compartilhar
+Shipping Cost,Custo de envio
+Shipping Providers,Provedores de envio
+Shipping address,Endereço de entrega
+Shipping cost is required,O custo de envio é obrigatório
+Shipping provider setting saved,Configuração do provedor de envio salva
+Shipping tax class,Classe de imposto de envio
+Short text,Texto curto
+Show global areas,Mostrar áreas globais
+Show on routes,Exibir nas rotas
+Show products?,Mostrar produtos?
+Show this widget on every page,Mostrar este widget em todas as páginas
+Size (L × W × H),Tamanho (C × L × A)
+Sort,Ordenar
+Sort order is required,A ordem de classificação é obrigatória
+Sort order must be a positive number,A ordem de classificação deve ser um número positivo
+Start,Iniciar
+Start a page-builder session,Iniciar uma sessão do construtor de páginas
+Start date,Data de início
+Start new changeset,Iniciar novo conjunto de alterações
+Start time is invalid.,O horário de início é inválido.
+State Date,Data de início
+Status is required,O status é obrigatório
+Stay,Permanecer
+Stay on this page,Permanecer nesta página
+Stock Availability,Disponibilidade em estoque
+Stop highlighting global areas,Parar de destacar áreas globais
+Store Address,Endereço da loja
+Store Description,Descrição da loja
+Store Email,E-mail da loja
+Store Name,Nome da loja
+Store Phone Number,Telefone da loja
+Store Setting,Configuração da loja
+Store Settings,Configurações da loja
+Store address,Endereço da loja
+Storefront,Loja online
+Stripe Payment,Pagamento Stripe
+Tablet,Tablet
+Take our survey,Responda à nossa pesquisa
+Target Products,Produtos-alvo
+Tax Class,Classe de imposto
+Tax calculation configuration,Configuração de cálculo de impostos
+Tax class name,Nome da classe de imposto
+Tax class name is required,O nome da classe de imposto é obrigatório
+Tax classes,Classes de imposto
+Tax rate has been saved successfully!,A taxa de imposto foi salva com sucesso!
+Tax setting has been saved successfully!,A configuração de imposto foi salva com sucesso!
+The box or envelope this product ships in. Applies to all variants of this product.,A caixa ou envelope em que este produto é enviado. Aplica-se a todas as variantes deste produto.
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,As caixas e envelopes que você usa para enviar. Todo produto enviável faz referência a um — suas dimensões e peso vazio determinam as cotações e etiquetas de envio.
+The conditions related to the customer for the coupon to be applied.,As condições relacionadas ao cliente para que o cupom seja aplicado.
+The conditions related to the order for the coupon to be applied.,As condições relacionadas ao pedido para que o cupom seja aplicado.
+The default package cannot be deleted,O pacote padrão não pode ser excluído
+The draft holds ${count} saved changes you can publish later.,O rascunho contém ${count} alterações salvas que você pode publicar mais tarde.
+The draft holds 1 saved change you can publish later.,O rascunho contém 1 alteração salva que você pode publicar mais tarde.
+The draft is deleted.,O rascunho foi excluído.
+The draft itself is deleted.,O próprio rascunho foi excluído.
+The general information about the coupon.,As informações gerais sobre o cupom.
+"The language of the admin panel, independent of the storefront.","O idioma do painel administrativo, independente da loja online."
+The method will no longer apply to this zone.,O método não se aplicará mais a esta zona.
+The minimum quantity of items required in the order to qualify for this coupon.,A quantidade mínima de itens necessária no pedido para se qualificar para este cupom.
+The minimum total amount required for the order to qualify for this coupon.,O valor total mínimo necessário para que o pedido se qualifique para este cupom.
+The rollout plan,O plano de lançamento
+The storefront's primary language. Pages in this language have no URL prefix.,O idioma principal da loja online. As páginas neste idioma não têm prefixo de URL.
+The type of discount applied by the coupon.,O tipo de desconto aplicado pelo cupom.
+The zone this rate applies to.,A zona à qual esta taxa se aplica.
+"There is no ""Select"" attribute available.","Não há nenhum atributo ""Select"" disponível."
+There is no attribute to display,Não há atributo para exibir
+There is no category to display,Não há categoria para exibir
+There is no collections to display,Não há coleções para exibir
+There is no coupon to display,Não há cupom para exibir
+There is no customer to display,Não há cliente para exibir
+There is no order to display,Não há pedido para exibir
+There is no page to display,Não há página para exibir
+There is no widget to display,Não há widget para exibir
+There was an error fetching attribute groups.,Ocorreu um erro ao buscar os grupos de atributos.
+There was an error fetching categories.,Ocorreu um erro ao buscar as categorias.
+There was an error fetching collections.,Ocorreu um erro ao buscar as coleções.
+There was an error fetching file browser APIs.,Ocorreu um erro ao buscar as APIs do navegador de arquivos.
+There was an error fetching products.,Ocorreu um erro ao buscar os produtos.
+This cannot be undone. Packages still assigned to products can't be removed.,Isso não pode ser desfeito. Pacotes ainda atribuídos a produtos não podem ser removidos.
+This changeset has no operations yet.,Este conjunto de alterações ainda não tem operações.
+This field is required,Este campo é obrigatório
+This is the URL path for the CMS page.,Este é o caminho de URL da página do CMS.
+This is the address used to calculate tax rates.,Este é o endereço usado para calcular as taxas de imposto.
+This is the meta title for the CMS page.,Este é o meta título da página do CMS.
+This is the name of the CMS page that will be displayed in the admin panel.,Este é o nome da página do CMS que será exibido no painel administrativo.
+This is the tax class applied to shipping costs.,Esta é a classe de imposto aplicada aos custos de envio.
+This product has some variants like color or size?,Este produto tem variantes como cor ou tamanho?
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,Este provedor não possui configuração por zona. Os métodos e as taxas por zona são gerenciados na própria área administrativa do provedor.
+This removes the zone along with its provider attachments and rates. This cannot be undone.,Isso remove a zona junto com seus anexos de provedor e taxas. Isso não pode ser desfeito.
+This route has unpublished changes in your draft,Esta rota tem alterações não publicadas no seu rascunho
+This will be saved as a pending change you can publish or discard.,Isso será salvo como uma alteração pendente que você pode publicar ou descartar.
+Tiered,Escalonado
+Type is required,O tipo é obrigatório
+URL Key,Chave de URL
+URL Key is required,A chave de URL é obrigatória
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens","A chave de URL deve estar em minúsculas e pode conter apenas letras, números e hífens"
+URL key,Chave de URL
+URL key is required,A chave de URL é obrigatória
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,A chave de URL deve estar em minúsculas e pode conter apenas caracteres alfanuméricos e hífens
+Unassign,Desatribuir
+Undo (⌘Z) — undoes your last edit on this page,Desfazer (⌘Z) — desfaz sua última edição nesta página
+Undo / Redo,Desfazer / Refazer
+Undo last change on this page,Desfazer a última alteração nesta página
+Unknown,Desconhecido
+Unlink,Desvincular
+Unpin drawer,Desafixar painel
+Unpin — drawer will close when you click empty canvas,Desafixar — o painel será fechado ao clicar na área vazia
+Unpublished changes,Alterações não publicadas
+Unsaved changes,Alterações não salvas
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,Atualize o nome e a janela ativa deste plano de lançamento. As edições de conteúdo são gerenciadas separadamente no editor.
+Update the variant details and attributes here.,Atualize os detalhes e atributos da variante aqui.
+Updated,Atualizado
+Upload an image for the category.,Envie uma imagem para a categoria.
+Used Times,Vezes usado
+Value is required,O valor é obrigatório
+Variant Group,Grupo de variantes
+Variant created successfully,Variante criada com sucesso
+Variant updated successfully,Variante atualizada com sucesso
+Version ${version},Versão ${version}
+Visibility,Visibilidade
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,A visibilidade determina onde o produto aparece na loja. Ela não afeta a disponibilidade de venda do produto.
+Visitors will see the new layout on their next page load.,Os visitantes verão o novo layout no próximo carregamento da página.
+Webhook Secret Key,Chave secreta do webhook
+Weight,Peso
+Weight must be 0 or greater,O peso deve ser 0 ou maior
+Weight must be a positive number,O peso deve ser um número positivo
+Weight-based tiers,Faixas baseadas em peso
+Widget Settings,Configurações do widget
+Widget created successfully!,Widget criado com sucesso!
+Widgets,Widgets
+Width,Largura
+Width is required,A largura é obrigatória
+Width must be greater than 0,A largura deve ser maior que 0
+Will roll out automatically: ${range},Será lançado automaticamente: ${range}
+Working…,Processando…
+Worldwide,Mundial
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,Você tem ${count} alterações neste rascunho que ainda não foram publicadas.
+You have ${count} changes still saving.,Você tem ${count} alterações ainda sendo salvas.
+You have 1 change in this draft that hasn’t been published yet.,Você tem 1 alteração neste rascunho que ainda não foi publicada.
+You have 1 change still saving.,Você tem 1 alteração ainda sendo salva.
+Your draft is safe on the server — you can come back and publish it any time.,Seu rascunho está seguro no servidor — você pode voltar e publicá-lo a qualquer momento.
+Your edits on other pages stay in the draft.,Suas edições em outras páginas permanecem no rascunho.
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,A URL do seu webhook deve ser: https://yourdomain.com/api/stripe/webhook
+Zone,Zona
+Zone Name,Nome da zona
+Zone Rates,Tarifas da zona
+Zone created,Zona criada
+Zone is required,A zona é obrigatória
+Zone name is required,O nome da zona é obrigatório
+Zone removed,Zona removida
+Zone updated,Zona atualizada
+Zones served,Zonas atendidas
+and ${count} more,e mais ${count}
+container will also hide,o contêiner também será ocultado
+current page,página atual
+e.g. Small Box,ex.: Caixa pequena
+e.g. Summer Sale 2026,ex.: Promoção de Verão 2026
+e.g. content,ex.: conteúdo
+"e.g., 10.00","ex.: 10,00"
+"e.g., EU, US-West","ex.: EU, US-West"
+"e.g., Express",ex.: Expresso
+"e.g., FEDEX_GROUND, usps_priority","ex.: FEDEX_GROUND, usps_priority"
+every page,todas as páginas
+indefinite,indefinido
+open,aberto
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.","a publicação é imediata e não pode ser desfeita nesta tela. Para preparar em vez disso, cancele e escolha “Agendar um lançamento”."
+quantity of products are matched bellow conditions(All),a quantidade de produtos atende às condições abaixo (Todas)
+subtotal,subtotal
+to a storefront route's,de uma rota da loja
+to make it appear here.,para fazê-lo aparecer aqui.
+weight,peso
+widget? This will be saved as a pending change you can publish or discard.,widget? Isso será salvo como uma alteração pendente que você pode publicar ou descartar.
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,será removido e a loja ativa deixará de aplicar suas edições. O conjunto de alterações subjacente e suas edições de conteúdo pendentes são preservados.
+— None —,— Nenhum —
+Cash On Delivery,Pagamento na entrega
+Please select a valid payment method,Selecione uma forma de pagamento válida
+Show ${label} width,Mostrar largura de ${label}
+Column ${index},Coluna ${index}
+Switch page,Trocar de página
+Search pages…,Buscar páginas…
+Search pages,Buscar páginas
+Save your pending edits — the live storefront will catch up,Salve suas edições pendentes — a loja ativa será atualizada
+No changes to save — the rollout matches the editor,Nenhuma alteração a salvar — o lançamento corresponde ao editor
+More rollout actions,Mais ações de lançamento
+Revert to saved state…,Reverter ao estado salvo…
+Roll back the editor to what the rollout currently shows on the storefront,Reverter o editor para o que o lançamento exibe atualmente na loja
+Nothing to revert — the editor matches the saved state,Nada a reverter — o editor corresponde ao estado salvo
+Cancel rollout plan…,Cancelar plano de lançamento…
+Remove the schedule — the changeset is preserved,Remover o agendamento — o conjunto de alterações é preservado
+Publish,Publicar
+More publish options,Mais opções de publicação
+Apply all edits to the live storefront immediately,Aplicar todas as edições à loja ativa imediatamente
+Save as rollout plan…,Salvar como plano de lançamento…
+Schedule these edits to roll out at a future time,Agende essas edições para serem lançadas em um momento futuro
+Discard pending changes…,Descartar alterações pendentes…
+Choose between discarding the whole draft or just this page,Escolha entre descartar todo o rascunho ou apenas esta página
+Switch session,Trocar de sessão
+New changeset,Novo conjunto de alterações
+Rollout: ${name},Lançamento: ${name}
+Click or drag to add,Clique ou arraste para adicionar
+Background color,Cor de fundo
+Text color,Cor do texto
+Dwell time,Tempo de exibição
+Time each announcement stays visible (in addition to the 400ms slide transition).,Tempo que cada anúncio permanece visível (além da transição de slide de 400ms).
+Announcements,Anúncios
+Add announcement,Adicionar anúncio
+Untitled,Sem título
+Free shipping on orders over $50,Frete grátis em pedidos acima de $50
+Optional. Makes the entire row a clickable link.,Opcional. Torna toda a linha um link clicável.
+Link label,Rótulo do link
+Optional. Displayed after the content; defaults to the content itself.,Opcional. Exibido após o conteúdo; usa o próprio conteúdo por padrão.
+Shop now,Comprar agora
+Dark,Escuro
+Light,Claro
+Gradient,Gradiente
+Left,Esquerda
+Center,Centro
+Right,Direita
+Selected image,Imagem selecionada
+No image selected,Nenhuma imagem selecionada
+Replace,Substituir
+Clear,Limpar
+Reflects the alignment below.,Reflete o alinhamento abaixo.
+Banner Image,Imagem do banner
+Mobile image,Imagem para celular
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,Opcional. Substituída abaixo do breakpoint de 768px. Usa a imagem acima quando vazia — o uso típico é um recorte vertical da mesma cena.
+Alignment,Alinhamento
+Overlay copy,Texto sobreposto
+Eyebrow,Texto de destaque
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".","Pequeno rótulo em maiúsculas acima do título. Ex.: ""EDIÇÃO LIMITADA""."
+LIMITED EDITION,EDIÇÃO LIMITADA
+Heading,Título
+The Summer Edit,A Coleção de Verão
+Sub-text,Subtexto
+One short supporting sentence.,Uma frase de apoio curta.
+Overlay placement,Posicionamento da sobreposição
+Content position,Posição do conteúdo
+Where the overlay text sits on the image.,Onde o texto sobreposto fica na imagem.
+Tint,Tonalidade
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,Uma camada atrás do texto sobreposto para melhor legibilidade. Escuro / gradiente alteram o texto para branco automaticamente.
+Tint opacity,Opacidade da tonalidade
+Call to actions,Chamadas para ação
+Remove primary CTA,Remover CTA primário
++ Add a primary CTA,+ Adicionar um CTA primário
+Secondary,Secundário
+Remove secondary CTA,Remover CTA secundário
+Learn more,Saiba mais
++ Add a secondary CTA,+ Adicionar um CTA secundário
+Details,Detalhes
+Alt text,Texto alternativo
+Describes the banner for screen readers and SEO.,Descreve o banner para leitores de tela e SEO.
+"e.g. ""Summer sale promotional banner""","ex.: ""Banner promocional da promoção de verão"""
+Banner link,Link do banner
+Optional. Clicking the banner navigates here.,Opcional. Clicar no banner leva para cá.
+Display name,Nome de exibição
+Shop,Loja
+Target,Destino
+"Page, category, product, or a custom URL.","Página, categoria, produto ou uma URL personalizada."
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO: não transferir crédito de ranqueamento para este link (rel=nofollow).
+No referrer,Sem referenciador
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,Privacidade: omitir a URL de origem (rel=noreferrer). Links que abrem em nova aba sempre incluem isto.
+Menu items,Itens de menu
+Add menu item,Adicionar item de menu
+Sub-items,Subitens
+Optional dropdown links (1 level).,Links de menu suspenso opcionais (1 nível).
+Add sub-item,Adicionar subitem
+Options,Opções
+Use as main menu,Usar como menu principal
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.","Navegação principal — no celular ela se recolhe em um menu sanduíche. Desative para uma lista de links simples (ex.: um rodapé), que permanece em linha no celular."
+Custom CSS classes,Classes CSS personalizadas
+Applied to the rendered menu element.,Aplicadas ao elemento de menu renderizado.
+e.g. main-nav font-semibold,ex.: main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,Blocos
+Add tile,Adicionar bloco
+Hero · ,Destaque · 
+Used when no image is set.,Usado quando nenhuma imagem é definida.
+Small label above the heading.,Pequeno rótulo acima do título.
+THE SUMMER EDIT,A EDIÇÃO DE VERÃO
+New Arrivals,Novidades
+Body,Corpo
+Big card — the headline of the grid.,Cartão grande — o destaque da grade.
+Link URL,URL do link
+Gap,Espaçamento
+Minimum block height,Altura mínima do bloco
+Image left,Imagem à esquerda
+Image right,Imagem à direita
+Centered,Centralizado
+Pull quote,Citação em destaque
+Variant,Variante
+Image column size,Tamanho da coluna da imagem
+Describe the image,Descreva a imagem
+Copy,Texto
+"Small all-caps label. E.g. ""OUR STORY"".","Pequeno rótulo em maiúsculas. Ex.: ""NOSSA HISTÓRIA""."
+Our story,Nossa história
+"Made by hand, in small batches","Feito à mão, em pequenos lotes"
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.","Obrigatório para a variante de citação em destaque. Exibido em tamanho grande, estilizado como citação."
+"A short, quotable line.",Uma frase curta e marcante.
+Three or four sentences of brand narrative.,Três ou quatro frases da narrativa da marca.
+Second body paragraph (optional),Segundo parágrafo de corpo (opcional)
+A second short paragraph if the story needs it.,"Um segundo parágrafo curto, se a história precisar."
+Read more link,"Link ""Leia mais"""
+Read more,Leia mais
+URL,URL
+Remove read-more link,"Remover link ""Leia mais"""
++ Add a read-more link,"+ Adicionar um link ""Leia mais"""
+Square,Quadrado
+Landscape,Paisagem
+Portrait,Retrato
+Overlay,Sobreposição
+Below,Abaixo
+New category,Nova categoria
+Section heading,Título da seção
+Optional. Shown above the grid.,Opcional. Exibido acima da grade.
+Shop by category,Comprar por categoria
+Women,Feminino
+Columns,Colunas
+Auto,Automático
+Asymmetric makes the first tile span 2 columns.,Assimétrico faz o primeiro bloco ocupar 2 colunas.
+Uniform,Uniforme
+Asymmetric,Assimétrico
+Image aspect,Proporção da imagem
+Label position,Posição do rótulo
+Blush,Rosa-claro
+XL,XL
+Position ${c},Posição ${c}
+Column layout,Layout de colunas
+Drag widgets into each column. Children re-flow when you change the ratio.,Arraste widgets para cada coluna. Os itens filhos se reorganizam quando você altera a proporção.
+Space between columns.,Espaço entre as colunas.
+Where content sits within each column. Applied uniformly to every column.,Onde o conteúdo fica dentro de cada coluna. Aplicado uniformemente a todas as colunas.
+Row appearance,Aparência da linha
+Background,Fundo
+Custom color,Cor personalizada
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","Qualquer cor CSS (ex.: ""#0a0a0a"" ou ""rgb(10,10,10)""). Deixe vazio para usar a amostra acima."
+Padding,Preenchimento
+Outer spacing around the row. Scales down on mobile.,Espaçamento externo ao redor da linha. Reduz no celular.
+Solid,Sólido
+Dashed,Tracejado
+Already expired,Já expirado
+Expires in ${days}d ${hours}h,Expira em ${days}d ${hours}h
+Expires in ${hours}h ${minutes}m,Expira em ${hours}h ${minutes}m
+Offer,Oferta
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".","Linha de urgência. Opcional. Ex.: ""Limitado · Termina domingo""."
+Limited · Ends Sunday,Limitado · Termina domingo
+Headline,Título
+Take 20% off your order,Ganhe 20% de desconto no seu pedido
+Optional. One short instructional line.,Opcional. Uma breve linha de instrução.
+Use code at checkout,Use o código no checkout
+Promo code,Código promocional
+Displayed in uppercase to shoppers.,Exibido em maiúsculas para os clientes.
+Expires,Expira
+Optional. The block auto-hides after this time for live visitors.,Opcional. O bloco se oculta automaticamente após este horário para os visitantes ao vivo.
+Call to action,Chamada para ação
+Button label,Texto do botão
+Shop now →,Comprar agora →
+Button link,Link do botão
+Appearance,Aparência
+Border,Borda
+Narrow,Estreito
+Normal,Normal
+Wide,Largo
+Shown above all content. Optional.,Exibido acima de todo o conteúdo. Opcional.
+e.g. Frequently asked,ex.: Perguntas frequentes
+Prose,Texto
+FAQ group · ${count} items,Grupo de FAQ · ${count} itens
+Group heading,Título do grupo
+Optional sub-heading.,Subtítulo opcional.
+e.g. Shipping,ex.: Envio
+Add question,Adicionar pergunta
+Question,Pergunta
+e.g. How long does shipping take?,ex.: Quanto tempo leva o envio?
+Answer,Resposta
+"Supports **bold**, _italic_, and line breaks.","Suporta **negrito**, _itálico_ e quebras de linha."
+e.g. Orders ship within 24 hours…,ex.: Os pedidos são enviados em até 24 horas…
+Add prose,Adicionar texto
+Add FAQ group,Adicionar grupo de FAQ
+Max width,Largura máxima
+Content column width.,Largura da coluna de conteúdo.
+Allow multiple open,Permitir vários abertos
+"When off, opening one FAQ item closes the others in the same group.","Quando desativado, abrir um item de FAQ fecha os outros do mesmo grupo."
+New link,Novo link
+New column,Nova coluna
+Add column,Adicionar coluna
+${title} · ${count} links,${title} · ${count} links
+Column title,Título da coluna
+Links,Links
+"Min 1, max 12.","Mín. 1, máx. 12."
+Add link,Adicionar link
+New arrivals,Novidades
+Boxed,Em caixa
+Wide (full bleed),Largo (de ponta a ponta)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,Em caixa permanece dentro do contêiner da página (o tema decide a largura máxima). Largo se estende de ponta a ponta.
+Scales down on mobile.,Reduz no celular.
+Optional. Painted behind content. Combine with a tint below for legibility.,Opcional. Pintado atrás do conteúdo. Combine com um matiz abaixo para legibilidade.
+XS,XS
+Spacing,Espaçamento
+Size,Tamanho
+Mobile scales down ~⅔ automatically.,"No celular, reduz ~⅔ automaticamente."
+Divider line,Linha divisória
+Show divider line,Mostrar linha divisória
+A horizontal rule centred in the spacing band.,Uma régua horizontal centrada na faixa de espaçamento.
+Line color,Cor da linha
+Default uses the theme's divider color.,O padrão usa a cor do divisor do tema.
+Sides,Lados
+Bottom,Inferior
+Dots,Pontos
+Bars,Barras
+Mobile image (optional),Imagem para celular (opcional)
+Used at ≤ 767 px. Falls back to the main image.,Usada em ≤ 767 px. Recorre à imagem principal.
+e.g. New collection,ex.: Nova coleção
+e.g. Summer Sale,ex.: Promoção de verão
+Sub text,Texto secundário
+Check out our latest products with special discounts.,Confira nossos produtos mais recentes com descontos especiais.
+Primary button,Botão primário
+Secondary button,Botão secundário
++ Add secondary button,+ Adicionar botão secundário
+Overrides,Substituições
+Leaves slide-specific anchor; falls back to the slideshow's default.,Mantém a âncora específica do slide; recorre ao padrão da apresentação.
+Overlay tint,Tom da sobreposição
+Overlay opacity,Opacidade da sobreposição
+Make whole slide clickable,Tornar o slide inteiro clicável
+Behavior,Comportamento
+Transition,Transição
+Slide,Slide
+Fade,Esmaecer
+Transition speed,Velocidade da transição
+Autoplay,Reprodução automática
+Autoplay delay,Atraso da reprodução automática
+${seconds} s between slides,${seconds} s entre os slides
+Pause on hover,Pausar ao passar o mouse
+Pause for 20 s after user nav,Pausar por 20 s após navegação do usuário
+Arrows,Setas
+Aspect ratio,Proporção
+`Auto` matches the natural image height (jumps between slides).,`Auto` corresponde à altura natural da imagem (alterna entre os slides).
+Default content position,Posição padrão do conteúdo
+Per-slide overrides win.,As substituições por slide prevalecem.
+Default overlay tint,Tom padrão da sobreposição
+Default overlay opacity,Opacidade padrão da sobreposição
+Slides (${count}),Slides (${count})
+No slides yet.,Nenhum slide ainda.
+Add your first slide,Adicione seu primeiro slide
+Slide ${number},Slide ${number}
+Image only,Apenas imagem
+Empty,Vazio
+Show slide,Mostrar slide
+Hide slide,Ocultar slide
+Move slide up,Mover slide para cima
+Move slide down,Mover slide para baixo
+Delete slide,Excluir slide
+Top,Superior
+Cover,Cobrir
+Contain,Conter
+Required for accessibility.,Obrigatório para acessibilidade.
+Image fit,Ajuste da imagem
+"Small all-caps label. E.g. ""LIMITED EDITION"".","Rótulo pequeno em maiúsculas. Ex.: ""EDIÇÃO LIMITADA""."
+Limited edition,Edição limitada
+One strong line,Uma linha de destaque
+Two lines of supporting copy.,Duas linhas de texto de apoio.
+Image position,Posição da imagem
+Vertical alignment,Alinhamento vertical
+Aligns the copy panel content.,Alinha o conteúdo do painel de texto.
+Remove call to action,Remover chamada para ação
+Add a call to action,Adicionar uma chamada para ação
+Custom CSS classes for the text block,Classes CSS personalizadas para o bloco de texto
+Add group,Adicionar grupo
+${label} · ${count} subs,${label} · ${count} subs
+Parent label,Rótulo do item pai
+Parent link,Link do item pai
+Image alt text,Texto alternativo da imagem
+Sub-categories,Subcategorias
+"Min 1, max 8.","Mín. 1, máx. 8."
+Add sub-category,Adicionar subcategoria
+Dresses,Vestidos
+Columns (desktop),Colunas (desktop)
+On tablets the layout is always 2 columns.,"Em tablets, o layout é sempre de 2 colunas."
+Make parent image a link,Tornar a imagem do item pai um link
+"When off, only the sub-chips and parent label are interactive.","Quando desativado, apenas os subitens e o rótulo do item pai são interativos."
+Title,Título
+e.g. Free shipping,ex.: Frete grátis
+Optional supporting line below the title.,Linha de apoio opcional abaixo do título.
+Icon,Ícone
+Optional. SVG or raster image. Hidden when icons are turned off globally.,Opcional. Imagem SVG ou raster. Oculto quando os ícones são desativados globalmente.
+Optional. Makes the whole cell clickable.,Opcional. Torna a célula inteira clicável.
+"Auto matches the item count, capped at 4.","Auto corresponde à quantidade de itens, limitado a 4."
+3,3
+4,4
+Icon size,Tamanho do ícone
+Show icons,Mostrar ícones
+Master switch. Items without an icon URL are unaffected.,Interruptor principal. Itens sem URL de ícone não são afetados.
+Show divider,Mostrar divisor
+Vertical line between cells.,Linha vertical entre as células.
+Collection,Coleção
+Search collections…,Pesquisar coleções…
+No collections match “${value}”.,Nenhuma coleção corresponde a “${value}”.
+You have no collections yet.,Você ainda não tem coleções.
+Please select a collection,Selecione uma coleção
+"Defaults to ""${name}"" (the collection's name).","Padrão para ""${name}"" (o nome da coleção)."
+Defaults to the picked collection's name.,Padrão para o nome da coleção selecionada.
+Collection name,Nome da coleção
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,Padrão para a descrição da coleção. Definir isto substitui a descrição em rich text por texto simples.
+e.g. Hand-picked styles for the season.,ex.: Estilos selecionados a dedo para a estação.
+View all link,Link Ver tudo
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.","Opcional. Oculto quando vazio. Escolha uma categoria, produto, página ou cole um URL personalizado."
+"Optional. Defaults to ""View all →"".","Opcional. Padrão para ""Ver tudo →""."
+View all →,Ver tudo →
+Total products,Total de produtos
+Number of products to display.,Número de produtos a exibir.
+Products per row,Produtos por linha
+Grid columns (1–6 typical).,Colunas da grade (1–6 típico).
+Count is required,A quantidade é obrigatória
+e.g. 8,ex.: 8
+Count per row is required,A quantidade por linha é obrigatória
+e.g. 4,ex.: 4
+Cover image,Imagem de capa
+COLLECTION,COLEÇÃO
+"Defaults to ""${pickedName}"".","Padrão para ""${pickedName}""."
+Defaults to the picked collection name.,Padrão para o nome da coleção selecionada.
+Optional. One or two sentences of editorial copy.,Opcional. Uma ou duas frases de texto editorial.
+"Linen, cotton, easy stuff.","Linho, algodão, coisas leves."
+Preview product count,Quantidade de produtos na visualização
+2 (1×2),2 (1×2)
+4 (2×2),4 (2×2)
+Please pick a collection,Escolha uma coleção
+Add collection,Adicionar coleção
+Row heading,Cabeçalho da linha
+The Linen Edit,The Linen Edit
+Optional. Hidden when empty.,Opcional. Oculto quando vazio.
+View all label,Rótulo Ver tudo
+Show price,Mostrar preço
+Show divider between rows,Mostrar divisor entre as linhas
+Selected:,Selecionado:
+Image override,Substituição de imagem
+Override image,Substituir imagem
+Override image (optional),Substituir imagem (opcional)
+Leave empty to use the product's primary image.,Deixe vazio para usar a imagem principal do produto.
+Small label above the product name. Optional.,Rótulo pequeno acima do nome do produto. Opcional.
+FEATURED,DESTAQUE
+Editorial copy,Texto editorial
+Overrides the product's own description in this context. Leave blank to hide.,Substitui a descrição do próprio produto neste contexto. Deixe em branco para ocultar.
+Two lines of copy explaining why this product is being spotlighted right now.,Duas linhas de texto explicando por que este produto está em destaque agora.
+Please pick a product,Escolha um produto
+e.g. On orders over $50,ex.: Em pedidos acima de $50
+Text block,Bloco de texto
+Menu,Menu
+Footer menu,Menu de rodapé
+Banner,Banner
+Simple Slideshow,Apresentação simples
+Brand story,História da marca
+Category mosaic,Mosaico de categorias
+Tiered categories,Categorias em níveis
+Bento grid,Grade bento
+Separator,Separador
+Section,Seção
+Split feature,Destaque dividido
+Announcement bar,Barra de anúncios
+Coupon block,Bloco de cupom
+FAQ block,Bloco de FAQ
+Trust strip,Faixa de confiança
+Collection products,Produtos da coleção
+Collection stack,Pilha de coleções
+Collection spotlight,Coleção em destaque
+Product hero,Hero de produto
+Layout container with 1–4 columns for nesting widgets.,Contêiner de layout com 1–4 colunas para aninhar widgets.
+Add rich text content,Adicionar conteúdo de texto formatado
+Navigation links,Links de navegação
+Multi-column list of footer links — a titled column of navigation links per group.,Lista de links de rodapé em várias colunas — uma coluna com título de links de navegação por grupo.
+A single hero image with optional overlay copy and CTAs.,Uma única imagem hero com texto sobreposto e CTAs opcionais.
+Rotating image carousel,Carrossel de imagens rotativas
+Editorial block combining an image and long-form brand narrative. Four layout variants.,Bloco editorial que combina uma imagem e uma narrativa de marca em formato longo. Quatro variantes de layout.
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.","Uma grade de 3–6 blocos de categoria para o ponto de entrada principal ""Comprar por categoria""."
+A two-level nav block: parent category image plus a row of sub-category chips.,Um bloco de navegação de dois níveis: imagem da categoria principal mais uma linha de chips de subcategoria.
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,Um mosaico assimétrico de blocos de CTA — um hero grande mais 1–4 blocos de apoio.
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.","Espaçamento vertical entre widgets, com uma linha divisória opcional. No celular, é reduzido automaticamente."
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,Faixa estilizada que envolve outros widgets. Alterne entre largo (de borda a borda) e em caixa (contêiner do tema).
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,Um bloco promocional 50/50 de imagem + texto com CTA opcional. O widget de momento promocional canônico.
+A thin top-of-page bar with one or more rotating announcements.,Uma barra fina no topo da página com um ou mais anúncios rotativos.
+A promo panel with a copyable discount code and CTA.,Um painel promocional com um código de desconto copiável e CTA.
+Flexible content block mixing prose sections and accordion FAQ groups.,Bloco de conteúdo flexível que mistura seções de texto e grupos de FAQ em acordeão.
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.","Uma linha de itens de proposta de valor (frete grátis, devoluções fáceis, etc.) para reforço abaixo do hero ou acima do rodapé."
+A list of products from a collection,Uma lista de produtos de uma coleção
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Linhas empilhadas de coleções, cada uma com um título, link ""ver tudo"" e uma faixa de produtos."
+"A featured collection with cover image, editorial copy, and a small product preview grid.","Uma coleção em destaque com imagem de capa, texto editorial e uma pequena grade de prévia de produtos."
+"A single-product spotlight — image, name, price, and a link to the full product page.","Um destaque de produto único — imagem, nome, preço e um link para a página completa do produto."

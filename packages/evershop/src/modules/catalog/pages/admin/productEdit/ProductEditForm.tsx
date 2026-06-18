@@ -1,6 +1,7 @@
 import Area from '@components/common/Area.js';
 import { Form, useFormContext } from '@components/common/form/Form.js';
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -21,7 +22,7 @@ const FormButton: React.FC<{
           window.location.href = cancelUrl;
         }}
       >
-        Cancel
+        {_('Cancel')}
       </Button>
       <Button
         onClick={() => {
@@ -31,7 +32,7 @@ const FormButton: React.FC<{
         }}
         isLoading={isSubmitting}
       >
-        Save
+        {_('Save')}
       </Button>
     </div>
   );
@@ -64,7 +65,7 @@ export default function ProductEditForm({
       if (result.error) {
         toast.error(result.error.message);
       } else {
-        toast.success('Product updated successfully');
+        toast.success(_('Product updated successfully'));
         form.setValue('product_id', result.data.uuid);
       }
     } catch (error) {

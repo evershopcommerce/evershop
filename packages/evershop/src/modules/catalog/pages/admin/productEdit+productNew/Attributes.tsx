@@ -122,7 +122,7 @@ export default function Attributes({
   useEffect(() => {
     if (currentGroup) {
       // Unregister all existing attribute fields
-      fields.forEach((_, index) => {
+      fields.forEach((field, index) => {
         unregister(`attributes.${index}`);
       });
 
@@ -152,8 +152,8 @@ export default function Attributes({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Attribute group</CardTitle>
-        <CardDescription>Manage the attributes.</CardDescription>
+        <CardTitle>{_('Attribute group')}</CardTitle>
+        <CardDescription>{_('Manage the attributes.')}</CardDescription>
       </CardHeader>
       <CardContent>
         <div>
@@ -169,8 +169,9 @@ export default function Attributes({
                   {getGroup(items, product?.groupId).groupName}
                 </span>
                 <p className="text-muted-foreground italic">
-                  Can not change the attribute group of a product that is
-                  already in a variant group.
+                  {_(
+                    'Can not change the attribute group of a product that is already in a variant group.'
+                  )}
                 </p>
               </div>
             </div>
@@ -178,7 +179,7 @@ export default function Attributes({
           {!product?.variantGroupId && (
             <SelectField
               name="group_id"
-              label="Attribute group"
+              label={_('Attribute group')}
               options={items.map((group) => ({
                 value: group.groupId,
                 label: group.groupName
@@ -196,7 +197,9 @@ export default function Attributes({
               const validation =
                 attribute.is_required === 1
                   ? {
-                      required: `${attribute.attribute_name} is required`
+                      required: _('${name} is required', {
+                        name: attribute.attribute_name
+                      })
                     }
                   : {};
               let Field: React.ReactNode = null;
@@ -227,7 +230,7 @@ export default function Attributes({
                         items,
                         attribute.attribute_id
                       )}
-                      placeholder="Select an option"
+                      placeholder={_('Select an option')}
                       validation={validation}
                     />
                   );
@@ -240,7 +243,7 @@ export default function Attributes({
                         items,
                         attribute.attribute_id
                       )}
-                      placeholder="Select options"
+                      placeholder={_('Select options')}
                       required={attribute.is_required === 1}
                       validation={validation}
                       isMulti

@@ -7,6 +7,7 @@ import {
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
 import { Input } from '@components/common/ui/Input.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Search } from 'lucide-react';
 import React from 'react';
 
@@ -42,7 +43,7 @@ const WidgetTypePicker: React.FC<{ types: Array<WidgetType> }> = ({ types }) => 
           type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search widgets…"
+          placeholder={_('Search widgets…')}
           className="pl-8"
         />
       </div>
@@ -66,7 +67,7 @@ const WidgetTypePicker: React.FC<{ types: Array<WidgetType> }> = ({ types }) => 
         ))}
         {filtered.length === 0 && (
           <div className="col-span-full py-10 text-center text-sm text-muted-foreground">
-            No widgets match your search.
+            {_('No widgets match your search.')}
           </div>
         )}
       </div>
@@ -82,11 +83,11 @@ export default function NewWidgetButton({ widgetTypes }: NewWidgetButtonProps) {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>New Widget</Button>
+        <Button>{_('New Widget')}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>New Widget</DialogTitle>
+          <DialogTitle>{_('New Widget')}</DialogTitle>
         </DialogHeader>
         <WidgetTypePicker types={widgetTypes} />
       </DialogContent>

@@ -5,6 +5,7 @@ import { SelectField } from '@components/common/form/SelectField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
 import { Button } from '@components/common/ui/Button.js';
 import { ConfirmDialog } from '@components/common/ui/ConfirmDialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -68,12 +69,12 @@ function CostFields({ existing }: { existing: ExistingRate | null }) {
       {calcType === 'flat_rate' && (
         <NumberField
           name="cost"
-          label="Cost"
-          placeholder="e.g., 10.00"
+          label={_('Cost')}
+          placeholder={_('e.g., 10.00')}
           required
-          validation={{ required: 'Cost is required' }}
+          validation={{ required: _('Cost is required') }}
           defaultValue={existing?.cost?.value ?? 0}
-          helperText="Flat rate in cart currency, tax-exclusive."
+          helperText={_('Flat rate in cart currency, tax-exclusive.')}
         />
       )}
       {calcType === 'price_based_rate' && <PriceBasedPrice lines={[]} />}
@@ -94,7 +95,7 @@ function ConditionFields({ existing }: { existing: ExistingRate | null }) {
     <div className="space-y-2 pt-2">
       <ToggleField
         name="has_condition"
-        label="Apply a condition?"
+        label={_('Apply a condition?')}
         defaultValue={!!existing?.conditionType}
       />
       {hasCondition && (
@@ -102,30 +103,37 @@ function ConditionFields({ existing }: { existing: ExistingRate | null }) {
           <RadioGroupField
             name="condition_type"
             options={[
-              { value: 'price', label: 'Based on cart subtotal' },
-              { value: 'weight', label: 'Based on cart weight' }
+              { value: 'price', label: _('Based on cart subtotal') },
+              { value: 'weight', label: _('Based on cart weight') }
             ]}
             defaultValue={existing?.conditionType ?? 'price'}
           />
           <div className="grid grid-cols-2 gap-3">
             <NumberField
               name="min"
-              label={`Min ${conditionType === 'price' ? 'subtotal' : 'weight'}`}
+              label={_('Min ${unit}', {
+                unit:
+                  conditionType === 'price' ? _('subtotal') : _('weight')
+              })}
               defaultValue={existing?.min ?? 0}
               required
-              validation={{ required: 'Min is required' }}
+              validation={{ required: _('Min is required') }}
             />
             <NumberField
               name="max"
-              label={`Max ${conditionType === 'price' ? 'subtotal' : 'weight'}`}
+              label={_('Max ${unit}', {
+                unit:
+                  conditionType === 'price' ? _('subtotal') : _('weight')
+              })}
               defaultValue={existing?.max ?? 0}
               required
-              validation={{ required: 'Max is required' }}
+              validation={{ required: _('Max is required') }}
             />
           </div>
           <p className="text-xs text-muted-foreground">
-            Half-open interval — a cart at exactly Max is excluded (the next
-            tier&apos;s Min owns that point).
+            {_(
+              "Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point)."
+            )}
           </p>
         </>
       )}
@@ -156,10 +164,10 @@ export function RatePanel({
     if (!existing) return;
     try {
       await axios.delete(existing.deleteApi);
-      toast.success('Rate removed');
+      toast.success(_('Rate removed'));
       onSaved();
     } catch (e) {
-      toast.error('Failed to remove rate');
+      toast.error(_('Failed to remove rate'));
     }
   };
 
@@ -202,18 +210,18 @@ export function RatePanel({
     try {
       if (existing) {
         await axios.patch(existing.updateApi, body);
-        toast.success('Rate updated');
+        toast.success(_('Rate updated'));
       } else {
         await axios.post(createApi, {
           method_id: methodUuid,
           zone_id: values.zone_id,
           ...body
         });
-        toast.success('Rate added');
+        toast.success(_('Rate added'));
       }
       onSaved();
     } catch (e) {
-      toast.error('Failed to save rate');
+      toast.error(_('Failed to save rate'));
     }
   };
 
@@ -230,33 +238,33 @@ export function RatePanel({
         {!existing && (
           <SelectField
             name="zone_id"
-            label="Zone"
+            label={_('Zone')}
             options={availableZones.map((z) => ({
               value: z.uuid,
               label: z.name
             }))}
             defaultValue={availableZones[0]?.uuid ?? ''}
             required
-            validation={{ required: 'Zone is required' }}
-            helperText="The zone this rate applies to."
+            validation={{ required: _('Zone is required') }}
+            helperText={_('The zone this rate applies to.')}
           />
         )}
 
         <ToggleField
           name="is_enabled"
-          label="Rate status"
-          trueLabel="Enabled"
-          falseLabel="Disabled"
+          label={_('Rate status')}
+          trueLabel={_('Enabled')}
+          falseLabel={_('Disabled')}
           defaultValue={existing?.isEnabled ?? true}
         />
 
         <RadioGroupField
           name="calculation_type"
-          label="Calculation type"
+          label={_('Calculation type')}
           options={[
-            { value: 'flat_rate', label: 'Flat rate' },
-            { value: 'price_based_rate', label: 'Price-based tiers' },
-            { value: 'weight_based_rate', label: 'Weight-based tiers' }
+            { value: 'flat_rate', label: _('Flat rate') },
+            { value: 'price_based_rate', label: _('Price-based tiers') },
+            { value: 'weight_based_rate', label: _('Weight-based tiers') }
           ]}
           defaultValue={getDefaultCalcType(existing)}
         />
@@ -269,12 +277,12 @@ export function RatePanel({
             <ConfirmDialog
               trigger={
                 <Button type="button" variant="destructive">
-                  Remove rate
+                  {_('Remove rate')}
                 </Button>
               }
-              title="Remove this rate?"
-              description="The method will no longer apply to this zone."
-              confirmLabel="Remove rate"
+              title={_('Remove this rate?')}
+              description={_('The method will no longer apply to this zone.')}
+              confirmLabel={_('Remove rate')}
               confirmVariant="destructive"
               onConfirm={remove}
             />
@@ -282,7 +290,7 @@ export function RatePanel({
             <span />
           )}
           <Button type="button" variant="default" onClick={save}>
-            {existing ? 'Save rate' : 'Add rate'}
+            {existing ? _('Save rate') : _('Add rate')}
           </Button>
         </div>
       </div>

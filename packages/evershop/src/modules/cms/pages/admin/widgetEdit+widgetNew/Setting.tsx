@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface SettingProps {
@@ -20,9 +21,11 @@ export default function Setting({ type }: SettingProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Widget Settings</CardTitle>
+        <CardTitle>{_('Widget Settings')}</CardTitle>
         <CardDescription>
-          Configure the settings for the {type.name} widget.
+          {_('Configure the settings for the ${name} widget.', {
+            name: type.name
+          })}
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -4,7 +4,6 @@ Sku, SKU
 Continue to shipping, Продолжить покупки
 Continue shopping, Продолжить покупки
 Continue Shopping, Продолжить Покупки
-CONTINUE SHOPPING, ПРОДОЛЖИТЬ ПОКУПКИ
 Shopping cart, Корзина
 Product, Товар
 Price, Цена
@@ -15,7 +14,7 @@ Sub total, Промежуточные итоги
 Discount(${coupon}), Скидка(${coupon})
 Order summary, Описание заказа
 Taxes and shipping calculated at checkout, Стоимость налогов и доставки рассчитываются при оформлении заказа
-CHECKOUT, ОФОРМИТЬ ЗАКАЗ
+Checkout, ОФОРМИТЬ ЗАКАЗ
 Change, Изменить
 Payment Method, Метод оплаты
 Shipping Address, Адрез доставки
@@ -28,7 +27,7 @@ Discount, Скидка
 Shipping, Доставка
 No tax, Без налога
 Tax, Налог
-Sorry, there is no available method for your address, К сожалению, для вашего адреса нет доступного способа доставки
+"Sorry, there is no available method for your address","К сожалению, для вашего адреса нет доступного способа доставки"
 Please enter a shipping address in order to see shipping quotes, Пожалуйста, введите адрес, чтобы рассчитать стоимость доставки
 Continue to payment, Перейти к оплате
 No payment method available, Нет доступных способов оплаты
@@ -37,7 +36,7 @@ Shipment, Доставка
 Thank you ${name}!, ${name}, спасибо за заказ!
 Contact information, Контактные данные
 Order #${orderNumber}, Заказ #${orderNumber}
-ADD TO CART, ДОБАВИТЬ В КОЗИНУ
+Add to cart, ДОБАВИТЬ В КОЗИНУ
 Please select variant options, Пожалуйста, выберите другой вариант
 VIEW CART (${count}), ПОСМОТРЕТЬ КОРЗИНУ (${count})
 JUST ADDED TO YOUR CART, ДОБАВЛЕНО В КОРЗИНУ

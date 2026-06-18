@@ -1,4 +1,5 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export interface AttributeEditPageHeadingProps {
@@ -17,8 +18,8 @@ export default function AttributeEditPageHeading({
       backUrl={backUrl}
       heading={
         attribute
-          ? `Editing ${attribute.attributeName}`
-          : 'Create a new attribute'
+          ? _('Editing ${name}', { name: attribute.attributeName || '' })
+          : _('Create a new attribute')
       }
     />
   );

@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { Rate, TaxRate } from './Rate.js';
 import { RateForm } from './RateForm.js';
@@ -29,12 +30,12 @@ export function Rates({ getTaxClasses, rates, addRateApi }: RatesProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="border-none">Name</TableHead>
-            <TableHead className="border-none">Country</TableHead>
-            <TableHead className="border-none">Rate</TableHead>
-            <TableHead className="border-none">Compound</TableHead>
-            <TableHead className="border-none">Priority</TableHead>
-            <TableHead className="border-none">Action</TableHead>
+            <TableHead className="border-none">{_('Name')}</TableHead>
+            <TableHead className="border-none">{_('Country')}</TableHead>
+            <TableHead className="border-none">{_('Rate')}</TableHead>
+            <TableHead className="border-none">{_('Compound')}</TableHead>
+            <TableHead className="border-none">{_('Priority')}</TableHead>
+            <TableHead className="border-none">{_('Action')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -55,12 +56,12 @@ export function Rates({ getTaxClasses, rates, addRateApi }: RatesProps) {
                 setDialogOpen(true);
               }}
             >
-              + Add Rate
+              + {_('Add Rate')}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add Tax Rate</DialogTitle>
+              <DialogTitle>{_('Add Tax Rate')}</DialogTitle>
             </DialogHeader>
             <RateForm
               saveRateApi={addRateApi}

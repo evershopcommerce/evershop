@@ -93,20 +93,20 @@ export function ProductSingleForm() {
                                   setAddingToCart(false);
                                 });
                             }}
-                            className="w-full py-6"
+                            className="w-full py-6 uppercase"
                             isLoading={addingToCart || state.isLoading}
                           >
-                            {_('ADD TO CART')}
+                            {_('Add to cart')}
                           </Button>
                         </>
                       )}
                       {state.isInStock === false && (
                         <Button
                           onClick={() => {}}
-                          className="w-full py-6"
+                          className="w-full py-6 uppercase"
                           disabled
                         >
-                          {_('SOLD OUT')}
+                          {_('Sold out')}
                         </Button>
                       )}
                     </div>

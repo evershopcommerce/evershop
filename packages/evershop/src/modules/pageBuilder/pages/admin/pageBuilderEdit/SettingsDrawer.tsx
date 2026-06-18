@@ -2,6 +2,7 @@ import Area from '@components/common/Area.js';
 import { useAppDispatch } from '@components/common/context/app.js';
 import { WidgetSettingsScope } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Check, Pin, PinOff, Share2, X } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from 'urql';
@@ -98,6 +99,13 @@ interface SettingsDrawerProps {
    */
   initialPlacements?: PlacementRow[];
   /**
+   * The widget type's registered display name (e.g. "Collection products"),
+   * looked up from `widgetTypes` by the Editor. Used (translated via `_()`) as
+   * the drawer title; when absent we fall back to a title-cased form of the
+   * type code.
+   */
+  widgetTypeName?: string;
+  /**
    * Optional ref forwarded to the drawer's outer `<aside>`. The Editor uses
    * this to detect outside-clicks (clicks anywhere outside the drawer
    * collapse the drawer when it's not pinned).
@@ -115,7 +123,8 @@ export function SettingsDrawer({
   onRemovePlacement,
   onClose,
   containerRef,
-  initialPlacements
+  initialPlacements,
+  widgetTypeName
 }: SettingsDrawerProps): React.ReactElement {
   const { setData } = useAppDispatch();
 
@@ -340,9 +349,15 @@ export function SettingsDrawer({
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
+  // Prefer the registered widget name (translated to the admin language) over a
+  // title-cased form of the raw type code (e.g. "Simple Slider" from
+  // `simple_slider`), which is never localized and may not match the real name.
   const widgetTitle = useMemo(
-    () => widget.type.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
-    [widget.type]
+    () =>
+      widgetTypeName
+        ? _(widgetTypeName)
+        : widget.type.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+    [widget.type, widgetTypeName]
   );
 
   // Names of other routes (besides the current one) where this widget is
@@ -366,10 +381,15 @@ export function SettingsDrawer({
   const sharedSummary = useMemo(() => {
     if (otherPlacedRouteNames.length === 0) return null;
     if (otherPlacedRouteNames.length <= 2) {
-      return `Also shown on ${otherPlacedRouteNames.join(', ')}`;
+      return _('Also shown on ${routes}', {
+        routes: otherPlacedRouteNames.join(', ')
+      });
     }
     const head = otherPlacedRouteNames.slice(0, 2).join(', ');
-    return `Also shown on ${head} +${otherPlacedRouteNames.length - 2}`;
+    return _('Also shown on ${routes} +${count}', {
+      routes: head,
+      count: String(otherPlacedRouteNames.length - 2)
+    });
   }, [otherPlacedRouteNames]);
 
   // Share dropdown — toggle open/close + outside-click dismissal.
@@ -467,13 +487,13 @@ export function SettingsDrawer({
       ref={containerRef}
       className="absolute top-0 right-0 h-full bg-card border-l border-divider shadow-lg flex flex-col"
       style={{ width: `${width}px` }}
-      aria-label={`${widgetTitle} settings`}
+      aria-label={_('${title} settings', { title: widgetTitle })}
     >
       <div
         role="separator"
         aria-orientation="vertical"
-        aria-label="Resize settings drawer"
-        title="Drag to resize"
+        aria-label={_('Resize settings drawer')}
+        title={_('Drag to resize')}
         onMouseDown={handleResizeStart}
         className="absolute top-0 left-0 h-full w-1 cursor-col-resize hover:bg-primary/30 transition-colors"
         style={{ touchAction: 'none' }}
@@ -485,29 +505,33 @@ export function SettingsDrawer({
             {sharedSummary && (
               <span
                 className="shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-primary/10 text-primary border border-primary/20"
-                title={`Placed on: ${[
-                  shareableRoutes.find((r) => r.id === currentRouteId)?.name ??
-                    'current page',
-                  ...otherPlacedRouteNames
-                ].join(', ')}`}
+                title={_('Placed on: ${routes}', {
+                  routes: [
+                    shareableRoutes.find((r) => r.id === currentRouteId)
+                      ?.name ?? _('current page'),
+                    ...otherPlacedRouteNames
+                  ].join(', ')
+                })}
               >
                 {sharedSummary}
               </span>
             )}
           </div>
-          <div className="text-xs text-muted-foreground">Auto-saves while you edit</div>
+          <div className="text-xs text-muted-foreground">
+            {_('Auto-saves while you edit')}
+          </div>
         </div>
         <div className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="sm"
             onClick={onTogglePin}
-            aria-label={pinned ? 'Unpin drawer' : 'Pin drawer open'}
+            aria-label={pinned ? _('Unpin drawer') : _('Pin drawer open')}
             aria-pressed={pinned}
             title={
               pinned
-                ? 'Unpin — drawer will close when you click empty canvas'
-                : 'Pin — keep drawer open across canvas clicks'
+                ? _('Unpin — drawer will close when you click empty canvas')
+                : _('Pin — keep drawer open across canvas clicks')
             }
           >
             {pinned ? (
@@ -520,7 +544,7 @@ export function SettingsDrawer({
             variant="ghost"
             size="sm"
             onClick={onClose}
-            aria-label="Close settings"
+            aria-label={_('Close settings')}
           >
             <X className="h-4 w-4" />
           </Button>
@@ -549,7 +573,7 @@ export function SettingsDrawer({
             >
               <span className="inline-flex items-center gap-2">
                 <Share2 className="h-3.5 w-3.5" />
-                Share
+                {_('Share')}
               </span>
               <span
                 className={`inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-semibold ${
@@ -557,7 +581,9 @@ export function SettingsDrawer({
                     ? 'bg-card text-muted-foreground'
                     : 'bg-muted/50 text-muted-foreground'
                 }`}
-                aria-label={`${sharedRouteCount} routes`}
+                aria-label={_('${count} routes', {
+                  count: String(sharedRouteCount)
+                })}
               >
                 {sharedRouteCount}
               </span>
@@ -568,7 +594,7 @@ export function SettingsDrawer({
                 role="menu"
               >
                 <div className="px-2 pt-1.5 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Show on routes
+                  {_('Show on routes')}
                 </div>
                 {/* "All routes" — single shortcut that covers every page via
                     a `route='all'` placement. Mutually exclusive with the
@@ -597,14 +623,14 @@ export function SettingsDrawer({
                   <span className="min-w-0 flex-1">
                     <span className="flex items-center gap-1.5">
                       <span className="text-[13px] font-medium text-foreground truncate">
-                        All routes
+                        {_('All routes')}
                       </span>
                       <span className="shrink-0 text-[9px] uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded-full bg-muted/50 text-muted-foreground">
-                        Global
+                        {_('Global')}
                       </span>
                     </span>
                     <span className="block text-[11px] text-muted-foreground">
-                      Show this widget on every page
+                      {_('Show this widget on every page')}
                     </span>
                   </span>
                 </button>
@@ -659,7 +685,7 @@ export function SettingsDrawer({
                           </span>
                           {isCurrent && (
                             <span className="shrink-0 text-[9px] uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded-full bg-muted/50 text-muted-foreground">
-                              Current
+                              {_('Current')}
                             </span>
                           )}
                         </span>
@@ -675,7 +701,9 @@ export function SettingsDrawer({
                 <div className="border-t border-divider mt-1.5 pt-2 px-2 pb-1 flex items-start gap-1.5 text-[11px] text-muted-foreground">
                   <Share2 className="h-3 w-3 mt-0.5 shrink-0" />
                   <span>
-                    Edits to a shared widget update every route it appears on.
+                    {_(
+                      'Edits to a shared widget update every route it appears on.'
+                    )}
                   </span>
                 </div>
               </div>

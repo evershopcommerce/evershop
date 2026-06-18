@@ -1,6 +1,7 @@
 import RenderIfTrue from '@components/common/RenderIfTrue.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Card, CardContent } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -49,7 +50,7 @@ export default function PaypalCaptureButton({
       <CardContent>
         <div className="flex justify-end">
           <Button onClick={onAction} isLoading={isLoading}>
-            Capture Payment
+            {_('Capture Payment')}
           </Button>
         </div>
       </CardContent>

@@ -5,6 +5,7 @@ import {
   RadioGroup,
   RadioGroupItem
 } from '@components/common/ui/RadioGroup.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Check, ChevronDown, Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'urql';
@@ -181,7 +182,7 @@ function CollectionProductsSetting({
   if (error) {
     return (
       <p className="text-xs text-destructive">
-        There was an error fetching collections. {error.message}
+        {_('There was an error fetching collections.')} {error.message}
       </p>
     );
   }
@@ -189,14 +190,14 @@ function CollectionProductsSetting({
   return (
     <div className="space-y-3">
       {/* Collection picker */}
-      <Section title="Collection">
-        <Field label="Search">
+      <Section title={_('Collection')}>
+        <Field label={_('Search')}>
           <div className="relative">
             <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               value={inputValue || ''}
-              placeholder="Search collections…"
+              placeholder={_('Search collections…')}
               onChange={(e) => setInputValue(e.target.value)}
               className="w-full rounded-md border border-divider bg-card pl-7 pr-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
             />
@@ -214,9 +215,9 @@ function CollectionProductsSetting({
             {data.collections.items.length === 0 ? (
               <div className="rounded-md border border-dashed border-divider px-3 py-4 text-center text-xs text-muted-foreground">
                 {inputValue ? (
-                  <>No collections match &ldquo;{inputValue}&rdquo;.</>
+                  <>{_('No collections match “${value}”.', { value: inputValue })}</>
                 ) : (
-                  <>You have no collections yet.</>
+                  <>{_('You have no collections yet.')}</>
                 )}
               </div>
             ) : (
@@ -267,7 +268,7 @@ function CollectionProductsSetting({
             <input
               type="hidden"
               {...register('settings.collection', {
-                required: 'Please select a collection'
+                required: _('Please select a collection')
               })}
               defaultValue={selectedCollection || ''}
             />
@@ -276,31 +277,35 @@ function CollectionProductsSetting({
       </Section>
 
       {/* Content overrides */}
-      <Section title="Content">
+      <Section title={_('Content')}>
         <Field
-          label="Heading"
+          label={_('Heading')}
           hint={
             pickedCollectionName
-              ? `Defaults to "${pickedCollectionName}" (the collection's name).`
-              : "Defaults to the picked collection's name."
+              ? _('Defaults to "${name}" (the collection\'s name).', {
+                  name: pickedCollectionName
+                })
+              : _("Defaults to the picked collection's name.")
           }
         >
           <input
             type="text"
             {...register('settings.heading')}
             defaultValue={heading ?? ''}
-            placeholder={pickedCollectionName ?? 'Collection name'}
+            placeholder={pickedCollectionName ?? _('Collection name')}
             className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </Field>
         <Field
-          label="Sub-text"
-          hint="Defaults to the collection's description. Setting this replaces the rich-text description with plain text."
+          label={_('Sub-text')}
+          hint={_(
+            "Defaults to the collection's description. Setting this replaces the rich-text description with plain text."
+          )}
         >
           <textarea
             {...register('settings.subText')}
             defaultValue={subText ?? ''}
-            placeholder="e.g. Hand-picked styles for the season."
+            placeholder={_('e.g. Hand-picked styles for the season.')}
             rows={2}
             className="w-full resize-vertical rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
           />
@@ -309,10 +314,12 @@ function CollectionProductsSetting({
 
       {/* View-all CTA — optional. Same shape as the per-row "View all"
           link in the Collection stack widget. */}
-      <Section title="View all link">
+      <Section title={_('View all link')}>
         <Field
-          label="Link"
-          hint="Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL."
+          label={_('Link')}
+          hint={_(
+            'Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.'
+          )}
         >
           <LinkPicker
             value={viewAllLinkV}
@@ -325,8 +332,8 @@ function CollectionProductsSetting({
           />
         </Field>
         <Field
-          label="Label"
-          hint='Optional. Defaults to "View all →".'
+          label={_('Label')}
+          hint={_('Optional. Defaults to "View all →".')}
         >
           <input
             type="text"
@@ -336,7 +343,7 @@ function CollectionProductsSetting({
                 shouldDirty: true
               })
             }
-            placeholder="View all →"
+            placeholder={_('View all →')}
             className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </Field>
@@ -353,32 +360,32 @@ function CollectionProductsSetting({
       </Section>
 
       {/* Layout */}
-      <Section title="Layout">
-        <Field label="Total products" hint="Number of products to display.">
+      <Section title={_('Layout')}>
+        <Field label={_('Total products')} hint={_('Number of products to display.')}>
           <input
             type="number"
             min={1}
             {...register('settings.count', {
-              required: 'Count is required',
+              required: _('Count is required'),
               min: 1,
               valueAsNumber: true
             })}
             defaultValue={count || ''}
-            placeholder="e.g. 8"
+            placeholder={_('e.g. 8')}
             className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </Field>
-        <Field label="Products per row" hint="Grid columns (1–6 typical).">
+        <Field label={_('Products per row')} hint={_('Grid columns (1–6 typical).')}>
           <input
             type="number"
             min={1}
             {...register('settings.countPerRow', {
-              required: 'Count per row is required',
+              required: _('Count per row is required'),
               min: 1,
               valueAsNumber: true
             })}
             defaultValue={countPerRow ?? ''}
-            placeholder="e.g. 4"
+            placeholder={_('e.g. 4')}
             className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </Field>

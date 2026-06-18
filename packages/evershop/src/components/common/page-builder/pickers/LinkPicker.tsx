@@ -3,6 +3,7 @@ import { drawerInputClass } from '@components/common/page-builder/drawer/index.j
 import { CategoryPicker } from '@components/common/page-builder/pickers/CategoryPicker.js';
 import { PagePicker } from '@components/common/page-builder/pickers/PagePicker.js';
 import { ProductPicker } from '@components/common/page-builder/pickers/ProductPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { CatalogUrn, CmsUrn, UrnService } from '@evershop/evershop/lib/urn';
 import React, { useState } from 'react';
 
@@ -39,10 +40,10 @@ function parseUrn(value: string | undefined | null): ParsedLinkUrn | null {
 export type LinkKind = 'page' | 'category' | 'product' | 'custom';
 
 const TABS: { value: LinkKind; label: string }[] = [
-  { value: 'page', label: 'Page' },
-  { value: 'category', label: 'Category' },
-  { value: 'product', label: 'Product' },
-  { value: 'custom', label: 'Custom URL' }
+  { value: 'page', label: _('Page') },
+  { value: 'category', label: _('Category') },
+  { value: 'product', label: _('Product') },
+  { value: 'custom', label: _('Custom URL') }
 ];
 
 export interface LinkPickerProps {
@@ -142,7 +143,8 @@ export function LinkPicker({
             className={drawerInputClass}
           />
           <div className="text-[11px] text-muted-foreground">
-            Paste a URL or a relative path starting with <code>/</code>.
+            {_('Paste a URL or a relative path starting with ')}
+            <code>/</code>.
           </div>
         </div>
       )}

@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export const SkuConditionValueSelector: React.FC<{
@@ -50,16 +51,23 @@ export const SkuConditionValueSelector: React.FC<{
                 <span className="italic">&lsquo;{sku}&rsquo;</span>
               )}
               {index === 1 && (
-                <span> and {selectedSKUs.current.length - 1} more</span>
+                <span>
+                  {' '}
+                  {_('and ${count} more', {
+                    count: String(selectedSKUs.current.length - 1)
+                  })}
+                </span>
               )}
             </span>
           ))}
-          {selectedSKUs.current.length === 0 && <span>Choose SKUs</span>}
+          {selectedSKUs.current.length === 0 && (
+            <span>{_('Choose SKUs')}</span>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className={'max-w-[80vw]'}>
         <DialogHeader>
-          <DialogTitle>Select Products by SKU</DialogTitle>
+          <DialogTitle>{_('Select Products by SKU')}</DialogTitle>
         </DialogHeader>
         <ProductSelector
           onSelect={onSelect}

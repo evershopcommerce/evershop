@@ -13,10 +13,19 @@ type OgInfo {
   url: String
   siteName: String
   type: String
+  locale: String
   twitterImage: String
   twitterCard: String
   twitterSite: String
   twitterCreator: String
+}
+
+"""
+A hreflang alternate link for the current page in a given locale (or 'x-default').
+"""
+type Alternate {
+  hreflang: String!
+  href: String!
 }
 
 """
@@ -32,6 +41,7 @@ type PageInfo {
   breadcrumbs: [Breadcrumb!]
   favicon: String
   canonicalUrl: String
+  alternates: [Alternate!]
 }
 
 extend type Query {

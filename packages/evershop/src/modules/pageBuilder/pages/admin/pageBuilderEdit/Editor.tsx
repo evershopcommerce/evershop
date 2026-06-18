@@ -1,4 +1,5 @@
 import { Toaster, toast } from '@components/common/ui/Sonner.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import {
   ChevronLeft,
@@ -143,12 +144,12 @@ interface WidgetType {
 }
 
 const WIDGET_CATEGORIES: Array<{ key: string; label: string }> = [
-  { key: 'content', label: 'Content' },
-  { key: 'commerce', label: 'Commerce' },
-  { key: 'navigation', label: 'Navigation' },
-  { key: 'marketing', label: 'Marketing' },
-  { key: 'layout', label: 'Layout' },
-  { key: 'other', label: 'Other' }
+  { key: 'content', label: _('Content') },
+  { key: 'commerce', label: _('Commerce') },
+  { key: 'navigation', label: _('Navigation') },
+  { key: 'marketing', label: _('Marketing') },
+  { key: 'layout', label: _('Layout') },
+  { key: 'other', label: _('Other') }
 ];
 
 interface RouteInfo {
@@ -593,7 +594,10 @@ export default function Editor({
     const filtered = widgetTypes.filter((wt) => {
       if (pendingParent && wt.code === 'columns') return false;
       if (!q) return true;
-      const hay = `${wt.name} ${wt.description ?? ''} ${wt.code}`.toLowerCase();
+      // Match the localized label/description too, so search works in the admin language.
+      const hay = `${_(wt.name)} ${wt.description ? _(wt.description) : ''} ${
+        wt.code
+      }`.toLowerCase();
       return hay.includes(q);
     });
     const buckets = new Map<string, WidgetType[]>();
@@ -982,7 +986,7 @@ export default function Editor({
         const msg =
           (e as any)?.response?.data?.error?.message ??
           (e as Error).message ??
-          'Failed to save change';
+          _('Failed to save change');
         setError(msg);
         return false;
       } finally {
@@ -1244,7 +1248,7 @@ export default function Editor({
         const msg =
           (e as any)?.response?.data?.error?.message ??
           (e as Error).message ??
-          `${direction} failed`;
+          _('${direction} failed', { direction });
         setError(msg);
       }
     },
@@ -1327,7 +1331,7 @@ export default function Editor({
         const msg =
           (e as any)?.response?.data?.error?.message ??
           (e as Error).message ??
-          'Discard failed';
+          _('Discard failed');
         setError(msg);
         setDiscardBusy(false);
       }
@@ -1358,8 +1362,8 @@ export default function Editor({
         sessionStorage.setItem(
           'pb_publish_flash',
           opCount === 1
-            ? '1 change published.'
-            : `${opCount} changes published.`
+            ? _('1 change published.')
+            : _('${count} changes published.', { count: String(opCount) })
         );
       } catch {
         // sessionStorage can throw in private modes; non-fatal.
@@ -1370,7 +1374,7 @@ export default function Editor({
       const msg =
         (e as any)?.response?.data?.error?.message ??
         (e as Error).message ??
-        'Publish failed';
+        _('Publish failed');
       setError(msg);
       toast.error(msg);
     } finally {
@@ -1427,7 +1431,7 @@ export default function Editor({
         const msg =
           (e as any)?.response?.data?.error?.message ??
           (e as Error).message ??
-          'Schedule failed';
+          _('Schedule failed');
         setError(msg);
       } finally {
         setIsPublishing(false);
@@ -1459,7 +1463,7 @@ export default function Editor({
       const msg =
         (e as any)?.response?.data?.error?.message ??
         (e as Error).message ??
-        'Save failed';
+        _('Save failed');
       setError(msg);
     } finally {
       setIsSyncing(false);
@@ -1481,15 +1485,16 @@ export default function Editor({
     if (!changeset.rolloutPlan) return;
     const planName = changeset.rolloutPlan.name;
     setConfirmState({
-      title: 'Cancel rollout plan?',
+      title: _('Cancel rollout plan?'),
       description: (
         <>
-          The rollout plan <strong>{planName}</strong> will be removed and the
-          live storefront will stop applying its edits. The underlying changeset
-          and its pending content edits are preserved.
+          {_('The rollout plan')} <strong>{planName}</strong>{' '}
+          {_(
+            'will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.'
+          )}
         </>
       ),
-      confirmLabel: 'Cancel rollout',
+      confirmLabel: _('Cancel rollout'),
       destructive: true,
       onConfirm: async () => {
         await axios.delete(cancelRolloutPlanUrl);
@@ -1530,7 +1535,7 @@ export default function Editor({
         const msg =
           (e as any)?.response?.data?.error?.message ??
           (e as Error).message ??
-          'Failed to update rollout schedule';
+          _('Failed to update rollout schedule');
         setError(msg);
         setIsUpdatingSchedule(false);
       }
@@ -1925,42 +1930,51 @@ export default function Editor({
           )
         : 0;
       const niceType = widgetType ? widgetType.replace(/_/g, ' ') : null;
+      const childWidgetLabel =
+        childCount === 1
+          ? _('1 child widget')
+          : _('${count} child widgets', { count: String(childCount) });
       const description =
         childCount > 0 ? (
           niceType ? (
             <>
-              Deleting this <strong>{niceType}</strong> container will also hide{' '}
-              <strong>
-                {childCount} child widget{childCount === 1 ? '' : 's'}
-              </strong>
-              . This will be saved as a pending change you can publish or
-              discard.
+              {_('Deleting this')} <strong>{niceType}</strong>{' '}
+              {_('container will also hide')}{' '}
+              <strong>{childWidgetLabel}</strong>.{' '}
+              {_(
+                'This will be saved as a pending change you can publish or discard.'
+              )}
             </>
           ) : (
             <>
-              Deleting this container will also hide{' '}
-              <strong>
-                {childCount} child widget{childCount === 1 ? '' : 's'}
-              </strong>
-              . This will be saved as a pending change you can publish or
-              discard.
+              {_('Deleting this container will also hide')}{' '}
+              <strong>{childWidgetLabel}</strong>.{' '}
+              {_(
+                'This will be saved as a pending change you can publish or discard.'
+              )}
             </>
           )
         ) : niceType ? (
           <>
-            Delete this <strong>{niceType}</strong> widget? This will be saved
-            as a pending change you can publish or discard.
+            {_('Delete this')} <strong>{niceType}</strong>{' '}
+            {_(
+              'widget? This will be saved as a pending change you can publish or discard.'
+            )}
           </>
         ) : (
           <>
-            Delete this widget? This will be saved as a pending change you can
-            publish or discard.
+            {_(
+              'Delete this widget? This will be saved as a pending change you can publish or discard.'
+            )}
           </>
         );
       setConfirmState({
-        title: childCount > 0 ? 'Delete container widget?' : 'Delete widget?',
+        title:
+          childCount > 0
+            ? _('Delete container widget?')
+            : _('Delete widget?'),
         description,
-        confirmLabel: 'Delete',
+        confirmLabel: _('Delete'),
         destructive: true,
         onConfirm: () => performDeleteWidget(uid)
       });
@@ -2117,7 +2131,7 @@ export default function Editor({
                 }
               }}
               className="flex items-center gap-2 select-none group"
-              aria-label="EverShop · Back to page builder"
+              aria-label={_('EverShop · Back to page builder')}
             >
               <svg
                 viewBox="0 0 256 282"
@@ -2169,58 +2183,58 @@ export default function Editor({
               }`}
               title={
                 globalsView
-                  ? 'Stop highlighting global areas'
-                  : 'Highlight global areas on canvas'
+                  ? _('Stop highlighting global areas')
+                  : _('Highlight global areas on canvas')
               }
               aria-label={
-                globalsView ? 'Hide global areas' : 'Show global areas'
+                globalsView ? _('Hide global areas') : _('Show global areas')
               }
             >
               <Globe className="h-3.5 w-3.5" />
-              Globals
+              {_('Globals')}
             </button>
             <div
               className="flex items-center bg-muted/40 rounded-md p-0.5 gap-0.5"
               role="group"
-              aria-label="Canvas device width"
+              aria-label={_('Canvas device width')}
             >
               <DeviceButton
                 mode="desktop"
                 active={deviceMode === 'desktop'}
                 onClick={() => setDeviceMode('desktop')}
                 icon={Monitor}
-                label="Desktop"
+                label={_('Desktop')}
               />
               <DeviceButton
                 mode="tablet"
                 active={deviceMode === 'tablet'}
                 onClick={() => setDeviceMode('tablet')}
                 icon={Tablet}
-                label="Tablet"
+                label={_('Tablet')}
               />
               <DeviceButton
                 mode="phone"
                 active={deviceMode === 'phone'}
                 onClick={() => setDeviceMode('phone')}
                 icon={Smartphone}
-                label="Phone"
+                label={_('Phone')}
               />
             </div>
             <div
               className="flex items-center gap-0.5"
               role="group"
-              aria-label="Undo / Redo"
+              aria-label={_('Undo / Redo')}
             >
               <button
                 type="button"
                 onClick={() => handleMoveCurrent('undo')}
                 disabled={!canUndo}
                 className="inline-flex items-center justify-center h-7 w-8 rounded-md border border-divider bg-card text-muted-foreground hover:text-foreground transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-muted-foreground"
-                aria-label="Undo last change on this page"
+                aria-label={_('Undo last change on this page')}
                 title={
                   canUndo
-                    ? 'Undo (⌘Z) — undoes your last edit on this page'
-                    : 'Nothing to undo on this page'
+                    ? _('Undo (⌘Z) — undoes your last edit on this page')
+                    : _('Nothing to undo on this page')
                 }
               >
                 <Undo2 className="h-3.5 w-3.5" />
@@ -2230,11 +2244,13 @@ export default function Editor({
                 onClick={() => handleMoveCurrent('redo')}
                 disabled={!canRedo}
                 className="inline-flex items-center justify-center h-7 w-8 rounded-md border border-divider bg-card text-muted-foreground hover:text-foreground transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-muted-foreground"
-                aria-label="Redo last undone change on this page"
+                aria-label={_('Redo last undone change on this page')}
                 title={
                   canRedo
-                    ? 'Redo (⇧⌘Z) — re-applies the last undone edit on this page'
-                    : 'Nothing to redo on this page'
+                    ? _(
+                        'Redo (⇧⌘Z) — re-applies the last undone edit on this page'
+                      )
+                    : _('Nothing to redo on this page')
                 }
               >
                 <Redo2 className="h-3.5 w-3.5" />
@@ -2247,7 +2263,7 @@ export default function Editor({
               className="inline-flex items-center gap-1.5 h-7 px-3 rounded-md border border-divider bg-card text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <Eye className="h-3.5 w-3.5" />
-              Preview
+              {_('Preview')}
             </a>
             {changeset.rolloutPlan ? (
               <PrimaryActionButton
@@ -2295,8 +2311,8 @@ export default function Editor({
                   type="button"
                   onClick={() => setLeftRailCollapsed(false)}
                   className="flex h-9 w-9 items-center justify-center rounded-md bg-muted/40 text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Expand left rail"
-                  title="Expand"
+                  aria-label={_('Expand left rail')}
+                  title={_('Expand')}
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>
@@ -2308,7 +2324,7 @@ export default function Editor({
                     setLeftRailCollapsed(false);
                   }}
                   icon={PuzzleIcon}
-                  label="Widgets"
+                  label={_('Widgets')}
                   collapsed
                 />
                 <LeftTabButton
@@ -2318,7 +2334,7 @@ export default function Editor({
                     setLeftRailCollapsed(false);
                   }}
                   icon={FileText}
-                  label="Pages"
+                  label={_('Pages')}
                   collapsed
                 />
                 <LeftTabButton
@@ -2328,7 +2344,7 @@ export default function Editor({
                     setLeftRailCollapsed(false);
                   }}
                   icon={Layers}
-                  label="Layers"
+                  label={_('Layers')}
                   collapsed
                 />
               </div>
@@ -2338,26 +2354,26 @@ export default function Editor({
                   active={activeLeftTab === 'widgets'}
                   onClick={() => setActiveLeftTab('widgets')}
                   icon={PuzzleIcon}
-                  label="Widgets"
+                  label={_('Widgets')}
                 />
                 <LeftTabButton
                   active={activeLeftTab === 'pages'}
                   onClick={() => setActiveLeftTab('pages')}
                   icon={FileText}
-                  label="Pages"
+                  label={_('Pages')}
                 />
                 <LeftTabButton
                   active={activeLeftTab === 'layers'}
                   onClick={() => setActiveLeftTab('layers')}
                   icon={Layers}
-                  label="Layers"
+                  label={_('Layers')}
                 />
                 <button
                   type="button"
                   onClick={() => setLeftRailCollapsed(true)}
                   className="flex h-9 w-9 items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Collapse left rail"
-                  title="Collapse panel"
+                  aria-label={_('Collapse left rail')}
+                  title={_('Collapse panel')}
                 >
                   <ChevronLeft className="h-3.5 w-3.5" />
                 </button>
@@ -2370,17 +2386,19 @@ export default function Editor({
                     {pendingParent && (
                       <div className="m-2 p-2 rounded-md bg-primary/10 border border-primary/30 text-xs">
                         <div className="font-medium text-primary mb-1">
-                          Adding to Column {pendingParent.columnIndex + 1}
+                          {_('Adding to Column ${number}', {
+                            number: String(pendingParent.columnIndex + 1)
+                          })}
                         </div>
                         <div className="text-muted-foreground mb-2">
-                          Pick a widget below to insert as a child.
+                          {_('Pick a widget below to insert as a child.')}
                         </div>
                         <button
                           type="button"
                           onClick={() => setPendingParent(null)}
                           className="text-xs text-muted-foreground hover:text-foreground underline"
                         >
-                          Cancel
+                          {_('Cancel')}
                         </button>
                       </div>
                     )}
@@ -2391,17 +2409,19 @@ export default function Editor({
                           type="search"
                           value={widgetSearch}
                           onChange={(e) => setWidgetSearch(e.target.value)}
-                          placeholder="Search widgets…"
+                          placeholder={_('Search widgets…')}
                           className="w-full text-sm pl-8 pr-2 py-2 rounded-md bg-muted/30 border border-divider focus:outline-none focus:ring-1 focus:ring-primary"
-                          aria-label="Search widgets"
+                          aria-label={_('Search widgets')}
                         />
                       </div>
                     </div>
                     {groupedWidgetTypes.length === 0 ? (
                       <div className="p-4 text-xs text-muted-foreground">
                         {widgetSearch.trim()
-                          ? `No widgets match "${widgetSearch.trim()}".`
-                          : 'No widgets available.'}
+                          ? _('No widgets match "${query}".', {
+                              query: widgetSearch.trim()
+                            })
+                          : _('No widgets available.')}
                       </div>
                     ) : (
                       <div className="px-2 pb-4">
@@ -2479,11 +2499,11 @@ export default function Editor({
                                     })()}
                                     <span className="min-w-0 flex-1">
                                       <span className="block text-[13px] font-medium text-foreground truncate">
-                                        {wt.name}
+                                        {_(wt.name)}
                                       </span>
                                       {wt.description && (
                                         <span className="block text-[11px] text-muted-foreground truncate">
-                                          {wt.description}
+                                          {_(wt.description)}
                                         </span>
                                       )}
                                     </span>
@@ -2509,7 +2529,7 @@ export default function Editor({
                 {activeLeftTab === 'pages' && (
                   <div className="px-2 py-2">
                     <div className="px-2 pb-1 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
-                      Pages
+                      {_('Pages')}
                     </div>
                     <ul className="space-y-0.5">
                       {pageRoutes.map((r: any) => {
@@ -2543,18 +2563,20 @@ export default function Editor({
                               </span>
                               {isCurrent ? (
                                 <span className="shrink-0 text-[10px] tracking-wide font-semibold px-1.5 py-0.5 rounded-full bg-primary/15 text-primary">
-                                  Current
+                                  {_('Current')}
                                 </span>
                               ) : hasDraftOps ? (
                                 <span
                                   className="shrink-0 text-[10px] tracking-wide font-semibold px-1.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 border border-amber-500/30"
-                                  title="This route has unpublished changes in your draft"
+                                  title={_(
+                                    'This route has unpublished changes in your draft'
+                                  )}
                                 >
-                                  Draft
+                                  {_('Draft')}
                                 </span>
                               ) : (
                                 <span className="shrink-0 text-[10px] tracking-wide font-semibold px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600">
-                                  Live
+                                  {_('Live')}
                                 </span>
                               )}
                             </a>
@@ -2563,7 +2585,7 @@ export default function Editor({
                       })}
                       {pageRoutes.length === 0 && (
                         <li className="px-2 py-2 text-xs text-muted-foreground">
-                          No editable routes.
+                          {_('No editable routes.')}
                         </li>
                       )}
                     </ul>
@@ -2593,7 +2615,7 @@ export default function Editor({
                     ))}
                     {layerWidgets.length === 0 && (
                       <li className="px-2 py-2 text-xs text-muted-foreground">
-                        No widgets on this route yet.
+                        {_('No widgets on this route yet.')}
                       </li>
                     )}
                   </ul>
@@ -2624,7 +2646,7 @@ export default function Editor({
               <iframe
                 ref={iframeRef}
                 src={iframeSrc}
-                title="Page builder canvas"
+                title={_('Page builder canvas')}
                 className="w-full h-full border-0"
               />
             </div>
@@ -2633,6 +2655,7 @@ export default function Editor({
               <SettingsDrawer
                 key={selectedWidget.uid}
                 widget={selectedWidget}
+                widgetTypeName={widgetTypesByCode.get(selectedWidget.type)?.name}
                 currentRouteId={route.id}
                 containerRef={drawerRef}
                 shareableRoutes={pageRoutes.map((r: any) => ({
@@ -2762,7 +2785,7 @@ export default function Editor({
                 const msg =
                   (e as any)?.response?.data?.error?.message ??
                   (e as Error).message ??
-                  'Could not start fresh';
+                  _('Could not start fresh');
                 setError(msg);
                 acknowledgeSession();
               }

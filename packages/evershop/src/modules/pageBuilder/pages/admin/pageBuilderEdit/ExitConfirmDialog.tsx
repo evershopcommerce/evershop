@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { AlertTriangle, X } from 'lucide-react';
 import React, { useEffect } from 'react';
 
@@ -47,20 +48,29 @@ export function ExitConfirmDialog({
   const hasUnpublished = unpublishedCount > 0;
 
   const titleText = hasInFlight
-    ? 'Unsaved changes'
-    : 'Unpublished changes';
+    ? _('Unsaved changes')
+    : _('Unpublished changes');
 
   const primaryMessage = hasInFlight
     ? pendingCount === 1
-      ? 'You have 1 change still saving.'
-      : `You have ${pendingCount} changes still saving.`
+      ? _('You have 1 change still saving.')
+      : _('You have ${count} changes still saving.', {
+          count: String(pendingCount)
+        })
     : unpublishedCount === 1
-    ? 'You have 1 change in this draft that hasn’t been published yet.'
-    : `You have ${unpublishedCount} changes in this draft that haven’t been published yet.`;
+    ? _('You have 1 change in this draft that hasn’t been published yet.')
+    : _(
+        'You have ${count} changes in this draft that haven’t been published yet.',
+        { count: String(unpublishedCount) }
+      );
 
   const secondaryMessage = hasInFlight
-    ? 'Leaving now may drop the most recent edits that haven’t reached the server yet.'
-    : 'Your draft is safe on the server — you can come back and publish it any time.';
+    ? _(
+        'Leaving now may drop the most recent edits that haven’t reached the server yet.'
+      )
+    : _(
+        'Your draft is safe on the server — you can come back and publish it any time.'
+      );
 
   return (
     <div
@@ -81,7 +91,7 @@ export function ExitConfirmDialog({
             variant="ghost"
             size="sm"
             onClick={onStay}
-            aria-label="Stay on this page"
+            aria-label={_('Stay on this page')}
           >
             <X className="h-4 w-4" />
           </Button>
@@ -92,21 +102,25 @@ export function ExitConfirmDialog({
           <p className="text-muted-foreground text-xs">{secondaryMessage}</p>
           {hasInFlight && hasUnpublished && (
             <p className="text-muted-foreground text-xs">
-              The draft holds {unpublishedCount} saved change
-              {unpublishedCount === 1 ? '' : 's'} you can publish later.
+              {unpublishedCount === 1
+                ? _('The draft holds 1 saved change you can publish later.')
+                : _(
+                    'The draft holds ${count} saved changes you can publish later.',
+                    { count: String(unpublishedCount) }
+                  )}
             </p>
           )}
         </div>
 
         <footer className="flex items-center justify-end gap-2 px-4 py-3 border-t border-divider">
           <Button variant="ghost" onClick={onStay}>
-            Stay
+            {_('Stay')}
           </Button>
           <Button variant="ghost" onClick={onSaveAsRollout}>
-            Save as rollout plan and leave
+            {_('Save as rollout plan and leave')}
           </Button>
           <Button variant="destructive" onClick={onLeave}>
-            Leave
+            {_('Leave')}
           </Button>
         </footer>
       </div>

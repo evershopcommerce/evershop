@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@components/common/ui/AlertDialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 
 export type DiscardMode = 'all' | 'route';
@@ -75,7 +76,14 @@ export function DiscardConfirmDialog({
     typeof currentRouteOpCount === 'number' && currentRouteOpCount > 0;
   const breakdownLabel =
     routeBreakdown.length > 0
-      ? routeBreakdown.map((r) => `${r.count} on ${r.route}`).join(', ')
+      ? routeBreakdown
+          .map((r) =>
+            _('${count} on ${route}', {
+              count: String(r.count),
+              route: r.route
+            })
+          )
+          .join(', ')
       : null;
   const routeLabel = currentRouteName || currentRouteId;
 
@@ -92,13 +100,17 @@ export function DiscardConfirmDialog({
         <AlertDialogHeader>
           <AlertDialogTitle className="text-sm font-medium">
             {rolloutMode
-              ? 'Revert to saved state?'
-              : 'Discard pending changes?'}
+              ? _('Revert to saved state?')
+              : _('Discard pending changes?')}
           </AlertDialogTitle>
           <AlertDialogDescription className="text-sm">
             {rolloutMode
-              ? 'Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.'
-              : 'Choose how much of your unpublished work to discard. The published storefront is not affected.'}
+              ? _(
+                  'Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.'
+                )
+              : _(
+                  'Choose how much of your unpublished work to discard. The published storefront is not affected.'
+                )}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -122,23 +134,33 @@ export function DiscardConfirmDialog({
             <span className="flex-1">
               <span className="block font-medium">
                 {rolloutMode
-                  ? 'Revert all pages to saved state'
-                  : 'Discard everything in this draft'}
+                  ? _('Revert all pages to saved state')
+                  : _('Discard everything in this draft')}
               </span>
               <span className="block text-xs text-muted-foreground mt-0.5">
                 {rolloutMode
                   ? totalOpCount > 0
-                    ? `${totalOpCount} pending op${
-                        totalOpCount === 1 ? '' : 's'
-                      }${
-                        breakdownLabel ? ` — ${breakdownLabel}` : ''
-                      }. Every page rolls back to what the rollout had saved.`
-                    : 'Every page rolls back to the rollout’s saved state.'
+                    ? `${
+                        totalOpCount === 1
+                          ? _('1 pending op')
+                          : _('${count} pending ops', {
+                              count: String(totalOpCount)
+                            })
+                      }${breakdownLabel ? ` — ${breakdownLabel}` : ''}. ${_(
+                        'Every page rolls back to what the rollout had saved.'
+                      )}`
+                    : _('Every page rolls back to the rollout’s saved state.')
                   : totalOpCount > 0
-                  ? `${totalOpCount} op${totalOpCount === 1 ? '' : 's'} total${
-                      breakdownLabel ? ` — ${breakdownLabel}` : ''
-                    }. The draft itself is deleted.`
-                  : 'The draft is deleted.'}
+                  ? `${
+                      totalOpCount === 1
+                        ? _('1 op total')
+                        : _('${count} ops total', {
+                            count: String(totalOpCount)
+                          })
+                    }${breakdownLabel ? ` — ${breakdownLabel}` : ''}. ${_(
+                      'The draft itself is deleted.'
+                    )}`
+                  : _('The draft is deleted.')}
               </span>
             </span>
           </label>
@@ -163,16 +185,19 @@ export function DiscardConfirmDialog({
               <span className="flex-1">
                 <span className="block font-medium">
                   {rolloutMode
-                    ? 'Revert this page only'
-                    : 'Discard changes on this page only'}
+                    ? _('Revert this page only')
+                    : _('Discard changes on this page only')}
                 </span>
                 <span className="block text-xs text-muted-foreground mt-0.5">
-                  {currentRouteOpCount} pending op
-                  {currentRouteOpCount === 1 ? '' : 's'} on{' '}
+                  {currentRouteOpCount === 1
+                    ? _('1 pending op on')
+                    : _('${count} pending ops on', {
+                        count: String(currentRouteOpCount)
+                      })}{' '}
                   <strong>{routeLabel}</strong>.{' '}
                   {rolloutMode
-                    ? 'Other pages keep their pending changes.'
-                    : 'Your edits on other pages stay in the draft.'}
+                    ? _('Other pages keep their pending changes.')
+                    : _('Your edits on other pages stay in the draft.')}
                 </span>
               </span>
             </label>
@@ -181,7 +206,7 @@ export function DiscardConfirmDialog({
 
         <AlertDialogFooter>
           <AlertDialogCancel disabled={busy} onClick={onCancel}>
-            Cancel
+            {_('Cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={busy}
@@ -192,15 +217,15 @@ export function DiscardConfirmDialog({
           >
             {busy
               ? rolloutMode
-                ? 'Reverting…'
-                : 'Discarding…'
+                ? _('Reverting…')
+                : _('Discarding…')
               : rolloutMode
               ? mode === 'all'
-                ? 'Revert everything'
-                : 'Revert this page'
+                ? _('Revert everything')
+                : _('Revert this page')
               : mode === 'all'
-              ? 'Discard everything'
-              : 'Discard this page'}
+              ? _('Discard everything')
+              : _('Discard this page')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

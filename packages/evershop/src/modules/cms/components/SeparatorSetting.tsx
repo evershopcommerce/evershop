@@ -6,6 +6,7 @@ import {
   Toggle,
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import type { SeparatorSize } from './Separator.js';
 
@@ -18,11 +19,11 @@ interface SeparatorSettingProps {
 }
 
 const SIZE_OPTIONS: ReadonlyArray<{ value: SeparatorSize; label: string }> = [
-  { value: 'xs', label: 'XS' },
-  { value: 'sm', label: 'S' },
-  { value: 'md', label: 'M' },
-  { value: 'lg', label: 'L' },
-  { value: 'xl', label: 'XL' }
+  { value: 'xs', label: _('XS') },
+  { value: 'sm', label: _('S') },
+  { value: 'md', label: _('M') },
+  { value: 'lg', label: _('L') },
+  { value: 'xl', label: _('XL') }
 ];
 
 export default function SeparatorSetting({
@@ -45,8 +46,11 @@ export default function SeparatorSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Spacing">
-        <Field label="Size" hint="Mobile scales down ~⅔ automatically.">
+      <Section title={_('Spacing')}>
+        <Field
+          label={_('Size')}
+          hint={_('Mobile scales down ~⅔ automatically.')}
+        >
           <Segmented<SeparatorSize>
             value={sizeV}
             options={SIZE_OPTIONS}
@@ -57,17 +61,20 @@ export default function SeparatorSetting({
         </Field>
       </Section>
 
-      <Section title="Divider line">
+      <Section title={_('Divider line')}>
         <Toggle
-          label="Show divider line"
-          description="A horizontal rule centred in the spacing band."
+          label={_('Show divider line')}
+          description={_('A horizontal rule centred in the spacing band.')}
           checked={showLineV}
           onChange={(v) =>
             setValue('settings.showLine', v, { shouldDirty: true })
           }
         />
         {showLineV && (
-          <Field label="Line color" hint="Default uses the theme's divider color.">
+          <Field
+            label={_('Line color')}
+            hint={_("Default uses the theme's divider color.")}
+          >
             <ColorSwatchField
               value={lineColorV}
               onChange={(v) =>

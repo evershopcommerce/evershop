@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import { MapPin, Truck } from 'lucide-react';
 import React from 'react';
@@ -76,10 +77,10 @@ export function Zone({ zone, reload }: ZoneProps) {
       await axios.delete(
         `/api/shippingZones/${zone.uuid}/providers/${providerCode}`
       );
-      toast.success(`${providerName} detached`);
+      toast.success(_('${name} detached', { name: providerName }));
       reload();
     } catch (e) {
-      toast.error(`Failed to detach ${providerName}`);
+      toast.error(_('Failed to detach ${name}', { name: providerName }));
     }
   };
 
@@ -87,13 +88,13 @@ export function Zone({ zone, reload }: ZoneProps) {
     try {
       const response = await axios.delete(zone.deleteApi);
       if (response.status === 200) {
-        toast.success('Zone removed');
+        toast.success(_('Zone removed'));
         reload();
       } else {
-        toast.error('Failed to remove zone');
+        toast.error(_('Failed to remove zone'));
       }
     } catch (e) {
-      toast.error('Failed to remove zone');
+      toast.error(_('Failed to remove zone'));
     }
   };
 
@@ -111,10 +112,10 @@ export function Zone({ zone, reload }: ZoneProps) {
         <div className="text-xs uppercase font-semibold">{zone.name}</div>
         <div className="flex justify-between gap-3">
           <Dialog open={editOpen} onOpenChange={setEditOpen}>
-            <DialogTrigger>Edit Zone</DialogTrigger>
+            <DialogTrigger>{_('Edit Zone')}</DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Edit Shipping Zone</DialogTitle>
+                <DialogTitle>{_('Edit Shipping Zone')}</DialogTitle>
               </DialogHeader>
               <ZoneForm
                 formMethod="PATCH"
@@ -131,12 +132,14 @@ export function Zone({ zone, reload }: ZoneProps) {
                 type="button"
                 className="text-destructive cursor-pointer"
               >
-                Remove Zone
+                {_('Remove Zone')}
               </button>
             }
-            title={`Delete zone "${zone.name}"?`}
-            description="This removes the zone along with its provider attachments and rates. This cannot be undone."
-            confirmLabel="Delete zone"
+            title={_('Delete zone "${name}"?', { name: zone.name })}
+            description={_(
+              'This removes the zone along with its provider attachments and rates. This cannot be undone.'
+            )}
+            confirmLabel={_('Delete zone')}
             confirmVariant="destructive"
             onConfirm={removeZone}
           />
@@ -153,10 +156,12 @@ export function Zone({ zone, reload }: ZoneProps) {
             <div>
               <b>
                 {zone.countries.length === 0
-                  ? 'Worldwide'
+                  ? _('Worldwide')
                   : zone.countries.length === 1
                   ? zone.countries[0].name
-                  : `${zone.countries.length} countries`}
+                  : _('${count} countries', {
+                      count: String(zone.countries.length)
+                    })}
               </b>
             </div>
             <div className="text-sm text-muted-foreground">
@@ -167,13 +172,15 @@ export function Zone({ zone, reload }: ZoneProps) {
                     .map((c) => c.name)
                     .join(', ')}
                   {zone.countries.length > 5 &&
-                    `, +${zone.countries.length - 5} more`}
+                    _(', +${count} more', {
+                      count: String(zone.countries.length - 5)
+                    })}
                 </span>
               )}
               {zone.provinces.length > 0 && (
                 <span>
                   {' '}
-                  · Provinces:{' '}
+                  · {_('Provinces:')}{' '}
                   {Array.from(provincesByCountry.entries())
                     .map(
                       ([cc, list]) =>
@@ -193,20 +200,19 @@ export function Zone({ zone, reload }: ZoneProps) {
         <div className="px-2 py-3">
           <div className="flex items-center gap-2 mb-2">
             <Truck width={18} height={18} />
-            <span className="font-medium">Attached Providers</span>
+            <span className="font-medium">{_('Attached Providers')}</span>
           </div>
           {zone.providers.length === 0 ? (
             <p className="text-sm text-muted-foreground italic px-2">
-              No providers attached. Click &quot;Attach Provider&quot; to add
-              one.
+              {_('No providers attached. Click "Attach Provider" to add one.')}
             </p>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow className="text-xs">
-                  <TableHead className="border-none">Provider</TableHead>
-                  <TableHead className="border-none">Status</TableHead>
-                  <TableHead className="border-none">Actions</TableHead>
+                  <TableHead className="border-none">{_('Provider')}</TableHead>
+                  <TableHead className="border-none">{_('Status')}</TableHead>
+                  <TableHead className="border-none">{_('Actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -217,10 +223,10 @@ export function Zone({ zone, reload }: ZoneProps) {
                     </TableCell>
                     <TableCell>
                       {zp.isEnabled ? (
-                        <span className="text-green-700">● Enabled</span>
+                        <span className="text-green-700">● {_('Enabled')}</span>
                       ) : (
                         <span className="text-muted-foreground">
-                          ○ Disabled
+                          ○ {_('Disabled')}
                         </span>
                       )}
                     </TableCell>
@@ -230,7 +236,7 @@ export function Zone({ zone, reload }: ZoneProps) {
                           href="/admin/setting/shippingProviders"
                           className="text-primary"
                         >
-                          Methods →
+                          {_('Methods →')}
                         </a>
                       )}
                       {(zp.provider.zoneConfigFields?.length ?? 0) > 0 && (
@@ -239,18 +245,23 @@ export function Zone({ zone, reload }: ZoneProps) {
                           className="text-primary"
                           onClick={() => setConfiguring(zp)}
                         >
-                          Configure
+                          {_('Configure')}
                         </button>
                       )}
                       <ConfirmDialog
                         trigger={
                           <button type="button" className="text-destructive">
-                            Detach
+                            {_('Detach')}
                           </button>
                         }
-                        title={`Detach ${zp.provider.name}?`}
-                        description={`Customers in ${zone.name} will no longer see ${zp.provider.name}'s methods at checkout. You can re-attach it later.`}
-                        confirmLabel="Detach"
+                        title={_('Detach ${name}?', {
+                          name: zp.provider.name
+                        })}
+                        description={_(
+                          "Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.",
+                          { zone: zone.name, name: zp.provider.name }
+                        )}
+                        confirmLabel={_('Detach')}
                         confirmVariant="destructive"
                         onConfirm={() =>
                           detach(zp.provider.code, zp.provider.name)
@@ -267,12 +278,14 @@ export function Zone({ zone, reload }: ZoneProps) {
             <Dialog open={attachOpen} onOpenChange={setAttachOpen}>
               <DialogTrigger>
                 <Button variant="outline" size="sm" className="text-xs">
-                  + Attach Provider
+                  {_('+ Attach Provider')}
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Attach Provider to {zone.name}</DialogTitle>
+                  <DialogTitle>
+                    {_('Attach Provider to ${zone}', { zone: zone.name })}
+                  </DialogTitle>
                 </DialogHeader>
                 <AttachProviderDialog
                   zone={zone}

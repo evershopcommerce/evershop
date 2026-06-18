@@ -21,6 +21,7 @@ import {
   TableHeader,
   TableRow
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -58,18 +59,18 @@ function Actions({ pages = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Disable',
+      name: _('Disable'),
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} pages`,
-          content: 'Are you sure?',
+          heading: _('Disable ${count} pages', { count: selectedIds.length }),
+          content: _('Are you sure?'),
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Disable',
+            title: _('Disable'),
             onAction: async () => {
               await updatePages(0);
             },
@@ -79,18 +80,18 @@ function Actions({ pages = [], selectedIds = [] }) {
       }
     },
     {
-      name: 'Enable',
+      name: _('Enable'),
       onAction: () => {
         openAlert({
-          heading: `Enable ${selectedIds.length} pages`,
-          content: 'Are you sure?',
+          heading: _('Enable ${count} pages', { count: selectedIds.length }),
+          content: _('Are you sure?'),
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Enable',
+            title: _('Enable'),
             onAction: async () => {
               await updatePages(1);
             },
@@ -100,18 +101,18 @@ function Actions({ pages = [], selectedIds = [] }) {
       }
     },
     {
-      name: 'Delete',
+      name: _('Delete'),
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} pages`,
-          content: <div>Can&apos;t be undone</div>,
+          heading: _('Delete ${count} pages', { count: selectedIds.length }),
+          content: <div>{_("Can't be undone")}</div>,
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Delete',
+            title: _('Delete'),
             onAction: async () => {
               await deletePages();
             },
@@ -186,7 +187,7 @@ export default function CMSPageGrid({
                   default: () => (
                     <InputField
                       name="name"
-                      placeholder="Search"
+                      placeholder={_('Search')}
                       defaultValue={
                         currentFilters.find((f) => f.key === 'name')?.value
                       }
@@ -223,7 +224,7 @@ export default function CMSPageGrid({
               window.location.href = url.href;
             }}
           >
-            Clear filter
+            {_('Clear filter')}
           </Button>
         </CardAction>
       </CardHeader>
@@ -253,7 +254,7 @@ export default function CMSPageGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Name"
+                          title={_('Name')}
                           name="name"
                           currentFilters={currentFilters}
                         />
@@ -265,7 +266,7 @@ export default function CMSPageGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Status"
+                          title={_('Status')}
                           name="status"
                           currentFilters={currentFilters}
                         />
@@ -331,7 +332,7 @@ export default function CMSPageGrid({
         </Table>
         {pages.length === 0 && (
           <div className="flex w-full justify-center mt-2">
-            There is no page to display
+            {_('There is no page to display')}
           </div>
         )}
         <GridPagination total={total} limit={limit} page={page} />

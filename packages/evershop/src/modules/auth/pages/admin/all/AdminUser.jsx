@@ -6,6 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@components/common/ui/DropdownMenu.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { LogOut } from 'lucide-react';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -22,7 +23,7 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
     if (response.status === 200) {
       window.location.href = loginPage;
     } else {
-      toast.error('Logout failed');
+      toast.error(_('Logout failed'));
     }
   };
 
@@ -44,7 +45,8 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-45">
             <DropdownMenuLabel className="text-base font-normal">
-              Hello <span className="text-primary">{fullName}!</span>
+              {_('Hello')}{' '}
+              <span className="text-primary">{fullName}!</span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -56,7 +58,7 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
             >
               <div className="flex justify-start items-center gap-2">
                 <LogOut className="w-4 h-4" />
-                <span>Logout</span>
+                <span>{_('Logout')}</span>
               </div>
             </DropdownMenuItem>
           </DropdownMenuContent>

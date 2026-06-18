@@ -11,6 +11,7 @@ import {
 } from '@components/common/page-builder/index.js';
 import { CollectionPicker } from '@components/common/page-builder/pickers/CollectionPicker.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface CollectionRow {
@@ -106,31 +107,31 @@ export default function CollectionStackSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Collections">
+      <Section title={_('Collections')}>
         <RepeatableAccordion<CollectionRow>
           items={rows}
           onAdd={addRow}
           onRemove={removeRow}
           onMove={moveRow}
-          addLabel="Add collection"
+          addLabel={_('Add collection')}
           minItems={1}
           maxItems={3}
           initiallyOpenFirst
-          renderHeader={({ item }) => item.title || 'Untitled'}
+          renderHeader={({ item }) => item.title || _('Untitled')}
           renderItem={({ item, index }) => (
             <>
-              <Field label="Row heading">
+              <Field label={_('Row heading')}>
                 <input
                   type="text"
                   value={item.title || ''}
                   onChange={(e) =>
                     updateRow(index, { title: e.target.value })
                   }
-                  placeholder="The Linen Edit"
+                  placeholder={_('The Linen Edit')}
                   className={drawerInputClass}
                 />
               </Field>
-              <Field label="Collection">
+              <Field label={_('Collection')}>
                 <CollectionPicker
                   selectedCode={item.source || null}
                   onPick={({ code, name }) =>
@@ -142,8 +143,8 @@ export default function CollectionStackSetting({
                 />
               </Field>
               <Field
-                label="View all link"
-                hint="Optional. Hidden when empty."
+                label={_('View all link')}
+                hint={_('Optional. Hidden when empty.')}
               >
                 <LinkPicker
                   value={item.viewAllLink || ''}
@@ -155,14 +156,14 @@ export default function CollectionStackSetting({
                   }
                 />
               </Field>
-              <Field label="View all label">
+              <Field label={_('View all label')}>
                 <input
                   type="text"
                   value={item.viewAllLabel || ''}
                   onChange={(e) =>
                     updateRow(index, { viewAllLabel: e.target.value })
                   }
-                  placeholder="View all →"
+                  placeholder={_('View all →')}
                   className={drawerInputClass}
                 />
               </Field>
@@ -171,8 +172,8 @@ export default function CollectionStackSetting({
         />
       </Section>
 
-      <Section title="Layout">
-        <Field label="Products per row">
+      <Section title={_('Layout')}>
+        <Field label={_('Products per row')}>
           <Segmented<2 | 3 | 4>
             value={productCountV}
             options={[
@@ -186,14 +187,14 @@ export default function CollectionStackSetting({
           />
         </Field>
         <Toggle
-          label="Show price"
+          label={_('Show price')}
           checked={showPriceV}
           onChange={(v) =>
             setValue('settings.showPrice', v, { shouldDirty: true })
           }
         />
         <Toggle
-          label="Show divider between rows"
+          label={_('Show divider between rows')}
           checked={dividerV}
           onChange={(v) =>
             setValue('settings.divider', v, { shouldDirty: true })

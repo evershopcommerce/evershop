@@ -1,4 +1,5 @@
 import { NavigationItemGroup } from '@components/admin/NavigationItemGroup.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { LayoutDashboard } from 'lucide-react';
 import React from 'react';
 
@@ -12,12 +13,12 @@ export default function StorefrontMenuGroup({
   return (
     <NavigationItemGroup
       id="storefrontMenuGroup"
-      name="Storefront"
+      name={_('Storefront')}
       items={[
         {
           Icon: LayoutDashboard,
           url: pageBuilder,
-          title: 'Page builder'
+          title: _('Page builder')
         }
       ]}
     />

@@ -11,6 +11,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import type { Announcement } from './AnnouncementBar.js';
 
@@ -99,8 +100,8 @@ export default function AnnouncementBarSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Style">
-        <Field label="Background color">
+      <Section title={_('Style')}>
+        <Field label={_('Background color')}>
           <ColorSwatchField
             value={backgroundColorV}
             onChange={(v) =>
@@ -111,7 +112,7 @@ export default function AnnouncementBarSetting({
             allowEmpty={false}
           />
         </Field>
-        <Field label="Text color">
+        <Field label={_('Text color')}>
           <ColorSwatchField
             value={textColorV}
             onChange={(v) =>
@@ -123,8 +124,10 @@ export default function AnnouncementBarSetting({
           />
         </Field>
         <Field
-          label="Dwell time"
-          hint="Time each announcement stays visible (in addition to the 400ms slide transition)."
+          label={_('Dwell time')}
+          hint={_(
+            'Time each announcement stays visible (in addition to the 400ms slide transition).'
+          )}
         >
           <Slider
             value={delayV}
@@ -139,32 +142,32 @@ export default function AnnouncementBarSetting({
         </Field>
       </Section>
 
-      <Section title="Announcements">
+      <Section title={_('Announcements')}>
         <RepeatableAccordion<Announcement>
           items={announcements}
           onAdd={addItem}
           onRemove={removeItem}
           onMove={moveItem}
-          addLabel="Add announcement"
+          addLabel={_('Add announcement')}
           minItems={1}
           initiallyOpenFirst
-          renderHeader={({ item }) => item.content || 'Untitled'}
+          renderHeader={({ item }) => item.content || _('Untitled')}
           renderItem={({ item, index }) => (
             <>
-              <Field label="Content">
+              <Field label={_('Content')}>
                 <input
                   type="text"
                   value={item.content || ''}
                   onChange={(e) =>
                     updateItem(index, { content: e.target.value })
                   }
-                  placeholder="Free shipping on orders over $50"
+                  placeholder={_('Free shipping on orders over $50')}
                   className={drawerInputClass}
                 />
               </Field>
               <Field
-                label="Link"
-                hint="Optional. Makes the entire row a clickable link."
+                label={_('Link')}
+                hint={_('Optional. Makes the entire row a clickable link.')}
               >
                 <LinkPicker
                   value={item.link?.url || ''}
@@ -184,8 +187,10 @@ export default function AnnouncementBarSetting({
               {item.link && (
                 <>
                   <Field
-                    label="Link label"
-                    hint="Optional. Displayed after the content; defaults to the content itself."
+                    label={_('Link label')}
+                    hint={_(
+                      'Optional. Displayed after the content; defaults to the content itself.'
+                    )}
                   >
                     <input
                       type="text"
@@ -195,12 +200,12 @@ export default function AnnouncementBarSetting({
                           link: { ...item.link!, label: e.target.value }
                         })
                       }
-                      placeholder="Shop now"
+                      placeholder={_('Shop now')}
                       className={drawerInputClass}
                     />
                   </Field>
                   <Toggle
-                    label="Open in new tab"
+                    label={_('Open in new tab')}
                     checked={item.link.newTab}
                     onChange={(v) =>
                       updateItem(index, {

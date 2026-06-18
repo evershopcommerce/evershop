@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface NewPageButtonProps {
@@ -8,7 +9,7 @@ interface NewPageButtonProps {
 export default function NewPageButton({ newPageUrl }: NewPageButtonProps) {
   return (
     <Button onClick={() => (window.location.href = newPageUrl)}>
-      New Page
+      {_('New Page')}
     </Button>
   );
 }

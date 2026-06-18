@@ -4,7 +4,6 @@ Sku, SKU
 Continue to shipping, Prosegui con la spedizione
 Continue shopping, Continua gli acquisti
 Continue Shopping, Continua gli acquisti
-CONTINUE SHOPPING, CONTINUA GLI ACQUISTI
 Shopping cart, Carrello
 Product, Prodotto
 Price, Prezzo
@@ -15,7 +14,7 @@ Sub total, Subtotale
 Discount(${coupon}), Sconto (${coupon})
 Order summary, Riepilogo ordine
 Taxes and shipping calculated at checkout, Tasse e spedizione saranno calcolate al momento del pagamento
-CHECKOUT, PAGAMENTO
+Checkout, PAGAMENTO
 Change, Cambia
 Payment Method, Metodo di pagamento
 Shipping Method, Metodo di spedizione
@@ -36,7 +35,7 @@ Shipment, Spedizione
 Thank you ${name}!, Grazie ${name}!
 Contact information, Informazioni di contatto
 Order #${orderNumber}, Ordine n. ${orderNumber}
-ADD TO CART, AGGIUNGI AL CARRELLO
+Add to cart, AGGIUNGI AL CARRELLO
 Please select variant options, Seleziona una delle opzioni
 VIEW CART (${count}), VEDI CARRELLO (${count})
 JUST ADDED TO YOUR CART, AGGIUNTO AL CARRELLO

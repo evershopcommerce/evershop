@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -18,7 +19,7 @@ const FormButtons: React.FC<{
           window.location.href = cancelUrl;
         }}
       >
-        Cancel
+        {_('Cancel')}
       </Button>
       <Button
         onClick={() => {
@@ -28,7 +29,7 @@ const FormButtons: React.FC<{
         }}
         isLoading={isSubmitting}
       >
-        Save
+        {_('Save')}
       </Button>
     </div>
   );

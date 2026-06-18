@@ -13,19 +13,19 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 const TYPE_OPTIONS = [
-  { value: 'short_text', label: 'Short text' },
-  { value: 'long_text', label: 'Long text' },
-  { value: 'rich_text', label: 'Rich text' },
-  { value: 'integer', label: 'Integer' },
-  { value: 'number', label: 'Number' },
-  { value: 'boolean', label: 'Boolean' },
-  { value: 'date', label: 'Date' },
-  { value: 'color', label: 'Color' },
+  { value: 'short_text', label: _('Short text') },
+  { value: 'long_text', label: _('Long text') },
+  { value: 'rich_text', label: _('Rich text') },
+  { value: 'integer', label: _('Integer') },
+  { value: 'number', label: _('Number') },
+  { value: 'boolean', label: _('Boolean') },
+  { value: 'date', label: _('Date') },
+  { value: 'color', label: _('Color') },
   { value: 'url', label: 'URL' },
-  { value: 'money', label: 'Money' },
+  { value: 'money', label: _('Money') },
   { value: 'json', label: 'JSON' },
-  { value: 'reference', label: 'Reference' },
-  { value: 'group', label: 'Group' }
+  { value: 'reference', label: _('Reference') },
+  { value: 'group', label: _('Group') }
 ];
 
 // Sub-fields are one level deep in the editor (scalars only — no nested groups).

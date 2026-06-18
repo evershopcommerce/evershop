@@ -10,6 +10,7 @@ import {
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getValue } from '../../../../lib/util/registry.js';
 import { EventData } from '../../../../types/event.js';
+import { getStoreLanguage } from '../../../setting/services/setting.js';
 
 const TEMPLATE = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" lang="en">
@@ -170,7 +171,9 @@ export default async function sendCustomerWelcomeEmail(
 ) {
   try {
     const email = data.email;
-    const subject = translate('Welcome to our store!');
+    // Off-request (event subscriber) — resolve the store locale explicitly (D7).
+    const locale = await getStoreLanguage();
+    const subject = translate('Welcome to our store!', {}, locale);
     const config = getConfig('system.notification_emails.customer_welcome', {
       enabled: true
     });
@@ -201,7 +204,8 @@ export default async function sendCustomerWelcomeEmail(
         to: email,
         subject,
         template,
-        data: dynamicData
+        data: dynamicData,
+        locale
       },
       { customer: data }
     );

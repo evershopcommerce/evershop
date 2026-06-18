@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
+ 
 import { FileBrowser } from '@components/admin/FileBrowser.js';
 import {
   AnchorPicker,
@@ -12,6 +12,7 @@ import { MarkdownBodyField } from '@components/common/page-builder/fields/Markdo
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
 import { useScopedFormContext } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import {
   AlignCenter,
   AlignLeft,
@@ -120,10 +121,10 @@ interface BannerSettingProps {
 }
 
 const TINT_OPTIONS: ReadonlyArray<{ value: OverlayTint; label: string }> = [
-  { value: 'none', label: 'None' },
-  { value: 'dark', label: 'Dark' },
-  { value: 'light', label: 'Light' },
-  { value: 'gradient', label: 'Gradient' }
+  { value: 'none', label: _('None') },
+  { value: 'dark', label: _('Dark') },
+  { value: 'light', label: _('Light') },
+  { value: 'gradient', label: _('Gradient') }
 ];
 
 function Segmented<T extends string>({
@@ -164,7 +165,7 @@ function Segmented<T extends string>({
 }
 
 const BLANK_CTA: CtaValue = {
-  label: 'Shop now',
+  label: _('Shop now'),
   url: '/',
   kind: 'custom',
   newTab: false,
@@ -176,16 +177,20 @@ const ALIGNMENT_OPTIONS: ReadonlyArray<{
   icon: React.ReactNode;
   label: string;
 }> = [
-  { value: 'left', icon: <AlignLeft className="h-3.5 w-3.5" />, label: 'Left' },
+  {
+    value: 'left',
+    icon: <AlignLeft className="h-3.5 w-3.5" />,
+    label: _('Left')
+  },
   {
     value: 'center',
     icon: <AlignCenter className="h-3.5 w-3.5" />,
-    label: 'Center'
+    label: _('Center')
   },
   {
     value: 'right',
     icon: <AlignRight className="h-3.5 w-3.5" />,
-    label: 'Right'
+    label: _('Right')
   }
 ];
 
@@ -278,8 +283,8 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
       )}
 
       {/* Image */}
-      <Section title="Image">
-        <Field label={image ? 'Selected image' : 'No image selected'}>
+      <Section title={_('Image')}>
+        <Field label={image ? _('Selected image') : _('No image selected')}>
           <div className="flex items-center gap-2">
             <div className="relative h-14 w-24 shrink-0 overflow-hidden rounded border border-divider bg-muted/40 flex items-center justify-center">
               {image ? (
@@ -301,7 +306,7 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
                 setOpenFileBrowser(true);
               }}
             >
-              {image ? 'Replace' : 'Select'}
+              {image ? _('Replace') : _('Select')}
             </Button>
             {image && (
               <Button
@@ -315,7 +320,7 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
                   setValue('settings.height', 0);
                 }}
               >
-                Clear
+                {_('Clear')}
               </Button>
             )}
           </div>
@@ -323,7 +328,10 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
 
         {image && (
           <>
-            <Field label="Preview" hint="Reflects the alignment below.">
+            <Field
+              label={_('Preview')}
+              hint={_('Reflects the alignment below.')}
+            >
               <div className="relative h-32 w-full overflow-hidden rounded border border-divider bg-muted/30">
                 {/* Subtle grid so alignment changes read clearly even when
                     the image is white/transparent. */}
@@ -339,7 +347,7 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
                 >
                   <img
                     src={image}
-                    alt="Banner Image"
+                    alt={_('Banner Image')}
                     style={{ maxWidth: '60%' }}
                     className="max-h-full rounded object-contain shadow-sm"
                     onLoad={(e) => {
@@ -373,8 +381,10 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
         )}
 
         <Field
-          label="Mobile image"
-          hint="Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene."
+          label={_('Mobile image')}
+          hint={_(
+            'Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.'
+          )}
         >
           <ImagePickerField
             value={mobileImageV}
@@ -400,8 +410,8 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
       </Section>
 
       {/* Layout */}
-      <Section title="Layout">
-        <Field label="Alignment">
+      <Section title={_('Layout')}>
+        <Field label={_('Alignment')}>
           <div
             className="inline-flex w-full rounded-md border border-divider bg-muted/30 p-1"
             role="radiogroup"
@@ -434,10 +444,10 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
       {/* Overlay copy — optional eyebrow / heading / sub-text. Banners
           without any of these stay image-only (matches the original behaviour
           byte-for-byte). */}
-      <Section title="Overlay copy">
+      <Section title={_('Overlay copy')}>
         <Field
-          label="Eyebrow"
-          hint='Small all-caps label above the heading. E.g. "LIMITED EDITION".'
+          label={_('Eyebrow')}
+          hint={_('Small all-caps label above the heading. E.g. "LIMITED EDITION".')}
         >
           <input
             type="text"
@@ -447,11 +457,11 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
                 shouldDirty: true
               })
             }
-            placeholder="LIMITED EDITION"
+            placeholder={_('LIMITED EDITION')}
             className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </Field>
-        <Field label="Heading">
+        <Field label={_('Heading')}>
           <input
             type="text"
             value={headingV}
@@ -460,17 +470,17 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
                 shouldDirty: true
               })
             }
-            placeholder="The Summer Edit"
+            placeholder={_('The Summer Edit')}
             className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </Field>
-        <Field label="Sub-text">
+        <Field label={_('Sub-text')}>
           <MarkdownBodyField
             value={subTextV}
             onChange={(v) =>
               setValue('settings.subText', v || null, { shouldDirty: true })
             }
-            placeholder="One short supporting sentence."
+            placeholder={_('One short supporting sentence.')}
             rows={2}
             softLimit={160}
           />
@@ -478,10 +488,10 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
       </Section>
 
       {/* Overlay placement — content position + tint scrim + opacity */}
-      <Section title="Overlay placement">
+      <Section title={_('Overlay placement')}>
         <Field
-          label="Content position"
-          hint="Where the overlay text sits on the image."
+          label={_('Content position')}
+          hint={_('Where the overlay text sits on the image.')}
         >
           <AnchorPicker
             value={anchorV}
@@ -491,8 +501,8 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
           />
         </Field>
         <Field
-          label="Tint"
-          hint="A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically."
+          label={_('Tint')}
+          hint={_('A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.')}
         >
           <Segmented<OverlayTint>
             value={tintV}
@@ -503,7 +513,7 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
           />
         </Field>
         {tintV !== 'none' && (
-          <Field label="Tint opacity">
+          <Field label={_('Tint opacity')}>
             <Slider
               value={Math.round(opacityV * 100)}
               min={0}
@@ -521,11 +531,11 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
       </Section>
 
       {/* Call to actions — primary + optional secondary */}
-      <Section title="Call to actions">
+      <Section title={_('Call to actions')}>
         {ctaV ? (
           <>
             <div className="text-[11px] font-semibold tracking-wide text-foreground/80">
-              Primary
+              {_('Primary')}
             </div>
             <CtaField
               value={ctaV}
@@ -540,7 +550,7 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
               }
               className="text-[11px] text-muted-foreground hover:text-destructive"
             >
-              Remove primary CTA
+              {_('Remove primary CTA')}
             </button>
           </>
         ) : (
@@ -551,13 +561,13 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
             }
             className="text-xs font-medium text-primary hover:underline"
           >
-            + Add a primary CTA
+            {_('+ Add a primary CTA')}
           </button>
         )}
         {ctaV && cta2V && (
           <>
             <div className="mt-3 text-[11px] font-semibold tracking-wide text-foreground/80">
-              Secondary
+              {_('Secondary')}
             </div>
             <CtaField
               value={cta2V}
@@ -573,7 +583,7 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
               }
               className="text-[11px] text-muted-foreground hover:text-destructive"
             >
-              Remove secondary CTA
+              {_('Remove secondary CTA')}
             </button>
           </>
         )}
@@ -583,34 +593,34 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
             onClick={() =>
               setValue(
                 'settings.cta2',
-                { ...BLANK_CTA, label: 'Learn more', style: 'secondary' },
+                { ...BLANK_CTA, label: _('Learn more'), style: 'secondary' },
                 { shouldDirty: true }
               )
             }
             className="text-xs font-medium text-primary hover:underline"
           >
-            + Add a secondary CTA
+            {_('+ Add a secondary CTA')}
           </button>
         )}
       </Section>
 
       {/* Details */}
-      <Section title="Details">
+      <Section title={_('Details')}>
         <Field
-          label="Alt text"
-          hint="Describes the banner for screen readers and SEO."
+          label={_('Alt text')}
+          hint={_('Describes the banner for screen readers and SEO.')}
         >
           <input
             type="text"
             {...register('settings.alt')}
             defaultValue={alt}
-            placeholder='e.g. "Summer sale promotional banner"'
+            placeholder={_('e.g. "Summer sale promotional banner"')}
             className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </Field>
         <Field
-          label="Banner link"
-          hint="Optional. Clicking the banner navigates here."
+          label={_('Banner link')}
+          hint={_('Optional. Clicking the banner navigates here.')}
         >
           <LinkPicker
             value={linkV}

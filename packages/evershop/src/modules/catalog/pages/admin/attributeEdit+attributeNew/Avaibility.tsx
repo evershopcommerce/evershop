@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface GeneralProps {
@@ -21,20 +22,22 @@ export default function General({ attribute }: GeneralProps) {
   return (
     <Card className="bg-popover">
       <CardHeader>
-        <CardTitle>Setting</CardTitle>
-        <CardDescription>Manage the setting of the attribute.</CardDescription>
+        <CardTitle>{_('Setting')}</CardTitle>
+        <CardDescription>
+          {_('Manage the setting of the attribute.')}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <RadioGroupField
           name="is_required"
-          label="Is Required?"
+          label={_('Is Required?')}
           options={[
-            { value: 0, label: 'No' },
-            { value: 1, label: 'Yes' }
+            { value: 0, label: _('No') },
+            { value: 1, label: _('Yes') }
           ]}
           required
           validation={{
-            required: 'This field is required'
+            required: _('This field is required')
           }}
           defaultValue={attribute?.isRequired === 0 ? 0 : 1}
         />
@@ -42,14 +45,14 @@ export default function General({ attribute }: GeneralProps) {
       <CardContent className="pt-6 border-t border-border">
         <RadioGroupField
           name="is_filterable"
-          label="Is Filterable?"
+          label={_('Is Filterable?')}
           options={[
-            { value: 0, label: 'No' },
-            { value: 1, label: 'Yes' }
+            { value: 0, label: _('No') },
+            { value: 1, label: _('Yes') }
           ]}
           required
           validation={{
-            required: 'This field is required'
+            required: _('This field is required')
           }}
           defaultValue={attribute?.isFilterable === 1 ? 1 : 0}
         />
@@ -57,14 +60,14 @@ export default function General({ attribute }: GeneralProps) {
       <CardContent className="pt-6 border-t border-border">
         <RadioGroupField
           name="display_on_frontend"
-          label="Display on Frontend?"
+          label={_('Display on Frontend?')}
           options={[
-            { value: 0, label: 'No' },
-            { value: 1, label: 'Yes' }
+            { value: 0, label: _('No') },
+            { value: 1, label: _('Yes') }
           ]}
           required
           validation={{
-            required: 'This field is required'
+            required: _('This field is required')
           }}
           defaultValue={attribute?.displayOnFrontend === 1 ? 1 : 0}
         />
@@ -72,14 +75,14 @@ export default function General({ attribute }: GeneralProps) {
       <CardContent className="pt-6 border-t border-border">
         <NumberField
           name="sort_order"
-          label="Sort Order"
-          placeholder="Sort order"
+          label={_('Sort Order')}
+          placeholder={_('Sort order')}
           required
           validation={{
-            required: 'Sort order is required',
+            required: _('Sort order is required'),
             min: {
               value: 0,
-              message: 'Sort order must be a positive number'
+              message: _('Sort order must be a positive number')
             }
           }}
           defaultValue={attribute?.sortOrder}

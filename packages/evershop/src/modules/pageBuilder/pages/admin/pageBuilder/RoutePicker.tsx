@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ChevronRight } from 'lucide-react';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -33,20 +34,21 @@ export default function RoutePicker({ routes, editUrlBase }: RoutePickerProps) {
 
   return (
     <Card>
-      <CardHeader title="Editable routes" />
+      <CardHeader title={_('Editable routes')} />
       <CardContent>
         {editable.length === 0 ? (
           <div className="space-y-2">
             <p className="text-muted-foreground">
-              No routes have opted into page-builder editing yet.
+              {_('No routes have opted into page-builder editing yet.')}
             </p>
             <p className="text-sm text-muted-foreground">
-              Add{' '}
+              {_('Add')}{' '}
               <code className="text-xs bg-muted/40 px-1 rounded">
                 {'"editable": true'}
               </code>{' '}
-              to a storefront route&apos;s{' '}
-              <code className="text-xs">route.json</code> to make it appear here.
+              {_("to a storefront route's")}{' '}
+              <code className="text-xs">route.json</code>{' '}
+              {_('to make it appear here.')}
             </p>
           </div>
         ) : (

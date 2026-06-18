@@ -1,0 +1,1685 @@
+Welcome Back!,Velkommen tilbake!
+Please sign in to your account ,Logg inn på kontoen din 
+Join us for exclusive offers and order tracking,Bli med oss for eksklusive tilbud og ordresporing
+Sign Up,Registrer deg
+Signing Up...,Registrerer...
+Signing In...,Logger inn...
+Recent Orders,Nylige bestillinger
+Address Book,Adressebok
+You have no addresses saved,Du har ingen lagrede adresser
+Add new address,Legg til ny adresse
+Address 2,Adresse 2
+Set as default,Angi som standard
+Save,Lagre
+Edit,Rediger
+Delete,Slett
+Edit Address,Rediger adresse
+Product Filters,Produktfiltre
+No products found,Ingen produkter funnet
+${count} Products,${count} produkter
+Default,Standard
+Name,Navn
+Contact Information,Kontaktinformasjon
+Your Cart,Handlekurven din
+Your cart is empty,Handlekurven din er tom
+Subtotal,Delsum
+View Cart (${totalQty}),Vis handlekurv (${totalQty})
+Shopping Cart,Handlekurv
+Logged in as,Logget inn som
+Payment Information,Betalingsinformasjon
+Same as shipping address,Samme som leveringsadresse
+Use a different billing address,Bruk en annen faktureringsadresse
+Pick a payment method,Velg en betalingsmåte
+Select a payment method,Velg en betalingsmåte
+Complete Order,Fullfør bestilling
+Add to Cart,Legg i handlekurv
+Search,Søk
+${count} orders,${count} bestillinger
+${field} is required,${field} er påkrevd
+${pct}% of orders cancelled,${pct}% av bestillingene kansellert
+${pct}% of orders completed,${pct}% av bestillingene fullført
+${qty} sold,${qty} solgt
+${total} lifetime sale,${total} totalt salg
+(Guest Checkout),(Gjestekjøp)
+(list),(liste)
+(optional),(valgfritt)
+A coupon is already applied,En kupong er allerede brukt
+A group needs at least one sub-field,En gruppe trenger minst ett underfelt
+A list of best selling products,En liste over mestselgende produkter
+A list of customers who have placed the most orders,En liste over kunder som har lagt inn flest bestillinger
+A regular expression the value must match.,Et regulært uttrykk verdien må samsvare med.
+Accepted values,Aksepterte verdier
+Active,Aktiv
+Active Filters,Aktive filtre
+Add address API not available,API for å legge til adresse er ikke tilgjengelig
+Add custom field,Legg til egendefinert felt
+Add field,Legg til felt
+Add item,Legg til element
+Add option,Legg til alternativ
+Add product,Legg til produkt
+Add some items to get started,Legg til noen varer for å komme i gang
+Add sub-field,Legg til underfelt
+Adding...,Legger til...
+Address has been deleted successfully!,Adressen er slettet!
+Address has been saved successfully!,Adressen er lagret!
+Address has been updated successfully!,Adressen er oppdatert!
+Address is required,Adresse er påkrevd
+Adds target=_blank rel=noopener noreferrer.,Legger til target=_blank rel=noopener noreferrer.
+All items fulfilled,Alle varer er fullført
+All orders,Alle bestillinger
+All your past orders,Alle dine tidligere bestillinger
+Allow multiple,Tillat flere
+An unexpected error occurred. Please try again.,En uventet feil oppstod. Prøv igjen.
+Apply Filters,Bruk filtre
+Are you sure you want to mark the selected orders as shipped?,Er du sikker på at du vil merke de valgte bestillingene som sendt?
+Are you sure?,Er du sikker?
+Attribute Group,Attributtgruppe
+Attribute code is used in API and must be unique,Attributtkoden brukes i API-et og må være unik
+Attribute options,Attributtalternativer
+Attributes,Attributter
+Available shipping methods will appear once you provide your address details,Tilgjengelige leveringsmåter vises når du oppgir adresseopplysningene dine
+Best Sellers,Bestselgere
+Best customers,Beste kunder
+Billing address,Faktureringsadresse
+Black,Svart
+Buy qty,Kjøpsantall
+Buy qty is required,Kjøpsantall er påkrevd
+Can not process payment. Please try again later.,Kan ikke behandle betalingen. Prøv igjen senere.
+Can't be undone,Kan ikke angres
+Cancel,Avbryt
+Cancel Order,Avbryt bestilling
+Cancel shipment,Avbryt forsendelse
+Cancel this shipment?,Avbryte denne forsendelsen?
+Canceled,Avbrutt
+Cancelled,Avbrutt
+Cannot add billing address: cart not initialized,Kan ikke legge til faktureringsadresse: handlekurven er ikke initialisert
+Cannot add contact info: cart not initialized,Kan ikke legge til kontaktinformasjon: handlekurven er ikke initialisert
+Cannot add payment method: cart not initialized,Kan ikke legge til betalingsmåte: handlekurven er ikke initialisert
+Cannot add shipping address: cart not initialized,Kan ikke legge til leveringsadresse: handlekurven er ikke initialisert
+Cannot add shipping method: cart not initialized,Kan ikke legge til leveringsmåte: handlekurven er ikke initialisert
+Cannot add shipping method: providerCode is required,Kan ikke legge til leveringsmåte: providerCode er påkrevd
+Cannot apply coupon: cart not initialized,Kan ikke bruke kupong: handlekurven er ikke initialisert
+Cannot remove coupon: cart not initialized,Kan ikke fjerne kupong: handlekurven er ikke initialisert
+Carrier,Transportør
+Carrier is required,Transportør er påkrevd
+Cart ID is required to checkout,Handlekurv-ID er påkrevd for å gå til kassen
+Cart is not initialized,Handlekurven er ikke initialisert
+Catalog,Katalog
+Categories,Kategorier
+Category,Kategori
+Charcoal,Koksgrå
+Checkout success,Kjøp gjennomført
+Choose Product SKU,Velg produkt-SKU
+Choose SKU,Velg SKU
+City is required,By er påkrevd
+Clear All,Tøm alle
+Clear Filters,Tøm filtre
+Clear all,Tøm alle
+Clear categories,Tøm kategorier
+Close fullscreen view,Lukk fullskjermvisning
+Code,Kode
+Collections,Samlinger
+Comma-separated; renders the value as a dropdown.,Kommaseparert; viser verdien som en nedtrekksmeny.
+Completed,Fullført
+Configurable,Konfigurerbar
+Configure tax classes and tax rates,Konfigurer avgiftsklasser og avgiftssatser
+Confirm,Bekreft
+Contact for pricing,Kontakt for priser
+Conveniently pay with cash at your doorstep when your order is delivered.,Betal enkelt med kontanter på døren når bestillingen din leveres.
+Coupon applied successfully!,Kupongen ble brukt!
+Coupon code is required,Kupongkode er påkrevd
+Coupon does not match,Kupongen samsvarer ikke
+Coupon removed successfully!,Kupongen ble fjernet!
+Cream,Krem
+Create,Opprett
+Create a new attribute,Opprett et nytt attributt
+Create a new group,Opprett en ny gruppe
+Create a new package,Opprett en ny pakke
+Create shipment,Opprett forsendelse
+Created,Opprettet
+Custom URL,Egendefinert URL
+Custom field created,Egendefinert felt opprettet
+Custom field updated,Egendefinert felt oppdatert
+Custom fields,Egendefinerte felter
+Custom fields (JSON),Egendefinerte felter (JSON)
+Custom fields saved,Egendefinerte felter lagret
+Customer Information,Kundeinformasjon
+Customer does not have any order yet.,Kunden har ingen bestillinger ennå.
+Customer notes,Kundenotater
+Daily,Daglig
+Date and time must be after ${min},Dato og klokkeslett må være etter ${min}
+Date and time must be before ${max},Dato og klokkeslett må være før ${max}
+Date must be after ${min},Dato må være etter ${min}
+Date must be before ${max},Dato må være før ${max}
+Delete ${count} coupons,Slett ${count} kuponger
+Delete ${count} products,Slett ${count} produkter
+Delete address API not available,API for sletting av adresse er ikke tilgjengelig
+Delivered,Levert
+Description,Beskrivelse
+Disable,Deaktiver
+Disable ${count} coupons,Deaktiver ${count} kuponger
+Disable ${count} customers,Deaktiver ${count} kunder
+Disable ${count} products,Deaktiver ${count} produkter
+Disabled,Deaktivert
+Discount percent,Rabattprosent
+Discount percent is required,Rabattprosent er påkrevd
+Display on Frontend?,Vis i frontend?
+Displays the mobile sidebar.,Viser sidefeltet for mobil.
+Done,Ferdig
+Drag to reorder,Dra for å endre rekkefølge
+Duplicate,Dupliser
+Edit custom field,Rediger egendefinert felt
+Edit field settings,Rediger feltinnstillinger
+Edit package,Rediger pakke
+Edit tracking info,Rediger sporingsinformasjon
+Editing ${name},Redigerer ${name}
+Email a shipment confirmation,Send en forsendelsesbekreftelse på e-post
+Email a shipment confirmation with tracking details,Send en forsendelsesbekreftelse med sporingsdetaljer på e-post
+Email is required,E-post er påkrevd
+Enable,Aktiver
+Enable ${count} coupons,Aktiver ${count} kuponger
+Enable ${count} customers,Aktiver ${count} kunder
+Enable ${count} products,Aktiver ${count} produkter
+Enabled,Aktivert
+Enter attribute code,Skriv inn attributtkode
+Enter attribute name,Skriv inn attributtnavn
+Enter text,Skriv inn tekst
+Enter value for ${attribute},Skriv inn verdi for ${attribute}
+Enter your email,Skriv inn e-postadressen din
+Enter your new password,Skriv inn det nye passordet ditt
+Enter your password,Skriv inn passordet ditt
+Error,Feil
+Failed to add address,Kunne ikke legge til adresse
+Failed to add billing address,Kunne ikke legge til fakturaadresse
+Failed to add billing address.,Kunne ikke legge til fakturaadresse.
+Failed to add contact info,Kunne ikke legge til kontaktinformasjon
+Failed to add contact info.,Kunne ikke legge til kontaktinformasjon.
+Failed to add item to cart,Kunne ikke legge varen i handlekurven
+Failed to add payment method,Kunne ikke legge til betalingsmåte
+Failed to add payment method.,Kunne ikke legge til betalingsmåte.
+Failed to add product to cart,Kunne ikke legge produktet i handlekurven
+Failed to add shipping address,Kunne ikke legge til leveringsadresse
+Failed to add shipping address.,Kunne ikke legge til leveringsadresse.
+Failed to add shipping method,Kunne ikke legge til leveringsmåte
+Failed to add shipping method.,Kunne ikke legge til leveringsmåte.
+Failed to apply coupon,Kunne ikke bruke kupong
+Failed to cancel shipment,Kunne ikke kansellere forsendelse
+Failed to checkout,Kunne ikke fullføre kjøpet
+Failed to create field,Kunne ikke opprette felt
+Failed to create shipment,Kunne ikke opprette forsendelse
+Failed to delete address,Kunne ikke slette adresse
+Failed to load custom fields,Kunne ikke laste egendefinerte felter
+Failed to mark delivered,Kunne ikke merke som levert
+Failed to place order,Kunne ikke legge inn bestilling
+Failed to place order. Please try again.,Kunne ikke legge inn bestilling. Prøv igjen.
+Failed to remove coupon,Kunne ikke fjerne kupong
+Failed to remove coupon.,Kunne ikke fjerne kupong.
+Failed to save custom fields,Kunne ikke lagre egendefinerte felter
+Failed to set shipping method,Kunne ikke angi leveringsmåte
+Failed to set shipping note,Kunne ikke angi leveringsnotat
+Failed to update address,Kunne ikke oppdatere adresse
+Failed to update field,Kunne ikke oppdatere felt
+Failed to update shipment,Kunne ikke oppdatere forsendelse
+Failed to update tracking info,Kunne ikke oppdatere sporingsinformasjon
+Failed to void label,Kunne ikke annullere fraktetikett
+Failed!,Mislyktes!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,"Felter som gjelder for denne enhetstypen. Når du legger til et felt, gjelder det for alle enheter av denne typen."
+File size must be less than ${maxSize},Filstørrelsen må være mindre enn ${maxSize}
+Filter Products,Filtrer produkter
+Filters,Filtre
+First,Første
+Free,Gratis
+Free shipping,Gratis frakt
+Free shipping ?,Gratis frakt?
+Fulfill ${count} orders,Oppfyll ${count} bestillinger
+Full Name is required,Fullt navn er påkrevd
+Fully shipped,Fullstendig sendt
+General,Generelt
+Get qty,Få antall
+Get qty is required,Få antall er påkrevd
+Ghost,Ghost
+Go,Gå
+Go to Login,Gå til innlogging
+Go to next page,Gå til neste side
+Go to previous page,Gå til forrige side
+Hello,Hei
+Hide from storefront,Skjul fra butikken
+ID,ID
+In Stock,På lager
+Inactive,Inaktiv
+Inclusive of tax ${totalTaxAmount},Inkludert mva. ${totalTaxAmount}
+Insert,Sett inn
+Invalid address,Ugyldig adresse
+Invalid cart,Ugyldig handlekurv
+Invalid cart id,Ugyldig handlekurv-ID
+Invalid coupon,Ugyldig kupong
+Invalid customer,Ugyldig kunde
+Invalid customer id,Ugyldig kunde-ID
+Invalid email or password,Ugyldig e-post eller passord
+Invalid format,Ugyldig format
+Invalid quantity,Ugyldig antall
+Is Filterable?,Kan filtreres?
+Is Required?,Er påkrevd?
+Item,Vare
+Items,Varer
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,Varene i denne forsendelsen går tilbake til bestillingens usendte beholdning. Denne handlingen kan ikke angres.
+Key,Nøkkel
+Key is required,Nøkkel er påkrevd
+Label,Etikett
+Label voided,Fraktetikett annullert
+Language,Språk
+Last,Siste
+Lifetime Sales,Totalt salg
+Light gray,Lysegrå
+Limit,Grense
+Link,Lenke
+Loading,Laster
+Log in,Logg inn
+Logging in...,Logger inn ...
+Logging out...,Logger ut ...
+Login failed,Innlogging mislyktes
+Logout failed,Utlogging mislyktes
+Look like you just started. No bestsellers yet.,Det ser ut som du nettopp har startet. Ingen bestselgere ennå.
+"Lowercase letters, digits, underscore. Immutable.","Små bokstaver, sifre, understrek. Kan ikke endres."
+Manage the general information of the attribute.,Administrer den generelle informasjonen om attributtet.
+Manage the setting of the attribute.,Administrer innstillingen for attributtet.
+Mark as shipped,Merk som sendt
+Mark delivered,Merk som levert
+Mark shipment as delivered?,Merk forsendelsen som levert?
+Max length,Maks lengde
+Max of Y,Maks av Y
+Max of Y is required,Maks av Y er påkrevd
+Max value,Maksverdi
+Min length,Min lengde
+Min value,Minverdi
+Minimum quantity,Minimumsantall
+Mint,Mintgrønn
+Monthly,Månedlig
+More,Mer
+More pages,Flere sider
+Move down,Flytt ned
+Move up,Flytt opp
+Multiselect,Flervalg
+Must be at least ${n},Må være minst ${n}
+Must be at least ${n} characters,Må være minst ${n} tegn
+Must be at most ${n},Må være høyst ${n}
+Must be at most ${n} characters,Må være høyst ${n} tegn
+"Must start with a letter; lowercase letters, digits, underscore only","Må starte med en bokstav; bare små bokstaver, sifre og understrek"
+Name is required,Navn er påkrevd
+New Product,Nytt produkt
+New Widget,Ny widget
+New folder,Ny mappe
+Next,Neste
+Next slide,Neste lysbilde
+No,Nei
+No address data received,Ingen adressedata mottatt
+"No attribute groups found for query ""${query}""","Ingen attributtgrupper funnet for søket ""${query}"""
+No carriers registered,Ingen transportører registrert
+"No categories found for ""${term}""","Ingen kategorier funnet for ""${term}"""
+"No categories found for query ""${query}""","Ingen kategorier funnet for søket ""${query}"""
+"No collections found for query ""${query}""","Ingen samlinger funnet for søket ""${query}"""
+No coupon to remove,Ingen kupong å fjerne
+No custom fields yet.,Ingen egendefinerte felt ennå.
+No data available,Ingen data tilgjengelig
+No free shipping,Ingen gratis frakt
+No limit,Ingen grense
+No maximum,Ingen maksimum
+No minimum,Ingen minimum
+No notes from customer,Ingen merknader fra kunden
+"No options found for ""${code}""","Ingen alternativer funnet for ""${code}"""
+"No products found for query ""${query}""","Ingen produkter funnet for søket ""${query}"""
+No shipments yet — your order is being prepared.,Ingen forsendelser ennå — bestillingen din klargjøres.
+No shipping is required for this order,Ingen frakt kreves for denne bestillingen
+No shipping methods available,Ingen fraktmetoder tilgjengelig
+No shipping options are available for your location,Ingen fraktalternativer er tilgjengelige for din plassering
+No shipping required,Ingen frakt kreves
+No widgets match your search.,Ingen widgeter samsvarer med søket ditt.
+None,Ingen
+Not set,Ikke angitt
+Not visible to customers,Ikke synlig for kunder
+Notify customer,Varsle kunde
+Open in new tab,Åpne i ny fane
+Operator,Operator
+Option text,Alternativtekst
+Optional help text shown to admins.,Valgfri hjelpetekst som vises til administratorer.
+Order Placed,Bestilling lagt inn
+Order detail,Bestillingsdetaljer
+Order must contain products matching all conditions below,Bestillingen må inneholde produkter som oppfyller alle betingelsene nedenfor
+Order not found,Bestilling ikke funnet
+Orders,Bestillinger
+Others,Andre
+Out of Stock,Utsolgt
+Outline,Omriss
+Overview of sales data over selected periods,Oversikt over salgsdata for valgte perioder
+Overview of total sales and order status over the lifetime of your store,Oversikt over totalt salg og bestillingsstatus gjennom butikkens levetid
+Page,Side
+Page ${currentPage} of ${totalPages},Side ${currentPage} av ${totalPages}
+Page not found,Siden ble ikke funnet
+Password is required,Passord er påkrevd
+Password must be at least ${minLength} characters long,Passordet må være minst ${minLength} tegn langt
+Paste a URL or a relative path starting with ,Lim inn en URL eller en relativ sti som starter med 
+Pattern (regex),Mønster (regex)
+Pay with PayPal,Betal med PayPal
+Pay with Stripe,Betal med Stripe
+Payment Status,Betalingsstatus
+Placing Order...,Legger inn bestilling …
+Please enter a coupon code,Vennligst skriv inn en kupongkode
+Please enter a valid URL,Vennligst skriv inn en gyldig URL
+Please enter a valid email address,Vennligst skriv inn en gyldig e-postadresse
+Please enter your email to receive a reset link,Vennligst skriv inn e-posten din for å motta en tilbakestillingslenke
+Please provide billing address to proceed,Vennligst oppgi faktureringsadresse for å fortsette
+Please select a payment method,Vennligst velg en betalingsmetode
+Please select a shipping method,Vennligst velg en fraktmetode
+Please sign in to your account,Vennligst logg inn på kontoen din
+Position,Posisjon
+Previous,Forrige
+Previous slide,Forrige lysbilde
+Price: ${value},Pris: ${value}
+Primary,Primær
+Print Label,Skriv ut etikett
+Processing Payment...,Behandler betaling …
+Product Description,Produktbeskrivelse
+Product is out of stock,Produktet er utsolgt
+Product name is required,Produktnavn er påkrevd
+Product not found,Produkt ikke funnet
+Product type,Produkttype
+Products,Produkter
+Reason for cancellation,Årsak til kansellering
+Reason is required,Årsak er påkrevd
+Recently placed orders by this customer,Nylig lagt inn bestillinger fra denne kunden
+Redirecting to PayPal...,Omdirigerer til PayPal …
+Reference type,Referansetype
+Registration failed,Registrering mislyktes
+Remove item,Fjern vare
+Remove sub-field,Fjern underfelt
+Required,Påkrevd
+Requires at least one item to create a cart,Krever minst én vare for å opprette en handlekurv
+Reset Password,Tilbakestill passord
+Reset Your Password,Tilbakestill passordet ditt
+Reset password,Tilbakestill passord
+Reset your password,Tilbakestill passordet ditt
+Root,Rot
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,SKU må være unik
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,Salgsstatistikk
+Save custom fields,Lagre egendefinerte felt
+Save field,Lagre felt
+Saved successfully!,Lagret!
+Search attribute groups,Søk i attributtgrupper
+Search categories,Søk i kategorier
+Search collections,Søk i samlinger
+"Search for products, orders, and other resources","Søk etter produkter, bestillinger og andre ressurser"
+Search products,Søk i produkter
+Search results for: ${keyword},Søkeresultater for: ${keyword}
+Search widgets…,Søk i widgeter …
+Searching...,Søker …
+Search…,Søk …
+See all orders →,Se alle bestillinger →
+Select,Velg
+Select a carrier,Velg en transportør
+Select at least one item to ship,Velg minst én vare som skal sendes
+Select groups the attribute belongs to,Velg gruppene attributtet tilhører
+Select shipping method,Velg fraktmetode
+Select sort,Velg sortering
+"Select the items going in this shipment, then add the carrier & tracking.","Velg varene som skal med i denne forsendelsen, og legg deretter til transportør og sporing."
+Setting,Innstilling
+Settings,Innstillinger
+Shipment Status,Forsendelsesstatus
+Shipment canceled,Forsendelse kansellert
+Shipment created,Forsendelse opprettet
+Shipment marked delivered,Forsendelse merket som levert
+Shipments,Forsendelser
+Shipped,Sendt
+Shipping (${method}),Frakt (${method})
+Shipping Setting,Fraktinnstilling
+Show,Vis
+Show all ${count} options,Vis alle ${count} alternativer
+Show on storefront,Vis i butikken
+Showing ${showing} of ${total},Viser ${showing} av ${total}
+Showing ${start}-${end} of ${total} results,Viser ${start}-${end} av ${total} resultater
+Sidebar,Sidefelt
+Sign in to view your orders,Logg inn for å se bestillingene dine
+Simple,Enkel
+Sky,Himmel
+Sold out,Utsolgt
+Some error occurred. Please try again later.,Det oppstod en feil. Vennligst prøv igjen senere.
+Some products are not available,Noen produkter er ikke tilgjengelige
+Something went wrong! Please try again.,Noe gikk galt! Vennligst prøv igjen.
+Something went wrong. Please try again later.,Noe gikk galt. Vennligst prøv igjen senere.
+Something wrong. Please try again,Noe gikk galt. Vennligst prøv igjen
+Sort Order,Sorteringsrekkefølge
+Sort order,Sorteringsrekkefølge
+Status,Status
+Stock,Lager
+Stripe is not loaded. Please try again.,Stripe er ikke lastet inn. Vennligst prøv igjen.
+Style,Stil
+Sub-fields,Underfelt
+Submit Cancellation,Send inn kansellering
+Successfully logged in,Innlogging vellykket
+Successfully logged out,Utlogging vellykket
+Tax Setting,Avgiftsinnstilling
+Test failure,Test mislyktes
+Test failure:,Test mislyktes:
+Test success,Test vellykket
+Test success:,Test vellykket:
+Text,Tekst
+Textarea,Tekstområde
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,Transportøren vil merke sporingsnummeret som ugyldig. Du må kjøpe en ny etikett hvis du fortsatt har til hensikt å sende.
+The customer will receive a delivery confirmation email.,Kunden vil motta en e-post med leveringsbekreftelse.
+There is no category,Det finnes ingen kategori
+There is no file to display.,Det finnes ingen fil å vise.
+There is no sub folder.,Det finnes ingen undermappe.
+There was an error:,Det oppstod en feil:
+This tracking link has expired,Denne sporingslenken er utløpt
+This tracking link is no longer valid,Denne sporingslenken er ikke lenger gyldig
+Thumbnail,Miniatyrbilde
+Time must be after ${min},Tiden må være etter ${min}
+Time must be before ${max},Tiden må være før ${max}
+Toggle Sidebar,Veksle sidefelt
+Token is invalid or expired,Token er ugyldig eller utløpt
+Too many items requested,For mange elementer forespurt
+Track,Spor
+Track shipment →,Spor forsendelse →
+Track your order,Spor bestillingen din
+Tracking info updated,Sporingsinformasjon oppdatert
+Tracking link,Sporingslenke
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,Sporingslenker er gyldige i en begrenset periode. Logg inn på kontoen din for å se gjeldende status for bestillingen.
+Tracking number,Sporingsnummer
+Type,Type
+Type / to see the available blocks,Skriv / for å se de tilgjengelige blokkene
+UPDATE PASSWORD,OPPDATER PASSORD
+Update address API not available,API for oppdatering av adresse er ikke tilgjengelig
+Update field,Oppdater felt
+Upload,Last opp
+Validation,Validering
+Value,Verdi
+Value must be a whole number,Verdien må være et heltall
+Value must be at least ${min},Verdien må være minst ${min}
+Value must be at most ${max},Verdien må være høyst ${max}
+View All Products,Vis alle produkter
+View JSON,Vis JSON
+View all customers,Vis alle kunder
+Visible to customer,Synlig for kunden
+Void Label,Annuller etikett
+Void label,Annuller etikett
+Void this shipping label?,Annullere denne fraktetiketten?
+"We could not find this order. It may have been removed, or it may belong to a different account.","Vi fant ikke denne bestillingen. Den kan ha blitt fjernet, eller den kan tilhøre en annen konto."
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.","Vi kunne ikke verifisere denne lenken. Hvis du mottok den i en e-post fra oss, prøv igjen fra den nyeste meldingen, eller logg inn på kontoen din."
+We have sent you an email with a link to reset your password. Please check your inbox.,Vi har sendt deg en e-post med en lenke for å tilbakestille passordet ditt. Vennligst sjekk innboksen din.
+Weekly,Ukentlig
+Welcome to our store!,Velkommen til butikken vår!
+"Where you ship, shipping methods and delivery fee","Hvor du sender, fraktmetoder og leveringsgebyr"
+White,Hvit
+Yes,Ja
+You are already logged in,Du er allerede logget inn
+You are here:,Du er her:
+You have no attribute groups to display,Du har ingen attributtgrupper å vise
+You have no categories to display,Du har ingen kategorier å vise
+You have no collections to display,Du har ingen kolleksjoner å vise
+You have no products to display,Du har ingen produkter å vise
+You have not placed any orders yet.,Du har ikke lagt inn noen bestillinger ennå.
+You paid for,Du betalte for
+You will be redirected to PayPal for payment processing.,Du vil bli omdirigert til PayPal for betalingsbehandling.
+Your Orders,Dine bestillinger
+Your order #${number} has been delivered,Bestillingen din #${number} er levert
+Your order #${number} is on the way,Bestillingen din #${number} er på vei
+Your order has been confirmed!,Bestillingen din er bekreftet!
+Your password has been updated successfully.,Passordet ditt er oppdatert.
+across,på tvers
+available to ship,tilgjengelig for sending
+breadcrumb,brødsmulesti
+e.g. Care instructions,f.eks. Vaskeanvisning
+"e.g. New, Sale, Limited","f.eks. Ny, Salg, Begrenset"
+e.g. Question,f.eks. Spørsmål
+e.g. care_instructions,f.eks. care_instructions
+e.g. question,f.eks. question
+item,vare
+items,varer
+left to ship,gjenstår å sende
+of,av
+of ${count},av ${count}
+unit,enhet
+units,enheter
+${count} changes published.,${count} endringer publisert.
+${count} child widgets,${count} underordnede moduler
+${count} countries,${count} land
+${count} on ${route},${count} på ${route}
+${count} ops total,${count} operasjoner totalt
+${count} pending ops,${count} ventende operasjoner
+${count} pending ops on,${count} ventende operasjoner på
+${count} routes,${count} ruter
+${direction} failed,${direction} mislyktes
+${method} — ${zone} rate,${method} — ${zone}-sats
+${method} — new rate,${method} — ny sats
+${name} attached to ${zone},${name} koblet til ${zone}
+${name} configuration for ${zone},${name}-konfigurasjon for ${zone}
+${name} configuration for this zone,${name}-konfigurasjon for denne sonen
+${name} configuration saved for ${zone},${name}-konfigurasjon lagret for ${zone}
+${name} detached,${name} frakoblet
+${name} is required,${name} er påkrevd
+${title} settings,${title}-innstillinger
+${total} changes will go live immediately.,${total} endringer vil bli aktive umiddelbart.
+${total} items,${total} varer
+(envelope),(konvolutt)
++ Add Line,+ Legg til linje
++ Add Method,+ Legg til metode
++ Add Rate,+ Legg til sats
++ Add placement,+ Legg til plassering
++ Attach Provider,+ Koble til leverandør
++ New package,+ Ny pakke
++${count} more,+${count} til
+", +${count} more",", +${count} til"
+", last updated",", sist oppdatert"
+0 for flat envelopes,0 for flate konvolutter
+1 change published.,1 endring publisert.
+1 change will go live immediately.,1 endring vil bli aktiv umiddelbart.
+1 child widget,1 underordnet modul
+1 op total,1 operasjon totalt
+1 pending op,1 ventende operasjon
+1 pending op on,1 ventende operasjon på
+A package is required for shippable products,En pakke er påkrevd for produkter som kan sendes
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,En utrullingsplan lagrer dine gjeldende endringer som et øyeblikksbilde og bruker dem automatisk i løpet av et planlagt tidsrom.
+Action,Handling
+Actions,Handlinger
+Add,Legg til
+Add Products,Legg til produkter
+Add Rate,Legg til sats
+Add Shipping Method,Legg til fraktmetode
+Add Tax Rate,Legg til avgiftssats
+Add Variant,Legg til variant
+Add products to this category by selecting them from the list below.,Legg til produkter i denne kategorien ved å velge dem fra listen nedenfor.
+Add rate,Legg til sats
+Added,Lagt til
+Adding to Column ${number},Legger til i kolonne ${number}
+Additional languages,Flere språk
+Admin panel language,Språk for administrasjonspanel
+Affects ${count} pages,Påvirker ${count} sider
+Affects 1 page,Påvirker 1 side
+All pages,Alle sider
+All registered providers are already attached to this zone.,Alle registrerte leverandører er allerede knyttet til denne sonen.
+All routes,Alle ruter
+Also shown on ${routes},Vises også på ${routes}
+Also shown on ${routes} +${count},Vises også på ${routes} +${count}
+Amount must be greater than or equal to 0,Beløpet må være større enn eller lik 0
+Amount must be less than or equal to ${value} ${currency},Beløpet må være mindre enn eller lik ${value} ${currency}
+Apply a condition?,Bruke en betingelse?
+Area,Område
+Area is required,Område er påkrevd
+At least one country is required,Minst ett land er påkrevd
+Attach,Knytt til
+Attach Provider to ${zone},Knytt leverandør til ${zone}
+Attached Providers,Tilknyttede leverandører
+Attribute Name,Attributtnavn
+Attribute code is required,Attributtkode er påkrevd
+Attribute created successfully!,Attributtet ble opprettet!
+Attribute group,Attributtgruppe
+Attribute name is required,Attributtnavn er påkrevd
+Authorize only,Kun autoriser
+Auto-saves while you edit,Lagres automatisk mens du redigerer
+Back To Dashboard,Tilbake til dashbord
+Base calculation address,Adresse for grunnberegning
+Based on cart subtotal,Basert på delsum i handlekurven
+Based on cart weight,Basert på vekt i handlekurven
+Basic configuration,Grunnleggende konfigurasjon
+Boolean,Boolsk
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,Innebygde fraktmetoder med satser per sone. Knytt Core til en sone først under Innstillinger → Frakt; legg deretter til metoder her og konfigurer satsene deres per sone.
+Buy X get Y,Kjøp X få Y
+CMS,CMS
+Calculation type,Beregningstype
+Can not change the attribute group of a product that is already in a variant group.,Kan ikke endre attributtgruppen til et produkt som allerede er i en variantgruppe.
+Cancel rollout,Avbryt utrulling
+Cancel rollout plan?,Avbryte utrullingsplanen?
+Canvas device width,Enhetsbredde for lerret
+Capture,Trekk inn
+Capture Payment,Trekk inn betaling
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,Transportørhint for oppfyllelse — vises aldri i kassen. NewShipmentDialog bruker dette til å forhåndsvelge transportøren.
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,Transportørspesifikk tjenestekode som brukes når du kjøper en fraktetikett (CreateLabelInput.serviceCode). Fritt format — bekreft det nøyaktige tokenet i transportørens API-dokumentasjon. La stå tomt for å la transportøren velge standardtjenesten sin.
+Cash On Delivery Payment,Betaling ved oppkrav
+"Catalog, Search","Katalog, søk"
+Category Image,Kategoribilde
+Category Name,Kategorinavn
+Category created successfully!,Kategorien ble opprettet!
+Category name is required,Kategorinavn er påkrevd
+Choose Attribute Groups,Velg attributtgrupper
+Choose Categories,Velg kategorier
+Choose Collections,Velg samlinger
+Choose SKUs,Velg SKU-er
+Choose how much of your unpublished work to discard. The published storefront is not affected.,Velg hvor mye av det upubliserte arbeidet ditt du vil forkaste. Den publiserte butikkfronten påvirkes ikke.
+Choose where you ship and how much you charge for shipping.,Velg hvor du sender og hvor mye du tar for frakt.
+Clear filter,Tøm filter
+Clear filters,Tøm filtre
+Client ID,Klient-ID
+Client Secret,Klienthemmelighet
+Close,Lukk
+Close settings,Lukk innstillinger
+Close — continue draft,Lukk — fortsett utkast
+Cms Pages,CMS-sider
+Collapse left rail,Skjul venstre felt
+Collapse panel,Skjul panel
+Collection Code,Samlingskode
+Collection Name,Samlingsnavn
+Collection code is required,Samlingskode er påkrevd
+Collection code must be alphanumeric and can include underscores or dashes.,Samlingskoden må være alfanumerisk og kan inneholde understreker eller bindestreker.
+Collection created successfully!,Samlingen ble opprettet!
+Color,Farge
+Commerce,Handel
+Compound,Sammensatt
+Condition,Betingelse
+Configure,Konfigurer
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,Konfigurer kostnad og betingelser per sone. Soner uten en sats tilbyr ikke denne metoden.
+Configure rate,Konfigurer sats
+Configure the available payment methods,Konfigurer de tilgjengelige betalingsmetodene
+Configure the settings for the ${name} widget.,Konfigurer innstillingene for ${name}-widgeten.
+Configure the tax classes that will be available to your customers at checkout.,Konfigurer avgiftsklassene som vil være tilgjengelige for kundene dine i kassen.
+Configure your Cash On Delivery payment gateway settings,Konfigurer innstillingene for betaling ved oppkrav
+Configure your Paypal payment gateway settings,Konfigurer innstillingene for Paypal-betalingsgatewayen
+Configure your Stripe payment gateway settings,Konfigurer innstillingene for Stripe-betalingsgatewayen
+Configure your store information,Konfigurer butikkinformasjonen din
+"Conflicts with ${plan1}, ${plan2}","I konflikt med ${plan1}, ${plan2}"
+Conflicts with ${plan},I konflikt med ${plan}
+Conflicts with ${plan} +${count},I konflikt med ${plan} +${count}
+Conflicts with:,I konflikt med:
+Content,Innhold
+Continue a saved rollout plan,Fortsett en lagret utrullingsplan
+Continue your draft,Fortsett utkastet ditt
+Core Shipping,Core-frakt
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,Core er ikke knyttet til noen sone ennå. Knytt den til under Innstillinger → Frakt først.
+Cost,Kostnad
+Cost is required,Kostnad er påkrevd
+Could not start fresh,Kunne ikke starte på nytt
+Countries,Land
+"Country code (e.g., ""US""). Use ""*"" for all countries.","Landkode (f.eks. ""US""). Bruk ""*"" for alle land."
+Coupon Code,Kupongkode
+"Coupon code can only contain letters, numbers, underscores, and hyphens","Kupongkoden kan bare inneholde bokstaver, tall, understreker og bindestreker"
+Coupon created successfully!,Kupongen ble opprettet!
+Coupons,Kuponger
+Create A New Customer,Opprett en ny kunde
+Create New Package,Opprett ny pakke
+Create New Tax Class,Opprett ny avgiftsklasse
+Create New Zone,Opprett ny sone
+Create a new category,Opprett en ny kategori
+Create a new collection,Opprett en ny samling
+Create a new coupon,Opprett en ny kupong
+Create a new page,Opprett en ny side
+Create a new product,Opprett et nytt produkt
+Create a new variant for this product.,Opprett en ny variant for dette produktet.
+Create a new widget,Opprett en ny widget
+Create a variant group,Opprett en variantgruppe
+Create method,Opprett metode
+Create new tax class,Opprett ny avgiftsklasse
+Create rollout plan,Opprett utrullingsplan
+Created At,Opprettet
+Current,Nåværende
+Customer,Kunde
+Customer Email,Kunde-e-post
+Customer conditions,Kundebetingelser
+Customer emails,Kunde-e-poster
+Customer groups,Kundegrupper
+Customer's purchase,Kundens kjøp
+Customers,Kunder
+Customers (${count}),Kunder (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,Kunder i ${zone} vil ikke lenger se ${name} sine metoder i kassen. Du kan knytte den til igjen senere.
+Dashboard,Dashbord
+Date,Dato
+Decrease,Reduser
+Default carrier,Standardtransportør
+Default language,Standardspråk
+Default package,Standardpakke
+Default service code,Standard tjenestekode
+"Delete ""${name}""?","Slette ""${name}""?"
+Delete ${count} attributes,Slett ${count} attributter
+Delete ${count} categories,Slett ${count} kategorier
+Delete ${count} collections,Slett ${count} samlinger
+Delete ${count} pages,Slett ${count} sider
+Delete ${count} widgets,Slett ${count} widgeter
+Delete container widget?,Slette beholder-widget?
+Delete image,Slett bilde
+"Delete package ""${name}""?","Slette pakke ""${name}""?"
+Delete this,Slett denne
+Delete this widget? This will be saved as a pending change you can publish or discard.,Slette denne widgeten? Dette lagres som en ventende endring du kan publisere eller forkaste.
+Delete widget?,Slette widget?
+Delete zone,Slett sone
+"Delete zone ""${name}""?","Slette sone ""${name}""?"
+Deleted ${name},Slettet ${name}
+Deleting this,Sletting av denne
+Deleting this container will also hide,Sletting av denne beholderen vil også skjule
+Description is required,Beskrivelse er påkrevd
+Desktop,Skrivebord
+Detach,Koble fra
+Detach ${name}?,Koble fra ${name}?
+Disable ${count} pages,Deaktiver ${count} sider
+Disable ${count} widgets,Deaktiver ${count} moduler
+Disabled products will not be visible in the store and cannot be purchased.,Deaktiverte produkter vises ikke i butikken og kan ikke kjøpes.
+Discard changes on this page only,Forkast endringer kun på denne siden
+Discard everything,Forkast alt
+Discard everything in this draft,Forkast alt i dette utkastet
+Discard failed,Forkasting mislyktes
+Discard pending changes?,Forkaste ventende endringer?
+Discard this page,Forkast denne siden
+Discarding…,Forkaster…
+Discount Type,Rabattype
+Discount amount,Rabattbeløp
+Discount amount is required,Rabattbeløp er påkrevd
+Discount type is required,Rabattype er påkrevd
+Dislay Name,Visningsnavn
+Display Name,Visningsnavn
+Draft,Utkast
+Draft — not scheduled,Utkast — ikke planlagt
+Drag to resize,Dra for å endre størrelse
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.","Hver rad plasserer denne modulen på én side, i ett område, med egen sorteringsrekkefølge. Lavere tall vises først."
+Edit ${name},Rediger ${name}
+Edit Shipping Zone,Rediger fraktsone
+Edit Tax Rate,Rediger skattesats
+Edit Variant,Rediger variant
+Edit Zone,Rediger sone
+Edit against the live storefront. Publish immediately or save as a rollout plan.,Rediger mot den aktive butikkfronten. Publiser umiddelbart eller lagre som en utrullingsplan.
+Edit rollout schedule,Rediger utrullingsplan
+Editable routes,Redigerbare ruter
+Editing ${coupon},Redigerer ${coupon}
+Editing ${fullName},Redigerer ${fullName}
+Editing widget ${name},Redigerer modul ${name}
+Edits to a shared widget update every route it appears on.,Endringer i en delt modul oppdaterer alle rutene den vises på.
+Empty package weight,Tom pakkevekt
+Empty weight,Tom vekt
+Enable ${count} pages,Aktiver ${count} sider
+Enable ${count} widgets,Aktiver ${count} moduler
+Enable this page to make it visible on the frontend.,Aktiver denne siden for å gjøre den synlig på frontend.
+Enable?,Aktivere?
+End,Slutt
+End Date,Sluttdato
+End date,Sluttdato
+End time is invalid.,Sluttidspunktet er ugyldig.
+End time must be after start time.,Sluttidspunktet må være etter starttidspunktet.
+Enter Category Name,Angi kategorinavn
+Enter Collection Name,Angi samlingsnavn
+Enter Meta Description,Angi metabeskrivelse
+Enter Meta Title,Angi metatittel
+Enter Meta description,Angi metabeskrivelse
+Enter Meta title,Angi metatittel
+Enter SKU,Angi SKU
+Enter URL Key,Angi URL-nøkkel
+Enter URL key,Angi URL-nøkkel
+Enter customer emails,Angi kunde-e-poster
+Enter description,Angi beskrivelse
+Enter group name,Angi gruppenavn
+Enter meta description,Angi metabeskrivelse
+Enter meta title,Angi metatittel
+Enter page name,Angi sidenavn
+Enter price,Angi pris
+Enter product name,Angi produktnavn
+Enter purchased amount,Angi kjøpt beløp
+Enter quantity,Angi antall
+Enter tax class name,Angi navn på skatteklasse
+Enter the quantity,Angi antallet
+Enter weight,Angi vekt
+Environment,Miljø
+Error loading countries,Feil ved lasting av land
+Error loading methods,Feil ved lasting av metoder
+Error loading packages,Feil ved lasting av pakker
+Error loading providers,Feil ved lasting av leverandører
+Error loading zones,Feil ved lasting av soner
+EverShop · Back to page builder,EverShop · Tilbake til sidebygger
+Every page rolls back to the rollout’s saved state.,Hver side rulles tilbake til utrullingens lagrede tilstand.
+Every page rolls back to what the rollout had saved.,Hver side rulles tilbake til det utrullingen hadde lagret.
+Existing rollout plan: ${plan},Eksisterende utrullingsplan: ${plan}
+Expand,Utvid
+Expand left rail,Utvid venstre felt
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.","Ekstra språk kunder kan bytte til, i tillegg til standardspråket. Standardspråket er alltid tilgjengelig — du legger det ikke til her."
+Failed to attach provider,Kunne ikke koble til leverandør
+Failed to delete ${name},Kunne ikke slette ${name}
+Failed to detach ${name},Kunne ikke koble fra ${name}
+Failed to remove rate,Kunne ikke fjerne sats
+Failed to remove zone,Kunne ikke fjerne sone
+Failed to save change,Kunne ikke lagre endring
+Failed to save rate,Kunne ikke lagre sats
+Failed to save zone,Kunne ikke lagre sone
+Failed to update rollout schedule,Kunne ikke oppdatere utrullingsplan
+Fixed discount to entire order,Fast rabatt på hele ordren
+Fixed discount to specific products,Fast rabatt på spesifikke produkter
+Flat rate,Fast sats
+"Flat rate in cart currency, tax-exclusive.","Fast sats i handlekurvens valuta, eksklusiv skatt."
+Free shipping?,Gratis frakt?
+General Information,Generell informasjon
+Give Feedback,Gi tilbakemelding
+Global,Global
+Globals,Globale
+Group,Gruppe
+Group Name,Gruppenavn
+Group name is required,Gruppenavn er påkrevd
+Groups,Grupper
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,Halvåpent intervall — en handlekurv på nøyaktig Maks er ekskludert (det neste nivåets Min eier det punktet).
+Has conflicts,Har konflikter
+Heads up — ,Obs — 
+Height,Høyde
+Height is required (0 for envelopes),Høyde er påkrevd (0 for konvolutter)
+Height must be 0 or greater,Høyde må være 0 eller større
+Hide global areas,Skjul globale områder
+Higest tax rate based on cart items,Høyeste skattesats basert på handlekurvvarer
+Highlight global areas on canvas,Fremhev globale områder på lerretet
+Image,Bilde
+Include In Menu,Inkluder i meny
+Include in Store Menu?,Inkluder i butikkmeny?
+Increase,Øk
+Insert image,Sett inn bilde
+Integer,Heltall
+Invalid folder name,Ugyldig mappenavn
+Invalid start,Ugyldig start
+Invalid window,Ugyldig vindu
+Inventory,Lagerbeholdning
+Is compound,Er sammensatt
+Its rates will be removed too. This cannot be undone.,Satsene blir også fjernet. Dette kan ikke angres.
+Languages,Språk
+Layers,Lag
+Layout,Oppsett
+Leave,Forlat
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,La et lands liste være tom for å dekke hele landet. Legg til provinser for å begrense frakt til spesifikke regioner.
+Leaving now may drop the most recent edits that haven’t reached the server yet.,"Hvis du forlater nå, kan de nyeste endringene som ennå ikke har nådd serveren, gå tapt."
+Length,Lengde
+Length is required,Lengde er påkrevd
+Length must be greater than 0,Lengde må være større enn 0
+Live,Aktiv
+Loading...,Laster…
+Long text,Lang tekst
+Lower values appear first.,Lavere verdier vises først.
+Manage Stock,Administrer lager
+Manage general information about the collection.,Administrer generell informasjon om samlingen.
+Manage product images and gallery. Drag and drop to reorder images.,Administrer produktbilder og galleri. Dra og slipp for å endre rekkefølgen på bildene.
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","Administrer fraktintegrasjoner og deres metoder (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,Administrer skatteklasser og skattesatser for ulike regioner.
+Manage the SEO settings of the category.,Administrer SEO-innstillingene for kategorien.
+Manage the SEO settings.,Administrer SEO-innstillingene.
+Manage the attributes.,Administrer attributtene.
+Manage the collections associated with this product.,Administrer samlingene knyttet til dette produktet.
+Manage the general information of the category.,Administrer den generelle informasjonen for kategorien.
+Manage the general information of the product.,Administrer den generelle informasjonen for produktet.
+Manage the inventory settings of the product.,Administrer lagerinnstillingene for produktet.
+Manage the products assigned to this category.,Administrer produktene tilordnet denne kategorien.
+Manage the products assigned to this collection.,Administrer produktene tilordnet denne samlingen.
+Manage the shipping settings of the product.,Administrer fraktinnstillingene for produktet.
+Manage the status settings of the category.,Administrer statusinnstillingene for kategorien.
+Manage the variant group of the product.,Administrer variantgruppen for produktet.
+Marketing,Markedsføring
+Max ${unit},Maks ${unit}
+Max is required,Maks er påkrevd
+Maximum,Maksimum
+Maximum amount is ${value} ${currency},Maksimumsbeløp er ${value} ${currency}
+Maximum quantity is required,Maksimumsantall er påkrevd
+Maximum quantity must be greater than or equal to 0,Maksimumsantall må være større enn eller lik 0
+Media,Media
+Meta Description,Meta-beskrivelse
+Meta Title,Meta-tittel
+Meta Title is required,Meta-tittel er påkrevd
+Meta description,Meta-beskrivelse
+Meta description is required,Meta-beskrivelse er påkrevd
+Meta title,Meta-tittel
+Meta title is required,Meta-tittel er påkrevd
+Method,Metode
+Method created,Metode opprettet
+Method name,Metodenavn
+Method name is required,Metodenavn er påkrevd
+Method updated,Metode oppdatert
+Methods →,Metoder →
+Min ${unit},Min ${unit}
+Min Price,Minste pris
+Min Weight,Minste vekt
+Min is required,Min er påkrevd
+Min price is required,Minste pris er påkrevd
+Min weight is required,Minste vekt er påkrevd
+Minimum purchase amount,Minste kjøpsbeløp
+Minimum purchase qty,Minste kjøpsantall
+Minimum purchase quantity,Minste kjøpsantall
+Minimum purchased amount. This only applies to registered customers.,Minste kjøpt beløp. Dette gjelder kun registrerte kunder.
+Minimum quantity is required,Minimumsantall er påkrevd
+Missing name,Mangler navn
+Money,Penger
+Name is required.,Navn er påkrevd.
+Navigation,Navigasjon
+New Attribute,Nytt attributt
+New Category,Ny kategori
+New Collection,Ny samling
+New Coupon,Ny kupong
+New Page,Ny side
+New Variant,Ny variant
+New coupon,Ny kupong
+New rate,Ny sats
+No collections,Ingen samlinger
+No editable routes.,Ingen redigerbare ruter.
+No file selected,Ingen fil valgt
+No methods yet — add one to start offering Core shipping.,Ingen metoder ennå — legg til én for å begynne å tilby Core-frakt.
+No packages yet. Create one — shippable products require a package.,Ingen pakker ennå. Opprett én — produkter som kan sendes krever en pakke.
+No product to display.,Ingen produkt å vise.
+"No providers attached. Click ""Attach Provider"" to add one.",Ingen leverandører tilknyttet. Klikk «Tilknytt leverandør» for å legge til én.
+"No rates yet — click ""Add Rate"" to offer this method in a zone.",Ingen satser ennå — klikk «Legg til sats» for å tilby denne metoden i en sone.
+"No results for ""${keyword}""",Ingen resultater for «${keyword}»
+No routes have opted into page-builder editing yet.,Ingen ruter har valgt redigering med sidebygger ennå.
+No shipping required?,Ingen frakt nødvendig?
+No subdivisions available — whole country is covered.,Ingen underinndelinger tilgjengelig — hele landet er dekket.
+No widgets available.,Ingen moduler tilgjengelig.
+"No widgets match ""${query}"".",Ingen moduler samsvarer med «${query}».
+No widgets on this route yet.,Ingen moduler på denne ruten ennå.
+No zones,Ingen soner
+No zones found,Ingen soner funnet
+Not visible individually,Ikke synlig individuelt
+Nothing to publish,Ingenting å publisere
+Nothing to redo on this page,Ingenting å gjøre om på denne siden
+Nothing to undo on this page,Ingenting å angre på denne siden
+Number,Tall
+Option text is required,Alternativtekst er påkrevd
+Optional. Added to the shipping weight for quotes and labels.,Valgfritt. Legges til fraktvekten for pristilbud og etiketter.
+Order Number,Ordrenummer
+Order conditions,Ordrebetingelser
+Orders (${count}),Ordrer (${count})
+Other,Annet
+Other pages keep their pending changes.,Andre sider beholder sine ventende endringer.
+Overlaps with existing rollout: ${plans}.,Overlapper med eksisterende utrulling: ${plans}.
+Overlaps with existing rollouts: ${plans}.,Overlapper med eksisterende utrullinger: ${plans}.
+Package,Pakke
+Package created,Pakke opprettet
+Package deleted,Pakke slettet
+Package saved,Pakke lagret
+Packages,Pakker
+Page Name,Sidenavn
+Page Not Found,Side ikke funnet
+Page builder,Sidebygger
+Page builder canvas,Sidebygger-lerret
+Page created successfully!,Siden ble opprettet!
+Page is required,Side er påkrevd
+Page name is required,Sidenavn er påkrevd
+Pages,Sider
+Parent category,Overordnet kategori
+Payment Setting,Betalingsinnstilling
+Payment mode,Betalingsmodus
+Payment setting saved,Betalingsinnstilling lagret
+Paypal Payment,PayPal-betaling
+Pending start time,Ventende starttid
+Percentage discount to entire order,Prosentvis rabatt på hele ordren
+Percentage discount to specific products,Prosentvis rabatt på bestemte produkter
+Phone,Telefon
+Pick a start time to schedule this rollout.,Velg en starttid for å planlegge denne utrullingen.
+Pick a widget below to insert as a child.,Velg en modul nedenfor for å sette inn som underelement.
+Pick up where you left off — ${count} pending changes,Fortsett der du slapp — ${count} ventende endringer
+Pick up where you left off — 1 pending change,Fortsett der du slapp — 1 ventende endring
+Pin drawer open,Fest skuffen åpen
+Pin — keep drawer open across canvas clicks,Fest — hold skuffen åpen på tvers av lerretklikk
+Placed on: ${routes},Plassert på: ${routes}
+Placements,Plasseringer
+Postal Code,Postnummer
+"Postcode (e.g., ""90210""). Empty for all postcodes.",Postnummer (f.eks. «90210»). Tomt for alle postnumre.
+Preselected for new products. Exactly one package is the default.,Forhåndsvalgt for nye produkter. Nøyaktig én pakke er standard.
+Preview,Forhåndsvisning
+Price-based tiers,Prisbaserte nivåer
+Priority,Prioritet
+Priority is required,Prioritet er påkrevd
+Product Name,Produktnavn
+Product Status,Produktstatus
+Product created successfully,Produktet ble opprettet
+Product updated successfully,Produktet ble oppdatert
+Products (${count}),Produkter (${count})
+Promotion,Kampanje
+Proportional allocation based on cart items,Proporsjonal fordeling basert på varer i handlekurven
+Provide the SEO details for the CMS page.,Oppgi SEO-detaljene for CMS-siden.
+Provide the basic information for the CMS page.,Oppgi grunnleggende informasjon for CMS-siden.
+Provider,Leverandør
+Province Restrictions,Fylkesbegrensninger
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.",Fylkeskode (f.eks. «CA»). Bruk «*» for alle fylker.
+Provinces,Fylker
+Provinces is required,Fylker er påkrevd
+Provinces:,Fylker:
+Publish failed,Publisering mislyktes
+Publish now,Publiser nå
+Publish to the live storefront,Publiser til den live butikkfronten
+Publishable Key,Publiserbar nøkkel
+Publishing…,Publiserer …
+Qty is required,Antall er påkrevd
+Quick links,Hurtiglenker
+Rate,Sats
+Rate added,Sats lagt til
+Rate is required,Sats er påkrevd
+Rate removed,Sats fjernet
+Rate status,Satsstatus
+Rate updated,Sats oppdatert
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,Gjør om (⇧⌘Z) — bruker den sist angrede endringen på denne siden på nytt
+Redo last undone change on this page,Gjør om den sist angrede endringen på denne siden
+Reference,Referanse
+Refund,Refusjon
+Refund amount,Refusjonsbeløp
+Remove Zone,Fjern sone
+Remove placement,Fjern plassering
+Remove rate,Fjern sats
+Remove this rate?,Fjerne denne satsen?
+Removed,Fjernet
+Resize settings drawer,Endre størrelse på innstillingspanel
+"Results for ""${keyword}""","Resultater for ""${keyword}"""
+Revert all pages to saved state,Tilbakestill alle sider til lagret tilstand
+Revert everything,Tilbakestill alt
+Revert this page,Tilbakestill denne siden
+Revert this page only,Tilbakestill bare denne siden
+Revert to saved state?,Tilbakestille til lagret tilstand?
+Reverting…,Tilbakestiller…
+Rich text,Rik tekst
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,Tilbakestill endringene du har gjort siden denne utrullingen sist ble lagret. Den aktive butikken påvirkes ikke — den gjenspeiler allerede den lagrede tilstanden.
+SEO,SEO
+SEO Information,SEO-informasjon
+SKU is required,SKU er påkrevd
+Sale,Salg
+Sandbox,Sandkasse
+Save Settings,Lagre innstillinger
+Save as rollout plan,Lagre som utrullingsplan
+Save as rollout plan and leave,Lagre som utrullingsplan og forlat
+Save changes,Lagre endringer
+Save failed,Lagring mislyktes
+Save method,Lagre metode
+Save rate,Lagre sats
+Saving…,Lagrer…
+Schedule failed,Planlegging mislyktes
+Scheduled,Planlagt
+Search engine optimize,Optimaliser for søkemotorer
+Search widgets,Søk i moduler
+Secret Key,Hemmelig nøkkel
+Select Category,Velg kategori
+Select Parent Category,Velg overordnet kategori
+Select Products by SKU,Velg produkter etter SKU
+Select a provider first,Velg en leverandør først
+Select a provider…,Velg en leverandør…
+Select an option,Velg et alternativ
+Select category,Velg kategori
+Select countries,Velg land
+Select operator,Velg operator
+Select options,Velg alternativer
+Select page,Velg side
+Select products to add to this collection.,Velg produkter som skal legges til i denne samlingen.
+Select the list of attribute,Velg listen over attributter
+Select this option if the product is a digital product or service that does not require shipping.,Velg dette alternativet hvis produktet er et digitalt produkt eller en tjeneste som ikke krever frakt.
+Set a start time to schedule.,Angi et starttidspunkt for å planlegge.
+Set the status and visibility of the product.,Angi statusen og synligheten til produktet.
+Share,Del
+Shipping Cost,Fraktkostnad
+Shipping Providers,Fraktleverandører
+Shipping address,Leveringsadresse
+Shipping cost is required,Fraktkostnad er påkrevd
+Shipping provider setting saved,Innstilling for fraktleverandør lagret
+Shipping tax class,Avgiftsklasse for frakt
+Short text,Kort tekst
+Show global areas,Vis globale områder
+Show on routes,Vis på ruter
+Show products?,Vise produkter?
+Show this widget on every page,Vis denne modulen på alle sider
+Size (L × W × H),Størrelse (L × B × H)
+Sort,Sorter
+Sort order is required,Sorteringsrekkefølge er påkrevd
+Sort order must be a positive number,Sorteringsrekkefølge må være et positivt tall
+Start,Start
+Start a page-builder session,Start en sidebyggerøkt
+Start date,Startdato
+Start new changeset,Start nytt endringssett
+Start time is invalid.,Starttidspunktet er ugyldig.
+State Date,Tilstandsdato
+Status is required,Status er påkrevd
+Stay,Bli
+Stay on this page,Bli på denne siden
+Stock Availability,Lagertilgjengelighet
+Stop highlighting global areas,Slutt å fremheve globale områder
+Store Address,Butikkadresse
+Store Description,Butikkbeskrivelse
+Store Email,Butikkens e-post
+Store Name,Butikknavn
+Store Phone Number,Butikkens telefonnummer
+Store Setting,Butikkinnstilling
+Store Settings,Butikkinnstillinger
+Store address,Butikkadresse
+Storefront,Butikkfront
+Stripe Payment,Stripe-betaling
+Tablet,Nettbrett
+Take our survey,Ta vår spørreundersøkelse
+Target Products,Målprodukter
+Tax Class,Avgiftsklasse
+Tax calculation configuration,Konfigurasjon for avgiftsberegning
+Tax class name,Navn på avgiftsklasse
+Tax class name is required,Navn på avgiftsklasse er påkrevd
+Tax classes,Avgiftsklasser
+Tax rate has been saved successfully!,Avgiftssatsen ble lagret!
+Tax setting has been saved successfully!,Avgiftsinnstillingen ble lagret!
+The box or envelope this product ships in. Applies to all variants of this product.,Esken eller konvolutten dette produktet sendes i. Gjelder alle varianter av dette produktet.
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,Eskene og konvoluttene du sender med. Hvert sendbart produkt refererer til én — dens dimensjoner og tomvekt bestemmer fraktpriser og etiketter.
+The conditions related to the customer for the coupon to be applied.,Vilkårene knyttet til kunden for at kupongen skal gjelde.
+The conditions related to the order for the coupon to be applied.,Vilkårene knyttet til ordren for at kupongen skal gjelde.
+The default package cannot be deleted,Standardpakken kan ikke slettes
+The draft holds ${count} saved changes you can publish later.,Utkastet inneholder ${count} lagrede endringer du kan publisere senere.
+The draft holds 1 saved change you can publish later.,Utkastet inneholder 1 lagret endring du kan publisere senere.
+The draft is deleted.,Utkastet er slettet.
+The draft itself is deleted.,Selve utkastet er slettet.
+The general information about the coupon.,Den generelle informasjonen om kupongen.
+"The language of the admin panel, independent of the storefront.","Språket i administrasjonspanelet, uavhengig av butikkfronten."
+The method will no longer apply to this zone.,Metoden vil ikke lenger gjelde for denne sonen.
+The minimum quantity of items required in the order to qualify for this coupon.,Minste antall varer som kreves i ordren for å kvalifisere til denne kupongen.
+The minimum total amount required for the order to qualify for this coupon.,Minste totalbeløp som kreves for at ordren skal kvalifisere til denne kupongen.
+The rollout plan,Utrullingsplanen
+The storefront's primary language. Pages in this language have no URL prefix.,Butikkfrontens primærspråk. Sider på dette språket har ingen URL-prefiks.
+The type of discount applied by the coupon.,Typen rabatt som kupongen gir.
+The zone this rate applies to.,Sonen denne satsen gjelder for.
+"There is no ""Select"" attribute available.","Det finnes ingen ""Select""-attributt tilgjengelig."
+There is no attribute to display,Det er ingen attributt å vise
+There is no category to display,Det er ingen kategori å vise
+There is no collections to display,Det er ingen samlinger å vise
+There is no coupon to display,Det er ingen kupong å vise
+There is no customer to display,Det er ingen kunde å vise
+There is no order to display,Det er ingen ordre å vise
+There is no page to display,Det er ingen side å vise
+There is no widget to display,Det er ingen modul å vise
+There was an error fetching attribute groups.,Det oppstod en feil under henting av attributtgrupper.
+There was an error fetching categories.,Det oppstod en feil under henting av kategorier.
+There was an error fetching collections.,Det oppstod en feil under henting av samlinger.
+There was an error fetching file browser APIs.,Det oppstod en feil under henting av fillesers-API-er.
+There was an error fetching products.,Det oppstod en feil under henting av produkter.
+This cannot be undone. Packages still assigned to products can't be removed.,Dette kan ikke angres. Pakker som fortsatt er tilordnet produkter kan ikke fjernes.
+This changeset has no operations yet.,Dette endringssettet har ingen operasjoner ennå.
+This field is required,Dette feltet er påkrevd
+This is the URL path for the CMS page.,Dette er URL-banen for CMS-siden.
+This is the address used to calculate tax rates.,Dette er adressen som brukes til å beregne avgiftssatser.
+This is the meta title for the CMS page.,Dette er metatittelen for CMS-siden.
+This is the name of the CMS page that will be displayed in the admin panel.,Dette er navnet på CMS-siden som vises i administrasjonspanelet.
+This is the tax class applied to shipping costs.,Dette er avgiftsklassen som brukes på fraktkostnader.
+This product has some variants like color or size?,Har dette produktet varianter som farge eller størrelse?
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,Denne leverandøren har ingen konfigurasjon per sone. Metoder og satser per sone administreres i leverandørens eget administrasjonsområde.
+This removes the zone along with its provider attachments and rates. This cannot be undone.,Dette fjerner sonen sammen med dens leverandørtilknytninger og satser. Dette kan ikke angres.
+This route has unpublished changes in your draft,Denne ruten har upubliserte endringer i utkastet ditt
+This will be saved as a pending change you can publish or discard.,Dette lagres som en ventende endring du kan publisere eller forkaste.
+Tiered,Trinnvis
+Type is required,Type er påkrevd
+URL Key,URL-nøkkel
+URL Key is required,URL-nøkkel er påkrevd
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens","URL-nøkkel må være med små bokstaver og kan bare inneholde bokstaver, tall og bindestreker"
+URL key,URL-nøkkel
+URL key is required,URL-nøkkel er påkrevd
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,URL-nøkkel må være med små bokstaver og kan bare inneholde alfanumeriske tegn og bindestreker
+Unassign,Fjern tilordning
+Undo (⌘Z) — undoes your last edit on this page,Angre (⌘Z) — angrer din siste redigering på denne siden
+Undo / Redo,Angre / Gjør om
+Undo last change on this page,Angre siste endring på denne siden
+Unknown,Ukjent
+Unlink,Fjern lenke
+Unpin drawer,Løsne skuff
+Unpin — drawer will close when you click empty canvas,Løsne — skuffen lukkes når du klikker på tomt lerret
+Unpublished changes,Upubliserte endringer
+Unsaved changes,Ulagrede endringer
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,Oppdater navnet og det aktive vinduet for denne utrullingsplanen. Innholdsredigeringer håndteres separat i redigeringsverktøyet.
+Update the variant details and attributes here.,Oppdater variantdetaljene og attributtene her.
+Updated,Oppdatert
+Upload an image for the category.,Last opp et bilde for kategorien.
+Used Times,Antall ganger brukt
+Value is required,Verdi er påkrevd
+Variant Group,Variantgruppe
+Variant created successfully,Varianten ble opprettet
+Variant updated successfully,Varianten ble oppdatert
+Version ${version},Versjon ${version}
+Visibility,Synlighet
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,Synlighet bestemmer hvor produktet vises i butikken. Det påvirker ikke om produktet kan selges.
+Visitors will see the new layout on their next page load.,Besøkende vil se den nye utformingen ved neste sidelasting.
+Webhook Secret Key,Hemmelig webhook-nøkkel
+Weight,Vekt
+Weight must be 0 or greater,Vekt må være 0 eller høyere
+Weight must be a positive number,Vekt må være et positivt tall
+Weight-based tiers,Vektbaserte nivåer
+Widget Settings,Widget-innstillinger
+Widget created successfully!,Widget ble opprettet!
+Widgets,Widgeter
+Width,Bredde
+Width is required,Bredde er påkrevd
+Width must be greater than 0,Bredde må være større enn 0
+Will roll out automatically: ${range},Rulles ut automatisk: ${range}
+Working…,Arbeider …
+Worldwide,Hele verden
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,Du har ${count} endringer i dette utkastet som ennå ikke er publisert.
+You have ${count} changes still saving.,Du har ${count} endringer som fortsatt lagres.
+You have 1 change in this draft that hasn’t been published yet.,Du har 1 endring i dette utkastet som ennå ikke er publisert.
+You have 1 change still saving.,Du har 1 endring som fortsatt lagres.
+Your draft is safe on the server — you can come back and publish it any time.,Utkastet ditt er trygt på serveren — du kan komme tilbake og publisere det når som helst.
+Your edits on other pages stay in the draft.,Redigeringene dine på andre sider forblir i utkastet.
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,Webhook-URL-en din bør være: https://yourdomain.com/api/stripe/webhook
+Zone,Sone
+Zone Name,Sonenavn
+Zone Rates,Sonesatser
+Zone created,Sone opprettet
+Zone is required,Sone er påkrevd
+Zone name is required,Sonenavn er påkrevd
+Zone removed,Sone fjernet
+Zone updated,Sone oppdatert
+Zones served,Soner som betjenes
+and ${count} more,og ${count} til
+container will also hide,beholderen vil også skjules
+current page,gjeldende side
+e.g. Small Box,f.eks. Liten eske
+e.g. Summer Sale 2026,f.eks. Sommersalg 2026
+e.g. content,f.eks. innhold
+"e.g., 10.00",f.eks. 10.00
+"e.g., EU, US-West","f.eks. EU, US-West"
+"e.g., Express",f.eks. Ekspress
+"e.g., FEDEX_GROUND, usps_priority","f.eks. FEDEX_GROUND, usps_priority"
+every page,alle sider
+indefinite,ubestemt
+open,åpen
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.","publisering skjer umiddelbart og kan ikke angres fra denne skjermen. For å klargjøre i stedet, avbryt og velg «Planlegg en utrulling»."
+quantity of products are matched bellow conditions(All),antall produkter som samsvarer med betingelsene nedenfor (Alle)
+subtotal,delsum
+to a storefront route's,til en butikkfront-rutes
+to make it appear here.,for å få det til å vises her.
+weight,vekt
+widget? This will be saved as a pending change you can publish or discard.,widget? Dette lagres som en ventende endring du kan publisere eller forkaste.
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,"vil bli fjernet, og den aktive butikkfronten vil slutte å bruke redigeringene. Det underliggende endringssettet og dets ventende innholdsredigeringer bevares."
+— None —,— Ingen —
+Cash On Delivery,Postoppkrav
+Please select a valid payment method,Velg en gyldig betalingsmåte
+Show ${label} width,Vis ${label}-bredde
+Column ${index},Kolonne ${index}
+Switch page,Bytt side
+Search pages…,Søk i sider …
+Search pages,Søk i sider
+Save your pending edits — the live storefront will catch up,Lagre de ventende redigeringene — den aktive butikkfronten oppdateres
+No changes to save — the rollout matches the editor,Ingen endringer å lagre — utrullingen samsvarer med redigeringsverktøyet
+More rollout actions,Flere utrullingshandlinger
+Revert to saved state…,Gå tilbake til lagret tilstand …
+Roll back the editor to what the rollout currently shows on the storefront,Tilbakestill redigeringsverktøyet til det utrullingen for øyeblikket viser på butikkfronten
+Nothing to revert — the editor matches the saved state,Ingenting å tilbakestille — redigeringsverktøyet samsvarer med lagret tilstand
+Cancel rollout plan…,Avbryt utrullingsplan …
+Remove the schedule — the changeset is preserved,Fjern tidsplanen — endringssettet bevares
+Publish,Publiser
+More publish options,Flere publiseringsalternativer
+Apply all edits to the live storefront immediately,Bruk alle redigeringer på den aktive butikkfronten umiddelbart
+Save as rollout plan…,Lagre som utrullingsplan …
+Schedule these edits to roll out at a future time,Planlegg disse redigeringene til å rulles ut på et senere tidspunkt
+Discard pending changes…,Forkast ventende endringer …
+Choose between discarding the whole draft or just this page,Velg mellom å forkaste hele utkastet eller bare denne siden
+Switch session,Bytt økt
+New changeset,Nytt endringssett
+Rollout: ${name},Utrulling: ${name}
+Click or drag to add,Klikk eller dra for å legge til
+Background color,Bakgrunnsfarge
+Text color,Tekstfarge
+Dwell time,Visningstid
+Time each announcement stays visible (in addition to the 400ms slide transition).,Tiden hver kunngjøring forblir synlig (i tillegg til lysbildeovergangen på 400 ms).
+Announcements,Kunngjøringer
+Add announcement,Legg til kunngjøring
+Untitled,Uten tittel
+Free shipping on orders over $50,Gratis frakt på bestillinger over $50
+Optional. Makes the entire row a clickable link.,Valgfritt. Gjør hele raden til en klikkbar lenke.
+Link label,Lenketekst
+Optional. Displayed after the content; defaults to the content itself.,Valgfritt. Vises etter innholdet; bruker innholdet selv som standard.
+Shop now,Handle nå
+Dark,Mørk
+Light,Lys
+Gradient,Gradient
+Left,Venstre
+Center,Midtstilt
+Right,Høyre
+Selected image,Valgt bilde
+No image selected,Ingen bilde valgt
+Replace,Erstatt
+Clear,Fjern
+Reflects the alignment below.,Gjenspeiler justeringen nedenfor.
+Banner Image,Bannerbilde
+Mobile image,Mobilbilde
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,Valgfritt. Byttes inn under bruddpunktet på 768px. Bruker bildet ovenfor som reserve når det er tomt — typisk bruk er et stående utsnitt av samme motiv.
+Alignment,Justering
+Overlay copy,Overleggstekst
+Eyebrow,Forhåndstittel
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".",Liten etikett med store bokstaver over overskriften. F.eks. «LIMITED EDITION».
+LIMITED EDITION,BEGRENSET OPPLAG
+Heading,Overskrift
+The Summer Edit,Sommerutvalget
+Sub-text,Undertekst
+One short supporting sentence.,Én kort utdypende setning.
+Overlay placement,Overleggsplassering
+Content position,Innholdsposisjon
+Where the overlay text sits on the image.,Hvor overleggsteksten plasseres på bildet.
+Tint,Fargetone
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,Et slør bak overleggsteksten for lesbarhet. Mørk / gradient gjør teksten hvit automatisk.
+Tint opacity,Fargetoneopasitet
+Call to actions,Handlingsoppfordringer
+Remove primary CTA,Fjern primær CTA
++ Add a primary CTA,+ Legg til en primær CTA
+Secondary,Sekundær
+Remove secondary CTA,Fjern sekundær CTA
+Learn more,Les mer
++ Add a secondary CTA,+ Legg til en sekundær CTA
+Details,Detaljer
+Alt text,Alt-tekst
+Describes the banner for screen readers and SEO.,Beskriver banneret for skjermlesere og SEO.
+"e.g. ""Summer sale promotional banner""",f.eks. «Reklamebanner for sommersalg»
+Banner link,Bannerlenke
+Optional. Clicking the banner navigates here.,Valgfritt. Klikk på banneret navigerer hit.
+Display name,Visningsnavn
+Shop,Butikk
+Target,Mål
+"Page, category, product, or a custom URL.","Side, kategori, produkt eller en egendefinert URL."
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO: ikke gi rangeringskreditt til denne lenken (rel=nofollow).
+No referrer,Ingen referrer
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,Personvern: utelat henvisende URL (rel=noreferrer). Lenker i ny fane inkluderer alltid dette.
+Menu items,Menyelementer
+Add menu item,Legg til menyelement
+Sub-items,Underelementer
+Optional dropdown links (1 level).,Valgfrie nedtrekkslenker (1 nivå).
+Add sub-item,Legg til underelement
+Options,Alternativer
+Use as main menu,Bruk som hovedmeny
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.","Hovednavigasjon — på mobil kollapser den til en hamburgermeny. Slå av for en enkel lenkeliste (f.eks. en bunntekst), som forblir inline på mobil."
+Custom CSS classes,Egendefinerte CSS-klasser
+Applied to the rendered menu element.,Brukes på det gjengitte menyelementet.
+e.g. main-nav font-semibold,f.eks. main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,Fliser
+Add tile,Legg til flis
+Hero · ,Hero · 
+Used when no image is set.,Brukes når ingen bilde er angitt.
+Small label above the heading.,Liten etikett over overskriften.
+THE SUMMER EDIT,SOMMERUTVALGET
+New Arrivals,Nyheter
+Body,Brødtekst
+Big card — the headline of the grid.,Stort kort — hovedoverskriften i rutenettet.
+Link URL,Lenke-URL
+Gap,Mellomrom
+Minimum block height,Minimum blokkhøyde
+Image left,Bilde til venstre
+Image right,Bilde til høyre
+Centered,Sentrert
+Pull quote,Uthevet sitat
+Variant,Variant
+Image column size,Bredde på bildekolonne
+Describe the image,Beskriv bildet
+Copy,Tekst
+"Small all-caps label. E.g. ""OUR STORY"".",Liten etikett med store bokstaver. F.eks. «VÅR HISTORIE».
+Our story,Vår historie
+"Made by hand, in small batches","Håndlaget, i små partier"
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.","Påkrevd for variant med uthevet sitat. Vises stort, formatert som et blokksitat."
+"A short, quotable line.","En kort, sitatvennlig linje."
+Three or four sentences of brand narrative.,Tre eller fire setninger med merkevarefortelling.
+Second body paragraph (optional),Andre brødtekstavsnitt (valgfritt)
+A second short paragraph if the story needs it.,Et nytt kort avsnitt hvis historien trenger det.
+Read more link,Les mer-lenke
+Read more,Les mer
+URL,URL
+Remove read-more link,Fjern les mer-lenke
++ Add a read-more link,+ Legg til en les mer-lenke
+Square,Kvadratisk
+Landscape,Liggende
+Portrait,Stående
+Overlay,Overlegg
+Below,Nedenfor
+New category,Ny kategori
+Section heading,Seksjonsoverskrift
+Optional. Shown above the grid.,Valgfritt. Vises over rutenettet.
+Shop by category,Handle etter kategori
+Women,Dame
+Columns,Kolonner
+Auto,Auto
+Asymmetric makes the first tile span 2 columns.,Asymmetrisk gjør at den første flisen strekker seg over 2 kolonner.
+Uniform,Ensartet
+Asymmetric,Asymmetrisk
+Image aspect,Bildeforhold
+Label position,Etikettposisjon
+Blush,Rosa
+XL,XL
+Position ${c},Posisjon ${c}
+Column layout,Kolonneoppsett
+Drag widgets into each column. Children re-flow when you change the ratio.,Dra moduler inn i hver kolonne. Underelementene flyter om når du endrer forholdet.
+Space between columns.,Avstand mellom kolonner.
+Where content sits within each column. Applied uniformly to every column.,Hvor innholdet plasseres i hver kolonne. Brukes likt på alle kolonner.
+Row appearance,Radutseende
+Background,Bakgrunn
+Custom color,Egendefinert farge
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","Hvilken som helst CSS-farge (f.eks. «#0a0a0a» eller «rgb(10,10,10)»). La stå tomt for å bruke fargeprøven over."
+Padding,Innvendig avstand
+Outer spacing around the row. Scales down on mobile.,Ytre avstand rundt raden. Skaleres ned på mobil.
+Solid,Heltrukken
+Dashed,Stiplet
+Already expired,Allerede utløpt
+Expires in ${days}d ${hours}h,Utløper om ${days}d ${hours}t
+Expires in ${hours}h ${minutes}m,Utløper om ${hours}t ${minutes}m
+Offer,Tilbud
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".",Hastelinje. Valgfritt. F.eks. «Begrenset · Slutter søndag».
+Limited · Ends Sunday,Begrenset · Slutter søndag
+Headline,Overskrift
+Take 20% off your order,Få 20 % rabatt på bestillingen din
+Optional. One short instructional line.,Valgfritt. Én kort instruksjonslinje.
+Use code at checkout,Bruk koden i kassen
+Promo code,Rabattkode
+Displayed in uppercase to shoppers.,Vises med store bokstaver til kundene.
+Expires,Utløper
+Optional. The block auto-hides after this time for live visitors.,Valgfritt. Blokken skjules automatisk etter dette tidspunktet for direktebesøkende.
+Call to action,Handlingsoppfordring
+Button label,Knappetekst
+Shop now →,Handle nå →
+Button link,Knappelenke
+Appearance,Utseende
+Border,Kantlinje
+Narrow,Smal
+Normal,Normal
+Wide,Bred
+Shown above all content. Optional.,Vises over alt innhold. Valgfritt.
+e.g. Frequently asked,f.eks. Ofte stilte
+Prose,Tekst
+FAQ group · ${count} items,FAQ-gruppe · ${count} elementer
+Group heading,Gruppeoverskrift
+Optional sub-heading.,Valgfri underoverskrift.
+e.g. Shipping,f.eks. Frakt
+Add question,Legg til spørsmål
+Question,Spørsmål
+e.g. How long does shipping take?,f.eks. Hvor lang tid tar frakten?
+Answer,Svar
+"Supports **bold**, _italic_, and line breaks.","Støtter **fet**, _kursiv_ og linjeskift."
+e.g. Orders ship within 24 hours…,f.eks. Bestillinger sendes innen 24 timer …
+Add prose,Legg til tekst
+Add FAQ group,Legg til FAQ-gruppe
+Max width,Maks bredde
+Content column width.,Bredde på innholdskolonne.
+Allow multiple open,Tillat flere åpne
+"When off, opening one FAQ item closes the others in the same group.","Når dette er av, lukker åpning av ett FAQ-element de andre i samme gruppe."
+New link,Ny lenke
+New column,Ny kolonne
+Add column,Legg til kolonne
+${title} · ${count} links,${title} · ${count} lenker
+Column title,Kolonnetittel
+Links,Lenker
+"Min 1, max 12.","Min. 1, maks. 12."
+Add link,Legg til lenke
+New arrivals,Nyheter
+Boxed,Innrammet
+Wide (full bleed),Bred (full bredde)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,Innrammet holder seg innenfor sidens beholder (temaet bestemmer maks bredde). Bred strekker seg fra kant til kant.
+Scales down on mobile.,Skaleres ned på mobil.
+Optional. Painted behind content. Combine with a tint below for legibility.,Valgfritt. Males bak innholdet. Kombiner med en fargetone nedenfor for lesbarhet.
+XS,XS
+Spacing,Avstand
+Size,Størrelse
+Mobile scales down ~⅔ automatically.,Mobil skaleres automatisk ned ~⅔.
+Divider line,Skillelinje
+Show divider line,Vis skillelinje
+A horizontal rule centred in the spacing band.,En horisontal linje sentrert i mellomrommet.
+Line color,Linjefarge
+Default uses the theme's divider color.,Standard bruker temaets skillefarge.
+Sides,Sider
+Bottom,Nederst
+Dots,Prikker
+Bars,Linjer
+Mobile image (optional),Mobilbilde (valgfritt)
+Used at ≤ 767 px. Falls back to the main image.,Brukes ved ≤ 767 px. Faller tilbake til hovedbildet.
+e.g. New collection,f.eks. Ny kolleksjon
+e.g. Summer Sale,f.eks. Sommersalg
+Sub text,Undertekst
+Check out our latest products with special discounts.,Sjekk ut våre nyeste produkter med spesialrabatter.
+Primary button,Primærknapp
+Secondary button,Sekundærknapp
++ Add secondary button,+ Legg til sekundærknapp
+Overrides,Overstyringer
+Leaves slide-specific anchor; falls back to the slideshow's default.,Beholder lysbildespesifikt anker; faller tilbake til lysbildeseriens standard.
+Overlay tint,Overleggsfarge
+Overlay opacity,Overleggsgjennomsiktighet
+Make whole slide clickable,Gjør hele lysbildet klikkbart
+Behavior,Atferd
+Transition,Overgang
+Slide,Lysbilde
+Fade,Toning
+Transition speed,Overgangshastighet
+Autoplay,Autoavspilling
+Autoplay delay,Autoavspillingsforsinkelse
+${seconds} s between slides,${seconds} s mellom lysbilder
+Pause on hover,Pause ved hover
+Pause for 20 s after user nav,Pause i 20 s etter brukernavigasjon
+Arrows,Piler
+Aspect ratio,Sideforhold
+`Auto` matches the natural image height (jumps between slides).,`Auto` følger den naturlige bildehøyden (hopper mellom lysbilder).
+Default content position,Standard innholdsposisjon
+Per-slide overrides win.,Overstyringer per lysbilde vinner.
+Default overlay tint,Standard overleggsfarge
+Default overlay opacity,Standard overleggsgjennomsiktighet
+Slides (${count}),Lysbilder (${count})
+No slides yet.,Ingen lysbilder ennå.
+Add your first slide,Legg til ditt første lysbilde
+Slide ${number},Lysbilde ${number}
+Image only,Bare bilde
+Empty,Tom
+Show slide,Vis lysbilde
+Hide slide,Skjul lysbilde
+Move slide up,Flytt lysbilde opp
+Move slide down,Flytt lysbilde ned
+Delete slide,Slett lysbilde
+Top,Øverst
+Cover,Dekk
+Contain,Tilpass
+Required for accessibility.,Påkrevd for tilgjengelighet.
+Image fit,Bildetilpasning
+"Small all-caps label. E.g. ""LIMITED EDITION"".","Liten etikett med store bokstaver. F.eks. ""LIMITED EDITION""."
+Limited edition,Begrenset opplag
+One strong line,Én sterk linje
+Two lines of supporting copy.,To linjer med støttetekst.
+Image position,Bildeposisjon
+Vertical alignment,Vertikal justering
+Aligns the copy panel content.,Justerer innholdet i tekstpanelet.
+Remove call to action,Fjern handlingsoppfordring
+Add a call to action,Legg til en handlingsoppfordring
+Custom CSS classes for the text block,Egendefinerte CSS-klasser for tekstblokken
+Add group,Legg til gruppe
+${label} · ${count} subs,${label} · ${count} underkategorier
+Parent label,Foreldreetikett
+Parent link,Foreldrelenke
+Image alt text,Alternativ bildetekst
+Sub-categories,Underkategorier
+"Min 1, max 8.","Min. 1, maks. 8."
+Add sub-category,Legg til underkategori
+Dresses,Kjoler
+Columns (desktop),Kolonner (skrivebord)
+On tablets the layout is always 2 columns.,På nettbrett er oppsettet alltid 2 kolonner.
+Make parent image a link,Gjør foreldrebildet til en lenke
+"When off, only the sub-chips and parent label are interactive.",Når av er bare underbrikkene og foreldreetiketten interaktive.
+Title,Tittel
+e.g. Free shipping,f.eks. Gratis frakt
+Optional supporting line below the title.,Valgfri støttelinje under tittelen.
+Icon,Ikon
+Optional. SVG or raster image. Hidden when icons are turned off globally.,Valgfritt. SVG eller rasterbilde. Skjult når ikoner er slått av globalt.
+Optional. Makes the whole cell clickable.,Valgfritt. Gjør hele cellen klikkbar.
+"Auto matches the item count, capped at 4.","Auto følger antall elementer, begrenset til 4."
+3,3
+4,4
+Icon size,Ikonstørrelse
+Show icons,Vis ikoner
+Master switch. Items without an icon URL are unaffected.,Hovedbryter. Elementer uten ikon-URL påvirkes ikke.
+Show divider,Vis skillelinje
+Vertical line between cells.,Vertikal linje mellom celler.
+Collection,Kolleksjon
+Search collections…,Søk i kolleksjoner …
+No collections match “${value}”.,Ingen kolleksjoner samsvarer med “${value}”.
+You have no collections yet.,Du har ingen kolleksjoner ennå.
+Please select a collection,Velg en kolleksjon
+"Defaults to ""${name}"" (the collection's name).","Standard er ""${name}"" (kolleksjonens navn)."
+Defaults to the picked collection's name.,Standard er navnet på valgt kolleksjon.
+Collection name,Kolleksjonsnavn
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,"Standard er kolleksjonens beskrivelse. Når dette settes, erstattes rik-tekst-beskrivelsen med ren tekst."
+e.g. Hand-picked styles for the season.,f.eks. Håndplukkede stiler for sesongen.
+View all link,Vis alle-lenke
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.","Valgfritt. Skjult når tomt. Velg en kategori, et produkt, en side, eller lim inn en egendefinert URL."
+"Optional. Defaults to ""View all →"".","Valgfritt. Standard er ""Vis alle →""."
+View all →,Vis alle →
+Total products,Totalt antall produkter
+Number of products to display.,Antall produkter som skal vises.
+Products per row,Produkter per rad
+Grid columns (1–6 typical).,Rutenettkolonner (1–6 typisk).
+Count is required,Antall er påkrevd
+e.g. 8,f.eks. 8
+Count per row is required,Antall per rad er påkrevd
+e.g. 4,f.eks. 4
+Cover image,Forsidebilde
+COLLECTION,KOLLEKSJON
+"Defaults to ""${pickedName}"".","Standard er ""${pickedName}""."
+Defaults to the picked collection name.,Standard er navnet på valgt kolleksjon.
+Optional. One or two sentences of editorial copy.,Valgfritt. Én eller to setninger med redaksjonell tekst.
+"Linen, cotton, easy stuff.","Lin, bomull, enkle saker."
+Preview product count,Antall produkter i forhåndsvisning
+2 (1×2),2 (1×2)
+4 (2×2),4 (2×2)
+Please pick a collection,Velg en kolleksjon
+Add collection,Legg til kolleksjon
+Row heading,Radoverskrift
+The Linen Edit,Lin-utvalget
+Optional. Hidden when empty.,Valgfritt. Skjult når tomt.
+View all label,Vis alle-etikett
+Show price,Vis pris
+Show divider between rows,Vis skillelinje mellom rader
+Selected:,Valgt:
+Image override,Bildeoverstyring
+Override image,Overstyr bilde
+Override image (optional),Overstyr bilde (valgfritt)
+Leave empty to use the product's primary image.,La stå tomt for å bruke produktets hovedbilde.
+Small label above the product name. Optional.,Liten etikett over produktnavnet. Valgfritt.
+FEATURED,FREMHEVET
+Editorial copy,Redaksjonell tekst
+Overrides the product's own description in this context. Leave blank to hide.,Overstyrer produktets egen beskrivelse i denne sammenhengen. La stå tomt for å skjule.
+Two lines of copy explaining why this product is being spotlighted right now.,To linjer tekst som forklarer hvorfor dette produktet fremheves akkurat nå.
+Please pick a product,Velg et produkt
+e.g. On orders over $50,f.eks. På bestillinger over $50
+Text block,Tekstblokk
+Menu,Meny
+Footer menu,Bunntekstmeny
+Banner,Banner
+Simple Slideshow,Enkel lysbildeserie
+Brand story,Merkevarehistorie
+Category mosaic,Kategorimosaikk
+Tiered categories,Trinnvise kategorier
+Bento grid,Bento-rutenett
+Separator,Skilletegn
+Section,Seksjon
+Split feature,Delt funksjon
+Announcement bar,Kunngjøringslinje
+Coupon block,Kupongblokk
+FAQ block,FAQ-blokk
+Trust strip,Tillitsstripe
+Collection products,Samlingsprodukter
+Collection stack,Samlingsstabel
+Collection spotlight,Samling i søkelys
+Product hero,Produkt-hero
+Layout container with 1–4 columns for nesting widgets.,Layoutbeholder med 1–4 kolonner for nesting av moduler.
+Add rich text content,Legg til rikt tekstinnhold
+Navigation links,Navigasjonslenker
+Multi-column list of footer links — a titled column of navigation links per group.,Liste med bunntekstlenker i flere kolonner — en kolonne med tittel og navigasjonslenker per gruppe.
+A single hero image with optional overlay copy and CTAs.,Ett hero-bilde med valgfri overleggstekst og CTA-er.
+Rotating image carousel,Roterende bildekarusell
+Editorial block combining an image and long-form brand narrative. Four layout variants.,Redaksjonell blokk som kombinerer et bilde og en lengre merkevarefortelling. Fire layoutvarianter.
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.",Et rutenett med 3–6 kategorifliser for det primære «Handle etter kategori»-inngangspunktet.
+A two-level nav block: parent category image plus a row of sub-category chips.,En navigasjonsblokk på to nivåer: bilde av overordnet kategori pluss en rad med underkategori-chips.
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,En asymmetrisk mosaikk av CTA-fliser — én stor hero pluss 1–4 støttefliser.
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.","Vertikal avstand mellom moduler, med en valgfri skillelinje. Mobil skaleres ned automatisk."
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,Stilsatt slippbart bånd som omslutter andre moduler. Veksle mellom bredt (kant-til-kant) og innrammet (temabeholder).
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,En 50/50 promoblokk med bilde + tekst og valgfri CTA. Den klassiske kampanjemodulen.
+A thin top-of-page bar with one or more rotating announcements.,En tynn linje øverst på siden med én eller flere roterende kunngjøringer.
+A promo panel with a copyable discount code and CTA.,Et kampanjepanel med en kopierbar rabattkode og CTA.
+Flexible content block mixing prose sections and accordion FAQ groups.,Fleksibel innholdsblokk som blander tekstseksjoner og FAQ-grupper i trekkspill.
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.","En rad med verdiløfter (fri frakt, enkel retur osv.) for å forsterke under hero eller over bunnteksten."
+A list of products from a collection,En liste over produkter fra en samling
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Stablede rader med samlinger, hver med en overskrift, vis alle-lenke og en stripe med produkter."
+"A featured collection with cover image, editorial copy, and a small product preview grid.","En fremhevet samling med omslagsbilde, redaksjonell tekst og et lite rutenett med produktforhåndsvisning."
+"A single-product spotlight — image, name, price, and a link to the full product page.","Et enkeltprodukt i søkelyset — bilde, navn, pris og en lenke til hele produktsiden."

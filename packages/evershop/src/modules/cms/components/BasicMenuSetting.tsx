@@ -13,6 +13,7 @@ import {
   type LinkKind
 } from '@components/common/page-builder/pickers/LinkPicker.js';
 import { useWidgetSettings } from '@components/common/page-builder/WidgetContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { CatalogUrn, CmsUrn, UrnService } from '@evershop/evershop/lib/urn';
 import React from 'react';
 import uniqid from 'uniqid';
@@ -100,16 +101,16 @@ function LinkFields({
 }) {
   return (
     <>
-      <Field label="Display name">
+      <Field label={_('Display name')}>
         <input
           type="text"
           value={item.name || ''}
           onChange={(e) => onPatch({ name: e.target.value })}
-          placeholder="Shop"
+          placeholder={_('Shop')}
           className={drawerInputClass}
         />
       </Field>
-      <Field label="Target" hint="Page, category, product, or a custom URL.">
+      <Field label={_('Target')} hint={_('Page, category, product, or a custom URL.')}>
         <LinkPicker
           value={toLinkValue(item)}
           initialKind={initialKindOf(item)}
@@ -117,19 +118,23 @@ function LinkFields({
         />
       </Field>
       <Toggle
-        label="Open in new tab"
+        label={_('Open in new tab')}
         checked={!!item.newTab}
         onChange={(v) => onPatch({ newTab: v })}
       />
       <Toggle
-        label="Nofollow"
-        description="SEO: don't pass ranking credit to this link (rel=nofollow)."
+        label={_('Nofollow')}
+        description={_(
+          "SEO: don't pass ranking credit to this link (rel=nofollow)."
+        )}
         checked={!!item.nofollow}
         onChange={(v) => onPatch({ nofollow: v })}
       />
       <Toggle
-        label="No referrer"
-        description="Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this."
+        label={_('No referrer')}
+        description={_(
+          'Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.'
+        )}
         checked={!!item.noReferrer}
         onChange={(v) => onPatch({ noReferrer: v })}
       />
@@ -226,17 +231,17 @@ export default function BasicMenuSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Menu items">
+      <Section title={_('Menu items')}>
         <RepeatableAccordion<MenuItem>
           items={menus}
           onAdd={addItem}
           onRemove={removeItem}
           onMove={moveItem}
-          addLabel="Add menu item"
+          addLabel={_('Add menu item')}
           minItems={0}
           initiallyOpenFirst
           renderHeader={({ item }) =>
-            `${item.name || 'Untitled'}${
+            `${item.name || _('Untitled')}${
               childrenOf(item).length > 0
                 ? ` · ${childrenOf(item).length} sub`
                 : ''
@@ -248,15 +253,18 @@ export default function BasicMenuSetting({
                 item={item}
                 onPatch={(patch) => updateItem(index, patch)}
               />
-              <Field label="Sub-items" hint="Optional dropdown links (1 level).">
+              <Field
+                label={_('Sub-items')}
+                hint={_('Optional dropdown links (1 level).')}
+              >
                 <RepeatableAccordion<MenuItem>
                   items={childrenOf(item)}
                   onAdd={() => addChild(index)}
                   onRemove={(ci) => removeChild(index, ci)}
                   onMove={(f, t) => moveChild(index, f, t)}
-                  addLabel="Add sub-item"
+                  addLabel={_('Add sub-item')}
                   minItems={0}
-                  renderHeader={({ item: child }) => child.name || 'Untitled'}
+                  renderHeader={({ item: child }) => child.name || _('Untitled')}
                   renderItem={({ item: child, index: ci }) => (
                     <LinkFields
                       item={child}
@@ -270,22 +278,24 @@ export default function BasicMenuSetting({
         />
       </Section>
 
-      <Section title="Options">
+      <Section title={_('Options')}>
         <Toggle
-          label="Use as main menu"
-          description="Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile."
+          label={_('Use as main menu')}
+          description={_(
+            'Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.'
+          )}
           checked={isMainV}
           onChange={(v) => setValue('settings.isMain', v, { shouldDirty: true })}
         />
         <Field
-          label="Custom CSS classes"
-          hint="Applied to the rendered menu element."
+          label={_('Custom CSS classes')}
+          hint={_('Applied to the rendered menu element.')}
         >
           <input
             type="text"
             {...register('settings.className')}
             defaultValue={initialClassName}
-            placeholder="e.g. main-nav font-semibold"
+            placeholder={_('e.g. main-nav font-semibold')}
             className={drawerInputClass}
           />
         </Field>

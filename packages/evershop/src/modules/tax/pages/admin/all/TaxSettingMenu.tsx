@@ -6,6 +6,7 @@ import {
   ItemDescription,
   ItemTitle
 } from '@components/common/ui/Item.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { cn } from '@evershop/evershop/lib/util/cn';
 import { Settings } from 'lucide-react';
 import React from 'react';
@@ -38,12 +39,12 @@ export default function TaxSettingMenu({ taxSettingUrl }: TaxSettingMenuProps) {
                 isActive && 'text-primary'
               )}
             >
-              Tax Setting
+              {_('Tax Setting')}
             </a>
           </div>
         </ItemTitle>
         <ItemDescription>
-          <div>Configure tax classes and tax rates</div>
+          <div>{_('Configure tax classes and tax rates')}</div>
         </ItemDescription>
       </ItemContent>
       <ItemActions>

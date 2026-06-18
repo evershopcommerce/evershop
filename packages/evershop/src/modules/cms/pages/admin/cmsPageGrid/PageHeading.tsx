@@ -1,8 +1,9 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export default function CmsPageHeading() {
-  return <PageHeading heading="Cms Pages" />;
+  return <PageHeading heading={_('Cms Pages')} />;
 }
 
 export const layout = {

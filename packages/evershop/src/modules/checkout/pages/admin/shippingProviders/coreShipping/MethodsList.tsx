@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -112,7 +113,7 @@ export function MethodsList() {
 
   if (fetching) return <Spinner width={'2rem'} height={'2rem'} />;
   if (error)
-    return <div className="text-destructive">Error loading methods</div>;
+    return <div className="text-destructive">{_('Error loading methods')}</div>;
   if (!data) return null;
 
   const reload = () => reexecuteQuery({ requestPolicy: 'network-only' });
@@ -132,10 +133,10 @@ export function MethodsList() {
   const deleteMethod = async (uuid: string, name: string) => {
     try {
       await axios.delete(`/api/shippingProviders/core/methods/${uuid}`);
-      toast.success(`Deleted ${name}`);
+      toast.success(_('Deleted ${name}', { name }));
       reload();
     } catch (e) {
-      toast.error(`Failed to delete ${name}`);
+      toast.error(_('Failed to delete ${name}', { name }));
     }
   };
 
@@ -144,10 +145,10 @@ export function MethodsList() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Method</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Zones served</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead>{_('Method')}</TableHead>
+            <TableHead>{_('Status')}</TableHead>
+            <TableHead>{_('Zones served')}</TableHead>
+            <TableHead className="text-right">{_('Actions')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -157,15 +158,17 @@ export function MethodsList() {
                 <TableCell className="font-semibold">{m.name}</TableCell>
                 <TableCell>
                   {m.isEnabled ? (
-                    <span className="text-green-700">● Enabled</span>
+                    <span className="text-green-700">● {_('Enabled')}</span>
                   ) : (
-                    <span className="text-muted-foreground">○ Disabled</span>
+                    <span className="text-muted-foreground">
+                      ○ {_('Disabled')}
+                    </span>
                   )}
                 </TableCell>
                 <TableCell className="text-sm text-muted-foreground">
                   {m.rates.length > 0
                     ? m.rates.map((r) => r.zone?.name ?? '—').join(', ')
-                    : 'No zones'}
+                    : _('No zones')}
                 </TableCell>
                 <TableCell className="text-right space-x-2">
                   <Button
@@ -173,17 +176,19 @@ export function MethodsList() {
                     size="sm"
                     onClick={() => setEditing(m)}
                   >
-                    Edit
+                    {_('Edit')}
                   </Button>
                   <ConfirmDialog
                     trigger={
                       <Button variant="destructive" size="sm">
-                        Delete
+                        {_('Delete')}
                       </Button>
                     }
-                    title={`Delete "${m.name}"?`}
-                    description="Its rates will be removed too. This cannot be undone."
-                    confirmLabel="Delete"
+                    title={_('Delete "${name}"?', { name: m.name })}
+                    description={_(
+                      'Its rates will be removed too. This cannot be undone.'
+                    )}
+                    confirmLabel={_('Delete')}
                     confirmVariant="destructive"
                     onConfirm={() => deleteMethod(m.uuid, m.name)}
                   />
@@ -196,7 +201,7 @@ export function MethodsList() {
                 colSpan={4}
                 className="text-center text-muted-foreground"
               >
-                No methods yet — add one to start offering Core shipping.
+                {_('No methods yet — add one to start offering Core shipping.')}
               </TableCell>
             </TableRow>
           )}
@@ -206,11 +211,11 @@ export function MethodsList() {
       <div className="flex justify-end">
         <Dialog open={addOpen} onOpenChange={setAddOpen}>
           <DialogTrigger>
-            <Button>+ Add Method</Button>
+            <Button>{_('+ Add Method')}</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add Shipping Method</DialogTitle>
+              <DialogTitle>{_('Add Shipping Method')}</DialogTitle>
             </DialogHeader>
             <MethodForm
               coreZones={coreZones}
@@ -230,7 +235,9 @@ export function MethodsList() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit {editing?.name}</DialogTitle>
+            <DialogTitle>
+              {_('Edit ${name}', { name: editing?.name ?? '' })}
+            </DialogTitle>
           </DialogHeader>
           {editing && (
             <MethodForm

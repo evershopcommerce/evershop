@@ -1,12 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import { pathToFileURL } from 'url';
-import jsesc from 'jsesc';
+import { FETCH_LOCALE_PATCH } from '../../components/common/react/server/fetchLocalePatch.js';
 import { getNotifications } from '../../modules/base/services/notifications.js';
 import { getPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
 import { Config } from '../../types/appContext.js';
 import { EvershopRequest } from '../../types/request.js';
 import { EvershopResponse } from '../../types/response.js';
+import { getPageDictionary } from '../locale/dictionary.js';
+import { getLocaleContext } from '../locale/localeContext.js';
 import { error } from '../log/logger.js';
 import { get } from '../util/get.js';
 import { getConfig } from '../util/getConfig.js';
@@ -14,6 +16,7 @@ import isProductionMode from '../util/isProductionMode.js';
 import { processPreloadImages } from '../util/preloadScan.js';
 import { getValueSync } from '../util/registry.js';
 import { getRouteBuildPath } from '../webpack/getRouteBuildPath.js';
+import { serializeEContext } from './serializeEContext.js';
 
 function normalizeAssets(assets) {
   if (typeof assets === 'object' && !Array.isArray(assets) && assets !== null) {
@@ -46,12 +49,25 @@ function buildContextData(
     (value) => value && typeof value === 'object' && !Array.isArray(value)
   );
   const config = Object.assign({}, appConfig, { pageMeta });
+  // Locale is resolved per-request by the P4 middleware into the ALS; read it back here
+  // (sync). The middleware + ALS is the single locale seam — resolvers read it via
+  // getActiveLocale(). Off the middleware path (e.g. tests), fall back to the config
+  // language. `translations` is the dictionary `_()` reads on the client: the full locale
+  // dict (per-route slicing was attempted in P6c and backed out — §6.22; a webpack
+  // key-collector slice is the future optimization). Client (eContext) + SSR
+  // (setSSRContext) share the same object.
+  const localeCtx = getLocaleContext();
+  const locale = localeCtx?.locale ?? getConfig('shop.language', 'en');
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     config: config,
     propsMap: get(response, 'locals.propsMap', {}),
     widgets: get(response, 'locals.widgets', []),
-    notifications: getNotifications(request)
+    notifications: getNotifications(request),
+    locale,
+    defaultLocale: localeCtx?.defaultLocale ?? locale,
+    availableLocales: localeCtx?.available ?? [locale],
+    translations: localeCtx ? getPageDictionary(request.currentRoute, locale) : {}
   };
   return contextValue;
 }
@@ -64,7 +80,6 @@ function renderDevelopment(
   const classes = route.isAdmin
     ? `admin ${route.id}`
     : `frontStore ${route.id}`;
-  const language = getConfig('shop.language', 'en');
   if (!route) {
     // In testing mode, we do not have devMiddleware
     response.send(`
@@ -80,16 +95,19 @@ function renderDevelopment(
     return;
   }
   const contextValue = buildContextData(request, response);
-  const safeContextValue = jsesc(contextValue, {
-    json: true,
-    isScriptContext: true
-  });
-  const langCode = request.currentRoute?.isAdmin ? 'en' : language;
+  const safeContextValue = serializeEContext(contextValue);
+  const langCode = contextValue.locale;
   const scriptPath = route.isAdmin ? '/backend/admin-main.js' : '/main.js';
+  // Storefront only: same X-Locale fetch patch as production (Server.tsx). Dev writes its
+  // own HTML head, so inject it here too or client-side API calls would miss the locale.
+  const localePatchScript = route.isAdmin
+    ? ''
+    : `<script>${FETCH_LOCALE_PATCH}</script>`;
   response.send(`
             <!doctype html><html lang="${langCode}">
                 <head>
                   <script>var eContext = ${safeContextValue}</script>
+                  ${localePatchScript}
                 </head>
                 <body class="${classes}">
                 <div id="app"></div>
@@ -100,9 +118,7 @@ function renderDevelopment(
 }
 
 function renderProduction(request, response) {
-  const language = getConfig('shop.language', 'en');
   const route = request.currentRoute;
-  const langCode = route.isAdmin === true ? 'en' : language;
   const serverIndexPath = path.resolve(
     getRouteBuildPath(route),
     'server',
@@ -128,12 +144,14 @@ function renderProduction(request, response) {
     }
   }
   const contextValue = buildContextData(request, response);
-  const safeContextValue = jsesc(contextValue, {
-    json: true,
-    isScriptContext: true
-  });
+  const langCode = contextValue.locale;
+  const safeContextValue = serializeEContext(contextValue);
   import(pathToFileURL(serverIndexPath).toString())
     .then((module) => {
+      // The SSR bridge (setSSRContext) lives in `render.tsx` — it must run inside the
+      // route's webpack server bundle so it writes the bundle's own activeDictionary
+      // instance (the one the bundled `_()` reads). render.ts only ships the locale +
+      // `translations` in eContext (via buildContextData); render.tsx reads them.
       const source = processPreloadImages(
         module.default(
           request.currentRoute,

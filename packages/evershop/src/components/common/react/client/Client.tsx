@@ -16,6 +16,8 @@ const client = createClient({
   url: window.eContext?.config?.pageMeta?.route?.isAdmin
     ? '/api/admin/graphql'
     : '/api/graphql'
+  // Locale travels via the X-Locale header injected by the storefront fetch patch
+  // (Server.tsx / fetchLocalePatch.ts) — urql uses window.fetch, so GraphQL is covered too.
 });
 
 interface AppProps {

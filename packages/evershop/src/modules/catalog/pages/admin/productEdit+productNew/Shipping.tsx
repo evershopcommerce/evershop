@@ -15,6 +15,7 @@ import {
   DialogContent,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
@@ -71,7 +72,7 @@ function NewPackageDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button variant="link" size="sm" type="button">
-          + New package
+          {_('+ New package')}
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -139,17 +140,19 @@ export default function Shipping({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Shipping</CardTitle>
+        <CardTitle>{_('Shipping')}</CardTitle>
         <CardDescription>
-          Manage the shipping settings of the product.
+          {_('Manage the shipping settings of the product.')}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <CheckboxField
           name="no_shipping_required"
-          label="No shipping required?"
+          label={_('No shipping required?')}
           defaultValue={shipping.noShippingRequired === true}
-          helperText="Select this option if the product is a digital product or service that does not require shipping."
+          helperText={_(
+            'Select this option if the product is a digital product or service that does not require shipping.'
+          )}
           wrapperClassName="mb-0"
         />
       </CardContent>
@@ -157,29 +160,29 @@ export default function Shipping({
         {!noShippingRequired && (
           <NumberField
             name="weight"
-            placeholder="Enter weight"
-            label={`Weight`}
+            placeholder={_('Enter weight')}
+            label={_('Weight')}
             defaultValue={shipping.weight?.value}
             unit={setting?.weightUnit}
             required
             validation={{
               min: {
                 value: 0,
-                message: 'Weight must be a positive number'
+                message: _('Weight must be a positive number')
               }
             }}
-            helperText={'Weight must be a positive number'}
+            helperText={_('Weight must be a positive number')}
           />
         )}
         {noShippingRequired && (
           <NumberField
             name="weight_no_shipping"
-            placeholder="Enter weight"
-            label={`Weight`}
+            placeholder={_('Enter weight')}
+            label={_('Weight')}
             defaultValue={shipping.weight?.value}
             unit={setting?.weightUnit}
             disabled
-            helperText={'Weight must be a positive number'}
+            helperText={_('Weight must be a positive number')}
           />
         )}
       </CardContent>
@@ -187,10 +190,10 @@ export default function Shipping({
         <CardContent>
           <SelectField
             name="package_id"
-            label="Package"
+            label={_('Package')}
             required
             validation={{
-              required: 'A package is required for shippable products'
+              required: _('A package is required for shippable products')
             }}
             options={packages.map((p) => ({
               value: p.packageId,
@@ -199,7 +202,9 @@ export default function Shipping({
               })`
             }))}
             defaultValue={defaultPackageId}
-            helperText="The box or envelope this product ships in. Applies to all variants of this product."
+            helperText={_(
+              'The box or envelope this product ships in. Applies to all variants of this product.'
+            )}
           />
           <NewPackageDialog
             createPackageApi={createPackageApi}

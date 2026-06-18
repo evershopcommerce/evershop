@@ -138,7 +138,7 @@ export const DefaultAttributeFilterRender: React.FC<{
                   variant={'link'}
                   onClick={() => clearAttributeFilter(attribute.attributeCode)}
                   className="hover:text-destructive text-sm transition-colors"
-                  title="Clear all"
+                  title={_('Clear all')}
                 >
                   ✕
                 </Button>

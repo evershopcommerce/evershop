@@ -5,9 +5,11 @@ import Area from '@components/common/Area.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { Form, useFormContext } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
+import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
 import { TelField } from '@components/common/form/TelField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
+import { LANGUAGES } from '@components/common/locale/LanguageOption.js';
 import { Button } from '@components/common/ui/Button.js';
 import {
   Card,
@@ -19,7 +21,9 @@ import {
 } from '@components/common/ui/Card.js';
 import { Item } from '@components/common/ui/Item.js';
 import { Skeleton } from '@components/common/ui/Skeleton.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 
 function ShopCustomFields({
@@ -114,8 +118,8 @@ const Province: React.FC<{
         id="storeProvince"
         defaultValue={selectedProvince}
         name={fieldName}
-        label="Province"
-        placeholder="Province"
+        label={_('Province')}
+        placeholder={_('Province')}
         required
         options={provinces.map((p) => ({ value: p.code, label: p.name }))}
       />
@@ -159,13 +163,94 @@ const Country: React.FC<{
       <SelectField
         defaultValue={selectedCountry}
         name={fieldName}
-        label="Country"
-        placeholder="Country"
+        label={_('Country')}
+        placeholder={_('Country')}
         onChange={onChange}
         required
         options={data.countries.map((c) => ({ value: c.code, label: c.name }))}
       />
     </div>
+  );
+};
+
+/** Display name for a locale code in a target language; `undefined` if unresolved. */
+function displayName(inLocale: string, code: string): string | undefined {
+  try {
+    const name = new Intl.DisplayNames([inLocale], { type: 'language' }).of(
+      code
+    );
+    // Intl echoes the input code back when it can't resolve a name — treat that
+    // as "unknown" so callers can fall back to the curated English label.
+    return name && name.toLowerCase() !== code.toLowerCase() ? name : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+const LanguageSettings: React.FC<{
+  storeLanguage: string;
+  storeLanguages: string[];
+  adminLanguage: string;
+}> = ({ storeLanguage, storeLanguages, adminLanguage }) => {
+  // Offer every ISO 639-1 language, not just those that ship a translation
+  // folder. A language without a folder simply falls back to English strings
+  // until one is added (saveSetting warns, it does not block).
+  const options = React.useMemo(
+    () =>
+      LANGUAGES.map(({ value, text }) => {
+        // Clean English name via Intl (e.g. "Greek" not "Greek, Modern (1453-)"),
+        // with the curated ISO label as fallback; append the native autonym when
+        // it differs, e.g. "Vietnamese (Tiếng Việt)".
+        const english = displayName('en', value) ?? text;
+        const native = displayName(value, value);
+        const showNative =
+          !!native && native.toLowerCase() !== english.toLowerCase();
+        return {
+          value,
+          label: showNative ? `${english} (${native})` : english
+        };
+      }).sort((a, b) => a.label.localeCompare(b.label)),
+    []
+  );
+  // "Additional languages" never lists the default — it's always included implicitly
+  // (enabled set = default + additional), so offering it here would be confusing.
+  const additionalOptions = options.filter((o) => o.value !== storeLanguage);
+  return (
+    <CardContent className="pt-3 border-t border-border">
+      <CardTitle>{_('Languages')}</CardTitle>
+      <div className="space-y-3 mt-5">
+        <SelectField
+          name="storeLanguage"
+          label={_('Default language')}
+          defaultValue={storeLanguage}
+          required
+          options={options}
+          helperText={_(
+            "The storefront's primary language. Pages in this language have no URL prefix."
+          )}
+        />
+        {/* <ReactSelectField
+          name="storeLanguages"
+          label={_('Additional languages')}
+          isMulti
+          defaultValue={storeLanguages}
+          options={additionalOptions}
+          helperText={_(
+            "Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here."
+          )}
+        /> */}
+        <SelectField
+          name="adminLanguage"
+          label={_('Admin panel language')}
+          defaultValue={adminLanguage}
+          required
+          options={options}
+          helperText={_(
+            'The language of the admin panel, independent of the storefront.'
+          )}
+        />
+      </div>
+    </CardContent>
   );
 };
 
@@ -176,8 +261,8 @@ const StorePhoneNumber: React.FC<{ storePhoneNumber: string }> = ({
     <div>
       <TelField
         name="storePhoneNumber"
-        label="Store Phone Number"
-        placeholder="Store Phone Number"
+        label={_('Store Phone Number')}
+        placeholder={_('Store Phone Number')}
         defaultValue={storePhoneNumber}
       />
     </div>
@@ -189,8 +274,8 @@ const StoreEmail: React.FC<{ storeEmail: string }> = ({ storeEmail }) => {
     <div>
       <EmailField
         name="storeEmail"
-        label="Store Email"
-        placeholder="Store Email"
+        label={_('Store Email')}
+        placeholder={_('Store Email')}
         defaultValue={storeEmail}
       />
     </div>
@@ -202,6 +287,9 @@ interface StoreSettingProps {
   setting: {
     storeName: string;
     storeDescription: string;
+    storeLanguage: string;
+    storeLanguages: string[];
+    adminLanguage: string;
     storePhoneNumber: string;
     storeEmail: string;
     storeCountry: string;
@@ -220,6 +308,9 @@ export default function StoreSetting({
   setting: {
     storeName,
     storeDescription,
+    storeLanguage,
+    storeLanguages,
+    adminLanguage,
     storePhoneNumber,
     storeEmail,
     storeCountry,
@@ -241,6 +332,14 @@ export default function StoreSetting({
     }
   });
 
+  // The save succeeded; surface any non-blocking warnings (e.g. an enabled language with
+  // no translations yet) alongside the success toast. Defining onSuccess overrides the
+  // Form's default success toast, so we raise it here.
+  const onSuccess = (result: { warnings?: string[] }) => {
+    toast.success(_('Saved successfully!'));
+    (result?.warnings ?? []).forEach((message) => toast.warn(message));
+  };
+
   return (
     <div className="main-content-inner">
       <div className="grid grid-cols-6 gap-x-5 grid-flow-row ">
@@ -252,13 +351,14 @@ export default function StoreSetting({
             method="POST"
             id="storeSetting"
             action={saveSettingApi}
+            onSuccess={onSuccess}
             submitBtn={false}
           >
             <Card>
               <CardHeader>
-                <CardTitle>Store Settings</CardTitle>
+                <CardTitle>{_('Store Settings')}</CardTitle>
                 <CardDescription>
-                  Configure your store information
+                  {_('Configure your store information')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -271,9 +371,9 @@ export default function StoreSetting({
                         default: (
                           <InputField
                             name="storeName"
-                            label="Store Name"
+                            label={_('Store Name')}
                             required
-                            placeholder="Store Name"
+                            placeholder={_('Store Name')}
                             defaultValue={storeName}
                           />
                         )
@@ -285,8 +385,8 @@ export default function StoreSetting({
                         default: (
                           <TextareaField
                             name="storeDescription"
-                            label="Store Description"
-                            placeholder="Store Description"
+                            label={_('Store Description')}
+                            placeholder={_('Store Description')}
                             defaultValue={storeDescription}
                             required
                           />
@@ -298,7 +398,7 @@ export default function StoreSetting({
                 />
               </CardContent>
               <CardContent className="pt-3 border-t border-border">
-                <CardTitle>Contact Information</CardTitle>
+                <CardTitle>{_('Contact Information')}</CardTitle>
                 <Area
                   id="storeContactSetting"
                   coreComponents={[
@@ -325,7 +425,7 @@ export default function StoreSetting({
                 />
               </CardContent>
               <CardContent className="pt-3 border-t border-border">
-                <CardTitle>Address</CardTitle>
+                <CardTitle>{_('Address')}</CardTitle>
                 <div className="space-y-3">
                   <Country
                     selectedCountry={storeCountry}
@@ -333,18 +433,18 @@ export default function StoreSetting({
                   />
                   <InputField
                     name="storeAddress"
-                    label="Address"
+                    label={_('Address')}
                     defaultValue={storeAddress}
-                    placeholder="Store Address"
+                    placeholder={_('Store Address')}
                   />
                 </div>
                 <div className="grid grid-cols-3 gap-5 mt-5">
                   <div>
                     <InputField
                       name="storeCity"
-                      label="City"
+                      label={_('City')}
                       defaultValue={storeCity}
-                      placeholder="City"
+                      placeholder={_('City')}
                     />
                   </div>
                   <Province
@@ -354,13 +454,18 @@ export default function StoreSetting({
                   <div>
                     <InputField
                       name="storePostalCode"
-                      label="Postal Code"
+                      label={_('Postal Code')}
                       defaultValue={storePostalCode}
-                      placeholder="Postal Code"
+                      placeholder={_('Postal Code')}
                     />
                   </div>
                 </div>
               </CardContent>
+              <LanguageSettings
+                storeLanguage={storeLanguage}
+                storeLanguages={storeLanguages}
+                adminLanguage={adminLanguage}
+              />
               <CardFooter>
                 <div className="flex justify-end w-full">
                   <Button
@@ -368,7 +473,7 @@ export default function StoreSetting({
                     className="btn btn-primary"
                     form="storeSetting"
                   >
-                    Save Settings
+                    {_('Save Settings')}
                   </Button>
                 </div>
               </CardFooter>
@@ -400,6 +505,9 @@ export const query = `
     setting {
       storeName
       storeDescription
+      storeLanguage
+      storeLanguages
+      adminLanguage
       storeTimeZone
       storePhoneNumber
       storeEmail

@@ -4,7 +4,6 @@ Sku, SKU
 Continue to shipping, ढुवानी गर्न जारी राख्नुहोस्
 Continue shopping, किनमेल जारी राख्नुहोस्
 Continue Shopping, किनमेल जारी राख्नुहोस्
-CONTINUE SHOPPING, किनमेल जारी राख्नुहोस्
 Shopping cart, खरिदी कार्ट
 Product, सामान
 Price, मूल्य
@@ -15,7 +14,7 @@ Sub total, उप-जम्मा
 Discount(${coupon}), छुट(${coupon})
 Order summary, अर्डर सारांश
 Taxes and shipping calculated at checkout, चेकआउट मा कर र ढुवानी हिसाब
-CHECKOUT, चेकआउट
+Checkout, चेकआउट
 Change, परिवर्तन
 Payment Method, भुक्तानी विधि
 Shipping Method, ढुवानी विधि
@@ -36,7 +35,7 @@ Shipment, ढुवानी
 Thank you ${name}!, धन्यवाद, ${name}!
 Contact information, सम्पर्क जानकारी
 Order #${orderNumber}, अर्डर #${orderNumber}
-ADD TO CART, कार्टमा थप्नुहोस्
+Add to cart, कार्टमा थप्नुहोस्
 Please select variant options, कृपया विविध विकल्पहरू चयन गर्नुहोस्
 VIEW CART (${count}), कार्ट हेर्नुहोस् (${count})
 JUST ADDED TO YOUR CART, तपाईंको कार्टमा मात्र थपिएको

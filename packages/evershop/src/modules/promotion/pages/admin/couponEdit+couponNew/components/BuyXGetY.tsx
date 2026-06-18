@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
@@ -44,13 +45,13 @@ const SkuSelector: React.FC<{
           {product.sku ? (
             <span className="italic">&lsquo;{product.sku}&rsquo;</span>
           ) : (
-            <span>Choose SKU</span>
+            <span>{_('Choose SKU')}</span>
           )}
         </Button>
       </DialogTrigger>
       <DialogContent className={'max-w-[80vw]'}>
         <DialogHeader>
-          <DialogTitle>Choose Product SKU</DialogTitle>
+          <DialogTitle>{_('Choose Product SKU')}</DialogTitle>
         </DialogHeader>
         <ProductSelector
           selectedProducts={[product].map((p) => ({
@@ -122,19 +123,19 @@ const BuyXGetYList: React.FC<{
         <TableHeader>
           <TableRow>
             <TableHead>
-              <span>Sku</span>
+              <span>{_('SKU')}</span>
             </TableHead>
             <TableHead>
-              <span>X</span>
+              <span>{_('X')}</span>
             </TableHead>
             <TableHead>
-              <span>Y</span>
+              <span>{_('Y')}</span>
             </TableHead>
             <TableHead>
-              <span>Max of Y</span>
+              <span>{_('Max of Y')}</span>
             </TableHead>
             <TableHead>
-              <span>Discount percent</span>
+              <span>{_('Discount percent')}</span>
             </TableHead>
             <TableHead> </TableHead>
           </TableRow>
@@ -157,10 +158,10 @@ const BuyXGetYList: React.FC<{
                 <NumberField
                   name={`buyx_gety.${i}.buy_qty`}
                   defaultValue={p.buyQty}
-                  placeholder="Buy qty"
+                  placeholder={_('Buy qty')}
                   required
                   validation={{
-                    required: 'Buy qty is required'
+                    required: _('Buy qty is required')
                   }}
                 />
               </TableCell>
@@ -168,10 +169,10 @@ const BuyXGetYList: React.FC<{
                 <NumberField
                   name={`buyx_gety.${i}.get_qty`}
                   defaultValue={p.getQty}
-                  placeholder="Get qty"
+                  placeholder={_('Get qty')}
                   required
                   validation={{
-                    required: 'Get qty is required'
+                    required: _('Get qty is required')
                   }}
                 />
               </TableCell>
@@ -179,10 +180,10 @@ const BuyXGetYList: React.FC<{
                 <NumberField
                   name={`buyx_gety.${i}.max_y`}
                   defaultValue={p.maxY}
-                  placeholder="Max of Y"
+                  placeholder={_('Max of Y')}
                   required
                   validation={{
-                    required: 'Max of Y is required'
+                    required: _('Max of Y is required')
                   }}
                 />
               </TableCell>
@@ -190,10 +191,10 @@ const BuyXGetYList: React.FC<{
                 <NumberField
                   name={`buyx_gety.${i}.discount`}
                   defaultValue={p.discount}
-                  placeholder="Discount percent"
+                  placeholder={_('Discount percent')}
                   required
                   validation={{
-                    required: 'Discount percent is required'
+                    required: _('Discount percent is required')
                   }}
                   unit="%"
                 />
@@ -260,7 +261,7 @@ const BuyXGetYList: React.FC<{
               } as Field);
             }}
           >
-            <span>Add product</span>
+            <span>{_('Add product')}</span>
           </a>
         </div>
       </div>

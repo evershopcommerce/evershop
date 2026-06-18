@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Calendar, ChevronRight, History, Plus, X } from 'lucide-react';
 import React, { useEffect } from 'react';
 
@@ -99,7 +100,7 @@ export function SessionPicker({
       <div className="bg-card text-foreground border border-divider rounded-lg shadow-xl w-full max-w-xl mx-4 max-h-[85vh] flex flex-col">
         <header className="flex items-center justify-between px-5 h-[52px] border-b border-divider shrink-0">
           <h2 id="session-picker-title" className="font-semibold text-base">
-            Start a page-builder session
+            {_('Start a page-builder session')}
           </h2>
           {(allowDismiss || draftOpCount > 0) && (
             <Button
@@ -115,7 +116,9 @@ export function SessionPicker({
                   onContinueDraft();
                 }
               }}
-              aria-label={allowDismiss ? 'Close' : 'Close — continue draft'}
+              aria-label={
+                allowDismiss ? _('Close') : _('Close — continue draft')
+              }
             >
               <X className="h-4 w-4" />
             </Button>
@@ -130,13 +133,19 @@ export function SessionPicker({
                   <History className="h-4 w-4" />
                 </span>
               }
-              title="Continue your draft"
+              title={_('Continue your draft')}
               description={
                 <>
-                  Pick up where you left off — {draftOpCount} pending change
-                  {draftOpCount === 1 ? '' : 's'}
+                  {draftOpCount === 1
+                    ? _('Pick up where you left off — 1 pending change')
+                    : _(
+                        'Pick up where you left off — ${count} pending changes',
+                        { count: String(draftOpCount) }
+                      )}
                   {updatedHint ? (
-                    <>, last updated <strong>{updatedHint}</strong></>
+                    <>
+                      {_(', last updated')} <strong>{updatedHint}</strong>
+                    </>
                   ) : null}
                   .
                 </>
@@ -151,15 +160,17 @@ export function SessionPicker({
                 <Plus className="h-4 w-4" />
               </span>
             }
-            title="Start new changeset"
-            description="Edit against the live storefront. Publish immediately or save as a rollout plan."
+            title={_('Start new changeset')}
+            description={_(
+              'Edit against the live storefront. Publish immediately or save as a rollout plan.'
+            )}
             onClick={onStartFresh}
           />
 
           {rolloutPlans.length > 0 && (
             <>
               <div className="pt-3 px-1 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
-                Continue a saved rollout plan
+                {_('Continue a saved rollout plan')}
               </div>
               {rolloutPlans.map((plan) => {
                 const sep = editPath.includes('?') ? '&' : '?';
@@ -264,9 +275,9 @@ function StatusPill({ status }: { status: RolloutStatus }): React.ReactElement {
     draft: 'bg-muted text-muted-foreground'
   };
   const labels: Record<RolloutStatus, string> = {
-    scheduled: 'Scheduled',
-    live: 'Live',
-    draft: 'Draft'
+    scheduled: _('Scheduled'),
+    live: _('Live'),
+    draft: _('Draft')
   };
   return (
     <span
@@ -281,7 +292,7 @@ function formatDateRange(plan: RolloutPlanSummary): string {
   const start = new Date(plan.startTime);
   const startLabel = formatDate(start);
   if (!plan.endTime) {
-    return `${startLabel} → indefinite`;
+    return `${startLabel} → ${_('indefinite')}`;
   }
   const end = new Date(plan.endTime);
   return `${startLabel} → ${formatDate(end)}`;

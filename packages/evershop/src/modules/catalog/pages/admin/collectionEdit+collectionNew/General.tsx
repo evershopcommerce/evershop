@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import './General.scss';
 import React from 'react';
 
@@ -27,8 +28,8 @@ export default function General({ collection }: GeneralProps) {
         default: (
           <InputField
             name="name"
-            label="Collection Name"
-            placeholder="Enter Collection Name"
+            label={_('Collection Name')}
+            placeholder={_('Enter Collection Name')}
             defaultValue={collection?.name || ''}
             required
           />
@@ -42,18 +43,19 @@ export default function General({ collection }: GeneralProps) {
         default: (
           <InputField
             name="code"
-            label="Collection Code"
+            label={_('Collection Code')}
             defaultValue={collection?.code || ''}
             required
             validation={{
-              required: 'Collection code is required',
+              required: _('Collection code is required'),
               pattern: {
                 value: /^[a-zA-Z0-9_-]+$/,
-                message:
+                message: _(
                   'Collection code must be alphanumeric and can include underscores or dashes.'
+                )
               }
             }}
-            placeholder="Collection Code"
+            placeholder={_('Collection Code')}
           />
         )
       },
@@ -65,7 +67,7 @@ export default function General({ collection }: GeneralProps) {
         default: (
           <Editor
             name="description"
-            label="Description"
+            label={_('Description')}
             value={collection?.description || []}
           />
         )
@@ -75,11 +77,11 @@ export default function General({ collection }: GeneralProps) {
   ];
 
   return (
-    <Card title="General">
+    <Card title={_('General')}>
       <CardHeader>
-        <CardTitle>General Information</CardTitle>
+        <CardTitle>{_('General Information')}</CardTitle>
         <CardDescription>
-          Manage general information about the collection.
+          {_('Manage general information about the collection.')}
         </CardDescription>
       </CardHeader>
       <CardContent>

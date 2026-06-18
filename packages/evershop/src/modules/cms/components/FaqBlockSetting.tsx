@@ -11,6 +11,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { FileText, Plus, Trash2 } from 'lucide-react';
 import React from 'react';
 import type { FaqMaxWidth, FaqSection_ } from './FaqBlock.js';
@@ -33,9 +34,9 @@ interface FaqBlockSettingProps {
 }
 
 const WIDTH_OPTIONS: ReadonlyArray<{ value: FaqMaxWidth; label: string }> = [
-  { value: 'narrow', label: 'Narrow' },
-  { value: 'normal', label: 'Normal' },
-  { value: 'wide', label: 'Wide' }
+  { value: 'narrow', label: _('Narrow') },
+  { value: 'normal', label: _('Normal') },
+  { value: 'wide', label: _('Wide') }
 ];
 
 function makeId(): string {
@@ -197,8 +198,11 @@ export default function FaqBlockSetting({ faqBlockWidget }: FaqBlockSettingProps
 
   return (
     <div className="space-y-3">
-      <Section title="Heading">
-        <Field label="Section heading" hint="Shown above all content. Optional.">
+      <Section title={_('Heading')}>
+        <Field
+          label={_('Section heading')}
+          hint={_('Shown above all content. Optional.')}
+        >
           <input
             type="text"
             value={(watch('settings.heading') as string) ?? heading ?? ''}
@@ -207,13 +211,13 @@ export default function FaqBlockSetting({ faqBlockWidget }: FaqBlockSettingProps
                 shouldDirty: true
               })
             }
-            placeholder="e.g. Frequently asked"
+            placeholder={_('e.g. Frequently asked')}
             className={drawerInputClass}
           />
         </Field>
       </Section>
 
-      <Section title="Content">
+      <Section title={_('Content')}>
         <RepeatableAccordion<FaqSection_>
           items={sections}
           onRemove={removeSection}
@@ -223,11 +227,13 @@ export default function FaqBlockSetting({ faqBlockWidget }: FaqBlockSettingProps
             if (item.type === 'prose') {
               return (
                 <span className="flex items-center gap-2">
-                  <FileText className="h-3 w-3" /> Prose
+                  <FileText className="h-3 w-3" /> {_('Prose')}
                 </span>
               );
             }
-            return `FAQ group · ${item.items?.length ?? 0} items`;
+            return _('FAQ group · ${count} items', {
+              count: String(item.items?.length ?? 0)
+            });
           }}
           renderItem={({ item, index }) => {
             if (item.type === 'prose') {
@@ -246,14 +252,17 @@ export default function FaqBlockSetting({ faqBlockWidget }: FaqBlockSettingProps
               return (
                 <Editor
                   name={`temp_editor_${item.id}`}
-                  label="Content"
+                  label={_('Content')}
                   value={rows}
                 />
               );
             }
             return (
               <>
-                <Field label="Group heading" hint="Optional sub-heading.">
+                <Field
+                  label={_('Group heading')}
+                  hint={_('Optional sub-heading.')}
+                >
                   <input
                     type="text"
                     value={item.heading ?? ''}
@@ -262,22 +271,24 @@ export default function FaqBlockSetting({ faqBlockWidget }: FaqBlockSettingProps
                         heading: e.target.value || null
                       })
                     }
-                    placeholder="e.g. Shipping"
+                    placeholder={_('e.g. Shipping')}
                     className={drawerInputClass}
                   />
                 </Field>
-                <Field label="Items">
+                <Field label={_('Items')}>
                   <RepeatableAccordion
                     items={item.items}
                     onRemove={(i) => removeFaqItem(index, i)}
                     onMove={(f, t) => moveFaqItem(index, f, t)}
                     onAdd={() => addFaqItem(index)}
-                    addLabel="Add question"
+                    addLabel={_('Add question')}
                     minItems={1}
-                    renderHeader={({ item: it }) => it.question || 'Untitled'}
+                    renderHeader={({ item: it }) =>
+                      it.question || _('Untitled')
+                    }
                     renderItem={({ item: it, index: itIdx }) => (
                       <>
-                        <Field label="Question">
+                        <Field label={_('Question')}>
                           <input
                             type="text"
                             value={it.question || ''}
@@ -286,13 +297,15 @@ export default function FaqBlockSetting({ faqBlockWidget }: FaqBlockSettingProps
                                 question: e.target.value
                               })
                             }
-                            placeholder="e.g. How long does shipping take?"
+                            placeholder={_('e.g. How long does shipping take?')}
                             className={drawerInputClass}
                           />
                         </Field>
                         <Field
-                          label="Answer"
-                          hint="Supports **bold**, _italic_, and line breaks."
+                          label={_('Answer')}
+                          hint={_(
+                            'Supports **bold**, _italic_, and line breaks.'
+                          )}
                         >
                           <textarea
                             value={it.answer || ''}
@@ -301,7 +314,7 @@ export default function FaqBlockSetting({ faqBlockWidget }: FaqBlockSettingProps
                                 answer: e.target.value
                               })
                             }
-                            placeholder="e.g. Orders ship within 24 hours…"
+                            placeholder={_('e.g. Orders ship within 24 hours…')}
                             rows={3}
                             className={drawerTextareaClass}
                           />
@@ -323,7 +336,7 @@ export default function FaqBlockSetting({ faqBlockWidget }: FaqBlockSettingProps
             className="flex-1 justify-center"
           >
             <Plus className="mr-2 h-3.5 w-3.5" />
-            Add prose
+            {_('Add prose')}
           </Button>
           <Button
             variant="outline"
@@ -333,13 +346,13 @@ export default function FaqBlockSetting({ faqBlockWidget }: FaqBlockSettingProps
             className="flex-1 justify-center"
           >
             <Plus className="mr-2 h-3.5 w-3.5" />
-            Add FAQ group
+            {_('Add FAQ group')}
           </Button>
         </div>
       </Section>
 
-      <Section title="Layout">
-        <Field label="Max width" hint="Content column width.">
+      <Section title={_('Layout')}>
+        <Field label={_('Max width')} hint={_('Content column width.')}>
           <Segmented<FaqMaxWidth>
             value={widthState}
             options={WIDTH_OPTIONS}
@@ -349,8 +362,10 @@ export default function FaqBlockSetting({ faqBlockWidget }: FaqBlockSettingProps
           />
         </Field>
         <Toggle
-          label="Allow multiple open"
-          description="When off, opening one FAQ item closes the others in the same group."
+          label={_('Allow multiple open')}
+          description={_(
+            'When off, opening one FAQ item closes the others in the same group.'
+          )}
           checked={allowMultiple}
           onChange={(v) =>
             setValue('settings.allowMultipleOpen', v, { shouldDirty: true })

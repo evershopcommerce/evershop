@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface SEOProps {
@@ -27,16 +28,17 @@ export default function SEO({ product }: SEOProps) {
         default: (
           <InputField
             name="url_key"
-            label="URL Key"
-            placeholder="Enter URL Key"
+            label={_('URL Key')}
+            placeholder={_('Enter URL Key')}
             required
             defaultValue={product?.urlKey}
             validation={{
-              required: 'URL Key is required',
+              required: _('URL Key is required'),
               pattern: {
                 value: /^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
-                message:
+                message: _(
                   'URL Key must be lowercase and can only contain letters, numbers, and hyphens'
+                )
               }
             }}
           />
@@ -49,12 +51,12 @@ export default function SEO({ product }: SEOProps) {
         default: (
           <InputField
             name="meta_title"
-            label="Meta Title"
-            placeholder="Enter Meta Title"
+            label={_('Meta Title')}
+            placeholder={_('Enter Meta Title')}
             required
             defaultValue={product?.metaTitle}
             validation={{
-              required: 'Meta Title is required'
+              required: _('Meta Title is required')
             }}
           />
         )
@@ -78,8 +80,8 @@ export default function SEO({ product }: SEOProps) {
         default: (
           <TextareaField
             name="meta_description"
-            label="Meta Description"
-            placeholder="Enter Meta Description"
+            label={_('Meta Description')}
+            placeholder={_('Enter Meta Description')}
             defaultValue={product?.metaDescription || ''}
           />
         )
@@ -91,8 +93,8 @@ export default function SEO({ product }: SEOProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>SEO</CardTitle>
-        <CardDescription>Manage the SEO settings.</CardDescription>
+        <CardTitle>{_('SEO')}</CardTitle>
+        <CardDescription>{_('Manage the SEO settings.')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Area

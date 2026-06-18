@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -43,7 +44,10 @@ export function ZoneProviderConfigDialog({
         toast.error(response.data.error.message);
       } else {
         toast.success(
-          `${zoneProvider.provider.name} configuration saved for ${zoneName}`
+          _('${name} configuration saved for ${zone}', {
+            name: zoneProvider.provider.name,
+            zone: zoneName
+          })
         );
         onSaved();
       }
@@ -59,7 +63,10 @@ export function ZoneProviderConfigDialog({
       <div className="space-y-3">
         <div>
           <h3 className="font-semibold">
-            {zoneProvider.provider.name} configuration for {zoneName}
+            {_('${name} configuration for ${zone}', {
+              name: zoneProvider.provider.name,
+              zone: zoneName
+            })}
           </h3>
           {zoneProvider.provider.description && (
             <p className="text-xs text-muted-foreground">
@@ -78,7 +85,7 @@ export function ZoneProviderConfigDialog({
         />
         <div className="flex justify-end pt-2">
           <Button type="button" disabled={saving} onClick={save}>
-            {saving ? 'Saving…' : 'Save'}
+            {saving ? _('Saving…') : _('Save')}
           </Button>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { SelectField } from '@components/common/form/SelectField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
 import { Button } from '@components/common/ui/Button.js';
 import { DialogClose, DialogFooter } from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -114,14 +115,14 @@ export const VariantModal: React.FC<
       if (addVariantResponse.error) {
         toast.error(addVariantResponse.error.message);
       } else {
-        toast.success('Variant created successfully');
+        toast.success(_('Variant created successfully'));
         // Close the dialog
         closeDialog();
         // Refresh the page to reflect the changes
         refresh();
       }
     } else {
-      toast.success('Variant updated successfully');
+      toast.success(_('Variant updated successfully'));
       // Close the dialog
       closeDialog();
       // Refresh the page to reflect the changes
@@ -216,10 +217,10 @@ export const VariantModal: React.FC<
                 <SelectField
                   name={`variant_attributes.${a.attributeCode}`}
                   label={a.attributeName}
-                  placeholder="Select an option"
+                  placeholder={_('Select an option')}
                   required
                   validation={{
-                    required: 'This field is required'
+                    required: _('This field is required')
                   }}
                   defaultValue={
                     variant?.attributes
@@ -235,11 +236,11 @@ export const VariantModal: React.FC<
             <div>
               <InputField
                 name="variant_sku"
-                label="Sku"
-                placeholder="Enter SKU"
+                label={_('Sku')}
+                placeholder={_('Enter SKU')}
                 required
                 validation={{
-                  required: 'SKU is required'
+                  required: _('SKU is required')
                 }}
                 defaultValue={variant?.product?.sku}
               />
@@ -247,11 +248,11 @@ export const VariantModal: React.FC<
             <div>
               <NumberField
                 name="variant_qty"
-                label="Quantity"
+                label={_('Quantity')}
                 required
-                placeholder="Enter quantity"
+                placeholder={_('Enter quantity')}
                 validation={{
-                  required: 'Qty is required'
+                  required: _('Qty is required')
                 }}
                 allowDecimals={false}
                 defaultValue={variant?.product?.inventory?.qty || 0}
@@ -262,7 +263,7 @@ export const VariantModal: React.FC<
             <div>
               <ToggleField
                 name="variant_status"
-                label="Status"
+                label={_('Status')}
                 trueValue={true}
                 falseValue={false}
                 defaultValue={variant?.product.status === 1}
@@ -271,7 +272,7 @@ export const VariantModal: React.FC<
             <div>
               <ToggleField
                 name="variant_visibility"
-                label="Visibility"
+                label={_('Visibility')}
                 trueValue={true}
                 falseValue={false}
                 defaultValue={variant?.product.visibility === 1}
@@ -282,7 +283,7 @@ export const VariantModal: React.FC<
       </div>
       <DialogFooter>
         <DialogClose>
-          <Button variant="outline">Cancel</Button>
+          <Button variant="outline">{_('Cancel')}</Button>
         </DialogClose>
         <Button
           isLoading={saving}
@@ -293,7 +294,7 @@ export const VariantModal: React.FC<
             }
           }}
         >
-          Save
+          {_('Save')}
         </Button>
       </DialogFooter>
     </>
