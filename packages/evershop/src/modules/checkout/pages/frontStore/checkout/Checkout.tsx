@@ -8,21 +8,26 @@ import { CheckoutProvider } from '@components/frontStore/checkout/CheckoutContex
 import { ContactInformation } from '@components/frontStore/checkout/ContactInformation.js';
 import { Payment } from '@components/frontStore/checkout/Payment.js';
 import { Shipment } from '@components/frontStore/checkout/Shipment.js';
-import React from 'react';
-import './Checkout.scss';
-import { useForm } from 'react-hook-form';
+import { ShippingNote } from '@components/frontStore/checkout/ShippingNote.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import './Checkout.scss';
 
 interface CheckoutPageProps {
   placeOrderApi: string;
   getPaymentMethodApi: string;
   getShippingMethodApi: string;
   checkoutSuccessUrl: string;
+  setting: {
+    showShippingNote: boolean;
+  };
 }
 
 export default function CheckoutPage({
   placeOrderApi,
-  checkoutSuccessUrl
+  checkoutSuccessUrl,
+  setting: { showShippingNote }
 }: CheckoutPageProps) {
   const [disabled, setDisabled] = React.useState(false);
   const form = useForm({
@@ -54,6 +59,7 @@ export default function CheckoutPage({
           <Area id="checkoutFormAfter" noOuter />
         </Form>
         <div>
+          {showShippingNote && <ShippingNote />}
           <CartItems>
             {({ items, loading, showPriceIncludingTax }) => (
               <CartSummaryItemsList
@@ -79,5 +85,8 @@ export const query = `
   query Query {
     placeOrderApi: url(routeId: "createOrder")
     checkoutSuccessUrl: url(routeId: "checkoutSuccess")
+    setting {
+      showShippingNote
+    }
   }
 `;

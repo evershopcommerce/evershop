@@ -23,5 +23,11 @@ export interface CheckoutData {
    * surfaced as "Selected shipping method is no longer available."
    */
   shippingProvider?: string;
+  /**
+   * Free-form note the customer adds to the order on the checkout page.
+   * Persisted to the cart's `shipping_note` field, which `orderCreator`
+   * copies to the order's `shipping_note` column via cart.exportData().
+   */
+  note?: string;
   [key: string]: unknown;
 }
